@@ -47,3 +47,5 @@ qm_init_directories()
 # Add source modules
 # ----------------------------------
 add_subdirectory(src)
+
+add_subdirectory(dist)
