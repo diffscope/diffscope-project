@@ -1,6 +1,4 @@
-﻿; Included by "setup.iss"
-
-[CustomMessages]
+﻿[CustomMessages]
 english.ButtonUninstall=Uninstall
 english.WizardSelectTasks=Select Additional Tasks
 english.SelectTasksDesc=Which additional tasks should be performed?

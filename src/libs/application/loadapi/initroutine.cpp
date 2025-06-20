@@ -4,7 +4,7 @@
 
 namespace Core {
 
-    static constexpr const char *kSplashPropertyKey = "__diffscope_splash__";
+    static constexpr const char *kSplashPropertyKey = "__loader_splash__";
 
     QSplashScreen *InitRoutine::splash() {
         return qApp->property(kSplashPropertyKey).value<QSplashScreen *>();
