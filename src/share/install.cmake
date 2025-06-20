@@ -93,7 +93,7 @@ qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
 )
 
 # Install vcruntime
-if(MSVC AND SYNTHRT_INSTALL_MSVC_RUNTIME)
+if(MSVC AND APPLICATION_INSTALL_MSVC_RUNTIME)
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${OUTPUT_DIR}")
     include(InstallRequiredSystemLibraries)
 endif()

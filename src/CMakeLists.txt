@@ -13,12 +13,16 @@ set(CK_DEV_START_YEAR 2019)
 
 set(CK_BUILDINFO_PREFIX APPLICATION)
 
-if(APPLICATION_ENABLE_DEVEL)
-    set(CK_ENABLE_DEVEL on)
+if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    set(CK_ENABLE_CONSOLE off)
 endif()
 
 if(NOT APPLICATION_INSTALL)
     set(CK_ENABLE_INSTALL off)
+endif()
+
+if(APPLICATION_ENABLE_DEVEL)
+    set(CK_ENABLE_DEVEL on)
 endif()
 
 # ----------------------------------

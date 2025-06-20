@@ -21,8 +21,6 @@ endif()
 
 # Set configration file variables
 set(APP_CONFIG_SPLASH_IMAGE "splash.png")
-set(APP_CONFIG_PADDING_X 102)
-set(APP_CONFIG_PADDING_Y 62)
 
 # Configure configuration file
 set(_config_file ${CMAKE_CURRENT_BINARY_DIR}/config.json)

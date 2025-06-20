@@ -1,11 +1,10 @@
 {
     "splashImage": "@APP_CONFIG_SPLASH_IMAGE@",
-    "splashSize": [750, 420],
-    "resizable": true,
+    "splashSize": [600, 336],
     "splashSettings": {
         "texts": {
             "_status": {
-                "pos": [@APP_CONFIG_PADDING_X@, -@APP_CONFIG_PADDING_Y@],
+                "pos": [84, -49],
                 "anchor": [1, -1],
                 "text": "Loading...",
                 "fontColor": "#FFFFFF"

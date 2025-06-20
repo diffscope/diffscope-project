@@ -7,12 +7,12 @@ project(DiffScope VERSION 0.2.0.0 LANGUAGES CXX)
 # ----------------------------------
 option(APPLICATION_BUILD_TESTS "Build test cases" OFF)
 option(APPLICATION_INSTALL "Install this project" ON)
+option(APPLICATION_ENABLE_DEVEL "Install developer files" OFF)
 option(APPLICATION_INSTALL_MSVC_RUNTIME "Install MSVC runtime" OFF)
 
 # ----------------------------------
 # Application Options
 # ----------------------------------
-option(APPLICATION_ENABLE_DEVEL "Install developer files" OFF)
 option(APPLICATION_ENABLE_BREAKPAD "Enable google breakpad" ON)
 
 # ----------------------------------
