@@ -3,6 +3,9 @@
 ; Required Environment Variables:
 ;   SETUP_APP_NAME
 ;   SETUP_APP_VERSION
+;   SETUP_APP_PUBLISHER
+;   SETUP_APP_URL
+;   SETUP_APP_COPYRIGHT
 ;   SETUP_APP_INSTALLED_DIR
 ;   SETUP_APP_BRIDGE_ARTIFACTS_DIR
 ;   SETUP_MESSAGE_FILES_DIR
@@ -15,9 +18,9 @@
 
 #define MyAppName GetEnv("SETUP_APP_NAME")
 #define MyAppVersion GetEnv("SETUP_APP_VERSION")
-#define MyAppPublisher "Team OpenVPI"
-#define MyAppURL "https://www.example.com/"
-#define MyAppCopyright "Copyright 2019-2025 Team OpenVPI"
+#define MyAppPublisher GetEnv("SETUP_APP_PUBLISHER")
+#define MyAppURL GetEnv("SETUP_APP_URL")
+#define MyAppCopyright GetEnv("SETUP_APP_COPYRIGHT")
 
 #define MyAppExeName "bin\" + MyAppName + ".exe"
 

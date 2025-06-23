@@ -12,6 +12,8 @@ set(CK_APPLICATION_VENDOR "Team OpenVPI")
 set(CK_DEV_START_YEAR 2019)
 
 set(CK_BUILDINFO_PREFIX APPLICATION)
+set(CK_CONFIG_HEADER_FILENAME application_config.h)
+set(CK_BUILDINFO_HEADER_FILENAME application_buildinfo.h)
 
 # if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
 #     set(CK_ENABLE_CONSOLE off)
@@ -33,12 +35,12 @@ ck_init_buildsystem()
 # ----------------------------------
 # Compile Definitions
 # ----------------------------------
-qm_add_definition(APP_NAME ${PROJECT_NAME} STRING_LITERAL)
-qm_add_definition(APP_VERSION ${PROJECT_VERSION} STRING_LITERAL)
-qm_add_definition(APP_ORG_NAME "OpenVPI" STRING_LITERAL)
-qm_add_definition(APP_ORG_DOMAIN "org.openvpi" STRING_LITERAL)
-qm_add_definition(APP_PLUGIN_IID "org.OpenVPI.${PROJECT_NAME}.Plugin" STRING_LITERAL)
-qm_add_definition(CONFIG_ENABLE_BREAKPAD CONDITION APPLICATION_ENABLE_BREAKPAD)
+qm_add_definition(APPLICATION_NAME ${PROJECT_NAME} STRING_LITERAL)
+qm_add_definition(APPLICATION_VERSION ${PROJECT_VERSION} STRING_LITERAL)
+qm_add_definition(APPLICATION_ORG_NAME "OpenVPI" STRING_LITERAL)
+qm_add_definition(APPLICATION_ORG_DOMAIN "org.openvpi" STRING_LITERAL)
+qm_add_definition(APPLICATION_PLUGIN_IID "org.OpenVPI.${PROJECT_NAME}.Plugin" STRING_LITERAL)
+qm_add_definition(APPLICATION_ENABLE_BREAKPAD CONDITION APPLICATION_ENABLE_BREAKPAD)
 
 # ----------------------------------
 # Main Project

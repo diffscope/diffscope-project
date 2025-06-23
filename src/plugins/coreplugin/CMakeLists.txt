@@ -32,6 +32,7 @@ qm_configure_target(${PROJECT_NAME}
         Widgets
     LINKS
         ExtensionSystem::ExtensionSystem
+        ChorusKit::AppCore
         loadapi
         # ChorusKit::AppCore
         # JetBrainsDockingSystem

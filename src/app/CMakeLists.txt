@@ -9,6 +9,7 @@ qm_configure_target(${PROJECT_NAME}
         Core Widgets
     LINKS_PRIVATE
         ChorusKit::Loader
+        ChorusKit::AppCore
         loadapi
     INCLUDE_PRIVATE
         ${CK_BUILD_INCLUDE_DIR}

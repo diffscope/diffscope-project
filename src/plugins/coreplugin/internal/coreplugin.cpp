@@ -13,7 +13,11 @@
 
 #include <loadapi/initroutine.h>
 
+#include "icore.h"
+
 namespace Core::Internal {
+
+    static ICore *icore = nullptr;
 
     static void waitSplash(QWidget *w) {
         InitRoutine::splash()->finish(w);
@@ -29,6 +33,9 @@ namespace Core::Internal {
         InitRoutine::splash()->showMessage(tr("Initializing core plugin..."));
 
         // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
+
+        // Init ICore instance
+        icore = new ICore(this);
 
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
