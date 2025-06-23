@@ -25,7 +25,7 @@ public:
         single = false;
         allowRoot = false;
         pluginIID = QStringLiteral(APPLICATION_PLUGIN_IID);
-        splashConfigPath = Core::ApplicationInfo::shareDir() + QStringLiteral("/config.json");
+        splashConfigPath = Core::ApplicationInfo::appShareDir() + QStringLiteral("/config.json");
         pluginPaths << Core::ApplicationInfo::appPluginsDir();
     }
 
@@ -80,12 +80,11 @@ int main(int argc, char *argv[]) {
     a.setOrganizationName(QStringLiteral(APPLICATION_ORG_NAME));
     a.setOrganizationDomain(QStringLiteral(APPLICATION_ORG_DOMAIN));
 
-    MyLoaderConfiguration loader;
-
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
-    breakpad.setDumpPath(loader.userSettingsPath + QStringLiteral("/crashes"));
+    breakpad.setDumpPath(Core::ApplicationInfo::appDataDir() + QStringLiteral("/crashes"));
 #endif
 
+    Core::ILoader loader;
     return MyLoaderConfiguration().run();
 }

@@ -1,4 +1,10 @@
-find_package(ChorusKit CONFIG REQUIRED)
+add_subdirectory(libs/3rdparty)
+
+# Add `ChorusKitAPI`
+if(NOT TARGET ChorusKit::Loader)
+    find_package(ChorusKit CONFIG REQUIRED)
+endif()
+
 include(${CK_CMAKE_MODULES_DIR}/ChorusKitAPI.cmake)
 
 # ----------------------------------
@@ -8,16 +14,11 @@ set(CK_APPLICATION_NAME ${PROJECT_NAME})
 set(CK_APPLICATION_DESCRIPTION ${PROJECT_NAME})
 set(CK_APPLICATION_VERSION ${PROJECT_VERSION})
 set(CK_APPLICATION_VENDOR "Team OpenVPI")
-
 set(CK_DEV_START_YEAR 2019)
 
 set(CK_BUILDINFO_PREFIX APPLICATION)
 set(CK_CONFIG_HEADER_FILENAME application_config.h)
 set(CK_BUILDINFO_HEADER_FILENAME application_buildinfo.h)
-
-# if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-#     set(CK_ENABLE_CONSOLE off)
-# endif()
 
 if(NOT APPLICATION_INSTALL)
     set(CK_ENABLE_INSTALL off)

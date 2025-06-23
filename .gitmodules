@@ -1,0 +1,3 @@
+[submodule "choruskit"]
+	path = src/libs/3rdparty/choruskit
+	url = ../../stdware/choruskit
