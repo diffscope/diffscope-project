@@ -16,7 +16,6 @@
 
 #include <extensionsystem/pluginmanager.h>
 
-#include <CoreApi/iloader.h>
 #include <CoreApi/private/icorebase_p.h>
 
 namespace Core {

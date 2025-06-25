@@ -7,23 +7,20 @@ namespace Core {
 
     class InitRoutine {
     public:
-        // enum StartMode {
-        //     Application,
-        //     VST,
-        // };
-        // using StartEntry = std::function<QWidget *()>;
+        enum StartMode {
+            Application,
+            VST,
+        };
+        using StartEntry = std::function<QWidget *()>;
 
         // static void initializeAppearance(QSettings *settings);
 
     public:
-        static QSplashScreen *splash();
-        static void setSplash(QSplashScreen *splash);
+        static int startMode();
+        static void setStartMode(StartMode startMode);
 
-        // static int startMode();
-        // static void setStartMode(StartMode startMode);
-
-        // static StartEntry startEntry();
-        // static void setStartEntry(const StartEntry &startEntry);
+        static StartEntry startEntry();
+        static void setStartEntry(const StartEntry &startEntry);
     };
 
 }

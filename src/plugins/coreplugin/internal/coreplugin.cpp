@@ -7,9 +7,11 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
 
 #include <extensionsystem/pluginspec.h>
-#include <extensionsystem/pluginmanager.h>
+
+#include <CoreApi/plugindatabase.h>
 
 #include <loadapi/initroutine.h>
 
@@ -20,7 +22,7 @@ namespace Core::Internal {
     static ICore *icore = nullptr;
 
     static void waitSplash(QWidget *w) {
-        InitRoutine::splash()->finish(w);
+        PluginDatabase::splash()->finish(w);
     }
 
     CorePlugin::CorePlugin() {
@@ -30,7 +32,7 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        InitRoutine::splash()->showMessage(tr("Initializing core plugin..."));
+        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
 
         // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
 
@@ -47,7 +49,7 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::delayedInitialize() {
-        InitRoutine::splash()->showMessage(tr("Initializing GUI..."));
+        PluginDatabase::splash()->showMessage(tr("Initializing GUI..."));
 
         // if (auto entry = InitRoutine::startEntry()) {
         //     waitSplash(entry());
@@ -56,6 +58,12 @@ namespace Core::Internal {
 
         auto w = new QMainWindow();
         w->setAttribute(Qt::WA_DeleteOnClose);
+        w->setCentralWidget([]() {
+            auto button = new QPushButton(tr("Crash !!!"));
+            connect(button, &QPushButton::clicked, button,
+                    []() { reinterpret_cast<QString *>(0)->toInt(); });
+            return button;
+        }());
         w->show();
         waitSplash(w);
         return false;

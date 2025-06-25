@@ -9,7 +9,6 @@
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
-#include <CoreApi/iloader.h>
 
 #include <loadapi/initroutine.h>
 
@@ -19,19 +18,20 @@
 #  include <QBreakpadHandler.h>
 #endif
 
-class MyLoaderConfiguration : public Loader::LoaderSpec {
+using Core::ApplicationInfo;
+
+class MyLoaderSpec : public Loader::LoaderSpec {
 public:
-    MyLoaderConfiguration() {
+    MyLoaderSpec() {
         single = false;
         allowRoot = false;
         pluginIID = QStringLiteral(APPLICATION_PLUGIN_IID);
-        splashConfigPath = Core::ApplicationInfo::appShareDir() + QStringLiteral("/config.json");
-        pluginPaths << Core::ApplicationInfo::appPluginsDir();
+        splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +
+                           QStringLiteral("/config.json");
+        pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
     }
 
     void splashWillShow(QSplashScreen *screen) override {
-        splash = screen;
-
         // Don't show plugin manager debug info
         QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
     }
@@ -46,16 +46,6 @@ public:
 
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
-        Core::InitRoutine::setSplash(splash);
-
-        // Set ILoader settings path
-        Core::ILoader &loader = *Core::ILoader::instance();
-        loader.setSettingsPath(QSettings::UserScope,
-                               QStringLiteral("%1/%2.settings.json")
-                                   .arg(userSettingsPath, QStringLiteral(APPLICATION_NAME)));
-        loader.setSettingsPath(QSettings::SystemScope,
-                               QStringLiteral("%1/%2.settings.json")
-                                   .arg(systemSettingsPath, QStringLiteral(APPLICATION_NAME)));
     }
 
     void afterLoadPlugins() override {
@@ -64,6 +54,18 @@ public:
 
     QSplashScreen *splash = nullptr;
 };
+
+#ifdef APPLICATION_ENABLE_BREAKPAD
+static void crashHandler() {
+    // TODO: execute another process to report the crash
+
+#  ifdef Q_OS_WINDOWS
+    ApplicationInfo::messageBox(
+        nullptr, ApplicationInfo::Critical, QStringLiteral("Error"),
+        QStringLiteral("An unrecoverable error occurred, this application will now terminate."));
+#  endif
+}
+#endif
 
 int main(int argc, char *argv[]) {
     // Make sure Qt uses the plugin path in qt.conf
@@ -82,9 +84,10 @@ int main(int argc, char *argv[]) {
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
-    breakpad.setDumpPath(Core::ApplicationInfo::appDataDir() + QStringLiteral("/crashes"));
+    breakpad.setDumpPath(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData) +
+                         QStringLiteral("/crashes"));
+    breakpad.UniqueExtraHandler = crashHandler;
 #endif
 
-    Core::ILoader loader;
-    return MyLoaderConfiguration().run();
+    return MyLoaderSpec().run();
 }

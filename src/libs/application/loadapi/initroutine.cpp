@@ -6,12 +6,18 @@ namespace Core {
 
     static constexpr const char *kSplashPropertyKey = "__loader_splash__";
 
-    QSplashScreen *InitRoutine::splash() {
-        return qApp->property(kSplashPropertyKey).value<QSplashScreen *>();
+    int InitRoutine::startMode() {
+        return {};
     }
 
-    void InitRoutine::setSplash(QSplashScreen *splash) {
-        qApp->setProperty(kSplashPropertyKey, QVariant::fromValue(splash));
+    void InitRoutine::setStartMode(StartMode startMode) {
+    }
+
+    InitRoutine::StartEntry InitRoutine::startEntry() {
+        return {};
+    }
+
+    void InitRoutine::setStartEntry(const StartEntry &startEntry) {
     }
 
 }
