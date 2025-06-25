@@ -32,17 +32,14 @@ public:
     }
 
     void splashWillShow(QSplashScreen *screen) override {
-        // Don't show plugin manager debug info
-        QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
+        Q_UNUSED(screen);
+        // Do nothing
     }
 
     void beforeLoadPlugins() override {
         // Set global settings path
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, userSettingsPath);
         QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, systemSettingsPath);
-
-        // Make sure we honor the system's proxy settings
-        QNetworkProxyFactory::setUseSystemConfiguration(true);
 
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
@@ -88,6 +85,12 @@ int main(int argc, char *argv[]) {
                          QStringLiteral("/crashes"));
     breakpad.UniqueExtraHandler = crashHandler;
 #endif
+
+    // Make sure we honor the system's proxy settings
+    QNetworkProxyFactory::setUseSystemConfiguration(true);
+
+    // Don't show plugin manager debug info
+    QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
 
     return MyLoaderSpec().run();
 }
