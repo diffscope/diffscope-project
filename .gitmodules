@@ -1,3 +1,7 @@
 [submodule "choruskit"]
 	path = src/libs/3rdparty/choruskit
-	url = ../../stdware/choruskit
+	url = ../../stdware/choruskit.git
+
+[submodule "qjsonsettings"]
+	path = src/libs/3rdparty/qjsonsettings
+	url = ../../stdware/qjsonsettings.git

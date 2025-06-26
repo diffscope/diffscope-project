@@ -10,6 +10,7 @@ qm_configure_target(${PROJECT_NAME}
     LINKS_PRIVATE
         ChorusKit::Loader
         ChorusKit::AppCore
+        qjsonsettings
         loadapi
     INCLUDE_PRIVATE
         ${CK_BUILD_INCLUDE_DIR}

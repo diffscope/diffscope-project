@@ -10,6 +10,8 @@
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
 
+#include <qjsonsettings.h>
+
 #include <loadapi/initroutine.h>
 
 #include <application_config.h>
@@ -20,15 +22,48 @@
 
 using Core::ApplicationInfo;
 
+static QSettings::Format getJsonSettingsFormat() {
+    static auto format = QJsonSettings::registerFormat();
+    return format;
+}
+
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
     MyLoaderSpec() {
+        userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
+        systemSettingsPath =
+            ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
+
         single = false;
         allowRoot = false;
         pluginIID = QStringLiteral(APPLICATION_PLUGIN_IID);
         splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +
                            QStringLiteral("/config.json");
         pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
+    }
+
+    QSettings *createExtensionSystemSettings(bool global) override {
+        if (global) {
+            return new QSettings(QStringLiteral("%1/%2.extensionsystem.ini")
+                                     .arg(systemSettingsPath, QCoreApplication::applicationName()),
+                                 QSettings::IniFormat);
+        } else {
+            return new QSettings(QStringLiteral("%1/%2.extensionsystem.ini")
+                                     .arg(userSettingsPath, QCoreApplication::applicationName()),
+                                 QSettings::IniFormat);
+        }
+    }
+
+    QSettings *createChorusKitSettings(bool global) override {
+        if (global) {
+            return new QSettings(QStringLiteral("%1/%2.plugins.json")
+                                     .arg(systemSettingsPath, QCoreApplication::applicationName()),
+                                 getJsonSettingsFormat());
+        } else {
+            return new QSettings(QStringLiteral("%1/%2.plugins.json")
+                                     .arg(userSettingsPath, QCoreApplication::applicationName()),
+                                 getJsonSettingsFormat());
+        }
     }
 
     void splashWillShow(QSplashScreen *screen) override {
@@ -49,7 +84,8 @@ public:
         // Do nothing
     }
 
-    QSplashScreen *splash = nullptr;
+    QString userSettingsPath;
+    QString systemSettingsPath;
 };
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
@@ -58,8 +94,9 @@ static void crashHandler() {
 
 #  ifdef Q_OS_WINDOWS
     ApplicationInfo::messageBox(
-        nullptr, ApplicationInfo::Critical, QStringLiteral("Error"),
-        QStringLiteral("An unrecoverable error occurred, this application will now terminate."));
+        nullptr, ApplicationInfo::Critical, QStringLiteral(APPLICATION_NAME),
+        QStringLiteral(
+            "This application will exit immediately because an unrecoverable error has occurred."));
 #  endif
 }
 #endif
