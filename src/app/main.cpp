@@ -2,10 +2,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
+#include <QtCore/QLoggingCategory>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
-
-#include <extensionsystem/pluginmanager.h>
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
@@ -33,6 +32,8 @@ public:
         userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
         systemSettingsPath =
             ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, userSettingsPath);
+        QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, systemSettingsPath);
 
         single = false;
         allowRoot = false;
@@ -42,28 +43,18 @@ public:
         pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
     }
 
-    QSettings *createExtensionSystemSettings(bool global) override {
-        if (global) {
-            return new QSettings(QStringLiteral("%1/%2.extensionsystem.ini")
-                                     .arg(systemSettingsPath, QCoreApplication::applicationName()),
-                                 QSettings::IniFormat);
-        } else {
-            return new QSettings(QStringLiteral("%1/%2.extensionsystem.ini")
-                                     .arg(userSettingsPath, QCoreApplication::applicationName()),
-                                 QSettings::IniFormat);
-        }
+    QSettings *createExtensionSystemSettings(QSettings::Scope scope) override {
+        const QString &dir = scope == QSettings::UserScope ? userSettingsPath : systemSettingsPath;
+        return new QSettings(QStringLiteral("%1/%2.extensionsystem.ini")
+                                 .arg(dir, QCoreApplication::applicationName()),
+                             QSettings::IniFormat);
     }
 
-    QSettings *createChorusKitSettings(bool global) override {
-        if (global) {
-            return new QSettings(QStringLiteral("%1/%2.plugins.json")
-                                     .arg(systemSettingsPath, QCoreApplication::applicationName()),
-                                 getJsonSettingsFormat());
-        } else {
-            return new QSettings(QStringLiteral("%1/%2.plugins.json")
-                                     .arg(userSettingsPath, QCoreApplication::applicationName()),
-                                 getJsonSettingsFormat());
-        }
+    QSettings *createChorusKitSettings(QSettings::Scope scope) override {
+        const QString &dir = scope == QSettings::UserScope ? userSettingsPath : systemSettingsPath;
+        return new QSettings(
+            QStringLiteral("%1/%2.plugins.json").arg(dir, QCoreApplication::applicationName()),
+            getJsonSettingsFormat());
     }
 
     void splashWillShow(QSplashScreen *screen) override {
@@ -72,10 +63,6 @@ public:
     }
 
     void beforeLoadPlugins() override {
-        // Set global settings path
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, userSettingsPath);
-        QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, systemSettingsPath);
-
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
     }
