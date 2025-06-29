@@ -1,0 +1,48 @@
+project(uishell VERSION 0.0.1.0)
+
+file(GLOB_RECURSE _src *.h *.cpp)
+
+qm_find_qt(Core Gui Qml Quick)
+
+ck_add_library(${PROJECT_NAME} STATIC AUTOGEN
+    SOURCES ${_src}
+    LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin
+    QT_LINKS Core Gui Qml Quick
+    QT_INCLUDE_PRIVATE Core Gui Qml Quick
+    INCLUDE_PRIVATE *
+    PREFIX UISHELL
+)
+
+if(QT_KNOWN_POLICY_QTP0001)
+    qt_policy(SET QTP0001 NEW)
+endif()
+if(QT_KNOWN_POLICY_QTP0004)
+    qt_policy(SET QTP0004 NEW)
+endif()
+
+file(GLOB_RECURSE _qml_files_abs *.qml *.js *.mjs)
+set(_qml_files)
+foreach(_file IN LISTS _qml_files_abs)
+    file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
+    list(APPEND _qml_files ${_rel_path})
+endforeach()
+file(GLOB_RECURSE _resource_files_abs assets/*)
+set(_resource_files)
+foreach(_file IN LISTS _resource_files_abs)
+    file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
+    list(APPEND _resource_files ${_rel_path})
+endforeach()
+
+qt_add_qml_module(${PROJECT_NAME}
+    URI DiffScope.UIShell
+    QML_FILES ${_qml_files}
+    RESOURCES ${_resource_files}
+    NAMESPACE UIShell
+    OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DiffScope/UIShell
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED TRUE
+)
+
