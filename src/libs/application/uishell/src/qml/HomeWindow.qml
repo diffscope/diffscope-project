@@ -15,6 +15,7 @@ ApplicationWindow {
     property string banner: ""
     property ListModel recentFilesModel: null
     property bool recentFilesListView: false
+    property ListModel recoveryFilesModel: null
 
     component NavButton: Button {
         flat: true
@@ -25,6 +26,7 @@ ApplicationWindow {
     }
     component CellButton: Button {
         id: cell
+        required property int index
         required property var modelData
         flat: true
         padding: 4
@@ -38,11 +40,13 @@ ApplicationWindow {
                 implicitWidth: 160
                 implicitHeight: 120
                 Layout.alignment: Qt.AlignHCenter
-                Frame {
+                Rectangle {
                     anchors.fill: parent
-                    ThemedItem.backgroundLevel: SVS.BL_Tertiary
+                    color: Theme.backgroundTertiaryColor
+                    border.width: 1
+                    border.color: Theme.borderColor
                     ColorImage {
-                        visible: cell.modelData.newFile === true
+                        visible: cell.index === -1
                         width: 80
                         height: 80
                         anchors.centerIn: parent
@@ -79,10 +83,16 @@ ApplicationWindow {
                 ThemedItem.foregroundLevel: SVS.FL_Secondary
             }
         }
+        FileMenuHandler {
+            index: cell.index
+            modelData: cell.modelData
+        }
     }
     component ListItemButton: Button {
         id: cell
+        required property int index
         required property var modelData
+        property bool recovery: false
         flat: true
         padding: 4
         Accessible.name: modelData.name + "\n" + modelData.lastModifiedText
@@ -96,7 +106,7 @@ ApplicationWindow {
                 implicitHeight: 48
                 Layout.alignment: Qt.AlignHCenter
                 ColorImage {
-                    visible: cell.modelData.newFile === true
+                    visible: cell.index === -1
                     anchors.fill: parent
                     source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentAdd48Regular.svg"
                     color: Theme.foregroundSecondaryColor
@@ -106,21 +116,60 @@ ApplicationWindow {
                     source: cell.modelData.icon
                 }
             }
-            Label {
-                id: nameLabel
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: 160
-                text: cell.modelData.name
-                elide: Text.ElideMiddle
+            ColumnLayout {
+                spacing: 4
+                Layout.fillWidth: true
+                RowLayout {
+                    spacing: 4
+                    Label {
+                        Layout.fillWidth: true
+                        text: cell.modelData.name
+                        elide: Text.ElideMiddle
+                    }
+                    Label {
+                        text: cell.modelData.lastModifiedText
+                        elide: Text.ElideMiddle
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                    }
+                }
+                Label {
+                    visible: cell.modelData.path.length !== 0
+                    text: cell.modelData.path
+                    elide: Text.ElideMiddle
+                    ThemedItem.foregroundLevel: SVS.FL_Secondary
+                }
             }
-            Label {
-                id: lastModifiedTextLabel
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: 160
-                text: cell.modelData.lastModifiedText
-                elide: Text.ElideMiddle
-                ThemedItem.foregroundLevel: SVS.FL_Secondary
+        }
+        FileMenuHandler {
+            index: cell.index
+            modelData: cell.modelData
+            recovery: cell.recovery
+        }
+    }
+    component FileMenuHandler: TapHandler {
+        id: tapHandler
+        required property int index
+        required property var modelData
+        property bool recovery: false
+        readonly property Menu fileMenu: Menu {
+            Action {
+                text: qsTr("Open")
+                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/FolderOpen16Filled.svg"
             }
+            Action {
+                text: qsTr("Open File Location")
+                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
+                enabled: tapHandler.modelData.path.length !== 0
+            }
+            Action {
+                text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
+                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
+            }
+        }
+        acceptedButtons: Qt.RightButton
+        enabled: index !== -1
+        onSingleTapped: () => {
+            fileMenu.popup()
         }
     }
 
@@ -154,6 +203,7 @@ ApplicationWindow {
                         icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/History16Filled.svg"
                     }
                     NavButton {
+                        id: recoveryFilesButton
                         text: qsTr("Recovery Files")
                         icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentSync16Filled.svg"
                         Rectangle {
@@ -186,109 +236,123 @@ ApplicationWindow {
                 }
             }
         }
-        StackLayout {
+        Pane {
+            id: recentFiles
+            ThemedItem.backgroundLevel: SVS.BL_Quaternary
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Pane {
-                id: recentFiles
-                ThemedItem.backgroundLevel: SVS.BL_Quaternary
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                padding: 16
-                readonly property var newFilePseudoElement: ({
-                    name: qsTr("New File"),
-                    path: "",
-                    lastModifiedText: "",
-                    thumbnail: "",
-                    icon: "",
-                    newFile: true,
-                })
-                ColumnLayout {
-                    spacing: 16
-                    anchors.fill: parent
+            padding: 16
+            readonly property var newFilePseudoElement: ({
+                name: qsTr("New File"),
+                path: "",
+                lastModifiedText: "",
+                thumbnail: "",
+                icon: "",
+            })
+            ColumnLayout {
+                spacing: 16
+                anchors.fill: parent
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    TextField {
+                        id: searchTextField
+                        placeholderText: qsTr("Search")
+                        Layout.fillWidth: true
+                        leftPadding: 32
+                        ColorImage {
+                            width: 16
+                            height: 16
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.leftMargin: 8
+                            source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                            color: Theme.foregroundPrimaryColor
+                        }
+                    }
                     RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        TextField {
-                            placeholderText: qsTr("Search")
-                            Layout.fillWidth: true
-                            leftPadding: 32
-                            ColorImage {
-                                width: 16
-                                height: 16
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: parent.left
-                                anchors.leftMargin: 8
-                                source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
-                                color: Theme.foregroundPrimaryColor
-                            }
+                        visible: !recoveryFilesButton.checked
+                        ToolButton {
+                            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+                            checkable: true
+                            autoExclusive: true
+                            checked: !window.recentFilesListView
+                            onClicked: GlobalHelper.setProperty(window, "recentFilesListView", !checked)
+                            DescriptiveText.toolTip: qsTr("Grid view")
+                            DescriptiveText.activated: hovered
                         }
-                        RowLayout {
-                            ToolButton {
-                                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-                                checkable: true
-                                autoExclusive: true
-                                checked: !window.recentFilesListView
-                                onClicked: GlobalHelper.setProperty(window, "recentFilesListView", !checked)
-                                DescriptiveText.toolTip: qsTr("Grid view")
-                                DescriptiveText.activated: hovered
-                            }
-                            ToolButton {
-                                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/List16Filled.svg"
-                                checkable: true
-                                autoExclusive: true
-                                checked: window.recentFilesListView
-                                onClicked: GlobalHelper.setProperty(window, "recentFilesListView", checked)
-                                DescriptiveText.toolTip: qsTr("List view")
-                                DescriptiveText.activated: hovered
-                            }
+                        ToolButton {
+                            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/List16Filled.svg"
+                            checkable: true
+                            autoExclusive: true
+                            checked: window.recentFilesListView
+                            onClicked: GlobalHelper.setProperty(window, "recentFilesListView", checked)
+                            DescriptiveText.toolTip: qsTr("List view")
+                            DescriptiveText.activated: hovered
                         }
                     }
-                    ScrollView {
-                        id: fileGridScrollView
-                        visible: !window.recentFilesListView
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        GridLayout {
-                            rowSpacing: 16
-                            columnSpacing: 16
-                            width: parent.width
-                            columns: Math.floor((fileGridScrollView.width - 4) / (160 + columnSpacing))
+                }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Label {
+                        text: qsTr("No result found")
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: searchTextField.length !== 0 && (fileGridLayout.visibleChildren.length === 1 || fileListLayout.visibleChildren.length === 1)
+                    }
+                }
+                ScrollView {
+                    id: fileGridScrollView
+                    visible: !window.recentFilesListView && !recoveryFilesButton.checked
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    GridLayout {
+                        id: fileGridLayout
+                        rowSpacing: 16
+                        columnSpacing: 16
+                        width: parent.width
+                        columns: Math.floor(fileGridScrollView.width / (160 + columnSpacing))
+                        CellButton {
+                            index: -1
+                            modelData: recentFiles.newFilePseudoElement
+                            visible: searchTextField.text.length === 0
+                        }
+                        Repeater {
+                            model: window.recentFilesModel
                             CellButton {
-                                modelData: recentFiles.newFilePseudoElement
-                            }
-                            Repeater {
-                                model: window.recentFilesModel
-                                CellButton {
-
-                                }
-                            }
-                        }
-                    }
-                    ScrollView {
-                        id: fileListScrollView
-                        visible: window.recentFilesListView
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        ColumnLayout {
-                            visible: window.recentFilesListView
-                            spacing: 4
-                            width: parent.width
-                            Repeater {
-                                model: window.recentFilesModel
-                                ListItemButton {
-                                    Layout.fillWidth: true
-                                }
+                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
                             }
                         }
                     }
                 }
-            }
-            Pane {
-                id: recoveryFiles
-                ThemedItem.backgroundLevel: SVS.BL_Quaternary
-                Layout.fillHeight: true
-                Layout.fillWidth: true
+                ScrollView {
+                    id: fileListScrollView
+                    visible: window.recentFilesListView || recoveryFilesButton.checked
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ColumnLayout {
+                        id: fileListLayout
+                        spacing: 4
+                        implicitWidth: fileListScrollView.width
+                        width: fileListScrollView.width
+                        ListItemButton {
+                            Layout.fillWidth: true
+                            index: -1
+                            modelData: recentFiles.newFilePseudoElement
+                            visible: searchTextField.text.length === 0 && !recoveryFilesButton.checked
+                        }
+                        Repeater {
+                            model: recoveryFilesButton.checked ? window.recoveryFilesModel : window.recentFilesModel
+                            ListItemButton {
+                                Layout.fillWidth: true
+                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
+                                recovery: recoveryFilesButton.checked
+                            }
+                        }
+                    }
+                }
             }
         }
     }

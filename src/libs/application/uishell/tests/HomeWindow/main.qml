@@ -79,4 +79,18 @@ HomeWindow {
             icon: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_banner.png"
         }
     }
+    recoveryFilesModel: ListModel {
+        ListElement {
+            name: "Recovery File"
+            path: "/path/to/file1.dspx"
+            lastModifiedText: "11:45 Today"
+            icon: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_banner.png"
+        }
+        ListElement {
+            name: "Unsaved File"
+            path: ""
+            lastModifiedText: "11:45 Today"
+            icon: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_banner.png"
+        }
+    }
 }
