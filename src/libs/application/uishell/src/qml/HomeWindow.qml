@@ -1,4 +1,5 @@
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -13,15 +14,20 @@ ApplicationWindow {
     width: 800
     height: 500
     property string banner: ""
-    property ListModel recentFilesModel: null
+    property var recentFilesModel: null
     property bool recentFilesListView: false
-    property ListModel recoveryFilesModel: null
+    property var recoveryFilesModel: null
+    property var navigationActionsModel: null
+    property var toolActionsModel: null
+
+    signal newFileRequested()
+    signal openRecentFileRequested(int index)
+    signal openRecoveryFileRequested(int index)
+
 
     component NavButton: Button {
         flat: true
         Layout.fillWidth: true
-        checkable: true
-        autoExclusive: true
         Component.onCompleted: contentItem.alignment = Qt.AlignLeft
     }
     component CellButton: Button {
@@ -87,6 +93,15 @@ ApplicationWindow {
             index: cell.index
             modelData: cell.modelData
         }
+        onClicked: () => {
+            if (cell.index === -1) {
+                window.newFileRequested()
+            } else if (cell.recovery) {
+                window.openRecoveryFileRequested(cell.index)
+            } else {
+                window.openRecentFileRequested(cell.index)
+            }
+        }
     }
     component ListItemButton: Button {
         id: cell
@@ -145,6 +160,15 @@ ApplicationWindow {
             modelData: cell.modelData
             recovery: cell.recovery
         }
+        onClicked: () => {
+            if (cell.index === -1) {
+                window.newFileRequested()
+            } else if (cell.recovery) {
+                window.openRecoveryFileRequested(cell.index)
+            } else {
+                window.openRecentFileRequested(cell.index)
+            }
+        }
     }
     component FileMenuHandler: TapHandler {
         id: tapHandler
@@ -155,6 +179,13 @@ ApplicationWindow {
             Action {
                 text: qsTr("Open")
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/FolderOpen16Filled.svg"
+                onTriggered: () => {
+                    if (tapHandler.recovery) {
+                        window.openRecoveryFileRequested(tapHandler.index)
+                    } else {
+                        window.openRecentFileRequested(tapHandler.index)
+                    }
+                }
             }
             Action {
                 text: qsTr("Open File Location")
@@ -164,6 +195,10 @@ ApplicationWindow {
             Action {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
+                onTriggered: () => {
+                    const model = tapHandler.recovery ? window.recoveryFilesModel : window.recentFilesModel
+                    model.remove(tapHandler.index)
+                }
             }
         }
         acceptedButtons: Qt.RightButton
@@ -199,12 +234,16 @@ ApplicationWindow {
                     spacing: 6
                     NavButton {
                         text: qsTr("Recent Files")
+                        checkable: true
+                        autoExclusive: true
                         checked: true
                         icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/History16Filled.svg"
                     }
                     NavButton {
                         id: recoveryFilesButton
                         text: qsTr("Recovery Files")
+                        checkable: true
+                        autoExclusive: true
                         icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentSync16Filled.svg"
                         Rectangle {
                             width: Math.max(16, recoveryFileCountText.width)
@@ -214,25 +253,78 @@ ApplicationWindow {
                             anchors.right: parent.right
                             anchors.rightMargin: 6
                             color: Theme.warningColor
+                            visible: window.recoveryFilesModel.count !== 0
                             Label {
                                 id: recoveryFileCountText
                                 padding: 2
                                 anchors.centerIn: parent
                                 horizontalAlignment: Text.AlignHCenter
                                 font.pixelSize: 10
-                                text: "5"
+                                text: window.recoveryFilesModel.count.toLocaleString()
                             }
                         }
                     }
                 }
-                Rectangle {
+                MenuSeparator {
                     Layout.fillWidth: true
-                    height: 1
-                    color: Theme.borderColor
+                }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 6
+                    Repeater {
+                        model: ObjectModel {
+                            id: navigationActionButtonsModel
+                            readonly property Instantiator instantiator: Instantiator {
+                                model: window.navigationActionsModel
+                                readonly property Component navButton: NavButton {}
+                                onObjectAdded: (index, object) => {
+                                    navigationActionButtonsModel.insert(index, navButton.createObject(null, {
+                                        action: object instanceof Action ? object : null,
+                                        visible: object instanceof Action
+                                    }))
+                                }
+                                onObjectRemoved: (index, object) => {
+                                    const o = navigationActionButtonsModel.get(o)
+                                    navigationActionButtonsModel.remove(index)
+                                    o.destroy()
+                                }
+                            }
+                        }
+                    }
                 }
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                }
+                RowLayout {
+                    Layout.leftMargin: 2
+                    spacing: 6
+                    Repeater {
+                        model: ObjectModel {
+                            id: toolActionButtonsModel
+                            readonly property Instantiator instantiator: Instantiator {
+                                model: window.toolActionsModel
+                                readonly property Component toolButton: NavButton {
+                                    display: AbstractButton.IconOnly
+                                    implicitWidth: implicitHeight
+                                    Layout.fillWidth: false
+                                    DescriptiveText.toolTip: text
+                                    DescriptiveText.activated: hovered
+                                }
+                                onObjectAdded: (index, object) => {
+                                    toolActionButtonsModel.insert(index, toolButton.createObject(null, {
+                                        action: object instanceof Action ? object : null,
+                                        visible: object instanceof Action
+                                    }))
+                                }
+                                onObjectRemoved: (index, object) => {
+                                    const o = toolActionButtonsModel.get(o)
+                                    toolActionButtonsModel.remove(index)
+                                    o.destroy()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -243,7 +335,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             padding: 16
             readonly property var newFilePseudoElement: ({
-                name: qsTr("New File"),
+                name: qsTr("New project"),
                 path: "",
                 lastModifiedText: "",
                 thumbnail: "",
@@ -299,8 +391,21 @@ ApplicationWindow {
                         text: qsTr("No result found")
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         anchors.top: parent.top
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.Wrap
                         visible: searchTextField.length !== 0 && (fileGridLayout.visibleChildren.length === 1 || fileListLayout.visibleChildren.length === 1)
+                    }
+                    Label {
+                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").replace("%1", Application.name)
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.Wrap
+                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && window.recoveryFilesModel.count === 0
                     }
                 }
                 ScrollView {
@@ -329,7 +434,7 @@ ApplicationWindow {
                 }
                 ScrollView {
                     id: fileListScrollView
-                    visible: window.recentFilesListView || recoveryFilesButton.checked
+                    visible: window.recentFilesListView && !recoveryFilesButton.checked
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     ColumnLayout {
@@ -344,11 +449,30 @@ ApplicationWindow {
                             visible: searchTextField.text.length === 0 && !recoveryFilesButton.checked
                         }
                         Repeater {
-                            model: recoveryFilesButton.checked ? window.recoveryFilesModel : window.recentFilesModel
+                            model: window.recentFilesModel
                             ListItemButton {
                                 Layout.fillWidth: true
                                 visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
-                                recovery: recoveryFilesButton.checked
+                            }
+                        }
+                    }
+                }
+                ScrollView {
+                    id: recoveryFileListScrollView
+                    visible: recoveryFilesButton.checked
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ColumnLayout {
+                        id: recoveryFileListLayout
+                        spacing: 4
+                        implicitWidth: fileListScrollView.width
+                        width: fileListScrollView.width
+                        Repeater {
+                            model: window.recoveryFilesModel
+                            ListItemButton {
+                                Layout.fillWidth: true
+                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
+                                recovery: true
                             }
                         }
                     }

@@ -1,5 +1,7 @@
 import QtQml
 import QtQuick
+import QtQuick.Controls
+import QtQml.Models
 
 import DiffScope.UIShell
 
@@ -92,5 +94,45 @@ HomeWindow {
             lastModifiedText: "11:45 Today"
             icon: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_banner.png"
         }
+    }
+    navigationActionsModel: ObjectModel {
+        Action {
+            text: "New"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "Open..."
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "Import..."
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "Custom Action"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+    }
+    toolActionsModel: ObjectModel {
+        Action {
+            text: "Settings..."
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "Plugins..."
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "About"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+    }
+
+    onNewFileRequested: console.log("new file")
+    onOpenRecentFileRequested: (index) => {
+        console.log("open recent file", index)
+    }
+    onOpenRecoveryFileRequested: (index) => {
+        console.log("open recovery file", index)
     }
 }
