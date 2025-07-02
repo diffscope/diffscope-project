@@ -112,6 +112,16 @@ HomeWindow {
             text: "Custom Action"
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
+        Menu {
+            title: "Custom Menu"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            Action {
+                text: "aaa"
+            }
+            Action {
+                text: "bbb"
+            }
+        }
     }
     toolActionsModel: ObjectModel {
         Action {
@@ -122,9 +132,11 @@ HomeWindow {
             text: "Plugins..."
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
-        Action {
-            text: "About"
+        Menu {
+            title: "Help"
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            Action { text: "Help" }
+            Action { text: "About" }
         }
     }
 

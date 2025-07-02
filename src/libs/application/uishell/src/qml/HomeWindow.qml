@@ -30,6 +30,13 @@ ApplicationWindow {
         Layout.fillWidth: true
         Component.onCompleted: contentItem.alignment = Qt.AlignLeft
     }
+    component NavToolButton: Button {
+        flat: true
+        display: AbstractButton.IconOnly
+        implicitWidth: implicitHeight
+        DescriptiveText.toolTip: text
+        DescriptiveText.activated: hovered
+    }
     component CellButton: Button {
         id: cell
         required property int index
@@ -276,12 +283,29 @@ ApplicationWindow {
                             id: navigationActionButtonsModel
                             readonly property Instantiator instantiator: Instantiator {
                                 model: window.navigationActionsModel
-                                readonly property Component navButton: NavButton {}
+                                readonly property Component navButton: NavButton {
+                                    id: button
+                                    property Menu submenu: null
+                                    action: MenuAction {
+                                        menu: button.submenu
+                                        parentItem: button
+                                    }
+                                }
                                 onObjectAdded: (index, object) => {
-                                    navigationActionButtonsModel.insert(index, navButton.createObject(null, {
-                                        action: object instanceof Action ? object : null,
-                                        visible: object instanceof Action
-                                    }))
+                                    if (object instanceof Action) {
+                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
+                                            action: object
+                                        }))
+                                    } else if (object instanceof Menu) {
+                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
+                                            submenu: object
+                                        }))
+                                    } else {
+                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
+                                            visible: false
+                                        }))
+                                    }
+
                                 }
                                 onObjectRemoved: (index, object) => {
                                     const o = navigationActionButtonsModel.get(o)
@@ -304,18 +328,29 @@ ApplicationWindow {
                             id: toolActionButtonsModel
                             readonly property Instantiator instantiator: Instantiator {
                                 model: window.toolActionsModel
-                                readonly property Component toolButton: NavButton {
-                                    display: AbstractButton.IconOnly
-                                    implicitWidth: implicitHeight
-                                    Layout.fillWidth: false
-                                    DescriptiveText.toolTip: text
-                                    DescriptiveText.activated: hovered
+                                readonly property Component toolButton: NavToolButton {
+                                    id: button
+                                    property Menu submenu: null
+                                    action: MenuAction {
+                                        menu: button.submenu
+                                        parentItem: button
+                                        menuDisplay: MenuAction.Top
+                                    }
                                 }
                                 onObjectAdded: (index, object) => {
-                                    toolActionButtonsModel.insert(index, toolButton.createObject(null, {
-                                        action: object instanceof Action ? object : null,
-                                        visible: object instanceof Action
-                                    }))
+                                    if (object instanceof Action) {
+                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
+                                            action: object
+                                        }))
+                                    } else if (object instanceof Menu) {
+                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
+                                            submenu: object
+                                        }))
+                                    } else {
+                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
+                                            visible: false
+                                        }))
+                                    }
                                 }
                                 onObjectRemoved: (index, object) => {
                                     const o = toolActionButtonsModel.get(o)
