@@ -13,6 +13,7 @@ ApplicationWindow {
     id: window
     width: 800
     height: 500
+    property bool frameless: true
     property string banner: ""
     property var recentFilesModel: null
     property bool recentFilesListView: false
@@ -23,6 +24,25 @@ ApplicationWindow {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
+
+    function setupFrameless() {
+        if (frameless && !windowAgent.framelessSetup) {
+            windowAgent.setup(window)
+            windowAgent.framelessSetup = true
+            windowAgent.setTitleBar(titleBarArea)
+            windowAgent.setSystemButton(WindowAgent.Minimize, minimizeSystemButton)
+            windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
+            windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
+        }
+    }
+
+    Component.onCompleted: () => {
+        setupFrameless()
+    }
+
+    onFramelessChanged: () => {
+        setupFrameless()
+    }
 
 
     component NavButton: Button {
@@ -215,6 +235,35 @@ ApplicationWindow {
         }
     }
 
+    WindowAgent {
+        id: windowAgent
+        property bool framelessSetup: false
+    }
+
+    Item {
+        id: titleBarArea
+        width: window.width
+        height: 36
+        visible: windowAgent.framelessSetup
+        z: 1
+        RowLayout {
+            anchors.right: parent.right
+            spacing: 0
+            SystemButton {
+                id: minimizeSystemButton
+                type: SystemButton.Minimize
+            }
+            SystemButton {
+                id: maximizeSystemButton
+                type: SystemButton.MaximizeRestore
+            }
+            SystemButton {
+                id: closeSystemButton
+                type: SystemButton.Close
+            }
+        }
+    }
+
     RowLayout {
         spacing: 0
         anchors.fill: parent
@@ -377,8 +426,14 @@ ApplicationWindow {
                 icon: "",
             })
             ColumnLayout {
+                id: recentFilesLayout
                 spacing: 16
                 anchors.fill: parent
+                Item {
+                    Layout.fillWidth: true
+                    height: titleBarArea.height - recentFilesLayout.spacing - recentFiles.topPadding
+                    visible: windowAgent.framelessSetup
+                }
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8

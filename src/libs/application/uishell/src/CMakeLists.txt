@@ -2,13 +2,15 @@ project(uishell VERSION 0.0.1.0)
 
 file(GLOB_RECURSE _src *.h *.cpp)
 
-qm_find_qt(Core Gui Qml Quick)
+find_package(QWindowKit REQUIRED)
 
-ck_add_library(${PROJECT_NAME} STATIC AUTOGEN
+ck_add_library(${PROJECT_NAME} STATIC AUTOGEN)
+
+qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
-    LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin
-    QT_LINKS Core Gui Qml Quick
-    QT_INCLUDE_PRIVATE Core Gui Qml Quick
+    LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin QWindowKit::Core QWindowKit::Quick
+    QT_LINKS Core Gui Qml Quick QuickControls2
+    QT_INCLUDE_PRIVATE Core Gui Qml Quick QuickControls2
     INCLUDE_PRIVATE *
     PREFIX UISHELL
 )
