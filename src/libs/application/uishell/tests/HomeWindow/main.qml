@@ -8,7 +8,7 @@ import DiffScope.UIShell
 HomeWindow {
     id: window
     visible: true
-    banner: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_banner.png"
+    banner: "qrc:/qt/qml/DiffScope/UIShell/Test/HomeWindow/test_logo.png"
     recentFilesModel: ListModel {
         ListElement {
             name: "File 1"

@@ -25,7 +25,7 @@ endif()
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.UIShell.Test.HomeWindow
     QML_FILES ${_qml_files}
-    RESOURCES test_banner.png
+    RESOURCES test_banner.png test_logo.png
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

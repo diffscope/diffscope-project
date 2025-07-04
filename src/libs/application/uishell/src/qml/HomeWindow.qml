@@ -14,7 +14,7 @@ ApplicationWindow {
     width: 800
     height: 500
     property bool frameless: true
-    property string banner: ""
+    property url banner: ""
     property var recentFilesModel: null
     property bool recentFilesListView: false
     property var recoveryFilesModel: null
@@ -248,6 +248,7 @@ ApplicationWindow {
         z: 1
         RowLayout {
             anchors.right: parent.right
+            visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
             spacing: 0
             SystemButton {
                 id: minimizeSystemButton
@@ -273,9 +274,14 @@ ApplicationWindow {
             contentWidth: 200
             Layout.fillHeight: true
             ColumnLayout {
+                id: navLayout
                 width: 200
                 height: parent.height
                 spacing: 6
+                Item {
+                    Layout.fillWidth: true
+                    height: titleBarArea.height - nav.topPadding - navLayout.spacing
+                }
                 Item {
                     Layout.fillWidth: true
                     implicitHeight: banner.implicitHeight * width / banner.implicitWidth
@@ -309,14 +315,14 @@ ApplicationWindow {
                             anchors.right: parent.right
                             anchors.rightMargin: 6
                             color: Theme.warningColor
-                            visible: window.recoveryFilesModel.count !== 0
+                            visible: (window.recoveryFilesModel?.count ?? 0) !== 0
                             Label {
                                 id: recoveryFileCountText
                                 padding: 2
                                 anchors.centerIn: parent
                                 horizontalAlignment: Text.AlignHCenter
                                 font.pixelSize: 10
-                                text: window.recoveryFilesModel.count.toLocaleString()
+                                text: (window.recoveryFilesModel?.count ?? 0).toLocaleString()
                             }
                         }
                     }
