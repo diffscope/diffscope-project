@@ -447,16 +447,7 @@ ApplicationWindow {
                         id: searchTextField
                         placeholderText: qsTr("Search")
                         Layout.fillWidth: true
-                        leftPadding: 32
-                        ColorImage {
-                            width: 16
-                            height: 16
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
-                            color: Theme.foregroundPrimaryColor
-                        }
+                        ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
                     }
                     RowLayout {
                         visible: !recoveryFilesButton.checked
