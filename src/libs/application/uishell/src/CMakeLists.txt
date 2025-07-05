@@ -8,7 +8,10 @@ ck_add_library(${PROJECT_NAME} STATIC AUTOGEN)
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
-    LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin QWindowKit::Core QWindowKit::Quick
+    LINKS
+        svscraft::Gui svscraft::Quick SVSCraftQuickplugin
+        QWindowKit::Core QWindowKit::Quick
+        ChorusKit::AppCore
     QT_LINKS Core Gui Qml Quick QuickControls2
     QT_INCLUDE_PRIVATE Core Gui Qml Quick QuickControls2
     INCLUDE_PRIVATE *
