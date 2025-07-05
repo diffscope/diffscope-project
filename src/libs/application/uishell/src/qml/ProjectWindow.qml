@@ -182,6 +182,7 @@ ApplicationWindow {
                             if (panelSize > 0)
                                 preferredPanelSize = panelSize
                         }
+                        barBackgroundLevel: SVS.BL_Secondary
                     }
                     SplitView {
                         id: middleSplitView
@@ -205,6 +206,7 @@ ApplicationWindow {
                                     if (panelSize > 0)
                                         preferredPanelSize = panelSize
                                 }
+                                barBackgroundLevel: SVS.BL_Secondary
                             }
                             Rectangle {
                                 width: parent.width
@@ -229,6 +231,7 @@ ApplicationWindow {
                                     if (panelSize > 0)
                                         preferredPanelSize = panelSize
                                 }
+                                barBackgroundLevel: SVS.BL_Secondary
                             }
                             Rectangle {
                                 width: parent.width
@@ -254,6 +257,7 @@ ApplicationWindow {
                         if (panelSize > 0)
                             preferredPanelSize = panelSize
                     }
+                    barBackgroundLevel: SVS.BL_Secondary
                 }
             }
         }
