@@ -30,6 +30,8 @@ namespace UIShell {
         void setSettingCatalog(Core::SettingCatalog *catalog);
         Core::SettingCatalog *settingCatalog() const;
 
+        Q_INVOKABLE QModelIndex indexForPageId(const QString &pageId) const;
+
     signals:
         void settingCatalogChanged();
 

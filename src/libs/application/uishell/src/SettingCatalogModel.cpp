@@ -235,6 +235,34 @@ namespace UIShell {
         return parentPage->pages().indexOf(page);
     }
 
+    static Core::ISettingPage *findPageById(const QList<Core::ISettingPage*> &pages, const QString &id) {
+        for (Core::ISettingPage *page : pages) {
+            if (page && page->id() == id) {
+                return page;
+            }
+            // Recursively search in child pages
+            Core::ISettingPage *foundPage = findPageById(page->pages(), id);
+            if (foundPage) {
+                return foundPage;
+            }
+        }
+        return nullptr;
+    }
+
+    QModelIndex SettingCatalogModel::indexForPageId(const QString &pageId) const {
+        if (pageId.isEmpty() || !m_catalog) {
+            return {};
+        }
+
+        // Search for the page with the specified id
+        Core::ISettingPage *targetPage = findPageById(m_catalog->pages(), pageId);
+        if (targetPage) {
+            return indexForPage(targetPage);
+        }
+
+        return {};
+    }
+
 }
 
 #include "moc_SettingCatalogModel_p.cpp"

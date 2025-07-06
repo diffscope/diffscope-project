@@ -8,4 +8,5 @@ import DiffScope.UIShell
 
 SettingDialog {
     visible: true
+    Component.onCompleted: showPage("test3")
 }
