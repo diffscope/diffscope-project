@@ -22,8 +22,12 @@ Window {
     property QtObject settingCatalog: null
     function showPage(id) {
         const index = settingCatalogModel.indexForPageId(id)
-        settingPageTree.expandToIndex(index)
-        settingPageTree.selectionModel.setCurrentIndex(index, ItemSelectionModel.NoUpdate)
+        if (index.valid) {
+            settingPageTree.expandToIndex(index)
+            settingPageTree.selectionModel.setCurrentIndex(index, ItemSelectionModel.NoUpdate)
+            return true
+        }
+        return false
     }
     component SettingPageItem: T.TreeViewDelegate {
         id: control
@@ -115,9 +119,34 @@ Window {
         }
 
     }
-    SettingCatalogModel {
+    SettingCatalogSortFilterProxyModel {
         id: settingCatalogModel
-        settingCatalog: dialog.settingCatalog
+        readonly property string _filterKeyword: searchTextField.text
+        property var currentIndex
+        onCurrentIndexChanged: () => {
+            if (currentIndex)
+                settingPageArea.currentPage = data(currentIndex) ?? null
+        }
+        on_FilterKeywordChanged: () => {
+            let switchPage = !settingPageArea.currentPage || !settingPageArea.currentPage.matches(_filterKeyword)
+            filterKeyword = _filterKeyword
+            if (switchPage) {
+                const index = findFirstMatch()
+                if (index.valid) {
+                    settingPageTree.expandToIndex(index)
+
+                } else {
+                    settingPageArea.currentPage = null
+                }
+                settingPageTree.selectionModel.setCurrentIndex(index, ItemSelectionModel.NoUpdate)
+            }
+        }
+        sourceModel: SettingCatalogModel {
+            settingCatalog: dialog.settingCatalog
+        }
+        function indexForPageId(id) {
+            return mapFromSource(sourceModel.indexForPageId(id))
+        }
     }
     Rectangle {
         anchors.fill: parent
@@ -136,6 +165,7 @@ Window {
                     ColumnLayout {
                         anchors.fill: parent
                         TextField {
+                            id: searchTextField
                             Layout.fillWidth: true
                             Layout.margins: 8
                             placeholderText: qsTr("Search")
@@ -147,14 +177,13 @@ Window {
                             id: settingPageTree
                             clip: true
                             selectionModel: ItemSelectionModel {
+                                onCurrentIndexChanged: () => {
+                                    settingCatalogModel.currentIndex = settingCatalogModel.toPersistentModelIndex(currentIndex)
+                                }
                             }
                             model: settingCatalogModel
                             delegate: SettingPageItem {
                                 onWidthChanged: width = settingPageTree.width
-                                onCurrentChanged: () => {
-                                    if (current)
-                                        settingPageArea.currentPage = model.display
-                                }
                             }
                         }
                     }
@@ -165,11 +194,33 @@ Window {
                     SplitView.fillWidth: true
                     color: Theme.backgroundPrimaryColor
                     property QtObject currentPage: null
+                    property Item defaultSettingPageWidget: Item {
+                        id: defaultSettingPageWidget
+                        anchors.fill: parent
+                        anchors.margins: 12
+                        anchors.topMargin: 0
+                        property list<QtObject> model: []
+                        ColumnLayout {
+                            spacing: 4
+                            Repeater {
+                                model: defaultSettingPageWidget.model
+                                delegate: Label {
+                                    required property QtObject modelData
+                                    textFormat: Text.RichText
+                                    text: `<a href="${modelData.id}" style="text-decoration: ${hoveredLink ? "underline" : "none"}; color: rgba(${Theme.linkColor.r * 255}, ${Theme.linkColor.g * 255}, ${Theme.linkColor.b * 255}, ${Theme.linkColor.a});">${modelData.title}</a>`
+                                    onLinkActivated: (link) => dialog.showPage(link)
+                                }
+                            }
+                        }
+
+                    }
                     onCurrentPageChanged: () => {
                         const a = []
                         for (let p = settingPageArea.currentPage; p; p = p.parentPage)
                             a.unshift(p.title)
                         breadcrumbRepeater.model = a
+                        defaultSettingPageWidget.model = currentPage?.pages ?? []
+                        settingPageWidgetArea.widget = currentPage?.widget instanceof Item ? currentPage.widget : defaultSettingPageWidget
                     }
                     ColumnLayout {
                         anchors.fill: parent
@@ -209,8 +260,16 @@ Window {
                             }
                         }
                         Item {
+                            id: settingPageWidgetArea
                             Layout.fillWidth: true
                             Layout.fillHeight: true
+                            property Item widget: null
+                            onWidgetChanged: () => {
+                                if (widget?.hasOwnProperty("pageMargins")) {
+                                    widget.pageMargins = 12
+                                }
+                            }
+                            data: [widget]
                         }
                     }
                 }
