@@ -243,7 +243,7 @@ ApplicationWindow {
     Item {
         id: titleBarArea
         width: window.width
-        height: 36
+        height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 36 : 28
         visible: windowAgent.framelessSetup
         z: 1
         RowLayout {

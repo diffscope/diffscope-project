@@ -59,14 +59,14 @@ ApplicationWindow {
         Rectangle {
             id: titleBar
             Layout.fillWidth: true
-            height: 32
+            height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 32 : 28
             color: Theme.backgroundPrimaryColor
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
                 Item {
                     id: iconArea
-                    visible: windowAgent.framelessSetup
+                    visible: windowAgent.framelessSetup && Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
                     Layout.fillHeight: true
                     width: 40
                     Image {
