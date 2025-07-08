@@ -20,6 +20,28 @@ Window {
     title: qsTr("Settings")
     property double navigationWidth: 200
     property QtObject settingCatalog: null
+    function apply() {
+        let restoreApplyStatus = false
+        for (const page of [...settingCatalogModel.dirtyPages]) {
+            if (page.accept()) {
+                settingCatalogModel.dirtyPages.delete(page)
+                restoreApplyStatus = restoreApplyStatus || page.dirty
+            } else {
+                showPage(page.id)
+                applyFailAnnotation.page = page
+                applyFailAnnotation.visible = true
+                return false
+            }
+        }
+        applyButton.enabled = restoreApplyStatus
+        applyFailAnnotation.visible = false
+        return true
+    }
+    onClosing: () => {
+        for (const page of settingCatalogModel.loadedPages) {
+            page.endSetting()
+        }
+    }
     function showPage(id) {
         const index = settingCatalogModel.indexForPageId(id)
         if (index.valid) {
@@ -49,6 +71,8 @@ Window {
                    && control.row === control.treeView.currentRow)
 
         text: model.display.title
+
+        Accessible.role: Accessible.TreeItem
 
         required property int row
         required property var model
@@ -106,7 +130,7 @@ Window {
 
         }
 
-        contentItem: Label {
+        contentItem: Text {
             clip: false
             text: control.text
             elide: Text.ElideRight
@@ -123,9 +147,25 @@ Window {
         id: settingCatalogModel
         readonly property string _filterKeyword: searchTextField.text
         property var currentIndex
+        property var loadedPages: new Set()
+        property var dirtyPages: new Set()
         onCurrentIndexChanged: () => {
-            if (currentIndex)
-                settingPageArea.currentPage = data(currentIndex) ?? null
+            if (currentIndex) {
+                const page = data(currentIndex) ?? null
+                if (!page)
+                    return
+                if (!loadedPages.has(page)) {
+                    loadedPages.add(page)
+                    page.dirtyChanged.connect(() => {
+                        if (page.dirty) {
+                            dirtyPages.add(page)
+                            applyButton.enabled = true
+                        }
+                    })
+                    page.beginSetting()
+                }
+                settingPageArea.currentPage = page
+            }
         }
         on_FilterKeywordChanged: () => {
             let switchPage = !settingPageArea.currentPage || !settingPageArea.currentPage.matches(_filterKeyword)
@@ -151,6 +191,7 @@ Window {
     Rectangle {
         anchors.fill: parent
         color: Theme.backgroundQuaternaryColor
+        Keys.onEscapePressed: dialog.close()
         ColumnLayout {
             anchors.fill: parent
             spacing: 1
@@ -175,6 +216,7 @@ Window {
                         TreeView {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
+                            Accessible.role: Accessible.Tree
                             id: settingPageTree
                             clip: true
                             selectionModel: ItemSelectionModel {
@@ -191,6 +233,7 @@ Window {
                 }
                 Rectangle {
                     id: settingPageArea
+                    Accessible.role: Accessible.Pane
                     SplitView.fillHeight: true
                     SplitView.fillWidth: true
                     color: Theme.backgroundPrimaryColor
@@ -235,6 +278,8 @@ Window {
                             spacing: 4
                             RowLayout {
                                 spacing: 4
+                                Accessible.role: Accessible.StaticText
+                                Accessible.name: breadcrumbRepeater.model.join(" → ")
                                 Repeater {
                                     id: breadcrumbRepeater
                                     model: []
@@ -244,6 +289,7 @@ Window {
                                         required property int index
                                         spacing: 4
                                         Label {
+                                            Accessible.ignored: true
                                             text: breadcrumbItem.modelData
                                             Layout.alignment: Qt.AlignVCenter
                                             font.weight: Font.DemiBold
@@ -282,6 +328,17 @@ Window {
                 color: Theme.backgroundSecondaryColor
                 Layout.fillWidth: true
                 height: 60
+                AnnotationPopup {
+                    id: applyFailAnnotation
+                    ThemedItem.controlType: SVS.CT_Error
+                    property QtObject page: null
+                    closable: true
+                    timeout: 3000
+                    title: qsTr("Cannot Apply Settings")
+                    content: qsTr('Failed to apply "%1"').replace("%1", page?.title)
+                    x: mirrored ? 6 : parent.width - width - 6
+                    y: -height - 6
+                }
                 RowLayout {
                     anchors.fill: parent
                     anchors.margins: 16
@@ -292,13 +349,28 @@ Window {
                     }
                     Button {
                         ThemedItem.controlType: SVS.CT_Accent
+                        Layout.alignment: Qt.AlignVCenter
                         text: qsTr("OK")
+                        Component.onCompleted: forceActiveFocus()
+                        onClicked: () => {
+                            if (dialog.apply()) {
+                                dialog.close()
+                            }
+                        }
                     }
                     Button {
+                        Layout.alignment: Qt.AlignVCenter
                         text: qsTr("Cancel")
+                        onClicked: () => {
+                            dialog.close()
+                        }
                     }
                     Button {
+                        id: applyButton
+                        Layout.alignment: Qt.AlignVCenter
+                        enabled: false
                         text: qsTr("Apply")
+                        onClicked: dialog.apply()
                     }
                 }
             }

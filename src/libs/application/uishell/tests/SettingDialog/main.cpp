@@ -8,23 +8,40 @@
 #include <CoreApi/isettingpage.h>
 
 class TestSettingPage : public Core::ISettingPage {
-    QObject *m_widget{};
+    Q_OBJECT
+    Q_PROPERTY(bool doNotAccept MEMBER m_doNotAccept)
 public:
     TestSettingPage(const QString &id, const QString &title, QQmlEngine *engine, bool loadWidget, QObject *parent) : Core::ISettingPage(id, parent) {
         setTitle(title);
         setDescription(title + " description");
         if (loadWidget) {
             QQmlComponent component(engine, ":/qt/qml/DiffScope/UIShell/Test/SettingDialog/SettingPageWidget.qml");
-            m_widget = component.createWithInitialProperties({{"title", title}});
+            m_widget = component.createWithInitialProperties({{"title", title}, {"iSettingPage", QVariant::fromValue(this)}});
             m_widget->setParent(this);
         }
     }
     QObject *widget() override {
         return m_widget;
     }
-    bool accept() override {
-        return true;
+    void beginSetting() override {
+        qDebug() << "Begin setting:" << id();
+        ISettingPage::beginSetting();
     }
+    void endSetting() override {
+        qDebug() << "End setting:" << id();
+        ISettingPage::endSetting();
+    }
+    bool accept() override {
+        qDebug() << "Accept setting:" << id() << !m_doNotAccept;
+        if (m_doNotAccept) {
+            return false;
+        }
+        return ISettingPage::accept();
+    }
+
+private:
+    QObject *m_widget{};
+    bool m_doNotAccept = false;
 };
 
 int main(int argc, char *argv[]) {
@@ -56,3 +73,5 @@ int main(int argc, char *argv[]) {
 
     return a.exec();
 }
+
+#include "main.moc"
