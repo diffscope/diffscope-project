@@ -10,7 +10,7 @@ ProjectWindow {
     id: window
     visible: true
     icon: "qrc:/qt/qml/DiffScope/UIShell/Test/ProjectWindow/test_icon.png"
-    title: "tst_uishell_ProjectWindow"
+    documentName: "test.dspx"
     component ListHelper: QtObject {
         default property list<QtObject> list: []
     }
@@ -64,6 +64,15 @@ ProjectWindow {
             iconSource: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
         DockingStretch {
+        }
+        Action {
+            text: "Action 1"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+        }
+        Action {
+            text: "Checkable Action 2"
+            checkable: true
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
     }
     leftDockingView.contentData: leftHelper.list

@@ -169,6 +169,7 @@ Window {
                             Layout.fillWidth: true
                             Layout.margins: 8
                             placeholderText: qsTr("Search")
+                            Accessible.name: qsTr("Search")
                             ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
                         }
                         TreeView {

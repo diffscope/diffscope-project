@@ -246,6 +246,7 @@ ApplicationWindow {
         height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 36 : 28
         visible: windowAgent.framelessSetup
         z: 1
+        Accessible.role: Accessible.TitleBar
         RowLayout {
             anchors.right: parent.right
             visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
@@ -296,6 +297,7 @@ ApplicationWindow {
                     spacing: 6
                     NavButton {
                         text: qsTr("Recent Files")
+                        Accessible.role: Accessible.RadioButton
                         checkable: true
                         autoExclusive: true
                         checked: true
@@ -304,6 +306,7 @@ ApplicationWindow {
                     NavButton {
                         id: recoveryFilesButton
                         text: qsTr("Recovery Files")
+                        Accessible.role: Accessible.RadioButton
                         checkable: true
                         autoExclusive: true
                         icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentSync16Filled.svg"
@@ -446,6 +449,7 @@ ApplicationWindow {
                     TextField {
                         id: searchTextField
                         placeholderText: qsTr("Search")
+                        Accessible.name: qsTr("Search")
                         Layout.fillWidth: true
                         ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
                     }
@@ -552,8 +556,8 @@ ApplicationWindow {
                     ColumnLayout {
                         id: recoveryFileListLayout
                         spacing: 4
-                        implicitWidth: fileListScrollView.width
-                        width: fileListScrollView.width
+                        implicitWidth: recoveryFileListScrollView.width
+                        width: recoveryFileListScrollView.width
                         Repeater {
                             model: window.recoveryFilesModel
                             ListItemButton {

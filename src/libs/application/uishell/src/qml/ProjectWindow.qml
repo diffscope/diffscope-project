@@ -16,9 +16,11 @@ ApplicationWindow {
     background: Rectangle {
         color: Theme.backgroundQuaternaryColor
     }
+    title: `${documentName} - ${Application.name}`
 
     property bool frameless: true
     property url icon: ""
+    property string documentName: ""
     property ObjectModel menusModel: null
     property ObjectModel toolButtonsModel: null
     property ObjectModel statusButtonsModel: null
@@ -58,6 +60,7 @@ ApplicationWindow {
         anchors.fill: parent
         Rectangle {
             id: titleBar
+            Accessible.role: Accessible.TitleBar
             Layout.fillWidth: true
             height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 32 : 28
             color: Theme.backgroundPrimaryColor
@@ -134,7 +137,8 @@ ApplicationWindow {
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
                 }
-                Label {
+                Text {
+                    color: Theme.foregroundPrimaryColor
                     Layout.alignment: Qt.AlignVCenter
                     text: Window.window.title
                 }
@@ -166,12 +170,15 @@ ApplicationWindow {
             SplitView {
                 anchors.fill: parent
                 ThemedItem.splitHandleEnabled: rightDock.panelOpened
+                Accessible.ignored: true
                 SplitView {
                     SplitView.minimumWidth: leftDock.SplitView.minimumWidth + mainPane.minimumPanelSize
                     SplitView.fillWidth: true
                     ThemedItem.splitHandleEnabled: leftDock.panelOpened
+                    Accessible.ignored: true
                     DockingView {
                         id: leftDock
+                        Accessible.name: qsTr("Left Docking View")
                         property double preferredPanelSize: 400
                         SplitView.minimumWidth: barSize + (panelOpened ? mainPane.minimumPanelSize : 0)
                         SplitView.preferredWidth: barSize + (panelOpened ? preferredPanelSize : 0)
@@ -191,12 +198,14 @@ ApplicationWindow {
                         SplitView.fillHeight: true
                         SplitView.minimumWidth: mainPane.minimumPanelSize
                         ThemedItem.splitHandleVisible: topDock.panelOpened || bottomDock.panelOpened
+                        Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
                             SplitView.preferredHeight: (middleSplitView.height - 1) / 2
                             SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !topDock.panelOpened ? topDock.barSize : Infinity)
                             DockingView {
                                 id: topDock
+                                Accessible.name: qsTr("Top Docking View")
                                 width: parent.width
                                 anchors.top: parent.top
                                 edge: Qt.TopEdge
@@ -222,6 +231,7 @@ ApplicationWindow {
                             SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !bottomDock.panelOpened ? bottomDock.barSize : Infinity)
                             DockingView {
                                 id: bottomDock
+                                Accessible.name: qsTr("Bottom Docking View")
                                 width: parent.width
                                 anchors.bottom: parent.bottom
                                 edge: Qt.BottomEdge
@@ -246,6 +256,7 @@ ApplicationWindow {
 
                 DockingView {
                     id: rightDock
+                    Accessible.name: qsTr("Right Docking View")
                     SplitView.minimumWidth: barSize + (panelOpened ? mainPane.minimumPanelSize : 0)
                     SplitView.preferredWidth: barSize + (panelOpened ? preferredPanelSize : 0)
                     SplitView.maximumWidth: !panelOpened ? barSize : Infinity
@@ -262,6 +273,7 @@ ApplicationWindow {
             }
         }
         ToolBar {
+            Accessible.role: Accessible.StatusBar
             Layout.fillWidth: true
             implicitHeight: 24
             topPadding: 0
