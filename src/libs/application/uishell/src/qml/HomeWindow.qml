@@ -117,9 +117,11 @@ ApplicationWindow {
             }
         }
         FileMenuHandler {
+            id: fileMenuHandler
             index: cell.index
             modelData: cell.modelData
         }
+        Keys.onMenuPressed: fileMenuHandler.fileMenu.popup(this, width / 2, height / 2)
         onClicked: () => {
             if (cell.index === -1) {
                 window.newFileRequested()
@@ -183,10 +185,12 @@ ApplicationWindow {
             }
         }
         FileMenuHandler {
+            id: fileMenuHandler
             index: cell.index
             modelData: cell.modelData
             recovery: cell.recovery
         }
+        Keys.onMenuPressed: fileMenuHandler.fileMenu.popup(this, width / 2, height / 2)
         onClicked: () => {
             if (cell.index === -1) {
                 window.newFileRequested()
