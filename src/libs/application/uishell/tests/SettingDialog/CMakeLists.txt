@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME} ${_src})
 
 qm_configure_target(${PROJECT_NAME}
     LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin uishell uishellplugin ChorusKit::AppCore
-    QT_LINKS Core Gui Qml Quick QuickControls2
+    QT_LINKS Core Gui Widgets Qml Quick QuickControls2
 )
 
 if(QT_KNOWN_POLICY_QTP0001)

@@ -12,8 +12,8 @@ qm_configure_target(${PROJECT_NAME}
         svscraft::Gui svscraft::Quick SVSCraftQuickplugin
         QWindowKit::Core QWindowKit::Quick
         ChorusKit::AppCore
-    QT_LINKS Core Gui Qml Quick QuickControls2
-    QT_INCLUDE_PRIVATE Core Gui Qml Quick QuickControls2
+    QT_LINKS Core Gui Widgets Qml Quick QuickControls2
+    QT_INCLUDE_PRIVATE Core Gui Widgets Qml Quick QuickControls2
     INCLUDE_PRIVATE *
     PREFIX UISHELL
 )

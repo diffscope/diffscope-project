@@ -261,13 +261,76 @@ Window {
                         }
 
                     }
+                    property Item compatPageWidget: Item {
+                        id: compatPageWidget
+                        anchors.fill: parent
+                        ColumnLayout {
+                            spacing: 4
+                            anchors.fill: parent
+                            Annotation {
+                                Layout.leftMargin: 12
+                                Layout.rightMargin: 12
+                                Layout.fillWidth: true
+                                label: qsTr("This page is in compatibility mode")
+                            }
+                            Item {
+                                id: compatPageWidgetMappingItem
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+                    property Item errorPageWidget: Item {
+                        id: errorPageWidget
+                        anchors.fill: parent
+                        ColumnLayout {
+                            spacing: 4
+                            anchors.fill: parent
+                            anchors.margins: 12
+                            anchors.topMargin: 0
+                            Annotation {
+                                Layout.fillWidth: true
+                                ThemedItem.controlType: SVS.CT_Error
+                                label: qsTr("This settings page cannot be displayed because its type is not supported.")
+                            }
+                            Item {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+                    property SettingPageWidgetDialog settingPageWidgetDialog: SettingPageWidgetDialog {
+                        id: settingPageWidgetDialog
+                        windowHandle.transientParent: dialog
+                        geometry: {
+                            void(dialog.x)
+                            void(dialog.y)
+                            void(compatPageWidget.Window.window)
+                            const p = compatPageWidgetMappingItem.mapToGlobal(0, 0)
+                            if (widget)
+                                widget.geometry = Qt.rect(0, 0, compatPageWidgetMappingItem.width, compatPageWidgetMappingItem.height)
+                            return Qt.rect(p.x, p.y, compatPageWidgetMappingItem.width, compatPageWidgetMappingItem.height + (applyFailAnnotation.visible ? applyFailAnnotation.y : 0))
+                        }
+                    }
                     onCurrentPageChanged: () => {
                         const a = []
                         for (let p = settingPageArea.currentPage; p; p = p.parentPage)
                             a.unshift(p.title)
                         breadcrumbRepeater.model = a
-                        defaultSettingPageWidget.model = currentPage?.pages ?? []
-                        settingPageWidgetArea.widget = currentPage?.widget instanceof Item ? currentPage.widget : defaultSettingPageWidget
+                        settingPageWidgetDialog.hide()
+                        if (currentPage?.widget === null) {
+                            defaultSettingPageWidget.model = currentPage?.pages ?? []
+                            settingPageWidgetArea.widget = defaultSettingPageWidget
+                        } else if (currentPage.widget instanceof Item) {
+                            settingPageWidgetArea.widget = currentPage.widget
+                        } else if (settingPageWidgetDialog.isWidget(currentPage.widget)) {
+                            settingPageWidgetArea.widget = compatPageWidget
+                            settingPageWidgetDialog.windowTitle = currentPage.title
+                            settingPageWidgetDialog.widget = currentPage.widget
+                            settingPageWidgetDialog.show()
+                        } else {
+                            settingPageWidgetArea.widget = errorPageWidget
+                        }
                     }
                     ColumnLayout {
                         anchors.fill: parent
