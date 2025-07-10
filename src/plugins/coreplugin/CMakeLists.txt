@@ -26,14 +26,22 @@ qm_configure_target(${PROJECT_NAME}
         Core
         Gui
         Widgets
+        Qml
+        Quick
+        QuickControls2
     QT_INCLUDE_PRIVATE
         Core
         Gui
         Widgets
+        Qml
+        Quick
+        QuickControls2
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         loadapi
+        uishell
+        uishellplugin
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
@@ -42,6 +50,19 @@ qm_configure_target(${PROJECT_NAME}
         core
         windows
         internal/**
+)
+
+if(QT_KNOWN_POLICY_QTP0001)
+    qt_policy(SET QTP0001 NEW)
+endif()
+if(QT_KNOWN_POLICY_QTP0004)
+    qt_policy(SET QTP0004 NEW)
+endif()
+
+qt_add_qml_module(${PROJECT_NAME}
+    URI DiffScope.CorePlugin
+    QML_FILES qml/HomeWindow.qml
+    OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DiffScope/CorePlugin
 )
 
 # Add translation

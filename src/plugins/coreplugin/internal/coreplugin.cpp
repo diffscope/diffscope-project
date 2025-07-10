@@ -8,6 +8,8 @@
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtQuick/QQuickWindow>
+#include <QtQuickControls2/QQuickStyle>
 
 #include <extensionsystem/pluginspec.h>
 
@@ -15,7 +17,10 @@
 
 #include <loadapi/initroutine.h>
 
+#include <coreplugin/ihomewindow.h>
+
 #include "icore.h"
+
 
 namespace Core::Internal {
 
@@ -33,6 +38,9 @@ namespace Core::Internal {
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
+
+        QQuickStyle::setStyle("SVSCraft.UIComponents");
+        QQuickStyle::setFallbackStyle("Basic");
 
         // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
 
@@ -56,16 +64,10 @@ namespace Core::Internal {
         //     return false;
         // }
 
-        auto w = new QMainWindow();
-        w->setAttribute(Qt::WA_DeleteOnClose);
-        w->setCentralWidget([]() {
-            auto button = new QPushButton(tr("Crash !!!"));
-            connect(button, &QPushButton::clicked, button,
-                    []() { reinterpret_cast<QString *>(0)->toInt(); });
-            return button;
-        }());
-        w->show();
-        waitSplash(w);
+        auto win = static_cast<QQuickWindow *>(IHomeWindowRegistry::instance()->create()->window());
+        win->show();
+        connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
+
         return false;
     }
 
