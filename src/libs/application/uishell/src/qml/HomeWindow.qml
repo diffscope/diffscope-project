@@ -500,7 +500,7 @@ ApplicationWindow {
                         anchors.right: parent.right
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
-                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && window.recoveryFilesModel.count === 0
+                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && (window.recoveryFilesModel?.count ?? 0) === 0
                     }
                 }
                 ScrollView {
