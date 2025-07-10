@@ -11,7 +11,9 @@ namespace UIShell {
         setLayout(new QVBoxLayout);
         createWinId();
     }
-    SettingPageWidgetDialog::~SettingPageWidgetDialog() = default;
+    SettingPageWidgetDialog::~SettingPageWidgetDialog() {
+        setWidget(nullptr);
+    }
     QWidget *SettingPageWidgetDialog::widget() const {
         return m_widget;
     }

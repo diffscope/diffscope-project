@@ -170,15 +170,19 @@ Window {
         on_FilterKeywordChanged: () => {
             let switchPage = !settingPageArea.currentPage || !settingPageArea.currentPage.matches(_filterKeyword)
             filterKeyword = _filterKeyword
+            noResultFoundLabel.visible = false
             if (switchPage) {
                 const index = findFirstMatch()
                 if (index.valid) {
                     settingPageTree.expandToIndex(index)
-
                 } else {
                     settingPageArea.currentPage = null
+                    noResultFoundLabel.visible = true
                 }
                 settingPageTree.selectionModel.setCurrentIndex(index, ItemSelectionModel.NoUpdate)
+            }
+            if (_filterKeyword.length === 0) {
+                noResultFoundLabel.visible = false
             }
         }
         sourceModel: SettingCatalogModel {
@@ -212,6 +216,14 @@ Window {
                             placeholderText: qsTr("Search")
                             Accessible.name: qsTr("Search")
                             ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                        }
+                        Label {
+                            id: noResultFoundLabel
+                            text: qsTr("No result found")
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            visible: false
                         }
                         TreeView {
                             Layout.fillWidth: true
@@ -268,9 +280,11 @@ Window {
                             spacing: 4
                             anchors.fill: parent
                             Annotation {
+                                id: compatPageAnnotation
                                 Layout.leftMargin: 12
                                 Layout.rightMargin: 12
                                 Layout.fillWidth: true
+                                closable: true
                                 label: qsTr("This page is in compatibility mode")
                             }
                             Item {
@@ -305,6 +319,8 @@ Window {
                         geometry: {
                             void(dialog.x)
                             void(dialog.y)
+                            void(compatPageWidgetMappingItem.x)
+                            void(compatPageWidgetMappingItem.y)
                             void(compatPageWidget.Window.window)
                             const p = compatPageWidgetMappingItem.mapToGlobal(0, 0)
                             if (widget)
@@ -318,13 +334,14 @@ Window {
                             a.unshift(p.title)
                         breadcrumbRepeater.model = a
                         settingPageWidgetDialog.hide()
-                        if (currentPage?.widget === null) {
+                        if (!currentPage?.widget) {
                             defaultSettingPageWidget.model = currentPage?.pages ?? []
                             settingPageWidgetArea.widget = defaultSettingPageWidget
                         } else if (currentPage.widget instanceof Item) {
                             settingPageWidgetArea.widget = currentPage.widget
                         } else if (settingPageWidgetDialog.isWidget(currentPage.widget)) {
                             settingPageWidgetArea.widget = compatPageWidget
+                            compatPageAnnotation.visible = true
                             settingPageWidgetDialog.windowTitle = currentPage.title
                             settingPageWidgetDialog.widget = currentPage.widget
                             settingPageWidgetDialog.show()
