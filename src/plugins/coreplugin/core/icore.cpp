@@ -13,6 +13,7 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QGridLayout>
+#include <QQmlEngine>
 
 #include <extensionsystem/pluginmanager.h>
 
@@ -26,13 +27,21 @@ namespace Core {
         ICorePrivate() {
         }
 
+        QQmlEngine *qmlEngine;
+
         void init() {
             Q_Q(ICore);
+            qmlEngine = new QQmlEngine(q);
         }
     };
 
     ICore *ICore::instance() {
         return static_cast<ICore *>(ICoreBase::instance());
+    }
+    QQmlEngine *ICore::qmlEngine() {
+        if (!instance())
+            return nullptr;
+        return instance()->d_func()->qmlEngine;
     }
 
     int ICore::showSettingsDialog(const QString &id, QWidget *parent) {

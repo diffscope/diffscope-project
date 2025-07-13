@@ -8,6 +8,8 @@
 
 #include <coreplugin/coreglobal.h>
 
+class QQmlEngine;
+
 namespace Core {
 
     namespace Internal {
@@ -22,6 +24,7 @@ namespace Core {
     public:
         static ICore *instance();
 
+        static QQmlEngine *qmlEngine();
         static int showSettingsDialog(const QString &id, QWidget *parent);
         static void showPluginsDialog(QWidget *parent);
         static void showHome();

@@ -2,7 +2,7 @@
 
 #include <QQmlComponent>
 
-#include <CoreApi/icorebase.h>
+#include <coreplugin/icore.h>
 
 namespace Core {
 
@@ -12,7 +12,7 @@ namespace Core {
         return m_instance;
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
-        QQmlComponent component(ICoreBase::qmlEngine(), ":/qt/qml/DiffScope/CorePlugin/qml/HomeWindow.qml");
+        QQmlComponent component(ICore::qmlEngine(), ":/qt/qml/DiffScope/CorePlugin/qml/HomeWindow.qml");
         auto win = component.create();
         return static_cast<QWindow *>(win);
     }
