@@ -46,6 +46,8 @@ qt_add_qml_module(${PROJECT_NAME}
     OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DiffScope/UIShell
 )
 
+ck_sync_include(${PROJECT_NAME} FORCE)
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED TRUE
