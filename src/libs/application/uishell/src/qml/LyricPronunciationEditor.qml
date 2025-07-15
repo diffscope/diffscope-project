@@ -12,7 +12,8 @@ Frame {
     padding: 0
     property bool autoWrap: false
     property QtObject model: null
-    focus: true
+    focusPolicy: Qt.StrongFocus
+    Accessible.name: qsTr("Lyric Pronunciation Editor")
     component LyricCellDelegate: ColumnLayout {
         id: cell
         property string pronunciation: ""
@@ -23,10 +24,12 @@ Frame {
         property list<string> candidatePronunciations: []
         Accessible.role: Accessible.Cell
         Accessible.name: lyric
-        Accessible.description: qsTr("Current pronunciation is %1. Candidate pronunciations are %2. Open context menu to modify pronunciation.").replace("%1", pronunciation).replace("%2", candidatePronunciations.join(" "))
+        Accessible.description: qsTr("Current pronunciation is %1. Candidate pronunciations are %2. Activate to modify pronunciation.").replace("%1", pronunciation).replace("%2", candidatePronunciations.join(" "))
         Accessible.checkable: true
         Accessible.checked: highlighted
         spacing: 1
+        Accessible.onPressAction: openContextMenu()
+        Accessible.onToggleAction: openContextMenu()
 
         function activate() {
             lyricTable.currentIndexRow = row
@@ -229,9 +232,11 @@ Frame {
             property int currentIndexColumn: -1
             spacing: 0
             Repeater {
+                id: lyricRowRepeater
                 model: frame.model
                 delegate: Item {
                     id: lyricRow
+                    readonly property Repeater lyricCellRepeater: cellRepeater
                     Layout.fillWidth: true
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
@@ -275,6 +280,7 @@ Frame {
                                 _f = false
                             }
                             Repeater {
+                                id: cellRepeater
                                 model: subtreeProxyModel
                                 delegate: LyricCellDelegate {
                                     id: cell
@@ -413,5 +419,10 @@ Frame {
         if (lyricTable.currentIndexColumn >= frame.model.rowCount(frame.model.index(lyricTable.currentIndexRow, 0))) {
             lyricTable.currentIndexColumn = frame.model.rowCount(frame.model.index(lyricTable.currentIndexRow, 0)) - 1
         }
+    }
+
+    Keys.onMenuPressed: () => {
+        let cell = lyricRowRepeater.itemAt(lyricTable.currentIndexRow).lyricCellRepeater.itemAt(lyricTable.currentIndexColumn)
+        cell.openContextMenu()
     }
 }
