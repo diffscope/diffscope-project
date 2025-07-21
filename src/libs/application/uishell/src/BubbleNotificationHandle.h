@@ -19,6 +19,7 @@ namespace UIShell {
         Q_PROPERTY(double progress READ progress NOTIFY progressChanged)
         Q_PROPERTY(bool progressAbortable READ progressAbortable NOTIFY progressAbortableChanged)
         Q_PROPERTY(bool permanentlyHideable READ permanentlyHideable NOTIFY permanentlyHideableChanged)
+        Q_PROPERTY(int textFormat READ textFormat WRITE setTextFormat NOTIFY textFormatChanged)
 
     public:
         inline explicit BubbleNotificationHandle(QObject *parent = nullptr) : QObject(parent) {
@@ -105,6 +106,17 @@ namespace UIShell {
             }
         }
 
+        enum TextFormat {
+            StyledText = 4,
+        };
+        inline int textFormat() const { return m_textFormat; }
+        inline void setTextFormat(int textFormat) {
+            if (m_textFormat != textFormat) {
+                m_textFormat = textFormat;
+                emit textFormatChanged();
+            }
+        }
+
     signals:
         void titleChanged();
         void textChanged();
@@ -116,6 +128,7 @@ namespace UIShell {
         void progressChanged();
         void progressAbortableChanged();
         void permanentlyHideableChanged();
+        void textFormatChanged();
 
         void hideClicked();
         void closeClicked();
@@ -123,6 +136,7 @@ namespace UIShell {
         void permanentlyHideClicked();
         void buttonClicked(int index);
         void hoverEntered();
+        void linkActivated(const QString &link);
 
     private:
         QString m_title;
@@ -135,6 +149,7 @@ namespace UIShell {
         double m_progress{};
         bool m_progressAbortable{};
         bool m_permanentlyHideable{};
+        int m_textFormat{Qt::AutoText};
     };
 
 }

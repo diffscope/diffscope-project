@@ -59,6 +59,8 @@ Item {
                 Layout.topMargin: 4
                 Layout.fillWidth: true
                 text: dialog.handle.title
+                textFormat: dialog.handle.textFormat
+                onLinkActivated: (link) => dialog.handle.linkActivated(link)
             }
             Button {
                 flat: true
@@ -112,6 +114,8 @@ Item {
             ThemedItem.foregroundLevel: SVS.FL_Secondary
             visible: text.length !== 0
             text: dialog.handle.text
+            textFormat: dialog.handle.textFormat
+            onLinkActivated: (link) => dialog.handle.linkActivated(link)
         }
         RowLayout {
             spacing: 2
@@ -160,9 +164,22 @@ Item {
     }
     HoverHandler {
         target: dialog
+        property int f: 0
+        // as long as it works, do not change this
+        onPointChanged: () => {
+            if (hovered && f === 0) {
+                f = 1
+                return
+            }
+            if (hovered && f === 1) {
+                dialog.handle.hoverEntered()
+                f = -1
+            }
+        }
         onHoveredChanged: () => {
-            if (hovered)
-                handle.hoverEntered()
+            if (!hovered) {
+                f = 0
+            }
         }
     }
 }

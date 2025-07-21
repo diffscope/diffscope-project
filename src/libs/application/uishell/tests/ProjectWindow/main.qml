@@ -123,8 +123,12 @@ ProjectWindow {
         property double progress: 0
         property bool progressAbortable: false
         property bool permanentlyHideable: true
+        property int textFormat: Text.AutoText
         function hideClicked() {
             bnm.remove(ObjectModel.index)
+        }
+        function hoverEntered() {
+            console.log("hover entered")
         }
     }
 
@@ -132,7 +136,7 @@ ProjectWindow {
         id: bnm
         QtObject {
             property string title: "Test"
-            property string text: "This is a test"
+            property string text: 'This is a test <a href="aaa">link</a>'
             property int icon: SVS.Information
             property list<string> buttons: ["AAA", "BBB"]
             property int primaryButton: 1
@@ -144,6 +148,10 @@ ProjectWindow {
             function buttonClicked (index) {
                 bnm.append(window.bubbleNotificationHandle.createObject())
             }
+            function linkActivated (link) {
+                console.log(link)
+            }
+            signal hoverEntered()
         }
         QtObject {
             property string title: "Error"
