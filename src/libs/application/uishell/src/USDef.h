@@ -9,11 +9,20 @@ namespace UIShell {
         Q_NAMESPACE
 
         enum LyricCellRole {
-            PronunciationRole = Qt::UserRole + 1,
-            LyricRole,
-            CandidatePronunciationsRole,
+            LC_PronunciationRole = Qt::UserRole + 1,
+            LC_LyricRole,
+            LC_CandidatePronunciationsRole,
         };
         Q_ENUM_NS(LyricCellRole)
+
+        enum RecentFileRole {
+            RF_NameRole = Qt::UserRole + 1,
+            RF_PathRole,
+            RF_LastModifiedTextRole,
+            RF_ThumbnailRole,
+            RF_IconRole,
+        };
+        Q_ENUM_NS(RecentFileRole)
 
     }
 

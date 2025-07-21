@@ -70,7 +70,7 @@ Frame {
                     Layout.fillWidth: true
                     text: qsTr("OK")
                     onClicked: () => {
-                        frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), customizePronunciationEdit.text, USDef.PronunciationRole)
+                        frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), customizePronunciationEdit.text, USDef.LC_PronunciationRole)
                         customizePronunciationPopup.close()
                     }
                 }
@@ -92,7 +92,7 @@ Frame {
                     escapePressed = false
                     return
                 }
-                frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), modifyLyricEdit.text, USDef.LyricRole)
+                frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), modifyLyricEdit.text, USDef.LC_LyricRole)
             }
             TextField {
                 id: modifyLyricEdit
@@ -117,7 +117,7 @@ Frame {
                     checked: cell.pronunciation === cell.candidatePronunciations[index]
                     text: cell.candidatePronunciations[index]
                     onTriggered: () => {
-                        frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), cell.candidatePronunciations[index], USDef.PronunciationRole)
+                        frame.model.setData(frame.model.index(column, 0, frame.model.index(row, 0)), cell.candidatePronunciations[index], USDef.LC_PronunciationRole)
                     }
                 }
                 onObjectAdded: (index, action) => contextMenu.insertAction(index, action)

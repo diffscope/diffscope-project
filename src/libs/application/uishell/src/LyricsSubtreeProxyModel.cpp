@@ -192,9 +192,9 @@ namespace UIShell {
     }
     QHash<int, QByteArray> LyricsSubtreeProxyModel::roleNames() const {
         return {
-            {USDef::PronunciationRole, "pronunciation"},
-            {USDef::LyricRole, "lyric"},
-            {USDef::CandidatePronunciationsRole, "candidatePronunciations"}
+            {USDef::LC_PronunciationRole, "pronunciation"},
+            {USDef::LC_LyricRole, "lyric"},
+            {USDef::LC_CandidatePronunciationsRole, "candidatePronunciations"}
         };
     }
 

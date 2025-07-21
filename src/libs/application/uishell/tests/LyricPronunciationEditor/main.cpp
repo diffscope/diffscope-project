@@ -70,9 +70,9 @@ int main(int argc, char *argv[]) {
         auto item = new QStandardItem;
         for (int j = 0; j < lyrics.at(i).size(); j++) {
             auto rowItem = new QStandardItem;
-            rowItem->setData(QVariant::fromValue(lyrics[i][j][0]), USDef::PronunciationRole);
-            rowItem->setData(QVariant::fromValue(lyrics[i][j][1]), USDef::LyricRole);
-            rowItem->setData(QVariant::fromValue(lyrics[i][j][2]), USDef::CandidatePronunciationsRole);
+            rowItem->setData(QVariant::fromValue(lyrics[i][j][0]), USDef::LC_PronunciationRole);
+            rowItem->setData(QVariant::fromValue(lyrics[i][j][1]), USDef::LC_LyricRole);
+            rowItem->setData(QVariant::fromValue(lyrics[i][j][2]), USDef::LC_CandidatePronunciationsRole);
             item->appendRow(rowItem);
         }
         model->setItem(i, 0, item);
