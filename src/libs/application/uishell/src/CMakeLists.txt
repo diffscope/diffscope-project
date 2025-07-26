@@ -3,6 +3,7 @@ project(uishell VERSION 0.0.1.0)
 file(GLOB_RECURSE _src *.h *.cpp)
 
 find_package(QWindowKit REQUIRED)
+find_package(ExtensionSystem REQUIRED)
 
 ck_add_library(${PROJECT_NAME} STATIC AUTOGEN)
 
@@ -12,6 +13,7 @@ qm_configure_target(${PROJECT_NAME}
         svscraft::Gui svscraft::Quick SVSCraftQuickplugin
         QWindowKit::Core QWindowKit::Quick
         ChorusKit::AppCore
+        ExtensionSystem::ExtensionSystem
     QT_LINKS Core Gui Widgets Qml Quick QuickControls2
     QT_INCLUDE_PRIVATE Core Gui Widgets Qml Quick QuickControls2
     INCLUDE_PRIVATE *
