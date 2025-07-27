@@ -15,11 +15,13 @@ import DiffScope.UIShell
 Window {
     id: dialog
     flags: Qt.Dialog
+    modality: Qt.ApplicationModal
     width: 800
     height: 600
     title: qsTr("Settings")
     property double navigationWidth: 200
     property QtObject settingCatalog: null
+    signal finished()
     function apply() {
         let restoreApplyStatus = false
         for (const page of [...settingCatalogModel.dirtyPages]) {
@@ -41,6 +43,7 @@ Window {
         for (const page of settingCatalogModel.loadedPages) {
             page.endSetting()
         }
+        finished()
     }
     function showPage(id) {
         const index = settingCatalogModel.indexForPageId(id)
@@ -260,10 +263,10 @@ Window {
                             spacing: 4
                             Repeater {
                                 model: defaultSettingPageWidget.model
-                                delegate: Label {
+                                delegate: LinkLabel {
                                     required property QtObject modelData
-                                    textFormat: Text.RichText
-                                    text: `<a href="${modelData.id}" style="text-decoration: ${hoveredLink ? "underline" : "none"}; color: rgba(${Theme.linkColor.r * 255}, ${Theme.linkColor.g * 255}, ${Theme.linkColor.b * 255}, ${Theme.linkColor.a});">${modelData.title}</a>`
+                                    href: modelData.id
+                                    linkText: modelData.title
                                     onLinkActivated: (link) => {
                                         searchTextField.text = ""
                                         dialog.showPage(link)

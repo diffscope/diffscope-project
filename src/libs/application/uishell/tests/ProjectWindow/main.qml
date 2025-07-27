@@ -4,6 +4,8 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQml.Models
 
+import SVSCraft
+
 import DiffScope.UIShell
 
 ProjectWindow {
@@ -109,4 +111,71 @@ ProjectWindow {
         }
     }
     bottomDockingView.contentData: bottomHelper.list
+
+    property Component bubbleNotificationHandle: QtObject {
+        property string title: "111"
+        property string text: "222"
+        property int icon: SVS.NoIcon
+        property list<string> buttons: []
+        property int primaryButton: 0
+        property bool closable: true
+        property bool hasProgress: false
+        property double progress: 0
+        property bool progressAbortable: false
+        property bool permanentlyHideable: true
+        property int textFormat: Text.AutoText
+        function hideClicked() {
+            bnm.remove(ObjectModel.index)
+        }
+        function hoverEntered() {
+            console.log("hover entered")
+        }
+    }
+
+    bubbleNotificationsModel: ObjectModel {
+        id: bnm
+        QtObject {
+            property string title: "Test"
+            property string text: 'This is a test <a href="aaa">link</a>'
+            property int icon: SVS.Information
+            property list<string> buttons: ["AAA", "BBB"]
+            property int primaryButton: 1
+            property bool closable: true
+            property bool hasProgress: true
+            property double progress: -1
+            property bool progressAbortable: true
+            property bool permanentlyHideable: true
+            function buttonClicked (index) {
+                bnm.append(window.bubbleNotificationHandle.createObject())
+            }
+            function linkActivated (link) {
+                console.log(link)
+            }
+            signal hoverEntered()
+        }
+        QtObject {
+            property string title: "Error"
+            property string text: ""
+            property int icon: SVS.Critical
+            property list<string> buttons: []
+            property int primaryButton: 0
+            property bool closable: true
+            property bool hasProgress: false
+            property double progress: 0
+            property bool progressAbortable: false
+            property bool permanentlyHideable: true
+        }
+        QtObject {
+            property string title: "Warning"
+            property string text: "aaa"
+            property int icon: SVS.Warning
+            property list<string> buttons: ["Yes", "No"]
+            property int primaryButton: 0
+            property bool closable: false
+            property bool hasProgress: false
+            property double progress: 0
+            property bool progressAbortable: false
+            property bool permanentlyHideable: false
+        }
+    }
 }

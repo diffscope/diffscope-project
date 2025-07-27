@@ -24,6 +24,7 @@ ApplicationWindow {
     property ObjectModel menusModel: null
     property ObjectModel toolButtonsModel: null
     property ObjectModel statusButtonsModel: null
+    property ObjectModel bubbleNotificationsModel: null
 
     readonly property DockingView leftDockingView: leftDock
     readonly property DockingView rightDockingView: rightDock
@@ -289,5 +290,71 @@ ApplicationWindow {
             }
         }
     }
-
+    Flow {
+        id: bubbleNotificationProxyItemFlow
+        anchors.fill: parent
+        anchors.topMargin: 104
+        anchors.bottomMargin: 64
+        anchors.leftMargin: 40
+        anchors.rightMargin: 40
+        spacing: 12
+        flow: Flow.TopToBottom
+        add: Transition {
+            NumberAnimation {
+                property: "x"
+                from: (bubbleNotificationProxyItemFlow.effectiveLayoutDirection === Qt.LeftToRight ? -360 : bubbleNotificationProxyItemFlow.width + 360)
+                easing.type: Easing.OutCubic
+                duration: Theme.visualEffectAnimationDuration
+            }
+        }
+        move: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                easing.type: Easing.OutCubic
+                duration: Theme.visualEffectAnimationDuration
+            }
+        }
+        Repeater {
+            model: ObjectModel {
+                id: bubbleNotificationsProxyItemModel
+            }
+        }
+    }
+    Item {
+        anchors.fill: parent
+        anchors.topMargin: 104
+        anchors.bottomMargin: 64
+        anchors.leftMargin: 40
+        anchors.rightMargin: 40
+        Repeater {
+            model: ObjectModel {
+                id: bubbleNotificationsItemModel
+            }
+        }
+    }
+    Instantiator {
+        model: window.bubbleNotificationsModel
+        readonly property Component bubbleNotification: BubbleNotification {
+            id: bubbleNotification
+            popupLike: true
+            property Item proxyItem: Item {
+                readonly property BubbleNotification sourceItem: bubbleNotification
+                width: sourceItem.width
+                height: sourceItem.height
+            }
+            x: parent ? parent.width - width - proxyItem.x : 0
+            y: parent ? parent.height - height - proxyItem.y : 0
+        }
+        onObjectAdded: (index, object) => {
+            const o = bubbleNotification.createObject(null, {handle: object})
+            bubbleNotificationsItemModel.insert(index, o)
+            bubbleNotificationsProxyItemModel.insert(index, o.proxyItem)
+        }
+        onObjectRemoved: (index, object) => {
+            const o = bubbleNotificationsItemModel.get(index)
+            bubbleNotificationsItemModel.remove(index)
+            bubbleNotificationsProxyItemModel.remove(index)
+            o.destroy()
+        }
+    }
 }

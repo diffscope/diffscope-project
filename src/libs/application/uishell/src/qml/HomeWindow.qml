@@ -24,6 +24,7 @@ ApplicationWindow {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
+    signal revealFileRequested(string path)
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -42,6 +43,24 @@ ApplicationWindow {
 
     onFramelessChanged: () => {
         setupFrameless()
+    }
+
+    RecentFilesProxyModel {
+        id: recentFilesProxyModel
+        sourceModel: window.recentFilesModel
+        filterRole: USDef.RF_NameRole
+        filterCaseSensitivity: Qt.CaseInsensitive
+        property string _filterRegularExpression: searchTextField.text
+        on_FilterRegularExpressionChanged: setFilterRegularExpression(_filterRegularExpression)
+    }
+
+    RecentFilesProxyModel {
+        id: recoveryFilesProxyModel
+        sourceModel: window.recoveryFilesModel
+        filterRole: USDef.RF_NameRole
+        filterCaseSensitivity: Qt.CaseInsensitive
+        property string _filterRegularExpression: searchTextField.text
+        on_FilterRegularExpressionChanged: setFilterRegularExpression(_filterRegularExpression)
     }
 
 
@@ -126,9 +145,9 @@ ApplicationWindow {
             if (cell.index === -1) {
                 window.newFileRequested()
             } else if (cell.recovery) {
-                window.openRecoveryFileRequested(cell.index)
+                window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(cell.index))
             } else {
-                window.openRecentFileRequested(cell.index)
+                window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(cell.index))
             }
         }
     }
@@ -195,9 +214,9 @@ ApplicationWindow {
             if (cell.index === -1) {
                 window.newFileRequested()
             } else if (cell.recovery) {
-                window.openRecoveryFileRequested(cell.index)
+                window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(cell.index))
             } else {
-                window.openRecentFileRequested(cell.index)
+                window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(cell.index))
             }
         }
     }
@@ -212,9 +231,9 @@ ApplicationWindow {
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/FolderOpen16Filled.svg"
                 onTriggered: () => {
                     if (tapHandler.recovery) {
-                        window.openRecoveryFileRequested(tapHandler.index)
+                        window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
                     } else {
-                        window.openRecentFileRequested(tapHandler.index)
+                        window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(tapHandler.index))
                     }
                 }
             }
@@ -222,12 +241,15 @@ ApplicationWindow {
                 text: qsTr("Open File Location")
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
                 enabled: tapHandler.modelData.path.length !== 0
+                onTriggered: () => {
+                    window.revealFileRequested(tapHandler.modelData.path)
+                }
             }
             Action {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
                 onTriggered: () => {
-                    const model = tapHandler.recovery ? window.recoveryFilesModel : window.recentFilesModel
+                    const model = tapHandler.recovery ? recoveryFilesProxyModel : recentFilesProxyModel
                     model.remove(tapHandler.index)
                 }
             }
@@ -322,14 +344,14 @@ ApplicationWindow {
                             anchors.right: parent.right
                             anchors.rightMargin: 6
                             color: Theme.warningColor
-                            visible: (window.recoveryFilesModel?.count ?? 0) !== 0
+                            visible: recoveryFilesProxyModel.count !== 0
                             Label {
                                 id: recoveryFileCountText
                                 padding: 2
                                 anchors.centerIn: parent
                                 horizontalAlignment: Text.AlignHCenter
                                 font.pixelSize: 10
-                                text: (window.recoveryFilesModel?.count ?? 0).toLocaleString()
+                                text: recoveryFilesProxyModel.count.toLocaleString()
                             }
                         }
                     }
@@ -500,7 +522,7 @@ ApplicationWindow {
                         anchors.right: parent.right
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
-                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && (window.recoveryFilesModel?.count ?? 0) === 0
+                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && recoveryFilesProxyModel.count === 0
                     }
                 }
                 ScrollView {
@@ -520,9 +542,8 @@ ApplicationWindow {
                             visible: searchTextField.text.length === 0
                         }
                         Repeater {
-                            model: window.recentFilesModel
+                            model: recentFilesProxyModel
                             CellButton {
-                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
                             }
                         }
                     }
@@ -544,10 +565,9 @@ ApplicationWindow {
                             visible: searchTextField.text.length === 0 && !recoveryFilesButton.checked
                         }
                         Repeater {
-                            model: window.recentFilesModel
+                            model: recentFilesProxyModel
                             ListItemButton {
                                 Layout.fillWidth: true
-                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
                             }
                         }
                     }
@@ -563,10 +583,9 @@ ApplicationWindow {
                         implicitWidth: recoveryFileListScrollView.width
                         width: recoveryFileListScrollView.width
                         Repeater {
-                            model: window.recoveryFilesModel
+                            model: recoveryFilesProxyModel
                             ListItemButton {
                                 Layout.fillWidth: true
-                                visible: modelData.name.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1
                                 recovery: true
                             }
                         }

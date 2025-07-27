@@ -1,0 +1,562 @@
+import QtQml
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Templates as T
+import QtQuick.Controls.impl
+import QtQuick.Layouts
+import QtQml.Models
+
+import SVSCraft
+import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
+
+Item {
+    id: view
+    property double navigationWidth: 320
+    property var provider: PluginManagerHelper {
+
+    }
+    signal restartRequested()
+    signal revealFileRequested(string path)
+    function askRestart() {
+        if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.name), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
+            restartRequested()
+        }
+    }
+    function handlePluginToggle(pluginSpec, button) {
+        if (button.checked) {
+            let deps = pluginSpec.dependencies.filter(p => !p.enabledBySettings)
+            if (deps.length === 0) {
+                pluginSpec.enabledBySettings = true
+                return
+            }
+            if (MessageBox.question(
+                qsTr("Enabling %1 will also enable the following plugins:").replace("%1", pluginSpec.displayName),
+                deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
+            ) === SVS.No) {
+                button.checked = false
+                return
+            }
+            pluginSpec.enabledBySettings = true
+            for (let p of deps) {
+                p.enabledBySettings = true
+            }
+        } else {
+            let deps = pluginSpec.dependents.filter(p => p.enabledBySettings)
+            if (deps.length === 0) {
+                pluginSpec.enabledBySettings = false
+                return
+            }
+            if (MessageBox.question(
+                qsTr("Disabling %1 will also disable the following plugins:").replace("%1", pluginSpec.displayName),
+                deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
+            ) === SVS.No) {
+                button.checked = true
+                return
+            }
+            pluginSpec.enabledBySettings = false
+            for (let p of deps) {
+                p.enabledBySettings = false
+            }
+        }
+    }
+    component PluginCard: T.Button {
+        id: pluginCard
+        required property var modelData
+        required property int index
+        required property Repeater repeater
+        Accessible.role: Accessible.ListItem
+        Layout.fillWidth: true
+        height: 60
+        onClicked: () => {
+            pluginDetailsPane.pluginSpec = modelData
+        }
+        Card {
+            anchors.fill: parent
+            atTop: pluginCard.index === 0
+            atBottom: pluginCard.index === pluginCard.repeater.count - 1
+            property color color: pluginCard.pressed ? Theme.controlPressedColorChange.apply(Theme.backgroundTertiaryColor) : pluginCard.hovered ? Theme.controlHoveredColorChange.apply(Theme.backgroundTertiaryColor) : Theme.backgroundTertiaryColor
+            Behavior on color {
+                ColorAnimation {
+                    duration: Theme.colorAnimationDuration
+                    easing.type: Easing.OutCubic
+                }
+            }
+            onColorChanged: background.color = color
+            title: RowLayout {
+                spacing: 4
+                Label {
+                    text: pluginCard.modelData.displayName
+                    font.weight: Font.DemiBold
+                }
+                Label {
+                    text: pluginCard.modelData.version
+                    ThemedItem.foregroundLevel: SVS.FL_Secondary
+                }
+            }
+            subtitle: pluginCard.modelData.vendor
+            image: Rectangle {
+                color: Theme.backgroundQuaternaryColor
+                ColorImage {
+                    anchors.centerIn: parent
+                    source: "qrc:/qt/qml/DiffScope/UIShell/assets/PuzzlePiece32Regular.svg"
+                    color: Theme.foregroundSecondaryColor
+                }
+            }
+            toolBar: RowLayout {
+                ColorImage {
+                    source: `qrc:/qt/qml/DiffScope/UIShell/assets/${pluginCard.modelData.hasError ? "DismissCircle16Filled" : !pluginCard.modelData.running ? "SubtractCircle16Filled" : pluginCard.modelData.required ? "CheckmarkLock16Filled" : "CheckmarkCircle16Filled"}.svg`
+                    color: pluginCard.modelData.hasError ? Theme.errorColor : !pluginCard.modelData.running ? Theme.foregroundSecondaryColor : Theme.accentColor
+                }
+                Switch {
+                    enabled: !pluginCard.modelData.required
+                    checked: pluginCard.modelData.enabledBySettings
+                    onClicked: view.handlePluginToggle(pluginCard.modelData, this)
+                }
+            }
+        }
+        T.Button {
+            id: restartButton
+            visible: pluginCard.modelData.restartRequired
+            width: implicitContentWidth + 4
+            height: 14
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            text: qsTr("Restart required")
+            background: Rectangle {
+                color: restartButton.pressed ? Theme.controlPressedColorChange.apply(Theme.accentColor) :
+                       restartButton.hovered ? Theme.controlHoveredColorChange.apply(Theme.accentColor) :
+                       Theme.accentColor
+            }
+            contentItem: Text {
+                color: Theme.foregroundPrimaryColor
+                font.pixelSize: 11
+                horizontalAlignment: Text.AlignHCenter
+                text: restartButton.text
+            }
+            onClicked: () => {
+                view.askRestart()
+            }
+        }
+
+    }
+    component SelectableLabel: TextEdit {
+        readOnly: true
+        color: Theme.foregroundColor(ThemedItem.foregroundLevel)
+        Accessible.role: Accessible.StaticText
+        Accessible.name: text
+        selectionColor: Theme.accentColor
+    }
+    component InfoCard: Frame {
+        id: card
+        Layout.fillWidth: true
+        padding: 8
+        property string title: ""
+        property string text: ""
+        background: Rectangle {
+            color: Theme.backgroundPrimaryColor
+            border.width: 1
+            border.color: Theme.borderColor
+            radius: 4
+        }
+        ColumnLayout {
+            spacing: 4
+            anchors.fill: parent
+            Label {
+                text: card.title
+                font.pixelSize: 14
+                font.weight: Font.DemiBold
+            }
+            SelectableLabel {
+                Layout.fillWidth: true
+                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                text: card.text
+                wrapMode: Text.Wrap
+            }
+        }
+    }
+    SplitView {
+        anchors.fill: parent
+        Rectangle {
+            SplitView.fillHeight: true
+            SplitView.preferredWidth: view.navigationWidth
+            onWidthChanged: GlobalHelper.setProperty(view, "navigationWidth", width)
+            color: Theme.backgroundTertiaryColor
+            ColumnLayout {
+                anchors.fill: parent
+                TextField {
+                    id: searchTextField
+                    Layout.fillWidth: true
+                    Layout.margins: 8
+                    placeholderText: qsTr("Search")
+                    ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                }
+                ScrollView {
+                    id: pluginsScrollView
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ColumnLayout {
+                        width: pluginsScrollView.width
+                        spacing: 0
+                        Label {
+                            text: qsTr("No result found")
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            Layout.alignment: Qt.AlignHCenter
+                            visible: pluginCollectionLayout.visibleChildren.length === 1
+                        }
+                        ColumnLayout {
+                            id: pluginCollectionLayout
+                            spacing: 4
+                            Repeater {
+                                model: view.provider.pluginCollections
+                                delegate: GroupBox {
+                                    id: pluginCollectionGroupBox
+                                    required property var modelData
+                                    Layout.fillWidth: true
+                                    title: modelData.name
+                                    leftPadding: 8
+                                    rightPadding: 8
+                                    visible: searchTextField.text.length === 0 || pluginCollectionRepeater.count !== 0
+                                    ColumnLayout {
+                                        width: pluginCollectionGroupBox.width - pluginCollectionGroupBox.leftPadding - pluginCollectionGroupBox.rightPadding
+                                        spacing: 0
+                                        Repeater {
+                                            id: pluginCollectionRepeater
+                                            model: pluginCollectionGroupBox.modelData.plugins.filter(p => searchTextField.text.length === 0 || [p.name, p.displayName, p.description].some(s => s.toLowerCase().indexOf(searchTextField.text.toLowerCase()) !== -1))
+                                            delegate: PluginCard {
+                                                repeater: pluginCollectionRepeater
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Pane {
+            id: pluginDetailsPane
+            property var pluginSpec: null
+            onPluginSpecChanged: () => {
+                pluginDetailsPaneLoader.active = false
+                if (pluginSpec !== null) {
+                    pluginDetailsPaneLoader.active = true
+                }
+            }
+            SplitView.fillHeight: true
+            topPadding: 16
+            component PluginDetailsPaneContent: ColumnLayout {
+                visible: pluginDetailsPane.pluginSpec !== null
+                spacing: 16
+                anchors.fill: parent
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 16
+                    Layout.rightMargin: 16
+                    spacing: 16
+                    SelectableLabel {
+                        text: pluginDetailsPane.pluginSpec.displayName
+                        font.pixelSize: 24
+                        font.weight: Font.Medium
+
+                        DescriptiveText.toolTip: qsTr("Plugin name")
+                        DescriptiveText.activated: pluginNameHoverHandler.hovered
+                        HoverHandler {
+                            id: pluginNameHoverHandler
+                        }
+                    }
+                    RowLayout {
+                        spacing: 16
+                        Layout.maximumHeight: implicitHeight
+                        SelectableLabel {
+                            text: pluginDetailsPane.pluginSpec.vendor
+                            DescriptiveText.toolTip: qsTr("Vendor")
+                            DescriptiveText.activated: vendorHoverHandler.hovered
+                            HoverHandler {
+                                id: vendorHoverHandler
+                            }
+                        }
+                        Rectangle {
+                            Layout.fillHeight: true
+                            width: 1
+                            color: Theme.foregroundSecondaryColor
+                        }
+                        SelectableLabel {
+                            text: pluginDetailsPane.pluginSpec.version
+                            DescriptiveText.toolTip: qsTr("Version")
+                            DescriptiveText.activated: versionHoverHandler.hovered
+                            HoverHandler {
+                                id: versionHoverHandler
+                            }
+                        }
+                        Rectangle {
+                            Layout.fillHeight: true
+                            width: 1
+                            color: Theme.foregroundSecondaryColor
+                            visible: (pluginDetailsPane.pluginSpec.url).length !== 0
+                        }
+                        LinkLabel {
+                            visible: href.length !== 0
+                            href: pluginDetailsPane.pluginSpec.url
+                            linkText: qsTr("Visit plugin homepage")
+                            externalLink: true
+                            onLinkActivated: (link) => Qt.openUrlExternally(link)
+                        }
+                    }
+                    SelectableLabel {
+                        text: pluginDetailsPane.pluginSpec.description
+                        Layout.maximumWidth: pluginDetailsPane.width - 32
+                        DescriptiveText.toolTip: qsTr("Description")
+                        DescriptiveText.activated: descriptionHoverHandler.hovered
+                        wrapMode: Text.Wrap
+                        HoverHandler {
+                            id: descriptionHoverHandler
+                        }
+                    }
+                    RowLayout {
+                        spacing: 16
+                        Layout.preferredHeight: 24
+                        Switch {
+                            enabled: !(pluginDetailsPane.pluginSpec.required)
+                            checked: pluginDetailsPane.pluginSpec.enabledBySettings
+                            text: !enabled ? qsTr("Required") : checked ? qsTr("Enabled") : qsTr("Disabled")
+                            padding: 0
+                            onClicked: view.handlePluginToggle(pluginDetailsPane.pluginSpec, this)
+                        }
+                        IconLabel {
+                            spacing: 4
+                            icon.source: `qrc:/qt/qml/DiffScope/UIShell/assets/${pluginDetailsPane.pluginSpec?.hasError ? "DismissCircle16Filled" : !pluginDetailsPane.pluginSpec?.running ? "SubtractCircle16Filled" : pluginDetailsPane.pluginSpec?.required ? "CheckmarkLock16Filled" : "CheckmarkCircle16Filled"}.svg`
+                            icon.color: pluginDetailsPane.pluginSpec?.hasError ? Theme.errorColor : !pluginDetailsPane.pluginSpec?.running ? Theme.foregroundSecondaryColor : Theme.accentColor
+                            text: pluginDetailsPane.pluginSpec?.hasError ? qsTr("Plugin status: Error") : !pluginDetailsPane.pluginSpec?.running ? qsTr("Plugin status: Not loaded") : qsTr("Plugin status: Loaded")
+                            color: Theme.foregroundPrimaryColor
+                        }
+                        Button {
+                            implicitHeight: 24
+                            visible: pluginDetailsPane.pluginSpec.restartRequired
+                            text: qsTr("Restart required")
+                            ThemedItem.controlType: SVS.CT_Accent
+                            onClicked: view.askRestart()
+                        }
+                    }
+                    InfoCard {
+                        visible: pluginDetailsPane.pluginSpec.hasError
+                        title: qsTr("Error details")
+                        text: pluginDetailsPane.pluginSpec.errorString
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 0
+                        TabBar {
+                            id: tabBar
+                            ThemedItem.flat: true
+                            TabButton {
+                                text: qsTr("Details")
+                                ThemedItem.tabIndicator: SVS.TI_Bottom
+                                width: implicitWidth
+                            }
+                            TabButton {
+                                text: qsTr("Dependencies")
+                                ThemedItem.tabIndicator: SVS.TI_Bottom
+                                width: implicitWidth
+                                DescriptiveText.toolTip: qsTr("Plugins required by this plugin, including indirect dependencies")
+                                DescriptiveText.activated: hovered
+                            }
+                            TabButton {
+                                text: qsTr("Dependents")
+                                ThemedItem.tabIndicator: SVS.TI_Bottom
+                                width: implicitWidth
+                                DescriptiveText.toolTip: qsTr("Plugins that require this plugin, including indirect dependants")
+                                DescriptiveText.activated: hovered
+                            }
+                            TabButton {
+                                text: qsTr("Additional Info")
+                                ThemedItem.tabIndicator: SVS.TI_Bottom
+                                width: implicitWidth
+                                enabled: additionalInfoLabel.text.length !== 0
+                            }
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            height: 1
+                            color: Theme.borderColor
+                        }
+                    }
+                }
+                StackLayout {
+                    currentIndex: tabBar.currentIndex
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ScrollView {
+                        id: detailsScrollView
+                        ColumnLayout {
+                            width: detailsScrollView.width
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 16
+                                Layout.rightMargin: 16
+                                Layout.bottomMargin: 16
+                                spacing: 16
+                                InfoCard {
+                                    title: qsTr("Identifier")
+                                    text: pluginDetailsPane.pluginSpec.name
+                                }
+                                InfoCard {
+                                    title: qsTr("Category")
+                                    text: pluginDetailsPane.pluginSpec.category
+                                }
+                                Frame {
+                                    Layout.fillWidth: true
+                                    padding: 8
+                                    background: Rectangle {
+                                        color: Theme.backgroundPrimaryColor
+                                        border.width: 1
+                                        border.color: Theme.borderColor
+                                        radius: 4
+                                    }
+                                    RowLayout {
+                                        spacing: 4
+                                        anchors.fill: parent
+                                        ColumnLayout {
+                                            spacing: 4
+                                            Layout.fillWidth: true
+                                            Label {
+                                                text: qsTr("Path")
+                                                font.pixelSize: 14
+                                                font.weight: Font.DemiBold
+                                            }
+                                            SelectableLabel {
+                                                Layout.fillWidth: true
+                                                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                                                text: pluginDetailsPane.pluginSpec.filePath
+                                                wrapMode: Text.Wrap
+                                            }
+                                        }
+                                        ToolButton {
+                                            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled"
+                                            display: AbstractButton.IconOnly
+                                            text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
+                                            DescriptiveText.toolTip: text
+                                            DescriptiveText.activated: hovered
+                                            onClicked: () => {
+                                                view.revealFileRequested(pluginDetailsPane.pluginSpec.filePath)
+                                            }
+                                        }
+                                    }
+
+                                }
+                                InfoCard {
+                                    title: qsTr("Compat version")
+                                    text: pluginDetailsPane.pluginSpec.compatVersion
+                                }
+                                InfoCard {
+                                    visible: text.length !== 0
+                                    title: qsTr("Copyright")
+                                    text: pluginDetailsPane.pluginSpec.copyright
+                                }
+                                InfoCard {
+                                    visible: text.length !== 0
+                                    title: qsTr("License")
+                                    text: pluginDetailsPane.pluginSpec.license
+                                }
+                            }
+                        }
+                    }
+                    ScrollView {
+                        id: dependencyScrollView
+                        ColumnLayout {
+                            width: dependencyScrollView.width
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 16
+                                Layout.rightMargin: 16
+                                Layout.bottomMargin: 16
+                                spacing: 4
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
+                                    text: qsTr("This plugin does not require other plugins.")
+                                    visible: dependencyRepeater.count === 0
+                                }
+                                Repeater {
+                                    id: dependencyRepeater
+                                    model: pluginDetailsPane.pluginSpec.dependencies
+                                    delegate: LinkLabel {
+                                        required property var modelData
+                                        Layout.fillWidth: true
+                                        wrapMode: Text.Wrap
+                                        href: modelData.name
+                                        linkText: modelData.displayName
+                                        onLinkActivated: pluginDetailsPane.pluginSpec = modelData
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ScrollView {
+                        id: dependentScrollView
+                        ColumnLayout {
+                            width: dependentScrollView.width
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 16
+                                Layout.rightMargin: 16
+                                Layout.bottomMargin: 16
+                                spacing: 4
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
+                                    text: qsTr("No plugins require this plugin.")
+                                    visible: dependentRepeater.count === 0
+                                }
+                                Repeater {
+                                    id: dependentRepeater
+                                    model: pluginDetailsPane.pluginSpec.dependents
+                                    delegate: LinkLabel {
+                                        required property var modelData
+                                        Layout.fillWidth: true
+                                        wrapMode: Text.Wrap
+                                        href: modelData.name
+                                        linkText: modelData.displayName
+                                        onLinkActivated: pluginDetailsPane.pluginSpec = modelData
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ColumnLayout {
+                        SelectableLabel {
+                            id: additionalInfoLabel
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 16
+                            Layout.rightMargin: 16
+                            Layout.bottomMargin: 16
+                            wrapMode: Text.Wrap
+                            text: {
+                                let spec = pluginDetailsPane.pluginSpec
+                                if (!spec)
+                                    return ""
+                                if (!spec.availableForHostPlatform)
+                                    return qsTr("Plugin is not available on this platform.");
+                                if (spec.enabledIndirectly)
+                                    return qsTr("Plugin is enabled as dependency of an enabled plugin.");
+                                if (spec.forceEnabled)
+                                    return qsTr("Plugin is enabled by command line argument.");
+                                if (spec.forceDisabled)
+                                    return qsTr("Plugin is disabled by command line argument.");
+                                return ""
+                            }
+                        }
+                    }
+                }
+            }
+            Loader {
+                id: pluginDetailsPaneLoader
+                anchors.fill: parent
+                active: false
+                sourceComponent: PluginDetailsPaneContent {}
+            }
+        }
+    }
+}
