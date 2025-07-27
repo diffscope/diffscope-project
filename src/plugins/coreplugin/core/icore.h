@@ -7,6 +7,8 @@
 
 #include <CoreApi/icorebase.h>
 
+#include <QAKCore/actionregistry.h>
+
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
@@ -28,11 +30,14 @@ namespace Core {
         Q_PROPERTY(Core::WindowSystem *windowSystem READ windowSystem CONSTANT)
         Q_PROPERTY(Core::DocumentSystem *documentSystem READ documentSystem CONSTANT)
         Q_PROPERTY(Core::SettingCatalog *settingCatalog READ settingCatalog CONSTANT)
+        Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
     public:
         static ICore *instance();
         static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QQmlEngine *qmlEngine();
+        static QAK::ActionRegistry *actionRegistry();
+
         Q_INVOKABLE static int showSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void showPluginsDialog(QWindow *parent);
         static void showHome();

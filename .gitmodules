@@ -5,6 +5,11 @@
 [submodule "qjsonsettings"]
 	path = src/libs/3rdparty/qjsonsettings
 	url = ../../stdware/qjsonsettings.git
-[submodule "src/libs/3rdparty/svscraft"]
+
+[submodule "svscraft"]
 	path = src/libs/3rdparty/svscraft
-	url = git@github.com:diffscope/svscraft.git
+	url = ../../diffscope/svscraft.git
+
+[submodule "qactionkit"]
+	path = src/libs/3rdparty/qactionkit
+	url = ../../stdware/qactionkit.git

@@ -20,6 +20,11 @@ find_package(ExtensionSystem REQUIRED)
 
 # Configure target
 file(GLOB_RECURSE _src *.h *.cpp)
+qak_add_action_extension(
+    _core_actions_src
+    res/core_actions.xml
+)
+list(APPEND _src ${_core_actions_src})
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     QT_LINKS
@@ -42,6 +47,8 @@ qm_configure_target(${PROJECT_NAME}
         loadapi
         uishell
         uishellplugin
+        QAKCore
+        QAKQuick
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel

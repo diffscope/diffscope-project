@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension>
+    <version>1.0</version>
+    <id>org.diffscope.core</id>
+    <configuration>
+        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <translationContext
+            text="Application::ActionText"
+            class="Application::ActionClass"
+            description="Application::ActionDescription"
+        />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
+    </configuration>
+
+    <items>
+        <action id="core.newFile" text="New" class="File" shortcut="Ctrl+N" />
+        <action id="core.openFile" text="Open..." class="File" shortcut="Ctrl+O" />
+        <action id="core.saveFile" text="Save" class="File" shortcut="Ctrl+S" />
+        <action id="core.setting" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
+
+        <menu id="core.mainMenu" topLevel="true" />
+        <menu id="core.mainToolBar" topLevel="true" />
+        <menu id="core.homeNavigation" topLevel="true"/>
+    </items>
+
+    <layouts>
+        <menu id="core.mainMenu">
+            <menu id="core.file">
+                <group id="core.fileOpenActions">
+                    <action id="core.newFile"/>
+                    <action id="core.openFile" />
+                    <action id="core.saveFile" />
+                </group>
+                <group id="core.preferenceActions">
+                    <action id="core.settings"/>
+                    <action id="core.plugins"/>
+                </group>
+            </menu>
+            <menu id="core.help">
+                <action id="core.documentations" />
+                <separator />
+                <group id="core.aboutActions">
+                    <action id="core.aboutApp" text="About ${APP_NAME}" />
+                    <action id="core.aboutQt" />
+                </group>
+            </menu>
+        </menu>
+
+        <menu id="core.mainToolBar">
+            <action id="core.openFile" />
+            <action id="core.saveFile" />
+        </menu>
+        <menu id="core.homeNavigation">
+            <action id="core.newFile"/>
+            <action id="core.openFile" />
+        </menu>
+    </layouts>
+
+</actionExtension>

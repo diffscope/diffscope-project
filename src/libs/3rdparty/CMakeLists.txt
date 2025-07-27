@@ -12,3 +12,8 @@ add_subdirectory(qjsonsettings)
 
 set(SVSCRAFT_INSTALL off)
 add_subdirectory(svscraft)
+
+add_subdirectory(qactionkit)
+set(QAK_AEC_EXECUTABLE "$<TARGET_FILE:qak_aec>" PARENT_SCOPE)
+set(QAK_AEC_EXECUTABLE "$<TARGET_FILE:qak_aec>")
+include("${CMAKE_CURRENT_LIST_DIR}/qactionkit/src/QActionKitMacros.cmake")

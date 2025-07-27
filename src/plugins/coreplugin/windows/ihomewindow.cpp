@@ -2,32 +2,62 @@
 
 #include <QQmlComponent>
 
+#include <QAKQuick/quickactioncontext.h>
+
 #include <coreplugin/icore.h>
 
 namespace Core {
 
     static IHomeWindow *m_instance = nullptr;
 
+    class IHomeWindowPrivate {
+        Q_DECLARE_PUBLIC(IHomeWindow)
+    public:
+        IHomeWindow *q_ptr;
+        QAK::QuickActionContext *actionContext;
+        void init() {
+            Q_Q(IHomeWindow);
+            actionContext = new QAK::QuickActionContext(q);
+            ICore::actionRegistry()->addContext(actionContext);
+        }
+    };
+
     IHomeWindow *IHomeWindow::instance() {
         return m_instance;
+    }
+    QAK::QuickActionContext *IHomeWindow::actionContext() const {
+        Q_D(const IHomeWindow);
+        return d->actionContext;
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
         QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.create());
+        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}}));
         Q_ASSERT(win);
         return win;
     }
-    IHomeWindow::IHomeWindow(QObject *parent) : IWindow(parent) {
+    IHomeWindow::IHomeWindow(QObject *parent) : IHomeWindow(*new IHomeWindowPrivate, parent) {
         m_instance = this;
+    }
+    IHomeWindow::IHomeWindow(IHomeWindowPrivate &d, QObject *parent) : IWindow(parent), d_ptr(&d) {
+        d.q_ptr = this;
+        d.init();
     }
     IHomeWindow::~IHomeWindow() {
         m_instance = nullptr;
+    }
+    void IHomeWindow::nextLoadingState(State nextState) {
+        Q_D(IHomeWindow);
+        if (nextState == Initialized) {
+            d->actionContext->updateElement(QAK::AE_Layouts);
+        }
     }
     IHomeWindowRegistry *IHomeWindowRegistry::instance() {
         static IHomeWindowRegistry reg;
         return &reg;
     }
 }
+
+#include "moc_ihomewindow.cpp"

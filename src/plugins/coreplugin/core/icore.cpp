@@ -30,10 +30,12 @@ namespace Core {
         }
 
         QQmlEngine *qmlEngine;
+        QAK::ActionRegistry *actionRegistry;
 
         void init() {
             Q_Q(ICore);
             qmlEngine = new QQmlEngine(q);
+            actionRegistry = new QAK::ActionRegistry(q);
         }
     };
 
@@ -44,6 +46,11 @@ namespace Core {
         if (!instance())
             return nullptr;
         return instance()->d_func()->qmlEngine;
+    }
+    QAK::ActionRegistry *ICore::actionRegistry() {
+        if (!instance())
+            return nullptr;
+        return instance()->d_func()->actionRegistry;
     }
 
     int ICore::showSettingsDialog(const QString &id, QWindow *parent) {

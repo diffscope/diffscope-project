@@ -19,6 +19,7 @@
 
 #include <coreplugin/ihomewindow.h>
 #include <coreplugin/internal/appearancepage.h>
+#include <coreplugin/internal/homeaddon.h>
 
 #include "icore.h"
 
@@ -37,6 +38,10 @@ namespace Core::Internal {
     CorePlugin::~CorePlugin() {
     }
 
+    static auto getCoreActionExtension() {
+        return QAK_STATIC_ACTION_EXTENSION(core_actions);
+    }
+
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
 
@@ -51,8 +56,12 @@ namespace Core::Internal {
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
 
+        icore->actionRegistry()->addExtension(getCoreActionExtension());
+
         auto sc = icore->settingCatalog();
         sc->addPage(new AppearancePage);
+
+        IHomeWindowRegistry::instance()->attach<HomeAddon>();
 
         return true;
     }
