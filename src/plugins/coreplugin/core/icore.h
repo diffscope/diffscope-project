@@ -3,12 +3,14 @@
 
 #include <QObject>
 #include <QSettings>
+#include <qqmlintegration.h>
 
 #include <CoreApi/icorebase.h>
 
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
+class QJSEngine;
 
 namespace Core {
 
@@ -20,13 +22,19 @@ namespace Core {
 
     class CORE_EXPORT ICore : public ICoreBase {
         Q_OBJECT
+        QML_ELEMENT
+        QML_SINGLETON
         Q_DECLARE_PRIVATE(ICore)
+        Q_PROPERTY(Core::WindowSystem *windowSystem READ windowSystem CONSTANT)
+        Q_PROPERTY(Core::DocumentSystem *documentSystem READ documentSystem CONSTANT)
+        Q_PROPERTY(Core::SettingCatalog *settingCatalog READ settingCatalog CONSTANT)
     public:
         static ICore *instance();
+        static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QQmlEngine *qmlEngine();
-        static int showSettingsDialog(const QString &id, QWidget *parent);
-        static void showPluginsDialog(QWidget *parent);
+        Q_INVOKABLE static int showSettingsDialog(const QString &id, QWindow *parent);
+        Q_INVOKABLE static void showPluginsDialog(QWindow *parent);
         static void showHome();
 
     public:

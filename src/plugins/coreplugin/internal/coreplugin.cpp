@@ -18,6 +18,7 @@
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/ihomewindow.h>
+#include <coreplugin/internal/appearancepage.h>
 
 #include "icore.h"
 
@@ -49,6 +50,9 @@ namespace Core::Internal {
 
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
+
+        auto sc = icore->settingCatalog();
+        sc->addPage(new AppearancePage);
 
         return true;
     }

@@ -12,9 +12,13 @@ namespace Core {
         return m_instance;
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
-        QQmlComponent component(ICore::qmlEngine(), ":/qt/qml/DiffScope/CorePlugin/qml/HomeWindow.qml");
-        auto win = component.create();
-        return static_cast<QWindow *>(win);
+        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        auto win = qobject_cast<QWindow *>(component.create());
+        Q_ASSERT(win);
+        return win;
     }
     IHomeWindow::IHomeWindow(QObject *parent) : IWindow(parent) {
         m_instance = this;
