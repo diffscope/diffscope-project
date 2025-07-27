@@ -15,11 +15,13 @@ import DiffScope.UIShell
 Window {
     id: dialog
     flags: Qt.Dialog
+    modality: Qt.ApplicationModal
     width: 800
     height: 600
     title: qsTr("Settings")
     property double navigationWidth: 200
     property QtObject settingCatalog: null
+    signal finished()
     function apply() {
         let restoreApplyStatus = false
         for (const page of [...settingCatalogModel.dirtyPages]) {
@@ -41,6 +43,7 @@ Window {
         for (const page of settingCatalogModel.loadedPages) {
             page.endSetting()
         }
+        finished()
     }
     function showPage(id) {
         const index = settingCatalogModel.indexForPageId(id)
