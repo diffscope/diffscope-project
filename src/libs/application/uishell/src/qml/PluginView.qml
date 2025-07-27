@@ -198,6 +198,7 @@ Item {
                     Layout.fillHeight: true
                     ColumnLayout {
                         width: pluginsScrollView.width
+                        spacing: 0
                         Label {
                             text: qsTr("No result found")
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
