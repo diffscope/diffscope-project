@@ -24,6 +24,7 @@ ApplicationWindow {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
+    signal revealFileRequested(string path)
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -240,6 +241,9 @@ ApplicationWindow {
                 text: qsTr("Open File Location")
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
                 enabled: tapHandler.modelData.path.length !== 0
+                onTriggered: () => {
+                    window.revealFileRequested(tapHandler.modelData.path)
+                }
             }
             Action {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')

@@ -260,10 +260,10 @@ Window {
                             spacing: 4
                             Repeater {
                                 model: defaultSettingPageWidget.model
-                                delegate: Label {
+                                delegate: LinkLabel {
                                     required property QtObject modelData
-                                    textFormat: Text.RichText
-                                    text: `<a href="${modelData.id}" style="text-decoration: ${hoveredLink ? "underline" : "none"}; color: rgba(${Theme.linkColor.r * 255}, ${Theme.linkColor.g * 255}, ${Theme.linkColor.b * 255}, ${Theme.linkColor.a});">${modelData.title}</a>` // TODO toHtmlEscaped
+                                    href: modelData.id
+                                    linkText: modelData.title
                                     onLinkActivated: (link) => {
                                         searchTextField.text = ""
                                         dialog.showPage(link)

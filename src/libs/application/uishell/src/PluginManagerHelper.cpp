@@ -1,5 +1,10 @@
 #include "PluginManagerHelper_p.h"
 
+#include <algorithm>
+#include <iterator>
+
+#include <QDir>
+
 #include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/plugincollection.h>
 #include <extensionsystem/pluginspec.h>
@@ -7,10 +12,13 @@
 
 namespace UIShell {
 
-    PluginSpecHelper::PluginSpecHelper(ExtensionSystem::PluginSpec *pluginSpec, QObject *parent) : QObject(parent), m_pluginSpec(pluginSpec) {
+    PluginSpecHelper::PluginSpecHelper(ExtensionSystem::PluginSpec *pluginSpec, PluginManagerHelper *parent) : QObject(parent), m_pluginSpec(pluginSpec) {
         m_initialIsEnabledBySettings = pluginSpec->isEnabledBySettings();
     }
     PluginSpecHelper::~PluginSpecHelper() = default;
+    PluginManagerHelper *PluginSpecHelper::pluginManagerHelper() const {
+        return static_cast<PluginManagerHelper *>(parent());
+    }
     QString PluginSpecHelper::name() const {
         return m_pluginSpec->name();
     }
@@ -73,11 +81,28 @@ namespace UIShell {
             emit restartRequiredChanged();
         }
     }
+    QString PluginSpecHelper::filePath() const {
+        return QDir::toNativeSeparators(m_pluginSpec->filePath());
+    }
     bool PluginSpecHelper::isRestartRequired() const {
         return m_pluginSpec->isEnabledBySettings() != m_initialIsEnabledBySettings;
     }
     bool PluginSpecHelper::isRunning() const {
         return m_pluginSpec->state() == ExtensionSystem::PluginSpec::Running;
+    }
+    QList<PluginSpecHelper *> PluginSpecHelper::dependencies() const {
+        QList<PluginSpecHelper *> result;
+        std::ranges::transform(ExtensionSystem::PluginManager::pluginsRequiredByPlugin(m_pluginSpec), std::back_inserter(result), [=, this](auto *p) {
+            return pluginManagerHelper()->getHelper(p);
+        });
+        return result;
+    }
+    QList<PluginSpecHelper *> PluginSpecHelper::dependents() const {
+        QList<PluginSpecHelper *> result;
+        std::ranges::transform(ExtensionSystem::PluginManager::pluginsRequiringPlugin(m_pluginSpec), std::back_inserter(result), [=, this](auto *p) {
+            return pluginManagerHelper()->getHelper(p);
+        });
+        return result;
     }
 
 
@@ -97,9 +122,9 @@ namespace UIShell {
 
     QList<PluginSpecHelper *> PluginCollectionHelper::plugins() const {
         QList<PluginSpecHelper *> result;
-        for (auto pluginSpec : m_pluginCollection->plugins()) {
-            result.append(pluginManagerHelper()->getHelper(pluginSpec));
-        }
+        std::ranges::transform(m_pluginCollection->plugins(), std::back_inserter(result), [=, this](auto *p) {
+            return pluginManagerHelper()->getHelper(p);
+        });
         return result;
     }
 
@@ -112,9 +137,9 @@ namespace UIShell {
 
     QList<PluginCollectionHelper *> PluginManagerHelper::pluginCollections() {
         QList<PluginCollectionHelper *> result;
-        for (auto pluginCollection : ExtensionSystem::PluginManager::pluginCollections()) {
-            result.append(getHelper(pluginCollection));
-        }
+        std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(), std::back_inserter(result), [=, this](auto *p) {
+            return getHelper(p);
+        });
         return result;
     }
 

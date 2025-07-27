@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <qqmlintegration.h>
 
 namespace ExtensionSystem {
     class PluginSpec;
@@ -33,11 +34,16 @@ namespace UIShell {
         Q_PROPERTY(bool hasError READ hasError CONSTANT)
         Q_PROPERTY(QString errorString READ errorString CONSTANT)
         Q_PROPERTY(bool enabledBySettings READ isEnabledBySettings WRITE setEnabledBySettings NOTIFY enabledBySettingsChanged)
+        Q_PROPERTY(QString filePath READ filePath CONSTANT)
         Q_PROPERTY(bool restartRequired READ isRestartRequired NOTIFY restartRequiredChanged)
         Q_PROPERTY(bool running READ isRunning CONSTANT)
+        Q_PROPERTY(QList<PluginSpecHelper *> dependencies READ dependencies CONSTANT)
+        Q_PROPERTY(QList<PluginSpecHelper *> dependents READ dependents CONSTANT)
     public:
-        explicit PluginSpecHelper(ExtensionSystem::PluginSpec *pluginSpec, QObject *parent = nullptr);
+        explicit PluginSpecHelper(ExtensionSystem::PluginSpec *pluginSpec, PluginManagerHelper *parent = nullptr);
         ~PluginSpecHelper() override;
+
+        PluginManagerHelper *pluginManagerHelper() const;
 
         QString name() const;
         QString displayName() const;
@@ -60,8 +66,13 @@ namespace UIShell {
         bool isEnabledBySettings() const;
         void setEnabledBySettings(bool value);
 
+        QString filePath() const;
+
         bool isRestartRequired() const;
         bool isRunning() const;
+
+        QList<PluginSpecHelper *> dependencies() const;
+        QList<PluginSpecHelper *> dependents() const;
 
     signals:
         void enabledBySettingsChanged();
@@ -91,6 +102,7 @@ namespace UIShell {
 
     class PluginManagerHelper : public QObject {
         Q_OBJECT
+        QML_ELEMENT
         Q_PROPERTY(QList<PluginCollectionHelper *> pluginCollections READ pluginCollections CONSTANT)
     public:
         explicit PluginManagerHelper(QObject *parent = nullptr);
