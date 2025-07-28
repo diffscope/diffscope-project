@@ -16,7 +16,6 @@ namespace Core {
     class CORE_EXPORT IHomeWindow : public IWindow {
         Q_OBJECT
         Q_DECLARE_PRIVATE(IHomeWindow)
-        Q_PROPERTY(QAK::ActionContext *actionContext READ actionContext CONSTANT)
     public:
         static IHomeWindow* instance();
 

@@ -18,12 +18,14 @@
         <action id="core.newFile" text="New" class="File" shortcut="Ctrl+N" />
         <action id="core.openFile" text="Open..." class="File" shortcut="Ctrl+O" />
         <action id="core.saveFile" text="Save" class="File" shortcut="Ctrl+S" />
-        <action id="core.setting" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.settings" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
+        <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBar" topLevel="true" />
         <menu id="core.homeNavigation" topLevel="true"/>
+        <menu id="core.homeTool" topLevel="true"/>
     </items>
 
     <layouts>
@@ -53,9 +55,22 @@
             <action id="core.openFile" />
             <action id="core.saveFile" />
         </menu>
+
         <menu id="core.homeNavigation">
             <action id="core.newFile"/>
             <action id="core.openFile" />
+        </menu>
+
+        <menu id="core.homeTool">
+            <menu id="core.homePreferences">
+                <group id="core.preferenceActions" />
+            </menu>
+            <menu id="core.homeHelp">
+                <action id="core.documentations" />
+                <separator />
+                <action id="core.aboutApp" text="About ${APP_NAME}" />
+                <action id="core.aboutQt" />
+            </menu>
         </menu>
     </layouts>
 

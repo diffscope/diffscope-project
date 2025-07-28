@@ -16,8 +16,13 @@
 #include <QGridLayout>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QDesktopServices>
 
 #include <extensionsystem/pluginmanager.h>
+
+#include <application_buildinfo.h>
+
+#include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <CoreApi/private/icorebase_p.h>
 
@@ -36,6 +41,14 @@ namespace Core {
             Q_Q(ICore);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
+        }
+    };
+
+    class OpenUrlHelper: public QObject {
+        Q_OBJECT
+    public:
+        Q_INVOKABLE static inline void openUrl(const QString &url) {
+            QDesktopServices::openUrl(QUrl(url));
         }
     };
 
@@ -97,6 +110,64 @@ namespace Core {
         connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
+    void ICore::showAboutAppDialog(QWindow *parent) {
+        static const QString appName = qApp->applicationName();
+
+        QString aboutInfo =
+            QApplication::translate(
+                "Application",
+                "<p>%1 is a cross-platform SVS editing application powered by "
+                "DiffSinger for virtual singer producers to make song compositions.</p>")
+                .arg(appName);
+
+        QString copyrightInfo =
+            QApplication::translate("Application",
+                                    "<p>Based on Qt version %1.<br>"
+                                    "Copyright \u00a9 2019-%2 Team OpenVPI. All rights reserved.</p>")
+                .arg(QStringLiteral(QT_VERSION_STR), QStringLiteral(APPLICATION_BUILD_YEAR));
+
+        QString licenseInfo =
+            QApplication::translate(
+                "Application",
+                "<h3>License</h3>"
+                "<p>Licensed under the Apache License, Version 2.0.<br>"
+                "You may obtain a copy of the License at %1.</p>"
+                "<p>This application is distributed "
+                "<b>AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</b>, either express or "
+                "implied.</p>")
+                .arg(QStringLiteral("<a href=\"https://www.apache.org/licenses/LICENSE-2.0\">apache.org/licenses</a>"));
+
+        QString buildInfo = QApplication::translate("Application", "<h3>Build Information</h3>"
+                                                                   "<p>"
+                                                                   "Version: %1<br>"
+                                                                   "Branch: %2<br>"
+                                                                   "Commit: %3<br>"
+                                                                   "Build date: %4<br>"
+                                                                   "Toolchain: %5 %6 %7"
+                                                                   "</p>")
+                                .arg(QApplication::applicationVersion(),
+                                     QStringLiteral(APPLICATION_GIT_BRANCH),           //
+                                     QStringLiteral(APPLICATION_GIT_LAST_COMMIT_HASH), //
+                                     QStringLiteral(APPLICATION_BUILD_TIME),           //
+                                     QStringLiteral(APPLICATION_COMPILER_ARCH),        //
+                                     QStringLiteral(APPLICATION_COMPILER_ID),          //
+                                     QStringLiteral(APPLICATION_COMPILER_VERSION));
+
+        QQmlComponent component(qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
+            {"textFormat", Qt::RichText},
+            {"text", appName.toHtmlEscaped()},
+            {"informativeText", aboutInfo + copyrightInfo + licenseInfo + buildInfo}
+        })));
+        Q_ASSERT(mb);
+        mb->setTransientParent(parent);
+        mb->show();
+        QEventLoop eventLoop;
+        OpenUrlHelper openUrlHelper;
+        connect(mb.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
+        connect(mb.get(), SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
+        eventLoop.exec();
+    }
 
     void ICore::showHome() {
         // auto inst = IHomeWindow::instance();
@@ -130,3 +201,5 @@ namespace Core {
 
 
 }
+
+#include "icore.moc"

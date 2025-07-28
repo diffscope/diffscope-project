@@ -10,11 +10,11 @@ import DiffScope.CorePlugin
 
 HomeWindow {
     id: homeWindow
-    required property QtObject windowHandle
+    required property HomeWindowData windowData
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "core.homeNavigation"
-            context: homeWindow.windowHandle.actionContext
+            context: homeWindow.windowData.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.navigationActionsModel.insert(index, object)
             }
@@ -24,26 +24,14 @@ HomeWindow {
         }
     }
     toolActionsModel: ObjectModel {
-        Menu {
-            title: qsTr("Preferences")
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-            Action {
-                text: qsTr("Settings...")
-                onTriggered: ICore.showSettingsDialog("core.Appearance", homeWindow)
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "core.homeTool"
+            context: homeWindow.windowData.actionContext
+            onObjectAdded: (index, object) => {
+                homeWindow.toolActionsModel.insert(index, object)
             }
-            Action {
-                text: qsTr("Plugins...")
-                onTriggered: ICore.showPluginsDialog(homeWindow)
-            }
-        }
-        Menu {
-            title: qsTr("About")
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-            Action {
-                text: qsTr("About %1").replace("%1", Application.name)
-            }
-            Action {
-                text: qsTr("About Qt")
+            onObjectRemoved: (index, object) => {
+                homeWindow.toolActionsModel.remove(index)
             }
         }
     }

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QApplication>
 #include <qqmlintegration.h>
 
 #include <CoreApi/icorebase.h>
@@ -27,6 +28,7 @@ namespace Core {
         QML_ELEMENT
         QML_SINGLETON
         Q_DECLARE_PRIVATE(ICore)
+        Q_PROPERTY(QApplication *application READ application CONSTANT)
         Q_PROPERTY(Core::WindowSystem *windowSystem READ windowSystem CONSTANT)
         Q_PROPERTY(Core::DocumentSystem *documentSystem READ documentSystem CONSTANT)
         Q_PROPERTY(Core::SettingCatalog *settingCatalog READ settingCatalog CONSTANT)
@@ -35,11 +37,14 @@ namespace Core {
         static ICore *instance();
         static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
+        static inline QApplication *application() { return qApp; }
+
         static QQmlEngine *qmlEngine();
         static QAK::ActionRegistry *actionRegistry();
 
         Q_INVOKABLE static int showSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void showPluginsDialog(QWindow *parent);
+        Q_INVOKABLE static void showAboutAppDialog(QWindow *parent);
         static void showHome();
 
     public:

@@ -2,9 +2,8 @@
 
 #include <QQmlComponent>
 
-#include <QAKQuick/quickactioncontext.h>
-
 #include <coreplugin/icore.h>
+#include <coreplugin/internal/homewindowdata.h>
 
 namespace Core {
 
@@ -14,11 +13,11 @@ namespace Core {
         Q_DECLARE_PUBLIC(IHomeWindow)
     public:
         IHomeWindow *q_ptr;
-        QAK::QuickActionContext *actionContext;
+        Internal::HomeWindowData *windowData;
         void init() {
             Q_Q(IHomeWindow);
-            actionContext = new QAK::QuickActionContext(q);
-            ICore::actionRegistry()->addContext(actionContext);
+            windowData = new Internal::HomeWindowData(q);
+            ICore::actionRegistry()->addContext(windowData->actionContext());
         }
     };
 
@@ -27,15 +26,17 @@ namespace Core {
     }
     QAK::QuickActionContext *IHomeWindow::actionContext() const {
         Q_D(const IHomeWindow);
-        return d->actionContext;
+        return d->windowData->actionContext();
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
+        Q_D(const IHomeWindow);
         QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}}));
+        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowData", QVariant::fromValue(d->windowData)}}));
         Q_ASSERT(win);
+        d->windowData->setParent(win);
         return win;
     }
     IHomeWindow::IHomeWindow(QObject *parent) : IHomeWindow(*new IHomeWindowPrivate, parent) {
@@ -51,7 +52,7 @@ namespace Core {
     void IHomeWindow::nextLoadingState(State nextState) {
         Q_D(IHomeWindow);
         if (nextState == Initialized) {
-            d->actionContext->updateElement(QAK::AE_Layouts);
+            d->windowData->actionContext()->updateElement(QAK::AE_Layouts);
         }
     }
     IHomeWindowRegistry *IHomeWindowRegistry::instance() {
@@ -59,5 +60,3 @@ namespace Core {
         return &reg;
     }
 }
-
-#include "moc_ihomewindow.cpp"
