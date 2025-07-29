@@ -18,8 +18,10 @@
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/ihomewindow.h>
+#include <coreplugin/iprojectwindow.h>
 #include <coreplugin/internal/appearancepage.h>
 #include <coreplugin/internal/homeaddon.h>
+#include <coreplugin/internal/projectaddon.h>
 
 #include "icore.h"
 
@@ -62,6 +64,7 @@ namespace Core::Internal {
         sc->addPage(new AppearancePage);
 
         IHomeWindowRegistry::instance()->attach<HomeAddon>();
+        IProjectWindowRegistry::instance()->attach<ProjectAddon>();
 
         return true;
     }
@@ -76,6 +79,10 @@ namespace Core::Internal {
         //     waitSplash(entry());
         //     return false;
         // }
+
+        if (QApplication::arguments().contains("-open-settings")) {
+            ICore::showSettingsDialog("", nullptr);
+        }
 
         auto win = static_cast<QQuickWindow *>(IHomeWindowRegistry::instance()->create()->window());
         win->show();

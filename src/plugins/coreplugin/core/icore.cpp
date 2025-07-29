@@ -17,6 +17,9 @@
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QDesktopServices>
+#include <QQuickWindow>
+
+#include <QtQuickTemplates2/private/qquickicon_p.h>
 
 #include <extensionsystem/pluginmanager.h>
 
@@ -25,6 +28,8 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <CoreApi/private/icorebase_p.h>
+
+#include <coreplugin/iprojectwindow.h>
 
 namespace Core {
 
@@ -68,6 +73,8 @@ namespace Core {
 
     int ICore::showSettingsDialog(const QString &id, QWindow *parent) {
         static std::unique_ptr<QWindow> dlg;
+
+        // TODO: show last used page if id is empty
 
         if (dlg) {
             if (!id.isEmpty())
@@ -121,9 +128,9 @@ namespace Core {
                 .arg(appName);
 
         QString copyrightInfo =
-            QApplication::translate("Application",
-                                    "<p>Based on Qt version %1.<br>"
-                                    "Copyright \u00a9 2019-%2 Team OpenVPI. All rights reserved.</p>")
+            QApplication::translate(
+                "Application", "<p>Based on Qt version %1.<br>"
+                               "Copyright \u00a9 2019-%2 Team OpenVPI. All rights reserved.</p>")
                 .arg(QStringLiteral(QT_VERSION_STR), QStringLiteral(APPLICATION_BUILD_YEAR));
 
         QString licenseInfo =
@@ -135,7 +142,9 @@ namespace Core {
                 "<p>This application is distributed "
                 "<b>AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</b>, either express or "
                 "implied.</p>")
-                .arg(QStringLiteral("<a href=\"https://www.apache.org/licenses/LICENSE-2.0\">apache.org/licenses</a>"));
+                .arg(QStringLiteral("<a "
+                                    "href=\"https://www.apache.org/licenses/"
+                                    "LICENSE-2.0\">apache.org/licenses</a>"));
 
         QString buildInfo = QApplication::translate("Application", "<h3>Build Information</h3>"
                                                                    "<p>"
@@ -155,9 +164,61 @@ namespace Core {
 
         QQmlComponent component(qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
-            {"textFormat", Qt::RichText},
-            {"text", appName.toHtmlEscaped()},
-            {"informativeText", aboutInfo + copyrightInfo + licenseInfo + buildInfo}
+            {"textFormat",      Qt::RichText                                       },
+            {"text",            appName.toHtmlEscaped()                            },
+            {"informativeText", aboutInfo + copyrightInfo + licenseInfo + buildInfo},
+            {"width", 480}
+        })));
+        Q_ASSERT(mb);
+        mb->setTransientParent(parent);
+        mb->show();
+        QEventLoop eventLoop;
+        OpenUrlHelper openUrlHelper;
+        connect(mb.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
+        connect(mb.get(), SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
+        eventLoop.exec();
+    }
+    void ICore::showAboutQtDialog(QWindow *parent) {
+        QString translatedTextAboutQtCaption;
+        translatedTextAboutQtCaption = QMessageBox::tr(
+            "<h3>About Qt</h3>"
+            "<p>This program uses Qt version %1.</p>"
+            ).arg(QT_VERSION_STR);
+        //: Leave this text untranslated or include a verbatim copy of it below
+        //: and note that it is the authoritative version in case of doubt.
+        const QString translatedTextAboutQtText = QMessageBox::tr(
+            "<p>Qt is a C++ toolkit for cross-platform application "
+            "development.</p>"
+            "<p>Qt provides single-source portability across all major desktop "
+            "operating systems. It is also available for embedded Linux and other "
+            "embedded and mobile operating systems.</p>"
+            "<p>Qt is available under multiple licensing options designed "
+            "to accommodate the needs of our various users.</p>"
+            "<p>Qt licensed under our commercial license agreement is appropriate "
+            "for development of proprietary/commercial software where you do not "
+            "want to share any source code with third parties or otherwise cannot "
+            "comply with the terms of GNU (L)GPL.</p>"
+            "<p>Qt licensed under GNU (L)GPL is appropriate for the "
+            "development of Qt&nbsp;applications provided you can comply with the terms "
+            "and conditions of the respective licenses.</p>"
+            "<p>Please see <a href=\"https://%2/\">%2</a> "
+            "for an overview of Qt licensing.</p>"
+            "<p>Copyright (C) The Qt Company Ltd. and other "
+            "contributors.</p>"
+            "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
+            "<p>Qt is The Qt Company Ltd. product developed as an open source "
+            "project. See <a href=\"https://%3/\">%3</a> for more information.</p>"
+            ).arg(QStringLiteral("qt.io/licensing"),
+                  QStringLiteral("qt.io"));
+        QQmlComponent component(qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QQuickIcon icon;
+        icon.setSource(QUrl("qrc:/qt-project.org/qmessagebox/images/qtlogo-64.png"));
+        QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
+            {"textFormat",      Qt::RichText},
+            {"text",            translatedTextAboutQtCaption},
+            {"informativeText", translatedTextAboutQtText},
+            {"icon", QVariant::fromValue(icon)},
+            {"width", 480}
         })));
         Q_ASSERT(mb);
         mb->setTransientParent(parent);
@@ -178,6 +239,9 @@ namespace Core {
         // IHomeWindowRegistry::instance()->create();
     }
     void ICore::newFile() const {
+        // TODO: temporarily creates a project window for testing
+        auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
+        win->show();
     }
 
     bool ICore::openFile(const QString &fileName, QWidget *parent) const {

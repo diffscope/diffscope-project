@@ -10,6 +10,12 @@
     "License": [
         "Apache 2.0"
     ],
+    "Arguments" : [
+        {
+            "Name" : "-open-settings",
+            "Description" : "Open settings on startup"
+        }
+    ],
     "Category": "Core",
     "Description": "The core plugin for @APPLICATION_INSTALL_NAME@.",
     "Url": "https://www.baidu.com/",

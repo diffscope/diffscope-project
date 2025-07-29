@@ -6,7 +6,7 @@ import DiffScope.CorePlugin
 
 QtObject {
     readonly property Component newFile: Action {
-
+        onTriggered: ICore.newFile()
     }
     readonly property Component openFile: Action {
 
@@ -14,7 +14,7 @@ QtObject {
     readonly property Component settings: Action {
         onTriggered: (o) => {
             let w = o.Window.window
-            Qt.callLater(() => ICore.showSettingsDialog("core.Appearance", w))
+            Qt.callLater(() => ICore.showSettingsDialog("", w))
         }
     }
     readonly property Component plugins: Action {
@@ -33,6 +33,9 @@ QtObject {
         }
     }
     readonly property Component aboutQt: Action {
-        onTriggered: Qt.callLater(() => ICore.application.aboutQt())
+        onTriggered: (o) => {
+            let w = o.Window.window
+            Qt.callLater(() => ICore.showAboutQtDialog(w))
+        }
     }
 }

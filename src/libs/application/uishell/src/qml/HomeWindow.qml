@@ -24,7 +24,6 @@ ApplicationWindow {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
-    signal revealFileRequested(string path)
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -242,7 +241,7 @@ ApplicationWindow {
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
                 enabled: tapHandler.modelData.path.length !== 0
                 onTriggered: () => {
-                    window.revealFileRequested(tapHandler.modelData.path)
+                    DesktopServices.reveal(tapHandler.modelData.path)
                 }
             }
             Action {

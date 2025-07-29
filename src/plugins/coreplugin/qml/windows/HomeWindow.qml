@@ -11,6 +11,11 @@ import DiffScope.CorePlugin
 HomeWindow {
     id: homeWindow
     required property HomeWindowData windowData
+    onNewFileRequested: () => {
+        let newFileAction = windowData.actionContext.action("core.newFile").createObject()
+        newFileAction.trigger()
+        newFileAction.destroy()
+    }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "core.homeNavigation"

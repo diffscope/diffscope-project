@@ -17,7 +17,6 @@ Item {
 
     }
     signal restartRequested()
-    signal revealFileRequested(string path)
     function askRestart() {
         if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.name), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
             restartRequested()
@@ -440,7 +439,7 @@ Item {
                                             DescriptiveText.toolTip: text
                                             DescriptiveText.activated: hovered
                                             onClicked: () => {
-                                                view.revealFileRequested(pluginDetailsPane.pluginSpec.filePath)
+                                                DesktopServices.reveal(pluginDetailsPane.pluginSpec.filePath)
                                             }
                                         }
                                     }
