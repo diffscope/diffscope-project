@@ -155,11 +155,40 @@ ApplicationWindow {
         }
         ToolBar {
             Layout.fillWidth: true
-            RowLayout {
+            Component {
+                id: dummyItem
+                Item {
+                    visible: false
+                }
+            }
+            ToolBarContainer {
+                id: toolBarContainer
                 spacing: 4
                 anchors.fill: parent
-                Repeater {
+                Instantiator {
                     model: window.toolButtonsModel
+                    onObjectAdded: (index, object) => {
+                        if (object instanceof Item) {
+                            toolBarContainer.insertItem(index, object)
+                        } else if (object instanceof Action) {
+                            toolBarContainer.insertAction(index, object)
+                        } else if (object instanceof Menu) {
+                            toolBarContainer.insertMenu(index, object)
+                        } else {
+                            toolBarContainer.insertItem(index, dummyItem.createObject(this))
+                        }
+                    }
+                    onObjectRemoved: (index, object) => {
+                        if (object instanceof Item) {
+                            toolBarContainer.removeItem(object)
+                        } else if (object instanceof Action) {
+                            toolBarContainer.removeAction(object)
+                        } else if (object instanceof Menu) {
+                            toolBarContainer.removeMenu(object)
+                        } else {
+                            toolBarContainer.removeItem(toolBar.itemAt(index))
+                        }
+                    }
                 }
             }
         }
