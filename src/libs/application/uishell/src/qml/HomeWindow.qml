@@ -358,90 +358,53 @@ ApplicationWindow {
                 MenuSeparator {
                     Layout.fillWidth: true
                 }
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: 6
-                    Repeater {
-                        model: ObjectModel {
-                            id: navigationActionButtonsModel
-                            readonly property Instantiator instantiator: Instantiator {
-                                model: window.navigationActionsModel
-                                readonly property Component navButton: NavButton {
-                                    id: button
-                                    property Menu submenu: null
-                                    action: MenuAction {
-                                        menu: button.submenu
-                                        parentItem: button
-                                    }
-                                }
-                                onObjectAdded: (index, object) => {
-                                    if (object instanceof Action) {
-                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
-                                            action: object
-                                        }))
-                                    } else if (object instanceof Menu) {
-                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
-                                            submenu: object
-                                        }))
-                                    } else {
-                                        navigationActionButtonsModel.insert(index, navButton.createObject(null, {
-                                            visible: false
-                                        }))
-                                    }
-
-                                }
-                                onObjectRemoved: (index, object) => {
-                                    const o = navigationActionButtonsModel.get(o)
-                                    navigationActionButtonsModel.remove(index)
-                                    o.destroy()
-                                }
-                            }
+                component NavContainerInstantiator: Instantiator {
+                    required property ToolBarContainer target
+                    onObjectAdded: (index, object) => {
+                        if (object instanceof Action) {
+                            target.insertAction(index, object)
+                        } else if (object instanceof Menu) {
+                            target.insertMenu(index, object)
+                        } else {
+                            target.insertItem(index, target.toolButtonComponent.create(this, {visible: false}))
                         }
+                    }
+                    onObjectRemoved: (index, object) => {
+                        if (object instanceof Action) {
+                            target.removeAction(object)
+                        } else if (object instanceof Menu) {
+                            target.removeMenu(object)
+                        } else {
+                            target.removeItem(target.itemAt(index))
+                        }
+                    }
+                }
+                ToolBarContainer {
+                    id: navAreaContainer
+                    spacing: 6
+                    vertical: true
+                    Layout.fillWidth: true
+                    toolButtonComponent: NavButton {
+                    }
+                    NavContainerInstantiator {
+                        model: window.navigationActionsModel
+                        target: navAreaContainer
                     }
                 }
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
-                RowLayout {
+                ToolBarContainer {
+                    id: navToolBarContainer
                     Layout.leftMargin: 2
                     spacing: 6
-                    Repeater {
-                        model: ObjectModel {
-                            id: toolActionButtonsModel
-                            readonly property Instantiator instantiator: Instantiator {
-                                model: window.toolActionsModel
-                                readonly property Component toolButton: NavToolButton {
-                                    id: button
-                                    property Menu submenu: null
-                                    action: MenuAction {
-                                        menu: button.submenu
-                                        parentItem: button
-                                        menuDisplay: MenuAction.Top
-                                    }
-                                }
-                                onObjectAdded: (index, object) => {
-                                    if (object instanceof Action) {
-                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
-                                            action: object
-                                        }))
-                                    } else if (object instanceof Menu) {
-                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
-                                            submenu: object
-                                        }))
-                                    } else {
-                                        toolActionButtonsModel.insert(index, toolButton.createObject(null, {
-                                            visible: false
-                                        }))
-                                    }
-                                }
-                                onObjectRemoved: (index, object) => {
-                                    const o = toolActionButtonsModel.get(o)
-                                    toolActionButtonsModel.remove(index)
-                                    o.destroy()
-                                }
-                            }
-                        }
+                    showMenuAboveButton: true
+                    toolButtonComponent: NavToolButton {
+                    }
+                    NavContainerInstantiator {
+                        model: window.toolActionsModel
+                        target: navToolBarContainer
                     }
                 }
             }
