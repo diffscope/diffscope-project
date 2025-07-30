@@ -21,6 +21,9 @@
         <action id="core.settings" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
         <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
+        <action id="core.findActions" text="Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
+        <action id="core.aboutApp" text="About ${APP_NAME}" class="Help"/>
+        <action id="core.aboutQt" text="About Qt" class="Help"/>
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBar" topLevel="true" />
@@ -44,8 +47,10 @@
             <menu id="core.help">
                 <action id="core.documentations" />
                 <separator />
+                <action id="core.findActions" />
+                <separator />
                 <group id="core.aboutActions">
-                    <action id="core.aboutApp" text="About ${APP_NAME}" />
+                    <action id="core.aboutApp" />
                     <action id="core.aboutQt" />
                 </group>
             </menu>
@@ -54,6 +59,9 @@
         <menu id="core.mainToolBar">
             <action id="core.openFile" />
             <action id="core.saveFile" />
+            <stretch />
+            <action id="core.findActions" />
+            <action id="core.documentations" />
         </menu>
 
         <menu id="core.homeNavigation">
@@ -68,7 +76,7 @@
             <menu id="core.homeHelp">
                 <action id="core.documentations" />
                 <separator />
-                <action id="core.aboutApp" text="About ${APP_NAME}" />
+                <action id="core.aboutApp" />
                 <action id="core.aboutQt" />
             </menu>
         </menu>

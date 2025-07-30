@@ -24,6 +24,7 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.settings", o->property("settings").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.plugins", o->property("plugins").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.documentations", o->property("documentations").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.findActions", o->property("findActions").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutApp", o->property("aboutApp").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutQt", o->property("aboutQt").value<QQmlComponent *>());
     }

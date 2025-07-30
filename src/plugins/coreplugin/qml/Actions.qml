@@ -26,6 +26,9 @@ QtObject {
     readonly property Component documentations: Action {
 
     }
+    readonly property Component findActions: Action {
+
+    }
     readonly property Component aboutApp: Action {
         onTriggered: (o) => {
             let w = o.Window.window
