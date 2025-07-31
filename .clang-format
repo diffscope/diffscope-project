@@ -4,7 +4,7 @@
 
 BasedOnStyle: LLVM
 
-Standard: c++17
+Standard: c++20
 
 # 指针和引用的对齐方式。
 # 可能的值有：
