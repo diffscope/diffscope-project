@@ -39,4 +39,35 @@ ProjectWindow {
             }
         }
     }
+
+    Connections {
+        target: projectWindow.windowData
+        function onInitialized() {
+            Qt.callLater(() => {
+                const f = (dockingView, edge) => {
+                    let o = windowData.createDockingViewContents(edge)
+                    dockingView.contentData = o.objects
+                    dockingView.preferredPanelSize = o.preferredPanelSize
+                    for (let i of o.visibleIndices) {
+                        dockingView.showPane(i)
+                    }
+                }
+                f(projectWindow.leftDockingView, Qt.LeftEdge)
+                f(projectWindow.rightDockingView, Qt.RightEdge)
+                f(projectWindow.topDockingView, Qt.TopEdge)
+                f(projectWindow.bottomDockingView, Qt.BottomEdge)
+            })
+        }
+    }
+
+    Component {
+        id: dockingStretchComponent
+        DockingStretch {
+        }
+    }
+
+    leftDockingView.contentData: [dockingStretchComponent.createObject()]
+    rightDockingView.contentData: [dockingStretchComponent.createObject()]
+    topDockingView.contentData: [dockingStretchComponent.createObject()]
+    bottomDockingView.contentData: [dockingStretchComponent.createObject()]
 }

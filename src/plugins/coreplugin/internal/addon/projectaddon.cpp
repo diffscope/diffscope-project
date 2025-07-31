@@ -23,10 +23,17 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.openFile", o->property("openFile").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.settings", o->property("settings").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.plugins", o->property("plugins").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceLayouts", o->property("workspaceLayouts").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanels", o->property("workspacePanels").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.dockActionToSideBar", o->property("dockActionToSideBar").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.documentations", o->property("documentations").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.findActions", o->property("findActions").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutApp", o->property("aboutApp").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutQt", o->property("aboutQt").value<QQmlComponent *>());
+
+        iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
+        iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
+        iWin->actionContext()->addAction("core.notificationsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "NotificationsPanel", this));
     }
     void ProjectAddon::extensionsInitialized() {
     }

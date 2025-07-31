@@ -53,6 +53,7 @@ namespace Core {
         Q_D(IProjectWindow);
         if (nextState == Initialized) {
             d->windowData->actionContext()->updateElement(QAK::AE_Layouts);
+            emit d->windowData->initialized();
         }
     }
     IProjectWindowRegistry *IProjectWindowRegistry::instance() {

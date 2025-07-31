@@ -18,8 +18,14 @@
         <action id="core.newFile" text="New" class="File" shortcut="Ctrl+N" />
         <action id="core.openFile" text="Open..." class="File" shortcut="Ctrl+O" />
         <action id="core.saveFile" text="Save" class="File" shortcut="Ctrl+S" />
+
         <action id="core.settings" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
+
+        <action id="core.workspaceLayouts" text="Layouts" class="View" />
+        <action id="core.workspacePanels" text="Panels" class="View" />
+        <action id="core.dockActionToSideBar" text="Dock Action to Side Bar..." class="View" />
+
         <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
         <action id="core.findActions" text="Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
         <action id="core.aboutApp" text="About ${APP_NAME}" class="Help"/>
@@ -29,6 +35,12 @@
         <menu id="core.mainToolBar" topLevel="true" />
         <menu id="core.homeNavigation" topLevel="true"/>
         <menu id="core.homeTool" topLevel="true"/>
+
+        <phony id="core.workspacePanelWidgets" topLevel="true" />
+
+        <action id="core.arrangementPanel" catalog="core.workspacePanelWidgets" />
+        <action id="core.pianoRollPanel" catalog="core.workspacePanelWidgets" />
+        <action id="core.notificationsPanel" catalog="core.workspacePanelWidgets" />
     </items>
 
     <layouts>
@@ -42,6 +54,16 @@
                 <group id="core.preferenceActions">
                     <action id="core.settings"/>
                     <action id="core.plugins"/>
+                </group>
+            </menu>
+            <menu id="core.view">
+                <group id="core.workspaceActions">
+                    <menu id="core.workspace">
+                        <action id="core.workspaceLayouts" />
+                        <separator />
+                        <action id="core.workspacePanels" />
+                        <action id="core.dockActionToSideBar" />
+                    </menu>
                 </group>
             </menu>
             <menu id="core.help">

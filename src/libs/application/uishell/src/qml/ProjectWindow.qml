@@ -231,7 +231,7 @@ ApplicationWindow {
                         Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
-                            SplitView.preferredHeight: (middleSplitView.height - 1) / 2
+                            SplitView.preferredHeight: topDock.barSize + topDock.preferredPanelSize
                             SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !topDock.panelOpened ? topDock.barSize : Infinity)
                             DockingView {
                                 id: topDock
@@ -242,7 +242,7 @@ ApplicationWindow {
                                 property double preferredPanelSize: 400
                                 panelSize: parent.height - barSize
                                 onPanelSizeChanged: () => {
-                                    if (panelSize > 0)
+                                    if (panelSize > 0 && bottomDock.panelOpened)
                                         preferredPanelSize = panelSize
                                 }
                                 barBackgroundLevel: SVS.BL_Secondary
@@ -257,7 +257,7 @@ ApplicationWindow {
                         }
                         Item {
                             SplitView.minimumHeight: bottomDock.barSize + (bottomDock.panelOpened ? mainPane.minimumPanelSize : 0)
-                            SplitView.preferredHeight: (middleSplitView.height - 1) / 2
+                            SplitView.preferredHeight: middleSplitView.height - 1 - topDock.height
                             SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !bottomDock.panelOpened ? bottomDock.barSize : Infinity)
                             DockingView {
                                 id: bottomDock
@@ -268,7 +268,7 @@ ApplicationWindow {
                                 property double preferredPanelSize: 400
                                 panelSize: parent.height - barSize
                                 onPanelSizeChanged: () => {
-                                    if (panelSize > 0)
+                                    if (panelSize > 0 && panelOpened)
                                         preferredPanelSize = panelSize
                                 }
                                 barBackgroundLevel: SVS.BL_Secondary

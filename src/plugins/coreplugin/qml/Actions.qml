@@ -2,6 +2,8 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 
+import QActionKit
+
 import DiffScope.CorePlugin
 
 QtObject {
@@ -23,6 +25,29 @@ QtObject {
             Qt.callLater(() => ICore.showPluginsDialog(w))
         }
     }
+    readonly property Component workspaceLayouts: Menu {
+        title: ActionInstantiator.text
+        icon.source: ActionInstantiator.iconSource
+        Action {
+            text: qsTr("Default")
+        }
+        Menu {
+            title: qsTr("Custom Layouts")
+        }
+        MenuSeparator {
+        }
+        Action {
+            text: qsTr("Manage Layouts...")
+        }
+    }
+    readonly property Component workspacePanels: Menu {
+        title: ActionInstantiator.text
+        icon.source: ActionInstantiator.iconSource
+    }
+    readonly property Component dockActionToSideBar: Action {
+
+    }
+
     readonly property Component documentations: Action {
 
     }
