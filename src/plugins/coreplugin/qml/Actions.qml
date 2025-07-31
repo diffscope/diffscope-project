@@ -25,6 +25,11 @@ QtObject {
             Qt.callLater(() => ICore.showPluginsDialog(w))
         }
     }
+    readonly property Component showHome: Action {
+        onTriggered: () => {
+            ICore.showHome()
+        }
+    }
     readonly property Component workspaceLayouts: Menu {
         title: ActionInstantiator.text
         icon.source: ActionInstantiator.iconSource

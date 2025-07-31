@@ -23,6 +23,7 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.openFile", o->property("openFile").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.settings", o->property("settings").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.plugins", o->property("plugins").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.showHome", o->property("showHome").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspaceLayouts", o->property("workspaceLayouts").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspacePanels", o->property("workspacePanels").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.dockActionToSideBar", o->property("dockActionToSideBar").value<QQmlComponent *>());

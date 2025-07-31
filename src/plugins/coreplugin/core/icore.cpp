@@ -30,6 +30,7 @@
 #include <CoreApi/private/icorebase_p.h>
 
 #include <coreplugin/iprojectwindow.h>
+#include <coreplugin/ihomewindow.h>
 
 namespace Core {
 
@@ -231,12 +232,16 @@ namespace Core {
     }
 
     void ICore::showHome() {
-        // auto inst = IHomeWindow::instance();
-        // if (inst) {
-        //     QMView::raiseWindow(inst->window());
-        //     return;
-        // }
-        // IHomeWindowRegistry::instance()->create();
+        auto inst = IHomeWindow::instance();
+        if (inst) {
+            if (inst->window()->visibility() == QWindow::Minimized) {
+                inst->window()->showNormal();
+            }
+            inst->window()->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
+            return;
+        }
+        auto iWin = IHomeWindowRegistry::instance()->create();
+        Q_UNUSED(iWin);
     }
     void ICore::newFile() const {
         // TODO: temporarily creates a project window for testing

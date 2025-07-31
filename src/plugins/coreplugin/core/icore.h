@@ -42,7 +42,7 @@ namespace Core {
         Q_INVOKABLE static void showPluginsDialog(QWindow *parent);
         Q_INVOKABLE static void showAboutAppDialog(QWindow *parent);
         Q_INVOKABLE static void showAboutQtDialog(QWindow *parent);
-        static void showHome();
+        Q_INVOKABLE static void showHome();
 
     public:
         Q_INVOKABLE void newFile() const;

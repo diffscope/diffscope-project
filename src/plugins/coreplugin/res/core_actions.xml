@@ -22,6 +22,8 @@
         <action id="core.settings" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
 
+        <action id="core.showHome" text="Show Home Window"  class="Application" />
+
         <action id="core.workspaceLayouts" text="Layouts" class="View" />
         <action id="core.workspacePanels" text="Panels" class="View" />
         <action id="core.dockActionToSideBar" text="Dock Action to Side Bar..." class="View" />
@@ -55,6 +57,8 @@
                     <action id="core.settings"/>
                     <action id="core.plugins"/>
                 </group>
+                <separator />
+                <action id="core.showHome" />
             </menu>
             <menu id="core.view">
                 <group id="core.workspaceActions">
@@ -79,6 +83,8 @@
         </menu>
 
         <menu id="core.mainToolBar">
+            <action id="core.showHome" />
+            <separator />
             <action id="core.openFile" />
             <action id="core.saveFile" />
             <stretch />
