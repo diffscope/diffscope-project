@@ -30,6 +30,7 @@ ApplicationWindow {
     readonly property DockingView rightDockingView: rightDock
     readonly property DockingView topDockingView: topDock
     readonly property DockingView bottomDockingView: bottomDock
+    readonly property CommandPalette commandPalette: commandPalettePopup
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -56,6 +57,13 @@ ApplicationWindow {
         property bool framelessSetup: false
     }
 
+    CommandPalette {
+        id: commandPalettePopup
+        property double horizontalOffset: 0
+        property double verticalOffset: 0
+        x: (window.width - implicitWidth) / 2 + horizontalOffset
+        y: titleBar.height + verticalOffset
+    }
     ColumnLayout {
         spacing: 1
         anchors.fill: parent

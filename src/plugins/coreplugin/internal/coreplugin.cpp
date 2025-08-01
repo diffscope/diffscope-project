@@ -59,6 +59,26 @@ namespace Core::Internal {
         qApp->installEventFilter(this);
 
         icore->actionRegistry()->addExtension(getCoreActionExtension());
+        // TODO: move to icon manifest later
+        const auto addIcon = [&](const QString &id, const QString &iconName) {
+            QAK::ActionIcon icon;
+            icon.addFile(":/diffscope/coreplugin/icons/" + iconName + ".svg");
+            icore->actionRegistry()->addIcon("", id, icon);
+        };
+        addIcon("core.homePreferences", "Settings16Filled");
+        addIcon("core.homeHelp", "QuestionCircle16Filled");
+        addIcon("core.newFile", "DocumentAdd16Filled");
+        addIcon("core.openFile", "FolderOpen16Filled");
+        addIcon("core.saveFile", "Save16Filled");
+        addIcon("core.settings", "Settings16Filled");
+        addIcon("core.plugins", "PuzzlePiece16Filled");
+        addIcon("core.showHome", "Home16Filled");
+        addIcon("core.documentations", "QuestionCircle16Filled");
+        addIcon("core.findActions", "Search16Filled");
+        addIcon("core.pluginsPanel", "PuzzlePiece16Filled");
+        addIcon("core.arrangementPanel", "GanttChart16Filled");
+        addIcon("core.pianoRollPanel", "Midi20Filled");
+        addIcon("core.notificationsPanel", "Alert16Filled");
 
         auto sc = icore->settingCatalog();
         sc->addPage(new AppearancePage);

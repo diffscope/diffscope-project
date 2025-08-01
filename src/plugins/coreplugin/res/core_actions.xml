@@ -38,12 +38,15 @@
         <menu id="core.homeNavigation" topLevel="true"/>
         <menu id="core.homeTool" topLevel="true"/>
 
+        <menu id="core.homePreferences" text="Preferences" />
+        <menu id="core.homeHelp" text="Help" />
+
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
-        <action id="core.pluginsPanel" catalog="core.workspacePanelWidgets" />
-        <action id="core.arrangementPanel" catalog="core.workspacePanelWidgets" />
-        <action id="core.pianoRollPanel" catalog="core.workspacePanelWidgets" />
-        <action id="core.notificationsPanel" catalog="core.workspacePanelWidgets" />
+        <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" />
+        <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" />
+        <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" />
+        <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" />
     </items>
 
     <layouts>

@@ -8,9 +8,7 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 
-DockingPane {
-    id: pane
-    title: qsTr("Plugins")
+ActionDockingPane {
     PluginView {
         anchors.fill: parent
         useSplitView: false

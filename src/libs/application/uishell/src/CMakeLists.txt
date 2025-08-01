@@ -14,6 +14,7 @@ qm_configure_target(${PROJECT_NAME}
         QWindowKit::Core QWindowKit::Quick
         ChorusKit::AppCore
         ExtensionSystem::ExtensionSystem
+        QActionKit::Core QActionKit::Quick
     QT_LINKS Core Gui Widgets Qml Quick QuickControls2
     QT_INCLUDE_PRIVATE Core Gui Widgets Qml Quick QuickControls2
     INCLUDE_PRIVATE *

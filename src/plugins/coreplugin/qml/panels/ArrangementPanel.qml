@@ -6,7 +6,8 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
-DockingPane {
-    id: pane
-    title: qsTr("Arrangement")
+import DiffScope.UIShell
+
+ActionDockingPane {
+
 }

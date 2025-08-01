@@ -24,7 +24,6 @@ namespace Core::Internal {
     ProjectWindowWorkspaceManager *ProjectWindowData::workspaceManager() const {
         return m_workspaceManager;
     }
-    static const char *actionIdPropertyKey = "_ProjectWindowData_actionId";
     QVariantMap ProjectWindowData::createDockingViewContents(int edge) const {
         ProjectWindowWorkspaceLayout::ViewSpec firstSpec;
         ProjectWindowWorkspaceLayout::ViewSpec lastSpec;
@@ -53,8 +52,14 @@ namespace Core::Internal {
             if (!component) {
                 return nullptr;
             }
+            if (component->isError()) {
+                qWarning() << component->errorString();
+            }
             auto object = component->create();
-            object->setProperty(actionIdPropertyKey, id);
+            if (!object) {
+                return nullptr;
+            }
+            actionContext()->attachActionInfo(id, object);
             return object;
         };
         auto createSpec = [&](const ProjectWindowWorkspaceLayout::ViewSpec &spec) -> void {
