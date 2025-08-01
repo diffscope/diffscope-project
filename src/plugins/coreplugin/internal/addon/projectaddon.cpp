@@ -32,6 +32,7 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.aboutApp", o->property("aboutApp").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutQt", o->property("aboutQt").value<QQmlComponent *>());
 
+        iWin->actionContext()->addAction("core.pluginsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
         iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
         iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
         iWin->actionContext()->addAction("core.notificationsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "NotificationsPanel", this));

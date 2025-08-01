@@ -57,7 +57,10 @@ namespace Core::Internal {
         ProjectWindowWorkspaceLayout layout;
         layout.setName("_default");
         layout.setViewSpec(ProjectWindowData::LeftBottom, {
-            {{"core.settings", false}}, 400, 400, 0
+            {
+                {"core.pluginsPanel", true},
+                {"core.settings", false}
+            }, 400, 400, -1
         });
         layout.setViewSpec(ProjectWindowData::TopLeft, {
             {{"core.arrangementPanel", true}}, 600, 400, 0

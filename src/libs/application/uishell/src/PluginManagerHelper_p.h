@@ -109,6 +109,7 @@ namespace UIShell {
         ~PluginManagerHelper() override;
 
         QList<PluginCollectionHelper *> pluginCollections();
+        Q_INVOKABLE PluginSpecHelper *findPlugin(const QString &name);
 
         PluginCollectionHelper *getHelper(ExtensionSystem::PluginCollection *pluginCollection);
         PluginSpecHelper *getHelper(ExtensionSystem::PluginSpec *pluginSpec);

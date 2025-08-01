@@ -137,10 +137,20 @@ namespace UIShell {
 
     QList<PluginCollectionHelper *> PluginManagerHelper::pluginCollections() {
         QList<PluginCollectionHelper *> result;
-        std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(), std::back_inserter(result), [=, this](auto *p) {
-            return getHelper(p);
-        });
+        std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(),
+                               std::back_inserter(result),
+                               [=, this](auto *p) { return getHelper(p); });
         return result;
+    }
+    PluginSpecHelper *PluginManagerHelper::findPlugin(const QString &name) {
+        auto plugins = ExtensionSystem::PluginManager::plugins();
+        auto it = std::ranges::find_if(plugins, [=](auto *p) {
+            return p->name() == name;
+        });
+        if (it == plugins.end()) {
+            return nullptr;
+        }
+        return getHelper(*it);
     }
 
     PluginCollectionHelper *PluginManagerHelper::getHelper(ExtensionSystem::PluginCollection *pluginCollection) {

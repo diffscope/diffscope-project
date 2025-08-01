@@ -47,7 +47,7 @@ namespace Core::Internal {
         }
         QObjectList result;
         QVariantList visibleIndices;
-        double preferredPanelSize = edge == Qt::TopEdge || edge == Qt::BottomEdge ? firstSpec.height : firstSpec.width; // TODO: dual pane
+        double preferredPanelSize = edge == Qt::TopEdge || edge == Qt::BottomEdge ? qMax(firstSpec.height, lastSpec.height) : qMax(firstSpec.width, lastSpec.width); // TODO: dual pane
         auto createAction = [&](const QString &id) -> QObject * {
             auto component = m_actionContext->action(id);
             if (!component) {
