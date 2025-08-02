@@ -25,8 +25,16 @@
         <action id="core.showHome" text="Show Home Window"  class="Application" />
 
         <action id="core.workspaceLayouts" text="Layouts" class="View" />
-        <action id="core.workspacePanels" text="Panels" class="View" />
-        <action id="core.dockActionToSideBar" text="Dock Action to Side Bar..." class="View" />
+        <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" />
+        <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" />
+        <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" />
+        <action id="core.workspacePanelRightBottom" text="None (Right Bottom)" class="View" shortcut="Ctrl+Alt+4" />
+        <action id="core.workspacePanelTopLeft" text="None (Top Left)" class="View" shortcut="Ctrl+Alt+5" />
+        <action id="core.workspacePanelTopRight" text="None (Top Right)" class="View" shortcut="Ctrl+Alt+6" />
+        <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" />
+        <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" />
+        <action id="core.floatingPanels" text="Floating Panels" class="View" />
+        <action id="core.dockActionToSideBar" text="Dock Panel or Action..." class="View" />
 
         <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
         <action id="core.findActions" text="Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
@@ -69,7 +77,18 @@
                     <menu id="core.workspace">
                         <action id="core.workspaceLayouts" />
                         <separator />
-                        <action id="core.workspacePanels" />
+                        <menu id="core.dockingPanels">
+                            <action id="core.workspacePanelLeftTop" />
+                            <action id="core.workspacePanelLeftBottom" />
+                            <action id="core.workspacePanelRightTop" />
+                            <action id="core.workspacePanelRightBottom" />
+                            <action id="core.workspacePanelTopLeft" />
+                            <action id="core.workspacePanelTopRight" />
+                            <action id="core.workspacePanelBottomLeft" />
+                            <action id="core.workspacePanelBottomRight" />
+                        </menu>
+                        <action id="core.floatingPanels" />
+                        <separator />
                         <action id="core.dockActionToSideBar" />
                     </menu>
                 </group>

@@ -10,4 +10,7 @@ DockingPane {
     title: ActionInstantiator.text
     description: ActionInstantiator.description
     icon.source: ActionInstantiator.iconSource
+    icon.width: 16
+    icon.height: 16
+    icon.color: Theme.foregroundPrimaryColor
 }

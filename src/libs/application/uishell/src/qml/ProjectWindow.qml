@@ -147,7 +147,7 @@ ApplicationWindow {
                     Layout.preferredHeight: 16
                 }
                 Text {
-                    color: Theme.foregroundPrimaryColor
+                    color: Window.active ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
                     Layout.alignment: Qt.AlignVCenter
                     text: Window.window.title
                 }

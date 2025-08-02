@@ -16,7 +16,7 @@ namespace Core::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto o = component.create();
+        auto o = component.createWithInitialProperties({{"window", QVariant::fromValue(windowHandle()->window())}});
         o->setParent(this);
         auto iWin = windowHandle()->cast<IProjectWindow>();
         iWin->actionContext()->addAction("core.newFile", o->property("newFile").value<QQmlComponent *>());
@@ -25,7 +25,15 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.plugins", o->property("plugins").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.showHome", o->property("showHome").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspaceLayouts", o->property("workspaceLayouts").value<QQmlComponent *>());
-        iWin->actionContext()->addAction("core.workspacePanels", o->property("workspacePanels").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelLeftTop", o->property("workspacePanelLeftTop").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelLeftBottom", o->property("workspacePanelLeftBottom").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelRightTop", o->property("workspacePanelRightTop").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelRightBottom", o->property("workspacePanelRightBottom").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelTopLeft", o->property("workspacePanelTopLeft").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelTopRight", o->property("workspacePanelTopRight").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelBottomLeft", o->property("workspacePanelBottomLeft").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspacePanelBottomRight", o->property("workspacePanelBottomRight").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.floatingPanels", o->property("floatingPanels").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.dockActionToSideBar", o->property("dockActionToSideBar").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.documentations", o->property("documentations").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.findActions", o->property("findActions").value<QQmlComponent *>());

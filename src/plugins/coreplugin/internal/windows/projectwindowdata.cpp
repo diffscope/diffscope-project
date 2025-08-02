@@ -24,6 +24,50 @@ namespace Core::Internal {
     ProjectWindowWorkspaceManager *ProjectWindowData::workspaceManager() const {
         return m_workspaceManager;
     }
+    ProjectWindowData::PanelPosition ProjectWindowData::activePanel() const {
+        return m_activePanel;
+    }
+    void ProjectWindowData::setActivePanel(PanelPosition panel) {
+        if (m_activePanel == panel) {
+            return;
+        }
+        m_activePanel = panel;
+        emit activePanelChanged();
+    }
+    QObject *ProjectWindowData::activeUndockedPane() const {
+        return m_activeUndockedPane;
+    }
+    void ProjectWindowData::setActiveUndockedPane(QObject *undockedPane) {
+        if (m_activeUndockedPane == undockedPane) {
+            return;
+        }
+        m_activeUndockedPane = undockedPane;
+        emit activeUndockedPaneChanged();
+    }
+    QObject *ProjectWindowData::activeDockingPane() const {
+        return m_activeDockingPane;
+    }
+    void ProjectWindowData::setActiveDockingPane(QObject *dockingPane) {
+        if (m_activeDockingPane == dockingPane) {
+            return;
+        }
+        m_activeDockingPane = dockingPane;
+        emit activeDockingPaneChanged();
+    }
+    QObjectList ProjectWindowData::dockingPanes() const {
+        return m_dockingPanes;
+    }
+    void ProjectWindowData::setDockingPanes(const QObjectList &dockingPanes) {
+        m_dockingPanes = dockingPanes;
+        emit dockingPanesChanged();
+    }
+    QObjectList ProjectWindowData::floatingPanes() const {
+        return m_floatingPanes;
+    }
+    void ProjectWindowData::setFloatingPanes(const QObjectList &floatingPanes) {
+        m_floatingPanes = floatingPanes;
+        emit floatingPanesChanged();
+    }
     QVariantMap ProjectWindowData::createDockingViewContents(int edge) const {
         ProjectWindowWorkspaceLayout::ViewSpec firstSpec;
         ProjectWindowWorkspaceLayout::ViewSpec lastSpec;
