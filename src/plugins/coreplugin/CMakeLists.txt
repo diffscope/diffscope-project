@@ -34,6 +34,7 @@ qm_configure_target(${PROJECT_NAME}
         Qml
         Quick
         QuickControls2
+        QuickTemplates2
     QT_INCLUDE_PRIVATE
         Core
         Gui
@@ -41,6 +42,7 @@ qm_configure_target(${PROJECT_NAME}
         Qml
         Quick
         QuickControls2
+        QuickTemplates2
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
