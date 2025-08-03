@@ -39,26 +39,89 @@ QtObject {
             ICore.showHome()
         }
     }
-    readonly property Component workspaceLayouts: Menu {
+    readonly property Component workspaceDefaultLayout: Action {
+        onTriggered: () => {
+            d.projectWindowData.workspaceManager.currentLayout = d.projectWindowData.workspaceManager.defaultLayout
+        }
+    }
+    readonly property Component workspaceCustomLayouts: Menu {
         title: ActionInstantiator.text
         icon.source: ActionInstantiator.iconSource
-        Action {
-            text: qsTr("Default")
+        readonly property list<var> customLayouts:  d.projectWindowData.workspaceManager.customLayouts
+        readonly property Component customLayoutAction: Action {
+            required property var layout
+            text: layout?.name ?? ""
+            onTriggered: () => {
+                d.projectWindowData.workspaceManager.currentLayout = layout
+            }
         }
-        Menu {
-            title: qsTr("Custom Layouts")
+        onCustomLayoutsChanged: () => {
+            while (count) {
+                removeItem(itemAt(0))
+            }
+            if (customLayouts.length === 0) {
+                let action = customLayoutAction.createObject(this, {
+                    layout: undefined,
+                    enabled: false,
+                    text: qsTr("None")
+                })
+                addAction(action)
+                return
+            }
+            for (let o of customLayouts) {
+                let action = customLayoutAction.createObject(this, {layout: o})
+                addAction(action)
+            }
         }
-        MenuSeparator {
+
+    }
+    readonly property Component workspaceSaveLayout: Action {
+        onTriggered: () => {
+            d.window.promptSaveLayout()
         }
-        Action {
-            text: qsTr("Manage Layouts...")
+
+    }
+    readonly property Component workspaceManageLayouts: Action {
+
+    }
+
+    readonly property Component allPanels: Menu {
+        title: ActionInstantiator.text
+        icon.source: ActionInstantiator.iconSource
+        readonly property list<QtObject> allPanes: d.window.allPanes
+        readonly property Component panelAction: Action {
+            required property QtObject dockingPane
+            text: dockingPane?.title ?? ""
+            icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
+            onTriggered: () => {
+                dockingPane.Docking.dockingView.togglePane(dockingPane)
+            }
+        }
+        onAllPanesChanged: () => {
+            while (count) {
+                removeItem(itemAt(0))
+            }
+            if (allPanes.length === 0) {
+                let action = panelAction.createObject(this, {
+                    dockingPane: null,
+                    enabled: false,
+                    text: qsTr("None")
+                })
+                addAction(action)
+                return
+            }
+            for (let o of allPanes) {
+                let action = panelAction.createObject(this, {dockingPane: o})
+                addAction(action)
+
+            }
         }
     }
 
     component WorkspacePanelAction: Action {
         id: action
         required property int panelPosition
-        readonly property QtObject currentPane: d.projectWindowData.dockingPanes[panelPosition]
+        readonly property QtObject currentPane: d.window.dockingPanes[panelPosition]
         enabled: currentPane !== null
         readonly property string baseText: [
             "",
@@ -112,9 +175,11 @@ QtObject {
     readonly property Component floatingPanels: Menu {
         title: ActionInstantiator.text
         icon.source: ActionInstantiator.iconSource
-        readonly property list<QtObject> floatingPanes: d.projectWindowData.floatingPanes
+        readonly property list<QtObject> floatingPanes: d.window.floatingPanes
         readonly property Component floatingPanelAction: Action {
             required property QtObject dockingPane
+            text: dockingPane?.title ?? ""
+            icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
             onTriggered: () => {
                 let window = dockingPane.Window.window
                 if (window.visibility === Window.Minimized) {
@@ -139,8 +204,6 @@ QtObject {
             }
             for (let o of floatingPanes) {
                 let action = floatingPanelAction.createObject(this, {dockingPane: o})
-                action.text = Qt.binding(() => o.title)
-                action.icon = Qt.binding(() => o.icon)
                 addAction(action)
 
             }
@@ -149,6 +212,56 @@ QtObject {
 
     readonly property Component dockActionToSideBar: Action {
 
+    }
+
+    readonly property Component menuBarVisible: Action {
+        checkable: true
+        checked: d.window.menuBar.visible
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.MenuBar, checked, this)
+        }
+    }
+    readonly property Component toolBarVisible: Action {
+        checkable: true
+        checked: d.window.toolBar.visible
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.ToolBar, checked)
+        }
+    }
+    readonly property Component leftSideBarVisible: Action {
+        checkable: true
+        checked: d.window.leftDockingView.barSize !== 0
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.LeftSideBar, checked)
+        }
+    }
+    readonly property Component rightSideBarVisible: Action {
+        checkable: true
+        checked: d.window.rightDockingView.barSize !== 0
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.RightSideBar, checked, this)
+        }
+    }
+    readonly property Component topSideBarVisible: Action {
+        checkable: true
+        checked: d.window.topDockingView.barSize !== 0
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.TopSideBar, checked)
+        }
+    }
+    readonly property Component bottomSideBarVisible: Action {
+        checkable: true
+        checked: d.window.bottomDockingView.barSize !== 0
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.BottomSideBar, checked)
+        }
+    }
+    readonly property Component statusBarVisible: Action {
+        checkable: true
+        checked: d.window.statusBar.visible
+        onTriggered: () => {
+            d.projectWindowData.toggleVisibility(ProjectWindowData.StatusBar, checked)
+        }
     }
 
     readonly property Component documentations: Action {

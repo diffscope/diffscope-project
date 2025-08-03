@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWindow>
+#include <QJSValue>
 #include <qqmlintegration.h>
 
 #include <QAKQuick/quickactioncontext.h>
@@ -47,6 +48,17 @@ namespace Core::Internal {
         };
         Q_ENUM(PanelPosition)
 
+        enum ViewVisibilityOption {
+            MenuBar,
+            ToolBar,
+            LeftSideBar,
+            RightSideBar,
+            TopSideBar,
+            BottomSideBar,
+            StatusBar,
+        };
+        Q_ENUM(ViewVisibilityOption)
+
         PanelPosition activePanel() const;
         void setActivePanel(PanelPosition panel);
 
@@ -63,6 +75,10 @@ namespace Core::Internal {
         void setFloatingPanes(const QObjectList &floatingPanes);
 
         Q_INVOKABLE QVariantMap createDockingViewContents(int edge) const;
+
+        Q_INVOKABLE void toggleVisibility(ViewVisibilityOption option, bool visible, QObject *action = nullptr) const;
+        Q_INVOKABLE static void loadVisibility(QObject *window);
+        Q_INVOKABLE void saveCustomLayoutFromJavaScript(const QString &name) const;
 
     signals:
         void initialized();

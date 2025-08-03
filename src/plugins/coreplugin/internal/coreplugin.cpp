@@ -75,8 +75,10 @@ namespace Core::Internal {
         addIcon("core.showHome", "Home16Filled");
         addIcon("core.documentations", "QuestionCircle16Filled");
         addIcon("core.findActions", "Search16Filled");
+        addIcon("core.propertiesPanel", "TextBulletListSquareEdit20Filled");
         addIcon("core.pluginsPanel", "PuzzlePiece16Filled");
         addIcon("core.arrangementPanel", "GanttChart16Filled");
+        addIcon("core.mixerPanel", "OptionsVertical16Filled");
         addIcon("core.pianoRollPanel", "Midi20Filled");
         addIcon("core.notificationsPanel", "Alert16Filled");
 

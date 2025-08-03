@@ -24,7 +24,11 @@
 
         <action id="core.showHome" text="Show Home Window"  class="Application" />
 
-        <action id="core.workspaceLayouts" text="Layouts" class="View" />
+        <action id="core.workspaceDefaultLayout" text="Default Layout" class="View" />
+        <action id="core.workspaceCustomLayouts" text="Custom Layouts" class="View" />
+        <action id="core.workspaceSaveLayout" text="Save Current Layout As..." class="View" />
+        <action id="core.workspaceManageLayouts" text="Manage Layouts..." class="View" />
+        <action id="core.allPanels" text="All Panels" class="View" />
         <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" />
         <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" />
         <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" />
@@ -34,7 +38,15 @@
         <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" />
         <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" />
         <action id="core.floatingPanels" text="Floating Panels" class="View" />
-        <action id="core.dockActionToSideBar" text="Dock Panel or Action..." class="View" />
+        <action id="core.dockActionToSideBar" text="Add New Panel or Action..." class="View" />
+
+        <action id="core.menuBarVisible" text="Show Menu Bar" class="View" />
+        <action id="core.toolBarVisible" text="Show Tool Bar" class="View" />
+        <action id="core.leftSideBarVisible" text="Show Left Side Bar" class="View" />
+        <action id="core.rightSideBarVisible" text="Show Right Side Bar" class="View" />
+        <action id="core.topSideBarVisible" text="Show Top Side Bar" class="View" />
+        <action id="core.bottomSideBarVisible" text="Show Bottom Side Bar" class="View" />
+        <action id="core.statusBarVisible" text="Show Status Bar" class="View" />
 
         <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
         <action id="core.findActions" text="Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
@@ -51,8 +63,10 @@
 
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
+        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" />
         <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" />
         <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" />
+        <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" />
         <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" />
         <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" />
     </items>
@@ -75,8 +89,14 @@
             <menu id="core.view">
                 <group id="core.workspaceActions">
                     <menu id="core.workspace">
-                        <action id="core.workspaceLayouts" />
+                        <group id="core.workspaceLayouts">
+                            <action id="core.workspaceDefaultLayout" />
+                            <action id="core.workspaceCustomLayouts" />
+                            <action id="core.workspaceSaveLayout" />
+                            <action id="core.workspaceManageLayouts" />
+                        </group>
                         <separator />
+                        <action id="core.allPanels" />
                         <menu id="core.dockingPanels">
                             <action id="core.workspacePanelLeftTop" />
                             <action id="core.workspacePanelLeftBottom" />
@@ -91,6 +111,15 @@
                         <separator />
                         <action id="core.dockActionToSideBar" />
                     </menu>
+                </group>
+                <group id="core.viewVisibilityActions">
+                    <action id="core.menuBarVisible" />
+                    <action id="core.toolBarVisible" />
+                    <action id="core.leftSideBarVisible" />
+                    <action id="core.rightSideBarVisible" />
+                    <action id="core.topSideBarVisible" />
+                    <action id="core.bottomSideBarVisible" />
+                    <action id="core.statusBarVisible" />
                 </group>
             </menu>
             <menu id="core.help">

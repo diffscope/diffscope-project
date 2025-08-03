@@ -24,7 +24,12 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.settings", o->property("settings").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.plugins", o->property("plugins").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.showHome", o->property("showHome").value<QQmlComponent *>());
-        iWin->actionContext()->addAction("core.workspaceLayouts", o->property("workspaceLayouts").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceDefaultLayout", o->property("workspaceDefaultLayout").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceDefaultLayout", o->property("workspaceDefaultLayout").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceCustomLayouts", o->property("workspaceCustomLayouts").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceSaveLayout", o->property("workspaceSaveLayout").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.workspaceManageLayouts", o->property("workspaceManageLayouts").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.allPanels", o->property("allPanels").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspacePanelLeftTop", o->property("workspacePanelLeftTop").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspacePanelLeftBottom", o->property("workspacePanelLeftBottom").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.workspacePanelRightTop", o->property("workspacePanelRightTop").value<QQmlComponent *>());
@@ -35,13 +40,22 @@ namespace Core::Internal {
         iWin->actionContext()->addAction("core.workspacePanelBottomRight", o->property("workspacePanelBottomRight").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.floatingPanels", o->property("floatingPanels").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.dockActionToSideBar", o->property("dockActionToSideBar").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.menuBarVisible", o->property("menuBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.toolBarVisible", o->property("toolBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.leftSideBarVisible", o->property("leftSideBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.rightSideBarVisible", o->property("rightSideBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.topSideBarVisible", o->property("topSideBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.bottomSideBarVisible", o->property("bottomSideBarVisible").value<QQmlComponent *>());
+        iWin->actionContext()->addAction("core.statusBarVisible", o->property("statusBarVisible").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.documentations", o->property("documentations").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.findActions", o->property("findActions").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutApp", o->property("aboutApp").value<QQmlComponent *>());
         iWin->actionContext()->addAction("core.aboutQt", o->property("aboutQt").value<QQmlComponent *>());
 
+        iWin->actionContext()->addAction("core.propertiesPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PropertiesPanel", this));
         iWin->actionContext()->addAction("core.pluginsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
         iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
+        iWin->actionContext()->addAction("core.mixerPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
         iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
         iWin->actionContext()->addAction("core.notificationsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "NotificationsPanel", this));
     }

@@ -1,6 +1,7 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTWINDOWWORKSPACELAYOUT_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTWINDOWWORKSPACELAYOUT_H
 
+#include <QJSValue>
 #include <coreplugin/internal/projectwindowdata.h>
 
 #include <utility>
@@ -16,10 +17,12 @@ namespace Core::Internal {
             inline PanelSpec() : dock(false) {
             }
             inline PanelSpec(const QVariant &other) { *this = other; }
-            inline PanelSpec(QString id, bool dock) : id(id), dock(dock) {
+            inline PanelSpec(QString id, bool dock, bool opened = false, QRect geometry = {}) : id(std::move(id)), dock(dock), opened(opened), geometry(geometry) {
             }
             QString id;
             bool dock;
+            bool opened;
+            QRect geometry;
             operator QVariant() const;
             PanelSpec &operator=(const QVariant &variant);
         };
@@ -49,12 +52,9 @@ namespace Core::Internal {
             return m_name == o.m_name;
         }
 
-        Q_INVOKABLE ViewSpec viewSpec(ProjectWindowData::PanelPosition position) const;
-        Q_INVOKABLE void setViewSpec(ProjectWindowData::PanelPosition position, const ViewSpec &viewSpec);
-
-        Q_INVOKABLE QRect geometry(const QString &id) const;
-        Q_INVOKABLE void setGeometry(const QString &id, const QRect &geometry);
-        Q_INVOKABLE void removeGeometry(const QString &id);
+        ViewSpec viewSpec(ProjectWindowData::PanelPosition position) const;
+        void setViewSpec(ProjectWindowData::PanelPosition position, const ViewSpec &viewSpec);
+        Q_INVOKABLE void setViewSpecFromJavaScript(const QJSValue &viewSpecJSArray);
 
         QVariant toVariant() const;
         static ProjectWindowWorkspaceLayout fromVariant(const QVariant &variant);
@@ -62,7 +62,6 @@ namespace Core::Internal {
     private:
         QString m_name;
         QList<ViewSpec> m_viewSpecMap;
-        QHash<QString, QRect> m_geometryMap;
     };
 }
 

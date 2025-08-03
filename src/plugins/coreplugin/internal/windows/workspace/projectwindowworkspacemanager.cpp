@@ -32,30 +32,17 @@ namespace Core::Internal {
         auto oldLayouts = m_customLayouts;
         m_customLayouts = layouts;
         for (auto manager : m_instances) {
-            if (manager->currentIndex() >= 0) {
-                auto selectedCustomLayout = oldLayouts.value(manager->currentIndex());
-                if (auto i = layouts.indexOf(selectedCustomLayout); i == -1) {
-                    manager->setCurrentIndex(Invalid);
-                } else {
-                    manager->setCurrentIndex(i);
-                }
-            }
             emit manager->customLayoutsChanged();
         }
-    }
-    int ProjectWindowWorkspaceManager::currentIndex() const {
-        return m_currentIndex;
-    }
-    void ProjectWindowWorkspaceManager::setCurrentIndex(int index) {
-        if (m_currentIndex == index) {
-            return;
-        }
-        m_currentIndex = index;
-        emit currentIndexChanged();
     }
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceManager::defaultLayout() {
         ProjectWindowWorkspaceLayout layout;
         layout.setName("_default");
+        layout.setViewSpec(ProjectWindowData::LeftTop, {
+            {
+                {"core.propertiesPanel", true},
+            }, 400, 400, 0
+        });
         layout.setViewSpec(ProjectWindowData::LeftBottom, {
             {
                 {"core.pluginsPanel", true},
@@ -63,13 +50,32 @@ namespace Core::Internal {
             }, 400, 400, -1
         });
         layout.setViewSpec(ProjectWindowData::TopLeft, {
-            {{"core.arrangementPanel", true}}, 600, 400, 0
+            {
+                {"core.arrangementPanel", true}
+            }, 400, 360, 0
+        });
+        layout.setViewSpec(ProjectWindowData::TopRight, {
+            {
+            }, 400, 360, -1
         });
         layout.setViewSpec(ProjectWindowData::BottomLeft, {
-            {{"core.pianoRollPanel", true}}, 400, 400, 0
+            {
+                {"core.pianoRollPanel", true},
+                {"core.mixerPanel", true}
+            }, 400, 640, 0
+        });
+        layout.setViewSpec(ProjectWindowData::BottomRight, {
+            {
+            }, 400, 640, -1
         });
         layout.setViewSpec(ProjectWindowData::RightTop, {
-            {{"core.notificationsPanel", true}}, 400, 400, -1
+            {
+                {"core.notificationsPanel", true}
+            }, 400, 400, -1
+        });
+        layout.setViewSpec(ProjectWindowData::RightBottom, {
+            {
+            }, 400, 400, -1
         });
         return layout;
     }
@@ -79,11 +85,11 @@ namespace Core::Internal {
     void ProjectWindowWorkspaceManager::load() {
         auto settings = PluginDatabase::settings();
         auto map = settings->value(settingCategoryC).toMap();
-        if (!map.contains("currentLayout") || !map.contains("customLayouts") || !map.contains("currentIndex")) {
+        if (!map.contains("currentLayout") || !map.contains("customLayouts")) {
             return;
         }
         auto currentLayout = ProjectWindowWorkspaceLayout::fromVariant(map.value("currentLayout"));
-        if (!currentLayout.isValid() || currentLayout.name() == "_default") {
+        if (!currentLayout.isValid()) {
             currentLayout = defaultLayout();
         }
         auto customLayoutsVariants = map.value("customLayouts").toList();
@@ -91,12 +97,7 @@ namespace Core::Internal {
         std::ranges::transform(customLayoutsVariants | std::views::filter([](const auto &v) { return v.isValid(); }), std::back_inserter(customLayouts), [](const auto &v) {
             return ProjectWindowWorkspaceLayout::fromVariant(v);
         });
-        auto currentIndex = map.value("currentIndex").toInt();
-        if (currentIndex < Invalid || currentIndex >= customLayouts.size()) {
-            currentIndex = Invalid;
-        }
         setCurrentLayout(currentLayout);
-        setCurrentIndex(currentIndex);
         setCustomLayouts(customLayouts);
     }
     void ProjectWindowWorkspaceManager::save() const {
@@ -108,7 +109,8 @@ namespace Core::Internal {
         settings->setValue(settingCategoryC, QVariantMap {
             {"currentLayout", m_currentLayout.toVariant()},
             {"customLayouts", customLayoutsVariants},
-            {"currentIndex", m_currentIndex},
         });
     }
 }
+
+#include "moc_projectwindowworkspacemanager.cpp"

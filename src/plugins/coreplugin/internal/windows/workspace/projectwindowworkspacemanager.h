@@ -11,12 +11,10 @@ namespace Core::Internal {
 
     class ProjectWindowWorkspaceManager : public QObject {
         Q_OBJECT
+        Q_PROPERTY(ProjectWindowWorkspaceLayout currentLayout READ currentLayout WRITE setCurrentLayout NOTIFY currentLayoutChanged)
+        Q_PROPERTY(QList<ProjectWindowWorkspaceLayout> customLayouts READ customLayouts WRITE setCustomLayouts NOTIFY customLayoutsChanged)
+        Q_PROPERTY(ProjectWindowWorkspaceLayout defaultLayout READ defaultLayout CONSTANT)
     public:
-        enum SpecialIndex {
-            Default = -1,
-            Invalid = -2,
-        };
-
         explicit ProjectWindowWorkspaceManager(QObject *parent = nullptr);
         ~ProjectWindowWorkspaceManager() override;
 
@@ -26,9 +24,6 @@ namespace Core::Internal {
         static QList<ProjectWindowWorkspaceLayout> customLayouts();
         static void setCustomLayouts(const QList<ProjectWindowWorkspaceLayout> &layouts);
 
-        int currentIndex() const;
-        void setCurrentIndex(int index);
-
         static ProjectWindowWorkspaceLayout defaultLayout();
 
         void load();
@@ -37,11 +32,9 @@ namespace Core::Internal {
     signals:
         void currentLayoutChanged();
         void customLayoutsChanged();
-        void currentIndexChanged();
 
     private:
         ProjectWindowWorkspaceLayout m_currentLayout;
-        int m_currentIndex{Default};
 
     };
 

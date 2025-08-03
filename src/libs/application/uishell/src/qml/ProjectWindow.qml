@@ -9,13 +9,11 @@ import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
-ApplicationWindow {
+Window {
     id: window
-    width: 1024
+    width: 1280
     height: 800
-    background: Rectangle {
-        color: Theme.backgroundQuaternaryColor
-    }
+    minimumWidth: 360
     title: `${documentName} - ${Application.name}`
 
     property bool frameless: true
@@ -25,7 +23,11 @@ ApplicationWindow {
     property ObjectModel toolButtonsModel: null
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
+    property double topDockingViewHeightRatio: 0.3
 
+    readonly property MenuBar menuBar: menuBar
+    readonly property Item toolBar: toolBar
+    readonly property Item statusBar: statusBar
     readonly property DockingView leftDockingView: leftDock
     readonly property DockingView rightDockingView: rightDock
     readonly property DockingView topDockingView: topDock
@@ -63,6 +65,10 @@ ApplicationWindow {
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
         y: titleBar.height + verticalOffset
+    }
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.backgroundQuaternaryColor
     }
     ColumnLayout {
         spacing: 1
@@ -162,6 +168,7 @@ ApplicationWindow {
             }
         }
         ToolBar {
+            id: toolBar
             Layout.fillWidth: true
             Component {
                 id: dummyItem
@@ -202,7 +209,7 @@ ApplicationWindow {
         }
         Item {
             id: mainPane
-            readonly property double minimumPanelSize: 100
+            readonly property double minimumPanelSize: 64
             Layout.fillWidth: true
             Layout.fillHeight: true
             SplitView {
@@ -239,7 +246,7 @@ ApplicationWindow {
                         Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
-                            SplitView.preferredHeight: topDock.barSize + topDock.preferredPanelSize
+                            SplitView.preferredHeight: window.topDockingViewHeightRatio * (middleSplitView.height - 1)
                             SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !topDock.panelOpened ? topDock.barSize : Infinity)
                             DockingView {
                                 id: topDock
@@ -247,11 +254,11 @@ ApplicationWindow {
                                 width: parent.width
                                 anchors.top: parent.top
                                 edge: Qt.TopEdge
-                                property double preferredPanelSize: 400
                                 panelSize: parent.height - barSize
                                 onPanelSizeChanged: () => {
-                                    if (panelSize > 0 && bottomDock.panelOpened)
-                                        preferredPanelSize = panelSize
+                                    if (middleSplitView.resizing) {
+                                        window.topDockingViewHeightRatio = height / (middleSplitView.height - 1)
+                                    }
                                 }
                                 barBackgroundLevel: SVS.BL_Secondary
                             }
@@ -273,12 +280,7 @@ ApplicationWindow {
                                 width: parent.width
                                 anchors.bottom: parent.bottom
                                 edge: Qt.BottomEdge
-                                property double preferredPanelSize: 400
                                 panelSize: parent.height - barSize
-                                onPanelSizeChanged: () => {
-                                    if (panelSize > 0 && panelOpened)
-                                        preferredPanelSize = panelSize
-                                }
                                 barBackgroundLevel: SVS.BL_Secondary
                             }
                             Rectangle {
@@ -311,6 +313,7 @@ ApplicationWindow {
             }
         }
         ToolBar {
+            id: statusBar
             Accessible.role: Accessible.StatusBar
             Layout.fillWidth: true
             implicitHeight: 24

@@ -9,12 +9,16 @@ namespace Core::Internal {
         return QVariantMap{
             {"id",   id  },
             {"dock", dock},
+            {"opened", opened},
+            {"geometry", geometry},
         };
     }
     ProjectWindowWorkspaceLayout::PanelSpec &ProjectWindowWorkspaceLayout::PanelSpec::operator=(const QVariant &variant) {
         auto map = variant.toMap();
         id = map.value("id").toString();
         dock = map.value("dock").toBool();
+        opened = map.value("opened").toBool();
+        geometry = map.value("geometry").toRect();
         return *this;
     }
     ProjectWindowWorkspaceLayout::ViewSpec::operator QVariant() const {
@@ -52,26 +56,23 @@ namespace Core::Internal {
         }
         m_viewSpecMap[position] = viewSpec;
     }
-    QRect ProjectWindowWorkspaceLayout::geometry(const QString &id) const {
-        return m_geometryMap.value(id);
-    }
-    void ProjectWindowWorkspaceLayout::setGeometry(const QString &id, const QRect &geometry) {
-        m_geometryMap.insert(id, geometry);
-    }
-    void ProjectWindowWorkspaceLayout::removeGeometry(const QString &id) {
-        m_geometryMap.remove(id);
+    void ProjectWindowWorkspaceLayout::setViewSpecFromJavaScript(const QJSValue &viewSpecJSArray) {
+        m_viewSpecMap.clear();
+        for (int i = ProjectWindowData::LeftTop; i <= ProjectWindowData::BottomRight; i++) {
+            auto viewSpec = viewSpecJSArray.property(i).toVariant(QJSValue::ConvertJSObjects);
+            setViewSpec(static_cast<ProjectWindowData::PanelPosition>(i), viewSpec);
+        }
     }
 
     QVariant ProjectWindowWorkspaceLayout::toVariant() const {
         return QVariantMap {
             {"name", m_name},
-            {"viewSpecMap", QVariantList(m_viewSpecMap.cbegin(), m_viewSpecMap.cend())},
-            {"geometry", QVariantHash(m_geometryMap.constKeyValueBegin(), m_geometryMap.constKeyValueEnd())},
+            {"viewSpecMap", QVariantList(m_viewSpecMap.cbegin(), m_viewSpecMap.cend())}
         };
     }
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceLayout::fromVariant(const QVariant &variant) {
         auto map = variant.toMap();
-        if (!map.contains("name") || !map.contains("viewSpecMap") || !map.contains("geometry")) {
+        if (!map.contains("name") || !map.contains("viewSpecMap")) {
             return {};
         }
         auto name = map.value("name").toString();
@@ -82,11 +83,6 @@ namespace Core::Internal {
         layout.m_name = name;
         auto viewSpecVariantList = map.value("viewSpecMap").toList();
         layout.m_viewSpecMap = QList<ViewSpec>(viewSpecVariantList.cbegin(), viewSpecVariantList.cend());
-        auto geometryVariantHash = map.value("geometry").toHash();
-        auto a = std::ranges::subrange(geometryVariantHash.constKeyValueBegin(), geometryVariantHash.constKeyValueEnd()) | std::views::transform([](const auto &v) {
-            return std::make_pair(v.first, v.second.toRect());
-        });
-        layout.m_geometryMap = QHash<QString, QRect>(a.begin(), a.end());
         return layout;
     }
 }
