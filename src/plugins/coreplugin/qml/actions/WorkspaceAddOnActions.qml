@@ -1,0 +1,252 @@
+import QtQml
+import QtQuick
+import QtQuick.Controls
+
+import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
+
+import QActionKit
+
+import DiffScope.UIShell
+import DiffScope.CorePlugin
+
+ActionCollection {
+    id: d
+
+    required property QtObject addOn
+    required property QtObject helper
+    readonly property IProjectWindow windowHandle: addOn?.windowHandle ?? null
+    readonly property Window window: windowHandle?.window ?? null
+
+    ActionItem {
+        actionId: "core.workspaceDefaultLayout"
+        Action {
+            onTriggered: () => {
+                d.addOn.workspaceManager.currentLayout = d.addOn.workspaceManager.defaultLayout
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspaceCustomLayouts"
+        Menu {
+            title: ActionInstantiator.text
+            icon.source: ActionInstantiator.iconSource
+            readonly property list<var> customLayouts: d.addOn.workspaceManager.customLayouts
+            readonly property Component customLayoutAction: Menu {
+                id: menu
+                required property var layout
+                title: layout?.name ?? ""
+                Action {
+                    text: qsTr("&Apply")
+                    onTriggered: () => {
+                        d.addOn.workspaceManager.currentLayout = layout
+                    }
+                }
+                Action {
+                    text: qsTr("&Rename")
+                    onTriggered: () => {
+                        d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, layout.name)
+                    }
+                }
+                Action {
+                    text: qsTr("&Delete")
+                    onTriggered: () => {
+                        Qt.callLater(() => d.helper.promptDeleteLayout(layout.name))
+                    }
+                }
+            }
+            readonly property Component dummyAction: Action {
+                enabled: false
+                text: qsTr("None")
+            }
+            onCustomLayoutsChanged: () => {
+                while (count) {
+                    removeItem(itemAt(0))
+                }
+                if (customLayouts.length === 0) {
+                    let action = dummyAction.createObject(this)
+                    addAction(action)
+                    return
+                }
+                for (let o of customLayouts) {
+                    let action = customLayoutAction.createObject(this, {layout: o})
+                    addMenu(action)
+                }
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspaceSaveLayout"
+        Action {
+            onTriggered: () => {
+                d.helper.saveCurrentLayout()
+                d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, "")
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "core.allPanels"
+        Menu {
+            title: ActionInstantiator.text
+            icon.source: ActionInstantiator.iconSource
+            readonly property list<QtObject> allPanes: d.helper.allPanes
+            readonly property Component panelAction: Action {
+                required property QtObject dockingPane
+                text: dockingPane?.title ?? ""
+                icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
+                onTriggered: () => {
+                    dockingPane.Docking.dockingView.togglePane(dockingPane)
+                }
+            }
+            onAllPanesChanged: () => {
+                while (count) {
+                    removeItem(itemAt(0))
+                }
+                if (allPanes.length === 0) {
+                    let action = panelAction.createObject(this, {
+                        dockingPane: null,
+                        enabled: false,
+                        text: qsTr("None")
+                    })
+                    addAction(action)
+                    return
+                }
+                for (let o of allPanes) {
+                    let action = panelAction.createObject(this, {dockingPane: o})
+                    addAction(action)
+                }
+            }
+        }
+    }
+
+    component WorkspacePanelAction: Action {
+        id: action
+        required property int panelPosition
+        readonly property QtObject currentPane: d.helper.dockingPanes[panelPosition]
+        enabled: currentPane !== null
+        readonly property string baseText: [
+            "",
+            qsTr("%1 (Left Top)"),
+            qsTr("%1 (Left Bottom)"),
+            qsTr("%1 (Right Top)"),
+            qsTr("%1 (Right Bottom)"),
+            qsTr("%1 (Top Left)"),
+            qsTr("%1 (Top Right)"),
+            qsTr("%1 (Bottom Left)"),
+            qsTr("%1 (Bottom Right)"),
+        ][panelPosition]
+        icon: GlobalHelper.defaultIcon()
+        readonly property Binding binding: Binding {
+            when: action.currentPane !== null
+            action.text: action.baseText.replace("%1", action.currentPane.title)
+            action.icon: action.currentPane.icon
+        }
+        onTriggered: () => {
+            d.helper.activePanel = panelPosition
+            d.helper.activeUndockedPane = null
+            d.window.requestActivate()
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelLeftTop"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.LeftTop
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelLeftBottom"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.LeftBottom
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelRightTop"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.RightTop
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelRightBottom"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.RightBottom
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelTopLeft"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.TopLeft
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelTopRight"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.TopRight
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelBottomLeft"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.BottomLeft
+        }
+    }
+
+    ActionItem {
+        actionId: "core.workspacePanelBottomRight"
+        WorkspacePanelAction {
+            panelPosition: WorkspaceAddOnHelper.BottomRight
+        }
+    }
+
+    ActionItem {
+        actionId: "core.floatingPanels"
+        Menu {
+            title: ActionInstantiator.text
+            icon.source: ActionInstantiator.iconSource
+            readonly property list<QtObject> floatingPanes: d.helper.floatingPanes
+            readonly property Component floatingPanelAction: Action {
+                required property QtObject dockingPane
+                text: dockingPane?.title ?? ""
+                icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
+                onTriggered: () => {
+                    let window = dockingPane.Window.window
+                }
+            }
+            onFloatingPanesChanged: () => {
+                while (count) {
+                    removeItem(itemAt(0))
+                }
+                if (floatingPanes.length === 0) {
+                    let action = floatingPanelAction.createObject(this, {
+                        dockingPane: null,
+                        enabled: false,
+                        text: qsTr("None")
+                    })
+                    addAction(action)
+                    return
+                }
+                for (let o of floatingPanes) {
+                    let action = floatingPanelAction.createObject(this, {dockingPane: o})
+                    addAction(action)
+                }
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "core.dockActionToSideBar"
+        Action {
+
+        }
+    }
+
+}

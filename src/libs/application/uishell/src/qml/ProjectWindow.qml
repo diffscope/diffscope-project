@@ -254,6 +254,7 @@ Window {
                                 width: parent.width
                                 anchors.top: parent.top
                                 edge: Qt.TopEdge
+                                readonly property double preferredPanelSize: window.topDockingViewHeightRatio * (middleSplitView.height - 1) - barSize
                                 panelSize: parent.height - barSize
                                 onPanelSizeChanged: () => {
                                     if (middleSplitView.resizing) {
@@ -280,6 +281,7 @@ Window {
                                 width: parent.width
                                 anchors.bottom: parent.bottom
                                 edge: Qt.BottomEdge
+                                readonly property double preferredPanelSize: (1 - window.topDockingViewHeightRatio) * (middleSplitView.height - 1)
                                 panelSize: parent.height - barSize
                                 barBackgroundLevel: SVS.BL_Secondary
                             }

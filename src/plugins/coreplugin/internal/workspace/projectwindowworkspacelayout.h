@@ -2,7 +2,7 @@
 #define DIFFSCOPE_COREPLUGIN_PROJECTWINDOWWORKSPACELAYOUT_H
 
 #include <QJSValue>
-#include <coreplugin/internal/projectwindowdata.h>
+#include <QRect>
 
 #include <utility>
 
@@ -41,6 +41,17 @@ namespace Core::Internal {
             ViewSpec &operator=(const QVariant &variant);
         };
 
+        enum PanelPosition {
+            LeftTop,
+            LeftBottom,
+            RightTop,
+            RightBottom,
+            TopLeft,
+            TopRight,
+            BottomLeft,
+            BottomRight,
+        };
+
         QString name() const;
         void setName(const QString &name);
 
@@ -52,8 +63,8 @@ namespace Core::Internal {
             return m_name == o.m_name;
         }
 
-        ViewSpec viewSpec(ProjectWindowData::PanelPosition position) const;
-        void setViewSpec(ProjectWindowData::PanelPosition position, const ViewSpec &viewSpec);
+        ViewSpec viewSpec(PanelPosition position) const;
+        void setViewSpec(PanelPosition position, const ViewSpec &viewSpec);
         Q_INVOKABLE void setViewSpecFromJavaScript(const QJSValue &viewSpecJSArray);
 
         QVariant toVariant() const;

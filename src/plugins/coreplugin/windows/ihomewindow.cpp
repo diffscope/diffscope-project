@@ -2,8 +2,9 @@
 
 #include <QQmlComponent>
 
+#include <QAKQuick/quickactioncontext.h>
+
 #include <coreplugin/icore.h>
-#include <coreplugin/internal/homewindowdata.h>
 
 namespace Core {
 
@@ -13,11 +14,26 @@ namespace Core {
         Q_DECLARE_PUBLIC(IHomeWindow)
     public:
         IHomeWindow *q_ptr;
-        Internal::HomeWindowData *windowData;
+        QAK::QuickActionContext *actionContext;
         void init() {
             Q_Q(IHomeWindow);
-            windowData = new Internal::HomeWindowData(q);
-            ICore::actionRegistry()->addContext(windowData->actionContext());
+            actionContext = new QAK::QuickActionContext(q);
+            initActionContext();
+            ICore::actionRegistry()->addContext(actionContext);
+        }
+        void initActionContext() {
+            Q_Q(IHomeWindow);
+            actionContext->setMenuComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
+            actionContext->setSeparatorComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setStretchComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+
+            QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.create();
+            o->setParent(q);
+            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
         }
     };
 
@@ -26,7 +42,7 @@ namespace Core {
     }
     QAK::QuickActionContext *IHomeWindow::actionContext() const {
         Q_D(const IHomeWindow);
-        return d->windowData->actionContext();
+        return d->actionContext;
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
         Q_D(const IHomeWindow);
@@ -34,9 +50,8 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowData", QVariant::fromValue(d->windowData)}}));
+        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}}));
         Q_ASSERT(win);
-        d->windowData->setParent(win);
         return win;
     }
     IHomeWindow::IHomeWindow(QObject *parent) : IHomeWindow(*new IHomeWindowPrivate, parent) {
@@ -52,7 +67,7 @@ namespace Core {
     void IHomeWindow::nextLoadingState(State nextState) {
         Q_D(IHomeWindow);
         if (nextState == Initialized) {
-            d->windowData->actionContext()->updateElement(QAK::AE_Layouts);
+            d->actionContext->updateElement(QAK::AE_Layouts);
         }
     }
     IHomeWindowRegistry *IHomeWindowRegistry::instance() {
@@ -60,3 +75,5 @@ namespace Core {
         return &reg;
     }
 }
+
+#include "moc_ihomewindow.cpp"

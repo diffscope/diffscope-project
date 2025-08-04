@@ -21,7 +21,8 @@
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/internal/appearancepage.h>
 #include <coreplugin/internal/homeaddon.h>
-#include <coreplugin/internal/projectaddon.h>
+#include <coreplugin/internal/workspaceaddon.h>
+#include <coreplugin/internal/viewvisibilityaddon.h>
 
 #include "icore.h"
 
@@ -85,8 +86,9 @@ namespace Core::Internal {
         auto sc = icore->settingCatalog();
         sc->addPage(new AppearancePage);
 
-        IHomeWindowRegistry::instance()->attach<HomeAddon>();
-        IProjectWindowRegistry::instance()->attach<ProjectAddon>();
+        IHomeWindowRegistry::instance()->attach<HomeAddOn>();
+        IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
+        IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
 
         return true;
     }

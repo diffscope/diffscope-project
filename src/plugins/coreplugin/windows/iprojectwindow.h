@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_COREPLUGIN_IPROJECTWINDOW_H
 #define DIFFSCOPE_COREPLUGIN_IPROJECTWINDOW_H
 
+#include <qqmlintegration.h>
+
 #include <coreplugin/coreglobal.h>
 
 #include <CoreApi/iwindow.h>
@@ -15,6 +17,9 @@ namespace Core {
 
     class CORE_EXPORT IProjectWindow : public IWindow {
         Q_OBJECT
+        QML_ELEMENT
+        QML_UNCREATABLE("")
+        Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_DECLARE_PRIVATE(IProjectWindow)
     public:
         static IProjectWindow* instance();

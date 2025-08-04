@@ -5,11 +5,11 @@
 
 namespace Core::Internal {
 
-    class HomeAddon : public IWindowAddOn {
+    class HomeAddOn : public IWindowAddOn {
         Q_OBJECT
     public:
-        explicit HomeAddon(QObject *parent = nullptr);
-        ~HomeAddon() override;
+        explicit HomeAddOn(QObject *parent = nullptr);
+        ~HomeAddOn() override;
 
         void initialize() override;
         void extensionsInitialized() override;

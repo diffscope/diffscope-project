@@ -10,16 +10,16 @@ import DiffScope.CorePlugin
 
 HomeWindow {
     id: homeWindow
-    required property HomeWindowData windowData
+    required property IHomeWindow windowHandle
     onNewFileRequested: () => {
-        let newFileAction = windowData.actionContext.action("core.newFile").createObject()
+        let newFileAction = windowHandle.actionContext.action("core.newFile").createObject()
         newFileAction.trigger()
         newFileAction.destroy()
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "core.homeNavigation"
-            context: homeWindow.windowData.actionContext
+            context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.navigationActionsModel.insert(index, object)
             }
@@ -31,7 +31,7 @@ HomeWindow {
     toolActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "core.homeTool"
-            context: homeWindow.windowData.actionContext
+            context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.toolActionsModel.insert(index, object)
             }

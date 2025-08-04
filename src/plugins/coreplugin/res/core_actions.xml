@@ -15,20 +15,19 @@
     </configuration>
 
     <items>
-        <action id="core.newFile" text="New" class="File" shortcut="Ctrl+N" />
-        <action id="core.openFile" text="Open..." class="File" shortcut="Ctrl+O" />
-        <action id="core.saveFile" text="Save" class="File" shortcut="Ctrl+S" />
+        <action id="core.newFile" text="&amp;New" class="File" shortcut="Ctrl+N" />
+        <action id="core.openFile" text="&amp;Open..." class="File" shortcut="Ctrl+O" />
+        <action id="core.saveFile" text="&amp;Save" class="File" shortcut="Ctrl+S" />
 
-        <action id="core.settings" text="Settings..." class="Preferences" shortcut="Ctrl+,"/>
-        <action id="core.plugins" text="Plugins..." class="Preferences" shortcut=""/>
+        <action id="core.settings" text="Se&amp;ttings..." class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.plugins" text="Pl&amp;ugins..." class="Preferences" shortcut=""/>
 
-        <action id="core.showHome" text="Show Home Window"  class="Application" />
+        <action id="core.showHome" text="Show &amp;Home Window"  class="Application" />
 
-        <action id="core.workspaceDefaultLayout" text="Default Layout" class="View" />
-        <action id="core.workspaceCustomLayouts" text="Custom Layouts" class="View" />
-        <action id="core.workspaceSaveLayout" text="Save Current Layout As..." class="View" />
-        <action id="core.workspaceManageLayouts" text="Manage Layouts..." class="View" />
-        <action id="core.allPanels" text="All Panels" class="View" />
+        <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" />
+        <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" />
+        <action id="core.workspaceSaveLayout" text="&amp;Save Current Layout As..." class="View" />
+        <action id="core.allPanels" text="&amp;All Panels" class="View" />
         <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" />
         <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" />
         <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" />
@@ -37,21 +36,21 @@
         <action id="core.workspacePanelTopRight" text="None (Top Right)" class="View" shortcut="Ctrl+Alt+6" />
         <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" />
         <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" />
-        <action id="core.floatingPanels" text="Floating Panels" class="View" />
-        <action id="core.dockActionToSideBar" text="Add New Panel or Action..." class="View" />
+        <action id="core.floatingPanels" text="&amp;Floating Panels" class="View" />
+        <action id="core.dockActionToSideBar" text="Add &amp;New Panel or Action..." class="View" />
 
-        <action id="core.menuBarVisible" text="Show Menu Bar" class="View" />
-        <action id="core.toolBarVisible" text="Show Tool Bar" class="View" />
-        <action id="core.leftSideBarVisible" text="Show Left Side Bar" class="View" />
-        <action id="core.rightSideBarVisible" text="Show Right Side Bar" class="View" />
-        <action id="core.topSideBarVisible" text="Show Top Side Bar" class="View" />
-        <action id="core.bottomSideBarVisible" text="Show Bottom Side Bar" class="View" />
-        <action id="core.statusBarVisible" text="Show Status Bar" class="View" />
+        <action id="core.menuBarVisible" text="Show &amp;Menu Bar" class="View" />
+        <action id="core.toolBarVisible" text="Show Too&amp;l Bar" class="View" />
+        <action id="core.leftSideBarVisible" text="Show &amp;Left Side Bar" class="View" />
+        <action id="core.rightSideBarVisible" text="Show &amp;Right Side Bar" class="View" />
+        <action id="core.topSideBarVisible" text="Show &amp;Top Side Bar" class="View" />
+        <action id="core.bottomSideBarVisible" text="Show &amp;Bottom Side Bar" class="View" />
+        <action id="core.statusBarVisible" text="Show &amp;Status Bar" class="View" />
 
-        <action id="core.documentations" text="Help" class="Help" shortcut="F1" />
-        <action id="core.findActions" text="Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
-        <action id="core.aboutApp" text="About ${APP_NAME}" class="Help"/>
-        <action id="core.aboutQt" text="About Qt" class="Help"/>
+        <action id="core.documentations" text="&amp;Help" class="Help" shortcut="F1" />
+        <action id="core.findActions" text="&amp;Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
+        <action id="core.aboutApp" text="&amp;About ${APP_NAME}" class="Help"/>
+        <action id="core.aboutQt" text="About &amp;Qt" class="Help"/>
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBar" topLevel="true" />
@@ -73,7 +72,7 @@
 
     <layouts>
         <menu id="core.mainMenu">
-            <menu id="core.file">
+            <menu id="core.file" text="&amp;File">
                 <group id="core.fileOpenActions">
                     <action id="core.newFile"/>
                     <action id="core.openFile" />
@@ -86,9 +85,9 @@
                 <separator />
                 <action id="core.showHome" />
             </menu>
-            <menu id="core.view">
+            <menu id="core.view" text="&amp;View">
                 <group id="core.workspaceActions">
-                    <menu id="core.workspace">
+                    <menu id="core.workspace" text="&amp;Workspace">
                         <group id="core.workspaceLayouts">
                             <action id="core.workspaceDefaultLayout" />
                             <action id="core.workspaceCustomLayouts" />
@@ -122,7 +121,7 @@
                     <action id="core.statusBarVisible" />
                 </group>
             </menu>
-            <menu id="core.help">
+            <menu id="core.help" text="&amp;Help">
                 <action id="core.documentations" />
                 <separator />
                 <action id="core.findActions" />

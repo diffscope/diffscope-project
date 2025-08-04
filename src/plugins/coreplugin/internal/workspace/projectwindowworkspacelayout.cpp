@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iterator>
 
+#include <QVariant>
+
 namespace Core::Internal {
     ProjectWindowWorkspaceLayout::PanelSpec::operator QVariant() const {
         return QVariantMap{
@@ -44,13 +46,13 @@ namespace Core::Internal {
     void ProjectWindowWorkspaceLayout::setName(const QString &name) {
         m_name = name;
     }
-    ProjectWindowWorkspaceLayout::ViewSpec ProjectWindowWorkspaceLayout::viewSpec(ProjectWindowData::PanelPosition position) const {
+    ProjectWindowWorkspaceLayout::ViewSpec ProjectWindowWorkspaceLayout::viewSpec(PanelPosition position) const {
         if (position >= m_viewSpecMap.size()) {
             return {};
         }
         return m_viewSpecMap.at(position);
     }
-    void ProjectWindowWorkspaceLayout::setViewSpec(ProjectWindowData::PanelPosition position, const ViewSpec &viewSpec) {
+    void ProjectWindowWorkspaceLayout::setViewSpec(PanelPosition position, const ViewSpec &viewSpec) {
         if (position >= m_viewSpecMap.size()) {
             m_viewSpecMap.resize(position + 1);
         }
@@ -58,9 +60,9 @@ namespace Core::Internal {
     }
     void ProjectWindowWorkspaceLayout::setViewSpecFromJavaScript(const QJSValue &viewSpecJSArray) {
         m_viewSpecMap.clear();
-        for (int i = ProjectWindowData::LeftTop; i <= ProjectWindowData::BottomRight; i++) {
+        for (int i = LeftTop; i <= BottomRight; i++) {
             auto viewSpec = viewSpecJSArray.property(i).toVariant(QJSValue::ConvertJSObjects);
-            setViewSpec(static_cast<ProjectWindowData::PanelPosition>(i), viewSpec);
+            setViewSpec(static_cast<PanelPosition>(i), viewSpec);
         }
     }
 

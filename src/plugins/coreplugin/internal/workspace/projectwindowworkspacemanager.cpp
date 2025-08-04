@@ -38,54 +38,55 @@ namespace Core::Internal {
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceManager::defaultLayout() {
         ProjectWindowWorkspaceLayout layout;
         layout.setName("_default");
-        layout.setViewSpec(ProjectWindowData::LeftTop, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftTop, {
             {
                 {"core.propertiesPanel", true},
             }, 400, 400, 0
         });
-        layout.setViewSpec(ProjectWindowData::LeftBottom, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftBottom, {
             {
                 {"core.pluginsPanel", true},
                 {"core.settings", false}
             }, 400, 400, -1
         });
-        layout.setViewSpec(ProjectWindowData::TopLeft, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::TopLeft, {
             {
                 {"core.arrangementPanel", true}
             }, 400, 360, 0
         });
-        layout.setViewSpec(ProjectWindowData::TopRight, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::TopRight, {
             {
             }, 400, 360, -1
         });
-        layout.setViewSpec(ProjectWindowData::BottomLeft, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomLeft, {
             {
                 {"core.pianoRollPanel", true},
                 {"core.mixerPanel", true}
             }, 400, 640, 0
         });
-        layout.setViewSpec(ProjectWindowData::BottomRight, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomRight, {
             {
             }, 400, 640, -1
         });
-        layout.setViewSpec(ProjectWindowData::RightTop, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::RightTop, {
             {
                 {"core.notificationsPanel", true}
             }, 400, 400, -1
         });
-        layout.setViewSpec(ProjectWindowData::RightBottom, {
+        layout.setViewSpec(ProjectWindowWorkspaceLayout::RightBottom, {
             {
             }, 400, 400, -1
         });
         return layout;
     }
 
-    static const char settingCategoryC[] = "WorkspaceManager";
+    static const char settingCategoryC[] = "Core::Internal::WorkspaceManager";
 
     void ProjectWindowWorkspaceManager::load() {
         auto settings = PluginDatabase::settings();
         auto map = settings->value(settingCategoryC).toMap();
         if (!map.contains("currentLayout") || !map.contains("customLayouts")) {
+            setCurrentLayout(defaultLayout());
             return;
         }
         auto currentLayout = ProjectWindowWorkspaceLayout::fromVariant(map.value("currentLayout"));
