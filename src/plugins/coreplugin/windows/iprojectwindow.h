@@ -5,6 +5,8 @@
 
 #include <coreplugin/coreglobal.h>
 
+#include <SVSCraftCore/SVSCraftNamespace.h>
+
 #include <CoreApi/iwindow.h>
 
 namespace QAK {
@@ -12,6 +14,8 @@ namespace QAK {
 }
 
 namespace Core {
+
+    class NotificationMessage;
 
     class IProjectWindowPrivate;
 
@@ -25,6 +29,15 @@ namespace Core {
         static IProjectWindow* instance();
 
         QAK::QuickActionContext *actionContext() const;
+
+        enum NotificationBubbleMode {
+            NormalBubble,
+            DoNotShowBubble,
+            AutoHide,
+        };
+        Q_ENUM(NotificationBubbleMode)
+        Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
+        Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
     protected:
         QWindow *createWindow(QObject *parent) const override;

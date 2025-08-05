@@ -5,6 +5,8 @@
 #include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/icore.h>
+#include <coreplugin/notificationmessage.h>
+#include <coreplugin/internal/notificationmanager.h>
 
 namespace Core {
 
@@ -15,11 +17,13 @@ namespace Core {
     public:
         IProjectWindow *q_ptr;
         QAK::QuickActionContext *actionContext;
+        Internal::NotificationManager *notificationManager;
         void init() {
             Q_Q(IProjectWindow);
             actionContext = new QAK::QuickActionContext(q);
             initActionContext();
             ICore::actionRegistry()->addContext(actionContext);
+            notificationManager = new Internal::NotificationManager(q);
         }
 
         void initActionContext() {
@@ -56,6 +60,18 @@ namespace Core {
     QAK::QuickActionContext *IProjectWindow::actionContext() const {
         Q_D(const IProjectWindow);
         return d->actionContext;
+    }
+    void IProjectWindow::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
+        Q_D(IProjectWindow);
+        d->notificationManager->addMessage(message, mode);
+    }
+    void IProjectWindow::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
+        auto message = new NotificationMessage(this);
+        message->setIcon(icon);
+        message->setTitle(title);
+        message->setText(text);
+        connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
+        sendNotification(message, mode);
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);

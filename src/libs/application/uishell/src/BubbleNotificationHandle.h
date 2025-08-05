@@ -136,6 +136,7 @@ namespace UIShell {
         void permanentlyHideClicked();
         void buttonClicked(int index);
         void hoverEntered();
+        void hoverExited();
         void linkActivated(const QString &link);
 
     private:

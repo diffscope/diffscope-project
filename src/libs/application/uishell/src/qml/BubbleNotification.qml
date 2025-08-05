@@ -82,7 +82,7 @@ Item {
                 visible: dialog.popupLike
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronDown16Regular.svg"
                 display: AbstractButton.IconOnly
-                text: qsTr("Collapse to Message Panel")
+                text: qsTr("Collapse to Notifications Panel")
                 DescriptiveText.toolTip: text
                 DescriptiveText.activated: hovered
                 padding: 2
@@ -164,21 +164,11 @@ Item {
     }
     HoverHandler {
         target: dialog
-        property int f: 0
-        // as long as it works, do not change this
-        onPointChanged: () => {
-            if (hovered && f === 0) {
-                f = 1
-                return
-            }
-            if (hovered && f === 1) {
-                dialog.handle.hoverEntered()
-                f = -1
-            }
-        }
         onHoveredChanged: () => {
             if (!hovered) {
-                f = 0
+                dialog.handle.hoverExited()
+            } else {
+                dialog.handle.hoverEntered()
             }
         }
     }

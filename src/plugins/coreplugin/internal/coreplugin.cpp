@@ -23,6 +23,7 @@
 #include <coreplugin/internal/homeaddon.h>
 #include <coreplugin/internal/workspaceaddon.h>
 #include <coreplugin/internal/viewvisibilityaddon.h>
+#include <coreplugin/internal/notificationaddon.h>
 
 #include "icore.h"
 
@@ -89,6 +90,7 @@ namespace Core::Internal {
         IHomeWindowRegistry::instance()->attach<HomeAddOn>();
         IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
+        IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
 
         return true;
     }

@@ -48,7 +48,6 @@ namespace Core::Internal {
             iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
             iWin->actionContext()->addAction("core.mixerPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
             iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
-            iWin->actionContext()->addAction("core.notificationsPanel", new QQmlComponent(ICore::qmlEngine(), "DiffScope.CorePlugin", "NotificationsPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
@@ -94,7 +93,7 @@ namespace Core::Internal {
             if (component->isError()) {
                 qWarning() << component->errorString();
             }
-            auto object = component->create();
+            auto object = component->create(component->creationContext());
             if (!object) {
                 return nullptr;
             }
