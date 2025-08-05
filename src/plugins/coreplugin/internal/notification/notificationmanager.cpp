@@ -35,6 +35,7 @@ namespace Core::Internal {
         if (mode == IProjectWindow::AutoHide) {
             auto timer = new QTimer(handle);
             timer->setInterval(autoHideTimeout);
+            timer->setSingleShot(true);
             connect(handle, &UIShell::BubbleNotificationHandle::hoverEntered, timer, &QTimer::stop);
             connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer,
                     [=] { timer->start(); });
@@ -42,6 +43,9 @@ namespace Core::Internal {
                     &QObject::deleteLater);
             connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer,
                     &QObject::deleteLater);
+            connect(timer, &QTimer::timeout, [=] {
+                emit handle->hideClicked();
+            });
             timer->start();
         }
 
