@@ -1,5 +1,6 @@
 #include "appearancepage.h"
 
+#include <QApplication>
 #include <QQmlComponent>
 
 #include <coreplugin/icore.h>
@@ -7,7 +8,7 @@
 namespace Core::Internal {
     AppearancePage::AppearancePage(QObject *parent) : ISettingPage("core.Appearance", parent) {
         setTitle(tr("Appearance"));
-        setDescription(tr("Appearance"));
+        setDescription(tr("Configure how %1 looks like").arg(QApplication::applicationName()));
     }
     AppearancePage::~AppearancePage() = default;
     QString AppearancePage::sortKeyword() const {

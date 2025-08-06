@@ -24,6 +24,7 @@
 #include <coreplugin/internal/workspaceaddon.h>
 #include <coreplugin/internal/viewvisibilityaddon.h>
 #include <coreplugin/internal/notificationaddon.h>
+#include <coreplugin/internal/generalpage.h>
 
 #include "icore.h"
 
@@ -85,6 +86,7 @@ namespace Core::Internal {
         addIcon("core.notificationsPanel", "Alert16Filled");
 
         auto sc = icore->settingCatalog();
+        sc->addPage(new GeneralPage);
         sc->addPage(new AppearancePage);
 
         IHomeWindowRegistry::instance()->attach<HomeAddOn>();

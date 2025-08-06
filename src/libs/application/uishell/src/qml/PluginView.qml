@@ -541,7 +541,7 @@ Item {
                     }
                     ColumnLayout {
                         id: pluginCollectionLayout
-                        spacing: 4
+                        spacing: 8
                         Repeater {
                             model: view.provider.pluginCollections
                             delegate: GroupBox {
@@ -551,7 +551,7 @@ Item {
                                 title: modelData.name
                                 leftPadding: 8
                                 rightPadding: 8
-                                visible: searchTextField.text.length === 0 || pluginCollectionRepeater.count !== 0
+                                visible: (searchTextField.text.length === 0 && title.length !== 0) || pluginCollectionRepeater.count !== 0
                                 ColumnLayout {
                                     width: pluginCollectionGroupBox.width - pluginCollectionGroupBox.leftPadding - pluginCollectionGroupBox.rightPadding
                                     spacing: 0

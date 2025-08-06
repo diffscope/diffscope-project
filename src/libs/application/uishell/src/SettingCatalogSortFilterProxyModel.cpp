@@ -30,18 +30,7 @@ namespace UIShell {
     }
 
     bool SettingCatalogSortFilterProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const {
-        Core::ISettingPage *leftPage = pageForIndex(source_left);
-        Core::ISettingPage *rightPage = pageForIndex(source_right);
-        
-        if (!leftPage || !rightPage) {
-            return QSortFilterProxyModel::lessThan(source_left, source_right);
-        }
-        
-        // Compare using sortKeyword()
-        QString leftKeyword = leftPage->sortKeyword();
-        QString rightKeyword = rightPage->sortKeyword();
-        
-        return leftKeyword < rightKeyword;
+        return source_left.row() < source_right.row();
     }
 
     bool SettingCatalogSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {
