@@ -31,6 +31,7 @@
 
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/ihomewindow.h>
+#include <coreplugin/behaviorpreference.h>
 
 namespace Core {
 
@@ -42,11 +43,20 @@ namespace Core {
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
+        BehaviorPreference *behaviorPreference;
 
         void init() {
             Q_Q(ICore);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
+            behaviorPreference = new BehaviorPreference(q);
+            initializeBehaviorPreference();
+        }
+
+        void initializeBehaviorPreference() {
+            Q_Q(ICore);
+
+            behaviorPreference->load();
         }
     };
 
@@ -70,6 +80,11 @@ namespace Core {
         if (!instance())
             return nullptr;
         return instance()->d_func()->actionRegistry;
+    }
+    BehaviorPreference *ICore::behaviorPreference() {
+        if (!instance())
+            return nullptr;
+        return instance()->d_func()->behaviorPreference;
     }
 
     int ICore::showSettingsDialog(const QString &id, QWindow *parent) {
@@ -271,4 +286,5 @@ namespace Core {
 
 }
 
+#include "moc_icore.cpp"
 #include "icore.moc"

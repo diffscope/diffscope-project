@@ -16,6 +16,7 @@ ProjectWindow {
     id: projectWindow
 
     required property IProjectWindow windowHandle
+    frameless: ICore.behaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
 
     signal beforeTerminated()
 

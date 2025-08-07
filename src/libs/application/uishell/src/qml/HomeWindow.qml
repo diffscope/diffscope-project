@@ -9,7 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
-ApplicationWindow {
+Window {
     id: window
     width: 800
     height: 500
