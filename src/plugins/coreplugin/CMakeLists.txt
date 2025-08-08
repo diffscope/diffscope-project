@@ -51,6 +51,8 @@ qm_configure_target(${PROJECT_NAME}
         uishellplugin
         QAKCore
         QAKQuick
+        svscraft::QmlExtras
+        SVSCraftQmlExtrasplugin
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel

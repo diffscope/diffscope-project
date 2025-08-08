@@ -17,6 +17,7 @@ ProjectWindow {
 
     required property IProjectWindow windowHandle
     frameless: ICore.behaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
+    useSeparatedMenu: !(ICore.behaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
 
     signal beforeTerminated()
 

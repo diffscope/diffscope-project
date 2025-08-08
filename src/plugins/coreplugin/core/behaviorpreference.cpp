@@ -25,6 +25,7 @@ namespace Core {
         BehaviorPreference::UpdateOption updateOption{};
         bool useCustomFont{};
         QString fontFamily{};
+        QString fontStyle{};
         BehaviorPreference::UIBehavior uiBehavior{};
         BehaviorPreference::GraphicsBehavior graphicsBehavior{};
         bool animationEnabled{};
@@ -73,6 +74,8 @@ namespace Core {
         emit useCustomFontChanged();
         d->fontFamily = settings->value("fontFamily", QApplication::font().family()).toString();
         emit fontFamilyChanged();
+        d->fontStyle = settings->value("fontStyle", QApplication::font().style()).toString();
+        emit fontStyleChanged();
         d->uiBehavior = settings->value("uiBehavior", QVariant::fromValue(UB_Frameless | UB_MergeMenuAndTitleBar | UB_NativeMenu)).value<UIBehavior>();
         emit uiBehaviorChanged();
         d->graphicsBehavior = settings->value("graphicsBehavior", QVariant::fromValue(GB_Hardware |GB_Antialiasing)).value<GraphicsBehavior>();
@@ -103,6 +106,7 @@ namespace Core {
         settings->setValue("updateOption", static_cast<int>(d->updateOption));
         settings->setValue("useCustomFont", d->useCustomFont);
         settings->setValue("fontFamily", d->fontFamily);
+        settings->setValue("fontStyle", d->fontStyle);
         settings->setValue("uiBehavior", static_cast<int>(d->uiBehavior));
         settings->setValue("graphicsBehavior", static_cast<int>(d->graphicsBehavior));
         settings->setValue("animationEnabled", d->animationEnabled);
@@ -287,6 +291,20 @@ namespace Core {
         d->fontFamily = fontFamily;
         emit fontFamilyChanged();
     }
+
+    QString BehaviorPreference::fontStyle() const {
+        Q_D(const BehaviorPreference);
+        return d->fontStyle;
+    }
+
+    void BehaviorPreference::setFontStyle(const QString &fontStyle) {
+        Q_D(BehaviorPreference);
+        if (d->fontStyle == fontStyle)
+            return;
+        d->fontStyle = fontStyle;
+        emit fontStyleChanged();
+    }
+
     BehaviorPreference::UIBehavior BehaviorPreference::uiBehavior() const {
         Q_D(const BehaviorPreference);
         return d->uiBehavior;

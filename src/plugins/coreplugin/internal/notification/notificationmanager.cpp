@@ -8,27 +8,23 @@
 #include <uishell/BubbleNotificationHandle.h>
 
 #include <coreplugin/icore.h>
+#include <coreplugin/behaviorpreference.h>
 #include <coreplugin/notificationmessage.h>
 
 namespace Core::Internal {
 
-    static const char settingCategoryC[] = "Core::Internal::NotificationManager";
-
     NotificationManager::NotificationManager(IProjectWindow *parent) : QObject(parent) {
-        parent->setProperty(settingCategoryC, QVariant::fromValue(this));
+        parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
     }
     NotificationManager::~NotificationManager() = default;
     NotificationManager *NotificationManager::of(IProjectWindow *windowHandle) {
-        return windowHandle->property(settingCategoryC).value<NotificationManager *>();
+        return windowHandle->property(staticMetaObject.className()).value<NotificationManager *>();
     }
 
     void NotificationManager::addMessage(NotificationMessage *message,
                                          IProjectWindow::NotificationBubbleMode mode) {
-        auto settings = PluginDatabase::settings();
-        settings->beginGroup(settingCategoryC);
-        int autoHideTimeout = settings->value("autoHideTimeout", 5000).toInt();
-        bool beepOnNotification = settings->value("beepOnNotification", false).toBool();
-        settings->endGroup();
+        int autoHideTimeout = ICore::behaviorPreference()->notificationAutoHideTimeout();
+        bool beepOnNotification = ICore::behaviorPreference()->hasNotificationSoundAlert();
 
         auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
 

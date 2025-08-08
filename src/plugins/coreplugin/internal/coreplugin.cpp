@@ -1,5 +1,7 @@
 #include "coreplugin.h"
 
+#include "behaviorpreference.h"
+
 #include <QtCore/QDirIterator>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QThread>
@@ -17,6 +19,8 @@
 
 #include <loadapi/initroutine.h>
 
+#include <coreplugin/icore.h>
+#include <coreplugin/behaviorpreference.h>
 #include <coreplugin/ihomewindow.h>
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/internal/appearancepage.h>
@@ -25,8 +29,6 @@
 #include <coreplugin/internal/viewvisibilityaddon.h>
 #include <coreplugin/internal/notificationaddon.h>
 #include <coreplugin/internal/generalpage.h>
-
-#include "icore.h"
 
 
 namespace Core::Internal {
@@ -112,8 +114,14 @@ namespace Core::Internal {
             ICore::showSettingsDialog("", nullptr);
         }
 
-        auto win = static_cast<QQuickWindow *>(IHomeWindowRegistry::instance()->create()->window());
-        win->show();
+        QQuickWindow *win;
+        if (ICore::behaviorPreference()->startupBehavior() & BehaviorPreference::SB_CreateNewProject) {
+            ICore::newFile();
+            win = static_cast<QQuickWindow *>(ICore::windowSystem()->firstWindowOfType<IProjectWindow>()->window());
+        } else {
+            ICore::showHome();
+            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
+        }
         connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
 
         return false;

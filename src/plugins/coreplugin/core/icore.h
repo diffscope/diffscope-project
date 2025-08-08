@@ -49,8 +49,8 @@ namespace Core {
         Q_INVOKABLE static void showHome();
 
     public:
-        Q_INVOKABLE void newFile() const;
-        bool openFile(const QString &fileName, QWidget *parent = nullptr) const;
+        Q_INVOKABLE static void newFile();
+        static bool openFile(const QString &fileName, QWidget *parent = nullptr);
 
     private:
         explicit ICore(QObject *parent = nullptr);

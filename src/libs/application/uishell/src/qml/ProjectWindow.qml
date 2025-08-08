@@ -24,6 +24,7 @@ Window {
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
     property double topDockingViewHeightRatio: 0.3
+    property bool useSeparatedMenu: false
 
     readonly property MenuBar menuBar: menuBar
     readonly property Item toolBar: toolBar
@@ -70,6 +71,31 @@ Window {
         anchors.fill: parent
         color: Theme.backgroundQuaternaryColor
     }
+    MenuBar {
+        id: menuBar
+        parent: window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
+        padding: 0
+        leftPadding: 4
+        background: Item {
+        }
+        Instantiator {
+            model: window.menusModel
+            onObjectAdded: (index, object) => {
+                if (object instanceof Menu) {
+                    menuBar.insertMenu(index, object)
+                } else {
+                    throw new TypeError("Unsupported menu type")
+                }
+            }
+            onObjectRemoved: (index, object) => {
+                if (object instanceof Menu) {
+                    menuBar.removeMenu(object)
+                } else {
+                    throw new TypeError("Unsupported menu type")
+                }
+            }
+        }
+    }
     ColumnLayout {
         spacing: 1
         anchors.fill: parent
@@ -94,27 +120,9 @@ Window {
                         height: 16
                     }
                 }
-                MenuBar {
-                    id: menuBar
-                    background: Item {
-                    }
-                    Instantiator {
-                        model: window.menusModel
-                        onObjectAdded: (index, object) => {
-                            if (object instanceof Menu) {
-                                menuBar.insertMenu(index, object)
-                            } else {
-                                throw new TypeError("Unsupported menu type")
-                            }
-                        }
-                        onObjectRemoved: (index, object) => {
-                            if (object instanceof Menu) {
-                                menuBar.removeMenu(object)
-                            } else {
-                                throw new TypeError("Unsupported menu type")
-                            }
-                        }
-                    }
+                RowLayout {
+                    id: titleBarMenuParent
+                    visible: !window.useSeparatedMenu && menuBar.height !== 0
                 }
                 Item {
                     id: titleBarArea
@@ -162,10 +170,17 @@ Window {
 
                     } else {
                         const middleX = (parent.width - width) / 2
-                        return Math.max(middleX, menuBar.mapToItem(titleBar, 0, 0).x + menuBar.width)
+                        return Math.max(middleX, titleBarMenuParent.mapToItem(titleBar, 0, 0).x + titleBarMenuParent.width)
                     }
                 }
             }
+        }
+        Rectangle {
+            id: separatedMenuParent
+            Layout.fillWidth: true
+            color: Theme.backgroundPrimaryColor
+            visible: window.useSeparatedMenu && menuBar.height !== 0
+            height: 24
         }
         ToolBar {
             id: toolBar

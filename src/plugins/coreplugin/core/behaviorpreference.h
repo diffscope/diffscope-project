@@ -29,6 +29,7 @@ namespace Core {
         Q_PROPERTY(BehaviorPreference::UpdateOption updateOption READ updateOption WRITE setUpdateOption NOTIFY updateOptionChanged)
         Q_PROPERTY(bool useCustomFont READ useCustomFont WRITE setUseCustomFont NOTIFY useCustomFontChanged)
         Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
+        Q_PROPERTY(QString fontStyle READ fontStyle WRITE setFontStyle NOTIFY fontStyleChanged)
         Q_PROPERTY(BehaviorPreference::UIBehavior uiBehavior READ uiBehavior WRITE setUiBehavior NOTIFY uiBehaviorChanged)
         Q_PROPERTY(BehaviorPreference::GraphicsBehavior graphicsBehavior READ graphicsBehavior WRITE setGraphicsBehavior NOTIFY graphicsBehaviorChanged)
         Q_PROPERTY(bool animationEnabled READ isAnimationEnabled WRITE setAnimationEnabled NOTIFY animationEnabledChanged)
@@ -116,6 +117,9 @@ namespace Core {
         QString fontFamily() const;
         void setFontFamily(const QString &fontFamily);
 
+        QString fontStyle() const;
+        void setFontStyle(const QString &fontStyle);
+
         enum UIBehaviorFlag {
             UB_Frameless = 0x01,
             UB_MergeMenuAndTitleBar = 0x02,
@@ -161,6 +165,7 @@ namespace Core {
         void updateOptionChanged();
         void useCustomFontChanged();
         void fontFamilyChanged();
+        void fontStyleChanged();
         void uiBehaviorChanged();
         void graphicsBehaviorChanged();
         void animationEnabledChanged();

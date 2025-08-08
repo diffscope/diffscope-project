@@ -12,7 +12,9 @@ namespace Core::Internal {
         setDescription(tr("Configure general behaviors of %1").arg(QApplication::applicationName()));
 
     }
-    GeneralPage::~GeneralPage() = default;
+    GeneralPage::~GeneralPage() {
+        delete m_widget;
+    }
     bool GeneralPage::matches(const QString &word) const {
         return ISettingPage::matches(word);
     }

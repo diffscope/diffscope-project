@@ -18,6 +18,7 @@
 #include <QQmlComponent>
 #include <QDesktopServices>
 #include <QQuickWindow>
+#include <QFontDatabase>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
@@ -26,6 +27,7 @@
 #include <application_buildinfo.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftQuick/Theme.h>
 
 #include <CoreApi/private/icorebase_p.h>
 
@@ -55,8 +57,40 @@ namespace Core {
 
         void initializeBehaviorPreference() {
             Q_Q(ICore);
-
+            const auto updateFont = [=] {
+                if (!behaviorPreference->useCustomFont()) {
+                    QApplication::setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
+                } else {
+                    auto font = QApplication::font();
+                    font.setFamily(behaviorPreference->fontFamily());
+                    font.setStyleName(behaviorPreference->fontStyle());
+                    QApplication::setFont(font);
+                }
+            };
+            QObject::connect(behaviorPreference, &BehaviorPreference::useCustomFontChanged, q, updateFont);
+            QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, q, updateFont);
+            QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, q, updateFont);
+#ifndef Q_OS_WIN
+            QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, q, [=] {
+                QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, !(behaviorPreference->uiBehavior() & BehaviorPreference::UB_NativeMenu));
+            });
+#endif
+            const auto updateAnimation = [=] {
+                auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
+                SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
+                SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
+            };
+            QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, q, updateAnimation);
+            QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, q, updateAnimation);
             behaviorPreference->load();
+            if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
+                QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+            }
+            if (behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Antialiasing) {
+                auto sf = QSurfaceFormat::defaultFormat();
+                sf.setSamples(8);
+                QSurfaceFormat::setDefaultFormat(sf);
+            }
         }
     };
 
@@ -258,13 +292,16 @@ namespace Core {
         auto iWin = IHomeWindowRegistry::instance()->create();
         Q_UNUSED(iWin);
     }
-    void ICore::newFile() const {
+    void ICore::newFile() {
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
         win->show();
+        if (IHomeWindow::instance() && (behaviorPreference()->startupBehavior() & BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
+            IHomeWindow::instance()->quit();
+        }
     }
 
-    bool ICore::openFile(const QString &fileName, QWidget *parent) const {
+    bool ICore::openFile(const QString &fileName, QWidget *parent) {
         // auto docMgr = ICore::instance()->documentSystem();
         // if (fileName.isEmpty()) {
         //     return docMgr->openFileBrowse(parent, DspxSpec::instance());

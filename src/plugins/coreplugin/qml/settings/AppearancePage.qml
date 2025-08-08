@@ -13,6 +13,7 @@ ScrollView {
     property bool started: false
     property bool useCustomFont
     property string fontFamily
+    property string fontStyle
     property int uiBehavior
     property int graphicsBehavior
     property bool animationEnabled
@@ -46,7 +47,18 @@ ScrollView {
                         }
                         ComboBox {
                             enabled: page.useCustomFont
+                            readonly property list<string> families: page.pageHandle.fontFamilies()
+                            model: families
+                            currentIndex: families.indexOf(page.fontFamily)
+                            onCurrentTextChanged: page.fontFamily = currentText
                             Layout.fillWidth: true
+                        }
+                        ComboBox {
+                            enabled: page.useCustomFont
+                            readonly property list<string> styles: page.pageHandle.fontStyles(page.fontFamily)
+                            model: styles
+                            currentIndex: styles.indexOf(page.fontStyle)
+                            onCurrentTextChanged: page.fontStyle = currentText
                         }
                     }
                 }
@@ -87,6 +99,7 @@ ScrollView {
                         }
                     }
                     RowLayout {
+                        visible: Qt.platform.os !== "windows"
                         CheckBox {
                             text: qsTr("Use native menu bar")
                             checked: page.uiBehavior & BehaviorPreference.UB_NativeMenu

@@ -152,6 +152,16 @@ Window {
         property var currentIndex
         property var loadedPages: new Set()
         property var dirtyPages: new Set()
+        readonly property Component dirtyChangedConnections: Component {
+            Connections {
+                function onDirtyChanged() {
+                    if (target.dirty) {
+                        settingCatalogModel.dirtyPages.add(target)
+                        applyButton.enabled = true
+                    }
+                }
+            }
+        }
         onCurrentIndexChanged: () => {
             if (currentIndex) {
                 const page = data(currentIndex) ?? null
@@ -159,12 +169,7 @@ Window {
                     return
                 if (!loadedPages.has(page)) {
                     loadedPages.add(page)
-                    page.dirtyChanged.connect(() => {
-                        if (page.dirty) {
-                            dirtyPages.add(page)
-                            applyButton.enabled = true
-                        }
-                    })
+                    dirtyChangedConnections.createObject(this, {target: page})
                     page.beginSetting()
                 }
                 settingPageArea.currentPage = page

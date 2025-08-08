@@ -17,6 +17,9 @@ namespace Core::Internal {
         bool accept() override;
         void endSetting() override;
 
+        Q_INVOKABLE static QStringList fontFamilies();
+        Q_INVOKABLE static QStringList fontStyles(const QString &family);
+
     private:
         QObject *m_widget{};
     };
