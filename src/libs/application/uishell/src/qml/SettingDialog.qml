@@ -60,6 +60,8 @@ Window {
         implicitWidth: leftMargin + __contentIndent + implicitContentWidth + rightPadding + rightMargin
         implicitHeight: 24
 
+        font: Theme.font
+
         indentation: indicator ? indicator.width : 12
         leftMargin: 4
         rightMargin: 4
@@ -136,6 +138,7 @@ Window {
         contentItem: Text {
             clip: false
             text: control.text
+            font: control.font
             elide: Text.ElideRight
             color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
                    control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :

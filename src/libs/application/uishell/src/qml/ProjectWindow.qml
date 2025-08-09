@@ -163,6 +163,7 @@ Window {
                 Text {
                     color: Window.active ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
                     Layout.alignment: Qt.AlignVCenter
+                    font: Theme.font
                     text: Window.window.title
                 }
                 x: {

@@ -59,12 +59,15 @@ namespace Core {
             Q_Q(ICore);
             const auto updateFont = [=] {
                 if (!behaviorPreference->useCustomFont()) {
-                    QApplication::setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
+                    auto font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+                    QApplication::setFont(font);
+                    SVS::Theme::defaultTheme()->setFont(font);
                 } else {
                     auto font = QApplication::font();
                     font.setFamily(behaviorPreference->fontFamily());
                     font.setStyleName(behaviorPreference->fontStyle());
                     QApplication::setFont(font);
+                    SVS::Theme::defaultTheme()->setFont(font);
                 }
             };
             QObject::connect(behaviorPreference, &BehaviorPreference::useCustomFontChanged, q, updateFont);

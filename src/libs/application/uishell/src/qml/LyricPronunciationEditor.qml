@@ -190,6 +190,7 @@ Frame {
 
         Text {
             Layout.alignment: Qt.AlignHCenter
+            font: frame.font
             font.pixelSize: 12
             text: cell.pronunciation
             color: cell.candidatePronunciations.indexOf(pronunciation) === -1 ? Theme.warningColor : cell.candidatePronunciations.length > 1 ? Theme.accentColor: Theme.foregroundPrimaryColor
@@ -206,6 +207,7 @@ Frame {
             Text {
                 id: lyricText
                 color: Theme.foregroundPrimaryColor
+                font: frame.font
                 anchors.centerIn: parent
                 text: cell.lyric
             }

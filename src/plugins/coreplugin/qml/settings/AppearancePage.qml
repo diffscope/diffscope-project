@@ -21,6 +21,7 @@ ScrollView {
 
     onUseCustomFontChanged: if (started) pageHandle.markDirty()
     onFontFamilyChanged: if (started) pageHandle.markDirty()
+    onFontStyleChanged: if (started) pageHandle.markDirty()
     onUiBehaviorChanged: if (started) pageHandle.markDirty()
     onGraphicsBehaviorChanged: if (started) pageHandle.markDirty()
     onAnimationEnabledChanged: if (started) pageHandle.markDirty()
@@ -61,6 +62,12 @@ ScrollView {
                             onCurrentTextChanged: page.fontStyle = currentText
                         }
                     }
+                    Label {
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        text: qsTr("You may need to restart %1 for font changes to take full effect.").replace("%1", Application.name)
+                    }
                 }
             }
             GroupBox {
@@ -68,22 +75,22 @@ ScrollView {
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
-                    RowLayout {
-                        CheckBox {
-                            text: qsTr("Enable frameless window")
-                            checked: page.uiBehavior & BehaviorPreference.UB_Frameless
-                            onClicked: {
-                                if (checked) {
-                                    page.uiBehavior |= BehaviorPreference.UB_Frameless
-                                } else {
-                                    page.uiBehavior &= ~BehaviorPreference.UB_Frameless
-                                }
+                    CheckBox {
+                        text: qsTr("Enable frameless window")
+                        checked: page.uiBehavior & BehaviorPreference.UB_Frameless
+                        onClicked: {
+                            if (checked) {
+                                page.uiBehavior |= BehaviorPreference.UB_Frameless
+                            } else {
+                                page.uiBehavior &= ~BehaviorPreference.UB_Frameless
                             }
                         }
-                        Label {
-                            ThemedItem.foregroundLevel: SVS.FL_Secondary
-                            text: qsTr("(Restart required)")
-                        }
+                    }
+                    Label {
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        text: qsTr("Windows where frameless has been enabled need to be reopened to disable frameless.")
                     }
                     CheckBox {
                         Layout.leftMargin: 22

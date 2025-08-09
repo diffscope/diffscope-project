@@ -146,7 +146,7 @@ Item {
             }
             contentItem: Text {
                 color: Theme.foregroundPrimaryColor
-                font.pixelSize: 11
+                font: { font = Theme.font; font.pixelSize = 11 }
                 horizontalAlignment: Text.AlignHCenter
                 text: restartButton.text
             }
@@ -285,6 +285,7 @@ Item {
                 }
                 IconLabel {
                     spacing: 4
+                    font: Theme.font
                     icon.source: `qrc:/qt/qml/DiffScope/UIShell/assets/${d.pluginSpec?.hasError ? "DismissCircle16Filled" : !d.pluginSpec?.running ? "SubtractCircle16Filled" : d.pluginSpec?.required ? "CheckmarkLock16Filled" : "CheckmarkCircle16Filled"}.svg`
                     icon.color: d.pluginSpec?.hasError ? Theme.errorColor : !d.pluginSpec?.running ? Theme.foregroundSecondaryColor : Theme.accentColor
                     text: d.pluginSpec?.hasError ? qsTr("Plugin status: Error") : !d.pluginSpec?.running ? qsTr("Plugin status: Not loaded") : qsTr("Plugin status: Loaded")
