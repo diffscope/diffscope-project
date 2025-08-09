@@ -3,7 +3,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQml.Models
 
+import SVSCraft.Extras
+
 import QActionKit
+
+import ChorusKit.AppCore
 
 import DiffScope.UIShell
 import DiffScope.CorePlugin
@@ -40,5 +44,11 @@ HomeWindow {
                 homeWindow.toolActionsModel.remove(index)
             }
         }
+    }
+
+    Settings {
+        settings: PluginDatabase.settings
+        category: "DiffScope.CorePlugin.HomeWindow"
+        property alias recentFilesListView: homeWindow.recentFilesListView
     }
 }

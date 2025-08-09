@@ -4,6 +4,8 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <CoreApi/plugindatabase.h>
+
 #include <coreplugin/icore.h>
 #include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/notificationmanager.h>
@@ -28,11 +30,11 @@ namespace Core {
 
         void initActionContext() {
             Q_Q(IProjectWindow);
-            actionContext->setMenuComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
-            actionContext->setSeparatorComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            actionContext->setStretchComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setMenuComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
+            actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             {
-                QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
+                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
@@ -41,7 +43,7 @@ namespace Core {
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
             {
-                QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "ProjectActions");
+                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectActions");
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
@@ -75,7 +77,7 @@ namespace Core {
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);
-        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "ProjectWindow");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

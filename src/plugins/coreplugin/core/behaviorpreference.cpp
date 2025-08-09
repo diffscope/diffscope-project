@@ -1,6 +1,8 @@
 #include "behaviorpreference.h"
 
 #include <QApplication>
+#include <QSettings>
+
 #include <CoreApi/plugindatabase.h>
 
 namespace Core {

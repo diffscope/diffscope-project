@@ -54,6 +54,7 @@
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBar" topLevel="true" />
+        <menu id="core.mainStatusBar" topLevel="true" />
         <menu id="core.homeNavigation" topLevel="true"/>
         <menu id="core.homeTool" topLevel="true"/>
 
@@ -62,6 +63,7 @@
 
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
+        <action id="core.statusText" />
         <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" />
         <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" />
         <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" />
@@ -141,6 +143,11 @@
             <stretch />
             <action id="core.findActions" />
             <action id="core.documentations" />
+        </menu>
+
+        <menu id="core.mainStatusBar">
+            <action id="core.statusText" />
+            <stretch />
         </menu>
 
         <menu id="core.homeNavigation">

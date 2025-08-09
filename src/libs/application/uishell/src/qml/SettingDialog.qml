@@ -21,6 +21,7 @@ Window {
     title: qsTr("Settings")
     property double navigationWidth: 200
     property QtObject settingCatalog: null
+    property string currentId: ""
     signal finished()
     function apply() {
         let restoreApplyStatus = false
@@ -44,6 +45,11 @@ Window {
             page.endSetting()
         }
         finished()
+    }
+    onCurrentIdChanged: () => {
+        if (currentId !== (settingPageArea.currentPage?.id ?? "")) {
+            showPage(currentId)
+        }
     }
     function showPage(id) {
         const index = settingCatalogModel.indexForPageId(id)
@@ -175,6 +181,7 @@ Window {
                     dirtyChangedConnections.createObject(this, {target: page})
                     page.beginSetting()
                 }
+                GlobalHelper.setProperty(dialog, "currentId", page.id)
                 settingPageArea.currentPage = page
             }
         }

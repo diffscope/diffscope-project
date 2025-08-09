@@ -30,6 +30,7 @@
 #include <SVSCraftQuick/Theme.h>
 
 #include <CoreApi/private/icorebase_p.h>
+#include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/ihomewindow.h>
@@ -108,11 +109,6 @@ namespace Core {
     ICore *ICore::instance() {
         return static_cast<ICore *>(ICoreBase::instance());
     }
-    QQmlEngine *ICore::qmlEngine() {
-        if (!instance())
-            return nullptr;
-        return instance()->d_func()->qmlEngine;
-    }
     QAK::ActionRegistry *ICore::actionRegistry() {
         if (!instance())
             return nullptr;
@@ -129,6 +125,11 @@ namespace Core {
 
         // TODO: show last used page if id is empty
 
+        auto settings = PluginDatabase::settings();
+        settings->beginGroup("DiffScope.CorePlugin.SettingDialog");
+        settings->setValue("currentId", settings->value("currentId", "core.General"));
+        settings->endGroup();
+
         if (dlg) {
             if (!id.isEmpty())
                 QMetaObject::invokeMethod(dlg.get(), "showPage", QVariant(id));
@@ -137,7 +138,7 @@ namespace Core {
 
         int code;
         {
-            QQmlComponent component(qmlEngine(), "DiffScope.CorePlugin", "SettingDialog");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "SettingDialog");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -158,7 +159,7 @@ namespace Core {
     }
 
     void ICore::showPluginsDialog(QWindow *parent) {
-        QQmlComponent component(qmlEngine(), "DiffScope.CorePlugin", "PluginDialog");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -215,7 +216,7 @@ namespace Core {
                                      QStringLiteral(APPLICATION_COMPILER_ID),          //
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
 
-        QQmlComponent component(qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
             {"textFormat",      Qt::RichText                                       },
             {"text",            appName.toHtmlEscaped()                            },
@@ -263,7 +264,7 @@ namespace Core {
             "project. See <a href=\"https://%3/\">%3</a> for more information.</p>"
             ).arg(QStringLiteral("qt.io/licensing"),
                   QStringLiteral("qt.io"));
-        QQmlComponent component(qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         QQuickIcon icon;
         icon.setSource(QUrl("qrc:/qt-project.org/qmessagebox/images/qtlogo-64.png"));
         QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({

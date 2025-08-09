@@ -2,6 +2,7 @@
 
 #include "behaviorpreference.h"
 
+#include <QTimer>
 #include <QtCore/QDirIterator>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QThread>
@@ -16,6 +17,8 @@
 #include <extensionsystem/pluginspec.h>
 
 #include <CoreApi/plugindatabase.h>
+#include <CoreApi/settingcatalog.h>
+#include <CoreApi/windowsystem.h>
 
 #include <loadapi/initroutine.h>
 

@@ -23,7 +23,7 @@ namespace Core::Internal {
         auto iWin = windowHandle()->cast<IProjectWindow>();
         auto window = iWin->window();
 
-        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "ViewVisibilityAddOnActions");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ViewVisibilityAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -79,7 +79,7 @@ namespace Core::Internal {
             if (!visible) {
                 if (SVS::SVSCraft::No ==
                     SVS::MessageBox::warning(
-                        ICore::qmlEngine(), window, tr("Please take attention"),
+                        PluginDatabase::qmlEngine(), window, tr("Please take attention"),
                         tr("After hiding the menu bar, it can be difficult to show it again. Make "
                            "sure you know how to do this.\n\nContinue?"),
                         SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No)) {

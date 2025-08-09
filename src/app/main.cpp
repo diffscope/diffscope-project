@@ -5,9 +5,11 @@
 #include <QtCore/QLoggingCategory>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
+#include <QtQml/QQmlEngine>
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
+#include <CoreApi/plugindatabase.h>
 
 #include <qjsonsettings.h>
 
@@ -28,7 +30,7 @@ static QSettings::Format getJsonSettingsFormat() {
 
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
-    MyLoaderSpec() {
+    MyLoaderSpec(QQmlEngine *engine) : engine(engine) {
         userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
         systemSettingsPath =
             ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
@@ -65,6 +67,7 @@ public:
     void beforeLoadPlugins() override {
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
+        Core::PluginDatabase::setQmlEngine(engine);
     }
 
     void afterLoadPlugins() override {
@@ -73,6 +76,7 @@ public:
 
     QString userSettingsPath;
     QString systemSettingsPath;
+    QQmlEngine *engine;
 };
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
@@ -103,6 +107,8 @@ int main(int argc, char *argv[]) {
     a.setOrganizationName(QStringLiteral(APPLICATION_ORG_NAME));
     a.setOrganizationDomain(QStringLiteral(APPLICATION_ORG_DOMAIN));
 
+    QQmlEngine engine;
+
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
     breakpad.setDumpPath(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData) +
@@ -116,5 +122,5 @@ int main(int argc, char *argv[]) {
     // Don't show plugin manager debug info
     QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
 
-    return MyLoaderSpec().run();
+    return MyLoaderSpec(&engine).run();
 }

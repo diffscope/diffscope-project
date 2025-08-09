@@ -7,6 +7,8 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <CoreApi/plugindatabase.h>
+
 #include <coreplugin/icore.h>
 #include <coreplugin/behaviorpreference.h>
 
@@ -28,7 +30,7 @@ namespace Core::Internal {
     QObject *GeneralPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "GeneralPage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GeneralPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -73,9 +75,9 @@ namespace Core::Internal {
         ICore::behaviorPreference()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
         ICore::behaviorPreference()->setProperty("updateOption", m_widget->property("updateOption"));
         ICore::behaviorPreference()->save();
-        if (promptRestartForLanguage) {
+        if (true || promptRestartForLanguage) {
             if (SVS::MessageBox::question(
-                ICore::qmlEngine(),
+                PluginDatabase::qmlEngine(),
                 static_cast<QQuickItem *>(m_widget)->window(),
                 tr("Restart %1").arg(QApplication::applicationName()),
                 tr("Restart %1 to apply language changes?")

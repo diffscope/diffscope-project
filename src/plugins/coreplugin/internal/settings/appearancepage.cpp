@@ -4,6 +4,8 @@
 #include <QQmlComponent>
 #include <QFontDatabase>
 
+#include <CoreApi/plugindatabase.h>
+
 #include <coreplugin/icore.h>
 #include <coreplugin/behaviorpreference.h>
 
@@ -21,7 +23,7 @@ namespace Core::Internal {
     QObject *AppearancePage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "AppearancePage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "AppearancePage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

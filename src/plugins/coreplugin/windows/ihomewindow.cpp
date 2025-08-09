@@ -4,6 +4,8 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <CoreApi/plugindatabase.h>
+
 #include <coreplugin/icore.h>
 
 namespace Core {
@@ -23,11 +25,11 @@ namespace Core {
         }
         void initActionContext() {
             Q_Q(IHomeWindow);
-            actionContext->setMenuComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
-            actionContext->setSeparatorComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            actionContext->setStretchComponent(new QQmlComponent(ICore::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setMenuComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
+            actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
 
-            QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -46,7 +48,7 @@ namespace Core {
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
         Q_D(const IHomeWindow);
-        QQmlComponent component(ICore::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

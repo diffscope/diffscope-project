@@ -4,6 +4,8 @@
 #include <iterator>
 #include <ranges>
 
+#include <QSettings>
+
 #include <CoreApi/plugindatabase.h>
 
 namespace Core::Internal {

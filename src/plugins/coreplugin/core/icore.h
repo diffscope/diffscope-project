@@ -29,16 +29,12 @@ namespace Core {
         QML_ELEMENT
         QML_SINGLETON
         Q_DECLARE_PRIVATE(ICore)
-        Q_PROPERTY(Core::WindowSystem *windowSystem READ windowSystem CONSTANT)
-        Q_PROPERTY(Core::DocumentSystem *documentSystem READ documentSystem CONSTANT)
-        Q_PROPERTY(Core::SettingCatalog *settingCatalog READ settingCatalog CONSTANT)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
         Q_PROPERTY(BehaviorPreference *behaviorPreference READ behaviorPreference CONSTANT)
     public:
         static ICore *instance();
         static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
-        static QQmlEngine *qmlEngine();
         static QAK::ActionRegistry *actionRegistry();
         static BehaviorPreference *behaviorPreference();
 
