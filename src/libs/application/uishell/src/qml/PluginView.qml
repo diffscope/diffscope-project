@@ -209,8 +209,6 @@ Item {
                     text: qsTr("Back")
                     flat: true
                     display: AbstractButton.IconOnly
-                    DescriptiveText.toolTip: text
-                    DescriptiveText.activated: hovered
                     onClicked: pluginDetailsPane.StackView.view.pop()
                 }
                 SelectableLabel {
@@ -219,6 +217,7 @@ Item {
                     font.weight: Font.Medium
 
                     DescriptiveText.toolTip: qsTr("Plugin name")
+                    Accessible.description: DescriptiveText.toolTip
                     DescriptiveText.activated: pluginNameHoverHandler.hovered
                     HoverHandler {
                         id: pluginNameHoverHandler
@@ -231,6 +230,7 @@ Item {
                 SelectableLabel {
                     text: d.pluginSpec.vendor
                     DescriptiveText.toolTip: qsTr("Vendor")
+                    Accessible.description: DescriptiveText.toolTip
                     DescriptiveText.activated: vendorHoverHandler.hovered
                     HoverHandler {
                         id: vendorHoverHandler
@@ -244,6 +244,7 @@ Item {
                 SelectableLabel {
                     text: d.pluginSpec.version
                     DescriptiveText.toolTip: qsTr("Version")
+                    Accessible.description: DescriptiveText.toolTip
                     DescriptiveText.activated: versionHoverHandler.hovered
                     HoverHandler {
                         id: versionHoverHandler
@@ -267,6 +268,7 @@ Item {
                 text: d.pluginSpec.description
                 Layout.maximumWidth: pluginDetailsPane.width - 32
                 DescriptiveText.toolTip: qsTr("Description")
+                Accessible.description: DescriptiveText.toolTip
                 DescriptiveText.activated: descriptionHoverHandler.hovered
                 wrapMode: Text.Wrap
                 HoverHandler {
@@ -321,6 +323,7 @@ Item {
                         width: implicitWidth
                         DescriptiveText.toolTip: qsTr("Plugins required by this plugin, including indirect dependencies")
                         DescriptiveText.activated: hovered
+                        Accessible.description: DescriptiveText.toolTip
                     }
                     TabButton {
                         text: qsTr("Dependents")
@@ -328,6 +331,7 @@ Item {
                         width: implicitWidth
                         DescriptiveText.toolTip: qsTr("Plugins that require this plugin, including indirect dependants")
                         DescriptiveText.activated: hovered
+                        Accessible.description: DescriptiveText.toolTip
                     }
                     TabButton {
                         text: qsTr("Additional Info")
@@ -396,8 +400,6 @@ Item {
                                     icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled"
                                     display: AbstractButton.IconOnly
                                     text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
-                                    DescriptiveText.toolTip: text
-                                    DescriptiveText.activated: hovered
                                     onClicked: () => {
                                         DesktopServices.reveal(d.pluginSpec.filePath)
                                     }

@@ -68,8 +68,6 @@ Item {
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/EyeOff16Filled.svg"
                 display: AbstractButton.IconOnly
                 text: qsTr("Do Not Show Again")
-                DescriptiveText.toolTip: text
-                DescriptiveText.activated: hovered
                 padding: 2
                 leftPadding: 2
                 rightPadding: 2
@@ -83,8 +81,6 @@ Item {
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronDown16Regular.svg"
                 display: AbstractButton.IconOnly
                 text: qsTr("Collapse to Notifications Panel")
-                DescriptiveText.toolTip: text
-                DescriptiveText.activated: hovered
                 padding: 2
                 leftPadding: 2
                 rightPadding: 2
@@ -98,8 +94,6 @@ Item {
                 display: AbstractButton.IconOnly
                 visible: dialog.handle.closable
                 text: qsTr("Clear")
-                DescriptiveText.toolTip: text
-                DescriptiveText.activated: hovered
                 icon.width: 14
                 icon.height: 14
                 padding: 2
@@ -135,8 +129,6 @@ Item {
                 background: Item {}
                 display: AbstractButton.IconOnly
                 text: qsTr("Abort")
-                DescriptiveText.toolTip: text
-                DescriptiveText.activated: hovered
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DismissCircle12Filled.svg"
                 icon.height: 12
                 icon.width: 12

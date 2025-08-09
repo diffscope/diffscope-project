@@ -72,8 +72,6 @@ Window {
         flat: true
         display: AbstractButton.IconOnly
         implicitWidth: implicitHeight
-        DescriptiveText.toolTip: text
-        DescriptiveText.activated: hovered
     }
     component CellButton: Button {
         id: cell
@@ -82,6 +80,7 @@ Window {
         flat: true
         padding: 4
         Accessible.name: modelData.name + "\n" + modelData.lastModifiedText
+        Accessible.description: modelData.path
         DescriptiveText.toolTip: modelData.path
         DescriptiveText.activated: !modelData.newFile && hovered
         contentItem: ColumnLayout {
@@ -158,6 +157,7 @@ Window {
         flat: true
         padding: 4
         Accessible.name: modelData.name + "\n" + modelData.lastModifiedText
+        Accessible.description: modelData.path
         DescriptiveText.toolTip: modelData.path
         DescriptiveText.activated: !modelData.newFile && hovered
         contentItem: RowLayout {
@@ -449,8 +449,8 @@ Window {
                             autoExclusive: true
                             checked: !window.recentFilesListView
                             onClicked: GlobalHelper.setProperty(window, "recentFilesListView", !checked)
-                            DescriptiveText.toolTip: qsTr("Grid view")
-                            DescriptiveText.activated: hovered
+                            text: qsTr("Grid view")
+                            display: AbstractButton.IconOnly
                         }
                         ToolButton {
                             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/List16Filled.svg"
@@ -458,8 +458,8 @@ Window {
                             autoExclusive: true
                             checked: window.recentFilesListView
                             onClicked: GlobalHelper.setProperty(window, "recentFilesListView", checked)
-                            DescriptiveText.toolTip: qsTr("List view")
-                            DescriptiveText.activated: hovered
+                            text: qsTr("List view")
+                            display: AbstractButton.IconOnly
                         }
                     }
                 }
