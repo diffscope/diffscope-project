@@ -2,6 +2,10 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QQuickWindow>
+
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/icore.h>
 #include <coreplugin/behaviorpreference.h>
@@ -53,6 +57,7 @@ namespace Core::Internal {
     }
     bool GeneralPage::accept() {
         Q_ASSERT(m_widget);
+        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != ICore::behaviorPreference()->localeName());
         ICore::behaviorPreference()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
         ICore::behaviorPreference()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
         ICore::behaviorPreference()->setProperty("localeName", m_widget->property("localeName"));
@@ -68,6 +73,16 @@ namespace Core::Internal {
         ICore::behaviorPreference()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
         ICore::behaviorPreference()->setProperty("updateOption", m_widget->property("updateOption"));
         ICore::behaviorPreference()->save();
+        if (promptRestartForLanguage) {
+            if (SVS::MessageBox::question(
+                ICore::qmlEngine(),
+                static_cast<QQuickItem *>(m_widget)->window(),
+                tr("Restart %1").arg(QApplication::applicationName()),
+                tr("Restart %1 to apply language changes?")
+            ) == SVS::SVSCraft::Yes) {
+                ICore::restartApplication();
+            }
+        }
         return ISettingPage::accept();
     }
     void GeneralPage::endSetting() {
