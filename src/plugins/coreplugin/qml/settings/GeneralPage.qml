@@ -42,6 +42,9 @@ ScrollView {
     onUpdateOptionChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
+
+    readonly property TextMatcher matcher: TextMatcher {}
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
@@ -50,6 +53,7 @@ ScrollView {
             spacing: 32
             GroupBox {
                 title: qsTr("Startup")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
@@ -57,9 +61,11 @@ ScrollView {
                         spacing: 16
                         Label {
                             text: qsTr("When starting %1").replace("%1", Application.name)
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
                         RadioButton {
                             text: qsTr("Open the home window")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: !(page.startupBehavior & BehaviorPreference.SB_CreateNewProject)
                             onClicked: () => {
                                 if (checked) {
@@ -72,6 +78,7 @@ ScrollView {
                         }
                         RadioButton {
                             text: qsTr("Create a new project")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: page.startupBehavior & BehaviorPreference.SB_CreateNewProject
                             onClicked: () => {
                                 if (checked) {
@@ -84,6 +91,7 @@ ScrollView {
                     }
                     CheckBox {
                         text: qsTr("Open previous projects on startup automatically")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.startupBehavior & BehaviorPreference.SB_AutoOpenPreviousProjects
                         onClicked: () => {
                             if (checked) {
@@ -95,6 +103,7 @@ ScrollView {
                     }
                     CheckBox {
                         text: qsTr("Close the home window after opening a project")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.startupBehavior & BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
                         onClicked: () => {
                             if (checked) {
@@ -108,11 +117,13 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("Language")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
                         text: qsTr("Use system language")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.useSystemLanguage
                         onClicked: page.useSystemLanguage = checked
                     }
@@ -121,6 +132,7 @@ ScrollView {
                         enabled: !page.useSystemLanguage
                         Label {
                             text: qsTr("Language")
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
                         ComboBox {
                             Layout.fillWidth: true
@@ -134,17 +146,20 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("Notification")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
                         text: qsTr("Play sound alert when a notification bubble is sent")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.hasNotificationSoundAlert
                         onClicked: page.hasNotificationSoundAlert = checked
                     }
                     RowLayout {
                         Label {
                             text: qsTr("Timeout for auto hiding notification bubbles")
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
                         SpinBox {
                             from: 0
@@ -158,26 +173,31 @@ ScrollView {
                     }
                     Button {
                         text: qsTr('Reset All "Do Not Show Again"')
+                        TextMatcherItem on text { matcher: page.matcher }
                     }
                 }
             }
             GroupBox {
                 title: qsTr("Network Proxy")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     RadioButton {
                         text: qsTr("No proxy")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.proxyOption === BehaviorPreference.PO_None
                         onClicked: page.proxyOption = BehaviorPreference.PO_None
                     }
                     RadioButton {
                         text: qsTr("Use system proxy")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.proxyOption === BehaviorPreference.PO_System
                         onClicked: page.proxyOption = BehaviorPreference.PO_System
                     }
                     RadioButton {
                         text: qsTr("Manually configure proxy")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.proxyOption === BehaviorPreference.PO_Manual
                         onClicked: page.proxyOption = BehaviorPreference.PO_Manual
                     }
@@ -190,6 +210,7 @@ ScrollView {
                             columns: 2
                             Label {
                                 text: qsTr("Type")
+                                TextMatcherItem on text { matcher: page.matcher }
                             }
                             ComboBox {
                                 Layout.fillWidth: true
@@ -204,6 +225,7 @@ ScrollView {
                             }
                             Label {
                                 text: qsTr("Hostname")
+                                TextMatcherItem on text { matcher: page.matcher }
                             }
                             TextField {
                                 Layout.fillWidth: true
@@ -212,6 +234,7 @@ ScrollView {
                             }
                             Label {
                                 text: qsTr("Port")
+                                TextMatcherItem on text { matcher: page.matcher }
                             }
                             SpinBox {
                                 Layout.fillWidth: true
@@ -223,6 +246,7 @@ ScrollView {
                         }
                         CheckBox {
                             text: qsTr("Authentication")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: page.proxyHasAuthentication
                             onClicked: page.proxyHasAuthentication = checked
                         }
@@ -233,6 +257,7 @@ ScrollView {
                             enabled: page.proxyHasAuthentication
                             Label {
                                 text: qsTr("Username")
+                                TextMatcherItem on text { matcher: page.matcher }
                             }
                             TextField {
                                 Layout.fillWidth: true
@@ -241,6 +266,7 @@ ScrollView {
                             }
                             Label {
                                 text: qsTr("Password")
+                                TextMatcherItem on text { matcher: page.matcher }
                             }
                             TextField {
                                 Layout.fillWidth: true
@@ -254,17 +280,20 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("Updates")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     Layout.fillWidth: true
                     CheckBox {
                         text: qsTr("Check for updates on startup")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.autoCheckForUpdates
                         onClicked: page.autoCheckForUpdates = checked
                     }
                     RowLayout {
                         Label {
                             text: qsTr("Type of update to check for")
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
                         ComboBox {
                             textRole: "text"
@@ -279,6 +308,7 @@ ScrollView {
                     }
                     Button {
                         text: qsTr("Check for Updates")
+                        TextMatcherItem on text { matcher: page.matcher }
                     }
                 }
             }

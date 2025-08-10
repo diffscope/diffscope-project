@@ -1,15 +1,15 @@
-#ifndef DIFFSCOPE_COREPLUGIN_GENERALPAGE_H
-#define DIFFSCOPE_COREPLUGIN_GENERALPAGE_H
+#ifndef DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
+#define DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
+
 
 #include <CoreApi/isettingpage.h>
 
 namespace Core::Internal {
-
-    class GeneralPage : public ISettingPage {
+    class ColorSchemePage : public ISettingPage {
         Q_OBJECT
     public:
-        explicit GeneralPage(QObject *parent = nullptr);
-        ~GeneralPage() override;
+        explicit ColorSchemePage(QObject *parent = nullptr);
+        ~ColorSchemePage() override;
 
         bool matches(const QString &word) override;
         QString sortKeyword() const override;
@@ -21,9 +21,7 @@ namespace Core::Internal {
     private:
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
-
     };
-
 }
 
-#endif //DIFFSCOPE_COREPLUGIN_GENERALPAGE_H
+#endif //DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H

@@ -10,7 +10,7 @@ namespace Core::Internal {
         Q_PLUGIN_METADATA(IID "org.OpenVPI.DiffScope.Plugin" FILE "plugin.json")
     public:
         CorePlugin();
-        ~CorePlugin();
+        ~CorePlugin() override;
 
         bool initialize(const QStringList &arguments, QString *errorMessage) override;
         void extensionsInitialized() override;
@@ -21,6 +21,7 @@ namespace Core::Internal {
 
     protected:
         bool eventFilter(QObject *obj, QEvent *event) override;
+
     };
 
 }

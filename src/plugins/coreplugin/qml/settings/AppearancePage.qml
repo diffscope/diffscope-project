@@ -28,6 +28,9 @@ ScrollView {
     onAnimationSpeedRatioChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
+
+    readonly property TextMatcher matcher: TextMatcher {}
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
@@ -36,6 +39,7 @@ ScrollView {
             spacing: 32
             GroupBox {
                 title: qsTr("Font")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
@@ -43,6 +47,7 @@ ScrollView {
                         Layout.fillWidth: true
                         CheckBox {
                             text: qsTr("Use custom font")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: page.useCustomFont
                             onClicked: page.useCustomFont = checked
                         }
@@ -72,11 +77,13 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("User Interface")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
                         text: qsTr("Enable frameless window")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.uiBehavior & BehaviorPreference.UB_Frameless
                         onClicked: {
                             if (checked) {
@@ -95,6 +102,7 @@ ScrollView {
                     CheckBox {
                         Layout.leftMargin: 22
                         text: qsTr("Merge menu bar and title bar")
+                        TextMatcherItem on text { matcher: page.matcher }
                         enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
                         checked: page.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar
                         onClicked: {
@@ -109,6 +117,10 @@ ScrollView {
                         visible: Qt.platform.os !== "windows"
                         CheckBox {
                             text: qsTr("Use native menu bar")
+                            TextMatcherItem on text {
+                                matcher: page.matcher
+                                enabled: Qt.platform.os !== "windows"
+                            }
                             checked: page.uiBehavior & BehaviorPreference.UB_NativeMenu
                             onClicked: {
                                 if (checked) {
@@ -125,6 +137,7 @@ ScrollView {
                     }
                     CheckBox {
                         text: qsTr("Show full path in the title bar of project window")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.uiBehavior & BehaviorPreference.UB_FullPath
                         onClicked: {
                             if (checked) {
@@ -138,12 +151,14 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("Graphics")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     RowLayout {
                         CheckBox {
                             text: qsTr("Enable hardware acceleration")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: page.graphicsBehavior & BehaviorPreference.GB_Hardware
                             onClicked: {
                                 if (checked) {
@@ -161,6 +176,7 @@ ScrollView {
                     RowLayout {
                         CheckBox {
                             text: qsTr("Enable antialiasing")
+                            TextMatcherItem on text { matcher: page.matcher }
                             checked: page.graphicsBehavior & BehaviorPreference.GB_Antialiasing
                             onClicked: {
                                 if (checked) {
@@ -179,11 +195,13 @@ ScrollView {
             }
             GroupBox {
                 title: qsTr("Animation")
+                TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
                         text: qsTr("Enable animation")
+                        TextMatcherItem on text { matcher: page.matcher }
                         checked: page.animationEnabled
                         onClicked: page.animationEnabled = checked
                     }
@@ -191,6 +209,7 @@ ScrollView {
                         enabled: page.animationEnabled
                         Label {
                             text: qsTr("Animation speed ratio")
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
                         SpinBox {
                             from: 10

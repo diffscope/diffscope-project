@@ -21,8 +21,8 @@ namespace Core::Internal {
     GeneralPage::~GeneralPage() {
         delete m_widget;
     }
-    bool GeneralPage::matches(const QString &word) const {
-        return ISettingPage::matches(word);
+    bool GeneralPage::matches(const QString &word) {
+        return ISettingPage::matches(word) || widgetMatches(word);
     }
     QString GeneralPage::sortKeyword() const {
         return QStringLiteral("General");
@@ -58,7 +58,6 @@ namespace Core::Internal {
         ISettingPage::beginSetting();
     }
     bool GeneralPage::accept() {
-        Q_ASSERT(m_widget);
         bool promptRestartForLanguage = (m_widget->property("localeName").toString() != ICore::behaviorPreference()->localeName());
         ICore::behaviorPreference()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
         ICore::behaviorPreference()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
@@ -90,6 +89,13 @@ namespace Core::Internal {
     void GeneralPage::endSetting() {
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
+    }
+    bool GeneralPage::widgetMatches(const QString &word) {
+        widget();
+        auto matcher = m_widget->property("matcher").value<QObject *>();
+        bool ret = false;
+        QMetaObject::invokeMethod(matcher, "matches", qReturnArg(ret), word);
+        return ret;
     }
 
 }

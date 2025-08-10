@@ -12,6 +12,7 @@ namespace Core::Internal {
         ~AppearancePage() override;
 
         QString sortKeyword() const override;
+        bool matches(const QString &word) override;
         QObject *widget() override;
         void beginSetting() override;
         bool accept() override;
@@ -21,7 +22,8 @@ namespace Core::Internal {
         Q_INVOKABLE static QStringList fontStyles(const QString &family);
 
     private:
-        QObject *m_widget{};
+        bool widgetMatches(const QString &word);
+        mutable QObject *m_widget{};
     };
 
 }

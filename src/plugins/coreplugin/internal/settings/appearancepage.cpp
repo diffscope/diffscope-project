@@ -20,6 +20,9 @@ namespace Core::Internal {
     QString AppearancePage::sortKeyword() const {
         return QStringLiteral("Appearance");
     }
+    bool AppearancePage::matches(const QString &word) {
+        return ISettingPage::matches(word) || widgetMatches(word);
+    }
     QObject *AppearancePage::widget() {
         if (m_widget)
             return m_widget;
@@ -44,7 +47,6 @@ namespace Core::Internal {
         ISettingPage::beginSetting();
     }
     bool AppearancePage::accept() {
-        Q_ASSERT(m_widget);
         ICore::behaviorPreference()->setProperty("useCustomFont", m_widget->property("useCustomFont"));
         ICore::behaviorPreference()->setProperty("fontFamily", m_widget->property("fontFamily"));
         ICore::behaviorPreference()->setProperty("fontStyle", m_widget->property("fontStyle"));
@@ -64,5 +66,12 @@ namespace Core::Internal {
     }
     QStringList AppearancePage::fontStyles(const QString &family) {
         return QFontDatabase::styles(family);
+    }
+    bool AppearancePage::widgetMatches(const QString &word) {
+        widget();
+        auto matcher = m_widget->property("matcher").value<QObject *>();
+        bool ret = false;
+        QMetaObject::invokeMethod(matcher, "matches", qReturnArg(ret), word);
+        return ret;
     }
 }

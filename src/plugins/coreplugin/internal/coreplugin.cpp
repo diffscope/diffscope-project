@@ -32,6 +32,9 @@
 #include <coreplugin/internal/viewvisibilityaddon.h>
 #include <coreplugin/internal/notificationaddon.h>
 #include <coreplugin/internal/generalpage.h>
+#include <coreplugin/internal/colorschemepage.h>
+#include <coreplugin/internal/keymappage.h>
+#include <coreplugin/internal/menupage.h>
 
 
 namespace Core::Internal {
@@ -52,26 +55,13 @@ namespace Core::Internal {
         return QAK_STATIC_ACTION_EXTENSION(core_actions);
     }
 
-    bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
-
-        QQuickStyle::setStyle("SVSCraft.UIComponents");
-        QQuickStyle::setFallbackStyle("Basic");
-
-        // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
-
-        // Init ICore instance
-        icore = new ICore(this);
-
-        // Handle FileOpenEvent
-        qApp->installEventFilter(this);
-
-        icore->actionRegistry()->addExtension(getCoreActionExtension());
+    static void initializeActions() {
+        ICore::actionRegistry()->addExtension(getCoreActionExtension());
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
             icon.addFile(":/diffscope/coreplugin/icons/" + iconName + ".svg");
-            icore->actionRegistry()->addIcon("", id, icon);
+            ICore::actionRegistry()->addIcon("", id, icon);
         };
         addIcon("core.homePreferences", "Settings16Filled");
         addIcon("core.homeHelp", "QuestionCircle16Filled");
@@ -89,15 +79,42 @@ namespace Core::Internal {
         addIcon("core.mixerPanel", "OptionsVertical16Filled");
         addIcon("core.pianoRollPanel", "Midi20Filled");
         addIcon("core.notificationsPanel", "Alert16Filled");
+    }
 
-        auto sc = icore->settingCatalog();
+    static void initializeSettings() {
+        auto sc = ICore::settingCatalog();
         sc->addPage(new GeneralPage);
-        sc->addPage(new AppearancePage);
+        auto appearancePage = new AppearancePage;
+        appearancePage->addPage(new ColorSchemePage);
+        sc->addPage(appearancePage);
+        sc->addPage(new MenuPage);
+        sc->addPage(new KeyMapPage);
+    }
 
+    static void initializeWindows() {
         IHomeWindowRegistry::instance()->attach<HomeAddOn>();
         IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
+    }
+
+    bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
+
+        QQuickStyle::setStyle("SVSCraft.UIComponents");
+        QQuickStyle::setFallbackStyle("Basic");
+
+        // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
+
+        // Init ICore instance
+        icore = new ICore(this);
+
+        // Handle FileOpenEvent
+        qApp->installEventFilter(this);
+
+        initializeActions();
+        initializeSettings();
+        initializeWindows();
 
         return true;
     }
