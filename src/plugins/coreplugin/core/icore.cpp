@@ -177,9 +177,8 @@ namespace Core {
         QString aboutInfo =
             QApplication::translate(
                 "Application",
-                "<p>%1 is a cross-platform SVS editing application powered by "
-                "DiffSinger for virtual singer producers to make song compositions.</p>")
-                .arg(appName);
+                "<p>A professional singing-voice-synthesis editor powered by DiffSinger</p>"
+                "<p>Visit <a href=\"https://diffscope.org/\">diffscope.org</a> for more information.</p>");
 
         QString copyrightInfo =
             QApplication::translate(
