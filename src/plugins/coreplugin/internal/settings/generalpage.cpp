@@ -79,7 +79,7 @@ namespace Core::Internal {
                 PluginDatabase::qmlEngine(),
                 static_cast<QQuickItem *>(m_widget)->window(),
                 tr("Restart %1").arg(QApplication::applicationName()),
-                tr("Restart %1 to apply language changes?")
+                tr("Restart %1 to apply language changes?").arg(QApplication::applicationName())
             ) == SVS::SVSCraft::Yes) {
                 ICore::restartApplication();
             }
