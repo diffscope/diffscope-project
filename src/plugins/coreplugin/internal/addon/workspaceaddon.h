@@ -11,6 +11,7 @@ namespace Core::Internal {
     class WorkspaceAddOn : public IWindowAddOn {
         Q_OBJECT
         Q_PROPERTY(ProjectWindowWorkspaceManager *workspaceManager READ workspaceManager CONSTANT)
+        Q_PROPERTY(QVariantList panelEntries READ panelEntries NOTIFY panelEntriesChanged)
     public:
         explicit WorkspaceAddOn(QObject *parent = nullptr);
         ~WorkspaceAddOn() override;
@@ -23,6 +24,11 @@ namespace Core::Internal {
         Q_INVOKABLE QVariantMap createDockingViewContents(int edge) const;
         Q_INVOKABLE void saveCustomLayoutFromJavaScript(const ProjectWindowWorkspaceLayout &layout, const QString &originName, const QString &name) const;
         Q_INVOKABLE void removeCustomLayoutFromJavaScript(const QString &name) const;
+
+        QVariantList panelEntries() const;
+
+    Q_SIGNALS:
+        void panelEntriesChanged();
 
     private:
         ProjectWindowWorkspaceManager *m_workspaceManager;

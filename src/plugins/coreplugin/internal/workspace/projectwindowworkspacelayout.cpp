@@ -13,6 +13,7 @@ namespace Core::Internal {
             {"dock", dock},
             {"opened", opened},
             {"geometry", geometry},
+            {"data", data},
         };
     }
     ProjectWindowWorkspaceLayout::PanelSpec &ProjectWindowWorkspaceLayout::PanelSpec::operator=(const QVariant &variant) {
@@ -21,6 +22,7 @@ namespace Core::Internal {
         dock = map.value("dock").toBool();
         opened = map.value("opened").toBool();
         geometry = map.value("geometry").toRect();
+        data = map.value("data");
         return *this;
     }
     ProjectWindowWorkspaceLayout::ViewSpec::operator QVariant() const {

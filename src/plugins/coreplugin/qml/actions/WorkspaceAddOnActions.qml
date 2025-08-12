@@ -244,8 +244,44 @@ ActionCollection {
 
     ActionItem {
         actionId: "core.dockActionToSideBar"
-        Action {
-
+        Menu {
+            title: ActionInstantiator.text
+            icon.source: ActionInstantiator.iconSource
+            readonly property list<var> panelEntries: d.addOn.panelEntries
+            readonly property Component addActionActionComponent: Action {
+                text: qsTr("Add Action...")
+            }
+            readonly property Component panelEntryActionComponent: Action {
+                required property var panelEntry
+                text: panelEntry.text
+                icon.source: panelEntry.iconSource
+                enabled: !panelEntry.unique || !d.helper.allPanes.some(o => o.ActionInstantiator.id === panelEntry.id)
+                onTriggered: () => {
+                    let o = d.windowHandle.actionContext.action(panelEntry.id)?.createObject(null)
+                    if (!o || !(o instanceof Action || o instanceof DockingPane)) {
+                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').replace("%1", panelEntry.text))
+                        if (o)
+                            o.destroy()
+                        return
+                    }
+                    d.windowHandle.actionContext.attachActionInfo(panelEntry.id, o)
+                    d.helper.promptAddAction(o)
+                }
+            }
+            readonly property Component menuSeparatorComponent: MenuSeparator {}
+            onPanelEntriesChanged: () => {
+                while (count) {
+                    removeItem(itemAt(0))
+                }
+                for (let entry of panelEntries) {
+                    let action = panelEntryActionComponent.createObject(this, {panelEntry: entry})
+                    addAction(action)
+                }
+                if (panelEntries.length !== 0) {
+                    addItem(menuSeparatorComponent.createObject(null))
+                }
+                addAction(addActionActionComponent.createObject(this))
+            }
         }
     }
 

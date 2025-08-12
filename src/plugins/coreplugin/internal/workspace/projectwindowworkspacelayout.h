@@ -3,6 +3,7 @@
 
 #include <QJSValue>
 #include <QRect>
+#include <QVariant>
 
 #include <utility>
 
@@ -17,12 +18,13 @@ namespace Core::Internal {
             inline PanelSpec() : dock(false) {
             }
             inline PanelSpec(const QVariant &other) { *this = other; }
-            inline PanelSpec(QString id, bool dock, bool opened = false, QRect geometry = {}) : id(std::move(id)), dock(dock), opened(opened), geometry(geometry) {
+            inline PanelSpec(QString id, bool dock, bool opened = false, QRect geometry = {}, QVariant data = {}) : id(std::move(id)), dock(dock), opened(opened), geometry(geometry), data(std::move(data)) {
             }
             QString id;
             bool dock;
             bool opened;
             QRect geometry;
+            QVariant data;
             operator QVariant() const;
             PanelSpec &operator=(const QVariant &variant);
         };

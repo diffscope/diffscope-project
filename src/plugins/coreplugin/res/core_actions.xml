@@ -37,7 +37,7 @@
         <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" />
         <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" />
         <action id="core.floatingPanels" text="&amp;Floating Panels" class="View" />
-        <action id="core.dockActionToSideBar" text="Add &amp;New Panel or Action..." class="View" />
+        <action id="core.dockActionToSideBar" text="Add &amp;New Panel or Action" class="View" />
 
         <action id="core.menuBarVisible" text="Show &amp;Menu Bar" class="View" />
         <action id="core.toolBarVisible" text="Show Too&amp;l Bar" class="View" />
@@ -64,7 +64,7 @@
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
         <action id="core.statusText" />
-        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" />
+        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" uniquePanel="true" />
         <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" />
         <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" />
         <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" />
@@ -98,7 +98,7 @@
                         </group>
                         <separator />
                         <action id="core.allPanels" />
-                        <menu id="core.dockingPanels">
+                        <menu id="core.openedDockingPanels" text="Opened &amp;Docking Panels">
                             <action id="core.workspacePanelLeftTop" />
                             <action id="core.workspacePanelLeftBottom" />
                             <action id="core.workspacePanelRightTop" />

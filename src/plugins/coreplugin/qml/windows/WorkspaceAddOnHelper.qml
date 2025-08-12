@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml.Models
+import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -103,22 +104,24 @@ QtObject {
         let viewSpecMap = []
         const f = (dockingView, isLeftOrRight, firstKey, lastKey) => {
             viewSpecMap[firstKey] = {
-                panels: [...dockingView.contentData].slice(0, dockingView.stretchIndex).map(o => ({
+                panels: dockingView.contentData.slice(0, dockingView.stretchIndex).map(o => ({
                     id: o.ActionInstantiator.id,
                     dock: o.dock,
                     opened: o.Docking.window?.visible ?? false,
-                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0)
+                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
+                    data: o.data
                 })),
                 width: isLeftOrRight ? dockingView.preferredPanelSize : dockingView.splitterRatio,
                 height: isLeftOrRight ? dockingView.splitterRatio : dockingView.preferredPanelSize,
                 visibleIndex: dockingView.firstIndex,
             }
             viewSpecMap[lastKey] = {
-                panels: [...dockingView.contentData].slice(dockingView.stretchIndex + 1).map(o => ({
+                panels: dockingView.contentData.slice(dockingView.stretchIndex + 1).map(o => ({
                     id: o.ActionInstantiator.id,
                     dock: o.dock,
                     opened: o.Docking.window?.visible ?? false,
-                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0)
+                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
+                    data: o.data
                 })),
                 width: isLeftOrRight ? dockingView.panelSize : 1 - dockingView.splitterRatio,
                 height: isLeftOrRight ? 1 - dockingView.splitterRatio : dockingView.panelSize,
@@ -151,6 +154,11 @@ QtObject {
         saveLayoutPopup.layout = layout
         saveLayoutPopup.originName = originName
         saveLayoutPopup.open()
+    }
+
+    function promptAddAction(action) {
+        newActionPopup.actionObject = action
+        newActionPopup.open()
     }
 
     function promptDeleteLayout(name) {
@@ -209,7 +217,7 @@ QtObject {
                 text: qsTr("Custom presets with the same name will be overwritten.")
                 color: Theme.warningColor
                 Layout.fillWidth: true
-                opacity: saveLayoutPopup.visible && layoutNameTextField.text !== saveLayoutPopup.originName && [...helper.addOn.workspaceManager.customLayouts].some(o => o.name === layoutNameTextField.text) ? 1 : 0
+                opacity: saveLayoutPopup.visible && layoutNameTextField.text !== saveLayoutPopup.originName && helper.addOn.workspaceManager.customLayouts.some(o => o.name === layoutNameTextField.text) ? 1 : 0
                 wrapMode: Text.Wrap
             }
             Button {
@@ -222,6 +230,84 @@ QtObject {
                     helper.addOn.saveCustomLayoutFromJavaScript(saveLayoutPopup.layout, saveLayoutPopup.originName, layoutNameTextField.text)
                     saveLayoutPopup.close()
                 }
+            }
+        }
+    }
+
+    readonly property Popup newActionPopup: Popup {
+        id: newActionPopup
+        anchors.centerIn: parent
+        padding: 16
+        parent: helper.window.contentItem
+        width: 400
+        property QtObject actionObject: null
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 16
+            Label {
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr('Drag to the sidebar to add "%1"').replace("%1", newActionPopup.actionObject?.ActionInstantiator.text ?? "")
+            }
+            Frame {
+                Layout.alignment: Qt.AlignHCenter
+                ThemedItem.backgroundLevel: SVS.BL_Quaternary
+                width: 40
+                height: 40
+                Item {
+                    id: dragTarget
+                    readonly property QtObject modelData: newActionPopup.actionObject
+                    readonly property QtObject container: null
+                    width: 24
+                    height: 24
+                    component DragIconLabel: IconLabel {
+                        anchors.fill: parent
+                        icon.source: newActionPopup.actionObject?.ActionInstantiator.iconSource ?? ""
+                        icon.color: Theme.foregroundPrimaryColor
+                        icon.width: 16
+                        icon.height: 16
+                        font: Theme.font
+                        display: AbstractButton.IconOnly
+                    }
+                    DragIconLabel {
+                    }
+                    Popup {
+                        background: Item {}
+                        padding: 0
+                        width: parent.width
+                        height: parent.height
+                        visible: mouseArea.drag.active
+                        DragIconLabel {
+                        }
+                    }
+                    anchors.centerIn: mouseArea.drag.active ? null : parent
+                    Drag.keys: ["SVSCraft.UIComponent.DockingView"]
+                    Drag.hotSpot.x: width / 2
+                    Drag.hotSpot.y: height / 2
+                    Drag.active: mouseArea.drag.active
+                    function remove() {
+                        newActionPopup.actionObject = null
+                        newActionPopup.close()
+                    }
+                }
+                MouseArea {
+                    id: mouseArea
+                    drag.target: dragTarget
+                    width: 24
+                    height: 24
+                    anchors.centerIn: parent
+                    onReleased: () => {
+                        if (!drag.active)
+                            return
+                        if (dragTarget.Drag.target) {
+                            dragTarget.Drag.drop()
+                        }
+                    }
+                }
+            }
+        }
+        onClosed: () => {
+            if (actionObject) {
+                actionObject.destroy()
             }
         }
     }

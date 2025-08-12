@@ -1,8 +1,12 @@
 #include "workspaceaddon.h"
 
+#include <algorithm>
+#include <ranges>
+
 #include <QQmlComponent>
 #include <QQmlEngine>
 
+#include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
 #include <CoreApi/plugindatabase.h>
@@ -55,6 +59,7 @@ namespace Core::Internal {
     void WorkspaceAddOn::extensionsInitialized() {
     }
     bool WorkspaceAddOn::delayedInitialize() {
+        emit panelEntriesChanged();
         return IWindowAddOn::delayedInitialize();
     }
     ProjectWindowWorkspaceManager *WorkspaceAddOn::workspaceManager() const {
@@ -105,13 +110,16 @@ namespace Core::Internal {
         };
         auto createSpec = [&](const ProjectWindowWorkspaceLayout::ViewSpec &spec) -> void {
             for (int i = 0; i < spec.panels.size(); i++) {
-                const auto &[id, dock, opened, geometry] = spec.panels.at(i);
+                const auto &[id, dock, opened, geometry, data] = spec.panels.at(i);
                 auto object = createAction(id);
                 if (object) {
                     // TODO: check if object has dock property (it might be an Action)
                     object->setProperty("dock", dock);
                     if (i == spec.visibleIndex || opened) {
                         visibleIndices.append(result.size());
+                    }
+                    if (data.isValid()) {
+                        object->setProperty("data", data);
                     }
                     result.append(QVariantMap{
                         {"object",   QVariant::fromValue(object)},
@@ -170,6 +178,23 @@ namespace Core::Internal {
         customLayouts.removeIf([&](const auto &o) { return o.name() == name; });
         ProjectWindowWorkspaceManager::setCustomLayouts(customLayouts);
         m_workspaceManager->save();
+    }
+    QVariantList WorkspaceAddOn::panelEntries() const {
+        QVariantList ret;
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto a = ICore::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool {
+            return iWin->actionContext()->action(id);
+        });
+        std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
+            auto info = ICore::actionRegistry()->actionInfo(id);
+            return QVariantMap{
+                {"id", id},
+                {"text", info.text()},
+                {"iconSource", QUrl::fromLocalFile(ICore::actionRegistry()->actionIcon("", info.id()).filePath(QIcon::Normal, QIcon::Off))},
+                {"unique", info.attributes().contains("uniquePanel")}
+            };
+        });
+        return ret;
     }
 }
 
