@@ -119,7 +119,7 @@ namespace Core::Internal {
                         visibleIndices.append(result.size());
                     }
                     if (data.isValid()) {
-                        object->setProperty("data", data);
+                        object->setProperty("panelPersistentData", data);
                     }
                     result.append(QVariantMap{
                         {"object",   QVariant::fromValue(object)},

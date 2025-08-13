@@ -109,7 +109,7 @@ QtObject {
                     dock: o.dock,
                     opened: o.Docking.window?.visible ?? false,
                     geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                    data: o.data
+                    data: o.panelPersistentData
                 })),
                 width: isLeftOrRight ? dockingView.preferredPanelSize : dockingView.splitterRatio,
                 height: isLeftOrRight ? dockingView.splitterRatio : dockingView.preferredPanelSize,
@@ -121,7 +121,7 @@ QtObject {
                     dock: o.dock,
                     opened: o.Docking.window?.visible ?? false,
                     geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                    data: o.data
+                    data: o.panelPersistentData
                 })),
                 width: isLeftOrRight ? dockingView.panelSize : 1 - dockingView.splitterRatio,
                 height: isLeftOrRight ? 1 - dockingView.splitterRatio : dockingView.panelSize,
