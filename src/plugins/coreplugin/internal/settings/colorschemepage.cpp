@@ -2,11 +2,16 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+
+#include <SVSCraftQuick/Theme.h>
+
 #include <CoreApi/plugindatabase.h>
 
+#include <coreplugin/internal/colorschemecollection.h>
+
 namespace Core::Internal {
-    ColorSchemePage::ColorSchemePage(QObject *parent)
-        : ISettingPage("core.ColorScheme", parent) {
+    ColorSchemePage::ColorSchemePage(QObject *parent) : ISettingPage("core.ColorScheme", parent) {
+        m_collection = new ColorSchemeCollection(this);
         setTitle(tr("Color Scheme"));
         setDescription(tr("Configure the colors and visual effects of various components"));
     }
@@ -30,7 +35,8 @@ namespace Core::Internal {
             qFatal() << component.errorString();
         }
         m_widget = component.createWithInitialProperties({
-            {"pageHandle", QVariant::fromValue(this)}
+            {"pageHandle", QVariant::fromValue(this)},
+            {"collection", QVariant::fromValue(m_collection)},
         });
         m_widget->setParent(this);
         return m_widget;
@@ -38,9 +44,12 @@ namespace Core::Internal {
     void ColorSchemePage::beginSetting() {
         widget();
         m_widget->setProperty("started", true);
+        m_collection->load();
         ISettingPage::beginSetting();
     }
     bool ColorSchemePage::accept() {
+        m_collection->save();
+        m_collection->applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
         return ISettingPage::accept();
     }
 

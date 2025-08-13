@@ -5,6 +5,9 @@
 #include <CoreApi/isettingpage.h>
 
 namespace Core::Internal {
+
+    class ColorSchemeCollection;
+
     class ColorSchemePage : public ISettingPage {
         Q_OBJECT
     public:
@@ -21,6 +24,7 @@ namespace Core::Internal {
     private:
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
+        ColorSchemeCollection *m_collection{};
     };
 }
 
