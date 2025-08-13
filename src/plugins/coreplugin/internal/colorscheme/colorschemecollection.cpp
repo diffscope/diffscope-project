@@ -4,9 +4,14 @@
 #include <ranges>
 
 #include <QColor>
+#include <QSettings>
+#include <QFile>
 
 #include <SVSCraftGui/ColorChange.h>
 #include <SVSCraftQuick/Theme.h>
+#include <SVSCraftQuick/MessageBox.h>
+
+#include <CoreApi/plugindatabase.h>
 
 namespace Core::Internal {
 
@@ -78,9 +83,9 @@ namespace Core::Internal {
             {"scrollBarColor", QVariant::fromValue(QColor(0x7f7f7f))},
             {"borderColor", QVariant::fromValue(QColor(0xbbcc00))},
             {"backgroundPrimaryColor", QVariant::fromValue(QColor::fromRgb(0x000000))},
-            {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x080808))},
-            {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x101010))},
-            {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x181818))},
+            {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x060606))},
+            {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x0c0c0c))},
+            {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x121212))},
             {"splitterColor", QVariant::fromValue(QColor(0xcc00aa))},
             {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xffffff))},
             {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0ffffff))},
@@ -88,7 +93,7 @@ namespace Core::Internal {
             {"navigationColor", QVariant::fromValue(QColor::fromRgb(0xcc00aa))},
             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
-            {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x3300c4ff)}})},
+            {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
             {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
@@ -99,6 +104,29 @@ namespace Core::Internal {
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
         }}
     };
+
+    static QByteArray serializePreset(const QVariantHash &preset) {
+        QByteArray a;
+        QDataStream stream(&a, QDataStream::WriteOnly);
+        stream.setVersion(QDataStream::Qt_6_9);
+        stream << preset;
+        return a;
+    }
+    static QVariantHash deserializePreset(const QByteArray &data) {
+        QVariantHash preset;
+        QDataStream stream(data);
+        stream.setVersion(QDataStream::Qt_6_9);
+        stream >> preset;
+        if (preset.isEmpty()) {
+            return preset;
+        }
+        for (const auto &key: m_internalPresets[0].second.keys()) {
+            if (!preset.contains(key)) {
+                preset[key] = m_internalPresets[0].second[key];
+            }
+        }
+        return preset;
+    }
 
     ColorSchemeCollection::ColorSchemeCollection(QObject *parent) : QObject(parent), m_unsavedPreset(m_internalPresets[0].second) {
     }
@@ -157,32 +185,71 @@ namespace Core::Internal {
         m_presets.removeAt(index - m_internalPresets.size());
         if (index < m_currentIndex) {
             m_currentIndex = qMax(0, m_currentIndex - 1);
-            emit currentIndexChanged();
         } else if (index == m_currentIndex) {
             m_showUnsavedPreset = true;
             m_currentIndex = m_internalPresets.size() + m_presets.size();
-            emit currentIndexChanged();
         }
         emit allPresetsChanged();
+        emit currentIndexChanged();
     }
     void ColorSchemeCollection::renamePreset(int index, const QString &name) {
         if (index < m_internalPresets.size() || index >= m_internalPresets.size() + m_presets.size()) {
             return;
         }
         index -= m_internalPresets.size();
-        if (m_presets.value(index).first == name) {
-            return;
-        }
-        m_presets[index].first = name;
+        auto originName = m_presets.value(index).first;
+        m_presets.removeIf([&](const auto &o) { return o.first == name; });
+        auto it = std::ranges::find_if(m_presets, [&](const auto &o) { return o.first == originName; });
+        Q_ASSERT (it != m_presets.end());
+        it->first = name;
         emit allPresetsChanged();
+        index = m_internalPresets.size() + std::distance(m_presets.begin(), it);
+        m_currentIndex = index;
+        emit currentIndexChanged();
     }
     bool ColorSchemeCollection::presetExists(const QString &name) {
         return std::ranges::any_of(m_presets, [&](const auto &p) { return p.first == name; });
     }
-    void ColorSchemeCollection::importPreset(const QJsonObject &json) {
+    void ColorSchemeCollection::importPreset(QWindow *window, const QString &filename) {
+        QFile f(filename);
+        if (!f.open(QIODevice::ReadOnly)) {
+            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+                tr("Failed to Import Preset"),
+                tr("Unable to open file \"%1\"").arg(filename));
+            return;
+        }
+        QDataStream in(&f);
+        in.setVersion(QDataStream::Qt_6_9);
+        QString name;
+        in >> name;
+        QByteArray a;
+        in >> a;
+        if (name.isEmpty() || a.isEmpty()) {
+            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+                tr("Failed to import preset"),
+                tr("Invalid format in file \"%1\"").arg(filename));
+            return;
+        }
+        auto preset = deserializePreset(a);
+        m_unsavedPreset = preset;
+        savePreset(name);
     }
-    QJsonObject ColorSchemeCollection::exportPreset(const QString &name) const {
-        return {};
+    void ColorSchemeCollection::exportPreset(QWindow *window, const QString &filename) const {
+        if (m_currentIndex >= m_internalPresets.size() + m_presets.size()) {
+            return;
+        }
+        const auto &[name, preset] = m_currentIndex < m_internalPresets.size() ? m_internalPresets.value(m_currentIndex) : m_presets.value(m_currentIndex - m_internalPresets.size());
+        QFile f(filename);
+        if (!f.open(QIODevice::WriteOnly)) {
+            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+                tr("Failed to export preset"),
+                tr("Unable to open file \"%1\"").arg(filename));
+            return;
+        }
+        QDataStream out(&f);
+        out.setVersion(QDataStream::Qt_6_9);
+        out << name;
+        out << serializePreset(preset);
     }
     QVariantList ColorSchemeCollection::allPresets() const {
         QVariantList ret;
@@ -194,7 +261,10 @@ namespace Core::Internal {
             [](const QPair<QString, QVariantHash> &p) -> QVariant {
                 return QVariantMap {
                     {"name", p.first},
-                    {"internal", true},
+                    {"data", QVariantMap {
+                        {"internal", true},
+                    }}
+
                 };
             }
         );
@@ -204,14 +274,19 @@ namespace Core::Internal {
             [](const QPair<QString, QVariantHash> &p) -> QVariant {
                 return QVariantMap {
                     {"name", p.first},
-                    {"internal", false},
+                    {"data", QVariantMap {
+                        {"internal", false},
+                    }}
                 };
             }
         );
         if (m_showUnsavedPreset) {
             ret.append(QVariantMap {
                 {"name", tr("(Unsaved preset)")},
-                {"internal", true},
+                {"data", QVariantMap {
+                    {"internal", true},
+                    {"unsaved", true},
+                }}
             });
         }
         return ret;
@@ -254,9 +329,41 @@ namespace Core::Internal {
         theme->setProperty("annotationPopupTitleColorChange", m_unsavedPreset.value("annotationPopupTitleColorChange"));
         theme->setProperty("annotationPopupContentColorChange", m_unsavedPreset.value("annotationPopupContentColorChange"));
     }
+    static const char settingCategoryC[] = "Core::Internal::ColorSchemeCollection";
     void ColorSchemeCollection::load() {
+        auto settings = PluginDatabase::settings();
+        auto data = settings->value(settingCategoryC).toMap();
+        if (!(data.contains("presets") && data.contains("unsavedPreset") && data.contains("currentIndex") && data.contains("showUnsavedPreset"))) {
+            return;
+        }
+        QList<QPair<QString, QVariantHash>> presets;
+        std::ranges::transform(data.value("presets").toList(), std::back_inserter(presets), [](const QVariant &v) {
+            auto p = v.value<QVariantPair>();
+            return qMakePair(p.first.toString(), deserializePreset(p.second.toByteArray()));
+        });
+        m_presets = presets;
+        m_unsavedPreset = deserializePreset(data.value("unsavedPreset").toByteArray());
+        m_currentIndex = data.value("currentIndex").toInt();
+        m_showUnsavedPreset = data.value("showUnsavedPreset").toBool();
+        if (!m_showUnsavedPreset) {
+            const auto &[_, preset] = m_currentIndex < m_internalPresets.size() ? m_internalPresets.value(m_currentIndex) : m_presets.value(m_currentIndex - m_internalPresets.size());
+            m_unsavedPreset = preset;
+        }
+        emit allPresetsChanged();
+        emit currentIndexChanged();
     }
     void ColorSchemeCollection::save() const {
-
+        auto settings = PluginDatabase::settings();
+        QVariantList presetsVariantList;
+        std::ranges::transform(m_presets, std::back_inserter(presetsVariantList), [](const auto &p) {
+            return QVariant::fromValue(QVariantPair(p.first, serializePreset(p.second)));
+        });
+        auto data = QVariantMap {
+            {"presets", presetsVariantList},
+            {"unsavedPreset", serializePreset(m_unsavedPreset)},
+            {"currentIndex", m_currentIndex},
+            {"showUnsavedPreset", m_showUnsavedPreset},
+        };
+        settings->setValue(settingCategoryC, data);
     }
 }

@@ -21,7 +21,16 @@ Item {
     Connections {
         target: page.collection
         function onUnsavedPresetUpdated() {
-            page.pageHandle.markDirty()
+            if (page.started)
+                page.pageHandle.markDirty()
+        }
+        function onAllPresetsChanged() {
+            if (page.started)
+                page.pageHandle.markDirty()
+        }
+        function onCurrentIndexChanged() {
+            if (page.started)
+                page.pageHandle.markDirty()
         }
     }
 
@@ -83,6 +92,101 @@ Item {
             }
             border.width: control.visualFocus ? 2 : 0
             border.color: Theme.navigationColor
+        }
+    }
+
+    component PresetComboBox: ComboBox {
+        id: control
+
+        delegate: ItemDelegate {
+            id: itemDelegate
+            required property var model
+            required property int index
+
+            width: ListView.view.width
+            text: model[control.textRole]
+            highlighted: control.currentIndex === index
+            hoverEnabled: control.hoverEnabled
+
+            contentItem: RowLayout {
+                spacing: 16
+                Text {
+                    text: itemDelegate.text
+                    font: itemDelegate.font
+                    color: itemDelegate.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
+                           itemDelegate.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
+                           Theme.foregroundPrimaryColor
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: Theme.colorAnimationDuration
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                }
+                Text {
+                    text: qsTr("Built-in")
+                    visible: itemDelegate.model.data.internal && !itemDelegate.model.data.unsaved
+                    font: itemDelegate.font
+                    color: itemDelegate.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundSecondaryColor) :
+                           itemDelegate.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundSecondaryColor) :
+                           Theme.foregroundSecondaryColor
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: Theme.colorAnimationDuration
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                }
+                Item { Layout.fillWidth: true }
+            }
+        }
+    }
+
+    Popup {
+        id: savePresetPopup
+        anchors.centerIn: parent
+        padding: 16
+        width: 400
+        property string originName: ""
+        onAboutToShow: () => {
+            presetNameTextField.text = originName
+            presetNameTextField.forceActiveFocus()
+        }
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 8
+            Label {
+                text: qsTr("Preset name")
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+            }
+            TextField {
+                id: presetNameTextField
+                Layout.fillWidth: true
+                Keys.onReturnPressed: savePresetOkButton.animateClick()
+            }
+            Label {
+                text: qsTr("Presets with the same name will be overwritten.")
+                color: Theme.warningColor
+                Layout.fillWidth: true
+                opacity: savePresetPopup.visible && presetNameTextField.text !== savePresetPopup.originName && page.collection.presetExists(presetNameTextField.text) ? 1 : 0
+                wrapMode: Text.Wrap
+            }
+            Button {
+                id: savePresetOkButton
+                ThemedItem.controlType: SVS.CT_Accent
+                text: qsTr("OK")
+                enabled: presetNameTextField.text !== "" && presetNameTextField.text !== savePresetPopup.originName
+                Layout.fillWidth: true
+                onClicked: () => {
+                    if (savePresetPopup.originName === "") {
+                        page.collection.savePreset(presetNameTextField.text)
+                    } else {
+                        page.collection.renamePreset(page.collection.currentIndex, presetNameTextField.text)
+                    }
+                    savePresetPopup.close()
+                }
+            }
         }
     }
 
@@ -171,8 +275,58 @@ Item {
             Label {
                 text: qsTr("Preset")
             }
-            ComboBox {
+            PresetComboBox {
+                id: presetComboBox
                 Layout.fillWidth: true
+                model: page.collection.allPresets
+                textRole: "name"
+                valueRole: "data"
+                currentIndex: page.collection.currentIndex
+                onActivated: (index) => {
+                    if (index === page.collection.currentIndex)
+                        return
+                    page.collection.loadPreset(index)
+                }
+            }
+            Button {
+                flat: true
+                icon.source: "qrc:/diffscope/coreplugin/icons/MoreHorizontal16Filled.svg"
+                display: AbstractButton.IconOnly
+                text: qsTr("Preset Actions")
+                action: MenuAction {
+                    menu: Menu {
+                        Action {
+                            text: qsTr("Save As...")
+                            onTriggered: () => {
+                                savePresetPopup.originName = ""
+                                savePresetPopup.open()
+                            }
+                        }
+                        Action {
+                            enabled: !presetComboBox.currentValue.internal
+                            text: qsTr("Rename...")
+                            onTriggered: () => {
+                                savePresetPopup.originName = presetComboBox.currentText
+                                savePresetPopup.open()
+                            }
+                        }
+                        Action {
+                            enabled: !presetComboBox.currentValue.internal
+                            text: qsTr("Delete")
+                            onTriggered: () => {
+                                page.collection.removePreset(presetComboBox.currentIndex)
+                            }
+                        }
+                        MenuSeparator {}
+                        Action {
+                            text: qsTr("Import from File...")
+                        }
+                        Action {
+                            enabled: !presetComboBox.currentValue.unsaved
+                            text: qsTr("Export to File...")
+                        }
+                    }
+                }
             }
         }
         Rectangle {

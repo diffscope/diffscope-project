@@ -43,8 +43,8 @@ namespace Core::Internal {
     }
     void ColorSchemePage::beginSetting() {
         widget();
-        m_widget->setProperty("started", true);
         m_collection->load();
+        m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
     bool ColorSchemePage::accept() {

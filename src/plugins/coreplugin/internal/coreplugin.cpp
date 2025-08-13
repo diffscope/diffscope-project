@@ -16,6 +16,8 @@
 
 #include <extensionsystem/pluginspec.h>
 
+#include <SVSCraftQuick/Theme.h>
+
 #include <CoreApi/plugindatabase.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/windowsystem.h>
@@ -35,6 +37,7 @@
 #include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
+#include <coreplugin/internal/colorschemecollection.h>
 
 
 namespace Core::Internal {
@@ -98,6 +101,12 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
     }
 
+    static void initializeColorScheme() {
+        ColorSchemeCollection collection;
+        collection.load();
+        collection.applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
+    }
+
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
 
@@ -115,6 +124,7 @@ namespace Core::Internal {
         initializeActions();
         initializeSettings();
         initializeWindows();
+        initializeColorScheme();
 
         return true;
     }

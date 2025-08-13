@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QVariant>
+#include <QWindow>
 
 namespace SVS {
     class Theme;
@@ -17,6 +18,8 @@ namespace Core::Internal {
 
     class ColorSchemeCollection : public QObject {
         Q_OBJECT
+        Q_PROPERTY(QVariantList allPresets READ allPresets NOTIFY allPresetsChanged)
+        Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     public:
         explicit ColorSchemeCollection(QObject *parent = nullptr);
         ~ColorSchemeCollection() override;
@@ -30,8 +33,8 @@ namespace Core::Internal {
         Q_INVOKABLE void renamePreset(int index, const QString &name);
         Q_INVOKABLE bool presetExists(const QString &name);
 
-        Q_INVOKABLE void importPreset(const QJsonObject &json);
-        Q_INVOKABLE QJsonObject exportPreset(const QString &name) const;
+        Q_INVOKABLE void importPreset(QWindow *window, const QString &filename);
+        Q_INVOKABLE void exportPreset(QWindow *window, const QString &filename) const;
 
         QVariantList allPresets() const;
         int currentIndex() const;
