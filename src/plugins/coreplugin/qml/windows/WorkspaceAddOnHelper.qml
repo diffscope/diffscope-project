@@ -199,7 +199,10 @@ QtObject {
         width: 400
         property var layout: undefined
         property string originName: ""
-        onAboutToShow: layoutNameTextField.text = originName
+        onAboutToShow: () => {
+            layoutNameTextField.text = originName
+            layoutNameTextField.forceActiveFocus()
+        }
         ColumnLayout {
             anchors.fill: parent
             spacing: 8
@@ -224,7 +227,7 @@ QtObject {
                 id: saveLayoutOkButton
                 ThemedItem.controlType: SVS.CT_Accent
                 text: qsTr("OK")
-                enabled: layoutNameTextField.text !== saveLayoutPopup.originName
+                enabled: layoutNameTextField.text !== "" && layoutNameTextField.text !== saveLayoutPopup.originName
                 Layout.fillWidth: true
                 onClicked: () => {
                     helper.addOn.saveCustomLayoutFromJavaScript(saveLayoutPopup.layout, saveLayoutPopup.originName, layoutNameTextField.text)
