@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml.Models
+import QtQuick.Dialogs
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -190,79 +191,151 @@ Item {
         }
     }
 
+    FileDialog {
+        id: importFileDialog
+        fileMode: FileDialog.OpenFile
+        nameFilters: [qsTr("Color scheme files (*.dat)"), qsTr("All files (*)")]
+        onAccepted: () => {
+            page.collection.importPreset(page.Window.window, selectedFile)
+        }
+    }
+
+    FileDialog {
+        id: exportFileDialog
+        fileMode: FileDialog.SaveFile
+        nameFilters: [qsTr("Color scheme files (*.dat)"), qsTr("All files (*)")]
+        onAccepted: () => {
+            page.collection.exportPreset(page.Window.window, selectedFile)
+        }
+    }
+
     ListModel {
         id: colorSchemePropertiesModel
         ListElement {
             name: "accentColor"
-            text: qsTr("Accent Color")
+            text: qsTr("Accent color")
         }
         ListElement {
             name: "warningColor"
-            text: qsTr("Warning Color")
+            text: qsTr("Warning color")
         }
         ListElement {
             name: "errorColor"
-            text: qsTr("Error Color")
+            text: qsTr("Error color")
         }
         ListElement {
             name: "buttonColor"
-            text: qsTr("Button Color")
+            text: qsTr("Button color")
         }
         ListElement {
             name: "textFieldColor"
-            text: qsTr("Input Box Color")
+            text: qsTr("Input box color")
         }
         ListElement {
             name: "scrollBarColor"
-            text: qsTr("Scroll Bar Color")
+            text: qsTr("Scroll bar color")
         }
         ListElement {
             name: "borderColor"
-            text: qsTr("Border Color")
+            text: qsTr("Border color")
         }
         ListElement {
             name: "backgroundPrimaryColor"
-            text: qsTr("Primary Background Color")
+            text: qsTr("Primary background color")
         }
         ListElement {
             name: "backgroundSecondaryColor"
-            text: qsTr("Secondary Background Color")
+            text: qsTr("Secondary background color")
         }
         ListElement {
             name: "backgroundTertiaryColor"
-            text: qsTr("Tertiary Background Color")
+            text: qsTr("Tertiary background color")
         }
         ListElement {
             name: "backgroundQuaternaryColor"
-            text: qsTr("Quaternary Background Color")
+            text: qsTr("Quaternary background color")
         }
         ListElement {
             name: "splitterColor"
-            text: qsTr("Splitter Color")
+            text: qsTr("Splitter color")
         }
         ListElement {
             name: "foregroundPrimaryColor"
-            text: qsTr("Primary Foreground Color")
+            text: qsTr("Primary foreground color")
         }
         ListElement {
             name: "foregroundSecondaryColor"
-            text: qsTr("Secondary Foreground Color")
+            text: qsTr("Secondary foreground color")
         }
         ListElement {
             name: "linkColor"
-            text: qsTr("Link Color")
+            text: qsTr("Link color")
         }
         ListElement {
             name: "navigationColor"
-            text: qsTr("Navigation Color")
+            text: qsTr("Navigation color")
         }
         ListElement {
             name: "shadowColor"
-            text: qsTr("Shadow Color")
+            text: qsTr("Shadow color")
         }
         ListElement {
             name: "highlightColor"
-            text: qsTr("Highlight Color")
+            text: qsTr("Highlight color")
+        }
+        ListElement {
+            name: "flatButtonHighContrastBorderColor"
+            text: qsTr("Flat button high contrast border color")
+        }
+        ListElement {
+            name: "controlDisabledColorChange"
+            text: qsTr("Control disabled color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "foregroundDisabledColorChange"
+            text: qsTr("Foreground disabled color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "controlHoveredColorChange"
+            text: qsTr("Control hovered color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "foregroundHoveredColorChange"
+            text: qsTr("Foreground hovered color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "controlPressedColorChange"
+            text: qsTr("Control pressed color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "foregroundPressedColorChange"
+            text: qsTr("Foreground pressed color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "controlCheckedColorChange"
+            text: qsTr("Control checked color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "annotationPopupTitleColorChange"
+            text: qsTr("Annotation popup title color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "annotationPopupContentColorChange"
+            text: qsTr("Annotation popup content color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "dockingPanelHeaderActiveColorChange"
+            text: qsTr("Docking panel header active color change")
+            colorChange: true
         }
     }
 
@@ -320,10 +393,16 @@ Item {
                         MenuSeparator {}
                         Action {
                             text: qsTr("Import from File...")
+                            onTriggered: () => {
+                                importFileDialog.open()
+                            }
                         }
                         Action {
                             enabled: !presetComboBox.currentValue.unsaved
                             text: qsTr("Export to File...")
+                            onTriggered: () => {
+                                exportFileDialog.open()
+                            }
                         }
                     }
                 }

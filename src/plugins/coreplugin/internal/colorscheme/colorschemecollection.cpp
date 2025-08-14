@@ -35,6 +35,7 @@ namespace Core::Internal {
             {"navigationColor", QVariant::fromValue(QColor(0xffffff))},
             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
@@ -44,6 +45,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x265566ff)}})},
         }},
         {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic Light"), {
             {"accentColor", QVariant::fromValue(QColor(0x7d8aff))},
@@ -64,6 +66,7 @@ namespace Core::Internal {
             {"navigationColor", QVariant::fromValue(QColor::fromRgb(0x0))},
             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33ffffff)}})},
             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
@@ -73,6 +76,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0xdbdede}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0xdbdede}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x607d8aff)}})},
         }},
         {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic High Contrast"), {
             {"accentColor", QVariant::fromValue(QColor(0x0055ff))},
@@ -93,6 +97,7 @@ namespace Core::Internal {
             {"navigationColor", QVariant::fromValue(QColor::fromRgb(0xcc00aa))},
             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(0x00db58))},
             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
@@ -102,6 +107,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x400055ff)}})},
         }}
     };
 
@@ -210,7 +216,8 @@ namespace Core::Internal {
     bool ColorSchemeCollection::presetExists(const QString &name) {
         return std::ranges::any_of(m_presets, [&](const auto &p) { return p.first == name; });
     }
-    void ColorSchemeCollection::importPreset(QWindow *window, const QString &filename) {
+    void ColorSchemeCollection::importPreset(QWindow *window, const QUrl &fileUrl) {
+        auto filename = fileUrl.toLocalFile();
         QFile f(filename);
         if (!f.open(QIODevice::ReadOnly)) {
             SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
@@ -234,7 +241,8 @@ namespace Core::Internal {
         m_unsavedPreset = preset;
         savePreset(name);
     }
-    void ColorSchemeCollection::exportPreset(QWindow *window, const QString &filename) const {
+    void ColorSchemeCollection::exportPreset(QWindow *window, const QUrl &fileUrl) const {
+        auto filename = fileUrl.toLocalFile();
         if (m_currentIndex >= m_internalPresets.size() + m_presets.size()) {
             return;
         }
@@ -319,6 +327,7 @@ namespace Core::Internal {
         theme->setProperty("navigationColor", m_unsavedPreset.value("navigationColor"));
         theme->setProperty("shadowColor", m_unsavedPreset.value("shadowColor"));
         theme->setProperty("highlightColor", m_unsavedPreset.value("highlightColor"));
+        theme->setProperty("flatButtonHighContrastBorderColor", m_unsavedPreset.value("flatButtonHighContrastBorderColor"));
         theme->setProperty("controlDisabledColorChange", m_unsavedPreset.value("controlDisabledColorChange"));
         theme->setProperty("foregroundDisabledColorChange", m_unsavedPreset.value("foregroundDisabledColorChange"));
         theme->setProperty("controlHoveredColorChange", m_unsavedPreset.value("controlHoveredColorChange"));
@@ -328,6 +337,7 @@ namespace Core::Internal {
         theme->setProperty("controlCheckedColorChange", m_unsavedPreset.value("controlCheckedColorChange"));
         theme->setProperty("annotationPopupTitleColorChange", m_unsavedPreset.value("annotationPopupTitleColorChange"));
         theme->setProperty("annotationPopupContentColorChange", m_unsavedPreset.value("annotationPopupContentColorChange"));
+        theme->setProperty("dockingPanelHeaderActiveColorChange", m_unsavedPreset.value("dockingPanelHeaderActiveColorChange"));
     }
     static const char settingCategoryC[] = "Core::Internal::ColorSchemeCollection";
     void ColorSchemeCollection::load() {

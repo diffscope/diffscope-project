@@ -33,8 +33,8 @@ namespace Core::Internal {
         Q_INVOKABLE void renamePreset(int index, const QString &name);
         Q_INVOKABLE bool presetExists(const QString &name);
 
-        Q_INVOKABLE void importPreset(QWindow *window, const QString &filename);
-        Q_INVOKABLE void exportPreset(QWindow *window, const QString &filename) const;
+        Q_INVOKABLE void importPreset(QWindow *window, const QUrl &fileUrl);
+        Q_INVOKABLE void exportPreset(QWindow *window, const QUrl &fileUrl) const;
 
         QVariantList allPresets() const;
         int currentIndex() const;
