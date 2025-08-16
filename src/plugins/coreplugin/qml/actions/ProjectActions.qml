@@ -16,4 +16,11 @@ ActionCollection {
     required property IProjectWindow windowHandle
     property Window window: windowHandle?.window ?? null
 
+    ActionItem {
+        actionId: "core.statusText"
+        Label {
+            text: DescriptiveText.statusText
+        }
+    }
+
 }

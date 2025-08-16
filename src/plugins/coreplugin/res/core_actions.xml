@@ -19,10 +19,12 @@
         <action id="core.openFile" text="&amp;Open..." class="File" shortcut="Ctrl+O" />
         <action id="core.saveFile" text="&amp;Save" class="File" shortcut="Ctrl+S" />
 
-        <action id="core.settings" text="Se&amp;ttings..." class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.settings" text="Se&amp;ttings..." description="Open Settings" class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.plugins" text="Pl&amp;ugins..." class="Preferences" shortcut=""/>
 
         <action id="core.showHome" text="Show &amp;Home Window"  class="Application" />
+
+        <action id="core.exit" text="E&amp;xit"  class="Application" />
 
         <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" />
         <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" />
@@ -70,6 +72,7 @@
         <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" />
         <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" />
         <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" />
+        <action id="core.tipsPanel" text="Tips" catalog="core.workspacePanelWidgets" />
     </items>
 
     <layouts>
@@ -86,6 +89,8 @@
                 </group>
                 <separator />
                 <action id="core.showHome" />
+                <separator />
+                <action id="core.exit" />
             </menu>
             <menu id="core.view" text="&amp;View">
                 <group id="core.workspaceActions">

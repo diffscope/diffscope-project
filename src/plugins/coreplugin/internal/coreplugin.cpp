@@ -82,6 +82,7 @@ namespace Core::Internal {
         addIcon("core.mixerPanel", "OptionsVertical16Filled");
         addIcon("core.pianoRollPanel", "Midi20Filled");
         addIcon("core.notificationsPanel", "Alert16Filled");
+        addIcon("core.tipsPanel", "ChatSparkle16Filled");
     }
 
     static void initializeSettings() {

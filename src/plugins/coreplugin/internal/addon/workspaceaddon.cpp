@@ -51,6 +51,7 @@ namespace Core::Internal {
 
             iWin->actionContext()->addAction("core.propertiesPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PropertiesPanel", this));
             iWin->actionContext()->addAction("core.pluginsPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
+            iWin->actionContext()->addAction("core.tipsPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TipsPanel", this));
             iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
             iWin->actionContext()->addAction("core.mixerPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
             iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));

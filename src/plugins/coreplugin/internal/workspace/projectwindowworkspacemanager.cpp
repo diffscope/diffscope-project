@@ -43,13 +43,14 @@ namespace Core::Internal {
         layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftTop, {
             {
                 {"core.propertiesPanel", true},
+                {"core.pluginsPanel", true},
             }, 400, 400, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftBottom, {
             {
-                {"core.pluginsPanel", true},
+                {"core.tipsPanel", true},
                 {"core.settings", false}
-            }, 400, 400, -1
+            }, 400, 150, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::TopLeft, {
             {

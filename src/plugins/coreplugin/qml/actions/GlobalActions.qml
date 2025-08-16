@@ -70,6 +70,15 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "core.exit"
+        Action {
+            onTriggered: () => {
+                ICore.exitApplicationGracefully()
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "core.aboutApp"
         Action {
             onTriggered: (o) => {

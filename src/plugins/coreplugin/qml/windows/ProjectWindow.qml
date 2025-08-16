@@ -53,6 +53,22 @@ ProjectWindow {
             }
         }
     }
+    statusButtonsModel: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "core.mainStatusBar"
+            context: projectWindow.windowHandle.actionContext
+            separatorComponent: ToolBarContainerSeparator {
+            }
+            stretchComponent: ToolBarContainerStretch {
+            }
+            onObjectAdded: (index, object) => {
+                projectWindow.statusButtonsModel.insert(index, object)
+            }
+            onObjectRemoved: (index, object) => {
+                projectWindow.statusButtonsModel.remove(index)
+            }
+        }
+    }
 
 }
 
