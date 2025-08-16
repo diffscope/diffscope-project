@@ -1,6 +1,7 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
 #define DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
 
+#include <SVSCraftGui/ColorChange.h>
 
 #include <CoreApi/isettingpage.h>
 
@@ -20,6 +21,10 @@ namespace Core::Internal {
         void beginSetting() override;
         bool accept() override;
         void endSetting() override;
+
+        Q_INVOKABLE static QString colorChangeProperties(const SVS::ColorChange &colorChange);
+        Q_INVOKABLE static QString colorChangePropertiesEditText(const SVS::ColorChange &colorChange);
+        Q_INVOKABLE static SVS::ColorChange propertiesEditTextToColorChange(const QString &text);
 
     private:
         bool widgetMatches(const QString &word);

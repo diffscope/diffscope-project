@@ -71,6 +71,105 @@ Item {
         }
     }
 
+    component ColorChangePropertyEditor: Pane {
+        id: editor
+        readonly property var modelData: colorSchemePropertiesModel.get(listView.currentIndex)
+        property var colorChange: Theme.controlDisabledColorChange
+        function updateColorChange() {
+            if (!modelData || !modelData.colorChange)
+                return
+            colorChange = page.collection.value(modelData.name)
+            editorStackLayout.currentIndex = 0
+        }
+        onModelDataChanged: updateColorChange();
+        Connections {
+            target: page.collection
+            function onUnsavedPresetUpdated() {
+                editor.updateColorChange()
+            }
+        }
+        ColumnLayout {
+            spacing: 8
+            anchors.fill: parent
+            GroupBox {
+                title: qsTr("Properties")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                StackLayout {
+                    id: editorStackLayout
+                    anchors.fill: parent
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Label {
+                            Layout.fillWidth: true
+                            text: page.pageHandle.colorChangeProperties(editor.colorChange)
+                            visible: text !== ""
+                            wrapMode: Text.Wrap
+                        }
+                        ToolButton {
+                            Layout.fillWidth: true
+                            flat: false
+                            text: qsTr("Edit")
+                            onClicked: editorStackLayout.currentIndex = 1
+                        }
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        TextArea {
+                            id: editorTextArea
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            text: page.pageHandle.colorChangePropertiesEditText(editor.colorChange)
+                        }
+                        ToolButton {
+                            Layout.fillWidth: true
+                            flat: false
+                            text: qsTr("OK")
+                            onClicked: () => {
+                                if (!editor.modelData || !editor.colorChange)
+                                    return
+                                let colorChange;
+                                try {
+                                    colorChange = page.pageHandle.propertiesEditTextToColorChange(editorTextArea.text)
+                                } catch (e) {
+                                    MessageBox.critical("Syntax error", e.message)
+                                    return
+                                }
+                                page.collection.setValue(modelData.name, colorChange)
+                                editorStackLayout.currentIndex = 0
+                            }
+                        }
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Preview")
+                Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Label {
+                            text: qsTr("Color")
+                        }
+                        ColorComboBox {
+                            id: previewColorComboBox
+                            Layout.fillWidth: true
+                        }
+                    }
+                    ColorPreview {
+                        implicitHeight: 24
+                        Layout.fillWidth: true
+                        color: editor.colorChange.apply(previewColorComboBox.color)
+                    }
+                }
+            }
+        }
+    }
+
     component PropertyItemDelegate: ItemDelegate {
         id: control
         ThemedItem.flat: true
@@ -440,16 +539,11 @@ Item {
                 Layout.fillWidth: true
                 Layout.horizontalStretchFactor: 1
                 currentIndex: colorSchemePropertiesModel.get(listView.currentIndex)?.colorChange ? 1 : 0
-                ScrollView {
-                    id: colorScrollView
+                ColorPropertyEditor {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    ColorPropertyEditor {
-                        width: colorScrollView.width - 8
-                    }
                 }
-                ScrollView {
-                    id: colorChangeScrollView
+                ColorChangePropertyEditor {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                 }
