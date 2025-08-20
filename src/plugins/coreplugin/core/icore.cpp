@@ -35,6 +35,7 @@
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/ihomewindow.h>
 #include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/applicationupdatechecker.h>
 
 namespace Core {
 
@@ -289,12 +290,18 @@ namespace Core {
             if (inst->window()->visibility() == QWindow::Minimized) {
                 inst->window()->showNormal();
             }
-            inst->window()->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
+            inst->window()
+                ->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
             return;
         }
         auto iWin = IHomeWindowRegistry::instance()->create();
         Q_UNUSED(iWin);
     }
+
+    void ICore::checkForUpdate(bool silent) {
+        Internal::ApplicationUpdateChecker::checkForUpdate(silent);
+    }
+
     void ICore::newFile() {
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());

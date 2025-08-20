@@ -38,11 +38,13 @@
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
 #include <coreplugin/internal/colorschemecollection.h>
+#include <coreplugin/internal/applicationupdatechecker.h>
 
 
 namespace Core::Internal {
 
     static ICore *icore = nullptr;
+    static ApplicationUpdateChecker *updateChecker = nullptr;
 
     static void waitSplash(QWidget *w) {
         PluginDatabase::splash()->finish(w);
@@ -118,6 +120,9 @@ namespace Core::Internal {
 
         // Init ICore instance
         icore = new ICore(this);
+
+        // Init ApplicationUpdateChecker instance
+        updateChecker = new ApplicationUpdateChecker(this);
 
         // Handle FileOpenEvent
         qApp->installEventFilter(this);

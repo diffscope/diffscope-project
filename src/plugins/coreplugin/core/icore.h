@@ -43,6 +43,7 @@ namespace Core {
         Q_INVOKABLE static void showAboutAppDialog(QWindow *parent);
         Q_INVOKABLE static void showAboutQtDialog(QWindow *parent);
         Q_INVOKABLE static void showHome();
+        Q_INVOKABLE static void checkForUpdate(bool silent = false);
 
     public:
         Q_INVOKABLE static void newFile();
