@@ -147,7 +147,7 @@ namespace Core::Internal {
         // }
 
         if (QApplication::arguments().contains("-open-settings")) {
-            ICore::showSettingsDialog("", nullptr);
+            ICore::execSettingsDialog("", nullptr);
         }
 
         QQuickWindow *win;

@@ -121,7 +121,7 @@ namespace Core {
         return instance()->d_func()->behaviorPreference;
     }
 
-    int ICore::showSettingsDialog(const QString &id, QWindow *parent) {
+    int ICore::execSettingsDialog(const QString &id, QWindow *parent) {
         static std::unique_ptr<QWindow> dlg;
 
         // TODO: show last used page if id is empty
@@ -159,7 +159,7 @@ namespace Core {
         return 0;
     }
 
-    void ICore::showPluginsDialog(QWindow *parent) {
+    void ICore::execPluginsDialog(QWindow *parent) {
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -172,7 +172,7 @@ namespace Core {
         connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
-    void ICore::showAboutAppDialog(QWindow *parent) {
+    void ICore::execAboutAppDialog(QWindow *parent) {
         static const QString appName = qApp->applicationName();
 
         QString aboutInfo =
@@ -232,7 +232,7 @@ namespace Core {
         connect(mb.get(), SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
         eventLoop.exec();
     }
-    void ICore::showAboutQtDialog(QWindow *parent) {
+    void ICore::execAboutQtDialog(QWindow *parent) {
         QString translatedTextAboutQtCaption;
         translatedTextAboutQtCaption = QMessageBox::tr(
             "<h3>About Qt</h3>"

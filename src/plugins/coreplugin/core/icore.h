@@ -38,10 +38,10 @@ namespace Core {
         static QAK::ActionRegistry *actionRegistry();
         static BehaviorPreference *behaviorPreference();
 
-        Q_INVOKABLE static int showSettingsDialog(const QString &id, QWindow *parent);
-        Q_INVOKABLE static void showPluginsDialog(QWindow *parent);
-        Q_INVOKABLE static void showAboutAppDialog(QWindow *parent);
-        Q_INVOKABLE static void showAboutQtDialog(QWindow *parent);
+        Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);
+        Q_INVOKABLE static void execPluginsDialog(QWindow *parent);
+        Q_INVOKABLE static void execAboutAppDialog(QWindow *parent);
+        Q_INVOKABLE static void execAboutQtDialog(QWindow *parent);
         Q_INVOKABLE static void showHome();
         Q_INVOKABLE static void checkForUpdate(bool silent = false);
 

@@ -45,7 +45,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.showSettingsDialog("", w))
+                Qt.callLater(() => ICore.execSettingsDialog("", w))
             }
         }
     }
@@ -55,7 +55,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.showPluginsDialog(w))
+                Qt.callLater(() => ICore.execPluginsDialog(w))
             }
         }
     }
@@ -83,7 +83,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.showAboutAppDialog(w))
+                Qt.callLater(() => ICore.execAboutAppDialog(w))
             }
         }
     }
@@ -93,7 +93,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.showAboutQtDialog(w))
+                Qt.callLater(() => ICore.execAboutQtDialog(w))
             }
         }
     }
