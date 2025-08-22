@@ -66,6 +66,8 @@ Window {
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
         y: titleBar.height + verticalOffset
+        emptyText: qsTr("Empty")
+        recentlyUsedText: qsTr("recently used")
     }
     Rectangle {
         anchors.fill: parent

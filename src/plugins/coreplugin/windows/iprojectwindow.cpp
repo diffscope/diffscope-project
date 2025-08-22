@@ -1,6 +1,7 @@
 #include "iprojectwindow.h"
 
 #include <QQmlComponent>
+#include <QAbstractItemModel>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -9,6 +10,7 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/notificationmanager.h>
+#include <coreplugin/quickpick.h>
 
 namespace Core {
 
@@ -67,13 +69,23 @@ namespace Core {
         Q_D(IProjectWindow);
         d->notificationManager->addMessage(message, mode);
     }
-    void IProjectWindow::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
+    void IProjectWindow::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title,
+                                          const QString &text, NotificationBubbleMode mode) {
         auto message = new NotificationMessage(this);
         message->setIcon(icon);
         message->setTitle(title);
         message->setText(text);
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
+    }
+    int IProjectWindow::execQuickPick(QAbstractItemModel *model, int defaultIndex, const QString &initialFilterText, const QString &placeholderText) {
+        QuickPick quickPick;
+        quickPick.setWindowHandle(this);
+        quickPick.setModel(model);
+        quickPick.setPlaceholderText(placeholderText);
+        quickPick.setFilterText(initialFilterText);
+        quickPick.setCurrentIndex(defaultIndex);
+        return quickPick.exec();
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);

@@ -13,6 +13,8 @@ namespace QAK {
     class QuickActionContext;
 }
 
+class QAbstractItemModel;
+
 namespace Core {
 
     class NotificationMessage;
@@ -38,6 +40,8 @@ namespace Core {
         Q_ENUM(NotificationBubbleMode)
         Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
+
+        Q_INVOKABLE int execQuickPick(QAbstractItemModel *model, int defaultIndex = 0, const QString &initialFilterText = {}, const QString &placeholderText = {});
 
     protected:
         QWindow *createWindow(QObject *parent) const override;
