@@ -7,6 +7,7 @@
 #include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/icore.h>
+#include <coreplugin/internal/actionhelper.h>
 
 namespace Core {
 
@@ -45,6 +46,10 @@ namespace Core {
     QAK::QuickActionContext *IHomeWindow::actionContext() const {
         Q_D(const IHomeWindow);
         return d->actionContext;
+    }
+    bool IHomeWindow::triggerAction(const QString &id, QObject *source) {
+        Q_D(IHomeWindow);
+        return Internal::ActionHelper::triggerAction(d->actionContext, id, source);
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
         Q_D(const IHomeWindow);

@@ -16,6 +16,7 @@ ScrollView {
     property string localeName
     property bool hasNotificationSoundAlert
     property int notificationAutoHideTimeout
+    property int commandPaletteHistoryCount
     property int proxyOption
     property int proxyType
     property string proxyHostname
@@ -173,6 +174,30 @@ ScrollView {
                     }
                     Button {
                         text: qsTr('Reset All "Do Not Show Again"')
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Find Actions")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    RowLayout {
+                        Label {
+                            text: qsTr('Number of "recently used" records')
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        SpinBox {
+                            from: 0
+                            to: 2147483647
+                            value: page.commandPaletteHistoryCount
+                            onValueModified: page.commandPaletteHistoryCount = value
+                        }
+                    }
+                    Button {
+                        text: qsTr("Clear History")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                 }

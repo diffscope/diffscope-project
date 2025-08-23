@@ -11,6 +11,7 @@
 #include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/notificationmanager.h>
 #include <coreplugin/quickpick.h>
+#include <coreplugin/internal/actionhelper.h>
 
 namespace Core {
 
@@ -64,6 +65,10 @@ namespace Core {
     QAK::QuickActionContext *IProjectWindow::actionContext() const {
         Q_D(const IProjectWindow);
         return d->actionContext;
+    }
+    bool IProjectWindow::triggerAction(const QString &id, QObject *source) {
+        Q_D(IProjectWindow);
+        return Internal::ActionHelper::triggerAction(d->actionContext, id, source);
     }
     void IProjectWindow::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
         Q_D(IProjectWindow);

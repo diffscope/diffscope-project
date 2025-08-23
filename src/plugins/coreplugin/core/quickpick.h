@@ -68,6 +68,7 @@ namespace Core {
 
     private Q_SLOTS:
         void updateFromCommandPalette();
+        void handleWindowHandleDestroyed();
 
     private:
         QScopedPointer<QuickPickPrivate> d_ptr;

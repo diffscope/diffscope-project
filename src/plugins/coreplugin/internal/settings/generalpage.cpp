@@ -45,6 +45,7 @@ namespace Core::Internal {
         m_widget->setProperty("localeName", BehaviorPreference::instance()->property("localeName"));
         m_widget->setProperty("hasNotificationSoundAlert", BehaviorPreference::instance()->property("hasNotificationSoundAlert"));
         m_widget->setProperty("notificationAutoHideTimeout", BehaviorPreference::instance()->property("notificationAutoHideTimeout"));
+        m_widget->setProperty("commandPaletteHistoryCount", BehaviorPreference::instance()->property("commandPaletteHistoryCount"));
         m_widget->setProperty("proxyOption", BehaviorPreference::instance()->property("proxyOption"));
         m_widget->setProperty("ProxyType", BehaviorPreference::instance()->property("ProxyType"));
         m_widget->setProperty("proxyHostname", BehaviorPreference::instance()->property("proxyHostname"));
@@ -64,6 +65,7 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("localeName", m_widget->property("localeName"));
         BehaviorPreference::instance()->setProperty("hasNotificationSoundAlert", m_widget->property("hasNotificationSoundAlert"));
         BehaviorPreference::instance()->setProperty("notificationAutoHideTimeout", m_widget->property("notificationAutoHideTimeout"));
+        BehaviorPreference::instance()->setProperty("commandPaletteHistoryCount", m_widget->property("commandPaletteHistoryCount"));
         BehaviorPreference::instance()->setProperty("proxyOption", m_widget->property("proxyOption"));
         BehaviorPreference::instance()->setProperty("ProxyType", m_widget->property("ProxyType"));
         BehaviorPreference::instance()->setProperty("proxyHostname", m_widget->property("proxyHostname"));

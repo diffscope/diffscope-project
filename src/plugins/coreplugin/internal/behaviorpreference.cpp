@@ -65,6 +65,8 @@ namespace Core::Internal {
         emit hasNotificationSoundAlertChanged();
         d->notificationAutoHideTimeout = settings->value("notificationAutoHideTimeout", 5000).toInt();
         emit notificationAutoHideTimeoutChanged();
+        d->commandPaletteHistoryCount = settings->value("commandPaletteHistoryCount", 4).toInt();
+        emit commandPaletteHistoryCountChanged();
         d->proxyOption = settings->value("proxyOption", QVariant::fromValue(PO_System)).value<ProxyOption>();
         emit proxyOptionChanged();
         d->proxyType = settings->value("proxyType", QVariant::fromValue(PT_Socks5)).value<ProxyType>();
@@ -108,6 +110,7 @@ namespace Core::Internal {
         settings->setValue("localeName", d->localeName);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
         settings->setValue("notificationAutoHideTimeout", d->notificationAutoHideTimeout);
+        settings->setValue("commandPaletteHistoryCount", d->commandPaletteHistoryCount);
         settings->setValue("proxyOption", static_cast<int>(d->proxyOption));
         settings->setValue("proxyType", static_cast<int>(d->proxyType));
         settings->setValue("proxyHostname", d->proxyHostname);
@@ -183,6 +186,17 @@ namespace Core::Internal {
             return;
         d->notificationAutoHideTimeout = notificationAutoHideTimeout;
         emit m_instance->notificationAutoHideTimeoutChanged();
+    }
+    int BehaviorPreference::commandPaletteHistoryCount() {
+        M_INSTANCE_D;
+        return d->commandPaletteHistoryCount;
+    }
+    void BehaviorPreference::setCommandPaletteHistoryCount(int commandPaletteHistoryCount) {
+        M_INSTANCE_D;
+        if (d->commandPaletteHistoryCount == commandPaletteHistoryCount)
+            return;
+        d->commandPaletteHistoryCount = commandPaletteHistoryCount;
+        emit m_instance->commandPaletteHistoryCountChanged();
     }
     BehaviorPreference::ProxyOption BehaviorPreference::proxyOption() {
         M_INSTANCE_D;

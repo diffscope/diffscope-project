@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actionExtension xmlns:diffscope="http://schemas.diffscope.org/actions/diffscope">
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
     <version>1.0</version>
     <id>org.diffscope.core</id>
     <configuration>
@@ -27,18 +27,18 @@
         <action id="core.exit" text="E&amp;xit"  class="Application" />
 
         <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" />
-        <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" />
+        <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.workspaceSaveLayout" text="&amp;Save Current Layout As..." class="View" />
-        <action id="core.allPanels" text="&amp;All Panels" class="View" />
-        <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" />
-        <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" />
-        <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" />
-        <action id="core.workspacePanelRightBottom" text="None (Right Bottom)" class="View" shortcut="Ctrl+Alt+4" />
-        <action id="core.workspacePanelTopLeft" text="None (Top Left)" class="View" shortcut="Ctrl+Alt+5" />
-        <action id="core.workspacePanelTopRight" text="None (Top Right)" class="View" shortcut="Ctrl+Alt+6" />
-        <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" />
-        <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" />
-        <action id="core.floatingPanels" text="&amp;Floating Panels" class="View" />
+        <action id="core.allPanels" text="&amp;All Panels" class="View" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelRightBottom" text="None (Right Bottom)" class="View" shortcut="Ctrl+Alt+4" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelTopLeft" text="None (Top Left)" class="View" shortcut="Ctrl+Alt+5" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelTopRight" text="None (Top Right)" class="View" shortcut="Ctrl+Alt+6" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
+        <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
+        <action id="core.floatingPanels" text="&amp;Floating Panels" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.dockActionToSideBar" text="Add &amp;New Panel or Action" class="View" />
 
         <action id="core.menuBarVisible" text="Show &amp;Menu Bar" class="View" />
@@ -65,14 +65,14 @@
 
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
-        <action id="core.statusText" />
-        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" diffscope:uniquePanel="true" />
-        <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" />
-        <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" />
-        <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" />
-        <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" />
-        <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" />
-        <action id="core.tipsPanel" text="Tips" catalog="core.workspacePanelWidgets" />
+        <action id="core.statusText" diffscope:excludeFromCommands="true"/>
+        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
+        <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.tipsPanel" text="Tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
     </items>
 
     <layouts>

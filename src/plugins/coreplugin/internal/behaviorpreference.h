@@ -23,6 +23,7 @@ namespace Core::Internal {
         Q_PROPERTY(QString localeName READ localeName WRITE setLocaleName NOTIFY localeNameChanged)
         Q_PROPERTY(bool hasNotificationSoundAlert READ hasNotificationSoundAlert WRITE setHasNotificationSoundAlert NOTIFY hasNotificationSoundAlertChanged)
         Q_PROPERTY(int notificationAutoHideTimeout READ notificationAutoHideTimeout WRITE setNotificationAutoHideTimeout NOTIFY notificationAutoHideTimeoutChanged)
+        Q_PROPERTY(int commandPaletteHistoryCount READ commandPaletteHistoryCount WRITE setCommandPaletteHistoryCount NOTIFY commandPaletteHistoryCountChanged)
         Q_PROPERTY(BehaviorPreference::ProxyOption proxyOption READ proxyOption WRITE setProxyOption NOTIFY proxyOptionChanged)
         Q_PROPERTY(BehaviorPreference::ProxyType proxyType READ proxyType WRITE setProxyType NOTIFY proxyTypeChanged)
         Q_PROPERTY(QString proxyHostname READ proxyHostname WRITE setProxyHostname NOTIFY proxyHostnameChanged)
@@ -75,6 +76,8 @@ namespace Core::Internal {
         static int notificationAutoHideTimeout();
         static void setNotificationAutoHideTimeout(int notificationAutoHideTimeout);
 
+        static int commandPaletteHistoryCount();
+        static void setCommandPaletteHistoryCount(int commandPaletteHistoryCount);
 
         enum ProxyOption {
             PO_None,
@@ -165,6 +168,7 @@ namespace Core::Internal {
         void localeNameChanged();
         void hasNotificationSoundAlertChanged();
         void notificationAutoHideTimeoutChanged();
+        void commandPaletteHistoryCountChanged();
         void proxyOptionChanged();
         void proxyTypeChanged();
         void proxyHostnameChanged();

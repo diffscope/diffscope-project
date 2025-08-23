@@ -40,6 +40,7 @@
 #include <coreplugin/internal/menupage.h>
 #include <coreplugin/internal/colorschemecollection.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
+#include <coreplugin/internal/findactionsaddon.h>
 
 
 namespace Core::Internal {
@@ -104,6 +105,7 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
+        IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
     }
 
     static void initializeBehaviorPreference() {

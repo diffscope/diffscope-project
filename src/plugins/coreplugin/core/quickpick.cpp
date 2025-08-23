@@ -154,16 +154,7 @@ namespace Core {
         d->syncToCommandPalette();
         
         // Listen for windowHandle destroyed signal
-        connect(d->windowHandle, &QObject::destroyed, this, [this]() {
-            Q_D(QuickPick);
-            d->clearCommandPalette();
-            if (d->visible) {
-                d->visible = false;
-                Q_EMIT visibleChanged(false);
-                Q_EMIT rejected();
-                Q_EMIT finished(-1);
-            }
-        }, Qt::UniqueConnection);
+        connect(d->windowHandle, &QObject::destroyed, this, &QuickPick::handleWindowHandleDestroyed, Qt::UniqueConnection);
         
         // Set visible state
         if (!d->visible) {
@@ -253,19 +244,30 @@ namespace Core {
 
     void QuickPick::updateFromCommandPalette() {
         Q_D(QuickPick);
-        if (!d->commandPalette) return;
-        
+        if (!d->commandPalette)
+            return;
+
         // Read properties from CommandPalette and update, avoiding circular updates
         QString newFilterText = d->commandPalette->property("filterText").toString();
         if (d->filterText != newFilterText) {
             d->filterText = newFilterText;
             Q_EMIT filterTextChanged(newFilterText);
         }
-        
+
         int newCurrentIndex = d->commandPalette->property("currentIndex").toInt();
         if (d->currentIndex != newCurrentIndex) {
             d->currentIndex = newCurrentIndex;
             Q_EMIT currentIndexChanged(newCurrentIndex);
+        }
+    }
+    void QuickPick::handleWindowHandleDestroyed() {
+        Q_D(QuickPick);
+        d->clearCommandPalette();
+        if (d->visible) {
+            d->visible = false;
+            Q_EMIT visibleChanged(false);
+            Q_EMIT rejected();
+            Q_EMIT finished(-1);
         }
     }
 

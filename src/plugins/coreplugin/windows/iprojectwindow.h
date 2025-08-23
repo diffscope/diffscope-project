@@ -32,6 +32,8 @@ namespace Core {
 
         QAK::QuickActionContext *actionContext() const;
 
+        Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
+
         enum NotificationBubbleMode {
             NormalBubble,
             DoNotShowBubble,

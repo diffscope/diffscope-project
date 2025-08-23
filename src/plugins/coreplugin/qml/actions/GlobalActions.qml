@@ -34,13 +34,6 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.findActions"
-        Action {
-
-        }
-    }
-
-    ActionItem {
         actionId: "core.settings"
         Action {
             onTriggered: (o) => {
