@@ -192,7 +192,7 @@ namespace Core::Internal {
                 {"id", id},
                 {"text", info.text()},
                 {"iconSource", QUrl::fromLocalFile(ICore::actionRegistry()->actionIcon("", info.id()).filePath(QIcon::Normal, QIcon::Off))},
-                {"unique", info.attributes().contains("uniquePanel")}
+                {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/actions/diffscope"))}
             };
         });
         return ret;
