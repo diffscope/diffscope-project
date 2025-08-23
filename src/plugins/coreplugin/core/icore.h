@@ -16,8 +16,6 @@ class QJSEngine;
 
 namespace Core {
 
-    class BehaviorPreference;
-
     namespace Internal {
         class CorePlugin;
     }
@@ -30,13 +28,11 @@ namespace Core {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(ICore)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
-        Q_PROPERTY(BehaviorPreference *behaviorPreference READ behaviorPreference CONSTANT)
     public:
         static ICore *instance();
         static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QAK::ActionRegistry *actionRegistry();
-        static BehaviorPreference *behaviorPreference();
 
         Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void execPluginsDialog(QWindow *parent);

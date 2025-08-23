@@ -1,4 +1,5 @@
 #include "icore.h"
+#include "icore.h"
 
 #include <csignal>
 #include <memory>
@@ -34,7 +35,7 @@
 
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/ihomewindow.h>
-#include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
 
 namespace Core {
@@ -47,55 +48,11 @@ namespace Core {
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
-        BehaviorPreference *behaviorPreference;
 
         void init() {
             Q_Q(ICore);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
-            behaviorPreference = new BehaviorPreference(q);
-            initializeBehaviorPreference();
-        }
-
-        void initializeBehaviorPreference() {
-            Q_Q(ICore);
-            const auto updateFont = [=] {
-                if (!behaviorPreference->useCustomFont()) {
-                    auto font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-                    QApplication::setFont(font);
-                    SVS::Theme::defaultTheme()->setFont(font);
-                } else {
-                    auto font = QApplication::font();
-                    font.setFamily(behaviorPreference->fontFamily());
-                    font.setStyleName(behaviorPreference->fontStyle());
-                    QApplication::setFont(font);
-                    SVS::Theme::defaultTheme()->setFont(font);
-                }
-            };
-            QObject::connect(behaviorPreference, &BehaviorPreference::useCustomFontChanged, q, updateFont);
-            QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, q, updateFont);
-            QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, q, updateFont);
-#ifndef Q_OS_WIN
-            QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, q, [=] {
-                QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, !(behaviorPreference->uiBehavior() & BehaviorPreference::UB_NativeMenu));
-            });
-#endif
-            const auto updateAnimation = [=] {
-                auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
-                SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
-                SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
-            };
-            QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, q, updateAnimation);
-            QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, q, updateAnimation);
-            behaviorPreference->load();
-            if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
-                QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
-            }
-            if (behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Antialiasing) {
-                auto sf = QSurfaceFormat::defaultFormat();
-                sf.setSamples(8);
-                QSurfaceFormat::setDefaultFormat(sf);
-            }
         }
     };
 
@@ -114,11 +71,6 @@ namespace Core {
         if (!instance())
             return nullptr;
         return instance()->d_func()->actionRegistry;
-    }
-    BehaviorPreference *ICore::behaviorPreference() {
-        if (!instance())
-            return nullptr;
-        return instance()->d_func()->behaviorPreference;
     }
 
     int ICore::execSettingsDialog(const QString &id, QWindow *parent) {
@@ -306,7 +258,7 @@ namespace Core {
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
         win->show();
-        if (IHomeWindow::instance() && (behaviorPreference()->startupBehavior() & BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
+        if (IHomeWindow::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             IHomeWindow::instance()->quit();
         }
     }

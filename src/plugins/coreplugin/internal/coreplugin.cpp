@@ -3,6 +3,7 @@
 #include "behaviorpreference.h"
 
 #include <QTimer>
+#include <QtGui/QFontDatabase>
 #include <QtCore/QDirIterator>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QThread>
@@ -25,7 +26,7 @@
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/icore.h>
-#include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/ihomewindow.h>
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/internal/appearancepage.h>
@@ -45,6 +46,7 @@ namespace Core::Internal {
 
     static ICore *icore = nullptr;
     static ApplicationUpdateChecker *updateChecker = nullptr;
+    static BehaviorPreference *behaviorPreference = nullptr;
 
     static void waitSplash(QWidget *w) {
         PluginDatabase::splash()->finish(w);
@@ -104,6 +106,46 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
     }
 
+    static void initializeBehaviorPreference() {
+        const auto updateFont = [=] {
+            if (!behaviorPreference->useCustomFont()) {
+                auto font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+                QApplication::setFont(font);
+                SVS::Theme::defaultTheme()->setFont(font);
+            } else {
+                auto font = QApplication::font();
+                font.setFamily(behaviorPreference->fontFamily());
+                font.setStyleName(behaviorPreference->fontStyle());
+                QApplication::setFont(font);
+                SVS::Theme::defaultTheme()->setFont(font);
+            }
+        };
+        QObject::connect(behaviorPreference, &BehaviorPreference::useCustomFontChanged, updateFont);
+        QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, updateFont);
+        QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
+#ifndef Q_OS_WIN
+        QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, q, [=] {
+            QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, !(behaviorPreference->uiBehavior() & BehaviorPreference::UB_NativeMenu));
+        });
+#endif
+        const auto updateAnimation = [=] {
+            auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
+            SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
+            SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
+        };
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, updateAnimation);
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, updateAnimation);
+        behaviorPreference->load();
+        if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
+            QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
+        }
+        if (behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Antialiasing) {
+            auto sf = QSurfaceFormat::defaultFormat();
+            sf.setSamples(8);
+            QSurfaceFormat::setDefaultFormat(sf);
+        }
+    }
+
     static void initializeColorScheme() {
         ColorSchemeCollection collection;
         collection.load();
@@ -124,11 +166,14 @@ namespace Core::Internal {
         // Init ApplicationUpdateChecker instance
         updateChecker = new ApplicationUpdateChecker(this);
 
+        behaviorPreference = new BehaviorPreference(this);
+
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
 
         initializeActions();
         initializeSettings();
+        initializeBehaviorPreference();
         initializeWindows();
         initializeColorScheme();
 
@@ -151,7 +196,7 @@ namespace Core::Internal {
         }
 
         QQuickWindow *win;
-        if (ICore::behaviorPreference()->startupBehavior() & BehaviorPreference::SB_CreateNewProject) {
+        if (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject) {
             ICore::newFile();
             win = static_cast<QQuickWindow *>(ICore::windowSystem()->firstWindowOfType<IProjectWindow>()->window());
         } else {

@@ -10,7 +10,7 @@
 #include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/icore.h>
-#include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/behaviorpreference.h>
 
 namespace Core::Internal {
     GeneralPage::GeneralPage(QObject *parent) : ISettingPage("core.General", parent) {
@@ -40,40 +40,40 @@ namespace Core::Internal {
     }
     void GeneralPage::beginSetting() {
         widget();
-        m_widget->setProperty("startupBehavior", ICore::behaviorPreference()->property("startupBehavior"));
-        m_widget->setProperty("useSystemLanguage", ICore::behaviorPreference()->property("useSystemLanguage"));
-        m_widget->setProperty("localeName", ICore::behaviorPreference()->property("localeName"));
-        m_widget->setProperty("hasNotificationSoundAlert", ICore::behaviorPreference()->property("hasNotificationSoundAlert"));
-        m_widget->setProperty("notificationAutoHideTimeout", ICore::behaviorPreference()->property("notificationAutoHideTimeout"));
-        m_widget->setProperty("proxyOption", ICore::behaviorPreference()->property("proxyOption"));
-        m_widget->setProperty("ProxyType", ICore::behaviorPreference()->property("ProxyType"));
-        m_widget->setProperty("proxyHostname", ICore::behaviorPreference()->property("proxyHostname"));
-        m_widget->setProperty("proxyPort", ICore::behaviorPreference()->property("proxyPort"));
-        m_widget->setProperty("proxyHasAuthentication", ICore::behaviorPreference()->property("proxyHasAuthentication"));
-        m_widget->setProperty("proxyUsername", ICore::behaviorPreference()->property("proxyUsername"));
-        m_widget->setProperty("proxyPassword", ICore::behaviorPreference()->property("proxyPassword"));
-        m_widget->setProperty("autoCheckForUpdates", ICore::behaviorPreference()->property("autoCheckForUpdates"));
-        m_widget->setProperty("updateOption", ICore::behaviorPreference()->property("updateOption"));
+        m_widget->setProperty("startupBehavior", BehaviorPreference::instance()->property("startupBehavior"));
+        m_widget->setProperty("useSystemLanguage", BehaviorPreference::instance()->property("useSystemLanguage"));
+        m_widget->setProperty("localeName", BehaviorPreference::instance()->property("localeName"));
+        m_widget->setProperty("hasNotificationSoundAlert", BehaviorPreference::instance()->property("hasNotificationSoundAlert"));
+        m_widget->setProperty("notificationAutoHideTimeout", BehaviorPreference::instance()->property("notificationAutoHideTimeout"));
+        m_widget->setProperty("proxyOption", BehaviorPreference::instance()->property("proxyOption"));
+        m_widget->setProperty("ProxyType", BehaviorPreference::instance()->property("ProxyType"));
+        m_widget->setProperty("proxyHostname", BehaviorPreference::instance()->property("proxyHostname"));
+        m_widget->setProperty("proxyPort", BehaviorPreference::instance()->property("proxyPort"));
+        m_widget->setProperty("proxyHasAuthentication", BehaviorPreference::instance()->property("proxyHasAuthentication"));
+        m_widget->setProperty("proxyUsername", BehaviorPreference::instance()->property("proxyUsername"));
+        m_widget->setProperty("proxyPassword", BehaviorPreference::instance()->property("proxyPassword"));
+        m_widget->setProperty("autoCheckForUpdates", BehaviorPreference::instance()->property("autoCheckForUpdates"));
+        m_widget->setProperty("updateOption", BehaviorPreference::instance()->property("updateOption"));
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
     bool GeneralPage::accept() {
-        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != ICore::behaviorPreference()->localeName());
-        ICore::behaviorPreference()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
-        ICore::behaviorPreference()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
-        ICore::behaviorPreference()->setProperty("localeName", m_widget->property("localeName"));
-        ICore::behaviorPreference()->setProperty("hasNotificationSoundAlert", m_widget->property("hasNotificationSoundAlert"));
-        ICore::behaviorPreference()->setProperty("notificationAutoHideTimeout", m_widget->property("notificationAutoHideTimeout"));
-        ICore::behaviorPreference()->setProperty("proxyOption", m_widget->property("proxyOption"));
-        ICore::behaviorPreference()->setProperty("ProxyType", m_widget->property("ProxyType"));
-        ICore::behaviorPreference()->setProperty("proxyHostname", m_widget->property("proxyHostname"));
-        ICore::behaviorPreference()->setProperty("proxyPort", m_widget->property("proxyPort"));
-        ICore::behaviorPreference()->setProperty("proxyHasAuthentication", m_widget->property("proxyHasAuthentication"));
-        ICore::behaviorPreference()->setProperty("proxyUsername", m_widget->property("proxyUsername"));
-        ICore::behaviorPreference()->setProperty("proxyPassword", m_widget->property("proxyPassword"));
-        ICore::behaviorPreference()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
-        ICore::behaviorPreference()->setProperty("updateOption", m_widget->property("updateOption"));
-        ICore::behaviorPreference()->save();
+        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != BehaviorPreference::instance()->localeName());
+        BehaviorPreference::instance()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
+        BehaviorPreference::instance()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
+        BehaviorPreference::instance()->setProperty("localeName", m_widget->property("localeName"));
+        BehaviorPreference::instance()->setProperty("hasNotificationSoundAlert", m_widget->property("hasNotificationSoundAlert"));
+        BehaviorPreference::instance()->setProperty("notificationAutoHideTimeout", m_widget->property("notificationAutoHideTimeout"));
+        BehaviorPreference::instance()->setProperty("proxyOption", m_widget->property("proxyOption"));
+        BehaviorPreference::instance()->setProperty("ProxyType", m_widget->property("ProxyType"));
+        BehaviorPreference::instance()->setProperty("proxyHostname", m_widget->property("proxyHostname"));
+        BehaviorPreference::instance()->setProperty("proxyPort", m_widget->property("proxyPort"));
+        BehaviorPreference::instance()->setProperty("proxyHasAuthentication", m_widget->property("proxyHasAuthentication"));
+        BehaviorPreference::instance()->setProperty("proxyUsername", m_widget->property("proxyUsername"));
+        BehaviorPreference::instance()->setProperty("proxyPassword", m_widget->property("proxyPassword"));
+        BehaviorPreference::instance()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
+        BehaviorPreference::instance()->setProperty("updateOption", m_widget->property("updateOption"));
+        BehaviorPreference::instance()->save();
         if (true || promptRestartForLanguage) {
             if (SVS::MessageBox::question(
                 PluginDatabase::qmlEngine(),

@@ -4,14 +4,19 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
-namespace Core {
+class QQmlEngine;
+class QJSEngine;
+
+namespace Core::Internal {
+
+    class CorePlugin;
 
     class BehaviorPreferencePrivate;
 
     class BehaviorPreference : public QObject {
         Q_OBJECT
         QML_ELEMENT
-        QML_UNCREATABLE("")
+        QML_SINGLETON
         Q_DECLARE_PRIVATE(BehaviorPreference)
         Q_PROPERTY(BehaviorPreference::StartupBehavior startupBehavior READ startupBehavior WRITE setStartupBehavior NOTIFY startupBehaviorChanged)
         Q_PROPERTY(bool useSystemLanguage READ useSystemLanguage WRITE setUseSystemLanguage NOTIFY useSystemLanguageChanged)
@@ -36,8 +41,13 @@ namespace Core {
         Q_PROPERTY(double animationSpeedRatio READ animationSpeedRatio WRITE setAnimationSpeedRatio NOTIFY animationSpeedRatioChanged)
 
     public:
-        explicit BehaviorPreference(QObject *parent = nullptr);
         ~BehaviorPreference() override;
+
+        static BehaviorPreference *instance();
+
+        static inline BehaviorPreference *create(QQmlEngine *, QJSEngine *) {
+            return instance();
+        }
 
         void load();
         void save() const;
@@ -50,20 +60,21 @@ namespace Core {
         Q_ENUM(StartupBehaviorFlag)
         Q_DECLARE_FLAGS(StartupBehavior, StartupBehaviorFlag)
 
-        StartupBehavior startupBehavior() const;
-        void setStartupBehavior(StartupBehavior startupBehavior);
+        static StartupBehavior startupBehavior();
+        static void setStartupBehavior(StartupBehavior startupBehavior);
 
-        bool useSystemLanguage() const;
-        void setUseSystemLanguage(bool useSystemLanguage);
+        static bool useSystemLanguage();
+        static void setUseSystemLanguage(bool useSystemLanguage);
 
-        QString localeName() const;
-        void setLocaleName(const QString &localeName);
+        static QString localeName();
+        static void setLocaleName(const QString &localeName);
 
-        bool hasNotificationSoundAlert() const;
-        void setHasNotificationSoundAlert(bool hasNotificationSoundAlert);
+        static bool hasNotificationSoundAlert();
+        static void setHasNotificationSoundAlert(bool hasNotificationSoundAlert);
 
-        int notificationAutoHideTimeout() const;
-        void setNotificationAutoHideTimeout(int notificationAutoHideTimeout);
+        static int notificationAutoHideTimeout();
+        static void setNotificationAutoHideTimeout(int notificationAutoHideTimeout);
+
 
         enum ProxyOption {
             PO_None,
@@ -72,8 +83,8 @@ namespace Core {
         };
         Q_ENUM(ProxyOption)
 
-        ProxyOption proxyOption() const;
-        void setProxyOption(ProxyOption proxyOption);
+        static ProxyOption proxyOption();
+        static void setProxyOption(ProxyOption proxyOption);
 
         enum ProxyType {
             PT_Socks5,
@@ -81,26 +92,26 @@ namespace Core {
         };
         Q_ENUM(ProxyType)
 
-        ProxyType proxyType() const;
-        void setProxyType(ProxyType proxyType);
+        static ProxyType proxyType();
+        static void setProxyType(ProxyType proxyType);
 
-        QString proxyHostname() const;
-        void setProxyHostname(const QString &proxyHostname);
+        static QString proxyHostname();
+        static void setProxyHostname(const QString &proxyHostname);
 
-        quint16 proxyPort() const;
-        void setProxyPort(quint16 proxyPort);
+        static quint16 proxyPort();
+        static void setProxyPort(quint16 proxyPort);
 
-        bool proxyHasAuthentication() const;
-        void setProxyHasAuthentication(bool proxyHasAuthentication);
+        static bool proxyHasAuthentication();
+        static void setProxyHasAuthentication(bool proxyHasAuthentication);
 
-        QString proxyUsername() const;
-        void setProxyUsername(const QString &proxyUsername);
+        static QString proxyUsername();
+        static void setProxyUsername(const QString &proxyUsername);
 
-        QString proxyPassword() const;
-        void setProxyPassword(const QString &proxyPassword);
+        static QString proxyPassword();
+        static void setProxyPassword(const QString &proxyPassword);
 
-        bool autoCheckForUpdates() const;
-        void setAutoCheckForUpdates(bool autoCheckForUpdates);
+        static bool autoCheckForUpdates();
+        static void setAutoCheckForUpdates(bool autoCheckForUpdates);
 
         enum UpdateOption {
             UO_Stable,
@@ -108,17 +119,17 @@ namespace Core {
         };
         Q_ENUM(UpdateOption)
 
-        UpdateOption updateOption() const;
-        void setUpdateOption(UpdateOption updateOption);
+        static UpdateOption updateOption();
+        static void setUpdateOption(UpdateOption updateOption);
 
-        bool useCustomFont() const;
-        void setUseCustomFont(bool useCustomFont);
+        static bool useCustomFont();
+        static void setUseCustomFont(bool useCustomFont);
 
-        QString fontFamily() const;
-        void setFontFamily(const QString &fontFamily);
+        static QString fontFamily();
+        static void setFontFamily(const QString &fontFamily);
 
-        QString fontStyle() const;
-        void setFontStyle(const QString &fontStyle);
+        static QString fontStyle();
+        static void setFontStyle(const QString &fontStyle);
 
         enum UIBehaviorFlag {
             UB_Frameless = 0x01,
@@ -129,8 +140,8 @@ namespace Core {
         Q_ENUM(UIBehaviorFlag)
         Q_DECLARE_FLAGS(UIBehavior, UIBehaviorFlag)
 
-        UIBehavior uiBehavior() const;
-        void setUiBehavior(UIBehavior uiBehavior);
+        static UIBehavior uiBehavior();
+        static void setUiBehavior(UIBehavior uiBehavior);
 
         enum GraphicsBehaviorFlag {
             GB_Hardware = 0x01,
@@ -139,14 +150,14 @@ namespace Core {
         Q_ENUM(GraphicsBehaviorFlag)
         Q_DECLARE_FLAGS(GraphicsBehavior, GraphicsBehaviorFlag)
 
-        GraphicsBehavior graphicsBehavior() const;
-        void setGraphicsBehavior(GraphicsBehavior graphicsBehavior);
+        static GraphicsBehavior graphicsBehavior();
+        static void setGraphicsBehavior(GraphicsBehavior graphicsBehavior);
 
-        bool isAnimationEnabled() const;
-        void setAnimationEnabled(bool animationEnabled);
+        static bool isAnimationEnabled();
+        static void setAnimationEnabled(bool animationEnabled);
 
-        double animationSpeedRatio() const;
-        void setAnimationSpeedRatio(double animationSpeedRatio);
+        static double animationSpeedRatio();
+        static void setAnimationSpeedRatio(double animationSpeedRatio);
 
     Q_SIGNALS:
         void startupBehaviorChanged();
@@ -172,13 +183,15 @@ namespace Core {
         void animationSpeedRatioChanged();
 
     private:
+        friend class CorePlugin;
+        explicit BehaviorPreference(QObject *parent = nullptr);
         QScopedPointer<BehaviorPreferencePrivate> d_ptr;
     };
 
 }
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(Core::BehaviorPreference::StartupBehavior)
-Q_DECLARE_OPERATORS_FOR_FLAGS(Core::BehaviorPreference::UIBehavior)
-Q_DECLARE_OPERATORS_FOR_FLAGS(Core::BehaviorPreference::GraphicsBehavior)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::StartupBehavior)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::UIBehavior)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::GraphicsBehavior)
 
 #endif //DIFFSCOPE_COREPLUGIN_BEHAVIORPREFERENCE_H

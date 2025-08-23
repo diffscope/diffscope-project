@@ -8,7 +8,7 @@
 #include <uishell/BubbleNotificationHandle.h>
 
 #include <coreplugin/icore.h>
-#include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/notificationmessage.h>
 
 namespace Core::Internal {
@@ -23,8 +23,8 @@ namespace Core::Internal {
 
     void NotificationManager::addMessage(NotificationMessage *message,
                                          IProjectWindow::NotificationBubbleMode mode) {
-        int autoHideTimeout = ICore::behaviorPreference()->notificationAutoHideTimeout();
-        bool beepOnNotification = ICore::behaviorPreference()->hasNotificationSoundAlert();
+        int autoHideTimeout = BehaviorPreference::notificationAutoHideTimeout();
+        bool beepOnNotification = BehaviorPreference::hasNotificationSoundAlert();
 
         auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
 

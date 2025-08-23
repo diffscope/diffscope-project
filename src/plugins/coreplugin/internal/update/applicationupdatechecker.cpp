@@ -7,7 +7,7 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/behaviorpreference.h>
+#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/icore.h>
 
 namespace Core::Internal {
@@ -23,6 +23,7 @@ namespace Core::Internal {
     }
 
     ApplicationUpdateChecker::~ApplicationUpdateChecker() {
+        saveSettings();
         m_instance = nullptr;
     }
 
@@ -131,8 +132,7 @@ namespace Core::Internal {
     }
 
     QString ApplicationUpdateChecker::getCurrentChannel() {
-        auto behaviorPreference = ICore::behaviorPreference();
-        if (behaviorPreference && behaviorPreference->updateOption() == BehaviorPreference::UO_Beta) {
+        if (BehaviorPreference::updateOption() == BehaviorPreference::UO_Beta) {
             return "beta";
         }
         return "stable";

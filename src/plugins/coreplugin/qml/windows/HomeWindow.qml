@@ -15,7 +15,7 @@ import DiffScope.CorePlugin
 HomeWindow {
     id: homeWindow
     required property IHomeWindow windowHandle
-    frameless: ICore.behaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
+    frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     onNewFileRequested: () => {
         let newFileAction = windowHandle.actionContext.action("core.newFile").createObject()
         newFileAction.trigger()

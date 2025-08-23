@@ -5,7 +5,7 @@
 
 #include <CoreApi/plugindatabase.h>
 
-namespace Core {
+namespace Core::Internal {
 
     class BehaviorPreferencePrivate {
     public:
@@ -16,6 +16,7 @@ namespace Core {
         QString localeName{};
         bool hasNotificationSoundAlert{};
         int notificationAutoHideTimeout{};
+        int commandPaletteHistoryCount{};
         BehaviorPreference::ProxyOption proxyOption{};
         BehaviorPreference::ProxyType proxyType{};
         QString proxyHostname{};
@@ -34,9 +35,19 @@ namespace Core {
         double animationSpeedRatio{};
     };
 
+    static BehaviorPreference *m_instance = nullptr;
+
     BehaviorPreference::BehaviorPreference(QObject *parent) : QObject(parent), d_ptr(new BehaviorPreferencePrivate) {
+        Q_ASSERT(!m_instance);
+        m_instance = this;
     }
-    BehaviorPreference::~BehaviorPreference() = default;
+    BehaviorPreference::~BehaviorPreference() {
+        m_instance = nullptr;
+    }
+
+    BehaviorPreference *BehaviorPreference::instance() {
+        return m_instance;
+    }
 
     static constexpr char settingCategoryC[] = "Core::BehaviorPreference";
 
@@ -115,240 +126,243 @@ namespace Core {
         settings->setValue("animationSpeedRatio", d->animationSpeedRatio);
         settings->endGroup();
     }
-    BehaviorPreference::StartupBehavior BehaviorPreference::startupBehavior() const {
-        Q_D(const BehaviorPreference);
+
+#define M_INSTANCE_D Q_ASSERT(m_instance);auto d = m_instance->d_func()
+    
+    BehaviorPreference::StartupBehavior BehaviorPreference::startupBehavior() {
+        M_INSTANCE_D;
         return d->startupBehavior;
     }
     void BehaviorPreference::setStartupBehavior(StartupBehavior startupBehavior) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->startupBehavior == startupBehavior)
             return;
         d->startupBehavior = startupBehavior;
-        emit startupBehaviorChanged();
+        emit m_instance->startupBehaviorChanged();
     }
-    bool BehaviorPreference::useSystemLanguage() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::useSystemLanguage() {
+        M_INSTANCE_D;
         return d->useSystemLanguage;
     }
     void BehaviorPreference::setUseSystemLanguage(bool useSystemLanguage) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->useSystemLanguage == useSystemLanguage)
             return;
         d->useSystemLanguage = useSystemLanguage;
-        emit useSystemLanguageChanged();
+        emit m_instance->useSystemLanguageChanged();
     }
-    QString BehaviorPreference::localeName() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::localeName() {
+        M_INSTANCE_D;
         return d->localeName;
     }
     void BehaviorPreference::setLocaleName(const QString &localeName) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->localeName == localeName)
             return;
         d->localeName = localeName;
-        emit localeNameChanged();
+        emit m_instance->localeNameChanged();
     }
-    bool BehaviorPreference::hasNotificationSoundAlert() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::hasNotificationSoundAlert() {
+        M_INSTANCE_D;
         return d->hasNotificationSoundAlert;
     }
     void BehaviorPreference::setHasNotificationSoundAlert(bool hasNotificationSoundAlert) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->hasNotificationSoundAlert == hasNotificationSoundAlert)
             return;
         d->hasNotificationSoundAlert = hasNotificationSoundAlert;
-        emit hasNotificationSoundAlertChanged();
+        emit m_instance->hasNotificationSoundAlertChanged();
     }
-    int BehaviorPreference::notificationAutoHideTimeout() const {
-        Q_D(const BehaviorPreference);
+    int BehaviorPreference::notificationAutoHideTimeout() {
+        M_INSTANCE_D;
         return d->notificationAutoHideTimeout;
     }
     void BehaviorPreference::setNotificationAutoHideTimeout(int notificationAutoHideTimeout) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->notificationAutoHideTimeout == notificationAutoHideTimeout)
             return;
         d->notificationAutoHideTimeout = notificationAutoHideTimeout;
-        emit notificationAutoHideTimeoutChanged();
+        emit m_instance->notificationAutoHideTimeoutChanged();
     }
-    BehaviorPreference::ProxyOption BehaviorPreference::proxyOption() const {
-        Q_D(const BehaviorPreference);
+    BehaviorPreference::ProxyOption BehaviorPreference::proxyOption() {
+        M_INSTANCE_D;
         return d->proxyOption;
     }
     void BehaviorPreference::setProxyOption(ProxyOption proxyOption) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyOption == proxyOption)
             return;
         d->proxyOption = proxyOption;
-        emit proxyOptionChanged();
+        emit m_instance->proxyOptionChanged();
     }
-    BehaviorPreference::ProxyType BehaviorPreference::proxyType() const {
-        Q_D(const BehaviorPreference);
+    BehaviorPreference::ProxyType BehaviorPreference::proxyType() {
+        M_INSTANCE_D;
         return d->proxyType;
     }
     void BehaviorPreference::setProxyType(ProxyType proxyType) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyType == proxyType)
             return;
         d->proxyType = proxyType;
-        emit proxyTypeChanged();
+        emit m_instance->proxyTypeChanged();
     }
-    QString BehaviorPreference::proxyHostname() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::proxyHostname() {
+        M_INSTANCE_D;
         return d->proxyHostname;
     }
     void BehaviorPreference::setProxyHostname(const QString &proxyHostname) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyHostname == proxyHostname)
             return;
         d->proxyHostname = proxyHostname;
-        emit proxyHostnameChanged();
+        emit m_instance->proxyHostnameChanged();
     }
-    quint16 BehaviorPreference::proxyPort() const {
-        Q_D(const BehaviorPreference);
+    quint16 BehaviorPreference::proxyPort() {
+        M_INSTANCE_D;
         return d->proxyPort;
     }
     void BehaviorPreference::setProxyPort(quint16 proxyPort) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyPort == proxyPort)
             return;
         d->proxyPort = proxyPort;
-        emit proxyPortChanged();
+        emit m_instance->proxyPortChanged();
     }
 
-    bool BehaviorPreference::proxyHasAuthentication() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::proxyHasAuthentication() {
+        M_INSTANCE_D;
         return d->proxyHasAuthentication;
     }
 
     void BehaviorPreference::setProxyHasAuthentication(bool proxyHasAuthentication) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyHasAuthentication == proxyHasAuthentication)
             return;
         d->proxyHasAuthentication = proxyHasAuthentication;
-        emit proxyHasAuthenticationChanged();
+        emit m_instance->proxyHasAuthenticationChanged();
     }
-    QString BehaviorPreference::proxyUsername() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::proxyUsername() {
+        M_INSTANCE_D;
         return d->proxyUsername;
     }
     void BehaviorPreference::setProxyUsername(const QString &proxyUsername) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyUsername == proxyUsername)
             return;
         d->proxyUsername = proxyUsername;
-        emit proxyUsernameChanged();
+        emit m_instance->proxyUsernameChanged();
     }
-    QString BehaviorPreference::proxyPassword() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::proxyPassword() {
+        M_INSTANCE_D;
         return d->proxyPassword;
     }
     void BehaviorPreference::setProxyPassword(const QString &proxyPassword) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->proxyPassword == proxyPassword)
             return;
         d->proxyPassword = proxyPassword;
-        emit proxyPasswordChanged();
+        emit m_instance->proxyPasswordChanged();
     }
-    bool BehaviorPreference::autoCheckForUpdates() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::autoCheckForUpdates() {
+        M_INSTANCE_D;
         return d->autoCheckForUpdates;
     }
     void BehaviorPreference::setAutoCheckForUpdates(bool autoCheckForUpdates) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->autoCheckForUpdates == autoCheckForUpdates)
             return;
         d->autoCheckForUpdates = autoCheckForUpdates;
-        emit autoCheckForUpdatesChanged();
+        emit m_instance->autoCheckForUpdatesChanged();
     }
-    BehaviorPreference::UpdateOption BehaviorPreference::updateOption() const {
-        Q_D(const BehaviorPreference);
+    BehaviorPreference::UpdateOption BehaviorPreference::updateOption() {
+        M_INSTANCE_D;
         return d->updateOption;
     }
     void BehaviorPreference::setUpdateOption(UpdateOption updateOption) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->updateOption == updateOption)
             return;
         d->updateOption = updateOption;
-        emit updateOptionChanged();
+        emit m_instance->updateOptionChanged();
     }
-    bool BehaviorPreference::useCustomFont() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::useCustomFont() {
+        M_INSTANCE_D;
         return d->useCustomFont;
     }
     void BehaviorPreference::setUseCustomFont(bool useCustomFont) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->useCustomFont == useCustomFont)
             return;
         d->useCustomFont = useCustomFont;
-        emit useCustomFontChanged();
+        emit m_instance->useCustomFontChanged();
     }
-    QString BehaviorPreference::fontFamily() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::fontFamily() {
+        M_INSTANCE_D;
         return d->fontFamily;
     }
     void BehaviorPreference::setFontFamily(const QString &fontFamily) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->fontFamily == fontFamily)
             return;
         d->fontFamily = fontFamily;
-        emit fontFamilyChanged();
+        emit m_instance->fontFamilyChanged();
     }
 
-    QString BehaviorPreference::fontStyle() const {
-        Q_D(const BehaviorPreference);
+    QString BehaviorPreference::fontStyle() {
+        M_INSTANCE_D;
         return d->fontStyle;
     }
 
     void BehaviorPreference::setFontStyle(const QString &fontStyle) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->fontStyle == fontStyle)
             return;
         d->fontStyle = fontStyle;
-        emit fontStyleChanged();
+        emit m_instance->fontStyleChanged();
     }
 
-    BehaviorPreference::UIBehavior BehaviorPreference::uiBehavior() const {
-        Q_D(const BehaviorPreference);
+    BehaviorPreference::UIBehavior BehaviorPreference::uiBehavior() {
+        M_INSTANCE_D;
         return d->uiBehavior;
     }
     void BehaviorPreference::setUiBehavior(UIBehavior uiBehavior) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->uiBehavior == uiBehavior)
             return;
         d->uiBehavior = uiBehavior;
-        emit uiBehaviorChanged();
+        emit m_instance->uiBehaviorChanged();
     }
-    BehaviorPreference::GraphicsBehavior BehaviorPreference::graphicsBehavior() const {
-        Q_D(const BehaviorPreference);
+    BehaviorPreference::GraphicsBehavior BehaviorPreference::graphicsBehavior() {
+        M_INSTANCE_D;
         return d->graphicsBehavior;
     }
     void BehaviorPreference::setGraphicsBehavior(GraphicsBehavior graphicsBehavior) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->graphicsBehavior == graphicsBehavior)
             return;
         d->graphicsBehavior = graphicsBehavior;
-        emit graphicsBehaviorChanged();
+        emit m_instance->graphicsBehaviorChanged();
     }
-    bool BehaviorPreference::isAnimationEnabled() const {
-        Q_D(const BehaviorPreference);
+    bool BehaviorPreference::isAnimationEnabled() {
+        M_INSTANCE_D;
         return d->animationEnabled;
     }
     void BehaviorPreference::setAnimationEnabled(bool animationEnabled) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->animationEnabled == animationEnabled)
             return;
         d->animationEnabled = animationEnabled;
-        emit animationEnabledChanged();
+        emit m_instance->animationEnabledChanged();
     }
-    double BehaviorPreference::animationSpeedRatio() const {
-        Q_D(const BehaviorPreference);
+    double BehaviorPreference::animationSpeedRatio() {
+        M_INSTANCE_D;
         return d->animationSpeedRatio;
     }
     void BehaviorPreference::setAnimationSpeedRatio(double animationSpeedRatio) {
-        Q_D(BehaviorPreference);
+        M_INSTANCE_D;
         if (d->animationSpeedRatio == animationSpeedRatio)
             return;
         d->animationSpeedRatio = animationSpeedRatio;
-        emit animationSpeedRatioChanged();
+        emit m_instance->animationSpeedRatioChanged();
     }
 }
