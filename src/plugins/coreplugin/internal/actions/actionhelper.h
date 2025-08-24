@@ -13,6 +13,7 @@ namespace Core::Internal {
     class ActionHelper {
     public:
         static bool triggerAction(const QAK::QuickActionContext *actionContext, const QString &id, QObject *source = nullptr);
+        static QObject *createActionObject(const QAK::QuickActionContext *actionContext, const QString &id, bool shouldBeQuickAction = true);
     };
 
 }

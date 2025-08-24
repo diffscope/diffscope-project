@@ -227,7 +227,6 @@ namespace Core {
 
     void QuickPickPrivate::syncToCommandPalette() {
         if (!commandPalette) return;
-        
         // Sync properties to CommandPalette
         commandPalette->setProperty("model", QVariant::fromValue(model));
         commandPalette->setProperty("filterText", filterText);
@@ -238,6 +237,10 @@ namespace Core {
     void QuickPickPrivate::clearCommandPalette() {
         if (commandPalette) {
             disconnectCommandPalette();
+            commandPalette->setProperty("model", QVariant::fromValue(nullptr));
+            commandPalette->setProperty("filterText", "");
+            commandPalette->setProperty("placeholderText", "");
+            commandPalette->setProperty("currentIndex", 0);
             commandPalette = nullptr;
         }
     }

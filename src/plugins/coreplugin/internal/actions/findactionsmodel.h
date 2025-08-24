@@ -5,6 +5,10 @@
 #include <QCollator>
 #include <QStringList>
 
+namespace QAK {
+    class QuickActionContext;
+}
+
 namespace Core::Internal {
 
     class FindActionsModel : public QAbstractItemModel {
@@ -21,14 +25,14 @@ namespace Core::Internal {
 
         void setActions(const QStringList &actions);
         void setPriorityActions(const QStringList &priorityActions);
-        void refresh();
+        void refresh(QAK::QuickActionContext *actionContext);
 
     private:
-        void updateActionList();
+        void updateActionList(QAK::QuickActionContext *actionContext);
 
         QStringList m_actions;
         QStringList m_priorityActions;
-        QStringList m_actionList; // Combined and sorted list for display
+        QList<QPair<QString, bool>> m_actionList;
         QCollator m_collator;
     };
 

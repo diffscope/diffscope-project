@@ -13,7 +13,7 @@ ActionCollection {
         actionId: "core.findActions"
         Action {
             onTriggered: () => {
-                d.addOn.findActions()
+                Qt.callLater(() => d.addOn.findActions())
             }
         }
     }

@@ -8,6 +8,7 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <coreplugin/icore.h>
+#include <coreplugin/internal/actionhelper.h>
 
 namespace Core::Internal {
 
@@ -97,18 +98,54 @@ namespace Core::Internal {
         return result;
     }
 
+    static QString removeMnemonic(const QString &s) {
+        QString text(s.size(), QChar::Null);
+        int idx = 0;
+        int pos = 0;
+        int len = s.size();
+        while (len) {
+            if (s.at(pos) == QLatin1Char('&') && (len == 1 || s.at(pos + 1) != QLatin1Char('&'))) {
+                ++pos;
+                --len;
+                if (len == 0)
+                    break;
+            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 &&
+                       s.at(pos + 1) == QLatin1Char('&') &&
+                       s.at(pos + 2) != QLatin1Char('&') &&
+                       s.at(pos + 3) == QLatin1Char(')')) {
+                // a mnemonic with format "\s*(&X)"
+                int n = 0;
+                while (idx > n && text.at(idx - n - 1).isSpace())
+                    ++n;
+                idx -= n;
+                pos += 4;
+                len -= 4;
+                continue;
+                       }
+            text[idx] = s.at(pos);
+            ++pos;
+            ++idx;
+            --len;
+        }
+        text.truncate(idx);
+        return text;
+    }
+
     QVariant FindActionsModel::data(const QModelIndex &index, int role) const {
         if (!index.isValid() || index.row() >= m_actionList.size()) {
             return QVariant();
         }
 
-        const QString &actionId = m_actionList.at(index.row());
+        const auto &[actionId, actionIsCheckable] = m_actionList.at(index.row());
 
         switch (role) {
             case Qt::DisplayRole:
                 return actionId;
             case SVS::SVSCraft::CP_TitleRole: {
-                auto text = getTextWithFallback(actionId, true);
+                auto text = removeMnemonic(getTextWithFallback(actionId, true));
+                if (actionIsCheckable) {
+                    text = tr("Toggle \"%1\"").arg(text);
+                }
                 auto clazz = getClassWithFallback(actionId, true);
                 if (clazz.isEmpty())
                     return text;
@@ -127,6 +164,9 @@ namespace Core::Internal {
             case SVS::SVSCraft::CP_KeySequenceRole:
                 return getShortcutsAsStringList(actionId);
 
+            case SVS::SVSCraft::CP_RecentlyUsedRole:
+                return index.row() == 0 && m_priorityActions.contains(actionId);
+
             default:
                 return QVariant();
         }
@@ -144,17 +184,17 @@ namespace Core::Internal {
         m_priorityActions = priorityActions;
     }
 
-    void FindActionsModel::refresh() {
-        updateActionList();
+    void FindActionsModel::refresh(QAK::QuickActionContext *actionContext) {
+        updateActionList(actionContext);
     }
 
-    void FindActionsModel::updateActionList() {
+    void FindActionsModel::updateActionList(QAK::QuickActionContext *actionContext) {
         beginResetModel();
 
         m_actionList.clear();
 
         // Add priority actions first, maintaining order
-        m_actionList = m_priorityActions;
+        auto actions = m_priorityActions;
 
         // Add remaining actions, excluding those already in priority list
         QStringList remainingActions;
@@ -171,7 +211,20 @@ namespace Core::Internal {
                   });
 
         // Append sorted remaining actions
-        m_actionList.append(remainingActions);
+        actions.append(remainingActions);
+
+        auto v = actions |
+            std::views::transform([=](const QString &id) -> QPair<QString, bool> {
+                std::unique_ptr<QObject> actionObject(ActionHelper::createActionObject(actionContext, id, true));
+                if (!actionObject || !actionObject->property("enabled").toBool()) {
+                    return {};
+                }
+                return {id, actionObject->property("checkable").toBool()};
+            }) |
+            std::views::filter([](const auto &p) {
+                return !p.first.isEmpty();
+            });
+        m_actionList = QList(v.begin(), v.end());
 
         endResetModel();
     }

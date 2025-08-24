@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QQmlComponent>
+#include <QTimer>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -9,6 +10,7 @@
 
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/internal/findactionsmodel.h>
+#include <coreplugin/internal/behaviorpreference.h>
 
 namespace Core::Internal {
     FindActionsAddOn::FindActionsAddOn(QObject *parent) : IWindowAddOn(parent) {
@@ -28,27 +30,37 @@ namespace Core::Internal {
         });
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+        loadSettings();
     }
     void FindActionsAddOn::extensionsInitialized() {
         auto actionContext = windowHandle()->cast<IProjectWindow>()->actionContext();
         m_model->setActions(actionContext->actions());
         connect(actionContext, &QAK::QuickActionContext::actionsChanged, this, [=, this] {
             m_model->setActions(actionContext->actions());
-            m_model->refresh();
         });
         loadSettings();
         m_model->setPriorityActions(m_priorityActions);
-        m_model->refresh();
     }
     bool FindActionsAddOn::delayedInitialize() {
         return IWindowAddOn::delayedInitialize();
     }
     void FindActionsAddOn::findActions() {
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        while (m_priorityActions.size() > BehaviorPreference::commandPaletteHistoryCount()) {
+            m_priorityActions.removeLast();
+        }
+        m_model->setPriorityActions(m_priorityActions);
+        m_model->refresh(iWin->actionContext());
         int i = windowHandle()->cast<IProjectWindow>()->execQuickPick(m_model, 0, {}, tr("Find actions"));
         if (i == -1)
             return;
         auto actionId = m_model->index(i, 0).data().toString();
-        qDebug() << actionId;
+        QTimer::singleShot(0, [=] {
+            iWin->triggerAction(actionId, iWin->window()->property("contentItem").value<QObject *>());
+        });
+        m_priorityActions.removeOne(actionId);
+        m_priorityActions.prepend(actionId);
+        saveSettings();
     }
     void FindActionsAddOn::loadSettings() {
         auto settings = PluginDatabase::settings();
