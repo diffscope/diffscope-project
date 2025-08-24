@@ -83,12 +83,12 @@ namespace Core::Internal {
                         tr("After hiding the menu bar, it can be difficult to show it again. Make "
                            "sure you know how to do this.\n\nContinue?"),
                         SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No)) {
-                    action->setProperty("checked", true);
+                    if (action)
+                        action->setProperty("checked", true);
                     goto end;
                 }
-            } else {
-                menuBar->setProperty("visible", visible);
             }
+            menuBar->setProperty("visible", visible);
         } else if (option == ToolBar) {
             auto toolBar = window->property("toolBar").value<QObject *>();
             toolBar->setProperty("visible", visible);

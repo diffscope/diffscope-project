@@ -168,8 +168,8 @@ QtObject {
     }
 
     readonly property Connections windowHandleConnections: Connections {
-        target: helper.windowHandle
-        function onInitializationDone() {
+        target: helper.window
+        function onSceneGraphInitialized() {
             helper.initializeDockingViews()
         }
     }
