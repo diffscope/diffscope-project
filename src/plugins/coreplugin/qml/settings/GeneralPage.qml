@@ -6,6 +6,8 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.CorePlugin
+
 ScrollView {
     id: page
 
@@ -175,6 +177,7 @@ ScrollView {
                     Button {
                         text: qsTr('Reset All "Do Not Show Again"')
                         TextMatcherItem on text { matcher: page.matcher }
+                        onClicked: BehaviorPreference.resetAllDoNotShowAgainRequested()
                     }
                 }
             }
@@ -196,9 +199,27 @@ ScrollView {
                             onValueModified: page.commandPaletteHistoryCount = value
                         }
                     }
-                    Button {
-                        text: qsTr("Clear History")
-                        TextMatcherItem on text { matcher: page.matcher }
+                    RowLayout {
+                        Button {
+                            text: qsTr("Clear History")
+                            TextMatcherItem on text { matcher: page.matcher }
+                            onClicked: () => {
+                                BehaviorPreference.commandPaletteClearHistoryRequested()
+                                historyClearedLabel.visible = true
+                            }
+                        }
+                        Label {
+                            id: historyClearedLabel
+                            text: qsTr("History cleared")
+                            visible: false
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            Connections {
+                                target: page
+                                function onStartedChanged() {
+                                    historyClearedLabel.visible = false
+                                }
+                            }
+                        }
                     }
                 }
             }

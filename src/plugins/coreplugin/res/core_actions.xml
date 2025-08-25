@@ -26,9 +26,10 @@
 
         <action id="core.exit" text="E&amp;xit"  class="Application" />
 
-        <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" />
+        <action id="core.workspaceLayoutCommand" text="Workspace Layout" class="View" />
+        <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.workspaceSaveLayout" text="&amp;Save Current Layout As..." class="View" />
+        <action id="core.workspaceSaveLayout" text="&amp;Save Current Layout As..." class="View" diffscope:excludeFromCommands="true" />
         <action id="core.allPanels" text="&amp;All Panels" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
         <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" diffscope:excludeFromCommands="true" />

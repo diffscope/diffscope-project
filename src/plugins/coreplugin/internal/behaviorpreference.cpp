@@ -65,7 +65,7 @@ namespace Core::Internal {
         emit hasNotificationSoundAlertChanged();
         d->notificationAutoHideTimeout = settings->value("notificationAutoHideTimeout", 5000).toInt();
         emit notificationAutoHideTimeoutChanged();
-        d->commandPaletteHistoryCount = settings->value("commandPaletteHistoryCount", 4).toInt();
+        d->commandPaletteHistoryCount = settings->value("commandPaletteHistoryCount", 16).toInt();
         emit commandPaletteHistoryCountChanged();
         d->proxyOption = settings->value("proxyOption", QVariant::fromValue(PO_System)).value<ProxyOption>();
         emit proxyOptionChanged();

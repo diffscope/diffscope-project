@@ -131,19 +131,25 @@ namespace Core::Internal {
         return text;
     }
 
+    enum ActionInternalFlag {
+        None,
+        Checkable,
+        Separator,
+    };
+
     QVariant FindActionsModel::data(const QModelIndex &index, int role) const {
         if (!index.isValid() || index.row() >= m_actionList.size()) {
             return QVariant();
         }
 
-        const auto &[actionId, actionIsCheckable] = m_actionList.at(index.row());
+        const auto &[actionId, flag] = m_actionList.at(index.row());
 
         switch (role) {
             case Qt::DisplayRole:
                 return actionId;
             case SVS::SVSCraft::CP_TitleRole: {
                 auto text = removeMnemonic(getTextWithFallback(actionId, true));
-                if (actionIsCheckable) {
+                if (flag == Checkable) {
                     text = tr("Toggle \"%1\"").arg(text);
                 }
                 auto clazz = getClassWithFallback(actionId, true);
@@ -164,8 +170,11 @@ namespace Core::Internal {
             case SVS::SVSCraft::CP_KeySequenceRole:
                 return getShortcutsAsStringList(actionId);
 
-            case SVS::SVSCraft::CP_RecentlyUsedRole:
-                return index.row() == 0 && m_priorityActions.contains(actionId);
+            case SVS::SVSCraft::CP_TagRole:
+                return m_priorityActions.contains(actionId) ? tr("recently used") : "";
+
+            case SVS::SVSCraft::CP_IsSeparatorRole:
+                return flag == Separator;
 
             default:
                 return QVariant();
@@ -193,8 +202,6 @@ namespace Core::Internal {
 
         m_actionList.clear();
 
-        // Add priority actions first, maintaining order
-        auto actions = m_priorityActions;
 
         // Add remaining actions, excluding those already in priority list
         QStringList remainingActions;
@@ -210,21 +217,26 @@ namespace Core::Internal {
                       return m_collator.compare(a, b) < 0;
                   });
 
-        // Append sorted remaining actions
-        actions.append(remainingActions);
 
-        auto v = actions |
-            std::views::transform([=](const QString &id) -> QPair<QString, bool> {
-                std::unique_ptr<QObject> actionObject(ActionHelper::createActionObject(actionContext, id, true));
+        auto pipeline =
+            std::views::transform([=](const QString &id) -> QPair<QString, int> {
+                std::unique_ptr<QObject> actionObject(
+                    ActionHelper::createActionObject(actionContext, id, true));
                 if (!actionObject || !actionObject->property("enabled").toBool()) {
                     return {};
                 }
-                return {id, actionObject->property("checkable").toBool()};
+                return {id, actionObject->property("checkable").toBool() ? Checkable : None};
             }) |
-            std::views::filter([](const auto &p) {
-                return !p.first.isEmpty();
-            });
-        m_actionList = QList(v.begin(), v.end());
+            std::views::filter([](const auto &p) { return !p.first.isEmpty(); });
+        for (const auto &item : m_priorityActions | pipeline) {
+            m_actionList.append(item);
+        }
+        if (!m_priorityActions.isEmpty()) {
+            m_actionList.append({{}, Separator});
+        }
+        for (const auto &item : remainingActions | pipeline) {
+            m_actionList.append(item);
+        }
 
         endResetModel();
     }

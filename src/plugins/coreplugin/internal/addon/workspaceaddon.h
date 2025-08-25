@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_COREPLUGIN_WORKSPACEADDON_H
 #define DIFFSCOPE_COREPLUGIN_WORKSPACEADDON_H
 
+#include <QPointer>
+
 #include <CoreApi/iwindow.h>
 
 namespace Core::Internal {
@@ -25,6 +27,9 @@ namespace Core::Internal {
         Q_INVOKABLE void saveCustomLayoutFromJavaScript(const ProjectWindowWorkspaceLayout &layout, const QString &originName, const QString &name) const;
         Q_INVOKABLE void removeCustomLayoutFromJavaScript(const QString &name) const;
 
+        Q_INVOKABLE void showWorkspaceLayoutCommand() const;
+        void showWorkspaceCustomLayoutCommand(const ProjectWindowWorkspaceLayout &layout) const;
+
         QVariantList panelEntries() const;
 
     Q_SIGNALS:
@@ -32,6 +37,7 @@ namespace Core::Internal {
 
     private:
         ProjectWindowWorkspaceManager *m_workspaceManager;
+        QPointer<QObject> m_helper;
     };
 
 }

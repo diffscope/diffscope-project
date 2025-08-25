@@ -137,6 +137,12 @@ namespace Core::Internal {
         };
         QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, updateAnimation);
         QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, updateAnimation);
+        QObject::connect(behaviorPreference, &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
+            auto settings = PluginDatabase::settings();
+            settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
+            settings->setValue("priorityActions", QStringList());
+            settings->endGroup();
+        });
         behaviorPreference->load();
         if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
             QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);

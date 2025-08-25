@@ -15,6 +15,9 @@
 namespace Core::Internal {
     FindActionsAddOn::FindActionsAddOn(QObject *parent) : IWindowAddOn(parent) {
         m_model = new FindActionsModel(this);
+        connect(BehaviorPreference::instance(), &BehaviorPreference::commandPaletteClearHistoryRequested, this, [this] {
+            m_priorityActions.clear();
+        });
     }
     FindActionsAddOn::~FindActionsAddOn() {
         saveSettings();
@@ -51,7 +54,7 @@ namespace Core::Internal {
         }
         m_model->setPriorityActions(m_priorityActions);
         m_model->refresh(iWin->actionContext());
-        int i = windowHandle()->cast<IProjectWindow>()->execQuickPick(m_model, 0, {}, tr("Find actions"));
+        int i = windowHandle()->cast<IProjectWindow>()->execQuickPick(m_model, tr("Find actions"));
         if (i == -1)
             return;
         auto actionId = m_model->index(i, 0).data().toString();

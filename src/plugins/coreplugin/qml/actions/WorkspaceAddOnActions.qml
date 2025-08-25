@@ -19,6 +19,15 @@ ActionCollection {
     readonly property Window window: windowHandle?.window ?? null
 
     ActionItem {
+        actionId: "core.workspaceLayoutCommand"
+        Action {
+            onTriggered: () => {
+                d.addOn.showWorkspaceLayoutCommand()
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "core.workspaceDefaultLayout"
         Action {
             onTriggered: () => {

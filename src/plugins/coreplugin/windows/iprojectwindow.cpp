@@ -83,7 +83,7 @@ namespace Core {
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
     }
-    int IProjectWindow::execQuickPick(QAbstractItemModel *model, int defaultIndex, const QString &initialFilterText, const QString &placeholderText) {
+    int IProjectWindow::execQuickPick(QAbstractItemModel *model, const QString &placeholderText, int defaultIndex, const QString &initialFilterText) {
         QuickPick quickPick;
         quickPick.setWindowHandle(this);
         quickPick.setModel(model);

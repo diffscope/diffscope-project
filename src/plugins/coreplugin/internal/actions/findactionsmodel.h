@@ -32,7 +32,7 @@ namespace Core::Internal {
 
         QStringList m_actions;
         QStringList m_priorityActions;
-        QList<QPair<QString, bool>> m_actionList;
+        QList<QPair<QString, int>> m_actionList;
         QCollator m_collator;
     };
 

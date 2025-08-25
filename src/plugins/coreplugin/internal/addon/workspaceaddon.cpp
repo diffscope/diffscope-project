@@ -5,6 +5,7 @@
 
 #include <QQmlComponent>
 #include <QQmlEngine>
+#include <QStandardItemModel>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
@@ -26,16 +27,15 @@ namespace Core::Internal {
     }
     void WorkspaceAddOn::initialize() {
         auto iWin = windowHandle()->cast<IProjectWindow>();
-        QObject *helper;
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "WorkspaceAddOnHelper");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
-            helper = component.createWithInitialProperties({
+            m_helper = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            helper->setParent(iWin->window());
+            m_helper->setParent(iWin->window());
         }
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "WorkspaceAddOnActions");
@@ -44,7 +44,7 @@ namespace Core::Internal {
             }
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
-                {"helper", QVariant::fromValue(helper)}
+                {"helper", QVariant::fromValue(m_helper.get())}
             });
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
@@ -179,6 +179,76 @@ namespace Core::Internal {
         customLayouts.removeIf([&](const auto &o) { return o.name() == name; });
         ProjectWindowWorkspaceManager::setCustomLayouts(customLayouts);
         m_workspaceManager->save();
+    }
+    void WorkspaceAddOn::showWorkspaceLayoutCommand() const {
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        QStandardItemModel model;
+        auto saveCurrentLayoutAsItem = new QStandardItem;
+        saveCurrentLayoutAsItem->setData(tr("Save Current Layout As..."),
+                                         SVS::SVSCraft::CP_TitleRole);
+        model.appendRow(saveCurrentLayoutAsItem);
+        auto separatorItem = new QStandardItem;
+        separatorItem->setData(true, SVS::SVSCraft::CP_IsSeparatorRole);
+        model.appendRow(separatorItem);
+        auto defaultLayoutItem = new QStandardItem;
+        defaultLayoutItem->setData(tr("Default Layout"), SVS::SVSCraft::CP_TitleRole);
+        model.appendRow(defaultLayoutItem);
+        if (!ProjectWindowWorkspaceManager::customLayouts().isEmpty()) {
+            auto separatorItem = new QStandardItem;
+            separatorItem->setData(true, SVS::SVSCraft::CP_IsSeparatorRole);
+            model.appendRow(separatorItem);
+        }
+        for (const auto &layout : ProjectWindowWorkspaceManager::customLayouts()) {
+            auto item = new QStandardItem;
+            item->setData(layout.name(), SVS::SVSCraft::CP_TitleRole);
+            item->setData(tr("custom layout"), SVS::SVSCraft::CP_TagRole);
+            item->setData(QVariant::fromValue(layout), Qt::DisplayRole);
+            model.appendRow(item);
+        }
+        auto index = iWin->execQuickPick(&model, tr("Workspace layout actions"));
+        if (index == -1)
+            return;
+        if (index == 0) {
+            iWin->triggerAction("core.workspaceSaveLayout");
+        } else if (index == 2) {
+            iWin->triggerAction("core.workspaceDefaultLayout");
+        } else {
+            auto layout =
+                model.item(index)->data(Qt::DisplayRole).value<ProjectWindowWorkspaceLayout>();
+            if (!layout.isValid())
+                return;
+            showWorkspaceCustomLayoutCommand(layout);
+        }
+    }
+    void WorkspaceAddOn::showWorkspaceCustomLayoutCommand(const ProjectWindowWorkspaceLayout &layout) const {
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        QStandardItemModel model;
+        auto applyItem = new QStandardItem;
+        applyItem->setData(tr("Apply"), SVS::SVSCraft::CP_TitleRole);
+        model.appendRow(applyItem);
+        auto renameItem = new QStandardItem;
+        renameItem->setData(tr("Rename"), SVS::SVSCraft::CP_TitleRole);
+        model.appendRow(renameItem);
+        auto deleteItem = new QStandardItem;
+        deleteItem->setData(tr("Delete"), SVS::SVSCraft::CP_TitleRole);
+        model.appendRow(deleteItem);
+        auto index = iWin->execQuickPick(&model, tr("Custom layout \"%1\" actions").arg(layout.name()));
+        if (index == -1)
+            return;
+        switch (index) {
+            case 0: {
+                m_workspaceManager->setCurrentLayout(layout);
+                break;
+            }
+            case 1: {
+                QMetaObject::invokeMethod(m_helper, "promptSaveLayout", QVariant::fromValue(m_workspaceManager->currentLayout()), QVariant::fromValue(layout.name()));
+                break;
+            }
+            case 2: {
+                QMetaObject::invokeMethod(m_helper, "promptDeleteLayout", QVariant::fromValue(layout.name()));
+                break;
+            }
+        }
     }
     QVariantList WorkspaceAddOn::panelEntries() const {
         QVariantList ret;

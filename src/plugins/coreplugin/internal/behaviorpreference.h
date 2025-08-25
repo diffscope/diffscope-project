@@ -186,6 +186,9 @@ namespace Core::Internal {
         void animationEnabledChanged();
         void animationSpeedRatioChanged();
 
+        void resetAllDoNotShowAgainRequested();
+        void commandPaletteClearHistoryRequested();
+
     private:
         friend class CorePlugin;
         explicit BehaviorPreference(QObject *parent = nullptr);
