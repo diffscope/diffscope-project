@@ -26,6 +26,11 @@
 
         <action id="core.exit" text="E&amp;xit"  class="Application" />
 
+        <action id="core.recentFiles" class="Home" catalog="core.homeMenu"/>
+        <action id="core.recoveryFiles" class="Home" catalog="core.homeMenu" />
+        <action id="core.gridView" class="Home" catalog="core.homeMenu" />
+        <action id="core.listView" class="Home" catalog="core.homeMenu" />
+
         <action id="core.workspaceLayoutCommand" text="Workspace Layout" class="View" />
         <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" diffscope:excludeFromCommands="true" />

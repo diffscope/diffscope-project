@@ -15,11 +15,13 @@ Window {
     height: 500
     property bool frameless: true
     property url banner: ""
+    property alias recoveryFilesVisible: recoveryFilesButton.checked
     property var recentFilesModel: null
-    property bool recentFilesListView: false
+    property bool recentFilesIsListView: false
     property var recoveryFilesModel: null
     property var navigationActionsModel: null
     property var toolActionsModel: null
+    property var macosMenusModel: null
 
     signal newFileRequested()
     signal openRecentFileRequested(int index)
@@ -265,6 +267,28 @@ Window {
         property bool framelessSetup: false
     }
 
+    MenuBar {
+        id: menuBar
+        visible: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+        Instantiator {
+            model: window.macosMenusModel
+            onObjectAdded: (index, object) => {
+                if (object instanceof Menu) {
+                    menuBar.insertMenu(index, object)
+                } else {
+                    throw new TypeError("Unsupported menu type")
+                }
+            }
+            onObjectRemoved: (index, object) => {
+                if (object instanceof Menu) {
+                    menuBar.removeMenu(object)
+                } else {
+                    throw new TypeError("Unsupported menu type")
+                }
+            }
+        }
+    }
+
     Item {
         id: titleBarArea
         width: window.width
@@ -447,8 +471,8 @@ Window {
                             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
                             checkable: true
                             autoExclusive: true
-                            checked: !window.recentFilesListView
-                            onClicked: GlobalHelper.setProperty(window, "recentFilesListView", !checked)
+                            checked: !window.recentFilesIsListView
+                            onClicked: GlobalHelper.setProperty(window, "recentFilesIsListView", !checked)
                             text: qsTr("Grid view")
                             display: AbstractButton.IconOnly
                         }
@@ -456,8 +480,8 @@ Window {
                             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/List16Filled.svg"
                             checkable: true
                             autoExclusive: true
-                            checked: window.recentFilesListView
-                            onClicked: GlobalHelper.setProperty(window, "recentFilesListView", checked)
+                            checked: window.recentFilesIsListView
+                            onClicked: GlobalHelper.setProperty(window, "recentFilesIsListView", checked)
                             text: qsTr("List view")
                             display: AbstractButton.IconOnly
                         }
@@ -489,7 +513,7 @@ Window {
                 }
                 ScrollView {
                     id: fileGridScrollView
-                    visible: !window.recentFilesListView && !recoveryFilesButton.checked
+                    visible: !window.recentFilesIsListView && !recoveryFilesButton.checked
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     GridLayout {
@@ -512,7 +536,7 @@ Window {
                 }
                 ScrollView {
                     id: fileListScrollView
-                    visible: window.recentFilesListView && !recoveryFilesButton.checked
+                    visible: window.recentFilesIsListView && !recoveryFilesButton.checked
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     ColumnLayout {

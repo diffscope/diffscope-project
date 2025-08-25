@@ -101,6 +101,7 @@ ScrollView {
                     }
                     CheckBox {
                         Layout.leftMargin: 22
+                        visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
                         text: qsTr("Merge menu bar and title bar")
                         TextMatcherItem on text { matcher: page.matcher }
                         enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
@@ -111,28 +112,6 @@ ScrollView {
                             } else {
                                 page.uiBehavior &= ~BehaviorPreference.UB_MergeMenuAndTitleBar
                             }
-                        }
-                    }
-                    RowLayout {
-                        visible: Qt.platform.os !== "windows"
-                        CheckBox {
-                            text: qsTr("Use native menu bar")
-                            TextMatcherItem on text {
-                                matcher: page.matcher
-                                enabled: Qt.platform.os !== "windows"
-                            }
-                            checked: page.uiBehavior & BehaviorPreference.UB_NativeMenu
-                            onClicked: {
-                                if (checked) {
-                                    page.uiBehavior |= BehaviorPreference.UB_NativeMenu
-                                } else {
-                                    page.uiBehavior &= ~BehaviorPreference.UB_NativeMenu
-                                }
-                            }
-                        }
-                        Label {
-                            ThemedItem.foregroundLevel: SVS.FL_Secondary
-                            text: qsTr("(Restart required)")
                         }
                     }
                     CheckBox {

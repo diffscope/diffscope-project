@@ -45,10 +45,22 @@ HomeWindow {
             }
         }
     }
+    macosMenusModel: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: Qt.platform.os === "osx" || Qt.platform.os === "macos" ? "core.homeMenu" : ""
+            context: homeWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                homeWindow.macosMenusModel.insert(index, object)
+            }
+            onObjectRemoved: (index, object) => {
+                homeWindow.macosMenusModel.remove(index)
+            }
+        }
+    }
 
     Settings {
         settings: PluginDatabase.settings
         category: "DiffScope.CorePlugin.HomeWindow"
-        property alias recentFilesListView: homeWindow.recentFilesListView
+        property alias recentFilesIsListView: homeWindow.recentFilesIsListView
     }
 }

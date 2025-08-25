@@ -137,8 +137,7 @@ namespace Core::Internal {
         enum UIBehaviorFlag {
             UB_Frameless = 0x01,
             UB_MergeMenuAndTitleBar = 0x02,
-            UB_NativeMenu = 0x04,
-            UB_FullPath = 0x08,
+            UB_FullPath = 0x04,
         };
         Q_ENUM(UIBehaviorFlag)
         Q_DECLARE_FLAGS(UIBehavior, UIBehaviorFlag)

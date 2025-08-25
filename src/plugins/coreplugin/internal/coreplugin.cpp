@@ -42,6 +42,15 @@
 #include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/findactionsaddon.h>
 
+static auto getCoreActionExtension() {
+    return QAK_STATIC_ACTION_EXTENSION(core_actions);
+}
+
+#ifdef Q_OS_MAC
+static auto getCoreMacOSActionExtension() {
+    return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
+}
+#endif
 
 namespace Core::Internal {
 
@@ -59,12 +68,11 @@ namespace Core::Internal {
     CorePlugin::~CorePlugin() {
     }
 
-    static auto getCoreActionExtension() {
-        return QAK_STATIC_ACTION_EXTENSION(core_actions);
-    }
-
     static void initializeActions() {
-        ICore::actionRegistry()->addExtension(getCoreActionExtension());
+        ICore::actionRegistry()->addExtension(::getCoreActionExtension());
+#ifdef Q_OS_MAC
+        ICore::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
+#endif
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
@@ -125,11 +133,6 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::useCustomFontChanged, updateFont);
         QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, updateFont);
         QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
-#ifndef Q_OS_WIN
-        QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, q, [=] {
-            QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, !(behaviorPreference->uiBehavior() & BehaviorPreference::UB_NativeMenu));
-        });
-#endif
         const auto updateAnimation = [=] {
             auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));

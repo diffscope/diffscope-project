@@ -30,13 +30,27 @@ namespace Core {
             actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
 
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
-            if (component.isError()) {
-                qFatal() << component.errorString();
+            {
+                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin",
+                                        "GlobalActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.create();
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
-            auto o = component.create();
-            o->setParent(q);
-            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            {
+                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "HomeActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)},
+                });
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            }
         }
     };
 

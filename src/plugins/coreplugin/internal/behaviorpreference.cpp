@@ -91,7 +91,7 @@ namespace Core::Internal {
         emit fontFamilyChanged();
         d->fontStyle = settings->value("fontStyle", QApplication::font().style()).toString();
         emit fontStyleChanged();
-        d->uiBehavior = settings->value("uiBehavior", QVariant::fromValue(UB_Frameless | UB_MergeMenuAndTitleBar | UB_NativeMenu)).value<UIBehavior>();
+        d->uiBehavior = settings->value("uiBehavior", QVariant::fromValue(UB_Frameless | UB_MergeMenuAndTitleBar)).value<UIBehavior>();
         emit uiBehaviorChanged();
         d->graphicsBehavior = settings->value("graphicsBehavior", QVariant::fromValue(GB_Hardware |GB_Antialiasing)).value<GraphicsBehavior>();
         emit graphicsBehaviorChanged();

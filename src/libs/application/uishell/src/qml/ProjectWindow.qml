@@ -74,7 +74,7 @@ Window {
     }
     MenuBar {
         id: menuBar
-        parent: window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
+        parent: Qt.platform.os === "osx" || Qt.platform.os === "macos" ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
         padding: 0
         leftPadding: 4
         background: Item {
@@ -100,18 +100,19 @@ Window {
     ColumnLayout {
         spacing: 1
         anchors.fill: parent
-        Rectangle {
+        Rectangle { // TODO macOS fullscreen transition
             id: titleBar
             Accessible.role: Accessible.TitleBar
             Layout.fillWidth: true
             height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 32 : 28
             color: Theme.backgroundPrimaryColor
+            visible: windowAgent.framelessSetup && ((Qt.platform.os !== "osx" && Qt.platform.os !== "macos") || window.visibility !== Window.FullScreen)
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
                 Item {
                     id: iconArea
-                    visible: windowAgent.framelessSetup && Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
+                    visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
                     Layout.fillHeight: true
                     width: 40
                     Image {
@@ -124,12 +125,16 @@ Window {
                 RowLayout {
                     id: titleBarMenuParent
                     visible: !window.useSeparatedMenu && menuBar.height !== 0
+                    Item {
+                        id: macosSystemButtonSpace
+                        visible: windowAgent.framelessSetup && (Qt.platform.os === "osx" || Qt.platform.os === "macos")
+                        implicitWidth: 64
+                    }
                 }
                 Item {
                     id: titleBarArea
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    visible: windowAgent.framelessSetup
                     RowLayout {
                         anchors.right: parent.right
                         visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
@@ -166,6 +171,7 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     font: Theme.font
                     text: Window.window.title
+                    Component.onCompleted: { font.weight = Qt.platform.os === "osx" || Qt.platform.os === "macos" ? Font.ExtraBold : Font.Normal }
                 }
                 x: {
                     if (LayoutMirroring.enabled) {
@@ -176,12 +182,19 @@ Window {
                     }
                 }
             }
+            Rectangle {
+                visible: (Qt.platform.os === "osx" || Qt.platform.os === "macos") && toolBar.visible
+                width: parent.width
+                height: 1
+                anchors.top: parent.bottom
+                color: parent.color
+            }
         }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
-            visible: window.useSeparatedMenu && menuBar.height !== 0
+            visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
             height: 24
         }
         ToolBar {
