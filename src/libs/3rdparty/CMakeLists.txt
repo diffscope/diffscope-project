@@ -13,6 +13,9 @@ add_subdirectory(qjsonsettings)
 set(SVSCRAFT_INSTALL off)
 add_subdirectory(svscraft)
 
+set(SCOPIC_FLOW_INSTALL off)
+add_subdirectory(scopicflow)
+
 add_subdirectory(qactionkit)
 set(QAK_AEC_EXECUTABLE "$<TARGET_FILE:qak_aec>" PARENT_SCOPE)
 set(QAK_AEC_EXECUTABLE "$<TARGET_FILE:qak_aec>")

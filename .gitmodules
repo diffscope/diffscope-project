@@ -13,3 +13,7 @@
 [submodule "qactionkit"]
 	path = src/libs/3rdparty/qactionkit
 	url = ../../stdware/qactionkit.git
+
+[submodule "scopicflow"]
+	path = src/libs/3rdparty/scopicflow
+	url = ../../CrSjimo/scopicflow.git
