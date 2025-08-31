@@ -33,6 +33,7 @@ ScrollView {
     onTimeIndicatorShowSliderOnHoverChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
+    contentWidth: availableWidth
 
     readonly property TextMatcher matcher: TextMatcher {}
 

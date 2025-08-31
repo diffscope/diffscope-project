@@ -4,9 +4,9 @@
 
 namespace UIShell {
 
-    DigitalClockLabel::DigitalClockLabel(QQuickItem *parent)
-        : QQuickText(parent) {
+    DigitalClockLabel::DigitalClockLabel(QQuickItem *parent) : QQuickText(parent) {
     }
+    DigitalClockLabel::~DigitalClockLabel() = default;
 
     QString DigitalClockLabel::text() const {
         return m_fullText;

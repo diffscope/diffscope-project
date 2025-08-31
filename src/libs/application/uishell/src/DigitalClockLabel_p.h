@@ -17,6 +17,7 @@ namespace UIShell {
 
     public:
         explicit DigitalClockLabel(QQuickItem *parent = nullptr);
+        ~DigitalClockLabel() override;
 
         QString text() const;
         void setText(const QString &text);

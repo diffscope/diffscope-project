@@ -14,13 +14,6 @@ ActionCollection {
     readonly property IProjectWindow windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
 
-    readonly property Menu digitalClockContextMenu: Menu {
-        MenuActionInstantiator {
-            actionId: "core.timeline"
-            context: d.windowHandle?.actionContext ?? null
-        }
-    }
-
     ActionItem {
         actionId: "core.digitalClock"
         DigitalClock {
@@ -36,10 +29,18 @@ ActionCollection {
                     d.windowHandle.triggerAction("core.timelineQuickJump", this)
                 }
             }
+            Menu {
+                id: digitalClockContextMenu
+                MenuActionInstantiator {
+                    actionId: "core.timeline"
+                    context: d.windowHandle?.actionContext ?? null
+                    Component.onCompleted: forceUpdateLayouts()
+                }
+            }
             TapHandler {
                 acceptedButtons: Qt.RightButton
                 onSingleTapped: () => {
-                    d.digitalClockContextMenu.popup(digitalClock)
+                    digitalClockContextMenu.popup(digitalClock)
                 }
             }
             Timer {
@@ -63,6 +64,8 @@ ActionCollection {
                         anchors.fill: parent
                         from: 0
                         to: d.windowHandle.projectTimeline.rangeHint - 1
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
                         value: d.windowHandle.projectTimeline.position
                         onMoved: () => {
                             d.windowHandle.projectTimeline.position = d.windowHandle.projectTimeline.lastPosition = value
