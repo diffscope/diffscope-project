@@ -18,6 +18,7 @@ class QAbstractItemModel;
 namespace Core {
 
     class NotificationMessage;
+    class ProjectTimeline;
 
     class IProjectWindowPrivate;
 
@@ -26,11 +27,14 @@ namespace Core {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
+        Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
         Q_DECLARE_PRIVATE(IProjectWindow)
     public:
         static IProjectWindow* instance();
 
         QAK::QuickActionContext *actionContext() const;
+
+        ProjectTimeline *projectTimeline() const;
 
         Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
 

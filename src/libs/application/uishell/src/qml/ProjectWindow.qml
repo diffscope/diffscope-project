@@ -15,17 +15,22 @@ Window {
     height: 800
     minimumWidth: 360
     title: `${documentName} - ${Application.name}`
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
 
     property bool frameless: true
     property url icon: ""
     property string documentName: ""
     property ObjectModel menusModel: null
-    property ObjectModel toolButtonsModel: null
+    property ObjectModel leftToolButtonsModel: null
+    property ObjectModel middleToolButtonsModel: null
+    property ObjectModel rightToolButtonsModel: null
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
     property double topDockingViewHeightRatio: 0.3
     property bool useSeparatedMenu: false
 
+    readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
     readonly property MenuBar menuBar: menuBar
     readonly property Item toolBar: toolBar
     readonly property Item statusBar: statusBar
@@ -65,7 +70,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + verticalOffset
+        y: titleBar.height + toolBar.height + 4 + verticalOffset
         emptyText: qsTr("Empty")
     }
     Rectangle {
@@ -74,7 +79,7 @@ Window {
     }
     MenuBar {
         id: menuBar
-        parent: Qt.platform.os === "osx" || Qt.platform.os === "macos" ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
+        parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
         padding: 0
         leftPadding: 4
         background: Item {
@@ -104,15 +109,15 @@ Window {
             id: titleBar
             Accessible.role: Accessible.TitleBar
             Layout.fillWidth: true
-            height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 32 : 28
+            height: !window.isMacOS ? 32 : 28
             color: Theme.backgroundPrimaryColor
-            visible: windowAgent.framelessSetup && ((Qt.platform.os !== "osx" && Qt.platform.os !== "macos") || window.visibility !== Window.FullScreen)
+            visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
                 Item {
                     id: iconArea
-                    visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
+                    visible: !window.isMacOS
                     Layout.fillHeight: true
                     width: 40
                     Image {
@@ -125,11 +130,6 @@ Window {
                 RowLayout {
                     id: titleBarMenuParent
                     visible: !window.useSeparatedMenu && menuBar.height !== 0
-                    Item {
-                        id: macosSystemButtonSpace
-                        visible: windowAgent.framelessSetup && (Qt.platform.os === "osx" || Qt.platform.os === "macos")
-                        implicitWidth: 64
-                    }
                 }
                 Item {
                     id: titleBarArea
@@ -137,7 +137,7 @@ Window {
                     Layout.fillHeight: true
                     RowLayout {
                         anchors.right: parent.right
-                        visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
+                        visible: !window.isMacOS
                         spacing: 0
                         SystemButton {
                             id: minimizeSystemButton
@@ -160,30 +160,32 @@ Window {
                 height: parent.height
                 spacing: 4
                 Image {
-                    visible: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+                    visible: window.isMacOS
                     Layout.alignment: Qt.AlignVCenter
                     source: window.icon
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
                 }
                 Text {
-                    color: Window.active ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
+                    readonly property color _baseColor: window.isMacOS || window.useSeparatedMenu ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
+                    color: Window.active ? _baseColor : Theme.foregroundDisabledColorChange.apply(_baseColor)
                     Layout.alignment: Qt.AlignVCenter
                     font: Theme.font
                     text: Window.window.title
-                    Component.onCompleted: { font.weight = Qt.platform.os === "osx" || Qt.platform.os === "macos" ? Font.ExtraBold : Font.Normal }
+                    Component.onCompleted: { font.weight = window.isMacOS ? Font.ExtraBold : Font.Normal }
                 }
                 x: {
-                    if (LayoutMirroring.enabled) {
-
+                    if (window.isMacOS) {
+                        return (parent.width - width) / 2
+                    } else if (LayoutMirroring.enabled) {
+                        return (window.useSeparatedMenu ? iconArea.x : titleBarMenuParent.x - 24) - width
                     } else {
-                        const middleX = (parent.width - width) / 2
-                        return Math.max(middleX, titleBarMenuParent.mapToItem(titleBar, 0, 0).x + titleBarMenuParent.width)
+                        return (window.useSeparatedMenu ? iconArea.x + iconArea.width : titleBarMenuParent.x + titleBarMenuParent.width + 24)
                     }
                 }
             }
             Rectangle {
-                visible: (Qt.platform.os === "osx" || Qt.platform.os === "macos") && toolBar.visible
+                visible: window.isMacOS && toolBar.visible
                 width: parent.width
                 height: 1
                 anchors.top: parent.bottom
@@ -194,7 +196,7 @@ Window {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
-            visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
+            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
             height: 24
         }
         ToolBar {
@@ -206,34 +208,60 @@ Window {
                     visible: false
                 }
             }
+            component ToolBarContainerInstantiator: Instantiator {
+                required property ToolBarContainer target
+                onObjectAdded: (index, object) => {
+                    if (object instanceof Item) {
+                        target.insertItem(index, object)
+                    } else if (object instanceof Action) {
+                        target.insertAction(index, object)
+                    } else if (object instanceof Menu) {
+                        target.insertMenu(index, object)
+                    } else {
+                        target.insertItem(index, dummyItem.createObject(this))
+                    }
+                }
+                onObjectRemoved: (index, object) => {
+                    if (object instanceof Item) {
+                        target.removeItem(object)
+                    } else if (object instanceof Action) {
+                        target.removeAction(object)
+                    } else if (object instanceof Menu) {
+                        target.removeMenu(object)
+                    } else {
+                        target.removeItem(target.itemAt(index))
+                    }
+                }
+            }
+            contentHeight: Math.max(24, middleToolBarContainer.height, leftToolBarContainer.height, rightToolBarContainer.height)
             ToolBarContainer {
-                id: toolBarContainer
+                id: middleToolBarContainer
                 spacing: 4
-                anchors.fill: parent
-                Instantiator {
-                    model: window.toolButtonsModel
-                    onObjectAdded: (index, object) => {
-                        if (object instanceof Item) {
-                            toolBarContainer.insertItem(index, object)
-                        } else if (object instanceof Action) {
-                            toolBarContainer.insertAction(index, object)
-                        } else if (object instanceof Menu) {
-                            toolBarContainer.insertMenu(index, object)
-                        } else {
-                            toolBarContainer.insertItem(index, dummyItem.createObject(this))
-                        }
-                    }
-                    onObjectRemoved: (index, object) => {
-                        if (object instanceof Item) {
-                            toolBarContainer.removeItem(object)
-                        } else if (object instanceof Action) {
-                            toolBarContainer.removeAction(object)
-                        } else if (object instanceof Menu) {
-                            toolBarContainer.removeMenu(object)
-                        } else {
-                            toolBarContainer.removeItem(toolBar.itemAt(index))
-                        }
-                    }
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                ToolBarContainerInstantiator {
+                    model: window.middleToolButtonsModel
+                    target: middleToolBarContainer
+                }
+            }
+            ToolBarContainer {
+                id: leftToolBarContainer
+                spacing: 4
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                ToolBarContainerInstantiator {
+                    model: window.leftToolButtonsModel
+                    target: leftToolBarContainer
+                }
+            }
+            ToolBarContainer {
+                id: rightToolBarContainer
+                spacing: 4
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                ToolBarContainerInstantiator {
+                    model: window.rightToolButtonsModel
+                    target: rightToolBarContainer
                 }
             }
         }

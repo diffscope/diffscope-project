@@ -114,12 +114,12 @@ qt_add_qml_module(${PROJECT_NAME}
 #     SRC ${CMAKE_CURRENT_BINARY_DIR}/res/translations DEST .
 # )
 
-file(GLOB _icons res/icons/*)
+file(GLOB _res_icons res/icons/*)
 
 qt_add_resources(${PROJECT_NAME} icons
     PREFIX /diffscope/coreplugin/icons
     BASE res/icons
-    FILES ${_icons}
+    FILES ${_res_icons}
 )
 
 # Add install command

@@ -40,6 +40,12 @@ namespace Core::Internal {
         Q_PROPERTY(BehaviorPreference::GraphicsBehavior graphicsBehavior READ graphicsBehavior WRITE setGraphicsBehavior NOTIFY graphicsBehaviorChanged)
         Q_PROPERTY(bool animationEnabled READ isAnimationEnabled WRITE setAnimationEnabled NOTIFY animationEnabledChanged)
         Q_PROPERTY(double animationSpeedRatio READ animationSpeedRatio WRITE setAnimationSpeedRatio NOTIFY animationSpeedRatioChanged)
+        Q_PROPERTY(bool timeIndicatorBackgroundVisible READ timeIndicatorBackgroundVisible WRITE setTimeIndicatorBackgroundVisible NOTIFY timeIndicatorBackgroundVisibleChanged)
+        Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorClickAction READ timeIndicatorClickAction WRITE setTimeIndicatorClickAction NOTIFY timeIndicatorClickActionChanged)
+        Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction READ timeIndicatorDoubleClickAction WRITE setTimeIndicatorDoubleClickAction NOTIFY timeIndicatorDoubleClickActionChanged)
+        Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction READ timeIndicatorPressAndHoldAction WRITE setTimeIndicatorPressAndHoldAction NOTIFY timeIndicatorPressAndHoldActionChanged)
+        Q_PROPERTY(bool timeIndicatorTextFineTuneEnabled READ timeIndicatorTextFineTuneEnabled WRITE setTimeIndicatorTextFineTuneEnabled NOTIFY timeIndicatorTextFineTuneEnabledChanged)
+        Q_PROPERTY(bool timeIndicatorShowSliderOnHover READ timeIndicatorShowSliderOnHover WRITE setTimeIndicatorShowSliderOnHover NOTIFY timeIndicatorShowSliderOnHoverChanged)
 
     public:
         ~BehaviorPreference() override;
@@ -161,6 +167,31 @@ namespace Core::Internal {
         static double animationSpeedRatio();
         static void setAnimationSpeedRatio(double animationSpeedRatio);
 
+        enum TimeIndicatorInteractionBehavior {
+            TIIB_ToggleFormat,
+            TIIB_ShowGoTo,
+            TIIB_ShowQuickJump,
+        };
+        Q_ENUM(TimeIndicatorInteractionBehavior)
+
+        static bool timeIndicatorBackgroundVisible();
+        static void setTimeIndicatorBackgroundVisible(bool timeIndicatorBackgroundVisible);
+
+        static TimeIndicatorInteractionBehavior timeIndicatorClickAction();
+        static void setTimeIndicatorClickAction(TimeIndicatorInteractionBehavior timeIndicatorClickAction);
+
+        static TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction();
+        static void setTimeIndicatorDoubleClickAction(TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction);
+
+        static TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction();
+        static void setTimeIndicatorPressAndHoldAction(TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction);
+
+        static bool timeIndicatorTextFineTuneEnabled();
+        static void setTimeIndicatorTextFineTuneEnabled(bool timeIndicatorTextFineTuneEnabled);
+
+        static bool timeIndicatorShowSliderOnHover();
+        static void setTimeIndicatorShowSliderOnHover(bool timeIndicatorShowSliderOnHover);
+
     Q_SIGNALS:
         void startupBehaviorChanged();
         void useSystemLanguageChanged();
@@ -184,6 +215,12 @@ namespace Core::Internal {
         void graphicsBehaviorChanged();
         void animationEnabledChanged();
         void animationSpeedRatioChanged();
+        void timeIndicatorBackgroundVisibleChanged();
+        void timeIndicatorClickActionChanged();
+        void timeIndicatorDoubleClickActionChanged();
+        void timeIndicatorPressAndHoldActionChanged();
+        void timeIndicatorTextFineTuneEnabledChanged();
+        void timeIndicatorShowSliderOnHoverChanged();
 
         void resetAllDoNotShowAgainRequested();
         void commandPaletteClearHistoryRequested();

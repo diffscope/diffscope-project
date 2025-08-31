@@ -12,6 +12,7 @@
 #include <coreplugin/internal/notificationmanager.h>
 #include <coreplugin/quickpick.h>
 #include <coreplugin/internal/actionhelper.h>
+#include <coreplugin/projecttimeline.h>
 
 namespace Core {
 
@@ -23,12 +24,14 @@ namespace Core {
         IProjectWindow *q_ptr;
         QAK::QuickActionContext *actionContext;
         Internal::NotificationManager *notificationManager;
+        ProjectTimeline *projectTimeline;
         void init() {
             Q_Q(IProjectWindow);
             actionContext = new QAK::QuickActionContext(q);
             initActionContext();
             ICore::actionRegistry()->addContext(actionContext);
             notificationManager = new Internal::NotificationManager(q);
+            projectTimeline = new ProjectTimeline(q);
         }
 
         void initActionContext() {
@@ -65,6 +68,10 @@ namespace Core {
     QAK::QuickActionContext *IProjectWindow::actionContext() const {
         Q_D(const IProjectWindow);
         return d->actionContext;
+    }
+    ProjectTimeline *IProjectWindow::projectTimeline() const {
+        Q_D(const IProjectWindow);
+        return d->projectTimeline;
     }
     bool IProjectWindow::triggerAction(const QString &id, QObject *source) {
         Q_D(IProjectWindow);

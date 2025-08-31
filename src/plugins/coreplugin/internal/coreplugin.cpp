@@ -38,9 +38,11 @@
 #include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
+#include <coreplugin/internal/timeindicatorpage.h>
 #include <coreplugin/internal/colorschemecollection.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/findactionsaddon.h>
+#include <coreplugin/internal/timelineaddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -96,6 +98,8 @@ namespace Core::Internal {
         addIcon("core.pianoRollPanel", "Midi20Filled");
         addIcon("core.notificationsPanel", "Alert16Filled");
         addIcon("core.tipsPanel", "ChatSparkle16Filled");
+        addIcon("core.timelineGoToStart", "Previous16Filled");
+        addIcon("core.timelineGoToEnd", "Next16Filled");
     }
 
     static void initializeSettings() {
@@ -106,6 +110,7 @@ namespace Core::Internal {
         sc->addPage(appearancePage);
         sc->addPage(new MenuPage);
         sc->addPage(new KeyMapPage);
+        sc->addPage(new TimeIndicatorPage);
     }
 
     static void initializeWindows() {
@@ -114,6 +119,7 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
         IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
+        IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
     }
 
     static void initializeBehaviorPreference() {

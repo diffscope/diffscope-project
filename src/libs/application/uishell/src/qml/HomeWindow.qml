@@ -23,6 +23,11 @@ Window {
     property var toolActionsModel: null
     property var macosMenusModel: null
 
+    readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
@@ -269,7 +274,7 @@ Window {
 
     MenuBar {
         id: menuBar
-        visible: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+        visible: window.isMacOS
         Instantiator {
             model: window.macosMenusModel
             onObjectAdded: (index, object) => {
@@ -292,13 +297,13 @@ Window {
     Item {
         id: titleBarArea
         width: window.width
-        height: Qt.platform.os !== "osx" && Qt.platform.os !== "macos" ? 36 : 28
+        height: !window.isMacOS ? 36 : 28
         visible: windowAgent.framelessSetup
         z: 1
         Accessible.role: Accessible.TitleBar
         RowLayout {
             anchors.right: parent.right
-            visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
+            visible: !window.isMacOS
             spacing: 0
             SystemButton {
                 id: minimizeSystemButton

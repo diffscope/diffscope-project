@@ -33,6 +33,12 @@ namespace Core::Internal {
         BehaviorPreference::GraphicsBehavior graphicsBehavior{};
         bool animationEnabled{};
         double animationSpeedRatio{};
+        bool timeIndicatorBackgroundVisible{};
+        BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorClickAction{};
+        BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction{};
+        BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction{};
+        bool timeIndicatorTextFineTuneEnabled{};
+        bool timeIndicatorShowSliderOnHover{};
     };
 
     static BehaviorPreference *m_instance = nullptr;
@@ -99,6 +105,18 @@ namespace Core::Internal {
         emit animationEnabledChanged();
         d->animationSpeedRatio = settings->value("animationSpeedRatio", 1.0).toDouble();
         emit animationSpeedRatioChanged();
+        d->timeIndicatorBackgroundVisible = settings->value("timeIndicatorBackgroundVisible", true).toBool();
+        emit timeIndicatorBackgroundVisibleChanged();
+        d->timeIndicatorClickAction = settings->value("timeIndicatorClickAction", QVariant::fromValue(TIIB_ToggleFormat)).value<TimeIndicatorInteractionBehavior>();
+        emit timeIndicatorClickActionChanged();
+        d->timeIndicatorDoubleClickAction = settings->value("timeIndicatorDoubleClickAction", QVariant::fromValue(TIIB_ShowQuickJump)).value<TimeIndicatorInteractionBehavior>();
+        emit timeIndicatorDoubleClickActionChanged();
+        d->timeIndicatorPressAndHoldAction = settings->value("timeIndicatorPressAndHoldAction", QVariant::fromValue(TIIB_ShowGoTo)).value<TimeIndicatorInteractionBehavior>();
+        emit timeIndicatorPressAndHoldActionChanged();
+        d->timeIndicatorTextFineTuneEnabled = settings->value("timeIndicatorTextFineTuneEnabled", true).toBool();
+        emit timeIndicatorTextFineTuneEnabledChanged();
+        d->timeIndicatorShowSliderOnHover = settings->value("timeIndicatorShowSliderOnHover", true).toBool();
+        emit timeIndicatorShowSliderOnHoverChanged();
         settings->endGroup();
     }
     void BehaviorPreference::save() const {
@@ -127,6 +145,12 @@ namespace Core::Internal {
         settings->setValue("graphicsBehavior", static_cast<int>(d->graphicsBehavior));
         settings->setValue("animationEnabled", d->animationEnabled);
         settings->setValue("animationSpeedRatio", d->animationSpeedRatio);
+        settings->setValue("timeIndicatorBackgroundVisible", d->timeIndicatorBackgroundVisible);
+        settings->setValue("timeIndicatorClickAction", static_cast<int>(d->timeIndicatorClickAction));
+        settings->setValue("timeIndicatorDoubleClickAction", static_cast<int>(d->timeIndicatorDoubleClickAction));
+        settings->setValue("timeIndicatorPressAndHoldAction", static_cast<int>(d->timeIndicatorPressAndHoldAction));
+        settings->setValue("timeIndicatorTextFineTuneEnabled", d->timeIndicatorTextFineTuneEnabled);
+        settings->setValue("timeIndicatorShowSliderOnHover", d->timeIndicatorShowSliderOnHover);
         settings->endGroup();
     }
 
@@ -378,5 +402,71 @@ namespace Core::Internal {
             return;
         d->animationSpeedRatio = animationSpeedRatio;
         emit m_instance->animationSpeedRatioChanged();
+    }
+    bool BehaviorPreference::timeIndicatorBackgroundVisible() {
+        M_INSTANCE_D;
+        return d->timeIndicatorBackgroundVisible;
+    }
+    void BehaviorPreference::setTimeIndicatorBackgroundVisible(bool timeIndicatorBackgroundVisible) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorBackgroundVisible == timeIndicatorBackgroundVisible)
+            return;
+        d->timeIndicatorBackgroundVisible = timeIndicatorBackgroundVisible;
+        emit m_instance->timeIndicatorBackgroundVisibleChanged();
+    }
+    BehaviorPreference::TimeIndicatorInteractionBehavior BehaviorPreference::timeIndicatorClickAction() {
+        M_INSTANCE_D;
+        return d->timeIndicatorClickAction;
+    }
+    void BehaviorPreference::setTimeIndicatorClickAction(TimeIndicatorInteractionBehavior timeIndicatorClickAction) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorClickAction == timeIndicatorClickAction)
+            return;
+        d->timeIndicatorClickAction = timeIndicatorClickAction;
+        emit m_instance->timeIndicatorClickActionChanged();
+    }
+    BehaviorPreference::TimeIndicatorInteractionBehavior BehaviorPreference::timeIndicatorDoubleClickAction() {
+        M_INSTANCE_D;
+        return d->timeIndicatorDoubleClickAction;
+    }
+    void BehaviorPreference::setTimeIndicatorDoubleClickAction(TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorDoubleClickAction == timeIndicatorDoubleClickAction)
+            return;
+        d->timeIndicatorDoubleClickAction = timeIndicatorDoubleClickAction;
+        emit m_instance->timeIndicatorDoubleClickActionChanged();
+    }
+    BehaviorPreference::TimeIndicatorInteractionBehavior BehaviorPreference::timeIndicatorPressAndHoldAction() {
+        M_INSTANCE_D;
+        return d->timeIndicatorPressAndHoldAction;
+    }
+    void BehaviorPreference::setTimeIndicatorPressAndHoldAction(TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorPressAndHoldAction == timeIndicatorPressAndHoldAction)
+            return;
+        d->timeIndicatorPressAndHoldAction = timeIndicatorPressAndHoldAction;
+        emit m_instance->timeIndicatorPressAndHoldActionChanged();
+    }
+    bool BehaviorPreference::timeIndicatorTextFineTuneEnabled() {
+        M_INSTANCE_D;
+        return d->timeIndicatorTextFineTuneEnabled;
+    }
+    void BehaviorPreference::setTimeIndicatorTextFineTuneEnabled(bool timeIndicatorTextFineTuneEnabled) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorTextFineTuneEnabled == timeIndicatorTextFineTuneEnabled)
+            return;
+        d->timeIndicatorTextFineTuneEnabled = timeIndicatorTextFineTuneEnabled;
+        emit m_instance->timeIndicatorTextFineTuneEnabledChanged();
+    }
+    bool BehaviorPreference::timeIndicatorShowSliderOnHover() {
+        M_INSTANCE_D;
+        return d->timeIndicatorShowSliderOnHover;
+    }
+    void BehaviorPreference::setTimeIndicatorShowSliderOnHover(bool timeIndicatorShowSliderOnHover) {
+        M_INSTANCE_D;
+        if (d->timeIndicatorShowSliderOnHover == timeIndicatorShowSliderOnHover)
+            return;
+        d->timeIndicatorShowSliderOnHover = timeIndicatorShowSliderOnHover;
+        emit m_instance->timeIndicatorShowSliderOnHoverChanged();
     }
 }

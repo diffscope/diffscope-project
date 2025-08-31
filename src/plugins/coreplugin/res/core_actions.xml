@@ -31,6 +31,20 @@
         <action id="core.gridView" class="Home" catalog="core.homeMenu" />
         <action id="core.listView" class="Home" catalog="core.homeMenu" />
 
+        <action id="core.timeIndicatorShowMusicTime" text="Show &amp;Music Time" class="Timeline" />
+        <action id="core.timeIndicatorShowAbsoluteTime" text="Show &amp;Absolute Time" class="Timeline" />
+        <action id="core.timelineGoTo" text="&amp;Go To..." shortcut="Ctrl+Shift+G" class="Timeline" />
+        <action id="core.timelineQuickJump" text="&amp;Quick Jump..." shortcut="Ctrl+G" class="Timeline" />
+        <action id="core.timelineGoToStart" text="Go To &amp;Start" shortcut="Home" class="Timeline"/>
+        <action id="core.timelineGoToPreviousMeasure" text="Go To Previous Measure" shortcut="[" class="Timeline"/>
+        <action id="core.timelineGoToPreviousBeat" text="Go To Previous Beat" shortcut="Ctrl+[" class="Timeline"/>
+        <action id="core.timelineGoToPreviousTick" text="Go To Previous Tick" shortcut="Ctrl+Shift+[" class="Timeline"/>
+        <action id="core.timelineGoToEnd" text="Go To &amp;End" shortcut="End" class="Timeline"/>
+        <action id="core.timelineGoToNextMeasure" text="Go To Next Measure" shortcut="]" class="Timeline"/>
+        <action id="core.timelineGoToNextBeat" text="Go To Next Beat" shortcut="Ctrl+]" class="Timeline"/>
+        <action id="core.timelineGoToNextTick" text="Go To Next Tick" shortcut="Ctrl+Shift+]" class="Timeline"/>
+        <action id="core.resetProjectTimeRange" text="&amp;Reset Project Time Range" class="Timeline" />
+
         <action id="core.workspaceLayoutCommand" text="Workspace Layout" class="View" />
         <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" diffscope:excludeFromCommands="true" />
         <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" diffscope:excludeFromCommands="true" />
@@ -79,6 +93,7 @@
         <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.tipsPanel" text="Tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.digitalClock" diffscope:excludeFromCommands="true"/>
     </items>
 
     <layouts>
@@ -97,6 +112,31 @@
                 <action id="core.showHome" />
                 <separator />
                 <action id="core.exit" />
+            </menu>
+            <menu id="core.edit" text="&amp;Edit">
+                <menu id="core.timeline">
+                    <group id="core.timeIndicatorTimecodeFormatActions">
+                        <action id="core.timeIndicatorShowMusicTime" />
+                        <action id="core.timeIndicatorShowAbsoluteTime" />
+                    </group>
+                    <group id="core.timelineGoToActions">
+                        <action id="core.timelineGoTo" />
+                        <action id="core.timelineQuickJump" />
+                    </group>
+                    <group id="core.timelineBackNavigationActions">
+                        <action id="core.timelineGoToStart" />
+                        <action id="core.timelineGoToPreviousMeasure" />
+                        <action id="core.timelineGoToPreviousBeat" />
+                        <action id="core.timelineGoToPreviousTick" />
+                    </group>
+                    <group id="core.timelineForwardNavigationActions">
+                        <action id="core.timelineGoToEnd" />
+                        <action id="core.timelineGoToNextMeasure" />
+                        <action id="core.timelineGoToNextBeat" />
+                        <action id="core.timelineGoToNextTick" />
+                    </group>
+                    <action id="core.resetProjectTimeRange" />
+                </menu>
             </menu>
             <menu id="core.view" text="&amp;View">
                 <group id="core.workspaceActions">
@@ -146,14 +186,24 @@
             </menu>
         </menu>
 
-        <menu id="core.mainToolBar">
+        <menu id="core.mainToolBarLeft">
             <action id="core.showHome" />
             <separator />
             <action id="core.openFile" />
             <action id="core.saveFile" />
-            <stretch />
+        </menu>
+
+        <menu id="core.mainToolBarRight">
             <action id="core.findActions" />
             <action id="core.documentations" />
+        </menu>
+
+        <menu id="core.mainToolBarMiddle">
+            <group id="core.toolBarTimelineNavigationActions">
+                <action id="core.digitalClock" />
+                <action id="core.timelineGoToStart" />
+                <action id="core.timelineGoToEnd" />
+            </group>
         </menu>
 
         <menu id="core.mainStatusBar">

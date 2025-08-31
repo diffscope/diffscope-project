@@ -47,7 +47,7 @@ HomeWindow {
     }
     macosMenusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: Qt.platform.os === "osx" || Qt.platform.os === "macos" ? "core.homeMenu" : ""
+            actionId: homeWindow.isMacOS ? "core.homeMenu" : ""
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.macosMenusModel.insert(index, object)

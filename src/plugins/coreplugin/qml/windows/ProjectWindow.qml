@@ -37,21 +37,33 @@ ProjectWindow {
             }
         }
     }
-    toolButtonsModel: ObjectModel {
+    component ToolButtonsObjectModel: ObjectModel {
+        id: model
+        property string actionId
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.mainToolBar"
+            actionId: model.actionId
             context: projectWindow.windowHandle.actionContext
             separatorComponent: ToolBarContainerSeparator {
             }
-            stretchComponent: ToolBarContainerStretch {
+            stretchComponent: Item {
+                visible: false
             }
             onObjectAdded: (index, object) => {
-                projectWindow.toolButtonsModel.insert(index, object)
+                model.insert(index, object)
             }
             onObjectRemoved: (index, object) => {
-                projectWindow.toolButtonsModel.remove(index)
+                model.remove(index)
             }
         }
+    }
+    leftToolButtonsModel: ToolButtonsObjectModel {
+        actionId: "core.mainToolBarLeft"
+    }
+    rightToolButtonsModel: ToolButtonsObjectModel {
+        actionId: "core.mainToolBarRight"
+    }
+    middleToolButtonsModel: ToolButtonsObjectModel {
+        actionId: "core.mainToolBarMiddle"
     }
     statusButtonsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
