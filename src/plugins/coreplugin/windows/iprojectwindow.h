@@ -14,6 +14,7 @@ namespace QAK {
 }
 
 class QAbstractItemModel;
+class QJSValue;
 
 namespace Core {
 
@@ -48,6 +49,8 @@ namespace Core {
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
         Q_INVOKABLE int execQuickPick(QAbstractItemModel *model, const QString &placeholderText = {}, int defaultIndex = 0, const QString &initialFilterText = {});
+        Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText = {}, const QString &promptText = {}, const QString &initialText = {});
+        Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback);
 
     protected:
         QWindow *createWindow(QObject *parent) const override;

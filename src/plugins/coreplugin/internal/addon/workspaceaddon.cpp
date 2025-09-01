@@ -261,7 +261,7 @@ namespace Core::Internal {
             return QVariantMap{
                 {"id", id},
                 {"text", info.text()},
-                {"iconSource", QUrl::fromLocalFile(ICore::actionRegistry()->actionIcon("", info.id()).filePath(QIcon::Normal, QIcon::Off))},
+                {"iconSource", QUrl::fromLocalFile(ICore::actionRegistry()->actionIcon("", info.id()).filePath())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}
             };
         });

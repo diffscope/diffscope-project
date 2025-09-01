@@ -2,6 +2,8 @@
 
 #include <QQmlComponent>
 #include <QAbstractItemModel>
+#include <QJSValue>
+#include <QQmlEngine>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -13,6 +15,7 @@
 #include <coreplugin/quickpick.h>
 #include <coreplugin/internal/actionhelper.h>
 #include <coreplugin/projecttimeline.h>
+#include <coreplugin/quickinput.h>
 
 namespace Core {
 
@@ -98,6 +101,52 @@ namespace Core {
         quickPick.setFilterText(initialFilterText);
         quickPick.setCurrentIndex(defaultIndex);
         return quickPick.exec();
+    }
+    QVariant IProjectWindow::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText) {
+        QuickInput quickInput;
+        quickInput.setWindowHandle(this);
+        quickInput.setPlaceholderText(placeholderText);
+        quickInput.setPromptText(promptText);
+        quickInput.setText(initialText);
+        return quickInput.exec();
+    }
+    QVariant IProjectWindow::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback) {
+        if (!callback.isCallable()) {
+            auto engine = qmlEngine(this);
+            engine->throwError(QJSValue::TypeError, "callback is not callable");
+            return {};
+        }
+        QuickInput quickInput;
+        quickInput.setWindowHandle(this);
+        quickInput.setPlaceholderText(placeholderText);
+        quickInput.setPromptText(promptText);
+        quickInput.setText(initialText);
+        auto handleCallbackReturn = [&quickInput](const QJSValue &ret) {
+            if (ret.isBool()) {
+                quickInput.setAcceptable(ret.toBool());
+            } else {
+                if (ret.hasProperty("acceptable")) {
+                    quickInput.setAcceptable(ret.property("acceptable").toBool());
+                }
+                if (ret.hasProperty("placeholderText")) {
+                    quickInput.setPlaceholderText(ret.property("placeholderText").toString());
+                }
+                if (ret.hasProperty("promptText")) {
+                    quickInput.setPromptText(ret.property("promptText").toString());
+                }
+                if (ret.hasProperty("status")) {
+                    quickInput.setStatus(static_cast<SVS::SVSCraft::ControlType>(ret.property("status").toInt()));
+                }
+            }
+        };
+        connect(&quickInput, &QuickInput::textChanged, this, [&] {
+            handleCallbackReturn(callback.call({quickInput.text(), false}));
+        });
+        connect(&quickInput, &QuickInput::attemptingAcceptButFailed, this, [&] {
+            handleCallbackReturn(callback.call({quickInput.text(), true}));
+        });
+        handleCallbackReturn(callback.call({quickInput.text(), false}));
+        return quickInput.exec();
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);

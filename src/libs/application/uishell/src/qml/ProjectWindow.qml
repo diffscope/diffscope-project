@@ -39,6 +39,7 @@ Window {
     readonly property DockingView topDockingView: topDock
     readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
+    readonly property InputPalette inputPalette: inputPalettePopup
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -72,6 +73,13 @@ Window {
         x: (window.width - implicitWidth) / 2 + horizontalOffset
         y: titleBar.height + toolBar.height + 4 + verticalOffset
         emptyText: qsTr("Empty")
+    }
+    InputPalette {
+        id: inputPalettePopup
+        property double horizontalOffset: 0
+        property double verticalOffset: 0
+        x: (window.width - implicitWidth) / 2 + horizontalOffset
+        y: titleBar.height + toolBar.height + 4 + verticalOffset
     }
     Rectangle {
         anchors.fill: parent

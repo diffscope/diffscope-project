@@ -151,9 +151,37 @@ QtObject {
     }
 
     function promptSaveLayout(layout, originName) {
-        saveLayoutPopup.layout = layout
-        saveLayoutPopup.originName = originName
-        saveLayoutPopup.open()
+        let newName = helper.windowHandle.execQuickInput(qsTr("Custom layout name"), "", originName, (text, attempted) => {
+            if (text === "") {
+                return {
+                    acceptable: false,
+                    status: attempted ? SVS.CT_Error : SVS.CT_Normal,
+                    promptText: attempted ? qsTr("Name should not be empty") : ""
+                }
+            }
+            if (text === originName) {
+                return {
+                    acceptable: false,
+                    status: SVS.CT_Error,
+                    promptText: qsTr("New name should not be the same as old name")
+                }
+            }
+            if (helper.addOn.workspaceManager.customLayouts.some(o => o.name === text)) {
+                return {
+                    acceptable: true,
+                    status: SVS.CT_Warning,
+                    promptText: qsTr("Custom presets with the same name will be overwritten")
+                }
+            }
+            return {
+                acceptable: true,
+                status: SVS.CT_Normal,
+                promptText: ""
+            }
+        })
+        if (typeof(newName) === "string") {
+            helper.addOn.saveCustomLayoutFromJavaScript(layout, originName, newName)
+        }
     }
 
     function promptAddAction(action) {
@@ -188,52 +216,6 @@ QtObject {
         function onBeforeTerminated() {
             helper.saveCurrentLayout()
             helper.cleanupPanes()
-        }
-    }
-
-    readonly property Popup saveLayoutPopup: Popup {
-        id: saveLayoutPopup
-        anchors.centerIn: parent
-        padding: 16
-        parent: helper.window.contentItem
-        width: 400
-        property var layout: undefined
-        property string originName: ""
-        onAboutToShow: () => {
-            layoutNameTextField.text = originName
-            layoutNameTextField.forceActiveFocus()
-        }
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 8
-            Label {
-                text: qsTr("Custom layout name")
-                Layout.fillWidth: true
-                wrapMode: Text.Wrap
-            }
-            TextField {
-                id: layoutNameTextField
-                Layout.fillWidth: true
-                Keys.onReturnPressed: saveLayoutOkButton.animateClick()
-            }
-            Label {
-                text: qsTr("Custom presets with the same name will be overwritten.")
-                color: Theme.warningColor
-                Layout.fillWidth: true
-                opacity: saveLayoutPopup.visible && layoutNameTextField.text !== saveLayoutPopup.originName && helper.addOn.workspaceManager.customLayouts.some(o => o.name === layoutNameTextField.text) ? 1 : 0
-                wrapMode: Text.Wrap
-            }
-            Button {
-                id: saveLayoutOkButton
-                ThemedItem.controlType: SVS.CT_Accent
-                text: qsTr("OK")
-                enabled: layoutNameTextField.text !== "" && layoutNameTextField.text !== saveLayoutPopup.originName
-                Layout.fillWidth: true
-                onClicked: () => {
-                    helper.addOn.saveCustomLayoutFromJavaScript(saveLayoutPopup.layout, saveLayoutPopup.originName, layoutNameTextField.text)
-                    saveLayoutPopup.close()
-                }
-            }
         }
     }
 

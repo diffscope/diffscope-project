@@ -130,7 +130,7 @@ ActionCollection {
     ActionItem {
         actionId: "core.timelineQuickJump"
         Action {
-
+            onTriggered: Qt.callLater(() => d.addOn.execQuickJump())
         }
     }
 

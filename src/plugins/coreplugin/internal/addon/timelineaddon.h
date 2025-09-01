@@ -36,6 +36,8 @@ namespace Core::Internal {
 
         static int doubleClickInterval();
 
+        Q_INVOKABLE void execQuickJump(const QString &initialText = {}) const;
+
     Q_SIGNALS:
         void musicTimeTextChanged();
         void longTimeTextChanged();

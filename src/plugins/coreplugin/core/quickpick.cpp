@@ -30,6 +30,10 @@ namespace Core {
         Q_D(QuickPick);
         if (d->model != model) {
             d->model = model;
+            // Sync to CommandPalette if connected
+            if (d->commandPalette) {
+                d->commandPalette->setProperty("model", QVariant::fromValue(model));
+            }
             Q_EMIT modelChanged(model);
         }
     }
@@ -43,6 +47,10 @@ namespace Core {
         Q_D(QuickPick);
         if (d->filterText != filterText) {
             d->filterText = filterText;
+            // Sync to CommandPalette if connected
+            if (d->commandPalette) {
+                d->commandPalette->setProperty("filterText", filterText);
+            }
             Q_EMIT filterTextChanged(filterText);
         }
     }
@@ -56,6 +64,10 @@ namespace Core {
         Q_D(QuickPick);
         if (d->placeholderText != placeholderText) {
             d->placeholderText = placeholderText;
+            // Sync to CommandPalette if connected
+            if (d->commandPalette) {
+                d->commandPalette->setProperty("placeholderText", placeholderText);
+            }
             Q_EMIT placeholderTextChanged(placeholderText);
         }
     }
@@ -69,6 +81,10 @@ namespace Core {
         Q_D(QuickPick);
         if (d->currentIndex != currentIndex) {
             d->currentIndex = currentIndex;
+            // Sync to CommandPalette if connected
+            if (d->commandPalette) {
+                d->commandPalette->setProperty("currentIndex", currentIndex);
+            }
             Q_EMIT currentIndexChanged(currentIndex);
         }
     }

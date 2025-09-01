@@ -13,6 +13,7 @@
 
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/projecttimeline.h>
+#include <coreplugin/quickinput.h>
 
 
 namespace Core::Internal {
@@ -68,5 +69,14 @@ namespace Core::Internal {
     }
     int TimelineAddOn::doubleClickInterval() {
         return QApplication::doubleClickInterval();
+    }
+    void TimelineAddOn::execQuickJump(const QString &initialText) const {
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        QuickInput quickInput;
+        quickInput.setPlaceholderText(tr("Jump to"));
+        quickInput.setPromptText(tr("Type \"?\" to view tips"));
+        quickInput.setText(initialText);
+        quickInput.setWindowHandle(iWin);
+        quickInput.exec();
     }
 }

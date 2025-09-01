@@ -55,7 +55,7 @@ ActionCollection {
                 Action {
                     text: qsTr("&Rename")
                     onTriggered: () => {
-                        d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, layout.name)
+                        Qt.callLater(() => d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, layout.name))
                     }
                 }
                 Action {
@@ -91,7 +91,7 @@ ActionCollection {
         Action {
             onTriggered: () => {
                 d.helper.saveCurrentLayout()
-                d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, "")
+                Qt.callLater(() => d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, ""))
             }
         }
     }
