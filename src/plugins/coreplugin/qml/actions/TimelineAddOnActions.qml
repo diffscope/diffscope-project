@@ -26,7 +26,7 @@ ActionCollection {
                 } else if (flag === BehaviorPreference.TIIB_ShowGoTo) {
                     d.windowHandle.triggerAction("core.timelineGoTo", this)
                 } else if (flag === BehaviorPreference.TIIB_ShowQuickJump) {
-                    d.windowHandle.triggerAction("core.timelineQuickJump", this)
+                    d.addOn.execQuickJump(text)
                 }
             }
             Menu {

@@ -70,6 +70,198 @@ namespace Core::Internal {
     int TimelineAddOn::doubleClickInterval() {
         return QApplication::doubleClickInterval();
     }
+
+    static inline QString absoluteMusicTimePromptText(const SVS::MusicTime &t) {
+        if (t.tick() == 0) {
+            return TimelineAddOn::tr("measure %L1, beat %L2").arg(t.measure() + 1).arg(t.beat() + 1);
+        }
+        return TimelineAddOn::tr("measure %L1, beat %L2, tick %L3").arg(t.measure() + 1).arg(t.beat() + 1).arg(t.tick());
+    }
+    static inline QString absoluteLongTimePromptText(const SVS::LongTime &t) {
+        auto minuteText = TimelineAddOn::tr("%Ln minute(s)", "absolute time", t.minute());
+        auto secondText = TimelineAddOn::tr("%Ln second(s)", "absolute time", t.second());
+        auto millisecondText = TimelineAddOn::tr("%Ln millisecond(s)", "absolute time", t.millisecond());
+        if (t.minute() == 0 && t.second() == 0) {
+            return millisecondText;
+        }
+        if (t.minute() == 0 && t.millisecond() == 0) {
+            return secondText;
+        }
+        if (t.minute() == 0 && t.millisecond() == 0) {
+            return TimelineAddOn::tr("%1 %2", "absolute minute second").arg(minuteText, secondText);
+        }
+        if (t.minute() == 0) {
+            return TimelineAddOn::tr("%1 %2", "absolute second millisecond").arg(secondText, millisecondText);
+        }
+        if (t.millisecond() == 0) {
+            return TimelineAddOn::tr("%1 %2", "absolute minute second").arg(minuteText, secondText);
+        }
+        return TimelineAddOn::tr("%1 %2 %3", "absolute minute second millisecond").arg(
+            minuteText,
+            secondText,
+            millisecondText
+        );
+    }
+    static inline QString relativeLongTimePromptText(const SVS::LongTime &t) {
+        auto minuteText = TimelineAddOn::tr("%Ln minute(s)", "relative time", t.minute());
+        auto secondText = TimelineAddOn::tr("%Ln second(s)", "relative time", t.second());
+        auto millisecondText = TimelineAddOn::tr("%Ln millisecond(s)", "relative time", t.millisecond());
+        if (t.minute() == 0 && t.second() == 0) {
+            return millisecondText;
+        }
+        if (t.minute() == 0 && t.millisecond() == 0) {
+            return secondText;
+        }
+        if (t.minute() == 0 && t.millisecond() == 0) {
+            return TimelineAddOn::tr("%1 %2", "relative minute second").arg(minuteText, secondText);
+        }
+        if (t.minute() == 0) {
+            return TimelineAddOn::tr("%1 %2", "relative second millisecond").arg(secondText, millisecondText);
+        }
+        if (t.millisecond() == 0) {
+            return TimelineAddOn::tr("%1 %2", "relative minute second").arg(minuteText, secondText);
+        }
+        return TimelineAddOn::tr("%1 %2 %3", "relative minute second millisecond").arg(
+            minuteText,
+            secondText,
+            millisecondText
+        );
+    }
+    static SVS::PersistentMusicTime quickJumpParseAbsoluteMusicTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        bool ok;
+        auto t = timeline->musicTimeline()->create(text, &ok);
+        if (!ok) {
+            return {};
+        }
+        quickInput->setAcceptable(true);
+        quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(absoluteMusicTimePromptText(t.toTime())));
+        return t;
+    }
+    static SVS::PersistentMusicTime quickJumpParseRelativeMusicTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        auto s = QStringView(text);
+        int p;
+        if (s.startsWith('-')) {
+            p = -1;
+        } else if (s.startsWith('+')) {
+            p = 1;
+        } else {
+            return {};
+        }
+        s = s.mid(1);
+        // TODO
+        return {};
+    }
+    static SVS::PersistentMusicTime quickJumpParseAbsoluteLongTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        auto s = QStringView(text);
+        if (s.startsWith('^')) {
+            s = s.mid(1);
+        }
+        if (s.trimmed().startsWith('-')) {
+            return {};
+        }
+        bool ok;
+        auto longTime = SVS::LongTime::fromString(s, &ok);
+        if (!ok) {
+            return {};
+        }
+        auto musicTime = timeline->musicTimeline()->create(longTime.totalMillisecond());
+        quickInput->setAcceptable(!s.trimmed().isEmpty());
+        quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (%2)").arg(absoluteLongTimePromptText(longTime), absoluteMusicTimePromptText(musicTime.toTime()))));
+        return musicTime;
+    }
+    static SVS::PersistentMusicTime quickJumpParseRelativeLongTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        auto s = QStringView(text);
+        int p;
+        if (s.startsWith('-')) {
+            p = -1;
+        } else if (s.startsWith('+')) {
+            p = 1;
+        } else {
+            return {};
+        }
+        s = s.mid(1);
+        if (s.startsWith('^')) {
+            s = s.mid(1);
+        }
+        bool ok;
+        auto longTime = SVS::LongTime::fromString(s, &ok);
+        if (!ok) {
+            return {};
+        }
+        auto promptTextPrefix = p == -1 ? TimelineAddOn::tr("Move backward by %1") : TimelineAddOn::tr("Move forward by %1");
+        auto currentMusicTime = timeline->musicTimeline()->create(timeline->position());
+        auto targetMillisecond = currentMusicTime.millisecond() + p * longTime.totalMillisecond();
+        auto targetMusicTime = timeline->musicTimeline()->create(qMax(0.0, targetMillisecond));
+        quickInput->setAcceptable(!s.trimmed().isEmpty());
+        quickInput->setStatus(targetMillisecond < 0 ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::ControlType::CT_Normal);
+        quickInput->setPromptText(
+            promptTextPrefix.arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (to %2)").arg(relativeLongTimePromptText(longTime), absoluteMusicTimePromptText(targetMusicTime.toTime()))) +
+            (targetMillisecond < 0 ? TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
+        );
+        return targetMusicTime;
+    }
+    static SVS::PersistentMusicTime quickJumpParseMoveCommand(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        return {};
+    }
+    static SVS::PersistentMusicTime quickJumpParseEasterEggs(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        if (text.toLower() == QStringLiteral("yajuusenpai")) {
+            return quickJumpParseAbsoluteLongTime("1:14.514", quickInput, timeline);
+        }
+        if (text.toLower() == QStringLiteral("the answer to the ultimate question of life, the universe, and everything")) {
+            return quickJumpParseAbsoluteMusicTime("42", quickInput, timeline);
+        }
+        if (text.toLower() == QStringLiteral("crindzebra sjimo")) {
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+            quickInput->setPromptText(QStringLiteral("Do you also want to tell your own story through music?"));
+            return timeline->musicTimeline()->create(0, 0, 16423);
+        }
+        if (text.toLower() == QStringLiteral("9bang15\u4fbf\u58eb")) {
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+            return quickJumpParseAbsoluteLongTime("9.15", quickInput, timeline);
+        }
+        return {};
+    }
+
+    static SVS::PersistentMusicTime (*quickJumpParseFunctions[])(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) = {
+        quickJumpParseAbsoluteMusicTime,
+        quickJumpParseRelativeMusicTime,
+        quickJumpParseAbsoluteLongTime,
+        quickJumpParseRelativeLongTime,
+        quickJumpParseMoveCommand,
+        quickJumpParseEasterEggs,
+    };
+
+    static SVS::PersistentMusicTime quickJumpParse(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        quickInput->setPromptText({});
+        if (text.trimmed().isEmpty()) {
+            quickInput->setAcceptable(false);
+            quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Type \"?\" to view tips"));
+            return {};
+        }
+        if (text == "?" || text == "\uff1f") {
+            quickInput->setAcceptable(false);
+            quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
+            quickInput->setPromptText("aaa"); // TODO
+            return {};
+        }
+        for (auto f : quickJumpParseFunctions) {
+            auto t = f(text, quickInput, timeline);
+            if (t.isValid())
+                return t;
+        }
+        quickInput->setAcceptable(false);
+        if (quickInput->promptText().isEmpty()) {
+            quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Error);
+            quickInput->setPromptText(TimelineAddOn::tr("Invalid format"));
+        }
+        return {};
+    }
+
     void TimelineAddOn::execQuickJump(const QString &initialText) const {
         auto iWin = windowHandle()->cast<IProjectWindow>();
         QuickInput quickInput;
@@ -77,6 +269,25 @@ namespace Core::Internal {
         quickInput.setPromptText(tr("Type \"?\" to view tips"));
         quickInput.setText(initialText);
         quickInput.setWindowHandle(iWin);
-        quickInput.exec();
+        connect(&quickInput, &QuickInput::textChanged, this, [&, this](const QString &text) {
+            quickJumpParse(text, &quickInput, iWin->projectTimeline());
+        });
+        connect(&quickInput, &QuickInput::attemptingAcceptButFailed, this, [&, this]() {
+            quickInput.setStatus(SVS::SVSCraft::CT_Error);
+            if (quickInput.text().trimmed().isEmpty()) {
+                quickInput.setPromptText(tr("Input should not be empty"));
+            } else {
+                quickInput.setPromptText(tr("Invalid format"));
+            }
+        });
+        quickJumpParse(quickInput.text(), &quickInput, iWin->projectTimeline());
+        auto ret = quickInput.exec();
+        if (!ret.isValid())
+            return;
+        auto t = quickJumpParse(quickInput.text(), &quickInput, iWin->projectTimeline());
+        if (!t.isValid())
+            return;
+        iWin->projectTimeline()->setPosition(t.totalTick());
+        iWin->projectTimeline()->setLastPosition(t.totalTick());
     }
 }
