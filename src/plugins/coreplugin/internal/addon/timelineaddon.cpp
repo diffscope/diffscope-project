@@ -1,5 +1,7 @@
 #include "timelineaddon.h"
 
+#include <algorithm>
+
 #include <QQmlComponent>
 #include <QApplication>
 
@@ -135,7 +137,7 @@ namespace Core::Internal {
         }
         quickInput->setAcceptable(true);
         quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
-        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(absoluteMusicTimePromptText(t.toTime())));
+        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(absoluteMusicTimePromptText(t)));
         return t;
     }
     static SVS::PersistentMusicTime quickJumpParseRelativeMusicTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
@@ -168,7 +170,7 @@ namespace Core::Internal {
         auto musicTime = timeline->musicTimeline()->create(longTime.totalMillisecond());
         quickInput->setAcceptable(!s.trimmed().isEmpty());
         quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
-        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (%2)").arg(absoluteLongTimePromptText(longTime), absoluteMusicTimePromptText(musicTime.toTime()))));
+        quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (%2)").arg(absoluteLongTimePromptText(longTime), absoluteMusicTimePromptText(musicTime))));
         return musicTime;
     }
     static SVS::PersistentMusicTime quickJumpParseRelativeLongTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
@@ -197,28 +199,104 @@ namespace Core::Internal {
         quickInput->setAcceptable(!s.trimmed().isEmpty());
         quickInput->setStatus(targetMillisecond < 0 ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::ControlType::CT_Normal);
         quickInput->setPromptText(
-            promptTextPrefix.arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (to %2)").arg(relativeLongTimePromptText(longTime), absoluteMusicTimePromptText(targetMusicTime.toTime()))) +
+            promptTextPrefix.arg(s.trimmed().isEmpty() ? TimelineAddOn::tr("absolute time...") : TimelineAddOn::tr("%1 (to %2)").arg(relativeLongTimePromptText(longTime), absoluteMusicTimePromptText(targetMusicTime))) +
             (targetMillisecond < 0 ? TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
         );
         return targetMusicTime;
     }
     static SVS::PersistentMusicTime quickJumpParseMoveCommand(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
+        if (text == "\\" || text == "\u3001") {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->rangeHint() - 1);
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("the end of project (%1)").arg(absoluteMusicTimePromptText(t))));
+            return t;
+        }
+        auto isLeftSquareBracket = [](QChar c) {
+            return c == '[' || c == u'\u3010';
+        };
+        if (text.length() == 1 && std::ranges::all_of(text, isLeftSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()).previousMeasure();
+            bool adjusted = false;
+            if (!t.isValid()) {
+                adjusted = true;
+                t = timeline->musicTimeline()->create(0, 0, 0);
+            }
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("previous measure (%1)").arg(absoluteMusicTimePromptText(t))) +
+                (adjusted ? TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
+            );
+            return t;
+        }
+        if (text.length() == 2 && std::ranges::all_of(text, isLeftSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()).previousBeat();
+            bool adjusted = false;
+            if (!t.isValid()) {
+                adjusted = true;
+                t = timeline->musicTimeline()->create(0, 0, 0);
+            }
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("previous beat (%1)").arg(absoluteMusicTimePromptText(t))) +
+                (adjusted ? TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
+            );
+            return t;
+        }
+        if (text.length() == 3 && std::ranges::all_of(text, isLeftSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()) - 1;
+            bool adjusted = false;
+            if (!t.isValid()) {
+                adjusted = true;
+                t = timeline->musicTimeline()->create(0, 0, 0);
+            }
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("previous tick (%1)").arg(absoluteMusicTimePromptText(t))) +
+                (adjusted ? TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
+            );
+            return t;
+        }
+        auto isRightSquareBracket = [](QChar c) {
+            return c == ']' || c == u'\u3011';
+        };
+        if (text.length() == 1 && std::ranges::all_of(text, isRightSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()).nextMeasure();
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("next measure (%1)").arg(absoluteMusicTimePromptText(t))));
+            return t;
+        }
+        if (text.length() == 2 && std::ranges::all_of(text, isRightSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()).nextBeat();
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("next beat (%1)").arg(absoluteMusicTimePromptText(t))));
+            return t;
+        }
+        if (text.length() == 3 && std::ranges::all_of(text, isRightSquareBracket)) {
+            auto t = timeline->musicTimeline()->create(0, 0, timeline->position()) + 1;
+            quickInput->setAcceptable(true);
+            quickInput->setStatus(SVS::SVSCraft::CT_Normal);
+            quickInput->setPromptText(TimelineAddOn::tr("Go to %1").arg(TimelineAddOn::tr("next tick (%1)").arg(absoluteMusicTimePromptText(t))));
+            return t;
+        }
         return {};
     }
     static SVS::PersistentMusicTime quickJumpParseEasterEggs(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
-        if (text.toLower() == QStringLiteral("yajuusenpai")) {
+        if (text.toLower() == "yajuusenpai") {
             return quickJumpParseAbsoluteLongTime("1:14.514", quickInput, timeline);
         }
-        if (text.toLower() == QStringLiteral("the answer to the ultimate question of life, the universe, and everything")) {
+        if (text.toLower() == "the answer to the ultimate question of life, the universe, and everything") {
             return quickJumpParseAbsoluteMusicTime("42", quickInput, timeline);
         }
-        if (text.toLower() == QStringLiteral("crindzebra sjimo")) {
+        if (text.toLower() == "crindzebra sjimo") {
             quickInput->setAcceptable(true);
             quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
             quickInput->setPromptText(QStringLiteral("Do you also want to tell your own story through music?"));
             return timeline->musicTimeline()->create(0, 0, 16423);
         }
-        if (text.toLower() == QStringLiteral("9bang15\u4fbf\u58eb")) {
+        if (text.toLower() == "9bang15\u4fbf\u58eb") {
             quickInput->setAcceptable(true);
             quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
             return quickJumpParseAbsoluteLongTime("9.15", quickInput, timeline);
@@ -289,5 +367,68 @@ namespace Core::Internal {
             return;
         iWin->projectTimeline()->setPosition(t.totalTick());
         iWin->projectTimeline()->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToStart() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        l->setPosition(0);
+        l->setLastPosition(0);
+    }
+    void TimelineAddOn::goToPreviousMeasure() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t.previousMeasure();
+        if (!t.isValid())
+            t = l->musicTimeline()->create(0, 0, 0);
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToPreviousBeat() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t.previousBeat();
+        if (!t.isValid())
+            t = l->musicTimeline()->create(0, 0, 0);
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToPreviousTick() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t - 1;
+        if (!t.isValid())
+            t = l->musicTimeline()->create(0, 0, 0);
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToEnd() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        l->setPosition(l->rangeHint() - 1);
+        l->setLastPosition(l->rangeHint() - 1);
+    }
+    void TimelineAddOn::goToNextMeasure() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t.nextMeasure();
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToNextBeat() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t.nextBeat();
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::goToNextTick() const {
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto t = l->musicTimeline()->create(0, 0, l->position());
+        t = t + 1;
+        l->setPosition(t.totalTick());
+        l->setLastPosition(t.totalTick());
+    }
+    void TimelineAddOn::resetProjectTimeRange() const {
+        // TODO
+        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        l->setRangeHint(qMax(l->position(), l->lastPosition()) + 1);
     }
 }

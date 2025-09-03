@@ -137,63 +137,63 @@ ActionCollection {
     ActionItem {
         actionId: "core.timelineGoToStart"
         Action {
-
+            onTriggered: d.addOn.goToStart()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToPreviousMeasure"
         Action {
-
+            onTriggered: d.addOn.goToPreviousMeasure()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToPreviousBeat"
         Action {
-
+            onTriggered: d.addOn.goToPreviousBeat()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToPreviousTick"
         Action {
-
+            onTriggered: d.addOn.goToPreviousTick()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToEnd"
         Action {
-
+            onTriggered: d.addOn.goToEnd()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToNextMeasure"
         Action {
-
+            onTriggered: d.addOn.goToNextMeasure()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToNextBeat"
         Action {
-
+            onTriggered: d.addOn.goToNextBeat()
         }
     }
 
     ActionItem {
         actionId: "core.timelineGoToNextTick"
         Action {
-
+            onTriggered: d.addOn.goToNextTick()
         }
     }
 
     ActionItem {
         actionId: "core.resetProjectTimeRange"
         Action {
-
+            onTriggered: d.addOn.resetProjectTimeRange()
         }
     }
 
