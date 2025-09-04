@@ -41,6 +41,8 @@ namespace Core {
         int rangeHint() const;
         void setRangeHint(int rangeHint);
 
+        Q_INVOKABLE void goTo(int position);
+
     Q_SIGNALS:
         void positionChanged(int position);
         void lastPositionChanged(int lastPosition);

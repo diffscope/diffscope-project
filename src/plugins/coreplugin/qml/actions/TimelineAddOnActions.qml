@@ -68,7 +68,7 @@ ActionCollection {
                         snapMode: Slider.SnapAlways
                         value: d.windowHandle.projectTimeline.position
                         onMoved: () => {
-                            d.windowHandle.projectTimeline.position = d.windowHandle.projectTimeline.lastPosition = value
+                            d.windowHandle.projectTimeline.goTo(value)
                         }
                     }
                     onHoveredChanged: () => {

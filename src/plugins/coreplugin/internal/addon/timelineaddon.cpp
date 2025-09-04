@@ -365,13 +365,11 @@ namespace Core::Internal {
         auto t = quickJumpParse(quickInput.text(), &quickInput, iWin->projectTimeline());
         if (!t.isValid())
             return;
-        iWin->projectTimeline()->setPosition(t.totalTick());
-        iWin->projectTimeline()->setLastPosition(t.totalTick());
+        iWin->projectTimeline()->goTo(t.totalTick());
     }
     void TimelineAddOn::goToStart() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
-        l->setPosition(0);
-        l->setLastPosition(0);
+        l->goTo(0);
     }
     void TimelineAddOn::goToPreviousMeasure() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
@@ -379,8 +377,7 @@ namespace Core::Internal {
         t = t.previousMeasure();
         if (!t.isValid())
             t = l->musicTimeline()->create(0, 0, 0);
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToPreviousBeat() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
@@ -388,8 +385,7 @@ namespace Core::Internal {
         t = t.previousBeat();
         if (!t.isValid())
             t = l->musicTimeline()->create(0, 0, 0);
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToPreviousTick() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
@@ -397,34 +393,29 @@ namespace Core::Internal {
         t = t - 1;
         if (!t.isValid())
             t = l->musicTimeline()->create(0, 0, 0);
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToEnd() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
-        l->setPosition(l->rangeHint() - 1);
-        l->setLastPosition(l->rangeHint() - 1);
+        l->goTo(l->rangeHint() - 1);
     }
     void TimelineAddOn::goToNextMeasure() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.nextMeasure();
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToNextBeat() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.nextBeat();
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToNextTick() const {
         auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t + 1;
-        l->setPosition(t.totalTick());
-        l->setLastPosition(t.totalTick());
+        l->goTo(t.totalTick());
     }
     void TimelineAddOn::resetProjectTimeRange() const {
         // TODO

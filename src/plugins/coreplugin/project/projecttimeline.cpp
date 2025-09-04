@@ -61,6 +61,10 @@ namespace Core {
             Q_EMIT rangeHintChanged(rangeHint);
         }
     }
+    void ProjectTimeline::goTo(int position) {
+        setPosition(position);
+        setLastPosition(position);
+    }
 
 }
 
