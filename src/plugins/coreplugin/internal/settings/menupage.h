@@ -3,6 +3,10 @@
 
 #include <CoreApi/isettingpage.h>
 
+namespace QAK {
+    class ActionLayoutsModel;
+}
+
 namespace Core::Internal {
     class MenuPage : public ISettingPage {
         Q_OBJECT
@@ -20,6 +24,8 @@ namespace Core::Internal {
     private:
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
+        QAK::ActionLayoutsModel *m_actionLayoutsModel{};
+
     };
 }
 

@@ -18,7 +18,6 @@ Item {
     readonly property TextMatcher matcher: TextMatcher {}
 
     anchors.fill: parent
-    contentWidth: availableWidth
 
     Connections {
         target: page.collection

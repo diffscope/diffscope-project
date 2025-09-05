@@ -14,6 +14,10 @@
         </vars>
     </configuration>
 
+    <items>
+        <menu id="core.homeMenu" topLevel="true" />
+    </items>
+
     <layouts>
         <menu id="core.homeMenu">
             <menu id="core.file" />

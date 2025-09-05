@@ -75,7 +75,9 @@
         <action id="core.aboutQt" text="About &amp;Qt" class="Help"/>
 
         <menu id="core.mainMenu" topLevel="true" />
-        <menu id="core.mainToolBar" topLevel="true" />
+        <menu id="core.mainToolBarLeft" topLevel="true" />
+        <menu id="core.mainToolBarMiddle" topLevel="true" />
+        <menu id="core.mainToolBarRight" topLevel="true" />
         <menu id="core.mainStatusBar" topLevel="true" />
         <menu id="core.homeNavigation" topLevel="true"/>
         <menu id="core.homeTool" topLevel="true"/>
