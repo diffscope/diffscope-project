@@ -92,27 +92,25 @@ qt_add_qml_module(${PROJECT_NAME}
 )
 
 # Add translation
-# qm_add_translation(${PROJECT_NAME}_translations
-#     PREFIX
-#         ${_plugin_name}
-#     TARGETS
-#         ${CK_APPLICATION_NAME} ${PROJECT_NAME}
-#     LOCALES
-#         zh_CN zh_TW ja_JP
-#     TS_DIR
-#         res/translations
-#     QM_DIR
-#         ${CMAKE_CURRENT_BINARY_DIR}/res/translations
-#     TS_DEPENDS ChorusKit_UpdateTranslations
-#     QM_DEPENDS ChorusKit_ReleaseTranslations
-# )
+qm_add_translation(${PROJECT_NAME}_translations
+    PREFIX
+        ${_plugin_name}
+    TARGETS
+        ${CK_APPLICATION_NAME} ${PROJECT_NAME}
+    LOCALES
+        en_US zh_CN zh_TW ja_JP
+    TS_DIR
+        res/translations
+    QM_DIR
+        ${CMAKE_CURRENT_BINARY_DIR}/res/translations
+    TS_DEPENDS ChorusKit_UpdateTranslations
+    QM_DEPENDS ChorusKit_ReleaseTranslations
+)
 
 # Add resources
-# ck_add_attached_files(${PROJECT_NAME}
-#     SRC res/icons DEST .
-#     SRC res/themes DEST .
-#     SRC ${CMAKE_CURRENT_BINARY_DIR}/res/translations DEST .
-# )
+ck_add_attached_files(${PROJECT_NAME}
+    SRC ${CMAKE_CURRENT_BINARY_DIR}/res/translations DEST .
+)
 
 file(GLOB _res_icons res/icons/*)
 
