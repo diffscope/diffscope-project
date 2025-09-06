@@ -246,8 +246,8 @@ QtObject {
                     height: 24
                     component DragIconLabel: IconLabel {
                         anchors.fill: parent
-                        icon.source: newActionPopup.actionObject?.ActionInstantiator.iconSource ?? ""
-                        icon.color: Theme.foregroundPrimaryColor
+                        icon.source: newActionPopup.actionObject?.ActionInstantiator.icon.source ?? ""
+                        icon.color: newActionPopup.actionObject?.ActionInstantiator.icon.color.valid ? newActionPopup.actionObject.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                         icon.width: 16
                         icon.height: 16
                         font: Theme.font

@@ -258,10 +258,12 @@ namespace Core::Internal {
         });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
             auto info = ICore::actionRegistry()->actionInfo(id);
+            auto actionIcon = ICore::actionRegistry()->actionIcon("", info.id());
             return QVariantMap{
                 {"id", id},
                 {"text", info.text()},
-                {"iconSource", QUrl::fromLocalFile(ICore::actionRegistry()->actionIcon("", info.id()).filePath())},
+                {"iconSource", QUrl::fromLocalFile(actionIcon.filePath())},
+                {"iconColor", QColor::fromString(actionIcon.currentColor())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}
             };
         });

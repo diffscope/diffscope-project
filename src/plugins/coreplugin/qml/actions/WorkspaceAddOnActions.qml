@@ -39,8 +39,6 @@ ActionCollection {
     ActionItem {
         actionId: "core.workspaceCustomLayouts"
         Menu {
-            title: ActionInstantiator.text
-            icon.source: ActionInstantiator.iconSource
             readonly property list<var> customLayouts: d.addOn.workspaceManager.customLayouts
             readonly property Component customLayoutAction: Menu {
                 id: menu
@@ -99,8 +97,6 @@ ActionCollection {
     ActionItem {
         actionId: "core.allPanels"
         Menu {
-            title: ActionInstantiator.text
-            icon.source: ActionInstantiator.iconSource
             readonly property list<QtObject> allPanes: d.helper.allPanes
             readonly property Component panelAction: Action {
                 required property QtObject dockingPane
@@ -219,8 +215,6 @@ ActionCollection {
     ActionItem {
         actionId: "core.floatingPanels"
         Menu {
-            title: ActionInstantiator.text
-            icon.source: ActionInstantiator.iconSource
             readonly property list<QtObject> floatingPanes: d.helper.floatingPanes
             readonly property Component floatingPanelAction: Action {
                 required property QtObject dockingPane
@@ -254,8 +248,6 @@ ActionCollection {
     ActionItem {
         actionId: "core.dockActionToSideBar"
         Menu {
-            title: ActionInstantiator.text
-            icon.source: ActionInstantiator.iconSource
             readonly property list<var> panelEntries: d.addOn.panelEntries
             readonly property Component addActionActionComponent: Action {
                 text: qsTr("Add Action...")
@@ -264,6 +256,7 @@ ActionCollection {
                 required property var panelEntry
                 text: panelEntry.text
                 icon.source: panelEntry.iconSource
+                icon.color: panelEntry.iconColor.valid ? panelEntry.iconColor : !enabled ? Theme.controlDisabledColorChange.apply(Theme.foregroundPrimaryColor) : Theme.foregroundPrimaryColor
                 enabled: !panelEntry.unique || !d.helper.allPanes.some(o => o.ActionInstantiator.id === panelEntry.id)
                 onTriggered: () => {
                     let o = d.windowHandle.actionContext.action(panelEntry.id)?.createObject(null)
