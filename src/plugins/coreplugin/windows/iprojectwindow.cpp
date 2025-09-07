@@ -25,60 +25,36 @@ namespace Core {
         Q_DECLARE_PUBLIC(IProjectWindow)
     public:
         IProjectWindow *q_ptr;
-        QAK::QuickActionContext *actionContext;
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
         void init() {
             Q_Q(IProjectWindow);
-            actionContext = new QAK::QuickActionContext(q);
             initActionContext();
-            ICore::actionRegistry()->addContext(actionContext);
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(q);
         }
 
         void initActionContext() {
             Q_Q(IProjectWindow);
-            actionContext->setMenuComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
-            actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            {
-                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                auto o = component.create();
-                o->setParent(q);
-                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            auto actionContext = q->actionContext();
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
             }
-            {
-                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectActions");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                auto o = component.createWithInitialProperties({
-                    {"windowHandle", QVariant::fromValue(q)},
-                });
-                o->setParent(q);
-                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
-            }
+            auto o = component.createWithInitialProperties({
+                {"windowHandle", QVariant::fromValue(q)},
+            });
+            o->setParent(q);
+            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
         }
     };
 
     IProjectWindow *IProjectWindow::instance() {
         return m_instance;
     }
-    QAK::QuickActionContext *IProjectWindow::actionContext() const {
-        Q_D(const IProjectWindow);
-        return d->actionContext;
-    }
     ProjectTimeline *IProjectWindow::projectTimeline() const {
         Q_D(const IProjectWindow);
         return d->projectTimeline;
-    }
-    bool IProjectWindow::triggerAction(const QString &id, QObject *source) {
-        Q_D(IProjectWindow);
-        return Internal::ActionHelper::triggerAction(d->actionContext, id, source);
     }
     void IProjectWindow::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
         Q_D(IProjectWindow);
@@ -92,61 +68,6 @@ namespace Core {
         message->setText(text);
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
-    }
-    int IProjectWindow::execQuickPick(QAbstractItemModel *model, const QString &placeholderText, int defaultIndex, const QString &initialFilterText) {
-        QuickPick quickPick;
-        quickPick.setWindowHandle(this);
-        quickPick.setModel(model);
-        quickPick.setPlaceholderText(placeholderText);
-        quickPick.setFilterText(initialFilterText);
-        quickPick.setCurrentIndex(defaultIndex);
-        return quickPick.exec();
-    }
-    QVariant IProjectWindow::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText) {
-        QuickInput quickInput;
-        quickInput.setWindowHandle(this);
-        quickInput.setPlaceholderText(placeholderText);
-        quickInput.setPromptText(promptText);
-        quickInput.setText(initialText);
-        return quickInput.exec();
-    }
-    QVariant IProjectWindow::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback) {
-        if (!callback.isCallable()) {
-            auto engine = qmlEngine(this);
-            engine->throwError(QJSValue::TypeError, "callback is not callable");
-            return {};
-        }
-        QuickInput quickInput;
-        quickInput.setWindowHandle(this);
-        quickInput.setPlaceholderText(placeholderText);
-        quickInput.setPromptText(promptText);
-        quickInput.setText(initialText);
-        auto handleCallbackReturn = [&quickInput](const QJSValue &ret) {
-            if (ret.isBool()) {
-                quickInput.setAcceptable(ret.toBool());
-            } else {
-                if (ret.hasProperty("acceptable")) {
-                    quickInput.setAcceptable(ret.property("acceptable").toBool());
-                }
-                if (ret.hasProperty("placeholderText")) {
-                    quickInput.setPlaceholderText(ret.property("placeholderText").toString());
-                }
-                if (ret.hasProperty("promptText")) {
-                    quickInput.setPromptText(ret.property("promptText").toString());
-                }
-                if (ret.hasProperty("status")) {
-                    quickInput.setStatus(static_cast<SVS::SVSCraft::ControlType>(ret.property("status").toInt()));
-                }
-            }
-        };
-        connect(&quickInput, &QuickInput::textChanged, this, [&] {
-            handleCallbackReturn(callback.call({quickInput.text(), false}));
-        });
-        connect(&quickInput, &QuickInput::attemptingAcceptButFailed, this, [&] {
-            handleCallbackReturn(callback.call({quickInput.text(), true}));
-        });
-        handleCallbackReturn(callback.call({quickInput.text(), false}));
-        return quickInput.exec();
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);
@@ -163,18 +84,12 @@ namespace Core {
     IProjectWindow::IProjectWindow(QObject *parent) : IProjectWindow(*new IProjectWindowPrivate, parent) {
         m_instance = this;
     }
-    IProjectWindow::IProjectWindow(IProjectWindowPrivate &d, QObject *parent) : IWindow(parent), d_ptr(&d) {
+    IProjectWindow::IProjectWindow(IProjectWindowPrivate &d, QObject *parent) : IActionWindowBase(parent), d_ptr(&d) {
         d.q_ptr = this;
         d.init();
     }
     IProjectWindow::~IProjectWindow() {
         m_instance = nullptr;
-    }
-    void IProjectWindow::nextLoadingState(State nextState) {
-        Q_D(IProjectWindow);
-        if (nextState == Initialized) {
-            d->actionContext->updateElement(QAK::AE_Layouts);
-        }
     }
     IProjectWindowRegistry *IProjectWindowRegistry::instance() {
         static IProjectWindowRegistry reg;

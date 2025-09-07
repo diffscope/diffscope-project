@@ -8,7 +8,7 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/iactionwindowbase.h>
 #include <coreplugin/internal/findactionsmodel.h>
 #include <coreplugin/internal/behaviorpreference.h>
 
@@ -23,7 +23,7 @@ namespace Core::Internal {
         saveSettings();
     }
     void FindActionsAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto iWin = windowHandle()->cast<IActionWindowBase>();
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "FindActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -36,7 +36,7 @@ namespace Core::Internal {
         loadSettings();
     }
     void FindActionsAddOn::extensionsInitialized() {
-        auto actionContext = windowHandle()->cast<IProjectWindow>()->actionContext();
+        auto actionContext = windowHandle()->cast<IActionWindowBase>()->actionContext();
         m_model->setActions(actionContext->actions());
         connect(actionContext, &QAK::QuickActionContext::actionsChanged, this, [=, this] {
             m_model->setActions(actionContext->actions());
@@ -48,13 +48,13 @@ namespace Core::Internal {
         return IWindowAddOn::delayedInitialize();
     }
     void FindActionsAddOn::findActions() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto iWin = windowHandle()->cast<IActionWindowBase>();
         while (m_priorityActions.size() > BehaviorPreference::commandPaletteHistoryCount()) {
             m_priorityActions.removeLast();
         }
         m_model->setPriorityActions(m_priorityActions);
         m_model->refresh(iWin->actionContext());
-        int i = windowHandle()->cast<IProjectWindow>()->execQuickPick(m_model, tr("Find actions"));
+        int i = windowHandle()->cast<IActionWindowBase>()->execQuickPick(m_model, tr("Find actions"));
         if (i == -1)
             return;
         auto actionId = m_model->index(i, 0).data().toString();
@@ -68,13 +68,13 @@ namespace Core::Internal {
     void FindActionsAddOn::loadSettings() {
         auto settings = PluginDatabase::settings();
         settings->beginGroup(staticMetaObject.className());
-        m_priorityActions = settings->value("priorityActions").value<QStringList>();
+        m_priorityActions = settings->value(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className()).value<QStringList>();
         settings->endGroup();
     }
     void FindActionsAddOn::saveSettings() const {
         auto settings = PluginDatabase::settings();
         settings->beginGroup(staticMetaObject.className());
-        settings->setValue("priorityActions", m_priorityActions);
+        settings->setValue(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className(), m_priorityActions);
         settings->endGroup();
     }
 }

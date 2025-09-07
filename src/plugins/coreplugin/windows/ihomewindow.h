@@ -5,7 +5,7 @@
 
 #include <coreplugin/coreglobal.h>
 
-#include <CoreApi/iwindow.h>
+#include <coreplugin/iactionwindowbase.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -15,7 +15,7 @@ namespace Core {
 
     class IHomeWindowPrivate;
 
-    class CORE_EXPORT IHomeWindow : public IWindow {
+    class CORE_EXPORT IHomeWindow : public IActionWindowBase {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -24,18 +24,12 @@ namespace Core {
     public:
         static IHomeWindow* instance();
 
-        QAK::QuickActionContext *actionContext() const;
-
-        Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
-
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
         explicit IHomeWindow(QObject *parent = nullptr);
         explicit IHomeWindow(IHomeWindowPrivate &d, QObject *parent = nullptr);
         ~IHomeWindow() override;
-
-        void nextLoadingState(State nextState) override;
 
         friend class IExecutiveRegistry<IHomeWindow>;
 

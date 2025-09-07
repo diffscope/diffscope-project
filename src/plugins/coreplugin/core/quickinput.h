@@ -12,7 +12,7 @@
 namespace Core {
 
     class QuickInputPrivate;
-    class IProjectWindow;
+    class IWindow;
 
     class CORE_EXPORT QuickInput : public QObject {
         Q_OBJECT
@@ -24,7 +24,7 @@ namespace Core {
         Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
         Q_PROPERTY(SVS::SVSCraft::ControlType status READ status WRITE setStatus NOTIFY statusChanged)
         Q_PROPERTY(bool acceptable READ acceptable WRITE setAcceptable NOTIFY acceptableChanged)
-        Q_PROPERTY(IProjectWindow *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
+        Q_PROPERTY(IWindow *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
         Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
 
     public:
@@ -46,8 +46,8 @@ namespace Core {
         bool acceptable() const;
         void setAcceptable(bool acceptable);
 
-        IProjectWindow *windowHandle() const;
-        void setWindowHandle(IProjectWindow *windowHandle);
+        IWindow *windowHandle() const;
+        void setWindowHandle(IWindow *windowHandle);
 
         bool visible() const;
         void setVisible(bool visible);
@@ -65,7 +65,7 @@ namespace Core {
         void textChanged(const QString &text);
         void statusChanged(SVS::SVSCraft::ControlType status);
         void acceptableChanged(bool acceptable);
-        void windowHandleChanged(IProjectWindow *windowHandle);
+        void windowHandleChanged(Core::IWindow *windowHandle);
         void visibleChanged(bool visible);
 
         void accepted();

@@ -108,12 +108,12 @@ namespace Core {
         }
     }
 
-    IProjectWindow *QuickInput::windowHandle() const {
+    IWindow *QuickInput::windowHandle() const {
         Q_D(const QuickInput);
         return d->windowHandle;
     }
 
-    void QuickInput::setWindowHandle(IProjectWindow *windowHandle) {
+    void QuickInput::setWindowHandle(IWindow *windowHandle) {
         Q_D(QuickInput);
         if (d->windowHandle != windowHandle) {
             // If currently visible, need to clean up InputPalette in old window first

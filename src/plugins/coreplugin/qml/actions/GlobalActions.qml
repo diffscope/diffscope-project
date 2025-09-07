@@ -72,6 +72,27 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "core.window.nextProjectWindow"
+        Action {
+
+        }
+    }
+
+    ActionItem {
+        actionId: "core.window.previousProjectWindow"
+        Action {
+
+        }
+    }
+
+    ActionItem {
+        actionId: "core.window.projectWindows"
+        Menu {
+
+        }
+    }
+
+    ActionItem {
         actionId: "core.aboutApp"
         Action {
             onTriggered: (o) => {

@@ -5,7 +5,7 @@
 
 #include <QPointer>
 
-#include <coreplugin/iprojectwindow.h>
+#include <CoreApi/iwindow.h>
 
 namespace Core {
 
@@ -17,7 +17,7 @@ namespace Core {
         QString filterText;
         QString placeholderText;
         int currentIndex{-1};
-        QPointer<IProjectWindow> windowHandle;
+        QPointer<IWindow> windowHandle;
         bool visible{false};
         QPointer<QObject> commandPalette;
         

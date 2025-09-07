@@ -7,7 +7,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <CoreApi/iwindow.h>
+#include <coreplugin/iactionwindowbase.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -23,21 +23,16 @@ namespace Core {
 
     class IProjectWindowPrivate;
 
-    class CORE_EXPORT IProjectWindow : public IWindow {
+    class CORE_EXPORT IProjectWindow : public IActionWindowBase {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
-        Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
         Q_DECLARE_PRIVATE(IProjectWindow)
     public:
         static IProjectWindow* instance();
 
-        QAK::QuickActionContext *actionContext() const;
-
         ProjectTimeline *projectTimeline() const;
-
-        Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
 
         enum NotificationBubbleMode {
             NormalBubble,
@@ -48,18 +43,12 @@ namespace Core {
         Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
-        Q_INVOKABLE int execQuickPick(QAbstractItemModel *model, const QString &placeholderText = {}, int defaultIndex = 0, const QString &initialFilterText = {});
-        Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText = {}, const QString &promptText = {}, const QString &initialText = {});
-        Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback);
-
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
         explicit IProjectWindow(QObject *parent = nullptr);
         explicit IProjectWindow(IProjectWindowPrivate &d, QObject *parent = nullptr);
         ~IProjectWindow() override;
-
-        void nextLoadingState(State nextState) override;
 
         friend class IExecutiveRegistry<IProjectWindow>;
 

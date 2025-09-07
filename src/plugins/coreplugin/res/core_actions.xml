@@ -22,7 +22,7 @@
         <action id="core.se&amp;ttings^" description="Open Settings" class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.pl&amp;ugins^" class="Preferences" shortcut=""/>
 
-        <action id="core.show&amp;HomeWindow" class="Application" shortcut="Ctrl+Shift+H" />
+        <action id="core.show&amp;HomeWindow" class="Window" shortcut="Ctrl+Shift+H" />
 
         <action id="core.e&amp;xit"  class="Application" />
 
@@ -43,7 +43,7 @@
         <action id="core.timeline.goToNextMeasure" shortcut="]" />
         <action id="core.timeline.goToNextBeat" shortcut="Ctrl+]" />
         <action id="core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
-        <action id="core.timeline.&amp;resetProjectTimeRange" />
+        <action id="core.timeline.&amp;resetProjectTimeRange" shortcut="Ctrl+K, Ctrl+R" />
 
         <action id="core.workspace.workspaceLayout^" />
         <action id="core.workspace.default&amp;Layout" diffscope:excludeFromCommands="true" />
@@ -68,6 +68,10 @@
         <action id="core.view.show&amp;TopSideBar" />
         <action id="core.view.show&amp;BottomSideBar" />
         <action id="core.view.show&amp;StatusBar" />
+
+        <action id="core.window.&amp;nextProjectWindow" shortcut="Ctrl+K, J" />
+        <action id="core.window.&amp;previousProjectWindow" shortcut="Ctrl+K, K" />
+        <action id="core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
 
         <action id="core.documentations" text="&amp;Help" class="Help" shortcut="F1" />
         <action id="core.&amp;findActions^" class="Help" shortcut="Ctrl+Shift+P" />
@@ -100,7 +104,7 @@
 
     <layouts>
         <menu id="core.mainMenu">
-            <menu id="core.file" text="&amp;File">
+            <menu id="core.&amp;file">
                 <group id="core.fileOpenActions">
                     <action id="core.file.new"/>
                     <action id="core.file.open" />
@@ -110,12 +114,9 @@
                     <action id="core.settings"/>
                     <action id="core.plugins"/>
                 </group>
-                <separator />
-                <action id="core.showHomeWindow" />
-                <separator />
                 <action id="core.exit" />
             </menu>
-            <menu id="core.edit" text="&amp;Edit">
+            <menu id="core.&amp;edit">
                 <menu id="core.timeline">
                     <group id="core.timeIndicatorTimecodeFormatActions">
                         <action id="core.timeIndicator.showMusicTime" />
@@ -140,7 +141,7 @@
                     <action id="core.timeline.resetProjectTimeRange" />
                 </menu>
             </menu>
-            <menu id="core.view" text="&amp;View">
+            <menu id="core.&amp;view">
                 <group id="core.workspaceActions">
                     <menu id="core.workspace" text="&amp;Workspace">
                         <group id="core.workspaceLayouts">
@@ -174,6 +175,14 @@
                     <action id="core.view.showTopSideBar" />
                     <action id="core.view.showBottomSideBar" />
                     <action id="core.view.showStatusBar" />
+                </group>
+            </menu>
+            <menu id="core.&amp;window">
+                <action id="core.showHomeWindow" />
+                <group id="core.window.projectWindowActions">
+                    <action id="core.window.nextProjectWindow" />
+                    <action id="core.window.previousProjectWindow" />
+                    <action id="core.window.projectWindows" />
                 </group>
             </menu>
             <menu id="core.help" text="&amp;Help">
@@ -225,8 +234,9 @@
             <menu id="core.homeHelp">
                 <action id="core.documentations" />
                 <separator />
-                <action id="core.aboutApp" />
-                <action id="core.aboutQt" />
+                <action id="core.findActions" />
+                <separator />
+                <group id="core.aboutActions" />
             </menu>
         </menu>
     </layouts>

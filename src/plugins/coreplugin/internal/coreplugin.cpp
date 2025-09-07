@@ -118,6 +118,7 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
+        IHomeWindowRegistry::instance()->attach<FindActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
     }

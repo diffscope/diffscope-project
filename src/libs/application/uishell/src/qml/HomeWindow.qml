@@ -25,6 +25,9 @@ Window {
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
 
+    readonly property CommandPalette commandPalette: commandPalettePopup
+    readonly property InputPalette inputPalette: inputPalettePopup
+
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
@@ -49,6 +52,22 @@ Window {
 
     onFramelessChanged: () => {
         setupFrameless()
+    }
+
+    CommandPalette {
+        id: commandPalettePopup
+        property double horizontalOffset: 0
+        property double verticalOffset: 0
+        x: (window.width - implicitWidth) / 2 + horizontalOffset
+        y: titleBarArea.height + verticalOffset
+        emptyText: qsTr("Empty")
+    }
+    InputPalette {
+        id: inputPalettePopup
+        property double horizontalOffset: 0
+        property double verticalOffset: 0
+        x: (window.width - implicitWidth) / 2 + horizontalOffset
+        y: titleBarArea.height + verticalOffset
     }
 
     RecentFilesProxyModel {
