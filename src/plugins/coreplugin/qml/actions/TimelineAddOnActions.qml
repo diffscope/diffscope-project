@@ -15,7 +15,7 @@ ActionCollection {
     readonly property Window window: addOn?.windowHandle.window ?? null
 
     ActionItem {
-        actionId: "core.digitalClock"
+        actionId: "core.widget.digitalClock"
         DigitalClock {
             id: digitalClock
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
@@ -24,7 +24,7 @@ ActionCollection {
                 if (flag === BehaviorPreference.TIIB_ToggleFormat) {
                     d.addOn.showMusicTime = !d.addOn.showMusicTime
                 } else if (flag === BehaviorPreference.TIIB_ShowGoTo) {
-                    d.windowHandle.triggerAction("core.timelineGoTo", this)
+                    d.windowHandle.triggerAction("core.timeline.goTo", this)
                 } else if (flag === BehaviorPreference.TIIB_ShowQuickJump) {
                     d.addOn.execQuickJump(text)
                 }
@@ -103,7 +103,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timeIndicatorShowMusicTime"
+        actionId: "core.timeIndicator.showMusicTime"
         Action {
             checkable: true
             checked: d.addOn.showMusicTime
@@ -112,7 +112,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timeIndicatorShowAbsoluteTime"
+        actionId: "core.timeIndicator.showAbsoluteTime"
         Action {
             checkable: true
             checked: d.addOn.showAbsoluteTime
@@ -121,77 +121,77 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timelineGoTo"
+        actionId: "core.timeline.goTo"
         Action {
 
         }
     }
 
     ActionItem {
-        actionId: "core.timelineQuickJump"
+        actionId: "core.timeline.quickJump"
         Action {
             onTriggered: Qt.callLater(() => d.addOn.execQuickJump())
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToStart"
+        actionId: "core.timeline.goToStart"
         Action {
             onTriggered: d.addOn.goToStart()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToPreviousMeasure"
+        actionId: "core.timeline.goToPreviousMeasure"
         Action {
             onTriggered: d.addOn.goToPreviousMeasure()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToPreviousBeat"
+        actionId: "core.timeline.goToPreviousBeat"
         Action {
             onTriggered: d.addOn.goToPreviousBeat()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToPreviousTick"
+        actionId: "core.timeline.goToPreviousTick"
         Action {
             onTriggered: d.addOn.goToPreviousTick()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToEnd"
+        actionId: "core.timeline.goToEnd"
         Action {
             onTriggered: d.addOn.goToEnd()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToNextMeasure"
+        actionId: "core.timeline.goToNextMeasure"
         Action {
             onTriggered: d.addOn.goToNextMeasure()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToNextBeat"
+        actionId: "core.timeline.goToNextBeat"
         Action {
             onTriggered: d.addOn.goToNextBeat()
         }
     }
 
     ActionItem {
-        actionId: "core.timelineGoToNextTick"
+        actionId: "core.timeline.goToNextTick"
         Action {
             onTriggered: d.addOn.goToNextTick()
         }
     }
 
     ActionItem {
-        actionId: "core.resetProjectTimeRange"
+        actionId: "core.timeline.resetProjectTimeRange"
         Action {
             onTriggered: d.addOn.resetProjectTimeRange()
         }

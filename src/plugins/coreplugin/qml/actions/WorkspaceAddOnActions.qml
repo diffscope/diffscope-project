@@ -19,7 +19,7 @@ ActionCollection {
     readonly property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.workspaceLayoutCommand"
+        actionId: "core.workspace.workspaceLayout"
         Action {
             onTriggered: () => {
                 d.addOn.showWorkspaceLayoutCommand()
@@ -28,7 +28,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspaceDefaultLayout"
+        actionId: "core.workspace.defaultLayout"
         Action {
             onTriggered: () => {
                 d.addOn.workspaceManager.currentLayout = d.addOn.workspaceManager.defaultLayout
@@ -37,7 +37,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspaceCustomLayouts"
+        actionId: "core.workspace.customLayouts"
         Menu {
             readonly property list<var> customLayouts: d.addOn.workspaceManager.customLayouts
             readonly property Component customLayoutAction: Menu {
@@ -85,7 +85,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspaceSaveLayout"
+        actionId: "core.workspace.saveLayout"
         Action {
             onTriggered: () => {
                 d.helper.saveCurrentLayout()
@@ -95,7 +95,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.allPanels"
+        actionId: "core.workspace.allPanels"
         Menu {
             readonly property list<QtObject> allPanes: d.helper.allPanes
             readonly property Component panelAction: Action {
@@ -157,63 +157,63 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspacePanelLeftTop"
+        actionId: "core.workspace.panelLeftTop"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.LeftTop
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelLeftBottom"
+        actionId: "core.workspace.panelLeftBottom"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.LeftBottom
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelRightTop"
+        actionId: "core.workspace.panelRightTop"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.RightTop
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelRightBottom"
+        actionId: "core.workspace.panelRightBottom"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.RightBottom
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelTopLeft"
+        actionId: "core.workspace.panelTopLeft"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.TopLeft
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelTopRight"
+        actionId: "core.workspace.panelTopRight"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.TopRight
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelBottomLeft"
+        actionId: "core.workspace.panelBottomLeft"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.BottomLeft
         }
     }
 
     ActionItem {
-        actionId: "core.workspacePanelBottomRight"
+        actionId: "core.workspace.panelBottomRight"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.BottomRight
         }
     }
 
     ActionItem {
-        actionId: "core.floatingPanels"
+        actionId: "core.workspace.floatingPanels"
         Menu {
             readonly property list<QtObject> floatingPanes: d.helper.floatingPanes
             readonly property Component floatingPanelAction: Action {

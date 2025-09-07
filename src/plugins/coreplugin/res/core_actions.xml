@@ -15,64 +15,64 @@
     </configuration>
 
     <items>
-        <action id="core.newFile" text="&amp;New" class="File" shortcut="Ctrl+N" />
-        <action id="core.openFile" text="&amp;Open..." class="File" shortcut="Ctrl+O" />
-        <action id="core.saveFile" text="&amp;Save" class="File" shortcut="Ctrl+S" />
+        <action id="core.file.&amp;new" shortcut="Ctrl+N" />
+        <action id="core.file.&amp;open^" shortcut="Ctrl+O" />
+        <action id="core.file.&amp;save" shortcut="Ctrl+S" />
 
-        <action id="core.settings" text="Se&amp;ttings..." description="Open Settings" class="Preferences" shortcut="Ctrl+,"/>
-        <action id="core.plugins" text="Pl&amp;ugins..." class="Preferences" shortcut=""/>
+        <action id="core.se&amp;ttings^" description="Open Settings" class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.pl&amp;ugins^" class="Preferences" shortcut=""/>
 
-        <action id="core.showHome" text="Show &amp;Home Window"  class="Application" />
+        <action id="core.show&amp;HomeWindow" class="Application" shortcut="Ctrl+Shift+H" />
 
-        <action id="core.exit" text="E&amp;xit"  class="Application" />
+        <action id="core.e&amp;xit"  class="Application" />
 
-        <action id="core.recentFiles" class="Home" catalog="core.homeMenu"/>
-        <action id="core.recoveryFiles" class="Home" catalog="core.homeMenu" />
-        <action id="core.gridView" class="Home" catalog="core.homeMenu" />
-        <action id="core.listView" class="Home" catalog="core.homeMenu" />
+        <action id="core.home.recentFiles" catalog="core.homeMenu"/>
+        <action id="core.home.recoveryFiles" catalog="core.homeMenu" />
+        <action id="core.home.gridView" catalog="core.homeMenu" />
+        <action id="core.home.listView" catalog="core.homeMenu" />
 
-        <action id="core.timeIndicatorShowMusicTime" text="Show &amp;Music Time" class="Timeline" />
-        <action id="core.timeIndicatorShowAbsoluteTime" text="Show &amp;Absolute Time" class="Timeline" />
-        <action id="core.timelineGoTo" text="&amp;Go To..." shortcut="Ctrl+Shift+G" class="Timeline" />
-        <action id="core.timelineQuickJump" text="&amp;Quick Jump..." shortcut="Ctrl+G" class="Timeline" />
-        <action id="core.timelineGoToStart" text="Go To &amp;Start" shortcut="Home" class="Timeline"/>
-        <action id="core.timelineGoToPreviousMeasure" text="Go To Previous Measure" shortcut="[" class="Timeline"/>
-        <action id="core.timelineGoToPreviousBeat" text="Go To Previous Beat" shortcut="Ctrl+[" class="Timeline"/>
-        <action id="core.timelineGoToPreviousTick" text="Go To Previous Tick" shortcut="Ctrl+Shift+[" class="Timeline"/>
-        <action id="core.timelineGoToEnd" text="Go To &amp;End" shortcut="End" class="Timeline"/>
-        <action id="core.timelineGoToNextMeasure" text="Go To Next Measure" shortcut="]" class="Timeline"/>
-        <action id="core.timelineGoToNextBeat" text="Go To Next Beat" shortcut="Ctrl+]" class="Timeline"/>
-        <action id="core.timelineGoToNextTick" text="Go To Next Tick" shortcut="Ctrl+Shift+]" class="Timeline"/>
-        <action id="core.resetProjectTimeRange" text="&amp;Reset Project Time Range" class="Timeline" />
+        <action id="core.timeIndicator.show&amp;MusicTime" />
+        <action id="core.timeIndicator.show&amp;AbsoluteTime" />
+        <action id="core.timeline.&amp;goTo^" shortcut="Ctrl+Shift+G" />
+        <action id="core.timeline.&amp;quickJump^" shortcut="Ctrl+G" />
+        <action id="core.timeline.goTo&amp;Start" shortcut="Home"/>
+        <action id="core.timeline.goToPreviousMeasure" shortcut="[" />
+        <action id="core.timeline.goToPreviousBeat" shortcut="Ctrl+[" />
+        <action id="core.timeline.goToPreviousTick" shortcut="Ctrl+Shift+[" />
+        <action id="core.timeline.goTo&amp;End" shortcut="End" />
+        <action id="core.timeline.goToNextMeasure" shortcut="]" />
+        <action id="core.timeline.goToNextBeat" shortcut="Ctrl+]" />
+        <action id="core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
+        <action id="core.timeline.&amp;resetProjectTimeRange" />
 
-        <action id="core.workspaceLayoutCommand" text="Workspace Layout" class="View" />
-        <action id="core.workspaceDefaultLayout" text="Default &amp;Layout" class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.workspaceCustomLayouts" text="&amp;Custom Layouts" class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.workspaceSaveLayout" text="&amp;Save Current Layout As..." class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.allPanels" text="&amp;All Panels" class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelLeftTop" text="None (Left Top)" class="View" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelLeftBottom" text="None (Left Bottom)" class="View" shortcut="Ctrl+Alt+2" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelRightTop" text="None (Right Top)" class="View" shortcut="Ctrl+Alt+3" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelRightBottom" text="None (Right Bottom)" class="View" shortcut="Ctrl+Alt+4" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelTopLeft" text="None (Top Left)" class="View" shortcut="Ctrl+Alt+5" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelTopRight" text="None (Top Right)" class="View" shortcut="Ctrl+Alt+6" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelBottomLeft" text="None (Bottom Left)" class="View" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
-        <action id="core.workspacePanelBottomRight" text="None (Bottom Right)" class="View" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
-        <action id="core.floatingPanels" text="&amp;Floating Panels" class="View" diffscope:excludeFromCommands="true" />
-        <action id="core.dockActionToSideBar" text="Add &amp;New Panel or Action" class="View" />
+        <action id="core.workspace.workspaceLayout^" />
+        <action id="core.workspace.default&amp;Layout" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.&amp;customLayouts" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.saveLayout" text="&amp;Save Current Layout As..." diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.&amp;allPanels" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelLeftTop" text="None (Left Top)" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelLeftBottom" text="None (Left Bottom)" shortcut="Ctrl+Alt+2" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelRightTop" text="None (Right Top)" shortcut="Ctrl+Alt+3" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelRightBottom" text="None (Right Bottom)" shortcut="Ctrl+Alt+4" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelTopLeft" text="None (Top Left)" shortcut="Ctrl+Alt+5" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelTopRight" text="None (Top Right)" shortcut="Ctrl+Alt+6" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelBottomLeft" text="None (Bottom Left)" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.panelBottomRight" text="None (Bottom Right)" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.&amp;floatingPanels" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" />
 
-        <action id="core.menuBarVisible" text="Show &amp;Menu Bar" class="View" />
-        <action id="core.toolBarVisible" text="Show Too&amp;l Bar" class="View" />
-        <action id="core.leftSideBarVisible" text="Show &amp;Left Side Bar" class="View" />
-        <action id="core.rightSideBarVisible" text="Show &amp;Right Side Bar" class="View" />
-        <action id="core.topSideBarVisible" text="Show &amp;Top Side Bar" class="View" />
-        <action id="core.bottomSideBarVisible" text="Show &amp;Bottom Side Bar" class="View" />
-        <action id="core.statusBarVisible" text="Show &amp;Status Bar" class="View" />
+        <action id="core.view.show&amp;MenuBar" />
+        <action id="core.view.showToo&amp;lBar" />
+        <action id="core.view.show&amp;LeftSideBar" />
+        <action id="core.view.show&amp;RightSideBar" />
+        <action id="core.view.show&amp;TopSideBar" />
+        <action id="core.view.show&amp;BottomSideBar" />
+        <action id="core.view.show&amp;StatusBar" />
 
         <action id="core.documentations" text="&amp;Help" class="Help" shortcut="F1" />
-        <action id="core.findActions" text="&amp;Find Actions..." class="Help" shortcut="Ctrl+Shift+P" />
+        <action id="core.&amp;findActions^" class="Help" shortcut="Ctrl+Shift+P" />
         <action id="core.aboutApp" text="&amp;About ${APP_NAME}" class="Help"/>
-        <action id="core.aboutQt" text="About &amp;Qt" class="Help"/>
+        <action id="core.about&amp;Qt" class="Help"/>
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBarLeft" topLevel="true" />
@@ -88,92 +88,92 @@
         <phony id="core.workspacePanelWidgets" topLevel="true" />
 
         <action id="core.statusText" diffscope:excludeFromCommands="true"/>
-        <action id="core.propertiesPanel" text="Properties" catalog="core.workspacePanelWidgets" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
-        <action id="core.pluginsPanel" text="Plugins" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.arrangementPanel" text="Arrangement" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.mixerPanel" text="Mixer" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.pianoRollPanel" text="Piano Roll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.notificationsPanel" text="Notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.tipsPanel" text="Tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="core.digitalClock" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.properties" catalog="core.workspacePanelWidgets" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.plugins" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.arrangement" text="Arrangement" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.mixer" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.pianoRoll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.widget.digitalClock" diffscope:excludeFromCommands="true"/>
     </items>
 
     <layouts>
         <menu id="core.mainMenu">
             <menu id="core.file" text="&amp;File">
                 <group id="core.fileOpenActions">
-                    <action id="core.newFile"/>
-                    <action id="core.openFile" />
-                    <action id="core.saveFile" />
+                    <action id="core.file.new"/>
+                    <action id="core.file.open" />
+                    <action id="core.file.save" />
                 </group>
                 <group id="core.preferenceActions">
                     <action id="core.settings"/>
                     <action id="core.plugins"/>
                 </group>
                 <separator />
-                <action id="core.showHome" />
+                <action id="core.showHomeWindow" />
                 <separator />
                 <action id="core.exit" />
             </menu>
             <menu id="core.edit" text="&amp;Edit">
                 <menu id="core.timeline">
                     <group id="core.timeIndicatorTimecodeFormatActions">
-                        <action id="core.timeIndicatorShowMusicTime" />
-                        <action id="core.timeIndicatorShowAbsoluteTime" />
+                        <action id="core.timeIndicator.showMusicTime" />
+                        <action id="core.timeIndicator.showAbsoluteTime" />
                     </group>
                     <group id="core.timelineGoToActions">
-                        <action id="core.timelineGoTo" />
-                        <action id="core.timelineQuickJump" />
+                        <action id="core.timeline.goTo" />
+                        <action id="core.timeline.quickJump" />
                     </group>
                     <group id="core.timelineBackNavigationActions">
-                        <action id="core.timelineGoToStart" />
-                        <action id="core.timelineGoToPreviousMeasure" />
-                        <action id="core.timelineGoToPreviousBeat" />
-                        <action id="core.timelineGoToPreviousTick" />
+                        <action id="core.timeline.goToStart" />
+                        <action id="core.timeline.goToPreviousMeasure" />
+                        <action id="core.timeline.goToPreviousBeat" />
+                        <action id="core.timeline.goToPreviousTick" />
                     </group>
                     <group id="core.timelineForwardNavigationActions">
-                        <action id="core.timelineGoToEnd" />
-                        <action id="core.timelineGoToNextMeasure" />
-                        <action id="core.timelineGoToNextBeat" />
-                        <action id="core.timelineGoToNextTick" />
+                        <action id="core.timeline.goToEnd" />
+                        <action id="core.timeline.goToNextMeasure" />
+                        <action id="core.timeline.goToNextBeat" />
+                        <action id="core.timeline.goToNextTick" />
                     </group>
-                    <action id="core.resetProjectTimeRange" />
+                    <action id="core.timeline.resetProjectTimeRange" />
                 </menu>
             </menu>
             <menu id="core.view" text="&amp;View">
                 <group id="core.workspaceActions">
                     <menu id="core.workspace" text="&amp;Workspace">
                         <group id="core.workspaceLayouts">
-                            <action id="core.workspaceDefaultLayout" />
-                            <action id="core.workspaceCustomLayouts" />
+                            <action id="core.workspace.defaultLayout" />
+                            <action id="core.workspace.customLayouts" />
                             <action id="core.workspaceSaveLayout" />
                             <action id="core.workspaceManageLayouts" />
                         </group>
                         <separator />
-                        <action id="core.allPanels" />
+                        <action id="core.workspace.allPanels" />
                         <menu id="core.openedDockingPanels" text="Opened &amp;Docking Panels">
-                            <action id="core.workspacePanelLeftTop" />
-                            <action id="core.workspacePanelLeftBottom" />
-                            <action id="core.workspacePanelRightTop" />
-                            <action id="core.workspacePanelRightBottom" />
-                            <action id="core.workspacePanelTopLeft" />
-                            <action id="core.workspacePanelTopRight" />
-                            <action id="core.workspacePanelBottomLeft" />
-                            <action id="core.workspacePanelBottomRight" />
+                            <action id="core.workspace.panelLeftTop" />
+                            <action id="core.workspace.panelLeftBottom" />
+                            <action id="core.workspace.panelRightTop" />
+                            <action id="core.workspace.panelRightBottom" />
+                            <action id="core.workspace.panelTopLeft" />
+                            <action id="core.workspace.panelTopRight" />
+                            <action id="core.workspace.panelBottomLeft" />
+                            <action id="core.workspace.panelBottomRight" />
                         </menu>
-                        <action id="core.floatingPanels" />
+                        <action id="core.workspace.floatingPanels" />
                         <separator />
                         <action id="core.dockActionToSideBar" />
                     </menu>
                 </group>
                 <group id="core.viewVisibilityActions">
-                    <action id="core.menuBarVisible" />
-                    <action id="core.toolBarVisible" />
-                    <action id="core.leftSideBarVisible" />
-                    <action id="core.rightSideBarVisible" />
-                    <action id="core.topSideBarVisible" />
-                    <action id="core.bottomSideBarVisible" />
-                    <action id="core.statusBarVisible" />
+                    <action id="core.view.showMenuBar" />
+                    <action id="core.view.showToolBar" />
+                    <action id="core.view.showLeftSideBar" />
+                    <action id="core.view.showRightSideBar" />
+                    <action id="core.view.showTopSideBar" />
+                    <action id="core.view.showBottomSideBar" />
+                    <action id="core.view.showStatusBar" />
                 </group>
             </menu>
             <menu id="core.help" text="&amp;Help">
@@ -189,10 +189,10 @@
         </menu>
 
         <menu id="core.mainToolBarLeft">
-            <action id="core.showHome" />
+            <action id="core.showHomeWindow" />
             <separator />
-            <action id="core.openFile" />
-            <action id="core.saveFile" />
+            <action id="core.file.open" />
+            <action id="core.file.save" />
         </menu>
 
         <menu id="core.mainToolBarRight">
@@ -202,9 +202,9 @@
 
         <menu id="core.mainToolBarMiddle">
             <group id="core.toolBarTimelineNavigationActions">
-                <action id="core.digitalClock" />
-                <action id="core.timelineGoToStart" />
-                <action id="core.timelineGoToEnd" />
+                <action id="core.widget.digitalClock" />
+                <action id="core.timeline.goToStart" />
+                <action id="core.timeline.goToEnd" />
             </group>
         </menu>
 
@@ -214,8 +214,8 @@
         </menu>
 
         <menu id="core.homeNavigation">
-            <action id="core.newFile"/>
-            <action id="core.openFile" />
+            <action id="core.file.new"/>
+            <action id="core.file.open" />
         </menu>
 
         <menu id="core.homeTool">

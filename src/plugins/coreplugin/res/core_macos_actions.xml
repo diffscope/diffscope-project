@@ -22,11 +22,11 @@
         <menu id="core.homeMenu">
             <menu id="core.file" />
             <menu id="core.homeView" text="View">
-                <action id="core.recentFiles" />
-                <action id="core.recoveryFiles" />
+                <action id="core.home.recentFiles" />
+                <action id="core.home.recoveryFiles" />
                 <separator />
-                <action id="core.gridView" />
-                <action id="core.listView" />
+                <action id="core.home.gridView" />
+                <action id="core.home.listView" />
             </menu>
             <menu id="core.help" />
         </menu>

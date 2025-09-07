@@ -13,14 +13,14 @@ import DiffScope.CorePlugin
 ActionCollection {
 
     ActionItem {
-        actionId: "core.newFile"
+        actionId: "core.file.new"
         Action {
             onTriggered: ICore.newFile()
         }
     }
 
     ActionItem {
-        actionId: "core.openFile"
+        actionId: "core.file.open"
         Action {
 
         }
@@ -54,7 +54,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.showHome"
+        actionId: "core.showHomeWindow"
         Action {
             onTriggered: () => {
                 ICore.showHome()

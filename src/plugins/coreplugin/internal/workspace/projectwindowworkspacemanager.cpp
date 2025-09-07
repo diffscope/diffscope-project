@@ -42,19 +42,19 @@ namespace Core::Internal {
         layout.setName("_default");
         layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftTop, {
             {
-                {"core.propertiesPanel", true},
-                {"core.pluginsPanel", true},
+                {"core.panel.properties", true},
+                {"core.panel.plugins", true},
             }, 400, 400, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftBottom, {
             {
-                {"core.tipsPanel", true},
+                {"core.panel.tips", true},
                 {"core.settings", false}
             }, 400, 150, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::TopLeft, {
             {
-                {"core.arrangementPanel", true}
+                {"core.panel.arrangement", true}
             }, 400, 360, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::TopRight, {
@@ -63,8 +63,8 @@ namespace Core::Internal {
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomLeft, {
             {
-                {"core.pianoRollPanel", true},
-                {"core.mixerPanel", true}
+                {"core.panel.pianoRoll", true},
+                {"core.panel.mixer", true}
             }, 400, 640, 0
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomRight, {
@@ -73,7 +73,7 @@ namespace Core::Internal {
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::RightTop, {
             {
-                {"core.notificationsPanel", true}
+                {"core.panel.notifications", true}
             }, 400, 400, -1
         });
         layout.setViewSpec(ProjectWindowWorkspaceLayout::RightBottom, {

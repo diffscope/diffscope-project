@@ -17,9 +17,7 @@ HomeWindow {
     required property IHomeWindow windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     onNewFileRequested: () => {
-        let newFileAction = windowHandle.actionContext.action("core.newFile").createObject()
-        newFileAction.trigger()
-        newFileAction.destroy()
+        windowHandle.triggerAction("core.file.new")
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {

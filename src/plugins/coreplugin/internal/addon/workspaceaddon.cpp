@@ -49,12 +49,12 @@ namespace Core::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
 
-            iWin->actionContext()->addAction("core.propertiesPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PropertiesPanel", this));
-            iWin->actionContext()->addAction("core.pluginsPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
-            iWin->actionContext()->addAction("core.tipsPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TipsPanel", this));
-            iWin->actionContext()->addAction("core.arrangementPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
-            iWin->actionContext()->addAction("core.mixerPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
-            iWin->actionContext()->addAction("core.pianoRollPanel", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
+            iWin->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PropertiesPanel", this));
+            iWin->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
+            iWin->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TipsPanel", this));
+            iWin->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
+            iWin->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
+            iWin->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {

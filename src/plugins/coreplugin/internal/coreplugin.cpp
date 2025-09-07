@@ -83,23 +83,23 @@ namespace Core::Internal {
         };
         addIcon("core.homePreferences", "Settings16Filled");
         addIcon("core.homeHelp", "QuestionCircle16Filled");
-        addIcon("core.newFile", "DocumentAdd16Filled");
-        addIcon("core.openFile", "FolderOpen16Filled");
-        addIcon("core.saveFile", "Save16Filled");
+        addIcon("core.file.new", "DocumentAdd16Filled");
+        addIcon("core.file.open", "FolderOpen16Filled");
+        addIcon("core.file.save", "Save16Filled");
         addIcon("core.settings", "Settings16Filled");
         addIcon("core.plugins", "PuzzlePiece16Filled");
-        addIcon("core.showHome", "Home16Filled");
+        addIcon("core.showHomeWindow", "Home16Filled");
         addIcon("core.documentations", "QuestionCircle16Filled");
         addIcon("core.findActions", "Search16Filled");
-        addIcon("core.propertiesPanel", "TextBulletListSquareEdit20Filled");
-        addIcon("core.pluginsPanel", "PuzzlePiece16Filled");
-        addIcon("core.arrangementPanel", "GanttChart16Filled");
-        addIcon("core.mixerPanel", "OptionsVertical16Filled");
-        addIcon("core.pianoRollPanel", "Midi20Filled");
-        addIcon("core.notificationsPanel", "Alert16Filled");
-        addIcon("core.tipsPanel", "ChatSparkle16Filled");
-        addIcon("core.timelineGoToStart", "Previous16Filled");
-        addIcon("core.timelineGoToEnd", "Next16Filled");
+        addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
+        addIcon("core.panel.plugins", "PuzzlePiece16Filled");
+        addIcon("core.panel.arrangement", "GanttChart16Filled");
+        addIcon("core.panel.mixer", "OptionsVertical16Filled");
+        addIcon("core.panel.pianoRoll", "Midi20Filled");
+        addIcon("core.panel.notifications", "Alert16Filled");
+        addIcon("core.panel.tips", "ChatSparkle16Filled");
+        addIcon("core.timeline.goToStart", "Previous16Filled");
+        addIcon("core.timeline.goToEnd", "Next16Filled");
     }
 
     static void initializeSettings() {

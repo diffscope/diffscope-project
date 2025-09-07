@@ -11,7 +11,7 @@ ActionCollection {
     readonly property Window window: addOn?.windowHandle.window ?? null
 
     ActionItem {
-        actionId: "core.menuBarVisible"
+        actionId: "core.view.showMenuBar"
         Action {
             checkable: true
             checked: d.window.menuBar.visible
@@ -22,7 +22,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.toolBarVisible"
+        actionId: "core.view.showToolBar"
         Action {
             checkable: true
             checked: d.window.toolBar.visible
@@ -33,7 +33,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.leftSideBarVisible"
+        actionId: "core.view.showLeftSideBar"
         Action {
             checkable: true
             checked: d.window.leftDockingView.barSize !== 0
@@ -44,7 +44,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.rightSideBarVisible"
+        actionId: "core.view.showRightSideBar"
         Action {
             checkable: true
             checked: d.window.rightDockingView.barSize !== 0
@@ -55,7 +55,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.topSideBarVisible"
+        actionId: "core.view.showTopSideBar"
         Action {
             checkable: true
             checked: d.window.topDockingView.barSize !== 0
@@ -66,7 +66,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.bottomSideBarVisible"
+        actionId: "core.view.showBottomSideBar"
         Action {
             checkable: true
             checked: d.window.bottomDockingView.barSize !== 0
@@ -77,7 +77,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.statusBarVisible"
+        actionId: "core.view.showStatusBar"
         Action {
             checkable: true
             checked: d.window.statusBar.visible

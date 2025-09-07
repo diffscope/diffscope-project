@@ -37,7 +37,7 @@ namespace Core::Internal {
                 {"addOn", QVariant::fromValue(this)},
             }, PluginDatabase::qmlEngine()->rootContext());
             o->setParent(this);
-            iWin->actionContext()->addAction("core.notificationsPanel", o->property("notificationsPanelComponent").value<QQmlComponent *>());
+            iWin->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }
     }
     void NotificationAddOn::extensionsInitialized() {

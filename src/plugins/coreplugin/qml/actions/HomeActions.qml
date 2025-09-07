@@ -17,7 +17,7 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.recentFiles"
+        actionId: "core.home.recentFiles"
         Action {
             checkable: true
             checked: !d.window.recoveryFilesVisible
@@ -29,7 +29,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.recoveryFiles"
+        actionId: "core.home.recoveryFiles"
         Action {
             checkable: true
             checked: d.window.recoveryFilesVisible
@@ -41,7 +41,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.gridView"
+        actionId: "core.home.gridView"
         Action {
             enabled: !d.window.recoveryFilesVisible
             checkable: true
@@ -54,7 +54,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.listView"
+        actionId: "core.home.listView"
         Action {
             enabled: !d.window.recoveryFilesVisible
             checkable: true
