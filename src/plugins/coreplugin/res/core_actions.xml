@@ -19,34 +19,34 @@
         <action id="core.file.&amp;open^" shortcut="Ctrl+O" />
         <action id="core.file.&amp;save" shortcut="Ctrl+S" />
 
-        <action id="core.se&amp;ttings^" description="Open Settings" class="Preferences" shortcut="Ctrl+,"/>
-        <action id="core.pl&amp;ugins^" class="Preferences" shortcut=""/>
+        <action id="core.se&amp;ttings^" description="Open application settings" class="Preferences" shortcut="Ctrl+,"/>
+        <action id="core.pl&amp;ugins^" description="" class="Preferences" shortcut=""/>
 
         <action id="core.show&amp;HomeWindow" class="Window" shortcut="Ctrl+Shift+H" />
 
-        <action id="core.e&amp;xit"  class="Application" />
+        <action id="core.e&amp;xit" description="Quit ${APP_NAME}" class="Application" />
 
-        <action id="core.home.recentFiles" catalog="core.homeMenu"/>
-        <action id="core.home.recoveryFiles" catalog="core.homeMenu" />
-        <action id="core.home.gridView" catalog="core.homeMenu" />
-        <action id="core.home.listView" catalog="core.homeMenu" />
+        <action id="core.home.recentFiles" description="Toggle &quot;Recent Files&quot; page" catalog="core.homeMenu"/>
+        <action id="core.home.recoveryFiles" description="Toggle &quot;Recovery Files&quot; page" catalog="core.homeMenu" />
+        <action id="core.home.gridView" description="Toggle grid view in &quot;Recent Files&quot; page" catalog="core.homeMenu" />
+        <action id="core.home.listView" description="Toggle list view in &quot;Recent Files&quot; page" catalog="core.homeMenu" />
 
-        <action id="core.timeIndicator.show&amp;MusicTime" />
-        <action id="core.timeIndicator.show&amp;AbsoluteTime" />
-        <action id="core.timeline.&amp;goTo^" shortcut="Ctrl+Shift+G" />
-        <action id="core.timeline.&amp;quickJump^" shortcut="Ctrl+G" />
-        <action id="core.timeline.goTo&amp;Start" shortcut="Home"/>
+        <action id="core.timeIndicator.show&amp;MusicTime" description="Show music time (measure:beat:tick) on the time indicator" />
+        <action id="core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />
+        <action id="core.timeline.&amp;goTo^" description="Navigate to a specific position" shortcut="Ctrl+Shift+G" />
+        <action id="core.timeline.&amp;quickJump^" description="Quickly navigate to a specific position" shortcut="Ctrl+G" />
+        <action id="core.timeline.goTo&amp;Start" description="Navigate to the start of current project" shortcut="Home"/>
         <action id="core.timeline.goToPreviousMeasure" shortcut="[" />
         <action id="core.timeline.goToPreviousBeat" shortcut="Ctrl+[" />
         <action id="core.timeline.goToPreviousTick" shortcut="Ctrl+Shift+[" />
-        <action id="core.timeline.goTo&amp;End" shortcut="End" />
+        <action id="core.timeline.goTo&amp;End" description="Navigate to the end of current project" shortcut="End" />
         <action id="core.timeline.goToNextMeasure" shortcut="]" />
         <action id="core.timeline.goToNextBeat" shortcut="Ctrl+]" />
         <action id="core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
-        <action id="core.timeline.&amp;resetProjectTimeRange" shortcut="Ctrl+K, Ctrl+R" />
+        <action id="core.timeline.&amp;resetProjectTimeRange" description="Reset project end time based on project content" shortcut="Ctrl+K, Ctrl+R" />
 
         <action id="core.workspace.workspaceLayout^" />
-        <action id="core.workspace.default&amp;Layout" diffscope:excludeFromCommands="true" />
+        <action id="core.workspace.default&amp;Layout" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
         <action id="core.workspace.&amp;customLayouts" diffscope:excludeFromCommands="true" />
         <action id="core.workspace.saveLayout" text="&amp;Save Current Layout As..." diffscope:excludeFromCommands="true" />
         <action id="core.workspace.&amp;allPanels" diffscope:excludeFromCommands="true" />
@@ -61,22 +61,22 @@
         <action id="core.workspace.&amp;floatingPanels" diffscope:excludeFromCommands="true" />
         <action id="core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" />
 
-        <action id="core.view.show&amp;MenuBar" />
-        <action id="core.view.showToo&amp;lBar" />
-        <action id="core.view.show&amp;LeftSideBar" />
-        <action id="core.view.show&amp;RightSideBar" />
-        <action id="core.view.show&amp;TopSideBar" />
-        <action id="core.view.show&amp;BottomSideBar" />
-        <action id="core.view.show&amp;StatusBar" />
+        <action id="core.view.show&amp;MenuBar" description="Show or hide the main menu bar" />
+        <action id="core.view.showToo&amp;lBar" description="Show or hide the main tool bar" />
+        <action id="core.view.show&amp;LeftSideBar" description="Show or hide the left side bar" />
+        <action id="core.view.show&amp;RightSideBar" description="Show or hide the right side bar" />
+        <action id="core.view.show&amp;TopSideBar" description="Show or hide the top side bar" />
+        <action id="core.view.show&amp;BottomSideBar" description="Show or hide the bottom side bar" />
+        <action id="core.view.show&amp;StatusBar" description="Show or hide the status bar" />
 
-        <action id="core.window.&amp;nextProjectWindow" shortcut="Ctrl+K, J" />
-        <action id="core.window.&amp;previousProjectWindow" shortcut="Ctrl+K, K" />
+        <action id="core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Ctrl+K, J" />
+        <action id="core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Ctrl+K, K" />
         <action id="core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
 
-        <action id="core.documentations" text="&amp;Help" class="Help" shortcut="F1" />
-        <action id="core.&amp;findActions^" class="Help" shortcut="Ctrl+Shift+P" />
-        <action id="core.aboutApp" text="&amp;About ${APP_NAME}" class="Help"/>
-        <action id="core.about&amp;Qt" class="Help"/>
+        <action id="core.documentations" text="&amp;Help" description="Show help contents" class="Help" shortcut="F1" />
+        <action id="core.&amp;findActions^" class="Help" description="Find and trigger action by name" shortcut="Ctrl+Shift+P" />
+        <action id="core.aboutApp" text="&amp;About ${APP_NAME}" description="Show information about ${APP_NAME}" class="Help"/>
+        <action id="core.about&amp;Qt" description="Show information about Qt" class="Help"/>
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBarLeft" topLevel="true" />

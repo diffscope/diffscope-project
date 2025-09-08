@@ -12,8 +12,26 @@ import SVSCraft.UIComponents
 TreeView {
     id: treeView
 
+    property QtObject actionRegistry: null
+    property string filterText
+    clip: true
+    acceptedButtons: Qt.NoButton
+    boundsBehavior: Flickable.StopAtBounds
+    boundsMovement: Flickable.StopAtBounds
+    reuseItems: false
+
+    selectionModel: ItemSelectionModel {
+    }
+
+    ActionLayoutsEditorHelper {
+        id: helper
+        actionRegistry: treeView.actionRegistry
+    }
+
     delegate: T.TreeViewDelegate {
         id: control
+
+        readonly property var info: helper.getActionDisplayInfo(model.display, model.entry)
 
         implicitWidth: leftMargin + __contentIndent + implicitContentWidth + rightPadding + rightMargin
         implicitHeight: 24
@@ -28,12 +46,12 @@ TreeView {
         topPadding: contentItem ? (height - contentItem.implicitHeight) / 2 : 0
         leftPadding: !mirrored ? leftMargin + __contentIndent : width - leftMargin - __contentIndent - implicitContentWidth
 
-        highlighted: control.selected || control.current
-                    || ((control.treeView.selectionBehavior === TableView.SelectRows
-                    || control.treeView.selectionBehavior === TableView.SelectionDisabled)
-                    && control.row === control.treeView.currentRow)
-
-        text: model.display
+        highlighted: control.current || control.selected
+        text: control.info.text
+        icon.source: info.iconSource
+        icon.color: info.iconColor.valid ? info.iconColor : Theme.foregroundPrimaryColor
+        icon.width: 16
+        icon.height: 16
 
         width: treeView.width
         onWidthChanged: width = treeView.width
@@ -96,16 +114,63 @@ TreeView {
 
         }
 
-        contentItem: Text {
-            clip: false
-            text: control.text
-            font: control.font
-            elide: Text.ElideRight
-            color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
-                   control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
-                   control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
-                   control.highlighted ? Theme.foregroundPrimaryColor : Theme.foregroundPrimaryColor
-            visible: !control.editing
+        contentItem: RowLayout {
+            spacing: control.spacing
+            IconLabel {
+                id: iconLabel
+                icon: control.icon
+                color: label.color
+                visible: width !== 0 && control.info.type !== ActionLayoutsEditorHelper.Separator && control.info.type !== ActionLayoutsEditorHelper.Stretch
+            }
+            IconLabel {
+                id: separatorIcon
+                visible: control.info.type === ActionLayoutsEditorHelper.Separator || control.info.type === ActionLayoutsEditorHelper.Stretch
+                icon.source: control.info.type === ActionLayoutsEditorHelper.Separator ? "qrc:/qt/qml/DiffScope/UIShell/assets/LineHorizontal1Dashed16Filled.svg" : "qrc:/qt/qml/DiffScope/UIShell/assets/AutoFitWidth20Filled.svg"
+                icon.color: typeLabel.color
+                icon.width: 16
+                icon.height: 16
+            }
+            Text {
+                id: label
+                text: helper.highlightString(control.text, treeView.filterText, Theme.highlightColor)
+                font: control.font
+                color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
+                       control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
+                       control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
+                       control.highlighted ? Theme.foregroundPrimaryColor : Theme.foregroundPrimaryColor
+                textFormat: Text.RichText
+                visible: control.info.type !== ActionLayoutsEditorHelper.Separator && control.info.type !== ActionLayoutsEditorHelper.Stretch
+            }
+            Text {
+                id: typeLabel
+                text: {
+                    if (control.info.topLevel) {
+                        return ""
+                    }
+                    if (control.info.type === ActionLayoutsEditorHelper.Action) {
+                        return qsTr("Action")
+                    }
+                    if (control.info.type === ActionLayoutsEditorHelper.Menu) {
+                        return qsTr("Menu")
+                    }
+                    if (control.info.type === ActionLayoutsEditorHelper.Group) {
+                        return qsTr("Action group")
+                    }
+                    if (control.info.type === ActionLayoutsEditorHelper.Separator) {
+                        return qsTr("Separator")
+                    }
+                    if (control.info.type === ActionLayoutsEditorHelper.Stretch) {
+                        return qsTr("Stretch")
+                    }
+                }
+                font: control.font
+                color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundSecondaryColor) :
+                       control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundSecondaryColor) :
+                       control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundSecondaryColor) :
+                       control.highlighted ? Theme.foregroundSecondaryColor : Theme.foregroundSecondaryColor
+                Layout.fillWidth: true
+                leftPadding: control.info.type === ActionLayoutsEditorHelper.Separator || control.info.type === ActionLayoutsEditorHelper.Stretch ? 0 : 8
+            }
         }
     }
 }

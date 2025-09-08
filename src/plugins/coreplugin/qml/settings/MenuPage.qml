@@ -7,6 +7,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.UIShell
+import DiffScope.CorePlugin
 
 Item {
     id: page
@@ -18,6 +19,47 @@ Item {
     readonly property TextMatcher matcher: TextMatcher {}
 
     anchors.fill: parent
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: 12
+        anchors.topMargin: 0
+        spacing: 12
+        RowLayout {
+            Layout.fillWidth: true
+            ToolBarContainer {
+                id: toolBarContainer
+                Instantiator {
+                    model: toolActionsModel
+                    onObjectAdded: (index, object) => {
+                        if (object instanceof Action) {
+                            toolBarContainer.addAction(object)
+                        } else if (object instanceof Menu) {
+                            toolBarContainer.addMenu(object)
+                        }
+                    }
+                }
+            }
+            TextField {
+                id: searchTextField
+                ThemedItem.icon.source: "qrc:/diffscope/coreplugin/icons/Search16Filled.svg"
+                placeholderText: qsTr("Search")
+                Layout.fillWidth: true
+            }
+        }
+        Frame {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            ActionLayoutsEditor {
+                id: actionLayoutsEditor
+                anchors.fill: parent
+                anchors.margins: 1
+                actionRegistry: ICore.actionRegistry
+                filterText: searchTextField.text
+                model: page.model
+            }
+        }
+    }
 
     ObjectModel {
         id: toolActionsModel
@@ -64,44 +106,6 @@ Item {
             }
             Action {
                 text: qsTr("Restore All")
-            }
-        }
-    }
-
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: 12
-        anchors.topMargin: 0
-        spacing: 12
-        RowLayout {
-            Layout.fillWidth: true
-            ToolBarContainer {
-                id: toolBarContainer
-                Instantiator {
-                    model: toolActionsModel
-                    onObjectAdded: (index, object) => {
-                        if (object instanceof Action) {
-                            toolBarContainer.addAction(object)
-                        } else if (object instanceof Menu) {
-                            toolBarContainer.addMenu(object)
-                        }
-                    }
-                }
-            }
-            TextField {
-                id: searchTextFiled
-                ThemedItem.icon.source: "qrc:/diffscope/coreplugin/icons/Search16Filled.svg"
-                placeholderText: qsTr("Search")
-                Layout.fillWidth: true
-            }
-        }
-        Frame {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            ActionLayoutsEditor {
-                id: actionLayoutsEditor
-                anchors.fill: parent
-                model: page.model
             }
         }
     }
