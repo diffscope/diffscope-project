@@ -20,6 +20,7 @@ namespace Core {
 
     class NotificationMessage;
     class ProjectTimeline;
+    class EditActionsHandlerRegistry;
 
     class IProjectWindowPrivate;
 
@@ -28,11 +29,14 @@ namespace Core {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
+        Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
         Q_DECLARE_PRIVATE(IProjectWindow)
     public:
         static IProjectWindow* instance();
 
         ProjectTimeline *projectTimeline() const;
+
+        EditActionsHandlerRegistry *mainEditActionsHandlerRegistry() const;
 
         enum NotificationBubbleMode {
             NormalBubble,

@@ -42,6 +42,7 @@
 #include <coreplugin/internal/colorschemecollection.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/findactionsaddon.h>
+#include <coreplugin/internal/editactionsaddon.h>
 #include <coreplugin/internal/timelineaddon.h>
 
 static auto getCoreActionExtension() {
@@ -91,6 +92,12 @@ namespace Core::Internal {
         addIcon("core.showHomeWindow", "Home16Filled");
         addIcon("core.documentations", "QuestionCircle16Filled");
         addIcon("core.findActions", "Search16Filled");
+        addIcon("core.edit.undo", "ArrowUndo16Filled");
+        addIcon("core.edit.redo", "ArrowRedo16Filled");
+        addIcon("core.edit.cut", "Cut16Filled");
+        addIcon("core.edit.copy", "Copy16Filled");
+        addIcon("core.edit.paste", "ClipboardPaste16Filled");
+        addIcon("core.edit.delete", "Delete16Filled");
         addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
         addIcon("core.panel.plugins", "PuzzlePiece16Filled");
         addIcon("core.panel.arrangement", "GanttChart16Filled");
@@ -120,6 +127,7 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
         IHomeWindowRegistry::instance()->attach<FindActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
+        IProjectWindowRegistry::instance()->attach<EditActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
     }
 

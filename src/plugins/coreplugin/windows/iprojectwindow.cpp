@@ -16,6 +16,7 @@
 #include <coreplugin/internal/actionhelper.h>
 #include <coreplugin/projecttimeline.h>
 #include <coreplugin/quickinput.h>
+#include <coreplugin/editactionshandlerregistry.h>
 
 namespace Core {
 
@@ -27,11 +28,13 @@ namespace Core {
         IProjectWindow *q_ptr;
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
+        EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         void init() {
             Q_Q(IProjectWindow);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(q);
+            mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
         }
 
         void initActionContext() {
@@ -56,6 +59,12 @@ namespace Core {
         Q_D(const IProjectWindow);
         return d->projectTimeline;
     }
+
+    EditActionsHandlerRegistry * IProjectWindow::mainEditActionsHandlerRegistry() const {
+        Q_D(const IProjectWindow);
+        return d->mainEditActionsHandlerRegistry;
+    }
+
     void IProjectWindow::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
         Q_D(IProjectWindow);
         d->notificationManager->addMessage(message, mode);
