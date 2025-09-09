@@ -14,7 +14,7 @@ Item {
     id: dialog
     required property QtObject handle
     property bool popupLike: false
-    readonly property bool hasProgress: handle.hasProgress
+    readonly property bool hasProgress: handle?.hasProgress ?? false
     implicitWidth: 360
     implicitHeight: bubbleLayout.implicitHeight + 24
     MouseArea {
@@ -25,7 +25,7 @@ Item {
         id: backgroundArea
         anchors.fill: parent
         color: Theme.backgroundTertiaryColor
-        border.color: dialog.handle.icon === SVS.Warning ? Theme.warningColor : dialog.handle.icon === SVS.Critical ? Theme.errorColor : dialog.handle.icon === SVS.Success || dialog.handle.icon === SVS.Tip ? Theme.accentColor : Theme.borderColor
+        border.color: dialog.handle?.icon === SVS.Warning ? Theme.warningColor : dialog.handle?.icon === SVS.Critical ? Theme.errorColor : dialog.handle?.icon === SVS.Success || dialog.handle?.icon === SVS.Tip ? Theme.accentColor : Theme.borderColor
         border.width: 2
         radius: 4
     }
@@ -47,24 +47,24 @@ Item {
             Layout.fillWidth: true
             spacing: 6
             ColorImage {
-                visible: dialog.handle.icon === SVS.Information || dialog.handle.icon === SVS.Warning || dialog.handle.icon === SVS.Critical || dialog.handle.icon === SVS.Question || dialog.handle.icon === SVS.Success || dialog.handle.icon === SVS.Tip
+                visible: dialog.handle?.icon === SVS.Information || dialog.handle?.icon === SVS.Warning || dialog.handle?.icon === SVS.Critical || dialog.handle?.icon === SVS.Question || dialog.handle?.icon === SVS.Success || dialog.handle?.icon === SVS.Tip
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredWidth: 24
                 Layout.preferredHeight: 24
-                color: dialog.handle.icon === SVS.Warning ? Theme.warningColor : dialog.handle.icon === SVS.Critical ? Theme.errorColor : dialog.handle.icon === SVS.Success || dialog.handle.icon === SVS.Tip ? Theme.accentColor : Theme.foregroundPrimaryColor
-                source: `qrc:/qt/qml/DiffScope/UIShell/assets/${dialog.handle.icon === SVS.Information ? "Info24Regular.svg" : dialog.handle.icon === SVS.Warning ? "Warning24Regular.svg" : dialog.handle.icon === SVS.Critical ? "DismissCircle24Regular.svg" : dialog.handle.icon === SVS.Question ? "QuestionCircle24Regular.svg" : dialog.handle.icon === SVS.Success ? "CheckmarkCircle24Regular.svg" : "InfoSparkle24Regular.svg"}`
+                color: dialog.handle?.icon === SVS.Warning ? Theme.warningColor : dialog.handle?.icon === SVS.Critical ? Theme.errorColor : dialog.handle?.icon === SVS.Success || dialog.handle?.icon === SVS.Tip ? Theme.accentColor : Theme.foregroundPrimaryColor
+                source: `qrc:/qt/qml/DiffScope/UIShell/assets/${dialog.handle?.icon === SVS.Information ? "Info24Regular.svg" : dialog.handle?.icon === SVS.Warning ? "Warning24Regular.svg" : dialog.handle?.icon === SVS.Critical ? "DismissCircle24Regular.svg" : dialog.handle?.icon === SVS.Question ? "QuestionCircle24Regular.svg" : dialog.handle?.icon === SVS.Success ? "CheckmarkCircle24Regular.svg" : "InfoSparkle24Regular.svg"}`
             }
             Label {
                 Layout.alignment: Qt.AlignTop
                 Layout.topMargin: 4
                 Layout.fillWidth: true
-                text: dialog.handle.title
-                textFormat: dialog.handle.textFormat
-                onLinkActivated: (link) => dialog.handle.linkActivated(link)
+                text: dialog.handle?.title ?? ""
+                textFormat: dialog.handle?.textFormat ?? Text.PlainText
+                onLinkActivated: (link) => dialog.handle?.linkActivated(link)
             }
             Button {
                 flat: true
-                visible: dialog.handle.permanentlyHideable
+                visible: dialog.handle?.permanentlyHideable ?? false
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/EyeOff16Filled.svg"
                 display: AbstractButton.IconOnly
                 text: qsTr("Do Not Show Again")
@@ -90,9 +90,9 @@ Item {
             }
             Button {
                 flat: true
+                visible: dialog.handle?.closable ?? false
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Dismiss12Regular.svg"
                 display: AbstractButton.IconOnly
-                visible: dialog.handle.closable
                 text: qsTr("Clear")
                 icon.width: 14
                 icon.height: 14
@@ -107,25 +107,25 @@ Item {
         Label {
             ThemedItem.foregroundLevel: SVS.FL_Secondary
             visible: text.length !== 0
-            text: dialog.handle.text
-            textFormat: dialog.handle.textFormat
+            text: dialog.handle?.text ?? ""
+            textFormat: dialog.handle?.textFormat ?? Text.PlainText
             onLinkActivated: (link) => dialog.handle.linkActivated(link)
         }
         RowLayout {
             spacing: 2
             Layout.fillWidth: true
-            visible: dialog.handle.hasProgress
+            visible: dialog.handle?.hasProgress ?? false
             ProgressBar {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
-                indeterminate: dialog.handle.progress < 0 || dialog.handle.progress > 1
+                indeterminate: (dialog.handle?.progress ?? 0) < 0 || (dialog.handle?.progress ?? 0) > 1
                 from: 0
                 to: 1
-                value: dialog.handle.progress
+                value: dialog.handle?.progress ?? 0
             }
             Button {
                 Layout.alignment: Qt.AlignVCenter
-                visible: dialog.handle.progressAbortable
+                visible: dialog.handle?.progressAbortable ?? false
                 background: Item {}
                 display: AbstractButton.IconOnly
                 text: qsTr("Abort")
@@ -141,14 +141,14 @@ Item {
         RowLayout {
             spacing: 8
             Layout.alignment: Qt.AlignRight
-            visible: dialog.handle.buttons.length !== 0
+            visible: (dialog.handle?.buttons ?? []).length !== 0
             Repeater {
-                model: dialog.handle.buttons
+                model: dialog.handle?.buttons ?? []
                 delegate: Button {
                     required property string modelData
                     required property int index
                     text: modelData
-                    ThemedItem.controlType: index === dialog.handle.primaryButton ? SVS.CT_Accent : SVS.CT_Normal
+                    ThemedItem.controlType: index === (dialog.handle?.primaryButton ?? -1) ? SVS.CT_Accent : SVS.CT_Normal
                     onClicked: dialog.handle.buttonClicked(index)
                 }
             }

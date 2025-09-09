@@ -2,6 +2,9 @@
 
 #include <QQmlComponent>
 #include <QQmlEngine>
+#include <QQuickWindow>
+
+#include <SVSCraftQuick/StatusTextContext.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -39,10 +42,24 @@ namespace Core::Internal {
             o->setParent(this);
             iWin->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }
+        auto updateStatusText = [=] {
+            auto statusContext = SVS::StatusTextContext::statusContext(qobject_cast<QQuickWindow *>(iWin->window()));
+            if (m_notificationManager->messages().isEmpty()) {
+                statusContext->pop(this);
+            } else if (m_notificationManager->messages().size() == 1) {
+                statusContext->update(this, m_notificationManager->topMessageTitle());
+            } else {
+                statusContext->update(this, tr("%1 (+%Ln notification(s))", nullptr, m_notificationManager->messages().size() - 1).arg(m_notificationManager->topMessageTitle()));
+            }
+        };
+        connect(m_notificationManager, &NotificationManager::messageAdded, this, updateStatusText);
+        connect(m_notificationManager, &NotificationManager::messageRemoved, this, updateStatusText);
     }
     void NotificationAddOn::extensionsInitialized() {
     }
     bool NotificationAddOn::delayedInitialize() {
+        auto iWin = windowHandle()->cast<IProjectWindow>();
+        iWin->window()->setProperty("notificationEnablesAnimation", true);
         return IWindowAddOn::delayedInitialize();
     }
     NotificationManager *NotificationAddOn::notificationManager() const {

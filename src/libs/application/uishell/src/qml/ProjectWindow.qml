@@ -41,6 +41,8 @@ Window {
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
 
+    property bool notificationEnablesAnimation: false
+
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
             windowAgent.setup(window)
@@ -412,14 +414,14 @@ Window {
                 property: "x"
                 from: (bubbleNotificationProxyItemFlow.effectiveLayoutDirection === Qt.LeftToRight ? -360 : bubbleNotificationProxyItemFlow.width + 360)
                 easing.type: Easing.OutCubic
-                duration: Theme.visualEffectAnimationDuration
+                duration: window.notificationEnablesAnimation ? Theme.visualEffectAnimationDuration : 0
             }
         }
         move: Transition {
             NumberAnimation {
                 properties: "x,y"
                 easing.type: Easing.OutCubic
-                duration: Theme.visualEffectAnimationDuration
+                duration: window.notificationEnablesAnimation ? Theme.visualEffectAnimationDuration : 0
             }
         }
         Repeater {

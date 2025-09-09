@@ -14,6 +14,7 @@ QtObject {
     readonly property QtObject notificationManager: addOn?.notificationManager ?? null
 
     readonly property Component notificationsPanelComponent: ActionDockingPane {
+        id: pane
         Component.onCompleted: () => {
             [...d.notificationManager.messages()].forEach((message, index) => {
                 notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(this, {
@@ -46,7 +47,7 @@ QtObject {
         Connections {
             target: d.notificationManager
             function onMessageAdded(index, message) {
-                notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(this, {
+                notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(pane, {
                     handle: message.handle
                 }))
             }

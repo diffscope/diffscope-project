@@ -1,8 +1,6 @@
 #include "notificationmessage.h"
 #include "notificationmessage_p.h"
 
-#include <uishell/BubbleNotificationHandle.h>
-
 namespace Core {
     NotificationMessage::NotificationMessage(QObject *parent) : QObject(parent), d_ptr(new NotificationMessagePrivate) {
         Q_D(NotificationMessage);
@@ -51,7 +49,9 @@ namespace Core {
     }
     NotificationMessage::~NotificationMessage() {
         Q_D(NotificationMessage);
-        d->handle->deleteLater();
+        if (d->handle) {
+            d->handle->deleteLater();
+        }
     }
     QString NotificationMessage::title() const {
         Q_D(const NotificationMessage);

@@ -37,6 +37,7 @@
 #include <coreplugin/ihomewindow.h>
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
+#include <coreplugin/internal/projectstartuptimeraddon.h>
 
 namespace Core {
 
@@ -207,6 +208,7 @@ namespace Core {
     }
 
     void ICore::newFile() {
+        Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
         win->show();

@@ -45,7 +45,7 @@ namespace Core::Internal {
             timer->start();
         }
 
-        const auto removeMessageFromBubbles = [=] {
+        const auto removeMessageFromBubbles = [=, this] {
             auto index = m_bubbleMessages.indexOf(message);
             if (index == -1)
                 return;
@@ -53,13 +53,20 @@ namespace Core::Internal {
             emit messageRemovedFromBubbles(index, message);
         };
 
-        const auto removeMessage = [=] {
+        const auto removeMessage = [=, this] {
             removeMessageFromBubbles();
             auto index = m_messages.indexOf(message);
             if (index == -1)
                 return;
+            bool wasLast = (index == m_messages.size() - 1);
             m_messages.removeAt(index);
             emit messageRemoved(index, message);
+            
+            // Update top message title connection if the last message was removed
+            if (wasLast) {
+                updateTopMessageTitleConnection();
+                emit topMessageTitleChanged(topMessageTitle());
+            }
         };
 
         connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, this,
@@ -78,11 +85,38 @@ namespace Core::Internal {
 
         emit messageAdded(m_messages.size() - 1, message);
         emit messageAddedToBubbles(m_messages.size() - 1, message);
+        
+        // Update top message title connection and emit signal since we added a new top message
+        updateTopMessageTitleConnection();
+        emit topMessageTitleChanged(topMessageTitle());
     }
     QList<NotificationMessage *> NotificationManager::messages() const {
         return m_messages;
     }
     QList<NotificationMessage *> NotificationManager::bubbleMessages() const {
         return m_bubbleMessages;
+    }
+    QString NotificationManager::topMessageTitle() const {
+        if (m_messages.isEmpty()) {
+            return QString();
+        }
+        return m_messages.last()->title();
+    }
+
+    void NotificationManager::updateTopMessageTitleConnection() {
+        // Disconnect previous connection
+        if (m_topMessageTitleConnection) {
+            QObject::disconnect(m_topMessageTitleConnection);
+            m_topMessageTitleConnection = QMetaObject::Connection();
+        }
+
+        // Connect to the new top message's titleChanged signal
+        if (!m_messages.isEmpty()) {
+            auto topMessage = m_messages.last();
+            m_topMessageTitleConnection = connect(topMessage, &NotificationMessage::titleChanged,
+                                                  this, [this](const QString &) {
+                                                      emit topMessageTitleChanged(topMessageTitle());
+                                                  });
+        }
     }
 }

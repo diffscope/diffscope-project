@@ -44,6 +44,7 @@
 #include <coreplugin/internal/findactionsaddon.h>
 #include <coreplugin/internal/editactionsaddon.h>
 #include <coreplugin/internal/timelineaddon.h>
+#include <coreplugin/internal/projectstartuptimeraddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -129,6 +130,7 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<EditActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
+        IProjectWindowRegistry::instance()->attach<ProjectStartupTimerAddOn>();
     }
 
     static void initializeBehaviorPreference() {
