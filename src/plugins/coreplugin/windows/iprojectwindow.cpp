@@ -4,6 +4,9 @@
 #include <QAbstractItemModel>
 #include <QJSValue>
 #include <QQmlEngine>
+#include <QQuickWindow>
+
+#include <SVSCraftQuick/StatusTextContext.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -84,10 +87,12 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({
+        auto win = qobject_cast<QQuickWindow *>(component.createWithInitialProperties({
             {"windowHandle", QVariant::fromValue(this)}
         }));
         Q_ASSERT(win);
+        SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
+        SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
         return win;
     }
     IProjectWindow::IProjectWindow(QObject *parent) : IProjectWindow(*new IProjectWindowPrivate, parent) {

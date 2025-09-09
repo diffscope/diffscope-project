@@ -19,7 +19,7 @@ ActionCollection {
     ActionItem {
         actionId: "core.statusText"
         Label {
-            text: DescriptiveText.statusText
+            text: d.window.StatusTextContext.statusContext.text
         }
     }
 
