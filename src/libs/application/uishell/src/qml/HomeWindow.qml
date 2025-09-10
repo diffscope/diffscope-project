@@ -317,7 +317,7 @@ Window {
         id: titleBarArea
         width: window.width
         height: !window.isMacOS ? 36 : 28
-        visible: windowAgent.framelessSetup
+        visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
         z: 1
         Accessible.role: Accessible.TitleBar
         RowLayout {
@@ -354,7 +354,7 @@ Window {
                 spacing: 6
                 Item {
                     Layout.fillWidth: true
-                    visible: windowAgent.framelessSetup
+                    visible: titleBarArea.visible
                     height: titleBarArea.height - nav.topPadding - navLayout.spacing
                 }
                 Item {
@@ -479,7 +479,7 @@ Window {
                 Item {
                     Layout.fillWidth: true
                     height: titleBarArea.height - recentFilesLayout.spacing - recentFiles.topPadding
-                    visible: windowAgent.framelessSetup
+                    visible: titleBarArea.visible
                 }
                 RowLayout {
                     Layout.fillWidth: true
