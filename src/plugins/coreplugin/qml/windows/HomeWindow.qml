@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQml.Models
 
+import SVSCraft.UIComponents
 import SVSCraft.Extras
 
 import QActionKit
@@ -16,6 +17,16 @@ HomeWindow {
     id: homeWindow
     required property IHomeWindow windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
+    readonly property color lightBannerColor: "#dadada"
+    readonly property color darkBannerColor: "#252525"
+    banner: {
+        let c = ColorUtils.selectHighestContrastColor(Theme.backgroundPrimaryColor, [lightBannerColor, darkBannerColor]);
+        if (c.r < 0.5) {
+            return "qrc:/diffscope/coreplugin/logos/BannerDark.png";
+        } else {
+            return "qrc:/diffscope/coreplugin/logos/BannerLight.png";
+        }
+    }
     onNewFileRequested: () => {
         windowHandle.triggerAction("core.file.new")
     }

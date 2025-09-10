@@ -120,6 +120,14 @@ qt_add_resources(${PROJECT_NAME} icons
     FILES ${_res_icons}
 )
 
+file(GLOB _res_logos res/logos/*)
+
+qt_add_resources(${PROJECT_NAME} logos
+    PREFIX /diffscope/coreplugin/logos
+    BASE res/logos
+    FILES ${_res_logos}
+)
+
 # Add install command
 ck_sync_include(${PROJECT_NAME}
     OPTIONS

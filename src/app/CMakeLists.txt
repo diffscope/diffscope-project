@@ -41,6 +41,14 @@ ck_add_shared_files(
     # SRC conf/${CK_PLATFORM_LOWER}/qtmediate.json DEST ${CK_BUILD_QT_CONF_DIR}   # qtmediate.json
 )
 
+file(GLOB _icons icons/*)
+
+qt_add_resources(${PROJECT_NAME} icons
+    PREFIX /diffscope/icons
+    BASE icons
+    FILES ${_icons}
+)
+
 if(WIN32)
     # Deploy windows icons
     ck_add_shared_files(

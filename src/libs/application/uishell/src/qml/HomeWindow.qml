@@ -354,6 +354,7 @@ Window {
                 spacing: 6
                 Item {
                     Layout.fillWidth: true
+                    visible: windowAgent.framelessSetup
                     height: titleBarArea.height - nav.topPadding - navLayout.spacing
                 }
                 Item {
@@ -363,6 +364,7 @@ Window {
                         id: banner
                         anchors.fill: parent
                         source: window.banner
+                        mipmap: true
                     }
                 }
                 ColumnLayout {

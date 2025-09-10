@@ -1,6 +1,6 @@
 #include "coreplugin.h"
 
-#include "behaviorpreference.h"
+#include <algorithm>
 
 #include <QTimer>
 #include <QtGui/QFontDatabase>
@@ -8,12 +8,14 @@
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QThread>
 #include <QtGui/QFileOpenEvent>
+#include <QtGui/QImageReader>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtQuick/QQuickWindow>
 #include <QtQuickControls2/QQuickStyle>
+#include <QtQuick/QQuickImageProvider>
 
 #include <extensionsystem/pluginspec.h>
 
@@ -58,6 +60,48 @@ static auto getCoreMacOSActionExtension() {
 
 namespace Core::Internal {
 
+    class AppIconImageProvider : public QQuickImageProvider {
+    public:
+        AppIconImageProvider() : QQuickImageProvider(Image) {
+            for (const auto &subDirName : m_iconDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+                QDir subDir(m_iconDir.filePath(subDirName));
+                QList<int> sizes;
+                for (const auto &fileInfo : subDir.entryInfoList(QDir::Files)) {
+                    static const auto pattern = QRegularExpression(R"(^(\d+)x\d+\.png$)");
+                    const auto match = pattern.match(fileInfo.fileName());
+                    if (match.hasMatch()) {
+                        sizes.append(match.captured(1).toInt());
+                    }
+                }
+                std::ranges::sort(sizes);
+                m_iconMap.insert(subDirName, sizes);
+            }
+        }
+
+        QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override {
+            auto sizes = m_iconMap.value(id);
+            if (sizes.isEmpty()) {
+                return {};
+            }
+            if (!requestedSize.isValid()) {
+                size->setWidth(1024);
+                size->setHeight(1024);
+            } else {
+                *size = requestedSize;
+            }
+            auto pTargetSize = std::ranges::lower_bound(sizes, qMax(size->width(), size->height()));
+            auto targetSize = pTargetSize == sizes.end() ? sizes.last() : *pTargetSize;
+            QDir subDir(m_iconDir.filePath(id));
+            QImageReader reader(subDir.filePath(QString::number(targetSize) + "x" + QString::number(targetSize) + ".png"));
+            return reader.read();
+        }
+
+    private:
+        static const QDir m_iconDir;
+        QHash<QString, QList<int>> m_iconMap;
+    };
+    const QDir AppIconImageProvider::m_iconDir = QDir(":/diffscope/icons");
+
     static ICore *icore = nullptr;
     static ApplicationUpdateChecker *updateChecker = nullptr;
     static BehaviorPreference *behaviorPreference = nullptr;
@@ -67,10 +111,10 @@ namespace Core::Internal {
     }
 
     CorePlugin::CorePlugin() {
+        PluginDatabase::qmlEngine()->addImageProvider("appicon", new AppIconImageProvider);
     }
 
-    CorePlugin::~CorePlugin() {
-    }
+    CorePlugin::~CorePlugin() = default;
 
     static void initializeActions() {
         ICore::actionRegistry()->addExtension(::getCoreActionExtension());

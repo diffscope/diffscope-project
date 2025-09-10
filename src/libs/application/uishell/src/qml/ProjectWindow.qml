@@ -19,7 +19,7 @@ Window {
     LayoutMirroring.childrenInherit: true
 
     property bool frameless: true
-    property url icon: ""
+    property url icon: "image://appicon/app"
     property string documentName: ""
     property ObjectModel menusModel: null
     property ObjectModel leftToolButtonsModel: null
@@ -135,6 +135,9 @@ Window {
                         source: window.icon
                         width: 16
                         height: 16
+                        sourceSize.width: 16
+                        sourceSize.height: 16
+                        mipmap: true
                     }
                 }
                 RowLayout {

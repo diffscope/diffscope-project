@@ -170,11 +170,17 @@ namespace Core {
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
 
         QQmlComponent component(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QQuickIcon icon;
+        icon.setSource(QUrl("image://appicon/app"));
+        icon.setWidth(64);
+        icon.setHeight(64);
         QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
+            {"title", tr("About %1").arg(appName)},
             {"textFormat",      Qt::RichText                                       },
             {"text",            appName.toHtmlEscaped()                            },
             {"informativeText", aboutInfo + copyrightInfo + licenseInfo + buildInfo},
-            {"width", 480}
+            {"width", 480},
+            {"icon", QVariant::fromValue(icon)}
         })));
         Q_ASSERT(mb);
         mb->setTransientParent(parent);
