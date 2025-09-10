@@ -22,6 +22,12 @@ QtObject {
                 }))
             })
         }
+        Connections {
+            target: d.addOn
+            function on_Diffscope_statusTipTriggered() {
+                pane.Docking.dockingView.showPane(pane)
+            }
+        }
         header: Item {
             anchors.fill: parent
             ToolButton {

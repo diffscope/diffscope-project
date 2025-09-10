@@ -20,6 +20,8 @@ ActionCollection {
             id: digitalClock
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
             text: d.addOn.showMusicTime ? d.addOn.musicTimeText : d.addOn.longTimeText
+            DescriptiveText.activated: hovered
+            DescriptiveText.statusTip: qsTr("Current project time")
             function doInteraction(flag) {
                 if (flag === BehaviorPreference.TIIB_ToggleFormat) {
                     d.addOn.showMusicTime = !d.addOn.showMusicTime
@@ -59,6 +61,8 @@ ActionCollection {
                     padding: 4
                     hoverEnabled: true
                     width: 240
+                    DescriptiveText.activated: hovered
+                    DescriptiveText.statusTip: qsTr("Slide to adjust current project time")
                     Slider {
                         id: slider
                         anchors.fill: parent

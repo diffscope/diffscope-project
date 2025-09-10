@@ -20,6 +20,9 @@ namespace Core::Internal {
 
         NotificationManager *notificationManager() const;
 
+    signals:
+        void _diffscope_statusTipTriggered();
+
     private:
         NotificationManager *m_notificationManager{};
 

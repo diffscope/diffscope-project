@@ -13,4 +13,8 @@ DockingPane {
     icon.width: 16
     icon.height: 16
     icon.color: ActionInstantiator.icon.color.valid ? ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
+    Docking.onWindowChanged: () => {
+        Docking.window.StatusTextContext.statusContext = Docking.window.transientParent?.StatusTextContext.statusContext ?? null
+        Docking.window.StatusTextContext.contextHelpContext = Docking.window.transientParent?.StatusTextContext.contextHelpContext ?? null
+    }
 }

@@ -20,6 +20,19 @@ ActionCollection {
         actionId: "core.statusText"
         Label {
             text: d.window.StatusTextContext.statusContext.text
+            TapHandler {
+                enabled: Boolean(d.window.StatusTextContext.statusContext.contextObject)
+                onSingleTapped: () => {
+                    d.window.StatusTextContext.statusContext.contextObject._diffscope_statusTipTriggered()
+                }
+            }
+            HoverHandler {
+                id: hoverHandler
+                enabled: Boolean(d.window.StatusTextContext.statusContext.contextObject)
+                cursorShape: Qt.PointingHandCursor
+            }
+            DescriptiveText.activated: hoverHandler.hovered
+            DescriptiveText.toolTip: qsTr("Click to show details")
         }
     }
 

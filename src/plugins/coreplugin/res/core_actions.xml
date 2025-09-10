@@ -15,14 +15,14 @@
     </configuration>
 
     <items>
-        <action id="core.file.&amp;new" shortcut="Ctrl+N" />
-        <action id="core.file.&amp;open^" shortcut="Ctrl+O" />
+        <action id="core.file.&amp;new" description="Create a project in a new window" shortcut="Ctrl+N" />
+        <action id="core.file.&amp;open^" description="Open an existing project in a new window" shortcut="Ctrl+O" />
         <action id="core.file.&amp;save" shortcut="Ctrl+S" />
 
         <action id="core.se&amp;ttings^" description="Open application settings" class="Preferences" shortcut="Ctrl+,"/>
-        <action id="core.pl&amp;ugins^" description="" class="Preferences" shortcut=""/>
+        <action id="core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" shortcut=""/>
 
-        <action id="core.show&amp;HomeWindow" class="Window" shortcut="Ctrl+Shift+H" />
+        <action id="core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" class="Window" shortcut="Ctrl+Shift+H" />
 
         <action id="core.e&amp;xit" description="Quit ${APP_NAME}" class="Application" />
 
