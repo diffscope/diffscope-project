@@ -64,6 +64,7 @@ Item {
                 wrapMode: Text.Wrap
             }
             Button {
+                Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.handle?.permanentlyHideable ?? false
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/EyeOff16Filled.svg"
@@ -77,6 +78,7 @@ Item {
                 onClicked: dialog.handle.permanentlyHideClicked()
             }
             Button {
+                Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.popupLike
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronDown16Regular.svg"
@@ -90,6 +92,7 @@ Item {
                 onClicked: dialog.handle.hideClicked()
             }
             Button {
+                Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.handle?.closable ?? false
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Dismiss12Regular.svg"
@@ -110,6 +113,7 @@ Item {
             visible: text.length !== 0
             text: dialog.handle?.text ?? ""
             textFormat: dialog.handle?.textFormat ?? Text.PlainText
+            Layout.fillWidth: true
             wrapMode: Text.Wrap
             onLinkActivated: (link) => dialog.handle.linkActivated(link)
         }

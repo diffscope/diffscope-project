@@ -353,6 +353,7 @@ Item {
             Layout.fillHeight: true
             ScrollView {
                 id: detailsScrollView
+                contentWidth: availableWidth
                 ColumnLayout {
                     width: detailsScrollView.width
                     ColumnLayout {
@@ -426,6 +427,7 @@ Item {
             }
             ScrollView {
                 id: dependencyScrollView
+                contentWidth: availableWidth
                 ColumnLayout {
                     width: dependencyScrollView.width
                     ColumnLayout {
@@ -457,6 +459,7 @@ Item {
             }
             ScrollView {
                 id: dependentScrollView
+                contentWidth: availableWidth
                 ColumnLayout {
                     width: dependentScrollView.width
                     ColumnLayout {
@@ -531,6 +534,7 @@ Item {
 
             ScrollView {
                 id: pluginsScrollView
+                contentWidth: availableWidth
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 ColumnLayout {
