@@ -19,7 +19,7 @@ Window {
     LayoutMirroring.childrenInherit: true
 
     property bool frameless: true
-    property url icon: "image://appicon/app"
+    property url icon: ""
     property string documentName: ""
     property ObjectModel menusModel: null
     property ObjectModel leftToolButtonsModel: null

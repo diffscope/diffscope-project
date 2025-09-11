@@ -19,6 +19,8 @@ ProjectWindow {
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
 
+    icon: "image://appicon/dspx"
+
     signal beforeTerminated()
 
     onClosing: () => {
