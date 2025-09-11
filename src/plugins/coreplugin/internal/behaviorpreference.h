@@ -222,7 +222,6 @@ namespace Core::Internal {
         void timeIndicatorTextFineTuneEnabledChanged();
         void timeIndicatorShowSliderOnHoverChanged();
 
-        void resetAllDoNotShowAgainRequested();
         void commandPaletteClearHistoryRequested();
 
     private:

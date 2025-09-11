@@ -4,8 +4,11 @@
 #include <QQuickView>
 #include <QQuickWindow>
 #include <QTimer>
+#include <QSettings>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
+
+#include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/icore.h>
 #include <coreplugin/iprojectwindow.h>
@@ -13,6 +16,12 @@
 
 namespace Core::Internal {
     ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : IWindowAddOn(parent) {
+        connect(ICore::instance(), &ICore::resetAllDoNotShowAgainRequested, this, [=] {
+            setNotificationVisible(true);
+            if (m_finishedMessage) {
+                m_finishedMessage->setAllowDoNotShowAgain(true);
+            }
+        });
     }
     
     ProjectStartupTimerAddOn::~ProjectStartupTimerAddOn() = default;
@@ -34,14 +43,19 @@ namespace Core::Internal {
             QTimer::singleShot(0, [=] {
                 m_finishedMessage = new NotificationMessage(iWin->window());
                 m_finishedMessage->setIcon(SVS::SVSCraft::Success);
-                auto elapsedTime = ProjectStartupTimerAddOn::stopTimerAndGetElapsedTime();
+                auto elapsedTime = stopTimerAndGetElapsedTime();
                 if (elapsedTime != -1) {
                     double second = elapsedTime / 1000.0;
                     m_finishedMessage->setTitle(tr("Project window initialized in %1 seconds").arg(second, 0, 'f', 3));
                 } else {
                     m_finishedMessage->setTitle(tr("Project window initialized"));
                 }
-                iWin->sendNotification(m_finishedMessage, IProjectWindow::AutoHide);
+                m_finishedMessage->setAllowDoNotShowAgain(notificationVisible());
+                connect(m_finishedMessage, &NotificationMessage::doNotShowAgainRequested, this, [=] {
+                    setNotificationVisible(false);
+                    m_finishedMessage->setAllowDoNotShowAgain(false);
+                });
+                iWin->sendNotification(m_finishedMessage, notificationVisible() ? IProjectWindow::AutoHide : IProjectWindow::DoNotShowBubble);
                 m_initializingMessage->close();
             });
         });
@@ -63,5 +77,20 @@ namespace Core::Internal {
         auto ret = QDateTime::currentMSecsSinceEpoch() - m_msecsSinceEpoch;
         m_msecsSinceEpoch = -1;
         return ret;
+    }
+
+    void ProjectStartupTimerAddOn::setNotificationVisible(bool visible) {
+        auto settings = PluginDatabase::settings();
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue("visible", visible);
+        settings->endGroup();
+    }
+
+    bool ProjectStartupTimerAddOn::notificationVisible() {
+        auto settings = PluginDatabase::settings();
+        settings->beginGroup(staticMetaObject.className());
+        bool visible = settings->value("visible", true).toBool();
+        settings->endGroup();
+        return visible;
     }
 }

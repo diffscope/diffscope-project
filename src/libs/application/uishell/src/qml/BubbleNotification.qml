@@ -61,6 +61,7 @@ Item {
                 text: dialog.handle?.title ?? ""
                 textFormat: dialog.handle?.textFormat ?? Text.PlainText
                 onLinkActivated: (link) => dialog.handle?.linkActivated(link)
+                wrapMode: Text.Wrap
             }
             Button {
                 flat: true
@@ -109,6 +110,7 @@ Item {
             visible: text.length !== 0
             text: dialog.handle?.text ?? ""
             textFormat: dialog.handle?.textFormat ?? Text.PlainText
+            wrapMode: Text.Wrap
             onLinkActivated: (link) => dialog.handle.linkActivated(link)
         }
         RowLayout {

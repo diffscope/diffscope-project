@@ -84,7 +84,9 @@ namespace Core::Internal {
         }
 
         emit messageAdded(m_messages.size() - 1, message);
-        emit messageAddedToBubbles(m_messages.size() - 1, message);
+        if (mode != IProjectWindow::DoNotShowBubble) {
+            emit messageAddedToBubbles(m_bubbleMessages.size() - 1, message);
+        }
         
         // Update top message title connection and emit signal since we added a new top message
         updateTopMessageTitleConnection();

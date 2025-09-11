@@ -22,6 +22,9 @@ namespace Core::Internal {
         static void startTimer();
         static qint64 stopTimerAndGetElapsedTime();
 
+        static void setNotificationVisible(bool visible);
+        static bool notificationVisible();
+
     private:
         NotificationMessage *m_initializingMessage{};
         NotificationMessage *m_finishedMessage{};

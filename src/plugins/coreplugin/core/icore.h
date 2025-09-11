@@ -45,6 +45,9 @@ namespace Core {
         Q_INVOKABLE static void newFile();
         static bool openFile(const QString &fileName, QWidget *parent = nullptr);
 
+    Q_SIGNALS:
+        void resetAllDoNotShowAgainRequested();
+
     private:
         explicit ICore(QObject *parent = nullptr);
         ~ICore();

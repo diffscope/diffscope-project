@@ -178,7 +178,7 @@ ScrollView {
                     Button {
                         text: qsTr('Reset All "Do Not Show Again"')
                         TextMatcherItem on text { matcher: page.matcher }
-                        onClicked: BehaviorPreference.resetAllDoNotShowAgainRequested()
+                        onClicked: ICore.resetAllDoNotShowAgainRequested()
                     }
                 }
             }
