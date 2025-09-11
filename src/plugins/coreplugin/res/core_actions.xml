@@ -253,8 +253,7 @@
                         <group id="core.workspaceLayouts">
                             <action id="core.workspace.defaultLayout" />
                             <action id="core.workspace.customLayouts" />
-                            <action id="core.workspaceSaveLayout" />
-                            <action id="core.workspaceManageLayouts" />
+                            <action id="core.workspace.saveLayout" />
                         </group>
                         <separator />
                         <action id="core.workspace.allPanels" />

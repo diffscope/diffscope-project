@@ -65,6 +65,32 @@ QtObject {
         BottomRight
     }
 
+    readonly property NotificationMessage noPanelNotification: NotificationMessage {
+        id: noPanelNotification
+        title: qsTr("The current workspace does not contain any panels")
+        text: qsTr("Workspace data might be erroneous. You can try restoring the default workspace.")
+        icon: SVS.Warning
+        buttons: [qsTr("Restore Default Workspace")]
+        property bool connectionEnabled: false
+        onButtonClicked: () => {
+            helper.addOn.workspaceManager.currentLayout = helper.addOn.workspaceManager.defaultLayout
+            close()
+        }
+        onClosed: () => {
+            connectionEnabled = false
+        }
+        readonly property Connections c: Connections {
+            target: helper
+            enabled: noPanelNotification.connectionEnabled
+            function onAllPanesChanged() {
+                if (helper.allPanes.length !== 0) {
+                    noPanelNotification.close()
+                }
+            }
+
+        }
+    }
+
     function initializeDockingViews() {
         const conv = v => {
             if ((v.geometry?.width ?? 0) !== 0) {
@@ -96,6 +122,10 @@ QtObject {
         }
         for (let i of bottomData.visibleIndices) {
             window.bottomDockingView.showPane(i)
+        }
+        if (helper.allPanes.length === 0) {
+            noPanelNotification.connectionEnabled = true
+            helper.windowHandle.sendNotification(noPanelNotification)
         }
     }
 

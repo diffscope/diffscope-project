@@ -209,9 +209,9 @@ namespace Core::Internal {
         if (index == -1)
             return;
         if (index == 0) {
-            iWin->triggerAction("core.workspaceSaveLayout");
+            iWin->triggerAction("core.workspace.saveLayout");
         } else if (index == 2) {
-            iWin->triggerAction("core.workspaceDefaultLayout");
+            iWin->triggerAction("core.workspace.defaultLayout");
         } else {
             auto layout =
                 model.item(index)->data(Qt::DisplayRole).value<ProjectWindowWorkspaceLayout>();
