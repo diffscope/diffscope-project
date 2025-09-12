@@ -1,0 +1,22 @@
+{
+    "Name": "@PLUGIN_METADATA_NAME@",
+    "DisplayName": "@PLUGIN_METADATA_DISPLAY_NAME@",
+    "Version": "@PLUGIN_METADATA_VERSION@",
+    "CompatVersion": "@PLUGIN_METADATA_COMPAT_VERSION@",
+    "DisabledByDefault": false,
+    "HiddenByDefault": false,
+    "Vendor": "@PLUGIN_METADATA_VENDOR@",
+    "Copyright": "@PLUGIN_METADATA_COPYRIGHT@",
+    "License": [
+        "Apache 2.0"
+    ],
+    "Arguments" : [
+    ],
+    "Category": "Additional",
+    "Description": "Complete challenges and earn honors in @APPLICATION_INSTALL_NAME@",
+    "Url": "https://diffscope.org/",
+    "Required": false,
+    "Dependencies" : [
+        { "Name" : "Core", "Version" : "@PLUGIN_METADATA_VERSION@" }
+    ]
+}

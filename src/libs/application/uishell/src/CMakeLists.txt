@@ -15,8 +15,8 @@ qm_configure_target(${PROJECT_NAME}
         ChorusKit::AppCore
         ExtensionSystem::ExtensionSystem
         QActionKit::Core QActionKit::Quick
-    QT_LINKS Core Gui Widgets Qml Quick QuickControls2
-    QT_INCLUDE_PRIVATE Core Gui Widgets Qml Quick QuickControls2
+    QT_LINKS Core Gui Widgets Qml Quick QuickControls2 QuickTemplates2
+    QT_INCLUDE_PRIVATE Core Gui Widgets Qml Quick QuickControls2 QuickTemplates2
     INCLUDE_PRIVATE *
     PREFIX UISHELL
 )
