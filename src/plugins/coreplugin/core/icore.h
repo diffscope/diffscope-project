@@ -13,6 +13,7 @@
 
 class QQmlEngine;
 class QJSEngine;
+class QQuickWindow;
 
 namespace Core {
 
@@ -42,7 +43,7 @@ namespace Core {
         Q_INVOKABLE static void checkForUpdate(bool silent = false);
 
     public:
-        Q_INVOKABLE static void newFile();
+        Q_INVOKABLE static QQuickWindow *newFile();
         static bool openFile(const QString &fileName, QWidget *parent = nullptr);
 
     Q_SIGNALS:

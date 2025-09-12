@@ -83,7 +83,7 @@ ScrollView {
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
-                        text: qsTr("Enable frameless window")
+                        text: qsTr("Enable custom title bar")
                         TextMatcherItem on text { matcher: page.matcher }
                         checked: page.uiBehavior & BehaviorPreference.UB_Frameless
                         onClicked: {
@@ -98,7 +98,7 @@ ScrollView {
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         Layout.fillWidth: true
                         wrapMode: Text.Wrap
-                        text: qsTr("Windows where frameless has been enabled need to be reopened to disable frameless.")
+                        text: qsTr("Windows where custom title bar has been enabled require reopening to enable native title bar.")
                     }
                     CheckBox {
                         Layout.leftMargin: 22

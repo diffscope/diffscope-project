@@ -203,6 +203,7 @@ namespace Core {
             }
             inst->window()
                 ->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
+            inst->window()->requestActivate();
             return;
         }
         auto iWin = IHomeWindowRegistry::instance()->create();
@@ -213,7 +214,7 @@ namespace Core {
         Internal::ApplicationUpdateChecker::checkForUpdate(silent);
     }
 
-    void ICore::newFile() {
+    QQuickWindow *ICore::newFile() {
         Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
@@ -221,6 +222,7 @@ namespace Core {
         if (IHomeWindow::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             IHomeWindow::instance()->quit();
         }
+        return win;
     }
 
     bool ICore::openFile(const QString &fileName, QWidget *parent) {

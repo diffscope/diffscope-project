@@ -37,7 +37,7 @@ public:
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, userSettingsPath);
         QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, systemSettingsPath);
 
-        single = false;
+        single = true;
         allowRoot = false;
         pluginIID = QStringLiteral(APPLICATION_PLUGIN_IID);
         splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +

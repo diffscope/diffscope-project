@@ -1,5 +1,13 @@
 #include "coreplugin.h"
 
+#ifdef Q_OS_WIN
+#   include <atlbase.h>
+#   include <ShlObj.h>
+#   include <ShObjIdl.h>
+#   include <propkey.h>
+#   include <propvarutil.h>
+#endif
+
 #include <algorithm>
 
 #include <QTimer>
@@ -18,6 +26,7 @@
 #include <QtQuick/QQuickImageProvider>
 
 #include <extensionsystem/pluginspec.h>
+#include <extensionsystem/pluginmanager.h>
 
 #include <SVSCraftQuick/Theme.h>
 
@@ -224,6 +233,89 @@ namespace Core::Internal {
         collection.applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
     }
 
+#ifdef Q_OS_WIN
+    static void initializeJumpList() {
+        CoInitialize(nullptr);
+        
+        CComPtr<ICustomDestinationList> pcdl;
+        HRESULT hr = pcdl.CoCreateInstance(CLSID_DestinationList, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        UINT cMinSlots;
+        CComPtr<IObjectArray> poaRemoved;
+        hr = pcdl->BeginList(&cMinSlots, IID_PPV_ARGS(&poaRemoved));
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        CComPtr<IObjectCollection> poc;
+        hr = poc.CoCreateInstance(CLSID_EnumerableObjectCollection, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        CComPtr<IShellLink> psl;
+        hr = psl.CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        auto appPath = QApplication::applicationFilePath().toStdWString();
+        psl->SetPath(appPath.c_str());
+        psl->SetArguments(L"--new");
+        
+        CComPtr<IPropertyStore> pps;
+        hr = psl->QueryInterface(IID_PPV_ARGS(&pps));
+        if (SUCCEEDED(hr)) {
+            PROPVARIANT propvar;
+            InitPropVariantFromString(L"New Project", &propvar);
+            pps->SetValue(PKEY_Title, propvar);
+            PropVariantClear(&propvar);
+            pps->Commit();
+        }
+
+        poc->AddObject(psl);
+
+        CComPtr<IObjectArray> poa;
+        hr = poc->QueryInterface(IID_PPV_ARGS(&poa));
+        if (SUCCEEDED(hr)) {
+            pcdl->AddUserTasks(poa);
+        }
+
+        pcdl->CommitList();
+        CoUninitialize();
+    }
+#endif
+
+
+    static constexpr char kOpenSettingsArg[] = "--open-settings";
+    static constexpr char kNewProjectArg[] = "--new";
+
+    static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+        if (options.contains(kOpenSettingsArg)) {
+            ICore::execSettingsDialog("", nullptr);
+        }
+        QQuickWindow *win;
+        if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
+            win = ICore::newFile();
+        } else {
+            ICore::showHome();
+            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
+        }
+        if (win->visibility() == QWindow::Minimized) {
+            win->showNormal();
+        }
+        win->raise();
+        win->requestActivate();
+        return win;
+    }
+
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
 
@@ -248,6 +340,9 @@ namespace Core::Internal {
         initializeBehaviorPreference();
         initializeWindows();
         initializeColorScheme();
+#ifdef Q_OS_WIN
+        initializeJumpList();
+#endif
 
         return true;
     }
@@ -262,19 +357,8 @@ namespace Core::Internal {
         //     waitSplash(entry());
         //     return false;
         // }
-
-        if (QApplication::arguments().contains("-open-settings")) {
-            ICore::execSettingsDialog("", nullptr);
-        }
-
-        QQuickWindow *win;
-        if (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject) {
-            ICore::newFile();
-            win = static_cast<QQuickWindow *>(ICore::windowSystem()->firstWindowOfType<IProjectWindow>()->window());
-        } else {
-            ICore::showHome();
-            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
-        }
+        auto args = ExtensionSystem::PluginManager::arguments();
+        auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
 
         return false;
@@ -287,6 +371,7 @@ namespace Core::Internal {
         // if (firstHandle && cnt == 0) {
         //     QMView::raiseWindow(firstHandle->window());
         // }
+        initializeGui(options, workingDirectory, args);
         return nullptr;
     }
 
