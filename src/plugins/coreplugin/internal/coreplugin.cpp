@@ -137,7 +137,7 @@ namespace Core::Internal {
             ICore::actionRegistry()->addIcon("", id, icon);
         };
         addIcon("core.homePreferences", "Settings16Filled");
-        addIcon("core.homeHelp", "QuestionCircle16Filled");
+        addIcon("core.help", "QuestionCircle16Filled");
         addIcon("core.file.new", "DocumentAdd16Filled");
         addIcon("core.file.open", "FolderOpen16Filled");
         addIcon("core.file.save", "Save16Filled");

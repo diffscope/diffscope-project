@@ -357,13 +357,7 @@
             <menu id="core.homePreferences">
                 <group id="core.preferenceActions" />
             </menu>
-            <menu id="core.homeHelp">
-                <action id="core.documentations" />
-                <separator />
-                <action id="core.findActions" />
-                <separator />
-                <group id="core.aboutActions" />
-            </menu>
+            <menu id="core.help" />
         </menu>
     </layouts>
 
