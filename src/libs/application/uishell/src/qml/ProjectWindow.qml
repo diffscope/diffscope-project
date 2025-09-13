@@ -52,6 +52,7 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
             windowAgent.setSystemButton(WindowAgent.WindowIcon, iconArea)
+            windowAgent.setHitTestVisible(Overlay.overlay)
         }
     }
 
