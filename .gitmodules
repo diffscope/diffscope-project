@@ -17,3 +17,7 @@
 [submodule "scopicflow"]
 	path = src/libs/3rdparty/scopicflow
 	url = ../../CrSjimo/scopicflow.git
+
+[submodule "talcs"]
+	path = src/libs/3rdparty/talcs
+	url = ../../CrSjimo/talcs.git
