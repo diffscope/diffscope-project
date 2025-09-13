@@ -20,6 +20,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
+#include <QtQml/QQmlComponent>
 #include <QtWidgets/QPushButton>
 #include <QtQuick/QQuickWindow>
 #include <QtQuickControls2/QQuickStyle>
@@ -29,6 +30,8 @@
 #include <extensionsystem/pluginmanager.h>
 
 #include <SVSCraftQuick/Theme.h>
+
+#include <QAKQuick/actioniconimageprovider.h>
 
 #include <CoreApi/plugindatabase.h>
 #include <CoreApi/settingcatalog.h>
@@ -56,6 +59,10 @@
 #include <coreplugin/internal/editactionsaddon.h>
 #include <coreplugin/internal/timelineaddon.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
+#include <coreplugin/internal/coreachievementsmodel.h>
+
+// TODO achievement experimental
+#include <coreplugin/internal/achievementaddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -66,6 +73,11 @@ static auto getCoreMacOSActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
 }
 #endif
+
+// TODO achievement experimental
+static auto getAchievementActionExtension() {
+    return QAK_STATIC_ACTION_EXTENSION(achievement_actions);
+}
 
 namespace Core::Internal {
 
@@ -130,6 +142,10 @@ namespace Core::Internal {
 #ifdef Q_OS_MAC
         ICore::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
 #endif
+
+        // TODO achievement experimental
+        ICore::actionRegistry()->addExtension(::getAchievementActionExtension());
+
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
@@ -184,6 +200,10 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<EditActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
         IProjectWindowRegistry::instance()->attach<ProjectStartupTimerAddOn>();
+
+        // TODO achievement experimental
+        IHomeWindowRegistry::instance()->attach<Achievement::AchievementAddOn>();
+        IProjectWindowRegistry::instance()->attach<Achievement::AchievementAddOn>();
     }
 
     static void initializeBehaviorPreference() {
@@ -326,11 +346,16 @@ namespace Core::Internal {
 
         // Init ICore instance
         icore = new ICore(this);
+        auto actionIconImageProvider = new QAK::ActionIconImageProvider;
+        actionIconImageProvider->setActionFamily(ICore::actionRegistry());
+        PluginDatabase::qmlEngine()->addImageProvider("action", actionIconImageProvider);
 
         // Init ApplicationUpdateChecker instance
         updateChecker = new ApplicationUpdateChecker(this);
 
         behaviorPreference = new BehaviorPreference(this);
+
+        PluginDatabase::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
 
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
@@ -348,6 +373,16 @@ namespace Core::Internal {
     }
 
     void CorePlugin::extensionsInitialized() {
+        // TODO achievement experimental
+        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.UIShell", "AchievementDialog");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        auto o = component.createWithInitialProperties({
+            {"models", QVariant::fromValue(PluginDatabase::instance()->getObjects("org.diffscope.achievements"))}
+        });
+        o->setParent(this);
+        Achievement::AchievementAddOn::setWindow(qobject_cast<QQuickWindow *>(o));
     }
 
     bool CorePlugin::delayedInitialize() {

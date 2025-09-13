@@ -25,13 +25,12 @@ namespace UIShell {
         Q_ENUM_NS(RecentFileRole)
 
         enum AchievementRole {
-            AR_NameRole = Qt::UserRole + 1,
+            AR_IdRole = Qt::UserRole + 1,
+            AR_NameRole,
             AR_DescriptionRole,
             AR_IconRole,
             AR_IconColorRole,
-            AR_ConditionRole,
             AR_HiddenRole,
-            AR_CompletedRole,
         };
         Q_ENUM_NS(AchievementRole)
 
