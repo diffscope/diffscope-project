@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 #include <QJSValue>
 #include <QQmlEngine>
+#include <QWidget>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -49,6 +50,10 @@ namespace Core {
     QAK::QuickActionContext *IActionWindowBase::actionContext() const {
         Q_D(const IActionWindowBase);
         return d->actionContext;
+    }
+
+    QWidget *IActionWindowBase::invisibleCentralWidget() const {
+        return window()->property("invisibleCentralWidget").value<QWidget *>();
     }
 
     bool IActionWindowBase::triggerAction(const QString &id, QObject *source) {

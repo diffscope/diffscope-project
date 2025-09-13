@@ -25,9 +25,11 @@ namespace Core {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
+        Q_PROPERTY(QWidget *invisibleCentralWidget READ invisibleCentralWidget CONSTANT)
         Q_DECLARE_PRIVATE(IActionWindowBase)
     public:
         QAK::QuickActionContext *actionContext() const;
+        QWidget *invisibleCentralWidget() const;
 
         Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
 

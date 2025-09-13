@@ -192,7 +192,7 @@ namespace Core {
         eventLoop.exec();
     }
     void ICore::execAboutQtDialog(QWindow *parent) {
-        QApplication::aboutQt();
+        QMessageBox::aboutQt(parent->property("invisibleCentralWidget").value<QWidget *>());
     }
 
     void ICore::showHome() {

@@ -9,6 +9,8 @@ import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
+import DiffScope.UIShell
+
 Window {
     id: window
     width: 800
@@ -27,6 +29,17 @@ Window {
 
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
+
+    readonly property InvisibleCentralWidget invisibleCentralWidget: InvisibleCentralWidget {
+        visible: window.visible
+        windowHandle.transientParent: window
+        geometry: {
+            void(window.x)
+            void(window.y)
+            const p = window.contentItem.mapToGlobal(0, 0)
+            return Qt.rect(p.x + window.width / 2, p.y + window.height / 2, 1, 1)
+        }
+    }
 
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
@@ -128,6 +141,8 @@ Window {
                         height: 80
                         anchors.centerIn: parent
                         source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentAdd48Regular.svg"
+                        sourceSize.width: 80
+                        sourceSize.height: 80
                         color: Theme.foregroundSecondaryColor
                     }
                     // fallback display icon as thumbnail
@@ -136,6 +151,8 @@ Window {
                         height: 80
                         anchors.centerIn: parent
                         source: cell.modelData.icon
+                        sourceSize.width: 80
+                        sourceSize.height: 80
                     }
                 }
                 Image {
@@ -199,10 +216,14 @@ Window {
                     anchors.fill: parent
                     source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentAdd48Regular.svg"
                     color: Theme.foregroundSecondaryColor
+                    sourceSize.width: 48
+                    sourceSize.height: 48
                 }
                 Image {
                     anchors.fill: parent
                     source: cell.modelData.icon
+                    sourceSize.width: 48
+                    sourceSize.height: 48
                 }
             }
             ColumnLayout {

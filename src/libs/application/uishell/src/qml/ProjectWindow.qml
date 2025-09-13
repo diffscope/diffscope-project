@@ -43,6 +43,17 @@ Window {
 
     property bool notificationEnablesAnimation: false
 
+    readonly property InvisibleCentralWidget invisibleCentralWidget: InvisibleCentralWidget {
+        visible: window.visible
+        windowHandle.transientParent: window
+        geometry: {
+            void(window.x)
+            void(window.y)
+            const p = window.contentItem.mapToGlobal(0, 0)
+            return Qt.rect(p.x + window.width / 2, p.y + window.height / 2, 1, 1)
+        }
+    }
+
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
             windowAgent.setup(window)
