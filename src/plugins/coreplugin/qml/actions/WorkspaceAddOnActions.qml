@@ -8,7 +8,7 @@ import SVSCraft.UIComponents.impl
 import QActionKit
 
 import DiffScope.UIShell
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 ActionCollection {
     id: d

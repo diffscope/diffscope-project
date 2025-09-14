@@ -2,7 +2,7 @@ import QtQml
 import QtQuick
 
 import DiffScope.UIShell
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 Window {
     width: 800

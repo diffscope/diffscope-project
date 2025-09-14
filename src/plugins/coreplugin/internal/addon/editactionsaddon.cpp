@@ -16,7 +16,7 @@ namespace Core::Internal {
 
     void EditActionsAddOn::initialize() {
         auto iWin = windowHandle()->cast<IProjectWindow>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "EditActionsAddOnActions");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "EditActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 ScrollView {
     id: page

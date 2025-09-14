@@ -22,7 +22,7 @@ namespace Core::Internal {
         auto iWin = windowHandle()->cast<IProjectWindow>();
         m_notificationManager = NotificationManager::of(iWin);
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "NotificationAddOnHelper");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationAddOnHelper");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -32,7 +32,7 @@ namespace Core::Internal {
             helper->setParent(iWin->window());
         }
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "NotificationsPanel", this);
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationsPanel", this);
             if (component.isError()) {
                 qFatal() << component.errorString();
             }

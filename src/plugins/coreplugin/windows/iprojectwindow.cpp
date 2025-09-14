@@ -43,7 +43,7 @@ namespace Core {
         void initActionContext() {
             Q_Q(IProjectWindow);
             auto actionContext = q->actionContext();
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectActions");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -83,7 +83,7 @@ namespace Core {
     }
     QWindow *IProjectWindow::createWindow(QObject *parent) const {
         Q_D(const IProjectWindow);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ProjectWindow");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

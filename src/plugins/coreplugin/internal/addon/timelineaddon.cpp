@@ -24,7 +24,7 @@ namespace Core::Internal {
     TimelineAddOn::~TimelineAddOn() = default;
     void TimelineAddOn::initialize() {
         auto iWin = windowHandle()->cast<IProjectWindow>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TimelineAddOnActions");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "TimelineAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

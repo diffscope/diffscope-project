@@ -32,7 +32,7 @@ namespace Core::Internal {
     QObject *ColorSchemePage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ColorSchemePage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ColorSchemePage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

@@ -10,7 +10,7 @@ import SVSCraft.UIComponents
 import QActionKit
 
 import DiffScope.UIShell
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 ProjectWindow {
     id: projectWindow

@@ -7,7 +7,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.UIShell
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 Item {
     id: page

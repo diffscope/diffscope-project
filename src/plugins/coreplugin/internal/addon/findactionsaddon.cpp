@@ -24,7 +24,7 @@ namespace Core::Internal {
     }
     void FindActionsAddOn::initialize() {
         auto iWin = windowHandle()->cast<IActionWindowBase>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "FindActionsAddOnActions");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "FindActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

@@ -41,7 +41,7 @@ namespace Core::Internal {
             }
         }
         m_actionLayoutsModel->setTopLevelNodes(topLevelNodes);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "MenuPage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "MenuPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

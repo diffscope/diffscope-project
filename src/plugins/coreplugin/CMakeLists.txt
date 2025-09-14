@@ -86,9 +86,9 @@ foreach(_file IN LISTS _qml_files_abs)
 endforeach()
 
 qt_add_qml_module(${PROJECT_NAME}
-    URI DiffScope.CorePlugin
+    URI DiffScope.Core
     QML_FILES ${_qml_files}
-    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/CorePlugin
+    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/Core
 )
 
 qm_install_qml_modules(${PROJECT_NAME})

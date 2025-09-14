@@ -26,7 +26,7 @@ namespace Core::Internal {
     QObject *AppearancePage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "AppearancePage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "AppearancePage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
