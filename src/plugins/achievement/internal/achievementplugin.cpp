@@ -1,6 +1,10 @@
 #include "achievementplugin.h"
 
+#include <QQmlComponent>
+
 #include <QAKCore/actionregistry.h>
+
+#include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/icore.h>
 #include <coreplugin/ihomewindow.h>
@@ -24,6 +28,17 @@ namespace Achievement {
         return true;
     }
     void AchievementPlugin::extensionsInitialized() {
+        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.UIShell", "AchievementDialog");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        auto o = component.createWithInitialProperties({
+            {"models", QVariant::fromValue(Core::PluginDatabase::instance()->getObjects("org.diffscope.achievements"))},
+            {"settings", QVariant::fromValue(Core::PluginDatabase::settings())},
+            {"settingCategory", "org.diffscope.achievements"}
+        });
+        o->setParent(this);
+        AchievementAddOn::setWindow(qobject_cast<QQuickWindow *>(o));
     }
     bool AchievementPlugin::delayedInitialize() {
         return IPlugin::delayedInitialize();

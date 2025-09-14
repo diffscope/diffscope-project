@@ -49,11 +49,9 @@ qm_configure_target(${PROJECT_NAME}
         ChorusKit::AppCore
         loadapi
         uishell
-        uishellplugin
         QAKCore
         QAKQuick
         svscraft::QmlExtras
-        SVSCraftQmlExtrasplugin
         coreplugin
     INCLUDE_PRIVATE
         core

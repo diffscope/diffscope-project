@@ -35,14 +35,6 @@ if(APPLE)
     list(APPEND _src ${_core_macos_actions_src})
 endif()
 
-
-qak_add_action_extension(
-    _achievement_actions_src
-    res/achievement_actions.xml
-)
-list(APPEND _src ${_achievement_actions_src})
-
-
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     QT_LINKS

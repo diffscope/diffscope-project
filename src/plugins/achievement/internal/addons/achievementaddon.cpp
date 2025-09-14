@@ -12,6 +12,15 @@ namespace Achievement {
 
     AchievementAddOn::~AchievementAddOn() = default;
 
+    static QQuickWindow *m_window = nullptr;
+
+    QQuickWindow *AchievementAddOn::window() {
+        return m_window;
+    }
+    void AchievementAddOn::setWindow(QQuickWindow *w) {
+        m_window = w;
+    }
+
     void AchievementAddOn::initialize() {
         auto iWin = windowHandle()->cast<Core::IActionWindowBase>();
         QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.Achievement", "AchievementActions");
@@ -19,7 +28,7 @@ namespace Achievement {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
-
+            {"addOn", QVariant::fromValue(this)}
         });
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());

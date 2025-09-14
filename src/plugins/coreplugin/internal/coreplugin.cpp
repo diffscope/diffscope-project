@@ -61,9 +61,6 @@
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
 
-// TODO achievement experimental
-#include <coreplugin/internal/achievementaddon.h>
-
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
 }
@@ -73,11 +70,6 @@ static auto getCoreMacOSActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
 }
 #endif
-
-// TODO achievement experimental
-static auto getAchievementActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(achievement_actions);
-}
 
 namespace Core::Internal {
 
@@ -143,9 +135,6 @@ namespace Core::Internal {
         ICore::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
 #endif
 
-        // TODO achievement experimental
-        ICore::actionRegistry()->addExtension(::getAchievementActionExtension());
-
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
@@ -200,10 +189,6 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<EditActionsAddOn>();
         IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
         IProjectWindowRegistry::instance()->attach<ProjectStartupTimerAddOn>();
-
-        // TODO achievement experimental
-        IHomeWindowRegistry::instance()->attach<Achievement::AchievementAddOn>();
-        IProjectWindowRegistry::instance()->attach<Achievement::AchievementAddOn>();
     }
 
     static void initializeBehaviorPreference() {
@@ -383,18 +368,6 @@ namespace Core::Internal {
     }
 
     void CorePlugin::extensionsInitialized() {
-        // TODO achievement experimental
-        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.UIShell", "AchievementDialog");
-        if (component.isError()) {
-            qFatal() << component.errorString();
-        }
-        auto o = component.createWithInitialProperties({
-            {"models", QVariant::fromValue(PluginDatabase::instance()->getObjects("org.diffscope.achievements"))},
-            {"settings", QVariant::fromValue(PluginDatabase::settings())},
-            {"settingCategory", "org.diffscope.achievements"}
-        });
-        o->setParent(this);
-        Achievement::AchievementAddOn::setWindow(qobject_cast<QQuickWindow *>(o));
     }
 
     bool CorePlugin::delayedInitialize() {

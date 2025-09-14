@@ -12,8 +12,8 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Additional",
-    "Description": "Complete challenges and earn honors in @APPLICATION_INSTALL_NAME@",
+    "Category": "Help",
+    "Description": "Achievements provide tips about @APPLICATION_INSTALL_NAME@ in an interactive way",
     "Url": "https://diffscope.org/",
     "Required": false,
     "Dependencies" : [
