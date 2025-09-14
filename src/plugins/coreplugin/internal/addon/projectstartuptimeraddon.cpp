@@ -5,6 +5,7 @@
 #include <QQuickWindow>
 #include <QTimer>
 #include <QSettings>
+#include <QThread>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
@@ -13,6 +14,7 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/notificationmessage.h>
+#include <coreplugin/internal/coreachievementsmodel.h>
 
 namespace Core::Internal {
     ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : IWindowAddOn(parent) {
@@ -57,6 +59,9 @@ namespace Core::Internal {
                 });
                 iWin->sendNotification(m_finishedMessage, notificationVisible() ? IProjectWindow::AutoHide : IProjectWindow::DoNotShowBubble);
                 m_initializingMessage->close();
+                if (elapsedTime > 60000) {
+                    CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_KeepPatient);
+                }
             });
         });
     }

@@ -16,6 +16,7 @@
 #include <coreplugin/iprojectwindow.h>
 #include <coreplugin/projecttimeline.h>
 #include <coreplugin/quickinput.h>
+#include <coreplugin/internal/coreachievementsmodel.h>
 
 
 namespace Core::Internal {
@@ -288,6 +289,7 @@ namespace Core::Internal {
             return quickJumpParseAbsoluteLongTime("1:14.514", quickInput, timeline);
         }
         if (text.toLower() == "the answer to the ultimate question of life, the universe, and everything") {
+            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_42);
             return quickJumpParseAbsoluteMusicTime("42", quickInput, timeline);
         }
         if (text.toLower() == "crindzebra sjimo") {
@@ -297,6 +299,7 @@ namespace Core::Internal {
             return timeline->musicTimeline()->create(0, 0, 16423);
         }
         if (text.toLower() == "9bang15\u4fbf\u58eb") {
+            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_9bang15Pence);
             quickInput->setAcceptable(true);
             quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
             return quickJumpParseAbsoluteLongTime("9.15", quickInput, timeline);
@@ -341,6 +344,7 @@ namespace Core::Internal {
     }
 
     void TimelineAddOn::execQuickJump(const QString &initialText) const {
+        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_QuickJump);
         auto iWin = windowHandle()->cast<IProjectWindow>();
         QuickInput quickInput;
         quickInput.setPlaceholderText(tr("Jump to"));

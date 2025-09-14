@@ -38,6 +38,7 @@
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
+#include <coreplugin/internal/coreachievementsmodel.h>
 
 namespace Core {
 
@@ -113,6 +114,7 @@ namespace Core {
     }
 
     void ICore::execPluginsDialog(QWindow *parent) {
+        Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -222,6 +224,9 @@ namespace Core {
         if (IHomeWindow::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             IHomeWindow::instance()->quit();
         }
+        connect(win, &QQuickWindow::sceneGraphInitialized, [] {
+            Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
+        });
         return win;
     }
 

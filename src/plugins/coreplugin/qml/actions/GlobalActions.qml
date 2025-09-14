@@ -29,7 +29,9 @@ ActionCollection {
     ActionItem {
         actionId: "core.documentations"
         Action {
-
+            onTriggered: () => {
+                CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_Help);
+            }
         }
     }
 

@@ -13,7 +13,10 @@ ActionCollection {
         actionId: "core.findActions"
         Action {
             onTriggered: () => {
-                Qt.callLater(() => d.addOn.findActions())
+                Qt.callLater(() => {
+                    CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_FindActions);
+                    d.addOn.findActions()
+                })
             }
         }
     }

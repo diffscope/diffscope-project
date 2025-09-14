@@ -224,6 +224,9 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, updateFont);
         QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
         const auto updateAnimation = [=] {
+            if (!BehaviorPreference::isAnimationEnabled()) {
+                CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DisableAnimation);
+            }
             auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
             SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
@@ -245,6 +248,11 @@ namespace Core::Internal {
             sf.setSamples(8);
             QSurfaceFormat::setDefaultFormat(sf);
         }
+        QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, [] {
+            if (!(BehaviorPreference::uiBehavior() & BehaviorPreference::UB_Frameless)) {
+                CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DisableCustomTitleBar);
+            }
+        });
     }
 
     static void initializeColorScheme() {
@@ -319,8 +327,10 @@ namespace Core::Internal {
 
     static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
+            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
             ICore::execSettingsDialog("", nullptr);
         }
+        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         QQuickWindow *win;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
             win = ICore::newFile();
@@ -379,7 +389,9 @@ namespace Core::Internal {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
-            {"models", QVariant::fromValue(PluginDatabase::instance()->getObjects("org.diffscope.achievements"))}
+            {"models", QVariant::fromValue(PluginDatabase::instance()->getObjects("org.diffscope.achievements"))},
+            {"settings", QVariant::fromValue(PluginDatabase::settings())},
+            {"settingCategory", "org.diffscope.achievements"}
         });
         o->setParent(this);
         Achievement::AchievementAddOn::setWindow(qobject_cast<QQuickWindow *>(o));
@@ -392,7 +404,7 @@ namespace Core::Internal {
         //     waitSplash(entry());
         //     return false;
         // }
-        auto args = ExtensionSystem::PluginManager::arguments();
+        auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
 
