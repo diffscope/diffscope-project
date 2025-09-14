@@ -5,9 +5,11 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
+#include <uishell/UIShellGlobal.h>
+
 namespace UIShell {
 
-    class BubbleNotificationHandle : public QObject {
+    class UISHELL_EXPORT BubbleNotificationHandle : public QObject {
         Q_OBJECT
         Q_PROPERTY(QString title READ title NOTIFY titleChanged)
         Q_PROPERTY(QString text READ text NOTIFY textChanged)

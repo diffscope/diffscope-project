@@ -3,6 +3,8 @@ project(coreplugin
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+qm_import(Qml)
+
 set(_plugin_name Core)
 set(_plugin_display_name Core)
 
@@ -56,11 +58,9 @@ qm_configure_target(${PROJECT_NAME}
         ChorusKit::AppCore
         loadapi
         uishell
-        uishellplugin
         QAKCore
         QAKQuick
         svscraft::QmlExtras
-        SVSCraftQmlExtrasplugin
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
@@ -88,8 +88,10 @@ endforeach()
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.CorePlugin
     QML_FILES ${_qml_files}
-    OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DiffScope/CorePlugin
+    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/CorePlugin
 )
+
+qm_install_qml_modules(${PROJECT_NAME})
 
 # Add translation
 qm_add_translation(${PROJECT_NAME}_translations
