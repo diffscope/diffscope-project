@@ -357,7 +357,9 @@ namespace Core::Internal {
         //     waitSplash(entry());
         //     return false;
         // }
-        auto args = ExtensionSystem::PluginManager::arguments();
+
+        // TODO plugin arguments
+        auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
 
