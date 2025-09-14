@@ -217,6 +217,11 @@ Window {
                 color: parent.color
             }
         }
+        Item {
+            Layout.fillWidth: true
+            implicitHeight: 0
+            visible: !titleBar.visible && separatedMenuParent.visible
+        }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
