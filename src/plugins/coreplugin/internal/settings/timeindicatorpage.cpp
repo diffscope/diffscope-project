@@ -29,7 +29,7 @@ namespace Core::Internal {
     QObject *TimeIndicatorPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TimeIndicatorPage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "TimeIndicatorPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

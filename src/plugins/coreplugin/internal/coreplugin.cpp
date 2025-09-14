@@ -404,6 +404,8 @@ namespace Core::Internal {
         //     waitSplash(entry());
         //     return false;
         // }
+
+        // TODO plugin arguments
         auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);

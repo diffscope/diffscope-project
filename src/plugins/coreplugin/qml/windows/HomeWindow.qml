@@ -11,7 +11,7 @@ import QActionKit
 import ChorusKit.AppCore
 
 import DiffScope.UIShell
-import DiffScope.CorePlugin
+import DiffScope.Core
 
 HomeWindow {
     id: homeWindow
@@ -69,7 +69,7 @@ HomeWindow {
 
     Settings {
         settings: PluginDatabase.settings
-        category: "DiffScope.CorePlugin.HomeWindow"
+        category: "DiffScope.Core.HomeWindow"
         property alias recentFilesIsListView: homeWindow.recentFilesIsListView
     }
 }

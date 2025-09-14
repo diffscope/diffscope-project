@@ -24,7 +24,7 @@ namespace Core {
         void initActionContext() {
             Q_Q(IHomeWindow);
             auto actionContext = q->actionContext();
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "HomeActions");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -41,7 +41,7 @@ namespace Core {
     }
     QWindow *IHomeWindow::createWindow(QObject *parent) const {
         Q_D(const IHomeWindow);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "HomeWindow");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

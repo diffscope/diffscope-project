@@ -26,7 +26,7 @@ namespace Core::Internal {
     QObject *KeyMapPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "KeymapPage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "KeymapPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

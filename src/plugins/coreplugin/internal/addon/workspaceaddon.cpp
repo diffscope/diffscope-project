@@ -28,7 +28,7 @@ namespace Core::Internal {
     void WorkspaceAddOn::initialize() {
         auto iWin = windowHandle()->cast<IProjectWindow>();
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "WorkspaceAddOnHelper");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -38,7 +38,7 @@ namespace Core::Internal {
             m_helper->setParent(iWin->window());
         }
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "WorkspaceAddOnActions");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -49,12 +49,12 @@ namespace Core::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
 
-            iWin->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PropertiesPanel", this));
-            iWin->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginsPanel", this));
-            iWin->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "TipsPanel", this));
-            iWin->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ArrangementPanel", this));
-            iWin->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "MixerPanel", this));
-            iWin->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PianoRollPanel", this));
+            iWin->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
+            iWin->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
+            iWin->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
+            iWin->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
+            iWin->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
+            iWin->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {

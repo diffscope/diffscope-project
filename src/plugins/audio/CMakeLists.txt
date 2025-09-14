@@ -1,12 +1,10 @@
-project(coreplugin
+project(audio
     VERSION ${APPLICATION_VERSION}
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
-qm_import(Qml)
-
-set(_plugin_name Core)
-set(_plugin_display_name Core)
+set(_plugin_name Audio)
+set(_plugin_display_name Audio)
 
 # Add target
 ck_add_plugin(${PROJECT_NAME}
@@ -15,7 +13,7 @@ ck_add_plugin(${PROJECT_NAME}
     COMPAT_VERSION 0.2.0
     VENDOR "Team OpenVPI"
     DESCRIPTION "${PROJECT_DESCRIPTION}"
-    MACRO_PREFIX CORE
+    MACRO_PREFIX AUDIO
 )
 
 find_package(ExtensionSystem REQUIRED)
@@ -23,26 +21,10 @@ find_package(ExtensionSystem REQUIRED)
 # Configure target
 file(GLOB_RECURSE _src *.h *.cpp)
 qak_add_action_extension(
-    _core_actions_src
-    res/core_actions.xml
+    _audio_actions_src
+    res/audio_actions.xml
 )
-list(APPEND _src ${_core_actions_src})
-if(APPLE)
-    qak_add_action_extension(
-        _core_macos_actions_src
-        res/core_macos_actions.xml
-    )
-    list(APPEND _src ${_core_macos_actions_src})
-endif()
-
-
-qak_add_action_extension(
-    _achievement_actions_src
-    res/achievement_actions.xml
-)
-list(APPEND _src ${_achievement_actions_src})
-
-
+list(APPEND _src ${_audio_actions_src})
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     QT_LINKS
@@ -70,13 +52,14 @@ qm_configure_target(${PROJECT_NAME}
         QAKCore
         QAKQuick
         svscraft::QmlExtras
+        talcs::Core
+        talcs::Device
+        talcs::Format
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
         # opendspx::opendspx
     INCLUDE_PRIVATE
-        core
-        windows
         internal/**
 )
 
@@ -93,14 +76,6 @@ foreach(_file IN LISTS _qml_files_abs)
     file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
     list(APPEND _qml_files ${_rel_path})
 endforeach()
-
-qt_add_qml_module(${PROJECT_NAME}
-    URI DiffScope.Core
-    QML_FILES ${_qml_files}
-    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/Core
-)
-
-qm_install_qml_modules(${PROJECT_NAME})
 
 # Add translation
 qm_add_translation(${PROJECT_NAME}_translations
@@ -126,17 +101,9 @@ ck_add_attached_files(${PROJECT_NAME}
 file(GLOB _res_icons res/icons/*)
 
 qt_add_resources(${PROJECT_NAME} icons
-    PREFIX /diffscope/coreplugin/icons
+    PREFIX /diffscope/audio/icons
     BASE res/icons
     FILES ${_res_icons}
-)
-
-file(GLOB _res_logos res/logos/*)
-
-qt_add_resources(${PROJECT_NAME} logos
-    PREFIX /diffscope/coreplugin/logos
-    BASE res/logos
-    FILES ${_res_logos}
 )
 
 # Add install command

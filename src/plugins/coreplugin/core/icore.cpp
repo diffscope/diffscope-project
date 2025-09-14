@@ -81,7 +81,7 @@ namespace Core {
         // TODO: show last used page if id is empty
 
         auto settings = PluginDatabase::settings();
-        settings->beginGroup("DiffScope.CorePlugin.SettingDialog");
+        settings->beginGroup("DiffScope.Core.SettingDialog");
         settings->setValue("currentId", settings->value("currentId", "core.General"));
         settings->endGroup();
 
@@ -93,7 +93,7 @@ namespace Core {
 
         int code;
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "SettingDialog");
+            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "SettingDialog");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -115,7 +115,7 @@ namespace Core {
 
     void ICore::execPluginsDialog(QWindow *parent) {
         Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "PluginDialog");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

@@ -23,7 +23,7 @@ namespace Core::Internal {
         auto iWin = windowHandle()->cast<IProjectWindow>();
         auto window = iWin->window();
 
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "ViewVisibilityAddOnActions");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ViewVisibilityAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

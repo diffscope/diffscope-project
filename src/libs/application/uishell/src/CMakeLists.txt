@@ -1,16 +1,18 @@
 project(uishell VERSION 0.0.1.0)
 
+qm_import(Qml)
+
 file(GLOB_RECURSE _src *.h *.cpp)
 
 find_package(QWindowKit REQUIRED)
 find_package(ExtensionSystem REQUIRED)
 
-ck_add_library(${PROJECT_NAME} STATIC AUTOGEN)
+ck_add_library(${PROJECT_NAME} SHARED AUTOGEN)
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     LINKS
-        svscraft::Gui svscraft::Quick SVSCraftQuickplugin
+        svscraft::Gui svscraft::Quick
         QWindowKit::Core QWindowKit::Quick
         ChorusKit::AppCore
         ExtensionSystem::ExtensionSystem
@@ -46,8 +48,10 @@ qt_add_qml_module(${PROJECT_NAME}
     QML_FILES ${_qml_files}
     RESOURCES ${_resource_files}
     NAMESPACE UIShell
-    OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DiffScope/UIShell
+    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/UIShell
 )
+
+qm_install_qml_modules(${PROJECT_NAME})
 
 ck_sync_include(${PROJECT_NAME} FORCE)
 

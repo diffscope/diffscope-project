@@ -30,7 +30,7 @@ namespace Core::Internal {
     QObject *GeneralPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GeneralPage");
+        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "GeneralPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

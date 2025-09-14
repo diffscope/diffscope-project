@@ -14,7 +14,7 @@ endforeach()
 add_executable(${PROJECT_NAME} ${_src})
 
 qm_configure_target(${PROJECT_NAME}
-    LINKS svscraft::Gui svscraft::Quick SVSCraftQuickplugin uishell uishellplugin ChorusKit::AppCore
+    LINKS svscraft::Gui svscraft::Quick uishell ChorusKit::AppCore
     QT_LINKS Core Gui Widgets Qml Quick QuickControls2
 )
 

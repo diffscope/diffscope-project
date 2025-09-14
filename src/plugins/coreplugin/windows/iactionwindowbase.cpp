@@ -36,7 +36,7 @@ namespace Core {
             actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             {
-                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.CorePlugin", "GlobalActions");
+                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "GlobalActions");
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
