@@ -376,4 +376,8 @@ namespace Core::Internal {
         };
         settings->setValue(settingCategoryC, data);
     }
+
+    QList<QPair<QString, QVariantHash>> ColorSchemeCollection::internalPresets() {
+        return m_internalPresets;
+    }
 }

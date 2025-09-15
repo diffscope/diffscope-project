@@ -22,9 +22,49 @@ Window {
     property url banner: ""
     color: Theme.backgroundPrimaryColor
     property list<Item> pages: []
+    property list<Item> pagesWithHeader: []
     signal finished()
 
     onClosing: finished()
+
+    QtObject {
+        id: d
+    }
+
+    Component {
+        id: pageWithHeaderComponent
+        Item {
+            id: pageWithHeader
+            required property Item page
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 4
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 8
+                    text: pageWithHeader.page.title
+                    font.pixelSize: 20
+                }
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: pageWithHeader.page.description
+                    font.pixelSize: 16
+                }
+                StackLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    data: [pageWithHeader.page]
+                }
+            }
+        }
+    }
+
+    Component.onCompleted: () => {
+        for (let page of pages) {
+            let pageWithHeader = pageWithHeaderComponent.createObject(pagesStackView, {page})
+            pagesWithHeader.push(pageWithHeader)
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -78,22 +118,25 @@ Window {
                         if (mainStackLayout.currentIndex === 0) {
                             dialog.close()
                         } else {
-
+                            let page = pagesStackView.pop()
+                            dialog.pagesWithHeader.unshift(page)
                         }
                     }
                 }
                 Button {
                     implicitWidth: 160
                     ThemedItem.controlType: SVS.CT_Accent
-                    text: mainStackLayout.currentIndex === 0 ? qsTr("Continue") : dialog.pages.length !== 0 ? qsTr("Next") : qsTr("Finish")
+                    text: mainStackLayout.currentIndex === 0 ? qsTr("Continue") : dialog.pagesWithHeader.length !== 0 ? qsTr("Next") : qsTr("Finish")
                     onClicked: () => {
-                        if (dialog.pages.length === 0) {
+                        if (dialog.pagesWithHeader.length === 0) {
                             dialog.close()
-                        } else if (mainStackLayout.currentIndex === 0) {
-                            mainStackLayout.currentIndex = 1
-                        } else {
-
+                            return
                         }
+                        if (mainStackLayout.currentIndex === 0) {
+                            mainStackLayout.currentIndex = 1
+                        }
+                        let page = dialog.pagesWithHeader.shift()
+                        pagesStackView.push(page)
                     }
                 }
             }

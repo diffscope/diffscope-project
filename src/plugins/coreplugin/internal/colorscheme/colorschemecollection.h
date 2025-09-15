@@ -44,6 +44,8 @@ namespace Core::Internal {
         void load();
         void save() const;
 
+        static QList<QPair<QString, QVariantHash>> internalPresets();
+
     Q_SIGNALS:
         void unsavedPresetUpdated();
         void allPresetsChanged();
