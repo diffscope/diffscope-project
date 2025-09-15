@@ -115,21 +115,162 @@ namespace Core::Internal {
     };
     const QDir AppIconImageProvider::m_iconDir = QDir(":/diffscope/icons");
 
-    static ICore *icore = nullptr;
-    static ApplicationUpdateChecker *updateChecker = nullptr;
-    static BehaviorPreference *behaviorPreference = nullptr;
-
-    static void waitSplash(QWidget *w) {
-        PluginDatabase::splash()->finish(w);
-    }
-
     CorePlugin::CorePlugin() {
         PluginDatabase::qmlEngine()->addImageProvider("appicon", new AppIconImageProvider);
     }
 
     CorePlugin::~CorePlugin() = default;
 
-    static void initializeActions() {
+    static constexpr char kOpenSettingsArg[] = "--open-settings";
+    static constexpr char kNewProjectArg[] = "--new";
+
+    static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+        if (options.contains(kOpenSettingsArg)) {
+            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
+            ICore::execSettingsDialog("", nullptr);
+        }
+        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
+        QQuickWindow *win;
+        if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
+            win = ICore::newFile();
+        } else {
+            ICore::showHome();
+            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
+        }
+        if (win->visibility() == QWindow::Minimized) {
+            win->showNormal();
+        }
+        win->raise();
+        win->requestActivate();
+        return win;
+    }
+
+    bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
+
+        QQuickStyle::setStyle("SVSCraft.UIComponents");
+        QQuickStyle::setFallbackStyle("Basic");
+
+        // Handle FileOpenEvent
+        qApp->installEventFilter(this);
+
+        initializeSingletons();
+        initializeImageProviders();
+        initializeActions();
+        initializeSettings();
+        initializeBehaviorPreference();
+        initializeWindows();
+        initializeColorScheme();
+        initializeJumpList();
+        initializeHelpContents();
+
+        QApplication::setQuitOnLastWindowClosed(false);
+
+        return true;
+    }
+
+    void CorePlugin::extensionsInitialized() {
+    }
+
+    bool CorePlugin::delayedInitialize() {
+        PluginDatabase::splash()->showMessage(tr("Initializing GUI..."));
+        QApplication::setQuitOnLastWindowClosed(true);
+        // TODO plugin arguments
+        auto args = QApplication::arguments();
+        auto win = initializeGui(args, QDir::currentPath(), args);
+        connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
+        return false;
+    }
+
+    QObject *CorePlugin::remoteCommand(const QStringList &options, const QString &workingDirectory,
+                                       const QStringList &args) {
+        initializeGui(options, workingDirectory, args);
+        return nullptr;
+    }
+
+    bool CorePlugin::eventFilter(QObject *obj, QEvent *event) {
+        // TODO open file
+        return QObject::eventFilter(obj, event);
+    }
+
+#ifdef Q_OS_WIN
+    static void initializeWindowsJumpList() {
+        CoInitialize(nullptr);
+
+        CComPtr<ICustomDestinationList> pcdl;
+        HRESULT hr = pcdl.CoCreateInstance(CLSID_DestinationList, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        UINT cMinSlots;
+        CComPtr<IObjectArray> poaRemoved;
+        hr = pcdl->BeginList(&cMinSlots, IID_PPV_ARGS(&poaRemoved));
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        CComPtr<IObjectCollection> poc;
+        hr = poc.CoCreateInstance(CLSID_EnumerableObjectCollection, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        CComPtr<IShellLink> psl;
+        hr = psl.CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER);
+        if (FAILED(hr)) {
+            CoUninitialize();
+            return;
+        }
+
+        auto appPath = QApplication::applicationFilePath().toStdWString();
+        psl->SetPath(appPath.c_str());
+        psl->SetArguments(L"--new");
+
+        CComPtr<IPropertyStore> pps;
+        hr = psl->QueryInterface(IID_PPV_ARGS(&pps));
+        if (SUCCEEDED(hr)) {
+            PROPVARIANT propvar;
+            InitPropVariantFromString(L"New Project", &propvar);
+            pps->SetValue(PKEY_Title, propvar);
+            PropVariantClear(&propvar);
+            pps->Commit();
+        }
+
+        poc->AddObject(psl);
+
+        CComPtr<IObjectArray> poa;
+        hr = poc->QueryInterface(IID_PPV_ARGS(&poa));
+        if (SUCCEEDED(hr)) {
+            pcdl->AddUserTasks(poa);
+        }
+
+        pcdl->CommitList();
+        CoUninitialize();
+    }
+#endif
+
+#ifdef Q_OS_MACOS
+    static void initializeMacOSJumpList() {
+    }
+#endif
+
+    void CorePlugin::initializeSingletons() {
+        new ICore(this);
+        new ApplicationUpdateChecker(this);
+        new BehaviorPreference(this);
+    }
+
+    void CorePlugin::initializeImageProviders() {
+        auto actionIconImageProvider = new QAK::ActionIconImageProvider;
+        actionIconImageProvider->setActionFamily(ICore::actionRegistry());
+        PluginDatabase::qmlEngine()->addImageProvider("action", actionIconImageProvider);
+    }
+
+    void CorePlugin::initializeActions() {
         ICore::actionRegistry()->addExtension(::getCoreActionExtension());
 #ifdef Q_OS_MAC
         ICore::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
@@ -168,7 +309,7 @@ namespace Core::Internal {
         addIcon("core.timeline.goToEnd", "Next16Filled");
     }
 
-    static void initializeSettings() {
+    void CorePlugin::initializeSettings() {
         auto sc = ICore::settingCatalog();
         sc->addPage(new GeneralPage);
         auto appearancePage = new AppearancePage;
@@ -179,7 +320,7 @@ namespace Core::Internal {
         sc->addPage(new TimeIndicatorPage);
     }
 
-    static void initializeWindows() {
+    void CorePlugin::initializeWindows() {
         IHomeWindowRegistry::instance()->attach<HomeAddOn>();
         IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
         IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
@@ -191,16 +332,17 @@ namespace Core::Internal {
         IProjectWindowRegistry::instance()->attach<ProjectStartupTimerAddOn>();
     }
 
-    static void initializeBehaviorPreference() {
+    void CorePlugin::initializeBehaviorPreference() {
+        auto behaviorPreference = BehaviorPreference::instance();
         const auto updateFont = [=] {
-            if (!behaviorPreference->useCustomFont()) {
+            if (!BehaviorPreference::useCustomFont()) {
                 auto font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
                 QApplication::setFont(font);
                 SVS::Theme::defaultTheme()->setFont(font);
             } else {
                 auto font = QApplication::font();
-                font.setFamily(behaviorPreference->fontFamily());
-                font.setStyleName(behaviorPreference->fontStyle());
+                font.setFamily(BehaviorPreference::fontFamily());
+                font.setStyleName(BehaviorPreference::fontStyle());
                 QApplication::setFont(font);
                 SVS::Theme::defaultTheme()->setFont(font);
             }
@@ -212,7 +354,7 @@ namespace Core::Internal {
             if (!BehaviorPreference::isAnimationEnabled()) {
                 CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DisableAnimation);
             }
-            auto v = 250 * behaviorPreference->animationSpeedRatio() * (behaviorPreference->isAnimationEnabled() ? 1 : 0);
+            auto v = 250 * BehaviorPreference::animationSpeedRatio() * (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
             SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
         };
@@ -240,169 +382,29 @@ namespace Core::Internal {
         });
     }
 
-    static void initializeColorScheme() {
+    void CorePlugin::initializeColorScheme() {
         ColorSchemeCollection collection;
         collection.load();
         collection.applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
     }
 
+    void CorePlugin::initializeJumpList() {
 #ifdef Q_OS_WIN
-    static void initializeJumpList() {
-        CoInitialize(nullptr);
-        
-        CComPtr<ICustomDestinationList> pcdl;
-        HRESULT hr = pcdl.CoCreateInstance(CLSID_DestinationList, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        UINT cMinSlots;
-        CComPtr<IObjectArray> poaRemoved;
-        hr = pcdl->BeginList(&cMinSlots, IID_PPV_ARGS(&poaRemoved));
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        CComPtr<IObjectCollection> poc;
-        hr = poc.CoCreateInstance(CLSID_EnumerableObjectCollection, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        CComPtr<IShellLink> psl;
-        hr = psl.CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        auto appPath = QApplication::applicationFilePath().toStdWString();
-        psl->SetPath(appPath.c_str());
-        psl->SetArguments(L"--new");
-        
-        CComPtr<IPropertyStore> pps;
-        hr = psl->QueryInterface(IID_PPV_ARGS(&pps));
-        if (SUCCEEDED(hr)) {
-            PROPVARIANT propvar;
-            InitPropVariantFromString(L"New Project", &propvar);
-            pps->SetValue(PKEY_Title, propvar);
-            PropVariantClear(&propvar);
-            pps->Commit();
-        }
-
-        poc->AddObject(psl);
-
-        CComPtr<IObjectArray> poa;
-        hr = poc->QueryInterface(IID_PPV_ARGS(&poa));
-        if (SUCCEEDED(hr)) {
-            pcdl->AddUserTasks(poa);
-        }
-
-        pcdl->CommitList();
-        CoUninitialize();
-    }
+        initializeWindowsJumpList();
+#elif defined(Q_OS_MACOS)
+        initializeMacOSJumpList();
 #endif
-
-
-    static constexpr char kOpenSettingsArg[] = "--open-settings";
-    static constexpr char kNewProjectArg[] = "--new";
-
-    static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
-        if (options.contains(kOpenSettingsArg)) {
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
-            ICore::execSettingsDialog("", nullptr);
-        }
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
-        QQuickWindow *win;
-        if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
-            win = ICore::newFile();
-        } else {
-            ICore::showHome();
-            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
-        }
-        if (win->visibility() == QWindow::Minimized) {
-            win->showNormal();
-        }
-        win->raise();
-        win->requestActivate();
-        return win;
     }
 
-    bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
-
-        QQuickStyle::setStyle("SVSCraft.UIComponents");
-        QQuickStyle::setFallbackStyle("Basic");
-
-        // qApp->setWindowIcon(QIcon(":/svg/app/diffsinger.svg"));
-
-        // Init ICore instance
-        icore = new ICore(this);
-        auto actionIconImageProvider = new QAK::ActionIconImageProvider;
-        actionIconImageProvider->setActionFamily(ICore::actionRegistry());
-        PluginDatabase::qmlEngine()->addImageProvider("action", actionIconImageProvider);
-
-        // Init ApplicationUpdateChecker instance
-        updateChecker = new ApplicationUpdateChecker(this);
-
-        behaviorPreference = new BehaviorPreference(this);
-
+    void CorePlugin::initializeHelpContents() {
         PluginDatabase::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
-
-        // Handle FileOpenEvent
-        qApp->installEventFilter(this);
-
-        initializeActions();
-        initializeSettings();
-        initializeBehaviorPreference();
-        initializeWindows();
-        initializeColorScheme();
-#ifdef Q_OS_WIN
-        initializeJumpList();
-#endif
-
-        return true;
-    }
-
-    void CorePlugin::extensionsInitialized() {
-    }
-
-    bool CorePlugin::delayedInitialize() {
-        PluginDatabase::splash()->showMessage(tr("Initializing GUI..."));
-
-        // if (auto entry = InitRoutine::startEntry()) {
-        //     waitSplash(entry());
-        //     return false;
-        // }
-
-        // TODO plugin arguments
-        auto args = QApplication::arguments();
-        auto win = initializeGui(args, QDir::currentPath(), args);
-        connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
-
-        return false;
-    }
-
-    QObject *CorePlugin::remoteCommand(const QStringList &options, const QString &workingDirectory,
-                                       const QStringList &args) {
-        // auto firstHandle = icore->windowSystem()->firstWindow();
-        // int cnt = openFileFromCommand(workingDirectory, args, firstHandle);
-        // if (firstHandle && cnt == 0) {
-        //     QMView::raiseWindow(firstHandle->window());
-        // }
-        initializeGui(options, workingDirectory, args);
-        return nullptr;
-    }
-
-    bool CorePlugin::eventFilter(QObject *obj, QEvent *event) {
-        if (event->type() == QEvent::FileOpen) {
-            // openFileFromCommand({}, {static_cast<QFileOpenEvent *>(event)->file()},
-            //                     icore->windowSystem()->firstWindow());
+        {
+            auto component = new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
+            if (component->isError()) {
+                qFatal() << component->errorString();
+            }
+            PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
         }
-        return QObject::eventFilter(obj, event);
     }
 
 }

@@ -22,6 +22,17 @@ namespace Core::Internal {
     protected:
         bool eventFilter(QObject *obj, QEvent *event) override;
 
+    private:
+        void initializeSingletons();
+        static void initializeImageProviders();
+        static void initializeActions();
+        static void initializeSettings();
+        static void initializeWindows();
+        static void initializeBehaviorPreference();
+        static void initializeColorScheme();
+        static void initializeJumpList();
+        void initializeHelpContents();
+
     };
 
 }

@@ -8,6 +8,8 @@
 
 namespace WelcomeWizard {
 
+    class WelcomeWizardPlugin;
+
     class WelcomeWizardAddOn : public Core::IWindowAddOn {
         Q_OBJECT
         QML_ELEMENT
@@ -17,12 +19,14 @@ namespace WelcomeWizard {
         explicit WelcomeWizardAddOn(QObject *parent = nullptr);
         ~WelcomeWizardAddOn() override;
 
+        static void setPlugin(WelcomeWizardPlugin *plugin);
         static QQuickWindow *window();
-        static void setWindow(QQuickWindow *w);
 
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        Q_INVOKABLE static void execWelcomeWizard();
     };
 
 }

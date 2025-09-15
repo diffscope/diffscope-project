@@ -19,7 +19,7 @@ ActionCollection {
         actionId: "welcomeWizard.welcomeWizard"
         Action {
             onTriggered: () => {
-
+                Qt.callLater(() => d.addOn.execWelcomeWizard())
             }
         }
     }

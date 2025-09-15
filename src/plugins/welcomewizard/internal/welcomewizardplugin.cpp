@@ -1,8 +1,6 @@
 #include "welcomewizardplugin.h"
 
-#include <QQmlComponent>
-
-#include <QAKCore/actionregistry.h>
+#include <QSettings>
 
 #include <CoreApi/plugindatabase.h>
 
@@ -19,6 +17,7 @@ static auto getWelcomeWizardActionExtension() {
 namespace WelcomeWizard {
 
     WelcomeWizardPlugin::WelcomeWizardPlugin() {
+        WelcomeWizardAddOn::setPlugin(this);
     }
     WelcomeWizardPlugin::~WelcomeWizardPlugin() = default;
     bool WelcomeWizardPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
@@ -28,11 +27,15 @@ namespace WelcomeWizard {
         return true;
     }
     void WelcomeWizardPlugin::extensionsInitialized() {
-        // Note: WelcomeWizard dialog implementation is not yet complete
-        // This is where the welcome wizard window would be created and configured
-        // when the wizard implementation is ready
     }
     bool WelcomeWizardPlugin::delayedInitialize() {
+        auto settings = Core::PluginDatabase::settings();
+        settings->beginGroup(staticMetaObject.className());
+        if (!settings->value("welcomeWizardShown", false).toBool()) {
+            WelcomeWizardAddOn::execWelcomeWizard();
+            settings->setValue("welcomeWizardShown", true);
+        }
+        settings->endGroup();
         return IPlugin::delayedInitialize();
     }
 }

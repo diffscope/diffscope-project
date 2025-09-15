@@ -29,6 +29,7 @@ namespace Core::Internal {
 
     CoreAchievementsModel *m_instance = nullptr;
     void CoreAchievementsModel::triggerAchievementCompleted(Achievement achievement) {
+        Q_ASSERT(m_instance);
         m_instance->achievementCompleted(achievements[achievement]);
     }
     CoreAchievementsModel::CoreAchievementsModel(QObject *parent) : QStandardItemModel(parent) {
