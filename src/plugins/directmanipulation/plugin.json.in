@@ -1,0 +1,22 @@
+{
+    "Name": "@PLUGIN_METADATA_NAME@",
+    "DisplayName": "@PLUGIN_METADATA_DISPLAY_NAME@",
+    "Version": "@PLUGIN_METADATA_VERSION@",
+    "CompatVersion": "@PLUGIN_METADATA_COMPAT_VERSION@",
+    "DisabledByDefault": false,
+    "HiddenByDefault": false,
+    "Vendor": "@PLUGIN_METADATA_VENDOR@",
+    "Copyright": "@PLUGIN_METADATA_COPYRIGHT@",
+    "License": [
+        "Apache 2.0"
+    ],
+    "Arguments" : [
+    ],
+    "Category": "Core",
+    "Description": "Enhance the experience of scrolling and zooming in the project window with Direct Manipulation API on Windows\n",
+    "Url": "https://diffscope.org",
+    "Required": false,
+    "Dependencies" : [
+        { "Name" : "Core", "Version" : "@PLUGIN_METADATA_VERSION@" }
+    ]
+}
