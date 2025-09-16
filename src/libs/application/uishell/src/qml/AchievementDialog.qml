@@ -56,7 +56,7 @@ Window {
                 Layout.fillWidth: parent
                 implicitHeight: 60
                 Component.onCompleted: () => {
-                    background.color = Theme.backgroundTertiaryColor
+                    background.color = Qt.binding(() => Theme.backgroundTertiaryColor)
                 }
                 title: Label {
                     text: qsTr("Achievement Completed")
