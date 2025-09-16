@@ -7,28 +7,28 @@
 
 #include <uishell/BubbleNotificationHandle.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/notificationmessage.h>
 
 namespace Core::Internal {
 
-    NotificationManager::NotificationManager(IProjectWindow *parent) : QObject(parent) {
+    NotificationManager::NotificationManager(ProjectWindowInterface *parent) : QObject(parent) {
         parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
     }
     NotificationManager::~NotificationManager() = default;
-    NotificationManager *NotificationManager::of(IProjectWindow *windowHandle) {
+    NotificationManager *NotificationManager::of(ProjectWindowInterface *windowHandle) {
         return windowHandle->property(staticMetaObject.className()).value<NotificationManager *>();
     }
 
     void NotificationManager::addMessage(NotificationMessage *message,
-                                         IProjectWindow::NotificationBubbleMode mode) {
+                                         ProjectWindowInterface::NotificationBubbleMode mode) {
         int autoHideTimeout = BehaviorPreference::notificationAutoHideTimeout();
         bool beepOnNotification = BehaviorPreference::hasNotificationSoundAlert();
 
         auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
 
-        if (mode == IProjectWindow::AutoHide) {
+        if (mode == ProjectWindowInterface::AutoHide) {
             auto timer = new QTimer(handle);
             timer->setInterval(autoHideTimeout);
             timer->setSingleShot(true);
@@ -74,7 +74,7 @@ namespace Core::Internal {
         connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, this, removeMessage);
         connect(handle, &QObject::destroyed, this, removeMessage);
 
-        if (mode != IProjectWindow::DoNotShowBubble) {
+        if (mode != ProjectWindowInterface::DoNotShowBubble) {
             m_bubbleMessages.append(message);
         }
         m_messages.append(message);
@@ -84,7 +84,7 @@ namespace Core::Internal {
         }
 
         emit messageAdded(m_messages.size() - 1, message);
-        if (mode != IProjectWindow::DoNotShowBubble) {
+        if (mode != ProjectWindowInterface::DoNotShowBubble) {
             emit messageAddedToBubbles(m_bubbleMessages.size() - 1, message);
         }
         

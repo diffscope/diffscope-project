@@ -4,10 +4,10 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iactionwindowbase.h>
+#include <coreplugin/actionwindowinterfacebase.h>
 
 namespace Achievement {
-    AchievementAddOn::AchievementAddOn(QObject *parent) : Core::IWindowAddOn(parent) {
+    AchievementAddOn::AchievementAddOn(QObject *parent) : Core::WindowInterfaceAddOn(parent) {
     }
 
     AchievementAddOn::~AchievementAddOn() = default;
@@ -22,7 +22,7 @@ namespace Achievement {
     }
 
     void AchievementAddOn::initialize() {
-        auto iWin = windowHandle()->cast<Core::IActionWindowBase>();
+        auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
         QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.Achievement", "AchievementActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -31,13 +31,13 @@ namespace Achievement {
             {"addOn", QVariant::fromValue(this)}
         });
         o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
 
     void AchievementAddOn::extensionsInitialized() {
     }
 
     bool AchievementAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
 }

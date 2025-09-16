@@ -8,11 +8,11 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
-    ViewVisibilityAddOn::ViewVisibilityAddOn(QObject *parent) : IWindowAddOn(parent) {
+    ViewVisibilityAddOn::ViewVisibilityAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
     ViewVisibilityAddOn::~ViewVisibilityAddOn() = default;
 
@@ -20,8 +20,8 @@ namespace Core::Internal {
 
     void ViewVisibilityAddOn::initialize() {
         auto settings = PluginDatabase::settings();
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        auto window = iWin->window();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto window = windowInterface->window();
 
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ViewVisibilityAddOnActions");
         if (component.isError()) {
@@ -31,7 +31,7 @@ namespace Core::Internal {
             {"addOn", QVariant::fromValue(this)},
         });
         o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 
         settings->beginGroup(settingCategoryC);
 
@@ -68,7 +68,7 @@ namespace Core::Internal {
     void ViewVisibilityAddOn::extensionsInitialized() {
     }
     bool ViewVisibilityAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
     void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible, QObject *action) const {
         auto settings = PluginDatabase::settings();

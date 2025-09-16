@@ -1,4 +1,4 @@
-#include "iprojectwindow.h"
+#include "ProjectWindowInterface.h"
 
 #include <QQmlComponent>
 #include <QAbstractItemModel>
@@ -12,7 +12,7 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/notificationmanager.h>
 #include <coreplugin/quickpick.h>
@@ -23,17 +23,17 @@
 
 namespace Core {
 
-    static IProjectWindow *m_instance = nullptr;
+    static ProjectWindowInterface *m_instance = nullptr;
 
-    class IProjectWindowPrivate {
-        Q_DECLARE_PUBLIC(IProjectWindow)
+    class ProjectWindowInterfacePrivate {
+        Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
-        IProjectWindow *q_ptr;
+        ProjectWindowInterface *q_ptr;
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         void init() {
-            Q_Q(IProjectWindow);
+            Q_Q(ProjectWindowInterface);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(q);
@@ -41,7 +41,7 @@ namespace Core {
         }
 
         void initActionContext() {
-            Q_Q(IProjectWindow);
+            Q_Q(ProjectWindowInterface);
             auto actionContext = q->actionContext();
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectActions");
             if (component.isError()) {
@@ -55,24 +55,24 @@ namespace Core {
         }
     };
 
-    IProjectWindow *IProjectWindow::instance() {
+    ProjectWindowInterface *ProjectWindowInterface::instance() {
         return m_instance;
     }
-    ProjectTimeline *IProjectWindow::projectTimeline() const {
-        Q_D(const IProjectWindow);
+    ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
+        Q_D(const ProjectWindowInterface);
         return d->projectTimeline;
     }
 
-    EditActionsHandlerRegistry * IProjectWindow::mainEditActionsHandlerRegistry() const {
-        Q_D(const IProjectWindow);
+    EditActionsHandlerRegistry * ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
+        Q_D(const ProjectWindowInterface);
         return d->mainEditActionsHandlerRegistry;
     }
 
-    void IProjectWindow::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
-        Q_D(IProjectWindow);
+    void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
+        Q_D(ProjectWindowInterface);
         d->notificationManager->addMessage(message, mode);
     }
-    void IProjectWindow::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title,
+    void ProjectWindowInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title,
                                           const QString &text, NotificationBubbleMode mode) {
         auto message = new NotificationMessage(this);
         message->setIcon(icon);
@@ -81,8 +81,8 @@ namespace Core {
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
     }
-    QWindow *IProjectWindow::createWindow(QObject *parent) const {
-        Q_D(const IProjectWindow);
+    QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
+        Q_D(const ProjectWindowInterface);
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -95,20 +95,20 @@ namespace Core {
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
         return win;
     }
-    IProjectWindow::IProjectWindow(QObject *parent) : IProjectWindow(*new IProjectWindowPrivate, parent) {
+    ProjectWindowInterface::ProjectWindowInterface(QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         m_instance = this;
     }
-    IProjectWindow::IProjectWindow(IProjectWindowPrivate &d, QObject *parent) : IActionWindowBase(parent), d_ptr(&d) {
+    ProjectWindowInterface::ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {
         d.q_ptr = this;
         d.init();
     }
-    IProjectWindow::~IProjectWindow() {
+    ProjectWindowInterface::~ProjectWindowInterface() {
         m_instance = nullptr;
     }
-    IProjectWindowRegistry *IProjectWindowRegistry::instance() {
-        static IProjectWindowRegistry reg;
+    ProjectWindowInterfaceRegistry *ProjectWindowInterfaceRegistry::instance() {
+        static ProjectWindowInterfaceRegistry reg;
         return &reg;
     }
 }
 
-#include "moc_iprojectwindow.cpp"
+#include "moc_projectwindowinterface.cpp"

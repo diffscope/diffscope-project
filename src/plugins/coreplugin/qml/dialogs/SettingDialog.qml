@@ -10,7 +10,7 @@ import DiffScope.Core
 
 SettingDialog {
     id: dialog
-    settingCatalog: ICore.settingCatalog
+    settingCatalog: CoreInterface.settingCatalog
     Settings {
         settings: PluginDatabase.settings
         category: "DiffScope.Core.SettingDialog"

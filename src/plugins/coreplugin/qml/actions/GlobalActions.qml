@@ -15,7 +15,7 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.new"
         Action {
-            onTriggered: ICore.newFile()
+            onTriggered: CoreInterface.newFile()
         }
     }
 
@@ -40,7 +40,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.execSettingsDialog("", w))
+                Qt.callLater(() => CoreInterface.execSettingsDialog("", w))
             }
         }
     }
@@ -50,7 +50,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.execPluginsDialog(w))
+                Qt.callLater(() => CoreInterface.execPluginsDialog(w))
             }
         }
     }
@@ -59,7 +59,7 @@ ActionCollection {
         actionId: "core.showHomeWindow"
         Action {
             onTriggered: () => {
-                ICore.showHome()
+                CoreInterface.showHome()
             }
         }
     }
@@ -68,7 +68,7 @@ ActionCollection {
         actionId: "core.exit"
         Action {
             onTriggered: () => {
-                ICore.exitApplicationGracefully()
+                CoreInterface.exitApplicationGracefully()
             }
         }
     }
@@ -99,7 +99,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.execAboutAppDialog(w))
+                Qt.callLater(() => CoreInterface.execAboutAppDialog(w))
             }
         }
     }
@@ -109,7 +109,7 @@ ActionCollection {
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
-                Qt.callLater(() => ICore.execAboutQtDialog(w))
+                Qt.callLater(() => CoreInterface.execAboutQtDialog(w))
             }
         }
     }

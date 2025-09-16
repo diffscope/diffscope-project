@@ -12,13 +12,13 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/internal/projectwindowworkspacemanager.h>
 #include <coreplugin/internal/projectwindowworkspacelayout.h>
 
 namespace Core::Internal {
-    WorkspaceAddOn::WorkspaceAddOn(QObject *parent) : IWindowAddOn(parent) {
+    WorkspaceAddOn::WorkspaceAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         m_workspaceManager = new ProjectWindowWorkspaceManager(this);
         m_workspaceManager->load();
     }
@@ -26,7 +26,7 @@ namespace Core::Internal {
         m_workspaceManager->save();
     }
     void WorkspaceAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
             if (component.isError()) {
@@ -35,7 +35,7 @@ namespace Core::Internal {
             m_helper = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            m_helper->setParent(iWin->window());
+            m_helper->setParent(windowInterface->window());
         }
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
@@ -47,27 +47,27 @@ namespace Core::Internal {
                 {"helper", QVariant::fromValue(m_helper.get())}
             });
             o->setParent(this);
-            QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+            QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 
-            iWin->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
-            iWin->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
-            iWin->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
-            iWin->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
-            iWin->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
-            iWin->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
     }
     bool WorkspaceAddOn::delayedInitialize() {
         emit panelEntriesChanged();
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
     ProjectWindowWorkspaceManager *WorkspaceAddOn::workspaceManager() const {
         return m_workspaceManager;
     }
     QVariantMap WorkspaceAddOn::createDockingViewContents(int edge) const {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         ProjectWindowWorkspaceLayout::ViewSpec firstSpec;
         ProjectWindowWorkspaceLayout::ViewSpec lastSpec;
         if (edge == Qt::LeftEdge) {
@@ -94,7 +94,7 @@ namespace Core::Internal {
                                    ? firstSpec.width / (firstSpec.width + lastSpec.width)
                                    : firstSpec.height / (firstSpec.height + lastSpec.height);
         auto createAction = [&](const QString &id) -> QObject * {
-            auto component = iWin->actionContext()->action(id);
+            auto component = windowInterface->actionContext()->action(id);
             if (!component) {
                 return nullptr;
             }
@@ -106,7 +106,7 @@ namespace Core::Internal {
                 return nullptr;
             }
             QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
-            iWin->actionContext()->attachActionInfo(id, object);
+            windowInterface->actionContext()->attachActionInfo(id, object);
             return object;
         };
         auto createSpec = [&](const ProjectWindowWorkspaceLayout::ViewSpec &spec) -> void {
@@ -181,7 +181,7 @@ namespace Core::Internal {
         m_workspaceManager->save();
     }
     void WorkspaceAddOn::showWorkspaceLayoutCommand() const {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QStandardItemModel model;
         auto saveCurrentLayoutAsItem = new QStandardItem;
         saveCurrentLayoutAsItem->setData(tr("Save Current Layout As..."),
@@ -205,13 +205,13 @@ namespace Core::Internal {
             item->setData(QVariant::fromValue(layout), Qt::DisplayRole);
             model.appendRow(item);
         }
-        auto index = iWin->execQuickPick(&model, tr("Workspace layout actions"));
+        auto index = windowInterface->execQuickPick(&model, tr("Workspace layout actions"));
         if (index == -1)
             return;
         if (index == 0) {
-            iWin->triggerAction("core.workspace.saveLayout");
+            windowInterface->triggerAction("core.workspace.saveLayout");
         } else if (index == 2) {
-            iWin->triggerAction("core.workspace.defaultLayout");
+            windowInterface->triggerAction("core.workspace.defaultLayout");
         } else {
             auto layout =
                 model.item(index)->data(Qt::DisplayRole).value<ProjectWindowWorkspaceLayout>();
@@ -221,7 +221,7 @@ namespace Core::Internal {
         }
     }
     void WorkspaceAddOn::showWorkspaceCustomLayoutCommand(const ProjectWindowWorkspaceLayout &layout) const {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QStandardItemModel model;
         auto applyItem = new QStandardItem;
         applyItem->setData(tr("Apply"), SVS::SVSCraft::CP_TitleRole);
@@ -232,7 +232,7 @@ namespace Core::Internal {
         auto deleteItem = new QStandardItem;
         deleteItem->setData(tr("Delete"), SVS::SVSCraft::CP_TitleRole);
         model.appendRow(deleteItem);
-        auto index = iWin->execQuickPick(&model, tr("Custom layout \"%1\" actions").arg(layout.name()));
+        auto index = windowInterface->execQuickPick(&model, tr("Custom layout \"%1\" actions").arg(layout.name()));
         if (index == -1)
             return;
         switch (index) {
@@ -252,13 +252,13 @@ namespace Core::Internal {
     }
     QVariantList WorkspaceAddOn::panelEntries() const {
         QVariantList ret;
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        auto a = ICore::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool {
-            return iWin->actionContext()->action(id);
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto a = CoreInterface::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool {
+            return windowInterface->actionContext()->action(id);
         });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
-            auto info = ICore::actionRegistry()->actionInfo(id);
-            auto actionIcon = ICore::actionRegistry()->actionIcon("", info.id());
+            auto info = CoreInterface::actionRegistry()->actionInfo(id);
+            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.id());
             return QVariantMap{
                 {"id", id},
                 {"text", info.text()},

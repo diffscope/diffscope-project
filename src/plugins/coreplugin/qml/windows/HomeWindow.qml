@@ -15,7 +15,7 @@ import DiffScope.Core
 
 HomeWindow {
     id: homeWindow
-    required property IHomeWindow windowHandle
+    required property HomeWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     readonly property color lightBannerColor: "#dadada"
     readonly property color darkBannerColor: "#252525"

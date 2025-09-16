@@ -5,12 +5,12 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iactionwindowbase.h>
+#include <coreplugin/actionwindowinterfacebase.h>
 
 #include <welcomewizard/internal/welcomewizardplugin.h>
 
 namespace WelcomeWizard {
-    WelcomeWizardAddOn::WelcomeWizardAddOn(QObject *parent) : Core::IWindowAddOn(parent) {
+    WelcomeWizardAddOn::WelcomeWizardAddOn(QObject *parent) : Core::WindowInterfaceAddOn(parent) {
     }
 
     WelcomeWizardAddOn::~WelcomeWizardAddOn() = default;
@@ -56,7 +56,7 @@ namespace WelcomeWizard {
     }
 
     void WelcomeWizardAddOn::initialize() {
-        auto iWin = windowHandle()->cast<Core::IActionWindowBase>();
+        auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
         QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -65,14 +65,14 @@ namespace WelcomeWizard {
             {"addOn", QVariant::fromValue(this)}
         });
         o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
 
     void WelcomeWizardAddOn::extensionsInitialized() {
     }
 
     bool WelcomeWizardAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
     void WelcomeWizardAddOn::execWelcomeWizard() {
         QEventLoop eventLoop;

@@ -1,11 +1,11 @@
-#ifndef DIFFSCOPE_COREPLUGIN_ICORE_H
-#define DIFFSCOPE_COREPLUGIN_ICORE_H
+#ifndef DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
+#define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
 #include <QObject>
 #include <QSettings>
 #include <qqmlintegration.h>
 
-#include <CoreApi/icorebase.h>
+#include <CoreApi/coreinterfacebase.h>
 
 #include <QAKCore/actionregistry.h>
 
@@ -21,17 +21,17 @@ namespace Core {
         class CorePlugin;
     }
 
-    class ICorePrivate;
+    class CoreInterfacePrivate;
 
-    class CORE_EXPORT ICore : public ICoreBase {
+    class CORE_EXPORT CoreInterface : public CoreInterfaceBase {
         Q_OBJECT
         QML_ELEMENT
         QML_SINGLETON
-        Q_DECLARE_PRIVATE(ICore)
+        Q_DECLARE_PRIVATE(CoreInterface)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
     public:
-        static ICore *instance();
-        static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
+        static CoreInterface *instance();
+        static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QAK::ActionRegistry *actionRegistry();
 
@@ -50,14 +50,14 @@ namespace Core {
         void resetAllDoNotShowAgainRequested();
 
     private:
-        explicit ICore(QObject *parent = nullptr);
-        ~ICore();
+        explicit CoreInterface(QObject *parent = nullptr);
+        ~CoreInterface();
 
-        ICore(ICorePrivate &d, QObject *parent = nullptr);
+        CoreInterface(CoreInterfacePrivate &d, QObject *parent = nullptr);
 
         friend class Internal::CorePlugin;
     };
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_ICORE_H
+#endif // DIFFSCOPE_COREPLUGIN_COREINTERFACE_H

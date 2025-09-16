@@ -6,7 +6,7 @@
 #include <QMetaObject>
 #include <QWindow>
 
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core {
 
@@ -108,12 +108,12 @@ namespace Core {
         }
     }
 
-    IWindow *QuickInput::windowHandle() const {
+    WindowInterface *QuickInput::windowHandle() const {
         Q_D(const QuickInput);
         return d->windowHandle;
     }
 
-    void QuickInput::setWindowHandle(IWindow *windowHandle) {
+    void QuickInput::setWindowHandle(WindowInterface *windowHandle) {
         Q_D(QuickInput);
         if (d->windowHandle != windowHandle) {
             // If currently visible, need to clean up InputPalette in old window first

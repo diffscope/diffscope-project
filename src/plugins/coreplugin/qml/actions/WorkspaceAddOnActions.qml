@@ -15,7 +15,7 @@ ActionCollection {
 
     required property QtObject addOn
     required property QtObject helper
-    readonly property IProjectWindow windowHandle: addOn?.windowHandle ?? null
+    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: windowHandle?.window ?? null
 
     ActionItem {

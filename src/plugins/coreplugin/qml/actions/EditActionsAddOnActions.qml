@@ -8,7 +8,7 @@ ActionCollection {
     id: d
 
     required property QtObject addOn
-    readonly property IProjectWindow windowHandle: addOn?.windowHandle ?? null
+    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
 
     // Basic edit actions
     ActionItem {

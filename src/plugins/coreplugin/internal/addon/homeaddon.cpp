@@ -4,11 +4,11 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/ihomewindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/homewindowinterface.h>
 
 namespace Core::Internal {
-    HomeAddOn::HomeAddOn(QObject *parent) : IWindowAddOn(parent) {
+    HomeAddOn::HomeAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
     HomeAddOn::~HomeAddOn() = default;
     void HomeAddOn::initialize() {
@@ -16,6 +16,6 @@ namespace Core::Internal {
     void HomeAddOn::extensionsInitialized() {
     }
     bool HomeAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
 }

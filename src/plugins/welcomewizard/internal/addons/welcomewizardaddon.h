@@ -1,7 +1,7 @@
 #ifndef DIFFSCOPE_WELCOMEWIZARD_WELCOMEWIZARDADDON_H
 #define DIFFSCOPE_WELCOMEWIZARD_WELCOMEWIZARDADDON_H
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 #include <qqmlintegration.h>
 
 #include <QQuickWindow>
@@ -10,7 +10,7 @@ namespace WelcomeWizard {
 
     class WelcomeWizardPlugin;
 
-    class WelcomeWizardAddOn : public Core::IWindowAddOn {
+    class WelcomeWizardAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

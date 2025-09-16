@@ -6,16 +6,16 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
-    EditActionsAddOn::EditActionsAddOn(QObject *parent) : IWindowAddOn(parent) {
+    EditActionsAddOn::EditActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 
     EditActionsAddOn::~EditActionsAddOn() = default;
 
     void EditActionsAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "EditActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -24,13 +24,13 @@ namespace Core::Internal {
             {"addOn", QVariant::fromValue(this)},
         });
         o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
 
     void EditActionsAddOn::extensionsInitialized() {
     }
 
     bool EditActionsAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
 }

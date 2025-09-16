@@ -1,14 +1,14 @@
 #ifndef DIFFSCOPE_ACHIEVEMENT_ACHIEVEMENTADDON_H
 #define DIFFSCOPE_ACHIEVEMENT_ACHIEVEMENTADDON_H
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 #include <qqmlintegration.h>
 
 #include <QQuickWindow>
 
 namespace Achievement {
 
-    class AchievementAddOn : public Core::IWindowAddOn {
+    class AchievementAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

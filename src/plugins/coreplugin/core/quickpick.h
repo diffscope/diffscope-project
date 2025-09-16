@@ -11,7 +11,7 @@ class QAbstractItemModel;
 namespace Core {
 
     class QuickPickPrivate;
-    class IWindow;
+    class WindowInterface;
 
     class CORE_EXPORT QuickPick : public QObject {
         Q_OBJECT
@@ -22,7 +22,7 @@ namespace Core {
         Q_PROPERTY(QString filterText READ filterText WRITE setFilterText NOTIFY filterTextChanged)
         Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText NOTIFY placeholderTextChanged)
         Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
-        Q_PROPERTY(IWindow *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
+        Q_PROPERTY(WindowInterface *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
         Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
 
     public:
@@ -41,8 +41,8 @@ namespace Core {
         int currentIndex() const;
         void setCurrentIndex(int currentIndex);
 
-        IWindow *windowHandle() const;
-        void setWindowHandle(IWindow *windowHandle);
+        WindowInterface *windowHandle() const;
+        void setWindowHandle(WindowInterface *windowHandle);
 
         bool visible() const;
         void setVisible(bool visible);
@@ -59,7 +59,7 @@ namespace Core {
         void filterTextChanged(const QString &filterText);
         void placeholderTextChanged(const QString &placeholderText);
         void currentIndexChanged(int currentIndex);
-        void windowHandleChanged(Core::IWindow *windowHandle);
+        void windowHandleChanged(Core::WindowInterface *windowHandle);
         void visibleChanged(bool visible);
 
         void accepted();

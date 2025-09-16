@@ -10,17 +10,17 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/notificationmanager.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
     NotificationAddOn::NotificationAddOn(QObject *parent) {
     }
     NotificationAddOn::~NotificationAddOn() = default;
     void NotificationAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        m_notificationManager = NotificationManager::of(iWin);
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        m_notificationManager = NotificationManager::of(windowInterface);
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationAddOnHelper");
             if (component.isError()) {
@@ -29,7 +29,7 @@ namespace Core::Internal {
             auto helper = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            helper->setParent(iWin->window());
+            helper->setParent(windowInterface->window());
         }
         {
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationsPanel", this);
@@ -40,10 +40,10 @@ namespace Core::Internal {
                 {"addOn", QVariant::fromValue(this)},
             }, PluginDatabase::qmlEngine()->rootContext());
             o->setParent(this);
-            iWin->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
+            windowInterface->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }
         auto updateStatusText = [=] {
-            auto statusContext = SVS::StatusTextContext::statusContext(qobject_cast<QQuickWindow *>(iWin->window()));
+            auto statusContext = SVS::StatusTextContext::statusContext(qobject_cast<QQuickWindow *>(windowInterface->window()));
             if (m_notificationManager->messages().isEmpty()) {
                 statusContext->pop(this);
             } else if (m_notificationManager->messages().size() == 1) {
@@ -58,9 +58,9 @@ namespace Core::Internal {
     void NotificationAddOn::extensionsInitialized() {
     }
     bool NotificationAddOn::delayedInitialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        iWin->window()->setProperty("notificationEnablesAnimation", true);
-        return IWindowAddOn::delayedInitialize();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        windowInterface->window()->setProperty("notificationEnablesAnimation", true);
+        return WindowInterfaceAddOn::delayedInitialize();
     }
     NotificationManager *NotificationAddOn::notificationManager() const {
         return m_notificationManager;

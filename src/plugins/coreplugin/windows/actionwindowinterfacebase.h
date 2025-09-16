@@ -1,5 +1,5 @@
-#ifndef DIFFSCOPE_COREPLUGIN_IACTIONWINDOWBASE_H
-#define DIFFSCOPE_COREPLUGIN_IACTIONWINDOWBASE_H
+#ifndef DIFFSCOPE_COREPLUGIN_ACTIONWINDOWINTERFACEBASE_H
+#define DIFFSCOPE_COREPLUGIN_ACTIONWINDOWINTERFACEBASE_H
 
 #include <qqmlintegration.h>
 
@@ -7,7 +7,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -18,15 +18,15 @@ class QJSValue;
 
 namespace Core {
 
-    class IActionWindowBasePrivate;
+    class ActionWindowInterfaceBasePrivate;
 
-    class CORE_EXPORT IActionWindowBase : public IWindow {
+    class CORE_EXPORT ActionWindowInterfaceBase : public WindowInterface {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_PROPERTY(QWidget *invisibleCentralWidget READ invisibleCentralWidget CONSTANT)
-        Q_DECLARE_PRIVATE(IActionWindowBase)
+        Q_DECLARE_PRIVATE(ActionWindowInterfaceBase)
     public:
         QAK::QuickActionContext *actionContext() const;
         QWidget *invisibleCentralWidget() const;
@@ -38,16 +38,16 @@ namespace Core {
         Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback);
 
     protected:
-        explicit IActionWindowBase(QObject *parent = nullptr);
-        explicit IActionWindowBase(IActionWindowBasePrivate &d, QObject *parent = nullptr);
-        ~IActionWindowBase() override;
+        explicit ActionWindowInterfaceBase(QObject *parent = nullptr);
+        explicit ActionWindowInterfaceBase(ActionWindowInterfaceBasePrivate &d, QObject *parent = nullptr);
+        ~ActionWindowInterfaceBase() override;
 
         void nextLoadingState(State nextState) override;
 
     private:
-        QScopedPointer<IActionWindowBasePrivate> d_ptr;
+        QScopedPointer<ActionWindowInterfaceBasePrivate> d_ptr;
     };
 
 }
 
-#endif //DIFFSCOPE_COREPLUGIN_IACTIONWINDOWBASE_H
+#endif //DIFFSCOPE_COREPLUGIN_ACTIONWINDOWINTERFACEBASE_H

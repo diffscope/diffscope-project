@@ -1,5 +1,5 @@
-#include "icore.h"
-#include "icore.h"
+#include "coreinterface.h"
+#include "coreinterface.h"
 
 #include <csignal>
 #include <memory>
@@ -30,11 +30,11 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
 
-#include <CoreApi/private/icorebase_p.h>
+#include <CoreApi/private/coreinterfacebase_p.h>
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iprojectwindow.h>
-#include <coreplugin/ihomewindow.h>
+#include <coreplugin/projectwindowinterface.h>
+#include <coreplugin/homewindowinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
@@ -42,17 +42,17 @@
 
 namespace Core {
 
-    class ICorePrivate : ICoreBasePrivate {
-        Q_DECLARE_PUBLIC(ICore)
+    class CoreInterfacePrivate : CoreInterfaceBasePrivate {
+        Q_DECLARE_PUBLIC(CoreInterface)
     public:
-        ICorePrivate() {
+        CoreInterfacePrivate() {
         }
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
 
         void init() {
-            Q_Q(ICore);
+            Q_Q(CoreInterface);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
         }
@@ -66,16 +66,16 @@ namespace Core {
         }
     };
 
-    ICore *ICore::instance() {
-        return static_cast<ICore *>(ICoreBase::instance());
+    CoreInterface *CoreInterface::instance() {
+        return static_cast<CoreInterface *>(CoreInterfaceBase::instance());
     }
-    QAK::ActionRegistry *ICore::actionRegistry() {
+    QAK::ActionRegistry *CoreInterface::actionRegistry() {
         if (!instance())
             return nullptr;
         return instance()->d_func()->actionRegistry;
     }
 
-    int ICore::execSettingsDialog(const QString &id, QWindow *parent) {
+    int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
         static std::unique_ptr<QWindow> dlg;
 
         // TODO: show last used page if id is empty
@@ -113,7 +113,7 @@ namespace Core {
         return 0;
     }
 
-    void ICore::execPluginsDialog(QWindow *parent) {
+    void CoreInterface::execPluginsDialog(QWindow *parent) {
         Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginDialog");
         if (component.isError()) {
@@ -127,7 +127,7 @@ namespace Core {
         connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
-    void ICore::execAboutAppDialog(QWindow *parent) {
+    void CoreInterface::execAboutAppDialog(QWindow *parent) {
         static const QString appName = qApp->applicationName();
 
         QString aboutInfo =
@@ -193,12 +193,12 @@ namespace Core {
         connect(mb.get(), SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
         eventLoop.exec();
     }
-    void ICore::execAboutQtDialog(QWindow *parent) {
+    void CoreInterface::execAboutQtDialog(QWindow *parent) {
         QMessageBox::aboutQt(parent->property("invisibleCentralWidget").value<QWidget *>());
     }
 
-    void ICore::showHome() {
-        auto inst = IHomeWindow::instance();
+    void CoreInterface::showHome() {
+        auto inst = HomeWindowInterface::instance();
         if (inst) {
             if (inst->window()->visibility() == QWindow::Minimized) {
                 inst->window()->showNormal();
@@ -208,21 +208,21 @@ namespace Core {
             inst->window()->requestActivate();
             return;
         }
-        auto iWin = IHomeWindowRegistry::instance()->create();
-        Q_UNUSED(iWin);
+        auto windowInterface = HomeWindowInterfaceRegistry::instance()->create();
+        Q_UNUSED(windowInterface);
     }
 
-    void ICore::checkForUpdate(bool silent) {
+    void CoreInterface::checkForUpdate(bool silent) {
         Internal::ApplicationUpdateChecker::checkForUpdate(silent);
     }
 
-    QQuickWindow *ICore::newFile() {
+    QQuickWindow *CoreInterface::newFile() {
         Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
-        auto win = static_cast<QQuickWindow *>(IProjectWindowRegistry::instance()->create()->window());
+        auto win = static_cast<QQuickWindow *>(ProjectWindowInterfaceRegistry::instance()->create()->window());
         win->show();
-        if (IHomeWindow::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
-            IHomeWindow::instance()->quit();
+        if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
+            HomeWindowInterface::instance()->quit();
         }
         connect(win, &QQuickWindow::sceneGraphInitialized, [] {
             Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
@@ -230,8 +230,8 @@ namespace Core {
         return win;
     }
 
-    bool ICore::openFile(const QString &fileName, QWidget *parent) {
-        // auto docMgr = ICore::instance()->documentSystem();
+    bool CoreInterface::openFile(const QString &fileName, QWidget *parent) {
+        // auto docMgr = CoreInterface::instance()->documentSystem();
         // if (fileName.isEmpty()) {
         //     return docMgr->openFileBrowse(parent, DspxSpec::instance());
         // }
@@ -239,18 +239,18 @@ namespace Core {
         return false;
     }
 
-    ICore::ICore(QObject *parent) : ICore(*new ICorePrivate(), parent) {
+    CoreInterface::CoreInterface(QObject *parent) : CoreInterface(*new CoreInterfacePrivate(), parent) {
     }
 
-    ICore::~ICore() {
+    CoreInterface::~CoreInterface() {
     }
 
-    ICore::ICore(ICorePrivate &d, QObject *parent) : ICoreBase(d, parent) {
+    CoreInterface::CoreInterface(CoreInterfacePrivate &d, QObject *parent) : CoreInterfaceBase(d, parent) {
         d.init();
     }
 
 
 }
 
-#include "moc_icore.cpp"
-#include "icore.moc"
+#include "moc_coreinterface.cpp"
+#include "coreinterface.moc"

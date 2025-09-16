@@ -4,9 +4,9 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/ihomewindow.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/homewindowinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 
 #include <welcomewizard/internal/welcomewizardaddon.h>
 
@@ -21,9 +21,9 @@ namespace WelcomeWizard {
     }
     WelcomeWizardPlugin::~WelcomeWizardPlugin() = default;
     bool WelcomeWizardPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        Core::ICore::actionRegistry()->addExtension(::getWelcomeWizardActionExtension());
-        Core::IHomeWindowRegistry::instance()->attach<WelcomeWizardAddOn>();
-        Core::IProjectWindowRegistry::instance()->attach<WelcomeWizardAddOn>();
+        Core::CoreInterface::actionRegistry()->addExtension(::getWelcomeWizardActionExtension());
+        Core::HomeWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
         return true;
     }
     void WelcomeWizardPlugin::extensionsInitialized() {

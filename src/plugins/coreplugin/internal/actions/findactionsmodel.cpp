@@ -7,7 +7,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/actionhelper.h>
 
 namespace Core::Internal {
@@ -43,7 +43,7 @@ namespace Core::Internal {
     }
 
     QString getTextWithFallback(const QString &id, bool translated) {
-        auto actionInfo = ICore::actionRegistry()->actionInfo(id);
+        auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
         if (actionInfo.isNull()) {
             return QString();
         }
@@ -56,7 +56,7 @@ namespace Core::Internal {
     }
 
     QString getClassWithFallback(const QString &id, bool translated) {
-        auto actionInfo = ICore::actionRegistry()->actionInfo(id);
+        auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
         if (actionInfo.isNull()) {
             return QString();
         }
@@ -69,7 +69,7 @@ namespace Core::Internal {
     }
 
     QString getDescriptionWithFallback(const QString &id, bool translated) {
-        auto actionInfo = ICore::actionRegistry()->actionInfo(id);
+        auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
         if (actionInfo.isNull()) {
             return QString();
         }
@@ -82,7 +82,7 @@ namespace Core::Internal {
     }
 
     QStringList getShortcutsAsStringList(const QString &id) {
-        auto actionInfo = ICore::actionRegistry()->actionInfo(id);
+        auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
         if (actionInfo.isNull()) {
             return QStringList();
         }
@@ -183,7 +183,7 @@ namespace Core::Internal {
 
     void FindActionsModel::setActions(const QStringList &actions) {
         auto v = actions | std::views::filter([](const QString &id) {
-            auto info = ICore::actionRegistry()->actionInfo(id);
+            auto info = CoreInterface::actionRegistry()->actionInfo(id);
             return !info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", "http://schemas.diffscope.org/diffscope/actions/diffscope"));
         });
         m_actions = QStringList(v.begin(), v.end());

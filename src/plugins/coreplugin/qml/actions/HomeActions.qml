@@ -13,7 +13,7 @@ import DiffScope.Core
 ActionCollection {
     id: d
 
-    required property IHomeWindow windowHandle
+    required property HomeWindowInterface windowHandle
     property Window window: windowHandle?.window ?? null
 
     ActionItem {

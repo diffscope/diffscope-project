@@ -54,7 +54,7 @@ Item {
                 id: actionLayoutsEditor
                 anchors.fill: parent
                 anchors.margins: 1
-                actionRegistry: ICore.actionRegistry
+                actionRegistry: CoreInterface.actionRegistry
                 filterText: searchTextField.text
                 model: page.model
             }

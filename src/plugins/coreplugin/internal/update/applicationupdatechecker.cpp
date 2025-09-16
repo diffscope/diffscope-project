@@ -8,7 +8,7 @@
 #include <CoreApi/plugindatabase.h>
 
 #include <coreplugin/internal/behaviorpreference.h>
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 
 namespace Core::Internal {
 

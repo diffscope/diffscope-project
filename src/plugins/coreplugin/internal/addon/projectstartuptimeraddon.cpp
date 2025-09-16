@@ -11,14 +11,14 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
 
 namespace Core::Internal {
-    ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : IWindowAddOn(parent) {
-        connect(ICore::instance(), &ICore::resetAllDoNotShowAgainRequested, this, [=] {
+    ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+        connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [=] {
             setNotificationVisible(true);
             if (m_finishedMessage) {
                 m_finishedMessage->setAllowDoNotShowAgain(true);
@@ -29,21 +29,21 @@ namespace Core::Internal {
     ProjectStartupTimerAddOn::~ProjectStartupTimerAddOn() = default;
     
     void ProjectStartupTimerAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        m_initializingMessage = new NotificationMessage(iWin->window());
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        m_initializingMessage = new NotificationMessage(windowInterface->window());
         m_initializingMessage->setIcon(SVS::SVSCraft::Information);
         m_initializingMessage->setTitle(tr("Initializing project window..."));
         m_initializingMessage->setClosable(false);
-        iWin->sendNotification(m_initializingMessage);
+        windowInterface->sendNotification(m_initializingMessage);
     }
     
     void ProjectStartupTimerAddOn::extensionsInitialized() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        auto window = qobject_cast<QQuickWindow *>(iWin->window());
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto window = qobject_cast<QQuickWindow *>(windowInterface->window());
         Q_ASSERT(window);
         connect(window, &QQuickWindow::sceneGraphInitialized, this, [=] {
             QTimer::singleShot(0, [=] {
-                m_finishedMessage = new NotificationMessage(iWin->window());
+                m_finishedMessage = new NotificationMessage(windowInterface->window());
                 m_finishedMessage->setIcon(SVS::SVSCraft::Success);
                 auto elapsedTime = stopTimerAndGetElapsedTime();
                 if (elapsedTime != -1) {
@@ -57,7 +57,7 @@ namespace Core::Internal {
                     setNotificationVisible(false);
                     m_finishedMessage->setAllowDoNotShowAgain(false);
                 });
-                iWin->sendNotification(m_finishedMessage, notificationVisible() ? IProjectWindow::AutoHide : IProjectWindow::DoNotShowBubble);
+                windowInterface->sendNotification(m_finishedMessage, notificationVisible() ? ProjectWindowInterface::AutoHide : ProjectWindowInterface::DoNotShowBubble);
                 m_initializingMessage->close();
                 if (elapsedTime > 60000) {
                     CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_KeepPatient);
@@ -67,7 +67,7 @@ namespace Core::Internal {
     }
     
     bool ProjectStartupTimerAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
 
     static qint64 m_msecsSinceEpoch = -1;

@@ -1,4 +1,4 @@
-#include "iactionwindowbase.h"
+#include "ActionWindowInterfaceBase.h"
 
 #include <QQmlComponent>
 #include <QAbstractItemModel>
@@ -10,28 +10,28 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/quickpick.h>
 #include <coreplugin/internal/actionhelper.h>
 #include <coreplugin/quickinput.h>
 
 namespace Core {
 
-    class IActionWindowBasePrivate {
-        Q_DECLARE_PUBLIC(IActionWindowBase)
+    class ActionWindowInterfaceBasePrivate {
+        Q_DECLARE_PUBLIC(ActionWindowInterfaceBase)
     public:
-        IActionWindowBase *q_ptr;
+        ActionWindowInterfaceBase *q_ptr;
         QAK::QuickActionContext *actionContext;
         
         void init() {
-            Q_Q(IActionWindowBase);
+            Q_Q(ActionWindowInterfaceBase);
             actionContext = new QAK::QuickActionContext(q);
             initActionContext();
-            ICore::actionRegistry()->addContext(actionContext);
+            CoreInterface::actionRegistry()->addContext(actionContext);
         }
 
         void initActionContext() {
-            Q_Q(IActionWindowBase);
+            Q_Q(ActionWindowInterfaceBase);
             actionContext->setMenuComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
             actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
@@ -47,21 +47,21 @@ namespace Core {
         }
     };
 
-    QAK::QuickActionContext *IActionWindowBase::actionContext() const {
-        Q_D(const IActionWindowBase);
+    QAK::QuickActionContext *ActionWindowInterfaceBase::actionContext() const {
+        Q_D(const ActionWindowInterfaceBase);
         return d->actionContext;
     }
 
-    QWidget *IActionWindowBase::invisibleCentralWidget() const {
+    QWidget *ActionWindowInterfaceBase::invisibleCentralWidget() const {
         return window()->property("invisibleCentralWidget").value<QWidget *>();
     }
 
-    bool IActionWindowBase::triggerAction(const QString &id, QObject *source) {
-        Q_D(IActionWindowBase);
+    bool ActionWindowInterfaceBase::triggerAction(const QString &id, QObject *source) {
+        Q_D(ActionWindowInterfaceBase);
         return Internal::ActionHelper::triggerAction(d->actionContext, id, source);
     }
 
-    int IActionWindowBase::execQuickPick(QAbstractItemModel *model, const QString &placeholderText, int defaultIndex, const QString &initialFilterText) {
+    int ActionWindowInterfaceBase::execQuickPick(QAbstractItemModel *model, const QString &placeholderText, int defaultIndex, const QString &initialFilterText) {
         QuickPick quickPick;
         quickPick.setWindowHandle(this);
         quickPick.setModel(model);
@@ -71,7 +71,7 @@ namespace Core {
         return quickPick.exec();
     }
 
-    QVariant IActionWindowBase::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText) {
+    QVariant ActionWindowInterfaceBase::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText) {
         QuickInput quickInput;
         quickInput.setWindowHandle(this);
         quickInput.setPlaceholderText(placeholderText);
@@ -80,7 +80,7 @@ namespace Core {
         return quickInput.exec();
     }
 
-    QVariant IActionWindowBase::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback) {
+    QVariant ActionWindowInterfaceBase::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback) {
         if (!callback.isCallable()) {
             auto engine = qmlEngine(this);
             engine->throwError(QJSValue::TypeError, "callback is not callable");
@@ -119,18 +119,18 @@ namespace Core {
         return quickInput.exec();
     }
 
-    IActionWindowBase::IActionWindowBase(QObject *parent) : IActionWindowBase(*new IActionWindowBasePrivate, parent) {
+    ActionWindowInterfaceBase::ActionWindowInterfaceBase(QObject *parent) : ActionWindowInterfaceBase(*new ActionWindowInterfaceBasePrivate, parent) {
     }
 
-    IActionWindowBase::IActionWindowBase(IActionWindowBasePrivate &d, QObject *parent) : IWindow(parent), d_ptr(&d) {
+    ActionWindowInterfaceBase::ActionWindowInterfaceBase(ActionWindowInterfaceBasePrivate &d, QObject *parent) : WindowInterface(parent), d_ptr(&d) {
         d.q_ptr = this;
         d.init();
     }
 
-    IActionWindowBase::~IActionWindowBase() = default;
+    ActionWindowInterfaceBase::~ActionWindowInterfaceBase() = default;
 
-    void IActionWindowBase::nextLoadingState(State nextState) {
-        Q_D(IActionWindowBase);
+    void ActionWindowInterfaceBase::nextLoadingState(State nextState) {
+        Q_D(ActionWindowInterfaceBase);
         if (nextState == Initialized) {
             d->actionContext->updateElement(QAK::AE_Layouts);
         }
@@ -138,4 +138,4 @@ namespace Core {
 
 }
 
-#include "moc_iactionwindowbase.cpp"
+#include "moc_actionwindowinterfacebase.cpp"

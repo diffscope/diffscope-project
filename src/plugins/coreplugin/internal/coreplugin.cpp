@@ -39,10 +39,10 @@
 
 #include <loadapi/initroutine.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
-#include <coreplugin/ihomewindow.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/homewindowinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/internal/appearancepage.h>
 #include <coreplugin/internal/homeaddon.h>
 #include <coreplugin/internal/workspaceaddon.h>
@@ -127,15 +127,15 @@ namespace Core::Internal {
     static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
-            ICore::execSettingsDialog("", nullptr);
+            CoreInterface::execSettingsDialog("", nullptr);
         }
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         QQuickWindow *win;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
-            win = ICore::newFile();
+            win = CoreInterface::newFile();
         } else {
-            ICore::showHome();
-            win = static_cast<QQuickWindow *>(IHomeWindow::instance()->window());
+            CoreInterface::showHome();
+            win = static_cast<QQuickWindow *>(HomeWindowInterface::instance()->window());
         }
         if (win->visibility() == QWindow::Minimized) {
             win->showNormal();
@@ -259,28 +259,28 @@ namespace Core::Internal {
 #endif
 
     void CorePlugin::initializeSingletons() {
-        new ICore(this);
+        new CoreInterface(this);
         new ApplicationUpdateChecker(this);
         new BehaviorPreference(this);
     }
 
     void CorePlugin::initializeImageProviders() {
         auto actionIconImageProvider = new QAK::ActionIconImageProvider;
-        actionIconImageProvider->setActionFamily(ICore::actionRegistry());
+        actionIconImageProvider->setActionFamily(CoreInterface::actionRegistry());
         PluginDatabase::qmlEngine()->addImageProvider("action", actionIconImageProvider);
     }
 
     void CorePlugin::initializeActions() {
-        ICore::actionRegistry()->addExtension(::getCoreActionExtension());
+        CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
 #ifdef Q_OS_MAC
-        ICore::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
+        CoreInterface::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
 #endif
 
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
             icon.addFile(":/diffscope/coreplugin/icons/" + iconName + ".svg");
-            ICore::actionRegistry()->addIcon("", id, icon);
+            CoreInterface::actionRegistry()->addIcon("", id, icon);
         };
         addIcon("core.homePreferences", "Settings16Filled");
         addIcon("core.help", "QuestionCircle16Filled");
@@ -310,7 +310,7 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeSettings() {
-        auto sc = ICore::settingCatalog();
+        auto sc = CoreInterface::settingCatalog();
         sc->addPage(new GeneralPage);
         auto appearancePage = new AppearancePage;
         appearancePage->addPage(new ColorSchemePage);
@@ -321,15 +321,15 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeWindows() {
-        IHomeWindowRegistry::instance()->attach<HomeAddOn>();
-        IProjectWindowRegistry::instance()->attach<WorkspaceAddOn>();
-        IProjectWindowRegistry::instance()->attach<ViewVisibilityAddOn>();
-        IProjectWindowRegistry::instance()->attach<NotificationAddOn>();
-        IHomeWindowRegistry::instance()->attach<FindActionsAddOn>();
-        IProjectWindowRegistry::instance()->attach<FindActionsAddOn>();
-        IProjectWindowRegistry::instance()->attach<EditActionsAddOn>();
-        IProjectWindowRegistry::instance()->attach<TimelineAddOn>();
-        IProjectWindowRegistry::instance()->attach<ProjectStartupTimerAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<HomeAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<WorkspaceAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ViewVisibilityAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<NotificationAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

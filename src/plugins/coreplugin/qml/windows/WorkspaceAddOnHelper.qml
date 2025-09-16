@@ -16,7 +16,7 @@ import DiffScope.Core
 QtObject {
     id: helper
     required property QtObject addOn
-    property IProjectWindow windowHandle: addOn.windowHandle
+    property ProjectWindowInterface windowHandle: addOn.windowHandle
     property Window window: windowHandle.window
 
     property DockingPane activeUndockedPane: null

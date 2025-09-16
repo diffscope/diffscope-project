@@ -6,9 +6,9 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
-#include <coreplugin/ihomewindow.h>
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/coreinterface.h>
+#include <coreplugin/homewindowinterface.h>
+#include <coreplugin/projectwindowinterface.h>
 
 #include <achievement/internal/achievementaddon.h>
 
@@ -22,9 +22,9 @@ namespace Achievement {
     }
     AchievementPlugin::~AchievementPlugin() = default;
     bool AchievementPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        Core::ICore::actionRegistry()->addExtension(::getAchievementActionExtension());
-        Core::IHomeWindowRegistry::instance()->attach<AchievementAddOn>();
-        Core::IProjectWindowRegistry::instance()->attach<AchievementAddOn>();
+        Core::CoreInterface::actionRegistry()->addExtension(::getAchievementActionExtension());
+        Core::HomeWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
         return true;
     }
     void AchievementPlugin::extensionsInitialized() {

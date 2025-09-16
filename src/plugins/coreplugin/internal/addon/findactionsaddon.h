@@ -1,13 +1,13 @@
 #ifndef DIFFSCOPE_COREPLUGIN_FINDACTIONSADDON_H
 #define DIFFSCOPE_COREPLUGIN_FINDACTIONSADDON_H
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core::Internal {
 
     class FindActionsModel;
 
-    class FindActionsAddOn : public IWindowAddOn {
+    class FindActionsAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
     public:
         explicit FindActionsAddOn(QObject *parent = nullptr);

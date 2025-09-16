@@ -3,11 +3,11 @@
 
 #include <qqmlintegration.h>
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core::Internal {
 
-    class EditActionsAddOn : public IWindowAddOn {
+    class EditActionsAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

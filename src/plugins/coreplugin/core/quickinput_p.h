@@ -5,7 +5,7 @@
 
 #include <QPointer>
 
-#include <CoreApi//iwindow.h>
+#include <CoreApi//WindowInterface.h>
 
 namespace Core {
 
@@ -18,7 +18,7 @@ namespace Core {
         QString text;
         SVS::SVSCraft::ControlType status{SVS::SVSCraft::CT_Normal};
         bool acceptable{true};
-        QPointer<IWindow> windowHandle;
+        QPointer<WindowInterface> windowHandle;
         bool visible{false};
         QPointer<QObject> inputPalette;
         

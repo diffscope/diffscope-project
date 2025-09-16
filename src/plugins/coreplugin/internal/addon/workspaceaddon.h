@@ -3,14 +3,14 @@
 
 #include <QPointer>
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core::Internal {
 
     class ProjectWindowWorkspaceManager;
     class ProjectWindowWorkspaceLayout;
 
-    class WorkspaceAddOn : public IWindowAddOn {
+    class WorkspaceAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(ProjectWindowWorkspaceManager *workspaceManager READ workspaceManager CONSTANT)
         Q_PROPERTY(QVariantList panelEntries READ panelEntries NOTIFY panelEntriesChanged)

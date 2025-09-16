@@ -9,7 +9,7 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
 
 namespace Core::Internal {
@@ -83,7 +83,7 @@ namespace Core::Internal {
                 tr("Restart %1").arg(QApplication::applicationName()),
                 tr("Restart %1 to apply language changes?").arg(QApplication::applicationName())
             ) == SVS::SVSCraft::Yes) {
-                ICore::restartApplication();
+                CoreInterface::restartApplication();
             }
         }
         return ISettingPage::accept();

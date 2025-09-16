@@ -3,11 +3,11 @@
 
 #include <qqmlintegration.h>
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core::Internal {
 
-    class TimelineAddOn : public IWindowAddOn {
+    class TimelineAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

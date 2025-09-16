@@ -1,5 +1,5 @@
-#ifndef DIFFSCOPE_COREPLUGIN_IPROJECTWINDOW_H
-#define DIFFSCOPE_COREPLUGIN_IPROJECTWINDOW_H
+#ifndef DIFFSCOPE_COREPLUGIN_PROJECTWINDOWINTERFACE_H
+#define DIFFSCOPE_COREPLUGIN_PROJECTWINDOWINTERFACE_H
 
 #include <qqmlintegration.h>
 
@@ -7,7 +7,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <coreplugin/iactionwindowbase.h>
+#include <coreplugin/actionwindowinterfacebase.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -22,17 +22,17 @@ namespace Core {
     class ProjectTimeline;
     class EditActionsHandlerRegistry;
 
-    class IProjectWindowPrivate;
+    class ProjectWindowInterfacePrivate;
 
-    class CORE_EXPORT IProjectWindow : public IActionWindowBase {
+    class CORE_EXPORT ProjectWindowInterface : public ActionWindowInterfaceBase {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
         Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
-        Q_DECLARE_PRIVATE(IProjectWindow)
+        Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
-        static IProjectWindow* instance();
+        static ProjectWindowInterface* instance();
 
         ProjectTimeline *projectTimeline() const;
 
@@ -50,21 +50,21 @@ namespace Core {
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
-        explicit IProjectWindow(QObject *parent = nullptr);
-        explicit IProjectWindow(IProjectWindowPrivate &d, QObject *parent = nullptr);
-        ~IProjectWindow() override;
+        explicit ProjectWindowInterface(QObject *parent = nullptr);
+        explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
+        ~ProjectWindowInterface() override;
 
-        friend class IExecutiveRegistry<IProjectWindow>;
+        friend class ExecutiveInterfaceRegistry<ProjectWindowInterface>;
 
     private:
-        QScopedPointer<IProjectWindowPrivate> d_ptr;
+        QScopedPointer<ProjectWindowInterfacePrivate> d_ptr;
     };
 
-    class CORE_EXPORT IProjectWindowRegistry : public IExecutiveRegistry<IProjectWindow> {
+    class CORE_EXPORT ProjectWindowInterfaceRegistry : public ExecutiveInterfaceRegistry<ProjectWindowInterface> {
     public:
-        static IProjectWindowRegistry *instance();
+        static ProjectWindowInterfaceRegistry *instance();
     };
 
 }
 
-#endif //DIFFSCOPE_COREPLUGIN_IPROJECTWINDOW_H
+#endif //DIFFSCOPE_COREPLUGIN_PROJECTWINDOWINTERFACE_H

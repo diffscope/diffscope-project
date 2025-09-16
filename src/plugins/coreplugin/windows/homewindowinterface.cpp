@@ -1,4 +1,4 @@
-#include "ihomewindow.h"
+#include "HomeWindowInterface.h"
 
 #include <QQmlComponent>
 
@@ -6,23 +6,23 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/icore.h>
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/actionhelper.h>
 
 namespace Core {
 
-    static IHomeWindow *m_instance = nullptr;
+    static HomeWindowInterface *m_instance = nullptr;
 
-    class IHomeWindowPrivate {
-        Q_DECLARE_PUBLIC(IHomeWindow)
+    class HomeWindowInterfacePrivate {
+        Q_DECLARE_PUBLIC(HomeWindowInterface)
     public:
-        IHomeWindow *q_ptr;
+        HomeWindowInterface *q_ptr;
         void init() {
-            Q_Q(IHomeWindow);
+            Q_Q(HomeWindowInterface);
             initActionContext();
         }
         void initActionContext() {
-            Q_Q(IHomeWindow);
+            Q_Q(HomeWindowInterface);
             auto actionContext = q->actionContext();
             QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeActions");
             if (component.isError()) {
@@ -36,11 +36,11 @@ namespace Core {
         }
     };
 
-    IHomeWindow *IHomeWindow::instance() {
+    HomeWindowInterface *HomeWindowInterface::instance() {
         return m_instance;
     }
-    QWindow *IHomeWindow::createWindow(QObject *parent) const {
-        Q_D(const IHomeWindow);
+    QWindow *HomeWindowInterface::createWindow(QObject *parent) const {
+        Q_D(const HomeWindowInterface);
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -49,20 +49,20 @@ namespace Core {
         Q_ASSERT(win);
         return win;
     }
-    IHomeWindow::IHomeWindow(QObject *parent) : IHomeWindow(*new IHomeWindowPrivate, parent) {
+    HomeWindowInterface::HomeWindowInterface(QObject *parent) : HomeWindowInterface(*new HomeWindowInterfacePrivate, parent) {
         m_instance = this;
     }
-    IHomeWindow::IHomeWindow(IHomeWindowPrivate &d, QObject *parent) : IActionWindowBase(parent), d_ptr(&d) {
+    HomeWindowInterface::HomeWindowInterface(HomeWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {
         d.q_ptr = this;
         d.init();
     }
-    IHomeWindow::~IHomeWindow() {
+    HomeWindowInterface::~HomeWindowInterface() {
         m_instance = nullptr;
     }
-    IHomeWindowRegistry *IHomeWindowRegistry::instance() {
-        static IHomeWindowRegistry reg;
+    HomeWindowInterfaceRegistry *HomeWindowInterfaceRegistry::instance() {
+        static HomeWindowInterfaceRegistry reg;
         return &reg;
     }
 }
 
-#include "moc_ihomewindow.cpp"
+#include "moc_homewindowinterface.cpp"

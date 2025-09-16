@@ -11,7 +11,7 @@ ActionCollection {
     id: d
 
     required property TimelineAddOn addOn
-    readonly property IProjectWindow windowHandle: addOn?.windowHandle ?? null
+    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
 
     ActionItem {

@@ -1,7 +1,7 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTSTARTUPTIMERAODON_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTSTARTUPTIMERAODON_H
 
-#include <CoreApi/iwindow.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core {
     class NotificationMessage;
@@ -9,7 +9,7 @@ namespace Core {
 
 namespace Core::Internal {
 
-    class ProjectStartupTimerAddOn : public IWindowAddOn {
+    class ProjectStartupTimerAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
     public:
         explicit ProjectStartupTimerAddOn(QObject *parent = nullptr);

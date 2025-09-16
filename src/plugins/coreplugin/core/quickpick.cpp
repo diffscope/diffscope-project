@@ -89,12 +89,12 @@ namespace Core {
         }
     }
 
-    IWindow *QuickPick::windowHandle() const {
+    WindowInterface *QuickPick::windowHandle() const {
         Q_D(const QuickPick);
         return d->windowHandle;
     }
 
-    void QuickPick::setWindowHandle(IWindow *windowHandle) {
+    void QuickPick::setWindowHandle(WindowInterface *windowHandle) {
         Q_D(QuickPick);
         if (d->windowHandle != windowHandle) {
             // If currently visible, need to clean up CommandPalette in old window first

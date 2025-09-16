@@ -13,18 +13,18 @@
 
 #include <CoreApi/plugindatabase.h>
 
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/projecttimeline.h>
 #include <coreplugin/quickinput.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
 
 
 namespace Core::Internal {
-    TimelineAddOn::TimelineAddOn(QObject *parent) : IWindowAddOn(parent) {
+    TimelineAddOn::TimelineAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
     TimelineAddOn::~TimelineAddOn() = default;
     void TimelineAddOn::initialize() {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "TimelineAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -33,12 +33,12 @@ namespace Core::Internal {
             {"addOn", QVariant::fromValue(this)},
         });
         o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", iWin->actionContext());
-        connect(iWin->projectTimeline(), &ProjectTimeline::positionChanged, this, [this] {
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
+        connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this] {
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
         });
-        connect(iWin->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
+        connect(windowInterface->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
         });
@@ -46,18 +46,18 @@ namespace Core::Internal {
     void TimelineAddOn::extensionsInitialized() {
     }
     bool TimelineAddOn::delayedInitialize() {
-        return IWindowAddOn::delayedInitialize();
+        return WindowInterfaceAddOn::delayedInitialize();
     }
 
     QString TimelineAddOn::musicTimeText() const {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        return iWin->projectTimeline()->musicTimeline()->create(0, 0, iWin->projectTimeline()->position()).toString();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        return windowInterface->projectTimeline()->musicTimeline()->create(0, 0, windowInterface->projectTimeline()->position()).toString();
     }
     QString TimelineAddOn::longTimeText() const {
-        auto iWin = windowHandle()->cast<IProjectWindow>();
-        return SVS::LongTime(iWin->projectTimeline()
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        return SVS::LongTime(windowInterface->projectTimeline()
                                  ->musicTimeline()
-                                 ->create(0, 0, iWin->projectTimeline()->position())
+                                 ->create(0, 0, windowInterface->projectTimeline()->position())
                                  .millisecond())
             .toString();
     }
@@ -345,14 +345,14 @@ namespace Core::Internal {
 
     void TimelineAddOn::execQuickJump(const QString &initialText) const {
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_QuickJump);
-        auto iWin = windowHandle()->cast<IProjectWindow>();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QuickInput quickInput;
         quickInput.setPlaceholderText(tr("Jump to"));
         quickInput.setPromptText(tr("Type \"?\" to view tips"));
         quickInput.setText(initialText);
-        quickInput.setWindowHandle(iWin);
+        quickInput.setWindowHandle(windowInterface);
         connect(&quickInput, &QuickInput::textChanged, this, [&, this](const QString &text) {
-            quickJumpParse(text, &quickInput, iWin->projectTimeline());
+            quickJumpParse(text, &quickInput, windowInterface->projectTimeline());
         });
         connect(&quickInput, &QuickInput::attemptingAcceptButFailed, this, [&, this]() {
             quickInput.setStatus(SVS::SVSCraft::CT_Error);
@@ -362,21 +362,21 @@ namespace Core::Internal {
                 quickInput.setPromptText(tr("Invalid format"));
             }
         });
-        quickJumpParse(quickInput.text(), &quickInput, iWin->projectTimeline());
+        quickJumpParse(quickInput.text(), &quickInput, windowInterface->projectTimeline());
         auto ret = quickInput.exec();
         if (!ret.isValid())
             return;
-        auto t = quickJumpParse(quickInput.text(), &quickInput, iWin->projectTimeline());
+        auto t = quickJumpParse(quickInput.text(), &quickInput, windowInterface->projectTimeline());
         if (!t.isValid())
             return;
-        iWin->projectTimeline()->goTo(t.totalTick());
+        windowInterface->projectTimeline()->goTo(t.totalTick());
     }
     void TimelineAddOn::goToStart() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         l->goTo(0);
     }
     void TimelineAddOn::goToPreviousMeasure() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.previousMeasure();
         if (!t.isValid())
@@ -384,7 +384,7 @@ namespace Core::Internal {
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToPreviousBeat() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.previousBeat();
         if (!t.isValid())
@@ -392,7 +392,7 @@ namespace Core::Internal {
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToPreviousTick() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t - 1;
         if (!t.isValid())
@@ -400,30 +400,30 @@ namespace Core::Internal {
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToEnd() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         l->goTo(l->rangeHint() - 1);
     }
     void TimelineAddOn::goToNextMeasure() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.nextMeasure();
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToNextBeat() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t.nextBeat();
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::goToNextTick() const {
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         auto t = l->musicTimeline()->create(0, 0, l->position());
         t = t + 1;
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::resetProjectTimeRange() const {
         // TODO
-        auto l = windowHandle()->cast<IProjectWindow>()->projectTimeline();
+        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
         l->setRangeHint(qMax(l->position(), l->lastPosition()) + 1);
     }
 }

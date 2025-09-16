@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include <coreplugin/iprojectwindow.h>
+#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/notificationmessage.h>
 
 class QAbstractItemModel;
@@ -14,12 +14,12 @@ namespace Core::Internal {
         Q_OBJECT
         Q_PROPERTY(QString topMessageTitle READ topMessageTitle NOTIFY topMessageTitleChanged)
     public:
-        explicit NotificationManager(IProjectWindow *parent = nullptr);
+        explicit NotificationManager(ProjectWindowInterface *parent = nullptr);
         ~NotificationManager() override;
 
-        static NotificationManager *of(IProjectWindow *windowHandle);
+        static NotificationManager *of(ProjectWindowInterface *windowHandle);
 
-        void addMessage(NotificationMessage *message, IProjectWindow::NotificationBubbleMode mode);
+        void addMessage(NotificationMessage *message, ProjectWindowInterface::NotificationBubbleMode mode);
 
         Q_INVOKABLE QList<NotificationMessage *> messages() const;
         Q_INVOKABLE QList<NotificationMessage *> bubbleMessages() const;

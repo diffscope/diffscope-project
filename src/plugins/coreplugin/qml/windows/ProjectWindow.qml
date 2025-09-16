@@ -15,7 +15,7 @@ import DiffScope.Core
 ProjectWindow {
     id: projectWindow
 
-    required property IProjectWindow windowHandle
+    required property ProjectWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
 
