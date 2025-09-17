@@ -29,6 +29,7 @@ namespace Core::Internal {
         static void initializeSettings();
         static void initializeWindows();
         static void initializeBehaviorPreference();
+        void initializeTranslations() const;
         static void initializeColorScheme();
         static void initializeJumpList();
         void initializeHelpContents();

@@ -36,6 +36,7 @@
 #include <CoreApi/plugindatabase.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/windowsystem.h>
+#include <CoreApi/translationmanager.h>
 
 #include <loadapi/initroutine.h>
 
@@ -155,10 +156,11 @@ namespace Core::Internal {
         qApp->installEventFilter(this);
 
         initializeSingletons();
+        initializeBehaviorPreference();
+        initializeTranslations();
         initializeImageProviders();
         initializeActions();
         initializeSettings();
-        initializeBehaviorPreference();
         initializeWindows();
         initializeColorScheme();
         initializeJumpList();
@@ -352,20 +354,25 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
         const auto updateAnimation = [=] {
             if (!BehaviorPreference::isAnimationEnabled()) {
-                CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DisableAnimation);
+                CoreAchievementsModel::triggerAchievementCompleted(
+                    CoreAchievementsModel::Achievement_DisableAnimation);
             }
-            auto v = 250 * BehaviorPreference::animationSpeedRatio() * (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
+            auto v = 250 * BehaviorPreference::animationSpeedRatio() *
+                     (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
             SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
         };
-        QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, updateAnimation);
-        QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, updateAnimation);
-        QObject::connect(behaviorPreference, &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
-            auto settings = PluginDatabase::settings();
-            settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
-            settings->setValue("priorityActions", QStringList());
-            settings->endGroup();
-        });
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged,
+                         updateAnimation);
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged,
+                         updateAnimation);
+        QObject::connect(behaviorPreference,
+                         &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
+                             auto settings = PluginDatabase::settings();
+                             settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
+                             settings->setValue("priorityActions", QStringList());
+                             settings->endGroup();
+                         });
         behaviorPreference->load();
         if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
             QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
@@ -377,9 +384,19 @@ namespace Core::Internal {
         }
         QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, [] {
             if (!(BehaviorPreference::uiBehavior() & BehaviorPreference::UB_Frameless)) {
-                CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DisableCustomTitleBar);
+                CoreAchievementsModel::triggerAchievementCompleted(
+                    CoreAchievementsModel::Achievement_DisableCustomTitleBar);
             }
         });
+    }
+    void CorePlugin::initializeTranslations() const {
+        CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        if (BehaviorPreference::useSystemLanguage()) {
+            CoreInterface::translationManager()->setLocale(QLocale::system());
+        } else {
+            CoreInterface::translationManager()->setLocale(QLocale(BehaviorPreference::localeName()));
+        }
+        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
     }
 
     void CorePlugin::initializeColorScheme() {

@@ -25,13 +25,13 @@
     </message>
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="86"/>
-        <source>Enable frameless window</source>
-        <translation>启用无边框窗口</translation>
+        <source>Enable custom title bar</source>
+        <translation>启用自定义标题栏</translation>
     </message>
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="101"/>
-        <source>Windows where frameless has been enabled need to be reopened to disable frameless.</source>
-        <translation>已启用无边框的窗口需要重新打开以禁用无边框。</translation>
+        <source>Windows where custom title bar has been enabled require reopening to enable native title bar.</source>
+        <translation>已启用自定义标题栏的窗口需要重新打开以启用原生标题栏。</translation>
     </message>
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="106"/>
@@ -83,22 +83,22 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../core/icore.cpp" line="131"/>
+        <location filename="../../core/coreinterface.cpp" line="134"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;https://diffscope.org/&quot;&gt;diffscope.org&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation>&lt;p&gt;基于 DiffSinger 的专业歌声合成编辑器&lt;/p&gt;&lt;p&gt;访问 &lt;a href=&quot;https://diffscope.org/&quot;&gt;diffscope.org&lt;/a&gt; 获取更多信息。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/icore.cpp" line="137"/>
+        <location filename="../../core/coreinterface.cpp" line="140"/>
         <source>&lt;p&gt;Based on Qt version %1.&lt;br&gt;Copyright © 2019-%2 Team OpenVPI. All rights reserved.&lt;/p&gt;</source>
         <translation>&lt;p&gt;基于 Qt 版本 %1。&lt;br&gt;版权所有 © 2019-%2 Team OpenVPI。保留所有权利。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/icore.cpp" line="143"/>
+        <location filename="../../core/coreinterface.cpp" line="146"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;许可协议&lt;/h3&gt;&lt;p&gt;根据 Apache License, Version 2.0 授权。&lt;br&gt;你可以在 %1 获取许可协议副本。&lt;/p&gt;&lt;p&gt;本应用程序以&lt;b&gt;原样分发，不提供任何明示或暗示的担保或条件&lt;/b&gt;。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/icore.cpp" line="155"/>
+        <location filename="../../core/coreinterface.cpp" line="158"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Version: %1&lt;br&gt;Branch: %2&lt;br&gt;Commit: %3&lt;br&gt;Build date: %4&lt;br&gt;Toolchain: %5 %6 %7&lt;/p&gt;</source>
         <translation>&lt;h3&gt;构建信息&lt;/h3&gt;&lt;p&gt;版本：%1&lt;br&gt;分支：%2&lt;br&gt;提交：%3&lt;br&gt;构建日期：%4&lt;br&gt;工具链：%5 %6 %7&lt;/p&gt;</translation>
     </message>
@@ -106,80 +106,166 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2740"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2741"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2742"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4645"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4646"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4647"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2743"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2744"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4648"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4649"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2745"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2746"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4650"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4736"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4737"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4738"/>
+        <source>Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4651"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2747"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2748"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2749"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2750"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4652"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4653"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4654"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4655"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2751"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2752"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2753"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2754"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2755"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2756"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2757"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2758"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2759"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2760"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2761"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2762"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2763"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4656"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4657"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4658"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4659"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4660"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4661"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4662"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4663"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4664"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4665"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4666"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4667"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4668"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4669"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4670"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4671"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4672"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4673"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4674"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4679"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4680"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4681"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4682"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4683"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4684"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4685"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4686"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4687"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4688"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4689"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4690"/>
+        <source>Edit</source>
+        <translation type="unfinished">编辑</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4700"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4701"/>
+        <source>Time Indicator</source>
+        <translation type="unfinished">时间指示器</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4702"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4703"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4704"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4705"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4706"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4707"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4708"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4709"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4710"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4711"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4712"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4713"/>
         <source>Timeline</source>
         <translation>时间线</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2764"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2765"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2766"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2767"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2768"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2769"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2770"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2771"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2772"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2773"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2774"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2775"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2776"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2777"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2778"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2779"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2780"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2781"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2782"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2783"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2784"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2785"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4743"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4752"/>
+        <source>Core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4744"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4745"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4746"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4747"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4748"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4749"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4750"/>
+        <source>Panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4751"/>
+        <source>Widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4675"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4676"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4677"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4678"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4691"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4692"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4693"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4694"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4695"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4696"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4697"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4698"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4699"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4729"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4730"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4731"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4732"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4733"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4734"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4735"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2786"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2787"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2788"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2789"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4714"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4715"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4716"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4717"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4718"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4719"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4720"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4721"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4722"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4723"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4724"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4725"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4726"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4727"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4728"/>
+        <source>Workspace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4739"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4740"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4741"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4742"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -187,445 +273,905 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2792"/>
-        <source>Open Settings</source>
-        <translation>打开设置</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4755"/>
+        <source>Create a project in a new window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4756"/>
+        <source>Open an existing project in a new window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4757"/>
+        <source>Open application settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4758"/>
+        <source>Open plugin configuration dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4759"/>
+        <source>Switch to home window if it is opened, or else open home window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4760"/>
+        <source>Quit DiffScope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4761"/>
+        <source>Toggle &quot;Recent Files&quot; page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4762"/>
+        <source>Toggle &quot;Recovery Files&quot; page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4763"/>
+        <source>Toggle grid view in &quot;Recent Files&quot; page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4764"/>
+        <source>Toggle list view in &quot;Recent Files&quot; page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4765"/>
+        <source>Show music time (measure:beat:tick) on the time indicator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4766"/>
+        <source>Show absolute time (minute:second.millisecond) on the time indicator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4767"/>
+        <source>Navigate to a specific position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4768"/>
+        <source>Quickly navigate to a specific position</source>
+        <translation type="unfinished">快速导航到指定位置</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4769"/>
+        <source>Navigate to the start of current project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4770"/>
+        <source>Navigate to the end of current project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4771"/>
+        <source>Reset project end time based on project content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4772"/>
+        <source>Apply the default workspace layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4773"/>
+        <source>Show or hide the main menu bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4774"/>
+        <source>Show or hide the main tool bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4775"/>
+        <source>Show or hide the left side bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4776"/>
+        <source>Show or hide the right side bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4777"/>
+        <source>Show or hide the top side bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4778"/>
+        <source>Show or hide the bottom side bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4779"/>
+        <source>Show or hide the status bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4780"/>
+        <source>Switch to the next project window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4781"/>
+        <source>Switch to the previous project window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4782"/>
+        <source>Show help contents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4783"/>
+        <source>Find and trigger action by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4784"/>
+        <source>Show information about DiffScope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4785"/>
+        <source>Show information about Qt</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2651"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4494"/>
         <source>&amp;New</source>
         <translation>新建(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2652"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4495"/>
         <source>&amp;Open...</source>
         <translation>打开(&amp;O)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2653"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4496"/>
         <source>&amp;Save</source>
         <translation>保存(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2654"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4497"/>
         <source>Se&amp;ttings...</source>
         <translation>设置(&amp;T)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2655"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4498"/>
         <source>Pl&amp;ugins...</source>
         <translation>插件(&amp;P)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2656"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4499"/>
         <source>Show &amp;Home Window</source>
         <translation>显示主窗口(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2657"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4500"/>
         <source>E&amp;xit</source>
         <translation>退出(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2658"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4501"/>
         <source>Recent Files</source>
         <translation>最近文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2659"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4502"/>
         <source>Recovery Files</source>
         <translation>恢复文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2660"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4503"/>
         <source>Grid View</source>
         <translation>网格视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2661"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4504"/>
         <source>List View</source>
         <translation>列表视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2662"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4505"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4506"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4507"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4508"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4509"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4510"/>
+        <source>Paste Special...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4511"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">删除(&amp;D)</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4512"/>
+        <source>Select &amp;All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4513"/>
+        <source>Dese&amp;lect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4514"/>
+        <source>Select Current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4515"/>
+        <source>Select &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4516"/>
+        <source>Select &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4517"/>
+        <source>Select &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4518"/>
+        <source>Select &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4519"/>
+        <source>Move &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4520"/>
+        <source>Move &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4521"/>
+        <source>Move &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4522"/>
+        <source>Move &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4523"/>
+        <source>&amp;Move...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4524"/>
+        <source>Scroll &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4525"/>
+        <source>Scroll &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4526"/>
+        <source>Scroll &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4527"/>
+        <source>Scroll &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4528"/>
+        <source>Move Cursor &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4529"/>
+        <source>Move Cursor &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4530"/>
+        <source>Move Cursor &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4531"/>
+        <source>Move Cursor &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4532"/>
+        <source>Extend Selection &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4533"/>
+        <source>Extend Selection &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4534"/>
+        <source>Extend Selection &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4535"/>
+        <source>Extend Selection &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4536"/>
+        <source>Shrink Selection &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4537"/>
+        <source>Shrink Selection &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4538"/>
+        <source>Shrink Selection &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4539"/>
+        <source>Shrink Selection &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4540"/>
+        <source>Page &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4541"/>
+        <source>Page &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4542"/>
+        <source>Page &amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4543"/>
+        <source>Page &amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4544"/>
+        <source>Scroll to &amp;Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4545"/>
+        <source>Scroll to &amp;Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4546"/>
+        <source>Scroll to &amp;Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4547"/>
+        <source>Scroll to &amp;End</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4548"/>
+        <source>Scroll to Current Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4549"/>
         <source>Show &amp;Music Time</source>
         <translation>显示音乐时间(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2663"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4550"/>
         <source>Show &amp;Absolute Time</source>
         <translation>显示绝对时间(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2664"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4551"/>
         <source>&amp;Go To...</source>
         <translation>跳转到(&amp;G)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2665"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4552"/>
         <source>&amp;Quick Jump...</source>
         <translation>快速跳转(&amp;Q)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2666"/>
-        <source>Go To &amp;Start</source>
-        <translation>跳转到开始(&amp;S)</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4553"/>
+        <source>Go to &amp;Start</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2667"/>
-        <source>Go To Previous Measure</source>
-        <translation>跳转到上一小节</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4554"/>
+        <source>Go to Previous Measure</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2668"/>
-        <source>Go To Previous Beat</source>
-        <translation>跳转到上一拍</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4555"/>
+        <source>Go to Previous Beat</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2669"/>
-        <source>Go To Previous Tick</source>
-        <translation>跳转到上一刻</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4556"/>
+        <source>Go to Previous Tick</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2670"/>
-        <source>Go To &amp;End</source>
-        <translation>跳转到结束(&amp;E)</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4557"/>
+        <source>Go to &amp;End</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2671"/>
-        <source>Go To Next Measure</source>
-        <translation>跳转到下一小节</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4558"/>
+        <source>Go to Next Measure</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2672"/>
-        <source>Go To Next Beat</source>
-        <translation>跳转到下一拍</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4559"/>
+        <source>Go to Next Beat</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2673"/>
-        <source>Go To Next Tick</source>
-        <translation>跳转到下一刻</translation>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4560"/>
+        <source>Go to Next Tick</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2674"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4561"/>
+        <source>Go Inside View Range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4563"/>
+        <source>Workspace Layout...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4562"/>
         <source>&amp;Reset Project Time Range</source>
         <translation>重置项目时间范围(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2675"/>
-        <source>Workspace Layout</source>
-        <translation>工作区布局</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2676"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4564"/>
         <source>Default &amp;Layout</source>
         <translation>默认布局(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2677"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4565"/>
         <source>&amp;Custom Layouts</source>
         <translation>自定义布局(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2678"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4566"/>
         <source>&amp;Save Current Layout As...</source>
         <translation>另存为当前布局(&amp;S)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2679"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4567"/>
         <source>&amp;All Panels</source>
         <translation>所有面板(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2680"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4568"/>
         <source>None (Left Top)</source>
         <translation>无（左上）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2681"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4569"/>
         <source>None (Left Bottom)</source>
         <translation>无（左下）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2682"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4570"/>
         <source>None (Right Top)</source>
         <translation>无（右上）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2683"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4571"/>
         <source>None (Right Bottom)</source>
         <translation>无（右下）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2684"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4572"/>
         <source>None (Top Left)</source>
         <translation>无（上左）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2685"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4573"/>
         <source>None (Top Right)</source>
         <translation>无（上右）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2686"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4574"/>
         <source>None (Bottom Left)</source>
         <translation>无（下左）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2687"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4575"/>
         <source>None (Bottom Right)</source>
         <translation>无（下右）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2688"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4576"/>
         <source>&amp;Floating Panels</source>
         <translation>浮动面板(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2689"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4577"/>
         <source>Add &amp;New Panel or Action</source>
         <translation>添加新面板或命令(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2690"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4578"/>
         <source>Show &amp;Menu Bar</source>
         <translation>显示菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2691"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4579"/>
         <source>Show Too&amp;l Bar</source>
         <translation>显示工具栏(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2692"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4580"/>
         <source>Show &amp;Left Side Bar</source>
         <translation>显示左侧边栏(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2693"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4581"/>
         <source>Show &amp;Right Side Bar</source>
         <translation>显示右侧边栏(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2694"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4582"/>
         <source>Show &amp;Top Side Bar</source>
         <translation>显示顶部边栏(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2695"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4583"/>
         <source>Show &amp;Bottom Side Bar</source>
         <translation>显示底部边栏(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2696"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4584"/>
         <source>Show &amp;Status Bar</source>
         <translation>显示状态栏(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2697"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4585"/>
+        <source>&amp;Next Project Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4586"/>
+        <source>&amp;Previous Project Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4587"/>
+        <source>Pro&amp;ject Windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4588"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2698"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4589"/>
         <source>&amp;Find Actions...</source>
         <translation>查找命令(&amp;F)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2699"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4590"/>
         <source>&amp;About DiffScope</source>
         <translation>关于 DiffScope(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2700"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4591"/>
         <source>About &amp;Qt</source>
         <translation>关于 &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2701"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4592"/>
         <source>Main Menu</source>
         <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2702"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4593"/>
         <source>Main Tool Bar Left</source>
         <translation>主工具栏左</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2703"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4594"/>
         <source>Main Tool Bar Middle</source>
         <translation>主工具栏中</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2704"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4595"/>
         <source>Main Tool Bar Right</source>
         <translation>主工具栏右</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2705"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4596"/>
         <source>Main Status Bar</source>
         <translation>主状态栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2706"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4597"/>
         <source>Home Navigation</source>
         <translation>主页导航</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2707"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4598"/>
         <source>Home Tool</source>
         <translation>主页工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2708"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4599"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2709"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4600"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2710"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4601"/>
         <source>Workspace Panel Widgets</source>
         <translation>工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2711"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4602"/>
         <source>Status Text</source>
         <translation>状态文本</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2712"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4603"/>
         <source>Properties</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2713"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4604"/>
         <source>Plugins</source>
         <translation>插件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2714"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4605"/>
         <source>Arrangement</source>
         <translation>编曲</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2715"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4606"/>
         <source>Mixer</source>
         <translation>混音器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2716"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4607"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2717"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4608"/>
         <source>Notifications</source>
         <translation>通知</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2718"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4609"/>
         <source>Tips</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2719"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4610"/>
         <source>Digital Clock</source>
         <translation>数字时钟</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2720"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4611"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2721"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4612"/>
         <source>File Open Actions</source>
         <translation>文件打开命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2722"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4613"/>
         <source>Preference Actions</source>
         <translation>首选项命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2723"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4614"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2724"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4615"/>
+        <source>Undo Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4616"/>
+        <source>Generic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4617"/>
+        <source>Navigation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4618"/>
+        <source>Move Cu&amp;rsor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4619"/>
+        <source>&amp;Move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4620"/>
+        <source>&amp;Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4621"/>
+        <source>&amp;Extend Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4622"/>
+        <source>Shrin&amp;k Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4623"/>
         <source>Timeline</source>
         <translation>时间线</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2725"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4624"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation>时间指示器时间码格式命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2726"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4625"/>
         <source>Timeline Go to Actions</source>
         <translation>时间线跳转命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2727"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4626"/>
         <source>Timeline Back Navigation Actions</source>
         <translation>时间线后退导航命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2728"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4627"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation>时间线前进导航命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2729"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4628"/>
         <source>&amp;View</source>
         <translation>视图(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2730"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4629"/>
         <source>Workspace Actions</source>
         <translation>工作区命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2731"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4630"/>
         <source>&amp;Workspace</source>
         <translation>工作区(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2732"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4631"/>
         <source>Workspace Layouts</source>
         <translation>工作区布局</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2733"/>
-        <source>Workspace Manage Layouts</source>
-        <translation>工作区管理布局</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2734"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4632"/>
         <source>Opened &amp;Docking Panels</source>
         <translation>已打开的停靠面板(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2735"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4633"/>
+        <source>Dock Action to Side Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4634"/>
+        <source>Scroll Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4635"/>
+        <source>Scroll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4636"/>
+        <source>Scroll by Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4637"/>
+        <source>Scroll To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4638"/>
         <source>View Visibility Actions</source>
         <translation>视图可见性命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2736"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4639"/>
+        <source>&amp;Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4640"/>
+        <source>Project Window Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4641"/>
         <source>About Actions</source>
         <translation>关于命令</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="2737"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4642"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>工具栏时间线导航命令</translation>
     </message>
@@ -868,6 +1414,47 @@
     </message>
 </context>
 <context>
+    <name>ColorSchemeWelcomeWizardPage</name>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="13"/>
+        <source>Color Scheme</source>
+        <translation>配色方案</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="14"/>
+        <source>Choose a color scheme for %1</source>
+        <translation>为 %1 选择一个配色方案</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="29"/>
+        <source>Dark</source>
+        <translation>暗色</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="34"/>
+        <source>Light</source>
+        <translation>亮色</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="39"/>
+        <source>High contrast</source>
+        <translation>高对比度</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="85"/>
+        <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
+        <translation>稍后你还可以在 设置 &gt; 外观 &gt; 配送方案 中创建自定义颜色主题</translation>
+    </message>
+</context>
+<context>
+    <name>Core::CoreInterface</name>
+    <message>
+        <location filename="../../core/coreinterface.cpp" line="180"/>
+        <source>About %1</source>
+        <translation>关于 %1</translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::AppearancePage</name>
     <message>
         <location filename="../../internal/settings/appearancepage.cpp" line="14"/>
@@ -1043,14 +1630,193 @@
     </message>
 </context>
 <context>
+    <name>Core::Internal::CoreAchievementsModel</name>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="38"/>
+        <source>Core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="43"/>
+        <source>Welcome to DiffScope</source>
+        <translation>欢迎使用 DiffScope</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="44"/>
+        <source>Enjoy creating music!</source>
+        <translation>享受创作音乐！</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="52"/>
+        <source>Will It Be This Year&apos;s Top Hit?</source>
+        <translation>它会成为未来的神话曲吗？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="53"/>
+        <source>Create a new project</source>
+        <translation>创建新工程</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="60"/>
+        <source>What Can I Do?</source>
+        <translation>我能做什么？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="61"/>
+        <source>&quot;Find Actions&quot; will answer you</source>
+        <translation>“查找操作”将会给你答案</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="68"/>
+        <source>What Else Can I Do?</source>
+        <translation>我还能做什么？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="69"/>
+        <source>&quot;Help&quot; will answer you</source>
+        <translation>“帮助”将会给你答案</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="76"/>
+        <source>Hold [W] to Ponder</source>
+        <translation>按住 [W] 开始思索</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="77"/>
+        <source>A much better way to show context help than &quot;What&apos;s This?&quot;</source>
+        <translation>比“这是什么？”更好的显示上下文帮助的方式</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="84"/>
+        <source>Native Look and Feel</source>
+        <translation>原生外观</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="85"/>
+        <source>Disable the custom title bar</source>
+        <translation>禁用自定义标题栏</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="92"/>
+        <source>Make Full Use of Graphics Performance</source>
+        <translation>充分利用图形性能</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="93"/>
+        <source>Disable animation</source>
+        <translation>禁用动画</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="100"/>
+        <source>Open Settings with Command Line</source>
+        <translation>用命令行打开设置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="101"/>
+        <source>An alternative solution if you accidentally removed it from the main menu</source>
+        <translation>另一种解决问题的办法，如果你不小心把“设置”从主菜单移除</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="108"/>
+        <source>Extensibility</source>
+        <translation>可扩展性</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="109"/>
+        <source>Have a look at the plugin list</source>
+        <translation>看一看插件列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="116"/>
+        <source>Ultimate Simplicity</source>
+        <translation>至精至简</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="117"/>
+        <source>Disable all plugins, except Core (and Achievement, of course)</source>
+        <translation>禁用所有插件，除了 Core（当然还有 Achievement）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="124"/>
+        <source>Keep Patient</source>
+        <translation>保持耐心</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="125"/>
+        <source>Why is it taking so long to load?</source>
+        <translation>为什么加载了这么长时间？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="133"/>
+        <source>Better Organized</source>
+        <translation>秩序井然</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="134"/>
+        <source>Drag a panel somewhere else</source>
+        <translation>把一个面板拖动到别处</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="141"/>
+        <source>Way Better Organized</source>
+        <translation>更加秩序井然</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="142"/>
+        <source>Eject a panel outside the project window</source>
+        <translation>把一个面板从工程窗口中弹出</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="149"/>
+        <source>Better than Way Better Organized</source>
+        <translation>比秩序井然还要秩序井然</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="150"/>
+        <source>Remove a panel from the workspace</source>
+        <translation>从工作区中移除一个面板</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="157"/>
+        <source>Way Better than Way Better Organized</source>
+        <translation>比秩序井然还要更加秩序井然</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="158"/>
+        <source>Bring something new to the workspace</source>
+        <translation>往工作区里添加点儿新东西</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="165"/>
+        <source>Quick Jump</source>
+        <translation>快速跳转</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="166"/>
+        <source>Quickly navigate to a specific position</source>
+        <translation>快速导航到指定位置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="182"/>
+        <source>42</source>
+        <translation>42</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extras/coreachievementsmodel.cpp" line="183"/>
+        <source>Answer to the ultimate question</source>
+        <translation>终极问题的答案</translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/coreplugin.cpp" line="173"/>
+        <location filename="../../internal/coreplugin.cpp" line="150"/>
+        <location filename="../../internal/coreplugin.cpp" line="399"/>
         <source>Initializing core plugin...</source>
         <translation>正在初始化核心插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/coreplugin.cpp" line="204"/>
+        <location filename="../../internal/coreplugin.cpp" line="178"/>
         <source>Initializing GUI...</source>
         <translation>正在初始化图形界面...</translation>
     </message>
@@ -1131,6 +1897,34 @@
     </message>
 </context>
 <context>
+    <name>Core::Internal::NotificationAddOn</name>
+    <message numerus="yes">
+        <location filename="../../internal/addon/notificationaddon.cpp" line="52"/>
+        <source>%1 (+%Ln notification(s))</source>
+        <translation>
+            <numerusform>%1（+%Ln 个通知）</numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ProjectStartupTimerAddOn</name>
+    <message>
+        <location filename="../../internal/addon/projectstartuptimeraddon.cpp" line="35"/>
+        <source>Initializing project window...</source>
+        <translation>正在初始化工程窗口...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/projectstartuptimeraddon.cpp" line="51"/>
+        <source>Project window initialized in %1 seconds</source>
+        <translation>工程窗口初始化完成，用时 %1 秒</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/projectstartuptimeraddon.cpp" line="53"/>
+        <source>Project window initialized</source>
+        <translation>工程窗口初始化完成</translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::TimeIndicatorPage</name>
     <message>
         <location filename="../../internal/settings/timeindicatorpage.cpp" line="13"/>
@@ -1146,17 +1940,17 @@
 <context>
     <name>Core::Internal::TimelineAddOn</name>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="78"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="79"/>
         <source>measure %L1, beat %L2</source>
         <translation>第 %L1 小节，第 %L2 拍</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="80"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="81"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation>第 %L1 小节，第 %L2 拍，第 %L3 刻</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="83"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="84"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -1164,7 +1958,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="84"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="85"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -1172,7 +1966,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="85"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="86"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -1180,26 +1974,26 @@
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="93"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="99"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="94"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="100"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation>%1 %2处</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="96"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="97"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation>%1 %2处</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="101"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="102"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation>%1 %2 %3处</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="108"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="109"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -1207,7 +2001,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="109"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="110"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -1215,7 +2009,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/timelineaddon.cpp" line="110"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="111"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -1223,127 +2017,127 @@
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="118"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="124"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="119"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="125"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="121"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="122"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="126"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="127"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation>%1 %2 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="140"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="173"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="212"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="227"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="241"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="255"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="267"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="274"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="281"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="141"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="174"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="213"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="228"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="242"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="256"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="268"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="275"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="282"/>
         <source>Go to %1</source>
         <translation>转到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="173"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="202"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="174"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="203"/>
         <source>absolute time...</source>
         <translation>绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="173"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="174"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="195"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="196"/>
         <source>Move backward by %1</source>
         <translation>后移 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="195"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="196"/>
         <source>Move forward by %1</source>
         <translation>前移 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="202"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="203"/>
         <source>%1 (to %2)</source>
         <translation>%1 （移动到 %2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="203"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="228"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="242"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="256"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="204"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="229"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="243"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="257"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation>
 时间偏移超出边界，已被调整到零</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="212"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="213"/>
         <source>the end of project (%1)</source>
         <translation>工程结束（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="227"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="228"/>
         <source>previous measure (%1)</source>
         <translation>上一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="241"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="242"/>
         <source>previous beat (%1)</source>
         <translation>上一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="255"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="256"/>
         <source>previous tick (%1)</source>
         <translation>上一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="267"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="268"/>
         <source>next measure (%1)</source>
         <translation>下一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="274"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="275"/>
         <source>next beat (%1)</source>
         <translation>下一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="281"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="282"/>
         <source>next tick (%1)</source>
         <translation>下一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="346"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="350"/>
         <source>Jump to</source>
         <translation>跳转到</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="321"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="347"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="324"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="351"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation>键入“?”以查看提示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="356"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="360"/>
         <source>Input should not be empty</source>
         <translation>输入不应为空</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="338"/>
-        <location filename="../../internal/addon/timelineaddon.cpp" line="358"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="341"/>
+        <location filename="../../internal/addon/timelineaddon.cpp" line="362"/>
         <source>Invalid format</source>
         <translation>无效格式</translation>
     </message>
@@ -1595,62 +2389,62 @@ Continue?</source>
 <context>
     <name>MenuPage</name>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="26"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="67"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="29"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="70"/>
         <source>Add Action or Menu...</source>
         <translation>添加命令或菜单...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="32"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="73"/>
         <source>Add Separator</source>
         <translation>添加分隔符</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="36"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="77"/>
         <source>Add Stretch</source>
         <translation>添加拉伸</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="41"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="82"/>
         <source>Edit Icon...</source>
         <translation>编辑图标...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="46"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="87"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="51"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="92"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="56"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="97"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="61"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="102"/>
         <source>Restore</source>
         <translation>还原</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="64"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="105"/>
         <source>Restore This Menu</source>
         <translation>还原此菜单</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="67"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="108"/>
         <source>Restore All</source>
         <translation>全部还原</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="95"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="46"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
@@ -1658,12 +2452,12 @@ Continue?</source>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="31"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="38"/>
         <source>Clear All</source>
         <translation>全部清除</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="74"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="81"/>
         <source>No notification</source>
         <translation>无通知</translation>
     </message>
@@ -1674,6 +2468,14 @@ Continue?</source>
         <location filename="../../qml/dialogs/PluginDialog.qml" line="12"/>
         <source>Plugins</source>
         <translation>插件</translation>
+    </message>
+</context>
+<context>
+    <name>ProjectActions</name>
+    <message>
+        <location filename="../../qml/actions/ProjectActions.qml" line="35"/>
+        <source>Click to show details</source>
+        <translation>单击以显示详情</translation>
     </message>
 </context>
 <context>
@@ -1737,6 +2539,19 @@ Continue?</source>
         <location filename="../../qml/settings/TimeIndicatorPage.qml" line="127"/>
         <source>Press-and-hold action</source>
         <translation>长按操作</translation>
+    </message>
+</context>
+<context>
+    <name>TimelineAddOnActions</name>
+    <message>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="24"/>
+        <source>Current project time</source>
+        <translation>当前工程时间</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="66"/>
+        <source>Slide to adjust current project time</source>
+        <translation>滑动以调整当前工程时间</translation>
     </message>
 </context>
 <context>
@@ -1822,37 +2637,52 @@ Continue?</source>
 <context>
     <name>WorkspaceAddOnHelper</name>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="154"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="70"/>
+        <source>The current workspace does not contain any panels</source>
+        <translation>当前工作区不包含任何面板</translation>
+    </message>
+    <message>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="71"/>
+        <source>Workspace data might be erroneous. You can try restoring the default workspace.</source>
+        <translation>工作区数据可能有错误。你可以尝试恢复到默认工作区。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="73"/>
+        <source>Restore Default Workspace</source>
+        <translation>恢复到默认工作区</translation>
+    </message>
+    <message>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="184"/>
         <source>Custom layout name</source>
         <translation>自定义布局名称</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="159"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="189"/>
         <source>Name should not be empty</source>
         <translation>名称不能为空</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="166"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="196"/>
         <source>New name should not be the same as old name</source>
         <translation>新名称不能与旧名称相同</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="173"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="203"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>同名自定义预设将被覆盖</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="193"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="223"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="193"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="223"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>删除布局“%1”？</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="234"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="264"/>
         <source>Drag to the sidebar to add &quot;%1&quot;</source>
         <translation>拖动到侧边栏以添加“%1”</translation>
     </message>
