@@ -272,7 +272,6 @@ Window {
                         id: defaultSettingPageWidget
                         anchors.fill: parent
                         anchors.margins: 12
-                        anchors.topMargin: 0
                         property list<QtObject> model: []
                         ColumnLayout {
                             spacing: 4

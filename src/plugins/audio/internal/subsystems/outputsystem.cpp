@@ -28,17 +28,18 @@ namespace Audio::Internal {
         // setFileBufferingReadAheadSize(AudioSettings::fileBufferingReadAheadSize());
 
         if (m_outputContext->initialize(m_driverName, m_deviceName)) {
-            qCDebug(audioOutputSystem) << "Device initialized"
-                     << m_outputContext->device()->name()
-                     << m_outputContext->driver()->name()
-                     << m_outputContext->adoptedBufferSize()
-                     << m_outputContext->adoptedSampleRate();
+            qCDebug(audioOutputSystem)
+                << "Device initialized" << m_outputContext->device()->name()
+                << m_outputContext->driver()->name() << m_outputContext->adoptedBufferSize()
+                << m_outputContext->adoptedSampleRate();
             return true;
         } else {
             qCWarning(audioOutputSystem) << "Fatal: Cannot initialize";
             return false;
         }
-
+    }
+    talcs::OutputContext *OutputSystem::outputContext() const {
+        return m_outputContext.get();
     }
     bool OutputSystem::setDriver(const QString &driverName) {
         if (m_outputContext->setDriver(driverName)) {

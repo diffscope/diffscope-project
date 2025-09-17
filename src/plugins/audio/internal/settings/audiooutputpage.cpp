@@ -5,6 +5,8 @@
 
 #include <CoreApi/plugindatabase.h>
 
+#include <audio/internal/audiooutputsettingshelper.h>
+
 namespace Audio::Internal {
 
     AudioOutputPage::AudioOutputPage(QObject *parent) : Core::ISettingPage("audio.AudioOutput", parent) {
@@ -37,15 +39,19 @@ namespace Audio::Internal {
     void AudioOutputPage::beginSetting() {
         widget();
         m_widget->setProperty("started", true);
+        m_widget->setProperty("helper", QVariant::fromValue(new AudioOutputSettingsHelper(this)));
         ISettingPage::beginSetting();
     }
 
     bool AudioOutputPage::accept() {
-        return Core::ISettingPage::accept();
+        return ISettingPage::accept();
     }
 
     void AudioOutputPage::endSetting() {
-        Core::ISettingPage::endSetting();
+        m_widget->setProperty("started", false);
+        auto o = m_widget->property("helper").value<QObject *>();
+        o->deleteLater();
+        ISettingPage::endSetting();
     }
 
     bool AudioOutputPage::widgetMatches(const QString &word) {
