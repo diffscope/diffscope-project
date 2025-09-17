@@ -77,6 +77,14 @@ foreach(_file IN LISTS _qml_files_abs)
     list(APPEND _qml_files ${_rel_path})
 endforeach()
 
+qt_add_qml_module(${PROJECT_NAME}
+    URI DiffScope.Audio
+    QML_FILES ${_qml_files}
+    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/Audio
+)
+
+qm_install_qml_modules(${PROJECT_NAME})
+
 # Add translation
 qm_add_translation(${PROJECT_NAME}_translations
     PREFIX
