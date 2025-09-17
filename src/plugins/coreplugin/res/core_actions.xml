@@ -60,7 +60,7 @@
         <action id="core.view.scroll&amp;Right" shortcut="Right" />
 
         <action id="core.edit.moveCursor&amp;Up" shortcut="Ctrl+Up" />
-        <action id="core.edit.moveCursor&amp;Down" shortcut="Ctrl+Down" />
+        <action id="core.edit.moveCursor&amp;Down" shortcut="Ctrl+Down" /> 
         <action id="core.edit.moveCursor&amp;Left" shortcut="Ctrl+Left" />
         <action id="core.edit.moveCursor&amp;Right" shortcut="Ctrl+Right" />
 

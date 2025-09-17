@@ -124,7 +124,7 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4737"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4738"/>
         <source>Window</source>
-        <translation type="unfinished"></translation>
+        <translation>窗口</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4651"/>
@@ -172,13 +172,13 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4689"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4690"/>
         <source>Edit</source>
-        <translation type="unfinished">编辑</translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4700"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4701"/>
         <source>Time Indicator</source>
-        <translation type="unfinished">时间指示器</translation>
+        <translation>时间指示器</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4702"/>
@@ -194,13 +194,13 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4712"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4713"/>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>时间轴</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4743"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4752"/>
         <source>Core</source>
-        <translation type="unfinished"></translation>
+        <translation>核心</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4744"/>
@@ -211,12 +211,12 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4749"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4750"/>
         <source>Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>面板</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4751"/>
         <source>Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>小组件</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4675"/>
@@ -259,7 +259,7 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4727"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4728"/>
         <source>Workspace</source>
-        <translation type="unfinished"></translation>
+        <translation>工作区</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4739"/>
@@ -275,157 +275,157 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4755"/>
         <source>Create a project in a new window</source>
-        <translation type="unfinished"></translation>
+        <translation>在新窗口中创建工程</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4756"/>
         <source>Open an existing project in a new window</source>
-        <translation type="unfinished"></translation>
+        <translation>在新窗口中打开现有项目</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4757"/>
         <source>Open application settings</source>
-        <translation type="unfinished"></translation>
+        <translation>打开应用程序设置</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4758"/>
         <source>Open plugin configuration dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>打开插件配置对话框</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4759"/>
         <source>Switch to home window if it is opened, or else open home window</source>
-        <translation type="unfinished"></translation>
+        <translation>如果主窗口已打开则切换到主窗口，否则打开主窗口</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4760"/>
         <source>Quit DiffScope</source>
-        <translation type="unfinished"></translation>
+        <translation>退出 DiffScope</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4761"/>
         <source>Toggle &quot;Recent Files&quot; page</source>
-        <translation type="unfinished"></translation>
+        <translation>切换“最近文件”页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4762"/>
         <source>Toggle &quot;Recovery Files&quot; page</source>
-        <translation type="unfinished"></translation>
+        <translation>切换“恢复文件”页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4763"/>
         <source>Toggle grid view in &quot;Recent Files&quot; page</source>
-        <translation type="unfinished"></translation>
+        <translation>在“最近文件”页面中切换网格视图</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4764"/>
         <source>Toggle list view in &quot;Recent Files&quot; page</source>
-        <translation type="unfinished"></translation>
+        <translation>在“最近文件”页面中切换列表视图</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4765"/>
         <source>Show music time (measure:beat:tick) on the time indicator</source>
-        <translation type="unfinished"></translation>
+        <translation>在时间指示器上显示音乐时间（小节:拍:刻）</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4766"/>
         <source>Show absolute time (minute:second.millisecond) on the time indicator</source>
-        <translation type="unfinished"></translation>
+        <translation>在时间指示器上显示绝对时间（分:秒:毫秒）</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4767"/>
         <source>Navigate to a specific position</source>
-        <translation type="unfinished"></translation>
+        <translation>导航到指定位置</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4768"/>
         <source>Quickly navigate to a specific position</source>
-        <translation type="unfinished">快速导航到指定位置</translation>
+        <translation>快速导航到指定位置</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4769"/>
         <source>Navigate to the start of current project</source>
-        <translation type="unfinished"></translation>
+        <translation>导航到当前工程的开始</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4770"/>
         <source>Navigate to the end of current project</source>
-        <translation type="unfinished"></translation>
+        <translation>导航到当前工程的结束</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4771"/>
         <source>Reset project end time based on project content</source>
-        <translation type="unfinished"></translation>
+        <translation>基于工程内容重置工程结束时间</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4772"/>
         <source>Apply the default workspace layout</source>
-        <translation type="unfinished"></translation>
+        <translation>应用默认工作区布局</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4773"/>
         <source>Show or hide the main menu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏主菜单栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4774"/>
         <source>Show or hide the main tool bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏主工具栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4775"/>
         <source>Show or hide the left side bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏左侧边栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4776"/>
         <source>Show or hide the right side bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏右侧边栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4777"/>
         <source>Show or hide the top side bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏顶部边栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4778"/>
         <source>Show or hide the bottom side bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏底部边栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4779"/>
         <source>Show or hide the status bar</source>
-        <translation type="unfinished"></translation>
+        <translation>显示或隐藏状态栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4780"/>
         <source>Switch to the next project window</source>
-        <translation type="unfinished"></translation>
+        <translation>切换到下一个工程窗口</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4781"/>
         <source>Switch to the previous project window</source>
-        <translation type="unfinished"></translation>
+        <translation>切换到上一个工程窗口</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4782"/>
         <source>Show help contents</source>
-        <translation type="unfinished"></translation>
+        <translation>显示帮助内容</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4783"/>
         <source>Find and trigger action by name</source>
-        <translation type="unfinished"></translation>
+        <translation>使用名称查找并触发操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4784"/>
         <source>Show information about DiffScope</source>
-        <translation type="unfinished"></translation>
+        <translation>显示关于 DiffScope 的信息</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4785"/>
         <source>Show information about Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>显示关于 Qt 的信息</translation>
     </message>
 </context>
 <context>
@@ -488,222 +488,222 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4505"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>撤销(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4506"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>重做(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4507"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>剪切(&amp;T)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4508"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>复制(&amp;C)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4509"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴(&amp;P)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4510"/>
         <source>Paste Special...</source>
-        <translation type="unfinished"></translation>
+        <translation>选择性粘贴...</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4511"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">删除(&amp;D)</translation>
+        <translation>删除(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4512"/>
         <source>Select &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>全选(&amp;A)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4513"/>
         <source>Dese&amp;lect</source>
-        <translation type="unfinished"></translation>
+        <translation>取消全选(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4514"/>
         <source>Select Current</source>
-        <translation type="unfinished"></translation>
+        <translation>选择当前</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4515"/>
         <source>Select &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上选择(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4516"/>
         <source>Select &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下选择(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4517"/>
         <source>Select &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左选择(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4518"/>
         <source>Select &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右选择(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4519"/>
         <source>Move &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>上移(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4520"/>
         <source>Move &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>下移(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4521"/>
         <source>Move &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>左移(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4522"/>
         <source>Move &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>右移(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4523"/>
         <source>&amp;Move...</source>
-        <translation type="unfinished"></translation>
+        <translation>移动(&amp;M)...</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4524"/>
         <source>Scroll &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上滚动(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4525"/>
         <source>Scroll &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下滚动(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4526"/>
         <source>Scroll &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左滚动(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4527"/>
         <source>Scroll &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右滚动(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4528"/>
         <source>Move Cursor &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>上移光标(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4529"/>
         <source>Move Cursor &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>下移光标(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4530"/>
         <source>Move Cursor &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>左移光标(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4531"/>
         <source>Move Cursor &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>右移光标(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4532"/>
         <source>Extend Selection &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上扩展选区(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4533"/>
         <source>Extend Selection &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下扩展选区(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4534"/>
         <source>Extend Selection &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左扩展选区(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4535"/>
         <source>Extend Selection &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右扩展选区(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4536"/>
         <source>Shrink Selection &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上收缩选区(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4537"/>
         <source>Shrink Selection &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下收缩选区(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4538"/>
         <source>Shrink Selection &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左收缩选区(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4539"/>
         <source>Shrink Selection &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右收缩选区(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4540"/>
         <source>Page &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上翻页(&amp;U)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4541"/>
         <source>Page &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下翻页(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4542"/>
         <source>Page &amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左翻页(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4543"/>
         <source>Page &amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右翻页(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4544"/>
         <source>Scroll to &amp;Top</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到顶部(&amp;T)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4545"/>
         <source>Scroll to &amp;Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到底部(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4546"/>
         <source>Scroll to &amp;Start</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到开始(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4547"/>
         <source>Scroll to &amp;End</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到结束(&amp;E)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4548"/>
         <source>Scroll to Current Time</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到当前时间</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4549"/>
@@ -728,52 +728,52 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4553"/>
         <source>Go to &amp;Start</source>
-        <translation type="unfinished"></translation>
+        <translation>转到开始(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4554"/>
         <source>Go to Previous Measure</source>
-        <translation type="unfinished"></translation>
+        <translation>转到上一小节</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4555"/>
         <source>Go to Previous Beat</source>
-        <translation type="unfinished"></translation>
+        <translation>转到上一拍</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4556"/>
         <source>Go to Previous Tick</source>
-        <translation type="unfinished"></translation>
+        <translation>转到上一刻</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4557"/>
         <source>Go to &amp;End</source>
-        <translation type="unfinished"></translation>
+        <translation>转到结束(&amp;E)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4558"/>
         <source>Go to Next Measure</source>
-        <translation type="unfinished"></translation>
+        <translation>转到下一小节</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4559"/>
         <source>Go to Next Beat</source>
-        <translation type="unfinished"></translation>
+        <translation>转到下一拍</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4560"/>
         <source>Go to Next Tick</source>
-        <translation type="unfinished"></translation>
+        <translation>转到下一刻</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4561"/>
         <source>Go Inside View Range</source>
-        <translation type="unfinished"></translation>
+        <translation>转到视图区域内</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4563"/>
         <source>Workspace Layout...</source>
-        <translation type="unfinished"></translation>
+        <translation>工作区布局...</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4562"/>
@@ -848,7 +848,7 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4577"/>
         <source>Add &amp;New Panel or Action</source>
-        <translation>添加新面板或命令(&amp;N)</translation>
+        <translation>添加新面板或操作(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4578"/>
@@ -888,17 +888,17 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4585"/>
         <source>&amp;Next Project Window</source>
-        <translation type="unfinished"></translation>
+        <translation>下一个工程窗口(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4586"/>
         <source>&amp;Previous Project Window</source>
-        <translation type="unfinished"></translation>
+        <translation>上一个工程窗口(&amp;P)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4587"/>
         <source>Pro&amp;ject Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>工程窗口(&amp;J)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4588"/>
@@ -908,7 +908,7 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4589"/>
         <source>&amp;Find Actions...</source>
-        <translation>查找命令(&amp;F)...</translation>
+        <translation>查找操作(&amp;F)...</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4590"/>
@@ -1023,12 +1023,12 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4612"/>
         <source>File Open Actions</source>
-        <translation>文件打开命令</translation>
+        <translation>文件打开操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4613"/>
         <source>Preference Actions</source>
-        <translation>首选项命令</translation>
+        <translation>首选项操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4614"/>
@@ -1038,67 +1038,67 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4615"/>
         <source>Undo Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>撤销操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4616"/>
         <source>Generic</source>
-        <translation type="unfinished"></translation>
+        <translation>通用的</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4617"/>
         <source>Navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>导航</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4618"/>
         <source>Move Cu&amp;rsor</source>
-        <translation type="unfinished"></translation>
+        <translation>移动光标(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4619"/>
         <source>&amp;Move</source>
-        <translation type="unfinished"></translation>
+        <translation>移动(&amp;M)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4620"/>
         <source>&amp;Select</source>
-        <translation type="unfinished"></translation>
+        <translation>选择(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4621"/>
         <source>&amp;Extend Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>扩展选区(&amp;E)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4622"/>
         <source>Shrin&amp;k Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>收缩选区(&amp;K)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4623"/>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>时间轴</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4624"/>
         <source>Time Indicator Timecode Format Actions</source>
-        <translation>时间指示器时间码格式命令</translation>
+        <translation>时间指示器时间码格式操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4625"/>
         <source>Timeline Go to Actions</source>
-        <translation>时间线跳转命令</translation>
+        <translation>时间轴跳转操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4626"/>
         <source>Timeline Back Navigation Actions</source>
-        <translation>时间线后退导航命令</translation>
+        <translation>时间轴后退导航操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4627"/>
         <source>Timeline Forward Navigation Actions</source>
-        <translation>时间线前进导航命令</translation>
+        <translation>时间轴前进导航操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4628"/>
@@ -1108,7 +1108,7 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4629"/>
         <source>Workspace Actions</source>
-        <translation>工作区命令</translation>
+        <translation>工作区操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4630"/>
@@ -1128,52 +1128,52 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4633"/>
         <source>Dock Action to Side Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>停靠操作到侧边栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4634"/>
         <source>Scroll Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4635"/>
         <source>Scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4636"/>
         <source>Scroll by Page</source>
-        <translation type="unfinished"></translation>
+        <translation>按页滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4637"/>
         <source>Scroll To</source>
-        <translation type="unfinished"></translation>
+        <translation>滚到到</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4638"/>
         <source>View Visibility Actions</source>
-        <translation>视图可见性命令</translation>
+        <translation>视图可见性操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4639"/>
         <source>&amp;Window</source>
-        <translation type="unfinished"></translation>
+        <translation>窗口(&amp;W)</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4640"/>
         <source>Project Window Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>工程窗口操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4641"/>
         <source>About Actions</source>
-        <translation>关于命令</translation>
+        <translation>关于操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4642"/>
         <source>Tool Bar Timeline Navigation Actions</source>
-        <translation>工具栏时间线导航命令</translation>
+        <translation>工具栏时间轴导航操作</translation>
     </message>
 </context>
 <context>
@@ -1385,7 +1385,7 @@
     <message>
         <location filename="../../qml/settings/ColorSchemePage.qml" line="467"/>
         <source>Preset Actions</source>
-        <translation>预设命令</translation>
+        <translation>预设操作</translation>
     </message>
     <message>
         <location filename="../../qml/settings/ColorSchemePage.qml" line="471"/>
@@ -1443,7 +1443,7 @@
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="85"/>
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
-        <translation>稍后你还可以在 设置 &gt; 外观 &gt; 配送方案 中创建自定义颜色主题</translation>
+        <translation>稍后你还可以在 设置 &gt; 外观 &gt; 配色方案 中创建自定义颜色主题</translation>
     </message>
 </context>
 <context>
@@ -1634,7 +1634,7 @@
     <message>
         <location filename="../../internal/extras/coreachievementsmodel.cpp" line="38"/>
         <source>Core</source>
-        <translation type="unfinished"></translation>
+        <translation>核心</translation>
     </message>
     <message>
         <location filename="../../internal/extras/coreachievementsmodel.cpp" line="43"/>
@@ -1826,7 +1826,7 @@
     <message>
         <location filename="../../internal/addon/findactionsaddon.cpp" line="57"/>
         <source>Find actions</source>
-        <translation>查找命令</translation>
+        <translation>查找操作</translation>
     </message>
 </context>
 <context>
@@ -1880,7 +1880,7 @@
     <message>
         <location filename="../../internal/settings/keymappage.cpp" line="11"/>
         <source>Configure shortcuts of actions</source>
-        <translation>配置命令的快捷键</translation>
+        <translation>配置操作的快捷键</translation>
     </message>
 </context>
 <context>
@@ -2278,7 +2278,7 @@ Continue?</source>
     <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="186"/>
         <source>Find Actions</source>
-        <translation>查找命令</translation>
+        <translation>查找操作</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="193"/>
@@ -2396,7 +2396,7 @@ Continue?</source>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="70"/>
         <source>Add Action or Menu...</source>
-        <translation>添加命令或菜单...</translation>
+        <translation>添加操作或菜单...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="73"/>
@@ -2621,7 +2621,7 @@ Continue?</source>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="253"/>
         <source>Add Action...</source>
-        <translation>添加命令...</translation>
+        <translation>添加操作...</translation>
     </message>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="264"/>
