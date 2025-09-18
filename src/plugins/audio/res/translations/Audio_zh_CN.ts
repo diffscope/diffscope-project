@@ -6,7 +6,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/audio/res/qak_audio_actions.cpp" line="78"/>
       <source>Main Menu</source>
-      <translation type="unfinished">Main Menu</translation>
+      <translation>主菜单</translation>
     </message>
   </context>
   <context>
@@ -14,12 +14,12 @@
     <message>
       <location filename="../../internal/settings/audioandmidipage.cpp" line="8"/>
       <source>Audio and MIDI</source>
-      <translation type="unfinished">Audio and MIDI</translation>
+      <translation>音频与 MIDI</translation>
     </message>
     <message>
       <location filename="../../internal/settings/audioandmidipage.cpp" line="9"/>
       <source>Configure audio and MIDI preferences</source>
-      <translation type="unfinished">Configure audio and MIDI preferences</translation>
+      <translation>配置音频和 MIDI 首选项</translation>
     </message>
   </context>
   <context>
@@ -27,12 +27,12 @@
     <message>
       <location filename="../../internal/settings/audiooutputpage.cpp" line="13"/>
       <source>Audio Output</source>
-      <translation type="unfinished">Audio Output</translation>
+      <translation>音频输出</translation>
     </message>
     <message>
       <location filename="../../internal/settings/audiooutputpage.cpp" line="14"/>
       <source>Configure the audio driver and device for output</source>
-      <translation type="unfinished">Configure the audio driver and device for output</translation>
+      <translation>配置用于输出的音频设备</translation>
     </message>
   </context>
   <context>
@@ -57,12 +57,12 @@
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="308"/>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="309"/>
       <source>(Not working)</source>
-      <translation type="unfinished">(Not working)</translation>
+      <translation>（不工作）</translation>
     </message>
     <message>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="116"/>
       <source>Cannot initialize %1 driver</source>
-      <translation type="unfinished">Cannot initialize %1 driver</translation>
+      <translation>无法初始化 %1 驱动</translation>
     </message>
     <message>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="167"/>
@@ -73,23 +73,23 @@
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="246"/>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="298"/>
       <source>Default device</source>
-      <translation type="unfinished">Default device</translation>
+      <translation>默认设备</translation>
     </message>
     <message>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="298"/>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="299"/>
       <source>Audio device %1 is not available</source>
-      <translation type="unfinished">Audio device %1 is not available</translation>
+      <translation>音频设备 %1 不可用</translation>
     </message>
     <message>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="468"/>
       <source>Cannot set sample rate to %1</source>
-      <translation type="unfinished">Cannot set sample rate to %1</translation>
+      <translation>无法设置采样率为 %1</translation>
     </message>
     <message>
       <location filename="../../internal/utils/audiooutputsettingshelper.cpp" line="499"/>
       <source>Cannot set buffer size to %1</source>
-      <translation type="unfinished">Cannot set buffer size to %1</translation>
+      <translation>无法设置缓冲区大小为 %1</translation>
     </message>
   </context>
   <context>
@@ -97,21 +97,21 @@
     <message>
       <location filename="../../internal/audioplugin.cpp" line="25"/>
       <source>Initializing audio plugin...</source>
-      <translation type="unfinished">Initializing audio plugin...</translation>
+      <translation>正在初始化音频插件...</translation>
     </message>
     <message>
       <location filename="../../internal/audioplugin.cpp" line="49"/>
       <source>Failed to initialize audio output system</source>
-      <translation type="unfinished">Failed to initialize audio output system</translation>
+      <translation>初始化音频输出系统失败</translation>
     </message>
     <message>
       <location filename="../../internal/audioplugin.cpp" line="50"/>
       <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
-      <translation type="unfinished">%1 will not play sound because no available audio output device found.
+      <translation>%1 将不会播放声音，因为未找到可用的音频输出设备。
 
-Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</translation>
+请转到 设置 &gt; 音频与 MIDI &gt; 音频输出 以检查设备状态。</translation>
     </message>
   </context>
   <context>
@@ -119,77 +119,77 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="28"/>
       <source>Device Parameters</source>
-      <translation type="unfinished">Device Parameters</translation>
+      <translation>设备参数</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="38"/>
       <source>Audio driver</source>
-      <translation type="unfinished">Audio driver</translation>
+      <translation>音频驱动</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="46"/>
       <source>Audio device</source>
-      <translation type="unfinished">Audio device</translation>
+      <translation>音频设备</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="54"/>
       <source>Sample rate</source>
-      <translation type="unfinished">Sample rate</translation>
+      <translation>采样率</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="62"/>
       <source>Buffer size</source>
-      <translation type="unfinished">Buffer size</translation>
+      <translation>缓冲区大小</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="74"/>
       <source>Test</source>
-      <translation type="unfinished">Test</translation>
+      <translation>测试</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="77"/>
       <source>Open Control Panel</source>
-      <translation type="unfinished">Open Control Panel</translation>
+      <translation>打开控制面板</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="83"/>
       <source>Mixer</source>
-      <translation type="unfinished">Mixer</translation>
+      <translation>混音器</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="90"/>
       <source>Device gain</source>
-      <translation type="unfinished">Device gain</translation>
+      <translation>设备增益</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="103"/>
       <source>Device pan</source>
-      <translation type="unfinished">Device pan</translation>
+      <translation>设备声像</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="118"/>
       <source>Hot Plug</source>
-      <translation type="unfinished">Hot Plug</translation>
+      <translation>热插拔</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="124"/>
       <source>When device change detected</source>
-      <translation type="unfinished">When device change detected</translation>
+      <translation>当检测到设备变动时</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="130"/>
       <source>Always show notification</source>
-      <translation type="unfinished">Always show notification</translation>
+      <translation>总是显示通知</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="131"/>
       <source>Show notification only when the current device is removed</source>
-      <translation type="unfinished">Show notification only when the current device is removed</translation>
+      <translation>仅在当前设备移除时显示通知</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AudioOutputPage.qml" line="132"/>
       <source>Do not show notification</source>
-      <translation type="unfinished">Do not show notification</translation>
+      <translation>不显示通知</translation>
     </message>
   </context>
   <context>
@@ -197,47 +197,47 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="17"/>
       <source>Audio Output</source>
-      <translation type="unfinished">Audio Output</translation>
+      <translation>音频输出</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="18"/>
       <source>Configure audio output device parameters</source>
-      <translation type="unfinished">Configure audio output device parameters</translation>
+      <translation>配置音频输出设备参数</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="32"/>
       <source>Audio driver</source>
-      <translation type="unfinished">Audio driver</translation>
+      <translation>音频驱动</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="39"/>
       <source>Audio device</source>
-      <translation type="unfinished">Audio device</translation>
+      <translation>音频设备</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="46"/>
       <source>Sample rate</source>
-      <translation type="unfinished">Sample rate</translation>
+      <translation>采样率</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="53"/>
       <source>Buffer size</source>
-      <translation type="unfinished">Buffer size</translation>
+      <translation>缓冲区大小</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="64"/>
       <source>Test</source>
-      <translation type="unfinished">Test</translation>
+      <translation>测试</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="67"/>
       <source>Open Control Panel</source>
-      <translation type="unfinished">Open Control Panel</translation>
+      <translation>打开控制面板</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="73"/>
       <source>Click &quot;Test&quot; button to check whether audio output is configured correctly</source>
-      <translation type="unfinished">Click &quot;Test&quot; button to check whether audio output is configured correctly</translation>
+      <translation>点击“测试”按钮以检查音频输出是否正确配置</translation>
     </message>
   </context>
 </TS>
