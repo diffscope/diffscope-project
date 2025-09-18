@@ -6,36 +6,36 @@
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="17"/>
       <source>Achievements (Experimental Feature)</source>
-      <translation type="unfinished">Achievements (Experimental Feature)</translation>
+      <translation>成就（实验性特性）</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="18"/>
       <source>Achievements provide tips about %1 in an interactive way</source>
-      <translation type="unfinished">Achievements provide tips about %1 in an interactive way</translation>
+      <translation>成就以交互式的方式提供关于 %1 的提示</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="31"/>
       <source>Achievement Completed</source>
-      <translation type="unfinished">Achievement Completed</translation>
+      <translation>成就达成</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="36"/>
       <source>Welcome to DiffScope</source>
-      <translation type="unfinished">Welcome to DiffScope</translation>
+      <translation>欢迎使用 DiffScope</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="59"/>
       <source>Show &quot;Achievement Completed&quot; notification</source>
-      <translation type="unfinished">Show &quot;Achievement Completed&quot; notification</translation>
+      <translation>显示“成就达成”通知</translation>
     </message>
     <message>
       <location filename="../../qml/welcomewizardpages/AchievementWelcomeWizardPage.qml" line="72"/>
       <source>Even if notification is disabled, completed achievements will still be recorded
 
 You can view all achievements in Help &gt; Achievements</source>
-      <translation type="unfinished">Even if notification is disabled, completed achievements will still be recorded
+      <translation>即使通知被禁用，已达成的成就仍将被记录
 
-You can view all achievements in Help &gt; Achievements</translation>
+你可以在 帮助 &gt; 成就 中查看全部成就</translation>
     </message>
   </context>
   <context>
@@ -43,7 +43,7 @@ You can view all achievements in Help &gt; Achievements</translation>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/achievement/res/qak_achievement_actions.cpp" line="125"/>
       <source>Achievement</source>
-      <translation type="unfinished">Achievement</translation>
+      <translation>成就</translation>
     </message>
   </context>
   <context>
@@ -51,12 +51,12 @@ You can view all achievements in Help &gt; Achievements</translation>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/achievement/res/qak_achievement_actions.cpp" line="121"/>
       <source>Main Menu</source>
-      <translation type="unfinished">Main Menu</translation>
+      <translation>主菜单</translation>
     </message>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/achievement/res/qak_achievement_actions.cpp" line="122"/>
       <source>Achievements</source>
-      <translation type="unfinished">Achievements</translation>
+      <translation>成就</translation>
     </message>
   </context>
 </TS>
