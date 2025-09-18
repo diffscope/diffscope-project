@@ -312,7 +312,8 @@ namespace Core::Internal {
         addIcon("core.timeline.goToEnd", "Next16Filled");
     }
 
-    void CorePlugin::initializeSettings() {
+    void CorePlugin::initializeSettings() const {
+        GeneralPage::setCorePluginTranslationsPath(pluginSpec()->location() + QStringLiteral("/translations"));
         auto sc = CoreInterface::settingCatalog();
         sc->addPage(new GeneralPage);
         auto appearancePage = new AppearancePage;

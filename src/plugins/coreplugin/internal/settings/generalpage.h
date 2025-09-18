@@ -5,8 +5,11 @@
 
 namespace Core::Internal {
 
+    class CorePlugin;
+
     class GeneralPage : public ISettingPage {
         Q_OBJECT
+        Q_PROPERTY(QVariantList languages READ languages CONSTANT)
     public:
         explicit GeneralPage(QObject *parent = nullptr);
         ~GeneralPage() override;
@@ -18,8 +21,13 @@ namespace Core::Internal {
         bool accept() override;
         void endSetting() override;
 
+        static QVariantList languages();
+
     private:
+        friend class CorePlugin;
         bool widgetMatches(const QString &word);
+        static QPair<QString, QString> getRestartMessageInNewLanguage(const QString &localeName);
+        static void setCorePluginTranslationsPath(const QString &path);
         QObject *m_widget{};
 
     };

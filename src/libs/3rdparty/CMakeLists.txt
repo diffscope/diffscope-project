@@ -1,7 +1,15 @@
 if(APPLICATION_INSTALL AND APPLICATION_ENABLE_DEVEL)
-    set(CHORUSKIT_INSTALL on)
+    set(CHORUSKIT_INSTALL ON)
+    set(SVSCRAFT_INSTALL ON)
+    set(SCOPIC_FLOW_INSTALL ON)
+    set(QACTIONKIT_INSTALL ON)
+    set(TALCS_INSTALL ON)
 else()
-    set(CHORUSKIT_INSTALL off)
+    set(CHORUSKIT_INSTALL OFF)
+    set(SVSCRAFT_INSTALL OFF)
+    set(SCOPIC_FLOW_INSTALL OFF)
+    set(QACTIONKIT_INSTALL OFF)
+    set(TALCS_INSTALL OFF)
 endif()
 
 set(CK_CMAKE_MODULES_DIR ${CMAKE_CURRENT_LIST_DIR}/choruskit/cmake PARENT_SCOPE)
@@ -10,10 +18,8 @@ add_subdirectory(choruskit)
 
 add_subdirectory(qjsonsettings)
 
-set(SVSCRAFT_INSTALL off)
 add_subdirectory(svscraft)
 
-set(SCOPIC_FLOW_INSTALL off)
 add_subdirectory(scopicflow)
 
 add_subdirectory(qactionkit)

@@ -129,17 +129,46 @@ ScrollView {
                         text: qsTr("Use system language")
                         TextMatcherItem on text { matcher: page.matcher }
                         checked: page.useSystemLanguage
-                        onClicked: page.useSystemLanguage = checked
+                        onClicked: () => {
+                            page.useSystemLanguage = checked
+                            if (checked) {
+                                page.localeName = Qt.locale().name
+                            } else {
+                                if (languageComboBox.currentIndex === -1) {
+                                    languageComboBox.incrementCurrentIndex()
+                                    languageComboBox.activated(0)
+                                }
+                            }
+                        }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         enabled: !page.useSystemLanguage
                         Label {
                             text: qsTr("Language")
+                            property string languageText: "Language"
                             TextMatcherItem on text { matcher: page.matcher }
+                            TextMatcherItem on languageText { matcher: page.matcher }
                         }
                         ComboBox {
+                            id: languageComboBox
                             Layout.fillWidth: true
+                            model: page.pageHandle.languages
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: () => {
+                                currentIndex = Qt.binding(() => indexOfValue(page.localeName))
+                                displayText = Qt.binding(() => {
+                                    let index = indexOfValue(page.localeName)
+                                    if (index === -1) {
+                                        let locale = Qt.locale(page.localeName)
+                                        return `${locale.nativeLanguageName} (${locale.nativeTerritoryName})`
+                                    } else {
+                                        return undefined
+                                    }
+                                })
+                            }
+                            onActivated: (index) => page.localeName = valueAt(index)
                         }
                         Label {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary

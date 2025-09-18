@@ -4,10 +4,12 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QTranslator>
 
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <CoreApi/plugindatabase.h>
+#include <CoreApi/translationmanager.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
@@ -58,8 +60,9 @@ namespace Core::Internal {
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
+
     bool GeneralPage::accept() {
-        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != BehaviorPreference::instance()->localeName());
+        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != QLocale().name());
         BehaviorPreference::instance()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
         BehaviorPreference::instance()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
         BehaviorPreference::instance()->setProperty("localeName", m_widget->property("localeName"));
@@ -76,12 +79,13 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
         BehaviorPreference::instance()->setProperty("updateOption", m_widget->property("updateOption"));
         BehaviorPreference::instance()->save();
-        if (true || promptRestartForLanguage) {
+        if (promptRestartForLanguage) {
+            auto [title, text] = getRestartMessageInNewLanguage(m_widget->property("localeName").toString());
             if (SVS::MessageBox::question(
                 PluginDatabase::qmlEngine(),
                 static_cast<QQuickItem *>(m_widget)->window(),
-                tr("Restart %1").arg(QApplication::applicationName()),
-                tr("Restart %1 to apply language changes?").arg(QApplication::applicationName())
+                title.arg(QApplication::applicationName()),
+                text.arg(QApplication::applicationName())
             ) == SVS::SVSCraft::Yes) {
                 CoreInterface::restartApplication();
             }
@@ -92,12 +96,46 @@ namespace Core::Internal {
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
     }
+
+    QVariantList GeneralPage::languages() {
+        static QVariantList ret;
+        if (ret.isEmpty()) {
+            std::ranges::transform(CoreInterface::translationManager()->locales(), std::back_inserter(ret), [](const QString &localeName) {
+                auto locale = QLocale(localeName);
+                return QVariantMap {
+                    {"text", QStringLiteral("%1 (%2)").arg(locale.nativeLanguageName(), locale.nativeTerritoryName())},
+                    {"value", localeName}
+                };
+            });
+        }
+        return ret;
+    }
+
     bool GeneralPage::widgetMatches(const QString &word) {
         widget();
         auto matcher = m_widget->property("matcher").value<QObject *>();
         bool ret = false;
         QMetaObject::invokeMethod(matcher, "matches", qReturnArg(ret), word);
         return ret;
+    }
+
+    static QString m_translationsDirPath;
+
+    QPair<QString, QString> GeneralPage::getRestartMessageInNewLanguage(const QString &localeName) {
+        auto filePath = m_translationsDirPath + "/Core_" + localeName + ".qm";
+        QTranslator translator;
+        if (!translator.load(filePath)) {
+            return {tr("Restart %1"), tr("Restart %1 to apply language changes?")};
+        } else {
+            return {
+                translator.translate(staticMetaObject.className(), "Restart %1"),
+                translator.translate(staticMetaObject.className(), "Restart %1 to apply language changes?")
+            };
+        }
+    }
+
+    void GeneralPage::setCorePluginTranslationsPath(const QString &path) {
+        m_translationsDirPath = path;
     }
 
 }
