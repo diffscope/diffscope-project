@@ -5,6 +5,9 @@
 #include <QAKCore/actionregistry.h>
 
 #include <CoreApi/plugindatabase.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/homewindowinterface.h>
@@ -20,8 +23,11 @@ namespace Achievement {
 
     AchievementPlugin::AchievementPlugin() {
     }
+
     AchievementPlugin::~AchievementPlugin() = default;
+
     bool AchievementPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getAchievementActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();

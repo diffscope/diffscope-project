@@ -8,6 +8,9 @@
 
 #include <CoreApi/plugindatabase.h>
 #include <CoreApi/settingcatalog.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #include <coreplugin/coreinterface.h>
 
@@ -22,6 +25,7 @@ namespace Audio::Internal {
     AudioPlugin::~AudioPlugin() = default;
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::PluginDatabase::splash()->showMessage(tr("Initializing audio plugin..."));
         initializeSettings();
         initializeAudioSystem();

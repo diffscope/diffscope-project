@@ -3,6 +3,9 @@
 #include <QSettings>
 
 #include <CoreApi/plugindatabase.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/homewindowinterface.h>
@@ -19,8 +22,11 @@ namespace WelcomeWizard {
     WelcomeWizardPlugin::WelcomeWizardPlugin() {
         WelcomeWizardAddOn::setPlugin(this);
     }
+
     WelcomeWizardPlugin::~WelcomeWizardPlugin() = default;
+
     bool WelcomeWizardPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getWelcomeWizardActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();

@@ -37,6 +37,7 @@
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/windowsystem.h>
 #include <CoreApi/translationmanager.h>
+#include <CoreApi/applicationinfo.h>
 
 #include <loadapi/initroutine.h>
 
@@ -390,12 +391,18 @@ namespace Core::Internal {
         });
     }
     void CorePlugin::initializeTranslations() const {
-        CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        QLocale locale;
         if (BehaviorPreference::useSystemLanguage()) {
-            CoreInterface::translationManager()->setLocale(QLocale::system());
+            locale = QLocale::system();
         } else {
-            CoreInterface::translationManager()->setLocale(QLocale(BehaviorPreference::localeName()));
+            locale = QLocale(BehaviorPreference::localeName());
         }
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        CoreInterface::translationManager()->setLocale(locale);
+        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/ChorusKit/translations"));
+        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/svscraft/translations"));
+        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/uishell/translations"));
+        CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
     }
 
