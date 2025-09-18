@@ -1,0 +1,4 @@
+files:
+  - source: /**/*.ts
+    translation: /%original_path%/%original_file_name%.ts
+    multilingual: 1
