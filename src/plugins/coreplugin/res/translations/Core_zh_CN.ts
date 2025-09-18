@@ -2120,26 +2120,26 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
       <translation type="unfinished">next tick (%1)</translation>
     </message>
     <message>
+      <location filename="../../internal/addon/timelineaddon.cpp" line="350"/>
+      <source>Jump to</source>
+      <translation type="unfinished">Jump to</translation>
+    </message>
+    <message>
       <location filename="../../internal/addon/timelineaddon.cpp" line="324"/>
       <location filename="../../internal/addon/timelineaddon.cpp" line="351"/>
       <source>Type &quot;?&quot; to view tips</source>
       <translation type="unfinished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
+      <location filename="../../internal/addon/timelineaddon.cpp" line="360"/>
+      <source>Input should not be empty</source>
+      <translation type="unfinished">Input should not be empty</translation>
+    </message>
+    <message>
       <location filename="../../internal/addon/timelineaddon.cpp" line="341"/>
       <location filename="../../internal/addon/timelineaddon.cpp" line="362"/>
       <source>Invalid format</source>
       <translation type="unfinished">Invalid format</translation>
-    </message>
-    <message>
-      <location filename="../../internal/addon/timelineaddon.cpp" line="350"/>
-      <source>Jump to</source>
-      <translation type="unfinished">Jump to</translation>
-    </message>
-    <message>
-      <location filename="../../internal/addon/timelineaddon.cpp" line="360"/>
-      <source>Input should not be empty</source>
-      <translation type="unfinished">Input should not be empty</translation>
     </message>
   </context>
   <context>
