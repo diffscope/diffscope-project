@@ -1,3 +1,11 @@
 files:
+  - source: /src/plugins/coreplugin/res/translations/Core_en_US.ts
+    translation: /src/plugins/coreplugin/res/translations/Core_%locale_with_underscore%.ts
+  - source: /src/plugins/audio/res/translations/Audio_en_US.ts
+    translation: /src/plugins/audio/res/translations/Audio_%locale_with_underscore%.ts
   - source: /src/plugins/welcomewizard/res/translations/WelcomeWizard_en_US.ts
     translation: /src/plugins/welcomewizard/res/translations/WelcomeWizard_%locale_with_underscore%.ts
+  - source: /src/plugins/achievement/res/translations/Achievement_en_US.ts
+    translation: /src/plugins/achievement/res/translations/Achievement_%locale_with_underscore%.ts
+  - source: /src/libs/application/uishell/share/translations/uishell_en_US.ts
+    translation: /src/libs/application/uishell/share/translations/uishell_%locale_with_underscore%.ts
