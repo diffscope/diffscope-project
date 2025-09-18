@@ -1,0 +1,33 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "dependencies": [
+        "breakpad",
+        "qastool",
+        "qnrbf",
+        "stdutau",
+        "extensionsystem",
+        "qwindowkit",
+        "libsndfile",
+        "rpclib",
+        "rtmidi",
+        {
+            "name": "sdl2",
+            "default-features": false
+        },
+        "interval-tree",
+        "boost-interprocess",
+        "wavpack",
+        "neargye-semver",
+        "r8brain-free-src",
+        "portaudio",
+        "libsoundio"
+    ],
+    "vcpkg-configuration": {
+        "overlay-ports": [
+            "../vcpkg/ports"
+        ],
+        "overlay-triplets": [
+            "../vcpkg/triplets"
+        ]
+    }
+}
