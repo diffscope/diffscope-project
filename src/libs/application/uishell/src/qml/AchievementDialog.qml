@@ -22,6 +22,11 @@ Window {
     readonly property list<QtObject> models: []
     property list<AchievementProxyModel> proxyModels: []
     property alias showNotification: showNotificationCheckBox.checked
+    onVisibleChanged: () => {
+        if (visible) {
+            s._showNotification = s.value("_showNotification")
+        }
+    }
 
     Settings {
         id: s
@@ -88,6 +93,13 @@ Window {
                 Layout.fillWidth: true
                 Item {
                     Layout.fillWidth: true
+                }
+                Button {
+                    text: qsTr("Do Not Show Again")
+                    onClicked: () => {
+                        window.showNotification = false
+                        notificationWindow.close()
+                    }
                 }
                 Button {
                     ThemedItem.controlType: SVS.CT_Accent

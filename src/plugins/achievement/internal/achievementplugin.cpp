@@ -25,6 +25,11 @@ namespace Achievement {
         Core::CoreInterface::actionRegistry()->addExtension(::getAchievementActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
+        auto component = new QQmlComponent(Core::PluginDatabase::qmlEngine(), "DiffScope.Achievement", "AchievementWelcomeWizardPage", this);
+        if (component->isError()) {
+            qFatal() << component->errorString();
+        }
+        Core::PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
         return true;
     }
     void AchievementPlugin::extensionsInitialized() {

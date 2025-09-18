@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QSplashScreen>
+#include <QQmlComponent>
 
 #include <SVSCraftQuick/MessageBox.h>
 
@@ -24,6 +25,7 @@ namespace Audio::Internal {
         Core::PluginDatabase::splash()->showMessage(tr("Initializing audio plugin..."));
         initializeSettings();
         initializeAudioSystem();
+        initializeHelpContents();
         return true;
     }
     void AudioPlugin::extensionsInitialized() {
@@ -54,5 +56,13 @@ namespace Audio::Internal {
         auto audioAndMidiPage = new AudioAndMidiPage;
         audioAndMidiPage->addPage(new AudioOutputPage);
         sc->addPage(audioAndMidiPage);
+    }
+
+    void AudioPlugin::initializeHelpContents() {
+        auto component = new QQmlComponent(Core::PluginDatabase::qmlEngine(), "DiffScope.Audio", "AudioOutputWelcomeWizardPage", this);
+        if (component->isError()) {
+            qFatal() << component->errorString();
+        }
+        Core::PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
     }
 }

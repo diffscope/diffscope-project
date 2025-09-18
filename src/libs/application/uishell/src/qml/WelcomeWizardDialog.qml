@@ -27,15 +27,15 @@ Window {
 
     onClosing: finished()
 
-    QtObject {
-        id: d
-    }
-
     Component {
         id: pageWithHeaderComponent
         Item {
             id: pageWithHeader
             required property Item page
+            Rectangle {
+                anchors.fill: parent
+                color: Theme.backgroundPrimaryColor
+            }
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 4
@@ -61,7 +61,7 @@ Window {
 
     Component.onCompleted: () => {
         for (let page of pages) {
-            let pageWithHeader = pageWithHeaderComponent.createObject(pagesStackView, {page})
+            let pageWithHeader = pageWithHeaderComponent.createObject(null, {page})
             pagesWithHeader.push(pageWithHeader)
         }
     }
