@@ -106,166 +106,166 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4645"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4646"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4647"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5095"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5096"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5097"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4648"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4649"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5098"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5099"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4650"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4736"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4737"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4738"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5100"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5186"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5187"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5188"/>
         <source>Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4651"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5101"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4652"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4653"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4654"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4655"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5102"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5103"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5104"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5105"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4656"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4657"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4658"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4659"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4660"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4661"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4662"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4663"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4664"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4665"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4666"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4667"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4668"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4669"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4670"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4671"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4672"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4673"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4674"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4679"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4680"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4681"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4682"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4683"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4684"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4685"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4686"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4687"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4688"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4689"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4690"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5106"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5107"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5108"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5109"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5110"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5111"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5112"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5113"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5114"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5115"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5116"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5117"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5118"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5119"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5120"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5121"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5122"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5123"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5124"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5129"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5130"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5131"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5132"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5133"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5134"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5135"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5136"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5137"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5138"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5139"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5140"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4700"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4701"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5150"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5151"/>
         <source>Time Indicator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4702"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4703"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4704"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4705"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4706"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4707"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4708"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4709"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4710"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4711"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4712"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4713"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5152"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5153"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5154"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5155"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5156"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5157"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5158"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5159"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5160"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5161"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5162"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5163"/>
         <source>Timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4743"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4752"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5193"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5202"/>
         <source>Core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4744"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4745"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4746"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4747"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4748"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4749"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4750"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5194"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5195"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5196"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5197"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5198"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5199"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5200"/>
         <source>Panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4751"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5201"/>
         <source>Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4675"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4676"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4677"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4678"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4691"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4692"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4693"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4694"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4695"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4696"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4697"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4698"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4699"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4729"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4730"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4731"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4732"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4733"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4734"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4735"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5125"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5126"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5127"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5128"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5141"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5142"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5143"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5144"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5145"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5146"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5147"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5148"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5149"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5179"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5180"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5181"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5182"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5183"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5184"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5185"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4714"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4715"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4716"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4717"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4718"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4719"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4720"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4721"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4722"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4723"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4724"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4725"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4726"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4727"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4728"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5164"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5165"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5166"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5167"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5168"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5169"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5170"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5171"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5172"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5173"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5174"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5175"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5176"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5177"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5178"/>
         <source>Workspace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4739"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4740"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4741"/>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4742"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5189"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5190"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5191"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5192"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -273,157 +273,157 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4755"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5205"/>
         <source>Create a project in a new window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4756"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5206"/>
         <source>Open an existing project in a new window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4757"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5207"/>
         <source>Open application settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4758"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5208"/>
         <source>Open plugin configuration dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4759"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5209"/>
         <source>Switch to home window if it is opened, or else open home window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4760"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5210"/>
         <source>Quit DiffScope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4761"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5211"/>
         <source>Toggle &quot;Recent Files&quot; page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4762"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5212"/>
         <source>Toggle &quot;Recovery Files&quot; page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4763"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5213"/>
         <source>Toggle grid view in &quot;Recent Files&quot; page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4764"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5214"/>
         <source>Toggle list view in &quot;Recent Files&quot; page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4765"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5215"/>
         <source>Show music time (measure:beat:tick) on the time indicator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4766"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5216"/>
         <source>Show absolute time (minute:second.millisecond) on the time indicator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4767"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5217"/>
         <source>Navigate to a specific position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4768"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5218"/>
         <source>Quickly navigate to a specific position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4769"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5219"/>
         <source>Navigate to the start of current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4770"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5220"/>
         <source>Navigate to the end of current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4771"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5221"/>
         <source>Reset project end time based on project content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4772"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5222"/>
         <source>Apply the default workspace layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4773"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5223"/>
         <source>Show or hide the main menu bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4774"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5224"/>
         <source>Show or hide the main tool bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4775"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5225"/>
         <source>Show or hide the left side bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4776"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5226"/>
         <source>Show or hide the right side bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4777"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5227"/>
         <source>Show or hide the top side bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4778"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5228"/>
         <source>Show or hide the bottom side bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4779"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5229"/>
         <source>Show or hide the status bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4780"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5230"/>
         <source>Switch to the next project window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4781"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5231"/>
         <source>Switch to the previous project window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4782"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5232"/>
         <source>Show help contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4783"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5233"/>
         <source>Find and trigger action by name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4784"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5234"/>
         <source>Show information about DiffScope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4785"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5235"/>
         <source>Show information about Qt</source>
         <translation type="unfinished"></translation>
     </message>
@@ -431,747 +431,747 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4494"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4944"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4495"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4945"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4496"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4946"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4497"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4947"/>
         <source>Se&amp;ttings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4498"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4948"/>
         <source>Pl&amp;ugins...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4499"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4949"/>
         <source>Show &amp;Home Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4500"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4950"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4501"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4951"/>
         <source>Recent Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4502"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4952"/>
         <source>Recovery Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4503"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4953"/>
         <source>Grid View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4504"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4954"/>
         <source>List View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4505"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4955"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4506"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4956"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4507"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4957"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4508"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4958"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4509"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4959"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4510"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4960"/>
         <source>Paste Special...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4511"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4961"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4512"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4962"/>
         <source>Select &amp;All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4513"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4963"/>
         <source>Dese&amp;lect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4514"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4964"/>
         <source>Select Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4515"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4965"/>
         <source>Select &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4516"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4966"/>
         <source>Select &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4517"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4967"/>
         <source>Select &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4518"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4968"/>
         <source>Select &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4519"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4969"/>
         <source>Move &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4520"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4970"/>
         <source>Move &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4521"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4971"/>
         <source>Move &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4522"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4972"/>
         <source>Move &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4523"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4973"/>
         <source>&amp;Move...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4524"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4974"/>
         <source>Scroll &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4525"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4975"/>
         <source>Scroll &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4526"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4976"/>
         <source>Scroll &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4527"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4977"/>
         <source>Scroll &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4528"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4978"/>
         <source>Move Cursor &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4529"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4979"/>
         <source>Move Cursor &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4530"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4980"/>
         <source>Move Cursor &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4531"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4981"/>
         <source>Move Cursor &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4532"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4982"/>
         <source>Extend Selection &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4533"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4983"/>
         <source>Extend Selection &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4534"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4984"/>
         <source>Extend Selection &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4535"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4985"/>
         <source>Extend Selection &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4536"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4986"/>
         <source>Shrink Selection &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4537"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4987"/>
         <source>Shrink Selection &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4538"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4988"/>
         <source>Shrink Selection &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4539"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4989"/>
         <source>Shrink Selection &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4540"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4990"/>
         <source>Page &amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4541"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4991"/>
         <source>Page &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4542"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4992"/>
         <source>Page &amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4543"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4993"/>
         <source>Page &amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4544"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4994"/>
         <source>Scroll to &amp;Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4545"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4995"/>
         <source>Scroll to &amp;Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4546"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4996"/>
         <source>Scroll to &amp;Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4547"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4997"/>
         <source>Scroll to &amp;End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4548"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4998"/>
         <source>Scroll to Current Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4549"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4999"/>
         <source>Show &amp;Music Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4550"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5000"/>
         <source>Show &amp;Absolute Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4551"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5001"/>
         <source>&amp;Go To...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4552"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5002"/>
         <source>&amp;Quick Jump...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4553"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5003"/>
         <source>Go to &amp;Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4554"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5004"/>
         <source>Go to Previous Measure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4555"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5005"/>
         <source>Go to Previous Beat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4556"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5006"/>
         <source>Go to Previous Tick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4557"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5007"/>
         <source>Go to &amp;End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4558"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5008"/>
         <source>Go to Next Measure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4559"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5009"/>
         <source>Go to Next Beat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4560"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5010"/>
         <source>Go to Next Tick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4561"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5011"/>
         <source>Go Inside View Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4563"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5013"/>
         <source>Workspace Layout...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4562"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5012"/>
         <source>&amp;Reset Project Time Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4564"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5014"/>
         <source>Default &amp;Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4565"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5015"/>
         <source>&amp;Custom Layouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4566"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5016"/>
         <source>&amp;Save Current Layout As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4567"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5017"/>
         <source>&amp;All Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4568"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5018"/>
         <source>None (Left Top)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4569"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5019"/>
         <source>None (Left Bottom)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4570"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5020"/>
         <source>None (Right Top)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4571"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5021"/>
         <source>None (Right Bottom)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4572"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5022"/>
         <source>None (Top Left)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4573"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5023"/>
         <source>None (Top Right)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4574"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5024"/>
         <source>None (Bottom Left)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4575"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5025"/>
         <source>None (Bottom Right)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4576"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5026"/>
         <source>&amp;Floating Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4577"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5027"/>
         <source>Add &amp;New Panel or Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4578"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5028"/>
         <source>Show &amp;Menu Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4579"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5029"/>
         <source>Show Too&amp;l Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4580"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5030"/>
         <source>Show &amp;Left Side Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4581"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5031"/>
         <source>Show &amp;Right Side Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4582"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5032"/>
         <source>Show &amp;Top Side Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4583"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5033"/>
         <source>Show &amp;Bottom Side Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4584"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5034"/>
         <source>Show &amp;Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4585"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5035"/>
         <source>&amp;Next Project Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4586"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5036"/>
         <source>&amp;Previous Project Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4587"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5037"/>
         <source>Pro&amp;ject Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4588"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5038"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4589"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5039"/>
         <source>&amp;Find Actions...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4590"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5040"/>
         <source>&amp;About DiffScope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4591"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5041"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4592"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5042"/>
         <source>Main Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4593"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5043"/>
         <source>Main Tool Bar Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4594"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5044"/>
         <source>Main Tool Bar Middle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4595"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5045"/>
         <source>Main Tool Bar Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4596"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5046"/>
         <source>Main Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4597"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5047"/>
         <source>Home Navigation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4598"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5048"/>
         <source>Home Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4599"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5049"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4600"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5050"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4601"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5051"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4602"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5052"/>
         <source>Status Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4603"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5053"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4604"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5054"/>
         <source>Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4605"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5055"/>
         <source>Arrangement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4606"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5056"/>
         <source>Mixer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4607"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5057"/>
         <source>Piano Roll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4608"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5058"/>
         <source>Notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4609"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5059"/>
         <source>Tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4610"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5060"/>
         <source>Digital Clock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4611"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5061"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4612"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5062"/>
         <source>File Open Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4613"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5063"/>
         <source>Preference Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4614"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5064"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4615"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5065"/>
         <source>Undo Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4616"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5066"/>
         <source>Generic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4617"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5067"/>
         <source>Navigation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4618"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5068"/>
         <source>Move Cu&amp;rsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4619"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5069"/>
         <source>&amp;Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4620"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5070"/>
         <source>&amp;Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4621"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5071"/>
         <source>&amp;Extend Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4622"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5072"/>
         <source>Shrin&amp;k Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4623"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5073"/>
         <source>Timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4624"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5074"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4625"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5075"/>
         <source>Timeline Go to Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4626"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5076"/>
         <source>Timeline Back Navigation Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4627"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5077"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4628"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5078"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4629"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5079"/>
         <source>Workspace Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4630"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5080"/>
         <source>&amp;Workspace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4631"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5081"/>
         <source>Workspace Layouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4632"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5082"/>
         <source>Opened &amp;Docking Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4633"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5083"/>
         <source>Dock Action to Side Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4634"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5084"/>
         <source>Scroll Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4635"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5085"/>
         <source>Scroll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4636"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5086"/>
         <source>Scroll by Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4637"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5087"/>
         <source>Scroll To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4638"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5088"/>
         <source>View Visibility Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4639"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5089"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4640"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5090"/>
         <source>Project Window Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4641"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5091"/>
         <source>About Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="4642"/>
+        <location filename="../../../../../cmake-build-debug/src/plugins/coreplugin/res/qak_core_actions.cpp" line="5092"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation type="unfinished"></translation>
     </message>
