@@ -6,7 +6,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_welcome_wizard_actions.cpp" line="125"/>
       <source>Welcome Wizard</source>
-      <translation type="unfinished">Welcome Wizard</translation>
+      <translation>欢迎向导</translation>
     </message>
   </context>
   <context>
@@ -14,12 +14,12 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_welcome_wizard_actions.cpp" line="121"/>
       <source>Main Menu</source>
-      <translation type="unfinished">Main Menu</translation>
+      <translation>主菜单</translation>
     </message>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_welcome_wizard_actions.cpp" line="122"/>
       <source>Welcome Wizard</source>
-      <translation type="unfinished">Welcome Wizard</translation>
+      <translation>欢迎向导</translation>
     </message>
   </context>
 </TS>
