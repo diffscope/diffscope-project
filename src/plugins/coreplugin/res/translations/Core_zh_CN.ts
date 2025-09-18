@@ -6,7 +6,7 @@
     <message>
       <location filename="../../qml/settings/AppearancePage.qml" line="42"/>
       <source>Font</source>
-      <translation type="unfinished">Font</translation>
+      <translation>字体</translation>
     </message>
     <message>
       <location filename="../../qml/settings/AppearancePage.qml" line="50"/>
