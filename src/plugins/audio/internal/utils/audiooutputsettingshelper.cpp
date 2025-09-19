@@ -504,6 +504,16 @@ namespace Audio::Internal {
         emit bufferSizeCurrentIndexChanged();
     }
 
+    void AudioOutputSettingsHelper::testDevice() {
+    }
+
+    void AudioOutputSettingsHelper::openControlPanel() {
+        auto dev = m_outputSystem->outputContext()->device();
+        if (!dev)
+            return;
+        dev->openControlPanel();
+    }
+
     // Bidirectional binding slot: respond to outputContext's deviceChanged signal
     void AudioOutputSettingsHelper::onDeviceChanged() {
         // Re-update all device-dependent lists when device changes

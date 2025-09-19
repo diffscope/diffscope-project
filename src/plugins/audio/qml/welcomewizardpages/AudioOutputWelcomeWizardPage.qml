@@ -34,6 +34,8 @@ WelcomeWizardPage {
             ComboBox {
                 Layout.fillWidth: true
                 model: helper.driverList
+                currentIndex: helper.driverCurrentIndex
+                onActivated: (index) => helper.driverCurrentIndex = index
             }
             Label {
                 text: qsTr("Audio device")
@@ -41,6 +43,8 @@ WelcomeWizardPage {
             ComboBox {
                 Layout.fillWidth: true
                 model: helper.deviceList
+                currentIndex: helper.deviceCurrentIndex
+                onActivated: (index) => helper.deviceCurrentIndex = index
             }
             Label {
                 text: qsTr("Sample rate")
@@ -48,6 +52,8 @@ WelcomeWizardPage {
             ComboBox {
                 Layout.fillWidth: true
                 model: helper.sampleRateList
+                currentIndex: helper.sampleRateCurrentIndex
+                onActivated: (index) => helper.sampleRateCurrentIndex = index
             }
             Label {
                 text: qsTr("Buffer size")
@@ -55,6 +61,8 @@ WelcomeWizardPage {
             ComboBox {
                 Layout.fillWidth: true
                 model: helper.bufferSizeList
+                currentIndex: helper.bufferSizeCurrentIndex
+                onActivated: (index) => helper.bufferSizeCurrentIndex = index
             }
         }
         RowLayout {
@@ -62,9 +70,11 @@ WelcomeWizardPage {
             spacing: 8
             Button {
                 text: qsTr("Test")
+                onClicked: helper.testDevice()
             }
             Button {
                 text: qsTr("Open Control Panel")
+                onClicked: helper.openControlPanel()
             }
         }
         Label {

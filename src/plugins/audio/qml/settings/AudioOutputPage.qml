@@ -41,6 +41,8 @@ ScrollView {
                         ComboBox {
                             Layout.fillWidth: true
                             model: page.helper?.driverList ?? null
+                            currentIndex: page.helper?.driverCurrentIndex ?? -1
+                            onActivated: (index) => page.helper.driverCurrentIndex = index
                         }
                         Label {
                             text: qsTr("Audio device")
@@ -49,6 +51,8 @@ ScrollView {
                         ComboBox {
                             Layout.fillWidth: true
                             model: page.helper?.deviceList ?? null
+                            currentIndex: page.helper?.deviceCurrentIndex ?? -1
+                            onActivated: (index) => page.helper.deviceCurrentIndex = index
                         }
                         Label {
                             text: qsTr("Sample rate")
@@ -57,6 +61,8 @@ ScrollView {
                         ComboBox {
                             Layout.fillWidth: true
                             model: page.helper?.sampleRateList ?? null
+                            currentIndex: page.helper?.sampleRateCurrentIndex ?? -1
+                            onActivated: (index) => page.helper.sampleRateCurrentIndex = index
                         }
                         Label {
                             text: qsTr("Buffer size")
@@ -65,6 +71,8 @@ ScrollView {
                         ComboBox {
                             Layout.fillWidth: true
                             model: page.helper?.bufferSizeList ?? null
+                            currentIndex: page.helper?.bufferSizeCurrentIndex ?? -1
+                            onActivated: (index) => page.helper.bufferSizeCurrentIndex = index
                         }
                     }
                     RowLayout {
@@ -72,9 +80,11 @@ ScrollView {
                         spacing: 8
                         Button {
                             text: qsTr("Test")
+                            onClicked: page.helper.testDevice()
                         }
                         Button {
                             text: qsTr("Open Control Panel")
+                            onClicked: page.helper.openControlPanel()
                         }
                     }
                 }

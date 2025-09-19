@@ -44,6 +44,9 @@ namespace Audio::Internal {
         int bufferSizeCurrentIndex() const;
         void setBufferSizeCurrentIndex(int index);
 
+        Q_INVOKABLE void testDevice();
+        Q_INVOKABLE static void openControlPanel();
+
     Q_SIGNALS:
         void driverCurrentIndexChanged();
         void deviceListChanged();
