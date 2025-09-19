@@ -25,6 +25,8 @@ namespace Audio::Internal {
         bool setAdoptedSampleRate(double sampleRate);
         void setHotPlugNotificationMode(talcs::OutputContext::HotPlugNotificationMode mode);
 
+        bool isReady() const;
+
     private:
         void load();
         void save() const;

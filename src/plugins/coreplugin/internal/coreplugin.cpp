@@ -20,6 +20,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QStyleFactory>
 #include <QtQml/QQmlComponent>
 #include <QtWidgets/QPushButton>
 #include <QtQuick/QQuickWindow>
@@ -152,6 +153,7 @@ namespace Core::Internal {
 
         QQuickStyle::setStyle("SVSCraft.UIComponents");
         QQuickStyle::setFallbackStyle("Basic");
+        QApplication::setStyle(QStyleFactory::create("Fusion"));
 
         // Handle FileOpenEvent
         qApp->installEventFilter(this);

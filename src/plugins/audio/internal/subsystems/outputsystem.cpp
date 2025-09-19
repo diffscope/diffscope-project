@@ -112,11 +112,16 @@ namespace Audio::Internal {
         }
     }
 
-    void OutputSystem::setHotPlugNotificationMode(talcs::OutputContext::HotPlugNotificationMode mode) {
+    void OutputSystem::setHotPlugNotificationMode(
+        talcs::OutputContext::HotPlugNotificationMode mode) {
         m_hotPlugNotificationMode = mode;
         m_outputContext->setHotPlugNotificationMode(mode);
         save();
         qCDebug(audioOutputSystem) << "Hot plug notification mode set to" << mode;
+    }
+
+    bool OutputSystem::isReady() const {
+        return m_outputContext->device() && m_outputContext->device()->isOpen();
     }
 
     void OutputSystem::load() {

@@ -18,6 +18,12 @@ ScrollView {
     readonly property TextMatcher matcher: TextMatcher {}
     property AudioOutputSettingsHelper helper: null
 
+    Component {
+        id: troubleshootingDialogComponent
+        AudioTroubleshootingDialog {
+        }
+    }
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
@@ -76,8 +82,19 @@ ScrollView {
                         }
                     }
                     RowLayout {
-                        Layout.alignment: Qt.AlignRight
                         spacing: 8
+                        Layout.fillWidth: true
+                        Button {
+                            text: qsTr("Troubleshoot...")
+                            onClicked: () => {
+                                let dialog = troubleshootingDialogComponent.createObject(null)
+                                dialog.exec()
+                                dialog.destroy()
+                            }
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
                         Button {
                             text: qsTr("Test")
                             onClicked: page.helper.testDevice()

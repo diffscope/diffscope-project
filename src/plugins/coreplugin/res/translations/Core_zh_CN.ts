@@ -16,7 +16,7 @@
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="75"/>
         <source>You may need to restart %1 for font changes to take full effect.</source>
-        <translation>你可能需要重启 %1 以使字体更改生效。</translation>
+        <translation>你可能需要重启 %1 以使字体更改完全生效。</translation>
     </message>
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="80"/>
