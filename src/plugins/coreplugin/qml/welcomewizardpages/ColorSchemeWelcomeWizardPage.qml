@@ -26,16 +26,19 @@ WelcomeWizardPage {
             columns: 3
             Layout.alignment: Qt.AlignHCenter
             RadioButton {
+                id: darkRadioButton
                 text: qsTr("Dark")
                 checked: helper.getCurrentPresetIndex() === 0
                 onClicked: helper.applyInternalPreset(0)
             }
             RadioButton {
+                id: lightRadioButton
                 text: qsTr("Light")
                 checked: helper.getCurrentPresetIndex() === 1
                 onClicked: helper.applyInternalPreset(1)
             }
             RadioButton {
+                id: highContrastRadioButton
                 text: qsTr("High contrast")
                 checked: helper.getCurrentPresetIndex() === 2
                 onClicked: helper.applyInternalPreset(2)
@@ -52,6 +55,9 @@ WelcomeWizardPage {
                 backgroundQuaternaryColor: d.backgroundQuaternaryColor
                 foregroundPrimaryColor: d.foregroundPrimaryColor
                 foregroundSecondaryColor: d.foregroundSecondaryColor
+                TapHandler {
+                    onSingleTapped: darkRadioButton.click()
+                }
             }
             ThemePreviewThumbnail {
                 readonly property var d: helper.internalPresets[1]
@@ -65,6 +71,9 @@ WelcomeWizardPage {
                 backgroundQuaternaryColor: d.backgroundQuaternaryColor
                 foregroundPrimaryColor: d.foregroundPrimaryColor
                 foregroundSecondaryColor: d.foregroundSecondaryColor
+                TapHandler {
+                    onSingleTapped: lightRadioButton.click()
+                }
             }
             ThemePreviewThumbnail {
                 readonly property var d: helper.internalPresets[2]
@@ -78,6 +87,9 @@ WelcomeWizardPage {
                 backgroundQuaternaryColor: d.backgroundQuaternaryColor
                 foregroundPrimaryColor: d.foregroundPrimaryColor
                 foregroundSecondaryColor: d.foregroundSecondaryColor
+                TapHandler {
+                    onSingleTapped: highContrastRadioButton.click()
+                }
             }
         }
         Label {
