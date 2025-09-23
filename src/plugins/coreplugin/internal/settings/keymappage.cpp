@@ -2,7 +2,7 @@
 
 #include <QApplication>
 #include <QQmlComponent>
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
     KeyMapPage::KeyMapPage(QObject *parent)
@@ -26,7 +26,7 @@ namespace Core::Internal {
     QObject *KeyMapPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "KeymapPage");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "KeymapPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

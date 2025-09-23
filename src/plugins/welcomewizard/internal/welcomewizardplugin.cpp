@@ -2,7 +2,7 @@
 
 #include <QSettings>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>
@@ -35,7 +35,7 @@ namespace WelcomeWizard {
     void WelcomeWizardPlugin::extensionsInitialized() {
     }
     bool WelcomeWizardPlugin::delayedInitialize() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         if (!settings->value("welcomeWizardShown", false).toBool()) {
             WelcomeWizardAddOn::execWelcomeWizard();

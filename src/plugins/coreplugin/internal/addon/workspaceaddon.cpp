@@ -10,7 +10,7 @@
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>
@@ -28,7 +28,7 @@ namespace Core::Internal {
     void WorkspaceAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -38,7 +38,7 @@ namespace Core::Internal {
             m_helper->setParent(windowInterface->window());
         }
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -49,12 +49,12 @@ namespace Core::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 
-            windowInterface->actionContext()->addAction("core.panel.properties", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.plugins", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.tips", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.mixer", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.properties", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.mixer", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
+            windowInterface->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
@@ -131,7 +131,7 @@ namespace Core::Internal {
         };
         createSpec(firstSpec);
         if (edge != 0) {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "DockingStretch");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "DockingStretch");
             auto object = component.create();
             Q_ASSERT(object);
             QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);

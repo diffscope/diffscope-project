@@ -6,7 +6,7 @@
 
 #include <QSettings>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
 
@@ -86,7 +86,7 @@ namespace Core::Internal {
     static const char settingCategoryC[] = "Core::Internal::WorkspaceManager";
 
     void ProjectWindowWorkspaceManager::load() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         auto map = settings->value(settingCategoryC).toMap();
         if (!map.contains("currentLayout") || !map.contains("customLayouts")) {
             setCurrentLayout(defaultLayout());
@@ -105,7 +105,7 @@ namespace Core::Internal {
         setCustomLayouts(customLayouts);
     }
     void ProjectWindowWorkspaceManager::save() const {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         QVariantList customLayoutsVariants;
         std::ranges::transform(m_customLayouts, std::back_inserter(customLayoutsVariants), [](const auto &v) {
             return v.toVariant();

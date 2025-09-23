@@ -10,7 +10,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/notificationmessage.h>
@@ -43,7 +43,7 @@ namespace Core {
         void initActionContext() {
             Q_Q(ProjectWindowInterface);
             auto actionContext = q->actionContext();
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectActions");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -83,7 +83,7 @@ namespace Core {
     }
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
         Q_D(const ProjectWindowInterface);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ProjectWindow");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

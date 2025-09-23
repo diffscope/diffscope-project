@@ -60,7 +60,7 @@ WelcomeWizardPage {
             checked: true
             Settings {
                 id: s
-                settings: PluginDatabase.settings
+                settings: RuntimeInterface.settings
                 category: "org.diffscope.achievements"
                 property alias _showNotification: checkBox.checked
             }

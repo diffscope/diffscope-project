@@ -9,7 +9,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>
@@ -85,14 +85,14 @@ namespace Core::Internal {
     }
 
     void ProjectStartupTimerAddOn::setNotificationVisible(bool visible) {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue("visible", visible);
         settings->endGroup();
     }
 
     bool ProjectStartupTimerAddOn::notificationVisible() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         bool visible = settings->value("visible", true).toBool();
         settings->endGroup();

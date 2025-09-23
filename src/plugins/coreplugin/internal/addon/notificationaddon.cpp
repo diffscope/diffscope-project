@@ -8,7 +8,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/notificationmanager.h>
@@ -22,7 +22,7 @@ namespace Core::Internal {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         m_notificationManager = NotificationManager::of(windowInterface);
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationAddOnHelper");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationAddOnHelper");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -32,13 +32,13 @@ namespace Core::Internal {
             helper->setParent(windowInterface->window());
         }
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "NotificationsPanel", this);
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationsPanel", this);
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
-            }, PluginDatabase::qmlEngine()->rootContext());
+            }, RuntimeInterface::qmlEngine()->rootContext());
             o->setParent(this);
             windowInterface->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }

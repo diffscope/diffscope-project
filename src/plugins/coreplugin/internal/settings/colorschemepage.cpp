@@ -7,7 +7,7 @@
 
 #include <SVSCraftQuick/Theme.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/internal/colorschemecollection.h>
 
@@ -32,7 +32,7 @@ namespace Core::Internal {
     QObject *ColorSchemePage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ColorSchemePage");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemePage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -207,7 +207,7 @@ namespace Core::Internal {
 
             int colonIndex = decl.indexOf(':');
             if (colonIndex <= 0) {
-                PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Missing colon in declaration").arg(lineNumber));
+                RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Missing colon in declaration").arg(lineNumber));
                 return {};
             }
             
@@ -215,12 +215,12 @@ namespace Core::Internal {
             QString propertyValue = decl.mid(colonIndex + 1).trimmed();
             
             if (propertyName.isEmpty()) {
-                PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property name").arg(lineNumber));
+                RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property name").arg(lineNumber));
                 return {};
             }
             
             if (propertyValue.isEmpty()) {
-                PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property value").arg(lineNumber));
+                RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property value").arg(lineNumber));
                 return {};
             }
 
@@ -228,7 +228,7 @@ namespace Core::Internal {
                 bool ok;
                 double value = propertyValue.toDouble(&ok);
                 if (!ok) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'alpha' value").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'alpha' value").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::AlphaColorFilter(value));
@@ -236,7 +236,7 @@ namespace Core::Internal {
                 bool ok;
                 double value = propertyValue.toDouble(&ok);
                 if (!ok) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'saturation' value").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'saturation' value").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::SaturationColorFilter(value));
@@ -244,7 +244,7 @@ namespace Core::Internal {
                 bool ok;
                 double value = propertyValue.toDouble(&ok);
                 if (!ok) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'value' value").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'value' value").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::ValueColorFilter(value));
@@ -252,7 +252,7 @@ namespace Core::Internal {
                 bool ok;
                 double value = propertyValue.toDouble(&ok);
                 if (!ok) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'hsl-saturation' value").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'hsl-saturation' value").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::HslSaturationColorFilter(value));
@@ -260,7 +260,7 @@ namespace Core::Internal {
                 bool ok;
                 double value = propertyValue.toDouble(&ok);
                 if (!ok) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'lightness' value").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'lightness' value").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::LightnessColorFilter(value));
@@ -268,26 +268,26 @@ namespace Core::Internal {
                 bool ok;
                 int value = propertyValue.toInt(&ok);
                 if (!ok || value <= 0) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'lighter' value (must be a positive integer)").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'lighter' value (must be a positive integer)").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::LighterColorChange(value));
             } else if (propertyName == "top-blend") {
                 QColor color = parseColor(propertyValue);
                 if (!color.isValid()) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid color value for 'top-blend'").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid color value for 'top-blend'").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::TopBlendColorFilter(color));
             } else if (propertyName == "bottom-blend") {
                 QColor color = parseColor(propertyValue);
                 if (!color.isValid()) {
-                    PluginDatabase::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid color value for 'bottom-blend'").arg(lineNumber));
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid color value for 'bottom-blend'").arg(lineNumber));
                     return {};
                 }
                 ret.append(SVS::BottomBlendColorFilter(color));
             } else {
-                PluginDatabase::qmlEngine()->throwError(
+                RuntimeInterface::qmlEngine()->throwError(
                     tr("Syntax error at line %L1: Unknown property '%2'").arg(lineNumber).arg(propertyName));
                 return {};
             }

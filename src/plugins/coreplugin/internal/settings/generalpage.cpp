@@ -8,7 +8,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <coreplugin/coreinterface.h>
@@ -32,7 +32,7 @@ namespace Core::Internal {
     QObject *GeneralPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "GeneralPage");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GeneralPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -82,7 +82,7 @@ namespace Core::Internal {
         if (promptRestartForLanguage) {
             auto [title, text] = getRestartMessageInNewLanguage(m_widget->property("localeName").toString());
             if (SVS::MessageBox::question(
-                PluginDatabase::qmlEngine(),
+                RuntimeInterface::qmlEngine(),
                 static_cast<QQuickItem *>(m_widget)->window(),
                 title.arg(QApplication::applicationName()),
                 text.arg(QApplication::applicationName())

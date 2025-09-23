@@ -3,7 +3,7 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 
@@ -24,7 +24,7 @@ namespace WelcomeWizard {
 
     QQuickWindow *WelcomeWizardAddOn::window() {
         if (!m_window) {
-            auto pageComponents = Core::PluginDatabase::instance()->getObjects("org.diffscope.welcomewizard.pages");
+            auto pageComponents = Core::RuntimeInterface::instance()->getObjects("org.diffscope.welcomewizard.pages");
             QList<QQuickItem *> pages;
             for (auto o : pageComponents) {
                 auto c = qobject_cast<QQmlComponent *>(o);
@@ -38,7 +38,7 @@ namespace WelcomeWizard {
                 }
             }
             {
-                QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardDialog");
+                QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardDialog");
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
@@ -57,7 +57,7 @@ namespace WelcomeWizard {
 
     void WelcomeWizardAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
-        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardActions");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

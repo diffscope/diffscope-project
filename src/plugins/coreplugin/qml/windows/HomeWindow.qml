@@ -68,7 +68,7 @@ HomeWindow {
     }
 
     Settings {
-        settings: PluginDatabase.settings
+        settings: RuntimeInterface.settings
         category: "DiffScope.Core.HomeWindow"
         property alias recentFilesIsListView: homeWindow.recentFilesIsListView
     }

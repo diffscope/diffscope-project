@@ -4,7 +4,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/actionhelper.h>
@@ -24,7 +24,7 @@ namespace Core {
         void initActionContext() {
             Q_Q(HomeWindowInterface);
             auto actionContext = q->actionContext();
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeActions");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "HomeActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -41,7 +41,7 @@ namespace Core {
     }
     QWindow *HomeWindowInterface::createWindow(QObject *parent) const {
         Q_D(const HomeWindowInterface);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "HomeWindow");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

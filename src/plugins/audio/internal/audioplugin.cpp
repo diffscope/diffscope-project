@@ -6,7 +6,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/translationmanager.h>
 
@@ -26,7 +26,7 @@ namespace Audio::Internal {
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::PluginDatabase::splash()->showMessage(tr("Initializing audio plugin..."));
+        Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
         initializeSettings();
         initializeAudioSystem();
         initializeHelpContents();
@@ -48,7 +48,7 @@ namespace Audio::Internal {
         auto outputSystemInitializationSuccess = AudioSystem::outputSystem()->initialize();
         if (!outputSystemInitializationSuccess) {
             SVS::MessageBox::warning(
-                Core::PluginDatabase::qmlEngine(),
+                Core::RuntimeInterface::qmlEngine(),
                 nullptr,
                 tr("Failed to initialize audio output system"),
                 tr("%1 will not play sound because no available audio output device found.\n\nPlease go to Settings > Audio and MIDI > Audio Output to check the device status.").arg(QApplication::applicationName()));
@@ -63,10 +63,10 @@ namespace Audio::Internal {
     }
 
     void AudioPlugin::initializeHelpContents() {
-        auto component = new QQmlComponent(Core::PluginDatabase::qmlEngine(), "DiffScope.Audio", "AudioOutputWelcomeWizardPage", this);
+        auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioOutputWelcomeWizardPage", this);
         if (component->isError()) {
             qFatal() << component->errorString();
         }
-        Core::PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
     }
 }

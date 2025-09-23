@@ -34,7 +34,7 @@
 
 #include <QAKQuick/actioniconimageprovider.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/windowsystem.h>
 #include <CoreApi/translationmanager.h>
@@ -119,7 +119,7 @@ namespace Core::Internal {
     const QDir AppIconImageProvider::m_iconDir = QDir(":/diffscope/icons");
 
     CorePlugin::CorePlugin() {
-        PluginDatabase::qmlEngine()->addImageProvider("appicon", new AppIconImageProvider);
+        RuntimeInterface::qmlEngine()->addImageProvider("appicon", new AppIconImageProvider);
     }
 
     CorePlugin::~CorePlugin() = default;
@@ -149,7 +149,7 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
+        RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
 
         QQuickStyle::setStyle("SVSCraft.UIComponents");
         QQuickStyle::setFallbackStyle("Basic");
@@ -178,12 +178,12 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::delayedInitialize() {
-        PluginDatabase::splash()->showMessage(tr("Initializing GUI..."));
+        RuntimeInterface::splash()->showMessage(tr("Initializing GUI..."));
         QApplication::setQuitOnLastWindowClosed(true);
         // TODO plugin arguments
         auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
-        connect(win, &QQuickWindow::sceneGraphInitialized, PluginDatabase::splash(), &QWidget::close);
+        connect(win, &QQuickWindow::sceneGraphInitialized, RuntimeInterface::splash(), &QWidget::close);
         return false;
     }
 
@@ -272,7 +272,7 @@ namespace Core::Internal {
     void CorePlugin::initializeImageProviders() {
         auto actionIconImageProvider = new QAK::ActionIconImageProvider;
         actionIconImageProvider->setActionFamily(CoreInterface::actionRegistry());
-        PluginDatabase::qmlEngine()->addImageProvider("action", actionIconImageProvider);
+        RuntimeInterface::qmlEngine()->addImageProvider("action", actionIconImageProvider);
     }
 
     void CorePlugin::initializeActions() {
@@ -372,7 +372,7 @@ namespace Core::Internal {
                          updateAnimation);
         QObject::connect(behaviorPreference,
                          &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
-                             auto settings = PluginDatabase::settings();
+                             auto settings = RuntimeInterface::settings();
                              settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
                              settings->setValue("priorityActions", QStringList());
                              settings->endGroup();
@@ -406,7 +406,7 @@ namespace Core::Internal {
         CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/svscraft/translations"));
         CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/uishell/translations"));
         CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        PluginDatabase::splash()->showMessage(tr("Initializing core plugin..."));
+        RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
     }
 
     void CorePlugin::initializeColorScheme() {
@@ -424,13 +424,13 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeHelpContents() {
-        PluginDatabase::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
+        RuntimeInterface::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
         {
-            auto component = new QQmlComponent(PluginDatabase::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
+            auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
             if (component->isError()) {
                 qFatal() << component->errorString();
             }
-            PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+            RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
         }
     }
 

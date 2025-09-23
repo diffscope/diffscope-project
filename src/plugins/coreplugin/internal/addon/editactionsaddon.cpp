@@ -4,7 +4,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/projectwindowinterface.h>
 
@@ -16,7 +16,7 @@ namespace Core::Internal {
 
     void EditActionsAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "EditActionsAddOnActions");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

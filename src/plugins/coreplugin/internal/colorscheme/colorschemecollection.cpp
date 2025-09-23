@@ -11,7 +11,7 @@
 #include <SVSCraftQuick/Theme.h>
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
 
@@ -220,7 +220,7 @@ namespace Core::Internal {
         auto filename = fileUrl.toLocalFile();
         QFile f(filename);
         if (!f.open(QIODevice::ReadOnly)) {
-            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
                 tr("Failed to Import Preset"),
                 tr("Unable to open file \"%1\"").arg(filename));
             return;
@@ -232,7 +232,7 @@ namespace Core::Internal {
         QByteArray a;
         in >> a;
         if (name.isEmpty() || a.isEmpty()) {
-            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
                 tr("Failed to import preset"),
                 tr("Invalid format in file \"%1\"").arg(filename));
             return;
@@ -249,7 +249,7 @@ namespace Core::Internal {
         const auto &[name, preset] = m_currentIndex < m_internalPresets.size() ? m_internalPresets.value(m_currentIndex) : m_presets.value(m_currentIndex - m_internalPresets.size());
         QFile f(filename);
         if (!f.open(QIODevice::WriteOnly)) {
-            SVS::MessageBox::critical(PluginDatabase::qmlEngine(), window,
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
                 tr("Failed to export preset"),
                 tr("Unable to open file \"%1\"").arg(filename));
             return;
@@ -341,7 +341,7 @@ namespace Core::Internal {
     }
     static const char settingCategoryC[] = "Core::Internal::ColorSchemeCollection";
     void ColorSchemeCollection::load() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         auto data = settings->value(settingCategoryC).toMap();
         if (!(data.contains("presets") && data.contains("unsavedPreset") && data.contains("currentIndex") && data.contains("showUnsavedPreset"))) {
             return;
@@ -363,7 +363,7 @@ namespace Core::Internal {
         emit currentIndexChanged();
     }
     void ColorSchemeCollection::save() const {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         QVariantList presetsVariantList;
         std::ranges::transform(m_presets, std::back_inserter(presetsVariantList), [](const auto &p) {
             return QVariant::fromValue(QVariantPair(p.first, serializePreset(p.second)));

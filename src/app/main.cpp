@@ -9,7 +9,7 @@
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <qjsonsettings.h>
 
@@ -67,7 +67,7 @@ public:
     void beforeLoadPlugins() override {
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
-        Core::PluginDatabase::setQmlEngine(engine);
+        Core::RuntimeInterface::setQmlEngine(engine);
     }
 
     void afterLoadPlugins() override {

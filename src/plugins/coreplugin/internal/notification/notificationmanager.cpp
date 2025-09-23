@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QTimer>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <uishell/BubbleNotificationHandle.h>
 

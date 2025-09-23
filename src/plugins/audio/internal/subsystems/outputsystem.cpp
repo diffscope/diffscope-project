@@ -7,7 +7,7 @@
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioDriver.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 namespace Audio::Internal {
 
@@ -125,7 +125,7 @@ namespace Audio::Internal {
     }
 
     void OutputSystem::load() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_adoptedBufferSize = settings->value("adoptedBufferSize").value<qint64>();
         m_adoptedSampleRate = settings->value("adoptedSampleRate").value<double>();
@@ -138,7 +138,7 @@ namespace Audio::Internal {
     }
 
     void OutputSystem::save() const {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue("adoptedBufferSize", m_adoptedBufferSize);
         settings->setValue("adoptedSampleRate", m_adoptedSampleRate);

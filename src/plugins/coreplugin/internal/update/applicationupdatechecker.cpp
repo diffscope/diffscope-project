@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QApplication>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/coreinterface.h>
@@ -139,7 +139,7 @@ namespace Core::Internal {
     }
 
     void ApplicationUpdateChecker::saveSettings() const {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue("feedBaseUrl", m_feedBaseUrl);
         if (m_ignoredVersion.isValid()) {
@@ -151,7 +151,7 @@ namespace Core::Internal {
     }
 
     void ApplicationUpdateChecker::loadSettings() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_feedBaseUrl = settings->value("feedBaseUrl", DEFAULT_FEED_BASE_URL).toString();
         QString ignoredVersionStr = settings->value("ignoredVersion", "").toString();

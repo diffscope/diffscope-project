@@ -8,7 +8,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/quickpick.h>
@@ -32,11 +32,11 @@ namespace Core {
 
         void initActionContext() {
             Q_Q(ActionWindowInterfaceBase);
-            actionContext->setMenuComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
-            actionContext->setSeparatorComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            actionContext->setStretchComponent(new QQmlComponent(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setMenuComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
+            actionContext->setSeparatorComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            actionContext->setStretchComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             {
-                QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "GlobalActions");
+                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }

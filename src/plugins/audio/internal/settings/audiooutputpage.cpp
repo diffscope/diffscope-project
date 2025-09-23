@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QQmlComponent>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <audio/internal/audiooutputsettingshelper.h>
 
@@ -27,7 +27,7 @@ namespace Audio::Internal {
     QObject *AudioOutputPage::widget() {
         if (m_widget)
             return m_widget;
-        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.Audio", "AudioOutputPage");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioOutputPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

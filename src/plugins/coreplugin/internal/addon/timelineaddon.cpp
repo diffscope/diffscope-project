@@ -11,7 +11,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/projecttimeline.h>
@@ -25,7 +25,7 @@ namespace Core::Internal {
     TimelineAddOn::~TimelineAddOn() = default;
     void TimelineAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "TimelineAddOnActions");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TimelineAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

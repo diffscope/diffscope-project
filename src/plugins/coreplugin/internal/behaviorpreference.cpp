@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QSettings>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
 
@@ -59,7 +59,7 @@ namespace Core::Internal {
 
     void BehaviorPreference::load() {
         Q_D(BehaviorPreference);
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(settingCategoryC);
         d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject)).value<StartupBehavior>();
         emit startupBehaviorChanged();
@@ -121,7 +121,7 @@ namespace Core::Internal {
     }
     void BehaviorPreference::save() const {
         Q_D(const BehaviorPreference);
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(settingCategoryC);
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);

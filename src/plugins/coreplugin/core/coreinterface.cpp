@@ -31,7 +31,7 @@
 #include <SVSCraftQuick/Theme.h>
 
 #include <CoreApi/private/coreinterfacebase_p.h>
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>
@@ -80,7 +80,7 @@ namespace Core {
 
         // TODO: show last used page if id is empty
 
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup("DiffScope.Core.SettingDialog");
         settings->setValue("currentId", settings->value("currentId", "core.General"));
         settings->endGroup();
@@ -93,7 +93,7 @@ namespace Core {
 
         int code;
         {
-            QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "SettingDialog");
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SettingDialog");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -115,7 +115,7 @@ namespace Core {
 
     void CoreInterface::execPluginsDialog(QWindow *parent) {
         Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "PluginDialog");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -171,7 +171,7 @@ namespace Core {
                                      QStringLiteral(APPLICATION_COMPILER_ID),          //
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
 
-        QQmlComponent component(PluginDatabase::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         QQuickIcon icon;
         icon.setSource(QUrl("image://appicon/app"));
         icon.setWidth(64);

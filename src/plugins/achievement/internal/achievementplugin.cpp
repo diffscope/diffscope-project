@@ -4,7 +4,7 @@
 
 #include <QAKCore/actionregistry.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>
@@ -31,21 +31,21 @@ namespace Achievement {
         Core::CoreInterface::actionRegistry()->addExtension(::getAchievementActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
-        auto component = new QQmlComponent(Core::PluginDatabase::qmlEngine(), "DiffScope.Achievement", "AchievementWelcomeWizardPage", this);
+        auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.Achievement", "AchievementWelcomeWizardPage", this);
         if (component->isError()) {
             qFatal() << component->errorString();
         }
-        Core::PluginDatabase::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
         return true;
     }
     void AchievementPlugin::extensionsInitialized() {
-        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.UIShell", "AchievementDialog");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.UIShell", "AchievementDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
-            {"models", QVariant::fromValue(Core::PluginDatabase::instance()->getObjects("org.diffscope.achievements"))},
-            {"settings", QVariant::fromValue(Core::PluginDatabase::settings())},
+            {"models", QVariant::fromValue(Core::RuntimeInterface::instance()->getObjects("org.diffscope.achievements"))},
+            {"settings", QVariant::fromValue(Core::RuntimeInterface::settings())},
             {"settingCategory", "org.diffscope.achievements"}
         });
         o->setParent(this);

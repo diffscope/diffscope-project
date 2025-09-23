@@ -6,7 +6,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 #include <coreplugin/internal/findactionsmodel.h>
@@ -24,7 +24,7 @@ namespace Core::Internal {
     }
     void FindActionsAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ActionWindowInterfaceBase>();
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "FindActionsAddOnActions");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "FindActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -66,13 +66,13 @@ namespace Core::Internal {
         saveSettings();
     }
     void FindActionsAddOn::loadSettings() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_priorityActions = settings->value(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className()).value<QStringList>();
         settings->endGroup();
     }
     void FindActionsAddOn::saveSettings() const {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className(), m_priorityActions);
         settings->endGroup();

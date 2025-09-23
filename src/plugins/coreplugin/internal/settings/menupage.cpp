@@ -6,7 +6,7 @@
 #include <QAKCore/actionlayoutsmodel.h>
 #include <QAKCore/actionregistry.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 
@@ -41,7 +41,7 @@ namespace Core::Internal {
             }
         }
         m_actionLayoutsModel->setTopLevelNodes(topLevelNodes);
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "MenuPage");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MenuPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

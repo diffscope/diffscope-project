@@ -2,7 +2,7 @@
 
 #include <QQmlComponent>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 
@@ -23,7 +23,7 @@ namespace Achievement {
 
     void AchievementAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
-        QQmlComponent component(Core::PluginDatabase::qmlEngine(), "DiffScope.Achievement", "AchievementActions");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Achievement", "AchievementActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }

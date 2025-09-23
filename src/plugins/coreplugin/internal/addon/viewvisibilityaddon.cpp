@@ -6,7 +6,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeInterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>
@@ -19,11 +19,11 @@ namespace Core::Internal {
     static const char settingCategoryC[] = "Core::Internal::ViewVisibilityAddOn";
 
     void ViewVisibilityAddOn::initialize() {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto window = windowInterface->window();
 
-        QQmlComponent component(PluginDatabase::qmlEngine(), "DiffScope.Core", "ViewVisibilityAddOnActions");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ViewVisibilityAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -71,7 +71,7 @@ namespace Core::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
     void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible, QObject *action) const {
-        auto settings = PluginDatabase::settings();
+        auto settings = RuntimeInterface::settings();
         auto window = windowHandle()->window();
         settings->beginGroup(settingCategoryC);
         if (option == MenuBar) {
@@ -79,7 +79,7 @@ namespace Core::Internal {
             if (!visible) {
                 if (SVS::SVSCraft::No ==
                     SVS::MessageBox::warning(
-                        PluginDatabase::qmlEngine(), window, tr("Please take attention"),
+                        RuntimeInterface::qmlEngine(), window, tr("Please take attention"),
                         tr("After hiding the menu bar, it can be difficult to show it again. Make "
                            "sure you know how to do this.\n\nContinue?"),
                         SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No)) {
