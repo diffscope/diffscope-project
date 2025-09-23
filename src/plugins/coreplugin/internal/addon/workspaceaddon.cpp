@@ -6,6 +6,7 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QStandardItemModel>
+#include <qloggingcategory.h>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
@@ -18,6 +19,9 @@
 #include <coreplugin/internal/projectwindowworkspacelayout.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcWorkspaceAddOn, "diffscope.core.workspaceaddon")
+
     WorkspaceAddOn::WorkspaceAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         m_workspaceManager = new ProjectWindowWorkspaceManager(this);
         m_workspaceManager->load();
@@ -67,6 +71,7 @@ namespace Core::Internal {
         return m_workspaceManager;
     }
     QVariantMap WorkspaceAddOn::createDockingViewContents(int edge) const {
+        qCDebug(lcWorkspaceAddOn) << "Creating docking view contents of edge" << edge;
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         ProjectWindowWorkspaceLayout::ViewSpec firstSpec;
         ProjectWindowWorkspaceLayout::ViewSpec lastSpec;
@@ -85,24 +90,39 @@ namespace Core::Internal {
         } else {
             return {};
         }
+        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "First spec " << "("
+            << "width=" << firstSpec.width << ","
+            << "height=" << firstSpec.height << ","
+            << "visibleIndex=" << firstSpec.visibleIndex << ")";
+        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "Last spec " << "("
+            << "width=" << lastSpec.width << ","
+            << "height=" << lastSpec.height << ","
+            << "visibleIndex=" << lastSpec.visibleIndex << ")";
         QVariantList result;
         QVariantList visibleIndices;
         double preferredPanelSize = edge == Qt::TopEdge || edge == Qt::BottomEdge
                                         ? qMax(firstSpec.height, lastSpec.height)
                                         : qMax(firstSpec.width, lastSpec.width);
+        qCDebug(lcWorkspaceAddOn) << "Calculated preferred panel size" << preferredPanelSize;
         double splitterRatio = edge == Qt::TopEdge || edge == Qt::BottomEdge
                                    ? firstSpec.width / (firstSpec.width + lastSpec.width)
                                    : firstSpec.height / (firstSpec.height + lastSpec.height);
+        qCDebug(lcWorkspaceAddOn) << "Calculated splitter ratio" << splitterRatio;
         auto createAction = [&](const QString &id) -> QObject * {
             auto component = windowInterface->actionContext()->action(id);
             if (!component) {
+                qCWarning(lcWorkspaceAddOn) << "Action" << id << "not found";
                 return nullptr;
             }
             if (component->isError()) {
+                qCWarning(lcWorkspaceAddOn) << "Action" << id << "component has error";
                 qWarning() << component->errorString();
+                return nullptr;
             }
             auto object = component->create(component->creationContext());
             if (!object) {
+                qCWarning(lcWorkspaceAddOn) << "Action" << id << "component cannot be created";
+                qWarning() << component->errorString();
                 return nullptr;
             }
             QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
@@ -112,6 +132,7 @@ namespace Core::Internal {
         auto createSpec = [&](const ProjectWindowWorkspaceLayout::ViewSpec &spec) -> void {
             for (int i = 0; i < spec.panels.size(); i++) {
                 const auto &[id, dock, opened, geometry, data] = spec.panels.at(i);
+                qCDebug(lcWorkspaceAddOn) << "Creating panel" << id << dock << opened << geometry;
                 auto object = createAction(id);
                 if (object) {
                     // TODO: check if object has dock property (it might be an Action)
@@ -129,6 +150,7 @@ namespace Core::Internal {
                 }
             }
         };
+        qCDebug(lcWorkspaceAddOn) << "Creating first spec";
         createSpec(firstSpec);
         if (edge != 0) {
             QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "DockingStretch");
@@ -139,6 +161,7 @@ namespace Core::Internal {
                 {"object", QVariant::fromValue(object)},
             });
         }
+        qCDebug(lcWorkspaceAddOn) << "Creating last spec";
         createSpec(lastSpec);
 
         return {

@@ -42,6 +42,8 @@
 
 namespace Core {
 
+    Q_STATIC_LOGGING_CATEGORY(lcCoreInterface, "diffscope.core.coreinterface")
+
     class CoreInterfacePrivate : CoreInterfaceBasePrivate {
         Q_DECLARE_PUBLIC(CoreInterface)
     public:
@@ -198,8 +200,10 @@ namespace Core {
     }
 
     void CoreInterface::showHome() {
+        qCInfo(lcCoreInterface) << "Show home";
         auto inst = HomeWindowInterface::instance();
         if (inst) {
+            qCInfo(lcCoreInterface) << "Home window already exists, raising it";
             if (inst->window()->visibility() == QWindow::Minimized) {
                 inst->window()->showNormal();
             }
@@ -208,6 +212,7 @@ namespace Core {
             inst->window()->requestActivate();
             return;
         }
+        qCInfo(lcCoreInterface) << "Creating home window";
         auto windowInterface = HomeWindowInterfaceRegistry::instance()->create();
         Q_UNUSED(windowInterface);
     }
@@ -217,11 +222,13 @@ namespace Core {
     }
 
     QQuickWindow *CoreInterface::newFile() {
+        qCInfo(lcCoreInterface) << "New file";
         Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
         auto win = static_cast<QQuickWindow *>(ProjectWindowInterfaceRegistry::instance()->create()->window());
         win->show();
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
+            qCInfo(lcCoreInterface) << "Closing home window";
             HomeWindowInterface::instance()->quit();
         }
         connect(win, &QQuickWindow::sceneGraphInitialized, [] {

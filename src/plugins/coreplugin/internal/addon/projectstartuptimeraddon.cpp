@@ -19,7 +19,7 @@
 
 namespace Core::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(projectStartupTimerAddOn, "diffscope.core.projectstartuptimeraddon")
+    Q_STATIC_LOGGING_CATEGORY(lcProjectStartupTimerAddOn, "diffscope.core.projectstartuptimeraddon")
 
     ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [=] {
@@ -78,15 +78,15 @@ namespace Core::Internal {
 
     void ProjectStartupTimerAddOn::startTimer() {
         m_msecsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
-        qCDebug(projectStartupTimerAddOn) << "Project startup timer started at" << m_msecsSinceEpoch;
+        qCInfo(lcProjectStartupTimerAddOn) << "Project startup timer started at" << m_msecsSinceEpoch;
     }
     qint64 ProjectStartupTimerAddOn::stopTimerAndGetElapsedTime() {
         if (m_msecsSinceEpoch == -1) {
-            qCWarning(projectStartupTimerAddOn) << "Project startup timer not started";
+            qCWarning(lcProjectStartupTimerAddOn) << "Project startup timer not started";
             return -1;
         }
         auto ret = QDateTime::currentMSecsSinceEpoch() - m_msecsSinceEpoch;
-        qCDebug(projectStartupTimerAddOn) << "Project startup timer stopped in" << ret << "ms";
+        qCInfo(lcProjectStartupTimerAddOn) << "Project startup timer stopped in" << ret << "ms";
         m_msecsSinceEpoch = -1;
         return ret;
     }

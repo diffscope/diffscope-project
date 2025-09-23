@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QQmlComponent>
 #include <QTimer>
+#include <qloggingcategory.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -13,6 +14,9 @@
 #include <coreplugin/internal/behaviorpreference.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcFindActionsAddOn, "diffscope.core.findactionsaddon")
+
     FindActionsAddOn::FindActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         m_model = new FindActionsModel(this);
         connect(BehaviorPreference::instance(), &BehaviorPreference::commandPaletteClearHistoryRequested, this, [this] {
@@ -33,7 +37,6 @@ namespace Core::Internal {
         });
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-        loadSettings();
     }
     void FindActionsAddOn::extensionsInitialized() {
         auto actionContext = windowHandle()->cast<ActionWindowInterfaceBase>()->actionContext();
@@ -48,6 +51,7 @@ namespace Core::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
     void FindActionsAddOn::findActions() {
+        qCInfo(lcFindActionsAddOn) << "Find actions started";
         auto windowInterface = windowHandle()->cast<ActionWindowInterfaceBase>();
         while (m_priorityActions.size() > BehaviorPreference::commandPaletteHistoryCount()) {
             m_priorityActions.removeLast();
@@ -55,9 +59,12 @@ namespace Core::Internal {
         m_model->setPriorityActions(m_priorityActions);
         m_model->refresh(windowInterface->actionContext());
         int i = windowHandle()->cast<ActionWindowInterfaceBase>()->execQuickPick(m_model, tr("Find actions"));
-        if (i == -1)
+        if (i == -1) {
+            qCInfo(lcFindActionsAddOn) << "Find actions canceled";
             return;
+        }
         auto actionId = m_model->index(i, 0).data().toString();
+        qCInfo(lcFindActionsAddOn) << "Triggering action" << actionId;
         QTimer::singleShot(0, [=] {
             windowInterface->triggerAction(actionId, windowInterface->window()->property("contentItem").value<QObject *>());
         });
@@ -66,12 +73,16 @@ namespace Core::Internal {
         saveSettings();
     }
     void FindActionsAddOn::loadSettings() {
+        qCDebug(lcFindActionsAddOn) << "Loading settings on" << windowHandle()->metaObject()->className();
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_priorityActions = settings->value(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className()).value<QStringList>();
+        qCDebug(lcFindActionsAddOn) << "Priority actions loaded:" << m_priorityActions;
         settings->endGroup();
     }
     void FindActionsAddOn::saveSettings() const {
+        qCDebug(lcFindActionsAddOn) << "Saving settings on" << windowHandle()->metaObject()->className();
+        qCDebug(lcFindActionsAddOn) << "Priority actions to save:" << m_priorityActions;
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className(), m_priorityActions);

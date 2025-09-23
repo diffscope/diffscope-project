@@ -142,8 +142,8 @@ namespace Audio::Internal {
     void OutputSystem::logOutputInfo() const {
         qCInfo(audioOutputSystem).nospace().noquote()
             << "Output info ("
-            << "driver=" << (m_outputContext->driver() ? m_outputContext->driver()->name() : "") << ","
-            << "device=" << (m_outputContext->device() ? m_outputContext->device()->name() : "") << ","
+            << "driver=" << (m_outputContext->driver() ? m_outputContext->driver()->name() : "(null)") << ","
+            << "device=" << (m_outputContext->device() ? m_outputContext->device()->name() : "(null)") << ","
             << "sampleRate=" << m_outputContext->adoptedSampleRate() << ","
             << "bufferSize=" << m_outputContext->adoptedBufferSize()
             << ")";
