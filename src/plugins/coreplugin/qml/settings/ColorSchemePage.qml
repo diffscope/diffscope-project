@@ -7,6 +7,7 @@ import QtQuick.Dialogs
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 Item {
     id: page
@@ -176,22 +177,13 @@ Item {
         padding: 4
         leftPadding: 8
         rightPadding: 8
-        background: Rectangle {
+        ThemedItem.controlType: highlighted ? SVS.CT_Accent : SVS.CT_Normal
+        background: ButtonRectangle {
             implicitWidth: 100
             implicitHeight: 24
-            property color _baseColor: control.highlighted ? Theme.accentColor : Theme.buttonColor
-            color: !control.enabled ? control.ThemedItem.flat ? "transparent" : Theme.controlDisabledColorChange.apply(_baseColor) :
-                    control.down && control.enabled ? Theme.controlPressedColorChange.apply(_baseColor) :
-                        control.hovered && control.enabled ? Theme.controlHoveredColorChange.apply(_baseColor) :
-                        control.highlighted ? Theme.accentColor : control.ThemedItem.flat ? "transparent" : Theme.buttonColor
-            Behavior on color {
-                ColorAnimation {
-                    duration: Theme.colorAnimationDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
-            border.width: control.visualFocus ? 2 : 0
-            border.color: Theme.navigationColor
+            control: control
+            checked: control.highlighted
+            flat: true
         }
     }
 
