@@ -429,12 +429,12 @@ These singletons have private constructors and grant access to specific classes 
 
 #### Example Structure
 
-**icore.h**:
+**coreinterface.h**:
 ```cpp
 #ifndef DIFFSCOPE_COREPLUGIN_ICORE_H
 #define DIFFSCOPE_COREPLUGIN_ICORE_H
 
-#include <CoreApi/icorebase.h>
+#include <CoreApi/coreinterfacebase.h>
 #include <coreplugin/coreglobal.h>
 
 namespace Core {
@@ -443,25 +443,25 @@ namespace Core {
         class CorePlugin;
     }
 
-    class ICorePrivate;
+    class CoreInterfacePrivate;
 
-    class CORE_EXPORT ICore : public ICoreBase {
+    class CORE_EXPORT CoreInterface : public CoreInterfaceBase {
         Q_OBJECT
         QML_ELEMENT
         QML_SINGLETON
-        Q_DECLARE_PRIVATE(ICore)
+        Q_DECLARE_PRIVATE(CoreInterface)
     public:
-        static ICore *instance();
-        static inline ICore *create(QQmlEngine *, QJSEngine *) { return instance(); }
+        static CoreInterface *instance();
+        static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         // Public interface methods
         static QAK::ActionRegistry *actionRegistry();
 
     private:
-        explicit ICore(QObject *parent = nullptr);
-        ~ICore();
+        explicit CoreInterface(QObject *parent = nullptr);
+        ~CoreInterface();
 
-        ICore(ICorePrivate &d, QObject *parent = nullptr);
+        CoreInterface(CoreInterfacePrivate &d, QObject *parent = nullptr);
 
         friend class Internal::CorePlugin;
     };
@@ -471,20 +471,20 @@ namespace Core {
 #endif // DIFFSCOPE_COREPLUGIN_ICORE_H
 ```
 
-**icore.cpp**:
+**coreinterface.cpp**:
 ```cpp
-#include "icore.h"
+#include "coreinterface.h"
 
 namespace Core {
 
-    ICore *ICore::instance() {
-        return static_cast<ICore *>(ICoreBase::instance());
+    CoreInterface *CoreInterface::instance() {
+        return static_cast<CoreInterface *>(CoreInterfaceBase::instance());
     }
 
-    ICore::ICore(QObject *parent) : ICore(*new ICorePrivate(), parent) {
+    CoreInterface::CoreInterface(QObject *parent) : CoreInterface(*new CoreInterfacePrivate(), parent) {
     }
 
-    ICore::ICore(ICorePrivate &d, QObject *parent) : ICoreBase(d, parent) {
+    CoreInterface::CoreInterface(CoreInterfacePrivate &d, QObject *parent) : CoreInterfaceBase(d, parent) {
         d.q_ptr = this;
         d.init();
     }
@@ -498,23 +498,23 @@ These singletons are created during application initialization. The constructor 
 
 #### Example Structure
 
-**plugindatabase.cpp**:
+**runtimeinterface.cpp**:
 ```cpp
 namespace Core {
 
-    static PluginDatabase *m_instance = nullptr;
+    static RuntimeInterface *m_instance = nullptr;
 
-    PluginDatabase::PluginDatabase(QObject *parent)
-        : ObjectPool(*new PluginDatabasePrivate(), parent) {
+    RuntimeInterface::RuntimeInterface(QObject *parent)
+        : ObjectPool(*new RuntimeInterfacePrivate(), parent) {
         Q_ASSERT(!m_instance);
         m_instance = this;
     }
 
-    PluginDatabase::~PluginDatabase() {
+    RuntimeInterface::~RuntimeInterface() {
         m_instance = nullptr;
     }
 
-    PluginDatabase *PluginDatabase::instance() {
+    RuntimeInterface *RuntimeInterface::instance() {
         return m_instance;
     }
 
@@ -566,21 +566,21 @@ Window classes use a simple static instance pattern with explicit assignment in 
 
 #### Example Structure
 
-**ihomewindow.cpp**:
+**homewindowinterface.cpp**:
 ```cpp
 namespace Core {
 
-    static IHomeWindow *m_instance = nullptr;
+    static HomeWindowInterface *m_instance = nullptr;
 
-    IHomeWindow::IHomeWindow(QObject *parent) : IHomeWindow(*new IHomeWindowPrivate, parent) {
+    HomeWindowInterface::HomeWindowInterface(QObject *parent) : HomeWindowInterface(*new HomeWindowInterfacePrivate, parent) {
         m_instance = this;
     }
 
-    IHomeWindow::~IHomeWindow() {
+    HomeWindowInterface::~HomeWindowInterface() {
         m_instance = nullptr;
     }
 
-    IHomeWindow *IHomeWindow::instance() {
+    HomeWindowInterface *HomeWindowInterface::instance() {
         return m_instance;
     }
 

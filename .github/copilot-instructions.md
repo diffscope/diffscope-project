@@ -15,7 +15,7 @@ DiffScope is a modern Qt-based music production application built on a sophistic
 ### 1. Plugin System (ChorusKit)
 - Plugins are the primary extension mechanism, following Qt Creator patterns
 - Each plugin has `plugin.json.in` metadata and extends `ExtensionSystem::IPlugin`
-- Core plugin (`coreplugin`) provides fundamental services via `ICore` singleton
+- Core plugin (`coreplugin`) provides fundamental services via `CoreInterface` singleton
 - Plugin communication through well-defined interfaces, not direct linking
 - **Plugin changes require restart** - enabling/disabling plugins only takes effect after application restart
 
@@ -30,7 +30,7 @@ class CorePlugin : public ExtensionSystem::IPlugin {
 ### 2. QML Integration Patterns
 - Heavy use of Qt Quick for UI with C++ backend services
 - Custom QML modules: `DiffScope.CorePlugin`, `DiffScope.UIShell`, `SVSCraft.UIComponents`
-- QML singletons expose C++ services (e.g., `ICore` as QML singleton)
+- QML singletons expose C++ services (e.g., `CoreInterface` as QML singleton)
 - Theme system integrated via `SVSCraft.UIComponents`
 
 ### 3. Action System (QActionKit)
@@ -115,7 +115,7 @@ Refer to [C++ Class Conventions](instructions/class-conventions.instructions.md)
 
 ### Settings Management
 Refer to [Settings Conventions](instructions/settings-conventions.instructions.md) for QSettings usage patterns:
-- User-scoped vs global settings access via `PluginDatabase`
+- User-scoped vs global settings access via `RuntimeInterface`
 - Group naming conventions for C++ classes and QML components
 - QML settings integration through `SVSCraft.Extras.Settings`
 - Property synchronization and persistence timing best practices
@@ -139,18 +139,18 @@ void extensionsInitialized() override; // Cross-plugin communication ready
 
 ### Plugin State Management
 - Plugin enable/disable changes tracked via `PluginSpecHelper::isRestartRequired()`
-- Restart triggered via `ICoreBase::restartApplication()` which sets `qApp->property("restart", true)`
+- Restart triggered via `CoreInterfaceBase::restartApplication()` which sets `qApp->property("restart", true)`
 - Loader's `Restarter` class handles application restart with `QProcess::startDetached()`
 - Settings persisted immediately but plugins only loaded/unloaded on restart
 
 ### Window Management
-- `IProjectWindow` for main application windows
+- `ProjectWindowInterface` for main application windows
 - `ProjectWindowWorkspaceLayout` for flexible panel positioning
 - Panel positions: `LeftTop`, `RightBottom`, etc.
 
 ### QML-C++ Bridge
 - Use `Q_INVOKABLE` for C++ methods called from QML
 - Register types with `qmlRegisterType<>()`
-- Prefer QML singletons for service access: `ICore.actionRegistry`
+- Prefer QML singletons for service access: `CoreInterface.actionRegistry`
 
 This architecture enables plugins, declarative UI definitions, and maintainable separation between core functionality and extensions.
