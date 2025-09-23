@@ -33,6 +33,8 @@ namespace Audio::Internal {
 
         void postSetDevice();
 
+        void logOutputInfo() const;
+
         std::unique_ptr<talcs::OutputContext> m_outputContext;
 
         qint64 m_adoptedBufferSize{};

@@ -76,16 +76,22 @@ static auto getCoreMacOSActionExtension() {
 
 namespace Core::Internal {
 
+    Q_STATIC_LOGGING_CATEGORY(corePlugin, "diffscope.core.coreplugin")
+    Q_STATIC_LOGGING_CATEGORY(appIconImageProvider, "diffscope.core.appiconimageprovider")
+
     class AppIconImageProvider : public QQuickImageProvider {
     public:
         AppIconImageProvider() : QQuickImageProvider(Image) {
             for (const auto &subDirName : m_iconDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
                 QDir subDir(m_iconDir.filePath(subDirName));
+                qCDebug(appIconImageProvider) << "Processing icon directory:" << subDir.path();
                 QList<int> sizes;
                 for (const auto &fileInfo : subDir.entryInfoList(QDir::Files)) {
+                    qCDebug(appIconImageProvider) << "Processing icon file:" << fileInfo.fileName();
                     static const auto pattern = QRegularExpression(R"(^(\d+)x\d+\.png$)");
                     const auto match = pattern.match(fileInfo.fileName());
                     if (match.hasMatch()) {
+                        qCDebug(appIconImageProvider) << "Found icon size:" << match.captured(1);
                         sizes.append(match.captured(1).toInt());
                     }
                 }
@@ -95,8 +101,10 @@ namespace Core::Internal {
         }
 
         QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override {
+            qCDebug(appIconImageProvider) << "Requesting icon:" << id << requestedSize;
             auto sizes = m_iconMap.value(id);
             if (sizes.isEmpty()) {
+                qCWarning(appIconImageProvider) << "No icon found for:" << id;
                 return {};
             }
             if (!requestedSize.isValid()) {
@@ -129,14 +137,17 @@ namespace Core::Internal {
 
     static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
+            qCInfo(corePlugin) << "Open settings dialog with command line args";
             CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
             CoreInterface::execSettingsDialog("", nullptr);
         }
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         QQuickWindow *win;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
+            qCInfo(corePlugin) << "Create new project on startup";
             win = CoreInterface::newFile();
         } else {
+            qCInfo(corePlugin) << "Open home window on startup";
             CoreInterface::showHome();
             win = static_cast<QQuickWindow *>(HomeWindowInterface::instance()->window());
         }
@@ -150,6 +161,7 @@ namespace Core::Internal {
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
+        qCInfo(corePlugin) << "Initializing...";
 
         QQuickStyle::setStyle("SVSCraft.UIComponents");
         QQuickStyle::setFallbackStyle("Basic");
@@ -171,6 +183,8 @@ namespace Core::Internal {
 
         QApplication::setQuitOnLastWindowClosed(false);
 
+        qCInfo(corePlugin) << "Initialized";
+
         return true;
     }
 
@@ -179,6 +193,7 @@ namespace Core::Internal {
 
     bool CorePlugin::delayedInitialize() {
         RuntimeInterface::splash()->showMessage(tr("Initializing GUI..."));
+        qCInfo(corePlugin) << "Initializing GUI...";
         QApplication::setQuitOnLastWindowClosed(true);
         // TODO plugin arguments
         auto args = QApplication::arguments();

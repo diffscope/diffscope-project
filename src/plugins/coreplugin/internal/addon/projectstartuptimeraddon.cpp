@@ -1,6 +1,7 @@
 #include "projectstartuptimeraddon.h"
 
 #include <QDateTime>
+#include <qloggingcategory.h>
 #include <QQuickView>
 #include <QQuickWindow>
 #include <QTimer>
@@ -17,6 +18,9 @@
 #include <coreplugin/internal/coreachievementsmodel.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(projectStartupTimerAddOn, "diffscope.core.projectstartuptimeraddon")
+
     ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [=] {
             setNotificationVisible(true);
@@ -74,12 +78,15 @@ namespace Core::Internal {
 
     void ProjectStartupTimerAddOn::startTimer() {
         m_msecsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
+        qCDebug(projectStartupTimerAddOn) << "Project startup timer started at" << m_msecsSinceEpoch;
     }
     qint64 ProjectStartupTimerAddOn::stopTimerAndGetElapsedTime() {
         if (m_msecsSinceEpoch == -1) {
+            qCWarning(projectStartupTimerAddOn) << "Project startup timer not started";
             return -1;
         }
         auto ret = QDateTime::currentMSecsSinceEpoch() - m_msecsSinceEpoch;
+        qCDebug(projectStartupTimerAddOn) << "Project startup timer stopped in" << ret << "ms";
         m_msecsSinceEpoch = -1;
         return ret;
     }
