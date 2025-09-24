@@ -77,6 +77,7 @@ namespace UIShell {
         auto d = *reinterpret_cast<ExtensionSystem::Internal::PluginSpecPrivate **>(m_pluginSpec);
         if (value != d->enabledBySettings) {
             d->setEnabledBySettings(value);
+            ExtensionSystem::PluginManager::writeSettings();
             emit enabledBySettingsChanged();
             emit restartRequiredChanged();
         }

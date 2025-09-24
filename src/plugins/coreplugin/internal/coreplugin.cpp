@@ -136,6 +136,16 @@ namespace Core::Internal {
     static constexpr char kOpenSettingsArg[] = "--open-settings";
     static constexpr char kNewProjectArg[] = "--new";
 
+    static void checkUltimateSimplicityAchievement() {
+        using namespace ExtensionSystem;
+        bool ok = std::ranges::all_of(PluginManager::plugins(), [](PluginSpec *spec) {
+            return !spec->isEffectivelyEnabled() || spec->name() == "Core" || spec->name() == "Achievement";
+        });
+        if (!ok)
+            return;
+        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_UltimateSimplicity);
+    }
+
     static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
@@ -200,6 +210,7 @@ namespace Core::Internal {
         auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, RuntimeInterface::splash(), &QWidget::close);
+        checkUltimateSimplicityAchievement();
         return false;
     }
 

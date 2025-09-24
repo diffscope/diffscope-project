@@ -12,5 +12,6 @@ ActionDockingPane {
     PluginView {
         anchors.fill: parent
         useSplitView: false
+        onRestartRequested: CoreInterface.restartApplication()
     }
 }

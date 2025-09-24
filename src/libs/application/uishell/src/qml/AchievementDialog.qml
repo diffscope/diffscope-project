@@ -47,7 +47,7 @@ Window {
         y: 64
         width: 400
         height: 104
-        flags: Qt.Tool
+        flags: Qt.Tool | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
         property string name
         property url icon
         property var iconColor
