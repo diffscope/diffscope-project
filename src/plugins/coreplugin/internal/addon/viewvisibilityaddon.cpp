@@ -1,7 +1,7 @@
 #include "viewvisibilityaddon.h"
 
 #include <QQmlComponent>
-#include <qloggingcategory.h>
+#include <QLoggingCategory>
 
 #include <SVSCraftQuick/MessageBox.h>
 

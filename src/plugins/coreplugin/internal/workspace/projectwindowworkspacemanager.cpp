@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <QLoggingCategory>
 #include <ranges>
 
 #include <QSettings>
@@ -9,6 +10,8 @@
 #include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcProjectWindowWorkspaceManager, "diffscope.core.projectwindowworkspacemanager")
 
     QSet<ProjectWindowWorkspaceManager *> m_instances;
     QList<ProjectWindowWorkspaceLayout> m_customLayouts;
@@ -83,17 +86,18 @@ namespace Core::Internal {
         return layout;
     }
 
-    static const char settingCategoryC[] = "Core::Internal::WorkspaceManager";
-
     void ProjectWindowWorkspaceManager::load() {
+        qCDebug(lcProjectWindowWorkspaceManager) << "Loading settings";
         auto settings = RuntimeInterface::settings();
-        auto map = settings->value(settingCategoryC).toMap();
+        auto map = settings->value(staticMetaObject.className()).toMap();
         if (!map.contains("currentLayout") || !map.contains("customLayouts")) {
+            qCDebug(lcProjectWindowWorkspaceManager) << "No settings found, using default layout";
             setCurrentLayout(defaultLayout());
             return;
         }
         auto currentLayout = ProjectWindowWorkspaceLayout::fromVariant(map.value("currentLayout"));
         if (!currentLayout.isValid()) {
+            qCWarning(lcProjectWindowWorkspaceManager) << "Invalid current layout, using default layout";
             currentLayout = defaultLayout();
         }
         auto customLayoutsVariants = map.value("customLayouts").toList();
@@ -105,12 +109,13 @@ namespace Core::Internal {
         setCustomLayouts(customLayouts);
     }
     void ProjectWindowWorkspaceManager::save() const {
+        qCDebug(lcProjectWindowWorkspaceManager) << "Saving settings";
         auto settings = RuntimeInterface::settings();
         QVariantList customLayoutsVariants;
         std::ranges::transform(m_customLayouts, std::back_inserter(customLayoutsVariants), [](const auto &v) {
             return v.toVariant();
         });
-        settings->setValue(settingCategoryC, QVariantMap {
+        settings->setValue(staticMetaObject.className(), QVariantMap {
             {"currentLayout", m_currentLayout.toVariant()},
             {"customLayouts", customLayoutsVariants},
         });

@@ -20,6 +20,9 @@
 #include <audio/internal/audiooutputpage.h>
 
 namespace Audio::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcAudioPlugin, "diffscope.audio.audioplugin")
+
     AudioPlugin::AudioPlugin() {
     }
     AudioPlugin::~AudioPlugin() = default;
@@ -27,9 +30,11 @@ namespace Audio::Internal {
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
+        qCInfo(lcAudioPlugin) << "Initializing";
         initializeSettings();
         initializeAudioSystem();
         initializeHelpContents();
+        qCInfo(lcAudioPlugin) << "Initialized";
         return true;
     }
     void AudioPlugin::extensionsInitialized() {

@@ -19,6 +19,7 @@ namespace Audio::Internal {
     OutputSystem::~OutputSystem() = default;
 
     bool OutputSystem::initialize() {
+        qCInfo(audioOutputSystem) << "Initializing";
         load();
         m_outputContext->setAdoptedBufferSize(m_adoptedBufferSize);
         m_outputContext->setAdoptedSampleRate(m_adoptedSampleRate);
@@ -142,8 +143,8 @@ namespace Audio::Internal {
     void OutputSystem::logOutputInfo() const {
         qCInfo(audioOutputSystem).nospace().noquote()
             << "Output info ("
-            << "driver=" << (m_outputContext->driver() ? m_outputContext->driver()->name() : "(null)") << ","
-            << "device=" << (m_outputContext->device() ? m_outputContext->device()->name() : "(null)") << ","
+            << "driver=" << (m_outputContext->driver() ? "\"" + m_outputContext->driver()->name() + "\"" : "null") << ","
+            << "device=" << (m_outputContext->device() ? "\"" + m_outputContext->device()->name() + "\"" : "null") << ","
             << "sampleRate=" << m_outputContext->adoptedSampleRate() << ","
             << "bufferSize=" << m_outputContext->adoptedBufferSize()
             << ")";

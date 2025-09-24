@@ -2,9 +2,14 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+#include <QLoggingCategory>
+
 #include <CoreApi/runtimeInterface.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcKeyMapPage, "diffscope.core.keymappage")
+
     KeyMapPage::KeyMapPage(QObject *parent)
         : ISettingPage("core.Keymap", parent) {
         setTitle(tr("Keymap"));
@@ -26,6 +31,7 @@ namespace Core::Internal {
     QObject *KeyMapPage::widget() {
         if (m_widget)
             return m_widget;
+        qCDebug(lcKeyMapPage) << "Creating widget";
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "KeymapPage");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -38,16 +44,19 @@ namespace Core::Internal {
     }
     
     void KeyMapPage::beginSetting() {
+        qCInfo(lcKeyMapPage) << "Beginning setting";
         widget();
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
     
     bool KeyMapPage::accept() {
+        qCInfo(lcKeyMapPage) << "Accepting";
         return ISettingPage::accept();
     }
 
     void KeyMapPage::endSetting() {
+        qCInfo(lcKeyMapPage) << "Ending setting";
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
     }

@@ -121,7 +121,7 @@ namespace Core::Internal {
                 pos += 4;
                 len -= 4;
                 continue;
-                       }
+            }
             text[idx] = s.at(pos);
             ++pos;
             ++idx;
@@ -212,7 +212,7 @@ namespace Core::Internal {
         }
 
         // Sort remaining actions using local collator
-        std::sort(remainingActions.begin(), remainingActions.end(), 
+        std::sort(remainingActions.begin(), remainingActions.end(),
                   [this](const QString &a, const QString &b) {
                       return m_collator.compare(a, b) < 0;
                   });
@@ -220,14 +220,16 @@ namespace Core::Internal {
 
         auto pipeline =
             std::views::transform([=](const QString &id) -> QPair<QString, int> {
-                std::unique_ptr<QObject> actionObject(
-                    ActionHelper::createActionObject(actionContext, id, true));
+                // TODO avoid creating action object on each time updating action list
+                std::unique_ptr<QObject> actionObject(ActionHelper::createActionObject(actionContext, id, true));
                 if (!actionObject || !actionObject->property("enabled").toBool()) {
                     return {};
                 }
                 return {id, actionObject->property("checkable").toBool() ? Checkable : None};
             }) |
-            std::views::filter([](const auto &p) { return !p.first.isEmpty(); });
+            std::views::filter([](const auto &p) {
+                return !p.first.isEmpty();
+            });
         for (const auto &item : m_priorityActions | pipeline) {
             m_actionList.append(item);
         }

@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QQmlComponent>
 #include <QFontDatabase>
+#include <QLoggingCategory>
 
 #include <CoreApi/runtimeInterface.h>
 
@@ -10,6 +11,9 @@
 #include <coreplugin/internal/behaviorpreference.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcAppearancePage, "diffscope.core.appearancepage")
+
     AppearancePage::AppearancePage(QObject *parent) : ISettingPage("core.Appearance", parent) {
         setTitle(tr("Appearance"));
         setDescription(tr("Configure how %1 looks like").arg(QApplication::applicationName()));
@@ -26,6 +30,7 @@ namespace Core::Internal {
     QObject *AppearancePage::widget() {
         if (m_widget)
             return m_widget;
+        qCDebug(lcAppearancePage) << "Creating widget";
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "AppearancePage");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -35,29 +40,46 @@ namespace Core::Internal {
         return m_widget;
     }
     void AppearancePage::beginSetting() {
+        qCInfo(lcAppearancePage) << "Beginning setting";
         widget();
         m_widget->setProperty("useCustomFont", BehaviorPreference::instance()->property("useCustomFont"));
+        qCDebug(lcAppearancePage) << m_widget->property("useCustomFont");
         m_widget->setProperty("fontFamily", BehaviorPreference::instance()->property("fontFamily"));
+        qCDebug(lcAppearancePage) << m_widget->property("fontFamily");
         m_widget->setProperty("fontStyle", BehaviorPreference::instance()->property("fontStyle"));
+        qCDebug(lcAppearancePage) << m_widget->property("fontStyle");
         m_widget->setProperty("uiBehavior", BehaviorPreference::instance()->property("uiBehavior"));
+        qCDebug(lcAppearancePage) << m_widget->property("uiBehavior");
         m_widget->setProperty("graphicsBehavior", BehaviorPreference::instance()->property("graphicsBehavior"));
+        qCDebug(lcAppearancePage) << m_widget->property("graphicsBehavior");
         m_widget->setProperty("animationEnabled", BehaviorPreference::instance()->property("animationEnabled"));
+        qCDebug(lcAppearancePage) << m_widget->property("animationEnabled");
         m_widget->setProperty("animationSpeedRatio", BehaviorPreference::instance()->property("animationSpeedRatio"));
+        qCDebug(lcAppearancePage) << m_widget->property("animationSpeedRatio");
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
     bool AppearancePage::accept() {
+        qCInfo(lcAppearancePage) << "Accepting";
+        qCDebug(lcAppearancePage) << "useCustomFont" << m_widget->property("useCustomFont");
         BehaviorPreference::instance()->setProperty("useCustomFont", m_widget->property("useCustomFont"));
+        qCDebug(lcAppearancePage) << "fontFamily" << m_widget->property("fontFamily");
         BehaviorPreference::instance()->setProperty("fontFamily", m_widget->property("fontFamily"));
+        qCDebug(lcAppearancePage) << "fontStyle" << m_widget->property("fontStyle");
         BehaviorPreference::instance()->setProperty("fontStyle", m_widget->property("fontStyle"));
+        qCDebug(lcAppearancePage) << "uiBehavior" << m_widget->property("uiBehavior");
         BehaviorPreference::instance()->setProperty("uiBehavior", m_widget->property("uiBehavior"));
+        qCDebug(lcAppearancePage) << "graphicsBehavior" << m_widget->property("graphicsBehavior");
         BehaviorPreference::instance()->setProperty("graphicsBehavior", m_widget->property("graphicsBehavior"));
+        qCDebug(lcAppearancePage) << "animationEnabled" << m_widget->property("animationEnabled");
         BehaviorPreference::instance()->setProperty("animationEnabled", m_widget->property("animationEnabled"));
+        qCDebug(lcAppearancePage) << m_widget->property("animationSpeedRatio");
         BehaviorPreference::instance()->setProperty("animationSpeedRatio", m_widget->property("animationSpeedRatio"));
         BehaviorPreference::instance()->save();
         return ISettingPage::accept();
     }
     void AppearancePage::endSetting() {
+        qCInfo(lcAppearancePage) << "Ending setting";
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
     }

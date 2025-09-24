@@ -6,7 +6,7 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QStandardItemModel>
-#include <qloggingcategory.h>
+#include <QLoggingCategory>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
@@ -135,6 +135,7 @@ namespace Core::Internal {
                 qCDebug(lcWorkspaceAddOn) << "Creating panel" << id << dock << opened << geometry;
                 auto object = createAction(id);
                 if (object) {
+                    qCDebug(lcWorkspaceAddOn) << "Created object" << object;
                     // TODO: check if object has dock property (it might be an Action)
                     object->setProperty("dock", dock);
                     if (i == spec.visibleIndex || opened) {
@@ -172,9 +173,7 @@ namespace Core::Internal {
         };
     }
 
-    void WorkspaceAddOn::saveCustomLayoutFromJavaScript(
-        const ProjectWindowWorkspaceLayout &layout_, const QString &originName,
-        const QString &name) const {
+    void WorkspaceAddOn::saveCustomLayoutFromJavaScript(const ProjectWindowWorkspaceLayout &layout_, const QString &originName, const QString &name) const {
         auto layout = layout_;
         layout.setName(name);
         auto customLayouts = ProjectWindowWorkspaceManager::customLayouts();
@@ -207,8 +206,7 @@ namespace Core::Internal {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QStandardItemModel model;
         auto saveCurrentLayoutAsItem = new QStandardItem;
-        saveCurrentLayoutAsItem->setData(tr("Save Current Layout As..."),
-                                         SVS::SVSCraft::CP_TitleRole);
+        saveCurrentLayoutAsItem->setData(tr("Save Current Layout As..."), SVS::SVSCraft::CP_TitleRole);
         model.appendRow(saveCurrentLayoutAsItem);
         auto separatorItem = new QStandardItem;
         separatorItem->setData(true, SVS::SVSCraft::CP_IsSeparatorRole);

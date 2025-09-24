@@ -80,14 +80,18 @@ namespace Core {
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
         static std::unique_ptr<QWindow> dlg;
 
+        qCInfo(lcCoreInterface) << "Opening settings dialog" << id;
+
         // TODO: show last used page if id is empty
 
         auto settings = RuntimeInterface::settings();
         settings->beginGroup("DiffScope.Core.SettingDialog");
         settings->setValue("currentId", settings->value("currentId", "core.General"));
+        qCDebug(lcCoreInterface) << "Saved current id" << settings->value("currentId").toString();
         settings->endGroup();
 
         if (dlg) {
+            qCDebug(lcCoreInterface) << "Reusing existing settings dialog";
             if (!id.isEmpty())
                 QMetaObject::invokeMethod(dlg.get(), "showPage", QVariant(id));
             return -1;
@@ -102,12 +106,14 @@ namespace Core {
             dlg.reset(qobject_cast<QWindow *>(component.create()));
             Q_ASSERT(dlg);
             dlg->setTransientParent(parent);
+            qCDebug(lcCoreInterface) << "Showing settings dialog";
             if (!id.isEmpty())
                 QMetaObject::invokeMethod(dlg.get(), "showPage", QVariant(id));
             dlg->show();
             QEventLoop eventLoop;
             connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
             eventLoop.exec();
+            qCDebug(lcCoreInterface) << "Settings dialog finished";
             dlg.reset();
         }
 

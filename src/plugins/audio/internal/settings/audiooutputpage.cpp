@@ -2,12 +2,15 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+#include <QLoggingCategory>
 
 #include <CoreApi/runtimeInterface.h>
 
 #include <audio/internal/audiooutputsettingshelper.h>
 
 namespace Audio::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcAudioOutputPage, "diffscope.audio.audiooutputpage")
 
     AudioOutputPage::AudioOutputPage(QObject *parent) : Core::ISettingPage("audio.AudioOutput", parent) {
         setTitle(tr("Audio Output"));
@@ -27,6 +30,7 @@ namespace Audio::Internal {
     QObject *AudioOutputPage::widget() {
         if (m_widget)
             return m_widget;
+        qCDebug(lcAudioOutputPage) << "Creating widget";
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioOutputPage");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -37,6 +41,7 @@ namespace Audio::Internal {
     }
 
     void AudioOutputPage::beginSetting() {
+        qCInfo(lcAudioOutputPage) << "Beginning setting";
         widget();
         m_widget->setProperty("started", true);
         m_widget->setProperty("helper", QVariant::fromValue(new AudioOutputSettingsHelper(this)));
@@ -44,10 +49,12 @@ namespace Audio::Internal {
     }
 
     bool AudioOutputPage::accept() {
+        qCInfo(lcAudioOutputPage) << "Accepting";
         return ISettingPage::accept();
     }
 
     void AudioOutputPage::endSetting() {
+        qCInfo(lcAudioOutputPage) << "Ending setting";
         m_widget->setProperty("started", false);
         auto o = m_widget->property("helper").value<QObject *>();
         o->deleteLater();

@@ -4,6 +4,7 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QRegularExpression>
+#include <QLoggingCategory>
 
 #include <SVSCraftQuick/Theme.h>
 
@@ -12,6 +13,9 @@
 #include <coreplugin/internal/colorschemecollection.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcColorSchemePage, "diffscope.core.colorscheme")
+
     ColorSchemePage::ColorSchemePage(QObject *parent) : ISettingPage("core.ColorScheme", parent) {
         m_collection = new ColorSchemeCollection(this);
         setTitle(tr("Color Scheme"));
@@ -32,6 +36,7 @@ namespace Core::Internal {
     QObject *ColorSchemePage::widget() {
         if (m_widget)
             return m_widget;
+        qCDebug(lcColorSchemePage) << "Creating widget";
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemePage");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -44,18 +49,21 @@ namespace Core::Internal {
         return m_widget;
     }
     void ColorSchemePage::beginSetting() {
+        qCInfo(lcColorSchemePage) << "Beginning setting";
         widget();
         m_collection->load();
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
     bool ColorSchemePage::accept() {
+        qCInfo(lcColorSchemePage) << "Accepting";
         m_collection->save();
         m_collection->applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
         return ISettingPage::accept();
     }
 
     void ColorSchemePage::endSetting() {
+        qCInfo(lcColorSchemePage) << "Ending setting";
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
     }

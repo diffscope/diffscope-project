@@ -3,7 +3,7 @@
 #include <QSettings>
 #include <QQmlComponent>
 #include <QTimer>
-#include <qloggingcategory.h>
+#include <QLoggingCategory>
 
 #include <QAKQuick/quickactioncontext.h>
 

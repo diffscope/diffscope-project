@@ -1,7 +1,7 @@
 #include "projectstartuptimeraddon.h"
 
 #include <QDateTime>
-#include <qloggingcategory.h>
+#include <QLoggingCategory>
 #include <QQuickView>
 #include <QQuickWindow>
 #include <QTimer>

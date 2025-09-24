@@ -1,6 +1,7 @@
 #include "notificationmanager.h"
 
 #include <QApplication>
+#include <QLoggingCategory>
 #include <QTimer>
 
 #include <CoreApi/runtimeInterface.h>
@@ -13,6 +14,8 @@
 
 namespace Core::Internal {
 
+    Q_STATIC_LOGGING_CATEGORY(lcNotificationManager, "diffscope.core.notificationmanager")
+
     NotificationManager::NotificationManager(ProjectWindowInterface *parent) : QObject(parent) {
         parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
     }
@@ -21,8 +24,9 @@ namespace Core::Internal {
         return windowHandle->property(staticMetaObject.className()).value<NotificationManager *>();
     }
 
-    void NotificationManager::addMessage(NotificationMessage *message,
-                                         ProjectWindowInterface::NotificationBubbleMode mode) {
+    void NotificationManager::addMessage(NotificationMessage *message, ProjectWindowInterface::NotificationBubbleMode mode) {
+        qCInfo(lcNotificationManager) << "Adding message:" << message << message->title() << message->text() << mode;
+
         int autoHideTimeout = BehaviorPreference::notificationAutoHideTimeout();
         bool beepOnNotification = BehaviorPreference::hasNotificationSoundAlert();
 
@@ -40,12 +44,14 @@ namespace Core::Internal {
             connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer,
                     &QObject::deleteLater);
             connect(timer, &QTimer::timeout, [=] {
+                qCInfo(lcNotificationManager) << "Auto-hiding message on timeout:" << message;
                 emit handle->hideClicked();
             });
             timer->start();
         }
 
         const auto removeMessageFromBubbles = [=, this] {
+            qCInfo(lcNotificationManager) << "Removing message from bubbles:" << message;
             auto index = m_bubbleMessages.indexOf(message);
             if (index == -1)
                 return;
@@ -54,6 +60,7 @@ namespace Core::Internal {
         };
 
         const auto removeMessage = [=, this] {
+            qCInfo(lcNotificationManager) << "Removing message:" << message;
             removeMessageFromBubbles();
             auto index = m_messages.indexOf(message);
             if (index == -1)

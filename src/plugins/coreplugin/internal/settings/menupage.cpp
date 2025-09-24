@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+#include <QLoggingCategory>
 
 #include <QAKCore/actionlayoutsmodel.h>
 #include <QAKCore/actionregistry.h>
@@ -11,6 +12,9 @@
 #include <coreplugin/coreinterface.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcMenuPage, "diffscope.core.menupage")
+
     MenuPage::MenuPage(QObject *parent)
         : ISettingPage("core.Menu", parent) {
         setTitle(tr("Menus and Toolbars"));
@@ -32,6 +36,7 @@ namespace Core::Internal {
     QObject *MenuPage::widget() {
         if (m_widget)
             return m_widget;
+        qCDebug(lcMenuPage) << "Creating widget";
         m_actionLayoutsModel = new QAK::ActionLayoutsModel(this);
         QVector<QAK::ActionLayoutEntry> topLevelNodes;
         for (const auto &id: CoreInterface::actionRegistry()->actionIds()) {
@@ -54,6 +59,7 @@ namespace Core::Internal {
     }
     
     void MenuPage::beginSetting() {
+        qCInfo(lcMenuPage) << "Beginning setting";
         widget();
         m_actionLayoutsModel->setActionLayouts(CoreInterface::actionRegistry()->layouts());
         m_widget->setProperty("started", true);
@@ -61,10 +67,12 @@ namespace Core::Internal {
     }
     
     bool MenuPage::accept() {
+        qCInfo(lcMenuPage) << "Accepting";
         return ISettingPage::accept();
     }
 
     void MenuPage::endSetting() {
+        qCInfo(lcMenuPage) << "Ending setting";
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
     }
