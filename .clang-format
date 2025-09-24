@@ -109,7 +109,7 @@ AlignAfterOpenBracket: Align
 NamespaceIndentation: All
 
 # 一行最长列数
-ColumnLimit: 100
+ColumnLimit: 999
 
 # 按层次缩进宏定义
 IndentPPDirectives: AfterHash
