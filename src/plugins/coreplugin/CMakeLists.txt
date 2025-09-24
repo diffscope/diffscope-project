@@ -45,6 +45,7 @@ qm_configure_target(${PROJECT_NAME}
         Quick
         QuickControls2
         QuickTemplates2
+        QuickDialogs2
         Network
     QT_INCLUDE_PRIVATE
         Core
