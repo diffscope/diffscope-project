@@ -4,16 +4,18 @@
 #include <ranges>
 
 #include <QKeySequence>
+#include <QPointer>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/actionhelper.h>
+#include <coreplugin/internal/findactionsaddon.h>
 
 namespace Core::Internal {
 
-    FindActionsModel::FindActionsModel(QObject *parent)
-        : QAbstractItemModel(parent) {
+    FindActionsModel::FindActionsModel(QAK::QuickActionContext *actionContext, FindActionsAddOn *parent)
+        : QAbstractItemModel(parent), m_actionContext(actionContext) {
         m_collator.setNumericMode(true);
         m_collator.setCaseSensitivity(Qt::CaseInsensitive);
     }
@@ -193,11 +195,11 @@ namespace Core::Internal {
         m_priorityActions = priorityActions;
     }
 
-    void FindActionsModel::refresh(QAK::QuickActionContext *actionContext) {
-        updateActionList(actionContext);
+    void FindActionsModel::refresh() {
+        updateActionList();
     }
 
-    void FindActionsModel::updateActionList(QAK::QuickActionContext *actionContext) {
+    void FindActionsModel::updateActionList() {
         beginResetModel();
 
         m_actionList.clear();
@@ -212,24 +214,18 @@ namespace Core::Internal {
         }
 
         // Sort remaining actions using local collator
-        std::sort(remainingActions.begin(), remainingActions.end(),
-                  [this](const QString &a, const QString &b) {
-                      return m_collator.compare(a, b) < 0;
-                  });
+        std::sort(remainingActions.begin(), remainingActions.end(), [this](const QString &a, const QString &b) { return m_collator.compare(a, b) < 0; });
 
 
-        auto pipeline =
-            std::views::transform([=](const QString &id) -> QPair<QString, int> {
-                // TODO avoid creating action object on each time updating action list
-                std::unique_ptr<QObject> actionObject(ActionHelper::createActionObject(actionContext, id, true));
-                if (!actionObject || !actionObject->property("enabled").toBool()) {
-                    return {};
-                }
-                return {id, actionObject->property("checkable").toBool() ? Checkable : None};
-            }) |
-            std::views::filter([](const auto &p) {
-                return !p.first.isEmpty();
-            });
+        auto pipeline = std::views::transform([=](const QString &id) -> QPair<QString, int> {
+                            // TODO avoid creating action object on each time updating action list
+                            auto actionObject = getActionObject(id);
+                            if (!actionObject || !actionObject->property("enabled").toBool()) {
+                                return {};
+                            }
+                            return {id, actionObject->property("checkable").toBool() ? Checkable : None};
+                        }) |
+                        std::views::filter([](const auto &p) { return !p.first.isEmpty(); });
         for (const auto &item : m_priorityActions | pipeline) {
             m_actionList.append(item);
         }
@@ -241,6 +237,19 @@ namespace Core::Internal {
         }
 
         endResetModel();
+    }
+    QObject *FindActionsModel::getActionObject(const QString &id) {
+        if (m_actionObjects.value(id)) {
+            return m_actionObjects.value(id);
+        } else {
+            auto obj = ActionHelper::createActionObject(m_actionContext, id, true);
+            if (!obj)
+                return nullptr;
+            auto window = static_cast<FindActionsAddOn *>(QObject::parent())->windowHandle()->window();
+            obj->setParent(window);
+            m_actionObjects.insert(id, obj);
+            return m_actionObjects.value(id);
+        }
     }
 
 }

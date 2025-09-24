@@ -18,7 +18,6 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcFindActionsAddOn, "diffscope.core.findactionsaddon")
 
     FindActionsAddOn::FindActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        m_model = new FindActionsModel(this);
         connect(BehaviorPreference::instance(), &BehaviorPreference::commandPaletteClearHistoryRequested, this, [this] {
             m_priorityActions.clear();
         });
@@ -28,6 +27,7 @@ namespace Core::Internal {
     }
     void FindActionsAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ActionWindowInterfaceBase>();
+        m_model = new FindActionsModel(windowInterface->actionContext(), this);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "FindActionsAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -57,7 +57,7 @@ namespace Core::Internal {
             m_priorityActions.removeLast();
         }
         m_model->setPriorityActions(m_priorityActions);
-        m_model->refresh(windowInterface->actionContext());
+        m_model->refresh();
         int i = windowHandle()->cast<ActionWindowInterfaceBase>()->execQuickPick(m_model, tr("Find actions"));
         if (i == -1) {
             qCInfo(lcFindActionsAddOn) << "Find actions canceled";

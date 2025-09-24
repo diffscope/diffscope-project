@@ -20,7 +20,7 @@ namespace Core::Internal {
         Q_INVOKABLE void findActions();
 
     private:
-        FindActionsModel *m_model;
+        FindActionsModel *m_model{};
         QStringList m_priorityActions;
 
         void loadSettings();

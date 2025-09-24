@@ -11,10 +11,12 @@ namespace QAK {
 
 namespace Core::Internal {
 
+    class FindActionsAddOn;
+
     class FindActionsModel : public QAbstractItemModel {
         Q_OBJECT
     public:
-        explicit FindActionsModel(QObject *parent = nullptr);
+        explicit FindActionsModel(QAK::QuickActionContext *actionContext, FindActionsAddOn *parent = nullptr);
 
         // QAbstractItemModel interface
         QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
@@ -25,15 +27,18 @@ namespace Core::Internal {
 
         void setActions(const QStringList &actions);
         void setPriorityActions(const QStringList &priorityActions);
-        void refresh(QAK::QuickActionContext *actionContext);
+        void refresh();
 
     private:
-        void updateActionList(QAK::QuickActionContext *actionContext);
+        void updateActionList();
+        QObject *getActionObject(const QString &id);
 
+        QAK::QuickActionContext *m_actionContext;
         QStringList m_actions;
         QStringList m_priorityActions;
         QList<QPair<QString, int>> m_actionList;
         QCollator m_collator;
+        QHash<QString, QPointer<QObject>> m_actionObjects;
     };
 
 }
