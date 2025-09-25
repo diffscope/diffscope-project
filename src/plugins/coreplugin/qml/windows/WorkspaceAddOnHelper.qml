@@ -369,11 +369,15 @@ QtObject {
         readonly property Connections connections: Connections {
             target: bindingHelper.dockingView
             function onFirstActivated() {
+                if (helper.activePanel === bindingHelper.firstKey && !helper.activeUndockedPane)
+                    return
                 console.debug(lcWorkspaceAddOnHelper, "Docking panel activated", bindingHelper.firstKey)
                 helper.activeUndockedPane = null
                 helper.activePanel = bindingHelper.firstKey
             }
             function onLastActivated() {
+                if (helper.activePanel === bindingHelper.lastKey && !helper.activeUndockedPane)
+                    return
                 console.debug(lcWorkspaceAddOnHelper, "Docking panel activated", bindingHelper.lastKey)
                 helper.activeUndockedPane = null
                 helper.activePanel = bindingHelper.lastKey
