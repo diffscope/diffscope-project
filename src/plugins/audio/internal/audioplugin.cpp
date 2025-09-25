@@ -28,7 +28,7 @@ namespace Audio::Internal {
     AudioPlugin::~AudioPlugin() = default;
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
         qCInfo(lcAudioPlugin) << "Initializing";
         initializeSettings();

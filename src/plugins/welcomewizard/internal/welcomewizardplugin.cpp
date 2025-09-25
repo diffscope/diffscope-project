@@ -26,7 +26,7 @@ namespace WelcomeWizard {
     WelcomeWizardPlugin::~WelcomeWizardPlugin() = default;
 
     bool WelcomeWizardPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getWelcomeWizardActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();

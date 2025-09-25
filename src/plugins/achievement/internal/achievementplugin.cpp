@@ -27,7 +27,7 @@ namespace Achievement {
     AchievementPlugin::~AchievementPlugin() = default;
 
     bool AchievementPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
-        Core::CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getAchievementActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AchievementAddOn>();

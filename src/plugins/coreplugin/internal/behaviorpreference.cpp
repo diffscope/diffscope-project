@@ -55,12 +55,10 @@ namespace Core::Internal {
         return m_instance;
     }
 
-    static constexpr char settingCategoryC[] = "Core::BehaviorPreference";
-
     void BehaviorPreference::load() {
         Q_D(BehaviorPreference);
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(settingCategoryC);
+        settings->beginGroup(staticMetaObject.className());
         d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject)).value<StartupBehavior>();
         emit startupBehaviorChanged();
         d->useSystemLanguage = settings->value("useSystemLanguage", true).toBool();
@@ -122,7 +120,7 @@ namespace Core::Internal {
     void BehaviorPreference::save() const {
         Q_D(const BehaviorPreference);
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(settingCategoryC);
+        settings->beginGroup(staticMetaObject.className());
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);

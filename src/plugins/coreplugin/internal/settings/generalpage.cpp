@@ -139,7 +139,7 @@ namespace Core::Internal {
     QVariantList GeneralPage::languages() {
         static QVariantList ret;
         if (ret.isEmpty()) {
-            std::ranges::transform(CoreInterface::translationManager()->locales(), std::back_inserter(ret), [](const QString &localeName) {
+            std::ranges::transform(RuntimeInterface::translationManager()->locales(), std::back_inserter(ret), [](const QString &localeName) {
                 auto locale = QLocale(localeName);
                 return QVariantMap {
                     {"text", QStringLiteral("%1 (%2)").arg(locale.nativeLanguageName(), locale.nativeTerritoryName())},

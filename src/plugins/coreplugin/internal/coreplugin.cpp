@@ -169,6 +169,7 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
+        RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
         qCInfo(lcCorePlugin) << "Initializing";
 
@@ -177,7 +178,6 @@ namespace Core::Internal {
 
         initializeSingletons();
         initializeBehaviorPreference();
-        initializeTranslations();
         initializeImageProviders();
         initializeActions();
         initializeSettings();
@@ -417,21 +417,6 @@ namespace Core::Internal {
                     CoreAchievementsModel::Achievement_DisableCustomTitleBar);
             }
         });
-    }
-    void CorePlugin::initializeTranslations() const {
-        QLocale locale;
-        if (BehaviorPreference::useSystemLanguage()) {
-            locale = QLocale::system();
-        } else {
-            locale = QLocale(BehaviorPreference::localeName());
-        }
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-        CoreInterface::translationManager()->setLocale(locale);
-        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/ChorusKit/translations"));
-        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/svscraft/translations"));
-        CoreInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/uishell/translations"));
-        CoreInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
     }
 
     void CorePlugin::initializeColorScheme() {

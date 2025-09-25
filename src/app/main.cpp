@@ -15,6 +15,7 @@
 #include <CoreApi/applicationinfo.h>
 #include <CoreApi/runtimeInterface.h>
 #include <CoreApi/logger.h>
+#include <CoreApi/translationmanager.h>
 
 #include <qjsonsettings.h>
 
@@ -26,7 +27,7 @@
 #  include <QBreakpadHandler.h>
 #endif
 
-using Core::ApplicationInfo;
+using namespace Core;
 
 static QSettings::Format getJsonSettingsFormat() {
     static auto format = QJsonSettings::registerFormat();
@@ -72,15 +73,30 @@ public:
     }
 
     void beforeLoadPlugins() override {
-        // Restore language and themes
-        // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
-        Core::RuntimeInterface::setQmlEngine(engine);
-        auto settings = Core::RuntimeInterface::settings();
+        RuntimeInterface::setQmlEngine(engine);
+        auto settings = RuntimeInterface::settings();
+
+        QLocale locale;
+
+        settings->beginGroup("Core::Internal::BehaviorPreference");
+        if (settings->value("useSystemLanguage", true).toBool()) {
+            locale = QLocale::system();
+        } else {
+            locale = QLocale(settings->value("localeName", QLocale().name()).toString());
+        }
+        settings->endGroup();
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        RuntimeInterface::setTranslationManager(new TranslationManager(RuntimeInterface::instance()));
+        RuntimeInterface::translationManager()->setLocale(locale);
+        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/ChorusKit/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/svscraft/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/uishell/translations"));
+
         if (settings->value("lastInitializationAbortedFlag").toBool()) {
             qInfo() << "Last initialization was aborted abnormally";
             QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
             std::unique_ptr<QObject> dialog(component.isError() ? nullptr : component.createWithInitialProperties({
-                {"logsPath", Core::Logger::logsLocation()}
+                {"logsPath", Logger::logsLocation()}
             }));
             if (!dialog) {
                 qFatal() << "Failed to load InitializationFailureWarningDialog" << component.errorString();
