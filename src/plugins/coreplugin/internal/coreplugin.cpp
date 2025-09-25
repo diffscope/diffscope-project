@@ -32,7 +32,7 @@
 
 #include <QAKQuick/actioniconimageprovider.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/windowsystem.h>
 #include <CoreApi/translationmanager.h>

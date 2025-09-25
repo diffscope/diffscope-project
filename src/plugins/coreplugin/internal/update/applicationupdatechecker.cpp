@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QApplication>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/coreinterface.h>

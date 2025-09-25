@@ -9,7 +9,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <coreplugin/coreinterface.h>

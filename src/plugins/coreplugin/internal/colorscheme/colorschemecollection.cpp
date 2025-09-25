@@ -11,7 +11,7 @@
 #include <SVSCraftQuick/Theme.h>
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 namespace Core::Internal {
 

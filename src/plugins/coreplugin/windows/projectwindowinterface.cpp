@@ -1,4 +1,4 @@
-#include "ProjectWindowInterface.h"
+#include "projectwindowinterface.h"
 
 #include <QQmlComponent>
 #include <QAbstractItemModel>
@@ -10,7 +10,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/notificationmessage.h>

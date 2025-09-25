@@ -5,7 +5,7 @@
 
 #include <QPointer>
 
-#include <CoreApi//WindowInterface.h>
+#include <CoreApi/windowinterface.h>
 
 namespace Core {
 

@@ -7,7 +7,7 @@
 #include <QAKCore/actionlayoutsmodel.h>
 #include <QAKCore/actionregistry.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/coreinterface.h>
 

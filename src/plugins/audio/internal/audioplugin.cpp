@@ -6,7 +6,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/translationmanager.h>
 

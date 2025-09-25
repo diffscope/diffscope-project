@@ -2,7 +2,7 @@
 
 #include <QQmlComponent>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 

@@ -1,4 +1,4 @@
-#include "ActionWindowInterfaceBase.h"
+#include "actionwindowinterfacebase.h"
 
 #include <QQmlComponent>
 #include <QAbstractItemModel>
@@ -8,7 +8,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/quickpick.h>

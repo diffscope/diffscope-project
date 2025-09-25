@@ -31,7 +31,7 @@
 #include <SVSCraftQuick/Theme.h>
 
 #include <CoreApi/private/coreinterfacebase_p.h>
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>

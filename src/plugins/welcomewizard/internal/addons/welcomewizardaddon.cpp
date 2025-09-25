@@ -3,7 +3,7 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 

@@ -8,7 +8,7 @@
 
 #include <SVSCraftQuick/Theme.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/internal/colorschemecollection.h>
 

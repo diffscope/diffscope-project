@@ -13,7 +13,7 @@
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/logger.h>
 #include <CoreApi/translationmanager.h>
 

@@ -10,7 +10,7 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>

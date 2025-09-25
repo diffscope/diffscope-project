@@ -4,7 +4,7 @@
 #include <QLoggingCategory>
 #include <QTimer>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <uishell/BubbleNotificationHandle.h>
 

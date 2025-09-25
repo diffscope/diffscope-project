@@ -2,7 +2,7 @@
 
 #include <QSettings>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>

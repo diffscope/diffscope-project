@@ -4,7 +4,7 @@
 #include <QQmlComponent>
 #include <QLoggingCategory>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <audio/internal/audiooutputsettingshelper.h>
 

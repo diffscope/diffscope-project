@@ -4,7 +4,7 @@
 
 #include <QAKCore/actionregistry.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>

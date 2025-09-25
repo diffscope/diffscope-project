@@ -7,7 +7,7 @@
 
 #include <QSettings>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 namespace Core::Internal {
 

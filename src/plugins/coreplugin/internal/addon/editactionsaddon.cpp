@@ -4,7 +4,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeInterface.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/projectwindowinterface.h>
 
