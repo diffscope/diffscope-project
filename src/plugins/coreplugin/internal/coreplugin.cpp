@@ -20,11 +20,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QStyleFactory>
 #include <QtQml/QQmlComponent>
 #include <QtWidgets/QPushButton>
 #include <QtQuick/QQuickWindow>
-#include <QtQuickControls2/QQuickStyle>
 #include <QtQuick/QQuickImageProvider>
 
 #include <extensionsystem/pluginspec.h>
@@ -174,10 +172,6 @@ namespace Core::Internal {
         RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
         qCInfo(lcCorePlugin) << "Initializing";
 
-        QQuickStyle::setStyle("SVSCraft.UIComponents");
-        QQuickStyle::setFallbackStyle("Basic");
-        QApplication::setStyle(QStyleFactory::create("Fusion"));
-
         // Handle FileOpenEvent
         qApp->installEventFilter(this);
 
@@ -200,6 +194,8 @@ namespace Core::Internal {
     }
 
     void CorePlugin::extensionsInitialized() {
+        auto settings = RuntimeInterface::settings();
+        settings->setValue("lastInitializationAbortedFlag", false);
     }
 
     bool CorePlugin::delayedInitialize() {

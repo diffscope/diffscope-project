@@ -12,6 +12,7 @@ qm_configure_target(${PROJECT_NAME}
         ChorusKit::AppCore
         qjsonsettings
         loadapi
+        uishell
     INCLUDE_PRIVATE
         ${CK_BUILD_INCLUDE_DIR}
 )

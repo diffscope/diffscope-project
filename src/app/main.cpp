@@ -3,13 +3,18 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
 #include <QtCore/QLoggingCategory>
+#include <QtGui/QWindow>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QStyleFactory>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlComponent>
+#include <QtQuickControls2/QQuickStyle>
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
 #include <CoreApi/runtimeInterface.h>
+#include <CoreApi/logger.h>
 
 #include <qjsonsettings.h>
 
@@ -28,9 +33,11 @@ static QSettings::Format getJsonSettingsFormat() {
     return format;
 }
 
+static QQmlEngine *engine{};
+
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
-    MyLoaderSpec(QQmlEngine *engine) : engine(engine) {
+    MyLoaderSpec() {
         userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
         systemSettingsPath =
             ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
@@ -68,6 +75,24 @@ public:
         // Restore language and themes
         // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
         Core::RuntimeInterface::setQmlEngine(engine);
+        auto settings = Core::RuntimeInterface::settings();
+        if (settings->value("lastInitializationAbortedFlag").toBool()) {
+            qInfo() << "Last initialization was aborted abnormally";
+            QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
+            std::unique_ptr<QObject> dialog(component.isError() ? nullptr : component.createWithInitialProperties({
+                {"logsPath", Core::Logger::logsLocation()}
+            }));
+            if (!dialog) {
+                qFatal() << "Failed to load InitializationFailureWarningDialog" << component.errorString();
+            }
+            QEventLoop eventLoop;
+            QObject::connect(dialog.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
+            auto win = qobject_cast<QWindow *>(dialog.get());
+            Q_ASSERT(win);
+            win->show();
+            eventLoop.exec();
+        }
+        settings->setValue("lastInitializationAbortedFlag", true);
     }
 
     void afterLoadPlugins() override {
@@ -76,7 +101,6 @@ public:
 
     QString userSettingsPath;
     QString systemSettingsPath;
-    QQmlEngine *engine;
 };
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
@@ -107,7 +131,8 @@ int main(int argc, char *argv[]) {
     a.setOrganizationName(QStringLiteral(APPLICATION_ORG_NAME));
     a.setOrganizationDomain(QStringLiteral(APPLICATION_ORG_DOMAIN));
 
-    QQmlEngine engine;
+    QQmlEngine m_engine;
+    engine = &m_engine;
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
@@ -122,5 +147,9 @@ int main(int argc, char *argv[]) {
     // Don't show plugin manager debug info
     QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
 
-    return MyLoaderSpec(&engine).run();
+    QQuickStyle::setStyle("SVSCraft.UIComponents");
+    QQuickStyle::setFallbackStyle("Basic");
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
+    return MyLoaderSpec().run();
 }
