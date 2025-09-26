@@ -152,16 +152,22 @@ ScrollView {
                 GridLayout {
                     anchors.fill: parent
                     columns: 2
-
+                    Label {
+                        visible: page.pageHandle.debugMode
+                        Layout.columnSpan: 2
+                        text: qsTr('Console log level is overridden to "Debug" in a debug build')
+                    }
                     Label {
                         text: qsTr("Console log level")
                         TextMatcherItem on text { matcher: page.matcher }
+                        enabled: !page.pageHandle.debugMode
                     }
                     ComboBox {
                         Layout.fillWidth: true
                         model: page.logLevels
-                        currentIndex: page.consoleLogLevel
-                        onCurrentIndexChanged: page.consoleLogLevel = currentIndex
+                        enabled: !page.pageHandle.debugMode
+                        currentIndex: page.pageHandle.debugMode ? 0 : page.consoleLogLevel
+                        onActivated: (index) => page.consoleLogLevel = index
                     }
 
                     CheckBox {
