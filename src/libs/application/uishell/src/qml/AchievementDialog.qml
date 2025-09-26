@@ -52,7 +52,7 @@ Window {
         property url icon
         property var iconColor
         color: Theme.backgroundTertiaryColor
-        title: qsTr("Achievement Completed - %1").arg(Application.name)
+        title: qsTr("Achievement Completed - %1").arg(Application.displayName)
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 4

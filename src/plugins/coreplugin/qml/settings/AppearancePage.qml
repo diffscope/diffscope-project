@@ -72,7 +72,7 @@ ScrollView {
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         Layout.fillWidth: true
                         wrapMode: Text.Wrap
-                        text: qsTr("You may need to restart %1 for font changes to take full effect.").replace("%1", Application.name)
+                        text: qsTr("You may need to restart %1 for font changes to take full effect.").replace("%1", Application.displayName)
                     }
                 }
             }

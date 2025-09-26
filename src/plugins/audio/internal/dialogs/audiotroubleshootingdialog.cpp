@@ -236,10 +236,10 @@ namespace Audio::Internal {
             questionLabel->setWordWrap(true);
             layout->addWidget(questionLabel);
             auto yesButton = new QCommandLinkButton(
-                tr("&Yes"), tr("The audio device work well on my system. I want to retry configuring it in %1").arg(QApplication::applicationName()));
+                tr("&Yes"), tr("The audio device work well on my system. I want to retry configuring it in %1").arg(QApplication::applicationDisplayName()));
             layout->addWidget(yesButton);
             auto abortButton = new QCommandLinkButton(
-                tr("Not &exactly"), tr("Even though other applications can play sound, I fail to configure the audio device in %1").arg(QApplication::applicationName()));
+                tr("Not &exactly"), tr("Even though other applications can play sound, I fail to configure the audio device in %1").arg(QApplication::applicationDisplayName()));
             layout->addWidget(abortButton);
             auto noButton = new QCommandLinkButton(
                 tr("&No"), tr("Other applications also cannot play sound"));
@@ -256,7 +256,7 @@ namespace Audio::Internal {
                 if (std::system("open 'x-apple.systempreferences:com.apple.preference.sound'") == 0)
                     return;
 #endif
-                QMessageBox::information(this, {}, tr("%1 cannot open the control panel on your system. Please open it manually").arg(QApplication::applicationName()));
+                QMessageBox::information(this, {}, tr("%1 cannot open the control panel on your system. Please open it manually").arg(QApplication::applicationDisplayName()));
             });
 
             connect(yesButton, &QAbstractButton::clicked, this, [=] {

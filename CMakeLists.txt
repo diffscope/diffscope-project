@@ -35,8 +35,14 @@ endif()
 # ----------------------------------
 # Project Variables
 # ----------------------------------
+if(NOT DEFINED APPLICATION_NAME)
+    set(APPLICATION_NAME ${PROJECT_NAME})
+endif()
+if(NOT DEFINED APPLICATION_DISPLAY_NAME)
+    set(APPLICATION_DISPLAY_NAME ${PROJECT_NAME})
+endif()
 set(APPLICATION_VERSION ${PROJECT_VERSION})
-set(APPLICATION_INSTALL_NAME ${PROJECT_NAME})
+set(APPLICATION_INSTALL_NAME ${APPLICATION_NAME})
 
 # ----------------------------------
 # Find basic dependencies

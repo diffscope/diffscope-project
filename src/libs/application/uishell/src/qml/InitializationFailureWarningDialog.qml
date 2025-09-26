@@ -15,7 +15,7 @@ MessageBoxDialog {
     width: 400
     icon: SVS.Warning
     hasContextHelp: true
-    text: qsTr("%1 exited abnormally during the last initialization").arg(Application.name)
+    text: qsTr("%1 exited abnormally during the last initialization").arg(Application.displayName)
     informativeText: qsTr('This is probably caused by a faulty plugin. Please <a href="#logs">check the logs</a> for more information.<br/><br/>You may view the plugin list and disable some plugins.')
 
     required property string logsPath

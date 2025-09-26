@@ -1,7 +1,7 @@
 qm_import(Translate)
 qm_find_qt(LinguistTools)
 
-set(CURRENT_PLUGIN_DESC "${PROJECT_NAME} Application Plugin")
+set(CURRENT_PLUGIN_DESC "${APPLICATION_NAME} Application Plugin")
 
 set(_subdirs)
 qm_get_subdirs(_subdirs

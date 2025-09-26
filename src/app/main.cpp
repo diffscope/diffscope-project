@@ -143,6 +143,7 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
     a.setApplicationName(QStringLiteral(APPLICATION_NAME));
+    a.setApplicationDisplayName(QStringLiteral(APPLICATION_DISPLAY_NAME));
     a.setApplicationVersion(QStringLiteral(APPLICATION_VERSION));
     a.setOrganizationName(QStringLiteral(APPLICATION_ORG_NAME));
     a.setOrganizationDomain(QStringLiteral(APPLICATION_ORG_DOMAIN));

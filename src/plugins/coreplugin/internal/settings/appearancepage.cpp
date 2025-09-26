@@ -16,7 +16,7 @@ namespace Core::Internal {
 
     AppearancePage::AppearancePage(QObject *parent) : ISettingPage("core.Appearance", parent) {
         setTitle(tr("Appearance"));
-        setDescription(tr("Configure how %1 looks like").arg(QApplication::applicationName()));
+        setDescription(tr("Configure how %1 looks like").arg(QApplication::applicationDisplayName()));
     }
     AppearancePage::~AppearancePage() {
         delete m_widget;

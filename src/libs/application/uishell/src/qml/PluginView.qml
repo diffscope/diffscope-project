@@ -33,7 +33,7 @@ Item {
 
     signal restartRequested()
     function askRestart() {
-        if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.name), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
+        if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.displayName), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
             restartRequested()
         }
     }

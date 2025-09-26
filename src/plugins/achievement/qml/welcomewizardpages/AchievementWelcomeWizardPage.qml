@@ -15,7 +15,7 @@ import DiffScope.UIShell
 WelcomeWizardPage {
     id: page
     title: qsTr("Achievements (Experimental Feature)")
-    description: qsTr("Achievements provide tips about %1 in an interactive way").arg(Application.name)
+    description: qsTr("Achievements provide tips about %1 in an interactive way").arg(Application.displayName)
 
     ColumnLayout {
         anchors.centerIn: parent

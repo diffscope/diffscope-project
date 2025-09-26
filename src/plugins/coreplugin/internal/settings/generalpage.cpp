@@ -21,7 +21,7 @@ namespace Core::Internal {
 
     GeneralPage::GeneralPage(QObject *parent) : ISettingPage("core.General", parent) {
         setTitle(tr("General"));
-        setDescription(tr("Configure general behaviors of %1").arg(QApplication::applicationName()));
+        setDescription(tr("Configure general behaviors of %1").arg(QApplication::applicationDisplayName()));
 
     }
     GeneralPage::~GeneralPage() {
@@ -122,8 +122,8 @@ namespace Core::Internal {
             if (SVS::MessageBox::question(
                 RuntimeInterface::qmlEngine(),
                 static_cast<QQuickItem *>(m_widget)->window(),
-                title.arg(QApplication::applicationName()),
-                text.arg(QApplication::applicationName())
+                title.arg(QApplication::applicationDisplayName()),
+                text.arg(QApplication::applicationDisplayName())
             ) == SVS::SVSCraft::Yes) {
                 CoreInterface::restartApplication();
             }

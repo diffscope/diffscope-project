@@ -85,7 +85,7 @@ Window {
                         fillMode: Image.PreserveAspectFit
                         mipmap: true
                         Accessible.role: Accessible.Graphic
-                        Accessible.name: qsTr("Logo of %1").arg(Application.name)
+                        Accessible.name: qsTr("Logo of %1").arg(Application.displayName)
                     }
                     Label {
                         Layout.alignment: Qt.AlignHCenter

@@ -136,7 +136,7 @@ namespace Core {
         eventLoop.exec();
     }
     void CoreInterface::execAboutAppDialog(QWindow *parent) {
-        static const QString appName = qApp->applicationName();
+        static const QString appName = qApp->applicationDisplayName();
 
         QString aboutInfo =
             QApplication::translate(

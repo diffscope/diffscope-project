@@ -549,7 +549,7 @@ Window {
                         visible: searchTextField.length !== 0 && (fileGridLayout.visibleChildren.length === 1 || fileListLayout.visibleChildren.length === 1)
                     }
                     Label {
-                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").replace("%1", Application.name)
+                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").replace("%1", Application.displayName)
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         anchors.top: parent.top
                         anchors.left: parent.left

@@ -56,7 +56,7 @@ namespace Audio::Internal {
                 Core::RuntimeInterface::qmlEngine(),
                 nullptr,
                 tr("Failed to initialize audio output system"),
-                tr("%1 will not play sound because no available audio output device found.\n\nPlease go to Settings > Audio and MIDI > Audio Output to check the device status.").arg(QApplication::applicationName()));
+                tr("%1 will not play sound because no available audio output device found.\n\nPlease go to Settings > Audio and MIDI > Audio Output to check the device status.").arg(QApplication::applicationDisplayName()));
         }
     }
 

@@ -14,7 +14,7 @@ Window {
     width: 1280
     height: 800
     minimumWidth: 360
-    title: `${documentName} - ${Application.name}`
+    title: `${documentName} - ${Application.displayName}`
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 

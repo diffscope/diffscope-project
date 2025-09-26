@@ -10,8 +10,9 @@ include(${CK_CMAKE_MODULES_DIR}/ChorusKitAPI.cmake)
 # ----------------------------------
 # Project Variables
 # ----------------------------------
-set(CK_APPLICATION_NAME ${PROJECT_NAME})
-set(CK_APPLICATION_DESCRIPTION ${PROJECT_NAME})
+set(CK_APPLICATION_TARGET ${PROJECT_NAME})
+set(CK_APPLICATION_NAME ${APPLICATION_NAME})
+set(CK_APPLICATION_DESCRIPTION ${APPLICATION_DISPLAY_NAME})
 set(CK_APPLICATION_VERSION ${PROJECT_VERSION})
 set(CK_APPLICATION_VENDOR "Team OpenVPI")
 set(CK_DEV_START_YEAR 2019)
@@ -36,8 +37,10 @@ ck_init_buildsystem()
 # ----------------------------------
 # Compile Definitions
 # ----------------------------------
-qm_add_definition(APPLICATION_NAME ${PROJECT_NAME} STRING_LITERAL)
-qm_add_definition(APPLICATION_VERSION ${PROJECT_VERSION} STRING_LITERAL)
+qm_add_definition(APPLICATION_NAME ${APPLICATION_NAME} STRING_LITERAL)
+qm_add_definition(APPLICATION_DISPLAY_NAME ${APPLICATION_DISPLAY_NAME} STRING_LITERAL)
+
+qm_add_definition(APPLICATION_VERSION ${APPLICATION_VERSION} STRING_LITERAL)
 qm_add_definition(APPLICATION_ORG_NAME "OpenVPI" STRING_LITERAL)
 qm_add_definition(APPLICATION_ORG_DOMAIN "org.openvpi" STRING_LITERAL)
 qm_add_definition(APPLICATION_PLUGIN_IID "org.OpenVPI.${PROJECT_NAME}.Plugin" STRING_LITERAL)

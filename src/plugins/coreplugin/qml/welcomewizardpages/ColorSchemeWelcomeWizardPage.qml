@@ -11,7 +11,7 @@ import DiffScope.UIShell
 WelcomeWizardPage {
     id: page
     title: qsTr("Color Scheme")
-    description: qsTr("Choose a color scheme for %1").arg(Application.name)
+    description: qsTr("Choose a color scheme for %1").arg(Application.displayName)
 
     ColorSchemeWelcomeWizardPageHelper {
         id: helper
