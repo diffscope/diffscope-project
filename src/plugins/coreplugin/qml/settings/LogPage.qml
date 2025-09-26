@@ -19,6 +19,7 @@ ScrollView {
     property bool prettifiesConsoleOutput: false
     property int consoleLogLevel: 1 // Info
     property int fileLogLevel: 1 // Info
+    property int compressLevel: 1
 
     // Log level options
     readonly property var logLevels: [
@@ -36,6 +37,7 @@ ScrollView {
     onPrettifiesConsoleOutputChanged: if (started) pageHandle.markDirty()
     onConsoleLogLevelChanged: if (started) pageHandle.markDirty()
     onFileLogLevelChanged: if (started) pageHandle.markDirty()
+    onCompressLevelChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -118,6 +120,23 @@ ScrollView {
                         to: 3650 // ~10 years
                         value: page.maxArchiveDays
                         onValueModified: page.maxArchiveDays = value
+                    }
+
+                    Label {
+                        text: qsTr("Compress level")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    RowLayout {
+                        SpinBox {
+                            from: 0
+                            to: 9
+                            value: page.compressLevel
+                            onValueModified: page.compressLevel = value
+                        }
+                        Label {
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            text: qsTr("(0 = no compress, 9 = best compress)")
+                        }
                     }
                 }
             }

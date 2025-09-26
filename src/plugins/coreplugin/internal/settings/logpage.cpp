@@ -57,6 +57,8 @@ namespace Core::Internal {
         qCDebug(lcLogPage) << "consoleLogLevel" << m_widget->property("consoleLogLevel");
         m_widget->setProperty("fileLogLevel", static_cast<int>(logger->fileLogLevel()));
         qCDebug(lcLogPage) << "fileLogLevel" << m_widget->property("fileLogLevel");
+        m_widget->setProperty("compressLevel", logger->compressLevel());
+        qCDebug(lcLogPage) << "compressLevel" << m_widget->property("compressLevel");
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
@@ -76,6 +78,8 @@ namespace Core::Internal {
         logger->setConsoleLogLevel(static_cast<Core::Logger::MessageType>(m_widget->property("consoleLogLevel").toInt()));
         qCDebug(lcLogPage) << "fileLogLevel" << m_widget->property("fileLogLevel");
         logger->setFileLogLevel(static_cast<Core::Logger::MessageType>(m_widget->property("fileLogLevel").toInt()));
+        qCDebug(lcLogPage) << "compressLevel" << m_widget->property("compressLevel");
+        logger->setCompressLevel(m_widget->property("compressLevel").toInt());
         logger->saveSettings();
         return ISettingPage::accept();
     }
