@@ -22,7 +22,11 @@
         "neargye-semver",
         "r8brain-free-src",
         "portaudio",
-        "libsoundio"
+        "libsoundio",
+        {
+            "name": "glib",
+            "platform": "linux"
+        }
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
