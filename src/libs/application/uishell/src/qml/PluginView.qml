@@ -400,7 +400,7 @@ Item {
                                 ToolButton {
                                     icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled"
                                     display: AbstractButton.IconOnly
-                                    text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
+                                    text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
                                     onClicked: () => {
                                         DesktopServices.reveal(d.pluginSpec.filePath)
                                     }

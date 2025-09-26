@@ -194,7 +194,7 @@ ScrollView {
                         selectionColor: Theme.accentColor
                     }
                     Button {
-                        text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
+                        text: qsTr("Reveal in %1").replace("%1", DesktopServices.fileManagerName)
                         onClicked: DesktopServices.reveal(page.pageHandle.logsLocation)
                     }
                 }
