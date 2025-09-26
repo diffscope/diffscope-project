@@ -124,7 +124,9 @@ Window {
         }
 
         function popup() {
+            let window = GlobalHelper.focusWindow()
             show()
+            window.requestActivate()
             timer.restart()
         }
     }
