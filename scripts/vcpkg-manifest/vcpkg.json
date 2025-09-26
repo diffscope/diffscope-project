@@ -7,6 +7,8 @@
         "stdutau",
         "extensionsystem",
         "qwindowkit",
+        "stdcorelib",
+        "qbreakpad",
         "libsndfile",
         "rpclib",
         "rtmidi",
