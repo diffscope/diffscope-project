@@ -86,6 +86,10 @@ namespace Core::Internal {
         ISettingPage::endSetting();
     }
 
+    QString LogPage::logsLocation() {
+        return Logger::logsLocation();
+    }
+
     bool LogPage::widgetMatches(const QString &word) {
         widget();
         auto matcher = m_widget->property("matcher").value<QObject *>();

@@ -20,12 +20,6 @@ ScrollView {
     property int consoleLogLevel: 1 // Info
     property int fileLogLevel: 1 // Info
 
-    // Size units for conversion
-    readonly property var sizeUnits: [
-        { text: qsTr("KiB"), value: 1024 },
-        { text: qsTr("MiB"), value: 1024 * 1024 }
-    ]
-
     // Log level options
     readonly property var logLevels: [
         qsTr("Debug"),
@@ -72,7 +66,7 @@ ScrollView {
                         Layout.fillWidth: true
                         model: page.logLevels
                         currentIndex: page.fileLogLevel
-                        onCurrentIndexChanged: page.fileLogLevel = currentIndex
+                        onActivated: (index) => page.fileLogLevel = index
                     }
 
                     Label {
@@ -85,21 +79,13 @@ ScrollView {
                             id: fileSizeSpinBox
                             from: 1
                             to: 2147483647
-                            property int unitIndex: 0 // Default to KiB
-                            value: Math.round(page.maxFileSize / page.sizeUnits[unitIndex].value)
+                            value: Math.round(page.maxFileSize / 1024)
                             onValueModified: {
-                                page.maxFileSize = value * page.sizeUnits[unitIndex].value
+                                page.maxFileSize = value * 1024
                             }
                         }
-                        ComboBox {
-                            model: page.sizeUnits
-                            textRole: "text"
-                            currentIndex: fileSizeSpinBox.unitIndex
-                            onCurrentIndexChanged: {
-                                let oldValue = fileSizeSpinBox.value * page.sizeUnits[fileSizeSpinBox.unitIndex].value
-                                fileSizeSpinBox.unitIndex = currentIndex
-                                page.maxFileSize = fileSizeSpinBox.value * page.sizeUnits[currentIndex].value
-                            }
+                        Label {
+                            text: qsTr("KiB")
                         }
                     }
 
@@ -113,21 +99,13 @@ ScrollView {
                             id: archiveSizeSpinBox
                             from: 1
                             to: 2147483647
-                            property int unitIndex: 0 // Default to KiB
-                            value: Math.round(page.maxArchiveSize / page.sizeUnits[unitIndex].value)
+                            value: Math.round(page.maxArchiveSize / 1024)
                             onValueModified: {
-                                page.maxArchiveSize = value * page.sizeUnits[unitIndex].value
+                                page.maxArchiveSize = value * 1024
                             }
                         }
-                        ComboBox {
-                            model: page.sizeUnits
-                            textRole: "text"
-                            currentIndex: archiveSizeSpinBox.unitIndex
-                            onCurrentIndexChanged: {
-                                let oldValue = archiveSizeSpinBox.value * page.sizeUnits[archiveSizeSpinBox.unitIndex].value
-                                archiveSizeSpinBox.unitIndex = currentIndex
-                                page.maxArchiveSize = archiveSizeSpinBox.value * page.sizeUnits[currentIndex].value
-                            }
+                        Label {
+                            text: qsTr("KiB")
                         }
                     }
 
@@ -184,7 +162,23 @@ ScrollView {
                 title: qsTr("Log Location")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
-
+                ColumnLayout {
+                    anchors.fill: parent
+                    TextEdit {
+                        text: page.pageHandle.logsLocation
+                        Layout.fillWidth: true
+                        wrapMode: Text.WrapAnywhere
+                        readOnly: true
+                        color: Theme.foregroundColor(ThemedItem.foregroundLevel)
+                        Accessible.role: Accessible.StaticText
+                        Accessible.name: text
+                        selectionColor: Theme.accentColor
+                    }
+                    Button {
+                        text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
+                        onClicked: DesktopServices.reveal(page.pageHandle.logsLocation)
+                    }
+                }
             }
         }
     }

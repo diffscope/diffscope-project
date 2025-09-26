@@ -8,6 +8,7 @@ namespace Core::Internal {
     class LogPage : public ISettingPage {
         Q_OBJECT
         Q_PROPERTY(bool debugMode READ debugMode CONSTANT)
+        Q_PROPERTY(QString logsLocation READ logsLocation CONSTANT)
     public:
         explicit LogPage(QObject *parent = nullptr);
         ~LogPage() override;
@@ -26,6 +27,8 @@ namespace Core::Internal {
             return false;
 #endif
         }
+
+        static QString logsLocation();
 
     private:
         bool widgetMatches(const QString &word);
