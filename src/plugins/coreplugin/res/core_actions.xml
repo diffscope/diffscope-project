@@ -99,7 +99,7 @@
         <action id="core.timeline.goToNextBeat" shortcut="Ctrl+]" />
         <action id="core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
         <action id="core.timeline.goInsideViewRange" shortcut="Ctrl+Alt+Y" />
-        <action id="core.timeline.&amp;resetProjectTimeRange" description="Reset project end time based on project content" shortcut="Ctrl+., Ctrl+R" />
+        <action id="core.timeline.&amp;resetProjectTimeRange" description="Reset project end time based on project content" shortcut="Ctrl+Alt+R" />
 
         <action id="core.workspace.workspaceLayout^" />
         <action id="core.workspace.default&amp;Layout" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
@@ -115,7 +115,7 @@
         <action id="core.workspace.panelBottomLeft" text="None (Bottom Left)" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
         <action id="core.workspace.panelBottomRight" text="None (Bottom Right)" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
         <action id="core.workspace.&amp;floatingPanels" diffscope:excludeFromCommands="true" />
-        <action id="core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" />
+        <action id="core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" diffscope:excludeFromCommands="true" />
 
         <action id="core.view.show&amp;MenuBar" description="Show or hide the main menu bar" />
         <action id="core.view.showToo&amp;lBar" description="Show or hide the main tool bar" />
@@ -125,8 +125,8 @@
         <action id="core.view.show&amp;BottomSideBar" description="Show or hide the bottom side bar" />
         <action id="core.view.show&amp;StatusBar" description="Show or hide the status bar" />
 
-        <action id="core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Ctrl+., J" />
-        <action id="core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Ctrl+., K" />
+        <action id="core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
+        <action id="core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
         <action id="core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
 
         <action id="core.documentations" text="&amp;Help" description="Show help contents" class="Help" shortcut="F1" />
