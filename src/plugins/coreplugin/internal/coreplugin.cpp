@@ -147,10 +147,9 @@ namespace Core::Internal {
     static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
             CoreInterface::execSettingsDialog("", nullptr);
+            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
         }
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         QQuickWindow *win;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
             qCInfo(lcCorePlugin) << "Create new project on startup";
@@ -201,12 +200,13 @@ namespace Core::Internal {
     bool CorePlugin::delayedInitialize() {
         RuntimeInterface::splash()->showMessage(tr("Initializing GUI..."));
         qCInfo(lcCorePlugin) << "Initializing GUI";
-        QApplication::setQuitOnLastWindowClosed(true);
         // TODO plugin arguments
         auto args = QApplication::arguments();
         auto win = initializeGui(args, QDir::currentPath(), args);
         connect(win, &QQuickWindow::sceneGraphInitialized, RuntimeInterface::splash(), &QWidget::close);
+        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         checkUltimateSimplicityAchievement();
+        QApplication::setQuitOnLastWindowClosed(true);
         return false;
     }
 

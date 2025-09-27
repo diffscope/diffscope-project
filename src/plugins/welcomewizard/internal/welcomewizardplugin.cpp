@@ -37,11 +37,14 @@ namespace WelcomeWizard {
     bool WelcomeWizardPlugin::delayedInitialize() {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        if (!settings->value("welcomeWizardShown", false).toBool()) {
-            WelcomeWizardAddOn::execWelcomeWizard();
-            settings->setValue("welcomeWizardShown", true);
-        }
+        bool shown = settings->value("welcomeWizardShown", false).toBool();
         settings->endGroup();
+        if (!shown) {
+            WelcomeWizardAddOn::execWelcomeWizard();
+            settings->beginGroup(staticMetaObject.className());
+            settings->setValue("welcomeWizardShown", true);
+            settings->endGroup();
+        }
         return IPlugin::delayedInitialize();
     }
 }

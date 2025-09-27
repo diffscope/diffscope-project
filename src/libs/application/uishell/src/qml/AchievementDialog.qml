@@ -124,7 +124,7 @@ Window {
         }
 
         function popup() {
-            let window = GlobalHelper.focusWindow()
+            let window = GlobalHelper.focusWindow
             show()
             window.requestActivate()
             timer.restart()
@@ -147,6 +147,7 @@ Window {
                     return
                 }
                 s.setValue(id, true)
+                s._showNotification = s.value("_showNotification")
                 if (window.showNotification) {
                     let idx = proxyModel.indexForId(id)
                     notificationWindow.name = idx.data(USDef.AR_NameRole)
