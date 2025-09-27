@@ -249,7 +249,7 @@ QtObject {
 
     function promptDeleteLayout(name) {
         console.info(lcWorkspaceAddOnHelper, "Prompting to delete layout")
-        if (window.contentItem.MessageBox.question(qsTr("Delete"), qsTr('Delete layout "%1"?').replace("%1", name)) === SVS.Yes) {
+        if (window.contentItem.MessageBox.question(qsTr("Delete"), qsTr('Delete layout "%1"?').arg(name)) === SVS.Yes) {
             addOn.removeCustomLayoutFromJavaScript(name)
         }
     }
@@ -290,7 +290,7 @@ QtObject {
             spacing: 16
             Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr('Drag to the sidebar to add "%1"').replace("%1", newActionPopup.actionObject?.ActionInstantiator.text ?? "")
+                text: qsTr('Drag to the sidebar to add "%1"').arg(newActionPopup.actionObject?.ActionInstantiator.text ?? "")
             }
             Frame {
                 Layout.alignment: Qt.AlignHCenter

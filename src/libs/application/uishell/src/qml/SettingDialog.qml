@@ -432,7 +432,7 @@ Window {
                     closable: true
                     timeout: 3000
                     title: qsTr("Cannot Apply Settings")
-                    content: qsTr('Failed to apply "%1"').replace("%1", page?.title)
+                    content: qsTr('Failed to apply "%1"').arg(page?.title)
                     x: mirrored ? 6 : parent.width - width - 6
                     y: -height - 6
                 }

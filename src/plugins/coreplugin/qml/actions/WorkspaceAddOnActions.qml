@@ -146,7 +146,7 @@ ActionCollection {
         icon: GlobalHelper.defaultIcon()
         readonly property Binding binding: Binding {
             when: action.currentPane !== null
-            action.text: action.baseText.replace("%1", action.currentPane.title)
+            action.text: action.baseText.arg(action.currentPane.title)
             action.icon: action.currentPane.icon
         }
         onTriggered: () => {
@@ -261,7 +261,7 @@ ActionCollection {
                 onTriggered: () => {
                     let o = d.windowHandle.actionContext.action(panelEntry.id)?.createObject(null)
                     if (!o || !(o instanceof Action || o instanceof DockingPane)) {
-                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').replace("%1", panelEntry.text))
+                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').arg(panelEntry.text))
                         if (o)
                             o.destroy()
                         return

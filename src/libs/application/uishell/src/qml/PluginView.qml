@@ -33,7 +33,7 @@ Item {
 
     signal restartRequested()
     function askRestart() {
-        if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.displayName), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
+        if (MessageBox.question(qsTr("Restart %1?").arg(Application.displayName), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
             restartRequested()
         }
     }
@@ -45,7 +45,7 @@ Item {
                 return
             }
             if (MessageBox.question(
-                qsTr("Enabling %1 will also enable the following plugins:").replace("%1", pluginSpec.displayName),
+                qsTr("Enabling %1 will also enable the following plugins:").arg(pluginSpec.displayName),
                 deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
             ) === SVS.No) {
                 button.checked = false
@@ -62,7 +62,7 @@ Item {
                 return
             }
             if (MessageBox.question(
-                qsTr("Disabling %1 will also disable the following plugins:").replace("%1", pluginSpec.displayName),
+                qsTr("Disabling %1 will also disable the following plugins:").arg(pluginSpec.displayName),
                 deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
             ) === SVS.No) {
                 button.checked = true

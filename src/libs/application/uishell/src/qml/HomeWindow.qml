@@ -285,7 +285,7 @@ Window {
                 }
             }
             Action {
-                text: qsTr("Open File Location")
+                text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
                 enabled: tapHandler.modelData.path.length !== 0
                 onTriggered: () => {
@@ -549,7 +549,7 @@ Window {
                         visible: searchTextField.length !== 0 && (fileGridLayout.visibleChildren.length === 1 || fileListLayout.visibleChildren.length === 1)
                     }
                     Label {
-                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").replace("%1", Application.displayName)
+                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").arg(Application.displayName)
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         anchors.top: parent.top
                         anchors.left: parent.left

@@ -64,7 +64,7 @@ ScrollView {
                     RowLayout {
                         spacing: 16
                         Label {
-                            text: qsTr("When starting %1").replace("%1", Application.displayName)
+                            text: qsTr("When starting %1").arg(Application.displayName)
                             TextMatcherItem on text { matcher: page.matcher }
                         }
                         RadioButton {

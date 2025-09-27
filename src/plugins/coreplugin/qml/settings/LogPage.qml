@@ -194,7 +194,7 @@ ScrollView {
                         selectionColor: Theme.accentColor
                     }
                     Button {
-                        text: qsTr("Reveal in %1").replace("%1", DesktopServices.fileManagerName)
+                        text: qsTr("Open in %1").arg(DesktopServices.fileManagerName)
                         onClicked: DesktopServices.reveal(page.pageHandle.logsLocation)
                     }
                 }
