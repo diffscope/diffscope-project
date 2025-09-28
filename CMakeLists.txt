@@ -35,14 +35,22 @@ endif()
 # ----------------------------------
 # Project Variables
 # ----------------------------------
+set(APPLICATION_TARGET ${PROJECT_NAME})
 if(NOT DEFINED APPLICATION_NAME)
     set(APPLICATION_NAME ${PROJECT_NAME})
 endif()
 if(NOT DEFINED APPLICATION_DISPLAY_NAME)
     set(APPLICATION_DISPLAY_NAME ${PROJECT_NAME})
 endif()
+if(NOT DEFINED APPLICATION_SEMVER)
+    set(APPLICATION_SEMVER ${PROJECT_VERSION})
+endif()
 set(APPLICATION_VERSION ${PROJECT_VERSION})
 set(APPLICATION_INSTALL_NAME ${APPLICATION_NAME})
+set(APPLICATION_VENDOR_NAME "Team OpenVPI")
+set(APPLICATION_DEV_START_YEAR 2019)
+set(APPLICATION_URL "https://diffscope.org/")
+set(APPLICATION_SUPPORT_URL "https://help.diffscope.org/diffscope/${PROJECT_VERSION}/")
 
 # ----------------------------------
 # Find basic dependencies

@@ -1,0 +1,2 @@
+Name: "chinesesimplified"; MessagesFile: @@INNOSETUP_MESSAGE_FILES_DIR_WIN@@\ChineseSimplified.isl
+Name: "chinesetraditional"; MessagesFile: @@INNOSETUP_MESSAGE_FILES_DIR_WIN@@\ChineseTraditional.isl

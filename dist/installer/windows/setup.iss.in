@@ -1,49 +1,48 @@
-﻿; Windows Application Installer Script
+; Windows Application Installer Script
 ;
-; Required Environment Variables:
-;   SETUP_APP_NAME
-;   SETUP_APP_VERSION
-;   SETUP_APP_PUBLISHER
-;   SETUP_APP_URL
-;   SETUP_APP_COPYRIGHT
-;   SETUP_APP_INSTALLED_DIR
-;   SETUP_APP_BRIDGE_ARTIFACTS_DIR
-;   SETUP_MESSAGE_FILES_DIR
-;   SETUP_OUTPUT_DIR
-;   SETUP_OUTPUT_FILE_BASE
-;   SETUP_INFO_PATH
+; Required CMake Variables:
+;   APPLICATION_NAME (internal name)
+;   APPLICATION_DISPLAY_NAME (display name)
+;   APPLICATION_SEMVER
+;   APPLICATION_VENDOR_NAME
+;   APPLICATION_URL
+;   APPLICATION_SUPPORT_URL
+;   APPLICATION_COPYRIGHT
+;   APPLICATION_TARGET
+;   CMAKE_INSTALL_PREFIX_WIN (converted from CMAKE_INSTALL_PREFIX with backslashes)
+;   INNOSETUP_MESSAGE_FILES_DIR (converted to _WIN version with backslashes)
+;   APPLICATION_INSTALLER_OUTPUT_DIR_WIN (converted from APPLICATION_INSTALLER_OUTPUT_DIR with backslashes)
+;   APPLICATION_INSTALLER_FILE_BASE
 ;
-; Command:
-;   ISCC.exe setup.iss
 
-#define MyAppName GetEnv("SETUP_APP_NAME")
-#define MyAppVersion GetEnv("SETUP_APP_VERSION")
-#define MyAppPublisher GetEnv("SETUP_APP_PUBLISHER")
-#define MyAppURL GetEnv("SETUP_APP_URL")
-#define MyAppCopyright GetEnv("SETUP_APP_COPYRIGHT")
+#define MyAppName "@APPLICATION_NAME@"
+#define MyAppDisplayName "@APPLICATION_DISPLAY_NAME@"
+#define MyAppVersion "@APPLICATION_SEMVER@"
+#define MyAppPublisher "@APPLICATION_VENDOR_NAME@"
+#define MyAppURL "@APPLICATION_URL@"
+#define MyAppSupportURL "@APPLICATION_SUPPORT_URL@"
+#define MyAppCopyright "Copyright (C) @APPLICATION_DEV_START_YEAR@-@_current_year@ @APPLICATION_VENDOR_NAME@"
 
-#define MyAppExeName "bin\" + MyAppName + ".exe"
+#define MyAppExeName "bin\@APPLICATION_TARGET@.exe"
 
-#define MyAppProjectAssocName MyAppName + " Project File"
+#define MyAppProjectAssocName MyAppDisplayName + " Project File"
 #define MyAppProjectAssocExt ".dspx"
 #define MyAppProjectAssocKey StringChange(MyAppProjectAssocName, " ", "") + MyAppProjectAssocExt
 
-#define MyAppSoundBankAssocName MyAppName + " Sound Bank"
-#define MyAppSoundBankAssocExt ".aaa"
+#define MyAppSoundBankAssocName MyAppDisplayName + " Sound Bank"
+#define MyAppSoundBankAssocExt ".dspk"
 #define MyAppSoundBankAssocKey StringChange(MyAppProjectAssocName, " ", "") + MyAppProjectAssocExt
 
-#define MyAppInstalledDir GetEnv("SETUP_APP_INSTALLED_DIR")
+#define MyAppInstalledDir "@CMAKE_INSTALL_PREFIX_WIN@"
 
-#define MyAppBridgeArtefactsDir GetEnv("SETUP_APP_BRIDGE_ARTIFACTS_DIR")
 
 [Setup]
 AppId={{E777B852-937C-42A1-930F-C1CD1FF5C07E}
-AppName={#MyAppName}
+AppName={#MyAppDisplayName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
+AppSupportURL={#MyAppSupportURL}
 AppCopyright={#MyAppCopyright}
 DefaultDirName={autopf}\OpenVPI\{#MyAppName}
 ChangesAssociations=yes
@@ -51,20 +50,18 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-LicenseFile={#MyAppInstalledDir}\share\doc\DiffScope\LICENSE
-InfoBeforeFile={#GetEnv("SETUP_INFO_PATH")}
-OutputDir={#GetEnv("SETUP_OUTPUT_DIR")}
-OutputBaseFilename={#GetEnv("SETUP_OUTPUT_FILE_BASE")}
+LicenseFile={#MyAppInstalledDir}\share\doc\{#MyAppName}\LICENSE
+OutputDir=@APPLICATION_INSTALLER_OUTPUT_DIR_WIN@
+OutputBaseFilename=@APPLICATION_INSTALLER_FILE_BASE@
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 ArchitecturesInstallIn64BitMode=x64
-VersionInfoDescription={#MyAppName} Installer
+VersionInfoDescription={#MyAppDisplayName} Installer
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-Name: "chinesesimplified"; MessagesFile: "{#GetEnv('SETUP_MESSAGE_FILES_DIR')}\ChineseSimplified.isl"
-Name: "chinesetraditional"; MessagesFile: "{#GetEnv('SETUP_MESSAGE_FILES_DIR')}\ChineseTraditional.isl"
+@INNOSETUP_UNOFFICIAL_LANGUAGES@
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
 [Tasks]
@@ -94,14 +91,10 @@ Name: "compact"; Description: "{code:CompactInstallationMessage}"
 Name: "custom"; Description: "{code:CustomInstallationMessage}"; Flags: iscustom
 
 [Components]
-Name: "program"; Description: "{#MyAppName}"; Types: full compact custom; Flags: fixed
-Name: "vst"; Description: "{#MyAppName} Bridge (VST3)"; Types: full
-Name: "lv2"; Description: "{#MyAppName} Bridge (LV2)"; Types: full
+Name: "program"; Description: "{#MyAppDisplayName}"; Types: full compact custom; Flags: fixed
 
 [Files]
 Source: "{#MyAppInstalledDir}\*"; DestDir: "{app}"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MyAppBridgeArtefactsDir}\VST3\*.vst3"; DestDir: "{autocf}\VST3"; Components: vst; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MyAppBridgeArtefactsDir}\LV2\*.lv2"; DestDir: "{autocf}\LV2"; Components: lv2; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -119,9 +112,8 @@ Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\shell\open\comman
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppSoundBankAssocExt}"; ValueData: ""
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppDisplayName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

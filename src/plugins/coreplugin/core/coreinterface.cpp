@@ -26,6 +26,7 @@
 #include <extensionsystem/pluginmanager.h>
 
 #include <application_buildinfo.h>
+#include <application_config.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
@@ -142,13 +143,14 @@ namespace Core {
             QApplication::translate(
                 "Application",
                 "<p>A professional singing-voice-synthesis editor powered by DiffSinger</p>"
-                "<p>Visit <a href=\"https://diffscope.org/\">diffscope.org</a> for more information.</p>");
-
-        QString copyrightInfo =
-            QApplication::translate(
-                "Application", "<p>Based on Qt version %1.<br>"
-                               "Copyright \u00a9 2019-%2 Team OpenVPI. All rights reserved.</p>")
-                .arg(QStringLiteral(QT_VERSION_STR), QStringLiteral(APPLICATION_BUILD_YEAR));
+                "<p>Version %1</p>"
+                "<p>Copyright \u00a9 %2-%3 Team OpenVPI. All rights reserved.</p>"
+                "<p>Visit <a href=\"%4\">%4</a> for more information.</p>")
+                .arg(
+                    QApplication::applicationVersion(),
+                    QLocale().toString(QDate(QStringLiteral(APPLICATION_DEV_START_YEAR).toInt(), 1, 1), "yyyy"),
+                    QLocale().toString(QDate(QStringLiteral(APPLICATION_BUILD_YEAR).toInt(), 1, 1), "yyyy"),
+                    QStringLiteral(APPLICATION_URL));
 
         QString licenseInfo =
             QApplication::translate(
@@ -165,16 +167,14 @@ namespace Core {
 
         QString buildInfo = QApplication::translate("Application", "<h3>Build Information</h3>"
                                                                    "<p>"
-                                                                   "Version: %1<br>"
-                                                                   "Branch: %2<br>"
-                                                                   "Commit: %3<br>"
-                                                                   "Build date: %4<br>"
-                                                                   "Toolchain: %5 %6 %7"
+                                                                   "Branch: %1<br>"
+                                                                   "Commit: %2<br>"
+                                                                   "Build date: %3<br>"
+                                                                   "Toolchain: %4 %5 %6"
                                                                    "</p>")
-                                .arg(QApplication::applicationVersion(),
-                                     QStringLiteral(APPLICATION_GIT_BRANCH),           //
+                                .arg(QStringLiteral(APPLICATION_GIT_BRANCH),           //
                                      QStringLiteral(APPLICATION_GIT_LAST_COMMIT_HASH), //
-                                     QStringLiteral(APPLICATION_BUILD_TIME),           //
+                                     QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate)),           //
                                      QStringLiteral(APPLICATION_COMPILER_ARCH),        //
                                      QStringLiteral(APPLICATION_COMPILER_ID),          //
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
@@ -188,7 +188,7 @@ namespace Core {
             {"title", tr("About %1").arg(appName)},
             {"textFormat",      Qt::RichText                                       },
             {"text",            appName.toHtmlEscaped()                            },
-            {"informativeText", aboutInfo + copyrightInfo + licenseInfo + buildInfo},
+            {"informativeText", aboutInfo + licenseInfo + buildInfo},
             {"width", 480},
             {"icon", QVariant::fromValue(icon)}
         })));
