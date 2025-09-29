@@ -1,1 +1,3 @@
-add_subdirectory(installer)
+if(APPLICATION_CONFIGURE_INSTALLER)
+    add_subdirectory(installer)
+endif()

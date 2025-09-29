@@ -31,13 +31,13 @@
 
 #define MyAppSoundBankAssocName MyAppDisplayName + " Sound Bank"
 #define MyAppSoundBankAssocExt ".dspk"
-#define MyAppSoundBankAssocKey StringChange(MyAppProjectAssocName, " ", "") + MyAppProjectAssocExt
+#define MyAppSoundBankAssocKey StringChange(MyAppSoundBankAssocName, " ", "") + MyAppSoundBankAssocExt
 
 #define MyAppInstalledDir "@CMAKE_INSTALL_PREFIX_WIN@"
 
 
 [Setup]
-AppId={{E777B852-937C-42A1-930F-C1CD1FF5C07E}
+AppId=org.diffscope.{#MyAppName}
 AppName={#MyAppDisplayName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
@@ -66,6 +66,8 @@ Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "associateproject"; Description: "{cm:AssocFileExtension,{#MyAppDisplayName},.dspx}"; GroupDescription: "File associations:"; Flags: checkedonce
+Name: "associatesoundbank"; Description: "{cm:AssocFileExtension,{#MyAppDisplayName},.dspk}"; GroupDescription: "File associations:"; Flags: checkedonce
 
 [Code]
 function FullInstallationMessage(Param: String): String;
@@ -99,17 +101,19 @@ Source: "{#MyAppInstalledDir}\*"; DestDir: "{app}"; Components: program; Flags: 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
-Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppProjectAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppProjectAssocName}"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},1"
-Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
-Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppProjectAssocExt}"; ValueData: ""
+; Project file (.dspx) associations
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppProjectAssocKey}"; ValueData: ""; Flags: uninsdeletevalue; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppProjectAssocName}"; Flags: uninsdeletekey; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},1"; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppProjectAssocExt}"; ValueData: ""; Tasks: associateproject
 
-Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppSoundBankAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppSoundBankAssocName}"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},2"
-Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
-Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppSoundBankAssocExt}"; ValueData: ""
+; Sound bank file (.dspk) associations
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppSoundBankAssocKey}"; ValueData: ""; Flags: uninsdeletevalue; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppSoundBankAssocName}"; Flags: uninsdeletekey; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},2"; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppSoundBankAssocExt}"; ValueData: ""; Tasks: associatesoundbank
 
 [Icons]
 Name: "{autoprograms}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"

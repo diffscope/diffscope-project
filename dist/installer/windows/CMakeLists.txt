@@ -21,25 +21,25 @@ endif()
 string(TIMESTAMP _current_year "%Y")
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/dist/installer/windows/setup.iss.in"
-    "${CMAKE_BINARY_DIR}/dist/setup.iss"
+    setup.iss.in
+    "${CMAKE_CURRENT_BINARY_DIR}/setup.iss"
     @ONLY
 )
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/dist/installer/windows/setup-unofficial-languages.iss.in"
-    "${CMAKE_BINARY_DIR}/dist/setup-unofficial-languages.iss"
+    setup-unofficial-languages.iss.in
+    "${CMAKE_CURRENT_BINARY_DIR}/setup-unofficial-languages.iss"
     @ONLY
 )
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/dist/installer/windows/uninstall.iss.in"
-    "${CMAKE_BINARY_DIR}/dist/uninstall.iss"
+    uninstall.iss.in
+    "${CMAKE_CURRENT_BINARY_DIR}/uninstall.iss"
     @ONLY
 )
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/dist/installer/windows/uninstall-unofficial-languages.iss.in"
-    "${CMAKE_BINARY_DIR}/dist/uninstall-unofficial-languages.iss"
+    uninstall-unofficial-languages.iss.in
+    "${CMAKE_CURRENT_BINARY_DIR}/uninstall-unofficial-languages.iss"
     @ONLY
 )

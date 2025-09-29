@@ -1,6 +1,34 @@
+add_subdirectory(icons)
+
+set(_ico_args)
+set(_icns_args)
+
+if(WIN32)
+    list(APPEND _ico_path
+        ${CMAKE_CURRENT_BINARY_DIR}/icons/app.ico
+        ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.ico
+    )
+    set(_filtered_ico_path "")
+    foreach(_file IN LISTS _ico_path)
+        if(EXISTS ${_file})
+            list(APPEND _filtered_ico_path ${_file})
+        endif()
+    endforeach()
+    set(_ico_args ICO ${_filtered_ico_path})
+endif()
+
+if(APPLE)
+    set(_icns_path ${CMAKE_CURRENT_BINARY_DIR}/icons/app.icns)
+    if(EXISTS ${_icns_path})
+        set(_icns_args ICNS ${_icns_path})
+    endif()
+endif()
+
+
+
 ck_configure_application(
-    ICO app.ico
-    ICNS app.icns
+    ${_ico_args}
+    ${_icns_args}
 )
 
 qm_configure_target(${PROJECT_NAME}
@@ -43,6 +71,7 @@ ck_add_shared_files(
 )
 
 file(GLOB _icons icons/*)
+list(FILTER _icons EXCLUDE REGEX CMakeLists.txt)
 
 qt_add_resources(${PROJECT_NAME} icons
     PREFIX /diffscope/icons
