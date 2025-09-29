@@ -9,15 +9,18 @@
             class="Application::ActionClass"
             description="Application::ActionDescription"
         />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
     </configuration>
 
     <items>
         <action id="maintenance.diagnosis.generateDiagnosticInformation^" />
-        <action id="maintenance.diagnosis.revealLogs" text="Reveal Logs in %1" diffscope:args="FILE_MANAGER_NAME" />
-        <action id="maintenance.diagnosis.openDataDirectory" text="Open Data Directory in %1" diffscope:args="FILE_MANAGER_NAME" />
-        <action id="maintenance.diagnosis.openPluginsDirectory" text="Open Plugins Directory in %1" diffscope:args="FILE_MANAGER_NAME" />
+        <action id="maintenance.diagnosis.revealLogs" text="Reveal Logs" />
+        <action id="maintenance.diagnosis.openDataDirectory" text="Open Data Directory" />
+        <action id="maintenance.diagnosis.openPluginsDirectory" text="Open Plugins Directory" />
         <action id="maintenance.getInvolved.reportIssue" description="Report bugs, request new features, or ask for support" />
-        <action id="maintenance.getInvolved.contribute" text="Contribute to %1" diffscope:args="APPLICATION_DISPLAY_NAME" />
+        <action id="maintenance.getInvolved.contribute" text="Contribute to ${APP_NAME}" />
         <action id="maintenance.getInvolved.joinTheCommunity" />
         <action id="maintenance.update.checkForUpdates" />
         <action id="maintenance.update.viewReleaseLog" />

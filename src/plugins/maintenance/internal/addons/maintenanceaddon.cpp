@@ -1,9 +1,16 @@
 #include "maintenanceaddon.h"
 
+#include <QDesktopServices>
 #include <QQmlComponent>
 #include <QQuickItem>
 
+#include <application_config.h>
+
+#include <SVSCraftGui/DesktopServices.h>
+
 #include <CoreApi/runtimeinterface.h>
+#include <CoreApi/logger.h>
+#include <CoreApi/applicationinfo.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 
@@ -74,12 +81,36 @@ namespace Maintenance {
     bool MaintenanceAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
-    void MaintenanceAddOn::execMaintenance() {
-        QEventLoop eventLoop;
-        auto win = window();
-        connect(win, SIGNAL(finished()), &eventLoop, SLOT(quit()));
-        win->show();
-        eventLoop.exec();
-        win->deleteLater();
+
+    static const QUrl ISSUE_URL("https://github.com/diffscope/diffscope-project/issues");
+    static const QUrl CONTRIBUTE_URL("https://diffscope.org/contribute");
+    static const QUrl COMMUNITY_URL("https://diffscope.org/community");
+    static const QUrl RELEASE_LOG_URL("https://diffscope.org/releases/" APPLICATION_SEMVER);
+
+    void MaintenanceAddOn::reveal(RevealFlag flag) {
+        switch (flag) {
+            case Logs:
+                SVS::DesktopServices::reveal(Core::Logger::logsLocation());
+                break;
+            case Data:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData));
+                break;
+            case Plugins:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::BuiltinPlugins));
+                break;
+            case Issue:
+                QDesktopServices::openUrl(ISSUE_URL);
+                break;
+            case Contribute:
+                QDesktopServices::openUrl(CONTRIBUTE_URL);
+                break;
+            case Community:
+                QDesktopServices::openUrl(COMMUNITY_URL);
+                break;
+            case ReleaseLog:
+                QDesktopServices::openUrl(RELEASE_LOG_URL);
+                break;
+        }
     }
+
 }

@@ -16,14 +16,6 @@ ActionCollection {
     required property MaintenanceAddOn addOn
 
     ActionItem {
-        actionId: "maintenance.help.help"
-        Action {
-            onTriggered: () => {
-
-            }
-        }
-    }
-    ActionItem {
         actionId: "maintenance.diagnosis.generateDiagnosticInformation"
         Action {
             onTriggered: () => {
@@ -35,7 +27,7 @@ ActionCollection {
         actionId: "maintenance.diagnosis.revealLogs"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Logs)
             }
         }
     }
@@ -43,7 +35,7 @@ ActionCollection {
         actionId: "maintenance.diagnosis.openDataDirectory"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Data)
             }
         }
     }
@@ -51,7 +43,7 @@ ActionCollection {
         actionId: "maintenance.diagnosis.openPluginsDirectory"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Plugins)
             }
         }
     }
@@ -59,7 +51,7 @@ ActionCollection {
         actionId: "maintenance.getInvolved.reportIssue"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Issue)
             }
         }
     }
@@ -67,7 +59,7 @@ ActionCollection {
         actionId: "maintenance.getInvolved.contribute"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Contribute)
             }
         }
     }
@@ -75,7 +67,7 @@ ActionCollection {
         actionId: "maintenance.getInvolved.joinTheCommunity"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.Community)
             }
         }
     }
@@ -91,7 +83,7 @@ ActionCollection {
         actionId: "maintenance.update.viewReleaseLog"
         Action {
             onTriggered: () => {
-
+                d.addOn.reveal(MaintenanceAddOn.ReleaseLog)
             }
         }
     }

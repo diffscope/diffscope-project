@@ -26,7 +26,18 @@ namespace Maintenance {
         void extensionsInitialized() override;
         bool delayedInitialize() override;
 
-        Q_INVOKABLE static void execMaintenance();
+        enum RevealFlag {
+            Logs,
+            Data,
+            Plugins,
+            Issue,
+            Contribute,
+            Community,
+            ReleaseLog,
+        };
+        Q_ENUM(RevealFlag)
+
+        Q_INVOKABLE static void reveal(RevealFlag flag);
     };
 
 }
