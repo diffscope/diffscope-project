@@ -13,8 +13,8 @@
     "Arguments" : [
     ],
     "Category": "Help",
-    "Description": "Achievements provide tips about @APPLICATION_INSTALL_NAME@ in an interactive way",
-    "Url": "https://diffscope.org/",
+    "Description": "Achievements provide tips about @APPLICATION_DISPLAY_NAME@ in an interactive way",
+    "Url": "@APPLICATION_URL@",
     "Required": false,
     "Dependencies" : [
         { "Name" : "Core", "Version" : "@PLUGIN_METADATA_VERSION@" }

@@ -13,7 +13,7 @@ ck_add_plugin(${PROJECT_NAME}
     NAME ${_plugin_name}
     DISPLAY_NAME ${_plugin_display_name}
     COMPAT_VERSION 0.2.0
-    VENDOR "Team OpenVPI"
+    VENDOR ${APPLICATION_VENDOR_NAME}
     DESCRIPTION "${PROJECT_DESCRIPTION}"
     MACRO_PREFIX CORE
 )

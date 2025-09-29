@@ -21,7 +21,7 @@
         }
     ],
     "Category": "Core",
-    "Description": "The core plugin for @APPLICATION_INSTALL_NAME@.",
-    "Url": "https://www.baidu.com/",
+    "Description": "The core plugin for @APPLICATION_DISPLAY_NAME@.",
+    "Url": "@APPLICATION_URL@",
     "Required": true
 }

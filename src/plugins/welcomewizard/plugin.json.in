@@ -13,8 +13,8 @@
     "Arguments" : [
     ],
     "Category": "Help",
-    "Description": "Display the Welcome Wizard when you first start @APPLICATION_INSTALL_NAME@",
-    "Url": "https://diffscope.org/",
+    "Description": "Display the Welcome Wizard when you first start @APPLICATION_DISPLAY_NAME@",
+    "Url": "@APPLICATION_URL@",
     "Required": false,
     "Dependencies" : [
         { "Name" : "Core", "Version" : "@PLUGIN_METADATA_VERSION@" }
