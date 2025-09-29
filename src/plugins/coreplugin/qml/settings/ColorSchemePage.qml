@@ -274,7 +274,7 @@ Item {
                     if (savePresetPopup.originName === "") {
                         page.collection.savePreset(presetNameTextField.text)
                     } else {
-                        page.collection.renamePreset(page.collection.currentIndex, presetNameTextField.text)
+                        page.collection.renamePreset(page.collection.realCurrentIndex, presetNameTextField.text)
                     }
                     savePresetPopup.close()
                 }
@@ -445,11 +445,12 @@ Item {
                 model: page.collection.allPresets
                 textRole: "name"
                 valueRole: "data"
-                currentIndex: page.collection.currentIndex
+                currentIndex: page.collection.visualCurrentIndex
+                readonly property int realCurrentIndex: currentIndex + (currentValue?.indexOffset ?? 0)
                 onActivated: (index) => {
-                    if (index === page.collection.currentIndex)
+                    if (index === page.collection.visualCurrentIndex)
                         return
-                    page.collection.loadPreset(index)
+                    page.collection.loadPreset(index + valueAt(index).indexOffset)
                 }
             }
             Button {
@@ -478,7 +479,7 @@ Item {
                             enabled: !presetComboBox.currentValue.internal
                             text: qsTr("Delete")
                             onTriggered: () => {
-                                page.collection.removePreset(presetComboBox.currentIndex)
+                                page.collection.removePreset(presetComboBox.realCurrentIndex)
                             }
                         }
                         MenuSeparator {}

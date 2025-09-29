@@ -20,6 +20,7 @@ namespace Core::Internal {
         Q_OBJECT
         Q_PROPERTY(QVariantList allPresets READ allPresets NOTIFY allPresetsChanged)
         Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
+        Q_PROPERTY(int visualCurrentIndex READ visualCurrentIndex NOTIFY currentIndexChanged)
     public:
         explicit ColorSchemeCollection(QObject *parent = nullptr);
         ~ColorSchemeCollection() override;
@@ -38,6 +39,7 @@ namespace Core::Internal {
 
         QVariantList allPresets() const;
         int currentIndex() const;
+        int visualCurrentIndex() const;
         void setCurrentIndex(int index);
 
         void applyTo(SVS::Theme *theme, sflow::Palette *palette) const;

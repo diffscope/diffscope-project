@@ -111,6 +111,8 @@ namespace Core::Internal {
         }}
     };
 
+    static const int MAX_INTERNAL_PRESETS = 65536;
+
     static QByteArray serializePreset(const QVariantHash &preset) {
         QByteArray a;
         QDataStream stream(&a, QDataStream::WriteOnly);
@@ -144,7 +146,7 @@ namespace Core::Internal {
         m_unsavedPreset.insert(name, value);
         if (!m_showUnsavedPreset) {
             m_showUnsavedPreset = true;
-            m_currentIndex = m_internalPresets.size() + m_presets.size();
+            m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size();
             emit allPresetsChanged();
             emit currentIndexChanged();
         }
@@ -155,10 +157,10 @@ namespace Core::Internal {
     }
     void ColorSchemeCollection::loadPreset(int index) {
         QVariantHash preset;
-        if (index < m_internalPresets.size()) {
-            preset = m_internalPresets.at(index).second;
-        } else if (index < m_internalPresets.size() + m_presets.size()) {
-            preset = m_presets.at(index - m_internalPresets.size()).second;
+        if (index < MAX_INTERNAL_PRESETS) {
+            preset = m_internalPresets.value(index, m_internalPresets.first()).second;
+        } else if (index < MAX_INTERNAL_PRESETS + m_presets.size()) {
+            preset = m_presets.at(index - MAX_INTERNAL_PRESETS).second;
         } else {
             return;
         }
@@ -172,44 +174,44 @@ namespace Core::Internal {
     void ColorSchemeCollection::savePreset(const QString &name) {
         if (auto it = std::ranges::find_if(m_presets, [&](const auto &p) { return p.first == name; }); it != m_presets.end()) {
             it->second = m_unsavedPreset;
-            m_currentIndex = m_internalPresets.size() + std::distance(m_presets.begin(), it);
+            m_currentIndex = MAX_INTERNAL_PRESETS+ std::distance(m_presets.begin(), it);
             m_showUnsavedPreset = false;
             emit allPresetsChanged();
             emit currentIndexChanged();
         } else {
             m_presets.append({name, m_unsavedPreset});
-            m_currentIndex = m_internalPresets.size() + m_presets.size() - 1;
+            m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size() - 1;
             m_showUnsavedPreset = false;
             emit allPresetsChanged();
             emit currentIndexChanged();
         }
     }
     void ColorSchemeCollection::removePreset(int index) {
-        if (index < m_internalPresets.size() || index >= m_internalPresets.size() + m_presets.size()) {
+        if (index < MAX_INTERNAL_PRESETS || index >= MAX_INTERNAL_PRESETS + m_presets.size()) {
             return;
         }
-        m_presets.removeAt(index - m_internalPresets.size());
+        m_presets.removeAt(index - MAX_INTERNAL_PRESETS);
         if (index < m_currentIndex) {
             m_currentIndex = qMax(0, m_currentIndex - 1);
         } else if (index == m_currentIndex) {
             m_showUnsavedPreset = true;
-            m_currentIndex = m_internalPresets.size() + m_presets.size();
+            m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size();
         }
         emit allPresetsChanged();
         emit currentIndexChanged();
     }
     void ColorSchemeCollection::renamePreset(int index, const QString &name) {
-        if (index < m_internalPresets.size() || index >= m_internalPresets.size() + m_presets.size()) {
+        if (index < MAX_INTERNAL_PRESETS || index >= MAX_INTERNAL_PRESETS + m_presets.size()) {
             return;
         }
-        index -= m_internalPresets.size();
+        index -= MAX_INTERNAL_PRESETS;
         auto originName = m_presets.value(index).first;
         m_presets.removeIf([&](const auto &o) { return o.first == name; });
         auto it = std::ranges::find_if(m_presets, [&](const auto &o) { return o.first == originName; });
         Q_ASSERT (it != m_presets.end());
         it->first = name;
         emit allPresetsChanged();
-        index = m_internalPresets.size() + std::distance(m_presets.begin(), it);
+        index = MAX_INTERNAL_PRESETS + std::distance(m_presets.begin(), it);
         m_currentIndex = index;
         emit currentIndexChanged();
     }
@@ -243,10 +245,10 @@ namespace Core::Internal {
     }
     void ColorSchemeCollection::exportPreset(QWindow *window, const QUrl &fileUrl) const {
         auto filename = fileUrl.toLocalFile();
-        if (m_currentIndex >= m_internalPresets.size() + m_presets.size()) {
+        if (m_currentIndex >= MAX_INTERNAL_PRESETS + m_presets.size()) {
             return;
         }
-        const auto &[name, preset] = m_currentIndex < m_internalPresets.size() ? m_internalPresets.value(m_currentIndex) : m_presets.value(m_currentIndex - m_internalPresets.size());
+        const auto &[name, preset] = m_currentIndex < MAX_INTERNAL_PRESETS ? m_internalPresets.value(m_currentIndex, m_internalPresets.first()) : m_presets.value(m_currentIndex - MAX_INTERNAL_PRESETS);
         QFile f(filename);
         if (!f.open(QIODevice::WriteOnly)) {
             SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
@@ -271,6 +273,7 @@ namespace Core::Internal {
                     {"name", p.first},
                     {"data", QVariantMap {
                         {"internal", true},
+                        {"indexOffset", 0}
                     }}
 
                 };
@@ -284,6 +287,7 @@ namespace Core::Internal {
                     {"name", p.first},
                     {"data", QVariantMap {
                         {"internal", false},
+                        {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
                     }}
                 };
             }
@@ -294,6 +298,7 @@ namespace Core::Internal {
                 {"data", QVariantMap {
                     {"internal", true},
                     {"unsaved", true},
+                    {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
                 }}
             });
         }
@@ -301,6 +306,15 @@ namespace Core::Internal {
     }
     int ColorSchemeCollection::currentIndex() const {
         return m_currentIndex;
+    }
+    int ColorSchemeCollection::visualCurrentIndex() const {
+        if (m_currentIndex < m_internalPresets.size()) {
+            return m_currentIndex;
+        } else if (m_currentIndex < MAX_INTERNAL_PRESETS) {
+            return 0;
+        } else {
+            return m_currentIndex - MAX_INTERNAL_PRESETS + m_internalPresets.size();
+        }
     }
     void ColorSchemeCollection::setCurrentIndex(int index) {
         if (m_currentIndex != index) {
@@ -356,7 +370,7 @@ namespace Core::Internal {
         m_currentIndex = data.value("currentIndex").toInt();
         m_showUnsavedPreset = data.value("showUnsavedPreset").toBool();
         if (!m_showUnsavedPreset) {
-            const auto &[_, preset] = m_currentIndex < m_internalPresets.size() ? m_internalPresets.value(m_currentIndex) : m_presets.value(m_currentIndex - m_internalPresets.size());
+            const auto &[_, preset] = m_currentIndex < MAX_INTERNAL_PRESETS ? m_internalPresets.value(m_currentIndex, m_internalPresets.first()) : m_presets.value(m_currentIndex - MAX_INTERNAL_PRESETS);
             m_unsavedPreset = preset;
         }
         emit allPresetsChanged();
