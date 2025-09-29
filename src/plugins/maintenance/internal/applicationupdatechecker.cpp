@@ -1,29 +1,39 @@
 #include "applicationupdatechecker.h"
+#include "applicationupdatechecker_p.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTimer>
 #include <QApplication>
+#include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <coreplugin/internal/behaviorpreference.h>
-#include <coreplugin/coreinterface.h>
+#include <maintenance/internal/maintenanceplugin.h>
 
-namespace Core::Internal {
+namespace Maintenance {
 
     static ApplicationUpdateChecker *m_instance = nullptr;
     static const QString DEFAULT_FEED_BASE_URL = "https://releases.diffscope.org/feed/latest/";
 
-    ApplicationUpdateChecker::ApplicationUpdateChecker(QObject *parent)
-        : QObject(parent), m_networkManager(new QNetworkAccessManager(this)) {
+    void ApplicationUpdateCheckerPrivate::init() {
+        Q_Q(ApplicationUpdateChecker);
+        networkManager = new QNetworkAccessManager(q);
+        feedBaseUrl = DEFAULT_FEED_BASE_URL;
+        q->loadSettings();
+    }
+
+    ApplicationUpdateChecker::ApplicationUpdateChecker(QObject *parent) 
+        : QObject(parent), d_ptr(new ApplicationUpdateCheckerPrivate) {
         Q_ASSERT(!m_instance);
         m_instance = this;
-        loadSettings();
+        Q_D(ApplicationUpdateChecker);
+        d->q_ptr = this;
+        d->init();
     }
 
     ApplicationUpdateChecker::~ApplicationUpdateChecker() {
-        saveSettings();
+        save();
         m_instance = nullptr;
     }
 
@@ -33,21 +43,22 @@ namespace Core::Internal {
 
     void ApplicationUpdateChecker::checkForUpdate(bool silent) {
         Q_ASSERT(m_instance);
-        QString channel = getCurrentChannel();
+        QString channel = m_instance->getCurrentChannel();
         m_instance->getUpdateFeed(channel, silent);
     }
 
     void ApplicationUpdateChecker::getUpdateFeed(const QString &channel, bool silent) {
-        QString url = m_feedBaseUrl + channel;
+        Q_D(ApplicationUpdateChecker);
+        QString url = d->feedBaseUrl + channel;
         auto request = QNetworkRequest(QUrl(url));
         request.setHeader(QNetworkRequest::UserAgentHeader, "diffscope/1.0");
         
-        auto reply = m_networkManager->get(request);
+        auto reply = d->networkManager->get(request);
         connect(reply, &QNetworkReply::finished, this, [this, reply, silent]() {
             reply->deleteLater();
             
             if (reply->error() != QNetworkReply::NoError) {
-                emit failed(reply->errorString(), silent);
+                Q_EMIT failed(reply->errorString(), silent);
                 return;
             }
             
@@ -57,12 +68,13 @@ namespace Core::Internal {
             if (parseUpdateFeed(data, releaseInfo, errorMessage)) {
                 handleNewVersion(releaseInfo, silent);
             } else {
-                emit failed(errorMessage, silent);
+                Q_EMIT failed(errorMessage, silent);
             }
         });
     }
 
     bool ApplicationUpdateChecker::parseUpdateFeed(const QByteArray &data, ReleaseInfo &releaseInfo, QString &errorMessage) {
+        Q_D(ApplicationUpdateChecker);
         QJsonParseError parseError;
         QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
         
@@ -97,8 +109,8 @@ namespace Core::Internal {
         
         // Update feed URL if provided
         QString newFeedUrl = root.value("feedUrl").toString();
-        if (!newFeedUrl.isEmpty() && newFeedUrl != m_feedBaseUrl) {
-            m_feedBaseUrl = newFeedUrl;
+        if (!newFeedUrl.isEmpty() && newFeedUrl != d->feedBaseUrl) {
+            d->feedBaseUrl = newFeedUrl;
             saveSettings();
         }
         
@@ -106,44 +118,85 @@ namespace Core::Internal {
     }
 
     void ApplicationUpdateChecker::handleNewVersion(const ReleaseInfo &releaseInfo, bool silent) {
+        Q_D(ApplicationUpdateChecker);
         auto appVersion = QApplication::applicationVersion();
         if (releaseInfo.version <= SVS::Semver(appVersion)) {
-            emit alreadyUpToDate();
+            Q_EMIT alreadyUpToDate();
             return; // This version is already up to date
         }
         // Check if this version should be ignored
-        if (silent && m_ignoredVersion.isValid() && releaseInfo.version <= m_ignoredVersion) {
+        if (silent && d->ignoredVersion.isValid() && releaseInfo.version <= d->ignoredVersion) {
             return; // Ignore this version
         }
         
         // Clear ignored version if it's invalid or older than the new release
-        if (m_ignoredVersion.isValid() && releaseInfo.version > m_ignoredVersion) {
-            m_ignoredVersion = SVS::Semver(); // Reset to invalid version
+        if (d->ignoredVersion.isValid() && releaseInfo.version > d->ignoredVersion) {
+            d->ignoredVersion = SVS::Semver(); // Reset to invalid version
             saveSettings();
         }
         
-        emit showNewVersionRequested(releaseInfo, silent);
+        Q_EMIT showNewVersionRequested(releaseInfo, silent);
     }
 
     void ApplicationUpdateChecker::ignoreVersion(const SVS::Semver &version) {
         Q_ASSERT(m_instance);
-        m_instance->m_ignoredVersion = version;
+        m_instance->d_func()->ignoredVersion = version;
         m_instance->saveSettings();
     }
 
-    QString ApplicationUpdateChecker::getCurrentChannel() {
-        if (BehaviorPreference::updateOption() == BehaviorPreference::UO_Beta) {
+    QString ApplicationUpdateChecker::getCurrentChannel() const {
+        Q_D(const ApplicationUpdateChecker);
+        if (d->updateOption == UO_Beta) {
             return "beta";
         }
         return "stable";
     }
 
+    bool ApplicationUpdateChecker::autoCheckForUpdates() {
+        Q_ASSERT(m_instance);
+        return m_instance->d_func()->autoCheckForUpdates;
+    }
+
+    void ApplicationUpdateChecker::setAutoCheckForUpdates(bool autoCheckForUpdates) {
+        Q_ASSERT(m_instance);
+        auto d = m_instance->d_func();
+        if (d->autoCheckForUpdates == autoCheckForUpdates)
+            return;
+        d->autoCheckForUpdates = autoCheckForUpdates;
+        Q_EMIT m_instance->autoCheckForUpdatesChanged();
+    }
+
+    ApplicationUpdateChecker::UpdateOption ApplicationUpdateChecker::updateOption() {
+        Q_ASSERT(m_instance);
+        return m_instance->d_func()->updateOption;
+    }
+
+    void ApplicationUpdateChecker::setUpdateOption(UpdateOption updateOption) {
+        Q_ASSERT(m_instance);
+        auto d = m_instance->d_func();
+        if (d->updateOption == updateOption)
+            return;
+        d->updateOption = updateOption;
+        Q_EMIT m_instance->updateOptionChanged();
+    }
+
+    void ApplicationUpdateChecker::load() {
+        loadSettings();
+    }
+
+    void ApplicationUpdateChecker::save() const {
+        saveSettings();
+    }
+
     void ApplicationUpdateChecker::saveSettings() const {
-        auto settings = RuntimeInterface::settings();
+        Q_D(const ApplicationUpdateChecker);
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        settings->setValue("feedBaseUrl", m_feedBaseUrl);
-        if (m_ignoredVersion.isValid()) {
-            settings->setValue("ignoredVersion", m_ignoredVersion.toString());
+        settings->setValue("feedBaseUrl", d->feedBaseUrl);
+        settings->setValue("autoCheckForUpdates", d->autoCheckForUpdates);
+        settings->setValue("updateOption", static_cast<int>(d->updateOption));
+        if (d->ignoredVersion.isValid()) {
+            settings->setValue("ignoredVersion", d->ignoredVersion.toString());
         } else {
             settings->remove("ignoredVersion");
         }
@@ -151,14 +204,20 @@ namespace Core::Internal {
     }
 
     void ApplicationUpdateChecker::loadSettings() {
-        auto settings = RuntimeInterface::settings();
+        Q_D(ApplicationUpdateChecker);
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        m_feedBaseUrl = settings->value("feedBaseUrl", DEFAULT_FEED_BASE_URL).toString();
+        d->feedBaseUrl = settings->value("feedBaseUrl", DEFAULT_FEED_BASE_URL).toString();
+        d->autoCheckForUpdates = settings->value("autoCheckForUpdates", true).toBool();
+        d->updateOption = settings->value("updateOption", UO_Stable).value<UpdateOption>();
         QString ignoredVersionStr = settings->value("ignoredVersion", "").toString();
         if (!ignoredVersionStr.isEmpty()) {
-            m_ignoredVersion = SVS::Semver(ignoredVersionStr);
+            d->ignoredVersion = SVS::Semver(ignoredVersionStr);
         }
         settings->endGroup();
+        
+        Q_EMIT autoCheckForUpdatesChanged();
+        Q_EMIT updateOptionChanged();
     }
 
 }

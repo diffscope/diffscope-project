@@ -40,7 +40,6 @@ namespace Core {
         Q_INVOKABLE static void execAboutAppDialog(QWindow *parent);
         Q_INVOKABLE static void execAboutQtDialog(QWindow *parent);
         Q_INVOKABLE static void showHome();
-        Q_INVOKABLE static void checkForUpdate(bool silent = false);
 
     public:
         Q_INVOKABLE static QQuickWindow *newFile();

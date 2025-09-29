@@ -354,40 +354,6 @@ ScrollView {
                     }
                 }
             }
-            GroupBox {
-                title: qsTr("Updates")
-                TextMatcherItem on title { matcher: page.matcher }
-                Layout.fillWidth: true
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    CheckBox {
-                        text: qsTr("Check for updates on startup")
-                        TextMatcherItem on text { matcher: page.matcher }
-                        checked: page.autoCheckForUpdates
-                        onClicked: page.autoCheckForUpdates = checked
-                    }
-                    RowLayout {
-                        Label {
-                            text: qsTr("Type of update to check for")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        ComboBox {
-                            textRole: "text"
-                            valueRole: "value"
-                            model: [
-                                { text: qsTr("Stable"), value: BehaviorPreference.UO_Stable },
-                                { text: qsTr("Beta"), value: BehaviorPreference.UO_Beta },
-                            ]
-                            currentIndex: page.updateOption
-                            onCurrentValueChanged: page.updateOption = currentValue
-                        }
-                    }
-                    Button {
-                        text: qsTr("Check for Updates")
-                        TextMatcherItem on text { matcher: page.matcher }
-                    }
-                }
-            }
         }
     }
 }

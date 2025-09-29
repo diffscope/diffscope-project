@@ -56,7 +56,6 @@
 #include <coreplugin/internal/menupage.h>
 #include <coreplugin/internal/timeindicatorpage.h>
 #include <coreplugin/internal/colorschemecollection.h>
-#include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/findactionsaddon.h>
 #include <coreplugin/internal/editactionsaddon.h>
 #include <coreplugin/internal/timelineaddon.h>
@@ -288,7 +287,6 @@ namespace Core::Internal {
 
     void CorePlugin::initializeSingletons() {
         new CoreInterface(this);
-        new ApplicationUpdateChecker(this);
         new BehaviorPreference(this);
     }
 

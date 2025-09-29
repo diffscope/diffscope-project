@@ -31,8 +31,6 @@ namespace Core::Internal {
         Q_PROPERTY(bool proxyHasAuthentication READ proxyHasAuthentication WRITE setProxyHasAuthentication NOTIFY proxyHasAuthenticationChanged)
         Q_PROPERTY(QString proxyUsername READ proxyUsername WRITE setProxyUsername NOTIFY proxyUsernameChanged)
         Q_PROPERTY(QString proxyPassword READ proxyPassword WRITE setProxyPassword NOTIFY proxyPasswordChanged)
-        Q_PROPERTY(bool autoCheckForUpdates READ autoCheckForUpdates WRITE setAutoCheckForUpdates NOTIFY autoCheckForUpdatesChanged)
-        Q_PROPERTY(BehaviorPreference::UpdateOption updateOption READ updateOption WRITE setUpdateOption NOTIFY updateOptionChanged)
         Q_PROPERTY(bool useCustomFont READ useCustomFont WRITE setUseCustomFont NOTIFY useCustomFontChanged)
         Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
         Q_PROPERTY(QString fontStyle READ fontStyle WRITE setFontStyle NOTIFY fontStyleChanged)
@@ -119,18 +117,6 @@ namespace Core::Internal {
         static QString proxyPassword();
         static void setProxyPassword(const QString &proxyPassword);
 
-        static bool autoCheckForUpdates();
-        static void setAutoCheckForUpdates(bool autoCheckForUpdates);
-
-        enum UpdateOption {
-            UO_Stable,
-            UO_Beta,
-        };
-        Q_ENUM(UpdateOption)
-
-        static UpdateOption updateOption();
-        static void setUpdateOption(UpdateOption updateOption);
-
         static bool useCustomFont();
         static void setUseCustomFont(bool useCustomFont);
 
@@ -206,8 +192,6 @@ namespace Core::Internal {
         void proxyHasAuthenticationChanged();
         void proxyUsernameChanged();
         void proxyPasswordChanged();
-        void autoCheckForUpdatesChanged();
-        void updateOptionChanged();
         void useCustomFontChanged();
         void fontFamilyChanged();
         void fontStyleChanged();

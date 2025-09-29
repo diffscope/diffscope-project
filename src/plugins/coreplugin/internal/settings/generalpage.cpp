@@ -74,10 +74,6 @@ namespace Core::Internal {
         qCDebug(lcGeneralPage) << "proxyUsername" << m_widget->property("proxyUsername");
         m_widget->setProperty("proxyPassword", BehaviorPreference::instance()->property("proxyPassword"));
         qCDebug(lcGeneralPage) << "proxyPassword" << m_widget->property("proxyPassword");
-        m_widget->setProperty("autoCheckForUpdates", BehaviorPreference::instance()->property("autoCheckForUpdates"));
-        qCDebug(lcGeneralPage) << "autoCheckForUpdates" << m_widget->property("autoCheckForUpdates");
-        m_widget->setProperty("updateOption", BehaviorPreference::instance()->property("updateOption"));
-        qCDebug(lcGeneralPage) << "updateOption" << m_widget->property("updateOption");
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
@@ -111,10 +107,6 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("proxyUsername", m_widget->property("proxyUsername"));
         qCDebug(lcGeneralPage) << "proxyPassword" << m_widget->property("proxyPassword");
         BehaviorPreference::instance()->setProperty("proxyPassword", m_widget->property("proxyPassword"));
-        qCDebug(lcGeneralPage) << "autoCheckForUpdates" << m_widget->property("autoCheckForUpdates");
-        BehaviorPreference::instance()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
-        qCDebug(lcGeneralPage) << "updateOption" << m_widget->property("updateOption");
-        BehaviorPreference::instance()->setProperty("updateOption", m_widget->property("updateOption"));
         BehaviorPreference::instance()->save();
         if (promptRestartForLanguage) {
             qCInfo(lcGeneralPage) << "Language changed" << m_widget->property("localeName").toString() << QLocale().name();

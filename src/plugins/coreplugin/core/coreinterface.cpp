@@ -37,7 +37,6 @@
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
-#include <coreplugin/internal/applicationupdatechecker.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
 
@@ -221,10 +220,6 @@ namespace Core {
         qCInfo(lcCoreInterface) << "Creating home window";
         auto windowInterface = HomeWindowInterfaceRegistry::instance()->create();
         Q_UNUSED(windowInterface);
-    }
-
-    void CoreInterface::checkForUpdate(bool silent) {
-        Internal::ApplicationUpdateChecker::checkForUpdate(silent);
     }
 
     QQuickWindow *CoreInterface::newFile() {

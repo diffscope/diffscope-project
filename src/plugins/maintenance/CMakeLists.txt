@@ -36,6 +36,7 @@ qm_configure_target(${PROJECT_NAME}
         Quick
         QuickControls2
         QuickTemplates2
+        Network
     QT_INCLUDE_PRIVATE
         Core
         Gui
@@ -52,6 +53,7 @@ qm_configure_target(${PROJECT_NAME}
         QAKCore
         QAKQuick
         svscraft::QmlExtras
+        svscraft::Core
         coreplugin
     INCLUDE_PRIVATE
         core

@@ -24,8 +24,6 @@ namespace Core::Internal {
         bool proxyHasAuthentication{};
         QString proxyUsername{};
         QString proxyPassword{};
-        bool autoCheckForUpdates{};
-        BehaviorPreference::UpdateOption updateOption{};
         bool useCustomFont{};
         QString fontFamily{};
         QString fontStyle{};
@@ -85,10 +83,6 @@ namespace Core::Internal {
         emit proxyUsernameChanged();
         d->proxyPassword = settings->value("proxyPassword").toString();
         emit proxyPasswordChanged();
-        d->autoCheckForUpdates = settings->value("autoCheckForUpdates", true).toBool();
-        emit autoCheckForUpdatesChanged();
-        d->updateOption = settings->value("updateOption", UO_Stable).value<UpdateOption>();
-        emit updateOptionChanged();
         d->useCustomFont = settings->value("useCustomFont", false).toBool();
         emit useCustomFontChanged();
         d->fontFamily = settings->value("fontFamily", QApplication::font().family()).toString();
@@ -134,8 +128,6 @@ namespace Core::Internal {
         settings->setValue("proxyHasAuthentication", d->proxyHasAuthentication);
         settings->setValue("proxyUsername", d->proxyUsername);
         settings->setValue("proxyPassword", d->proxyPassword);
-        settings->setValue("autoCheckForUpdates", d->autoCheckForUpdates);
-        settings->setValue("updateOption", static_cast<int>(d->updateOption));
         settings->setValue("useCustomFont", d->useCustomFont);
         settings->setValue("fontFamily", d->fontFamily);
         settings->setValue("fontStyle", d->fontStyle);
@@ -298,28 +290,6 @@ namespace Core::Internal {
             return;
         d->proxyPassword = proxyPassword;
         emit m_instance->proxyPasswordChanged();
-    }
-    bool BehaviorPreference::autoCheckForUpdates() {
-        M_INSTANCE_D;
-        return d->autoCheckForUpdates;
-    }
-    void BehaviorPreference::setAutoCheckForUpdates(bool autoCheckForUpdates) {
-        M_INSTANCE_D;
-        if (d->autoCheckForUpdates == autoCheckForUpdates)
-            return;
-        d->autoCheckForUpdates = autoCheckForUpdates;
-        emit m_instance->autoCheckForUpdatesChanged();
-    }
-    BehaviorPreference::UpdateOption BehaviorPreference::updateOption() {
-        M_INSTANCE_D;
-        return d->updateOption;
-    }
-    void BehaviorPreference::setUpdateOption(UpdateOption updateOption) {
-        M_INSTANCE_D;
-        if (d->updateOption == updateOption)
-            return;
-        d->updateOption = updateOption;
-        emit m_instance->updateOptionChanged();
     }
     bool BehaviorPreference::useCustomFont() {
         M_INSTANCE_D;
