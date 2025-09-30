@@ -7,5 +7,7 @@ files:
     translation: /src/plugins/welcomewizard/res/translations/WelcomeWizard_%locale_with_underscore%.ts
   - source: /src/plugins/achievement/res/translations/Achievement_en_US.ts
     translation: /src/plugins/achievement/res/translations/Achievement_%locale_with_underscore%.ts
+  - source: /src/plugins/maintenance/res/translations/Maintenance_en_US.ts
+    translation: /src/plugins/maintenance/res/translations/Maintenance_%locale_with_underscore%.ts
   - source: /src/libs/application/uishell/share/translations/uishell_en_US.ts
     translation: /src/libs/application/uishell/share/translations/uishell_%locale_with_underscore%.ts
