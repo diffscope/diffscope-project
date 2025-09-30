@@ -61,7 +61,7 @@ VersionInfoDescription={#MyAppDisplayName} Installer
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-@INNOSETUP_UNOFFICIAL_LANGUAGES@
+@INNOSETUP_SETUP_UNOFFICIAL_LANGUAGES@
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
 [Tasks]

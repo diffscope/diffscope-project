@@ -6,7 +6,7 @@ english.SelectTasksLabel2=Select the additional tasks you would like Uninstaller
 english.RemoveUserDataDesc=Remove all user data and temporary files
 english.RemovePluginsDesc=Remove all plugins
 
-@INNOSETUP_UNOFFICIAL_UNINSTALL_MESSAGES@
+@INNOSETUP_UNINSTALL_UNOFFICIAL_LANGUAGES@
 
 japanese.ButtonUninstall=アンインストール
 japanese.WizardSelectTasks=追加タスクの選択
