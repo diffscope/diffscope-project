@@ -398,7 +398,7 @@ Item {
                                     }
                                 }
                                 ToolButton {
-                                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled"
+                                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled.svg"
                                     display: AbstractButton.IconOnly
                                     text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
                                     onClicked: () => {
