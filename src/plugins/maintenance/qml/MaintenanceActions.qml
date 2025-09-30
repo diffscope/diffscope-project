@@ -16,15 +16,15 @@ ActionCollection {
     required property MaintenanceAddOn addOn
 
     ActionItem {
-        actionId: "maintenance.diagnosis.generateDiagnosticInformation"
+        actionId: "maintenance.diagnosis.generateDiagnosticReport"
         Action {
             onTriggered: () => {
-
+                Qt.callLater(() => d.addOn.generateDiagnosticReport())
             }
         }
     }
     ActionItem {
-        actionId: "maintenance.diagnosis.revealLogs"
+        actionId: "maintenance.diagnosis.openLogsDirectory"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Logs)

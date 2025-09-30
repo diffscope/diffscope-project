@@ -14,13 +14,11 @@ namespace Maintenance {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
-        Q_PROPERTY(QQuickWindow *window READ window CONSTANT)
    public:
         explicit MaintenanceAddOn(QObject *parent = nullptr);
         ~MaintenanceAddOn() override;
 
         static void setPlugin(MaintenancePlugin *plugin);
-        static QQuickWindow *window();
 
         void initialize() override;
         void extensionsInitialized() override;
@@ -38,6 +36,8 @@ namespace Maintenance {
         Q_ENUM(RevealFlag)
 
         Q_INVOKABLE static void reveal(RevealFlag flag);
+
+        Q_INVOKABLE void generateDiagnosticReport() const;
     };
 
 }
