@@ -143,27 +143,28 @@ namespace Core::Internal {
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_UltimateSimplicity);
     }
 
-    static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+    static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
             CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
         }
-        QQuickWindow *win;
+        ActionWindowInterfaceBase *windowInterface;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
             qCInfo(lcCorePlugin) << "Create new project on startup";
-            win = CoreInterface::newFile();
+            windowInterface = CoreInterface::newFile();
         } else {
             qCInfo(lcCorePlugin) << "Open home window on startup";
             CoreInterface::showHome();
-            win = static_cast<QQuickWindow *>(HomeWindowInterface::instance()->window());
+            windowInterface = HomeWindowInterface::instance();
         }
+        auto win = windowInterface->window();
         if (win->visibility() == QWindow::Minimized) {
             win->showNormal();
         }
         win->raise();
         win->requestActivate();
-        return win;
+        return windowInterface;
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
@@ -201,8 +202,24 @@ namespace Core::Internal {
         qCInfo(lcCorePlugin) << "Initializing GUI";
         // TODO plugin arguments
         auto args = QApplication::arguments();
-        auto win = initializeGui(args, QDir::currentPath(), args);
-        connect(win, &QQuickWindow::sceneGraphInitialized, RuntimeInterface::splash(), &QWidget::close);
+        auto windowInterface = initializeGui(args, QDir::currentPath(), args);
+        auto win = windowInterface->window();
+        class ExposedListener : public QObject {
+        public:
+            explicit ExposedListener(QObject *parent) : QObject(parent) {
+            }
+
+            bool eventFilter(QObject *watched, QEvent *event) override {
+                if (event->type() == QEvent::Expose && static_cast<QWindow *>(watched)->isExposed()) {
+                    RuntimeInterface::splash()->close();
+                    deleteLater();
+                }
+                return QObject::eventFilter(watched, event);
+            }
+
+        };
+        auto listener = new ExposedListener(win);
+        win->installEventFilter(listener);
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         checkUltimateSimplicityAchievement();
         QApplication::setQuitOnLastWindowClosed(true);

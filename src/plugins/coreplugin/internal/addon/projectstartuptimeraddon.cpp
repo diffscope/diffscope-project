@@ -43,31 +43,8 @@ namespace Core::Internal {
     
     void ProjectStartupTimerAddOn::extensionsInitialized() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        auto window = qobject_cast<QQuickWindow *>(windowInterface->window());
-        Q_ASSERT(window);
-        connect(window, &QQuickWindow::sceneGraphInitialized, this, [=] {
-            QTimer::singleShot(0, [=] {
-                m_finishedMessage = new NotificationMessage(windowInterface->window());
-                m_finishedMessage->setIcon(SVS::SVSCraft::Success);
-                auto elapsedTime = stopTimerAndGetElapsedTime();
-                if (elapsedTime != -1) {
-                    double second = elapsedTime / 1000.0;
-                    m_finishedMessage->setTitle(tr("Project window initialized in %1 seconds").arg(second, 0, 'f', 3));
-                } else {
-                    m_finishedMessage->setTitle(tr("Project window initialized"));
-                }
-                m_finishedMessage->setAllowDoNotShowAgain(notificationVisible());
-                connect(m_finishedMessage, &NotificationMessage::doNotShowAgainRequested, this, [=] {
-                    setNotificationVisible(false);
-                    m_finishedMessage->setAllowDoNotShowAgain(false);
-                });
-                windowInterface->sendNotification(m_finishedMessage, notificationVisible() ? ProjectWindowInterface::AutoHide : ProjectWindowInterface::DoNotShowBubble);
-                m_initializingMessage->close();
-                if (elapsedTime > 60000) {
-                    CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_KeepPatient);
-                }
-            });
-        });
+        auto window = windowInterface->window();
+        window->installEventFilter(this);
     }
     
     bool ProjectStartupTimerAddOn::delayedInitialize() {
@@ -104,5 +81,34 @@ namespace Core::Internal {
         bool visible = settings->value("visible", true).toBool();
         settings->endGroup();
         return visible;
+    }
+    bool ProjectStartupTimerAddOn::eventFilter(QObject *watched, QEvent *event) {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto window = windowInterface->window();
+        if (event->type() == QEvent::Expose && window->isExposed()) {
+            QTimer::singleShot(0, [=] {
+                m_finishedMessage = new NotificationMessage(windowInterface->window());
+                m_finishedMessage->setIcon(SVS::SVSCraft::Success);
+                auto elapsedTime = stopTimerAndGetElapsedTime();
+                if (elapsedTime != -1) {
+                    double second = elapsedTime / 1000.0;
+                    m_finishedMessage->setTitle(tr("Project window initialized in %1 seconds").arg(second, 0, 'f', 3));
+                } else {
+                    m_finishedMessage->setTitle(tr("Project window initialized"));
+                }
+                m_finishedMessage->setAllowDoNotShowAgain(notificationVisible());
+                connect(m_finishedMessage, &NotificationMessage::doNotShowAgainRequested, this, [=] {
+                    setNotificationVisible(false);
+                    m_finishedMessage->setAllowDoNotShowAgain(false);
+                });
+                windowInterface->sendNotification(m_finishedMessage, notificationVisible() ? ProjectWindowInterface::AutoHide : ProjectWindowInterface::DoNotShowBubble);
+                m_initializingMessage->close();
+                if (elapsedTime > 60000) {
+                    CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_KeepPatient);
+                }
+            });
+            window->removeEventFilter(this);
+        }
+        return WindowInterfaceAddOn::eventFilter(watched, event);
     }
 }

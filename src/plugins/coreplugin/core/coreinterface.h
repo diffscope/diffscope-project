@@ -13,13 +13,14 @@
 
 class QQmlEngine;
 class QJSEngine;
-class QQuickWindow;
 
 namespace Core {
 
     namespace Internal {
         class CorePlugin;
     }
+
+    class ProjectWindowInterface;
 
     class CoreInterfacePrivate;
 
@@ -42,7 +43,7 @@ namespace Core {
         Q_INVOKABLE static void showHome();
 
     public:
-        Q_INVOKABLE static QQuickWindow *newFile();
+        Q_INVOKABLE static ProjectWindowInterface *newFile();
         static bool openFile(const QString &fileName, QWidget *parent = nullptr);
 
     Q_SIGNALS:

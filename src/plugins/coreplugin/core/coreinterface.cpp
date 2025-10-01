@@ -222,20 +222,34 @@ namespace Core {
         Q_UNUSED(windowInterface);
     }
 
-    QQuickWindow *CoreInterface::newFile() {
+    ProjectWindowInterface *CoreInterface::newFile() {
         qCInfo(lcCoreInterface) << "New file";
         Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
-        auto win = static_cast<QQuickWindow *>(ProjectWindowInterfaceRegistry::instance()->create()->window());
+        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create();
+        auto win = static_cast<QQuickWindow *>(windowInterface->window());
         win->show();
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             qCInfo(lcCoreInterface) << "Closing home window";
             HomeWindowInterface::instance()->quit();
         }
-        connect(win, &QQuickWindow::sceneGraphInitialized, [] {
-            Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
-        });
-        return win;
+        class ExposedListener : public QObject {
+        public:
+            explicit ExposedListener(QObject *parent) : QObject(parent) {
+            }
+
+            bool eventFilter(QObject *watched, QEvent *event) override {
+                if (event->type() == QEvent::Expose && static_cast<QWindow *>(watched)->isExposed()) {
+                    Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
+                    deleteLater();
+                }
+                return QObject::eventFilter(watched, event);
+            }
+
+        };
+        auto listener = new ExposedListener(win);
+        win->installEventFilter(listener);
+        return windowInterface;
     }
 
     bool CoreInterface::openFile(const QString &fileName, QWidget *parent) {

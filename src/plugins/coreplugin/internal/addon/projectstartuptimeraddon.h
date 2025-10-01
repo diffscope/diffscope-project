@@ -25,6 +25,8 @@ namespace Core::Internal {
         static void setNotificationVisible(bool visible);
         static bool notificationVisible();
 
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
     private:
         NotificationMessage *m_initializingMessage{};
         NotificationMessage *m_finishedMessage{};
