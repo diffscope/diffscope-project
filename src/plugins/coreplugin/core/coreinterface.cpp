@@ -173,7 +173,7 @@ namespace Core {
                                                                    "</p>")
                                 .arg(QStringLiteral(APPLICATION_GIT_BRANCH),           //
                                      QStringLiteral(APPLICATION_GIT_LAST_COMMIT_HASH), //
-                                     QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate)),           //
+                                     QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate).toLocalTime()),           //
                                      QStringLiteral(APPLICATION_COMPILER_ARCH),        //
                                      QStringLiteral(APPLICATION_COMPILER_ID),          //
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
