@@ -18,19 +18,19 @@ if ($IsWindows) {
     Push-Location $InstalledDir
     $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { $_.Extension -eq '.exe' -or $_.Extension -eq '.dll' }
     foreach ($dllFile in $dllFiles) {
-        dumpbin /PDBPATH:VERBOSE $dllFile.FullName
+        dumpbin /PDBPATH:VERBOSE $dllFile.FullName | Write-Host
         $dumpbinOutput = dumpbin /PDBPATH $dllFile.FullName
         $matches = [regex]::Matches($dumpbinOutput, $PATTERN)
         if ($matches.Count -gt 0) {
             $pdbPath = $matches.Groups[1].Value
-            Write-Output "$dllFile -> $pdbPath"
+            Write-Host "$dllFile -> $pdbPath"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
                 New-Item $pdbTargetDirectory -ItemType directory
             }
             Copy-Item $pdbPath $pdbTargetDirectory
         } else {
-            Write-Output "No PDB file: $dllFile"
+            Write-Host "No PDB file: $dllFile"
         }
     }
     Pop-Location
@@ -40,7 +40,7 @@ if ($IsWindows) {
     foreach ($dllFile in $dllFiles) {
         $dsymutilOutput = dsymutil -s $dllFile.FullName
         if ($dsymutilOutput -match "N_OSO") {
-            Write-Output "Copy and strip debug_info: $dllFile"
+            Write-Host "Copy and strip debug_info: $dllFile"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
                 New-Item $pdbTargetDirectory -ItemType directory
@@ -48,7 +48,7 @@ if ($IsWindows) {
             dsymutil $dllFile.FullName -o "$pdbTargetDirectory/$($dllFile.Name).dSYM"
             strip -S $dllFile.FullName
         } else {
-            Write-Output "Skip: $dllFile"
+            Write-Host "Skip: $dllFile"
         }
     }
     Pop-Location
@@ -59,7 +59,7 @@ if ($IsWindows) {
         file $dllFile.FullName
         $fileOutput = file $dllFile.FullName
         if ($fileOutput -match "with debug_info") {
-            Write-Output "Copy and strip debug_info: $dllFile"
+            Write-Host "Copy and strip debug_info: $dllFile"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
                 New-Item $pdbTargetDirectory -ItemType directory
@@ -67,7 +67,7 @@ if ($IsWindows) {
             objcopy --only-keep-debug $dllFile.FullName "$pdbTargetDirectory/$($dllFile.Name).debug"
             strip --strip-debug $dllFile.FullName
         } else {
-            Write-Output "Skip: $dllFile"
+            Write-Host "Skip: $dllFile"
         }
     }
     Pop-Location
