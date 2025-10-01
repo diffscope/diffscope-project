@@ -11,8 +11,7 @@ param(
 )
 
 if (-not (Test-Path $VcpkgRootDir)) {
-    Write-Error "Vcpkg root directory does not exist: $VcpkgRootDir"
-    exit 1
+    throw "Vcpkg root directory does not exist: $VcpkgRootDir"
 }
 
 Write-Host "Build type: $BuildType"
@@ -25,8 +24,7 @@ $cmakeContent = Get-Content $cmakeListsPath -Raw
 $projectMatch = [regex]::Match($cmakeContent, 'project\s*\(\s*(\w+)\s+VERSION\s+([\d.]+)')
 
 if (-not $projectMatch.Success) {
-    Write-Error "Could not find project declaration with VERSION in CMakeLists.txt"
-    exit 1
+    throw "Could not find project declaration with VERSION in CMakeLists.txt"
 }
 
 $projectName = $projectMatch.Groups[1].Value
@@ -76,10 +74,10 @@ cmake -B build -G Ninja `
     "-DAPPLICATION_NAME=$applicationName" `
     "-DAPPLICATION_DISPLAY_NAME=$applicationDisplayName" `
     "-DAPPLICATION_SEMVER=$semver" `
-    -DCMAKE_INSTALL_PREFIX=installed
+    -DCMAKE_INSTALL_PREFIX=installed | Write-Host
 
-cmake --build build --target all
-cmake --build build --target install
+cmake --build build --target all | Write-Host
+cmake --build build --target install | Write-Host
 
 $buildResult = @{
     ProjectName = $projectName
