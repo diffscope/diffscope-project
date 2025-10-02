@@ -1,0 +1,49 @@
+name: Initialize building environment
+description: Initialize building environment
+
+inputs:
+  qt_version:
+    description: Qt version to install
+    required: true
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Setup devcmd
+      if: runner.os == 'Windows'
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install build tools (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        choco install innosetup
+
+    - name: Install build tools (Ubuntu)
+      if: runner.os == 'Linux'
+      shell: pwsh
+      run: |
+        sudo apt update
+        sudo apt-get -y install `
+          ninja-build `
+          libasound2-dev libatopology-dev  `
+          libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
+          libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+
+    - name: Install build tools (macOS)
+      if: runner.os == 'macOS'
+      shell: pwsh
+      env:
+        HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
+      run: |
+        brew update
+        brew install ninja
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ inputs.qt_version }}
+        modules: qt5compat
+        cache: true

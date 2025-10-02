@@ -1,0 +1,52 @@
+name: Initialize Vcpkg
+description: Initialize vcpkg
+
+inputs:
+  ref:
+    description: "The ref to checkout"
+    required: false
+    default: "master"
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare vcpkg
+      shell: pwsh
+      run: |
+        Write-Output VCPKG_DEFAULT_BINARY_CACHE=${{ github.workspace }}/vcpkg_archives >> $env:GITHUB_ENV
+
+    - name: Restore vcpkg binary cache
+      id: cache_vcpkg
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-${{ inputs.ref }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-${{ inputs.ref }}
+
+    - name: Install vcpkg dependencies
+      env:
+        QT_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
+        Qt6_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
+        VCPKG_CMAKE_RELEASE_BUILD_TYPE: "RelWithDebInfo"
+        VCPKG_KEEP_ENV_VARS: "QT_DIR;Qt6_DIR;VCPKG_CMAKE_RELEASE_BUILD_TYPE"
+      shell: pwsh
+      run: |
+        if (!(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {
+          New-Item $env:VCPKG_DEFAULT_BINARY_CACHE -ItemType directory
+        }
+        git clone https://github.com/microsoft/vcpkg.git
+        Set-Location vcpkg
+        git checkout ${{ inputs.ref }}
+        ${{ runner.os == 'Windows' && './bootstrap-vcpkg.bat' || 'sh ./bootstrap-vcpkg.sh' }}
+        ./vcpkg install `
+          --x-manifest-root=${{ github.workspace }}/scripts/vcpkg-manifest `
+          --x-install-root=./installed
+        Write-Output VCPKG_ROOT_DIR=$(Resolve-Path .) >> $env:GITHUB_ENV
+
+    - name: Save vcpkg binary cache
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-${{ inputs.ref }}
