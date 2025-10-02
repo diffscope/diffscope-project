@@ -22,6 +22,7 @@
 #include <loadapi/initroutine.h>
 
 #include <application_config.h>
+#include <application_buildinfo.h>
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
 #  include <QBreakpadHandler.h>
@@ -70,6 +71,15 @@ public:
     void splashWillShow(QSplashScreen *screen) override {
         Q_UNUSED(screen);
         // Do nothing
+    }
+
+    void splashShown(QSplashScreen *screen) override {
+        QMetaObject::invokeMethod(screen, "setText", QStringLiteral("appVersion"), QApplication::translate("Application", "Version %1").arg(APPLICATION_SEMVER));
+        QMetaObject::invokeMethod(screen, "setText", QStringLiteral("copyright"), QApplication::translate("Application", "Copyright \u00a9 %1-%2 %3. All rights reserved.").arg(
+            QLocale().toString(QDate(QStringLiteral(APPLICATION_DEV_START_YEAR).toInt(), 1, 1), "yyyy"),
+            QLocale().toString(QDate(QStringLiteral(APPLICATION_BUILD_YEAR).toInt(), 1, 1), "yyyy"),
+            APPLICATION_VENDOR_NAME
+        ));
     }
 
     void beforeLoadPlugins() override {

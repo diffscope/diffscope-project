@@ -1,13 +1,35 @@
 {
     "splashImage": "@APP_CONFIG_SPLASH_IMAGE@",
-    "splashSize": [600, 336],
+    "splashSize": [600, 400],
     "splashSettings": {
         "texts": {
+            "appName": {
+                "pos": [300, 240],
+                "alignment": 132,
+                "text": "@APPLICATION_DISPLAY_NAME@",
+                "fontSize": 40,
+                "fontColor": "#dadada"
+            },
+            "appVersion": {
+                "pos": [300, 280],
+                "alignment": 132,
+                "text": "",
+                "fontSize": 12,
+                "fontColor": "#dadada"
+            },
             "_status": {
-                "pos": [84, -49],
-                "anchor": [1, -1],
+                "pos": [300, 320],
+                "alignment": 132,
                 "text": "Loading...",
-                "fontColor": "#FFFFFF"
+                "fontsize": 12,
+                "fontColor": "#dadada"
+            },
+            "copyright": {
+                "pos": [300, 360],
+                "alignment": 132,
+                "text": "",
+                "fontsize": 12,
+                "fontColor": "#a0dadada"
             }
         }
     }
