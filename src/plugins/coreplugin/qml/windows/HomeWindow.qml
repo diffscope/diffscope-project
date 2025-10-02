@@ -27,6 +27,10 @@ HomeWindow {
             return "qrc:/diffscope/coreplugin/logos/BannerLight.png";
         }
     }
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.homewindow"
+
     onNewFileRequested: () => {
         windowHandle.triggerAction("core.file.new")
     }

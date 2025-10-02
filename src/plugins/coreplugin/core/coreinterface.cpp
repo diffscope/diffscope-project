@@ -219,7 +219,7 @@ namespace Core {
         }
         qCInfo(lcCoreInterface) << "Creating home window";
         auto windowInterface = HomeWindowInterfaceRegistry::instance()->create();
-        Q_UNUSED(windowInterface);
+        QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
     ProjectWindowInterface *CoreInterface::newFile() {
@@ -227,6 +227,7 @@ namespace Core {
         Internal::ProjectStartupTimerAddOn::startTimer();
         // TODO: temporarily creates a project window for testing
         auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create();
+        QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
         auto win = static_cast<QQuickWindow *>(windowInterface->window());
         win->show();
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {

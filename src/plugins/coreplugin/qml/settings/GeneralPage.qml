@@ -26,8 +26,7 @@ ScrollView {
     property bool proxyHasAuthentication
     property string proxyUsername
     property string proxyPassword
-    property bool autoCheckForUpdates
-    property int updateOption
+    property bool shouldStoreGeometry
 
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
@@ -41,8 +40,7 @@ ScrollView {
     onProxyHasAuthenticationChanged: if (started) pageHandle.markDirty()
     onProxyUsernameChanged: if (started) pageHandle.markDirty()
     onProxyPasswordChanged: if (started) pageHandle.markDirty()
-    onAutoCheckForUpdatesChanged: if (started) pageHandle.markDirty()
-    onUpdateOptionChanged: if (started) pageHandle.markDirty()
+    onShouldStoreGeometryChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -208,6 +206,20 @@ ScrollView {
                         text: qsTr('Reset All "Do Not Show Again"')
                         TextMatcherItem on text { matcher: page.matcher }
                         onClicked: CoreInterface.resetAllDoNotShowAgainRequested()
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Window")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    CheckBox {
+                        text: qsTr("Memorize window position and size")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.shouldStoreGeometry
+                        onClicked: page.shouldStoreGeometry = checked
                     }
                 }
             }

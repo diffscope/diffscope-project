@@ -9,6 +9,8 @@ import SVSCraft.UIComponents
 
 import QActionKit
 
+import ChorusKit.AppCore
+
 import DiffScope.UIShell
 import DiffScope.Core
 
@@ -20,6 +22,9 @@ ProjectWindow {
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
 
     icon: "image://appicon/dspx"
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.projectwindow"
 
     signal beforeTerminated()
 

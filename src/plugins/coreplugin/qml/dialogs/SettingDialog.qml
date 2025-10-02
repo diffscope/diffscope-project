@@ -10,6 +10,10 @@ import DiffScope.Core
 
 SettingDialog {
     id: dialog
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.settingdialog"
+
     settingCatalog: CoreInterface.settingCatalog
     Settings {
         settings: RuntimeInterface.settings
