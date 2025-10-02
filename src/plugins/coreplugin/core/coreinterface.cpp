@@ -143,12 +143,13 @@ namespace Core {
                 "Application",
                 "<p>A professional singing-voice-synthesis editor powered by DiffSinger</p>"
                 "<p>Version %1</p>"
-                "<p>Copyright \u00a9 %2-%3 Team OpenVPI. All rights reserved.</p>"
-                "<p>Visit <a href=\"%4\">%4</a> for more information.</p>")
+                "<p>Copyright \u00a9 %2-%3 %4. All rights reserved.</p>"
+                "<p>Visit <a href=\"%5\">%5</a> for more information.</p>")
                 .arg(
                     QApplication::applicationVersion(),
                     QLocale().toString(QDate(QStringLiteral(APPLICATION_DEV_START_YEAR).toInt(), 1, 1), "yyyy"),
                     QLocale().toString(QDate(QStringLiteral(APPLICATION_BUILD_YEAR).toInt(), 1, 1), "yyyy"),
+                    APPLICATION_VENDOR_NAME,
                     QStringLiteral(APPLICATION_URL));
 
         QString licenseInfo =
