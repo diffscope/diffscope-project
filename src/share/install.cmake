@@ -71,3 +71,10 @@ if(MSVC AND APPLICATION_INSTALL_MSVC_RUNTIME)
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${OUTPUT_DIR}")
     include(InstallRequiredSystemLibraries)
 endif()
+
+if(APPLE)
+    install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/qml/
+        DESTINATION ${CK_INSTALL_QML_DIR}
+        USE_SOURCE_PERMISSIONS
+    )
+endif()
