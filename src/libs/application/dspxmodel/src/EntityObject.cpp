@@ -1,0 +1,55 @@
+#include "EntityObject.h"
+#include "EntityObject_p.h"
+
+#include <dspxmodel/Model.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/ModelStrategy.h>
+
+namespace dspx {
+
+    EntityObject::EntityObject(Handle handle, Model *model) : EntityObject(model) {
+        Q_D(EntityObject);
+        d->handle = handle;
+        d->model = model;
+        auto pModel = ModelPrivate::get(model);
+        pModel->objectMap.insert(handle, this);
+        pModel->handleMap.insert(this, handle);
+    }
+    EntityObject::EntityObject(QObject *parent) : QObject(parent), d_ptr(new EntityObjectPrivate) {
+        Q_D(EntityObject);
+        d->q_ptr = this;
+    }
+    EntityObject::~EntityObject() {
+        Q_D(EntityObject);
+        if (d->model && d->handle) {
+            d->model->strategy()->destroyEntity(d->handle);
+        }
+    }
+
+    Model *EntityObject::model() const {
+        Q_D(const EntityObject);
+        return d->model;
+    }
+
+    Handle EntityObject::handle() const {
+        Q_D(const EntityObject);
+        return d->handle;
+    }
+
+    void EntityObject::handleInsertIntoSequenceContainer(Handle entity) {
+    }
+    void EntityObject::handleInsertIntoListContainer(const QList<Handle> &entities, int index) {
+    }
+    void EntityObject::handleInsertIntoMapContainer(Handle entity, const QString &key) {
+    }
+    void EntityObject::handleRemoveFromContainer() {
+    }
+    void EntityObject::handleTakeFromListContainer(const QList<Handle> &takenEntities, const QList<int> &indexes) {
+    }
+    void EntityObject::handleTakeFromMapContainer(Handle takenEntity, const QString &key) {
+    }
+    void EntityObject::handleRotateListContainer(int leftIndex, int middleIndex, int rightIndex) {
+    }
+    void EntityObject::handleSetEntityProperty(int property, const QVariant &value) {
+    }
+}

@@ -17,7 +17,6 @@ namespace dspx {
             EI_AudioClip,
             EI_Global,
             EI_Label,
-            EI_Master,
             EI_Note,
             EI_Param,
             EI_ParamCurveAnchor,
@@ -88,7 +87,6 @@ namespace dspx {
         enum Relationship {
             R_Children,
             R_Labels,
-            R_Master,
             R_ParamCurvesEdited,
             R_ParamCurvesEnvelop,
             R_ParamCurvesOriginal,
@@ -116,6 +114,7 @@ namespace dspx {
         virtual void rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
 
         virtual void setEntityProperty(Handle entity, Property property, const QVariant &value) = 0;
+        virtual QVariant getEntityProperty(Handle entity, Property property) = 0;
 
         virtual Handle getAssociatedSubEntity(Handle entity, Relationship relationship) = 0;
 
@@ -123,7 +122,7 @@ namespace dspx {
         void createEntityNotified(Handle entity, Entity entityType);
         void destroyEntityNotified(Handle entity);
 
-        void insertedIntoSequenceContainerNotified(Handle sequenceContainerEntity, Handle entity);
+        void insertIntoSequenceContainerNotified(Handle sequenceContainerEntity, Handle entity);
         void insertIntoListContainerNotified(Handle listContainerEntity, const QList<Handle> &entities, int index);
         void insertIntoMapContainerNotified(Handle mapContainerEntity, Handle entity, const QString &key);
 
