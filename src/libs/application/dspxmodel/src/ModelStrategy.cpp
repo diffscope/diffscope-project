@@ -1,6 +1,6 @@
 #include "ModelStrategy.h"
 
-namespace dspxmodel {
+namespace dspx {
 
     ModelStrategy::ModelStrategy(QObject *parent) : QObject(parent) {
     }

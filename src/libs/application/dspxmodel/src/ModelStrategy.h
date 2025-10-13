@@ -5,7 +5,7 @@
 
 #include <dspxmodel/Handle.h>
 
-namespace dspxmodel {
+namespace dspx {
 
     class DSPX_MODEL_EXPORT ModelStrategy : public QObject {
         Q_OBJECT

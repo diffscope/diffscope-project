@@ -27,7 +27,7 @@ file(GLOB_RECURSE _qml_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.m
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.DspxModel
     QML_FILES ${_qml_files}
-    NAMESPACE dspxmodel
+    NAMESPACE dspx
     OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/DspxModel
 )
 

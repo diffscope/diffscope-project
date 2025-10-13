@@ -4,7 +4,7 @@
 #include <dspxmodel/DspxModelGlobal.h>
 
 
-namespace dspxmodel {
+namespace dspx {
 
     struct Handle {
         quintptr d;
