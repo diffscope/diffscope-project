@@ -2,6 +2,8 @@
 
 #include <QVariant>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
@@ -63,6 +65,22 @@ namespace dspx {
     void Global::setEditorName(const QString &editorName) {
         Q_D(Global);
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_EditorName, editorName);
+    }
+
+    QDspx::Global Global::toQDspx() const {
+        return {
+            .name = name(),
+            .author = author(),
+            .centShift = centShift(),
+            // TODO editorId editorName
+        };
+    }
+
+    void Global::fromQDspx(const QDspx::Global &global) {
+        setName(global.name);
+        setAuthor(global.author);
+        setCentShift(global.centShift);
+        // TODO editorId editorName
     }
 
 }

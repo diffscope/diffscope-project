@@ -3,6 +3,8 @@
 #include <QJSValue>
 #include <QJSEngine>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/Label.h>
@@ -147,6 +149,27 @@ namespace dspx {
     void LabelSequence::removeItem(Label *item) {
         Q_D(LabelSequence);
         d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
+    }
+
+    QList<QDspx::Label> LabelSequence::toQDspx() const {
+        Q_D(const LabelSequence);
+        QList<QDspx::Label> ret;
+        ret.reserve(d->container.size());
+        for (const auto &[_, item] : d->container.m_items) {
+            ret.append(item->toQDspx());
+        }
+        return ret;
+    }
+
+    void LabelSequence::fromQDspx(const QList<QDspx::Label> &labels) {
+        while (size()) {
+            removeItem(firstItem());
+        }
+        for (const auto &label : labels) {
+            auto item = model()->createLabel();
+            item->fromQDspx(label);
+            insertItem(item);
+        }
     }
 
     void LabelSequence::handleInsertIntoSequenceContainer(Handle entity) {

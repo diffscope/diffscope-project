@@ -5,6 +5,10 @@
 
 #include <dspxmodel/EntityObject.h>
 
+namespace QDspx {
+    using Workspace = QMap<QString, QJsonObject>;
+}
+
 namespace dspx {
 
     class WorkspaceInfo;
@@ -30,6 +34,9 @@ namespace dspx {
         Q_INVOKABLE WorkspaceInfo *removeItem(const QString &key);
         Q_INVOKABLE WorkspaceInfo *item(const QString &key) const;
         Q_INVOKABLE bool contains(const QString &key) const;
+
+        QDspx::Workspace toQDspx() const;
+        void fromQDspx(const QDspx::Workspace &workspace);
 
     Q_SIGNALS:
         void itemAboutToInsert(const QString &key, WorkspaceInfo *item);

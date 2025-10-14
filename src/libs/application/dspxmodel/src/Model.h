@@ -5,6 +5,10 @@
 
 #include <dspxmodel/EntityObject.h>
 
+namespace QDspx {
+    struct Model;
+}
+
 namespace dspx {
 
     class ModelStrategy;
@@ -42,6 +46,9 @@ namespace dspx {
         Timeline *timeline() const;
         TrackList *trackList() const;
         Workspace *workspace() const;
+
+        QDspx::Model toQDspx() const;
+        void fromQDspx(const QDspx::Model &model);
 
         Q_INVOKABLE Label *createLabel();
         Q_INVOKABLE WorkspaceInfo *createWorkspaceInfo();

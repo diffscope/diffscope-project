@@ -4,6 +4,10 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
+namespace QDspx {
+    struct Global;
+}
+
 namespace dspx {
 
     class Model;
@@ -40,6 +44,9 @@ namespace dspx {
 
         QString editorName() const;
         void setEditorName(const QString &editorName);
+
+        QDspx::Global toQDspx() const;
+        void fromQDspx(const QDspx::Global &global);
 
     Q_SIGNALS:
         void nameChanged(const QString &name);

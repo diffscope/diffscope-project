@@ -6,6 +6,10 @@
 
 #include <dspxmodel/DspxModelGlobal.h>
 
+namespace QDspx {
+    struct Timeline;
+}
+
 namespace dspx {
 
     class Model;
@@ -26,6 +30,9 @@ namespace dspx {
         ~Timeline() override;
 
         LabelSequence *labels() const;
+
+        QDspx::Timeline toQDspx() const;
+        void fromQDspx(const QDspx::Timeline &timeline);
 
     private:
         friend class ModelPrivate;

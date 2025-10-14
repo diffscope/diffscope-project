@@ -4,6 +4,10 @@
 #include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
 
+namespace QDspx {
+    struct Label;
+}
+
 namespace dspx {
 
     class LabelPrivate;
@@ -23,6 +27,9 @@ namespace dspx {
 
         QString text() const;
         void setText(const QString &text);
+
+        QDspx::Label toQDspx() const;
+        void fromQDspx(const QDspx::Label &label);
 
     Q_SIGNALS:
         void posChanged(int pos);

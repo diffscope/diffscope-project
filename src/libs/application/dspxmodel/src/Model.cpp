@@ -3,6 +3,8 @@
 
 #include <QVariant>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Master.h>
@@ -98,6 +100,28 @@ namespace dspx {
     Workspace *Model::workspace() const {
         Q_D(const Model);
         return d->workspace;
+    }
+
+    QDspx::Model Model::toQDspx() const {
+        return {
+            .version = QStringLiteral("1.0.0"),
+            .content = {
+                .global = global()->toQDspx(),
+                .master = master()->toQDspx(),
+                .timeline = timeline()->toQDspx(),
+                // TODO tracks
+                .workspace = workspace()->toQDspx(),
+            }
+        };
+    }
+
+    void Model::fromQDspx(const QDspx::Model &model) {
+        Q_D(Model);
+        d->global->fromQDspx(model.content.global);
+        d->master->fromQDspx(model.content.master);
+        d->timeline->fromQDspx(model.content.timeline);
+        // TODO tracks
+        d->workspace->fromQDspx(model.content.workspace);
     }
 
     Label *Model::createLabel() {

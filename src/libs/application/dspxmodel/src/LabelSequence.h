@@ -5,6 +5,10 @@
 
 #include <dspxmodel/EntityObject.h>
 
+namespace QDspx {
+    struct Label;
+}
+
 namespace dspx {
 
     class Label;
@@ -33,6 +37,9 @@ namespace dspx {
 
         Q_INVOKABLE void insertItem(Label *item);
         Q_INVOKABLE void removeItem(Label *item);
+
+        QList<QDspx::Label> toQDspx() const;
+        void fromQDspx(const QList<QDspx::Label> &labels);
 
     Q_SIGNALS:
         void itemAboutToInsert(Label *item);

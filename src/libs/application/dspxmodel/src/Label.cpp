@@ -2,6 +2,8 @@
 
 #include <QVariant>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 
@@ -42,6 +44,18 @@ namespace dspx {
     void Label::setText(const QString &text) {
         Q_D(Label);
         model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Text, text);
+    }
+
+    QDspx::Label Label::toQDspx() const {
+        return QDspx::Label {
+            .pos = pos(),
+            .text = text(),
+        };
+    }
+
+    void Label::fromQDspx(const QDspx::Label &label) {
+        setPos(label.pos);
+        setText(label.text);
     }
 
     void Label::handleSetEntityProperty(int property, const QVariant &value) {

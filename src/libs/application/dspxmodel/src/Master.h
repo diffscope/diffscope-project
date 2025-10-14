@@ -4,6 +4,10 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
+namespace QDspx {
+    struct Master;
+}
+
 namespace dspx {
 
     class Model;
@@ -32,6 +36,9 @@ namespace dspx {
 
         bool mute() const;
         void setMute(bool mute);
+
+        QDspx::Master toQDspx() const;
+        void fromQDspx(const QDspx::Master &master);
 
     Q_SIGNALS:
         void gainChanged(double gain);

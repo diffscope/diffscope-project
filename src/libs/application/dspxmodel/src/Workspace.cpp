@@ -4,6 +4,8 @@
 
 #include <QHash>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/WorkspaceInfo.h>
 
@@ -107,6 +109,26 @@ namespace dspx {
     bool Workspace::contains(const QString &key) const {
         Q_D(const Workspace);
         return d->itemMap.contains(key);
+    }
+
+    QDspx::Workspace Workspace::toQDspx() const {
+        Q_D(const Workspace);
+        QDspx::Workspace ret;
+        for (const auto &[key, value] : d->itemMap.asKeyValueRange()) {
+            ret.insert(key, value->jsonObject());
+        }
+        return ret;
+    }
+
+    void Workspace::fromQDspx(const QDspx::Workspace &workspace) {
+        for (const auto &key : keys()) {
+            removeItem(key);
+        }
+        for (const auto &[key, value] : workspace.asKeyValueRange()) {
+            auto workspaceInfo = model()->createWorkspaceInfo();
+            workspaceInfo->setJsonObject(value);
+            insertItem(key, workspaceInfo);
+        }
     }
 
     void Workspace::handleInsertIntoMapContainer(Handle entity, const QString &key) {

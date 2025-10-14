@@ -2,6 +2,8 @@
 
 #include <QVariant>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
@@ -46,6 +48,22 @@ namespace dspx {
     void Master::setMute(bool mute) {
         Q_D(Master);
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlMute, mute);
+    }
+
+    QDspx::Master Master::toQDspx() const {
+        return {
+            .control = {
+                .gain = gain(),
+                .pan = pan(),
+                .mute = mute(),
+            }
+        };
+    }
+
+    void Master::fromQDspx(const QDspx::Master &master) {
+        setGain(master.control.gain);
+        setPan(master.control.pan);
+        setMute(master.control.mute);
     }
 
 }

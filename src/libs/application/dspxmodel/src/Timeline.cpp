@@ -1,5 +1,7 @@
 #include "Timeline.h"
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/LabelSequence.h>
 
@@ -23,6 +25,19 @@ namespace dspx {
     LabelSequence *Timeline::labels() const {
         Q_D(const Timeline);
         return d->pModel->labels;
+    }
+
+    QDspx::Timeline Timeline::toQDspx() const {
+        return {
+            .labels = labels()->toQDspx(),
+            // TODO tempos timeSignatures
+        };
+    }
+
+    void Timeline::fromQDspx(const QDspx::Timeline &timeline) {
+        Q_D(Timeline);
+        labels()->fromQDspx(timeline.labels);
+        // TODO tempos timeSignatures
     }
 
 }
