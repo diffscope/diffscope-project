@@ -1,5 +1,8 @@
 #include "LabelSequence.h"
 
+#include <QJSValue>
+#include <QJSEngine>
+
 #include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/Label.h>
@@ -15,13 +18,36 @@ namespace dspx {
         PointSequenceContainer<Label> container;
         Label *firstItem{};
         Label *lastItem{};
+        QJSValue iterable_;
 
         Label *getItem(Handle handle, bool create) const;
 
         void insertItem(Label *item, int position);
         void removeItem(Label *item);
         void updateFirstAndLastItem();
+
+        QJSValue iterable();
     };
+
+    QJSValue LabelSequencePrivate::iterable() {
+        Q_Q(LabelSequence);
+        if (!iterable_.isUndefined()) {
+            return iterable_;
+        }
+        auto engine = qjsEngine(q);
+        if (!engine) {
+            qFatal() << "iterable() can only be called from QML";
+            return {};
+        }
+        auto sequenceIterableConstructor = engine->importModule(":/qt/qml/DiffScope/DspxModel/qml/iterable.mjs").property("SequenceIterable");
+        Q_ASSERT(sequenceIterableConstructor.isCallable());
+        iterable_ = sequenceIterableConstructor.callAsConstructor({engine->fromVariant<QJSValue>(QVariant::fromValue(q))});
+        if (iterable_.isError()) {
+            qFatal() << iterable_.property("message").toString();
+            return {};
+        }
+        return iterable_;
+    }
 
     Label *LabelSequencePrivate::getItem(Handle handle, bool create) const {
         if (auto object = pModel->mapToObject(handle)) {

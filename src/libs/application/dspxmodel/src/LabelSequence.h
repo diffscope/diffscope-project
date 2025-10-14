@@ -16,6 +16,10 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(LabelSequence)
+        Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+        Q_PROPERTY(Label *firstItem READ firstItem NOTIFY firstItemChanged)
+        Q_PROPERTY(Label *lastItem READ lastItem NOTIFY lastItemChanged)
+        Q_PRIVATE_PROPERTY(d_func(), QJSValue items READ iterable CONSTANT)
     public:
         ~LabelSequence() override;
 
