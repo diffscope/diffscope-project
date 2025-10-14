@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "content": {
+    "global": {
+      "name": "aaa",
+      "author": "bbb",
+      "centShift": 0,
+      "editorId": "ccc",
+      "editorName": "ddd"
+    },
+    "master": {
+      "control": {
+        "gain": 1.0,
+        "pan": 0.0,
+        "mute": false
+      }
+    },
+    "timeline": {
+      "labels": [
+        {
+          "pos": 0,
+          "text": "test 1"
+        },
+        {
+          "pos": 1000,
+          "text": "test 2"
+        },
+        {
+          "pos": 2000,
+          "text": "test 3"
+        }
+      ],
+      "tempos": [],
+      "timeSignatures": []
+    },
+    "tracks": [
+    ],
+    "workspace": {
+      "a": {
+        "test": "test a"
+      },
+      "b": {
+        "test": "test b"
+      }
+    }
+  }
+}

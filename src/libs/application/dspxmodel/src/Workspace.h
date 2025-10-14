@@ -15,7 +15,7 @@ namespace dspx {
 
     class WorkspacePrivate;
 
-    class Workspace : public EntityObject {
+    class DSPX_MODEL_EXPORT Workspace : public EntityObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

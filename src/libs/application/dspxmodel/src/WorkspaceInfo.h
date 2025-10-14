@@ -10,7 +10,7 @@ namespace dspx {
 
     class WorkspaceInfoPrivate;
 
-    class WorkspaceInfo : public EntityObject {
+    class DSPX_MODEL_EXPORT WorkspaceInfo : public EntityObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

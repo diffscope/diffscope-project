@@ -22,6 +22,7 @@ namespace dspx {
         Q_D(Master);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->handle = model->handle();
     }
     Master::~Master() = default;
 

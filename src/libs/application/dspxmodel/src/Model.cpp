@@ -52,6 +52,57 @@ namespace dspx {
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
+    void ModelPrivate::handleNotifications() {
+        Q_Q(Model);
+        QObject::connect(strategy, &ModelStrategy::insertIntoSequenceContainerNotified, q, [=, this](Handle sequenceContainerEntity, Handle entity) {
+            if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
+                sequenceContainerObject->handleInsertIntoSequenceContainer(entity);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::insertIntoListContainerNotified, q, [=, this](Handle listContainerEntity, const QList<Handle> &entities, int index) {
+            if (auto listContainerObject = mapToObject(listContainerEntity)) {
+                listContainerObject->handleInsertIntoListContainer(entities, index);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::insertIntoMapContainerNotified, q, [=, this](Handle mapContainerEntity, Handle entity, const QString &key) {
+            if (auto mapContainerObject = mapToObject(mapContainerEntity)) {
+                mapContainerObject->handleInsertIntoMapContainer(entity, key);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::takeFromContainerNotified, q, [=, this](Handle takenEntity, Handle sequenceContainerEntity, Handle entity) {
+            if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
+                sequenceContainerObject->handleTakeFromSequenceContainer(takenEntity, entity);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::takeFromListContainerNotified, q, [=, this](const QList<Handle> &takenEntities, Handle listContainerEntity, const QList<int> &indexes) {
+            if (auto listContainerObject = mapToObject(listContainerEntity)) {
+                listContainerObject->handleTakeFromListContainer(takenEntities, indexes);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::takeFromMapContainerNotified, q, [=, this](Handle takenEntity, Handle mapContainerEntity, const QString &key) {
+            if (auto mapContainerObject = mapToObject(mapContainerEntity)) {
+                mapContainerObject->handleTakeFromMapContainer(takenEntity, key);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::rotateListContainerNotified, q, [=, this](Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) {
+            if (auto listContainerObject = mapToObject(listContainerEntity)) {
+                listContainerObject->handleRotateListContainer(leftIndex, middleIndex, rightIndex);
+            }
+        });
+        
+        QObject::connect(strategy, &ModelStrategy::setEntityPropertyNotified, q, [=, this](Handle entity, ModelStrategy::Property property, const QVariant &value) {
+            if (auto entityObject = mapToObject(entity)) {
+                entityObject->handleSetEntityProperty(property, value);
+            }
+        });
+    }
+
     EntityObject * ModelPrivate::mapToObject(Handle handle) const {
         return objectMap.value(handle);
     }
@@ -62,8 +113,10 @@ namespace dspx {
 
     Model::Model(ModelStrategy *strategy, QObject *parent) : EntityObject(parent), d_ptr(new ModelPrivate) {
         Q_D(Model);
+        d->q_ptr = this;
         d->strategy = strategy;
         d->init();
+        d->handleNotifications();
     }
 
     Model::~Model() {

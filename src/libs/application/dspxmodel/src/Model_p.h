@@ -42,6 +42,7 @@ namespace dspx {
 
         void handleEntityDestroyed(Handle handle);
         void init();
+        void handleNotifications();
 
         EntityObject *mapToObject(Handle handle) const;
         Handle mapToHandle(EntityObject *object) const;

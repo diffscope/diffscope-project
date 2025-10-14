@@ -5,7 +5,7 @@
 
 namespace dspx {
 
-    class BasicModelStrategy : public ModelStrategy {
+    class DSPX_MODEL_EXPORT BasicModelStrategy : public ModelStrategy {
         Q_OBJECT
     public:
         explicit BasicModelStrategy(QObject *parent = nullptr);

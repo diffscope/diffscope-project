@@ -15,7 +15,7 @@ namespace dspx {
 
     class LabelSequencePrivate;
 
-    class LabelSequence : public EntityObject {
+    class DSPX_MODEL_EXPORT LabelSequence : public EntityObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

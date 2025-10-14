@@ -12,7 +12,7 @@ namespace dspx {
 
     class LabelPrivate;
 
-    class Label : public EntityObject {
+    class DSPX_MODEL_EXPORT Label : public EntityObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
