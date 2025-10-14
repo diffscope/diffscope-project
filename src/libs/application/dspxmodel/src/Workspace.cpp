@@ -1,5 +1,7 @@
 #include "Workspace.h"
 
+#include "ModelStrategy.h"
+
 #include <QHash>
 
 #include <dspxmodel/private/Model_p.h>
@@ -35,14 +37,32 @@ namespace dspx {
 
     void WorkspacePrivate::insertItem(const QString &key, WorkspaceInfo *item) {
         Q_Q(Workspace);
+        auto previousValue = itemMap.value(key);
+        if (previousValue == item) {
+            return;
+        }
+        if (previousValue) {
+            Q_EMIT q->itemAboutToRemove(key, previousValue);
+            itemMap.remove(key);
+            Q_EMIT q->itemRemoved(key, previousValue);
+        }
+        Q_EMIT q->itemAboutToInsert(key, item);
         itemMap.insert(key, item);
-        // TODO
+        Q_EMIT q->itemInserted(key, item);
+        if (!previousValue) {
+            Q_EMIT q->sizeChanged(static_cast<int>(itemMap.size()));
+            Q_EMIT q->keysChanged();
+        }
+        Q_EMIT q->itemsChanged();
     }
 
     void WorkspacePrivate::removeItem(const QString &key) {
         Q_Q(Workspace);
+        Q_EMIT q->itemAboutToRemove(key, itemMap.value(key));
         itemMap.remove(key);
-        // TODO
+        Q_EMIT q->itemRemoved(key, itemMap.value(key));
+        Q_EMIT q->sizeChanged(static_cast<int>(itemMap.size()));
+        Q_EMIT q->keysChanged();
     }
 
     Workspace::Workspace(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new WorkspacePrivate) {
@@ -52,6 +72,42 @@ namespace dspx {
     }
 
     Workspace::~Workspace() = default;
+
+    int Workspace::size() const {
+        Q_D(const Workspace);
+        return static_cast<int>(d->itemMap.size());
+    }
+
+    QStringList Workspace::keys() const {
+        Q_D(const Workspace);
+        return d->itemMap.keys();
+    }
+
+    QList<WorkspaceInfo *> Workspace::items() const {
+        Q_D(const Workspace);
+        return d->itemMap.values();
+    }
+
+    void Workspace::insertItem(const QString &key, WorkspaceInfo *item) {
+        Q_D(Workspace);
+        d->pModel->strategy->insertIntoMapContainer(handle(), item->handle(), key);
+    }
+
+    WorkspaceInfo *Workspace::removeItem(const QString &key) {
+        Q_D(Workspace);
+        auto takenEntityHandle = d->pModel->strategy->takeFromMapContainer(handle(), key);
+        return d->getItem(takenEntityHandle, false);
+    }
+
+    WorkspaceInfo *Workspace::item(const QString &key) const {
+        Q_D(const Workspace);
+        return d->itemMap.value(key);
+    }
+
+    bool Workspace::contains(const QString &key) const {
+        Q_D(const Workspace);
+        return d->itemMap.contains(key);
+    }
 
     void Workspace::handleInsertIntoMapContainer(Handle entity, const QString &key) {
         Q_D(Workspace);

@@ -16,9 +16,29 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Workspace)
+        Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+        Q_PROPERTY(QStringList keys READ keys NOTIFY keysChanged)
+        Q_PROPERTY(QList<WorkspaceInfo *> items READ items NOTIFY itemsChanged)
 
     public:
         ~Workspace() override;
+
+        int size() const;
+        QStringList keys() const;
+        QList<WorkspaceInfo *> items() const;
+        Q_INVOKABLE void insertItem(const QString &key, WorkspaceInfo *item);
+        Q_INVOKABLE WorkspaceInfo *removeItem(const QString &key);
+        Q_INVOKABLE WorkspaceInfo *item(const QString &key) const;
+        Q_INVOKABLE bool contains(const QString &key) const;
+
+    Q_SIGNALS:
+        void itemAboutToInsert(const QString &key, WorkspaceInfo *item);
+        void itemInserted(const QString &key, WorkspaceInfo *item);
+        void itemAboutToRemove(const QString &key, WorkspaceInfo *item);
+        void itemRemoved(const QString &key, WorkspaceInfo *item);
+        void sizeChanged(int size);
+        void keysChanged();
+        void itemsChanged();
 
     protected:
         void handleInsertIntoMapContainer(Handle entity, const QString &key) override;
