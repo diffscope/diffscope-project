@@ -13,6 +13,7 @@ namespace dspx {
     public:
         Master *q_ptr;
         ModelPrivate *pModel;
+        Handle handle;
     };
 
     Master::Master(Model *model) : QObject(model), d_ptr(new MasterPrivate) {
@@ -28,7 +29,7 @@ namespace dspx {
     }
     void Master::setGain(double gain) {
         Q_D(Master);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_ControlGain, gain);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlGain, gain);
     }
     double Master::pan() const {
         Q_D(const Master);
@@ -36,7 +37,7 @@ namespace dspx {
     }
     void Master::setPan(double pan) {
         Q_D(Master);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_ControlPan, pan);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlPan, pan);
     }
     bool Master::mute() const {
         Q_D(const Master);
@@ -44,7 +45,7 @@ namespace dspx {
     }
     void Master::setMute(bool mute) {
         Q_D(Master);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_ControlMute, mute);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlMute, mute);
     }
 
 }

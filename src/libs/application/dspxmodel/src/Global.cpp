@@ -13,12 +13,14 @@ namespace dspx {
     public:
         Global *q_ptr;
         ModelPrivate *pModel;
+        Handle handle;
     };
 
     Global::Global(Model *model) : QObject(model), d_ptr(new GlobalPrivate) {
         Q_D(Global);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->handle = model->handle();
     }
     Global::~Global() = default;
 
@@ -28,7 +30,7 @@ namespace dspx {
     }
     void Global::setName(const QString &name) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_Name, name);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_Name, name);
     }
     QString Global::author() const {
         Q_D(const Global);
@@ -36,7 +38,7 @@ namespace dspx {
     }
     void Global::setAuthor(const QString &author) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_Author, author);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_Author, author);
     }
     int Global::centShift() const {
         Q_D(const Global);
@@ -44,7 +46,7 @@ namespace dspx {
     }
     void Global::setCentShift(int centShift) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_CentShift, centShift);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_CentShift, centShift);
     }
     QString Global::editorId() const {
         Q_D(const Global);
@@ -52,7 +54,7 @@ namespace dspx {
     }
     void Global::setEditorId(const QString &editorId) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_EditorId, editorId);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_EditorId, editorId);
     }
     QString Global::editorName() const {
         Q_D(const Global);
@@ -60,7 +62,7 @@ namespace dspx {
     }
     void Global::setEditorName(const QString &editorName) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->pModel->hGlobal, ModelStrategy::P_EditorName, editorName);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_EditorName, editorName);
     }
 
 }

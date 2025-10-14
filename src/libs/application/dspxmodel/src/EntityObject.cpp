@@ -61,3 +61,5 @@ namespace dspx {
         Q_UNREACHABLE();
     }
 }
+
+#include "moc_EntityObject.cpp"

@@ -17,6 +17,7 @@ namespace dspx {
     class TrackList;
     class Workspace;
     class Label;
+    class WorkspaceInfo;
 
     class DSPX_MODEL_EXPORT Model : public EntityObject {
         Q_OBJECT
@@ -27,7 +28,7 @@ namespace dspx {
         Q_PROPERTY(Global *global READ global CONSTANT)
         Q_PROPERTY(Master *master READ master CONSTANT)
         Q_PROPERTY(Timeline *timeline READ timeline CONSTANT)
-        Q_PROPERTY(TrackList *trackList READ trackList CONSTANT)
+        // Q_PROPERTY(TrackList *trackList READ trackList CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
 
     public:
@@ -43,6 +44,7 @@ namespace dspx {
         Workspace *workspace() const;
 
         Q_INVOKABLE Label *createLabel();
+        Q_INVOKABLE WorkspaceInfo *createWorkspaceInfo();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

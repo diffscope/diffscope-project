@@ -1,6 +1,7 @@
 #include "Timeline.h"
 
 #include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/LabelSequence.h>
 
 namespace dspx {
 
@@ -25,3 +26,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_Timeline.cpp"

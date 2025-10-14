@@ -8,6 +8,10 @@
 #include <dspxmodel/Master.h>
 #include <dspxmodel/Label.h>
 #include <dspxmodel/private/EntityObject_p.h>
+#include <dspxmodel/Timeline.h>
+#include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/WorkspaceInfo.h>
+#include <dspxmodel/Workspace.h>
 
 namespace dspx {
 
@@ -40,6 +44,10 @@ namespace dspx {
 
         global = new Global(q);
         master = new Master(q);
+        timeline = new Timeline(q);
+
+        labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
+        workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
     EntityObject * ModelPrivate::mapToObject(Handle handle) const {
@@ -48,11 +56,6 @@ namespace dspx {
 
     Handle ModelPrivate::mapToHandle(EntityObject *object) const {
         return handleMap.value(object);
-    }
-
-    Label *ModelPrivate::createLabel(Handle handle) {
-        Q_Q(Model);
-        return new Label(handle, q);
     }
 
     Model::Model(ModelStrategy *strategy, QObject *parent) : EntityObject(parent), d_ptr(new ModelPrivate) {
@@ -100,7 +103,13 @@ namespace dspx {
     Label *Model::createLabel() {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Label);
-        return d->createLabel(handle);
+        return d->createObject<Label>(handle);
+    }
+
+    WorkspaceInfo * Model::createWorkspaceInfo() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_WorkspaceInfo);
+        return d->createObject<WorkspaceInfo>(handle);
     }
 
     void Model::handleSetEntityProperty(int property, const QVariant &value) {
@@ -152,3 +161,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_Model.cpp"

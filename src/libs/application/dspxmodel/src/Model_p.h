@@ -18,6 +18,8 @@ namespace dspx {
         Global *global;
         Master *master;
         Timeline *timeline;
+
+        LabelSequence *labels;
         TrackList *trackList;
         Workspace *workspace;
 
@@ -34,8 +36,6 @@ namespace dspx {
         double pan;
         bool mute;
 
-        LabelSequence *labels;
-
         static ModelPrivate *get(Model *model) {
             return model->d_func();
         }
@@ -46,7 +46,11 @@ namespace dspx {
         EntityObject *mapToObject(Handle handle) const;
         Handle mapToHandle(EntityObject *object) const;
 
-        Label *createLabel(Handle handle);
+        template<class T>
+        T *createObject(Handle handle) {
+            Q_Q(Model);
+            return new T(handle, q);
+        }
     };
 
 }

@@ -80,6 +80,14 @@ namespace dspx {
             return ret;
         }
 
+        int size() const {
+            return static_cast<int>(m_positions.size());
+        }
+
+        bool contains(T *item) const {
+            return m_positions.contains(item);
+        }
+
     };
 
 }

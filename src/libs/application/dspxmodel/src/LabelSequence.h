@@ -7,6 +7,8 @@
 
 namespace dspx {
 
+    class Label;
+
     class LabelSequencePrivate;
 
     class LabelSequence : public EntityObject {
@@ -16,6 +18,26 @@ namespace dspx {
         Q_DECLARE_PRIVATE(LabelSequence)
     public:
         ~LabelSequence() override;
+
+        int size() const;
+        Label *firstItem() const;
+        Label *lastItem() const;
+        Q_INVOKABLE Label *previousItem(Label *item) const;
+        Q_INVOKABLE Label *nextItem(Label *item) const;
+        Q_INVOKABLE QList<Label *> slice(int position, int length) const;
+        Q_INVOKABLE bool contains(Label *item) const;
+
+        Q_INVOKABLE void insertItem(Label *item);
+        Q_INVOKABLE void removeItem(Label *item);
+
+    Q_SIGNALS:
+        void itemAboutToInsert(Label *item);
+        void itemInserted(Label *item);
+        void itemAboutToRemove(Label *item);
+        void itemRemoved(Label *item);
+        void sizeChanged(int size);
+        void firstItemChanged(Label *item);
+        void lastItemChanged(Label *item);
 
     protected:
         void handleInsertIntoSequenceContainer(Handle entity) override;

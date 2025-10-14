@@ -16,6 +16,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT EntityObject : public QObject {
         Q_OBJECT
         Q_DECLARE_PRIVATE(EntityObject);
+        Q_PROPERTY(Model *model READ model CONSTANT)
     public:
         ~EntityObject() override;
 
