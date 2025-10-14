@@ -8,7 +8,7 @@ ck_add_library(${PROJECT_NAME} SHARED AUTOGEN)
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
-    LINKS
+    LINKS opendspx
     QT_LINKS Core Gui Qml
     QT_INCLUDE_PRIVATE Core Gui Qml
     INCLUDE_PRIVATE *
