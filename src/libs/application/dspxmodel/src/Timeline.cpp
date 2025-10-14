@@ -19,9 +19,9 @@ namespace dspx {
 
     Timeline::~Timeline() = default;
 
-    LabelSequence * Timeline::labelSequence() const {
+    LabelSequence *Timeline::labels() const {
         Q_D(const Timeline);
-        return d->pModel->labelSequence;
+        return d->pModel->labels;
     }
 
 }

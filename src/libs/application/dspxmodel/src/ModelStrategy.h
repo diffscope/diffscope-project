@@ -108,7 +108,7 @@ namespace dspx {
         virtual void insertIntoListContainer(Handle listContainerEntity, const QList<Handle> &entities, int index) = 0;
         virtual void insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) = 0;
 
-        virtual void removeFromContainer(Handle entity) = 0;
+        virtual Handle takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
         virtual QList<Handle> takeFromListContainer(Handle listContainerEntity, const QList<int> &indexes) = 0;
         virtual Handle takeFromMapContainer(Handle mapContainerEntity, const QString &key) = 0;
         virtual void rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
@@ -126,7 +126,7 @@ namespace dspx {
         void insertIntoListContainerNotified(Handle listContainerEntity, const QList<Handle> &entities, int index);
         void insertIntoMapContainerNotified(Handle mapContainerEntity, Handle entity, const QString &key);
 
-        void removeFromContainerNotified(Handle entity);
+        void takeFromContainerNotified(Handle takenEntity, Handle sequenceContainerEntity, Handle entity);
         void takeFromListContainerNotified(const QList<Handle> &takenEntities, Handle listContainerEntity, const QList<int> &indexes);
         void takeFromMapContainerNotified(Handle takenEntity, Handle mapContainerEntity, const QString &key);
         void rotateListContainerNotified(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex);

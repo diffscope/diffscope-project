@@ -28,7 +28,7 @@ namespace dspx {
         virtual void handleInsertIntoListContainer(const QList<Handle> &entities, int index);
         virtual void handleInsertIntoMapContainer(Handle entity, const QString &key);
 
-        virtual void handleRemoveFromContainer();
+        virtual void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity);
         virtual void handleTakeFromListContainer(const QList<Handle> &takenEntities, const QList<int> &indexes);
         virtual void handleTakeFromMapContainer(Handle takenEntity, const QString &key);
         virtual void handleRotateListContainer(int leftIndex, int middleIndex, int rightIndex);

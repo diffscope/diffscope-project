@@ -21,11 +21,11 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Timeline)
-        Q_PROPERTY(LabelSequence *labelSequence READ labelSequence CONSTANT)
+        Q_PROPERTY(LabelSequence *labels READ labels CONSTANT)
     public:
         ~Timeline() override;
 
-        LabelSequence *labelSequence() const;
+        LabelSequence *labels() const;
 
     private:
         friend class ModelPrivate;

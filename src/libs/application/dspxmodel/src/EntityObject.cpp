@@ -37,19 +37,27 @@ namespace dspx {
     }
 
     void EntityObject::handleInsertIntoSequenceContainer(Handle entity) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleInsertIntoListContainer(const QList<Handle> &entities, int index) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleInsertIntoMapContainer(Handle entity, const QString &key) {
+        Q_UNREACHABLE();
     }
-    void EntityObject::handleRemoveFromContainer() {
+    void EntityObject::handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleTakeFromListContainer(const QList<Handle> &takenEntities, const QList<int> &indexes) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleTakeFromMapContainer(Handle takenEntity, const QString &key) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleRotateListContainer(int leftIndex, int middleIndex, int rightIndex) {
+        Q_UNREACHABLE();
     }
     void EntityObject::handleSetEntityProperty(int property, const QVariant &value) {
+        Q_UNREACHABLE();
     }
 }

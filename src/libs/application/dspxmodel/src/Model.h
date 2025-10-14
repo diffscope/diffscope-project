@@ -16,6 +16,7 @@ namespace dspx {
     class Timeline;
     class TrackList;
     class Workspace;
+    class Label;
 
     class DSPX_MODEL_EXPORT Model : public EntityObject {
         Q_OBJECT
@@ -40,6 +41,8 @@ namespace dspx {
         Timeline *timeline() const;
         TrackList *trackList() const;
         Workspace *workspace() const;
+
+        Q_INVOKABLE Label *createLabel();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

@@ -6,12 +6,13 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Master.h>
+#include <dspxmodel/Label.h>
 #include <dspxmodel/private/EntityObject_p.h>
 
 namespace dspx {
 
     void ModelPrivate::handleEntityDestroyed(Handle handle) {
-        auto object = objectMap.value(handle);
+        auto object = mapToObject(handle);
         if (object) {
             object->deleteLater();
             object->d_func()->handle = {};
@@ -39,6 +40,19 @@ namespace dspx {
 
         global = new Global(q);
         master = new Master(q);
+    }
+
+    EntityObject * ModelPrivate::mapToObject(Handle handle) const {
+        return objectMap.value(handle);
+    }
+
+    Handle ModelPrivate::mapToHandle(EntityObject *object) const {
+        return handleMap.value(object);
+    }
+
+    Label *ModelPrivate::createLabel(Handle handle) {
+        Q_Q(Model);
+        return new Label(handle, q);
     }
 
     Model::Model(ModelStrategy *strategy, QObject *parent) : EntityObject(parent), d_ptr(new ModelPrivate) {
@@ -81,6 +95,12 @@ namespace dspx {
     Workspace *Model::workspace() const {
         Q_D(const Model);
         return d->workspace;
+    }
+
+    Label *Model::createLabel() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Label);
+        return d->createLabel(handle);
     }
 
     void Model::handleSetEntityProperty(int property, const QVariant &value) {

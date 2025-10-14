@@ -34,7 +34,7 @@ namespace dspx {
         double pan;
         bool mute;
 
-        LabelSequence *labelSequence;
+        LabelSequence *labels;
 
         static ModelPrivate *get(Model *model) {
             return model->d_func();
@@ -42,6 +42,11 @@ namespace dspx {
 
         void handleEntityDestroyed(Handle handle);
         void init();
+
+        EntityObject *mapToObject(Handle handle) const;
+        Handle mapToHandle(EntityObject *object) const;
+
+        Label *createLabel(Handle handle);
     };
 
 }
