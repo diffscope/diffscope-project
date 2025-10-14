@@ -48,8 +48,8 @@ namespace dspx {
 
     QDspx::Label Label::toQDspx() const {
         return QDspx::Label {
-            .pos = pos(),
-            .text = text(),
+            pos(),
+            text(),
         };
     }
 

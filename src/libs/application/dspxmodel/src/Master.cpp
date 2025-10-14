@@ -52,10 +52,10 @@ namespace dspx {
 
     QDspx::Master Master::toQDspx() const {
         return {
-            .control = {
-                .gain = gain(),
-                .pan = pan(),
-                .mute = mute(),
+            {
+                gain(),
+                pan(),
+                mute(),
             }
         };
     }

@@ -104,13 +104,14 @@ namespace dspx {
 
     QDspx::Model Model::toQDspx() const {
         return {
-            .version = QStringLiteral("1.0.0"),
-            .content = {
-                .global = global()->toQDspx(),
-                .master = master()->toQDspx(),
-                .timeline = timeline()->toQDspx(),
-                // TODO tracks
-                .workspace = workspace()->toQDspx(),
+            QStringLiteral("1.0.0"),
+            {
+                global()->toQDspx(),
+                master()->toQDspx(),
+                timeline()->toQDspx(),
+                // TODO track
+                {},
+                workspace()->toQDspx(),
             }
         };
     }

@@ -9,8 +9,7 @@ namespace dspx {
 
     class BasicModelStrategyEntity : public QObject {
     public:
-        explicit BasicModelStrategyEntity(QObject *parent = nullptr);
-        ~BasicModelStrategyEntity() override;
+        using QObject::QObject;
 
         QHash<ModelStrategy::Property, QVariant> properties;
         QList<BasicModelStrategyEntity *> list;

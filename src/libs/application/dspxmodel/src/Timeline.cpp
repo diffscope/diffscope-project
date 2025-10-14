@@ -29,8 +29,10 @@ namespace dspx {
 
     QDspx::Timeline Timeline::toQDspx() const {
         return {
-            .labels = labels()->toQDspx(),
             // TODO tempos timeSignatures
+            {},
+            {},
+            labels()->toQDspx(),
         };
     }
 

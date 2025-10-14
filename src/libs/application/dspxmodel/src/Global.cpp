@@ -69,9 +69,9 @@ namespace dspx {
 
     QDspx::Global Global::toQDspx() const {
         return {
-            .name = name(),
-            .author = author(),
-            .centShift = centShift(),
+            name(),
+            author(),
+            centShift(),
             // TODO editorId editorName
         };
     }
