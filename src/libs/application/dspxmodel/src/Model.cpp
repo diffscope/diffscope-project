@@ -44,9 +44,6 @@ namespace dspx {
         centShift = strategy->getEntityProperty(handle, ModelStrategy::P_CentShift).toInt();
         editorId = strategy->getEntityProperty(handle, ModelStrategy::P_EditorId).toString();
         editorName = strategy->getEntityProperty(handle, ModelStrategy::P_EditorName).toString();
-        gain = strategy->getEntityProperty(handle, ModelStrategy::P_ControlGain).toDouble();
-        pan = strategy->getEntityProperty(handle, ModelStrategy::P_ControlPan).toDouble();
-        mute = strategy->getEntityProperty(handle, ModelStrategy::P_ControlMute).toBool();
 
         global = new Global(q);
         master = new Master(q);
@@ -236,19 +233,10 @@ namespace dspx {
                 Q_EMIT d->global->editorNameChanged(d->editorName);
                 break;
             }
-            case ModelStrategy::P_ControlGain: {
-                d->gain = value.toDouble();
-                Q_EMIT d->master->gainChanged(d->gain);
-                break;
-            }
-            case ModelStrategy::P_ControlPan: {
-                d->pan = value.toDouble();
-                Q_EMIT d->master->panChanged(d->pan);
-                break;
-            }
+            case ModelStrategy::P_ControlGain:
+            case ModelStrategy::P_ControlPan:
             case ModelStrategy::P_ControlMute: {
-                d->mute = value.toBool();
-                Q_EMIT d->master->muteChanged(d->mute);
+                ModelPrivate::proxySetEntityPropertyNotify(d->master, property, value);
                 break;
             }
             default:

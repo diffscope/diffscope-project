@@ -10,6 +10,8 @@ namespace QDspx {
 
 namespace dspx {
 
+    class BusControl;
+
     class Model;
 
     class ModelPrivate;
@@ -21,34 +23,20 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Master)
-        Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
-        Q_PRIVATE_PROPERTY(d_func(), double pan READ pan WRITE setPan NOTIFY panChanged)
-        Q_PROPERTY(bool mute READ mute WRITE setMute NOTIFY muteChanged)
+        Q_PROPERTY(BusControl *control READ control CONSTANT)
 
     public:
         ~Master() override;
 
-        double gain() const;
-        void setGain(double gain);
-
-        double pan() const;
-        void setPan(double pan);
-
-        bool mute() const;
-        void setMute(bool mute);
+        BusControl *control() const;
 
         QDspx::Master toQDspx() const;
         void fromQDspx(const QDspx::Master &master);
 
-    Q_SIGNALS:
-        void gainChanged(double gain);
-        void panChanged(double pan);
-        void muteChanged(bool mute);
-
     private:
         friend class ModelPrivate;
         explicit Master(Model *model);
-
+        bool handleProxySetEntityProperty(int property, const QVariant &value);
         QScopedPointer<MasterPrivate> d_ptr;
 
     };

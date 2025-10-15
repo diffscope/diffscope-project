@@ -36,10 +36,6 @@ namespace dspx {
         QString editorId;
         QString editorName;
 
-        double gain;
-        double pan;
-        bool mute;
-
         static ModelPrivate *get(Model *model) {
             return model->d_func();
         }
@@ -56,6 +52,12 @@ namespace dspx {
             Q_Q(Model);
             return new T(handle, q);
         }
+
+        template<class T>
+        static bool proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {
+            return object->handleProxySetEntityProperty(property, value);
+        }
+
     };
 
 }
