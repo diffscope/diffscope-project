@@ -8,6 +8,8 @@
 namespace dspx {
 
     class LabelSequence;
+    class TempoSequence;
+    class TimeSignatureSequence;
 
     class ModelPrivate {
         Q_DECLARE_PUBLIC(Model)
@@ -20,6 +22,8 @@ namespace dspx {
         Timeline *timeline;
 
         LabelSequence *labels;
+        TempoSequence *tempos;
+        TimeSignatureSequence *timeSignatures;
         TrackList *trackList;
         Workspace *workspace;
 

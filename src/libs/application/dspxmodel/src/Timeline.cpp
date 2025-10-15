@@ -4,6 +4,8 @@
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/TempoSequence.h>
+#include <dspxmodel/TimeSignatureSequence.h>
 
 namespace dspx {
 
@@ -27,11 +29,20 @@ namespace dspx {
         return d->pModel->labels;
     }
 
+    TempoSequence *Timeline::tempos() const {
+        Q_D(const Timeline);
+        return d->pModel->tempos;
+    }
+
+    TimeSignatureSequence *Timeline::timeSignatures() const {
+        Q_D(const Timeline);
+        return d->pModel->timeSignatures;
+    }
+
     QDspx::Timeline Timeline::toQDspx() const {
         return {
-            // TODO tempos timeSignatures
-            {},
-            {},
+            timeSignatures()->toQDspx(),
+            tempos()->toQDspx(),
             labels()->toQDspx(),
         };
     }
@@ -39,7 +50,8 @@ namespace dspx {
     void Timeline::fromQDspx(const QDspx::Timeline &timeline) {
         Q_D(Timeline);
         labels()->fromQDspx(timeline.labels);
-        // TODO tempos timeSignatures
+        tempos()->fromQDspx(timeline.tempos);
+        timeSignatures()->fromQDspx(timeline.timeSignatures);
     }
 
 }

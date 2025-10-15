@@ -9,9 +9,13 @@
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Master.h>
 #include <dspxmodel/Label.h>
+#include <dspxmodel/Tempo.h>
+#include <dspxmodel/TimeSignature.h>
 #include <dspxmodel/private/EntityObject_p.h>
 #include <dspxmodel/Timeline.h>
 #include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/TempoSequence.h>
+#include <dspxmodel/TimeSignatureSequence.h>
 #include <dspxmodel/WorkspaceInfo.h>
 #include <dspxmodel/Workspace.h>
 
@@ -49,6 +53,8 @@ namespace dspx {
         timeline = new Timeline(q);
 
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
+        tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
+        timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
@@ -182,6 +188,18 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Label);
         return d->createObject<Label>(handle);
+    }
+
+    Tempo *Model::createTempo() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Tempo);
+        return d->createObject<Tempo>(handle);
+    }
+
+    TimeSignature *Model::createTimeSignature() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_TimeSignature);
+        return d->createObject<TimeSignature>(handle);
     }
 
     WorkspaceInfo * Model::createWorkspaceInfo() {

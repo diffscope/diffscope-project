@@ -26,10 +26,14 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Timeline)
         Q_PROPERTY(LabelSequence *labels READ labels CONSTANT)
+        Q_PROPERTY(TempoSequence *tempos READ tempos CONSTANT)
+        Q_PROPERTY(TimeSignatureSequence *timeSignatures READ timeSignatures CONSTANT)
     public:
         ~Timeline() override;
 
         LabelSequence *labels() const;
+        TempoSequence *tempos() const;
+        TimeSignatureSequence *timeSignatures() const;
 
         QDspx::Timeline toQDspx() const;
         void fromQDspx(const QDspx::Timeline &timeline);
