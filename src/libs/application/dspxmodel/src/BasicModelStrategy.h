@@ -13,13 +13,13 @@ namespace dspx {
 
         Handle createEntity(Entity entityType) override;
         void destroyEntity(Handle entity) override;
-        void insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
-        void insertIntoListContainer(Handle listContainerEntity, const QList<Handle> &entities, int index) override;
-        void insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) override;
+        bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
+        bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) override;
+        bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) override;
         Handle takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
-        QList<Handle> takeFromListContainer(Handle listContainerEntity, const QList<int> &indexes) override;
+        Handle takeFromListContainer(Handle listContainerEntity, int index) override;
         Handle takeFromMapContainer(Handle mapContainerEntity, const QString &key) override;
-        void rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
+        bool rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
         void setEntityProperty(Handle entity, Property property, const QVariant &value) override;
         QVariant getEntityProperty(Handle entity, Property property) override;
         Handle getAssociatedSubEntity(Handle entity, Relationship relationship) override;

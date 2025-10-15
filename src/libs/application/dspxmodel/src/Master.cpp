@@ -1,6 +1,7 @@
 #include "Master.h"
 
 #include <QVariant>
+#include <QJSEngine>
 
 #include <opendspx/qdspxmodel.h>
 
@@ -16,7 +17,29 @@ namespace dspx {
         Master *q_ptr;
         ModelPrivate *pModel;
         Handle handle;
+
+        double pan() const;
+        void setPanUnchecked(double pan);
+        void setPan(double pan);
     };
+
+    double MasterPrivate::pan() const {
+        return pModel->pan;
+    }
+
+    void MasterPrivate::setPanUnchecked(double pan) {
+        Q_Q(Master);
+        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ControlPan, pan);
+    }
+
+    void MasterPrivate::setPan(double pan) {
+        Q_Q(Master);
+        if (auto engine = qjsEngine(q); engine && (pan < -1 || pan > 1)) {
+            engine->throwError(QJSValue::RangeError, QStringLiteral("Pan must be in range [-1.0, 1.0]"));
+            return;
+        }
+        setPanUnchecked(pan);
+    }
 
     Master::Master(Model *model) : QObject(model), d_ptr(new MasterPrivate) {
         Q_D(Master);
@@ -36,11 +59,12 @@ namespace dspx {
     }
     double Master::pan() const {
         Q_D(const Master);
-        return d->pModel->pan;
+        return d->pan();
     }
     void Master::setPan(double pan) {
         Q_D(Master);
-        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlPan, pan);
+        Q_ASSERT(pan >= -1.0 && pan <= 1.0);
+        d->setPanUnchecked(pan);
     }
     bool Master::mute() const {
         Q_D(const Master);
@@ -68,3 +92,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_Master.cpp"

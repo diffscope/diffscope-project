@@ -60,9 +60,9 @@ namespace dspx {
             }
         });
         
-        QObject::connect(strategy, &ModelStrategy::insertIntoListContainerNotified, q, [=, this](Handle listContainerEntity, const QList<Handle> &entities, int index) {
+        QObject::connect(strategy, &ModelStrategy::insertIntoListContainerNotified, q, [=, this](Handle listContainerEntity, Handle entity, int index) {
             if (auto listContainerObject = mapToObject(listContainerEntity)) {
-                listContainerObject->handleInsertIntoListContainer(entities, index);
+                listContainerObject->handleInsertIntoListContainer(entity, index);
             }
         });
         
@@ -78,9 +78,9 @@ namespace dspx {
             }
         });
         
-        QObject::connect(strategy, &ModelStrategy::takeFromListContainerNotified, q, [=, this](const QList<Handle> &takenEntities, Handle listContainerEntity, const QList<int> &indexes) {
+        QObject::connect(strategy, &ModelStrategy::takeFromListContainerNotified, q, [=, this](Handle takenEntity, Handle listContainerEntity, int index) {
             if (auto listContainerObject = mapToObject(listContainerEntity)) {
-                listContainerObject->handleTakeFromListContainer(takenEntities, indexes);
+                listContainerObject->handleTakeFromListContainer(takenEntity, index);
             }
         });
         

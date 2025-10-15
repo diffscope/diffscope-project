@@ -1,6 +1,7 @@
 #include "Global.h"
 
 #include <QVariant>
+#include <QJSEngine>
 
 #include <opendspx/qdspxmodel.h>
 
@@ -16,7 +17,30 @@ namespace dspx {
         Global *q_ptr;
         ModelPrivate *pModel;
         Handle handle;
+
+        int centShift() const;
+        void setCentShiftUnchecked(int centShift);
+        void setCentShift(int centShift);
+
     };
+
+    int GlobalPrivate::centShift() const {
+        return pModel->centShift;
+    }
+
+    void GlobalPrivate::setCentShiftUnchecked(int centShift) {
+        Q_Q(Global);
+        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_CentShift, centShift);
+    }
+
+    void GlobalPrivate::setCentShift(int centShift) {
+        Q_Q(Global);
+        if (auto engine = qjsEngine(q); engine && (centShift < -50 || centShift > 50)) {
+            engine->throwError(QJSValue::RangeError, QStringLiteral("Cent shift must be in range [-50, 50]"));
+            return;
+        }
+        setCentShiftUnchecked(centShift);
+    }
 
     Global::Global(Model *model) : QObject(model), d_ptr(new GlobalPrivate) {
         Q_D(Global);
@@ -44,11 +68,12 @@ namespace dspx {
     }
     int Global::centShift() const {
         Q_D(const Global);
-        return d->pModel->centShift;
+        return d->centShift();
     }
     void Global::setCentShift(int centShift) {
         Q_D(Global);
-        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_CentShift, centShift);
+        Q_ASSERT(centShift >= -50 && centShift <= 50);
+        d->setCentShiftUnchecked(centShift);
     }
     QString Global::editorId() const {
         Q_D(const Global);
@@ -84,3 +109,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_Global.cpp"

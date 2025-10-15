@@ -1,6 +1,7 @@
 #include "Label.h"
 
 #include <QVariant>
+#include <QJSEngine>
 
 #include <opendspx/qdspxmodel.h>
 
@@ -15,7 +16,25 @@ namespace dspx {
         Label *q_ptr;
         int pos;
         QString text;
+
+        void setPosUnchecked(int pos_);
+        void setPos(int pos_);
+
     };
+
+    void LabelPrivate::setPosUnchecked(int pos_) {
+        Q_Q(Label);
+        q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Position, pos_);
+    }
+
+    void LabelPrivate::setPos(int pos_) {
+        Q_Q(Label);
+        if (auto engine = qjsEngine(q); engine && pos_ < -0) {
+            engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
+            return;
+        }
+        setPosUnchecked(pos_);
+    }
 
     Label::Label(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelPrivate) {
         Q_D(Label);
@@ -33,7 +52,8 @@ namespace dspx {
 
     void Label::setPos(int pos) {
         Q_D(Label);
-        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Position, pos);
+        Q_ASSERT(pos >= 0);
+        d->setPosUnchecked(pos);
     }
 
     QString Label::text() const {
@@ -77,3 +97,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_Label.cpp"

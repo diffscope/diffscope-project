@@ -36,45 +36,46 @@ namespace dspx {
         Q_EMIT destroyEntityNotified(entity);
     }
 
-    void BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
+    bool BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
         auto sequenceContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(sequenceContainerEntity.d);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
         if (!sequenceContainerObject->sequence.contains(object)) {
             sequenceContainerObject->sequence.insert(object);
             object->setParent(sequenceContainerObject);
             Q_EMIT insertIntoSequenceContainerNotified(sequenceContainerEntity, entity);
+            return true;
         }
+        return false;
     }
 
-    void BasicModelStrategy::insertIntoListContainer(Handle listContainerEntity, const QList<Handle> &entities, int index) {
+    bool BasicModelStrategy::insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) {
         auto listContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(listContainerEntity.d);
         if (index < 0 || index > listContainerObject->list.size()) {
-            return;
+            return false;
         }
-        QList<Handle> insertedEntities;
-        for (auto entity : entities) {
-            auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
-            if (object->parent() != listContainerObject) {
-                listContainerObject->list.insert(index, object);
-                object->setParent(listContainerObject);
-                insertedEntities.append(entity);
-                index++;
-            }
+        auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
+        if (object->parent() == listContainerObject) {
+            return false;
         }
-        Q_EMIT insertIntoListContainerNotified(listContainerEntity, insertedEntities, index);
+        listContainerObject->list.insert(index, object);
+        object->setParent(listContainerObject);
+        Q_EMIT insertIntoListContainerNotified(listContainerEntity, entity, index);
+        return true;
     }
 
-    void BasicModelStrategy::insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) {
+    bool BasicModelStrategy::insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) {
         auto mapContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(mapContainerEntity.d);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
         if (object->parent() == mapContainerObject) {
-            return;
+            return false;
         }
-        if (mapContainerObject->map.value(key) != object) {
-            mapContainerObject->map.insert(key, object);
-            object->setParent(mapContainerObject);
-            Q_EMIT insertIntoMapContainerNotified(mapContainerEntity, entity, key);
+        if (mapContainerObject->map.value(key) == object) {
+            return false;
         }
+        mapContainerObject->map.insert(key, object);
+        object->setParent(mapContainerObject);
+        Q_EMIT insertIntoMapContainerNotified(mapContainerEntity, entity, key);
+        return true;
     }
 
     Handle BasicModelStrategy::takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
@@ -89,24 +90,16 @@ namespace dspx {
         return {};
     }
 
-    QList<Handle> BasicModelStrategy::takeFromListContainer(Handle listContainerEntity, const QList<int> &indexes) {
+    Handle BasicModelStrategy::takeFromListContainer(Handle listContainerEntity, int index) {
         auto listContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(listContainerEntity.d);
-        QList<Handle> takenEntities;
-        QList<int> takenIndexes;
-        QList<int> sortedIndexes = indexes;
-        std::ranges::sort(sortedIndexes, std::greater());
-        for (auto index : sortedIndexes) {
-            if (index < 0 || index >= listContainerObject->list.size()) {
-                continue;
-            }
-            auto object = listContainerObject->list.takeAt(index);
-            object->setParent(this);
-            Handle entity {reinterpret_cast<quintptr>(object)};
-            takenEntities.append(entity);
-            takenIndexes.append(index);
+        if (index < 0 || index >= listContainerObject->list.size()) {
+            return {};
         }
-        Q_EMIT takeFromListContainerNotified(takenEntities, listContainerEntity, takenIndexes);
-        return takenEntities;
+        auto object = listContainerObject->list.takeAt(index);
+        object->setParent(this);
+        Handle entity {reinterpret_cast<quintptr>(object)};
+        Q_EMIT takeFromListContainerNotified(entity, listContainerEntity, index);
+        return entity;
     }
 
     Handle BasicModelStrategy::takeFromMapContainer(Handle mapContainerEntity, const QString &key) {
@@ -121,13 +114,14 @@ namespace dspx {
         return {};
     }
 
-    void BasicModelStrategy::rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) {
+    bool BasicModelStrategy::rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) {
         auto listContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(listContainerEntity.d);
         if (leftIndex < 0 || leftIndex > listContainerObject->list.size() || middleIndex < leftIndex || middleIndex > listContainerObject->list.size() || rightIndex < middleIndex || rightIndex > listContainerObject->list.size()) {
-            return;
+            return false;
         }
         std::ranges::rotate(listContainerObject->list.begin() + leftIndex, listContainerObject->list.begin() + middleIndex, listContainerObject->list.begin() + rightIndex);
         Q_EMIT rotateListContainerNotified(listContainerEntity, leftIndex, middleIndex, rightIndex);
+        return true;
     }
 
     void BasicModelStrategy::setEntityProperty(Handle entity, Property property, const QVariant &value) {

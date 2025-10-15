@@ -60,14 +60,14 @@ namespace dspx {
         return d->container.contains(item);
     }
 
-    void LabelSequence::insertItem(Label *item) {
+    bool LabelSequence::insertItem(Label *item) {
         Q_D(LabelSequence);
-        d->pModel->strategy->insertIntoSequenceContainer(handle(), item->handle());
+        return d->pModel->strategy->insertIntoSequenceContainer(handle(), item->handle());
     }
 
-    void LabelSequence::removeItem(Label *item) {
+    bool LabelSequence::removeItem(Label *item) {
         Q_D(LabelSequence);
-        d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
+        return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
     QList<QDspx::Label> LabelSequence::toQDspx() const {

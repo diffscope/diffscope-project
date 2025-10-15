@@ -22,7 +22,7 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Master)
         Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
-        Q_PROPERTY(double pan READ pan WRITE setPan NOTIFY panChanged)
+        Q_PRIVATE_PROPERTY(d_func(), double pan READ pan WRITE setPan NOTIFY panChanged)
         Q_PROPERTY(bool mute READ mute WRITE setMute NOTIFY muteChanged)
 
     public:

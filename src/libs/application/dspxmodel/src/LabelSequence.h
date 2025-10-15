@@ -35,8 +35,8 @@ namespace dspx {
         Q_INVOKABLE QList<Label *> slice(int position, int length) const;
         Q_INVOKABLE bool contains(Label *item) const;
 
-        Q_INVOKABLE void insertItem(Label *item);
-        Q_INVOKABLE void removeItem(Label *item);
+        Q_INVOKABLE bool insertItem(Label *item);
+        Q_INVOKABLE bool removeItem(Label *item);
 
         QList<QDspx::Label> toQDspx() const;
         void fromQDspx(const QList<QDspx::Label> &labels);

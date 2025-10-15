@@ -30,7 +30,7 @@ namespace dspx {
         int size() const;
         QStringList keys() const;
         QList<WorkspaceInfo *> items() const;
-        Q_INVOKABLE void insertItem(const QString &key, WorkspaceInfo *item);
+        Q_INVOKABLE bool insertItem(const QString &key, WorkspaceInfo *item);
         Q_INVOKABLE WorkspaceInfo *removeItem(const QString &key);
         Q_INVOKABLE WorkspaceInfo *item(const QString &key) const;
         Q_INVOKABLE bool contains(const QString &key) const;

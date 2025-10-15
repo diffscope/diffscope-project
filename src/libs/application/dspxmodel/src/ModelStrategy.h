@@ -104,14 +104,14 @@ namespace dspx {
         virtual Handle createEntity(Entity entityType) = 0;
         virtual void destroyEntity(Handle entity) = 0;
 
-        virtual void insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
-        virtual void insertIntoListContainer(Handle listContainerEntity, const QList<Handle> &entities, int index) = 0;
-        virtual void insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) = 0;
+        virtual bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
+        virtual bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) = 0;
+        virtual bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) = 0;
 
         virtual Handle takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
-        virtual QList<Handle> takeFromListContainer(Handle listContainerEntity, const QList<int> &indexes) = 0;
+        virtual Handle takeFromListContainer(Handle listContainerEntity, int index) = 0;
         virtual Handle takeFromMapContainer(Handle mapContainerEntity, const QString &key) = 0;
-        virtual void rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
+        virtual bool rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
 
         virtual void setEntityProperty(Handle entity, Property property, const QVariant &value) = 0;
         virtual QVariant getEntityProperty(Handle entity, Property property) = 0;
@@ -123,11 +123,11 @@ namespace dspx {
         void destroyEntityNotified(Handle entity);
 
         void insertIntoSequenceContainerNotified(Handle sequenceContainerEntity, Handle entity);
-        void insertIntoListContainerNotified(Handle listContainerEntity, const QList<Handle> &entities, int index);
+        void insertIntoListContainerNotified(Handle listContainerEntity, Handle entity, int index);
         void insertIntoMapContainerNotified(Handle mapContainerEntity, Handle entity, const QString &key);
 
         void takeFromContainerNotified(Handle takenEntity, Handle sequenceContainerEntity, Handle entity);
-        void takeFromListContainerNotified(const QList<Handle> &takenEntities, Handle listContainerEntity, const QList<int> &indexes);
+        void takeFromListContainerNotified(Handle takenEntities, Handle listContainerEntity, int index);
         void takeFromMapContainerNotified(Handle takenEntity, Handle mapContainerEntity, const QString &key);
         void rotateListContainerNotified(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex);
 

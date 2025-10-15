@@ -90,9 +90,9 @@ namespace dspx {
         return d->itemMap.values();
     }
 
-    void Workspace::insertItem(const QString &key, WorkspaceInfo *item) {
+    bool Workspace::insertItem(const QString &key, WorkspaceInfo *item) {
         Q_D(Workspace);
-        d->pModel->strategy->insertIntoMapContainer(handle(), item->handle(), key);
+        return d->pModel->strategy->insertIntoMapContainer(handle(), item->handle(), key);
     }
 
     WorkspaceInfo *Workspace::removeItem(const QString &key) {

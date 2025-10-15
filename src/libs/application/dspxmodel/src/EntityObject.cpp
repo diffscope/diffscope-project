@@ -39,7 +39,7 @@ namespace dspx {
     void EntityObject::handleInsertIntoSequenceContainer(Handle entity) {
         Q_UNREACHABLE();
     }
-    void EntityObject::handleInsertIntoListContainer(const QList<Handle> &entities, int index) {
+    void EntityObject::handleInsertIntoListContainer(Handle entity, int index) {
         Q_UNREACHABLE();
     }
     void EntityObject::handleInsertIntoMapContainer(Handle entity, const QString &key) {
@@ -48,7 +48,7 @@ namespace dspx {
     void EntityObject::handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
         Q_UNREACHABLE();
     }
-    void EntityObject::handleTakeFromListContainer(const QList<Handle> &takenEntities, const QList<int> &indexes) {
+    void EntityObject::handleTakeFromListContainer(Handle takenEntity, int index) {
         Q_UNREACHABLE();
     }
     void EntityObject::handleTakeFromMapContainer(Handle takenEntity, const QString &key) {
