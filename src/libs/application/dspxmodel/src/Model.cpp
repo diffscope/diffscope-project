@@ -11,6 +11,7 @@
 #include <dspxmodel/Label.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/TimeSignature.h>
+#include <dspxmodel/Track.h>
 #include <dspxmodel/private/EntityObject_p.h>
 #include <dspxmodel/Timeline.h>
 #include <dspxmodel/LabelSequence.h>
@@ -197,6 +198,12 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_TimeSignature);
         return d->createObject<TimeSignature>(handle);
+    }
+
+    Track *Model::createTrack() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Track);
+        return d->createObject<Track>(handle);
     }
 
     WorkspaceInfo * Model::createWorkspaceInfo() {

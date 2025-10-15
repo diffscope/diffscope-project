@@ -23,6 +23,7 @@ namespace dspx {
     class Label;
     class Tempo;
     class TimeSignature;
+    class Track;
     class WorkspaceInfo;
 
     class DSPX_MODEL_EXPORT Model : public EntityObject {
@@ -55,6 +56,7 @@ namespace dspx {
         Q_INVOKABLE Label *createLabel();
         Q_INVOKABLE Tempo *createTempo();
         Q_INVOKABLE TimeSignature *createTimeSignature();
+        Q_INVOKABLE Track *createTrack();
         Q_INVOKABLE WorkspaceInfo *createWorkspaceInfo();
 
     protected:
