@@ -54,7 +54,6 @@ namespace dspx {
             P_Author,
             P_CentShift,
             P_ClipStart,
-            P_Color,
             P_ControlGain,
             P_ControlMute,
             P_ControlPan,
@@ -69,6 +68,7 @@ namespace dspx {
             P_Measure,
             P_Name,
             P_Numerator,
+            P_Onset,
             P_Path,
             P_Position,
             P_PronunciationEdited,
@@ -97,7 +97,8 @@ namespace dspx {
             R_Tempos,
             R_TimeSignatures,
             R_Tracks,
-            R_VibratoPoints,
+            R_VibratoPointsAmplitude,
+            R_VibratoPointsFrequency,
             R_Workspace,
         };
 

@@ -17,7 +17,6 @@ namespace dspx {
     public:
         Track *q_ptr;
         ModelPrivate *pModel;
-        QColor color;
         QString name;
         TrackControl *control;
         Workspace *workspace;
@@ -35,23 +34,12 @@ namespace dspx {
         Q_D(Track);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
-        d->color = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Color).value<QColor>();
         d->name = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Name).toString();
         d->control = d->pModel->createObject<TrackControl>(handle);
         d->workspace = d->pModel->createObject<Workspace>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace));
     }
 
     Track::~Track() = default;
-
-    QColor Track::color() const {
-        Q_D(const Track);
-        return d->color;
-    }
-
-    void Track::setColor(const QColor &color) {
-        Q_D(Track);
-        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_Color, color);
-    }
 
     TrackControl *Track::control() const {
         Q_D(const Track);
@@ -94,11 +82,6 @@ namespace dspx {
     void Track::handleSetEntityProperty(int property, const QVariant &value) {
         Q_D(Track);
         switch (property) {
-            case ModelStrategy::P_Color: {
-                d->color = value.value<QColor>();
-                Q_EMIT colorChanged(d->color);
-                break;
-            }
             case ModelStrategy::P_Name: {
                 d->name = value.toString();
                 Q_EMIT nameChanged(d->name);

@@ -21,16 +21,12 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Track)
-        Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
         Q_PROPERTY(TrackControl *control READ control CONSTANT)
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
 
     public:
         ~Track() override;
-
-        QColor color() const;
-        void setColor(const QColor &color);
 
         TrackControl *control() const;
 
@@ -43,7 +39,6 @@ namespace dspx {
         void fromQDspx(const QDspx::Track &track);
 
     Q_SIGNALS:
-        void colorChanged(const QColor &color);
         void nameChanged(const QString &name);
 
     protected:
