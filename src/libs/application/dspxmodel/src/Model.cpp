@@ -12,6 +12,7 @@
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/TimeSignature.h>
 #include <dspxmodel/Track.h>
+#include <dspxmodel/TrackList.h>
 #include <dspxmodel/private/EntityObject_p.h>
 #include <dspxmodel/Timeline.h>
 #include <dspxmodel/LabelSequence.h>
@@ -53,6 +54,7 @@ namespace dspx {
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
         tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
         timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
+        trackList = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tracks), q);
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
@@ -166,8 +168,7 @@ namespace dspx {
                 global()->toQDspx(),
                 master()->toQDspx(),
                 timeline()->toQDspx(),
-                // TODO track
-                {},
+                trackList()->toQDspx(),
                 workspace()->toQDspx(),
             }
         };
@@ -178,7 +179,7 @@ namespace dspx {
         d->global->fromQDspx(model.content.global);
         d->master->fromQDspx(model.content.master);
         d->timeline->fromQDspx(model.content.timeline);
-        // TODO tracks
+        d->trackList->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
     }
 

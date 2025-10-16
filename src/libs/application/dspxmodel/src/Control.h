@@ -41,9 +41,7 @@ namespace dspx {
 
     protected:
         bool handleProxySetEntityProperty(int property, const QVariant &value);
-        explicit Control(Handle handle, Model *model);
-
-    private:
+        explicit Control(Handle handle, Model *model, ControlPrivate &d);
         QScopedPointer<ControlPrivate> d_ptr;
 
     };

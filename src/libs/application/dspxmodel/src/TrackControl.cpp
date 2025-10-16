@@ -14,7 +14,7 @@ namespace dspx {
         bool solo;
     };
 
-    TrackControl::TrackControl(Handle handle, Model *model) : Control(handle, model), d_ptr(new TrackControlPrivate) {
+    TrackControl::TrackControl(Handle handle, Model *model) : Control(handle, model, *new TrackControlPrivate) {
         Q_D(TrackControl);
         d->solo = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_ControlSolo).toBool();
     }

@@ -16,7 +16,7 @@ namespace dspx {
 
     class TrackPrivate;
 
-    class Track : public EntityObject {
+    class DSPX_MODEL_EXPORT Track : public EntityObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

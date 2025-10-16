@@ -23,6 +23,7 @@ namespace dspx {
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(QStringList keys READ keys NOTIFY keysChanged)
         Q_PROPERTY(QList<WorkspaceInfo *> items READ items NOTIFY itemsChanged)
+        Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
 
     public:
         ~Workspace() override;

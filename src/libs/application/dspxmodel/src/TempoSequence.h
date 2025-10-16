@@ -23,7 +23,7 @@ namespace dspx {
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(Tempo *firstItem READ firstItem NOTIFY firstItemChanged)
         Q_PROPERTY(Tempo *lastItem READ lastItem NOTIFY lastItemChanged)
-        Q_PRIVATE_PROPERTY(d_func(), QJSValue items READ iterable CONSTANT)
+        Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
     public:
         ~TempoSequence() override;
 

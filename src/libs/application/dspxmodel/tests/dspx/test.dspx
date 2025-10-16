@@ -34,6 +34,38 @@
       "timeSignatures": []
     },
     "tracks": [
+      {
+        "name": "track 1",
+        "control": {
+          "gain": 1.0,
+          "pan": 0.0,
+          "mute": false,
+          "solo": false
+        },
+        "color": "",
+        "clips": [],
+        "workspace": {
+          "x": {
+            "test": "test x"
+          }
+        }
+      },
+      {
+        "name": "track 2",
+        "control": {
+          "gain": 2.0,
+          "pan": -0.5,
+          "mute": false,
+          "solo": false
+        },
+        "color": "",
+        "clips": [],
+        "workspace": {
+          "y": {
+            "test": "test y"
+          }
+        }
+      }
     ],
     "workspace": {
       "a": {

@@ -23,7 +23,7 @@ namespace dspx {
         setPanUnchecked(pan_);
     }
 
-    Control::Control(Handle handle, Model *model) : QObject(model), d_ptr(new ControlPrivate) {
+    Control::Control(Handle handle, Model *model, ControlPrivate &dd) : QObject(model), d_ptr(&dd) {
         Q_D(Control);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
