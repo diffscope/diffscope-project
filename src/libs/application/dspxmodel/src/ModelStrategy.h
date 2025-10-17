@@ -54,6 +54,7 @@ namespace dspx {
             P_Author,
             P_CentShift,
             P_ClipStart,
+            P_ClipLength,
             P_ControlGain,
             P_ControlMute,
             P_ControlPan,

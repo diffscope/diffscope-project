@@ -25,6 +25,8 @@ namespace dspx {
     class TimeSignature;
     class Track;
     class WorkspaceInfo;
+    class AudioClip;
+    class SingingClip;
 
     class DSPX_MODEL_EXPORT Model : public EntityObject {
         Q_OBJECT
@@ -58,6 +60,8 @@ namespace dspx {
         Q_INVOKABLE TimeSignature *createTimeSignature();
         Q_INVOKABLE Track *createTrack();
         Q_INVOKABLE WorkspaceInfo *createWorkspaceInfo();
+        Q_INVOKABLE AudioClip *createAudioClip();
+        Q_INVOKABLE SingingClip *createSingingClip();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

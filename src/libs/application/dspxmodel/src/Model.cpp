@@ -20,6 +20,8 @@
 #include <dspxmodel/TimeSignatureSequence.h>
 #include <dspxmodel/WorkspaceInfo.h>
 #include <dspxmodel/Workspace.h>
+#include <dspxmodel/AudioClip.h>
+#include <dspxmodel/SingingClip.h>
 
 namespace dspx {
 
@@ -207,10 +209,22 @@ namespace dspx {
         return d->createObject<Track>(handle);
     }
 
-    WorkspaceInfo * Model::createWorkspaceInfo() {
+    WorkspaceInfo *Model::createWorkspaceInfo() {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_WorkspaceInfo);
         return d->createObject<WorkspaceInfo>(handle);
+    }
+
+    AudioClip *Model::createAudioClip() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_AudioClip);
+        return d->createObject<AudioClip>(handle);
+    }
+
+    SingingClip *Model::createSingingClip() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_SingingClip);
+        return d->createObject<SingingClip>(handle);
     }
 
     void Model::handleSetEntityProperty(int property, const QVariant &value) {
