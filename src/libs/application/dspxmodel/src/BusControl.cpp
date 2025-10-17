@@ -25,10 +25,8 @@ namespace dspx {
         setMute(control.mute);
     }
 
-    bool BusControl::handleProxySetEntityProperty(int property, const QVariant &value) {
-        if (Control::handleProxySetEntityProperty(property, value))
-            return true;
-        return false;
+    void BusControl::handleProxySetEntityProperty(int property, const QVariant &value) {
+        Control::handleProxySetEntityProperty(property, value);
     }
 
 }

@@ -46,18 +46,16 @@ namespace dspx {
         setSolo(trackControl.solo);
     }
 
-    bool TrackControl::handleProxySetEntityProperty(int property, const QVariant &value) {
+    void TrackControl::handleProxySetEntityProperty(int property, const QVariant &value) {
         Q_D(TrackControl);
         switch (property) {
             case ModelStrategy::P_ControlSolo: {
                 d->solo = value.toBool();
                 Q_EMIT soloChanged(d->solo);
-                return true;
+                break;
             }
             default: {
-                if (Control::handleProxySetEntityProperty(property, value))
-                    return true;
-                return false;
+                Control::handleProxySetEntityProperty(property, value);
             }
         }
     }

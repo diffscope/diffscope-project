@@ -33,7 +33,7 @@ namespace dspx {
     private:
         friend class ModelPrivate;
         explicit TrackControl(Handle handle, Model *model);
-        bool handleProxySetEntityProperty(int property, const QVariant &value);
+        void handleProxySetEntityProperty(int property, const QVariant &value);
 
     };
 

@@ -25,9 +25,9 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
         d->control = d->pModel->createObject<BusControl>(model->handle());
     }
-    bool Master::handleProxySetEntityProperty(int property, const QVariant &value) {
+    void Master::handleProxySetEntityProperty(int property, const QVariant &value) {
         Q_D(Master);
-        return ModelPrivate::proxySetEntityPropertyNotify(d->control, property, value);
+        ModelPrivate::proxySetEntityPropertyNotify(d->control, property, value);
     }
     Master::~Master() = default;
 

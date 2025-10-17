@@ -40,7 +40,7 @@ namespace dspx {
         void muteChanged(bool mute);
 
     protected:
-        bool handleProxySetEntityProperty(int property, const QVariant &value);
+        void handleProxySetEntityProperty(int property, const QVariant &value);
         explicit Control(Handle handle, Model *model, ControlPrivate &d);
         QScopedPointer<ControlPrivate> d_ptr;
 

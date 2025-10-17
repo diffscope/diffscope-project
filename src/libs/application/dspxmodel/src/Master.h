@@ -36,7 +36,7 @@ namespace dspx {
     private:
         friend class ModelPrivate;
         explicit Master(Model *model);
-        bool handleProxySetEntityProperty(int property, const QVariant &value);
+        void handleProxySetEntityProperty(int property, const QVariant &value);
         QScopedPointer<MasterPrivate> d_ptr;
 
     };

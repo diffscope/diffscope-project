@@ -54,8 +54,8 @@ namespace dspx {
         }
 
         template<class T>
-        static bool proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {
-            return object->handleProxySetEntityProperty(property, value);
+        static void proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {
+            object->handleProxySetEntityProperty(property, value);
         }
 
     };

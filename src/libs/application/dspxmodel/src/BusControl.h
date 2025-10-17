@@ -23,7 +23,7 @@ namespace dspx {
     private:
         friend class ModelPrivate;
         explicit BusControl(Handle handle, Model *model);
-        bool handleProxySetEntityProperty(int property, const QVariant &value);
+        void handleProxySetEntityProperty(int property, const QVariant &value);
 
     };
 

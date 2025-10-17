@@ -66,26 +66,26 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlMute, mute);
     }
 
-    bool Control::handleProxySetEntityProperty(int property, const QVariant &value) {
+    void Control::handleProxySetEntityProperty(int property, const QVariant &value) {
         Q_D(Control);
         switch (property) {
             case ModelStrategy::P_ControlGain: {
                 d->gain = value.toDouble();
                 Q_EMIT gainChanged(d->gain);
-                return true;
+                break;
             }
             case ModelStrategy::P_ControlPan: {
                 d->pan = value.toDouble();
                 Q_EMIT panChanged(d->pan);
-                return true;
+                break;
             }
             case ModelStrategy::P_ControlMute: {
                 d->mute = value.toBool();
                 Q_EMIT muteChanged(d->mute);
-                return true;
+                break;
             }
             default:
-                return false;
+                Q_UNREACHABLE();
         }
     }
 
