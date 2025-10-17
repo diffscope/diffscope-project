@@ -72,6 +72,10 @@ namespace dspx {
         if (mapContainerObject->map.value(key) == object) {
             return false;
         }
+        if (mapContainerObject->map.contains(key)) {
+            auto handle = takeFromMapContainer(mapContainerEntity, key);
+            destroyEntity(handle);
+        }
         mapContainerObject->map.insert(key, object);
         object->setParent(mapContainerObject);
         Q_EMIT insertIntoMapContainerNotified(mapContainerEntity, entity, key);

@@ -36,22 +36,11 @@ namespace dspx {
 
         void insertItem(const QString &key, ItemType *item) {
             auto q = q_ptr;
-            auto previousValue = itemMap.value(key);
-            if (previousValue == item) {
-                return;
-            }
-            if (previousValue) {
-                Q_EMIT q->itemAboutToRemove(key, previousValue);
-                itemMap.remove(key);
-                Q_EMIT q->itemRemoved(key, previousValue);
-            }
             Q_EMIT q->itemAboutToInsert(key, item);
             itemMap.insert(key, item);
             Q_EMIT q->itemInserted(key, item);
-            if (!previousValue) {
-                Q_EMIT q->sizeChanged(static_cast<int>(itemMap.size()));
-                Q_EMIT q->keysChanged();
-            }
+            Q_EMIT q->sizeChanged(static_cast<int>(itemMap.size()));
+            Q_EMIT q->keysChanged();
             Q_EMIT q->itemsChanged();
         }
 

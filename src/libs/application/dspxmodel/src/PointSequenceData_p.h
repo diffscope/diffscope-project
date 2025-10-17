@@ -37,16 +37,11 @@ namespace dspx {
 
         void insertItem(ItemType *item, int position) {
             auto q = q_ptr;
-            bool containsItem = container.contains(item);
-            if (!containsItem) {
-                Q_EMIT q->itemAboutToInsert(item);
-            }
+            Q_EMIT q->itemAboutToInsert(item);
             container.insertItem(item, position);
-            if (!containsItem) {
-                updateFirstAndLastItem();
-                Q_EMIT q->itemInserted(item);
-                Q_EMIT q->sizeChanged(container.size());
-            }
+            updateFirstAndLastItem();
+            Q_EMIT q->itemInserted(item);
+            Q_EMIT q->sizeChanged(container.size());
         }
 
         void removeItem(ItemType *item) {
