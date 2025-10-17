@@ -36,6 +36,13 @@ namespace dspx {
         d->time = d->pModel->createObject<ClipTime>(handle);
         d->type = type;
         d->workspace = d->pModel->createObject<Workspace>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace));
+
+        connect(d->time, &ClipTime::startChanged, this, [this] {
+            Q_EMIT positionChanged(position());
+        });
+        connect(d->time, &ClipTime::clipStartChanged, this, [this] {
+            Q_EMIT positionChanged(position());
+        });
     }
 
     Clip::~Clip() = default;
@@ -98,6 +105,11 @@ namespace dspx {
     Track *Clip::track() const {
         Q_D(const Clip);
         return d->track;
+    }
+
+    int Clip::position() const {
+        Q_D(const Clip);
+        return d->time->start() + d->time->clipStart();
     }
 
     void Clip::setTrack(Track *track) {

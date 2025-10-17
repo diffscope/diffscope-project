@@ -9,6 +9,7 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/TrackControl.h>
 #include <dspxmodel/Workspace.h>
+#include <dspxmodel/ClipSequence.h>
 
 namespace dspx {
 
@@ -17,6 +18,7 @@ namespace dspx {
     public:
         Track *q_ptr;
         ModelPrivate *pModel;
+        ClipSequence *clips;
         QString name;
         TrackControl *control;
         Workspace *workspace;
@@ -37,9 +39,16 @@ namespace dspx {
         d->name = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Name).toString();
         d->control = d->pModel->createObject<TrackControl>(handle);
         d->workspace = d->pModel->createObject<Workspace>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace));
+        d->clips = d->pModel->createObject<ClipSequence>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
+        d->clips->setTrack(this);
     }
 
     Track::~Track() = default;
+
+    ClipSequence * Track::clips() const {
+        Q_D(const Track);
+        return d->clips;
+    }
 
     TrackControl *Track::control() const {
         Q_D(const Track);

@@ -20,7 +20,7 @@ namespace dspx {
 
     class Track;
 
-    class ClipSequencePrivate;
+    class ClipSequence;
 
     class ClipPrivate;
 
@@ -35,6 +35,7 @@ namespace dspx {
         Q_PROPERTY(ClipType type READ type CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
         Q_PROPERTY(Track *track READ track NOTIFY trackChanged)
+        Q_PROPERTY(int position READ position NOTIFY positionChanged)
     public:
         enum ClipType {
             Audio,
@@ -60,16 +61,19 @@ namespace dspx {
 
         Track *track() const;
 
+        int position() const;
+
     Q_SIGNALS:
         void nameChanged(const QString &name);
         void trackChanged();
+        void positionChanged(int position);
 
     protected:
         explicit Clip(ClipType type, Handle handle, Model *model);
         void handleSetEntityProperty(int property, const QVariant &value) override;
 
     private:
-        friend class ClipSequencePrivate;
+        friend class ClipSequence;
         QScopedPointer<ClipPrivate> d_ptr;
         void setTrack(Track *track);
     };

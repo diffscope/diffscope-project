@@ -11,6 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class ClipSequence;
     class TrackControl;
     class Workspace;
 
@@ -21,12 +22,15 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Track)
+        Q_PROPERTY(ClipSequence *clips READ clips CONSTANT)
         Q_PROPERTY(TrackControl *control READ control CONSTANT)
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
 
     public:
         ~Track() override;
+
+        ClipSequence *clips() const;
 
         TrackControl *control() const;
 
