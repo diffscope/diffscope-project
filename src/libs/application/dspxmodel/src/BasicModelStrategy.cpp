@@ -39,13 +39,13 @@ namespace dspx {
     bool BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
         auto sequenceContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(sequenceContainerEntity.d);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
-        if (!sequenceContainerObject->sequence.contains(object)) {
-            sequenceContainerObject->sequence.insert(object);
-            object->setParent(sequenceContainerObject);
-            Q_EMIT insertIntoSequenceContainerNotified(sequenceContainerEntity, entity);
-            return true;
+        if (object->parent() != this) {
+            return false;
         }
-        return false;
+        sequenceContainerObject->sequence.insert(object);
+        object->setParent(sequenceContainerObject);
+        Q_EMIT insertIntoSequenceContainerNotified(sequenceContainerEntity, entity);
+        return true;
     }
 
     bool BasicModelStrategy::insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) {
@@ -54,7 +54,7 @@ namespace dspx {
             return false;
         }
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
-        if (object->parent() == listContainerObject) {
+        if (object->parent() != this) {
             return false;
         }
         listContainerObject->list.insert(index, object);
@@ -66,10 +66,7 @@ namespace dspx {
     bool BasicModelStrategy::insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) {
         auto mapContainerObject = reinterpret_cast<BasicModelStrategyEntity *>(mapContainerEntity.d);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
-        if (object->parent() == mapContainerObject) {
-            return false;
-        }
-        if (mapContainerObject->map.value(key) == object) {
+        if (object->parent() != this) {
             return false;
         }
         if (mapContainerObject->map.contains(key)) {
