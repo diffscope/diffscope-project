@@ -2,11 +2,9 @@
 
 #include <opendspx/qdspxmodel.h>
 
-#include <dspxmodel/private/Control_p.h>
-
 namespace dspx {
 
-    BusControl::BusControl(Handle handle, Model *model) : Control(handle, model, *new ControlPrivate) {
+    BusControl::BusControl(Handle handle, Model *model) : Control(handle, model) {
     }
 
     BusControl::~BusControl() = default;

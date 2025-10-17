@@ -34,6 +34,7 @@ namespace dspx {
         friend class ModelPrivate;
         explicit TrackControl(Handle handle, Model *model);
         void handleProxySetEntityProperty(int property, const QVariant &value);
+        QScopedPointer<TrackControlPrivate> d_ptr;
 
     };
 

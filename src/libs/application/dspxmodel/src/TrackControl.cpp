@@ -2,20 +2,23 @@
 
 #include <opendspx/qdspxmodel.h>
 
-#include <dspxmodel/private/Control_p.h>
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 
 namespace dspx {
 
-    class TrackControlPrivate : public ControlPrivate {
+    class TrackControlPrivate {
         Q_DECLARE_PUBLIC(TrackControl)
     public:
+        TrackControl *q_ptr;
+        ModelPrivate *pModel;
         bool solo;
     };
 
-    TrackControl::TrackControl(Handle handle, Model *model) : Control(handle, model, *new TrackControlPrivate) {
+    TrackControl::TrackControl(Handle handle, Model *model) : Control(handle, model), d_ptr(new TrackControlPrivate) {
         Q_D(TrackControl);
+        d->q_ptr = this;
+        d->pModel = ModelPrivate::get(model);
         d->solo = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_ControlSolo).toBool();
     }
 
@@ -28,7 +31,7 @@ namespace dspx {
 
     void TrackControl::setSolo(bool solo) {
         Q_D(TrackControl);
-        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlSolo, solo);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_ControlSolo, solo);
     }
 
     QDspx::TrackControl TrackControl::toQDspx() const {

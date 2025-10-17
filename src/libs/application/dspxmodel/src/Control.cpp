@@ -1,5 +1,4 @@
 #include "Control.h"
-#include "Control_p.h"
 
 #include <QVariant>
 #include <QJSEngine>
@@ -8,6 +7,21 @@
 #include <dspxmodel/ModelStrategy.h>
 
 namespace dspx {
+
+    class ControlPrivate {
+        Q_DECLARE_PUBLIC(Control)
+    public:
+        Control *q_ptr;
+        ModelPrivate *pModel;
+        Handle handle;
+
+        double gain;
+        double pan;
+        bool mute;
+
+        void setPanUnchecked(double pan_);
+        void setPan(double pan_);
+    };
 
     void ControlPrivate::setPanUnchecked(double pan_) {
         Q_Q(Control);
@@ -23,7 +37,7 @@ namespace dspx {
         setPanUnchecked(pan_);
     }
 
-    Control::Control(Handle handle, Model *model, ControlPrivate &dd) : QObject(model), d_ptr(&dd) {
+    Control::Control(Handle handle, Model *model) : QObject(model), d_ptr(new ControlPrivate) {
         Q_D(Control);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
@@ -87,6 +101,11 @@ namespace dspx {
             default:
                 Q_UNREACHABLE();
         }
+    }
+
+    Handle Control::handle() const {
+        Q_D(const Control);
+        return d->handle;
     }
 
 }
