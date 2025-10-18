@@ -17,6 +17,7 @@ namespace dspx {
 
     WorkspaceInfo::WorkspaceInfo(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new WorkspaceInfoPrivate) {
         Q_D(WorkspaceInfo);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_WorkspaceInfo);
         d->q_ptr = this;
         d->jsonObject = model->strategy()->getEntityProperty(handle, ModelStrategy::P_JsonObject).toJsonObject();
     }

@@ -13,6 +13,7 @@ namespace dspx {
 
         Handle createEntity(Entity entityType) override;
         void destroyEntity(Handle entity) override;
+        Entity getEntityType(Handle entity) override;
         bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
         bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) override;
         bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) override;

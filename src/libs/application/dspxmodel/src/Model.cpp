@@ -56,7 +56,7 @@ namespace dspx {
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
         tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
         timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
-        trackList = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tracks), q);
+        trackList = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
@@ -117,6 +117,18 @@ namespace dspx {
 
     Handle ModelPrivate::mapToHandle(EntityObject *object) const {
         return handleMap.value(object);
+    }
+
+    template <>
+    Clip *ModelPrivate::createObject<Clip>(Handle handle) {
+        switch (strategy->getEntityType(handle)) {
+            case ModelStrategy::EI_AudioClip:
+                return createObject<AudioClip>(handle);
+            case ModelStrategy::EI_SingingClip:
+                return createObject<SingingClip>(handle);
+            default:
+                Q_UNREACHABLE();
+        }
     }
 
     Model::Model(ModelStrategy *strategy, QObject *parent) : EntityObject(parent), d_ptr(new ModelPrivate) {

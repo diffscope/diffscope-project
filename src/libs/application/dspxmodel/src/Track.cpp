@@ -34,6 +34,7 @@ namespace dspx {
 
     Track::Track(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TrackPrivate) {
         Q_D(Track);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Track);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->name = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Name).toString();
@@ -74,7 +75,7 @@ namespace dspx {
         return {
             name(),
             control()->toQDspx(),
-            {},
+            clips()->toQDspx(),
             {},
             {},
             {},
@@ -85,6 +86,7 @@ namespace dspx {
     void Track::fromQDspx(const QDspx::Track &track) {
         setName(track.name);
         control()->fromQDspx(track.control);
+        clips()->fromQDspx(track.clips);
         workspace()->fromQDspx(track.workspace);
     }
 

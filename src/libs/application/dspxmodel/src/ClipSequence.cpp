@@ -24,6 +24,7 @@ namespace dspx {
 
     ClipSequence::ClipSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipSequencePrivate) {
         Q_D(ClipSequence);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Clips);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {

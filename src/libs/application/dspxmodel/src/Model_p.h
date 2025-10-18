@@ -10,6 +10,7 @@ namespace dspx {
     class LabelSequence;
     class TempoSequence;
     class TimeSignatureSequence;
+    class Clip;
 
     class ModelPrivate {
         Q_DECLARE_PUBLIC(Model)
@@ -47,11 +48,14 @@ namespace dspx {
         EntityObject *mapToObject(Handle handle) const;
         Handle mapToHandle(EntityObject *object) const;
 
-        template<class T>
+        template <class T>
         T *createObject(Handle handle) {
             Q_Q(Model);
             return new T(handle, q);
         }
+
+        template <>
+        Clip *createObject<Clip>(Handle handle);
 
         template<class T>
         static void proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {

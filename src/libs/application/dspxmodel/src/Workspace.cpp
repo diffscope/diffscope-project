@@ -17,6 +17,7 @@ namespace dspx {
 
     Workspace::Workspace(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new WorkspacePrivate) {
         Q_D(Workspace);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EM_Workspace);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

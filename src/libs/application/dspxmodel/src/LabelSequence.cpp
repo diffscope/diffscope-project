@@ -19,6 +19,7 @@ namespace dspx {
 
     LabelSequence::LabelSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelSequencePrivate) {
         Q_D(LabelSequence);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Labels);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

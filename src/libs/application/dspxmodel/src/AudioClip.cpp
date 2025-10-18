@@ -20,6 +20,7 @@ namespace dspx {
 
     AudioClip::AudioClip(Handle handle, Model *model) : Clip(Audio, handle, model), d_ptr(new AudioClipPrivate) {
         Q_D(AudioClip);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_AudioClip);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

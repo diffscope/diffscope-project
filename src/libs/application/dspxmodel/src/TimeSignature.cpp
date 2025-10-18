@@ -77,6 +77,7 @@ namespace dspx {
 
     TimeSignature::TimeSignature(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TimeSignaturePrivate) {
         Q_D(TimeSignature);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_TimeSignature);
         d->q_ptr = this;
         d->index = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Measure).toInt();
         d->numerator = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Numerator).toInt();

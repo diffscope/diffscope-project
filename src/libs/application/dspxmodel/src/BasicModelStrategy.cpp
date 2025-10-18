@@ -11,6 +11,7 @@ namespace dspx {
     public:
         using QObject::QObject;
 
+        ModelStrategy::Entity type{};
         QHash<ModelStrategy::Property, QVariant> properties;
         QList<BasicModelStrategyEntity *> list;
         QSet<BasicModelStrategyEntity *> sequence;
@@ -25,6 +26,7 @@ namespace dspx {
 
     Handle BasicModelStrategy::createEntity(Entity entityType) {
         auto object = new BasicModelStrategyEntity(this);
+        object->type = entityType;
         Handle entity {reinterpret_cast<quintptr>(object)};
         Q_EMIT createEntityNotified(entity, entityType);
         return entity;
@@ -34,6 +36,10 @@ namespace dspx {
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
         delete object;
         Q_EMIT destroyEntityNotified(entity);
+    }
+
+    ModelStrategy::Entity BasicModelStrategy::getEntityType(Handle entity) {
+        return reinterpret_cast<BasicModelStrategyEntity *>(entity.d)->type;
     }
 
     bool BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
@@ -138,10 +144,67 @@ namespace dspx {
 
     Handle BasicModelStrategy::getAssociatedSubEntity(Handle entity, Relationship relationship) {
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
-        auto subObject = object->associatedSubEntities.contains(relationship) ?
-            object->associatedSubEntities.value(relationship) :
-            new BasicModelStrategyEntity(object);
-        object->associatedSubEntities.insert(relationship, subObject);
+        auto subObject = object->associatedSubEntities.value(relationship);
+        if (!subObject) {
+            subObject = new BasicModelStrategyEntity(object);
+            switch (relationship) {
+                case R_Children:
+                    switch (object->type) {
+                        case EI_Global:
+                            subObject->type = EL_Tracks;
+                            break;
+                        case EI_Track:
+                            subObject->type = ES_Clips;
+                            break;
+                        case EI_SingingClip:
+                            subObject->type = ES_Notes;
+                            break;
+                        case EI_ParamCurveAnchor:
+                            subObject->type = ES_ParamCurveAnchorNodes;
+                            break;
+                        case EI_ParamCurveFree:
+                            subObject->type = ED_ParamCurveFreeItems;
+                            break;
+                        default:
+                            Q_UNREACHABLE();
+                    }
+                    break;
+                case R_Labels:
+                    subObject->type = ES_Labels;
+                    break;
+                case R_ParamCurvesEdited:
+                case R_ParamCurvesOriginal:
+                case R_ParamCurvesTransform:
+                    subObject->type = ES_ParamCurves;
+                    break;
+                case R_Params:
+                    subObject->type = EM_Params;
+                    break;
+                case R_PhonemesEdited:
+                case R_PhonemesOriginal:
+                    subObject->type = EL_Phonemes;
+                    break;
+                case R_Sources:
+                    subObject->type = EM_Sources;
+                    break;
+                case R_Tempos:
+                    subObject->type = ES_Tempos;
+                    break;
+                case R_TimeSignatures:
+                    subObject->type = ES_TimeSignatures;
+                    break;
+                case R_VibratoPointsAmplitude:
+                case R_VibratoPointsFrequency:
+                    subObject->type = ED_VibratoPoints;
+                    break;
+                case R_Workspace:
+                    subObject->type = EM_Workspace;
+                    break;
+                default:
+                    Q_UNREACHABLE();
+            }
+            object->associatedSubEntities.insert(relationship, subObject);
+        }
         Handle subEntity {reinterpret_cast<quintptr>(subObject)};
         return subEntity;
     }

@@ -19,6 +19,7 @@ namespace dspx {
 
     TimeSignatureSequence::TimeSignatureSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TimeSignatureSequencePrivate) {
         Q_D(TimeSignatureSequence);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_TimeSignatures);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

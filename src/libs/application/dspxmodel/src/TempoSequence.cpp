@@ -19,6 +19,7 @@ namespace dspx {
 
     TempoSequence::TempoSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TempoSequencePrivate) {
         Q_D(TempoSequence);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Tempos);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

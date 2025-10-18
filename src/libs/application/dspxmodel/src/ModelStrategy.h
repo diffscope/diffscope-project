@@ -89,15 +89,14 @@ namespace dspx {
             R_Children,
             R_Labels,
             R_ParamCurvesEdited,
-            R_ParamCurvesEnvelop,
             R_ParamCurvesOriginal,
+            R_ParamCurvesTransform,
             R_Params,
             R_PhonemesEdited,
             R_PhonemesOriginal,
             R_Sources,
             R_Tempos,
             R_TimeSignatures,
-            R_Tracks,
             R_VibratoPointsAmplitude,
             R_VibratoPointsFrequency,
             R_Workspace,
@@ -105,6 +104,7 @@ namespace dspx {
 
         virtual Handle createEntity(Entity entityType) = 0;
         virtual void destroyEntity(Handle entity) = 0;
+        virtual Entity getEntityType(Handle entity) = 0;
 
         virtual bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
         virtual bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) = 0;

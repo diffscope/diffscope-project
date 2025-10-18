@@ -42,8 +42,25 @@
           "mute": false,
           "solo": false
         },
-        "color": "",
-        "clips": [],
+        "clips": [
+          {
+            "control": {
+              "gain": 1,
+              "mute": false,
+              "pan": 0
+            },
+            "name": "Clip 1",
+            "path": "/path/to/aaa",
+            "time": {
+              "clipLen": 1920,
+              "clipStart": 0,
+              "length": 1920,
+              "start": 0
+            },
+            "type": "audio",
+            "workspace": {}
+          }
+        ],
         "workspace": {
           "x": {
             "test": "test x"
@@ -58,7 +75,6 @@
           "mute": false,
           "solo": false
         },
-        "color": "",
         "clips": [],
         "workspace": {
           "y": {

@@ -16,6 +16,7 @@ namespace dspx {
 
     TrackList::TrackList(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TrackListPrivate) {
         Q_D(TrackList);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EL_Tracks);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
     }

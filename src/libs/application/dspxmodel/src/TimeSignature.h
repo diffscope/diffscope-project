@@ -18,8 +18,8 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(TimeSignature);
         Q_PRIVATE_PROPERTY(d_func(), int index MEMBER index WRITE setIndex NOTIFY indexChanged)
-        Q_PROPERTY(d_func(), int numerator MEMBER numerator WRITE setNumerator NOTIFY numeratorChanged)
-        Q_PROPERTY(d_func(), int denominator MEMBER denominator WRITE setDenominator NOTIFY denominatorChanged)
+        Q_PRIVATE_PROPERTY(d_func(), int numerator MEMBER numerator WRITE setNumerator NOTIFY numeratorChanged)
+        Q_PRIVATE_PROPERTY(d_func(), int denominator MEMBER denominator WRITE setDenominator NOTIFY denominatorChanged)
     public:
         ~TimeSignature() override;
 

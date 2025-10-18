@@ -55,6 +55,7 @@ namespace dspx {
 
     Tempo::Tempo(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TempoPrivate) {
         Q_D(Tempo);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Tempo);
         d->q_ptr = this;
         d->pos = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Position).toInt();
         d->value = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Value).toDouble();

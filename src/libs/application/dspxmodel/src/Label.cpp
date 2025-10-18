@@ -38,6 +38,7 @@ namespace dspx {
 
     Label::Label(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelPrivate) {
         Q_D(Label);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Label);
         d->q_ptr = this;
         d->pos = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Position).toInt();
         d->text = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Text).toString();

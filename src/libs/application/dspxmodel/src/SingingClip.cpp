@@ -22,6 +22,7 @@ namespace dspx {
 
     SingingClip::SingingClip(Handle handle, Model *model) : Clip(Singing, handle, model), d_ptr(new SingingClipPrivate) {
         Q_D(SingingClip);
+        Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_SingingClip);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         // TODO: Initialize notes, params, sources when classes are implemented
