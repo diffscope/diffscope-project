@@ -25,6 +25,7 @@ namespace dspx {
         Clip::ClipType type;
         Track *track{};
         Workspace *workspace;
+        bool overlapped{};
     };
 
     Clip::Clip(ClipType type, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipPrivate) {
@@ -42,6 +43,9 @@ namespace dspx {
         });
         connect(d->time, &ClipTime::clipStartChanged, this, [this] {
             Q_EMIT positionChanged(position());
+        });
+        connect(d->time, &ClipTime::clipLenChanged, this, [this] {
+            Q_EMIT lengthChanged(length());
         });
     }
 
@@ -110,6 +114,24 @@ namespace dspx {
     int Clip::position() const {
         Q_D(const Clip);
         return d->time->start() + d->time->clipStart();
+    }
+
+    int Clip::length() const {
+        Q_D(const Clip);
+        return d->time->clipLen();
+    }
+
+    bool Clip::isOverlapped() const {
+        Q_D(const Clip);
+        return d->overlapped;
+    }
+
+    void Clip::setOverlapped(bool overlapped) {
+        Q_D(Clip);
+        if (d->overlapped != overlapped) {
+            d->overlapped = overlapped;
+            Q_EMIT overlappedChanged(overlapped);
+        }
     }
 
     void Clip::setTrack(Track *track) {

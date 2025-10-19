@@ -6,6 +6,8 @@
 #include <opendspx/qdspxmodel.h>
 
 #include <dspxmodel/private/PointSequenceContainer_p.h>
+#include <dspxmodel/private/RangeSequenceContainer_p.h>
+#include <dspxmodel/private/RangeSequenceData_p.h>
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/Clip.h>
 #include <dspxmodel/Track.h>
@@ -13,14 +15,27 @@
 #include <dspxmodel/private/PointSequenceData_p.h>
 #include <dspxmodel/AudioClip.h>
 #include <dspxmodel/SingingClip.h>
+#include <dspxmodel/ClipTime.h>
 
 namespace dspx {
 
-    class ClipSequencePrivate : public PointSequenceData<ClipSequence, Clip, &Clip::position, &Clip::positionChanged> {
+    static void setClipOverlapped(Clip *item, bool overlapped);
+
+    class ClipSequencePrivate : public RangeSequenceData<ClipSequence, Clip, &Clip::position, &Clip::positionChanged, &Clip::length, &Clip::lengthChanged, &setClipOverlapped> {
         Q_DECLARE_PUBLIC(ClipSequence)
     public:
         Track *track{};
+        static void setOverlapped(Clip *item, bool overlapped) {
+            item->setOverlapped(overlapped);
+        }
+        static void setTrack(Clip *item, Track *track) {
+            item->setTrack(track);
+        }
     };
+
+    void setClipOverlapped(Clip *item, bool overlapped) {
+        ClipSequencePrivate::setOverlapped(item, overlapped);
+    }
 
     ClipSequence::ClipSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipSequencePrivate) {
         Q_D(ClipSequence);
@@ -28,10 +43,10 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {
-            item->setTrack(d->track);
+            ClipSequencePrivate::setTrack(item, d->track);
         });
         connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item) {
-            item->setTrack(nullptr);
+            ClipSequencePrivate::setTrack(item, nullptr);
         });
     }
 
@@ -39,7 +54,7 @@ namespace dspx {
 
     int ClipSequence::size() const {
         Q_D(const ClipSequence);
-        return d->container.size();
+        return d->pointContainer.size();
     }
 
     Clip *ClipSequence::firstItem() const {
@@ -59,22 +74,22 @@ namespace dspx {
 
     Clip *ClipSequence::previousItem(Clip *item) const {
         Q_D(const ClipSequence);
-        return d->container.previousItem(item);
+        return d->pointContainer.previousItem(item);
     }
 
     Clip *ClipSequence::nextItem(Clip *item) const {
         Q_D(const ClipSequence);
-        return d->container.nextItem(item);
+        return d->pointContainer.nextItem(item);
     }
 
     QList<Clip *> ClipSequence::slice(int position, int length) const {
         Q_D(const ClipSequence);
-        return d->container.slice(position, length);
+        return d->rangeContainer.slice(position, length);
     }
 
     bool ClipSequence::contains(Clip *item) const {
         Q_D(const ClipSequence);
-        return d->container.contains(item);
+        return d->pointContainer.contains(item);
     }
 
     bool ClipSequence::insertItem(Clip *item) {
@@ -90,8 +105,8 @@ namespace dspx {
     QList<QDspx::ClipRef> ClipSequence::toQDspx() const {
         Q_D(const ClipSequence);
         QList<QDspx::ClipRef> ret;
-        ret.reserve(d->container.size());
-        for (const auto &[_, item] : d->container.m_items) {
+        ret.reserve(d->pointContainer.size());
+        for (const auto &[_, item] : d->pointContainer.m_items) {
             ret.append(item->toQDspx());
         }
         return ret;
