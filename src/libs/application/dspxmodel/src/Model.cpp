@@ -9,6 +9,8 @@
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Master.h>
 #include <dspxmodel/Label.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/Phoneme.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/TimeSignature.h>
 #include <dspxmodel/Track.h>
@@ -201,6 +203,18 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Label);
         return d->createObject<Label>(handle);
+    }
+
+    Note *Model::createNote() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Note);
+        return d->createObject<Note>(handle);
+    }
+
+    Phoneme *Model::createPhoneme() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Phoneme);
+        return d->createObject<Phoneme>(handle);
     }
 
     Tempo *Model::createTempo() {

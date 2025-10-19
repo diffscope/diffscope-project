@@ -21,6 +21,8 @@ namespace dspx {
     class TrackList;
     class Workspace;
     class Label;
+    class Note;
+    class Phoneme;
     class Tempo;
     class TimeSignature;
     class Track;
@@ -56,6 +58,8 @@ namespace dspx {
         void fromQDspx(const QDspx::Model &model);
 
         Q_INVOKABLE Label *createLabel();
+        Q_INVOKABLE Note *createNote();
+        Q_INVOKABLE Phoneme *createPhoneme();
         Q_INVOKABLE Tempo *createTempo();
         Q_INVOKABLE TimeSignature *createTimeSignature();
         Q_INVOKABLE Track *createTrack();

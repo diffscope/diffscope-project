@@ -72,20 +72,24 @@ namespace dspx {
         void handleInsertIntoSequenceContainer(Handle entity) {
             auto q = q_ptr;
             auto item = getItem(entity, true);
-            QObject::connect(item, positionChangedSignal, q, [=](int pos) {
-                insertItem(item, pos);
-            });
-            QObject::connect(item, &QObject::destroyed, q, [=] {
-                removeItem(item);
-            });
+            if (!container.contains(item)) {
+                QObject::connect(item, positionChangedSignal, q, [=](int pos) {
+                    insertItem(item, pos);
+                });
+                QObject::connect(item, &QObject::destroyed, q, [=] {
+                    removeItem(item);
+                });
+            }
             insertItem(item, (item->*positionGetter)());
         }
 
         void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
             auto q = q_ptr;
             auto item = getItem(takenEntity, false);
-            QObject::disconnect(item, nullptr, q, nullptr);
-            removeItem(item);
+            if (item) {
+                QObject::disconnect(item, nullptr, q, nullptr);
+                removeItem(item);
+            }
         }
 
         QJSValue iterable() {

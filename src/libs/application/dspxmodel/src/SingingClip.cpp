@@ -7,6 +7,7 @@
 #include <dspxmodel/BusControl.h>
 #include <dspxmodel/ClipTime.h>
 #include <dspxmodel/Workspace.h>
+#include <dspxmodel/NoteSequence.h>
 
 namespace dspx {
 
@@ -25,8 +26,9 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_SingingClip);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
-        // TODO: Initialize notes, params, sources when classes are implemented
-        d->notes = nullptr;
+        d->notes = d->pModel->createObject<NoteSequence>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
+        d->notes->setSingingClip(this);
+        // TODO: Initialize params, sources when classes are implemented
         d->params = nullptr;
         d->sources = nullptr;
     }
@@ -72,3 +74,5 @@ namespace dspx {
     }
 
 }
+
+#include "moc_SingingClip.cpp"

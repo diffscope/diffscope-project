@@ -21,7 +21,7 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(SingingClip)
-        // Q_PROPERTY(NoteSequence *notes READ notes CONSTANT)
+        Q_PROPERTY(NoteSequence *notes READ notes CONSTANT)
         // Q_PROPERTY(ParamMap *params READ params CONSTANT)
         // Q_PROPERTY(SourceMap *sources READ sources CONSTANT)
 

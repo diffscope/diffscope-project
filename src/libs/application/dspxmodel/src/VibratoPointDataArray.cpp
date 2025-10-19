@@ -2,6 +2,8 @@
 
 #include <QPointF>
 
+#include <opendspx/qdspxmodel.h>
+
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/DataArrayData_p.h>
 
@@ -43,6 +45,22 @@ namespace dspx {
         Q_D(VibratoPointDataArray);
         return d->pModel->strategy->rotateDataArray(handle(), leftIndex, middleIndex, rightIndex);
     }
+
+    QList<QDspx::Point<double>> VibratoPointDataArray::toQDspx() const {
+        Q_D(const VibratoPointDataArray);
+        QList<QDspx::Point<double>> a;
+        a.resize(d->data.size());
+        std::ranges::transform(d->data, a.begin(), [](const QPointF &p) -> QDspx::Point<double> { return {p.x(), p.y()}; });
+        return a;
+    }
+
+    void VibratoPointDataArray::fromQDspx(const QList<QDspx::Point<double>> &vibratoPoints) {
+        QList<QPointF> a;
+        a.resize(vibratoPoints.size());
+        std::ranges::transform(vibratoPoints, a.begin(), [](const QDspx::Point<double> &p) -> QPointF { return {p.x, p.y}; });
+        splice(0, size(), a);
+    }
+
     void VibratoPointDataArray::handleSpliceDataArray(int index, int length, const QVariantList &values) {
         Q_D(VibratoPointDataArray);
         QList<QPointF> a;

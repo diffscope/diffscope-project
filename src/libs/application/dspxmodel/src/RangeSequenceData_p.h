@@ -95,34 +95,29 @@ namespace dspx {
         void handleInsertIntoSequenceContainer(Handle entity) {
             auto q = q_ptr;
             auto item = getItem(entity, true);
-            
-            // Connect position changed signal
-            QObject::connect(item, positionChangedSignal, q, [=](int pos) {
-                int length = (item->*lengthGetter)();
-                insertItem(item, pos, length);
-            });
-            
-            // Connect length changed signal
-            QObject::connect(item, lengthChangedSignal, q, [=](int len) {
-                int position = (item->*positionGetter)();
-                insertItem(item, position, len);
-            });
-            
-            // Connect destruction signal
-            QObject::connect(item, &QObject::destroyed, q, [=] {
-                removeItem(item);
-            });
-            
-            int position = (item->*positionGetter)();
-            int length = (item->*lengthGetter)();
-            insertItem(item, position, length);
+            if (!pointContainer.contains(item)) {
+                QObject::connect(item, positionChangedSignal, q, [=](int pos) {
+                    int length = (item->*lengthGetter)();
+                    insertItem(item, pos, length);
+                });
+                QObject::connect(item, lengthChangedSignal, q, [=](int len) {
+                    int position = (item->*positionGetter)();
+                    insertItem(item, position, len);
+                });
+                QObject::connect(item, &QObject::destroyed, q, [=] {
+                    removeItem(item);
+                });
+            }
+            insertItem(item, (item->*positionGetter)(), (item->*lengthGetter)());
         }
 
         void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
             auto q = q_ptr;
             auto item = getItem(takenEntity, false);
-            QObject::disconnect(item, nullptr, q, nullptr);
-            removeItem(item);
+            if (item) {
+                QObject::disconnect(item, nullptr, q, nullptr);
+                removeItem(item);
+            }
         }
 
         QJSValue iterable() {

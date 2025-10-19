@@ -5,6 +5,11 @@
 
 #include <dspxmodel/EntityObject.h>
 
+namespace QDspx {
+    template <typename T>
+    struct Point;
+}
+
 namespace dspx {
 
     class VibratoPointDataArrayPrivate;
@@ -24,6 +29,9 @@ namespace dspx {
         Q_INVOKABLE bool splice(int index, int length, const QList<QPointF> &values);
         Q_INVOKABLE QList<QPointF> slice(int index, int length) const;
         Q_INVOKABLE bool rotate(int leftIndex, int middleIndex, int rightIndex);
+
+        QList<QDspx::Point<double>> toQDspx() const;
+        void fromQDspx(const QList<QDspx::Point<double>> &vibratoPoints);
 
     Q_SIGNALS:
         void sizeChanged(int size);
