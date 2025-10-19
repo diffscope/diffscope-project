@@ -6,6 +6,12 @@ file(GLOB_RECURSE _src *.h *.cpp)
 
 ck_add_library(${PROJECT_NAME} SHARED AUTOGEN)
 
+find_path(INTERVAL_TREE_INCLUDE_DIRS "interval-tree/interval_tree.hpp" REQUIRED)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    "$<BUILD_INTERFACE:${INTERVAL_TREE_INCLUDE_DIRS}>"
+)
+
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     LINKS opendspx

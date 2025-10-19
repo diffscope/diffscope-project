@@ -2,6 +2,7 @@
 #define DIFFSCOPE_DSPX_MODEL_MODELSTRATEGY_H
 
 #include <QObject>
+#include <QVariant>
 
 #include <dspxmodel/Handle.h>
 
@@ -118,6 +119,11 @@ namespace dspx {
         virtual void setEntityProperty(Handle entity, Property property, const QVariant &value) = 0;
         virtual QVariant getEntityProperty(Handle entity, Property property) = 0;
 
+        virtual QVariantList spliceDataContainer(Handle dataContainerEntity, int index, int length, const QVariantList &values) = 0;
+        virtual QVariantList sliceDataContainer(Handle dataContainerEntity, int index, int length) = 0;
+        virtual int getSizeOfDataContainer(Handle dataContainerEntity) = 0;
+        virtual bool rotateDataContainer(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
+
         virtual Handle getAssociatedSubEntity(Handle entity, Relationship relationship) = 0;
 
     Q_SIGNALS:
@@ -134,6 +140,9 @@ namespace dspx {
         void rotateListContainerNotified(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex);
 
         void setEntityPropertyNotified(Handle entity, Property property, const QVariant &value);
+
+        void spliceDataContainerNotified(const QVariantList &takenValues, Handle dataContainerEntity, int index, int length, const QVariantList &values);
+        void rotateDataContainerNotified(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex);
 
 
     };

@@ -3,7 +3,6 @@
 
 #include <dspxmodel/DspxModelGlobal.h>
 
-
 namespace dspx {
 
     struct Handle {
@@ -16,8 +15,6 @@ namespace dspx {
         friend size_t qHash(const Handle &handle, size_t seed = 0) {
             return qHash(handle.d, seed);
         }
-
-        friend QDebug operator<<(QDebug debug, const Handle &handle);
 
         constexpr bool isNull() const {
             return !d;
