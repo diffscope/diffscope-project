@@ -60,6 +60,12 @@ namespace dspx {
     void EntityObject::handleSetEntityProperty(int property, const QVariant &value) {
         Q_UNREACHABLE();
     }
+    void EntityObject::handleSpliceDataArray(int index, int length, const QVariantList &values) {
+        Q_UNREACHABLE();
+    }
+    void EntityObject::handleRotateDataArray(int leftIndex, int middleIndex, int rightIndex) {
+        Q_UNREACHABLE();
+    }
 }
 
 #include "moc_EntityObject.cpp"

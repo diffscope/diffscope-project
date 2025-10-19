@@ -23,10 +23,10 @@ namespace dspx {
         bool rotateListContainer(Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
         void setEntityProperty(Handle entity, Property property, const QVariant &value) override;
         QVariant getEntityProperty(Handle entity, Property property) override;
-        QVariantList spliceDataContainer(Handle dataContainerEntity, int index, int length, const QVariantList &values) override;
-        QVariantList sliceDataContainer(Handle dataContainerEntity, int index, int length) override;
-        int getSizeOfDataContainer(Handle dataContainerEntity) override;
-        bool rotateDataContainer(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
+        bool spliceDataArray(Handle dataContainerEntity, int index, int length, const QVariantList &values) override;
+        QVariantList sliceDataArray(Handle dataContainerEntity, int index, int length) override;
+        int getSizeOfDataArray(Handle dataContainerEntity) override;
+        bool rotateDataArray(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
         Handle getAssociatedSubEntity(Handle entity, Relationship relationship) override;
 
     };

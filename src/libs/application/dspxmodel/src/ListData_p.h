@@ -84,7 +84,7 @@ namespace dspx {
             auto q = q_ptr;
             Q_EMIT q->aboutToRotate(leftIndex, middleIndex, rightIndex);
             
-            std::ranges::rotate(itemList.begin() + leftIndex, itemList.begin() + middleIndex, itemList.begin() + rightIndex);
+            std::rotate(itemList.begin() + leftIndex, itemList.begin() + middleIndex, itemList.begin() + rightIndex);
             
             Q_EMIT q->rotated(leftIndex, middleIndex, rightIndex);
             Q_EMIT q->itemsChanged();

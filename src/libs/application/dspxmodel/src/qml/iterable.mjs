@@ -80,3 +80,28 @@ export class MapIterable {
         }
     }
 }
+
+export class DataArrayIterable {
+
+    constructor(object) {
+        this.object = object
+    }
+
+    [Symbol.iterator]() {
+        const object = this.object
+        let index = 0
+        return {
+            next() {
+                if (index >= object.size) {
+                    return { done: true }
+                }
+                const value = object.slice(index, 1);
+                index++
+                return {
+                    value: value,
+                    done: false
+                }
+            }
+        }
+    }
+}

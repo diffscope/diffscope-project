@@ -36,6 +36,9 @@ namespace dspx {
 
         virtual void handleSetEntityProperty(int property, const QVariant &value);
 
+        virtual void handleSpliceDataArray(int index, int length, const QVariantList &values);
+        virtual void handleRotateDataArray(int leftIndex, int middleIndex, int rightIndex);
+
         explicit EntityObject(Handle handle, Model *model);
 
     private:

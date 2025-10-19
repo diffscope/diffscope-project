@@ -5,6 +5,8 @@
 #include <QVariant>
 #include <QHash>
 
+#include <dspxmodel/private/SpliceHelper_p.h>
+
 namespace dspx {
 
     class BasicModelStrategyEntity : public QObject {
@@ -49,7 +51,7 @@ namespace dspx {
         QHash<QString, BasicModelStrategyEntity *> map;
     };
 
-    class BasicModelStrategyDataContainerEntity : public BasicModelStrategyEntity {
+    class BasicModelStrategyDataArrayEntity : public BasicModelStrategyEntity {
         Q_OBJECT
     public:
         using BasicModelStrategyEntity::BasicModelStrategyEntity;
@@ -95,7 +97,7 @@ namespace dspx {
                 break;
             case ModelStrategy::ED_ParamCurveFreeItems:
             case ModelStrategy::ED_VibratoPoints:
-                obj = new BasicModelStrategyDataContainerEntity(parent);
+                obj = new BasicModelStrategyDataArrayEntity(parent);
                 obj->type = type;
                 break;
             case ModelStrategy::EM_Params:
@@ -238,47 +240,33 @@ namespace dspx {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
         return object->properties.value(property);
     }
-    QVariantList BasicModelStrategy::spliceDataContainer(Handle dataContainerEntity, int index, int length, const QVariantList &values) {
-        auto &data = handleCast<BasicModelStrategyDataContainerEntity>(dataContainerEntity)->data;
+    bool BasicModelStrategy::spliceDataArray(Handle dataArrayEntity, int index, int length, const QVariantList &values) {
+        auto &data = handleCast<BasicModelStrategyDataArrayEntity>(dataArrayEntity)->data;
         if (index < 0 || index > data.size() || length < 0 || index + length > data.size()) {
-            return {};
+            return false;
         }
-        QVariantList removed;
-        removed.resize(length);
-        std::move(data.begin() + index, data.begin() + index + length, removed.begin());
-        auto replaceCount = qMin(length, values.size());
-        std::copy(values.begin(), values.begin() + replaceCount, data.begin() + index);
-        if (values.size() > length) {
-            auto extraSize = values.size() - length;
-            auto oldSize = data.size();
-            data.resize(oldSize + extraSize);
-            std::move_backward(data.begin() + index + length, data.begin() + oldSize, data.begin() + oldSize + extraSize
-            );
-            std::copy(values.begin() + replaceCount, values.end(), data.begin() + index + replaceCount);
-        } else if (values.size() < length) {
-            data.remove(index + replaceCount, length - replaceCount);
-        }
-        Q_EMIT spliceDataContainerNotified(removed, dataContainerEntity, index, length, values);
-        return removed;
+        SpliceHelper::splice(data, data.begin() + index, data.begin() + index + length, values.begin(), values.end());
+        Q_EMIT spliceDataArrayNotified(dataArrayEntity, index, length, values);
+        return true;
     }
-    QVariantList BasicModelStrategy::sliceDataContainer(Handle dataContainerEntity, int index, int length) {
-        const auto &data = handleCast<BasicModelStrategyDataContainerEntity>(dataContainerEntity)->data;
-        if (index < 0 || index >= data.size() || length <= 0 || index + length > data.size()) {
+    QVariantList BasicModelStrategy::sliceDataArray(Handle dataArrayEntity, int index, int length) {
+        const auto &data = handleCast<BasicModelStrategyDataArrayEntity>(dataArrayEntity)->data;
+        if (index < 0 || index >= data.size()) {
             return {};
         }
         return data.mid(index, length);
     }
-    int BasicModelStrategy::getSizeOfDataContainer(Handle dataContainerEntity) {
-        const auto &data = handleCast<BasicModelStrategyDataContainerEntity>(dataContainerEntity)->data;
+    int BasicModelStrategy::getSizeOfDataArray(Handle dataArrayEntity) {
+        const auto &data = handleCast<BasicModelStrategyDataArrayEntity>(dataArrayEntity)->data;
         return static_cast<int>(data.size());
     }
-    bool BasicModelStrategy::rotateDataContainer(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) {
-        auto &data = handleCast<BasicModelStrategyDataContainerEntity>(dataContainerEntity)->data;
+    bool BasicModelStrategy::rotateDataArray(Handle dataArrayEntity, int leftIndex, int middleIndex, int rightIndex) {
+        auto &data = handleCast<BasicModelStrategyDataArrayEntity>(dataArrayEntity)->data;
         if (leftIndex < 0 || leftIndex > data.size() || middleIndex < leftIndex || middleIndex > data.size() || rightIndex < middleIndex || rightIndex > data.size()) {
             return false;
         }
         std::rotate(data.begin() + leftIndex, data.begin() + middleIndex, data.begin() + rightIndex);
-        Q_EMIT rotateDataContainerNotified(dataContainerEntity, leftIndex, middleIndex, rightIndex);
+        Q_EMIT rotateDataArrayNotified(dataArrayEntity, leftIndex, middleIndex, rightIndex);
         return true;
     }
 

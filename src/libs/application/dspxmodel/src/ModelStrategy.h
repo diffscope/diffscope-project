@@ -119,10 +119,10 @@ namespace dspx {
         virtual void setEntityProperty(Handle entity, Property property, const QVariant &value) = 0;
         virtual QVariant getEntityProperty(Handle entity, Property property) = 0;
 
-        virtual QVariantList spliceDataContainer(Handle dataContainerEntity, int index, int length, const QVariantList &values) = 0;
-        virtual QVariantList sliceDataContainer(Handle dataContainerEntity, int index, int length) = 0;
-        virtual int getSizeOfDataContainer(Handle dataContainerEntity) = 0;
-        virtual bool rotateDataContainer(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
+        virtual bool spliceDataArray(Handle dataContainerEntity, int index, int length, const QVariantList &values) = 0;
+        virtual QVariantList sliceDataArray(Handle dataContainerEntity, int index, int length) = 0;
+        virtual int getSizeOfDataArray(Handle dataContainerEntity) = 0;
+        virtual bool rotateDataArray(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) = 0;
 
         virtual Handle getAssociatedSubEntity(Handle entity, Relationship relationship) = 0;
 
@@ -141,8 +141,8 @@ namespace dspx {
 
         void setEntityPropertyNotified(Handle entity, Property property, const QVariant &value);
 
-        void spliceDataContainerNotified(const QVariantList &takenValues, Handle dataContainerEntity, int index, int length, const QVariantList &values);
-        void rotateDataContainerNotified(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex);
+        void spliceDataArrayNotified(Handle dataContainerEntity, int index, int length, const QVariantList &values);
+        void rotateDataArrayNotified(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex);
 
 
     };
