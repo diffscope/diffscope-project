@@ -47,6 +47,8 @@ Window {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
+    signal removeRecentFileRequested(int index)
+    signal removeRecoveryFileRequested(int index)
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -296,8 +298,11 @@ Window {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
                 onTriggered: () => {
-                    const model = tapHandler.recovery ? recoveryFilesProxyModel : recentFilesProxyModel
-                    model.remove(tapHandler.index)
+                    if (tapHandler.recovery) {
+                        window.removeRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
+                    } else {
+                        window.removeRecentFileRequested(recentFilesProxyModel.mapIndexToSource(tapHandler.index))
+                    }
                 }
             }
         }
