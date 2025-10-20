@@ -16,8 +16,12 @@
 
     <items>
         <action id="core.file.&amp;new" description="Create a project in a new window" shortcut="Ctrl+N" />
+        <action id="core.file.newFromTemplate^" description="Create a project from template in a new window" shortcut="Ctrl+Alt+N" />
         <action id="core.file.&amp;open^" description="Open an existing project in a new window" shortcut="Ctrl+O" />
+        <action id="core.file.open&amp;RecentFile" />
         <action id="core.file.&amp;save" shortcut="Ctrl+S" />
+        <action id="core.file.save&amp;As^" shortcut="Ctrl+Shift+S" />
+        <action id="core.file.saveCopy^" shortcut="Ctrl+Alt+Shift+S" />
 
         <action id="core.se&amp;ttings^" description="Open application settings" class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" shortcut=""/>
@@ -163,8 +167,14 @@
             <menu id="core.&amp;file">
                 <group id="core.fileOpenActions">
                     <action id="core.file.new"/>
+                    <action id="core.file.newFromTemplate" />
                     <action id="core.file.open" />
+                    <action id="core.file.openRecentFile" />
+                </group>
+                <group id="core.fileSaveActions">
                     <action id="core.file.save" />
+                    <action id="core.file.saveAs" />
+                    <action id="core.file.saveCopy" />
                 </group>
                 <group id="core.preferenceActions">
                     <action id="core.settings"/>
@@ -350,6 +360,7 @@
 
         <menu id="core.homeNavigation">
             <action id="core.file.new"/>
+            <action id="core.file.newFromTemplate" />
             <action id="core.file.open" />
         </menu>
 

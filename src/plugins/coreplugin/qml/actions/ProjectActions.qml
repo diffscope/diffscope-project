@@ -17,6 +17,27 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
+        actionId: "core.file.save"
+        Action {
+
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.saveAs"
+        Action {
+
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.saveCopy"
+        Action {
+
+        }
+    }
+
+    ActionItem {
         actionId: "core.statusText"
         Label {
             text: d.window.StatusTextContext.statusContext.text

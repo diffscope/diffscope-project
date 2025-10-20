@@ -20,8 +20,22 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "core.file.newFromTemplate"
+        Action {
+
+        }
+    }
+
+    ActionItem {
         actionId: "core.file.open"
         Action {
+
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.openRecentFile"
+        Menu {
 
         }
     }
