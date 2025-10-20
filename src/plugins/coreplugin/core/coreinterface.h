@@ -44,7 +44,7 @@ namespace Core {
 
     public:
         Q_INVOKABLE static ProjectWindowInterface *newFile();
-        static bool openFile(const QString &fileName, QWidget *parent = nullptr);
+        Q_INVOKABLE static bool openFile(const QString &fileName, QWidget *parent = nullptr);
 
     Q_SIGNALS:
         void resetAllDoNotShowAgainRequested();

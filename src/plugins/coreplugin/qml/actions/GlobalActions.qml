@@ -29,7 +29,9 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.open"
         Action {
-
+            onTriggered: () => {
+                CoreInterface.openFile("")
+            }
         }
     }
 

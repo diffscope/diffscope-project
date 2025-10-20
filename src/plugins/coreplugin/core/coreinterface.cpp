@@ -4,22 +4,17 @@
 #include <csignal>
 #include <memory>
 
-#include "QStyleFactory"
 #include <QApplication>
 #include <QChildEvent>
 #include <QMessageBox>
 #include <QScreen>
-#include <QScrollArea>
-#include <QScrollBar>
 #include <QTimer>
-#include <QToolBar>
-#include <QToolButton>
-#include <QGridLayout>
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QDesktopServices>
 #include <QQuickWindow>
 #include <QFontDatabase>
+#include <QFileDialog>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
@@ -27,6 +22,7 @@
 
 #include <application_buildinfo.h>
 #include <application_config.h>
+#include <QStandardPaths>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
@@ -255,12 +251,22 @@ namespace Core {
     }
 
     bool CoreInterface::openFile(const QString &fileName, QWidget *parent) {
-        // auto docMgr = CoreInterface::instance()->documentSystem();
-        // if (fileName.isEmpty()) {
-        //     return docMgr->openFileBrowse(parent, DspxSpec::instance());
-        // }
-        // return DspxSpec::instance()->open(fileName, parent);
-        return false;
+        auto settings = RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        settings->endGroup();
+        auto path = QFileDialog::getOpenFileName(
+            parent,
+            {},
+            fileName.isEmpty() ? defaultOpenDir : QFileInfo(fileName).absolutePath(),
+            QStringList{tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")}.join(QStringLiteral(";;"))
+        );
+        if (path.isEmpty())
+            return false;
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
+        settings->endGroup();
+        return true;
     }
 
     CoreInterface::CoreInterface(QObject *parent) : CoreInterface(*new CoreInterfacePrivate(), parent) {
