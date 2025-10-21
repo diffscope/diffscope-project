@@ -61,6 +61,7 @@
 #include <coreplugin/internal/timelineaddon.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/internal/recentfileaddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -376,6 +377,8 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

@@ -29,6 +29,7 @@
 
 #include <CoreApi/private/coreinterfacebase_p.h>
 #include <CoreApi/runtimeinterface.h>
+#include <CoreApi/recentfilecollection.h>
 
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>
@@ -255,17 +256,30 @@ namespace Core {
         settings->beginGroup(staticMetaObject.className());
         auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
         settings->endGroup();
-        auto path = QFileDialog::getOpenFileName(
-            parent,
-            {},
-            fileName.isEmpty() ? defaultOpenDir : QFileInfo(fileName).absolutePath(),
-            QStringList{tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")}.join(QStringLiteral(";;"))
-        );
-        if (path.isEmpty())
-            return false;
+        auto path = fileName;
+        if (path.isEmpty()) {
+            path = QFileDialog::getOpenFileName(
+                parent,
+                {},
+                defaultOpenDir,
+                QStringList{tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")}.join(QStringLiteral(";;"))
+            );
+            if (path.isEmpty())
+                return false;
+        }
+        // TODO do open file
+        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create();
+        QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
+        auto win = static_cast<QQuickWindow *>(windowInterface->window());
+        win->show();
+        if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
+            qCInfo(lcCoreInterface) << "Closing home window";
+            HomeWindowInterface::instance()->quit();
+        }
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
         settings->endGroup();
+        recentFileCollection()->addRecentFile(path, {});
         return true;
     }
 

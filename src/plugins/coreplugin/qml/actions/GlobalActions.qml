@@ -36,13 +36,6 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.file.openRecentFile"
-        Menu {
-
-        }
-    }
-
-    ActionItem {
         actionId: "core.documentations"
         Action {
             onTriggered: () => {
