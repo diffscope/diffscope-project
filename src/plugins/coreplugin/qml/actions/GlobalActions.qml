@@ -15,14 +15,18 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.new"
         Action {
-            onTriggered: (o) => CoreInterface.newFile("", o?.Window.window ?? null)
+            onTriggered: (o) => {
+                CoreInterface.newFile(o?.Window.window ?? null)
+            }
         }
     }
 
     ActionItem {
         actionId: "core.file.newFromTemplate"
         Action {
-
+            onTriggered: (o) => {
+                CoreInterface.newFileFromTemplate("", o?.Window.window ?? null)
+            }
         }
     }
 

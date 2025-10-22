@@ -6,7 +6,7 @@
 class QWindow;
 
 namespace QDspx {
-    class Model;
+    struct Model;
 }
 
 namespace Core {

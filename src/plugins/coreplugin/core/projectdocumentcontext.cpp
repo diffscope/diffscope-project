@@ -32,6 +32,9 @@ namespace Core {
 
     bool ProjectDocumentContext::openFile(const QString &filePath, QWindow *parent) {
         Q_D(ProjectDocumentContext);
+        if (false) {
+            return false; // TODO document should not be opened
+        }
         d->fileLocker = new FileLocker(this);
         if (!d->fileLocker->open(filePath)) {
             qCCritical(lcProjectDocumentContext) << "Failed to open file:" << lcProjectDocumentContext;
@@ -43,20 +46,30 @@ namespace Core {
         if (d->fileLocker->isReadOnly()) {
             qCWarning(lcProjectDocumentContext) << "File is read-only:" << lcProjectDocumentContext;
         }
+        // TODO initialize document
         return true;
     }
 
     void ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument, QWindow *parent) {
         Q_D(ProjectDocumentContext);
-        // TODO
+        if (false) {
+            return; // TODO document should not be opened
+        }
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
         }
+        // TODO initialize document
     }
 
     bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument, QWindow *parent) {
         Q_D(ProjectDocumentContext);
-        // TODO
+        if (false) {
+            return false; // TODO document should not be opened
+        }
+        if (!isNonFileDocument) {
+            d->fileLocker = new FileLocker(this);
+        }
+        // TODO initialize document
         return true;
     }
 

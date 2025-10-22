@@ -16,6 +16,7 @@
 #include <QQuickWindow>
 #include <QFontDatabase>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
@@ -23,10 +24,11 @@
 
 #include <application_buildinfo.h>
 #include <application_config.h>
-#include <QStandardPaths>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
+
+#include <opendspx/qdspxmodel.h>
 
 #include <CoreApi/private/coreinterfacebase_p.h>
 #include <CoreApi/runtimeinterface.h>
@@ -241,14 +243,29 @@ namespace Core {
         return windowInterface;
     }
 
-    ProjectWindowInterface *CoreInterface::newFile(const QString &templateFile, QWindow *parent) {
-        qCInfo(lcCoreInterface) << "New file";
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->newFile(templateFile, false, nullptr)) {
-            return nullptr;
-        }
-        auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        auto win = windowInterface->window();
+    static QString promptOpenDspxFile(QWindow *parent) {
+        auto settings = RuntimeInterface::settings();
+        settings->beginGroup(CoreInterface::staticMetaObject.className());
+        auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        settings->endGroup();
+
+        auto path = QFileDialog::getOpenFileName(
+                nullptr,
+                {},
+                defaultOpenDir,
+                QStringList{Core::CoreInterface::tr("DiffScope Project Exchange Format (*.dspx)"), Core::CoreInterface::tr("All Files (*)")}.join(QStringLiteral(";;"))
+            );
+        if (path.isEmpty())
+            return {};
+
+        settings->beginGroup(CoreInterface::staticMetaObject.className());
+        settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
+        settings->endGroup();
+
+        return path;
+    }
+
+    static void triggerAchievementAfterNewProjectWindowOpened(QWindow *win) {
         class ExposedListener : public QObject {
         public:
             explicit ExposedListener(QObject *parent) : QObject(parent) {
@@ -265,51 +282,64 @@ namespace Core {
         };
         auto listener = new ExposedListener(win);
         win->installEventFilter(listener);
+    }
+
+    ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
+        static QDspxModel defaultModel;
+        qCInfo(lcCoreInterface) << "New file";
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        projectDocumentContext->newFile(defaultModel, false, parent);
+        auto windowInterface = createProjectWindow(projectDocumentContext.release());
+        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
         return windowInterface;
     }
 
-    ProjectWindowInterface *CoreInterface::openFile(const QString &fileName, QWindow *parent) {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+    ProjectWindowInterface *CoreInterface::newFileFromTemplate(const QString &templateFilePath_, QWindow *parent) {
+        qCInfo(lcCoreInterface) << "New file from template" << templateFilePath_;
+        auto templateFilePath = templateFilePath_;
+        if (templateFilePath.isEmpty()) {
+            templateFilePath = promptOpenDspxFile(parent);
+            if (templateFilePath.isEmpty())
+                return nullptr;
+        }
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        if (!projectDocumentContext->newFile(templateFilePath, false, nullptr)) {
+            return nullptr;
+        }
+        auto windowInterface = createProjectWindow(projectDocumentContext.release());
+        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
+        return windowInterface;
+    }
 
-        auto path = fileName;
-        if (path.isEmpty()) {
-            path = QFileDialog::getOpenFileName(
-                nullptr,
-                {},
-                defaultOpenDir,
-                QStringList{tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")}.join(QStringLiteral(";;"))
-            );
-            if (path.isEmpty())
+    ProjectWindowInterface *CoreInterface::openFile(const QString &filePath_, QWindow *parent) {
+        qCInfo(lcCoreInterface) << "Open file" << filePath_;
+        auto filePath = filePath_;
+        if (filePath.isEmpty()) {
+            filePath = promptOpenDspxFile(parent);
+            if (filePath.isEmpty())
                 return nullptr;
         }
 
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
-
         auto windows = windowSystem()->windows();
-        auto openedWindow = std::ranges::find_if(windows, [path](WindowInterface *windowInterface) {
+        auto openedWindow = std::ranges::find_if(windows, [filePath](WindowInterface *windowInterface) {
             if (auto projectWindowInterface = qobject_cast<ProjectWindowInterface *>(windowInterface)) {
                 if (!projectWindowInterface->projectDocumentContext()->fileLocker())
                     return false;
-                return QFileInfo(projectWindowInterface->projectDocumentContext()->fileLocker()->path()).canonicalFilePath() == QFileInfo(path).canonicalFilePath();
+                return QFileInfo(projectWindowInterface->projectDocumentContext()->fileLocker()->path()).canonicalFilePath() == QFileInfo(filePath).canonicalFilePath();
             }
             return false;
         });
         if (openedWindow != windows.end()) {
-            qCInfo(lcCoreInterface) << "File already opened" << path;
+            qCInfo(lcCoreInterface) << "File already opened" << filePath;
             raiseWindow((*openedWindow)->window());
             return qobject_cast<ProjectWindowInterface *>(*openedWindow);
         }
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->openFile(path, parent)) {
+        if (!projectDocumentContext->openFile(filePath, parent)) {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        recentFileCollection()->addRecentFile(path, {});
+        recentFileCollection()->addRecentFile(filePath, {});
         return windowInterface;
     }
 
