@@ -70,15 +70,17 @@ namespace Core::Internal {
 
     void RecentFileAddOn::updateRecentFilesModel() const {
         static const QUrl dspxIconUrl{"image://appicon/dspx"};
+        static const QUrl nonExistFileIconUrl{"qrc:/diffscope/coreplugin/icons/DocumentError48Regular.svg"};
         m_recentFilesModel->clear();
         for (const auto &file : CoreInterface::recentFileCollection()->recentFiles()) {
             QFileInfo fileInfo(file);
             auto item = new QStandardItem;
             item->setData(fileInfo.baseName(), UIShell::USDef::RF_NameRole);
-            item->setData(QDir::toNativeSeparators(fileInfo.canonicalFilePath()), UIShell::USDef::RF_PathRole);
-            item->setData(QLocale().toString(fileInfo.lastModified(), QLocale::ShortFormat), UIShell::USDef::RF_LastModifiedTextRole);
+            item->setData(QDir::toNativeSeparators(fileInfo.absoluteFilePath()), UIShell::USDef::RF_PathRole);
+            item->setData(fileInfo.exists() ? QLocale().toString(fileInfo.lastModified(), QLocale::ShortFormat) : tr("<i>File moved or deleted</i>"), UIShell::USDef::RF_LastModifiedTextRole);
             item->setData(QUrl::fromLocalFile(CoreInterface::recentFileCollection()->thumbnailPath(file)), UIShell::USDef::RF_ThumbnailRole);
-            item->setData(dspxIconUrl, UIShell::USDef::RF_IconRole);
+            item->setData(fileInfo.exists() ? dspxIconUrl : nonExistFileIconUrl, UIShell::USDef::RF_IconRole);
+            item->setData(!fileInfo.exists(), UIShell::USDef::RF_ColorizeRole);
             m_recentFilesModel->appendRow(item);
         }
     }

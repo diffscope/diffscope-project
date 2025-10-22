@@ -3,6 +3,7 @@
 
 #include <csignal>
 #include <memory>
+#include <algorithm>
 
 #include <QApplication>
 #include <QChildEvent>
@@ -30,12 +31,15 @@
 #include <CoreApi/private/coreinterfacebase_p.h>
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/recentfilecollection.h>
+#include <CoreApi/windowsystem.h>
+#include <CoreApi/filelocker.h>
 
 #include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/projectdocumentcontext.h>
 
 namespace Core {
 
@@ -202,17 +206,20 @@ namespace Core {
         QMessageBox::aboutQt(parent->property("invisibleCentralWidget").value<QWidget *>());
     }
 
+    static void raiseWindow(QWindow *window) {
+        if (window->visibility() == QWindow::Minimized) {
+            window->showNormal();
+        }
+        window->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
+        window->requestActivate();
+    }
+
     void CoreInterface::showHome() {
         qCInfo(lcCoreInterface) << "Show home";
         auto inst = HomeWindowInterface::instance();
         if (inst) {
             qCInfo(lcCoreInterface) << "Home window already exists, raising it";
-            if (inst->window()->visibility() == QWindow::Minimized) {
-                inst->window()->showNormal();
-            }
-            inst->window()
-                ->raise(); // TODO: what does the previous QMView::raiseWindow do to the window?
-            inst->window()->requestActivate();
+            raiseWindow(inst->window());
             return;
         }
         qCInfo(lcCoreInterface) << "Creating home window";
@@ -220,14 +227,11 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
-    static ProjectWindowInterface *createProjectWindow(const ProjectWindowDocumentInitializationConfig &config) {
+    static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
         Internal::ProjectStartupTimerAddOn::startTimer();
-        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(config);
+        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
-        if (!windowInterface->isDocumentInitialized()) {
-            // TODO
-            return nullptr;
-        }
+        projectDocumentContext->setParent(windowInterface);
         auto win = static_cast<QQuickWindow *>(windowInterface->window());
         win->show();
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
@@ -237,13 +241,13 @@ namespace Core {
         return windowInterface;
     }
 
-    ProjectWindowInterface *CoreInterface::newFile(const QString &templateFile) {
+    ProjectWindowInterface *CoreInterface::newFile(const QString &templateFile, QWindow *parent) {
         qCInfo(lcCoreInterface) << "New file";
-        auto windowInterface = createProjectWindow({
-            .option = ProjectWindowDocumentInitializationConfig::NewFile,
-            .initialTemplate = {},
-        });
-        Q_ASSERT(windowInterface); // NewFile should never fail
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        if (!projectDocumentContext->newFile(templateFile, false, nullptr)) {
+            return nullptr;
+        }
+        auto windowInterface = createProjectWindow(projectDocumentContext.release());
         auto win = windowInterface->window();
         class ExposedListener : public QObject {
         public:
@@ -264,35 +268,49 @@ namespace Core {
         return windowInterface;
     }
 
-    bool CoreInterface::openFile(const QString &fileName, QWidget *parent) {
+    ProjectWindowInterface *CoreInterface::openFile(const QString &fileName, QWindow *parent) {
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
         settings->endGroup();
+
         auto path = fileName;
         if (path.isEmpty()) {
             path = QFileDialog::getOpenFileName(
-                parent,
+                nullptr,
                 {},
                 defaultOpenDir,
                 QStringList{tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")}.join(QStringLiteral(";;"))
             );
             if (path.isEmpty())
-                return false;
+                return nullptr;
         }
+
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
         settings->endGroup();
-        auto windowInterface = createProjectWindow({
-            .option = ProjectWindowDocumentInitializationConfig::OpenFile,
-            .path = path,
-        });
-        if (!windowInterface) {
-            qCWarning(lcCoreInterface) << "Failed to open" << path;
+
+        auto windows = windowSystem()->windows();
+        auto openedWindow = std::ranges::find_if(windows, [path](WindowInterface *windowInterface) {
+            if (auto projectWindowInterface = qobject_cast<ProjectWindowInterface *>(windowInterface)) {
+                if (!projectWindowInterface->projectDocumentContext()->fileLocker())
+                    return false;
+                return QFileInfo(projectWindowInterface->projectDocumentContext()->fileLocker()->path()).canonicalFilePath() == QFileInfo(path).canonicalFilePath();
+            }
             return false;
+        });
+        if (openedWindow != windows.end()) {
+            qCInfo(lcCoreInterface) << "File already opened" << path;
+            raiseWindow((*openedWindow)->window());
+            return qobject_cast<ProjectWindowInterface *>(*openedWindow);
         }
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        if (!projectDocumentContext->openFile(path, parent)) {
+            return nullptr;
+        }
+        auto windowInterface = createProjectWindow(projectDocumentContext.release());
         recentFileCollection()->addRecentFile(path, {});
-        return true;
+        return windowInterface;
     }
 
     CoreInterface::CoreInterface(QObject *parent) : CoreInterface(*new CoreInterfacePrivate(), parent) {

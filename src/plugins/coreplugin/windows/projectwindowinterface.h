@@ -26,32 +26,24 @@ namespace Core {
     class ProjectTimeline;
     class EditActionsHandlerRegistry;
 
-    class ProjectWindowInterfacePrivate;
+    class ProjectDocumentContext;
 
-    struct ProjectWindowDocumentInitializationConfig {
-        enum Option {
-            NewFile,
-            OpenFile,
-            NoFile,
-        };
-        Option option{NewFile};
-        QString path;
-        QSharedPointer<const QDspx::Model> initialTemplate;
-    };
+    class ProjectWindowInterfacePrivate;
 
     class CORE_EXPORT ProjectWindowInterface : public ActionWindowInterfaceBase {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
+        Q_PROPERTY(ProjectDocumentContext *projectDocumentContext READ projectDocumentContext CONSTANT)
         Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
         static ProjectWindowInterface* instance();
 
-        bool isDocumentInitialized() const;
-
         ProjectTimeline *projectTimeline() const;
+
+        ProjectDocumentContext *projectDocumentContext() const;
 
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry() const;
 
@@ -67,7 +59,7 @@ namespace Core {
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
-        explicit ProjectWindowInterface(const ProjectWindowDocumentInitializationConfig &documentInitializationConfig, QObject *parent = nullptr);
+        explicit ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent = nullptr);
         explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
         ~ProjectWindowInterface() override;
 

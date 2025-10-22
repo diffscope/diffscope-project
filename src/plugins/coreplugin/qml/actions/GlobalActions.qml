@@ -15,7 +15,7 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.new"
         Action {
-            onTriggered: CoreInterface.newFile()
+            onTriggered: (o) => CoreInterface.newFile("", o?.Window.window ?? null)
         }
     }
 
@@ -29,8 +29,8 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.open"
         Action {
-            onTriggered: () => {
-                CoreInterface.openFile("")
+            onTriggered: (o) => {
+                CoreInterface.openFile("", o?.Window.window ?? null)
             }
         }
     }

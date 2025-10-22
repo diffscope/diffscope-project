@@ -32,7 +32,7 @@ HomeWindow {
     WindowSystem.id: "org.diffscope.core.homewindow"
 
     onNewFileRequested: () => {
-        windowHandle.triggerAction("core.file.new")
+        windowHandle.triggerAction("core.file.new", homeWindow.contentItem)
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {

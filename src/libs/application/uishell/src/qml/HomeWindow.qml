@@ -148,11 +148,12 @@ Window {
                         color: Theme.foregroundSecondaryColor
                     }
                     // fallback display icon as thumbnail
-                    Image {
+                    ColorImage {
                         width: 80
                         height: 80
                         anchors.centerIn: parent
                         source: cell.modelData.icon
+                        color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
                         sourceSize.width: 80
                         sourceSize.height: 80
                     }
@@ -221,9 +222,10 @@ Window {
                     sourceSize.width: 48
                     sourceSize.height: 48
                 }
-                Image {
+                ColorImage {
                     anchors.fill: parent
                     source: cell.modelData.icon
+                    color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
                     sourceSize.width: 48
                     sourceSize.height: 48
                 }

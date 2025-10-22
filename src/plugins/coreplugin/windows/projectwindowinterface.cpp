@@ -23,6 +23,7 @@
 #include <coreplugin/projecttimeline.h>
 #include <coreplugin/quickinput.h>
 #include <coreplugin/editactionshandlerregistry.h>
+#include <coreplugin/projectdocumentcontext.h>
 
 
 namespace Core {
@@ -35,11 +36,10 @@ namespace Core {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
         ProjectWindowInterface *q_ptr;
-        bool documentInitialized{true};
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
-        FileLocker *fileLocker{};
+        ProjectDocumentContext *projectDocumentContext;
         void init() {
             Q_Q(ProjectWindowInterface);
             initActionContext();
@@ -62,40 +62,20 @@ namespace Core {
             QMetaObject::invokeMethod(o, "registerToContext", actionContext);
         }
 
-        void initDocument(const ProjectWindowDocumentInitializationConfig &config) {
-            Q_Q(ProjectWindowInterface);
-            if (config.option == ProjectWindowDocumentInitializationConfig::NewFile) {
-                fileLocker = new FileLocker(q);
-            } else if (config.option == ProjectWindowDocumentInitializationConfig::OpenFile) {
-                fileLocker = new FileLocker(q);
-                if (!fileLocker->open(config.path)) {
-                    qCCritical(lcProjectWindow) << "Failed to open file:" << config.path;
-                    SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), nullptr,
-                        Core::ProjectWindowInterface::tr("Failed to open file"),
-                        QStringLiteral("%1\n\n%2").arg(config.path, fileLocker->errorString()));
-                    documentInitialized = false;
-                    return;
-                }
-                if (fileLocker->isReadOnly()) {
-                    qCWarning(lcProjectWindow) << "File is read-only:" << config.path;
-                }
-            }
-        }
-
     };
 
     ProjectWindowInterface *ProjectWindowInterface::instance() {
         return m_instance;
     }
 
-    bool ProjectWindowInterface::isDocumentInitialized() const {
-        Q_D(const ProjectWindowInterface);
-        return d->documentInitialized;
-    }
-
     ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
         Q_D(const ProjectWindowInterface);
         return d->projectTimeline;
+    }
+
+    ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
+        Q_D(const ProjectWindowInterface);
+        return d->projectDocumentContext;
     }
 
     EditActionsHandlerRegistry * ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
@@ -130,10 +110,10 @@ namespace Core {
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
         return win;
     }
-    ProjectWindowInterface::ProjectWindowInterface(const ProjectWindowDocumentInitializationConfig &documentInitializationConfig, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
+    ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         Q_D(ProjectWindowInterface);
         m_instance = this;
-        d->initDocument(documentInitializationConfig);
+        d->projectDocumentContext = projectDocumentContext;
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {
         d.q_ptr = this;
