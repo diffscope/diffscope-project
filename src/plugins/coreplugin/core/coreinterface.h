@@ -43,8 +43,8 @@ namespace Core {
         Q_INVOKABLE static void showHome();
 
     public:
-        Q_INVOKABLE static ProjectWindowInterface *newFile();
-        Q_INVOKABLE static bool openFile(const QString &fileName, QWidget *parent = nullptr);
+        Q_INVOKABLE static ProjectWindowInterface *newFile(const QString &templateFile = {});
+        Q_INVOKABLE static bool openFile(const QString &fileName = {}, QWidget *parent = nullptr);
 
     Q_SIGNALS:
         void resetAllDoNotShowAgainRequested();

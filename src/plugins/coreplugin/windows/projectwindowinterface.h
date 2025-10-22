@@ -16,6 +16,10 @@ namespace QAK {
 class QAbstractItemModel;
 class QJSValue;
 
+namespace QDspx {
+    class Model;
+}
+
 namespace Core {
 
     class NotificationMessage;
@@ -23,6 +27,17 @@ namespace Core {
     class EditActionsHandlerRegistry;
 
     class ProjectWindowInterfacePrivate;
+
+    struct ProjectWindowDocumentInitializationConfig {
+        enum Option {
+            NewFile,
+            OpenFile,
+            NoFile,
+        };
+        Option option{NewFile};
+        QString path;
+        QSharedPointer<const QDspx::Model> initialTemplate;
+    };
 
     class CORE_EXPORT ProjectWindowInterface : public ActionWindowInterfaceBase {
         Q_OBJECT
@@ -33,6 +48,8 @@ namespace Core {
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
         static ProjectWindowInterface* instance();
+
+        bool isDocumentInitialized() const;
 
         ProjectTimeline *projectTimeline() const;
 
@@ -50,7 +67,7 @@ namespace Core {
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
-        explicit ProjectWindowInterface(QObject *parent = nullptr);
+        explicit ProjectWindowInterface(const ProjectWindowDocumentInitializationConfig &documentInitializationConfig, QObject *parent = nullptr);
         explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
         ~ProjectWindowInterface() override;
 

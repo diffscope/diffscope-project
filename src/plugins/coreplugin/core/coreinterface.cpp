@@ -220,18 +220,31 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
-    ProjectWindowInterface *CoreInterface::newFile() {
-        qCInfo(lcCoreInterface) << "New file";
+    static ProjectWindowInterface *createProjectWindow(const ProjectWindowDocumentInitializationConfig &config) {
         Internal::ProjectStartupTimerAddOn::startTimer();
-        // TODO: temporarily creates a project window for testing
-        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create();
+        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(config);
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
+        if (!windowInterface->isDocumentInitialized()) {
+            // TODO
+            return nullptr;
+        }
         auto win = static_cast<QQuickWindow *>(windowInterface->window());
         win->show();
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             qCInfo(lcCoreInterface) << "Closing home window";
             HomeWindowInterface::instance()->quit();
         }
+        return windowInterface;
+    }
+
+    ProjectWindowInterface *CoreInterface::newFile(const QString &templateFile) {
+        qCInfo(lcCoreInterface) << "New file";
+        auto windowInterface = createProjectWindow({
+            .option = ProjectWindowDocumentInitializationConfig::NewFile,
+            .initialTemplate = {},
+        });
+        Q_ASSERT(windowInterface); // NewFile should never fail
+        auto win = windowInterface->window();
         class ExposedListener : public QObject {
         public:
             explicit ExposedListener(QObject *parent) : QObject(parent) {
@@ -267,18 +280,17 @@ namespace Core {
             if (path.isEmpty())
                 return false;
         }
-        // TODO do open file
-        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create();
-        QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
-        auto win = static_cast<QQuickWindow *>(windowInterface->window());
-        win->show();
-        if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
-            qCInfo(lcCoreInterface) << "Closing home window";
-            HomeWindowInterface::instance()->quit();
-        }
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
         settings->endGroup();
+        auto windowInterface = createProjectWindow({
+            .option = ProjectWindowDocumentInitializationConfig::OpenFile,
+            .path = path,
+        });
+        if (!windowInterface) {
+            qCWarning(lcCoreInterface) << "Failed to open" << path;
+            return false;
+        }
         recentFileCollection()->addRecentFile(path, {});
         return true;
     }
