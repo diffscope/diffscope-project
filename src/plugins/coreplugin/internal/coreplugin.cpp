@@ -63,6 +63,7 @@
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
 #include <coreplugin/internal/recentfileaddon.h>
+#include <coreplugin/internal/metadataaddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -344,6 +345,7 @@ namespace Core::Internal {
         addIcon("core.edit.paste", "ClipboardPaste16Filled");
         addIcon("core.edit.delete", "Delete16Filled");
         addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
+        addIcon("core.panel.metadata", "TextBulletListSquareEdit20Filled");
         addIcon("core.panel.plugins", "PuzzlePiece16Filled");
         addIcon("core.panel.arrangement", "GanttChart16Filled");
         addIcon("core.panel.mixer", "OptionsVertical16Filled");
@@ -381,6 +383,7 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

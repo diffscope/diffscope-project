@@ -159,6 +159,7 @@
         <action id="core.panel.pianoRoll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.panel.notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.panel.tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.metadata" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.widget.digitalClock" diffscope:excludeFromCommands="true"/>
     </items>
 
