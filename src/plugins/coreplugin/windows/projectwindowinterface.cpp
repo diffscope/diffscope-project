@@ -5,6 +5,9 @@
 #include <QJSValue>
 #include <QQmlEngine>
 #include <QQuickWindow>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QFileDialog>
 #include <QLoggingCategory>
 
 #include <SVSCraftQuick/StatusTextContext.h>
@@ -14,6 +17,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/filelocker.h>
+#include <CoreApi/recentfilecollection.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/notificationmessage.h>
@@ -62,6 +66,37 @@ namespace Core {
             QMetaObject::invokeMethod(o, "registerToContext", actionContext);
         }
 
+        QString promptSaveDspxFile() const {
+            auto settings = RuntimeInterface::settings();
+            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
+            auto defaultSaveDir = projectDocumentContext->fileLocker() && !projectDocumentContext->fileLocker()->path().isEmpty() ?
+                projectDocumentContext->fileLocker()->path() :
+                settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+            settings->endGroup();
+
+            auto path = QFileDialog::getSaveFileName(
+                    nullptr,
+                    {},
+                    defaultSaveDir,
+                    CoreInterface::dspxFileFilter(true)
+                );
+            if (path.isEmpty())
+                return {};
+
+            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
+            settings->setValue(QStringLiteral("defaultSaveDir"), QFileInfo(path).absolutePath());
+            settings->endGroup();
+
+            return path;
+        }
+
+        void updateRecentFile() const {
+            Q_Q(const ProjectWindowInterface);
+            auto win = q->window();
+            auto pixmap = win->screen()->grabWindow(win->winId());
+            CoreInterface::recentFileCollection()->addRecentFile(projectDocumentContext->fileLocker()->path(), pixmap);
+        }
+
     };
 
     ProjectWindowInterface *ProjectWindowInterface::instance() {
@@ -96,6 +131,40 @@ namespace Core {
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
     }
+
+    bool ProjectWindowInterface::save() {
+        Q_D(ProjectWindowInterface);
+        if (!d->projectDocumentContext->fileLocker() || d->projectDocumentContext->fileLocker()->path().isEmpty() || d->projectDocumentContext->fileLocker()->isReadOnly())
+            return saveAs();
+        bool isSuccess = d->projectDocumentContext->save(window());
+        if (isSuccess) {
+            d->updateRecentFile();
+            return true;
+        }
+        return false;
+    }
+
+    bool ProjectWindowInterface::saveAs() {
+        Q_D(ProjectWindowInterface);
+        auto path = d->promptSaveDspxFile();
+        if (path.isEmpty())
+            return false;
+        bool isSuccess = d->projectDocumentContext->saveAs(path, window());
+        if (isSuccess) {
+            d->updateRecentFile();
+            return true;
+        }
+        return false;
+    }
+
+    bool ProjectWindowInterface::saveCopy() {
+        Q_D(ProjectWindowInterface);
+        auto path = d->promptSaveDspxFile();
+        if (path.isEmpty())
+            return false;
+        return d->projectDocumentContext->saveCopy(path, window());
+    }
+
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
         Q_D(const ProjectWindowInterface);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectWindow");

@@ -56,6 +56,10 @@ namespace Core {
         Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
+        Q_INVOKABLE bool save();
+        Q_INVOKABLE bool saveAs();
+        Q_INVOKABLE bool saveCopy();
+
     protected:
         QWindow *createWindow(QObject *parent) const override;
 

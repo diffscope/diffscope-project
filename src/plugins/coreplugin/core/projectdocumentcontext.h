@@ -31,6 +31,9 @@ namespace Core {
         bool openFile(const QString &filePath, QWindow *parent = nullptr);
         void newFile(const QDspx::Model &templateModel, bool isNonFileDocument, QWindow *parent = nullptr);
         bool newFile(const QString &templateFilePath, bool isNonFileDocument, QWindow *parent = nullptr);
+        bool save(QWindow *parent = nullptr);
+        bool saveAs(const QString &filePath, QWindow *parent = nullptr);
+        bool saveCopy(const QString &filePath, QWindow *parent = nullptr);
 
     private:
         QScopedPointer<ProjectDocumentContextPrivate> d_ptr;

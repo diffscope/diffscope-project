@@ -162,6 +162,8 @@ Window {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
                     source: cell.modelData.thumbnail
+                    cache: false
+                    mipmap: true
                 }
             }
             Label {

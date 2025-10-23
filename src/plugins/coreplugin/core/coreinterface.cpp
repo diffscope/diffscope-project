@@ -229,6 +229,12 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
+    QString CoreInterface::dspxFileFilter(bool withAllFiles) {
+        auto dspxFileFilter = tr("DiffScope Project Exchange Format (*.dspx)");
+        auto allFileFilter = tr("All Files (*)");
+        return withAllFiles ? dspxFileFilter + ";;" + allFileFilter : dspxFileFilter;
+    }
+
     static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
         Internal::ProjectStartupTimerAddOn::startTimer();
         auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
@@ -253,7 +259,7 @@ namespace Core {
                 nullptr,
                 {},
                 defaultOpenDir,
-                QStringList{Core::CoreInterface::tr("DiffScope Project Exchange Format (*.dspx)"), Core::CoreInterface::tr("All Files (*)")}.join(QStringLiteral(";;"))
+                CoreInterface::dspxFileFilter(true)
             );
         if (path.isEmpty())
             return {};
@@ -323,7 +329,7 @@ namespace Core {
         auto windows = windowSystem()->windows();
         auto openedWindow = std::ranges::find_if(windows, [filePath](WindowInterface *windowInterface) {
             if (auto projectWindowInterface = qobject_cast<ProjectWindowInterface *>(windowInterface)) {
-                if (!projectWindowInterface->projectDocumentContext()->fileLocker())
+                if (!projectWindowInterface->projectDocumentContext()->fileLocker() || projectWindowInterface->projectDocumentContext()->fileLocker()->path().isEmpty())
                     return false;
                 return QFileInfo(projectWindowInterface->projectDocumentContext()->fileLocker()->path()).canonicalFilePath() == QFileInfo(filePath).canonicalFilePath();
             }

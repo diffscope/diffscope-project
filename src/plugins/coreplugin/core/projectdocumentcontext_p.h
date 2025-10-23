@@ -12,6 +12,12 @@ namespace Core {
 
         FileLocker *fileLocker{};
 
+        QByteArray fileData_TODO; // TODO
+
+        void markSaved();
+        QByteArray serializeDocument() const;
+        void deserializeDocument(const QByteArray &data);
+
     };
 
 }
