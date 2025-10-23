@@ -132,6 +132,7 @@
         <action id="core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
         <action id="core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
+        <action id="core.window.switchToProjectWindow^" />
 
         <action id="core.documentations" text="&amp;Help" description="Show help contents" class="Help" shortcut="F1" />
         <action id="core.&amp;findActions^" class="Help" description="Find and trigger action by name" shortcut="Ctrl+Shift+P" />

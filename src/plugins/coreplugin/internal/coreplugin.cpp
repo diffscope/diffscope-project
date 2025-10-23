@@ -64,6 +64,7 @@
 #include <coreplugin/internal/coreachievementsmodel.h>
 #include <coreplugin/internal/recentfileaddon.h>
 #include <coreplugin/internal/metadataaddon.h>
+#include <coreplugin/internal/projectwindownavigatoraddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -384,6 +385,8 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {
