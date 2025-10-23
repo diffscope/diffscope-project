@@ -9,6 +9,8 @@
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
+#include <coreplugin/internal/behaviorpreference.h>
+
 namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.core.projectdocumentcontext")
@@ -57,12 +59,18 @@ namespace Core {
                 QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
             return false;
         }
-        if (d->fileLocker->isReadOnly()) {
-            qCWarning(lcProjectDocumentContext) << "File is read-only:" << filePath;
-        }
         // TODO initialize document
         bool ok;
         auto data = d->fileLocker->readData(&ok);
+        if (
+#ifdef Q_OS_WIN
+            !(Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_LockOpenedFiles)
+#else
+            true
+#endif
+        ) {
+            d->fileLocker->release();
+        }
         if (!ok) {
             qCCritical(lcProjectDocumentContext) << "Failed to read file:" << filePath;
             SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
@@ -101,7 +109,7 @@ namespace Core {
 
     bool ProjectDocumentContext::save(QWindow *parent) {
         Q_D(ProjectDocumentContext);
-        if (!d->fileLocker || d->fileLocker->path().isEmpty() || d->fileLocker->isReadOnly())
+        if (!d->fileLocker || d->fileLocker->path().isEmpty())
             return false;
         auto data = d->serializeDocument();
         bool isSuccess = d->fileLocker->save(data);

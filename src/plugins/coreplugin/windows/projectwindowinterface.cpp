@@ -9,6 +9,7 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 #include <QLoggingCategory>
+#include <QEventLoop>
 
 #include <SVSCraftQuick/StatusTextContext.h>
 #include <SVSCraftQuick/MessageBox.h>
@@ -28,6 +29,7 @@
 #include <coreplugin/quickinput.h>
 #include <coreplugin/editactionshandlerregistry.h>
 #include <coreplugin/projectdocumentcontext.h>
+#include <coreplugin/internal/behaviorpreference.h>
 
 
 namespace Core {
@@ -35,6 +37,21 @@ namespace Core {
     Q_LOGGING_CATEGORY(lcProjectWindow, "diffscope.core.projectwindow")
 
     static ProjectWindowInterface *m_instance = nullptr;
+
+    class MessageBoxDialogDoneListener : public QObject {
+        Q_OBJECT
+    public:
+        inline explicit MessageBoxDialogDoneListener(QEventLoop *eventLoop) : eventLoop(eventLoop) {
+        }
+
+    public slots:
+        void done(const QVariant &id) const {
+            eventLoop->exit(id.toInt());
+        }
+
+    private:
+        QEventLoop *eventLoop;
+    };
 
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
@@ -97,6 +114,39 @@ namespace Core {
             CoreInterface::recentFileCollection()->addRecentFile(projectDocumentContext->fileLocker()->path(), pixmap);
         }
 
+        enum ExternalChangeOperation {
+            SaveAs,
+            Overwrite,
+            Cancel = SVS::SVSCraft::Cancel
+        };
+
+        ExternalChangeOperation promptFileExternalChange() const {
+            Q_Q(const ProjectWindowInterface);
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+            std::unique_ptr<QQuickWindow> mb(qobject_cast<QQuickWindow *>(component.createWithInitialProperties({
+                {"text", Core::ProjectWindowInterface::tr("File Modified Externally")},
+                {"informativeText", Core::ProjectWindowInterface::tr("The file has been modified by another program since it was last saved.\n\nDo you want to save as a new file or overwrite it?")},
+                {"buttons", QVariantList {
+                    QVariantMap {
+                        {"id", SaveAs}, {"text", Core::ProjectWindowInterface::tr("Save As...")},
+                    },
+                    QVariantMap {
+                        {"id", Overwrite}, {"text", Core::ProjectWindowInterface::tr("Overwrite")},
+                    },
+                    SVS::SVSCraft::Cancel,
+                }},
+                {"primaryButton", SaveAs},
+                {"icon", SVS::SVSCraft::Warning},
+                {"transientParent", QVariant::fromValue(q->window())}
+            })));
+            Q_ASSERT(mb);
+            QEventLoop eventLoop;
+            MessageBoxDialogDoneListener listener(&eventLoop);
+            QObject::connect(mb.get(), SIGNAL(done(QVariant)), &listener, SLOT(done(QVariant)));
+            mb->show();
+            return static_cast<ExternalChangeOperation>(eventLoop.exec());
+        }
+
     };
 
     ProjectWindowInterface *ProjectWindowInterface::instance() {
@@ -134,8 +184,17 @@ namespace Core {
 
     bool ProjectWindowInterface::save() {
         Q_D(ProjectWindowInterface);
-        if (!d->projectDocumentContext->fileLocker() || d->projectDocumentContext->fileLocker()->path().isEmpty() || d->projectDocumentContext->fileLocker()->isReadOnly())
+        if (!d->projectDocumentContext->fileLocker() || d->projectDocumentContext->fileLocker()->path().isEmpty())
             return saveAs();
+        if (d->projectDocumentContext->fileLocker()->isFileModifiedSinceLastSave() && (Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_CheckForExternalChangedOnSave)) {
+            auto op = d->promptFileExternalChange();
+            if (op == ProjectWindowInterfacePrivate::Cancel) {
+                return false;
+            }
+            if (op == ProjectWindowInterfacePrivate::SaveAs) {
+                return saveAs();
+            }
+        }
         bool isSuccess = d->projectDocumentContext->save(window());
         if (isSuccess) {
             d->updateRecentFile();
@@ -198,4 +257,5 @@ namespace Core {
     }
 }
 
+#include "projectwindowinterface.moc"
 #include "moc_projectwindowinterface.cpp"

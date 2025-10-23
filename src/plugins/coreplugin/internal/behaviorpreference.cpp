@@ -24,6 +24,7 @@ namespace Core::Internal {
         bool proxyHasAuthentication{};
         QString proxyUsername{};
         QString proxyPassword{};
+        BehaviorPreference::FileOption fileOption{};
         bool useCustomFont{};
         QString fontFamily{};
         QString fontStyle{};
@@ -83,6 +84,8 @@ namespace Core::Internal {
         emit proxyUsernameChanged();
         d->proxyPassword = settings->value("proxyPassword").toString();
         emit proxyPasswordChanged();
+        d->fileOption = settings->value("fileOption", QVariant::fromValue(FO_LockOpenedFiles | FO_CheckForExternalChangedOnSave)).value<FileOption>();
+        emit fileOptionChanged();
         d->useCustomFont = settings->value("useCustomFont", false).toBool();
         emit useCustomFontChanged();
         d->fontFamily = settings->value("fontFamily", QApplication::font().family()).toString();
@@ -128,6 +131,7 @@ namespace Core::Internal {
         settings->setValue("proxyHasAuthentication", d->proxyHasAuthentication);
         settings->setValue("proxyUsername", d->proxyUsername);
         settings->setValue("proxyPassword", d->proxyPassword);
+        settings->setValue("fileOption", static_cast<int>(d->fileOption));
         settings->setValue("useCustomFont", d->useCustomFont);
         settings->setValue("fontFamily", d->fontFamily);
         settings->setValue("fontStyle", d->fontStyle);
@@ -290,6 +294,17 @@ namespace Core::Internal {
             return;
         d->proxyPassword = proxyPassword;
         emit m_instance->proxyPasswordChanged();
+    }
+    BehaviorPreference::FileOption BehaviorPreference::fileOption() {
+        M_INSTANCE_D;
+        return d->fileOption;
+    }
+    void BehaviorPreference::setFileOption(FileOption fileOption) {
+        M_INSTANCE_D;
+        if (d->fileOption == fileOption)
+            return;
+        d->fileOption = fileOption;
+        emit m_instance->fileOptionChanged();
     }
     bool BehaviorPreference::useCustomFont() {
         M_INSTANCE_D;

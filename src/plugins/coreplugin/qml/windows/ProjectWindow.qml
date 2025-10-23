@@ -22,7 +22,7 @@ ProjectWindow {
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
     documentName: [
         ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || qsTr("Untitled"),
-        windowHandle.projectDocumentContext.fileLocker?.readOnly ? qsTr("Read-Only") : ""
+        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? "Modified Externally" : ""
     ].filter(x => x).join(" - ")
 
     icon: "image://appicon/dspx"

@@ -51,6 +51,7 @@
 #include <coreplugin/internal/notificationaddon.h>
 #include <coreplugin/internal/generalpage.h>
 #include <coreplugin/internal/logpage.h>
+#include <coreplugin/internal/filebackuppage.h>
 #include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
@@ -358,6 +359,7 @@ namespace Core::Internal {
         auto sc = CoreInterface::settingCatalog();
         auto generalPage = new GeneralPage;
         generalPage->addPage(new LogPage);
+        generalPage->addPage(new FileBackupPage);
         sc->addPage(generalPage);
         auto appearancePage = new AppearancePage;
         appearancePage->addPage(new ColorSchemePage);
