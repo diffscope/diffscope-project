@@ -15,14 +15,27 @@ ActionCollection {
     ActionItem {
         actionId: "core.file.new"
         Action {
-            onTriggered: CoreInterface.newFile()
+            onTriggered: (o) => {
+                CoreInterface.newFile(o?.Window.window ?? null)
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.newFromTemplate"
+        Action {
+            onTriggered: (o) => {
+                CoreInterface.newFileFromTemplate("", o?.Window.window ?? null)
+            }
         }
     }
 
     ActionItem {
         actionId: "core.file.open"
         Action {
-
+            onTriggered: (o) => {
+                CoreInterface.openFile("", o?.Window.window ?? null)
+            }
         }
     }
 
@@ -70,27 +83,6 @@ ActionCollection {
             onTriggered: () => {
                 CoreInterface.exitApplicationGracefully()
             }
-        }
-    }
-
-    ActionItem {
-        actionId: "core.window.nextProjectWindow"
-        Action {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.window.previousProjectWindow"
-        Action {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.window.projectWindows"
-        Menu {
-
         }
     }
 

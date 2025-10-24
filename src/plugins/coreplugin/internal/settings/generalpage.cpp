@@ -11,6 +11,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
+#include <CoreApi/windowsystem.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
@@ -74,6 +75,8 @@ namespace Core::Internal {
         qCDebug(lcGeneralPage) << "proxyUsername" << m_widget->property("proxyUsername");
         m_widget->setProperty("proxyPassword", BehaviorPreference::instance()->property("proxyPassword"));
         qCDebug(lcGeneralPage) << "proxyPassword" << m_widget->property("proxyPassword");
+        m_widget->setProperty("shouldStoreGeometry", CoreInterface::windowSystem()->shouldStoreGeometry());
+        qCDebug(lcGeneralPage) << "shouldStoreGeometry" << m_widget->property("shouldStoreGeometry");
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
@@ -107,6 +110,8 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("proxyUsername", m_widget->property("proxyUsername"));
         qCDebug(lcGeneralPage) << "proxyPassword" << m_widget->property("proxyPassword");
         BehaviorPreference::instance()->setProperty("proxyPassword", m_widget->property("proxyPassword"));
+        qCDebug(lcGeneralPage) << "shouldStoreGeometry" << m_widget->property("shouldStoreGeometry");
+        CoreInterface::windowSystem()->setShouldStoreGeometry(m_widget->property("shouldStoreGeometry").toBool());
         BehaviorPreference::instance()->save();
         if (promptRestartForLanguage) {
             qCInfo(lcGeneralPage) << "Language changed" << m_widget->property("localeName").toString() << QLocale().name();

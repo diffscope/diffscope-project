@@ -62,6 +62,7 @@ namespace Core::Internal {
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
+        windowHandle()->window()->installEventFilter(this);
     }
     bool WorkspaceAddOn::delayedInitialize() {
         emit panelEntriesChanged();
@@ -274,9 +275,7 @@ namespace Core::Internal {
     QVariantList WorkspaceAddOn::panelEntries() const {
         QVariantList ret;
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        auto a = CoreInterface::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool {
-            return windowInterface->actionContext()->action(id);
-        });
+        auto a = CoreInterface::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
             auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.id());
@@ -289,6 +288,13 @@ namespace Core::Internal {
             };
         });
         return ret;
+    }
+    bool WorkspaceAddOn::eventFilter(QObject *watched, QEvent *event) {
+        if (event->type() == QEvent::Expose && windowHandle()->window()->isExposed()) {
+            Q_EMIT windowExposed();
+            windowHandle()->window()->removeEventFilter(this);
+        }
+        return WindowInterfaceAddOn::eventFilter(watched, event);
     }
 }
 

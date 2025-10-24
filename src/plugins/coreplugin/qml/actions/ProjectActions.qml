@@ -17,6 +17,29 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
+        actionId: "core.file.save"
+        Action {
+            enabled: d.windowHandle.projectDocumentContext.fileLocker
+            onTriggered: Qt.callLater(() => d.windowHandle.save())
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.saveAs"
+        Action {
+            enabled: d.windowHandle.projectDocumentContext.fileLocker
+            onTriggered: Qt.callLater(() => d.windowHandle.saveAs())
+        }
+    }
+
+    ActionItem {
+        actionId: "core.file.saveCopy"
+        Action {
+            onTriggered: Qt.callLater(() => d.windowHandle.saveCopy())
+        }
+    }
+
+    ActionItem {
         actionId: "core.statusText"
         Label {
             text: d.window.StatusTextContext.statusContext.text

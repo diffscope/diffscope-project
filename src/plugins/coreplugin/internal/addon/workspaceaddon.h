@@ -32,8 +32,11 @@ namespace Core::Internal {
 
         QVariantList panelEntries() const;
 
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
     Q_SIGNALS:
         void panelEntriesChanged();
+        void windowExposed();
 
     private:
         ProjectWindowWorkspaceManager *m_workspaceManager;

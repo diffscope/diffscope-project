@@ -51,6 +51,7 @@
 #include <coreplugin/internal/notificationaddon.h>
 #include <coreplugin/internal/generalpage.h>
 #include <coreplugin/internal/logpage.h>
+#include <coreplugin/internal/filebackuppage.h>
 #include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
@@ -61,16 +62,13 @@
 #include <coreplugin/internal/timelineaddon.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/internal/recentfileaddon.h>
+#include <coreplugin/internal/metadataaddon.h>
+#include <coreplugin/internal/projectwindownavigatoraddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
 }
-
-#ifdef Q_OS_MAC
-static auto getCoreMacOSActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
-}
-#endif
 
 namespace Core::Internal {
 
@@ -143,27 +141,28 @@ namespace Core::Internal {
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_UltimateSimplicity);
     }
 
-    static QQuickWindow *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+    static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
             CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
         }
-        QQuickWindow *win;
+        ActionWindowInterfaceBase *windowInterface;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
             qCInfo(lcCorePlugin) << "Create new project on startup";
-            win = CoreInterface::newFile();
+            windowInterface = CoreInterface::newFile();
         } else {
             qCInfo(lcCorePlugin) << "Open home window on startup";
             CoreInterface::showHome();
-            win = static_cast<QQuickWindow *>(HomeWindowInterface::instance()->window());
+            windowInterface = HomeWindowInterface::instance();
         }
+        auto win = windowInterface->window();
         if (win->visibility() == QWindow::Minimized) {
             win->showNormal();
         }
         win->raise();
         win->requestActivate();
-        return win;
+        return windowInterface;
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
@@ -201,8 +200,24 @@ namespace Core::Internal {
         qCInfo(lcCorePlugin) << "Initializing GUI";
         // TODO plugin arguments
         auto args = QApplication::arguments();
-        auto win = initializeGui(args, QDir::currentPath(), args);
-        connect(win, &QQuickWindow::sceneGraphInitialized, RuntimeInterface::splash(), &QWidget::close);
+        auto windowInterface = initializeGui(args, QDir::currentPath(), args);
+        auto win = windowInterface->window();
+        class ExposedListener : public QObject {
+        public:
+            explicit ExposedListener(QObject *parent) : QObject(parent) {
+            }
+
+            bool eventFilter(QObject *watched, QEvent *event) override {
+                if (event->type() == QEvent::Expose && static_cast<QWindow *>(watched)->isExposed()) {
+                    RuntimeInterface::splash()->close();
+                    deleteLater();
+                }
+                return QObject::eventFilter(watched, event);
+            }
+
+        };
+        auto listener = new ExposedListener(win);
+        win->installEventFilter(listener);
         CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
         checkUltimateSimplicityAchievement();
         QApplication::setQuitOnLastWindowClosed(true);
@@ -298,9 +313,6 @@ namespace Core::Internal {
 
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-#ifdef Q_OS_MAC
-        CoreInterface::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
-#endif
 
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
@@ -325,6 +337,7 @@ namespace Core::Internal {
         addIcon("core.edit.paste", "ClipboardPaste16Filled");
         addIcon("core.edit.delete", "Delete16Filled");
         addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
+        addIcon("core.panel.metadata", "TextBulletListSquareEdit20Filled");
         addIcon("core.panel.plugins", "PuzzlePiece16Filled");
         addIcon("core.panel.arrangement", "GanttChart16Filled");
         addIcon("core.panel.mixer", "OptionsVertical16Filled");
@@ -340,6 +353,7 @@ namespace Core::Internal {
         auto sc = CoreInterface::settingCatalog();
         auto generalPage = new GeneralPage;
         generalPage->addPage(new LogPage);
+        generalPage->addPage(new FileBackupPage);
         sc->addPage(generalPage);
         auto appearancePage = new AppearancePage;
         appearancePage->addPage(new ColorSchemePage);
@@ -359,6 +373,11 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

@@ -255,9 +255,9 @@ QtObject {
     }
 
     readonly property Connections windowHandleConnections: Connections {
-        target: helper.window
-        function onSceneGraphInitialized() {
-            helper.initializeDockingViews()
+        target: helper.addOn
+        function onWindowExposed() {
+            Qt.callLater(() => helper.initializeDockingViews())
         }
     }
 

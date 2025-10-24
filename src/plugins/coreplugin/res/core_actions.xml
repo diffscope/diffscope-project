@@ -16,8 +16,12 @@
 
     <items>
         <action id="core.file.&amp;new" description="Create a project in a new window" shortcut="Ctrl+N" />
+        <action id="core.file.newFromTemplate^" description="Create a project from template in a new window" shortcut="Ctrl+Alt+N" />
         <action id="core.file.&amp;open^" description="Open an existing project in a new window" shortcut="Ctrl+O" />
+        <action id="core.file.open&amp;RecentFile" />
         <action id="core.file.&amp;save" shortcut="Ctrl+S" />
+        <action id="core.file.save&amp;As^" shortcut="Ctrl+Shift+S" />
+        <action id="core.file.saveCopy^" shortcut="Ctrl+Alt+Shift+S" />
 
         <action id="core.se&amp;ttings^" description="Open application settings" class="Preferences" shortcut="Ctrl+,"/>
         <action id="core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" shortcut=""/>
@@ -128,6 +132,7 @@
         <action id="core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
         <action id="core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
+        <action id="core.window.switchToProjectWindow^" />
 
         <action id="core.documentations" text="&amp;Help" description="Show help contents" class="Help" shortcut="F1" />
         <action id="core.&amp;findActions^" class="Help" description="Find and trigger action by name" shortcut="Ctrl+Shift+P" />
@@ -155,6 +160,7 @@
         <action id="core.panel.pianoRoll" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.panel.notifications" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.panel.tips" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="core.panel.metadata" catalog="core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="core.widget.digitalClock" diffscope:excludeFromCommands="true"/>
     </items>
 
@@ -163,8 +169,14 @@
             <menu id="core.&amp;file">
                 <group id="core.fileOpenActions">
                     <action id="core.file.new"/>
+                    <action id="core.file.newFromTemplate" />
                     <action id="core.file.open" />
+                    <action id="core.file.openRecentFile" />
+                </group>
+                <group id="core.fileSaveActions">
                     <action id="core.file.save" />
+                    <action id="core.file.saveAs" />
+                    <action id="core.file.saveCopy" />
                 </group>
                 <group id="core.preferenceActions">
                     <action id="core.settings"/>
@@ -350,6 +362,7 @@
 
         <menu id="core.homeNavigation">
             <action id="core.file.new"/>
+            <action id="core.file.newFromTemplate" />
             <action id="core.file.open" />
         </menu>
 
@@ -357,6 +370,24 @@
             <menu id="core.homePreferences">
                 <group id="core.preferenceActions" />
             </menu>
+            <menu id="core.help" />
+        </menu>
+
+
+        <menu id="core.homeMenu">
+            <menu id="core.homeFile" text="&amp;File">
+                <group id="core.fileOpenActions" />
+                <group id="core.preferenceActions" />
+                <action id="core.exit" />
+            </menu>
+            <menu id="core.homeView" text="&amp;View">
+                <action id="core.home.recentFiles" />
+                <action id="core.home.recoveryFiles" />
+                <separator />
+                <action id="core.home.gridView" />
+                <action id="core.home.listView" />
+            </menu>
+            <menu id="core.window" />
             <menu id="core.help" />
         </menu>
     </layouts>

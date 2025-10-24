@@ -23,7 +23,7 @@ Window {
     property var recoveryFilesModel: null
     property var navigationActionsModel: null
     property var toolActionsModel: null
-    property var macosMenusModel: null
+    property var menusModel: null
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
 
@@ -47,6 +47,8 @@ Window {
     signal newFileRequested()
     signal openRecentFileRequested(int index)
     signal openRecoveryFileRequested(int index)
+    signal removeRecentFileRequested(int index)
+    signal removeRecoveryFileRequested(int index)
 
     function setupFrameless() {
         if (frameless && !windowAgent.framelessSetup) {
@@ -56,6 +58,7 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Minimize, minimizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
+            windowAgent.setHitTestVisible(menuBar)
             windowAgent.setHitTestVisible(Overlay.overlay)
         }
     }
@@ -146,11 +149,12 @@ Window {
                         color: Theme.foregroundSecondaryColor
                     }
                     // fallback display icon as thumbnail
-                    Image {
+                    ColorImage {
                         width: 80
                         height: 80
                         anchors.centerIn: parent
                         source: cell.modelData.icon
+                        color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
                         sourceSize.width: 80
                         sourceSize.height: 80
                     }
@@ -159,6 +163,8 @@ Window {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
                     source: cell.modelData.thumbnail
+                    cache: false
+                    mipmap: true
                 }
             }
             Label {
@@ -219,9 +225,10 @@ Window {
                     sourceSize.width: 48
                     sourceSize.height: 48
                 }
-                Image {
+                ColorImage {
                     anchors.fill: parent
                     source: cell.modelData.icon
+                    color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
                     sourceSize.width: 48
                     sourceSize.height: 48
                 }
@@ -296,8 +303,11 @@ Window {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
                 icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
                 onTriggered: () => {
-                    const model = tapHandler.recovery ? recoveryFilesProxyModel : recentFilesProxyModel
-                    model.remove(tapHandler.index)
+                    if (tapHandler.recovery) {
+                        window.removeRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
+                    } else {
+                        window.removeRecentFileRequested(recentFilesProxyModel.mapIndexToSource(tapHandler.index))
+                    }
                 }
             }
         }
@@ -313,28 +323,6 @@ Window {
         property bool framelessSetup: false
     }
 
-    MenuBar {
-        id: menuBar
-        visible: window.isMacOS
-        Instantiator {
-            model: window.macosMenusModel
-            onObjectAdded: (index, object) => {
-                if (object instanceof Menu) {
-                    menuBar.insertMenu(index, object)
-                } else {
-                    throw new TypeError("Unsupported menu type")
-                }
-            }
-            onObjectRemoved: (index, object) => {
-                if (object instanceof Menu) {
-                    menuBar.removeMenu(object)
-                } else {
-                    throw new TypeError("Unsupported menu type")
-                }
-            }
-        }
-    }
-
     Item {
         id: titleBarArea
         width: window.width
@@ -342,6 +330,49 @@ Window {
         visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
         z: 1
         Accessible.role: Accessible.TitleBar
+        Rectangle {
+            id: menuBarBackground
+            width: parent.width
+            height: menuBar.height
+            visible: menuBar.height !== 0
+            anchors.top: parent.top
+            anchors.topMargin: menuBar.anchors.topMargin
+            color: Theme.backgroundQuaternaryColor
+        }
+        MenuBar {
+            id: menuBar
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.topMargin: activeFocus || menus.some(menu => menu.visible) || children.some(item => item.activeFocus) ? 0 : -height
+            ThemedItem.backgroundLevel: SVS.BL_Quaternary
+            Behavior on anchors.topMargin {
+                id: topMarginBehavior
+                enabled: false
+                NumberAnimation {
+                    duration: Theme.visualEffectAnimationDuration
+                    easing.type: Easing.OutCubic
+                }
+            }
+            Component.onCompleted: Qt.callLater(() => topMarginBehavior.enabled = true)
+            Instantiator {
+                model: window.menusModel
+                onObjectAdded: (index, object) => {
+                    if (object instanceof Menu) {
+                        console.log(object)
+                        menuBar.insertMenu(index, object)
+                    } else {
+                        throw new TypeError("Unsupported menu type")
+                    }
+                }
+                onObjectRemoved: (index, object) => {
+                    if (object instanceof Menu) {
+                        menuBar.removeMenu(object)
+                    } else {
+                        throw new TypeError("Unsupported menu type")
+                    }
+                }
+            }
+        }
         RowLayout {
             anchors.right: parent.right
             visible: !window.isMacOS

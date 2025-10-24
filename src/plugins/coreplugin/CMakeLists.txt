@@ -27,13 +27,6 @@ qak_add_action_extension(
     res/core_actions.xml
 )
 list(APPEND _src ${_core_actions_src})
-if(APPLE)
-    qak_add_action_extension(
-        _core_macos_actions_src
-        res/core_macos_actions.xml
-    )
-    list(APPEND _src ${_core_macos_actions_src})
-endif()
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
@@ -66,7 +59,7 @@ qm_configure_target(${PROJECT_NAME}
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
-        # opendspx::opendspx
+        opendspx::opendspx
     INCLUDE_PRIVATE
         core
         windows
@@ -80,12 +73,7 @@ if(QT_KNOWN_POLICY_QTP0004)
     qt_policy(SET QTP0004 NEW)
 endif()
 
-file(GLOB_RECURSE _qml_files_abs *.qml *.js *.mjs)
-set(_qml_files)
-foreach(_file IN LISTS _qml_files_abs)
-    file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
-    list(APPEND _qml_files ${_rel_path})
-endforeach()
+file(GLOB_RECURSE _qml_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
 
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.Core
