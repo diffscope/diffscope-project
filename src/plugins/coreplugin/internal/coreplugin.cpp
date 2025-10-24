@@ -70,12 +70,6 @@ static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
 }
 
-#ifdef Q_OS_MAC
-static auto getCoreMacOSActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
-}
-#endif
-
 namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcCorePlugin, "diffscope.core.coreplugin")
@@ -319,9 +313,6 @@ namespace Core::Internal {
 
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-#ifdef Q_OS_MAC
-        CoreInterface::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
-#endif
 
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {

@@ -46,6 +46,7 @@ ActionCollection {
                         checked: d.addOn.windowHandle === modelData
                         onTriggered: () => {
                             d.addOn.raiseWindow(modelData)
+                            checked = d.addOn.windowHandle === modelData
                         }
                     }
                 }

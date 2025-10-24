@@ -372,6 +372,24 @@
             </menu>
             <menu id="core.help" />
         </menu>
+
+
+        <menu id="core.homeMenu">
+            <menu id="core.homeFile" text="&amp;File">
+                <group id="core.fileOpenActions" />
+                <group id="core.preferenceActions" />
+                <action id="core.exit" />
+            </menu>
+            <menu id="core.homeView" text="&amp;View">
+                <action id="core.home.recentFiles" />
+                <action id="core.home.recoveryFiles" />
+                <separator />
+                <action id="core.home.gridView" />
+                <action id="core.home.listView" />
+            </menu>
+            <menu id="core.window" />
+            <menu id="core.help" />
+        </menu>
     </layouts>
 
 </actionExtension>

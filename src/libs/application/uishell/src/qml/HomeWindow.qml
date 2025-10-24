@@ -23,7 +23,7 @@ Window {
     property var recoveryFilesModel: null
     property var navigationActionsModel: null
     property var toolActionsModel: null
-    property var macosMenusModel: null
+    property var menusModel: null
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
 
@@ -58,6 +58,7 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Minimize, minimizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
+            windowAgent.setHitTestVisible(menuBar)
             windowAgent.setHitTestVisible(Overlay.overlay)
         }
     }
@@ -322,28 +323,6 @@ Window {
         property bool framelessSetup: false
     }
 
-    MenuBar {
-        id: menuBar
-        visible: window.isMacOS
-        Instantiator {
-            model: window.macosMenusModel
-            onObjectAdded: (index, object) => {
-                if (object instanceof Menu) {
-                    menuBar.insertMenu(index, object)
-                } else {
-                    throw new TypeError("Unsupported menu type")
-                }
-            }
-            onObjectRemoved: (index, object) => {
-                if (object instanceof Menu) {
-                    menuBar.removeMenu(object)
-                } else {
-                    throw new TypeError("Unsupported menu type")
-                }
-            }
-        }
-    }
-
     Item {
         id: titleBarArea
         width: window.width
@@ -351,6 +330,49 @@ Window {
         visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
         z: 1
         Accessible.role: Accessible.TitleBar
+        Rectangle {
+            id: menuBarBackground
+            width: parent.width
+            height: menuBar.height
+            visible: menuBar.height !== 0
+            anchors.top: parent.top
+            anchors.topMargin: menuBar.anchors.topMargin
+            color: Theme.backgroundQuaternaryColor
+        }
+        MenuBar {
+            id: menuBar
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.topMargin: activeFocus || menus.some(menu => menu.visible) || children.some(item => item.activeFocus) ? 0 : -height
+            ThemedItem.backgroundLevel: SVS.BL_Quaternary
+            Behavior on anchors.topMargin {
+                id: topMarginBehavior
+                enabled: false
+                NumberAnimation {
+                    duration: Theme.visualEffectAnimationDuration
+                    easing.type: Easing.OutCubic
+                }
+            }
+            Component.onCompleted: Qt.callLater(() => topMarginBehavior.enabled = true)
+            Instantiator {
+                model: window.menusModel
+                onObjectAdded: (index, object) => {
+                    if (object instanceof Menu) {
+                        console.log(object)
+                        menuBar.insertMenu(index, object)
+                    } else {
+                        throw new TypeError("Unsupported menu type")
+                    }
+                }
+                onObjectRemoved: (index, object) => {
+                    if (object instanceof Menu) {
+                        menuBar.removeMenu(object)
+                    } else {
+                        throw new TypeError("Unsupported menu type")
+                    }
+                }
+            }
+        }
         RowLayout {
             anchors.right: parent.right
             visible: !window.isMacOS
