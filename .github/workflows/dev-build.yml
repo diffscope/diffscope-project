@@ -1,13 +1,13 @@
 name: Dev Build
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'crowdin.yml'
-      - '.github/**'
+#  push:
+#    branches:
+#      - main
+#    paths-ignore:
+#      - 'README.md'
+#      - 'LICENSE'
+#      - 'crowdin.yml'
+#      - '.github/**'
   pull_request:
     branches:
       - main

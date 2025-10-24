@@ -70,12 +70,7 @@ if(QT_KNOWN_POLICY_QTP0004)
     qt_policy(SET QTP0004 NEW)
 endif()
 
-file(GLOB_RECURSE _qml_files_abs *.qml *.js *.mjs)
-set(_qml_files)
-foreach(_file IN LISTS _qml_files_abs)
-    file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
-    list(APPEND _qml_files ${_rel_path})
-endforeach()
+file(GLOB_RECURSE _qml_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
 
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.Audio

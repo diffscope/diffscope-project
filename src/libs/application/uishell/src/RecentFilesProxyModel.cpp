@@ -17,6 +17,7 @@ namespace UIShell {
             {USDef::RF_LastModifiedTextRole, "lastModifiedText"},
             {USDef::RF_ThumbnailRole, "thumbnail"},
             {USDef::RF_IconRole, "icon"},
+            {USDef::RF_ColorizeRole, "colorize"},
         };
         return m;
     }

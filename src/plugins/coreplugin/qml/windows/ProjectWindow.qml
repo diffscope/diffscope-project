@@ -9,6 +9,8 @@ import SVSCraft.UIComponents
 
 import QActionKit
 
+import ChorusKit.AppCore
+
 import DiffScope.UIShell
 import DiffScope.Core
 
@@ -18,8 +20,15 @@ ProjectWindow {
     required property ProjectWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
+    documentName: [
+        ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || qsTr("Untitled"),
+        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? "Modified Externally" : ""
+    ].filter(x => x).join(" - ")
 
     icon: "image://appicon/dspx"
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.projectwindow"
 
     signal beforeTerminated()
 

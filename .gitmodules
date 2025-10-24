@@ -25,3 +25,10 @@
 [submodule "vcpkg"]
 	path = scripts/vcpkg
 	url = ../../stdware/vcpkg-overlay.git
+
+[submodule "opendspx"]
+	path = src/libs/3rdparty/opendspx
+	url = ../../diffscope/opendspx.git
+[submodule "src/libs/3rdparty/opendspx"]
+	path = src/libs/3rdparty/opendspx
+	url = https://github.com/diffscope/opendspx.git
