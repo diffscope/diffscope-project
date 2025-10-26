@@ -30,6 +30,7 @@
 #include <coreplugin/editactionshandlerregistry.h>
 #include <coreplugin/projectdocumentcontext.h>
 #include <coreplugin/internal/behaviorpreference.h>
+#include <coreplugin/projectviewmodelcontext.h>
 
 
 namespace Core {
@@ -61,12 +62,14 @@ namespace Core {
         ProjectTimeline *projectTimeline;
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         ProjectDocumentContext *projectDocumentContext;
+        ProjectViewModelContext *projectViewModelContext;
         void init() {
             Q_Q(ProjectWindowInterface);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(q);
             mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
+            projectViewModelContext = new ProjectViewModelContext(projectTimeline, q);
         }
 
         void initActionContext() {
@@ -163,9 +166,14 @@ namespace Core {
         return d->projectDocumentContext;
     }
 
-    EditActionsHandlerRegistry * ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
+    EditActionsHandlerRegistry *ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
         Q_D(const ProjectWindowInterface);
         return d->mainEditActionsHandlerRegistry;
+    }
+
+    ProjectViewModelContext *ProjectWindowInterface::projectViewModelContext() const {
+        Q_D(const ProjectWindowInterface);
+        return d->projectViewModelContext;
     }
 
     void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
