@@ -18,7 +18,7 @@ runs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        choco install innosetup
+        choco install ccache
 
     - name: Install build tools (Ubuntu)
       if: runner.os == 'Linux'

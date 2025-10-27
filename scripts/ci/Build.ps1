@@ -7,16 +7,32 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$VcpkgRootDir,
 
-    [string]$VersionIdentifier = "0"
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$BuildDir,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$InstallDir,
+
+    [string]$VersionIdentifier = "0",
+
+    [switch]$CCache = $false
 )
 
 if (-not (Test-Path $VcpkgRootDir)) {
     throw "Vcpkg root directory does not exist: $VcpkgRootDir"
 }
 
+New-Item $BuildDir -ItemType Directory -Force
+New-Item $InstallDir -ItemType Directory -Force
+
 Write-Host "Build type: $BuildType"
-Write-Host "Commit: $Commit"
 Write-Host "Vcpkg root directory: $VcpkgRootDir"
+Write-Host "Build directory: $(Resolve-Path $BuildDir)"
+Write-Host "Install directory: $(Resolve-Path $InstallDir)"
+Write-Host "Version identifier: $VersionIdentifier"
+Write-Host "Use CCache: $CCache"
 
 $cmakeListsPath = "CMakeLists.txt"
 
@@ -62,9 +78,12 @@ Write-Host "Semver: $semver"
 
 $installerFileBase = "${applicationName}_$($semver -replace '[\.\-\+]', '_')_installer"
 
-cmake -B build -G Ninja `
+cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     -DCMAKE_BUILD_TYPE=RelWithDebInfo `
     "-DCMAKE_TOOLCHAIN_FILE=$(Join-Path $VcpkgRootDir scripts/buildsystems/vcpkg.cmake)" `
+    "-DCMAKE_C_COMPILER_LAUNCHER=$($CCache ? 'ccache' : '')" `
+    "-DCMAKE_CXX_COMPILER_LAUNCHER=$($CCache ? 'ccache' : '')" `
+    -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded `
     -DCK_ENABLE_CONSOLE:BOOL=FALSE `
     -DAPPLICATION_INSTALL:BOOL=ON `
     -DAPPLICATION_CONFIGURE_INSTALLER:BOOL=ON `
@@ -74,10 +93,28 @@ cmake -B build -G Ninja `
     "-DAPPLICATION_NAME=$applicationName" `
     "-DAPPLICATION_DISPLAY_NAME=$applicationDisplayName" `
     "-DAPPLICATION_SEMVER=$semver" `
-    -DCMAKE_INSTALL_PREFIX=installed | Write-Host
+    "-DCMAKE_INSTALL_PREFIX=$(Resolve-Path $InstallDir)" | Write-Host
+if ($LASTEXITCODE -ne 0) {
+    throw "Configure failed"
+}
 
-cmake --build build --target all | Write-Host
-cmake --build build --target install | Write-Host
+if ($CCache) {
+    ccache --zero-stats | Write-Host
+}
+
+cmake --build $(Resolve-Path $BuildDir) --target all | Write-Host
+if ($LASTEXITCODE -ne 0) {
+    throw "Build failed"
+}
+
+if ($CCache) {
+    ccache --show-stats | Write-Host
+}
+
+cmake --build $(Resolve-Path $BuildDir) --target install | Write-Host
+if ($LASTEXITCODE -ne 0) {
+    throw "Install failed"
+}
 
 $buildResult = @{
     ProjectName = $projectName
@@ -85,8 +122,6 @@ $buildResult = @{
     ApplicationName = $applicationName
     ApplicationDisplayName = $applicationDisplayName
     Semver = $semver
-    BuildDir = $(Resolve-Path "build")
-    InstalledDir = $(Resolve-Path "installed")
     InstallerFileBase = $installerFileBase
 }
 

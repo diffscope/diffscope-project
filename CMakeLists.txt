@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
+cmake_policy(SET CMP0141 NEW)
 
 project(DiffScope VERSION 0.2.0 LANGUAGES CXX)
 
@@ -31,6 +32,10 @@ endif()
 if(APPLICATION_INSTALL)
     include(GNUInstallDirs)
     include(CMakePackageConfigHelpers)
+    if(MSVC)
+        set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "")
+        include(InstallRequiredSystemLibraries)
+    endif()
 endif()
 
 # ----------------------------------
