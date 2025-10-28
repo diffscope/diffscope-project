@@ -16,11 +16,18 @@ namespace QAK {
 class QAbstractItemModel;
 class QJSValue;
 
+namespace QDspx {
+    class Model;
+}
+
 namespace Core {
 
     class NotificationMessage;
     class ProjectTimeline;
     class EditActionsHandlerRegistry;
+    class ProjectViewModelContext;
+
+    class ProjectDocumentContext;
 
     class ProjectWindowInterfacePrivate;
 
@@ -29,14 +36,20 @@ namespace Core {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
+        Q_PROPERTY(ProjectDocumentContext *projectDocumentContext READ projectDocumentContext CONSTANT)
         Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
+        Q_PROPERTY(ProjectViewModelContext *projectViewModelContext READ projectViewModelContext CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
         static ProjectWindowInterface* instance();
 
         ProjectTimeline *projectTimeline() const;
 
+        ProjectDocumentContext *projectDocumentContext() const;
+
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry() const;
+
+        ProjectViewModelContext *projectViewModelContext() const;
 
         enum NotificationBubbleMode {
             NormalBubble,
@@ -47,10 +60,14 @@ namespace Core {
         Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
+        Q_INVOKABLE bool save();
+        Q_INVOKABLE bool saveAs();
+        Q_INVOKABLE bool saveCopy();
+
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
-        explicit ProjectWindowInterface(QObject *parent = nullptr);
+        explicit ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent = nullptr);
         explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
         ~ProjectWindowInterface() override;
 

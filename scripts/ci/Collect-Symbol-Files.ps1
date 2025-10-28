@@ -5,7 +5,7 @@ param(
 
     [Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [string]$InstalledDir
+    [string]$InstallDir
 )
 
 $symbolFilesDirectory = [System.IO.Path]::GetTempPath() + "DiffScope-Symbols"
@@ -15,14 +15,14 @@ if ($IsWindows) {
     $PATTERN = "PDB file found at.*'(.*)'"
     $env:_NT_ALT_SYMBOL_PATH = $(Join-Path $VcpkgRootDir "/installed/x64-windows/bin")
 
-    Push-Location $InstalledDir
+    Push-Location $InstallDir
     $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { $_.Extension -eq '.exe' -or $_.Extension -eq '.dll' }
     foreach ($dllFile in $dllFiles) {
         dumpbin /PDBPATH:VERBOSE $dllFile.FullName | Write-Host
         $dumpbinOutput = dumpbin /PDBPATH $dllFile.FullName
-        $matches = [regex]::Matches($dumpbinOutput, $PATTERN)
-        if ($matches.Count -gt 0) {
-            $pdbPath = $matches.Groups[1].Value
+        $m = [regex]::Matches($dumpbinOutput, $PATTERN)
+        if ($m.Count -gt 0) {
+            $pdbPath = $m.Groups[1].Value
             Write-Host "$dllFile -> $pdbPath"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
@@ -35,7 +35,7 @@ if ($IsWindows) {
     }
     Pop-Location
 } elseif ($IsMacOS) {
-    Push-Location $InstalledDir
+    Push-Location $InstallDir
     $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { (file $_) -match "Mach-O 64-bit" }
     foreach ($dllFile in $dllFiles) {
         $dsymutilOutput = dsymutil -s $dllFile.FullName
@@ -53,7 +53,7 @@ if ($IsWindows) {
     }
     Pop-Location
 } else {
-    Push-Location $InstalledDir
+    Push-Location $InstallDir
     $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { (file $_) -match "ELF 64-bit" }
     foreach ($dllFile in $dllFiles) {
         file $dllFile.FullName

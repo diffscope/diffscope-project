@@ -1,0 +1,120 @@
+name: Dev Build
+on:
+#  push:
+#    branches:
+#      - main
+#    paths-ignore:
+#      - 'README.md'
+#      - 'LICENSE'
+#      - 'crowdin.yml'
+#      - '.github/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'crowdin.yml'
+      - '.github/**'
+  workflow_dispatch:
+    inputs:
+      identifier:
+        description: 'Version identifier'
+        required: false
+        type: string
+      use_ccache:
+        description: 'Use CCache'
+        required: false
+        type: boolean
+        default: true
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-2025
+          # - ubuntu-24.04
+          # - macos-15
+
+    env:
+      QT_VERSION: 6.9.2
+      VCPKG_REF: 74e6536215718009aae747d86d84b78376bf9e09
+      INNOSETUP_REF: is-6_5_4
+      VERSION_IDENTIFIER: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
+      BUILD_DIR: ${{ github.workspace }}/build/build
+      INSTALL_DIR: ${{ github.workspace }}/build/install
+      CCACHE_DIR: ${{ github.workspace }}/build/ccache
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Initialize building environment
+        uses: ./.github/actions/initialize-build-environment
+        with:
+          qt_version: ${{ env.QT_VERSION }}
+
+      - name: Initialize Vcpkg
+        uses: ./.github/actions/initialize-vcpkg
+        with:
+          ref: ${{ env.VCPKG_REF }}
+
+      - name: Restore CCache cache
+        uses: actions/cache/restore@v4
+        if: ${{ github.event.inputs.use_ccache == 'true' }}
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ccache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
+
+      - name: Build
+        run: |
+          $output = & ./scripts/ci/Build.ps1 `
+            -BuildType dev `
+            -VcpkgRootDir $env:VCPKG_ROOT_DIR `
+            -BuildDir $env:BUILD_DIR `
+            -InstallDir $env:INSTALL_DIR `
+            -VersionIdentifier $env:VERSION_IDENTIFIER `
+            ${{ github.event.inputs.use_ccache == 'true' && '-CCache' || '' }} 
+          Write-Output ARTIFACT_NAME=$($output.ApplicationName)_$($output.Semver -replace '[\.\-\+]', '_') >> $env:GITHUB_ENV
+          Write-Output INSTALLER_FILE_BASE=$($output.InstallerFileBase) >> $env:GITHUB_ENV
+
+      - name: Save CCache cache
+        uses: actions/cache/save@v4
+        if: ${{ github.event.inputs.use_ccache == 'true' }}
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ccache-${{ github.sha }}
+
+      - name: Collect symbol files
+        run: |
+          $output = & ./scripts/ci/Collect-Symbol-Files.ps1 -VcpkgRootDir $env:VCPKG_ROOT_DIR -InstallDir $env:INSTALL_DIR
+          Write-Output SYMBOL_FILES_PATH=$($output.Path) >> $env:GITHUB_ENV
+
+      - name: Pack
+        run: |
+          $output = & ./scripts/ci/Pack.ps1 -BuildDir $env:BUILD_DIR -InstallerFileBase $env:INSTALLER_FILE_BASE -InnoSetupCommit $env:INNOSETUP_REF
+          Write-Output PACKAGE_PATH=$($output.Path) >> $env:GITHUB_ENV
+
+      - name: Upload symbol files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_symbol_files
+          path: ${{ env.SYMBOL_FILES_PATH }}
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+            name: ${{ env.ARTIFACT_NAME }}
+            path: ${{ env.PACKAGE_PATH }}

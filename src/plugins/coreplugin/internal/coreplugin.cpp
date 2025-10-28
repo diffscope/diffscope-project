@@ -51,6 +51,7 @@
 #include <coreplugin/internal/notificationaddon.h>
 #include <coreplugin/internal/generalpage.h>
 #include <coreplugin/internal/logpage.h>
+#include <coreplugin/internal/filebackuppage.h>
 #include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/keymappage.h>
 #include <coreplugin/internal/menupage.h>
@@ -61,16 +62,13 @@
 #include <coreplugin/internal/timelineaddon.h>
 #include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/internal/recentfileaddon.h>
+#include <coreplugin/internal/metadataaddon.h>
+#include <coreplugin/internal/projectwindownavigatoraddon.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
 }
-
-#ifdef Q_OS_MAC
-static auto getCoreMacOSActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(core_macos_actions);
-}
-#endif
 
 namespace Core::Internal {
 
@@ -315,9 +313,6 @@ namespace Core::Internal {
 
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-#ifdef Q_OS_MAC
-        CoreInterface::actionRegistry()->addExtension(::getCoreMacOSActionExtension());
-#endif
 
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
@@ -342,6 +337,7 @@ namespace Core::Internal {
         addIcon("core.edit.paste", "ClipboardPaste16Filled");
         addIcon("core.edit.delete", "Delete16Filled");
         addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
+        addIcon("core.panel.metadata", "TextBulletListSquareEdit20Filled");
         addIcon("core.panel.plugins", "PuzzlePiece16Filled");
         addIcon("core.panel.arrangement", "GanttChart16Filled");
         addIcon("core.panel.mixer", "OptionsVertical16Filled");
@@ -357,6 +353,7 @@ namespace Core::Internal {
         auto sc = CoreInterface::settingCatalog();
         auto generalPage = new GeneralPage;
         generalPage->addPage(new LogPage);
+        generalPage->addPage(new FileBackupPage);
         sc->addPage(generalPage);
         auto appearancePage = new AppearancePage;
         appearancePage->addPage(new ColorSchemePage);
@@ -376,6 +373,11 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

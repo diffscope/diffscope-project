@@ -32,7 +32,7 @@ HomeWindow {
     WindowSystem.id: "org.diffscope.core.homewindow"
 
     onNewFileRequested: () => {
-        windowHandle.triggerAction("core.file.new")
+        windowHandle.triggerAction("core.file.new", homeWindow.contentItem)
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
@@ -58,15 +58,15 @@ HomeWindow {
             }
         }
     }
-    macosMenusModel: ObjectModel {
+    menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: homeWindow.isMacOS ? "core.homeMenu" : ""
+            actionId: "core.homeMenu"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
-                homeWindow.macosMenusModel.insert(index, object)
+                homeWindow.menusModel.insert(index, object)
             }
             onObjectRemoved: (index, object) => {
-                homeWindow.macosMenusModel.remove(index)
+                homeWindow.menusModel.remove(index)
             }
         }
     }

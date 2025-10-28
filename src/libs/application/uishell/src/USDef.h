@@ -21,6 +21,7 @@ namespace UIShell {
             RF_LastModifiedTextRole,
             RF_ThumbnailRole,
             RF_IconRole,
+            RF_ColorizeRole,
         };
         Q_ENUM_NS(RecentFileRole)
 

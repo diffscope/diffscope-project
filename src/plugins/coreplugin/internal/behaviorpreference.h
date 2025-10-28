@@ -31,6 +31,7 @@ namespace Core::Internal {
         Q_PROPERTY(bool proxyHasAuthentication READ proxyHasAuthentication WRITE setProxyHasAuthentication NOTIFY proxyHasAuthenticationChanged)
         Q_PROPERTY(QString proxyUsername READ proxyUsername WRITE setProxyUsername NOTIFY proxyUsernameChanged)
         Q_PROPERTY(QString proxyPassword READ proxyPassword WRITE setProxyPassword NOTIFY proxyPasswordChanged)
+        Q_PROPERTY(BehaviorPreference::FileOption fileOption READ fileOption WRITE setFileOption NOTIFY fileOptionChanged)
         Q_PROPERTY(bool useCustomFont READ useCustomFont WRITE setUseCustomFont NOTIFY useCustomFontChanged)
         Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
         Q_PROPERTY(QString fontStyle READ fontStyle WRITE setFontStyle NOTIFY fontStyleChanged)
@@ -117,6 +118,15 @@ namespace Core::Internal {
         static QString proxyPassword();
         static void setProxyPassword(const QString &proxyPassword);
 
+        enum FileOptionFlag {
+            FO_LockOpenedFiles = 0x01,
+            FO_CheckForExternalChangedOnSave = 0x02,
+        };
+        Q_ENUM(FileOptionFlag)
+        Q_DECLARE_FLAGS(FileOption, FileOptionFlag)
+        static FileOption fileOption();
+        static void setFileOption(FileOption fileOption);
+
         static bool useCustomFont();
         static void setUseCustomFont(bool useCustomFont);
 
@@ -192,6 +202,7 @@ namespace Core::Internal {
         void proxyHasAuthenticationChanged();
         void proxyUsernameChanged();
         void proxyPasswordChanged();
+        void fileOptionChanged();
         void useCustomFontChanged();
         void fontFamilyChanged();
         void fontStyleChanged();
@@ -219,5 +230,6 @@ namespace Core::Internal {
 Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::StartupBehavior)
 Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::UIBehavior)
 Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::GraphicsBehavior)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Core::Internal::BehaviorPreference::FileOption)
 
 #endif //DIFFSCOPE_COREPLUGIN_BEHAVIORPREFERENCE_H

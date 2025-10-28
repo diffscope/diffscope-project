@@ -27,13 +27,6 @@ qak_add_action_extension(
     res/core_actions.xml
 )
 list(APPEND _src ${_core_actions_src})
-if(APPLE)
-    qak_add_action_extension(
-        _core_macos_actions_src
-        res/core_macos_actions.xml
-    )
-    list(APPEND _src ${_core_macos_actions_src})
-endif()
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
@@ -66,7 +59,9 @@ qm_configure_target(${PROJECT_NAME}
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
-        # opendspx::opendspx
+        opendspx::opendspx
+        ScopicFlowCore
+        ScopicFlowViews
     INCLUDE_PRIVATE
         core
         windows

@@ -46,6 +46,7 @@ namespace Core::Internal {
         layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftTop, {
             {
                 {"core.panel.properties", true},
+                {"core.panel.metadata", true},
                 {"core.panel.plugins", true},
             }, 400, 400, 0
         });
