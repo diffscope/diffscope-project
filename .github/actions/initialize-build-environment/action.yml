@@ -45,5 +45,5 @@ runs:
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ inputs.qt_version }}
-        modules: qt5compat
+        modules: qt5compat qtshadertools
         cache: true
