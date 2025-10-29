@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/vibrato.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -178,19 +178,26 @@ namespace dspx {
         d->setStartUnchecked(start);
     }
 
-    QDspx::VibratoInfo Vibrato::toQDspx() const {
-        // TODO
-        return {};
+    QDspx::Vibrato Vibrato::toQDspx() const {
+        return {
+            .start = start(),
+            .end = end(),
+            .amp = amp(),
+            .freq = freq(),
+            .phase = phase(),
+            .offset = offset(),
+            .points = points()->toQDspx(),
+        };
     }
 
-    void Vibrato::fromQDspx(const QDspx::VibratoInfo &vibrato) {
-        setAmp(vibrato.amp);
-        setEnd(vibrato.end);
-        setFreq(vibrato.freq);
-        setOffset(vibrato.offset);
-        setPhase(vibrato.phase);
+    void Vibrato::fromQDspx(const QDspx::Vibrato &vibrato) {
         setStart(vibrato.start);
-        // TODO points
+        setEnd(vibrato.end);
+        setAmp(vibrato.amp);
+        setFreq(vibrato.freq);
+        setPhase(vibrato.phase);
+        setOffset(vibrato.offset);
+        points()->fromQDspx(vibrato.points);
     }
 
     void Vibrato::handleProxySetEntityProperty(int property, const QVariant &value) {

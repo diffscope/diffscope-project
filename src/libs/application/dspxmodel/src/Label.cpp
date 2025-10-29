@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/label.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -69,8 +69,8 @@ namespace dspx {
 
     QDspx::Label Label::toQDspx() const {
         return QDspx::Label {
-            pos(),
-            text(),
+            .pos = pos(),
+            .text = text(),
         };
     }
 

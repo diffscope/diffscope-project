@@ -1,6 +1,6 @@
 #include "TrackControl.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/trackcontrol.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -36,10 +36,10 @@ namespace dspx {
 
     QDspx::TrackControl TrackControl::toQDspx() const {
         return {
-            gain(),
-            pan(),
-            mute(),
-            solo()
+            .gain = gain(),
+            .pan = pan(),
+            .mute = mute(),
+            .solo = solo()
         };
     }
     void TrackControl::fromQDspx(const QDspx::TrackControl &trackControl) {

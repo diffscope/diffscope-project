@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/phoneme.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -73,14 +73,19 @@ namespace dspx {
     }
 
     QDspx::Phoneme Phoneme::toQDspx() const {
-        // TODO
-        return {};
+        return {
+            .language = language(),
+            .token = token(),
+            .start = start(),
+            .onset = onset()
+        };
     }
 
     void Phoneme::fromQDspx(const QDspx::Phoneme &phoneme) {
-        // TODO language, onset
-        setStart(phoneme.start);
+        setLanguage(phoneme.language);
         setToken(phoneme.token);
+        setStart(phoneme.start);
+        setOnset(phoneme.onset);
     }
 
     void Phoneme::handleSetEntityProperty(int property, const QVariant &value) {

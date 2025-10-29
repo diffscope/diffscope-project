@@ -1,6 +1,6 @@
 #include "SingingClip.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/singingclip.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -51,22 +51,27 @@ namespace dspx {
     }
 
     QDspx::SingingClip SingingClip::toQDspx() const {
-        QDspx::SingingClip clip;
-        clip.control = control()->toQDspx();
-        clip.name = name();
-        // TODO: Add notes, params, sources serialization when classes are implemented
-        clip.time = time()->toQDspx();
-        clip.type = QDspx::Clip::Singing;
-        clip.workspace = workspace()->toQDspx();
-        return clip;
+        return {
+            name(),
+            control()->toQDspx(),
+            time()->toQDspx(),
+            workspace()->toQDspx(),
+            notes()->toQDspx(),
+            // TODO
+            // params()->toQDspx(),
+            // sources()->toQDspx(),
+        };
     }
 
     void SingingClip::fromQDspx(const QDspx::SingingClip &clip) {
-        control()->fromQDspx(clip.control);
         setName(clip.name);
-        // TODO: Add notes, params, sources deserialization when classes are implemented
+        control()->fromQDspx(clip.control);
         time()->fromQDspx(clip.time);
         workspace()->fromQDspx(clip.workspace);
+        notes()->fromQDspx(clip.notes);
+        // TODO
+        // params()->fromQDspx(clip.params);
+        // sources()->fromQDspx(clip.sources);
     }
 
     void SingingClip::handleSetEntityProperty(int property, const QVariant &value) {

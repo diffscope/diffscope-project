@@ -3,7 +3,7 @@
 #include <QJSValue>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/tempo.h>
 
 #include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/Model_p.h>

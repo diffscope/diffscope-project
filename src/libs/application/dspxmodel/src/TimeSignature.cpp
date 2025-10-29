@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/timesignature.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -121,17 +121,17 @@ namespace dspx {
 
     QDspx::TimeSignature TimeSignature::toQDspx() const {
         return QDspx::TimeSignature {
-            index(),
-            numerator(),
-            denominator(),
+            .index = index(),
+            .numerator = numerator(),
+            .denominator = denominator(),
         };
     }
 
     void TimeSignature::fromQDspx(const QDspx::TimeSignature &timeSignature) {
         // TODO QDspx needs to rename these properties
-        setIndex(timeSignature.pos);
-        setNumerator(timeSignature.num);
-        setDenominator(timeSignature.den);
+        setIndex(timeSignature.index);
+        setNumerator(timeSignature.numerator);
+        setDenominator(timeSignature.denominator);
     }
 
     void TimeSignature::handleSetEntityProperty(int property, const QVariant &value) {

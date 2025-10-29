@@ -3,7 +3,7 @@
 
 #include <QVariant>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/model.h>
 
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/Global.h>
@@ -179,13 +179,13 @@ namespace dspx {
 
     QDspx::Model Model::toQDspx() const {
         return {
-            QStringLiteral("1.0.0"),
-            {
-                global()->toQDspx(),
-                master()->toQDspx(),
-                timeline()->toQDspx(),
-                trackList()->toQDspx(),
-                workspace()->toQDspx(),
+            .version = QDspx::Model::V1,
+            .content = {
+                .global = global()->toQDspx(),
+                .master = master()->toQDspx(),
+                .timeline = timeline()->toQDspx(),
+                .tracks = trackList()->toQDspx(),
+                .workspace = workspace()->toQDspx(),
             }
         };
     }

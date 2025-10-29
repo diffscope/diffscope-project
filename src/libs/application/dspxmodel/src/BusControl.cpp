@@ -1,6 +1,6 @@
 #include "BusControl.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/buscontrol.h>
 
 namespace dspx {
 
@@ -9,15 +9,15 @@ namespace dspx {
 
     BusControl::~BusControl() = default;
 
-    QDspx::Control BusControl::toQDspx() const {
+    QDspx::BusControl BusControl::toQDspx() const {
         return {
-            gain(),
-            pan(),
-            mute()
+            .gain = gain(),
+            .pan = pan(),
+            .mute = mute()
         };
     }
 
-    void BusControl::fromQDspx(const QDspx::Control &control) {
+    void BusControl::fromQDspx(const QDspx::BusControl &control) {
         setGain(control.gain);
         setPan(control.pan);
         setMute(control.mute);

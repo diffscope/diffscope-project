@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/note.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -214,19 +214,29 @@ namespace dspx {
     }
 
     QDspx::Note Note::toQDspx() const {
-        // TODO
-        return {};
+        return {
+            .pos = pos(),
+            .length = length(),
+            .keyNum = keyNum(),
+            .centShift = centShift(),
+            .language = language(),
+            .lyric = lyric(),
+            .pronunciation = pronunciation()->toQDspx(),
+            .phonemes = phonemes()->toQDspx(),
+            .vibrato = vibrato()->toQDspx(),
+            .workspace = workspace()->toQDspx(),
+        };
     }
 
     void Note::fromQDspx(const QDspx::Note &note) {
-        setCentShift(note.centShift);
-        setKeyNum(note.keyNum);
-        setLanguage(note.language);
-        setLength(note.length);
-        setLyric(note.lyric);
-        phonemes()->fromQDspx(note.phonemes);
         setPos(note.pos);
+        setLength(note.length);
+        setKeyNum(note.keyNum);
+        setCentShift(note.centShift);
+        setLanguage(note.language);
+        setLyric(note.lyric);
         pronunciation()->fromQDspx(note.pronunciation);
+        phonemes()->fromQDspx(note.phonemes);
         vibrato()->fromQDspx(note.vibrato);
         workspace()->fromQDspx(note.workspace);
     }

@@ -1,6 +1,7 @@
 #include "Clip.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/audioclip.h>
+#include <opendspx/singingclip.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>

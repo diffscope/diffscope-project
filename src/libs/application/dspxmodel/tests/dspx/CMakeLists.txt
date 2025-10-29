@@ -8,7 +8,7 @@ file(GLOB _src *.h *.cpp)
 add_executable(${PROJECT_NAME} ${_src})
 
 qm_configure_target(${PROJECT_NAME}
-    LINKS opendspx dspxmodel
+    LINKS opendspx::model opendspx::serializer dspxmodel
     QT_LINKS Core
 )
 

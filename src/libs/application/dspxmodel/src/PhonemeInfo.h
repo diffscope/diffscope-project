@@ -7,7 +7,7 @@
 #include <dspxmodel/Handle.h>
 
 namespace QDspx {
-    struct PhonemeInfo;
+    struct Phonemes;
 }
 
 namespace dspx {
@@ -32,8 +32,8 @@ namespace dspx {
         PhonemeList *edited() const;
         PhonemeList *original() const;
 
-        QDspx::PhonemeInfo toQDspx() const;
-        void fromQDspx(const QDspx::PhonemeInfo &phonemeInfo);
+        QDspx::Phonemes toQDspx() const;
+        void fromQDspx(const QDspx::Phonemes &phonemeInfo);
 
     private:
         friend class ModelPrivate;

@@ -3,6 +3,8 @@
 #include <QVariant>
 #include <QJSEngine>
 
+#include <opendspx/vibratopoints.h>
+
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/VibratoPointDataArray.h>
@@ -36,6 +38,19 @@ namespace dspx {
     VibratoPointDataArray *VibratoPoints::freq() const {
         Q_D(const VibratoPoints);
         return d->freq;
+    }
+
+    QDspx::VibratoPoints VibratoPoints::toQDspx() const {
+        return {
+            .amp = amp()->toQDspx(),
+            .freq = freq()->toQDspx(),
+        };
+    }
+
+    void VibratoPoints::fromQDspx(const QDspx::VibratoPoints &vibratoPoints) {
+        Q_D(VibratoPoints);
+        amp()->fromQDspx(vibratoPoints.amp);
+        freq()->fromQDspx(vibratoPoints.freq);
     }
 
 

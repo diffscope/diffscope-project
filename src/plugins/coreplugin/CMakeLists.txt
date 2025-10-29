@@ -59,7 +59,7 @@ qm_configure_target(${PROJECT_NAME}
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
         # dspxmodel
-        opendspx::opendspx
+        opendspx::model
         ScopicFlowCore
         ScopicFlowViews
     INCLUDE_PRIVATE

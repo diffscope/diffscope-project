@@ -1,8 +1,10 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QJsonObject>
+#include <QFile>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/model.h>
+#include <opendspxserializer/serializer.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/BasicModelStrategy.h>
@@ -20,15 +22,19 @@ int main(int argc, char **argv) {
     QCoreApplication a(argc, argv);
 
     QDspx::Model qDspxModel;
-    auto result = qDspxModel.load(":/tst_dspxmodel_dspx/test.dspx");
-    qDebug() << result.type << result.code;
+    QFile f(":/tst_dspxmodel_dspx/test.dspx");
+    f.open(QIODevice::ReadOnly);
+    auto data = f.readAll();
+    QDspx::SerializationErrorList errors;
+    qDspxModel = QDspx::Serializer::deserialize(data, errors);
+    qDebug() << errors.size();
 
 
     BasicModelStrategy basicModelStrategy;
     Model model(&basicModelStrategy);
 
     model.fromQDspx(qDspxModel);
-    qDebug().noquote() << model.toQDspx().saveData();
+    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
 
     qDebug() << model.timeline()->labels()->firstItem()->text();
 
@@ -36,7 +42,7 @@ int main(int argc, char **argv) {
     workspaceInfo->setJsonObject({{"test", "test c"}});
     model.workspace()->insertItem("c", workspaceInfo);
 
-    qDebug().noquote() << model.toQDspx().saveData();
+    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
 
     // Test TrackList functionality
     qDebug() << "=== Testing TrackList ===";
@@ -92,7 +98,7 @@ int main(int argc, char **argv) {
     }
     
     qDebug() << "=== TrackList test complete ===";
-    qDebug().noquote() << model.toQDspx().saveData();
+    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
 
     return 0;
 }

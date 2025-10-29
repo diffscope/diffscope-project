@@ -6,6 +6,10 @@
 
 #include <dspxmodel/Handle.h>
 
+namespace QDspx {
+    struct VibratoPoints;
+}
+
 namespace dspx {
 
     class Model;
@@ -27,6 +31,9 @@ namespace dspx {
 
         VibratoPointDataArray *amp() const;
         VibratoPointDataArray *freq() const;
+
+        QDspx::VibratoPoints toQDspx() const;
+        void fromQDspx(const QDspx::VibratoPoints &vibratoPoints);
 
     private:
         friend class ModelPrivate;

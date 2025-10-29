@@ -6,8 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
-    template <typename T>
-    struct Point;
+    struct ControlPoint;
 }
 
 namespace dspx {
@@ -30,8 +29,8 @@ namespace dspx {
         Q_INVOKABLE QList<QPointF> slice(int index, int length) const;
         Q_INVOKABLE bool rotate(int leftIndex, int middleIndex, int rightIndex);
 
-        QList<QDspx::Point<double>> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Point<double>> &vibratoPoints);
+        QList<QDspx::ControlPoint> toQDspx() const;
+        void fromQDspx(const QList<QDspx::ControlPoint> &vibratoPoints);
 
     Q_SIGNALS:
         void sizeChanged(int size);

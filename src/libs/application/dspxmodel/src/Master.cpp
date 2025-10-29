@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/master.h>
 
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
@@ -38,7 +38,7 @@ namespace dspx {
 
     QDspx::Master Master::toQDspx() const {
         return {
-            control()->toQDspx(),
+            .control = control()->toQDspx(),
         };
     }
 

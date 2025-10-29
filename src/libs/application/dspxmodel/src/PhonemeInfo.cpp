@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/phonemes.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -40,17 +40,17 @@ namespace dspx {
         return d->original;
     }
 
-    QDspx::PhonemeInfo PhonemeInfo::toQDspx() const {
+    QDspx::Phonemes PhonemeInfo::toQDspx() const {
         return {
             original()->toQDspx(),
             edited()->toQDspx()
         };
     }
 
-    void PhonemeInfo::fromQDspx(const QDspx::PhonemeInfo &phonemeInfo) {
+    void PhonemeInfo::fromQDspx(const QDspx::Phonemes &phonemeInfo) {
         Q_D(PhonemeInfo);
+        original()->fromQDspx(phonemeInfo.original);
         edited()->fromQDspx(phonemeInfo.edited);
-        original()->fromQDspx(phonemeInfo.org);
     }
 
 }

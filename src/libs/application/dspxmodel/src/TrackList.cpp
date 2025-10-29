@@ -2,7 +2,7 @@
 
 #include "ModelStrategy.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/track.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/private/ListData_p.h>

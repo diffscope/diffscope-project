@@ -4,7 +4,7 @@
 #include <dspxmodel/Control.h>
 
 namespace QDspx {
-    struct Control;
+    struct BusControl;
 }
 
 namespace dspx {
@@ -17,8 +17,8 @@ namespace dspx {
     public:
         ~BusControl() override;
 
-        QDspx::Control toQDspx() const;
-        void fromQDspx(const QDspx::Control &control);
+        QDspx::BusControl toQDspx() const;
+        void fromQDspx(const QDspx::BusControl &control);
 
     private:
         friend class ModelPrivate;

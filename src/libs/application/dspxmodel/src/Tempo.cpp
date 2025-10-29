@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/tempo.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -86,9 +86,9 @@ namespace dspx {
     }
 
     QDspx::Tempo Tempo::toQDspx() const {
-        return QDspx::Tempo {
-            pos(),
-            value(),
+        return {
+            .pos = pos(),
+            .value = value(),
         };
     }
 

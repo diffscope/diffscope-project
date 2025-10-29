@@ -1,6 +1,6 @@
 #include "Timeline.h"
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/timeline.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/LabelSequence.h>
@@ -41,9 +41,9 @@ namespace dspx {
 
     QDspx::Timeline Timeline::toQDspx() const {
         return {
-            timeSignatures()->toQDspx(),
-            tempos()->toQDspx(),
             labels()->toQDspx(),
+            tempos()->toQDspx(),
+            timeSignatures()->toQDspx(),
         };
     }
 

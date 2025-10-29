@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QColor>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/track.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -73,13 +73,10 @@ namespace dspx {
 
     QDspx::Track Track::toQDspx() const {
         return {
-            name(),
-            control()->toQDspx(),
-            clips()->toQDspx(),
-            {},
-            {},
-            {},
-            workspace()->toQDspx()
+            .name = name(),
+            .control = control()->toQDspx(),
+            .clips = clips()->toQDspx(),
+            .workspace = workspace()->toQDspx(),
         };
     }
 

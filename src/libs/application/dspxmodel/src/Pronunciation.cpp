@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/pronunciation.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -54,13 +54,13 @@ namespace dspx {
 
     QDspx::Pronunciation Pronunciation::toQDspx() const {
         return {
-            original(),
-            edited()
+            .original = original(),
+            .edited = edited()
         };
     }
 
     void Pronunciation::fromQDspx(const QDspx::Pronunciation &pronunciation) {
-        setOriginal(pronunciation.org);
+        setOriginal(pronunciation.original);
         setEdited(pronunciation.edited);
     }
 

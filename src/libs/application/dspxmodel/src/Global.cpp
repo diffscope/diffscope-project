@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/global.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -94,18 +94,20 @@ namespace dspx {
 
     QDspx::Global Global::toQDspx() const {
         return {
-            name(),
-            author(),
-            centShift(),
-            // TODO editorId editorName
+            .author = author(),
+            .name = name(),
+            .centShift = centShift(),
+            .editorId = editorId(),
+            .editorName = editorName()
         };
     }
 
     void Global::fromQDspx(const QDspx::Global &global) {
-        setName(global.name);
         setAuthor(global.author);
+        setName(global.name);
         setCentShift(global.centShift);
-        // TODO editorId editorName
+        setEditorId(global.editorId);
+        setEditorName(global.editorName);
     }
 
 }

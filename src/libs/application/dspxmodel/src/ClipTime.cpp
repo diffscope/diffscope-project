@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QJSEngine>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/cliptime.h>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
@@ -130,10 +130,10 @@ namespace dspx {
 
     QDspx::ClipTime ClipTime::toQDspx() const {
         return {
-            start(),
-            length(),
-            clipStart(),
-            clipLen()
+            .start = start(),
+            .length = length(),
+            .clipStart = clipStart(),
+            .clipLen = clipLen()
         };
     }
 
