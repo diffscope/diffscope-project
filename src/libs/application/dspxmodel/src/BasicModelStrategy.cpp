@@ -95,7 +95,7 @@ namespace dspx {
                 obj = new BasicModelStrategyListContainerEntity(parent);
                 obj->type = type;
                 break;
-            case ModelStrategy::ED_ParamCurveFreeItems:
+            case ModelStrategy::ED_ParamCurveFreeValues:
             case ModelStrategy::ED_VibratoPoints:
                 obj = new BasicModelStrategyDataArrayEntity(parent);
                 obj->type = type;
@@ -291,7 +291,7 @@ namespace dspx {
                             subObjectType = ES_ParamCurveAnchorNodes;
                             break;
                         case EI_ParamCurveFree:
-                            subObjectType = ED_ParamCurveFreeItems;
+                            subObjectType = ED_ParamCurveFreeValues;
                             break;
                         default:
                             Q_UNREACHABLE();

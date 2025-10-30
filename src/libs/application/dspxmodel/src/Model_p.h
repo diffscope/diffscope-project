@@ -11,6 +11,7 @@ namespace dspx {
     class TempoSequence;
     class TimeSignatureSequence;
     class Clip;
+    class ParamCurve;
 
     class ModelPrivate {
         Q_DECLARE_PUBLIC(Model)
@@ -56,6 +57,9 @@ namespace dspx {
 
         template <>
         Clip *createObject<Clip>(Handle handle);
+
+        template <>
+        ParamCurve *createObject<ParamCurve>(Handle handle);
 
         template<class T>
         static void proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {

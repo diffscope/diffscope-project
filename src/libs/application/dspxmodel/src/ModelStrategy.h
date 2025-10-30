@@ -42,7 +42,7 @@ namespace dspx {
             EL_Phonemes,
             EL_Tracks,
 
-            ED_ParamCurveFreeItems,
+            ED_ParamCurveFreeValues,
             ED_VibratoPoints,
 
             EM_Params,

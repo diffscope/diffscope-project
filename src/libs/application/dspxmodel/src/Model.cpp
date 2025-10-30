@@ -24,6 +24,11 @@
 #include <dspxmodel/Workspace.h>
 #include <dspxmodel/AudioClip.h>
 #include <dspxmodel/SingingClip.h>
+#include <dspxmodel/AnchorNode.h>
+#include <dspxmodel/ParamCurveAnchor.h>
+#include <dspxmodel/ParamCurveFree.h>
+#include <dspxmodel/Param.h>
+#include <dspxmodel/Source.h>
 
 namespace dspx {
 
@@ -128,6 +133,18 @@ namespace dspx {
                 return createObject<AudioClip>(handle);
             case ModelStrategy::EI_SingingClip:
                 return createObject<SingingClip>(handle);
+            default:
+                Q_UNREACHABLE();
+        }
+    }
+
+    template <>
+    ParamCurve * ModelPrivate::createObject<ParamCurve>(Handle handle) {
+        switch (strategy->getEntityType(handle)) {
+            case ModelStrategy::EI_ParamCurveAnchor:
+                return createObject<ParamCurveAnchor>(handle);
+            case ModelStrategy::EI_ParamCurveFree:
+                return createObject<ParamCurveFree>(handle);
             default:
                 Q_UNREACHABLE();
         }
@@ -251,6 +268,36 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_SingingClip);
         return d->createObject<SingingClip>(handle);
+    }
+
+    AnchorNode *Model::createAnchorNode() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_ParamCurveAnchorNode);
+        return d->createObject<AnchorNode>(handle);
+    }
+
+    ParamCurveAnchor *Model::createParamCurveAnchor() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_ParamCurveAnchor);
+        return d->createObject<ParamCurveAnchor>(handle);
+    }
+
+    ParamCurveFree *Model::createParamCurveFree() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_ParamCurveFree);
+        return d->createObject<ParamCurveFree>(handle);
+    }
+
+    Param *Model::createParam() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Param);
+        return d->createObject<Param>(handle);
+    }
+
+    Source * Model::createSource() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_Source);
+        return d->createObject<Source>(handle);
     }
 
     void Model::handleSetEntityProperty(int property, const QVariant &value) {

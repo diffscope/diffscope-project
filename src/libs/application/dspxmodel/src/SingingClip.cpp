@@ -8,6 +8,8 @@
 #include <dspxmodel/ClipTime.h>
 #include <dspxmodel/Workspace.h>
 #include <dspxmodel/NoteSequence.h>
+#include <dspxmodel/ParamMap.h>
+#include <dspxmodel/SourceMap.h>
 
 namespace dspx {
 
@@ -28,9 +30,8 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
         d->notes = d->pModel->createObject<NoteSequence>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
         d->notes->setSingingClip(this);
-        // TODO: Initialize params, sources when classes are implemented
-        d->params = nullptr;
-        d->sources = nullptr;
+        d->params = d->pModel->createObject<ParamMap>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Params));
+        d->sources = d->pModel->createObject<SourceMap>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Sources));
     }
 
     SingingClip::~SingingClip() = default;
@@ -57,9 +58,8 @@ namespace dspx {
             time()->toQDspx(),
             workspace()->toQDspx(),
             notes()->toQDspx(),
-            // TODO
-            // params()->toQDspx(),
-            // sources()->toQDspx(),
+            params()->toQDspx(),
+            sources()->toQDspx(),
         };
     }
 
@@ -69,9 +69,8 @@ namespace dspx {
         time()->fromQDspx(clip.time);
         workspace()->fromQDspx(clip.workspace);
         notes()->fromQDspx(clip.notes);
-        // TODO
-        // params()->fromQDspx(clip.params);
-        // sources()->fromQDspx(clip.sources);
+        params()->fromQDspx(clip.params);
+        sources()->fromQDspx(clip.sources);
     }
 
     void SingingClip::handleSetEntityProperty(int property, const QVariant &value) {

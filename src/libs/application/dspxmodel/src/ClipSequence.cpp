@@ -118,15 +118,18 @@ namespace dspx {
         }
         for (const auto &clip : clips) {
             Clip *item = nullptr;
-            if (clip->type == QDspx::Clip::Audio) {
-                item = model()->createAudioClip();
-            } else if (clip->type == QDspx::Clip::Singing) {
-                item = model()->createSingingClip();
+            switch (clip->type) {
+                case QDspx::Clip::Audio:
+                    item = model()->createAudioClip();
+                    break;
+                case QDspx::Clip::Singing:
+                    item = model()->createSingingClip();
+                    break;
+                default:
+                    Q_UNREACHABLE();
             }
-            if (item) {
-                item->fromQDspx(clip);
-                insertItem(item);
-            }
+            item->fromQDspx(clip);
+            insertItem(item);
         }
     }
 
