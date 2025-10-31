@@ -116,6 +116,18 @@ namespace dspx {
                 entityObject->handleSetEntityProperty(property, value);
             }
         });
+
+        QObject::connect(strategy, &ModelStrategy::spliceDataArrayNotified, q, [=, this](Handle entity, int index, int length, const QVariantList &values) {
+            if (auto entityObject = mapToObject(entity)) {
+                entityObject->handleSpliceDataArray(index, length, values);
+            }
+        });
+
+        QObject::connect(strategy, &ModelStrategy::rotateDataArrayNotified, q, [=, this](Handle entity, int leftIndex, int middleIndex, int rightIndex) {
+            if (auto entityObject = mapToObject(entity)) {
+                entityObject->handleRotateDataArray(leftIndex, middleIndex, rightIndex);
+            }
+        });
     }
 
     EntityObject * ModelPrivate::mapToObject(Handle handle) const {

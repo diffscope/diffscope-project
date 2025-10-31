@@ -274,6 +274,20 @@ namespace dspx {
                 Q_EMIT posChanged(d->pos);
                 break;
             }
+            case ModelStrategy::P_PronunciationOriginal:
+            case ModelStrategy::P_PronunciationEdited: {
+                ModelPrivate::proxySetEntityPropertyNotify(d->pronunciation, property, value);
+                break;
+            }
+            case ModelStrategy::P_VibratoAmplitude:
+            case ModelStrategy::P_VibratoEnd:
+            case ModelStrategy::P_VibratoFrequency:
+            case ModelStrategy::P_VibratoOffset:
+            case ModelStrategy::P_VibratoPhase:
+            case ModelStrategy::P_VibratoStart: {
+                ModelPrivate::proxySetEntityPropertyNotify(d->vibrato, property, value);
+                break;
+            }
             default:
                 Q_UNREACHABLE();
         }

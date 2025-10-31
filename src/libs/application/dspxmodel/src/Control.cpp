@@ -19,9 +19,26 @@ namespace dspx {
         double pan;
         bool mute;
 
+        void setGainUnchecked(double gain_);
+        void setGain(double gain_);
+
         void setPanUnchecked(double pan_);
         void setPan(double pan_);
     };
+
+    void ControlPrivate::setGainUnchecked(double gain_) {
+        Q_Q(Control);
+        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ControlGain, gain_);
+    }
+
+    void ControlPrivate::setGain(double gain_) {
+        Q_Q(Control);
+        if (auto engine = qjsEngine(q); engine && (gain_ < 0)) {
+            engine->throwError(QJSValue::RangeError, QStringLiteral("Gain must be greater or equal to 0"));
+            return;
+        }
+        setGainUnchecked(gain_);
+    }
 
     void ControlPrivate::setPanUnchecked(double pan_) {
         Q_Q(Control);
@@ -56,7 +73,8 @@ namespace dspx {
 
     void Control::setGain(double gain) {
         Q_D(Control);
-        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlGain, gain);
+        Q_ASSERT(gain >= 0.0);
+        d->setGainUnchecked(gain);
     }
 
     double Control::pan() const {

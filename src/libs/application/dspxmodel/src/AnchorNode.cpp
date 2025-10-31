@@ -30,6 +30,11 @@ namespace dspx {
     }
 
     void AnchorNodePrivate::setInterp(AnchorNode::InterpolationMode interp_) {
+        Q_Q(AnchorNode);
+        if (auto engine = qjsEngine(q); engine && (interp_ != AnchorNode::None && interp_ != AnchorNode::Linear && interp_ != AnchorNode::Hermite)) {
+            engine->throwError(QJSValue::RangeError, QStringLiteral("Interpolation mode must be one of None, Linear, or Hermite"));
+            return;
+        }
         setInterpUnchecked(interp_);
     }
 
@@ -66,7 +71,8 @@ namespace dspx {
 
     void AnchorNode::setInterp(InterpolationMode interp) {
         Q_D(AnchorNode);
-        d->setInterp(interp);
+        Q_ASSERT(interp == None || interp == Linear || interp == Hermite);
+        d->setInterpUnchecked(interp);
     }
 
     int AnchorNode::x() const {
@@ -77,7 +83,7 @@ namespace dspx {
     void AnchorNode::setX(int x) {
         Q_D(AnchorNode);
         Q_ASSERT(x >= 0);
-        d->setX(x);
+        d->setXUnchecked(x);
     }
 
     int AnchorNode::y() const {
@@ -87,7 +93,7 @@ namespace dspx {
 
     void AnchorNode::setY(int y) {
         Q_D(AnchorNode);
-        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Position, y);
+        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Value, y);
     }
 
     QDspx::AnchorNode AnchorNode::toQDspx() const {
