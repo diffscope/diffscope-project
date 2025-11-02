@@ -1,9 +1,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_QUICKINPUT_H
 #define DIFFSCOPE_COREPLUGIN_QUICKINPUT_H
 
+#include <qqmlintegration.h>
+
 #include <QObject>
 #include <QVariant>
-#include <qqmlintegration.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 

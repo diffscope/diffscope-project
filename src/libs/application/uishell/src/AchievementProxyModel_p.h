@@ -1,8 +1,9 @@
 #ifndef UISHELL_ACHIEVEMENTPROXYMODEL_P_H
 #define UISHELL_ACHIEVEMENTPROXYMODEL_P_H
 
-#include <QIdentityProxyModel>
 #include <qqmlintegration.h>
+
+#include <QIdentityProxyModel>
 
 namespace UIShell {
 

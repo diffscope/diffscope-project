@@ -35,7 +35,6 @@ namespace Core::Internal {
 
     private:
         ProjectWindowWorkspaceLayout m_currentLayout;
-
     };
 
 }

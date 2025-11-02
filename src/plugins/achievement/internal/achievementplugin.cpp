@@ -2,12 +2,12 @@
 
 #include <QQmlComponent>
 
-#include <QAKCore/actionregistry.h>
-
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>
+
+#include <QAKCore/actionregistry.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/homewindowinterface.h>
@@ -43,11 +43,11 @@ namespace Achievement {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto o = component.createWithInitialProperties({
-            {"models", QVariant::fromValue(Core::RuntimeInterface::instance()->getObjects("org.diffscope.achievements"))},
-            {"settings", QVariant::fromValue(Core::RuntimeInterface::settings())},
-            {"settingCategory", "org.diffscope.achievements"}
-        });
+        auto o = component.createWithInitialProperties(
+            {{"models", QVariant::fromValue(Core::RuntimeInterface::instance()->getObjects("org.diffscope.achievements"))},
+             {"settings", QVariant::fromValue(Core::RuntimeInterface::settings())},
+             {"settingCategory", "org.diffscope.achievements"}}
+        );
         o->setParent(this);
         AchievementAddOn::setWindow(qobject_cast<QQuickWindow *>(o));
     }

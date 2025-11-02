@@ -1,10 +1,11 @@
 #ifndef DIFFSCOPE_ACHIEVEMENT_ACHIEVEMENTADDON_H
 #define DIFFSCOPE_ACHIEVEMENT_ACHIEVEMENTADDON_H
 
-#include <CoreApi/windowinterface.h>
 #include <qqmlintegration.h>
 
 #include <QQuickWindow>
+
+#include <CoreApi/windowinterface.h>
 
 namespace Achievement {
 
@@ -13,7 +14,7 @@ namespace Achievement {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QQuickWindow *window READ window CONSTANT)
-   public:
+    public:
         explicit AchievementAddOn(QObject *parent = nullptr);
         ~AchievementAddOn() override;
 

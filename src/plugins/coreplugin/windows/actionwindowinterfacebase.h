@@ -3,11 +3,11 @@
 
 #include <qqmlintegration.h>
 
-#include <coreplugin/coreglobal.h>
+#include <CoreApi/windowinterface.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <CoreApi/windowinterface.h>
+#include <coreplugin/coreglobal.h>
 
 namespace QAK {
     class QuickActionContext;

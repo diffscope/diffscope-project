@@ -1,11 +1,11 @@
 #include "logpage.h"
 
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQuickItem>
-#include <QLoggingCategory>
 
-#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/logger.h>
+#include <CoreApi/runtimeinterface.h>
 
 namespace Core::Internal {
 

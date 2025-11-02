@@ -4,11 +4,11 @@
 #include <QQmlEngine>
 #include <QQuickWindow>
 
-#include <SVSCraftQuick/StatusTextContext.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeinterface.h>
+#include <SVSCraftQuick/StatusTextContext.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/notificationmanager.h>
@@ -26,9 +26,7 @@ namespace Core::Internal {
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
-            auto helper = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)}
-            });
+            auto helper = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
             helper->setParent(windowInterface->window());
         }
         {
@@ -37,8 +35,9 @@ namespace Core::Internal {
                 qFatal() << component.errorString();
             }
             auto o = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)},
-            }, RuntimeInterface::qmlEngine()->rootContext());
+                                                               {"addOn", QVariant::fromValue(this)},
+                                                           },
+                                                           RuntimeInterface::qmlEngine()->rootContext());
             o->setParent(this);
             windowInterface->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }

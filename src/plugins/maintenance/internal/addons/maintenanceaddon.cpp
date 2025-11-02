@@ -1,21 +1,20 @@
 #include "maintenanceaddon.h"
 
-#include <QDesktopServices>
-#include <QQmlComponent>
-#include <QQuickItem>
-
 #include <application_config.h>
 
 #include <QApplication>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QLoggingCategory>
+#include <QQmlComponent>
+#include <QQuickItem>
+
+#include <CoreApi/applicationinfo.h>
+#include <CoreApi/logger.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftGui/DesktopServices.h>
 #include <SVSCraftQuick/MessageBox.h>
-
-#include <CoreApi/runtimeinterface.h>
-#include <CoreApi/logger.h>
-#include <CoreApi/applicationinfo.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
 
@@ -43,9 +42,7 @@ namespace Maintenance {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)}
-        });
+        auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }

@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_EDITACTIONSHANDLER_H
 #define DIFFSCOPE_COREPLUGIN_EDITACTIONSHANDLER_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <coreplugin/coreglobal.h>
 

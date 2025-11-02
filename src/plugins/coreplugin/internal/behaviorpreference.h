@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_BEHAVIORPREFERENCE_H
 #define DIFFSCOPE_COREPLUGIN_BEHAVIORPREFERENCE_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 class QQmlEngine;
 class QJSEngine;

@@ -1,15 +1,15 @@
 #include "projectwindowworkspacelayout.h"
 
-#include <ranges>
 #include <algorithm>
 #include <iterator>
+#include <ranges>
 
 #include <QVariant>
 
 namespace Core::Internal {
     ProjectWindowWorkspaceLayout::PanelSpec::operator QVariant() const {
         return QVariantMap{
-            {"id",   id  },
+            {"id", id},
             {"dock", dock},
             {"opened", opened},
             {"geometry", geometry},
@@ -69,7 +69,7 @@ namespace Core::Internal {
     }
 
     QVariant ProjectWindowWorkspaceLayout::toVariant() const {
-        return QVariantMap {
+        return QVariantMap{
             {"name", m_name},
             {"viewSpecMap", QVariantList(m_viewSpecMap.cbegin(), m_viewSpecMap.cend())}
         };

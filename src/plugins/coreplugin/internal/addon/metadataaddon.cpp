@@ -3,9 +3,9 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 
-#include <QAKQuick/quickactioncontext.h>
-
 #include <CoreApi/runtimeinterface.h>
+
+#include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>
@@ -18,15 +18,16 @@ namespace Core::Internal {
 
     void MetadataAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        
+
         // Create MetadataPanel component and add it to action context
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MetadataPanel", this);
         if (component.isError()) {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)},
-        }, RuntimeInterface::qmlEngine()->rootContext());
+                                                           {"addOn", QVariant::fromValue(this)},
+                                                       },
+                                                       RuntimeInterface::qmlEngine()->rootContext());
         o->setParent(this);
         windowInterface->actionContext()->addAction("core.panel.metadata", o->property("metadataPanelComponent").value<QQmlComponent *>());
     }

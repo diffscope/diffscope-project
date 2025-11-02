@@ -1,11 +1,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_QUICKPICK_P_H
 #define DIFFSCOPE_COREPLUGIN_QUICKPICK_P_H
 
-#include <coreplugin/quickpick.h>
-
 #include <QPointer>
 
 #include <CoreApi/windowinterface.h>
+
+#include <coreplugin/quickpick.h>
 
 namespace Core {
 
@@ -20,7 +20,7 @@ namespace Core {
         QPointer<WindowInterface> windowHandle;
         bool visible{false};
         QPointer<QObject> commandPalette;
-        
+
         void connectCommandPalette();
         void disconnectCommandPalette();
         void syncToCommandPalette();

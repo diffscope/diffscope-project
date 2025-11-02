@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/notificationmessage.h>
+#include <coreplugin/projectwindowinterface.h>
 
 class QAbstractItemModel;
 

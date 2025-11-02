@@ -1,9 +1,10 @@
 #ifndef DIFFSCOPE_AUDIO_AUDIOOUTPUTSETTINGSHELPER_H
 #define DIFFSCOPE_AUDIO_AUDIOOUTPUTSETTINGSHELPER_H
 
+#include <qqmlintegration.h>
+
 #include <QObject>
 #include <QStringList>
-#include <qqmlintegration.h>
 
 namespace Audio::Internal {
 
@@ -68,14 +69,14 @@ namespace Audio::Internal {
         void updateDeviceList();
         void updateSampleRateList();
         void updateBufferSizeList();
-        
+
         void findDriverIndex();
         void findDeviceIndex();
         void findSampleRateIndex();
         void findBufferSizeIndex();
-        
+
         QString getActualDeviceName(int index) const;
-        
+
         QStringList m_driverList;
         int m_driverCurrentIndex;
         QStringList m_deviceList;
@@ -85,7 +86,6 @@ namespace Audio::Internal {
         int m_sampleRateCurrentIndex;
         QStringList m_bufferSizeList;
         int m_bufferSizeCurrentIndex;
-
     };
 
 }

@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_H
 #define DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
@@ -91,7 +92,6 @@ namespace Core {
 
     private:
         QScopedPointer<NotificationMessagePrivate> d_ptr;
-        
     };
 
 }

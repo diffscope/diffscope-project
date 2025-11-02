@@ -3,20 +3,20 @@
 #include <algorithm>
 #include <ranges>
 
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QStandardItemModel>
-#include <QLoggingCategory>
+
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeinterface.h>
-
 #include <coreplugin/coreinterface.h>
-#include <coreplugin/projectwindowinterface.h>
-#include <coreplugin/internal/projectwindowworkspacemanager.h>
 #include <coreplugin/internal/projectwindowworkspacelayout.h>
+#include <coreplugin/internal/projectwindowworkspacemanager.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
 
@@ -36,8 +36,7 @@ namespace Core::Internal {
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
-            m_helper = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)}
+            m_helper = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}
             });
             m_helper->setParent(windowInterface->window());
         }
@@ -46,10 +45,7 @@ namespace Core::Internal {
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
-            auto o = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)},
-                {"helper", QVariant::fromValue(m_helper.get())}
-            });
+            auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.get())}});
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 
@@ -91,14 +87,16 @@ namespace Core::Internal {
         } else {
             return {};
         }
-        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "First spec " << "("
-            << "width=" << firstSpec.width << ","
-            << "height=" << firstSpec.height << ","
-            << "visibleIndex=" << firstSpec.visibleIndex << ")";
-        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "Last spec " << "("
-            << "width=" << lastSpec.width << ","
-            << "height=" << lastSpec.height << ","
-            << "visibleIndex=" << lastSpec.visibleIndex << ")";
+        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "First spec "
+                                                      << "("
+                                                      << "width=" << firstSpec.width << ","
+                                                      << "height=" << firstSpec.height << ","
+                                                      << "visibleIndex=" << firstSpec.visibleIndex << ")";
+        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "Last spec "
+                                                      << "("
+                                                      << "width=" << lastSpec.width << ","
+                                                      << "height=" << lastSpec.height << ","
+                                                      << "visibleIndex=" << lastSpec.visibleIndex << ")";
         QVariantList result;
         QVariantList visibleIndices;
         double preferredPanelSize = edge == Qt::TopEdge || edge == Qt::BottomEdge
@@ -146,8 +144,8 @@ namespace Core::Internal {
                         object->setProperty("panelPersistentData", data);
                     }
                     result.append(QVariantMap{
-                        {"object",   QVariant::fromValue(object)},
-                        {"geometry", geometry                   },
+                        {"object", QVariant::fromValue(object)},
+                        {"geometry", geometry},
                     });
                 }
             }
@@ -167,10 +165,10 @@ namespace Core::Internal {
         createSpec(lastSpec);
 
         return {
-            {"objects",            result            },
+            {"objects", result},
             {"preferredPanelSize", preferredPanelSize},
-            {"splitterRatio",      splitterRatio     },
-            {"visibleIndices",     visibleIndices    },
+            {"splitterRatio", splitterRatio},
+            {"visibleIndices", visibleIndices},
         };
     }
 
@@ -179,8 +177,7 @@ namespace Core::Internal {
         layout.setName(name);
         auto customLayouts = ProjectWindowWorkspaceManager::customLayouts();
         if (originName.isEmpty()) {
-            auto it = std::ranges::find_if(customLayouts,
-                                           [&](const auto &o) { return o.name() == name; });
+            auto it = std::ranges::find_if(customLayouts, [&](const auto &o) { return o.name() == name; });
             if (it != customLayouts.end()) {
                 *it = layout;
             } else {
@@ -188,8 +185,7 @@ namespace Core::Internal {
             }
         } else {
             customLayouts.removeIf([&](const auto &o) { return o.name() == name; });
-            auto it = std::ranges::find_if(customLayouts,
-                                           [&](const auto &o) { return o.name() == originName; });
+            auto it = std::ranges::find_if(customLayouts, [&](const auto &o) { return o.name() == originName; });
             if (it != customLayouts.end()) {
                 *it = layout;
             }

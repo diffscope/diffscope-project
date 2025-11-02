@@ -1,9 +1,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
 #define DIFFSCOPE_COREPLUGIN_COLORSCHEMEPAGE_H
 
-#include <SVSCraftGui/ColorChange.h>
-
 #include <CoreApi/isettingpage.h>
+
+#include <SVSCraftGui/ColorChange.h>
 
 namespace Core::Internal {
 

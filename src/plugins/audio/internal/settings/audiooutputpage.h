@@ -21,7 +21,6 @@ namespace Audio::Internal {
     private:
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
-
     };
 
 }

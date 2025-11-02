@@ -1,19 +1,19 @@
 #include "actionwindowinterfacebase.h"
 
-#include <QQmlComponent>
 #include <QAbstractItemModel>
 #include <QJSValue>
+#include <QQmlComponent>
 #include <QQmlEngine>
 #include <QWidget>
 
-#include <QAKQuick/quickactioncontext.h>
-
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKQuick/quickactioncontext.h>
+
 #include <coreplugin/coreinterface.h>
-#include <coreplugin/quickpick.h>
 #include <coreplugin/internal/actionhelper.h>
 #include <coreplugin/quickinput.h>
+#include <coreplugin/quickpick.h>
 
 namespace Core {
 
@@ -22,7 +22,7 @@ namespace Core {
     public:
         ActionWindowInterfaceBase *q_ptr;
         QAK::QuickActionContext *actionContext;
-        
+
         void init() {
             Q_Q(ActionWindowInterfaceBase);
             actionContext = new QAK::QuickActionContext(q);

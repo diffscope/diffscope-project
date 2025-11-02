@@ -1,70 +1,70 @@
 #include "coreplugin.h"
 
 #ifdef Q_OS_WIN
-#   include <atlbase.h>
-#   include <ShlObj.h>
-#   include <ShObjIdl.h>
-#   include <propkey.h>
-#   include <propvarutil.h>
+#    include <ShObjIdl.h>
+#    include <ShlObj.h>
+#    include <atlbase.h>
+#    include <propkey.h>
+#    include <propvarutil.h>
 #endif
 
 #include <algorithm>
 
+#include <QApplication>
+#include <QDirIterator>
+#include <QFileOpenEvent>
+#include <QFontDatabase>
+#include <QImageReader>
+#include <QLoggingCategory>
+#include <QMainWindow>
+#include <QPushButton>
+#include <QQmlComponent>
+#include <QQuickImageProvider>
+#include <QQuickWindow>
+#include <QSplashScreen>
+#include <QThread>
 #include <QTimer>
-#include <QtGui/QFontDatabase>
-#include <QtCore/QDirIterator>
-#include <QtCore/QLoggingCategory>
-#include <QtCore/QThread>
-#include <QtGui/QFileOpenEvent>
-#include <QtGui/QImageReader>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QSplashScreen>
-#include <QtWidgets/QMainWindow>
-#include <QtQml/QQmlComponent>
-#include <QtWidgets/QPushButton>
-#include <QtQuick/QQuickWindow>
-#include <QtQuick/QQuickImageProvider>
 
-#include <extensionsystem/pluginspec.h>
+#include <CoreApi/applicationinfo.h>
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/settingcatalog.h>
+#include <CoreApi/translationmanager.h>
+#include <CoreApi/windowsystem.h>
+
 #include <extensionsystem/pluginmanager.h>
-
-#include <SVSCraftQuick/Theme.h>
+#include <extensionsystem/pluginspec.h>
 
 #include <QAKQuick/actioniconimageprovider.h>
 
-#include <CoreApi/runtimeinterface.h>
-#include <CoreApi/settingcatalog.h>
-#include <CoreApi/windowsystem.h>
-#include <CoreApi/translationmanager.h>
-#include <CoreApi/applicationinfo.h>
+#include <SVSCraftQuick/Theme.h>
 
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/coreinterface.h>
-#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/homewindowinterface.h>
-#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/internal/appearancepage.h>
-#include <coreplugin/internal/homeaddon.h>
-#include <coreplugin/internal/workspaceaddon.h>
-#include <coreplugin/internal/viewvisibilityaddon.h>
-#include <coreplugin/internal/notificationaddon.h>
-#include <coreplugin/internal/generalpage.h>
-#include <coreplugin/internal/logpage.h>
-#include <coreplugin/internal/filebackuppage.h>
-#include <coreplugin/internal/colorschemepage.h>
-#include <coreplugin/internal/keymappage.h>
-#include <coreplugin/internal/menupage.h>
-#include <coreplugin/internal/timeindicatorpage.h>
+#include <coreplugin/internal/behaviorpreference.h>
 #include <coreplugin/internal/colorschemecollection.h>
-#include <coreplugin/internal/findactionsaddon.h>
-#include <coreplugin/internal/editactionsaddon.h>
-#include <coreplugin/internal/timelineaddon.h>
-#include <coreplugin/internal/projectstartuptimeraddon.h>
+#include <coreplugin/internal/colorschemepage.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
-#include <coreplugin/internal/recentfileaddon.h>
+#include <coreplugin/internal/editactionsaddon.h>
+#include <coreplugin/internal/filebackuppage.h>
+#include <coreplugin/internal/findactionsaddon.h>
+#include <coreplugin/internal/generalpage.h>
+#include <coreplugin/internal/homeaddon.h>
+#include <coreplugin/internal/keymappage.h>
+#include <coreplugin/internal/logpage.h>
+#include <coreplugin/internal/menupage.h>
 #include <coreplugin/internal/metadataaddon.h>
+#include <coreplugin/internal/notificationaddon.h>
+#include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/projectwindownavigatoraddon.h>
+#include <coreplugin/internal/recentfileaddon.h>
+#include <coreplugin/internal/timeindicatorpage.h>
+#include <coreplugin/internal/timelineaddon.h>
+#include <coreplugin/internal/viewvisibilityaddon.h>
+#include <coreplugin/internal/workspaceaddon.h>
+#include <coreplugin/projectwindowinterface.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(core_actions);
@@ -214,7 +214,6 @@ namespace Core::Internal {
                 }
                 return QObject::eventFilter(watched, event);
             }
-
         };
         auto listener = new ExposedListener(win);
         win->installEventFilter(listener);
@@ -224,8 +223,7 @@ namespace Core::Internal {
         return false;
     }
 
-    QObject *CorePlugin::remoteCommand(const QStringList &options, const QString &workingDirectory,
-                                       const QStringList &args) {
+    QObject *CorePlugin::remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         initializeGui(options, workingDirectory, args);
         return nullptr;
     }
@@ -401,24 +399,22 @@ namespace Core::Internal {
         const auto updateAnimation = [=] {
             if (!BehaviorPreference::isAnimationEnabled()) {
                 CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableAnimation);
+                    CoreAchievementsModel::Achievement_DisableAnimation
+                );
             }
             auto v = 250 * BehaviorPreference::animationSpeedRatio() *
                      (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
             SVS::Theme::defaultTheme()->setVisualEffectAnimationDuration(static_cast<int>(v));
         };
-        QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged,
-                         updateAnimation);
-        QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged,
-                         updateAnimation);
-        QObject::connect(behaviorPreference,
-                         &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
-                             auto settings = RuntimeInterface::settings();
-                             settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
-                             settings->setValue("priorityActions", QStringList());
-                             settings->endGroup();
-                         });
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, updateAnimation);
+        QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, updateAnimation);
+        QObject::connect(behaviorPreference, &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
+            auto settings = RuntimeInterface::settings();
+            settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
+            settings->setValue("priorityActions", QStringList());
+            settings->endGroup();
+        });
         behaviorPreference->load();
         if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
             QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
@@ -431,7 +427,8 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, [] {
             if (!(BehaviorPreference::uiBehavior() & BehaviorPreference::UB_Frameless)) {
                 CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableCustomTitleBar);
+                    CoreAchievementsModel::Achievement_DisableCustomTitleBar
+                );
             }
         });
     }

@@ -11,7 +11,7 @@ namespace UIShell {
     }
     RecentFilesProxyModel::~RecentFilesProxyModel() = default;
     QHash<int, QByteArray> RecentFilesProxyModel::roleNames() const {
-        static const QHash<int, QByteArray> m {
+        static const QHash<int, QByteArray> m{
             {USDef::RF_NameRole, "name"},
             {USDef::RF_PathRole, "path"},
             {USDef::RF_LastModifiedTextRole, "lastModifiedText"},

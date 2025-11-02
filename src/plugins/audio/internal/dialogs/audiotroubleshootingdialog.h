@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_AUDIO_AUDIOTROUBLESHOOTINGDIALOG_H
 #define DIFFSCOPE_AUDIO_AUDIOTROUBLESHOOTINGDIALOG_H
 
-#include <QWizard>
 #include <qqmlintegration.h>
+
+#include <QWizard>
 
 namespace Audio::Internal {
 

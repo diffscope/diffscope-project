@@ -1,10 +1,11 @@
 #ifndef UISHELL_USDEF_P_H
 #define UISHELL_USDEF_P_H
 
-#include <uishell/USDef.h>
+#include <qqmlintegration.h>
 
 #include <QObject>
-#include <qqmlintegration.h>
+
+#include <uishell/USDef.h>
 
 namespace UIShell {
 

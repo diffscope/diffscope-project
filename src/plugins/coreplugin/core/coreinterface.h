@@ -1,9 +1,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 #define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
+#include <qqmlintegration.h>
+
 #include <QObject>
 #include <QSettings>
-#include <qqmlintegration.h>
 
 #include <CoreApi/coreinterfacebase.h>
 

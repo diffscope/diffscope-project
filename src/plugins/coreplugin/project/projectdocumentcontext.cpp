@@ -4,10 +4,10 @@
 #include <QDir>
 #include <QLoggingCategory>
 
-#include <SVSCraftQuick/MessageBox.h>
-
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
+
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/internal/behaviorpreference.h>
 
@@ -54,9 +54,7 @@ namespace Core {
         d->fileLocker = new FileLocker(this);
         if (!d->fileLocker->open(filePath)) {
             qCCritical(lcProjectDocumentContext) << "Failed to open file:" << filePath;
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
-                tr("Failed to open file"),
-                QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to open file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
             return false;
         }
         // TODO initialize document
@@ -73,9 +71,7 @@ namespace Core {
         }
         if (!ok) {
             qCCritical(lcProjectDocumentContext) << "Failed to read file:" << filePath;
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
-                tr("Failed to read file"),
-                QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to read file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
             return false;
         }
         d->deserializeDocument(data);
@@ -115,9 +111,7 @@ namespace Core {
         bool isSuccess = d->fileLocker->save(data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
-                tr("Failed to save file"),
-                QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
             return false;
         }
         d->markSaved();
@@ -132,9 +126,7 @@ namespace Core {
         bool isSuccess = d->fileLocker->saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file as:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
-                tr("Failed to save file"),
-                QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
             return false;
         }
         d->markSaved();
@@ -148,9 +140,7 @@ namespace Core {
         bool isSuccess = copyFileLocker.saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save copy file:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent,
-                tr("Failed to save file"),
-                QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
             return false;
         }
         return true;

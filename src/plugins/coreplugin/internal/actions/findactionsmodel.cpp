@@ -111,10 +111,7 @@ namespace Core::Internal {
                 --len;
                 if (len == 0)
                     break;
-            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 &&
-                       s.at(pos + 1) == QLatin1Char('&') &&
-                       s.at(pos + 2) != QLatin1Char('&') &&
-                       s.at(pos + 3) == QLatin1Char(')')) {
+            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 && s.at(pos + 1) == QLatin1Char('&') && s.at(pos + 2) != QLatin1Char('&') && s.at(pos + 3) == QLatin1Char(')')) {
                 // a mnemonic with format "\s*(&X)"
                 int n = 0;
                 while (idx > n && text.at(idx - n - 1).isSpace())
@@ -185,9 +182,9 @@ namespace Core::Internal {
 
     void FindActionsModel::setActions(const QStringList &actions) {
         auto v = actions | std::views::filter([](const QString &id) {
-            auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            return !info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", "http://schemas.diffscope.org/diffscope/actions/diffscope"));
-        });
+                     auto info = CoreInterface::actionRegistry()->actionInfo(id);
+                     return !info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", "http://schemas.diffscope.org/diffscope/actions/diffscope"));
+                 });
         m_actions = QStringList(v.begin(), v.end());
     }
 
@@ -204,7 +201,6 @@ namespace Core::Internal {
 
         m_actionList.clear();
 
-
         // Add remaining actions, excluding those already in priority list
         QStringList remainingActions;
         for (const QString &actionId : m_actions) {
@@ -215,7 +211,6 @@ namespace Core::Internal {
 
         // Sort remaining actions using local collator
         std::sort(remainingActions.begin(), remainingActions.end(), [this](const QString &a, const QString &b) { return m_collator.compare(a, b) < 0; });
-
 
         auto pipeline = std::views::transform([=](const QString &id) -> QPair<QString, int> {
                             // TODO avoid creating action object on each time updating action list

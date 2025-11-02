@@ -2,9 +2,9 @@
 
 #include <QQmlComponent>
 
-#include <QAKQuick/quickactioncontext.h>
-
 #include <CoreApi/runtimeinterface.h>
+
+#include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/actionhelper.h>

@@ -1,9 +1,10 @@
 #ifndef DIFFSCOPE_UISHELL_INVISIBLECENTRALWIDGET_P_H
 #define DIFFSCOPE_UISHELL_INVISIBLECENTRALWIDGET_P_H
 
+#include <qqmlintegration.h>
+
 #include <QWidget>
 #include <QWindow>
-#include <qqmlintegration.h>
 
 namespace UIShell {
 

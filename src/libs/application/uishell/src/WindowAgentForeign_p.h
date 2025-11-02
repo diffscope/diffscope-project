@@ -1,8 +1,9 @@
 #ifndef UISHELL_WINDOWAGENTFOREIGN_P_H
 #define UISHELL_WINDOWAGENTFOREIGN_P_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <QWKQuick/quickwindowagent.h>
 

@@ -4,9 +4,9 @@
 #include <QtCore/QtGlobal>
 
 #if defined(UISHELL_LIBRARY)
-#  define UISHELL_EXPORT Q_DECL_EXPORT
+#    define UISHELL_EXPORT Q_DECL_EXPORT
 #else
-#  define UISHELL_EXPORT Q_DECL_IMPORT
+#    define UISHELL_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif //DIFFSCOPE_UISHELL_UISHELLGLOBAL_H

@@ -30,5 +30,4 @@ namespace UIShell {
         emit widgetChanged();
     }
 
-
 }

@@ -2,13 +2,14 @@
 
 #include <QQmlComponent>
 
-#include <QAKQuick/quickactioncontext.h>
-
 #include <CoreApi/runtimeinterface.h>
+
+#include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
+
     EditActionsAddOn::EditActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 
@@ -33,4 +34,5 @@ namespace Core::Internal {
     bool EditActionsAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
+
 }

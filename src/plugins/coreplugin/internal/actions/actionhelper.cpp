@@ -2,8 +2,9 @@
 
 #include <memory>
 
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
+
 #include <QtQuickTemplates2/private/qquickaction_p.h>
 
 #include <QAKQuick/quickactioncontext.h>
@@ -12,8 +13,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcActionHelper, "diffscope.core.actionhelper")
 
-    bool ActionHelper::triggerAction(const QAK::QuickActionContext *actionContext,
-                                     const QString &id, QObject *source) {
+    bool ActionHelper::triggerAction(const QAK::QuickActionContext *actionContext, const QString &id, QObject *source) {
         qCInfo(lcActionHelper) << "Triggering action" << id;
         std::unique_ptr<QObject, QScopedPointerObjectDeleteLater<QObject>> action(createActionObject(actionContext, id, true));
         if (!action) {

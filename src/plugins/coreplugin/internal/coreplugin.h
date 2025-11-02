@@ -16,8 +16,7 @@ namespace Core::Internal {
         void extensionsInitialized() override;
         bool delayedInitialize() override;
 
-        QObject *remoteCommand(const QStringList &options, const QString &workingDirectory,
-                               const QStringList &args) override;
+        QObject *remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) override;
 
     protected:
         bool eventFilter(QObject *obj, QEvent *event) override;
@@ -32,7 +31,6 @@ namespace Core::Internal {
         static void initializeColorScheme();
         static void initializeJumpList();
         void initializeHelpContents();
-
     };
 
 }

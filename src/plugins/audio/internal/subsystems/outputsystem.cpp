@@ -3,11 +3,11 @@
 #include <QDebug>
 #include <QSettings>
 
+#include <CoreApi/runtimeinterface.h>
+
 #include <TalcsCore/MixerAudioSource.h>
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioDriver.h>
-
-#include <CoreApi/runtimeinterface.h>
 
 namespace Audio::Internal {
 
@@ -95,7 +95,8 @@ namespace Audio::Internal {
     }
 
     void OutputSystem::setHotPlugNotificationMode(
-        talcs::OutputContext::HotPlugNotificationMode mode) {
+        talcs::OutputContext::HotPlugNotificationMode mode
+    ) {
         m_hotPlugNotificationMode = mode;
         m_outputContext->setHotPlugNotificationMode(mode);
         save();

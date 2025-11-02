@@ -2,8 +2,8 @@
 #include "quickinput_p.h"
 
 #include <QEventLoop>
-#include <QTimer>
 #include <QMetaObject>
+#include <QTimer>
 #include <QWindow>
 
 #include <coreplugin/projectwindowinterface.h>
@@ -121,10 +121,10 @@ namespace Core {
                 QMetaObject::invokeMethod(d->inputPalette, "close");
                 d->clearInputPalette();
             }
-            
+
             d->windowHandle = windowHandle;
             Q_EMIT windowHandleChanged(windowHandle);
-            
+
             // If should be visible, open in new window
             if (d->visible && windowHandle) {
                 show();
@@ -150,14 +150,14 @@ namespace Core {
 
     void QuickInput::show() {
         Q_D(QuickInput);
-        
+
         // Check windowHandle
         if (!d->windowHandle) {
             Q_EMIT rejected();
             Q_EMIT finished(QVariant());
             return;
         }
-        
+
         // Get window object
         QWindow *window = d->windowHandle->window();
         if (!window) {
@@ -165,7 +165,7 @@ namespace Core {
             Q_EMIT finished(QVariant());
             return;
         }
-        
+
         // Get InputPalette object
         QObject *inputPalette = window->property("inputPalette").value<QObject *>();
         if (!inputPalette) {
@@ -173,30 +173,30 @@ namespace Core {
             Q_EMIT finished(QVariant());
             return;
         }
-        
+
         // If InputPalette is already open, close it first
         bool isVisible = inputPalette->property("visible").toBool();
         if (isVisible) {
             QMetaObject::invokeMethod(inputPalette, "close");
         }
-        
+
         // Clean up old connections
         d->clearInputPalette();
-        
+
         // Set new InputPalette
         d->inputPalette = inputPalette;
         d->connectInputPalette();
         d->syncToInputPalette();
-        
+
         // Listen for windowHandle destroyed signal
         connect(d->windowHandle, &QObject::destroyed, this, &QuickInput::handleWindowHandleDestroyed, Qt::UniqueConnection);
-        
+
         // Set visible state
         if (!d->visible) {
             d->visible = true;
             Q_EMIT visibleChanged(true);
         }
-        
+
         // Delay opening InputPalette
         QTimer::singleShot(0, [inputPalette]() {
             QMetaObject::invokeMethod(inputPalette, "open");
@@ -245,29 +245,32 @@ namespace Core {
 
     void QuickInputPrivate::connectInputPalette() {
         Q_Q(QuickInput);
-        if (!inputPalette) return;
-        
+        if (!inputPalette)
+            return;
+
         // Connect InputPalette signals
         q->connect(inputPalette, SIGNAL(accepted()), q, SIGNAL(accepted()));
         q->connect(inputPalette, SIGNAL(rejected()), q, SLOT(reject()));
         q->connect(inputPalette, SIGNAL(finished(QVariant)), q, SLOT(done(QVariant)));
         q->connect(inputPalette, SIGNAL(attemptingAcceptButFailed()), q, SIGNAL(attemptingAcceptButFailed()));
-        
+
         // Connect property change signals for bidirectional sync
         q->connect(inputPalette, SIGNAL(textChanged()), q, SLOT(updateFromInputPalette()));
     }
 
     void QuickInputPrivate::disconnectInputPalette() {
         Q_Q(QuickInput);
-        if (!inputPalette) return;
-        
+        if (!inputPalette)
+            return;
+
         // Disconnect all connections
         QObject::disconnect(inputPalette, nullptr, q, nullptr);
     }
 
     void QuickInputPrivate::syncToInputPalette() {
-        if (!inputPalette) return;
-        
+        if (!inputPalette)
+            return;
+
         // Sync properties to InputPalette
         inputPalette->setProperty("placeholderText", placeholderText);
         inputPalette->setProperty("promptText", promptText);
@@ -285,8 +288,9 @@ namespace Core {
 
     void QuickInput::updateFromInputPalette() {
         Q_D(QuickInput);
-        if (!d->inputPalette) return;
-        
+        if (!d->inputPalette)
+            return;
+
         // Read properties from InputPalette and update, avoiding circular updates
         QString newText = d->inputPalette->property("text").toString();
         if (d->text != newText) {

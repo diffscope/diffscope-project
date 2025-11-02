@@ -4,18 +4,18 @@
 #include <QLoggingCategory>
 #include <QQuickView>
 #include <QQuickWindow>
-#include <QTimer>
 #include <QSettings>
 #include <QThread>
-
-#include <SVSCraftCore/SVSCraftNamespace.h>
+#include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <SVSCraftCore/SVSCraftNamespace.h>
+
 #include <coreplugin/coreinterface.h>
-#include <coreplugin/projectwindowinterface.h>
-#include <coreplugin/notificationmessage.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/notificationmessage.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core::Internal {
 
@@ -29,9 +29,9 @@ namespace Core::Internal {
             }
         });
     }
-    
+
     ProjectStartupTimerAddOn::~ProjectStartupTimerAddOn() = default;
-    
+
     void ProjectStartupTimerAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         m_initializingMessage = new NotificationMessage(windowInterface->window());
@@ -40,13 +40,13 @@ namespace Core::Internal {
         m_initializingMessage->setClosable(false);
         windowInterface->sendNotification(m_initializingMessage);
     }
-    
+
     void ProjectStartupTimerAddOn::extensionsInitialized() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto window = windowInterface->window();
         window->installEventFilter(this);
     }
-    
+
     bool ProjectStartupTimerAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }

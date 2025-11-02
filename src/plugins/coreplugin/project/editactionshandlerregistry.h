@@ -3,8 +3,8 @@
 
 #include <qqmlintegration.h>
 
-#include <coreplugin/editactionshandler.h>
 #include <coreplugin/coreglobal.h>
+#include <coreplugin/editactionshandler.h>
 
 namespace Core {
 

@@ -1,17 +1,17 @@
 #include "findactionsaddon.h"
 
-#include <QSettings>
-#include <QQmlComponent>
-#include <QTimer>
 #include <QLoggingCategory>
-
-#include <QAKQuick/quickactioncontext.h>
+#include <QQmlComponent>
+#include <QSettings>
+#include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKQuick/quickactioncontext.h>
+
 #include <coreplugin/actionwindowinterfacebase.h>
-#include <coreplugin/internal/findactionsmodel.h>
 #include <coreplugin/internal/behaviorpreference.h>
+#include <coreplugin/internal/findactionsmodel.h>
 
 namespace Core::Internal {
 

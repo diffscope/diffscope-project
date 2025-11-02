@@ -17,7 +17,6 @@ namespace Core {
         void markSaved();
         QByteArray serializeDocument() const;
         void deserializeDocument(const QByteArray &data);
-
     };
 
 }

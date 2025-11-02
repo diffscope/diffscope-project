@@ -1,8 +1,8 @@
 #include "keymappage.h"
 
 #include <QApplication>
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -19,7 +19,7 @@ namespace Core::Internal {
     KeyMapPage::~KeyMapPage() {
         delete m_widget;
     }
-    
+
     bool KeyMapPage::matches(const QString &word) {
         return ISettingPage::matches(word) || widgetMatches(word);
     }
@@ -36,20 +36,19 @@ namespace Core::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        m_widget = component.createWithInitialProperties({
-            {"pageHandle", QVariant::fromValue(this)}
+        m_widget = component.createWithInitialProperties({{"pageHandle", QVariant::fromValue(this)}
         });
         m_widget->setParent(this);
         return m_widget;
     }
-    
+
     void KeyMapPage::beginSetting() {
         qCInfo(lcKeyMapPage) << "Beginning setting";
         widget();
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
-    
+
     bool KeyMapPage::accept() {
         qCInfo(lcKeyMapPage) << "Accepting";
         return ISettingPage::accept();

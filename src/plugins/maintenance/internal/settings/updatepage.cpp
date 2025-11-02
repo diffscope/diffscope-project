@@ -1,9 +1,9 @@
 #include "updatepage.h"
 
 #include <QApplication>
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQuickItem>
-#include <QLoggingCategory>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -47,14 +47,14 @@ namespace Maintenance {
     void UpdatePage::beginSetting() {
         qCInfo(lcUpdatePage) << "Beginning setting";
         widget();
-        
+
         // Load current settings from ApplicationUpdateChecker singleton and set to widget properties
         m_widget->setProperty("autoCheckForUpdates", ApplicationUpdateChecker::instance()->property("autoCheckForUpdates"));
         qCDebug(lcUpdatePage) << "autoCheckForUpdates" << m_widget->property("autoCheckForUpdates");
-        
+
         m_widget->setProperty("updateOption", ApplicationUpdateChecker::instance()->property("updateOption"));
         qCDebug(lcUpdatePage) << "updateOption" << m_widget->property("updateOption");
-        
+
         // Mark the widget as started to enable dirty tracking
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
@@ -62,14 +62,14 @@ namespace Maintenance {
 
     bool UpdatePage::accept() {
         qCInfo(lcUpdatePage) << "Accepting";
-        
+
         // Save widget property values back to ApplicationUpdateChecker singleton
         qCDebug(lcUpdatePage) << "autoCheckForUpdates" << m_widget->property("autoCheckForUpdates");
         ApplicationUpdateChecker::instance()->setProperty("autoCheckForUpdates", m_widget->property("autoCheckForUpdates"));
-        
+
         qCDebug(lcUpdatePage) << "updateOption" << m_widget->property("updateOption");
         ApplicationUpdateChecker::instance()->setProperty("updateOption", m_widget->property("updateOption"));
-        
+
         // Persist settings to storage
         ApplicationUpdateChecker::instance()->save();
         return Core::ISettingPage::accept();

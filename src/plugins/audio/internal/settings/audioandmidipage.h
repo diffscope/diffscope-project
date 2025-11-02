@@ -17,7 +17,6 @@ namespace Audio::Internal {
         void beginSetting() override;
         bool accept() override;
         void endSetting() override;
-
     };
 
 }

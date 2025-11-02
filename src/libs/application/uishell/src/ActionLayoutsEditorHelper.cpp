@@ -54,10 +54,7 @@ namespace UIShell {
                 --len;
                 if (len == 0)
                     break;
-            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 &&
-                       s.at(pos + 1) == QLatin1Char('&') &&
-                       s.at(pos + 2) != QLatin1Char('&') &&
-                       s.at(pos + 3) == QLatin1Char(')')) {
+            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 && s.at(pos + 1) == QLatin1Char('&') && s.at(pos + 2) != QLatin1Char('&') && s.at(pos + 3) == QLatin1Char(')')) {
                 // a mnemonic with format "\s*(&X)"
                 int n = 0;
                 while (idx > n && text.at(idx - n - 1).isSpace())
@@ -66,7 +63,7 @@ namespace UIShell {
                 pos += 4;
                 len -= 4;
                 continue;
-                       }
+            }
             text[idx] = s.at(pos);
             ++pos;
             ++idx;

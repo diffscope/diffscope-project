@@ -4,111 +4,114 @@
 #include <ranges>
 
 #include <QColor>
-#include <QSettings>
 #include <QFile>
-
-#include <SVSCraftGui/ColorChange.h>
-#include <SVSCraftQuick/Theme.h>
-#include <SVSCraftQuick/MessageBox.h>
+#include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <SVSCraftGui/ColorChange.h>
+#include <SVSCraftQuick/MessageBox.h>
+#include <SVSCraftQuick/Theme.h>
+
 namespace Core::Internal {
 
-    static QList<QPair<QString, QVariantHash>> m_internalPresets {
-        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic Dark"), {
-            {"accentColor", QVariant::fromValue(QColor(0x5566ff))},
-            {"warningColor", QVariant::fromValue(QColor(0xCB8743))},
-            {"errorColor", QVariant::fromValue(QColor(0xcc4455))},
-            {"buttonColor", QVariant::fromValue(QColor(0x333437))},
-            {"textFieldColor", QVariant::fromValue(QColor(0x27282b))},
-            {"scrollBarColor", QVariant::fromValue(QColor::fromRgba(0x7f7f7f7f))},
-            {"borderColor", QVariant::fromValue(QColor(0x4a4b4c))},
-            {"backgroundPrimaryColor", QVariant::fromValue(QColor(0x212124))},
-            {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x232427))},
-            {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x252629))},
-            {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x313235))},
-            {"splitterColor", QVariant::fromValue(QColor(0x121315))},
-            {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xdadada))},
-            {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0dadada))},
-            {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
-            {"navigationColor", QVariant::fromValue(QColor(0xffffff))},
-            {"shadowColor", QVariant::fromValue(QColor(0x101113))},
-            {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
-            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
-            {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
-            {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
-            {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
-            {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
-            {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
-            {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x265566ff)}})},
-        }},
-        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic Light"), {
-            {"accentColor", QVariant::fromValue(QColor(0x7d8aff))},
-            {"warningColor", QVariant::fromValue(QColor(0xcb9968))},
-            {"errorColor", QVariant::fromValue(QColor(0xcc7782))},
-            {"buttonColor", QVariant::fromValue(QColor(0xc8cbcc))},
-            {"textFieldColor", QVariant::fromValue(QColor(0xd4d7d8))},
-            {"scrollBarColor", QVariant::fromValue(QColor::fromRgba(0x7f7f7f7f))},
-            {"borderColor", QVariant::fromValue(QColor(0xb3b4b5))},
-            {"backgroundPrimaryColor", QVariant::fromValue(QColor(0xdbdbde))},
-            {"backgroundSecondaryColor", QVariant::fromValue(QColor(0xd8dbdc))},
-            {"backgroundTertiaryColor", QVariant::fromValue(QColor(0xd6d9da))},
-            {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0xcacdce))},
-            {"splitterColor", QVariant::fromValue(QColor(0xeaeced))},
-            {"foregroundPrimaryColor", QVariant::fromValue(QColor(0x252525))},
-            {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0252525))},
-            {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
-            {"navigationColor", QVariant::fromValue(QColor::fromRgb(0x0))},
-            {"shadowColor", QVariant::fromValue(QColor(0x101113))},
-            {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
-            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
-            {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33ffffff)}})},
-            {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
-            {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
-            {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
-            {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
-            {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0xdbdede}})},
-            {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0xdbdede}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x607d8aff)}})},
-        }},
-        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic High Contrast"), {
-            {"accentColor", QVariant::fromValue(QColor(0x0055ff))},
-            {"warningColor", QVariant::fromValue(QColor(0xdb5500))},
-            {"errorColor", QVariant::fromValue(QColor(0xcc0019))},
-            {"buttonColor", QVariant::fromValue(QColor(0x00212b))},
-            {"textFieldColor", QVariant::fromValue(QColor(0x00211c))},
-            {"scrollBarColor", QVariant::fromValue(QColor(0x7f7f7f))},
-            {"borderColor", QVariant::fromValue(QColor(0xbbcc00))},
-            {"backgroundPrimaryColor", QVariant::fromValue(QColor::fromRgb(0x000000))},
-            {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x060606))},
-            {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x0c0c0c))},
-            {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x121212))},
-            {"splitterColor", QVariant::fromValue(QColor(0xcc00aa))},
-            {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xffffff))},
-            {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0ffffff))},
-            {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
-            {"navigationColor", QVariant::fromValue(QColor::fromRgb(0xcc00aa))},
-            {"shadowColor", QVariant::fromValue(QColor(0x101113))},
-            {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
-            {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(0x00db58))},
-            {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
-            {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
-            {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
-            {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
-            {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
-            {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
-            {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x400055ff)}})},
-        }}
+    static QList<QPair<QString, QVariantHash>> m_internalPresets{
+        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic Dark"),
+         {
+             {"accentColor", QVariant::fromValue(QColor(0x5566ff))},
+             {"warningColor", QVariant::fromValue(QColor(0xCB8743))},
+             {"errorColor", QVariant::fromValue(QColor(0xcc4455))},
+             {"buttonColor", QVariant::fromValue(QColor(0x333437))},
+             {"textFieldColor", QVariant::fromValue(QColor(0x27282b))},
+             {"scrollBarColor", QVariant::fromValue(QColor::fromRgba(0x7f7f7f7f))},
+             {"borderColor", QVariant::fromValue(QColor(0x4a4b4c))},
+             {"backgroundPrimaryColor", QVariant::fromValue(QColor(0x212124))},
+             {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x232427))},
+             {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x252629))},
+             {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x313235))},
+             {"splitterColor", QVariant::fromValue(QColor(0x121315))},
+             {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xdadada))},
+             {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0dadada))},
+             {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
+             {"navigationColor", QVariant::fromValue(QColor(0xffffff))},
+             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
+             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+             {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
+             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
+             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
+             {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
+             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
+             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
+             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
+             {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x265566ff)}})},
+         }},
+        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic Light"),
+         {
+             {"accentColor", QVariant::fromValue(QColor(0x7d8aff))},
+             {"warningColor", QVariant::fromValue(QColor(0xcb9968))},
+             {"errorColor", QVariant::fromValue(QColor(0xcc7782))},
+             {"buttonColor", QVariant::fromValue(QColor(0xc8cbcc))},
+             {"textFieldColor", QVariant::fromValue(QColor(0xd4d7d8))},
+             {"scrollBarColor", QVariant::fromValue(QColor::fromRgba(0x7f7f7f7f))},
+             {"borderColor", QVariant::fromValue(QColor(0xb3b4b5))},
+             {"backgroundPrimaryColor", QVariant::fromValue(QColor(0xdbdbde))},
+             {"backgroundSecondaryColor", QVariant::fromValue(QColor(0xd8dbdc))},
+             {"backgroundTertiaryColor", QVariant::fromValue(QColor(0xd6d9da))},
+             {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0xcacdce))},
+             {"splitterColor", QVariant::fromValue(QColor(0xeaeced))},
+             {"foregroundPrimaryColor", QVariant::fromValue(QColor(0x252525))},
+             {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0252525))},
+             {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
+             {"navigationColor", QVariant::fromValue(QColor::fromRgb(0x0))},
+             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
+             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+             {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(Qt::transparent))},
+             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33ffffff)}})},
+             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
+             {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
+             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a000000)}})},
+             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0xdbdede}})},
+             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0xdbdede}})},
+             {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x607d8aff)}})},
+         }},
+        {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "Scopic High Contrast"),
+         {
+             {"accentColor", QVariant::fromValue(QColor(0x0055ff))},
+             {"warningColor", QVariant::fromValue(QColor(0xdb5500))},
+             {"errorColor", QVariant::fromValue(QColor(0xcc0019))},
+             {"buttonColor", QVariant::fromValue(QColor(0x00212b))},
+             {"textFieldColor", QVariant::fromValue(QColor(0x00211c))},
+             {"scrollBarColor", QVariant::fromValue(QColor(0x7f7f7f))},
+             {"borderColor", QVariant::fromValue(QColor(0xbbcc00))},
+             {"backgroundPrimaryColor", QVariant::fromValue(QColor::fromRgb(0x000000))},
+             {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x060606))},
+             {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x0c0c0c))},
+             {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x121212))},
+             {"splitterColor", QVariant::fromValue(QColor(0xcc00aa))},
+             {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xffffff))},
+             {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0ffffff))},
+             {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
+             {"navigationColor", QVariant::fromValue(QColor::fromRgb(0xcc00aa))},
+             {"shadowColor", QVariant::fromValue(QColor(0x101113))},
+             {"highlightColor", QVariant::fromValue(QColor(0xb28300))},
+             {"flatButtonHighContrastBorderColor", QVariant::fromValue(QColor(0x00db58))},
+             {"controlDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x33000000)}})},
+             {"foregroundDisabledColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+             {"controlHoveredColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
+             {"foregroundHoveredColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"controlPressedColorChange", QVariant::fromValue(SVS::ColorChange{})},
+             {"foregroundPressedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.8}})},
+             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
+             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
+             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
+             {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x400055ff)}})},
+         }}
     };
 
     static const int MAX_INTERNAL_PRESETS = 65536;
@@ -128,7 +131,7 @@ namespace Core::Internal {
         if (preset.isEmpty()) {
             return preset;
         }
-        for (const auto &key: m_internalPresets[0].second.keys()) {
+        for (const auto &key : m_internalPresets[0].second.keys()) {
             if (!preset.contains(key)) {
                 preset[key] = m_internalPresets[0].second[key];
             }
@@ -174,7 +177,7 @@ namespace Core::Internal {
     void ColorSchemeCollection::savePreset(const QString &name) {
         if (auto it = std::ranges::find_if(m_presets, [&](const auto &p) { return p.first == name; }); it != m_presets.end()) {
             it->second = m_unsavedPreset;
-            m_currentIndex = MAX_INTERNAL_PRESETS+ std::distance(m_presets.begin(), it);
+            m_currentIndex = MAX_INTERNAL_PRESETS + std::distance(m_presets.begin(), it);
             m_showUnsavedPreset = false;
             emit allPresetsChanged();
             emit currentIndexChanged();
@@ -208,7 +211,7 @@ namespace Core::Internal {
         auto originName = m_presets.value(index).first;
         m_presets.removeIf([&](const auto &o) { return o.first == name; });
         auto it = std::ranges::find_if(m_presets, [&](const auto &o) { return o.first == originName; });
-        Q_ASSERT (it != m_presets.end());
+        Q_ASSERT(it != m_presets.end());
         it->first = name;
         emit allPresetsChanged();
         index = MAX_INTERNAL_PRESETS + std::distance(m_presets.begin(), it);
@@ -222,9 +225,7 @@ namespace Core::Internal {
         auto filename = fileUrl.toLocalFile();
         QFile f(filename);
         if (!f.open(QIODevice::ReadOnly)) {
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
-                tr("Failed to Import Preset"),
-                tr("Unable to open file \"%1\"").arg(filename));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window, tr("Failed to Import Preset"), tr("Unable to open file \"%1\"").arg(filename));
             return;
         }
         QDataStream in(&f);
@@ -234,9 +235,7 @@ namespace Core::Internal {
         QByteArray a;
         in >> a;
         if (name.isEmpty() || a.isEmpty()) {
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
-                tr("Failed to import preset"),
-                tr("Invalid format in file \"%1\"").arg(filename));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window, tr("Failed to import preset"), tr("Invalid format in file \"%1\"").arg(filename));
             return;
         }
         auto preset = deserializePreset(a);
@@ -251,9 +250,7 @@ namespace Core::Internal {
         const auto &[name, preset] = m_currentIndex < MAX_INTERNAL_PRESETS ? m_internalPresets.value(m_currentIndex, m_internalPresets.first()) : m_presets.value(m_currentIndex - MAX_INTERNAL_PRESETS);
         QFile f(filename);
         if (!f.open(QIODevice::WriteOnly)) {
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window,
-                tr("Failed to export preset"),
-                tr("Unable to open file \"%1\"").arg(filename));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), window, tr("Failed to export preset"), tr("Unable to open file \"%1\"").arg(filename));
             return;
         }
         QDataStream out(&f);
@@ -269,12 +266,12 @@ namespace Core::Internal {
             }),
             std::back_inserter(ret),
             [](const QPair<QString, QVariantHash> &p) -> QVariant {
-                return QVariantMap {
+                return QVariantMap{
                     {"name", p.first},
-                    {"data", QVariantMap {
-                        {"internal", true},
-                        {"indexOffset", 0}
-                    }}
+                    {"data", QVariantMap{
+                                 {"internal", true},
+                                 {"indexOffset", 0}
+                             }}
 
                 };
             }
@@ -283,23 +280,23 @@ namespace Core::Internal {
             m_presets,
             std::back_inserter(ret),
             [](const QPair<QString, QVariantHash> &p) -> QVariant {
-                return QVariantMap {
+                return QVariantMap{
                     {"name", p.first},
-                    {"data", QVariantMap {
-                        {"internal", false},
-                        {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
-                    }}
+                    {"data", QVariantMap{
+                                 {"internal", false},
+                                 {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
+                             }}
                 };
             }
         );
         if (m_showUnsavedPreset) {
-            ret.append(QVariantMap {
+            ret.append(QVariantMap{
                 {"name", tr("(Unsaved preset)")},
-                {"data", QVariantMap {
-                    {"internal", true},
-                    {"unsaved", true},
-                    {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
-                }}
+                {"data", QVariantMap{
+                             {"internal", true},
+                             {"unsaved", true},
+                             {"indexOffset", MAX_INTERNAL_PRESETS - m_internalPresets.size()},
+                         }}
             });
         }
         return ret;
@@ -382,7 +379,7 @@ namespace Core::Internal {
         std::ranges::transform(m_presets, std::back_inserter(presetsVariantList), [](const auto &p) {
             return QVariant::fromValue(QVariantPair(p.first, serializePreset(p.second)));
         });
-        auto data = QVariantMap {
+        auto data = QVariantMap{
             {"presets", presetsVariantList},
             {"unsavedPreset", serializePreset(m_unsavedPreset)},
             {"currentIndex", m_currentIndex},

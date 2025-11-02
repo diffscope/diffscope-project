@@ -2,22 +2,21 @@
 
 #include <algorithm>
 
-#include <QQmlComponent>
 #include <QApplication>
-
-#include <SVSCraftCore/MusicTimeline.h>
-#include <SVSCraftCore/MusicTime.h>
-#include <SVSCraftCore/LongTime.h>
-
-#include <QAKQuick/quickactioncontext.h>
+#include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <coreplugin/projectwindowinterface.h>
-#include <coreplugin/projecttimeline.h>
-#include <coreplugin/quickinput.h>
-#include <coreplugin/internal/coreachievementsmodel.h>
+#include <QAKQuick/quickactioncontext.h>
 
+#include <SVSCraftCore/LongTime.h>
+#include <SVSCraftCore/MusicTime.h>
+#include <SVSCraftCore/MusicTimeline.h>
+
+#include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/projecttimeline.h>
+#include <coreplugin/projectwindowinterface.h>
+#include <coreplugin/quickinput.h>
 
 namespace Core::Internal {
     TimelineAddOn::TimelineAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -99,11 +98,7 @@ namespace Core::Internal {
         if (t.millisecond() == 0) {
             return Core::Internal::TimelineAddOn::tr("%1 %2", "absolute minute second").arg(minuteText, secondText);
         }
-        return Core::Internal::TimelineAddOn::tr("%1 %2 %3", "absolute minute second millisecond").arg(
-            minuteText,
-            secondText,
-            millisecondText
-        );
+        return Core::Internal::TimelineAddOn::tr("%1 %2 %3", "absolute minute second millisecond").arg(minuteText, secondText, millisecondText);
     }
     static inline QString relativeLongTimePromptText(const SVS::LongTime &t) {
         auto minuteText = Core::Internal::TimelineAddOn::tr("%Ln minute(s)", "relative time", t.minute());
@@ -124,11 +119,7 @@ namespace Core::Internal {
         if (t.millisecond() == 0) {
             return Core::Internal::TimelineAddOn::tr("%1 %2", "relative minute second").arg(minuteText, secondText);
         }
-        return Core::Internal::TimelineAddOn::tr("%1 %2 %3", "relative minute second millisecond").arg(
-            minuteText,
-            secondText,
-            millisecondText
-        );
+        return Core::Internal::TimelineAddOn::tr("%1 %2 %3", "relative minute second millisecond").arg(minuteText, secondText, millisecondText);
     }
     static SVS::PersistentMusicTime quickJumpParseAbsoluteMusicTime(const QString &text, QuickInput *quickInput, const ProjectTimeline *timeline) {
         bool ok;
@@ -225,9 +216,7 @@ namespace Core::Internal {
             }
             quickInput->setAcceptable(true);
             quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
-            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous measure (%1)").arg(absoluteMusicTimePromptText(t))) +
-                (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
-            );
+            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous measure (%1)").arg(absoluteMusicTimePromptText(t))) + (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : ""));
             return t;
         }
         if (text.length() == 2 && std::ranges::all_of(text, isLeftSquareBracket)) {
@@ -239,9 +228,7 @@ namespace Core::Internal {
             }
             quickInput->setAcceptable(true);
             quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
-            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous beat (%1)").arg(absoluteMusicTimePromptText(t))) +
-                (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
-            );
+            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous beat (%1)").arg(absoluteMusicTimePromptText(t))) + (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : ""));
             return t;
         }
         if (text.length() == 3 && std::ranges::all_of(text, isLeftSquareBracket)) {
@@ -253,9 +240,7 @@ namespace Core::Internal {
             }
             quickInput->setAcceptable(true);
             quickInput->setStatus(adjusted ? SVS::SVSCraft::CT_Warning : SVS::SVSCraft::CT_Normal);
-            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous tick (%1)").arg(absoluteMusicTimePromptText(t))) +
-                (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : "")
-            );
+            quickInput->setPromptText(Core::Internal::TimelineAddOn::tr("Go to %1").arg(Core::Internal::TimelineAddOn::tr("previous tick (%1)").arg(absoluteMusicTimePromptText(t))) + (adjusted ? Core::Internal::TimelineAddOn::tr("\nThe time offset exceeds the boundary and has been adjusted to zero") : ""));
             return t;
         }
         auto isRightSquareBracket = [](QChar c) {

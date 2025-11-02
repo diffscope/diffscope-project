@@ -37,12 +37,9 @@ namespace Core::Internal {
             timer->setInterval(autoHideTimeout);
             timer->setSingleShot(true);
             connect(handle, &UIShell::BubbleNotificationHandle::hoverEntered, timer, &QTimer::stop);
-            connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer,
-                    [=] { timer->start(); });
-            connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, timer,
-                    &QObject::deleteLater);
-            connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer,
-                    &QObject::deleteLater);
+            connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer, [=] { timer->start(); });
+            connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, timer, &QObject::deleteLater);
+            connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer, &QObject::deleteLater);
             connect(timer, &QTimer::timeout, [=] {
                 qCInfo(lcNotificationManager) << "Auto-hiding message on timeout:" << message;
                 emit handle->hideClicked();
@@ -68,7 +65,7 @@ namespace Core::Internal {
             bool wasLast = (index == m_messages.size() - 1);
             m_messages.removeAt(index);
             emit messageRemoved(index, message);
-            
+
             // Update top message title connection if the last message was removed
             if (wasLast) {
                 updateTopMessageTitleConnection();
@@ -76,8 +73,7 @@ namespace Core::Internal {
             }
         };
 
-        connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, this,
-                removeMessageFromBubbles);
+        connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, this, removeMessageFromBubbles);
         connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, this, removeMessage);
         connect(handle, &QObject::destroyed, this, removeMessage);
 
@@ -94,7 +90,7 @@ namespace Core::Internal {
         if (mode != ProjectWindowInterface::DoNotShowBubble) {
             emit messageAddedToBubbles(m_bubbleMessages.size() - 1, message);
         }
-        
+
         // Update top message title connection and emit signal since we added a new top message
         updateTopMessageTitleConnection();
         emit topMessageTitleChanged(topMessageTitle());
@@ -122,10 +118,9 @@ namespace Core::Internal {
         // Connect to the new top message's titleChanged signal
         if (!m_messages.isEmpty()) {
             auto topMessage = m_messages.last();
-            m_topMessageTitleConnection = connect(topMessage, &NotificationMessage::titleChanged,
-                                                  this, [this](const QString &) {
-                                                      emit topMessageTitleChanged(topMessageTitle());
-                                                  });
+            m_topMessageTitleConnection = connect(topMessage, &NotificationMessage::titleChanged, this, [this](const QString &) {
+                emit topMessageTitleChanged(topMessageTitle());
+            });
         }
     }
 }

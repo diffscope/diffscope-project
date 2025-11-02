@@ -25,7 +25,6 @@ namespace Core::Internal {
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
         QAK::ActionLayoutsModel *m_actionLayoutsModel{};
-
     };
 }
 

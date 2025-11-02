@@ -27,9 +27,7 @@ namespace Achievement {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)}
-        });
+        auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }

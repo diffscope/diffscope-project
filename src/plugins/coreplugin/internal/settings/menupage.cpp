@@ -1,13 +1,13 @@
 #include "menupage.h"
 
 #include <QApplication>
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
+
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKCore/actionlayoutsmodel.h>
 #include <QAKCore/actionregistry.h>
-
-#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/coreinterface.h>
 
@@ -24,7 +24,7 @@ namespace Core::Internal {
     MenuPage::~MenuPage() {
         delete m_widget;
     }
-    
+
     bool MenuPage::matches(const QString &word) {
         return ISettingPage::matches(word) || widgetMatches(word);
     }
@@ -39,7 +39,7 @@ namespace Core::Internal {
         qCDebug(lcMenuPage) << "Creating widget";
         m_actionLayoutsModel = new QAK::ActionLayoutsModel(this);
         QVector<QAK::ActionLayoutEntry> topLevelNodes;
-        for (const auto &id: CoreInterface::actionRegistry()->actionIds()) {
+        for (const auto &id : CoreInterface::actionRegistry()->actionIds()) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
             if (info.topLevel()) {
                 topLevelNodes.append(QAK::ActionLayoutEntry(id, QAK::ActionLayoutEntry::Menu));
@@ -50,14 +50,11 @@ namespace Core::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        m_widget = component.createWithInitialProperties({
-            {"pageHandle", QVariant::fromValue(this)},
-            {"model", QVariant::fromValue(m_actionLayoutsModel)}
-        });
+        m_widget = component.createWithInitialProperties({{"pageHandle", QVariant::fromValue(this)}, {"model", QVariant::fromValue(m_actionLayoutsModel)}});
         m_widget->setParent(this);
         return m_widget;
     }
-    
+
     void MenuPage::beginSetting() {
         qCInfo(lcMenuPage) << "Beginning setting";
         widget();
@@ -65,7 +62,7 @@ namespace Core::Internal {
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
-    
+
     bool MenuPage::accept() {
         qCInfo(lcMenuPage) << "Accepting";
         return ISettingPage::accept();

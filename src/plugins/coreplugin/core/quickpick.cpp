@@ -1,10 +1,10 @@
 #include "quickpick.h"
 #include "quickpick_p.h"
 
-#include <QEventLoop>
-#include <QTimer>
-#include <QMetaObject>
 #include <QAbstractItemModel>
+#include <QEventLoop>
+#include <QMetaObject>
+#include <QTimer>
 
 namespace Core {
 
@@ -102,10 +102,10 @@ namespace Core {
                 QMetaObject::invokeMethod(d->commandPalette, "close");
                 d->clearCommandPalette();
             }
-            
+
             d->windowHandle = windowHandle;
             Q_EMIT windowHandleChanged(windowHandle);
-            
+
             // If should be visible, open in new window
             if (d->visible && windowHandle) {
                 show();
@@ -131,14 +131,14 @@ namespace Core {
 
     void QuickPick::show() {
         Q_D(QuickPick);
-        
+
         // Check windowHandle
         if (!d->windowHandle) {
             Q_EMIT rejected();
             Q_EMIT finished(-1);
             return;
         }
-        
+
         // Get window object
         QWindow *window = d->windowHandle->window();
         if (!window) {
@@ -146,7 +146,7 @@ namespace Core {
             Q_EMIT finished(-1);
             return;
         }
-        
+
         // Get CommandPalette object
         QObject *commandPalette = window->property("commandPalette").value<QObject *>();
         if (!commandPalette) {
@@ -154,30 +154,30 @@ namespace Core {
             Q_EMIT finished(-1);
             return;
         }
-        
+
         // If CommandPalette is already open, close it first
         bool isVisible = commandPalette->property("visible").toBool();
         if (isVisible) {
             QMetaObject::invokeMethod(commandPalette, "close");
         }
-        
+
         // Clean up old connections
         d->clearCommandPalette();
-        
+
         // Set new CommandPalette
         d->commandPalette = commandPalette;
         d->connectCommandPalette();
         d->syncToCommandPalette();
-        
+
         // Listen for windowHandle destroyed signal
         connect(d->windowHandle, &QObject::destroyed, this, &QuickPick::handleWindowHandleDestroyed, Qt::UniqueConnection);
-        
+
         // Set visible state
         if (!d->visible) {
             d->visible = true;
             Q_EMIT visibleChanged(true);
         }
-        
+
         // Delay opening CommandPalette
         QTimer::singleShot(0, [commandPalette]() {
             QMetaObject::invokeMethod(commandPalette, "open");
@@ -221,13 +221,14 @@ namespace Core {
 
     void QuickPickPrivate::connectCommandPalette() {
         Q_Q(QuickPick);
-        if (!commandPalette) return;
-        
+        if (!commandPalette)
+            return;
+
         // Connect CommandPalette signals
         q->connect(commandPalette, SIGNAL(accepted()), q, SIGNAL(accepted()));
         q->connect(commandPalette, SIGNAL(rejected()), q, SLOT(reject()));
         q->connect(commandPalette, SIGNAL(finished(int)), q, SLOT(done(int)));
-        
+
         // Connect property change signals for bidirectional sync
         q->connect(commandPalette, SIGNAL(filterTextChanged()), q, SLOT(updateFromCommandPalette()));
         q->connect(commandPalette, SIGNAL(currentIndexChanged()), q, SLOT(updateFromCommandPalette()));
@@ -235,14 +236,16 @@ namespace Core {
 
     void QuickPickPrivate::disconnectCommandPalette() {
         Q_Q(QuickPick);
-        if (!commandPalette) return;
-        
+        if (!commandPalette)
+            return;
+
         // Disconnect all connections
         QObject::disconnect(commandPalette, nullptr, q, nullptr);
     }
 
     void QuickPickPrivate::syncToCommandPalette() {
-        if (!commandPalette) return;
+        if (!commandPalette)
+            return;
         // Sync properties to CommandPalette
         commandPalette->setProperty("model", QVariant::fromValue(model));
         commandPalette->setProperty("filterText", filterText);

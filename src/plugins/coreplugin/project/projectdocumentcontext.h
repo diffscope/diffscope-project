@@ -37,7 +37,6 @@ namespace Core {
 
     private:
         QScopedPointer<ProjectDocumentContextPrivate> d_ptr;
-
     };
 
 }

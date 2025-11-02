@@ -94,7 +94,7 @@ namespace Core::Internal {
         emit fontStyleChanged();
         d->uiBehavior = settings->value("uiBehavior", QVariant::fromValue(UB_Frameless | UB_MergeMenuAndTitleBar)).value<UIBehavior>();
         emit uiBehaviorChanged();
-        d->graphicsBehavior = settings->value("graphicsBehavior", QVariant::fromValue(GB_Hardware |GB_Antialiasing)).value<GraphicsBehavior>();
+        d->graphicsBehavior = settings->value("graphicsBehavior", QVariant::fromValue(GB_Hardware | GB_Antialiasing)).value<GraphicsBehavior>();
         emit graphicsBehaviorChanged();
         d->animationEnabled = settings->value("animationEnabled", true).toBool();
         emit animationEnabledChanged();
@@ -148,8 +148,10 @@ namespace Core::Internal {
         settings->endGroup();
     }
 
-#define M_INSTANCE_D Q_ASSERT(m_instance);auto d = m_instance->d_func()
-    
+#define M_INSTANCE_D      \
+    Q_ASSERT(m_instance); \
+    auto d = m_instance->d_func()
+
     BehaviorPreference::StartupBehavior BehaviorPreference::startupBehavior() {
         M_INSTANCE_D;
         return d->startupBehavior;

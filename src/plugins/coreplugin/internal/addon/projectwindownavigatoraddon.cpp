@@ -1,10 +1,10 @@
 #include "projectwindownavigatoraddon.h"
 
-#include <ranges>
 #include <algorithm>
+#include <ranges>
 
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 #include <QStandardItemModel>
 
 #include <CoreApi/runtimeinterface.h>
@@ -40,20 +40,20 @@ namespace Core::Internal {
 
     void ProjectWindowNavigatorAddOn::extensionsInitialized() {
         auto windowSystem = CoreInterface::windowSystem();
-        
+
         // Connect to window creation and destruction signals
         connect(windowSystem, &WindowSystem::windowCreated, this, [this](WindowInterface *windowInterface) {
             if (qobject_cast<ProjectWindowInterface *>(windowInterface)) {
                 updateProjectWindows();
             }
         });
-        
+
         connect(windowSystem, &WindowSystem::windowAboutToDestroy, this, [this](WindowInterface *windowInterface) {
             if (qobject_cast<ProjectWindowInterface *>(windowInterface)) {
                 updateProjectWindows();
             }
         });
-        
+
         // Initialize the list with current windows
         updateProjectWindows();
     }

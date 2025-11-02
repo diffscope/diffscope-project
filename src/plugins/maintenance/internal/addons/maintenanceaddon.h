@@ -1,10 +1,11 @@
 #ifndef DIFFSCOPE_MAINTENANCE_MAINTENANCEADDON_H
 #define DIFFSCOPE_MAINTENANCE_MAINTENANCEADDON_H
 
-#include <CoreApi/windowinterface.h>
 #include <qqmlintegration.h>
 
 #include <QQuickWindow>
+
+#include <CoreApi/windowinterface.h>
 
 namespace Maintenance {
 
@@ -14,7 +15,7 @@ namespace Maintenance {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
-   public:
+    public:
         explicit MaintenanceAddOn(QObject *parent = nullptr);
         ~MaintenanceAddOn() override;
 

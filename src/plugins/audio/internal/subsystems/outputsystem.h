@@ -44,7 +44,6 @@ namespace Audio::Internal {
         talcs::OutputContext::HotPlugNotificationMode m_hotPlugNotificationMode{};
         QString m_driverName;
         QString m_deviceName;
-
     };
 
 }

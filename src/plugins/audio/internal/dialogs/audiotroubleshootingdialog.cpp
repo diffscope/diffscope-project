@@ -4,16 +4,16 @@
 
 #include <QApplication>
 #include <QComboBox>
-#include <QLabel>
-#include <QVBoxLayout>
 #include <QCommandLinkButton>
 #include <QFormLayout>
+#include <QLabel>
 #include <QMessageBox>
 #include <QPlainTextEdit>
+#include <QVBoxLayout>
 
+#include <audio/internal/audiooutputsettingshelper.h>
 #include <audio/internal/audiosystem.h>
 #include <audio/internal/outputsystem.h>
-#include <audio/internal/audiooutputsettingshelper.h>
 
 namespace Audio::Internal {
 
@@ -32,7 +32,6 @@ namespace Audio::Internal {
         explicit WelcomePage(AudioTroubleshootingDialog *parent = nullptr) : QWizardPage(parent) {
             setTitle(tr("<h3>Audio Output Troubleshooting Wizard</h3>"));
             setSubTitle(tr("This wizard will help you diagnose and resolve problems with audio output."));
-
 
             auto layout = new QVBoxLayout;
             auto continueButton = new QCommandLinkButton(tr("&Continue"));
@@ -80,10 +79,12 @@ namespace Audio::Internal {
             questionLabel->setWordWrap(true);
             layout->addWidget(questionLabel);
             auto yesButton = new QCommandLinkButton(
-                tr("&Yes"), tr("I can hear the test sound played by the audio device"));
+                tr("&Yes"), tr("I can hear the test sound played by the audio device")
+            );
             layout->addWidget(yesButton);
             auto noButton = new QCommandLinkButton(
-                tr("&No"), tr("I cannot hear any sound played by the audio device"));
+                tr("&No"), tr("I cannot hear any sound played by the audio device")
+            );
             layout->addWidget(noButton);
 
             setLayout(layout);
@@ -172,10 +173,12 @@ namespace Audio::Internal {
             questionLabel->setWordWrap(true);
             layout->addWidget(questionLabel);
             auto yesButton = new QCommandLinkButton(
-                tr("&Yes"), tr("I have selected a working audio device"));
+                tr("&Yes"), tr("I have selected a working audio device")
+            );
             layout->addWidget(yesButton);
             auto noButton = new QCommandLinkButton(
-                tr("&No"), tr("The device is either not available or not able to play sound"));
+                tr("&No"), tr("The device is either not available or not able to play sound")
+            );
             layout->addWidget(noButton);
             setLayout(layout);
 
@@ -191,7 +194,6 @@ namespace Audio::Internal {
                 m_nextId = Page_ExternalCheck;
                 parent->next();
             });
-
         }
 
         int nextId() const override {
@@ -236,13 +238,16 @@ namespace Audio::Internal {
             questionLabel->setWordWrap(true);
             layout->addWidget(questionLabel);
             auto yesButton = new QCommandLinkButton(
-                tr("&Yes"), tr("The audio device work well on my system. I want to retry configuring it in %1").arg(QApplication::applicationDisplayName()));
+                tr("&Yes"), tr("The audio device work well on my system. I want to retry configuring it in %1").arg(QApplication::applicationDisplayName())
+            );
             layout->addWidget(yesButton);
             auto abortButton = new QCommandLinkButton(
-                tr("Not &exactly"), tr("Even though other applications can play sound, I fail to configure the audio device in %1").arg(QApplication::applicationDisplayName()));
+                tr("Not &exactly"), tr("Even though other applications can play sound, I fail to configure the audio device in %1").arg(QApplication::applicationDisplayName())
+            );
             layout->addWidget(abortButton);
             auto noButton = new QCommandLinkButton(
-                tr("&No"), tr("Other applications also cannot play sound"));
+                tr("&No"), tr("Other applications also cannot play sound")
+            );
             layout->addWidget(noButton);
             auto idkButton = new QCommandLinkButton(tr("&I'm not sure"));
             layout->addWidget(idkButton);
@@ -274,7 +279,6 @@ namespace Audio::Internal {
                 m_nextId = Page_Fail;
                 parent->next();
             });
-
         }
 
         int nextId() const override {
@@ -306,7 +310,6 @@ namespace Audio::Internal {
             return -1;
         }
     };
-
 
     AudioTroubleshootingDialog::AudioTroubleshootingDialog(QWidget *parent) : QWizard(parent), m_helper(new AudioOutputSettingsHelper(this)) {
         setWindowTitle(tr("Audio Output Troubleshooting Wizard"));

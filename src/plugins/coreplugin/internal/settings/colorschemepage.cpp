@@ -1,14 +1,14 @@
 #include "colorschemepage.h"
 
 #include <QApplication>
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QRegularExpression>
-#include <QLoggingCategory>
-
-#include <SVSCraftQuick/Theme.h>
 
 #include <CoreApi/runtimeinterface.h>
+
+#include <SVSCraftQuick/Theme.h>
 
 #include <coreplugin/internal/colorschemecollection.h>
 
@@ -205,7 +205,7 @@ namespace Core::Internal {
 
         QStringList declarations = text.split('\n');
         int lineNumber = 1;
-        
+
         for (const QString &declaration : declarations) {
             QString decl = declaration.trimmed();
             if (decl.isEmpty()) {
@@ -218,15 +218,15 @@ namespace Core::Internal {
                 RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Missing colon in declaration").arg(lineNumber));
                 return {};
             }
-            
+
             QString propertyName = decl.left(colonIndex).trimmed();
             QString propertyValue = decl.mid(colonIndex + 1).trimmed();
-            
+
             if (propertyName.isEmpty()) {
                 RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property name").arg(lineNumber));
                 return {};
             }
-            
+
             if (propertyValue.isEmpty()) {
                 RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Empty property value").arg(lineNumber));
                 return {};
@@ -296,13 +296,14 @@ namespace Core::Internal {
                 ret.append(SVS::BottomBlendColorFilter(color));
             } else {
                 RuntimeInterface::qmlEngine()->throwError(
-                    tr("Syntax error at line %L1: Unknown property '%2'").arg(lineNumber).arg(propertyName));
+                    tr("Syntax error at line %L1: Unknown property '%2'").arg(lineNumber).arg(propertyName)
+                );
                 return {};
             }
-            
+
             lineNumber++;
         }
-        
+
         return ret;
     }
 

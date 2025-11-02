@@ -1,8 +1,9 @@
 #ifndef UISHELL_SETTINGCATALOGMODEL_P_H
 #define UISHELL_SETTINGCATALOGMODEL_P_H
 
-#include <QAbstractItemModel>
 #include <qqmlintegration.h>
+
+#include <QAbstractItemModel>
 
 namespace Core {
     class SettingCatalog;

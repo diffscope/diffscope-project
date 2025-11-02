@@ -1,17 +1,17 @@
 #include "generalpage.h"
 
 #include <QApplication>
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QTranslator>
-#include <QLoggingCategory>
-
-#include <SVSCraftQuick/MessageBox.h>
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 #include <CoreApi/windowsystem.h>
+
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
@@ -23,7 +23,6 @@ namespace Core::Internal {
     GeneralPage::GeneralPage(QObject *parent) : ISettingPage("core.General", parent) {
         setTitle(tr("General"));
         setDescription(tr("Configure general behaviors of %1").arg(QApplication::applicationDisplayName()));
-
     }
     GeneralPage::~GeneralPage() {
         delete m_widget;
@@ -117,11 +116,11 @@ namespace Core::Internal {
             qCInfo(lcGeneralPage) << "Language changed" << m_widget->property("localeName").toString() << QLocale().name();
             auto [title, text] = getRestartMessageInNewLanguage(m_widget->property("localeName").toString());
             if (SVS::MessageBox::question(
-                RuntimeInterface::qmlEngine(),
-                static_cast<QQuickItem *>(m_widget)->window(),
-                title.arg(QApplication::applicationDisplayName()),
-                text.arg(QApplication::applicationDisplayName())
-            ) == SVS::SVSCraft::Yes) {
+                    RuntimeInterface::qmlEngine(),
+                    static_cast<QQuickItem *>(m_widget)->window(),
+                    title.arg(QApplication::applicationDisplayName()),
+                    text.arg(QApplication::applicationDisplayName())
+                ) == SVS::SVSCraft::Yes) {
                 CoreInterface::restartApplication();
             }
         }
@@ -138,7 +137,7 @@ namespace Core::Internal {
         if (ret.isEmpty()) {
             std::ranges::transform(RuntimeInterface::translationManager()->locales(), std::back_inserter(ret), [](const QString &localeName) {
                 auto locale = QLocale(localeName);
-                return QVariantMap {
+                return QVariantMap{
                     {"text", QStringLiteral("%1 (%2)").arg(locale.nativeLanguageName(), locale.nativeTerritoryName())},
                     {"value", localeName}
                 };

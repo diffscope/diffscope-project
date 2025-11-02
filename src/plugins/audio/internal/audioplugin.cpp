@@ -1,10 +1,8 @@
 #include "audioplugin.h"
 
 #include <QApplication>
-#include <QSplashScreen>
 #include <QQmlComponent>
-
-#include <SVSCraftQuick/MessageBox.h>
+#include <QSplashScreen>
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/settingcatalog.h>
@@ -12,12 +10,14 @@
 
 #include <extensionsystem/pluginspec.h>
 
+#include <SVSCraftQuick/MessageBox.h>
+
 #include <coreplugin/coreinterface.h>
 
-#include <audio/internal/audiosystem.h>
-#include <audio/internal/outputsystem.h>
 #include <audio/internal/audioandmidipage.h>
 #include <audio/internal/audiooutputpage.h>
+#include <audio/internal/audiosystem.h>
+#include <audio/internal/outputsystem.h>
 
 namespace Audio::Internal {
 
@@ -42,9 +42,7 @@ namespace Audio::Internal {
     bool AudioPlugin::delayedInitialize() {
         return IPlugin::delayedInitialize();
     }
-    QObject *AudioPlugin::remoteCommand(const QStringList &options,
-                                        const QString &workingDirectory,
-                                        const QStringList &args) {
+    QObject *AudioPlugin::remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         return IPlugin::remoteCommand(options, workingDirectory, args);
     }
 
@@ -56,7 +54,8 @@ namespace Audio::Internal {
                 Core::RuntimeInterface::qmlEngine(),
                 nullptr,
                 tr("Failed to initialize audio output system"),
-                tr("%1 will not play sound because no available audio output device found.\n\nPlease go to Settings > Audio and MIDI > Audio Output to check the device status.").arg(QApplication::applicationDisplayName()));
+                tr("%1 will not play sound because no available audio output device found.\n\nPlease go to Settings > Audio and MIDI > Audio Output to check the device status.").arg(QApplication::applicationDisplayName())
+            );
         }
     }
 

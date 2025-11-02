@@ -4,7 +4,7 @@
 
 namespace UIShell {
 
-    AchievementProxyModel::AchievementProxyModel(QObject *parent) 
+    AchievementProxyModel::AchievementProxyModel(QObject *parent)
         : QIdentityProxyModel(parent) {
     }
 
@@ -16,13 +16,13 @@ namespace UIShell {
 
     QHash<int, QByteArray> AchievementProxyModel::roleNames() const {
         static const QHash<int, QByteArray> roles{
-            {USDef::AR_IdRole,          "id"         },
-            {USDef::AR_NameRole,        "name"       },
+            {USDef::AR_IdRole, "id"},
+            {USDef::AR_NameRole, "name"},
             {USDef::AR_DescriptionRole, "description"},
-            {USDef::AR_IconRole,        "icon"       },
-            {USDef::AR_IconColorRole,   "iconColor"  },
-            {USDef::AR_HiddenRole,      "hidden"     },
-            {CompletedRole,             "completed"  },
+            {USDef::AR_IconRole, "icon"},
+            {USDef::AR_IconColorRole, "iconColor"},
+            {USDef::AR_HiddenRole, "hidden"},
+            {CompletedRole, "completed"},
         };
         return roles;
     }
@@ -33,7 +33,7 @@ namespace UIShell {
             const QString id = QIdentityProxyModel::data(index, USDef::AR_IdRole).toString();
             return m_completedAchievements.contains(id);
         }
-        
+
         // For all other roles, delegate to the parent implementation
         return QIdentityProxyModel::data(index, role);
     }
@@ -68,7 +68,7 @@ namespace UIShell {
 
     bool AchievementProxyModel::handleAchievementCompleted(const QString &id, bool completed) {
         bool changed = false;
-        
+
         if (completed) {
             // Add to completed achievements if not already present
             if (!m_completedAchievements.contains(id)) {
@@ -82,7 +82,7 @@ namespace UIShell {
                 changed = true;
             }
         }
-        
+
         if (changed) {
             // Use cached mapping to find the model index directly
             const QModelIndex idx = indexForId(id);

@@ -1,11 +1,11 @@
 #include "applicationupdatechecker.h"
 #include "applicationupdatechecker_p.h"
 
+#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QTimer>
-#include <QApplication>
 #include <QSettings>
+#include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -23,7 +23,7 @@ namespace Maintenance {
         q->loadSettings();
     }
 
-    ApplicationUpdateChecker::ApplicationUpdateChecker(QObject *parent) 
+    ApplicationUpdateChecker::ApplicationUpdateChecker(QObject *parent)
         : QObject(parent), d_ptr(new ApplicationUpdateCheckerPrivate) {
         Q_ASSERT(!m_instance);
         m_instance = this;
@@ -52,16 +52,16 @@ namespace Maintenance {
         QString url = d->feedBaseUrl + channel;
         auto request = QNetworkRequest(QUrl(url));
         request.setHeader(QNetworkRequest::UserAgentHeader, "diffscope/1.0");
-        
+
         auto reply = d->networkManager->get(request);
         connect(reply, &QNetworkReply::finished, this, [this, reply, silent]() {
             reply->deleteLater();
-            
+
             if (reply->error() != QNetworkReply::NoError) {
                 Q_EMIT failed(reply->errorString(), silent);
                 return;
             }
-            
+
             QByteArray data = reply->readAll();
             ReleaseInfo releaseInfo;
             QString errorMessage;
@@ -77,43 +77,43 @@ namespace Maintenance {
         Q_D(ApplicationUpdateChecker);
         QJsonParseError parseError;
         QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
-        
+
         if (parseError.error != QJsonParseError::NoError) {
             errorMessage = "Parse error";
             return false;
         }
-        
+
         if (!doc.isObject()) {
             errorMessage = "Parse error";
             return false;
         }
-        
+
         QJsonObject root = doc.object();
         QJsonObject releaseInfoObj = root.value("releaseInfo").toObject();
-        
+
         if (releaseInfoObj.isEmpty()) {
             errorMessage = "Parse error";
             return false;
         }
-        
+
         releaseInfo.version = SVS::Semver(releaseInfoObj.value("version").toString());
         releaseInfo.isPreRelease = releaseInfoObj.value("preRelease").toBool();
         releaseInfo.description = releaseInfoObj.value("description").toString();
         releaseInfo.downloadLink = QUrl(releaseInfoObj.value("downloadLink").toString());
         releaseInfo.detailsLink = QUrl(releaseInfoObj.value("detailsLink").toString());
-        
+
         if (!releaseInfo.version.isValid()) {
             errorMessage = "Parse error";
             return false;
         }
-        
+
         // Update feed URL if provided
         QString newFeedUrl = root.value("feedUrl").toString();
         if (!newFeedUrl.isEmpty() && newFeedUrl != d->feedBaseUrl) {
             d->feedBaseUrl = newFeedUrl;
             saveSettings();
         }
-        
+
         return true;
     }
 
@@ -128,13 +128,13 @@ namespace Maintenance {
         if (silent && d->ignoredVersion.isValid() && releaseInfo.version <= d->ignoredVersion) {
             return; // Ignore this version
         }
-        
+
         // Clear ignored version if it's invalid or older than the new release
         if (d->ignoredVersion.isValid() && releaseInfo.version > d->ignoredVersion) {
             d->ignoredVersion = SVS::Semver(); // Reset to invalid version
             saveSettings();
         }
-        
+
         Q_EMIT showNewVersionRequested(releaseInfo, silent);
     }
 
@@ -215,7 +215,7 @@ namespace Maintenance {
             d->ignoredVersion = SVS::Semver(ignoredVersionStr);
         }
         settings->endGroup();
-        
+
         Q_EMIT autoCheckForUpdatesChanged();
         Q_EMIT updateOptionChanged();
     }

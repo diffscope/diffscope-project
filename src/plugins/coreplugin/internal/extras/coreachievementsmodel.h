@@ -1,8 +1,9 @@
 #ifndef COREACHIEVEMENTSMODEL_H
 #define COREACHIEVEMENTSMODEL_H
 
-#include <QStandardItemModel>
 #include <qqmlintegration.h>
+
+#include <QStandardItemModel>
 
 class QQmlEngine;
 class QJSEngine;
@@ -55,6 +56,5 @@ namespace Core::Internal {
     };
 
 }
-
 
 #endif //COREACHIEVEMENTSMODEL_H

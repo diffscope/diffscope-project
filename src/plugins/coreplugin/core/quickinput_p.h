@@ -1,11 +1,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_QUICKINPUT_P_H
 #define DIFFSCOPE_COREPLUGIN_QUICKINPUT_P_H
 
-#include <coreplugin/quickinput.h>
-
 #include <QPointer>
 
 #include <CoreApi/windowinterface.h>
+
+#include <coreplugin/quickinput.h>
 
 namespace Core {
 
@@ -21,7 +21,7 @@ namespace Core {
         QPointer<WindowInterface> windowHandle;
         bool visible{false};
         QPointer<QObject> inputPalette;
-        
+
         void connectInputPalette();
         void disconnectInputPalette();
         void syncToInputPalette();

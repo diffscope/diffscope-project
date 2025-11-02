@@ -1,10 +1,11 @@
 #ifndef DIFFSCOPE_WELCOMEWIZARD_WELCOMEWIZARDADDON_H
 #define DIFFSCOPE_WELCOMEWIZARD_WELCOMEWIZARDADDON_H
 
-#include <CoreApi/windowinterface.h>
 #include <qqmlintegration.h>
 
 #include <QQuickWindow>
+
+#include <CoreApi/windowinterface.h>
 
 namespace WelcomeWizard {
 
@@ -15,7 +16,7 @@ namespace WelcomeWizard {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QQuickWindow *window READ window CONSTANT)
-   public:
+    public:
         explicit WelcomeWizardAddOn(QObject *parent = nullptr);
         ~WelcomeWizardAddOn() override;
 

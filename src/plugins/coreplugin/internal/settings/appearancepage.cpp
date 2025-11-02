@@ -1,9 +1,9 @@
 #include "appearancepage.h"
 
 #include <QApplication>
-#include <QQmlComponent>
 #include <QFontDatabase>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
 

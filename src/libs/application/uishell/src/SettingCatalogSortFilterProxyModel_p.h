@@ -1,8 +1,9 @@
 #ifndef UISHELL_SETTINGCATALOGSORTFILTERPROXYMODEL_P_H
 #define UISHELL_SETTINGCATALOGSORTFILTERPROXYMODEL_P_H
 
-#include <QSortFilterProxyModel>
 #include <qqmlintegration.h>
+
+#include <QSortFilterProxyModel>
 
 namespace Core {
     class ISettingPage;
@@ -36,7 +37,7 @@ namespace UIShell {
     private:
         Core::ISettingPage *pageForIndex(const QModelIndex &index) const;
         QModelIndex findFirstMatchRecursive(const QModelIndex &parent) const;
-        
+
         QString m_filterKeyword;
     };
 

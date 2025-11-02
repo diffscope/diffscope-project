@@ -1,9 +1,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COLORSCHEMEWELCOMEWIZARDPAGEHELPER_H
 #define DIFFSCOPE_COREPLUGIN_COLORSCHEMEWELCOMEWIZARDPAGEHELPER_H
 
+#include <qqmlintegration.h>
+
 #include <QObject>
 #include <QVariant>
-#include <qqmlintegration.h>
 
 namespace Core::Internal {
 

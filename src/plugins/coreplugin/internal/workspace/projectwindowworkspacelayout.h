@@ -1,11 +1,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTWINDOWWORKSPACELAYOUT_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTWINDOWWORKSPACELAYOUT_H
 
+#include <utility>
+
 #include <QJSValue>
 #include <QRect>
 #include <QVariant>
-
-#include <utility>
 
 namespace Core::Internal {
 
@@ -13,7 +13,6 @@ namespace Core::Internal {
         Q_GADGET
         Q_PROPERTY(QString name READ name WRITE setName)
     public:
-
         struct PanelSpec {
             inline PanelSpec() : dock(false) {
             }

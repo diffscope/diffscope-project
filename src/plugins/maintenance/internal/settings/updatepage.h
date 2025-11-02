@@ -41,7 +41,7 @@ namespace Maintenance {
          * @return true if the widget content matches the search term
          */
         bool widgetMatches(const QString &word);
-        
+
         QObject *m_widget{}; ///< QML widget instance for the settings UI
     };
 

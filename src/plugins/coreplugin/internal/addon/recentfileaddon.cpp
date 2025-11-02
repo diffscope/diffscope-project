@@ -1,20 +1,20 @@
 #include "recentfileaddon.h"
 
 #include <QDir>
+#include <QFileInfo>
 #include <QQmlComponent>
 #include <QStandardItemModel>
-#include <QFileInfo>
+
+#include <CoreApi/recentfilecollection.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeinterface.h>
-#include <CoreApi/recentfilecollection.h>
-
 #include <uishell/USDef.h>
 
+#include <coreplugin/coreinterface.h>
 #include <coreplugin/homewindowinterface.h>
 #include <coreplugin/projectwindowinterface.h>
-#include <coreplugin/coreinterface.h>
 
 namespace Core::Internal {
 
@@ -23,7 +23,7 @@ namespace Core::Internal {
         using QStandardItemModel::QStandardItemModel;
 
         QHash<int, QByteArray> roleNames() const override {
-            static const QHash<int, QByteArray> m {
+            static const QHash<int, QByteArray> m{
                 {UIShell::USDef::RF_NameRole, "name"},
                 {UIShell::USDef::RF_PathRole, "path"},
             };

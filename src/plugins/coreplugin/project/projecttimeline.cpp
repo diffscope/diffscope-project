@@ -13,7 +13,7 @@ namespace Core {
 
     ProjectTimeline::~ProjectTimeline() = default;
 
-    SVS::MusicTimeline* ProjectTimeline::musicTimeline() const {
+    SVS::MusicTimeline *ProjectTimeline::musicTimeline() const {
         Q_D(const ProjectTimeline);
         return d->musicTimeline;
     }

@@ -1,8 +1,9 @@
 #ifndef UISHELL_ACTIONLAYOUTSEDITORHELPER_P_H
 #define UISHELL_ACTIONLAYOUTSEDITORHELPER_P_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 class QJSValue;
 

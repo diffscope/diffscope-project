@@ -1,47 +1,46 @@
 #include "coreinterface.h"
-#include "coreinterface.h"
-
-#include <csignal>
-#include <memory>
-#include <algorithm>
-
-#include <QApplication>
-#include <QChildEvent>
-#include <QMessageBox>
-#include <QScreen>
-#include <QTimer>
-#include <QQmlEngine>
-#include <QQmlComponent>
-#include <QDesktopServices>
-#include <QQuickWindow>
-#include <QFontDatabase>
-#include <QFileDialog>
-#include <QStandardPaths>
-
-#include <QtQuickTemplates2/private/qquickicon_p.h>
-
-#include <extensionsystem/pluginmanager.h>
 
 #include <application_buildinfo.h>
 #include <application_config.h>
 
-#include <SVSCraftCore/SVSCraftNamespace.h>
-#include <SVSCraftQuick/Theme.h>
+#include <algorithm>
+#include <csignal>
+#include <memory>
+
+#include <QApplication>
+#include <QChildEvent>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QFontDatabase>
+#include <QMessageBox>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQuickWindow>
+#include <QScreen>
+#include <QStandardPaths>
+#include <QTimer>
+
+#include <QtQuickTemplates2/private/qquickicon_p.h>
+
+#include <CoreApi/filelocker.h>
+#include <CoreApi/private/coreinterfacebase_p.h>
+#include <CoreApi/recentfilecollection.h>
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/windowsystem.h>
+
+#include <extensionsystem/pluginmanager.h>
 
 #include <opendspx/qdspxmodel.h>
 
-#include <CoreApi/private/coreinterfacebase_p.h>
-#include <CoreApi/runtimeinterface.h>
-#include <CoreApi/recentfilecollection.h>
-#include <CoreApi/windowsystem.h>
-#include <CoreApi/filelocker.h>
+#include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftQuick/Theme.h>
 
-#include <coreplugin/projectwindowinterface.h>
 #include <coreplugin/homewindowinterface.h>
 #include <coreplugin/internal/behaviorpreference.h>
-#include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/internal/coreachievementsmodel.h>
+#include <coreplugin/internal/projectstartuptimeraddon.h>
 #include <coreplugin/projectdocumentcontext.h>
+#include <coreplugin/projectwindowinterface.h>
 
 namespace Core {
 
@@ -63,7 +62,7 @@ namespace Core {
         }
     };
 
-    class OpenUrlHelper: public QObject {
+    class OpenUrlHelper : public QObject {
         Q_OBJECT
     public:
         Q_INVOKABLE static inline void openUrl(const QString &url) {
@@ -147,13 +146,15 @@ namespace Core {
                 "<p>A professional singing-voice-synthesis editor powered by DiffSinger</p>"
                 "<p>Version %1</p>"
                 "<p>Copyright \u00a9 %2-%3 %4. All rights reserved.</p>"
-                "<p>Visit <a href=\"%5\">%5</a> for more information.</p>")
+                "<p>Visit <a href=\"%5\">%5</a> for more information.</p>"
+            )
                 .arg(
                     QApplication::applicationVersion(),
                     QLocale().toString(QDate(QStringLiteral(APPLICATION_DEV_START_YEAR).toInt(), 1, 1), "yyyy"),
                     QLocale().toString(QDate(QStringLiteral(APPLICATION_BUILD_YEAR).toInt(), 1, 1), "yyyy"),
                     APPLICATION_VENDOR_NAME,
-                    QStringLiteral(APPLICATION_URL));
+                    QStringLiteral(APPLICATION_URL)
+                );
 
         QString licenseInfo =
             QApplication::translate(
@@ -163,7 +164,8 @@ namespace Core {
                 "You may obtain a copy of the License at %1.</p>"
                 "<p>This application is distributed "
                 "<b>AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</b>, either express or "
-                "implied.</p>")
+                "implied.</p>"
+            )
                 .arg(QStringLiteral("<a "
                                     "href=\"https://www.apache.org/licenses/"
                                     "LICENSE-2.0\">apache.org/licenses</a>"));
@@ -175,11 +177,11 @@ namespace Core {
                                                                    "Build date: %3<br>"
                                                                    "Toolchain: %4 %5 %6"
                                                                    "</p>")
-                                .arg(QStringLiteral(APPLICATION_GIT_BRANCH),           //
+                                .arg(QStringLiteral(APPLICATION_GIT_BRANCH), //
                                      QStringLiteral(APPLICATION_GIT_LAST_COMMIT_HASH), //
-                                     QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate).toLocalTime()),           //
-                                     QStringLiteral(APPLICATION_COMPILER_ARCH),        //
-                                     QStringLiteral(APPLICATION_COMPILER_ID),          //
+                                     QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate).toLocalTime()), //
+                                     QStringLiteral(APPLICATION_COMPILER_ARCH), //
+                                     QStringLiteral(APPLICATION_COMPILER_ID), //
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
@@ -187,14 +189,7 @@ namespace Core {
         icon.setSource(QUrl("image://appicon/app"));
         icon.setWidth(64);
         icon.setHeight(64);
-        QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({
-            {"title", tr("About %1").arg(appName)},
-            {"textFormat",      Qt::RichText                                       },
-            {"text",            appName.toHtmlEscaped()                            },
-            {"informativeText", aboutInfo + licenseInfo + buildInfo},
-            {"width", 480},
-            {"icon", QVariant::fromValue(icon)}
-        })));
+        QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({{"title", tr("About %1").arg(appName)}, {"textFormat", Qt::RichText}, {"text", appName.toHtmlEscaped()}, {"informativeText", aboutInfo + licenseInfo + buildInfo}, {"width", 480}, {"icon", QVariant::fromValue(icon)}})));
         Q_ASSERT(mb);
         mb->setTransientParent(parent);
         mb->show();
@@ -256,11 +251,11 @@ namespace Core {
         settings->endGroup();
 
         auto path = QFileDialog::getOpenFileName(
-                nullptr,
-                {},
-                defaultOpenDir,
-                CoreInterface::dspxFileFilter(true)
-            );
+            nullptr,
+            {},
+            defaultOpenDir,
+            CoreInterface::dspxFileFilter(true)
+        );
         if (path.isEmpty())
             return {};
 
@@ -284,7 +279,6 @@ namespace Core {
                 }
                 return QObject::eventFilter(watched, event);
             }
-
         };
         auto listener = new ExposedListener(win);
         win->installEventFilter(listener);
@@ -359,8 +353,7 @@ namespace Core {
         d.init();
     }
 
-
 }
 
-#include "moc_coreinterface.cpp"
 #include "coreinterface.moc"
+#include "moc_coreinterface.cpp"

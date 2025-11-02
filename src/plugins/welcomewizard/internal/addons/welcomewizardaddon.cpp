@@ -42,9 +42,7 @@ namespace WelcomeWizard {
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
-                auto o = component.createWithInitialProperties({
-                    {"pages", QVariant::fromValue(pages)}
-                });
+                auto o = component.createWithInitialProperties({{"pages", QVariant::fromValue(pages)}});
                 o->setParent(m_plugin);
                 m_window = qobject_cast<QQuickWindow *>(o);
             }
@@ -61,8 +59,7 @@ namespace WelcomeWizard {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)}
+        auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}
         });
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());

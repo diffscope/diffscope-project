@@ -3,9 +3,8 @@
 
 #include <qqmlintegration.h>
 
-#include <coreplugin/coreglobal.h>
-
 #include <coreplugin/actionwindowinterfacebase.h>
+#include <coreplugin/coreglobal.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -22,7 +21,7 @@ namespace Core {
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_DECLARE_PRIVATE(HomeWindowInterface)
     public:
-        static HomeWindowInterface* instance();
+        static HomeWindowInterface *instance();
 
     protected:
         QWindow *createWindow(QObject *parent) const override;

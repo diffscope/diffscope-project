@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTTIMELINE_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTTIMELINE_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <coreplugin/coreglobal.h>
 
@@ -20,8 +21,8 @@ namespace Core {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(ProjectTimeline)
-        
-        Q_PROPERTY(SVS::MusicTimeline* musicTimeline READ musicTimeline CONSTANT)
+
+        Q_PROPERTY(SVS::MusicTimeline *musicTimeline READ musicTimeline CONSTANT)
         Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
         Q_PROPERTY(int lastPosition READ lastPosition WRITE setLastPosition NOTIFY lastPositionChanged)
         Q_PROPERTY(int rangeHint READ rangeHint WRITE setRangeHint NOTIFY rangeHintChanged)
@@ -30,7 +31,7 @@ namespace Core {
         explicit ProjectTimeline(QObject *parent = nullptr);
         ~ProjectTimeline() override;
 
-        SVS::MusicTimeline* musicTimeline() const;
+        SVS::MusicTimeline *musicTimeline() const;
 
         int position() const;
         void setPosition(int position);

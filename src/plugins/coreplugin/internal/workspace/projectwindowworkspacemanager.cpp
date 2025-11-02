@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <iterator>
-#include <QLoggingCategory>
 #include <ranges>
 
+#include <QLoggingCategory>
 #include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
@@ -43,47 +43,71 @@ namespace Core::Internal {
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceManager::defaultLayout() {
         ProjectWindowWorkspaceLayout layout;
         layout.setName("_default");
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftTop, {
-            {
-                {"core.panel.properties", true},
-                {"core.panel.metadata", true},
-                {"core.panel.plugins", true},
-            }, 400, 400, 0
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::LeftBottom, {
-            {
-                {"core.panel.tips", true},
-                {"core.settings", false}
-            }, 400, 150, 0
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::TopLeft, {
-            {
-                {"core.panel.arrangement", true}
-            }, 400, 360, 0
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::TopRight, {
-            {
-            }, 400, 360, -1
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomLeft, {
-            {
-                {"core.panel.pianoRoll", true},
-                {"core.panel.mixer", true}
-            }, 400, 640, 0
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::BottomRight, {
-            {
-            }, 400, 640, -1
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::RightTop, {
-            {
-                {"core.panel.notifications", true}
-            }, 400, 400, -1
-        });
-        layout.setViewSpec(ProjectWindowWorkspaceLayout::RightBottom, {
-            {
-            }, 400, 400, -1
-        });
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::LeftTop,
+            {{
+                 {"core.panel.properties", true},
+                 {"core.panel.metadata", true},
+                 {"core.panel.plugins", true},
+             },
+             400,
+             400,
+             0
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::LeftBottom,
+            {{{"core.panel.tips", true},
+              {"core.settings", false}
+             },
+             400,
+             150,
+             0
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::TopLeft,
+            {{{"core.panel.arrangement", true}
+             },
+             400,
+             360,
+             0
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::TopRight,
+            {{}, 400, 360, -1
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::BottomLeft,
+            {{{"core.panel.pianoRoll", true},
+              {"core.panel.mixer", true}
+             },
+             400,
+             640,
+             0
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::BottomRight,
+            {{}, 400, 640, -1
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::RightTop,
+            {{{"core.panel.notifications", true}
+             },
+             400,
+             400,
+             -1
+            }
+        );
+        layout.setViewSpec(
+            ProjectWindowWorkspaceLayout::RightBottom,
+            {{}, 400, 400, -1
+            }
+        );
         return layout;
     }
 
@@ -116,10 +140,13 @@ namespace Core::Internal {
         std::ranges::transform(m_customLayouts, std::back_inserter(customLayoutsVariants), [](const auto &v) {
             return v.toVariant();
         });
-        settings->setValue(staticMetaObject.className(), QVariantMap {
-            {"currentLayout", m_currentLayout.toVariant()},
-            {"customLayouts", customLayoutsVariants},
-        });
+        settings->setValue(
+            staticMetaObject.className(),
+            QVariantMap{
+                {"currentLayout", m_currentLayout.toVariant()},
+                {"customLayouts", customLayoutsVariants},
+            }
+        );
     }
 }
 

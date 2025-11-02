@@ -1,8 +1,8 @@
 #include "audiooutputpage.h"
 
 #include <QApplication>
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
 

@@ -1,37 +1,36 @@
 #include "projectwindowinterface.h"
 
-#include <QQmlComponent>
 #include <QAbstractItemModel>
+#include <QEventLoop>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QJSValue>
+#include <QLoggingCategory>
+#include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQuickWindow>
-#include <QFileInfo>
 #include <QStandardPaths>
-#include <QFileDialog>
-#include <QLoggingCategory>
-#include <QEventLoop>
 
-#include <SVSCraftQuick/StatusTextContext.h>
-#include <SVSCraftQuick/MessageBox.h>
+#include <CoreApi/filelocker.h>
+#include <CoreApi/recentfilecollection.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeinterface.h>
-#include <CoreApi/filelocker.h>
-#include <CoreApi/recentfilecollection.h>
+#include <SVSCraftQuick/MessageBox.h>
+#include <SVSCraftQuick/StatusTextContext.h>
 
 #include <coreplugin/coreinterface.h>
-#include <coreplugin/notificationmessage.h>
-#include <coreplugin/internal/notificationmanager.h>
-#include <coreplugin/quickpick.h>
-#include <coreplugin/internal/actionhelper.h>
-#include <coreplugin/projecttimeline.h>
-#include <coreplugin/quickinput.h>
 #include <coreplugin/editactionshandlerregistry.h>
-#include <coreplugin/projectdocumentcontext.h>
+#include <coreplugin/internal/actionhelper.h>
 #include <coreplugin/internal/behaviorpreference.h>
+#include <coreplugin/internal/notificationmanager.h>
+#include <coreplugin/notificationmessage.h>
+#include <coreplugin/projectdocumentcontext.h>
+#include <coreplugin/projecttimeline.h>
 #include <coreplugin/projectviewmodelcontext.h>
-
+#include <coreplugin/quickinput.h>
+#include <coreplugin/quickpick.h>
 
 namespace Core {
 
@@ -89,17 +88,15 @@ namespace Core {
         QString promptSaveDspxFile() const {
             auto settings = RuntimeInterface::settings();
             settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
-            auto defaultSaveDir = projectDocumentContext->fileLocker() && !projectDocumentContext->fileLocker()->path().isEmpty() ?
-                projectDocumentContext->fileLocker()->path() :
-                settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+            auto defaultSaveDir = projectDocumentContext->fileLocker() && !projectDocumentContext->fileLocker()->path().isEmpty() ? projectDocumentContext->fileLocker()->path() : settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
             settings->endGroup();
 
             auto path = QFileDialog::getSaveFileName(
-                    nullptr,
-                    {},
-                    defaultSaveDir,
-                    CoreInterface::dspxFileFilter(true)
-                );
+                nullptr,
+                {},
+                defaultSaveDir,
+                CoreInterface::dspxFileFilter(true)
+            );
             if (path.isEmpty())
                 return {};
 
@@ -126,22 +123,24 @@ namespace Core {
         ExternalChangeOperation promptFileExternalChange() const {
             Q_Q(const ProjectWindowInterface);
             QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
-            std::unique_ptr<QQuickWindow> mb(qobject_cast<QQuickWindow *>(component.createWithInitialProperties({
-                {"text", Core::ProjectWindowInterface::tr("File Modified Externally")},
-                {"informativeText", Core::ProjectWindowInterface::tr("The file has been modified by another program since it was last saved.\n\nDo you want to save as a new file or overwrite it?")},
-                {"buttons", QVariantList {
-                    QVariantMap {
-                        {"id", SaveAs}, {"text", Core::ProjectWindowInterface::tr("Save As...")},
-                    },
-                    QVariantMap {
-                        {"id", Overwrite}, {"text", Core::ProjectWindowInterface::tr("Overwrite")},
-                    },
-                    SVS::SVSCraft::Cancel,
-                }},
-                {"primaryButton", SaveAs},
-                {"icon", SVS::SVSCraft::Warning},
-                {"transientParent", QVariant::fromValue(q->window())}
-            })));
+            std::unique_ptr<QQuickWindow> mb(qobject_cast<QQuickWindow *>(component.createWithInitialProperties(
+                {{"text", Core::ProjectWindowInterface::tr("File Modified Externally")},
+                 {"informativeText", Core::ProjectWindowInterface::tr("The file has been modified by another program since it was last saved.\n\nDo you want to save as a new file or overwrite it?")},
+                 {"buttons", QVariantList{
+                                 QVariantMap{
+                                     {"id", SaveAs},
+                                     {"text", Core::ProjectWindowInterface::tr("Save As...")},
+                                 },
+                                 QVariantMap{
+                                     {"id", Overwrite},
+                                     {"text", Core::ProjectWindowInterface::tr("Overwrite")},
+                                 },
+                                 SVS::SVSCraft::Cancel,
+                             }},
+                 {"primaryButton", SaveAs},
+                 {"icon", SVS::SVSCraft::Warning},
+                 {"transientParent", QVariant::fromValue(q->window())}}
+            )));
             Q_ASSERT(mb);
             QEventLoop eventLoop;
             MessageBoxDialogDoneListener listener(&eventLoop);
@@ -149,7 +148,6 @@ namespace Core {
             mb->show();
             return static_cast<ExternalChangeOperation>(eventLoop.exec());
         }
-
     };
 
     ProjectWindowInterface *ProjectWindowInterface::instance() {
@@ -180,8 +178,7 @@ namespace Core {
         Q_D(ProjectWindowInterface);
         d->notificationManager->addMessage(message, mode);
     }
-    void ProjectWindowInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title,
-                                          const QString &text, NotificationBubbleMode mode) {
+    void ProjectWindowInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
         auto message = new NotificationMessage(this);
         message->setIcon(icon);
         message->setTitle(title);
@@ -238,8 +235,7 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QQuickWindow *>(component.createWithInitialProperties({
-            {"windowHandle", QVariant::fromValue(this)}
+        auto win = qobject_cast<QQuickWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}
         }));
         Q_ASSERT(win);
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
@@ -265,5 +261,5 @@ namespace Core {
     }
 }
 
-#include "projectwindowinterface.moc"
 #include "moc_projectwindowinterface.cpp"
+#include "projectwindowinterface.moc"

@@ -3,11 +3,10 @@
 
 #include <qqmlintegration.h>
 
-#include <coreplugin/coreglobal.h>
-
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <coreplugin/actionwindowinterfacebase.h>
+#include <coreplugin/coreglobal.h>
 
 namespace QAK {
     class QuickActionContext;
@@ -41,7 +40,7 @@ namespace Core {
         Q_PROPERTY(ProjectViewModelContext *projectViewModelContext READ projectViewModelContext CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
-        static ProjectWindowInterface* instance();
+        static ProjectWindowInterface *instance();
 
         ProjectTimeline *projectTimeline() const;
 

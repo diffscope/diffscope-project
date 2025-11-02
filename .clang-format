@@ -1,130 +1,252 @@
-# References:
-#   https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-#   https://code.qt.io/cgit/qt/qt5.git/tree/_clang-format
-
+Language: Cpp
 BasedOnStyle: LLVM
-
-Standard: c++20
-
-# 指针和引用的对齐方式。
-# 可能的值有：
-# PAS_Left (在配置中： Left) 指针左对齐。
-# PAS_Right (在配置中： Right) 指针右对齐。
-# PAS_Middle (在配置中： Middle) 指针中间对齐。
-PointerAlignment: Right
-
-# public/protected/private 等访问修饰符偏移量
 AccessModifierOffset: -4
-
-# 缩进长度
-IndentWidth: 4
-
-# 连续空行的最大数
-MaxEmptyLinesToKeep: 999
-
-# 在OC中的@property后面添加一个空格。例如：使用“@property (readonly)”而不是“@property(readonly)”
-ObjCSpaceAfterProperty: true
-
-# OC块中所拍的字符数
-ObjCBlockIndentWidth: 4
-
-# 取决于值, 语句“int f() { return 0; }”可以被放到一个单行。
-# 可能的值有：
-# SFS_None (在配置中： None) 从不合并方法或函数到单独的一行。
-# SFS_Empty (在配置中： Empty) 仅合并空的函数。
-# SFS_Inline (在配置中： Inline) 仅合并类中定义的方法或函数. 意味着 “empty”.
-# SFS_All (在配置中： All) 合并所有的方法适应单行.
-AllowShortFunctionsOnASingleLine: None
-
-# 如果为真（true）, 语句“if (a) return;” 能被放到单行。
-AllowShortIfStatementsOnASingleLine: false
-
-# 如果为真（true）, 对齐注释。
-AlignTrailingComments: true
-
-# 如果为真,对齐连续的宏定义
-AlignConsecutiveMacros: true
-
-# 如果为真（true）,将会在“[”之后和“]”之前插入空格。
-SpacesInSquareBrackets: false
-
-# 如果为真（true）, 将会在“(”之后和“)”之前插入空格。
-SpacesInParentheses : false
-
-# 如果为真（true）, 校准连续的声明。
-# 这将会校准连续多行的声明的名字。这将会导致像下面这样的格式：
-# int         aaaa = 12;
-# float       b = 23;
-# std::string ccc = 23;
-AlignConsecutiveDeclarations: false
-
-# 如果为真（true），连续调整多行
-# 这将会调整连续行中的分配操作符。这将会导致像下面这样的格式：
-# int aaaa = 12;
-# int b    = 23;
-# int ccc  = 23;
-AlignConsecutiveAssignments: false
-
-# 如果为假（false），移除分配操作符（=）前空格。
-SpaceBeforeAssignmentOperators: true
-
-# 如果为真（true）, 将会在字面量容器中插入空格(例如 OC和Javascript的数组和字典字面量)。
-SpacesInContainerLiterals: false
-
-# 缩进case标签
-IndentCaseLabels: true
-
-# 如果表达式中包含函数调用，并且函数调用因为表达式太长被放到了下一行，是否缩进
-IndentWrappedFunctionNames: true
-
-# 如果为真（true）, 保持块的起始空行。
-# true:                                  false:
-# if (foo) {                     vs.     if (foo) {
-#                                          bar();
-#   bar();                               }
-# }
-KeepEmptyLinesAtTheStartOfBlocks: true
-
-# 允许所有参数都被放在下一行
-AllowAllParametersOfDeclarationOnNextLine: false
-
-# 使用C风格强制类型转换后，是否在中间添加一个空格
-SpaceAfterCStyleCast: true
-
-# 在模板定义后换行
-AlwaysBreakTemplateDeclarations: Yes
-
-# Tab长度
-TabWidth: 4
-
-# 是否使用Tab
-UseTab: Never
-
-# 在括号后对齐参数
-# someLongFunction(argument1,
-#                  argument2);
-AlignAfterOpenBracket: Align
-
-# 名字空间内部缩进
-NamespaceIndentation: All
-
-# 一行最长列数
-ColumnLimit: 999
-
-# 按层次缩进宏定义
-IndentPPDirectives: AfterHash
-
-# 预处理语句缩进为 2
-PPIndentWidth: 2
-
-# 数组元素对齐
-AlignArrayOfStructures: Left
-
-# 不对头文件排序
-SortIncludes: Never
-
+AlignAfterOpenBracket: BlockIndent
+AlignArrayOfStructures: None
+AlignConsecutiveAssignments:
+  Enabled: false
+AlignConsecutiveDeclarations:
+  Enabled: false
+AlignConsecutiveMacros:
+  Enabled: false
+AlignConsecutiveShortCaseStatements:
+  Enabled: false
+AlignEscapedNewlines: Left
+AlignOperands: Align
+AlignTrailingComments:
+  Kind: Never
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowBreakBeforeNoexceptSpecifier: Never
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: MultiLine
+AttributeMacros:
+  - __capability
+BinPackArguments: true
+BinPackParameters: true
+BitFieldColonSpacing: Both
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterExternBlock: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterObjCDeclaration: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakAfterAttributes: Leave
+BreakAfterJavaFieldAnnotations: false
+BreakArrays: true
+BreakBeforeBinaryOperators: None
+BreakBeforeConceptDeclarations: Always
+BreakBeforeBraces: Attach
+BreakBeforeInlineASMColon: OnlyMultiline
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
+BreakStringLiterals: true
+ColumnLimit: 0
+CommentPragmas: '^ IWYU pragma:'
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat: false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: false
-
-StatementMacros: ['__qas_attr__', '__qas_exclude__', '__qas_include__']
-
-ForEachMacros: [ foreach, Q_FOREACH, BOOST_FOREACH, forever, Q_FOREVER, QBENCHMARK, QBENCHMARK_ONCE ]
+ForEachMacros: [foreach, Q_FOREACH, BOOST_FOREACH, forever, Q_FOREVER, QBENCHMARK, QBENCHMARK_ONCE]
+IfMacros:
+  - KJ_IF_MAYBE
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Local headers
+  - Regex: '^".*\.h"$'
+    Priority: -999
+  # Qt public
+  - Regex: '^<(Q[a-zA-Z0-9_]+|qt_[a-zA-Z0-9_]+\.h|qqml_[a-zA-Z0-9_]+\.h)>$'
+    Priority: 201
+  # Qt qpa
+  - Regex: '^<qpa/[a-zA-Z0-9_]+\.h>$'
+    Priority: 202
+  # Qt private
+  - Regex: '^<Qt[a-zA-Z0-9_/]+_p\.h>$'
+    Priority: 203
+  # Windows platform-specific
+  - Regex: '^<[a-zA-Z0-9_]+\.h>$'
+    Priority: 1
+  # C++ standard library
+  - Regex: '^<[a-z0-9_]+>$'
+    Priority: 2
+  # Boost
+  - Regex: '^<boost/$'
+    Priority: 101
+  # ChorusKit (3rdparty)
+  - Regex: '^<CoreApi/'
+    Priority: 1001
+  # ExtensionSystem (3rdparty)
+  - Regex: '^<extensionsystem/'
+    Priority: 1002
+  # opendspx (3rdparty)
+  - Regex: '^<opendspx/'
+    Priority: 1003
+  # QActionKit (3rdparty)
+  - Regex: '^<QAK.*/'
+    Priority: 1004
+  # QWindowKit (3rdparty)
+  - Regex: '^<QWK.*/'
+    Priority: 1005
+  # SVSCraft (3rdparty)
+  - Regex: '^<SVSCraft.*/'
+    Priority: 1006
+  # ScopicFlow (3rdparty)
+  - Regex: '^<ScopicFlow.*/'
+    Priority: 1007
+  # TALCS (3rdparty)
+  - Regex: '^<Talcs.*/'
+    Priority: 1008
+  # DSPX Model (application)
+  - Regex: '^<dspxmodel/'
+    Priority: 2001
+  # loadapi (application)
+  - Regex: '^<loadapi/'
+    Priority: 2002
+  # UIShell (application)
+  - Regex: '^<uishell/'
+    Priority: 2003
+  # Core (plugin)
+  - Regex: '^<coreplugin/'
+    Priority: 3001
+IndentAccessModifiers: false
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentExternBlock: AfterExternBlock
+IndentGotoLabels: true
+IndentPPDirectives: AfterHash
+IndentRequiresClause: true
+IndentWidth: 4
+IndentWrappedFunctionNames: false
+InsertBraces: false
+InsertNewlineAtEOF: true
+InsertTrailingCommas: None
+IntegerLiteralSeparator:
+  Binary: 0
+  BinaryMinDigits: 0
+  Decimal: 0
+  DecimalMinDigits: 0
+  Hex: 0
+  HexMinDigits: 0
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+KeepEmptyLinesAtTheStartOfBlocks: true
+KeepEmptyLinesAtEOF: true
+LambdaBodyIndentation: Signature
+LineEnding: LF
+MacroBlockBegin: ''
+MacroBlockEnd: ''
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: All
+ObjCBinPackProtocolList: Auto
+ObjCBlockIndentWidth: 2
+ObjCBreakBeforeNestedBlockParam: true
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
+PackConstructorInitializers: BinPack
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakOpenParenthesis: 0
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyIndentedWhitespace: 0
+PenaltyReturnTypeOnItsOwnLine: 60
+PointerAlignment: Right
+PPIndentWidth: -1
+QualifierAlignment: Leave
+ReferenceAlignment: Pointer
+ReflowComments: false
+RemoveBracesLLVM: false
+RemoveParentheses: Leave
+RemoveSemicolon: false
+RequiresClausePosition: OwnLine
+RequiresExpressionIndentation: OuterScope
+SeparateDefinitionBlocks: Leave
+ShortNamespaceLines: 1
+SortIncludes: CaseSensitive
+SortJavaStaticImport: Before
+SortUsingDeclarations: LexicographicNumeric
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceAroundPointerQualifiers: After
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeJsonColon: false
+SpaceBeforeParens: ControlStatements
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: true
+  AfterFunctionDefinitionName: false
+  AfterFunctionDeclarationName: false
+  AfterIfMacros: true
+  AfterOverloadedOperator: false
+  AfterRequiresInClause: false
+  AfterRequiresInExpression: false
+  BeforeNonEmptyParentheses: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: Never
+SpacesInContainerLiterals: true
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParens: Never
+SpacesInParensOptions:
+  InCStyleCasts: false
+  InConditionalStatements: false
+  InEmptyParentheses: false
+  Other: false
+SpacesInSquareBrackets: false
+Standard: Latest
+StatementAttributeLikeMacros:
+  - Q_EMIT
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth: 4
+UseTab: Never
+VerilogBreakBetweenInstancePorts: true
+WhitespaceSensitiveMacros:
+  - BOOST_PP_STRINGIZE
+  - CF_SWIFT_NAME
+  - NS_SWIFT_NAME
+  - PP_STRINGIZE
+  - STRINGIZE

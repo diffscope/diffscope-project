@@ -29,7 +29,6 @@ namespace Core::Internal {
         static QPair<QString, QString> getRestartMessageInNewLanguage(const QString &localeName);
         static void setCorePluginTranslationsPath(const QString &path);
         QObject *m_widget{};
-
     };
 
 }

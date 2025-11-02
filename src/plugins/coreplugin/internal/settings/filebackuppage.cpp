@@ -1,9 +1,9 @@
 #include "filebackuppage.h"
 
 #include <QApplication>
+#include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQuickItem>
-#include <QLoggingCategory>
 
 #include <CoreApi/runtimeinterface.h>
 

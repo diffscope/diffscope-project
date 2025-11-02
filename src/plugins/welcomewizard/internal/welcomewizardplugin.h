@@ -15,7 +15,6 @@ namespace WelcomeWizard {
         bool initialize(const QStringList &arguments, QString *errorMessage) override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
-
     };
 
 }

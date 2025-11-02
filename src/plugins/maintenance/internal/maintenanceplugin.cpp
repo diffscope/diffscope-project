@@ -3,8 +3,8 @@
 #include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
-#include <CoreApi/translationmanager.h>
 #include <CoreApi/settingcatalog.h>
+#include <CoreApi/translationmanager.h>
 
 #include <extensionsystem/pluginspec.h>
 
@@ -12,8 +12,8 @@
 #include <coreplugin/homewindowinterface.h>
 #include <coreplugin/projectwindowinterface.h>
 
-#include <maintenance/internal/maintenanceaddon.h>
 #include <maintenance/internal/applicationupdatechecker.h>
+#include <maintenance/internal/maintenanceaddon.h>
 #include <maintenance/internal/updatepage.h>
 
 static auto getMaintenanceActionExtension() {
@@ -42,7 +42,6 @@ namespace Maintenance {
             Core::CoreInterface::settingCatalog()->addPage(new UpdatePage);
         }
 
-        
         return true;
     }
     void MaintenancePlugin::extensionsInitialized() {

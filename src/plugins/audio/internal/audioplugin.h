@@ -16,17 +16,14 @@ namespace Audio::Internal {
         void extensionsInitialized() override;
         bool delayedInitialize() override;
 
-        QObject *remoteCommand(const QStringList &options, const QString &workingDirectory,
-                               const QStringList &args) override;
+        QObject *remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) override;
 
     private:
         void initializeAudioSystem();
         static void initializeSettings();
         void initializeHelpContents();
-
     };
 
 }
-
 
 #endif //DIFFSCOPE_AUDIO_AUDIOPLUGIN_H

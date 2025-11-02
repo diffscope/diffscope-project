@@ -1,13 +1,13 @@
 #include "viewvisibilityaddon.h"
 
-#include <QQmlComponent>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 
-#include <SVSCraftQuick/MessageBox.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <CoreApi/runtimeinterface.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/coreinterface.h>
 #include <coreplugin/projectwindowinterface.h>
@@ -93,7 +93,8 @@ namespace Core::Internal {
                         RuntimeInterface::qmlEngine(), window, tr("Please take attention"),
                         tr("After hiding the menu bar, it can be difficult to show it again. Make "
                            "sure you know how to do this.\n\nContinue?"),
-                        SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No)) {
+                        SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No
+                    )) {
                     if (action)
                         action->setProperty("checked", true);
                     qCInfo(lcViewVisibilityAddOn) << "Toggle visibility canceled";

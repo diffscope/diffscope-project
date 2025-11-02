@@ -1,11 +1,12 @@
 #ifndef DIFFSCOPE_MAINTENANCE_APPLICATIONUPDATECHECKER_H
 #define DIFFSCOPE_MAINTENANCE_APPLICATIONUPDATECHECKER_H
 
-#include <QObject>
-#include <QUrl>
+#include <qqmlintegration.h>
+
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <qqmlintegration.h>
+#include <QObject>
+#include <QUrl>
 
 #include <SVSCraftCore/Semver.h>
 
@@ -77,7 +78,6 @@ namespace Maintenance {
         QString getCurrentChannel() const;
         void saveSettings() const;
         void loadSettings();
-
 
         friend class MaintenancePlugin;
         QScopedPointer<ApplicationUpdateCheckerPrivate> d_ptr;
