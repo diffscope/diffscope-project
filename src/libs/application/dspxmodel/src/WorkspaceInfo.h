@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_WORKSPACEINFO_H
 #define DIFFSCOPE_DSPX_MODEL_WORKSPACEINFO_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 class QJsonObject;
 
@@ -32,7 +33,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit WorkspaceInfo(Handle handle, Model *model);
         QScopedPointer<WorkspaceInfoPrivate> d_ptr;
-
     };
 
 }

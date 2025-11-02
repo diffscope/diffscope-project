@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_GLOBAL_H
 #define DIFFSCOPE_DSPX_MODEL_GLOBAL_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 namespace QDspx {
     struct Global;
@@ -60,7 +61,6 @@ namespace dspx {
         explicit Global(Model *model);
 
         QScopedPointer<GlobalPrivate> d_ptr;
-
     };
 
 }

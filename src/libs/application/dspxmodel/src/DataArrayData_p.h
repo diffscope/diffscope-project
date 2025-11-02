@@ -3,8 +3,8 @@
 
 #include <algorithm>
 
-#include <QVariant>
 #include <QJSValue>
+#include <QVariant>
 
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/private/SpliceHelper_p.h>

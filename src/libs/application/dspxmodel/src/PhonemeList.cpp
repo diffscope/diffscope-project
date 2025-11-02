@@ -1,12 +1,11 @@
-#include "PhonemeList.h"
-
 #include "ModelStrategy.h"
+#include "PhonemeList.h"
 
 #include <opendspx/phoneme.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/ListData_p.h>
 #include <dspxmodel/Phoneme.h>
+#include <dspxmodel/private/ListData_p.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

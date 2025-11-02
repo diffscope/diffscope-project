@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_TIMESIGNATURE_H
 #define DIFFSCOPE_DSPX_MODEL_TIMESIGNATURE_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
     struct TimeSignature;
@@ -47,7 +48,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit TimeSignature(Handle handle, Model *model);
         QScopedPointer<TimeSignaturePrivate> d_ptr;
-
     };
 
 }

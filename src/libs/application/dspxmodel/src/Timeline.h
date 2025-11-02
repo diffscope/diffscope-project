@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_TIMELINE_H
 #define DIFFSCOPE_DSPX_MODEL_TIMELINE_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <dspxmodel/DspxModelGlobal.h>
 
@@ -43,7 +44,6 @@ namespace dspx {
         explicit Timeline(Model *model);
 
         QScopedPointer<TimelinePrivate> d_ptr;
-
     };
 
 }

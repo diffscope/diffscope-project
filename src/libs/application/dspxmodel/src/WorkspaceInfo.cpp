@@ -1,7 +1,7 @@
 #include "WorkspaceInfo.h"
 
-#include <QVariant>
 #include <QJsonObject>
+#include <QVariant>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>

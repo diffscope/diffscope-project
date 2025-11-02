@@ -1,21 +1,21 @@
 #include "ClipSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/clip.h>
 
+#include <dspxmodel/AudioClip.h>
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipTime.h>
+#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/Track.h>
+#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/private/PointSequenceContainer_p.h>
+#include <dspxmodel/private/PointSequenceData_p.h>
 #include <dspxmodel/private/RangeSequenceContainer_p.h>
 #include <dspxmodel/private/RangeSequenceData_p.h>
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/private/PointSequenceData_p.h>
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/ClipTime.h>
 
 namespace dspx {
 

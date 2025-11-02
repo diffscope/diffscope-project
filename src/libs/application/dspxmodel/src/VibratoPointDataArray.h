@@ -47,7 +47,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit VibratoPointDataArray(Handle handle, Model *model);
         QScopedPointer<VibratoPointDataArrayPrivate> d_ptr;
-
     };
 
 }

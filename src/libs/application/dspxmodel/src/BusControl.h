@@ -24,7 +24,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit BusControl(Handle handle, Model *model);
         void handleProxySetEntityProperty(int property, const QVariant &value);
-
     };
 
 }

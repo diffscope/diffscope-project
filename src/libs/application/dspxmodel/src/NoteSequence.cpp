@@ -1,18 +1,18 @@
 #include "NoteSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/note.h>
 
-#include <dspxmodel/private/PointSequenceContainer_p.h>
-#include <dspxmodel/private/RangeSequenceContainer_p.h>
-#include <dspxmodel/private/RangeSequenceData_p.h>
-#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/SingingClip.h>
-#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
+#include <dspxmodel/private/RangeSequenceContainer_p.h>
+#include <dspxmodel/private/RangeSequenceData_p.h>
 
 namespace dspx {
 

@@ -1,12 +1,12 @@
 #include "Pronunciation.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/pronunciation.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

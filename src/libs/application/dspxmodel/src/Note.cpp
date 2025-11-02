@@ -1,17 +1,17 @@
 #include "Note.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/note.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/PhonemeInfo.h>
 #include <dspxmodel/Pronunciation.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Vibrato.h>
 #include <dspxmodel/Workspace.h>
-#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

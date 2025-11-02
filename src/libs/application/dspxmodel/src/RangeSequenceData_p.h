@@ -11,10 +11,7 @@ namespace dspx {
 
     class PointSequenceJSIterable;
 
-    template <class SequenceType, class ItemType, 
-              int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int),
-              int (ItemType::*lengthGetter)() const, void (ItemType::*lengthChangedSignal)(int),
-                void (*setOverlapped)(ItemType *item, bool overlapped)>
+    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), int (ItemType::*lengthGetter)() const, void (ItemType::*lengthChangedSignal)(int), void (*setOverlapped)(ItemType *item, bool overlapped)>
     class RangeSequenceData {
     public:
         SequenceType *q_ptr;
@@ -43,17 +40,17 @@ namespace dspx {
             if (!containsItem) {
                 Q_EMIT q->itemAboutToInsert(item);
             }
-            
+
             // Insert into both containers
             pointContainer.insertItem(item, position);
             auto affectedItems = rangeContainer.insertItem(item, position, length);
-            
+
             // Update overlapped status for all affected items
             for (auto affectedItem : affectedItems) {
                 bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
                 setOverlapped(affectedItem, isOverlapped);
             }
-            
+
             if (!containsItem) {
                 updateFirstAndLastItem();
                 Q_EMIT q->itemInserted(item);
@@ -64,17 +61,17 @@ namespace dspx {
         void removeItem(ItemType *item) {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToRemove(item);
-            
+
             // Remove from both containers
             pointContainer.removeItem(item);
             auto affectedItems = rangeContainer.removeItem(item);
-            
+
             // Update overlapped status for all affected items
             for (auto affectedItem : affectedItems) {
                 bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
                 setOverlapped(affectedItem, isOverlapped);
             }
-            
+
             updateFirstAndLastItem();
             Q_EMIT q->itemRemoved(item);
             Q_EMIT q->sizeChanged(pointContainer.size());
@@ -128,7 +125,6 @@ namespace dspx {
             iterable_ = PointSequenceJSIterable::create(q);
             return iterable_;
         }
-
     };
 
 }

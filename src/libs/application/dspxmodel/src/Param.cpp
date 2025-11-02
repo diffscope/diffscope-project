@@ -2,9 +2,9 @@
 
 #include <opendspx/param.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/ParamCurveSequence.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
@@ -48,7 +48,7 @@ namespace dspx {
 
     QDspx::Param Param::toQDspx() const {
         Q_D(const Param);
-        return QDspx::Param{
+        return {
             .original = d->original->toQDspx(),
             .transform = d->transform->toQDspx(),
             .edited = d->edited->toQDspx(),

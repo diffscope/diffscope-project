@@ -2,9 +2,9 @@
 
 #include <opendspx/paramcurvefree.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/FreeValueDataArray.h>
+#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

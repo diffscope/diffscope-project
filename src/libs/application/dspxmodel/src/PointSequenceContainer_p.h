@@ -4,12 +4,12 @@
 #include <algorithm>
 #include <map>
 
-#include <QList>
 #include <QHash>
+#include <QList>
 
 namespace dspx {
 
-    template<class T>
+    template <class T>
     struct PointSequenceContainer {
         std::multimap<int, T *> m_items;
         QHash<T *, int> m_positions;
@@ -87,7 +87,6 @@ namespace dspx {
         bool contains(T *item) const {
             return m_positions.contains(item);
         }
-
     };
 
 }

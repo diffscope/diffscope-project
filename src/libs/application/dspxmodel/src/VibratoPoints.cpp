@@ -1,13 +1,13 @@
 #include "VibratoPoints.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/vibratopoints.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/VibratoPointDataArray.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
@@ -52,7 +52,6 @@ namespace dspx {
         amp()->fromQDspx(vibratoPoints.amp);
         freq()->fromQDspx(vibratoPoints.freq);
     }
-
 
 }
 

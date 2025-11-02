@@ -2,8 +2,8 @@
 
 #include <opendspx/trackcontrol.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

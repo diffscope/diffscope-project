@@ -2,9 +2,9 @@
 
 #include <opendspx/paramcurveanchor.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/AnchorNodeSequence.h>
+#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

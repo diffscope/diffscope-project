@@ -1,7 +1,7 @@
 #include "Tempo.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/tempo.h>
 
@@ -22,7 +22,6 @@ namespace dspx {
 
         void setValueUnchecked(double value_);
         void setValue(double value_);
-
     };
 
     void TempoPrivate::setPosUnchecked(int pos_) {

@@ -1,7 +1,7 @@
 #include "Global.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/global.h>
 
@@ -21,7 +21,6 @@ namespace dspx {
         int centShift() const;
         void setCentShiftUnchecked(int centShift);
         void setCentShift(int centShift);
-
     };
 
     int GlobalPrivate::centShift() const {

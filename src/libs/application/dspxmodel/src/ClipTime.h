@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_CLIPTIME_H
 #define DIFFSCOPE_DSPX_MODEL_CLIPTIME_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <dspxmodel/Handle.h>
 
@@ -56,7 +57,6 @@ namespace dspx {
         explicit ClipTime(Handle handle, Model *model);
         void handleProxySetEntityProperty(int property, const QVariant &value);
         QScopedPointer<ClipTimePrivate> d_ptr;
-
     };
 
 }

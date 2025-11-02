@@ -22,13 +22,12 @@ namespace dspx {
         constexpr operator bool() const {
             return d;
         }
-
     };
 
 }
 
 namespace std {
-    template<>
+    template <>
     struct hash<dspx::Handle> {
         size_t operator()(const dspx::Handle &handle) const noexcept {
             return std::hash<quintptr>{}(handle.d);

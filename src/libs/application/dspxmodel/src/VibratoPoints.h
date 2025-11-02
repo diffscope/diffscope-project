@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_VIBRATOPOINTS_H
 #define DIFFSCOPE_DSPX_MODEL_VIBRATOPOINTS_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <dspxmodel/Handle.h>
 
@@ -39,7 +40,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit VibratoPoints(Handle handle, Model *model);
         QScopedPointer<VibratoPointsPrivate> d_ptr;
-
     };
 
 }

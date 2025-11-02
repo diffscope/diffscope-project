@@ -42,7 +42,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit SingingClip(Handle handle, Model *model);
         QScopedPointer<SingingClipPrivate> d_ptr;
-
     };
 
 }

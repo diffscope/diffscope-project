@@ -36,7 +36,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit ParamCurveAnchor(Handle handle, Model *model);
         QScopedPointer<ParamCurveAnchorPrivate> d_ptr;
-
     };
 
 }

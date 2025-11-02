@@ -1,7 +1,7 @@
 #include "Label.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/label.h>
 
@@ -19,7 +19,6 @@ namespace dspx {
 
         void setPosUnchecked(int pos_);
         void setPos(int pos_);
-
     };
 
     void LabelPrivate::setPosUnchecked(int pos_) {
@@ -68,7 +67,7 @@ namespace dspx {
     }
 
     QDspx::Label Label::toQDspx() const {
-        return QDspx::Label {
+        return {
             .pos = pos(),
             .text = text(),
         };

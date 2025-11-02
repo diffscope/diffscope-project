@@ -2,10 +2,10 @@
 
 #include <opendspx/timeline.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/LabelSequence.h>
 #include <dspxmodel/TempoSequence.h>
 #include <dspxmodel/TimeSignatureSequence.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

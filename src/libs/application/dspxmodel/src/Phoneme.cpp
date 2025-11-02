@@ -1,7 +1,7 @@
 #include "Phoneme.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/phoneme.h>
 

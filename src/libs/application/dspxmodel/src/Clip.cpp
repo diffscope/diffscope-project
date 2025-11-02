@@ -3,15 +3,15 @@
 #include <opendspx/audioclip.h>
 #include <opendspx/singingclip.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/AudioClip.h>
 #include <dspxmodel/BusControl.h>
 #include <dspxmodel/Clip.h>
 #include <dspxmodel/ClipTime.h>
+#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Track.h>
 #include <dspxmodel/Workspace.h>
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

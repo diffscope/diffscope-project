@@ -1,12 +1,11 @@
-#include "SourceMap.h"
-
 #include "ModelStrategy.h"
+#include "SourceMap.h"
 
 #include <opendspx/sources.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/Source.h>
+#include <dspxmodel/private/MapData_p.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

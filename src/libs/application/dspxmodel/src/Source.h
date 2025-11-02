@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_SOURCE_H
 #define DIFFSCOPE_DSPX_MODEL_SOURCE_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 class QJsonObject;
 
@@ -32,7 +33,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit Source(Handle handle, Model *model);
         QScopedPointer<SourcePrivate> d_ptr;
-
     };
 
 }

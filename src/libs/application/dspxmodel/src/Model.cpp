@@ -5,30 +5,30 @@
 
 #include <opendspx/model.h>
 
-#include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/Global.h>
-#include <dspxmodel/Master.h>
-#include <dspxmodel/Label.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/Phoneme.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TimeSignature.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/private/EntityObject_p.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/TimeSignatureSequence.h>
-#include <dspxmodel/WorkspaceInfo.h>
-#include <dspxmodel/Workspace.h>
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/AnchorNode.h>
+#include <dspxmodel/AudioClip.h>
+#include <dspxmodel/Global.h>
+#include <dspxmodel/Label.h>
+#include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/Master.h>
+#include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/Param.h>
 #include <dspxmodel/ParamCurveAnchor.h>
 #include <dspxmodel/ParamCurveFree.h>
-#include <dspxmodel/Param.h>
+#include <dspxmodel/Phoneme.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Source.h>
+#include <dspxmodel/Tempo.h>
+#include <dspxmodel/TempoSequence.h>
+#include <dspxmodel/TimeSignature.h>
+#include <dspxmodel/TimeSignatureSequence.h>
+#include <dspxmodel/Timeline.h>
+#include <dspxmodel/Track.h>
+#include <dspxmodel/TrackList.h>
+#include <dspxmodel/Workspace.h>
+#include <dspxmodel/WorkspaceInfo.h>
+#include <dspxmodel/private/EntityObject_p.h>
 
 namespace dspx {
 
@@ -74,43 +74,43 @@ namespace dspx {
                 sequenceContainerObject->handleInsertIntoSequenceContainer(entity);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::insertIntoListContainerNotified, q, [=, this](Handle listContainerEntity, Handle entity, int index) {
             if (auto listContainerObject = mapToObject(listContainerEntity)) {
                 listContainerObject->handleInsertIntoListContainer(entity, index);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::insertIntoMapContainerNotified, q, [=, this](Handle mapContainerEntity, Handle entity, const QString &key) {
             if (auto mapContainerObject = mapToObject(mapContainerEntity)) {
                 mapContainerObject->handleInsertIntoMapContainer(entity, key);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::takeFromContainerNotified, q, [=, this](Handle takenEntity, Handle sequenceContainerEntity, Handle entity) {
             if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
                 sequenceContainerObject->handleTakeFromSequenceContainer(takenEntity, entity);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::takeFromListContainerNotified, q, [=, this](Handle takenEntity, Handle listContainerEntity, int index) {
             if (auto listContainerObject = mapToObject(listContainerEntity)) {
                 listContainerObject->handleTakeFromListContainer(takenEntity, index);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::takeFromMapContainerNotified, q, [=, this](Handle takenEntity, Handle mapContainerEntity, const QString &key) {
             if (auto mapContainerObject = mapToObject(mapContainerEntity)) {
                 mapContainerObject->handleTakeFromMapContainer(takenEntity, key);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::rotateListContainerNotified, q, [=, this](Handle listContainerEntity, int leftIndex, int middleIndex, int rightIndex) {
             if (auto listContainerObject = mapToObject(listContainerEntity)) {
                 listContainerObject->handleRotateListContainer(leftIndex, middleIndex, rightIndex);
             }
         });
-        
+
         QObject::connect(strategy, &ModelStrategy::setEntityPropertyNotified, q, [=, this](Handle entity, ModelStrategy::Property property, const QVariant &value) {
             if (auto entityObject = mapToObject(entity)) {
                 entityObject->handleSetEntityProperty(property, value);
@@ -130,7 +130,7 @@ namespace dspx {
         });
     }
 
-    EntityObject * ModelPrivate::mapToObject(Handle handle) const {
+    EntityObject *ModelPrivate::mapToObject(Handle handle) const {
         return objectMap.value(handle);
     }
 
@@ -151,7 +151,7 @@ namespace dspx {
     }
 
     template <>
-    ParamCurve * ModelPrivate::createObject<ParamCurve>(Handle handle) {
+    ParamCurve *ModelPrivate::createObject<ParamCurve>(Handle handle) {
         switch (strategy->getEntityType(handle)) {
             case ModelStrategy::EI_ParamCurveAnchor:
                 return createObject<ParamCurveAnchor>(handle);
@@ -306,7 +306,7 @@ namespace dspx {
         return d->createObject<Param>(handle);
     }
 
-    Source * Model::createSource() {
+    Source *Model::createSource() {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Source);
         return d->createObject<Source>(handle);

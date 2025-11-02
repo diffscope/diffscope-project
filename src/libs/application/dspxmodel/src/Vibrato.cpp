@@ -1,14 +1,14 @@
 #include "Vibrato.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/vibrato.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/VibratoPoints.h>
 #include <dspxmodel/VibratoPointDataArray.h>
+#include <dspxmodel/VibratoPoints.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

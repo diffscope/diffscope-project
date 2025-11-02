@@ -1,13 +1,13 @@
 #include "PhonemeInfo.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/phonemes.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/PhonemeList.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

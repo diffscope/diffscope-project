@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_LABEL_H
 #define DIFFSCOPE_DSPX_MODEL_LABEL_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
     struct Label;
@@ -42,7 +43,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit Label(Handle handle, Model *model);
         QScopedPointer<LabelPrivate> d_ptr;
-
     };
 
 }

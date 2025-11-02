@@ -28,7 +28,6 @@ namespace dspx {
         int getSizeOfDataArray(Handle dataContainerEntity) override;
         bool rotateDataArray(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex) override;
         Handle getAssociatedSubEntity(Handle entity, Relationship relationship) override;
-
     };
 
 }

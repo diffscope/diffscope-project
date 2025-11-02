@@ -1,7 +1,7 @@
 #include "AnchorNode.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/anchornode.h>
 
@@ -52,7 +52,7 @@ namespace dspx {
         setXUnchecked(x_);
     }
 
-    AnchorNode::AnchorNode(Handle handle, Model *model) 
+    AnchorNode::AnchorNode(Handle handle, Model *model)
         : EntityObject(handle, model), d_ptr(new AnchorNodePrivate) {
         Q_D(AnchorNode);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_ParamCurveAnchorNode);
@@ -98,7 +98,7 @@ namespace dspx {
 
     QDspx::AnchorNode AnchorNode::toQDspx() const {
         Q_D(const AnchorNode);
-        return QDspx::AnchorNode {
+        return {
             .interp = static_cast<QDspx::AnchorNode::Interpolation>(d->interp),
             .x = d->x,
             .y = d->y,

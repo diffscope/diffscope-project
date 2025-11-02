@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_CONTROL_H
 #define DIFFSCOPE_DSPX_MODEL_CONTROL_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <dspxmodel/Handle.h>
 
@@ -46,7 +47,6 @@ namespace dspx {
 
     private:
         QScopedPointer<ControlPrivate> d_ptr;
-
     };
 
 }

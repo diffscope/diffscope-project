@@ -1,13 +1,13 @@
 #include "Master.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/master.h>
 
+#include <dspxmodel/BusControl.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/BusControl.h>
 
 namespace dspx {
 

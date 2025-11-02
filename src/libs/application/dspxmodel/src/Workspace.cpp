@@ -1,19 +1,17 @@
-#include "Workspace.h"
-
 #include "ModelStrategy.h"
+#include "Workspace.h"
 
 #include <opendspx/workspace.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/WorkspaceInfo.h>
+#include <dspxmodel/private/MapData_p.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
     class WorkspacePrivate : public MapData<Workspace, WorkspaceInfo> {
         Q_DECLARE_PUBLIC(Workspace)
     };
-    
 
     Workspace::Workspace(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new WorkspacePrivate) {
         Q_D(Workspace);

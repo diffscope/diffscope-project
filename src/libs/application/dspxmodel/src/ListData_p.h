@@ -3,8 +3,8 @@
 
 #include <algorithm>
 
-#include <QList>
 #include <QJSValue>
+#include <QList>
 
 #include <dspxmodel/private/Model_p.h>
 
@@ -83,9 +83,9 @@ namespace dspx {
         void handleRotateListContainer(int leftIndex, int middleIndex, int rightIndex) {
             auto q = q_ptr;
             Q_EMIT q->aboutToRotate(leftIndex, middleIndex, rightIndex);
-            
+
             std::rotate(itemList.begin() + leftIndex, itemList.begin() + middleIndex, itemList.begin() + rightIndex);
-            
+
             Q_EMIT q->rotated(leftIndex, middleIndex, rightIndex);
             Q_EMIT q->itemsChanged();
         }

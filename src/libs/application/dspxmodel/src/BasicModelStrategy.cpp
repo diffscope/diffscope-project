@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include <QVariant>
 #include <QHash>
+#include <QVariant>
 
 #include <dspxmodel/private/SpliceHelper_p.h>
 
@@ -15,7 +15,6 @@ namespace dspx {
         using QObject::QObject;
 
         ModelStrategy::Entity type{};
-
     };
 
     class BasicModelStrategyItemEntity : public BasicModelStrategyEntity {
@@ -126,7 +125,7 @@ namespace dspx {
 
     Handle BasicModelStrategy::createEntity(Entity entityType) {
         auto object = createByType(entityType, this);
-        Handle entity {reinterpret_cast<quintptr>(object)};
+        Handle entity{reinterpret_cast<quintptr>(object)};
         Q_EMIT createEntityNotified(entity, entityType);
         return entity;
     }
@@ -203,7 +202,7 @@ namespace dspx {
         }
         auto object = listContainerObject->list.takeAt(index);
         object->setParent(this);
-        Handle entity {reinterpret_cast<quintptr>(object)};
+        Handle entity{reinterpret_cast<quintptr>(object)};
         Q_EMIT takeFromListContainerNotified(entity, listContainerEntity, index);
         return entity;
     }
@@ -213,7 +212,7 @@ namespace dspx {
         if (mapContainerObject->map.contains(key)) {
             auto object = mapContainerObject->map.take(key);
             object->setParent(this);
-            Handle entity {reinterpret_cast<quintptr>(object)};
+            Handle entity{reinterpret_cast<quintptr>(object)};
             Q_EMIT takeFromMapContainerNotified(entity, mapContainerEntity, key);
             return entity;
         }
@@ -334,7 +333,7 @@ namespace dspx {
             subObject = createByType(subObjectType, object);
             object->associatedSubEntities.insert(relationship, subObject);
         }
-        Handle subEntity {reinterpret_cast<quintptr>(subObject)};
+        Handle subEntity{reinterpret_cast<quintptr>(subObject)};
         return subEntity;
     }
 

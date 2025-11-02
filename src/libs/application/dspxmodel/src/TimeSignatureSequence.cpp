@@ -1,14 +1,14 @@
 #include "TimeSignatureSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/timesignature.h>
 
-#include <dspxmodel/private/PointSequenceContainer_p.h>
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/TimeSignature.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/TimeSignature.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {

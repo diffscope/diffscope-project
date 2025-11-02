@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_ANCHORNODE_H
 #define DIFFSCOPE_DSPX_MODEL_ANCHORNODE_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
     struct AnchorNode;

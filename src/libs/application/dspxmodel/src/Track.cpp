@@ -1,15 +1,15 @@
 #include "Track.h"
 
-#include <QVariant>
 #include <QColor>
+#include <QVariant>
 
 #include <opendspx/track.h>
 
-#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/ClipSequence.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/TrackControl.h>
 #include <dspxmodel/Workspace.h>
-#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
@@ -46,7 +46,7 @@ namespace dspx {
 
     Track::~Track() = default;
 
-    ClipSequence * Track::clips() const {
+    ClipSequence *Track::clips() const {
         Q_D(const Track);
         return d->clips;
     }

@@ -39,7 +39,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit AudioClip(Handle handle, Model *model);
         QScopedPointer<AudioClipPrivate> d_ptr;
-
     };
 
 }

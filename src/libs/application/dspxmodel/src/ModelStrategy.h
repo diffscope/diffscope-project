@@ -48,7 +48,6 @@ namespace dspx {
             EM_Params,
             EM_Sources,
             EM_Workspace,
-
         };
 
         enum Property {
@@ -143,8 +142,6 @@ namespace dspx {
 
         void spliceDataArrayNotified(Handle dataContainerEntity, int index, int length, const QVariantList &values);
         void rotateDataArrayNotified(Handle dataContainerEntity, int leftIndex, int middleIndex, int rightIndex);
-
-
     };
 
 }

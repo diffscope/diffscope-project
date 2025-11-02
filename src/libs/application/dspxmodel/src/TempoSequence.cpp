@@ -1,14 +1,14 @@
 #include "TempoSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/tempo.h>
 
-#include <dspxmodel/private/PointSequenceContainer_p.h>
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/Tempo.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/Tempo.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {

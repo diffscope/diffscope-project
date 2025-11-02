@@ -30,7 +30,7 @@
 
 #include <extensionsystem/pluginmanager.h>
 
-#include <opendspx/qdspxmodel.h>
+#include <opendspx/model.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
@@ -285,7 +285,7 @@ namespace Core {
     }
 
     ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
-        static QDspxModel defaultModel;
+        static QDspx::Model defaultModel;
         qCInfo(lcCoreInterface) << "New file";
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         projectDocumentContext->newFile(defaultModel, false, parent);

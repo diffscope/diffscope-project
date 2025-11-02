@@ -52,7 +52,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit Track(Handle handle, Model *model);
         QScopedPointer<TrackPrivate> d_ptr;
-
     };
 
 }

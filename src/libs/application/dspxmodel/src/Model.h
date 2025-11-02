@@ -82,7 +82,6 @@ namespace dspx {
 
     private:
         QScopedPointer<ModelPrivate> d_ptr;
-
     };
 
 }

@@ -2,14 +2,14 @@
 #define DIFFSCOPE_DSPX_MODEL_RANGESEQUENCECONTAINER_P_H
 
 #include <QHash>
-#include <QSet>
 #include <QList>
+#include <QSet>
 
 #include <interval-tree/interval_tree.hpp>
 
 namespace dspx {
 
-    template<class T>
+    template <class T>
     struct RangeSequenceContainer {
         struct Interval : lib_interval_tree::interval<int> {
             constexpr Interval() : interval(0, 0), m_item(nullptr) {
@@ -22,6 +22,7 @@ namespace dspx {
             constexpr bool operator==(const Interval &other) const {
                 return m_item == other.m_item;
             }
+
         private:
             T *m_item;
         };
@@ -86,9 +87,8 @@ namespace dspx {
             });
             return result;
         }
-
     };
-    
+
 }
 
 #endif //DIFFSCOPE_DSPX_MODEL_RANGESEQUENCECONTAINER_P_H

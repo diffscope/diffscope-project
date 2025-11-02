@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-#include <dspxmodel/Handle.h>
 #include <dspxmodel/DspxModelGlobal.h>
+#include <dspxmodel/Handle.h>
 
 namespace dspx {
 
@@ -46,7 +46,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit EntityObject(QObject *parent = nullptr);
         QScopedPointer<EntityObjectPrivate> d_ptr;
-
     };
 
 }

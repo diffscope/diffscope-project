@@ -1,12 +1,11 @@
-#include "ParamMap.h"
-
 #include "ModelStrategy.h"
+#include "ParamMap.h"
 
 #include <opendspx/param.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/Param.h>
+#include <dspxmodel/private/MapData_p.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

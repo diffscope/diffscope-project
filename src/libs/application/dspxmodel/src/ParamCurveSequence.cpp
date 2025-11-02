@@ -1,19 +1,19 @@
 #include "ParamCurveSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/paramcurve.h>
 #include <opendspx/paramcurveanchor.h>
 #include <opendspx/paramcurvefree.h>
 
-#include <dspxmodel/private/PointSequenceContainer_p.h>
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/ParamCurve.h>
 #include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/private/PointSequenceData_p.h>
+#include <dspxmodel/ParamCurve.h>
 #include <dspxmodel/ParamCurveAnchor.h>
 #include <dspxmodel/ParamCurveFree.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceContainer_p.h>
+#include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {
 

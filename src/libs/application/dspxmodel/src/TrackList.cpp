@@ -1,12 +1,11 @@
-#include "TrackList.h"
-
 #include "ModelStrategy.h"
+#include "TrackList.h"
 
 #include <opendspx/track.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/ListData_p.h>
 #include <dspxmodel/Track.h>
+#include <dspxmodel/private/ListData_p.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

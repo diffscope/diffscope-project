@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_PRONUNCIATION_H
 #define DIFFSCOPE_DSPX_MODEL_PRONUNCIATION_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <dspxmodel/Handle.h>
 
@@ -46,7 +47,6 @@ namespace dspx {
         explicit Pronunciation(Handle handle, Model *model);
         void handleProxySetEntityProperty(int property, const QVariant &value);
         QScopedPointer<PronunciationPrivate> d_ptr;
-
     };
 
 }

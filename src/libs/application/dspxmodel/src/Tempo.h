@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_TEMPO_H
 #define DIFFSCOPE_DSPX_MODEL_TEMPO_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
     struct Tempo;
@@ -42,7 +43,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit Tempo(Handle handle, Model *model);
         QScopedPointer<TempoPrivate> d_ptr;
-
     };
 
 }

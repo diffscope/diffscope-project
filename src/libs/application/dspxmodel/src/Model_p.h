@@ -61,11 +61,10 @@ namespace dspx {
         template <>
         ParamCurve *createObject<ParamCurve>(Handle handle);
 
-        template<class T>
-        static void proxySetEntityPropertyNotify(T* object, int property, const QVariant &value) {
+        template <class T>
+        static void proxySetEntityPropertyNotify(T *object, int property, const QVariant &value) {
             object->handleProxySetEntityProperty(property, value);
         }
-
     };
 
 }

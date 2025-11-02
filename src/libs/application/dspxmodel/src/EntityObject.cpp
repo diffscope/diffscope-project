@@ -2,8 +2,8 @@
 #include "EntityObject_p.h"
 
 #include <dspxmodel/Model.h>
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

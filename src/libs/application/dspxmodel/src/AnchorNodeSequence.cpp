@@ -1,14 +1,14 @@
 #include "AnchorNodeSequence.h"
 
-#include <QJSValue>
 #include <QJSEngine>
+#include <QJSValue>
 
 #include <opendspx/anchornode.h>
 
-#include <dspxmodel/private/PointSequenceContainer_p.h>
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/AnchorNode.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {

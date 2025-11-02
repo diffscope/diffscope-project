@@ -1,7 +1,7 @@
 #include "TimeSignature.h"
 
-#include <QVariant>
 #include <QJSEngine>
+#include <QVariant>
 
 #include <opendspx/timesignature.h>
 
@@ -24,7 +24,6 @@ namespace dspx {
         void setNumerator(int numerator_);
         void setDenominatorUnchecked(int denominator_);
         void setDenominator(int denominator_);
-
     };
 
     void TimeSignaturePrivate::setIndexUnchecked(int index_) {
@@ -120,7 +119,7 @@ namespace dspx {
     }
 
     QDspx::TimeSignature TimeSignature::toQDspx() const {
-        return QDspx::TimeSignature {
+        return {
             .index = index(),
             .numerator = numerator(),
             .denominator = denominator(),

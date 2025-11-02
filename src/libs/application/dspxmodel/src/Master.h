@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_MASTER_H
 #define DIFFSCOPE_DSPX_MODEL_MASTER_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 namespace QDspx {
     struct Master;
@@ -38,7 +39,6 @@ namespace dspx {
         explicit Master(Model *model);
         void handleProxySetEntityProperty(int property, const QVariant &value);
         QScopedPointer<MasterPrivate> d_ptr;
-
     };
 
 }

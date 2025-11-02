@@ -2,14 +2,14 @@
 
 #include <opendspx/singingclip.h>
 
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/BusControl.h>
 #include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Workspace.h>
+#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/ParamMap.h>
 #include <dspxmodel/SourceMap.h>
+#include <dspxmodel/Workspace.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 

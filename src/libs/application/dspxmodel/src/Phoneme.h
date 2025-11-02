@@ -1,8 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_PHONEME_H
 #define DIFFSCOPE_DSPX_MODEL_PHONEME_H
 
-#include <dspxmodel/EntityObject.h>
 #include <qqmlintegration.h>
+
+#include <dspxmodel/EntityObject.h>
 
 namespace QDspx {
     struct Phoneme;
@@ -53,7 +54,6 @@ namespace dspx {
         friend class ModelPrivate;
         explicit Phoneme(Handle handle, Model *model);
         QScopedPointer<PhonemePrivate> d_ptr;
-
     };
 
 }

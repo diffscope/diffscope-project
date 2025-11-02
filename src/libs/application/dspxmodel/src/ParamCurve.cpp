@@ -4,10 +4,10 @@
 #include <opendspx/paramcurveanchor.h>
 #include <opendspx/paramcurvefree.h>
 
-#include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/ParamCurveAnchor.h>
 #include <dspxmodel/ParamCurveFree.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
