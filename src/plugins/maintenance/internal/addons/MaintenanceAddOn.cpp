@@ -148,10 +148,7 @@ namespace Maintenance {
             {"content", QVariant::fromValue(textField.get())},
             {"transientParent", QVariant::fromValue(windowInterface->window())},
         }));
-        QEventLoop eventLoop;
-        connect(dialog.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
-        QMetaObject::invokeMethod(dialog.get(), "show");
-        eventLoop.exec();
+        SVS::MessageBox::customExec(dialog.get());
     }
 
 }

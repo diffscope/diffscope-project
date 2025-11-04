@@ -1,7 +1,6 @@
 #include "ProjectWindowInterface.h"
 
 #include <QAbstractItemModel>
-#include <QEventLoop>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QJSValue>
@@ -37,21 +36,6 @@ namespace Core {
     Q_LOGGING_CATEGORY(lcProjectWindow, "diffscope.core.projectwindow")
 
     static ProjectWindowInterface *m_instance = nullptr;
-
-    class MessageBoxDialogDoneListener : public QObject {
-        Q_OBJECT
-    public:
-        inline explicit MessageBoxDialogDoneListener(QEventLoop *eventLoop) : eventLoop(eventLoop) {
-        }
-
-    public slots:
-        void done(const QVariant &id) const {
-            eventLoop->exit(id.toInt());
-        }
-
-    private:
-        QEventLoop *eventLoop;
-    };
 
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
@@ -141,12 +125,7 @@ namespace Core {
                  {"icon", SVS::SVSCraft::Warning},
                  {"transientParent", QVariant::fromValue(q->window())}}
             )));
-            Q_ASSERT(mb);
-            QEventLoop eventLoop;
-            MessageBoxDialogDoneListener listener(&eventLoop);
-            QObject::connect(mb.get(), SIGNAL(done(QVariant)), &listener, SLOT(done(QVariant)));
-            mb->show();
-            return static_cast<ExternalChangeOperation>(eventLoop.exec());
+            return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb.get()).toInt());
         }
     };
 
