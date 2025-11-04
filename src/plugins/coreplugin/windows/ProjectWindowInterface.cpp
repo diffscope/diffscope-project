@@ -25,6 +25,7 @@
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/NotificationMessage.h>
+#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectViewModelContext.h>
@@ -67,28 +68,6 @@ namespace Core {
             });
             o->setParent(q);
             QMetaObject::invokeMethod(o, "registerToContext", actionContext);
-        }
-
-        QString promptSaveDspxFile() const {
-            auto settings = RuntimeInterface::settings();
-            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
-            auto defaultSaveDir = projectDocumentContext->fileLocker() && !projectDocumentContext->fileLocker()->path().isEmpty() ? projectDocumentContext->fileLocker()->path() : settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-            settings->endGroup();
-
-            auto path = QFileDialog::getSaveFileName(
-                nullptr,
-                {},
-                defaultSaveDir,
-                CoreInterface::dspxFileFilter(true)
-            );
-            if (path.isEmpty())
-                return {};
-
-            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
-            settings->setValue(QStringLiteral("defaultSaveDir"), QFileInfo(path).absolutePath());
-            settings->endGroup();
-
-            return path;
         }
 
         void updateRecentFile() const {
@@ -179,7 +158,7 @@ namespace Core {
                 return saveAs();
             }
         }
-        bool isSuccess = d->projectDocumentContext->save(window());
+        bool isSuccess = d->projectDocumentContext->save();
         if (isSuccess) {
             d->updateRecentFile();
             return true;
@@ -189,10 +168,10 @@ namespace Core {
 
     bool ProjectWindowInterface::saveAs() {
         Q_D(ProjectWindowInterface);
-        auto path = d->promptSaveDspxFile();
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
         if (path.isEmpty())
             return false;
-        bool isSuccess = d->projectDocumentContext->saveAs(path, window());
+        bool isSuccess = d->projectDocumentContext->saveAs(path);
         if (isSuccess) {
             d->updateRecentFile();
             return true;
@@ -202,10 +181,10 @@ namespace Core {
 
     bool ProjectWindowInterface::saveCopy() {
         Q_D(ProjectWindowInterface);
-        auto path = d->promptSaveDspxFile();
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
         if (path.isEmpty())
             return false;
-        return d->projectDocumentContext->saveCopy(path, window());
+        return d->projectDocumentContext->saveCopy(path);
     }
 
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
@@ -219,6 +198,7 @@ namespace Core {
         Q_ASSERT(win);
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
+        d->projectDocumentContext->openSaveProjectFileScenario()->setWindow(win);
         return win;
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {

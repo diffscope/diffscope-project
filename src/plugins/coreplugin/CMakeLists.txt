@@ -60,6 +60,7 @@ qm_configure_target(${PROJECT_NAME}
         # JetBrainsDockingSystem
         # dspxmodel
         opendspx::model
+        opendspx::serializer
         ScopicFlowCore
         ScopicFlowViews
     INCLUDE_PRIVATE

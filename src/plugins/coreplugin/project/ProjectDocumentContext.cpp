@@ -7,8 +7,12 @@
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
+#include <opendspx/model.h>
+#include <opendspxserializer/serializer.h>
+
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 
 namespace Core {
@@ -21,17 +25,25 @@ namespace Core {
 
     QByteArray ProjectDocumentContextPrivate::serializeDocument() const {
         // TODO
-        return fileData_TODO;
+        QDspx::SerializationErrorList errors;
+        return QDspx::Serializer::serialize(model_TODO, errors, QDspx::Serializer::CheckError);
     }
 
-    void ProjectDocumentContextPrivate::deserializeDocument(const QByteArray &data) {
+    bool ProjectDocumentContextPrivate::deserializeDocument(const QByteArray &data) {
+        QDspx::SerializationErrorList errors;
+        auto model = QDspx::Serializer::deserialize(data, errors);
+        if (errors.containsFatal() || errors.containsError()) {
+            return false;
+        }
         // TODO
-        fileData_TODO = data;
+        model_TODO = model;
+        return true;
     }
 
     ProjectDocumentContext::ProjectDocumentContext(QObject *parent) : QObject(parent), d_ptr(new ProjectDocumentContextPrivate) {
         Q_D(ProjectDocumentContext);
         d->q_ptr = this;
+        d->openSaveProjectFileScenario = new OpenSaveProjectFileScenario(this);
     }
 
     ProjectDocumentContext::~ProjectDocumentContext() = default;
@@ -46,7 +58,12 @@ namespace Core {
         return nullptr; // TODO
     }
 
-    bool ProjectDocumentContext::openFile(const QString &filePath, QWindow *parent) {
+    OpenSaveProjectFileScenario * ProjectDocumentContext::openSaveProjectFileScenario() const {
+        Q_D(const ProjectDocumentContext);
+        return d->openSaveProjectFileScenario;
+    }
+
+    bool ProjectDocumentContext::openFile(const QString &filePath) {
         Q_D(ProjectDocumentContext);
         if (false) {
             return false; // TODO document should not be opened
@@ -54,7 +71,7 @@ namespace Core {
         d->fileLocker = new FileLocker(this);
         if (!d->fileLocker->open(filePath)) {
             qCCritical(lcProjectDocumentContext) << "Failed to open file:" << filePath;
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to open file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
+            d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
             return false;
         }
         // TODO initialize document
@@ -71,14 +88,18 @@ namespace Core {
         }
         if (!ok) {
             qCCritical(lcProjectDocumentContext) << "Failed to read file:" << filePath;
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to read file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(filePath), d->fileLocker->errorString()));
+            d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
             return false;
         }
-        d->deserializeDocument(data);
+        if (!d->deserializeDocument(data)) {
+            qCCritical(lcProjectDocumentContext) << "Failed to deserialize file:" << filePath;
+            d->openSaveProjectFileScenario->showDeserializationFailMessageBox(filePath);
+            return false;
+        }
         return true;
     }
 
-    void ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument, QWindow *parent) {
+    void ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (false) {
             return; // TODO document should not be opened
@@ -87,10 +108,10 @@ namespace Core {
             d->fileLocker = new FileLocker(this);
         }
         // TODO initialize document
-        d->fileData_TODO = {"{}"};
+        d->model_TODO = templateModel;
     }
 
-    bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument, QWindow *parent) {
+    bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (false) {
             return false; // TODO document should not be opened
@@ -98,12 +119,28 @@ namespace Core {
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
         }
-        // TODO initialize document
-        d->fileData_TODO = {"{}"};
+        FileLocker openFileLocker;
+        if (!openFileLocker.open(templateFilePath)) {
+            qCCritical(lcProjectDocumentContext) << "Failed to open template file:" << templateFilePath;
+            d->openSaveProjectFileScenario->showOpenFailMessageBox(templateFilePath, openFileLocker.errorString());
+            return false;
+        }
+        bool ok;
+        auto data = openFileLocker.readData(&ok);
+        if (!ok) {
+            qCCritical(lcProjectDocumentContext) << "Failed to read template file:" << templateFilePath;
+            d->openSaveProjectFileScenario->showOpenFailMessageBox(templateFilePath, d->fileLocker->errorString());
+            return false;
+        }
+        if (!d->deserializeDocument(data)) {
+            qCCritical(lcProjectDocumentContext) << "Failed to deserialize template file:" << templateFilePath;
+            d->openSaveProjectFileScenario->showDeserializationFailMessageBox(templateFilePath);
+            return false;
+        }
         return true;
     }
 
-    bool ProjectDocumentContext::save(QWindow *parent) {
+    bool ProjectDocumentContext::save() {
         Q_D(ProjectDocumentContext);
         if (!d->fileLocker || d->fileLocker->path().isEmpty())
             return false;
@@ -111,14 +148,14 @@ namespace Core {
         bool isSuccess = d->fileLocker->save(data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            d->openSaveProjectFileScenario->showSaveFailMessageBox(d->fileLocker->path(), d->fileLocker->errorString());
             return false;
         }
         d->markSaved();
         return true;
     }
 
-    bool ProjectDocumentContext::saveAs(const QString &filePath, QWindow *parent) {
+    bool ProjectDocumentContext::saveAs(const QString &filePath) {
         Q_D(ProjectDocumentContext);
         if (!d->fileLocker)
             return false;
@@ -126,21 +163,21 @@ namespace Core {
         bool isSuccess = d->fileLocker->saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file as:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            d->openSaveProjectFileScenario->showSaveFailMessageBox(filePath, d->fileLocker->errorString());
             return false;
         }
         d->markSaved();
         return true;
     }
 
-    bool ProjectDocumentContext::saveCopy(const QString &filePath, QWindow *parent) {
+    bool ProjectDocumentContext::saveCopy(const QString &filePath) {
         Q_D(ProjectDocumentContext);
         FileLocker copyFileLocker;
         auto data = d->serializeDocument();
         bool isSuccess = copyFileLocker.saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save copy file:" << d->fileLocker->path();
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), parent, tr("Failed to save file"), QStringLiteral("%1\n\n%2").arg(QDir::toNativeSeparators(d->fileLocker->path()), d->fileLocker->errorString()));
+            d->openSaveProjectFileScenario->showSaveFailMessageBox(filePath, copyFileLocker.errorString());
             return false;
         }
         return true;
