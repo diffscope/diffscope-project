@@ -1,6 +1,7 @@
 #include "OpenSaveProjectFileScenario.h"
 #include "OpenSaveProjectFileScenario_p.h"
 
+#include <QApplication>
 #include <QFileDialog>
 #include <QQmlComponent>
 #include <QQuickWindow>
@@ -118,6 +119,28 @@ namespace Core {
             // TODO open DSPX Inspector
         });
         SVS::MessageBox::customExec(mb.get());
+    }
+
+    bool OpenSaveProjectFileScenario::confirmFileCreatedByAnotherApplication(const QString &name) const {
+        Q_D(const OpenSaveProjectFileScenario);
+        return SVS::MessageBox::question(
+            RuntimeInterface::qmlEngine(),
+            d->window,
+            tr("File Created With Another Application"),
+            QStringLiteral("This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
+                .arg(name.isEmpty() ? tr("name unknown") : name)
+        ) == SVS::SVSCraft::Yes;
+    }
+
+    bool OpenSaveProjectFileScenario::confirmFileCreatedByIncompatibleVersion(const QString &version) const {
+        Q_D(const OpenSaveProjectFileScenario);
+        return SVS::MessageBox::question(
+            RuntimeInterface::qmlEngine(),
+            d->window,
+            tr("File Created With Incompatible Version"),
+            QStringLiteral("This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
+                .arg(QApplication::applicationDisplayName(), version)
+        ) == SVS::SVSCraft::Yes;
     }
 
 }

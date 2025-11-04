@@ -58,7 +58,7 @@ qm_configure_target(${PROJECT_NAME}
         svscraft::QmlExtras
         # ChorusKit::AppCore
         # JetBrainsDockingSystem
-        # dspxmodel
+        dspxmodel
         opendspx::model
         opendspx::serializer
         ScopicFlowCore

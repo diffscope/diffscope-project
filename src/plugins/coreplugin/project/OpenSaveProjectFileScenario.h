@@ -28,6 +28,8 @@ namespace Core {
         Q_INVOKABLE void showOpenFailMessageBox(const QString &path, const QString &error) const;
         Q_INVOKABLE void showSaveFailMessageBox(const QString &path, const QString &error) const;
         Q_INVOKABLE void showDeserializationFailMessageBox(const QString &path) const;
+        Q_INVOKABLE bool confirmFileCreatedByAnotherApplication(const QString &name) const;
+        Q_INVOKABLE bool confirmFileCreatedByIncompatibleVersion(const QString &version) const;
 
     Q_SIGNALS:
         void windowChanged();

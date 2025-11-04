@@ -1,6 +1,8 @@
 #include "ProjectDocumentContext.h"
 #include "ProjectDocumentContext_p.h"
 
+#include <application_config.h>
+
 #include <QDir>
 #include <QLoggingCategory>
 
@@ -10,34 +12,80 @@
 #include <opendspx/model.h>
 #include <opendspxserializer/serializer.h>
 
+#include <SVSCraftCore/Semver.h>
 #include <SVSCraftQuick/MessageBox.h>
+
+#include <dspxmodel/Model.h>
 
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/DspxDocument.h>
 
 namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.core.projectdocumentcontext")
+
+    constexpr char kEditorId[] = "org.diffscope.diffscope";
+
+    static void writeEditorInfo(QDspx::Model &model) {
+        model.content.global.editorId = kEditorId;
+        model.content.global.editorName = QStringLiteral("DiffScope");
+        model.content.workspace["diffscope"].insert("editorVersion", QStringLiteral(APPLICATION_SEMVER));
+    }
+
+    static bool checkIsVersionCompatible(const QString &version) {
+        if (version.isEmpty())
+            return true;
+        SVS::Semver currentSemver(QStringLiteral(APPLICATION_SEMVER));
+        SVS::Semver fileSemver(version);
+        if (fileSemver == currentSemver)
+            return true;
+        if (fileSemver > currentSemver)
+            return false;
+        if (!fileSemver.preRelease().isEmpty() || !fileSemver.build().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 
     void ProjectDocumentContextPrivate::markSaved() {
         // TODO
     }
 
     QByteArray ProjectDocumentContextPrivate::serializeDocument() const {
-        // TODO
         QDspx::SerializationErrorList errors;
-        return QDspx::Serializer::serialize(model_TODO, errors, QDspx::Serializer::CheckError);
+        auto model = document->model()->toQDspx();
+        writeEditorInfo(model);
+        return QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
     }
 
-    bool ProjectDocumentContextPrivate::deserializeDocument(const QByteArray &data) {
+    bool ProjectDocumentContextPrivate::initializeDocument(const QDspx::Model &model, bool doCheck) {
+        Q_Q(ProjectDocumentContext);
+        document = new DspxDocument(q);
+        if (doCheck) {
+            if (model.content.global.editorId != kEditorId) {
+                if (!openSaveProjectFileScenario->confirmFileCreatedByAnotherApplication(model.content.global.editorName)) {
+                    return false;
+                }
+            } else if (auto version = model.content.workspace.value("diffscope").value("editorVersion").toString(); !checkIsVersionCompatible(version)) {
+                if (!openSaveProjectFileScenario->confirmFileCreatedByIncompatibleVersion(version)) {
+                    return false;
+                }
+            }
+        }
+        auto postProcessedModel = model;
+        writeEditorInfo(postProcessedModel);
+        document->model()->fromQDspx(postProcessedModel);
+        return true;
+    }
+
+    bool ProjectDocumentContextPrivate::deserializeAndInitializeDocument(const QByteArray &data) {
         QDspx::SerializationErrorList errors;
         auto model = QDspx::Serializer::deserialize(data, errors);
         if (errors.containsFatal() || errors.containsError()) {
             return false;
         }
-        // TODO
-        model_TODO = model;
-        return true;
+        return initializeDocument(model, true);
     }
 
     ProjectDocumentContext::ProjectDocumentContext(QObject *parent) : QObject(parent), d_ptr(new ProjectDocumentContextPrivate) {
@@ -55,7 +103,7 @@ namespace Core {
 
     DspxDocument *ProjectDocumentContext::document() const {
         Q_D(const ProjectDocumentContext);
-        return nullptr; // TODO
+        return d->document;
     }
 
     OpenSaveProjectFileScenario * ProjectDocumentContext::openSaveProjectFileScenario() const {
@@ -65,8 +113,9 @@ namespace Core {
 
     bool ProjectDocumentContext::openFile(const QString &filePath) {
         Q_D(ProjectDocumentContext);
-        if (false) {
-            return false; // TODO document should not be opened
+        if (d->document) {
+            qCWarning(lcProjectDocumentContext) << "Cannot open file: document already exists.";
+            return false;
         }
         d->fileLocker = new FileLocker(this);
         if (!d->fileLocker->open(filePath)) {
@@ -74,7 +123,6 @@ namespace Core {
             d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
             return false;
         }
-        // TODO initialize document
         bool ok;
         auto data = d->fileLocker->readData(&ok);
         if (
@@ -91,7 +139,7 @@ namespace Core {
             d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
             return false;
         }
-        if (!d->deserializeDocument(data)) {
+        if (!d->deserializeAndInitializeDocument(data)) {
             qCCritical(lcProjectDocumentContext) << "Failed to deserialize file:" << filePath;
             d->openSaveProjectFileScenario->showDeserializationFailMessageBox(filePath);
             return false;
@@ -101,20 +149,21 @@ namespace Core {
 
     void ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
-        if (false) {
-            return; // TODO document should not be opened
+        if (d->document) {
+            qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
+            return;
         }
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
         }
-        // TODO initialize document
-        d->model_TODO = templateModel;
+        d->initializeDocument(templateModel, false);
     }
 
     bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
-        if (false) {
-            return false; // TODO document should not be opened
+        if (d->document) {
+            qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
+            return false;
         }
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
@@ -132,7 +181,7 @@ namespace Core {
             d->openSaveProjectFileScenario->showOpenFailMessageBox(templateFilePath, d->fileLocker->errorString());
             return false;
         }
-        if (!d->deserializeDocument(data)) {
+        if (!d->deserializeAndInitializeDocument(data)) {
             qCCritical(lcProjectDocumentContext) << "Failed to deserialize template file:" << templateFilePath;
             d->openSaveProjectFileScenario->showDeserializationFailMessageBox(templateFilePath);
             return false;

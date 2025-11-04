@@ -13,13 +13,14 @@ namespace Core {
         ProjectDocumentContext *q_ptr;
 
         FileLocker *fileLocker{};
+        DspxDocument *document{};
         OpenSaveProjectFileScenario *openSaveProjectFileScenario;
-
-        QDspx::Model model_TODO; // TODO
 
         void markSaved();
         QByteArray serializeDocument() const;
-        bool deserializeDocument(const QByteArray &data);
+
+        bool deserializeAndInitializeDocument(const QByteArray &data);
+        bool initializeDocument(const QDspx::Model &model, bool doCheck);
     };
 
 }

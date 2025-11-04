@@ -21,6 +21,7 @@ namespace Core {
         Q_OBJECT
         Q_DECLARE_PRIVATE(ProjectDocumentContext)
         Q_PROPERTY(FileLocker *fileLocker READ fileLocker CONSTANT)
+        Q_PROPERTY(DspxDocument *document READ document CONSTANT)
         Q_PROPERTY(OpenSaveProjectFileScenario *openSaveProjectFileScenario READ openSaveProjectFileScenario CONSTANT)
     public:
         explicit ProjectDocumentContext(QObject *parent = nullptr);
