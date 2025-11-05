@@ -106,4 +106,20 @@ ActionCollection {
         }
     }
 
+    ActionItem {
+        actionId: "core.runDspxInspector"
+        Action {
+            readonly property Component inspectorComponent: DspxInspectorDialog {
+            }
+            onTriggered: (o) => {
+                let w = o.Window.window
+                Qt.callLater(() => {
+                    let inspector = inspectorComponent.createObject()
+                    inspector.pos = Qt.point(w.x + 0.5 * (w.width - inspector.width), w.y + 0.5 * (w.height - inspector.height))
+                    inspector.exec()
+                })
+            }
+        }
+    }
+
 }

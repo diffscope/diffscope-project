@@ -138,6 +138,7 @@
         <action id="core.&amp;findActions^" class="Help" description="Find and trigger action by name" shortcut="Ctrl+Shift+P" />
         <action id="core.aboutApp" text="&amp;About ${APP_NAME}" description="Show information about ${APP_NAME}" class="Help"/>
         <action id="core.about&amp;Qt" description="Show information about Qt" class="Help"/>
+        <action id="core.runDspxInspector" text="Run DSPX Inspector" class="Help" />
 
         <menu id="core.mainMenu" topLevel="true" />
         <menu id="core.mainToolBarLeft" topLevel="true" />
@@ -331,6 +332,9 @@
                 <group id="core.aboutActions">
                     <action id="core.aboutApp" />
                     <action id="core.aboutQt" />
+                </group>
+                <group id="core.dspxInspectorActions">
+                    <action id="core.runDspxInspector" />
                 </group>
             </menu>
         </menu>
