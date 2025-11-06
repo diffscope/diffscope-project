@@ -38,6 +38,7 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
 
+#include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/CoreAchievementsModel.h>
@@ -58,11 +59,13 @@ namespace Core {
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
+        DspxCheckerRegistry *dspxCheckerRegistry;
 
         void init() {
             Q_Q(CoreInterface);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
+            dspxCheckerRegistry = new DspxCheckerRegistry(q);
         }
     };
 
@@ -80,6 +83,11 @@ namespace Core {
     QAK::ActionRegistry *CoreInterface::actionRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->actionRegistry;
+    }
+
+    DspxCheckerRegistry * CoreInterface::dspxCheckerRegistry() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->dspxCheckerRegistry;
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {

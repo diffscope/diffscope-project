@@ -23,6 +23,7 @@ namespace Core {
     }
 
     class ProjectWindowInterface;
+    class DspxCheckerRegistry;
 
     class CoreInterfacePrivate;
 
@@ -37,6 +38,12 @@ namespace Core {
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QAK::ActionRegistry *actionRegistry();
+
+        static DspxCheckerRegistry *dspxCheckerRegistry();
+
+        static constexpr const char *dspxEditorId() {
+            return "org.diffscope.diffscope";
+        }
 
         Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void execPluginsDialog(QWindow *parent);

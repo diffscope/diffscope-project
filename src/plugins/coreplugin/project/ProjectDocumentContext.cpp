@@ -20,15 +20,15 @@
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DspxCheckerRegistry.h>
 
 namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.core.projectdocumentcontext")
 
-    constexpr char kEditorId[] = "org.diffscope.diffscope";
-
     static void writeEditorInfo(QDspx::Model &model) {
-        model.content.global.editorId = kEditorId;
+        model.content.global.editorId = CoreInterface::dspxEditorId();
         model.content.global.editorName = QStringLiteral("DiffScope");
         model.content.workspace["diffscope"].insert("editorVersion", QStringLiteral(APPLICATION_SEMVER));
     }
@@ -63,12 +63,18 @@ namespace Core {
         Q_Q(ProjectDocumentContext);
         document = new DspxDocument(q);
         if (doCheck) {
-            if (model.content.global.editorId != kEditorId) {
+            if (model.content.global.editorId != CoreInterface::dspxEditorId()) {
                 if (!openSaveProjectFileScenario->confirmFileCreatedByAnotherApplication(model.content.global.editorName)) {
                     return false;
                 }
             } else if (auto version = model.content.workspace.value("diffscope").value("editorVersion").toString(); !checkIsVersionCompatible(version)) {
                 if (!openSaveProjectFileScenario->confirmFileCreatedByIncompatibleVersion(version)) {
+                    return false;
+                }
+            }
+            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(model, IDspxChecker::Strong, true);
+            if (!customCheckResult.isEmpty()) {
+                if (!openSaveProjectFileScenario->confirmCustomCheckWarning(customCheckResult.front().message)) {
                     return false;
                 }
             }

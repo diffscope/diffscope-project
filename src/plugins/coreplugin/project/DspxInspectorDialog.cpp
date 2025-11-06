@@ -1,6 +1,8 @@
 #include "DspxInspectorDialog.h"
 #include "DspxInspectorDialog_p.h"
 
+#include <application_config.h>
+
 #include <QApplication>
 #include <QDir>
 #include <QVBoxLayout>
@@ -14,9 +16,28 @@
 #include <opendspx/model.h>
 #include <opendspxserializer/serializer.h>
 
+#include <SVSCraftCore/Semver.h>
+
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 
 namespace Core {
+
+    static bool checkIsVersionCompatible(const QString &version) {
+        if (version.isEmpty())
+            return true;
+        SVS::Semver currentSemver(QStringLiteral(APPLICATION_SEMVER));
+        SVS::Semver fileSemver(version);
+        if (fileSemver == currentSemver)
+            return true;
+        if (fileSemver > currentSemver)
+            return false;
+        if (!fileSemver.preRelease().isEmpty() || !fileSemver.build().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 
     DspxInspectorDialog::DspxInspectorDialog(QWidget *parent) : QDialog(parent), d_ptr(new DspxInspectorDialogPrivate) {
         Q_D(DspxInspectorDialog);
@@ -126,7 +147,7 @@ namespace Core {
         if (!f.open(QIODevice::ReadOnly)) {
             addErrorItem(
                 problemModel,
-                tr("Failed to open file"),
+                tr("Fatal: Failed to open file"),
                 {},
                 style()->standardIcon(QStyle::SP_MessageBoxCritical),
                 {
@@ -190,7 +211,7 @@ namespace Core {
                         }
                         addErrorItem(
                             problemModel,
-                            tr("Error: Invalid data type") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Invalid data type") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             {
@@ -205,7 +226,7 @@ namespace Core {
                         auto e = error.staticCast<QDspx::InvalidObjectTypeError>();
                         addErrorItem(
                             problemModel,
-                            tr("Error: Invalid object type") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Invalid object type") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             {
@@ -220,7 +241,7 @@ namespace Core {
                         auto e = error.staticCast<QDspx::RangeConstraintViolationError>();
                         addErrorItem(
                             problemModel,
-                            tr("Error: Range constraint violation") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Range constraint violation") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             {
@@ -241,7 +262,7 @@ namespace Core {
                         info.emplace_back(tr("Actual enum value"), e->actualEnumValue().toString());
                         addErrorItem(
                             problemModel,
-                            tr("Error: Enum constraint violation") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Enum constraint violation") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             info,
@@ -257,7 +278,7 @@ namespace Core {
                         }
                         addErrorItem(
                             problemModel,
-                            tr("Error: Missing properties") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Missing properties") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             info,
@@ -273,7 +294,7 @@ namespace Core {
                         }
                         addErrorItem(
                             problemModel,
-                            tr("Error: Redundant properties") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Redundant properties") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             info,
@@ -289,9 +310,9 @@ namespace Core {
                         }
                         addErrorItem(
                             problemModel,
-                            tr("Warning: Overlapping items") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Overlapping items") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
-                            style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                            {},
                             info,
                             tr("Items at specific indexes in the array at the specific path overlap.")
                         );
@@ -301,9 +322,9 @@ namespace Core {
                         auto e = error.staticCast<QDspx::ZeroLengthRangeError>();
                         addErrorItem(
                             problemModel,
-                            tr("Warning: Zero-length range") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Zero-length range") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
-                            style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                            {},
                             {},
                             tr("The range length of the entity object at the specific path is zero.")
                         );
@@ -313,9 +334,9 @@ namespace Core {
                         auto e = error.staticCast<QDspx::ErroneousClipRangeError>();
                         addErrorItem(
                             problemModel,
-                            tr("Warning: Erroneous clip range") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Erroneous clip range") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
-                            style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                            {},
                             {},
                             tr("The clipping range of the clip entity object at the specific path exceeds its range limit.")
                         );
@@ -325,9 +346,9 @@ namespace Core {
                         auto e = error.staticCast<QDspx::ErroneousClipPositionError>();
                         addErrorItem(
                             problemModel,
-                            tr("Warning: Erroneous clip position") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Erroneous clip position") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
-                            style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                            {},
                             {},
                             tr("The position of the clip entity object at the specific path exceeds the view range limit. It might be not visible in the viewport.")
                         );
@@ -337,7 +358,7 @@ namespace Core {
                         auto e = error.staticCast<QDspx::SafeRangeLimitExceededError>();
                         addErrorItem(
                             problemModel,
-                            tr("Warning: Safe range limit exceeded") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
+                            tr("Safe range limit exceeded") + QStringLiteral(" (0x%1)").arg(QString::number(error->type(), 16), 4, '0'),
                             e->path(),
                             style()->standardIcon(QStyle::SP_MessageBoxWarning),
                             {},
@@ -346,6 +367,43 @@ namespace Core {
                         break;
                     }
                 }
+            }
+
+            if (dspxModel.content.global.editorId != CoreInterface::dspxEditorId()) {
+                addErrorItem(
+                    problemModel,
+                    tr("File Created With Another Application"),
+                    QStringLiteral("$.content.global.editorId"),
+                    style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                    {
+                        {tr("Editor ID"), dspxModel.content.global.editorId},
+                        {tr("Editor name"), dspxModel.content.global.editorName},
+                    },
+                    tr("This project file was created with another application. Some features may not be fully compatible or may behave differently.")
+                );
+            } else if (auto version = dspxModel.content.workspace.value("diffscope").value("editorVersion").toString(); !checkIsVersionCompatible(version)) {
+                addErrorItem(
+                    problemModel,
+                    tr("File Created With Incompatible Version"),
+                    QStringLiteral("$.content.workspace.diffscope.editorVersion"),
+                    style()->standardIcon(QStyle::SP_MessageBoxWarning),
+                    {
+                        {tr("Version"), version},
+                    },
+                    tr("This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.").arg(QApplication::applicationDisplayName())
+                );
+            }
+
+            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(dspxModel, IDspxChecker::Weak, false);
+            for (const auto &warning : customCheckResult) {
+                addErrorItem(
+                    problemModel,
+                    warning.message,
+                    warning.jsonPath,
+                    warning.level == IDspxChecker::Strong ? style()->standardIcon(QStyle::SP_MessageBoxWarning) : QIcon(),
+                    warning.info,
+                    warning.description
+                );
             }
 
             // TODO show file structure

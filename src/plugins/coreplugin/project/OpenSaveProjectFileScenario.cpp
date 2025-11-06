@@ -2,6 +2,7 @@
 #include "OpenSaveProjectFileScenario_p.h"
 
 #include <QApplication>
+#include <QSettings>
 #include <QFileDialog>
 #include <QQmlComponent>
 #include <QQuickWindow>
@@ -140,6 +141,16 @@ namespace Core {
             tr("File Created With Incompatible Version"),
             QStringLiteral("This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                 .arg(QApplication::applicationDisplayName(), version)
+        ) == SVS::SVSCraft::Yes;
+    }
+
+    bool OpenSaveProjectFileScenario::confirmCustomCheckWarning(const QString &message) const {
+        Q_D(const OpenSaveProjectFileScenario);
+        return SVS::MessageBox::question(
+            RuntimeInterface::qmlEngine(),
+            d->window,
+            tr("Additional Check Failed"),
+            QStringLiteral("%1\n\nThe file can still be opened, but it may cause potential problems.\n\nDo you want to continue opening it?")
         ) == SVS::SVSCraft::Yes;
     }
 
