@@ -17,7 +17,6 @@ namespace Core {
         QString path;
         QTabWidget *tabWidget;
         QTreeView *problemTreeView;
-        QTreeView *fileStructureTreeView;
 
     };
 

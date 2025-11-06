@@ -13,10 +13,13 @@
 #include <QStandardItemModel>
 #include <QTabWidget>
 
+#include <CoreApi/runtimeinterface.h>
+
 #include <opendspx/model.h>
 #include <opendspxserializer/serializer.h>
 
 #include <SVSCraftCore/Semver.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxCheckerRegistry.h>
@@ -47,24 +50,22 @@ namespace Core {
         auto browseLayout = new QHBoxLayout;
         layout->addLayout(browseLayout);
         auto pathEdit = new QLineEdit;
+        pathEdit->setAccessibleName(tr("File path"));
         browseLayout->addWidget(pathEdit);
-        auto browseButton = new QPushButton(tr("Browse"));
+        auto browseButton = new QPushButton(tr("&Browse"));
+        browseButton->setDefault(true);
         browseLayout->addWidget(browseButton);
-        auto runCheckButton = new QPushButton(tr("Run Check"));
+        auto runCheckButton = new QPushButton(tr("&Run Check"));
         runCheckButton->setEnabled(false);
         layout->addWidget(runCheckButton);
         auto tabWidget = new QTabWidget;
         layout->addWidget(tabWidget);
-        auto fileStructureTreeView = new QTreeView;
-        fileStructureTreeView->setHeaderHidden(true);
-        tabWidget->addTab(fileStructureTreeView, tr("File Structure"));
         auto problemTreeView = new QTreeView;
         problemTreeView->setHeaderHidden(true);
-        tabWidget->addTab(problemTreeView, tr("Problems"));
+        tabWidget->addTab(problemTreeView, tr("&Problems"));
 
         d->tabWidget = tabWidget;
         d->problemTreeView = problemTreeView;
-        d->fileStructureTreeView = fileStructureTreeView;
         resize(640, 480);
         setWindowTitle(tr("DSPX Inspector"));
 
@@ -141,14 +142,8 @@ namespace Core {
             d->problemTreeView->model()->deleteLater();
             d->problemTreeView->setModel(nullptr);
         }
-        if (d->fileStructureTreeView->model()) {
-            d->fileStructureTreeView->model()->deleteLater();
-            d->fileStructureTreeView->setModel(nullptr);
-        }
         auto problemModel = new QStandardItemModel(this);
         d->problemTreeView->setModel(problemModel);
-        auto fileStructureModel = new QStandardItemModel(this);
-        d->fileStructureTreeView->setModel(fileStructureModel);
         do {
             QFile f(d->path);
             if (!f.open(QIODevice::ReadOnly)) {
@@ -415,13 +410,12 @@ namespace Core {
                     warning.description
                 );
             }
-
         } while (false);
 
+        d->problemTreeView->expandAll();
         d->problemTreeView->resizeColumnToContents(0);
-        d->fileStructureTreeView->resizeColumnToContents(0);
-        if (problemModel->rowCount() != 0) {
-            d->tabWidget->setCurrentIndex(1);
+        if (problemModel->rowCount() == 0) {
+            SVS::MessageBox::success(RuntimeInterface::qmlEngine(), windowHandle(), tr("No problems found"), tr("The project file is valid and no problems were found."));
         }
     }
 
