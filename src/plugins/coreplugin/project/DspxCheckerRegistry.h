@@ -13,7 +13,7 @@ namespace Core {
 
     class DspxCheckerRegistryPrivate;
 
-    class DspxCheckerRegistry : public IDspxChecker {
+    class CORE_EXPORT DspxCheckerRegistry : public IDspxChecker {
         Q_OBJECT
         Q_DECLARE_PRIVATE(DspxCheckerRegistry)
     public:

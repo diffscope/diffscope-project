@@ -4,11 +4,13 @@
 #include <QDialog>
 #include <qqmlintegration.h>
 
+#include <coreplugin/coreglobal.h>
+
 namespace Core {
 
     class DspxInspectorDialogPrivate;
 
-    class DspxInspectorDialog : public QDialog {
+    class CORE_EXPORT DspxInspectorDialog : public QDialog {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(DspxInspectorDialog)

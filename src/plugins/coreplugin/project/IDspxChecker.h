@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QVariant>
 
+#include <coreplugin/coreglobal.h>
+
 namespace QDspx {
     struct Model;
 }
@@ -12,7 +14,7 @@ namespace Core {
 
     struct DspxCheckWarning;
 
-    class IDspxChecker : public QObject {
+    class CORE_EXPORT IDspxChecker : public QObject {
         Q_OBJECT
     public:
         explicit IDspxChecker(QObject *parent = nullptr);

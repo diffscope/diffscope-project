@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <coreplugin/coreglobal.h>
+
 class QWindow;
 
 namespace QDspx {
@@ -17,7 +19,7 @@ namespace Core {
 
     class ProjectDocumentContextPrivate;
 
-    class ProjectDocumentContext : public QObject {
+    class CORE_EXPORT ProjectDocumentContext : public QObject {
         Q_OBJECT
         Q_DECLARE_PRIVATE(ProjectDocumentContext)
         Q_PROPERTY(FileLocker *fileLocker READ fileLocker CONSTANT)

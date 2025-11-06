@@ -4,6 +4,8 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
+#include <coreplugin/coreglobal.h>
+
 namespace dspx {
     class Model;
 }
@@ -12,7 +14,7 @@ namespace Core {
 
     class DspxDocumentPrivate;
 
-    class DspxDocument : public QObject {
+    class CORE_EXPORT DspxDocument : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(DspxDocument)

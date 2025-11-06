@@ -141,23 +141,32 @@ namespace Core {
             d->problemTreeView->model()->deleteLater();
             d->problemTreeView->setModel(nullptr);
         }
+        if (d->fileStructureTreeView->model()) {
+            d->fileStructureTreeView->model()->deleteLater();
+            d->fileStructureTreeView->setModel(nullptr);
+        }
         auto problemModel = new QStandardItemModel(this);
         d->problemTreeView->setModel(problemModel);
-        QFile f(d->path);
-        if (!f.open(QIODevice::ReadOnly)) {
-            addErrorItem(
-                problemModel,
-                tr("Fatal: Failed to open file"),
-                {},
-                style()->standardIcon(QStyle::SP_MessageBoxCritical),
-                {
-                    {tr("Path"), d->path},
-                    {tr("Error code"), f.error()},
-                    {tr("Error text"), f.errorString()}
-                }
-            );
-        } else {
+        auto fileStructureModel = new QStandardItemModel(this);
+        d->fileStructureTreeView->setModel(fileStructureModel);
+        do {
+            QFile f(d->path);
+            if (!f.open(QIODevice::ReadOnly)) {
+                addErrorItem(
+                    problemModel,
+                    tr("Fatal: Failed to open file"),
+                    {},
+                    style()->standardIcon(QStyle::SP_MessageBoxCritical),
+                    {
+                        {tr("Path"), d->path},
+                        {tr("Error code"), f.error()},
+                        {tr("Error text"), f.errorString()}
+                    }
+                );
+                break;
+            }
             auto data = f.readAll();
+
             QDspx::SerializationErrorList errors;
             auto dspxModel = QDspx::Serializer::deserialize(data, errors, QDspx::Serializer::CheckError | QDspx::Serializer::CheckWarning);
             for (const auto &error : errors) {
@@ -368,7 +377,8 @@ namespace Core {
                     }
                 }
             }
-
+            if (errors.containsFatal())
+                break;
             if (dspxModel.content.global.editorId != CoreInterface::dspxEditorId()) {
                 addErrorItem(
                     problemModel,
@@ -406,11 +416,10 @@ namespace Core {
                 );
             }
 
-            // TODO show file structure
-        }
-
+        } while (false);
 
         d->problemTreeView->resizeColumnToContents(0);
+        d->fileStructureTreeView->resizeColumnToContents(0);
         if (problemModel->rowCount() != 0) {
             d->tabWidget->setCurrentIndex(1);
         }

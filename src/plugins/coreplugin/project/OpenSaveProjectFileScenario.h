@@ -4,13 +4,15 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
+#include <coreplugin/coreglobal.h>
+
 class QWindow;
 
 namespace Core {
 
     class OpenSaveProjectFileScenarioPrivate;
 
-    class OpenSaveProjectFileScenario : public QObject {
+    class CORE_EXPORT OpenSaveProjectFileScenario : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(OpenSaveProjectFileScenario)
