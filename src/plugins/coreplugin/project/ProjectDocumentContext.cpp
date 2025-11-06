@@ -49,7 +49,9 @@ namespace Core {
     }
 
     void ProjectDocumentContextPrivate::markSaved() {
+        Q_Q(ProjectDocumentContext);
         // TODO
+        Q_EMIT q->saved();
     }
 
     QByteArray ProjectDocumentContextPrivate::serializeDocument() const {

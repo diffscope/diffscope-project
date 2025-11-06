@@ -43,6 +43,7 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/internal/AfterSavingNotifyAddOn.h>
 #include <coreplugin/internal/AppearancePage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/ColorSchemeCollection.h>
@@ -377,6 +378,7 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

@@ -42,6 +42,9 @@ namespace Core {
         bool saveAs(const QString &filePath);
         bool saveCopy(const QString &filePath);
 
+    Q_SIGNALS:
+        void saved();
+
     private:
         QScopedPointer<ProjectDocumentContextPrivate> d_ptr;
     };
