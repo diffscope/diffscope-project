@@ -1,6 +1,7 @@
 #include "AchievementPlugin.h"
 
 #include <QQmlComponent>
+#include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>

@@ -34,6 +34,7 @@
 #include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/pluginspec.h>
 
+#include <QAKCore/actionregistry.h>
 #include <QAKQuick/actioniconimageprovider.h>
 
 #include <SVSCraftQuick/Theme.h>

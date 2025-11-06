@@ -1,19 +1,20 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 #define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
+#include <QObject>
 #include <qqmlintegration.h>
 
-#include <QObject>
-#include <QSettings>
-
 #include <CoreApi/coreinterfacebase.h>
-
-#include <QAKCore/actionregistry.h>
 
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
 class QJSEngine;
+class QWindow;
+
+namespace QAK {
+    class ActionRegistry;
+}
 
 namespace Core {
 

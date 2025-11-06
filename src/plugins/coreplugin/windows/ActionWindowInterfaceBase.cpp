@@ -8,6 +8,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/CoreInterface.h>

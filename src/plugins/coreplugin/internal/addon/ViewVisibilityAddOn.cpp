@@ -2,6 +2,7 @@
 
 #include <QLoggingCategory>
 #include <QQmlComponent>
+#include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
 

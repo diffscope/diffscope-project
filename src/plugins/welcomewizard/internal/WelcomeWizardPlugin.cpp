@@ -7,6 +7,8 @@
 
 #include <extensionsystem/pluginspec.h>
 
+#include <QAKCore/actionregistry.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>

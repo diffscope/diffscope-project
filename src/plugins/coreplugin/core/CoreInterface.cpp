@@ -19,8 +19,11 @@
 #include <QScreen>
 #include <QStandardPaths>
 #include <QTimer>
+#include <QSettings>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
+
+#include <QAKCore/actionregistry.h>
 
 #include <CoreApi/filelocker.h>
 #include <CoreApi/private/coreinterfacebase_p.h>
@@ -75,8 +78,7 @@ namespace Core {
         return static_cast<CoreInterface *>(CoreInterfaceBase::instance());
     }
     QAK::ActionRegistry *CoreInterface::actionRegistry() {
-        if (!instance())
-            return nullptr;
+        Q_ASSERT(instance());
         return instance()->d_func()->actionRegistry;
     }
 
