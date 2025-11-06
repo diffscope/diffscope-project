@@ -53,13 +53,15 @@ QtObject {
         Connections {
             target: d.notificationManager
             function onMessageAdded(index, message) {
-                notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(pane, {
+                let i = notificationItemsModel.count - index
+                notificationItemsModel.insert(i, bubbleNotificationComponent.createObject(pane, {
                     handle: message.handle
                 }))
             }
             function onMessageRemoved(index, message) {
-                let o = notificationItemsModel.get(index)
-                notificationItemsModel.remove(index)
+                let i = notificationItemsModel.count - index - 1
+                let o = notificationItemsModel.get(i)
+                notificationItemsModel.remove(i)
                 o.destroy()
             }
         }

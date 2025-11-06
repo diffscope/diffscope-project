@@ -77,6 +77,8 @@ namespace Core::Internal {
         connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, this, removeMessage);
         connect(handle, &QObject::destroyed, this, removeMessage);
 
+        handle->setTime(QDateTime::currentDateTime());
+
         if (mode != ProjectWindowInterface::DoNotShowBubble) {
             m_bubbleMessages.append(message);
         }
