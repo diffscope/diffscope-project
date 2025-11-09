@@ -16,7 +16,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcColorSchemePage, "diffscope.core.colorscheme")
 
-    ColorSchemePage::ColorSchemePage(QObject *parent) : ISettingPage("core.ColorScheme", parent) {
+    ColorSchemePage::ColorSchemePage(QObject *parent) : ISettingPage("org.diffscope.core.ColorScheme", parent) {
         m_collection = new ColorSchemeCollection(this);
         setTitle(tr("Color Scheme"));
         setDescription(tr("Configure the colors and visual effects of various components"));

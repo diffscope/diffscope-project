@@ -17,6 +17,6 @@
     "Url": "@APPLICATION_URL@",
     "Required": false,
     "Dependencies" : [
-        { "Name" : "Core", "Version" : "@PLUGIN_METADATA_VERSION@" }
+        { "Name" : "org.diffscope.core", "Version" : "@PLUGIN_METADATA_VERSION@" }
     ]
 }

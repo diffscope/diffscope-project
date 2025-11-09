@@ -3,7 +3,7 @@
     <version>1.0</version>
     <id>org.diffscope.welcomewizard</id>
     <configuration>
-        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
                 class="Application::ActionClass"
@@ -15,12 +15,12 @@
     </configuration>
 
     <items>
-        <action id="welcomeWizard.welcomeWizard" />
+        <action id="org.diffscope.welcomewizard.welcomeWizard" />
     </items>
 
     <insertions>
-        <insertion target="core.help" anchor="last">
-            <action id="welcomeWizard.welcomeWizard" />
+        <insertion target="org.diffscope.core.help" anchor="last">
+            <action id="org.diffscope.welcomewizard.welcomeWizard" />
         </insertion>
     </insertions>
 

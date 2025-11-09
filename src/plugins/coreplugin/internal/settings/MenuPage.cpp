@@ -16,7 +16,7 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcMenuPage, "diffscope.core.menupage")
 
     MenuPage::MenuPage(QObject *parent)
-        : ISettingPage("core.Menu", parent) {
+        : ISettingPage("org.diffscope.core.Menu", parent) {
         setTitle(tr("Menus and Toolbars"));
         setDescription(tr("Configure the layout of menus and toolbars"));
     }

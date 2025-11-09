@@ -4,7 +4,7 @@ project(coreplugin
 )
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
-    NAME Core
+    NAME org.diffscope.core
     DISPLAY_NAME Core
     MACRO_PREFIX CORE
     QML_MODULE_NAME Core

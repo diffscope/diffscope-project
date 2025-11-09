@@ -17,7 +17,7 @@ ActionCollection {
     required property RecentFileAddOn addOn
 
     ActionItem {
-        actionId: "core.file.openRecentFile"
+        actionId: "org.diffscope.core.file.openRecentFile"
         Menu {
             id: recentFilesMenu
             Instantiator {

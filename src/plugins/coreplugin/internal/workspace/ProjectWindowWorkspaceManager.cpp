@@ -46,9 +46,9 @@ namespace Core::Internal {
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::LeftTop,
             {{
-                 {"core.panel.properties", true},
-                 {"core.panel.metadata", true},
-                 {"core.panel.plugins", true},
+                 {"org.diffscope.core.panel.properties", true},
+                 {"org.diffscope.core.panel.metadata", true},
+                 {"org.diffscope.core.panel.plugins", true},
              },
              400,
              400,
@@ -57,8 +57,8 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::LeftBottom,
-            {{{"core.panel.tips", true},
-              {"core.settings", false}
+            {{{"org.diffscope.core.panel.tips", true},
+              {"org.diffscope.core.settings", false}
              },
              400,
              150,
@@ -67,7 +67,7 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::TopLeft,
-            {{{"core.panel.arrangement", true}
+            {{{"org.diffscope.core.panel.arrangement", true}
              },
              400,
              360,
@@ -81,8 +81,8 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomLeft,
-            {{{"core.panel.pianoRoll", true},
-              {"core.panel.mixer", true}
+            {{{"org.diffscope.core.panel.pianoRoll", true},
+              {"org.diffscope.core.panel.mixer", true}
              },
              400,
              640,
@@ -96,7 +96,7 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::RightTop,
-            {{{"core.panel.notifications", true}
+            {{{"org.diffscope.core.panel.notifications", true}
              },
              400,
              400,

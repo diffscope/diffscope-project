@@ -38,7 +38,7 @@ namespace Maintenance {
 
         new ApplicationUpdateChecker(this);
 
-        if (auto generalPage = Core::CoreInterface::settingCatalog()->page("core.General")) {
+        if (auto generalPage = Core::CoreInterface::settingCatalog()->page("org.diffscope.core.General")) {
             generalPage->addPage(new UpdatePage);
         } else {
             Core::CoreInterface::settingCatalog()->addPage(new UpdatePage);

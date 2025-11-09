@@ -20,7 +20,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcGeneralPage, "diffscope.core.generalpage")
 
-    GeneralPage::GeneralPage(QObject *parent) : ISettingPage("core.General", parent) {
+    GeneralPage::GeneralPage(QObject *parent) : ISettingPage("org.diffscope.core.General", parent) {
         setTitle(tr("General"));
         setDescription(tr("Configure general behaviors of %1").arg(QApplication::applicationDisplayName()));
     }

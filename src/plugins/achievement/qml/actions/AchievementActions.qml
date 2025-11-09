@@ -16,7 +16,7 @@ ActionCollection {
     required property AchievementAddOn addOn
 
     ActionItem {
-        actionId: "achievement.achievements"
+        actionId: "org.diffscope.achievement.achievements"
         Action {
             onTriggered: () => {
                 let window = d.addOn.window

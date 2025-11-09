@@ -13,7 +13,7 @@ namespace Maintenance {
 
     Q_STATIC_LOGGING_CATEGORY(lcUpdatePage, "diffscope.maintenance.updatepage")
 
-    UpdatePage::UpdatePage(QObject *parent) : Core::ISettingPage("maintenance.Update", parent) {
+    UpdatePage::UpdatePage(QObject *parent) : Core::ISettingPage("org.diffscope.maintenance.Update", parent) {
         setTitle(tr("Update"));
         setDescription(tr("Configure update settings for %1").arg(QApplication::applicationDisplayName()));
     }

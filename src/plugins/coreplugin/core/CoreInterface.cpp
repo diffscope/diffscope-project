@@ -99,7 +99,7 @@ namespace Core {
 
         auto settings = RuntimeInterface::settings();
         settings->beginGroup("DiffScope.Core.SettingDialog");
-        settings->setValue("currentId", settings->value("currentId", "core.General"));
+        settings->setValue("currentId", settings->value("currentId", "org.diffscope.core.General"));
         qCDebug(lcCoreInterface) << "Saved current id" << settings->value("currentId").toString();
         settings->endGroup();
 

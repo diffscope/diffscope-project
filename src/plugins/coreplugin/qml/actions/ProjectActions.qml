@@ -17,7 +17,7 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.file.save"
+        actionId: "org.diffscope.core.file.save"
         Action {
             enabled: d.windowHandle.projectDocumentContext.fileLocker
             onTriggered: Qt.callLater(() => d.windowHandle.save())
@@ -25,7 +25,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.file.saveAs"
+        actionId: "org.diffscope.core.file.saveAs"
         Action {
             enabled: d.windowHandle.projectDocumentContext.fileLocker
             onTriggered: Qt.callLater(() => d.windowHandle.saveAs())
@@ -33,14 +33,14 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.file.saveCopy"
+        actionId: "org.diffscope.core.file.saveCopy"
         Action {
             onTriggered: Qt.callLater(() => d.windowHandle.saveCopy())
         }
     }
 
     ActionItem {
-        actionId: "core.statusText"
+        actionId: "org.diffscope.core.statusText"
         Label {
             text: d.window.StatusTextContext.statusContext.text
             TapHandler {

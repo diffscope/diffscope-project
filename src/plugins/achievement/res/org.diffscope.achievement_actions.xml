@@ -3,7 +3,7 @@
     <version>1.0</version>
     <id>org.diffscope.achievement</id>
     <configuration>
-        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
                 class="Application::ActionClass"
@@ -15,12 +15,12 @@
     </configuration>
 
     <items>
-        <action id="achievement.achievements" />
+        <action id="org.diffscope.achievement.achievements" />
     </items>
 
     <insertions>
-        <insertion target="core.help" anchor="last">
-            <action id="achievement.achievements" />
+        <insertion target="org.diffscope.core.help" anchor="last">
+            <action id="org.diffscope.achievement.achievements" />
         </insertion>
     </insertions>
 

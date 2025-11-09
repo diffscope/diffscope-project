@@ -3,7 +3,7 @@
     <version>1.0</version>
     <id>org.diffscope.core</id>
     <configuration>
-        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
                 class="Application::ActionClass"

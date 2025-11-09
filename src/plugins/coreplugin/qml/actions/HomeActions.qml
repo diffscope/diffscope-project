@@ -17,7 +17,7 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.home.recentFiles"
+        actionId: "org.diffscope.core.home.recentFiles"
         Action {
             checkable: true
             checked: !d.window.recoveryFilesVisible
@@ -29,7 +29,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.home.recoveryFiles"
+        actionId: "org.diffscope.core.home.recoveryFiles"
         Action {
             checkable: true
             checked: d.window.recoveryFilesVisible
@@ -41,7 +41,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.home.gridView"
+        actionId: "org.diffscope.core.home.gridView"
         Action {
             enabled: !d.window.recoveryFilesVisible
             checkable: true
@@ -54,7 +54,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.home.listView"
+        actionId: "org.diffscope.core.home.listView"
         Action {
             enabled: !d.window.recoveryFilesVisible
             checkable: true

@@ -11,7 +11,7 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcKeyMapPage, "diffscope.core.keymappage")
 
     KeyMapPage::KeyMapPage(QObject *parent)
-        : ISettingPage("core.Keymap", parent) {
+        : ISettingPage("org.diffscope.core.Keymap", parent) {
         setTitle(tr("Keymap"));
         setDescription(tr("Configure shortcuts of actions"));
     }

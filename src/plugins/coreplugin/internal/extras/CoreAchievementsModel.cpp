@@ -7,24 +7,24 @@
 namespace Core::Internal {
 
     static const QString achievements[18] = {
-        "core.diffscope",
-        "core.newProject",
-        "core.findActions",
-        "core.help",
-        "core.contextHelpTip",
-        "core.disableCustomTitleBar",
-        "core.disableAnimation",
-        "core.commandLineSettings",
-        "core.plugins",
-        "core.ultimateSimplicity",
-        "core.keepPatient",
-        "core.movePanel",
-        "core.undockPanel",
-        "core.removePanel",
-        "core.newPanel",
-        "core.quickJump",
-        "core.9bang15Pence",
-        "core.42",
+        "org.diffscope.core.diffscope",
+        "org.diffscope.core.newProject",
+        "org.diffscope.core.findActions",
+        "org.diffscope.core.help",
+        "org.diffscope.core.contextHelpTip",
+        "org.diffscope.core.disableCustomTitleBar",
+        "org.diffscope.core.disableAnimation",
+        "org.diffscope.core.commandLineSettings",
+        "org.diffscope.core.plugins",
+        "org.diffscope.core.ultimateSimplicity",
+        "org.diffscope.core.keepPatient",
+        "org.diffscope.core.movePanel",
+        "org.diffscope.core.undockPanel",
+        "org.diffscope.core.removePanel",
+        "org.diffscope.core.newPanel",
+        "org.diffscope.core.quickJump",
+        "org.diffscope.core.9bang15Pence",
+        "org.diffscope.core.42",
     };
 
     CoreAchievementsModel *m_instance = nullptr;
@@ -51,7 +51,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_NewProject], UIShell::USDef::AR_IdRole);
             item->setData(tr("Will It Be This Year's Top Hit?"), UIShell::USDef::AR_NameRole);
             item->setData(tr("Create a new project"), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.file.new"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.file.new"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
@@ -59,7 +59,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_FindActions], UIShell::USDef::AR_IdRole);
             item->setData(tr("What Can I Do?"), UIShell::USDef::AR_NameRole);
             item->setData(tr("\"Find Actions\" will answer you"), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.findActions"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.findActions"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
@@ -67,7 +67,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_Help], UIShell::USDef::AR_IdRole);
             item->setData(tr("What Else Can I Do?"), UIShell::USDef::AR_NameRole);
             item->setData(tr("\"Help\" will answer you"), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.documentations"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.documentations"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
@@ -75,7 +75,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_ContextHelpTip], UIShell::USDef::AR_IdRole);
             item->setData(tr("Hold [W] to Ponder"), UIShell::USDef::AR_NameRole);
             item->setData(tr("A much better way to show context help than \"What's This?\""), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.panel.tips"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.panel.tips"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
@@ -99,7 +99,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_CommandLineSettings], UIShell::USDef::AR_IdRole);
             item->setData(tr("Open Settings with Command Line"), UIShell::USDef::AR_NameRole);
             item->setData(tr("An alternative solution if you accidentally removed it from the main menu"), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.settings"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.settings"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
@@ -107,7 +107,7 @@ namespace Core::Internal {
             item->setData(achievements[Achievement_Plugins], UIShell::USDef::AR_IdRole);
             item->setData(tr("Extensibility"), UIShell::USDef::AR_NameRole);
             item->setData(tr("Have a look at the plugin list"), UIShell::USDef::AR_DescriptionRole);
-            item->setData(QUrl("image://action/core.plugins"), UIShell::USDef::AR_IconRole);
+            item->setData(QUrl("image://action/org.diffscope.core.plugins"), UIShell::USDef::AR_IconRole);
             appendRow(item);
         }
         {
