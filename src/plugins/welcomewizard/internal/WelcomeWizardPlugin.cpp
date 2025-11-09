@@ -16,7 +16,7 @@
 #include <welcomewizard/internal/welcomewizardaddon.h>
 
 static auto getWelcomeWizardActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(welcome_wizard_actions);
+    return QAK_STATIC_ACTION_EXTENSION(welcomewizard);
 }
 
 namespace WelcomeWizard {

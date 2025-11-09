@@ -17,7 +17,7 @@
 #include <achievement/internal/achievementaddon.h>
 
 static auto getAchievementActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(achievement_actions);
+    return QAK_STATIC_ACTION_EXTENSION(achievement);
 }
 
 namespace Achievement {

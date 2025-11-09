@@ -69,7 +69,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 static auto getCoreActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(core_actions);
+    return QAK_STATIC_ACTION_EXTENSION(coreplugin);
 }
 
 namespace Core::Internal {

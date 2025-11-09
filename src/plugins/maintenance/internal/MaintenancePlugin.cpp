@@ -19,7 +19,7 @@
 #include <maintenance/internal/updatepage.h>
 
 static auto getMaintenanceActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(maintenance_actions);
+    return QAK_STATIC_ACTION_EXTENSION(maintenance);
 }
 
 namespace Maintenance {
