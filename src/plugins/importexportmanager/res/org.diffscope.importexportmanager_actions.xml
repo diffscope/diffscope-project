@@ -15,13 +15,11 @@
     </configuration>
 
     <items>
-        <action id="importexportmanager.welcomeWizard" />
+
     </items>
 
     <insertions>
-        <insertion target="org.diffscope.core.help" anchor="last">
-            <action id="org.diffscope.welcomewizard.welcomeWizard" />
-        </insertion>
+
     </insertions>
 
 </actionExtension>

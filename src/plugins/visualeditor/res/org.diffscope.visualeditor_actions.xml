@@ -15,13 +15,13 @@
     </configuration>
 
     <items>
-        <action id="importexportmanager.welcomeWizard" />
+        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
     </items>
 
     <insertions>
-        <insertion target="org.diffscope.core.help" anchor="last">
-            <action id="org.diffscope.welcomewizard.welcomeWizard" />
-        </insertion>
+
     </insertions>
 
 </actionExtension>

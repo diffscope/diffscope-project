@@ -156,9 +156,6 @@
         <action id="org.diffscope.core.statusText" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.arrangement" text="Arrangement" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>

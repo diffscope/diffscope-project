@@ -67,7 +67,7 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::TopLeft,
-            {{{"org.diffscope.core.panel.arrangement", true}
+            {{{"org.diffscope.visualeditor.panel.arrangement", true}
              },
              400,
              360,
@@ -81,8 +81,8 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomLeft,
-            {{{"org.diffscope.core.panel.pianoRoll", true},
-              {"org.diffscope.core.panel.mixer", true}
+            {{{"org.diffscope.visualeditor.panel.pianoRoll", true},
+              {"org.diffscope.visualeditor.panel.mixer", true}
              },
              400,
              640,

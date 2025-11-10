@@ -52,9 +52,6 @@ namespace Core::Internal {
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.properties", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.arrangement", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.mixer", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.pianoRoll", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
