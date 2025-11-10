@@ -13,7 +13,7 @@
     "Arguments" : [
     ],
     "Category": "Core",
-    "Description": "Manage the formats used for importing and exporting",
+    "Description": "Manages the formats used for importing and exporting",
     "Url": "@APPLICATION_URL@",
     "Dependencies" : [
         { "Name" : "org.diffscope.core", "Version" : "@PLUGIN_METADATA_VERSION@" }
