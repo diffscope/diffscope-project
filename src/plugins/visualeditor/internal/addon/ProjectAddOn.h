@@ -3,7 +3,7 @@
 
 #include <CoreApi/windowinterface.h>
 
-namespace VisualEditor {
+namespace VisualEditor::Internal {
 
     class ProjectAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT

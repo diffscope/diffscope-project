@@ -8,7 +8,7 @@
 
 #include <coreplugin/ProjectWindowInterface.h>
 
-namespace VisualEditor {
+namespace VisualEditor::Internal {
     ArrangementAddOn::ArrangementAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {}
 
     ArrangementAddOn::~ArrangementAddOn() {}

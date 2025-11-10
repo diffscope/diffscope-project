@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
     <version>1.0</version>
-    <id>org.diffscope.importexportmanager</id>
+    <id>org.diffscope.visualeditor</id>
     <configuration>
         <defaultCatalog>core.mainMenu</defaultCatalog>
         <translationContext

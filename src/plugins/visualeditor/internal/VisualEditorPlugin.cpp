@@ -20,7 +20,7 @@ static auto getVisualEditorActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(visualeditor);
 }
 
-namespace VisualEditor {
+namespace VisualEditor::Internal {
 
     VisualEditorPlugin::VisualEditorPlugin() {
     }

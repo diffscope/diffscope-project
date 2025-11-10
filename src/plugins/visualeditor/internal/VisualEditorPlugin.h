@@ -3,7 +3,7 @@
 
 #include <extensionsystem/iplugin.h>
 
-namespace VisualEditor {
+namespace VisualEditor::Internal {
 
     class VisualEditorPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT

@@ -4,7 +4,7 @@
 
 #include <visualeditor/ProjectViewModelContext.h>
 
-namespace VisualEditor {
+namespace VisualEditor::Internal {
     ProjectAddOn::ProjectAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 

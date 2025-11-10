@@ -339,9 +339,9 @@ namespace Core::Internal {
         addIcon("org.diffscope.core.panel.properties", "TextBulletListSquareEdit20Filled");
         addIcon("org.diffscope.core.panel.metadata", "TextBulletListSquareEdit20Filled");
         addIcon("org.diffscope.core.panel.plugins", "PuzzlePiece16Filled");
-        // addIcon("org.diffscope.core.panel.arrangement", "GanttChart16Filled");
-        // addIcon("org.diffscope.core.panel.mixer", "OptionsVertical16Filled");
-        // addIcon("org.diffscope.core.panel.pianoRoll", "Midi20Filled");
+        addIcon("org.diffscope.visualeditor.panel.arrangement", "GanttChart16Filled");
+        addIcon("org.diffscope.visualeditor.panel.mixer", "OptionsVertical16Filled");
+        addIcon("org.diffscope.visualeditor.panel.pianoRoll", "Midi20Filled");
         addIcon("org.diffscope.core.panel.notifications", "Alert16Filled");
         addIcon("org.diffscope.core.panel.tips", "ChatSparkle16Filled");
         addIcon("org.diffscope.core.timeline.goToStart", "Previous16Filled");
