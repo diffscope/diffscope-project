@@ -176,6 +176,7 @@ namespace Core {
                 "<p>This application is distributed "
                 "<b>AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</b>, either express or "
                 "implied.</p>"
+                "<p>This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.</p>"
             )
                 .arg(QStringLiteral("<a "
                                     "href=\"https://www.apache.org/licenses/"

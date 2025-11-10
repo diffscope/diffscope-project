@@ -1,13 +1,13 @@
-project(coreplugin
+project(visualeditor
     VERSION ${APPLICATION_VERSION}
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
-    NAME org.diffscope.core
-    DISPLAY_NAME Core
-    MACRO_PREFIX CORE
-    QML_MODULE_NAME Core
+    NAME org.diffscope.visualeditor
+    DISPLAY_NAME "Visual Editor"
+    MACRO_PREFIX VISUAL_EDITOR
+    QML_MODULE_NAME VisualEditor
     QT_LINKS
         Core
         Gui
@@ -17,7 +17,6 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QuickControls2
         QuickTemplates2
         QuickDialogs2
-        Network
     QT_INCLUDE_PRIVATE
         Core
         Gui
@@ -29,32 +28,16 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
-        loadapi
         uishell
         QAKCore
         QAKQuick
         svscraft::QmlExtras
         dspxmodel
+        coreplugin
         opendspx::model
         opendspx::serializer
+        ScopicFlowCore
+        ScopicFlowViews
     INCLUDE_PRIVATE
-        core
-        windows
         internal/**
-)
-
-file(GLOB _res_icons res/icons/*)
-
-qt_add_resources(${PROJECT_NAME} icons
-    PREFIX /diffscope/coreplugin/icons
-    BASE res/icons
-    FILES ${_res_icons}
-)
-
-file(GLOB _res_logos res/logos/*)
-
-qt_add_resources(${PROJECT_NAME} logos
-    PREFIX /diffscope/coreplugin/logos
-    BASE res/logos
-    FILES ${_res_logos}
 )

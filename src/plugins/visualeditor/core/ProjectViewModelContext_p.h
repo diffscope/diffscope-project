@@ -1,15 +1,16 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTVIEWMODELCONTEXT_P_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTVIEWMODELCONTEXT_P_H
 
-#include <coreplugin/ProjectViewModelContext.h>
+#include <visualeditor/ProjectViewModelContext.h>
 
-namespace Core {
+namespace VisualEditor {
 
     class ProjectViewModelContextPrivate {
         Q_DECLARE_PUBLIC(ProjectViewModelContext)
     public:
         ProjectViewModelContext *q_ptr;
 
+        Core::ProjectWindowInterface *windowHandle;
         sflow::PlaybackViewModel *playbackViewModel;
     };
 

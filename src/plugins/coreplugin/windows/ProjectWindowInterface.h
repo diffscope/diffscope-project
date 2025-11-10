@@ -24,7 +24,6 @@ namespace Core {
     class NotificationMessage;
     class ProjectTimeline;
     class EditActionsHandlerRegistry;
-    class ProjectViewModelContext;
 
     class ProjectDocumentContext;
 
@@ -37,7 +36,6 @@ namespace Core {
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
         Q_PROPERTY(ProjectDocumentContext *projectDocumentContext READ projectDocumentContext CONSTANT)
         Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
-        Q_PROPERTY(ProjectViewModelContext *projectViewModelContext READ projectViewModelContext CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
         static ProjectWindowInterface *instance();
@@ -47,8 +45,6 @@ namespace Core {
         ProjectDocumentContext *projectDocumentContext() const;
 
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry() const;
-
-        ProjectViewModelContext *projectViewModelContext() const;
 
         enum NotificationBubbleMode {
             NormalBubble,
