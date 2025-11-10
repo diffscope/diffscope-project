@@ -11,6 +11,17 @@ namespace VisualEditor {
         ArrangementPanelInterface *q_ptr;
 
         Core::ProjectWindowInterface *windowHandle;
+        sflow::TimeViewModel *timeViewModel;
+        sflow::TimeLayoutViewModel *timeLayoutViewModel;
+        sflow::TimelineInteractionController *timelineInteractionController;
+        sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
+
+        QQuickItem *arrangementView;
+
+        void bindTimeViewModel() const;
+        void bindTimeLayoutViewModel() const;
+        void bindTimelineInteractionController() const;
+        void bindScrollBehaviorViewModel() const;
     };
 
 }

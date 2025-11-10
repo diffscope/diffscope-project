@@ -12,8 +12,9 @@ namespace VisualEditor {
 
         Core::ProjectWindowInterface *windowHandle;
         sflow::PlaybackViewModel *playbackViewModel;
-    };
 
+        void bindPlaybackViewModel() const;
+    };
 }
 
 #endif //DIFFSCOPE_COREPLUGIN_PROJECTVIEWMODELCONTEXT_P_H

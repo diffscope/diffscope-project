@@ -8,5 +8,12 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 
-ActionDockingPane {
+QtObject {
+    id: d
+    required property QtObject addOn
+
+    readonly property Component arrangementPanelComponent: ActionDockingPane {
+        data: [d.addOn?.arrangementPanelInterface.arrangementView ?? null]
+    }
+
 }

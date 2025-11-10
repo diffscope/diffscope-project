@@ -2,8 +2,18 @@
 #define DIFFSCOPE_VISUALEDITOR_ARRANGEMENTPANELINTERFACE_H
 
 #include <QObject>
+#include <qqmlintegration.h>
 
 #include <visualeditor/visualeditorglobal.h>
+
+class QQuickItem;
+
+namespace sflow {
+    class TimeViewModel;
+    class TimeLayoutViewModel;
+    class TimelineInteractionController;
+    class ScrollBehaviorViewModel;
+}
 
 namespace Core {
     class ProjectWindowInterface;
@@ -11,20 +21,42 @@ namespace Core {
 
 namespace VisualEditor {
 
+    namespace Internal {
+        class ArrangementAddOn;
+    }
+
     class ArrangementPanelInterfacePrivate;
 
     class VISUAL_EDITOR_EXPORT ArrangementPanelInterface : public QObject {
         Q_OBJECT
+        QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(ArrangementPanelInterface)
+        Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
+        Q_PROPERTY(sflow::TimeViewModel *timeViewModel READ timeViewModel CONSTANT)
+        Q_PROPERTY(sflow::TimeLayoutViewModel *timeLayoutViewModel READ timeLayoutViewModel CONSTANT)
+        Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
+        Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
+        Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
 
     public:
-        explicit ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle);
         ~ArrangementPanelInterface() override;
 
         static ArrangementPanelInterface *of(const Core::ProjectWindowInterface *windowHandle);
 
+        Core::ProjectWindowInterface *windowHandle() const;
+
+        sflow::TimeViewModel *timeViewModel() const;
+        sflow::TimeLayoutViewModel *timeLayoutViewModel() const;
+        sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
+        sflow::TimelineInteractionController *timelineInteractionController() const;
+
+        QQuickItem *arrangementView() const;
+
     private:
+        friend class Internal::ArrangementAddOn;
         QScopedPointer<ArrangementPanelInterfacePrivate> d_ptr;
+        explicit ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle);
     };
 
 }

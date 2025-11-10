@@ -10,7 +10,8 @@
 
 namespace VisualEditor {
 
-    static void bindProjectTimeLineToViewModel(Core::ProjectTimeline *projectTimeline, sflow::PlaybackViewModel *playbackViewModel) {
+    void ProjectViewModelContextPrivate::bindPlaybackViewModel() const {
+        auto projectTimeline = windowHandle->projectTimeline();
         QObject::connect(projectTimeline, &Core::ProjectTimeline::positionChanged, playbackViewModel, [=] {
             playbackViewModel->setPrimaryPosition(projectTimeline->position());
         });
@@ -34,13 +35,19 @@ namespace VisualEditor {
         d->q_ptr = this;
         d->windowHandle = windowHandle;
         d->playbackViewModel = new sflow::PlaybackViewModel(this);
-        bindProjectTimeLineToViewModel(windowHandle->projectTimeline(), d->playbackViewModel);
+
+        d->bindPlaybackViewModel();
     }
 
     ProjectViewModelContext::~ProjectViewModelContext() = default;
 
     ProjectViewModelContext *ProjectViewModelContext::of(const Core::ProjectWindowInterface *windowHandle) {
         return qobject_cast<ProjectViewModelContext *>(windowHandle->getFirstObject(staticMetaObject.className()));
+    }
+
+    Core::ProjectWindowInterface *ProjectViewModelContext::windowHandle() const {
+        Q_D(const ProjectViewModelContext);
+        return d->windowHandle;
     }
 
     sflow::PlaybackViewModel *ProjectViewModelContext::playbackViewModel() const {

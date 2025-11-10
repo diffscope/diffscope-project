@@ -3,10 +3,15 @@
 
 #include <CoreApi/windowinterface.h>
 
+namespace VisualEditor {
+    class ArrangementPanelInterface;
+}
+
 namespace VisualEditor::Internal {
 
     class ArrangementAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
+        Q_PROPERTY(VisualEditor::ArrangementPanelInterface *arrangementPanelInterface READ arrangementPanelInterface CONSTANT)
     public:
         explicit ArrangementAddOn(QObject *parent = nullptr);
         ~ArrangementAddOn() override;
@@ -14,6 +19,9 @@ namespace VisualEditor::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        ArrangementPanelInterface *arrangementPanelInterface() const;
+
     };
 
 }

@@ -15,6 +15,12 @@ namespace VisualEditor::Internal {
         bool initialize(const QStringList &arguments, QString *errorMessage) override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+    private:
+        void initializeSingletons();
+        void initializeEditorPreference();
+        void initializeSettings();
+        void initializeWindows();
     };
 
 }
