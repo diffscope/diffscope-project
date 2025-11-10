@@ -358,7 +358,6 @@ Window {
                 model: window.menusModel
                 onObjectAdded: (index, object) => {
                     if (object instanceof Menu) {
-                        console.log(object)
                         menuBar.insertMenu(index, object)
                     } else {
                         throw new TypeError("Unsupported menu type")
