@@ -20,6 +20,17 @@ namespace VisualEditor::Internal {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         new ArrangementPanelInterface(windowInterface);
         {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementAddOnActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"addOn", QVariant::fromValue(this)},
+            });
+            o->setParent(this);
+            QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
+        }
+        {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementPanel", this);
             if (component.isError()) {
                 qFatal() << component.errorString();

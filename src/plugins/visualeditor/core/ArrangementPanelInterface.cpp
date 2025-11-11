@@ -138,6 +138,19 @@ namespace VisualEditor {
         return d->arrangementView;
     }
 
+    ArrangementPanelInterface::Tool ArrangementPanelInterface::tool() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->tool;
+    }
+
+    void ArrangementPanelInterface::setTool(Tool tool) {
+        Q_D(ArrangementPanelInterface);
+        if (d->tool != tool) {
+            d->tool = tool;
+            Q_EMIT toolChanged();
+        }
+    }
+
 }
 
 #include "moc_ArrangementPanelInterface.cpp"

@@ -38,6 +38,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
+        Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
 
     public:
         ~ArrangementPanelInterface() override;
@@ -52,6 +53,18 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController() const;
 
         QQuickItem *arrangementView() const;
+
+        enum Tool {
+            PointerTool,
+            PencilTool,
+            HandTool,
+        };
+        Q_ENUM(Tool)
+        Tool tool() const;
+        void setTool(Tool tool);
+
+    Q_SIGNALS:
+        void toolChanged();
 
     private:
         friend class Internal::ArrangementAddOn;

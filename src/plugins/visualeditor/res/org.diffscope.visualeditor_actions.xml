@@ -15,10 +15,29 @@
     </configuration>
 
     <items>
+        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" shortcut="F5" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" shortcut="F6" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" shortcut="F7" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.alignment" diffscope:excludeFromCommands="true" />
+
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
     </items>
+
+    <layouts>
+        <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
+            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
+                <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.handTool" />
+            </group>
+            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.alignmentActions">
+                <action id="org.diffscope.visualeditor.arrangementPanel.alignment" />
+            </group>
+            <stretch />
+        </menu>
+    </layouts>
 
     <insertions>
 

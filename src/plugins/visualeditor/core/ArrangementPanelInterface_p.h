@@ -18,6 +18,8 @@ namespace VisualEditor {
 
         QQuickItem *arrangementView;
 
+        ArrangementPanelInterface::Tool tool{ArrangementPanelInterface::PointerTool};
+
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;
         void bindTimelineInteractionController() const;
