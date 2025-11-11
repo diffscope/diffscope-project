@@ -16,6 +16,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
 
+#include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
 
@@ -35,6 +36,7 @@ namespace VisualEditor {
     void ArrangementPanelInterfacePrivate::bindTimeLayoutViewModel() const {
     }
     void ArrangementPanelInterfacePrivate::bindTimelineInteractionController() const {
+
     }
 
     static Qt::KeyboardModifier getModifier(Internal::EditorPreference::ScrollModifier modifier) {
@@ -49,7 +51,16 @@ namespace VisualEditor {
         Q_UNREACHABLE();
     }
 
+    static sflow::ScrollBehaviorViewModel::ScrollTypes getScrollTypes(ArrangementPanelInterface::Tool tool) {
+        if (tool == ArrangementPanelInterface::HandTool) {
+            return sflow::ScrollBehaviorViewModel::Wheel | sflow::ScrollBehaviorViewModel::Pinch | sflow::ScrollBehaviorViewModel::MiddleButton | sflow::ScrollBehaviorViewModel::LeftButton;
+        } else {
+            return sflow::ScrollBehaviorViewModel::Wheel | sflow::ScrollBehaviorViewModel::Pinch | sflow::ScrollBehaviorViewModel::MiddleButton;
+        }
+    }
+
     void ArrangementPanelInterfacePrivate::bindScrollBehaviorViewModel() const {
+        Q_Q(const ArrangementPanelInterface);
         scrollBehaviorViewModel->setAlternateAxisModifier(getModifier(Internal::EditorPreference::alternateAxisModifier()));
         scrollBehaviorViewModel->setZoomModifier(getModifier(Internal::EditorPreference::zoomModifier()));
         scrollBehaviorViewModel->setPageModifier(getModifier(Internal::EditorPreference::pageModifier()));
@@ -70,6 +81,11 @@ namespace VisualEditor {
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::middleButtonAutoScrollChanged, scrollBehaviorViewModel, [=, this] {
             scrollBehaviorViewModel->setAutoScroll(Internal::EditorPreference::middleButtonAutoScroll());
         });
+
+        scrollBehaviorViewModel->setScrollTypes(getScrollTypes(tool));
+        QObject::connect(q, &ArrangementPanelInterface::toolChanged, scrollBehaviorViewModel, [=, this] {
+            scrollBehaviorViewModel->setScrollTypes(getScrollTypes(tool));
+        });
     }
 
     ArrangementPanelInterface::ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
@@ -83,6 +99,9 @@ namespace VisualEditor {
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->timelineInteractionController = new sflow::TimelineInteractionController(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
+
+        d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
+        d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementView");
         if (component.isError()) {
@@ -131,6 +150,11 @@ namespace VisualEditor {
     sflow::TimelineInteractionController *ArrangementPanelInterface::timelineInteractionController() const {
         Q_D(const ArrangementPanelInterface);
         return d->timelineInteractionController;
+    }
+
+    PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->positionAlignmentManipulator;
     }
 
     QQuickItem *ArrangementPanelInterface::arrangementView() const {

@@ -18,7 +18,7 @@ ActionCollection {
         actionId: "org.diffscope.visualeditor.arrangementPanel.pointerTool"
         Action {
             checkable: true
-            checked: d.arrangementPanelInterface.tool === ArrangementPanelInterface.PointerTool
+            checked: d.arrangementPanelInterface?.tool === ArrangementPanelInterface.PointerTool
             onTriggered: () => {
                 d.arrangementPanelInterface.tool = ArrangementPanelInterface.PointerTool
                 Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
@@ -30,7 +30,7 @@ ActionCollection {
         actionId: "org.diffscope.visualeditor.arrangementPanel.pencilTool"
         Action {
             checkable: true
-            checked: d.arrangementPanelInterface.tool === ArrangementPanelInterface.PencilTool
+            checked: d.arrangementPanelInterface?.tool === ArrangementPanelInterface.PencilTool
             onTriggered: () => {
                 d.arrangementPanelInterface.tool = ArrangementPanelInterface.PencilTool
                 Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
@@ -42,11 +42,18 @@ ActionCollection {
         actionId: "org.diffscope.visualeditor.arrangementPanel.handTool"
         Action {
             checkable: true
-            checked: d.arrangementPanelInterface.tool === ArrangementPanelInterface.HandTool
+            checked: d.arrangementPanelInterface?.tool === ArrangementPanelInterface.HandTool
             onTriggered: () => {
                 d.arrangementPanelInterface.tool = ArrangementPanelInterface.HandTool
                 Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
             }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.arrangementPanel.snap"
+        SnapControl {
+            positionAlignmentManipulator: d.arrangementPanelInterface?.positionAlignmentManipulator ?? null
         }
     }
 

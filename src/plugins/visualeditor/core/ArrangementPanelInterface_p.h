@@ -16,6 +16,8 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
 
+        PositionAlignmentManipulator *positionAlignmentManipulator;
+
         QQuickItem *arrangementView;
 
         ArrangementPanelInterface::Tool tool{ArrangementPanelInterface::PointerTool};

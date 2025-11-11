@@ -32,8 +32,8 @@
                 <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.handTool" />
             </group>
-            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.alignmentActions">
-                <action id="org.diffscope.visualeditor.arrangementPanel.alignment" />
+            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.snapActions">
+                <action id="org.diffscope.visualeditor.arrangementPanel.snap" />
             </group>
             <stretch />
         </menu>

@@ -23,7 +23,6 @@ QtObject {
         header: ToolBarContainer {
             id: toolBar
             anchors.fill: parent
-            spacing: 4
             property ActionInstantiator instantiator: ActionInstantiator {
                 actionId: "org.diffscope.visualeditor.arrangementPanelToolBar"
                 context: d.addOn?.windowHandle.actionContext ?? null

@@ -25,6 +25,8 @@ namespace VisualEditor {
         class ArrangementAddOn;
     }
 
+    class PositionAlignmentManipulator;
+
     class ArrangementPanelInterfacePrivate;
 
     class VISUAL_EDITOR_EXPORT ArrangementPanelInterface : public QObject {
@@ -37,6 +39,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::TimeLayoutViewModel *timeLayoutViewModel READ timeLayoutViewModel CONSTANT)
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
+        Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
 
@@ -51,6 +54,8 @@ namespace VisualEditor {
         sflow::TimeLayoutViewModel *timeLayoutViewModel() const;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
         sflow::TimelineInteractionController *timelineInteractionController() const;
+
+        PositionAlignmentManipulator *positionAlignmentManipulator() const;
 
         QQuickItem *arrangementView() const;
 
