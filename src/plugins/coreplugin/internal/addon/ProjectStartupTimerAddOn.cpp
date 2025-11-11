@@ -13,7 +13,6 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -103,9 +102,6 @@ namespace Core::Internal {
                 });
                 windowInterface->sendNotification(m_finishedMessage, notificationVisible() ? ProjectWindowInterface::AutoHide : ProjectWindowInterface::DoNotShowBubble);
                 m_initializingMessage->close();
-                if (elapsedTime > 60000) {
-                    CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_KeepPatient);
-                }
             });
             window->removeEventFilter(this);
         }

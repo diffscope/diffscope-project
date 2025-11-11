@@ -2,54 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ja_JP" sourcelanguage="en-US">
   <context>
-    <name>AchievementDialog</name>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="18"/>
-      <source>Achievements</source>
-      <translation type="unfinished">Achievements</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="55"/>
-      <source>Achievement Completed - %1</source>
-      <translation type="unfinished">Achievement Completed - %1</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="67"/>
-      <source>Achievement Completed</source>
-      <translation type="unfinished">Achievement Completed</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="98"/>
-      <source>Do Not Show Again</source>
-      <translation type="unfinished">Do Not Show Again</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="106"/>
-      <source>View Achievements</source>
-      <translation type="unfinished">View Achievements</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="219"/>
-      <source>Hidden achievement</source>
-      <translation type="unfinished">Hidden achievement</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="224"/>
-      <source>Reset to Incomplete</source>
-      <translation type="unfinished">Reset to Incomplete</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="249"/>
-      <source>Category</source>
-      <translation type="unfinished">Category</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="258"/>
-      <source>Show &quot;Achievement Completed&quot; notification</source>
-      <translation type="unfinished">Show &quot;Achievement Completed&quot; notification</translation>
-    </message>
-  </context>
-  <context>
     <name>ActionLayoutsEditor</name>
     <message>
       <location filename="../../src/qml/ActionLayoutsEditor.qml" line="151"/>

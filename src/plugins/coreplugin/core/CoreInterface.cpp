@@ -41,7 +41,6 @@
 #include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/internal/BehaviorPreference.h>
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -135,7 +134,6 @@ namespace Core {
     }
 
     void CoreInterface::execPluginsDialog(QWindow *parent) {
-        Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -250,24 +248,6 @@ namespace Core {
         return windowInterface;
     }
 
-    static void triggerAchievementAfterNewProjectWindowOpened(QWindow *win) {
-        class ExposedListener : public QObject {
-        public:
-            explicit ExposedListener(QObject *parent) : QObject(parent) {
-            }
-
-            bool eventFilter(QObject *watched, QEvent *event) override {
-                if (event->type() == QEvent::Expose && static_cast<QWindow *>(watched)->isExposed()) {
-                    Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
-                    deleteLater();
-                }
-                return QObject::eventFilter(watched, event);
-            }
-        };
-        auto listener = new ExposedListener(win);
-        win->installEventFilter(listener);
-    }
-
     ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
         static QDspx::Model defaultModel{
             .version = QDspx::Model::V1,
@@ -279,7 +259,6 @@ namespace Core {
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         projectDocumentContext->newFile(defaultModel, false);
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
         return windowInterface;
     }
 
@@ -297,7 +276,6 @@ namespace Core {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
         return windowInterface;
     }
 

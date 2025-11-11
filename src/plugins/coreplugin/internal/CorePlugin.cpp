@@ -48,7 +48,6 @@
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/ColorSchemeCollection.h>
 #include <coreplugin/internal/ColorSchemePage.h>
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/internal/EditActionsAddOn.h>
 #include <coreplugin/internal/FileBackupPage.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
@@ -133,21 +132,10 @@ namespace Core::Internal {
     static constexpr char kOpenSettingsArg[] = "--open-settings";
     static constexpr char kNewProjectArg[] = "--new";
 
-    static void checkUltimateSimplicityAchievement() {
-        using namespace ExtensionSystem;
-        bool ok = std::ranges::all_of(PluginManager::plugins(), [](PluginSpec *spec) {
-            return !spec->isEffectivelyEnabled() || spec->name() == "Core" || spec->name() == "Achievement";
-        });
-        if (!ok)
-            return;
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_UltimateSimplicity);
-    }
-
     static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
         }
         ActionWindowInterfaceBase *windowInterface;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
@@ -219,8 +207,6 @@ namespace Core::Internal {
         };
         auto listener = new ExposedListener(win);
         win->installEventFilter(listener);
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
-        checkUltimateSimplicityAchievement();
         QApplication::setQuitOnLastWindowClosed(true);
         return false;
     }
@@ -400,11 +386,6 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, updateFont);
         QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
         const auto updateAnimation = [=] {
-            if (!BehaviorPreference::isAnimationEnabled()) {
-                CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableAnimation
-                );
-            }
             auto v = 250 * BehaviorPreference::animationSpeedRatio() *
                      (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
@@ -427,13 +408,6 @@ namespace Core::Internal {
             sf.setSamples(8);
             QSurfaceFormat::setDefaultFormat(sf);
         }
-        QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, [] {
-            if (!(BehaviorPreference::uiBehavior() & BehaviorPreference::UB_Frameless)) {
-                CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableCustomTitleBar
-                );
-            }
-        });
     }
 
     void CorePlugin::initializeColorScheme() {
@@ -451,7 +425,6 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeHelpContents() {
-        RuntimeInterface::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
         {
             auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
             if (component->isError()) {

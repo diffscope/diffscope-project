@@ -43,7 +43,7 @@ ActionCollection {
         actionId: "org.diffscope.core.documentations"
         Action {
             onTriggered: () => {
-                CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_Help);
+
             }
         }
     }

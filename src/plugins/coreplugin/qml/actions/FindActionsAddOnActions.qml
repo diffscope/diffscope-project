@@ -14,7 +14,6 @@ ActionCollection {
         Action {
             onTriggered: () => {
                 Qt.callLater(() => {
-                    CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_FindActions);
                     d.addOn.findActions()
                 })
             }

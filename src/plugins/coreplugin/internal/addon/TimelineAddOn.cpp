@@ -12,8 +12,6 @@
 #include <SVSCraftCore/LongTime.h>
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
-
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/QuickInput.h>
@@ -274,7 +272,6 @@ namespace Core::Internal {
             return quickJumpParseAbsoluteLongTime("1:14.514", quickInput, timeline);
         }
         if (text.toLower() == "the answer to the ultimate question of life, the universe, and everything") {
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_42);
             return quickJumpParseAbsoluteMusicTime("42", quickInput, timeline);
         }
         if (text.toLower() == "crindzebra sjimo") {
@@ -284,7 +281,6 @@ namespace Core::Internal {
             return timeline->musicTimeline()->create(0, 0, 16423);
         }
         if (text.toLower() == "9bang15\u4fbf\u58eb") {
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_9bang15Pence);
             quickInput->setAcceptable(true);
             quickInput->setStatus(SVS::SVSCraft::ControlType::CT_Normal);
             return quickJumpParseAbsoluteLongTime("9.15", quickInput, timeline);
@@ -329,7 +325,6 @@ namespace Core::Internal {
     }
 
     void TimelineAddOn::execQuickJump(const QString &initialText) const {
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_QuickJump);
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QuickInput quickInput;
         quickInput.setPlaceholderText(tr("Jump to"));

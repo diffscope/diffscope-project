@@ -2,54 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en-US">
   <context>
-    <name>AchievementDialog</name>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="18"/>
-      <source>Achievements</source>
-      <translation>成就</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="55"/>
-      <source>Achievement Completed - %1</source>
-      <translation>成就达成 - %1</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="67"/>
-      <source>Achievement Completed</source>
-      <translation>成就达成</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="98"/>
-      <source>Do Not Show Again</source>
-      <translation>不再显示</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="106"/>
-      <source>View Achievements</source>
-      <translation>查看成就</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="219"/>
-      <source>Hidden achievement</source>
-      <translation>隐藏的成就</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="224"/>
-      <source>Reset to Incomplete</source>
-      <translation>重置为未完成</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="249"/>
-      <source>Category</source>
-      <translation>类别</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="258"/>
-      <source>Show &quot;Achievement Completed&quot; notification</source>
-      <translation>显示“成就达成”通知</translation>
-    </message>
-  </context>
-  <context>
     <name>ActionLayoutsEditor</name>
     <message>
       <location filename="../../src/qml/ActionLayoutsEditor.qml" line="151"/>

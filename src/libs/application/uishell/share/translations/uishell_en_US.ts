@@ -2,54 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US" sourcelanguage="en-US">
   <context>
-    <name>AchievementDialog</name>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="18"/>
-      <source>Achievements</source>
-      <translation>Achievements</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="55"/>
-      <source>Achievement Completed - %1</source>
-      <translation>Achievement Completed - %1</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="67"/>
-      <source>Achievement Completed</source>
-      <translation>Achievement Completed</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="98"/>
-      <source>Do Not Show Again</source>
-      <translation>Do Not Show Again</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="106"/>
-      <source>View Achievements</source>
-      <translation>View Achievements</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="219"/>
-      <source>Hidden achievement</source>
-      <translation>Hidden achievement</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="224"/>
-      <source>Reset to Incomplete</source>
-      <translation>Reset to Incomplete</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="249"/>
-      <source>Category</source>
-      <translation>Category</translation>
-    </message>
-    <message>
-      <location filename="../../src/qml/AchievementDialog.qml" line="258"/>
-      <source>Show &quot;Achievement Completed&quot; notification</source>
-      <translation>Show &quot;Achievement Completed&quot; notification</translation>
-    </message>
-  </context>
-  <context>
     <name>ActionLayoutsEditor</name>
     <message>
       <location filename="../../src/qml/ActionLayoutsEditor.qml" line="151"/>
