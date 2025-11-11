@@ -84,8 +84,10 @@ Window {
                 }
                 toolBar: RowLayout {
                     IconLabel {
-                        icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/CheckmarkCircle16Filled.svg"
+                        icon.source: "image://fluent-system-icons/checkmark_circle"
                         icon.color: Theme.accentColor
+                        icon.width: 16
+                        icon.height: 16
                     }
                 }
             }
@@ -208,8 +210,10 @@ Window {
             toolBar: RowLayout {
                 IconLabel {
                     visible: achievementCard.completed
-                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/CheckmarkCircle16Filled.svg"
+                    icon.source: "image://fluent-system-icons/checkmark_circle"
                     icon.color: Theme.accentColor
+                    icon.width: 16
+                    icon.height: 16
                 }
             }
         }

@@ -19,6 +19,8 @@
 
 #include <qjsonsettings.h>
 
+#include <SVSCraftFluentSystemIcons/FluentSystemIconsImageProvider.h>
+
 #include <loadapi/initroutine.h>
 
 #include <application_config.h>
@@ -85,6 +87,7 @@ public:
 
     void beforeLoadPlugins() override {
         RuntimeInterface::setQmlEngine(engine);
+        SVS::FluentSystemIconsImageProvider::addToEngine(engine);
         auto settings = RuntimeInterface::settings();
 
         QLocale locale;

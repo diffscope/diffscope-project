@@ -101,7 +101,9 @@ Window {
                 y: (parent.height - height) / 2
                 width: 12
                 height: 12
-                source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronRight12Filled.svg"
+                sourceSize.width: 12
+                sourceSize.height: 12
+                source: "image://fluent-system-icons/chevron_right?size=12"
                 color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
                        control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
                        control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
@@ -233,7 +235,7 @@ Window {
                             Layout.margins: 8
                             placeholderText: qsTr("Search")
                             Accessible.name: qsTr("Search")
-                            ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                            ThemedItem.icon.source: "image://fluent-system-icons/search"
                         }
                         Label {
                             id: noResultFoundLabel
@@ -395,7 +397,9 @@ Window {
                                             height: 12
                                             width: 12
                                             color: Theme.foregroundPrimaryColor
-                                            source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronRight12Filled.svg"
+                                            sourceSize.width: 12
+                                            sourceSize.height: 12
+                                            source: "image://fluent-system-icons/chevron_right?size=12"
                                             visible: index !== breadcrumbRepeater.count - 1
                                             Layout.alignment: Qt.AlignVCenter
                                         }

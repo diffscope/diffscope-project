@@ -143,7 +143,7 @@ Window {
                         width: 80
                         height: 80
                         anchors.centerIn: parent
-                        source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentAdd48Regular.svg"
+                        source: "image://fluent-system-icons/document_add?size=48&style=regular"
                         sourceSize.width: 80
                         sourceSize.height: 80
                         color: Theme.foregroundSecondaryColor
@@ -220,7 +220,7 @@ Window {
                 ColorImage {
                     visible: cell.index === -1
                     anchors.fill: parent
-                    source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentAdd48Regular.svg"
+                    source: "image://fluent-system-icons/document_add?size=48&style=regular"
                     color: Theme.foregroundSecondaryColor
                     sourceSize.width: 48
                     sourceSize.height: 48
@@ -282,7 +282,7 @@ Window {
         readonly property Menu fileMenu: Menu {
             Action {
                 text: qsTr("Open")
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/FolderOpen16Filled.svg"
+                icon.source: "image://fluent-system-icons/folder_open"
                 onTriggered: () => {
                     if (tapHandler.recovery) {
                         window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
@@ -293,7 +293,7 @@ Window {
             }
             Action {
                 text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/OpenFolder16Filled.svg"
+                icon.source: "image://fluent-system-icons/open_folder"
                 enabled: tapHandler.modelData.path.length !== 0
                 onTriggered: () => {
                     DesktopServices.reveal(tapHandler.modelData.path)
@@ -301,7 +301,7 @@ Window {
             }
             Action {
                 text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentDismiss16Filled.svg"
+                icon.source: "image://fluent-system-icons/document_dismiss"
                 onTriggered: () => {
                     if (tapHandler.recovery) {
                         window.removeRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
@@ -428,7 +428,7 @@ Window {
                         checkable: true
                         autoExclusive: true
                         checked: true
-                        icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/History16Filled.svg"
+                        icon.source: "image://fluent-system-icons/history"
                     }
                     NavButton {
                         id: recoveryFilesButton
@@ -436,7 +436,7 @@ Window {
                         Accessible.role: Accessible.RadioButton
                         checkable: true
                         autoExclusive: true
-                        icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DocumentSync16Filled.svg"
+                        icon.source: "image://fluent-system-icons/document_sync"
                         Rectangle {
                             width: Math.max(16, recoveryFileCountText.width)
                             height: 16
@@ -541,12 +541,12 @@ Window {
                         placeholderText: qsTr("Search")
                         Accessible.name: qsTr("Search")
                         Layout.fillWidth: true
-                        ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                        ThemedItem.icon.source: "image://fluent-system-icons/search"
                     }
                     RowLayout {
                         visible: !recoveryFilesButton.checked
                         ToolButton {
-                            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+                            icon.source: "image://fluent-system-icons/grid"
                             checkable: true
                             autoExclusive: true
                             checked: !window.recentFilesIsListView
@@ -555,7 +555,7 @@ Window {
                             display: AbstractButton.IconOnly
                         }
                         ToolButton {
-                            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/List16Filled.svg"
+                            icon.source: "image://fluent-system-icons/list"
                             checkable: true
                             autoExclusive: true
                             checked: window.recentFilesIsListView

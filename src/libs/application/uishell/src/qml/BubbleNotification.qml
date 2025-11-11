@@ -52,7 +52,9 @@ Item {
                 Layout.preferredWidth: 24
                 Layout.preferredHeight: 24
                 color: dialog.handle?.icon === SVS.Warning ? Theme.warningColor : dialog.handle?.icon === SVS.Critical ? Theme.errorColor : dialog.handle?.icon === SVS.Success || dialog.handle?.icon === SVS.Tip ? Theme.accentColor : Theme.foregroundPrimaryColor
-                source: `qrc:/qt/qml/DiffScope/UIShell/assets/${dialog.handle?.icon === SVS.Information ? "Info24Regular.svg" : dialog.handle?.icon === SVS.Warning ? "Warning24Regular.svg" : dialog.handle?.icon === SVS.Critical ? "DismissCircle24Regular.svg" : dialog.handle?.icon === SVS.Question ? "QuestionCircle24Regular.svg" : dialog.handle?.icon === SVS.Success ? "CheckmarkCircle24Regular.svg" : "InfoSparkle24Regular.svg"}`
+                source: `image://fluent-system-icons/${dialog.handle?.icon === SVS.Information ? "info" : dialog.handle?.icon === SVS.Warning ? "warning" : dialog.handle?.icon === SVS.Critical ? "dismiss_circle" : dialog.handle?.icon === SVS.Question ? "question_circle" : dialog.handle?.icon === SVS.Success ? "checkmark_circle" : "info_sparkle"}?size=24&style=regular`
+                sourceSize.width: 24
+                sourceSize.height: 24
             }
             Label {
                 Layout.alignment: Qt.AlignTop
@@ -67,7 +69,7 @@ Item {
                 Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.handle?.permanentlyHideable ?? false
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/EyeOff16Filled.svg"
+                icon.source: "image://fluent-system-icons/eye_off"
                 display: AbstractButton.IconOnly
                 text: qsTr("Do Not Show Again")
                 padding: 2
@@ -81,7 +83,7 @@ Item {
                 Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.popupLike
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronDown16Regular.svg"
+                icon.source: "image://fluent-system-icons/chevron_down"
                 display: AbstractButton.IconOnly
                 text: qsTr("Collapse to Notifications Panel")
                 padding: 2
@@ -95,7 +97,7 @@ Item {
                 Layout.alignment: Qt.AlignTop
                 flat: true
                 visible: dialog.handle?.closable ?? false
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Dismiss12Regular.svg"
+                icon.source: "image://fluent-system-icons/dismiss?size=12"
                 display: AbstractButton.IconOnly
                 text: qsTr("Clear")
                 icon.width: 14
@@ -135,7 +137,7 @@ Item {
                 background: Item {}
                 display: AbstractButton.IconOnly
                 text: qsTr("Abort")
-                icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/DismissCircle12Filled.svg"
+                icon.source: "image://fluent-system-icons/dismiss_circle?size=12"
                 icon.height: 12
                 icon.width: 12
                 padding: 0
