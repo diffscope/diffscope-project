@@ -137,12 +137,10 @@ namespace Core::Internal {
                     if (i == spec.visibleIndex || opened) {
                         visibleIndices.append(result.size());
                     }
-                    if (data.isValid()) {
-                        object->setProperty("panelPersistentData", data);
-                    }
                     result.append(QVariantMap{
                         {"object", QVariant::fromValue(object)},
                         {"geometry", geometry},
+                        {"state", data}
                     });
                 }
             }

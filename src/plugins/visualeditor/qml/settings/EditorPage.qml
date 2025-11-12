@@ -99,7 +99,7 @@ ScrollView {
                         onActivated: (index) => page.pageModifier = index
                     }
                     Label {
-                        text: qsTr("Middle button scroll mode")
+                        text: qsTr("Middle button/hand tool scroll mode")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     Item {

@@ -104,8 +104,16 @@ QtObject {
             }
             return v.object
         }
+        const loadState = v => {
+            try {
+                v.object.loadState(v.state)
+                console.debug(lcWorkspaceAddOnHelper, "State loaded:", v.object, v.object.ActionInstantiator.id)
+            } catch (e) {
+            }
+        }
         const f = (dockingView, edge) => {
             let o = addOn.createDockingViewContents(edge)
+            o.objects.forEach(loadState)
             dockingView.contentData = o.objects.map(conv)
             dockingView.preferredPanelSize = o.preferredPanelSize
             dockingView.splitterRatio = o.splitterRatio
@@ -118,8 +126,10 @@ QtObject {
 
         let topData = addOn.createDockingViewContents(Qt.TopEdge)
         let bottomData = addOn.createDockingViewContents(Qt.BottomEdge)
+        topData.objects.forEach(loadState)
         window.topDockingView.contentData = topData.objects.map(conv)
         window.topDockingView.splitterRatio = topData.splitterRatio
+        bottomData.objects.forEach(loadState)
         window.bottomDockingView.contentData = bottomData.objects.map(conv)
         window.bottomDockingView.splitterRatio = bottomData.splitterRatio
         window.topDockingViewHeightRatio = topData.preferredPanelSize
@@ -140,6 +150,15 @@ QtObject {
         console.info(lcWorkspaceAddOnHelper, "Saving current layout")
         savingCurrentLayout = true
         let viewSpecMap = []
+        const saveState = o => {
+            try {
+                let state = o.saveState()
+                console.debug(lcWorkspaceAddOnHelper, "State saved:", o, o.ActionInstantiator.id)
+                return state
+            } catch (e) {
+                return undefined
+            }
+        }
         const f = (dockingView, isLeftOrRight, firstKey, lastKey) => {
             console.debug(lcWorkspaceAddOnHelper, "Saving docking view", firstKey);
             viewSpecMap[firstKey] = {
@@ -150,7 +169,7 @@ QtObject {
                         dock: o.dock,
                         opened: o.Docking.window?.visible ?? false,
                         geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                        data: o.panelPersistentData
+                        data: saveState(o)
                     }
                     console.debug(lcWorkspaceAddOnHelper, "Handled panel spec",o , v.id, v.dock, v.opened, v.geometry, v.data)
                     return v
@@ -169,7 +188,7 @@ QtObject {
                         dock: o.dock,
                         opened: o.Docking.window?.visible ?? false,
                         geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                        data: o.panelPersistentData
+                        data: saveState(o)
                     }
                     console.debug(lcWorkspaceAddOnHelper, "Handled panel spec",o , v.id, v.dock, v.opened, v.geometry, v.data)
                     return v

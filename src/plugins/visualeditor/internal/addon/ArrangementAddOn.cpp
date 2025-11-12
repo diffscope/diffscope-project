@@ -1,5 +1,6 @@
 #include "ArrangementAddOn.h"
 
+#include <QKeyEvent>
 #include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
@@ -9,6 +10,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ArrangementPanelInterface.h>
+#include <visualeditor/internal/EditorPreference.h>
 
 namespace VisualEditor::Internal {
     ArrangementAddOn::ArrangementAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -18,6 +20,7 @@ namespace VisualEditor::Internal {
 
     void ArrangementAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        windowInterface->window()->installEventFilter(this);
         new ArrangementPanelInterface(windowInterface);
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementAddOnActions");
@@ -57,6 +60,26 @@ namespace VisualEditor::Internal {
     }
     ArrangementPanelInterface *ArrangementAddOn::arrangementPanelInterface() const {
         return ArrangementPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
+    }
+    bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
+        if (watched == windowHandle()->window()) {
+            switch (event->type()) {
+                case QEvent::KeyPress:
+                case QEvent::KeyRelease: {
+                    if (!EditorPreference::enableTemporarySnapOff()) {
+                        break;
+                    }
+                    auto keyEvent = static_cast<QKeyEvent *>(event);
+                    if (keyEvent->key() == Qt::Key_Shift) {
+                        arrangementPanelInterface()->setSnapTemporarilyDisabled(keyEvent->type() == QEvent::KeyPress);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        return WindowInterfaceAddOn::eventFilter(watched, event);
     }
 }
 

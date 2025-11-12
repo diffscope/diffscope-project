@@ -2,6 +2,7 @@
 #define DIFFSCOPE_VISUALEDITOR_ARRANGEMENTPANELINTERFACE_P_H
 
 #include <visualeditor/ArrangementPanelInterface.h>
+#include <visualeditor/PositionAlignmentManipulator.h>
 
 namespace VisualEditor {
 
@@ -17,15 +18,20 @@ namespace VisualEditor {
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
 
         PositionAlignmentManipulator *positionAlignmentManipulator;
+        AutoPageScrollingManipulator *autoPageScrollingManipulator;
 
         QQuickItem *arrangementView;
 
         ArrangementPanelInterface::Tool tool{ArrangementPanelInterface::PointerTool};
+        bool isSnapTemporarilyDisabled{false};
+
+        mutable PositionAlignmentManipulator::Duration previousDuration{};
 
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;
         void bindTimelineInteractionController() const;
         void bindScrollBehaviorViewModel() const;
+        void bindPositionAlignmentManipulator() const;
     };
 
 }

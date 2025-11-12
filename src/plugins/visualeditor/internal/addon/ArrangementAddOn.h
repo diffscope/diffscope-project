@@ -22,6 +22,8 @@ namespace VisualEditor::Internal {
 
         ArrangementPanelInterface *arrangementPanelInterface() const;
 
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
     };
 
 }

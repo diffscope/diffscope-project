@@ -15,10 +15,11 @@
     </configuration>
 
     <items>
-        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" shortcut="F5" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" shortcut="F6" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" shortcut="F7" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.arrangementPanel.alignment" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:excludeFromCommands="true"/>
@@ -36,6 +37,7 @@
                 <action id="org.diffscope.visualeditor.arrangementPanel.snap" />
             </group>
             <stretch />
+            <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
         </menu>
     </layouts>
 

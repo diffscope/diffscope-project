@@ -48,6 +48,7 @@ Item {
             text: qsTr("Triplet")
             display: AbstractButton.IconOnly
             icon.source: "qrc:/diffscope/visualeditor/icons/triplet.svg"
+            enabled: control.positionAlignmentManipulator?.duration !== PositionAlignmentManipulator.Unset
             checkable: true
             checked: control.positionAlignmentManipulator?.tuplet === PositionAlignmentManipulator.Triplet
             onClicked: () => {
@@ -60,6 +61,7 @@ Item {
             text: qsTr("Quintuplet")
             display: AbstractButton.IconOnly
             icon.source: "qrc:/diffscope/visualeditor/icons/quintuplet.svg"
+            enabled: control.positionAlignmentManipulator?.duration !== PositionAlignmentManipulator.Unset
             checkable: true
             checked: control.positionAlignmentManipulator?.tuplet === PositionAlignmentManipulator.Quintuplet
             onClicked: () => {

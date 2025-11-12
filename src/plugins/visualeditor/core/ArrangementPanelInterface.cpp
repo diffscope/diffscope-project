@@ -16,6 +16,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
 
+#include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
@@ -88,6 +89,22 @@ namespace VisualEditor {
         });
     }
 
+    void ArrangementPanelInterfacePrivate::bindPositionAlignmentManipulator() const {
+        Q_Q(const ArrangementPanelInterface);
+        positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
+        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::autoDurationPositionAlignmentChanged, positionAlignmentManipulator, [=, this] {
+            positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
+        });
+        QObject::connect(q, &ArrangementPanelInterface::snapTemporarilyDisabledChanged, positionAlignmentManipulator, [=, this] {
+            if (isSnapTemporarilyDisabled) {
+                previousDuration = positionAlignmentManipulator->duration();
+                positionAlignmentManipulator->setDuration(PositionAlignmentManipulator::Unset);
+            } else {
+                positionAlignmentManipulator->setDuration(previousDuration);
+            }
+        });
+    }
+
     ArrangementPanelInterface::ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
         Q_D(ArrangementPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
@@ -102,6 +119,11 @@ namespace VisualEditor {
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
+        d->autoPageScrollingManipulator = new AutoPageScrollingManipulator(this);
+        d->autoPageScrollingManipulator->setEnabled(true);
+        d->autoPageScrollingManipulator->setTimeViewModel(d->timeViewModel);
+        d->autoPageScrollingManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
+        d->autoPageScrollingManipulator->setPlaybackViewModel(ProjectViewModelContext::of(d->windowHandle)->playbackViewModel());
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementView");
         if (component.isError()) {
@@ -118,10 +140,13 @@ namespace VisualEditor {
         d->arrangementView = qobject_cast<QQuickItem *>(o);
         Q_ASSERT(d->arrangementView);
 
+        d->autoPageScrollingManipulator->setTarget(d->arrangementView->property("timeline").value<QQuickItem *>());
+
         d->bindTimeViewModel();
         d->bindTimeLayoutViewModel();
         d->bindTimelineInteractionController();
         d->bindScrollBehaviorViewModel();
+        d->bindPositionAlignmentManipulator();
     }
 
     ArrangementPanelInterface::~ArrangementPanelInterface() = default;
@@ -157,6 +182,11 @@ namespace VisualEditor {
         return d->positionAlignmentManipulator;
     }
 
+    AutoPageScrollingManipulator *ArrangementPanelInterface::autoPageScrollingManipulator() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->autoPageScrollingManipulator;
+    }
+
     QQuickItem *ArrangementPanelInterface::arrangementView() const {
         Q_D(const ArrangementPanelInterface);
         return d->arrangementView;
@@ -172,6 +202,19 @@ namespace VisualEditor {
         if (d->tool != tool) {
             d->tool = tool;
             Q_EMIT toolChanged();
+        }
+    }
+
+    bool ArrangementPanelInterface::isSnapTemporarilyDisabled() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->isSnapTemporarilyDisabled;
+    }
+
+    void ArrangementPanelInterface::setSnapTemporarilyDisabled(bool disabled) {
+        Q_D(ArrangementPanelInterface);
+        if (d->isSnapTemporarilyDisabled != disabled) {
+            d->isSnapTemporarilyDisabled = disabled;
+            Q_EMIT snapTemporarilyDisabledChanged();
         }
     }
 

@@ -12,18 +12,6 @@ namespace VisualEditor {
 
     class PositionAlignmentManipulatorPrivate;
 
-    class PositionAlignmentManipulatorHelper : public QObject {
-        Q_OBJECT
-    public:
-        explicit PositionAlignmentManipulatorHelper(PositionAlignmentManipulatorPrivate *d, QObject *parent = nullptr);
-
-    public Q_SLOTS:
-        void onPixelDensityChanged() const;
-
-    private:
-        PositionAlignmentManipulatorPrivate *d;
-    };
-
     class PositionAlignmentManipulatorPrivate {
         Q_DECLARE_PUBLIC(PositionAlignmentManipulator)
     public:
@@ -34,11 +22,9 @@ namespace VisualEditor {
         PositionAlignmentManipulator::Tuplet tuplet;
         int autoDurationPositionAlignment;
 
-        PositionAlignmentManipulatorHelper *helper;
-
         void updatePositionAlignment();
-        void connectTimeLayoutViewModel() const;
-        void disconnectTimeLayoutViewModel() const;
+        void connectTimeLayoutViewModel();
+        void disconnectTimeLayoutViewModel();
     };
 
 }

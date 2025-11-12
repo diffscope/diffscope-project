@@ -16,6 +16,27 @@ QtObject {
     required property QtObject addOn
 
     readonly property Component arrangementPanelComponent: ActionDockingPane {
+
+        function loadState(state) {
+            if (!state)
+                return
+            let arrangementPanelInterface = addOn.arrangementPanelInterface
+            arrangementPanelInterface.tool = state.tool
+            arrangementPanelInterface.positionAlignmentManipulator.duration = state.duration
+            arrangementPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
+            arrangementPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+        }
+
+        function saveState() {
+            let arrangementPanelInterface = addOn.arrangementPanelInterface
+            return {
+                tool: arrangementPanelInterface.tool,
+                duration: arrangementPanelInterface.positionAlignmentManipulator.duration,
+                tuplet: arrangementPanelInterface.positionAlignmentManipulator.tuplet,
+                isAutoPageScrollingEnabled: arrangementPanelInterface.autoPageScrollingManipulator.enabled
+            }
+        }
+
         Component {
             id: dummyItem
             Item {}

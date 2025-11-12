@@ -18,6 +18,8 @@ Item {
 
     anchors.fill: parent
 
+    readonly property Timeline timeline: timeline
+
     SplitView {
         id: splitView
         anchors.fill: parent

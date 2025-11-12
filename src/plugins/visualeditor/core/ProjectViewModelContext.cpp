@@ -24,7 +24,7 @@ namespace VisualEditor {
         QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::secondaryPositionChanged, projectTimeline, [=] {
             projectTimeline->setLastPosition(playbackViewModel->secondaryPosition());
         });
-        playbackViewModel->setPrimaryPosition(projectTimeline->position());
+        playbackViewModel->setPrimaryPosition(projectTimeline->position()); 
         playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
     }
 

@@ -54,6 +54,16 @@ ActionCollection {
         actionId: "org.diffscope.visualeditor.arrangementPanel.snap"
         SnapControl {
             positionAlignmentManipulator: d.arrangementPanelInterface?.positionAlignmentManipulator ?? null
+            enabled: !d.arrangementPanelInterface?.snapTemporarilyDisabled
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.arrangementPanel.autoPageScrolling"
+        Action {
+            checkable: true
+            checked: d.arrangementPanelInterface?.autoPageScrollingManipulator.enabled ?? false
+            onTriggered: d.arrangementPanelInterface.autoPageScrollingManipulator.enabled = checked
         }
     }
 

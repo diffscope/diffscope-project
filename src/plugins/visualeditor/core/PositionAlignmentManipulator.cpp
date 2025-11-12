@@ -43,7 +43,6 @@ namespace VisualEditor {
         d->duration = Note8th;
         d->tuplet = None;
         d->autoDurationPositionAlignment = 48;
-        d->helper = new PositionAlignmentManipulatorHelper(d, this);
     }
 
     PositionAlignmentManipulator::~PositionAlignmentManipulator() = default;
@@ -145,30 +144,23 @@ namespace VisualEditor {
         timeLayoutViewModel->setPositionAlignment(newAlignment);
     }
 
-    void PositionAlignmentManipulatorPrivate::connectTimeLayoutViewModel() const {
+    void PositionAlignmentManipulatorPrivate::connectTimeLayoutViewModel() {
+        Q_Q(PositionAlignmentManipulator);
         if (!timeLayoutViewModel)
             return;
-
-        // Connect to pixelDensity changes to recalculate auto mode alignment
-        QObject::connect(timeLayoutViewModel, SIGNAL(pixelDensityChanged()), helper, SLOT(onPixelDensityChanged()));
+        QObject::connect(timeLayoutViewModel, &sflow::TimeLayoutViewModel::pixelDensityChanged, q, [this]() {
+            if (duration == PositionAlignmentManipulator::Auto) {
+                updatePositionAlignment();
+            }
+        });
     }
 
-    void PositionAlignmentManipulatorPrivate::disconnectTimeLayoutViewModel() const {
+    void PositionAlignmentManipulatorPrivate::disconnectTimeLayoutViewModel() {
+        Q_Q(PositionAlignmentManipulator);
         if (!timeLayoutViewModel)
             return;
-
         // Disconnect all connections from the old timeLayoutViewModel
-        QObject::disconnect(timeLayoutViewModel, nullptr, helper, nullptr);
-    }
-
-    PositionAlignmentManipulatorHelper::PositionAlignmentManipulatorHelper(PositionAlignmentManipulatorPrivate *d, QObject *parent)
-        : QObject(parent), d(d) {
-    }
-
-    void PositionAlignmentManipulatorHelper::onPixelDensityChanged() const {
-        if (d->duration == PositionAlignmentManipulator::Auto) {
-            d->updatePositionAlignment();
-        }
+        QObject::disconnect(timeLayoutViewModel, nullptr, q, nullptr);
     }
 
 }

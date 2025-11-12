@@ -26,6 +26,7 @@ namespace VisualEditor {
     }
 
     class PositionAlignmentManipulator;
+    class AutoPageScrollingManipulator;
 
     class ArrangementPanelInterfacePrivate;
 
@@ -40,8 +41,10 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
+        Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
+        Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
 
     public:
         ~ArrangementPanelInterface() override;
@@ -56,6 +59,7 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController() const;
 
         PositionAlignmentManipulator *positionAlignmentManipulator() const;
+        AutoPageScrollingManipulator *autoPageScrollingManipulator() const;
 
         QQuickItem *arrangementView() const;
 
@@ -68,8 +72,12 @@ namespace VisualEditor {
         Tool tool() const;
         void setTool(Tool tool);
 
+        bool isSnapTemporarilyDisabled() const;
+        void setSnapTemporarilyDisabled(bool disabled);
+
     Q_SIGNALS:
         void toolChanged();
+        void snapTemporarilyDisabledChanged();
 
     private:
         friend class Internal::ArrangementAddOn;
