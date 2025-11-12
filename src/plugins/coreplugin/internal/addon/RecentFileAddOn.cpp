@@ -70,7 +70,7 @@ namespace Core::Internal {
 
     void RecentFileAddOn::updateRecentFilesModel() const {
         static const QUrl dspxIconUrl{"image://appicon/dspx"};
-        static const QUrl nonExistFileIconUrl{"qrc:/diffscope/coreplugin/icons/DocumentError48Regular.svg"};
+        static const QUrl nonExistFileIconUrl{"image://fluent-system-icons/document_error?size=48&style=regular"};
         m_recentFilesModel->clear();
         for (const auto &file : CoreInterface::recentFileCollection()->recentFiles()) {
             QFileInfo fileInfo(file);

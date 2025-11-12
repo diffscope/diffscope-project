@@ -30,8 +30,8 @@ namespace UIShell {
         auto info = m_actionRegistry->actionInfo(id);
         auto text = info.text(true).isEmpty() ? info.text(false) : info.text(true);
         auto type = entry.type();
-        auto actionIcon = m_actionRegistry->actionIcon("", id);
-        auto iconSource = QUrl::fromLocalFile(actionIcon.filePath());
+        auto actionIcon = m_actionRegistry->actionIcon("", info.icon());
+        auto iconSource = actionIcon.url();
         auto iconColor = QColor::fromString(actionIcon.currentColor());
 
         auto ret = engine->newObject();

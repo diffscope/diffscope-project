@@ -34,7 +34,7 @@ QtObject {
                 enabled: notificationItemsModel.count !== 0
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "qrc:/diffscope/coreplugin/icons/DismissSquareMultiple16Filled"
+                icon.source: "image://fluent-system-icons/dismiss_square_multiple"
                 text: qsTr("Clear All")
                 onClicked: () => {
                     let messages = d.notificationManager.messages()

@@ -35,7 +35,6 @@
 #include <extensionsystem/pluginspec.h>
 
 #include <QAKCore/actionregistry.h>
-#include <QAKQuick/actioniconimageprovider.h>
 
 #include <SVSCraftQuick/Theme.h>
 
@@ -165,7 +164,6 @@ namespace Core::Internal {
 
         initializeSingletons();
         initializeBehaviorPreference();
-        initializeImageProviders();
         initializeActions();
         initializeSettings();
         initializeWindows();
@@ -291,47 +289,18 @@ namespace Core::Internal {
         new BehaviorPreference(this);
     }
 
-    void CorePlugin::initializeImageProviders() {
-        auto actionIconImageProvider = new QAK::ActionIconImageProvider;
-        actionIconImageProvider->setActionFamily(CoreInterface::actionRegistry());
-        RuntimeInterface::qmlEngine()->addImageProvider("action", actionIconImageProvider);
-    }
-
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-
+        CoreInterface::actionRegistry()->addIconManifest(":/diffscope/coreplugin/icons/config.json");
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
-            icon.addFile(":/diffscope/coreplugin/icons/" + iconName + ".svg");
+            icon.addUrl("image://fluent-system-icons/" + iconName);
             CoreInterface::actionRegistry()->addIcon("", id, icon);
         };
-        addIcon("org.diffscope.core.homePreferences", "Settings16Filled");
-        addIcon("org.diffscope.core.help", "QuestionCircle16Filled");
-        addIcon("org.diffscope.core.file.new", "DocumentAdd16Filled");
-        addIcon("org.diffscope.core.file.open", "FolderOpen16Filled");
-        addIcon("org.diffscope.core.file.save", "Save16Filled");
-        addIcon("org.diffscope.core.settings", "Settings16Filled");
-        addIcon("org.diffscope.core.plugins", "PuzzlePiece16Filled");
-        addIcon("org.diffscope.core.showHomeWindow", "Home16Filled");
-        addIcon("org.diffscope.core.documentations", "QuestionCircle16Filled");
-        addIcon("org.diffscope.core.findActions", "Search16Filled");
-        addIcon("org.diffscope.core.edit.undo", "ArrowUndo16Filled");
-        addIcon("org.diffscope.core.edit.redo", "ArrowRedo16Filled");
-        addIcon("org.diffscope.core.edit.cut", "Cut16Filled");
-        addIcon("org.diffscope.core.edit.copy", "Copy16Filled");
-        addIcon("org.diffscope.core.edit.paste", "ClipboardPaste16Filled");
-        addIcon("org.diffscope.core.edit.delete", "Delete16Filled");
-        addIcon("org.diffscope.core.panel.properties", "TextBulletListSquareEdit20Filled");
-        addIcon("org.diffscope.core.panel.metadata", "TextBulletListSquareEdit20Filled");
-        addIcon("org.diffscope.core.panel.plugins", "PuzzlePiece16Filled");
-        addIcon("org.diffscope.visualeditor.panel.arrangement", "GanttChart16Filled");
-        addIcon("org.diffscope.visualeditor.panel.mixer", "OptionsVertical16Filled");
-        addIcon("org.diffscope.visualeditor.panel.pianoRoll", "Midi20Filled");
-        addIcon("org.diffscope.core.panel.notifications", "Alert16Filled");
-        addIcon("org.diffscope.core.panel.tips", "ChatSparkle16Filled");
-        addIcon("org.diffscope.core.timeline.goToStart", "Previous16Filled");
-        addIcon("org.diffscope.core.timeline.goToEnd", "Next16Filled");
+        addIcon("org.diffscope.visualeditor.panel.arrangement", "gantt_chart");
+        addIcon("org.diffscope.visualeditor.panel.mixer", "options_vertical");
+        addIcon("org.diffscope.visualeditor.panel.pianoRoll", "midi");
     }
 
     void CorePlugin::initializeSettings() const {

@@ -23,7 +23,6 @@ namespace Core::Internal {
 
     private:
         void initializeSingletons();
-        static void initializeImageProviders();
         static void initializeActions();
         void initializeSettings() const;
         static void initializeWindows();

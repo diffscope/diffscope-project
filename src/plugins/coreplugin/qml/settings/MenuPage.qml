@@ -42,7 +42,7 @@ Item {
             }
             TextField {
                 id: searchTextField
-                ThemedItem.icon.source: "qrc:/diffscope/coreplugin/icons/Search16Filled.svg"
+                ThemedItem.icon.source: "image://fluent-system-icon/search"
                 placeholderText: qsTr("Search")
                 Layout.fillWidth: true
             }
@@ -65,42 +65,42 @@ Item {
         id: toolActionsModel
         Menu {
             title: qsTr("Add")
-            icon.source: "qrc:/diffscope/coreplugin/icons/AddCircle16Filled.svg"
+            icon.source: "image://fluent-system-icon/add_circle"
             Action {
                 text: qsTr("Add Action or Menu...")
             }
             Action {
                 text: qsTr("Add Separator")
-                icon.source: "qrc:/diffscope/coreplugin/icons/LineHorizontal1Dashed16Filled.svg"
+                icon.source: "image://fluent-system-icons/line_horizontal_1_dashes"
             }
             Action {
                 text: qsTr("Add Stretch")
-                icon.source: "qrc:/diffscope/coreplugin/icons/AutoFitWidth20Filled.svg"
+                icon.source: "image://fluent-system-icons/auto_fit_width"
             }
         }
         Action {
             text: qsTr("Edit Icon...")
-            icon.source: "qrc:/diffscope/coreplugin/icons/Edit16Filled.svg"
+            icon.source: "image://fluent-system-icons/edit"
             shortcut: "F4"
         }
         Action {
             text: qsTr("Move Up")
-            icon.source: "qrc:/diffscope/coreplugin/icons/ArrowCircleUp16Filled.svg"
+            icon.source: "image://fluent-system-icons/arrow_circle_up"
             shortcut: "Alt+Up"
         }
         Action {
             text: qsTr("Move Down")
-            icon.source: "qrc:/diffscope/coreplugin/icons/ArrowCircleDown16Filled.svg"
+            icon.source: "image://fluent-system-icons/arrow_circle_down"
             shortcut: "Alt+Down"
         }
         Action {
             text: qsTr("Remove")
-            icon.source: "qrc:/diffscope/coreplugin/icons/Delete16Filled.svg"
+            icon.source: "image://fluent-system-icons/delete"
             shortcut: "Del"
         }
         Menu {
             title: qsTr("Restore")
-            icon.source: "qrc:/diffscope/coreplugin/icons/ArrowHookUpLeft16Filled.svg"
+            icon.source: "image://fluent-system-icons/arrow_hook_up_left"
             Action {
                 text: qsTr("Restore This Menu")
             }

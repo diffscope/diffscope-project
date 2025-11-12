@@ -455,7 +455,7 @@ Item {
             }
             Button {
                 flat: true
-                icon.source: "qrc:/diffscope/coreplugin/icons/MoreHorizontal16Filled.svg"
+                icon.source: "image://fluent-system-icons/more_horizontal"
                 display: AbstractButton.IconOnly
                 text: qsTr("Preset Actions")
                 action: MenuAction {

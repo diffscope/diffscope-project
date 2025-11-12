@@ -271,11 +271,11 @@ namespace Core::Internal {
         auto a = CoreInterface::actionRegistry()->catalog().children("org.diffscope.core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.id());
+            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.icon());
             return QVariantMap{
                 {"id", id},
                 {"text", info.text()},
-                {"iconSource", QUrl::fromLocalFile(actionIcon.filePath())},
+                {"iconSource", actionIcon.url()},
                 {"iconColor", QColor::fromString(actionIcon.currentColor())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}
             };

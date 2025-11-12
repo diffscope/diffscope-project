@@ -15,33 +15,33 @@
     </configuration>
 
     <items>
-        <action id="org.diffscope.core.file.&amp;new" description="Create a project in a new window" shortcut="Ctrl+N" />
+        <action id="org.diffscope.core.file.&amp;new" description="Create a project in a new window" icon="document_add" shortcut="Ctrl+N" />
         <action id="org.diffscope.core.file.newFromTemplate^" description="Create a project from template in a new window" shortcut="Ctrl+Alt+N" />
-        <action id="org.diffscope.core.file.&amp;open^" description="Open an existing project in a new window" shortcut="Ctrl+O" />
+        <action id="org.diffscope.core.file.&amp;open^" description="Open an existing project in a new window" icon="folder_open" shortcut="Ctrl+O" />
         <action id="org.diffscope.core.file.open&amp;RecentFile" />
-        <action id="org.diffscope.core.file.&amp;save" shortcut="Ctrl+S" />
+        <action id="org.diffscope.core.file.&amp;save" icon="save" shortcut="Ctrl+S" />
         <action id="org.diffscope.core.file.save&amp;As^" shortcut="Ctrl+Shift+S" />
         <action id="org.diffscope.core.file.saveCopy^" shortcut="Ctrl+Alt+Shift+S" />
 
-        <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" class="Preferences" shortcut="Ctrl+,"/>
-        <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" shortcut=""/>
+        <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" class="Preferences" icon="settings" shortcut="Ctrl+,"/>
+        <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" icon="puzzle_piece" shortcut=""/>
 
-        <action id="org.diffscope.core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" class="Window" shortcut="Ctrl+Shift+H" />
+        <action id="org.diffscope.core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" class="Window" icon="home" shortcut="Ctrl+Shift+H" />
 
         <action id="org.diffscope.core.e&amp;xit" description="Quit ${APP_NAME}" class="Application" />
 
-        <action id="org.diffscope.core.home.recentFiles" description="Toggle &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu"/>
-        <action id="org.diffscope.core.home.recoveryFiles" description="Toggle &quot;Recovery Files&quot; page" catalog="org.diffscope.core.homeMenu" />
-        <action id="org.diffscope.core.home.gridView" description="Toggle grid view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" />
-        <action id="org.diffscope.core.home.listView" description="Toggle list view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" />
+        <action id="org.diffscope.core.home.recentFiles" description="Toggle &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="history"/>
+        <action id="org.diffscope.core.home.recoveryFiles" description="Toggle &quot;Recovery Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="document_sync" />
+        <action id="org.diffscope.core.home.gridView" description="Toggle grid view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="grid" />
+        <action id="org.diffscope.core.home.listView" description="Toggle list view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="list" />
 
-        <action id="org.diffscope.core.edit.&amp;undo" shortcut="Ctrl+Z" />
-        <action id="org.diffscope.core.edit.&amp;redo" shortcut="Ctrl+Shift+Z" />
-        <action id="org.diffscope.core.edit.cu&amp;t" shortcut="Ctrl+X" />
-        <action id="org.diffscope.core.edit.&amp;copy" shortcut="Ctrl+C" />
-        <action id="org.diffscope.core.edit.&amp;paste" shortcut="Ctrl+V" />
+        <action id="org.diffscope.core.edit.&amp;undo" icon="arrow_undo" shortcut="Ctrl+Z" />
+        <action id="org.diffscope.core.edit.&amp;redo" icon="arrow_redo" shortcut="Ctrl+Shift+Z" />
+        <action id="org.diffscope.core.edit.cu&amp;t" icon="cut" shortcut="Ctrl+X" />
+        <action id="org.diffscope.core.edit.&amp;copy" icon="copy" shortcut="Ctrl+C" />
+        <action id="org.diffscope.core.edit.&amp;paste" icon="clipboard_paste" shortcut="Ctrl+V" />
         <action id="org.diffscope.core.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
-        <action id="org.diffscope.core.edit.&amp;delete" shortcut="Del" />
+        <action id="org.diffscope.core.edit.&amp;delete" icon="delete" shortcut="Del" />
         <action id="org.diffscope.core.edit.select&amp;All" shortcut="Ctrl+A" />
         <action id="org.diffscope.core.edit.dese&amp;lect" shortcut="D" />
         <action id="org.diffscope.core.edit.selectCurrent" shortcut="Ctrl+Space" />
@@ -94,11 +94,11 @@
         <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />
         <action id="org.diffscope.core.timeline.&amp;goTo^" description="Navigate to a specific position" shortcut="Ctrl+Shift+G" />
         <action id="org.diffscope.core.timeline.&amp;quickJump^" description="Quickly navigate to a specific position" shortcut="Ctrl+G" />
-        <action id="org.diffscope.core.timeline.goTo&amp;Start" description="Navigate to the start of current project" shortcut="Home"/>
+        <action id="org.diffscope.core.timeline.goTo&amp;Start" description="Navigate to the start of current project" icon="previous" shortcut="Home"/>
         <action id="org.diffscope.core.timeline.goToPreviousMeasure" shortcut="[" />
         <action id="org.diffscope.core.timeline.goToPreviousBeat" shortcut="Ctrl+[" />
         <action id="org.diffscope.core.timeline.goToPreviousTick" shortcut="Ctrl+Shift+[" />
-        <action id="org.diffscope.core.timeline.goTo&amp;End" description="Navigate to the end of current project" shortcut="End" />
+        <action id="org.diffscope.core.timeline.goTo&amp;End" description="Navigate to the end of current project" icon="next" shortcut="End" />
         <action id="org.diffscope.core.timeline.goToNextMeasure" shortcut="]" />
         <action id="org.diffscope.core.timeline.goToNextBeat" shortcut="Ctrl+]" />
         <action id="org.diffscope.core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
@@ -134,8 +134,8 @@
         <action id="org.diffscope.core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.window.switchToProjectWindow^" />
 
-        <action id="org.diffscope.core.documentations" text="&amp;Help" description="Show help contents" class="Help" shortcut="F1" />
-        <action id="org.diffscope.core.&amp;findActions^" class="Help" description="Find and trigger action by name" shortcut="Ctrl+Shift+P" />
+        <action id="org.diffscope.core.documentations" text="&amp;Help" description="Show help contents" class="Help" icon="question_circle" shortcut="F1" />
+        <action id="org.diffscope.core.&amp;findActions^" class="Help" description="Find and trigger action by name" icon="search" shortcut="Ctrl+Shift+P" />
         <action id="org.diffscope.core.aboutApp" text="&amp;About ${APP_NAME}" description="Show information about ${APP_NAME}" class="Help"/>
         <action id="org.diffscope.core.about&amp;Qt" description="Show information about Qt" class="Help"/>
         <action id="org.diffscope.core.runDspxInspector" text="Run DSPX Inspector" class="Help" />
@@ -148,17 +148,17 @@
         <menu id="org.diffscope.core.homeNavigation" topLevel="true"/>
         <menu id="org.diffscope.core.homeTool" topLevel="true"/>
 
-        <menu id="org.diffscope.core.homePreferences" text="Preferences" />
-        <menu id="org.diffscope.core.homeHelp" text="Help" />
+        <menu id="org.diffscope.core.homePreferences" text="Preferences" icon="settings" />
+        <menu id="org.diffscope.core.&amp;help" icon="question_circle" />
 
         <phony id="org.diffscope.core.workspacePanelWidgets" topLevel="true" />
 
         <action id="org.diffscope.core.statusText" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.core.widget.digitalClock" diffscope:excludeFromCommands="true"/>
     </items>
 
@@ -321,7 +321,7 @@
                     <action id="org.diffscope.core.window.projectWindows" />
                 </group>
             </menu>
-            <menu id="org.diffscope.core.help" text="&amp;Help">
+            <menu id="org.diffscope.core.help">
                 <action id="org.diffscope.core.documentations" />
                 <separator />
                 <action id="org.diffscope.core.findActions" />
