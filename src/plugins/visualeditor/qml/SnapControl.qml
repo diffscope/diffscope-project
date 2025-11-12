@@ -21,6 +21,8 @@ Item {
             text: qsTr("Snap")
         }
         ComboBox {
+            implicitHeight: 24
+
             model: [
                 { text: qsTr("Auto"), data: PositionAlignmentManipulator.Auto },
                 { text: qsTr("None"), data: PositionAlignmentManipulator.Unset },
