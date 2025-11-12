@@ -37,7 +37,7 @@ Item {
             ]
             textRole: "text"
             valueRole: "data"
-            Component.onCompleted: currentValue = Qt.binding(() => control.positionAlignmentManipulator?.duration ?? 0)
+            Component.onCompleted: currentIndex = Qt.binding(() => indexOfValue(control.positionAlignmentManipulator?.duration ?? 0))
             onCurrentValueChanged: () => {
                 if (control.positionAlignmentManipulator) {
                     control.positionAlignmentManipulator.duration = currentValue
@@ -46,7 +46,8 @@ Item {
         }
         ToolButton {
             text: qsTr("Triplet")
-            // display: AbstractButton.IconOnly
+            display: AbstractButton.IconOnly
+            icon.source: "qrc:/diffscope/visualeditor/icons/triplet.svg"
             checkable: true
             checked: control.positionAlignmentManipulator?.tuplet === PositionAlignmentManipulator.Triplet
             onClicked: () => {
@@ -57,7 +58,8 @@ Item {
         }
         ToolButton {
             text: qsTr("Quintuplet")
-            // display: AbstractButton.IconOnly
+            display: AbstractButton.IconOnly
+            icon.source: "qrc:/diffscope/visualeditor/icons/quintuplet.svg"
             checkable: true
             checked: control.positionAlignmentManipulator?.tuplet === PositionAlignmentManipulator.Quintuplet
             onClicked: () => {

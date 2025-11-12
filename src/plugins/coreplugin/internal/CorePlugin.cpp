@@ -298,9 +298,6 @@ namespace Core::Internal {
             icon.addUrl("image://fluent-system-icons/" + iconName);
             CoreInterface::actionRegistry()->addIcon("", id, icon);
         };
-        addIcon("org.diffscope.visualeditor.panel.arrangement", "gantt_chart");
-        addIcon("org.diffscope.visualeditor.panel.mixer", "options_vertical");
-        addIcon("org.diffscope.visualeditor.panel.pianoRoll", "midi");
     }
 
     void CorePlugin::initializeSettings() const {

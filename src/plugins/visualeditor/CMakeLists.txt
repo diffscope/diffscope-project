@@ -41,3 +41,11 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     INCLUDE_PRIVATE
         internal/**
 )
+
+file(GLOB _res_icons res/icons/*)
+
+qt_add_resources(${PROJECT_NAME} icons
+    PREFIX /diffscope/visualeditor/icons
+    BASE res/icons
+    FILES ${_res_icons}
+)
