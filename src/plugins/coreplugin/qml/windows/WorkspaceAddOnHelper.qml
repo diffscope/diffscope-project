@@ -122,7 +122,7 @@ QtObject {
         window.topDockingView.splitterRatio = topData.splitterRatio
         window.bottomDockingView.contentData = bottomData.objects.map(conv)
         window.bottomDockingView.splitterRatio = bottomData.splitterRatio
-        window.topDockingViewHeightRatio = (window.topDockingView.barSize + topData.preferredPanelSize) / (window.topDockingView.barSize + topData.preferredPanelSize + window.bottomDockingView.barSize + bottomData.preferredPanelSize)
+        window.topDockingViewHeightRatio = topData.preferredPanelSize
         for (let i of topData.visibleIndices) {
             window.topDockingView.showPane(i)
         }
@@ -156,7 +156,7 @@ QtObject {
                     return v
                 }),
                 width: isLeftOrRight ? dockingView.preferredPanelSize : dockingView.splitterRatio,
-                height: isLeftOrRight ? dockingView.splitterRatio : dockingView.preferredPanelSize,
+                height: isLeftOrRight ? dockingView.splitterRatio : window.topDockingViewHeightRatio,
                 visibleIndex: dockingView.firstIndex,
             }
             console.debug(lcWorkspaceAddOnHelper, "Saved docking view", firstKey, viewSpecMap[firstKey].width, viewSpecMap[firstKey].height, viewSpecMap[firstKey].visibleIndex)
@@ -175,7 +175,7 @@ QtObject {
                     return v
                 }),
                 width: isLeftOrRight ? dockingView.panelSize : 1 - dockingView.splitterRatio,
-                height: isLeftOrRight ? 1 - dockingView.splitterRatio : dockingView.panelSize,
+                height: isLeftOrRight ? 1 - dockingView.splitterRatio :  window.topDockingViewHeightRatio,
                 visibleIndex: dockingView.lastIndex - (dockingView.stretchIndex + 1),
             }
             console.debug(lcWorkspaceAddOnHelper, "Saved docking view", lastKey, viewSpecMap[lastKey].width, viewSpecMap[lastKey].height, viewSpecMap[lastKey].visibleIndex)

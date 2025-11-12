@@ -27,7 +27,7 @@ Window {
     property ObjectModel rightToolButtonsModel: null
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
-    property double topDockingViewHeightRatio: 0.3
+    property double topDockingViewHeightRatio: 0.5
     property bool useSeparatedMenu: false
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"

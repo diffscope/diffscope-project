@@ -70,14 +70,13 @@ namespace Core::Internal {
             {{{"org.diffscope.visualeditor.panel.arrangement", true}
              },
              400,
-             360,
+             0.4,
              0
             }
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::TopRight,
-            {{}, 400, 360, -1
-            }
+            {{}, 400, 0.4, -1}
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomLeft,
@@ -85,14 +84,13 @@ namespace Core::Internal {
               {"org.diffscope.visualeditor.panel.mixer", true}
              },
              400,
-             640,
+             0.4,
              0
             }
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomRight,
-            {{}, 400, 640, -1
-            }
+            {{}, 400, 0.4, -1}
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::RightTop,
