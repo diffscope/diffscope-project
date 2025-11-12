@@ -15,6 +15,8 @@ namespace VisualEditor::Internal {
         EditorPreference::ScrollModifier pageModifier{};
         bool usePageModifierAsAlternateAxisZoom{};
         bool middleButtonAutoScroll{};
+        int autoDurationPositionAlignment{48};
+        bool enableTemporarySnapOff{true};
     };
 
     static EditorPreference *m_instance = nullptr;
@@ -46,6 +48,10 @@ namespace VisualEditor::Internal {
         emit usePageModifierAsAlternateAxisZoomChanged();
         d->middleButtonAutoScroll = settings->value("middleButtonAutoScroll", false).toBool();
         emit middleButtonAutoScrollChanged();
+        d->autoDurationPositionAlignment = settings->value("autoDurationPositionAlignment", 48).toInt();
+        emit autoDurationPositionAlignmentChanged();
+        d->enableTemporarySnapOff = settings->value("enableTemporarySnapOff", true).toBool();
+        emit enableTemporarySnapOffChanged();
         settings->endGroup();
     }
 
@@ -58,6 +64,8 @@ namespace VisualEditor::Internal {
         settings->setValue("pageModifier", static_cast<int>(d->pageModifier));
         settings->setValue("usePageModifierAsAlternateAxisZoom", d->usePageModifierAsAlternateAxisZoom);
         settings->setValue("middleButtonAutoScroll", d->middleButtonAutoScroll);
+        settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
+        settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->endGroup();
     }
 
@@ -128,6 +136,32 @@ namespace VisualEditor::Internal {
             return;
         d->middleButtonAutoScroll = middleButtonAutoScroll;
         emit m_instance->middleButtonAutoScrollChanged();
+    }
+
+    int EditorPreference::autoDurationPositionAlignment() {
+        M_INSTANCE_D;
+        return d->autoDurationPositionAlignment;
+    }
+
+    void EditorPreference::setAutoDurationPositionAlignment(int autoDurationPositionAlignment) {
+        M_INSTANCE_D;
+        if (d->autoDurationPositionAlignment == autoDurationPositionAlignment)
+            return;
+        d->autoDurationPositionAlignment = autoDurationPositionAlignment;
+        emit m_instance->autoDurationPositionAlignmentChanged();
+    }
+
+    bool EditorPreference::enableTemporarySnapOff() {
+        M_INSTANCE_D;
+        return d->enableTemporarySnapOff;
+    }
+
+    void EditorPreference::setEnableTemporarySnapOff(bool enableTemporarySnapOff) {
+        M_INSTANCE_D;
+        if (d->enableTemporarySnapOff == enableTemporarySnapOff)
+            return;
+        d->enableTemporarySnapOff = enableTemporarySnapOff;
+        emit m_instance->enableTemporarySnapOffChanged();
     }
 
 }

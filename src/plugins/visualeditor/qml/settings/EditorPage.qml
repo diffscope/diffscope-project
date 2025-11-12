@@ -18,12 +18,16 @@ ScrollView {
     property int pageModifier: 0
     property bool usePageModifierAsAlternateAxisZoom: false
     property bool middleButtonAutoScroll: false
+    property int autoDurationPositionAlignment: 20
+    property bool enableTemporarySnapOff: false
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
     onZoomModifierChanged: if (started) pageHandle.markDirty()
     onPageModifierChanged: if (started) pageHandle.markDirty()
     onUsePageModifierAsAlternateAxisZoomChanged: if (started) pageHandle.markDirty()
     onMiddleButtonAutoScrollChanged: if (started) pageHandle.markDirty()
+    onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
+    onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -106,6 +110,51 @@ ScrollView {
                         currentIndex: page.middleButtonAutoScroll ? 1 : 0
                         onActivated: (index) => page.middleButtonAutoScroll = (index === 1)
                     }
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Snap")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 3
+
+                    Label {
+                        text: qsTr("Auto-snap length")
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    Slider {
+                        Layout.fillWidth: true
+                        from: 0
+                        to: 80
+
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+                        value: page.autoDurationPositionAlignment - 20
+                        onMoved: page.autoDurationPositionAlignment = value + 20
+                    }
+                    SpinBox {
+                        from: 20
+                        to: 100
+                        stepSize: 1
+                        value: page.autoDurationPositionAlignment
+                        onValueModified: page.autoDurationPositionAlignment = value
+                    }
+
+                    CheckBox {
+                        text: qsTr("Temporarily disable snap when pressing %1").arg(page.pageHandle.shiftText)
+                        Layout.columnSpan: 3
+                        checked: page.enableTemporarySnapOff
+                        onClicked: page.enableTemporarySnapOff = checked
+                    }
+
                 }
             }
 

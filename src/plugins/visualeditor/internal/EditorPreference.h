@@ -24,6 +24,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(EditorPreference::ScrollModifier pageModifier READ pageModifier WRITE setPageModifier NOTIFY pageModifierChanged)
         Q_PROPERTY(bool usePageModifierAsAlternateAxisZoom READ usePageModifierAsAlternateAxisZoom WRITE setUsePageModifierAsAlternateAxisZoom NOTIFY usePageModifierAsAlternateAxisZoomChanged)
         Q_PROPERTY(bool middleButtonAutoScroll READ middleButtonAutoScroll WRITE setMiddleButtonAutoScroll NOTIFY middleButtonAutoScrollChanged)
+        Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
+        Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
 
     public:
         ~EditorPreference() override;
@@ -59,12 +61,20 @@ namespace VisualEditor::Internal {
         static bool middleButtonAutoScroll();
         static void setMiddleButtonAutoScroll(bool middleButtonAutoScroll);
 
+        static int autoDurationPositionAlignment();
+        static void setAutoDurationPositionAlignment(int autoDurationPositionAlignment);
+
+        static bool enableTemporarySnapOff();
+        static void setEnableTemporarySnapOff(bool enableTemporarySnapOff);
+
     Q_SIGNALS:
         void alternateAxisModifierChanged();
         void zoomModifierChanged();
         void pageModifierChanged();
         void usePageModifierAsAlternateAxisZoomChanged();
         void middleButtonAutoScrollChanged();
+        void autoDurationPositionAlignmentChanged();
+        void enableTemporarySnapOffChanged();
 
     private:
         friend class VisualEditorPlugin;

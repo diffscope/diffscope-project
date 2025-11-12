@@ -55,6 +55,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("usePageModifierAsAlternateAxisZoom");
         m_widget->setProperty("middleButtonAutoScroll", EditorPreference::instance()->property("middleButtonAutoScroll"));
         qCDebug(lcEditorPage) << m_widget->property("middleButtonAutoScroll");
+        m_widget->setProperty("autoDurationPositionAlignment", EditorPreference::instance()->property("autoDurationPositionAlignment"));
+        qCDebug(lcEditorPage) << m_widget->property("autoDurationPositionAlignment");
+        m_widget->setProperty("enableTemporarySnapOff", EditorPreference::instance()->property("enableTemporarySnapOff"));
+        qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
     }
@@ -71,6 +75,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("usePageModifierAsAlternateAxisZoom", m_widget->property("usePageModifierAsAlternateAxisZoom"));
         qCDebug(lcEditorPage) << "middleButtonAutoScroll" << m_widget->property("middleButtonAutoScroll");
         EditorPreference::instance()->setProperty("middleButtonAutoScroll", m_widget->property("middleButtonAutoScroll"));
+        qCDebug(lcEditorPage) << "autoDurationPositionAlignment" << m_widget->property("autoDurationPositionAlignment");
+        EditorPreference::instance()->setProperty("autoDurationPositionAlignment", m_widget->property("autoDurationPositionAlignment"));
+        qCDebug(lcEditorPage) << "enableTemporarySnapOff" << m_widget->property("enableTemporarySnapOff");
+        EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
         EditorPreference::instance()->save();
         return Core::ISettingPage::accept();
     }
@@ -87,6 +95,10 @@ namespace VisualEditor::Internal {
             QKeySequence(Qt::AltModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
             QKeySequence(Qt::ShiftModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
         };
+    }
+
+    QString EditorPage::shiftText() {
+        return QKeySequence(Qt::Key_Shift).toString(QKeySequence::NativeText);
     }
 
     bool EditorPage::widgetMatches(const QString &word) {
