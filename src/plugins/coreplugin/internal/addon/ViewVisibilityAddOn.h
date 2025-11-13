@@ -30,7 +30,7 @@ namespace Core::Internal {
         };
         Q_ENUM(ViewVisibilityOption)
 
-        Q_INVOKABLE void toggleVisibility(ViewVisibilityOption option, bool visible, QObject *action = nullptr) const;
+        Q_INVOKABLE void toggleVisibility(ViewVisibilityOption option, bool visible) const;
     };
 
 }

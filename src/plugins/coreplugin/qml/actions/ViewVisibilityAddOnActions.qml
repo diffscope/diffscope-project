@@ -14,9 +14,9 @@ ActionCollection {
         actionId: "org.diffscope.core.view.showMenuBar"
         Action {
             checkable: true
-            checked: d.window.menuBar.visible
+            checked: d.window.menuBar.alwaysVisible
             onTriggered: () => {
-                Qt.callLater(() => d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked, this))
+                d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked)
             }
         }
     }
@@ -49,7 +49,7 @@ ActionCollection {
             checkable: true
             checked: d.window.rightDockingView.barSize !== 0
             onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.RightSideBar, checked, this)
+                d.addOn.toggleVisibility(ViewVisibilityAddOn.RightSideBar, checked)
             }
         }
     }

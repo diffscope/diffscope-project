@@ -101,11 +101,16 @@ Window {
     }
     MenuBar {
         id: menuBar
+        property bool alwaysVisible: true
+        readonly property bool visualVisible: alwaysVisible || activeFocus || menus.some(menu => menu.visible) || children.some(item => item.activeFocus)
         parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
         padding: 0
         leftPadding: 4
         topPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
         bottomPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
+        opacity: visualVisible ? 1 : 0
+        width: visualVisible ? implicitWidth : 0
+        Layout.preferredWidth: visualVisible ? implicitWidth : 0
         background: Item {
         }
         Instantiator {
@@ -183,6 +188,7 @@ Window {
             }
             RowLayout {
                 id: titleTextGroup
+                readonly property bool menuBarMergedInTitleBar: !window.isMacOS && !window.useSeparatedMenu && menuBar.visualVisible
                 visible: windowAgent.framelessSetup
                 height: parent.height
                 spacing: 4
@@ -194,7 +200,7 @@ Window {
                     Layout.preferredHeight: 16
                 }
                 Text {
-                    readonly property color _baseColor: window.isMacOS || window.useSeparatedMenu ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
+                    readonly property color _baseColor: !titleTextGroup.menuBarMergedInTitleBar ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
                     color: Window.active ? _baseColor : Theme.foregroundDisabledColorChange.apply(_baseColor)
                     Layout.alignment: Qt.AlignVCenter
                     font: Theme.font
@@ -205,9 +211,9 @@ Window {
                     if (window.isMacOS) {
                         return (parent.width - width) / 2
                     } else if (LayoutMirroring.enabled) {
-                        return (window.useSeparatedMenu ? iconArea.x : titleBarMenuParent.x - 24) - width
+                        return (!menuBarMergedInTitleBar ? iconArea.x : titleBarMenuParent.x - 24) - width
                     } else {
-                        return (window.useSeparatedMenu ? iconArea.x + iconArea.width : titleBarMenuParent.x + titleBarMenuParent.width + 24)
+                        return (!menuBarMergedInTitleBar ? iconArea.x + iconArea.width : titleBarMenuParent.x + titleBarMenuParent.width + 24)
                     }
                 }
             }
@@ -229,7 +235,8 @@ Window {
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
             visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
-            height: 24
+            implicitHeight: menuBar.visualVisible ? 24 : 0
+            // FIXME remove spacing when visual invisible
         }
         ToolBar {
             id: toolBar

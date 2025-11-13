@@ -42,7 +42,7 @@ namespace Core::Internal {
         auto menuBarVisible = !settings->value(QString::number(MenuBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Menu bar" << menuBarVisible;
         auto menuBar = window->property("menuBar").value<QObject *>();
-        menuBar->setProperty("visible", menuBarVisible);
+        menuBar->setProperty("alwaysVisible", menuBarVisible);
 
         auto toolBarVisible = !settings->value(QString::number(ToolBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Tool bar" << toolBarVisible;
@@ -81,29 +81,15 @@ namespace Core::Internal {
     bool ViewVisibilityAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
-    void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible, QObject *action) const {
+    void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible) const {
         auto settings = RuntimeInterface::settings();
         auto window = windowHandle()->window();
         qCInfo(lcViewVisibilityAddOn) << "Toggling visibility started";
         settings->beginGroup(staticMetaObject.className());
         if (option == MenuBar) {
             auto menuBar = window->property("menuBar").value<QObject *>();
-            if (!visible) {
-                if (SVS::SVSCraft::No ==
-                    SVS::MessageBox::warning(
-                        RuntimeInterface::qmlEngine(), window, tr("Please take attention"),
-                        tr("After hiding the menu bar, it can be difficult to show it again. Make "
-                           "sure you know how to do this.\n\nContinue?"),
-                        SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No
-                    )) {
-                    if (action)
-                        action->setProperty("checked", true);
-                    qCInfo(lcViewVisibilityAddOn) << "Toggle visibility canceled";
-                    goto end;
-                }
-            }
             qCInfo(lcViewVisibilityAddOn) << "Menu bar" << visible;
-            menuBar->setProperty("visible", visible);
+            menuBar->setProperty("alwaysVisible", visible);
         } else if (option == ToolBar) {
             auto toolBar = window->property("toolBar").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Tool bar" << visible;
