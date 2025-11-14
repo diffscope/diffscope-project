@@ -405,11 +405,6 @@ QtObject {
                 console.debug(lcWorkspaceAddOnHelper, "Undocked panel activated", pane, pane.title)
                 helper.activeUndockedPane = pane
             }
-            function onUndockedDeactivated(pane) {
-                console.debug(lcWorkspaceAddOnHelper, "Undocked panel deactivated", pane, pane.title)
-                if (helper.activeUndockedPane === pane)
-                    helper.activeUndockedPane = null
-            }
         }
     }
 
