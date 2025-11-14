@@ -4,12 +4,18 @@
 #include <QJSValue>
 #include <QQmlComponent>
 #include <QQmlEngine>
+#include <QStandardItemModel>
 #include <QWidget>
+
+#include <QtQuickTemplates2/private/qquickaction_p.h>
+#include <QtQuickTemplates2/private/qquickmenu_p.h>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
+
+#include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/internal/ActionHelper.h>
@@ -70,6 +76,36 @@ namespace Core {
         quickPick.setFilterText(initialFilterText);
         quickPick.setCurrentIndex(defaultIndex);
         return quickPick.exec();
+    }
+
+    void ActionWindowInterfaceBase::execQuickPick(QQuickMenu *menu) {
+        QStandardItemModel model;
+        for (int i = 0; i < menu->count(); i++) {
+            if (auto action = menu->actionAt(i)) {
+                if (!action->isEnabled())
+                    continue;
+                auto item = new QStandardItem;
+                item->setData(action->isCheckable() ? tr("Toggle \"%1\"").arg(action->text()) : action->text(), SVS::SVSCraft::CP_TitleRole);
+                item->setData(QVariant::fromValue(action), Qt::DisplayRole);
+                model.appendRow(item);
+            } else if (auto subMenu = menu->menuAt(i)) {
+                if (!subMenu->isEnabled())
+                    continue;
+                auto item = new QStandardItem;
+                item->setData(subMenu->title(), SVS::SVSCraft::CP_TitleRole);
+                item->setData(QVariant::fromValue(subMenu), Qt::DisplayRole);
+                model.appendRow(item);
+            }
+        }
+        int index = execQuickPick(&model, menu->title());
+        if (index >= 0) {
+            if (auto action = model.item(index)->data(Qt::DisplayRole).value<QQuickAction *>()) {
+                return action->trigger();
+            }
+            if (auto subMenu = model.item(index)->data(Qt::DisplayRole).value<QQuickMenu *>()) {
+                return execQuickPick(subMenu);
+            }
+        }
     }
 
     QVariant ActionWindowInterfaceBase::execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText) {

@@ -13,13 +13,14 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcActionHelper, "diffscope.core.actionhelper")
 
-    bool ActionHelper::triggerAction(const QAK::QuickActionContext *actionContext, const QString &id, QObject *source) {
+    bool ActionHelper::triggerAction(QAK::QuickActionContext *actionContext, const QString &id, QObject *source) {
         qCInfo(lcActionHelper) << "Triggering action" << id;
         std::unique_ptr<QObject, QScopedPointerObjectDeleteLater<QObject>> action(createActionObject(actionContext, id, true));
         if (!action) {
             qCWarning(lcActionHelper) << "Failed to create action object for" << id;
             return false;
         }
+        actionContext->attachActionInfo(id, action.get());
         if (!action->property("enabled").toBool()) {
             qCInfo(lcActionHelper) << "Action" << id << "is disabled";
             return false;
@@ -27,7 +28,7 @@ namespace Core::Internal {
         QMetaObject::invokeMethod(action.get(), "trigger", source);
         return true;
     }
-    QObject *ActionHelper::createActionObject(const QAK::QuickActionContext *actionContext, const QString &id, bool shouldBeQuickAction) {
+    QObject *ActionHelper::createActionObject(QAK::QuickActionContext *actionContext, const QString &id, bool shouldBeQuickAction) {
         qCDebug(lcActionHelper) << "Creating action object for" << id << shouldBeQuickAction;
         if (!actionContext) {
             qCWarning(lcActionHelper) << "Action context is null";
@@ -39,6 +40,11 @@ namespace Core::Internal {
             return nullptr;
         }
         std::unique_ptr<QObject> object(component->create(component->creationContext()));
+        if (!object) {
+            qCWarning(lcActionHelper) << "Failed to create action object for" << id;
+            return nullptr;
+        }
+        actionContext->attachActionInfo(id, object.get());
         if (!shouldBeQuickAction) {
             return object.release();
         }

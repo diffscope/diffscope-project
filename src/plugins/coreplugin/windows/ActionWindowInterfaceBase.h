@@ -15,6 +15,7 @@ namespace QAK {
 
 class QAbstractItemModel;
 class QJSValue;
+class QQuickMenu;
 
 namespace Core {
 
@@ -34,6 +35,7 @@ namespace Core {
         Q_INVOKABLE bool triggerAction(const QString &id, QObject *source = nullptr);
 
         Q_INVOKABLE int execQuickPick(QAbstractItemModel *model, const QString &placeholderText = {}, int defaultIndex = 0, const QString &initialFilterText = {});
+        Q_INVOKABLE void execQuickPick(QQuickMenu *menu);
         Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText = {}, const QString &promptText = {}, const QString &initialText = {});
         Q_INVOKABLE QVariant execQuickInput(const QString &placeholderText, const QString &promptText, const QString &initialText, const QJSValue &callback);
 
