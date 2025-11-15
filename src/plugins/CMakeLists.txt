@@ -9,7 +9,7 @@ find_package(ExtensionSystem REQUIRED)
 function(diffscope_add_builtin_plugin _target)
     set(options NO_TRANSLATION NO_QML_MODULE NO_ACTION)
     set(oneValueArgs NAME DISPLAY_NAME MACRO_PREFIX QML_MODULE_NAME)
-    set(multiValueArgs)
+    set(multiValueArgs QAK_DEFINES)
     cmake_parse_arguments(FUNC "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     set(_plugin_name ${FUNC_NAME})
@@ -31,6 +31,7 @@ function(diffscope_add_builtin_plugin _target)
             _actions_src
             ${CMAKE_CURRENT_SOURCE_DIR}/res/${_plugin_name}_actions.xml
             IDENTIFIER ${_target}
+            DEFINES ${FUNC_QAK_DEFINES}
         )
         list(APPEND _src ${_actions_src})
     endif()

@@ -121,7 +121,7 @@
         <action id="org.diffscope.core.workspace.&amp;floatingPanels" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" diffscope:excludeFromCommands="true" />
 
-        <action id="org.diffscope.core.view.show&amp;MenuBar" description="Show or hide the main menu bar" />
+        <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" text="Always Show &amp;Menu Bar" description="Show or hide the main menu bar" />
         <action id="org.diffscope.core.view.showToo&amp;lBar" description="Show or hide the main tool bar" />
         <action id="org.diffscope.core.view.show&amp;LeftSideBar" description="Show or hide the left side bar" />
         <action id="org.diffscope.core.view.show&amp;RightSideBar" description="Show or hide the right side bar" />
@@ -304,7 +304,7 @@
                     <action id="org.diffscope.core.view.scrollToCurrentTime" />
                 </group>
                 <group id="org.diffscope.core.viewVisibilityActions">
-                    <action id="org.diffscope.core.view.showMenuBar" />
+                    <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" />
                     <action id="org.diffscope.core.view.showToolBar" />
                     <action id="org.diffscope.core.view.showLeftSideBar" />
                     <action id="org.diffscope.core.view.showRightSideBar" />

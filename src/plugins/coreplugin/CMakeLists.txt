@@ -3,6 +3,13 @@ project(coreplugin
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+set(_qak_not_macos)
+if(APPLE)
+    set(_qak_not_macos false)
+else()
+    set(_qak_not_macos true)
+endif()
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.core
     DISPLAY_NAME Core
@@ -41,6 +48,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         core
         windows
         internal/**
+    QAK_DEFINES
+        NOT_MACOS=${_qak_not_macos}
 )
 
 file(GLOB _res_icons res/icons/*)

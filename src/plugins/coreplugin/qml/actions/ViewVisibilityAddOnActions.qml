@@ -12,13 +12,14 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.view.showMenuBar"
-        Action {
+        readonly property Component _actionComponent: Action {
             checkable: true
             checked: d.window.menuBar.alwaysVisible
             onTriggered: () => {
                 d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked)
             }
         }
+        actionComponent: (Qt.platform.os !== "osx" && Qt.platform.os !== "macos") ? _actionComponent : null
     }
 
     ActionItem {
