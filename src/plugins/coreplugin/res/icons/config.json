@@ -11201,6 +11201,14 @@
         {
           "id": "item_compare",
           "icon": "item_compare"
+        },
+        {
+          "id": "options_vertical",
+          "icon": "options_vertical"
+        },
+        {
+          "id": "playhead_panel_chevron_double",
+          "icon": "playhead_panel_chevron_double"
         }
       ]
     }

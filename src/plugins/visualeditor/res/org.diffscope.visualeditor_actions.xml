@@ -21,7 +21,7 @@
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapDurationCommand" text="Snap Duration" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapTupletCommand" text="Snap Tuplet" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:excludeFromCommands="true"/>
         <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:excludeFromCommands="true"/>
