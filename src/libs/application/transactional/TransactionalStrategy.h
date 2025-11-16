@@ -14,7 +14,7 @@ namespace Core {
         virtual void beginTransaction() = 0;
         virtual void abortTransaction() = 0;
         virtual void commitTransaction() = 0;
-        virtual void moveCurrentStep(int step) = 0;
+        virtual void moveCurrentStepBy(int count) = 0;
 
     };
 

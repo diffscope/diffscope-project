@@ -7,8 +7,8 @@ ck_add_library(${PROJECT_NAME} STATIC AUTOGEN)
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     LINKS
-    QT_LINKS Core
-    QT_INCLUDE_PRIVATE Core
+    QT_LINKS Core Gui
+    QT_INCLUDE_PRIVATE Core Gui
     INCLUDE_PRIVATE *
     PREFIX TRANSACTIONAL
 )
