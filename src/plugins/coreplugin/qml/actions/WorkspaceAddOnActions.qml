@@ -133,7 +133,6 @@ ActionCollection {
         readonly property QtObject currentPane: d.helper.dockingPanes[panelPosition]
         enabled: currentPane !== null
         readonly property string baseText: [
-            "",
             qsTr("%1 (Left Top)"),
             qsTr("%1 (Left Bottom)"),
             qsTr("%1 (Right Top)"),

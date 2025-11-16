@@ -28,7 +28,6 @@ QtObject {
         return dockingPanes[activePanel] ?? null
     }
     readonly property list<QtObject> dockingPanes: [
-        null,
         window.leftDockingView.firstItem,
         window.leftDockingView.lastItem,
         window.rightDockingView.firstItem,
