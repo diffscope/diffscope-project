@@ -13,7 +13,7 @@ import DiffScope.Core
 ActionCollection {
 
     ActionItem {
-        actionId: "core.file.new"
+        actionId: "org.diffscope.core.file.new"
         Action {
             onTriggered: (o) => {
                 CoreInterface.newFile(o?.Window.window ?? null)
@@ -22,7 +22,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.file.newFromTemplate"
+        actionId: "org.diffscope.core.file.newFromTemplate"
         Action {
             onTriggered: (o) => {
                 CoreInterface.newFileFromTemplate("", o?.Window.window ?? null)
@@ -31,7 +31,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.file.open"
+        actionId: "org.diffscope.core.file.open"
         Action {
             onTriggered: (o) => {
                 CoreInterface.openFile("", o?.Window.window ?? null)
@@ -40,16 +40,16 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.documentations"
+        actionId: "org.diffscope.core.documentations"
         Action {
             onTriggered: () => {
-                CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_Help);
+
             }
         }
     }
 
     ActionItem {
-        actionId: "core.settings"
+        actionId: "org.diffscope.core.settings"
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
@@ -59,7 +59,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.plugins"
+        actionId: "org.diffscope.core.plugins"
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
@@ -69,7 +69,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.showHomeWindow"
+        actionId: "org.diffscope.core.showHomeWindow"
         Action {
             onTriggered: () => {
                 CoreInterface.showHome()
@@ -78,7 +78,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.exit"
+        actionId: "org.diffscope.core.exit"
         Action {
             onTriggered: () => {
                 CoreInterface.exitApplicationGracefully()
@@ -87,7 +87,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.aboutApp"
+        actionId: "org.diffscope.core.aboutApp"
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
@@ -97,11 +97,27 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.aboutQt"
+        actionId: "org.diffscope.core.aboutQt"
         Action {
             onTriggered: (o) => {
                 let w = o.Window.window
                 Qt.callLater(() => CoreInterface.execAboutQtDialog(w))
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.runDspxInspector"
+        Action {
+            readonly property Component inspectorComponent: DspxInspectorDialog {
+            }
+            onTriggered: (o) => {
+                let w = o.Window.window
+                Qt.callLater(() => {
+                    let inspector = inspectorComponent.createObject()
+                    inspector.pos = Qt.point(w.x + 0.5 * (w.width - inspector.width), w.y + 0.5 * (w.height - inspector.height))
+                    inspector.exec()
+                })
             }
         }
     }

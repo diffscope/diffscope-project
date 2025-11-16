@@ -5,6 +5,9 @@
 
 #include <QKeySequence>
 #include <QPointer>
+#include <QSettings>
+
+#include <QAKCore/actionregistry.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 

@@ -57,7 +57,7 @@ QtObject {
             ToolButton {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "qrc:/diffscope/coreplugin/icons/Edit16Filled.svg"
+                icon.source: "image://fluent-system-icons/edit"
                 text: qsTr("Edit")
                 onClicked: () => {
 
@@ -107,7 +107,7 @@ QtObject {
                                     }
                                 }
                                 ToolButton {
-                                    icon.source: "qrc:/diffscope/coreplugin/icons/Open16Filled.svg"
+                                    icon.source: "image://fluent-system-icons/open"
                                     display: AbstractButton.IconOnly
                                     text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
                                     enabled: Boolean(d.fileLocker?.path)

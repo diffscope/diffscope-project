@@ -19,8 +19,11 @@
 #include <QScreen>
 #include <QStandardPaths>
 #include <QTimer>
+#include <QSettings>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
+
+#include <QAKCore/actionregistry.h>
 
 #include <CoreApi/filelocker.h>
 #include <CoreApi/private/coreinterfacebase_p.h>
@@ -35,10 +38,11 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
 
+#include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/internal/BehaviorPreference.h>
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
+#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -54,11 +58,13 @@ namespace Core {
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
+        DspxCheckerRegistry *dspxCheckerRegistry;
 
         void init() {
             Q_Q(CoreInterface);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
+            dspxCheckerRegistry = new DspxCheckerRegistry(q);
         }
     };
 
@@ -74,9 +80,13 @@ namespace Core {
         return static_cast<CoreInterface *>(CoreInterfaceBase::instance());
     }
     QAK::ActionRegistry *CoreInterface::actionRegistry() {
-        if (!instance())
-            return nullptr;
+        Q_ASSERT(instance());
         return instance()->d_func()->actionRegistry;
+    }
+
+    DspxCheckerRegistry * CoreInterface::dspxCheckerRegistry() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->dspxCheckerRegistry;
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
@@ -88,7 +98,7 @@ namespace Core {
 
         auto settings = RuntimeInterface::settings();
         settings->beginGroup("DiffScope.Core.SettingDialog");
-        settings->setValue("currentId", settings->value("currentId", "core.General"));
+        settings->setValue("currentId", settings->value("currentId", "org.diffscope.core.General"));
         qCDebug(lcCoreInterface) << "Saved current id" << settings->value("currentId").toString();
         settings->endGroup();
 
@@ -124,7 +134,6 @@ namespace Core {
     }
 
     void CoreInterface::execPluginsDialog(QWindow *parent) {
-        Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_Plugins);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -165,6 +174,7 @@ namespace Core {
                 "<p>This application is distributed "
                 "<b>AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND</b>, either express or "
                 "implied.</p>"
+                "<p>This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.</p>"
             )
                 .arg(QStringLiteral("<a "
                                     "href=\"https://www.apache.org/licenses/"
@@ -224,12 +234,6 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
-    QString CoreInterface::dspxFileFilter(bool withAllFiles) {
-        auto dspxFileFilter = tr("DiffScope Project Exchange Format (*.dspx)");
-        auto allFileFilter = tr("All Files (*)");
-        return withAllFiles ? dspxFileFilter + ";;" + allFileFilter : dspxFileFilter;
-    }
-
     static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
         Internal::ProjectStartupTimerAddOn::startTimer();
         auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
@@ -244,78 +248,44 @@ namespace Core {
         return windowInterface;
     }
 
-    static QString promptOpenDspxFile(QWindow *parent) {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(CoreInterface::staticMetaObject.className());
-        auto defaultOpenDir = settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+    ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
+        static QDspx::Model defaultModel{
+            .version = QDspx::Model::V1,
+            .content = {
 
-        auto path = QFileDialog::getOpenFileName(
-            nullptr,
-            {},
-            defaultOpenDir,
-            CoreInterface::dspxFileFilter(true)
-        );
-        if (path.isEmpty())
-            return {};
-
-        settings->beginGroup(CoreInterface::staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
-
-        return path;
-    }
-
-    static void triggerAchievementAfterNewProjectWindowOpened(QWindow *win) {
-        class ExposedListener : public QObject {
-        public:
-            explicit ExposedListener(QObject *parent) : QObject(parent) {
-            }
-
-            bool eventFilter(QObject *watched, QEvent *event) override {
-                if (event->type() == QEvent::Expose && static_cast<QWindow *>(watched)->isExposed()) {
-                    Internal::CoreAchievementsModel::triggerAchievementCompleted(Internal::CoreAchievementsModel::Achievement_NewProject);
-                    deleteLater();
-                }
-                return QObject::eventFilter(watched, event);
             }
         };
-        auto listener = new ExposedListener(win);
-        win->installEventFilter(listener);
-    }
-
-    ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
-        static QDspx::Model defaultModel;
         qCInfo(lcCoreInterface) << "New file";
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        projectDocumentContext->newFile(defaultModel, false, parent);
+        projectDocumentContext->newFile(defaultModel, false);
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
         return windowInterface;
     }
 
     ProjectWindowInterface *CoreInterface::newFileFromTemplate(const QString &templateFilePath_, QWindow *parent) {
         qCInfo(lcCoreInterface) << "New file from template" << templateFilePath_;
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
         auto templateFilePath = templateFilePath_;
         if (templateFilePath.isEmpty()) {
-            templateFilePath = promptOpenDspxFile(parent);
+            templateFilePath = projectDocumentContext->openSaveProjectFileScenario()->openProjectFile();
             if (templateFilePath.isEmpty())
                 return nullptr;
         }
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->newFile(templateFilePath, false, nullptr)) {
+        if (!projectDocumentContext->newFile(templateFilePath, false)) {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        triggerAchievementAfterNewProjectWindowOpened(windowInterface->window());
         return windowInterface;
     }
 
     ProjectWindowInterface *CoreInterface::openFile(const QString &filePath_, QWindow *parent) {
         qCInfo(lcCoreInterface) << "Open file" << filePath_;
+        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
+        projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
         auto filePath = filePath_;
         if (filePath.isEmpty()) {
-            filePath = promptOpenDspxFile(parent);
+            filePath = projectDocumentContext->openSaveProjectFileScenario()->openProjectFile();
             if (filePath.isEmpty())
                 return nullptr;
         }
@@ -334,8 +304,7 @@ namespace Core {
             raiseWindow((*openedWindow)->window());
             return qobject_cast<ProjectWindowInterface *>(*openedWindow);
         }
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->openFile(filePath, parent)) {
+        if (!projectDocumentContext->openFile(filePath)) {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());

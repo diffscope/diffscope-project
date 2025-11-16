@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.visualeditor</id>
+    <configuration>
+        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <translationContext
+                text="Application::ActionText"
+                class="Application::ActionClass"
+                description="Application::ActionDescription"
+        />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
+    </configuration>
+
+    <items>
+        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapDurationCommand" text="Snap Duration" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapTupletCommand" text="Snap Tuplet" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+
+        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:excludeFromCommands="true"/>
+    </items>
+
+    <layouts>
+        <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
+            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
+                <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.handTool" />
+            </group>
+            <group id="org.diffscope.visualeditor.arrangementPanelToolBar.snapActions">
+                <action id="org.diffscope.visualeditor.arrangementPanel.snap" />
+            </group>
+            <stretch />
+            <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+        </menu>
+    </layouts>
+
+    <insertions>
+
+    </insertions>
+
+</actionExtension>

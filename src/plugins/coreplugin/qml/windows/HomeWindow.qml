@@ -32,11 +32,11 @@ HomeWindow {
     WindowSystem.id: "org.diffscope.core.homewindow"
 
     onNewFileRequested: () => {
-        windowHandle.triggerAction("core.file.new", homeWindow.contentItem)
+        windowHandle.triggerAction("org.diffscope.core.file.new", homeWindow.contentItem)
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.homeNavigation"
+            actionId: "org.diffscope.core.homeNavigation"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.navigationActionsModel.insert(index, object)
@@ -48,7 +48,7 @@ HomeWindow {
     }
     toolActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.homeTool"
+            actionId: "org.diffscope.core.homeTool"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.toolActionsModel.insert(index, object)
@@ -60,7 +60,7 @@ HomeWindow {
     }
     menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.homeMenu"
+            actionId: "org.diffscope.core.homeMenu"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.menusModel.insert(index, object)

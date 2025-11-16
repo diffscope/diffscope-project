@@ -16,7 +16,7 @@ ActionCollection {
     required property MaintenanceAddOn addOn
 
     ActionItem {
-        actionId: "maintenance.diagnosis.generateDiagnosticReport"
+        actionId: "org.diffscope.maintenance.diagnosis.generateDiagnosticReport"
         Action {
             onTriggered: () => {
                 Qt.callLater(() => d.addOn.generateDiagnosticReport())
@@ -24,7 +24,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.diagnosis.openLogsDirectory"
+        actionId: "org.diffscope.maintenance.diagnosis.openLogsDirectory"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Logs)
@@ -32,7 +32,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.diagnosis.openDataDirectory"
+        actionId: "org.diffscope.maintenance.diagnosis.openDataDirectory"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Data)
@@ -40,7 +40,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.diagnosis.openPluginsDirectory"
+        actionId: "org.diffscope.maintenance.diagnosis.openPluginsDirectory"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Plugins)
@@ -48,7 +48,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.getInvolved.reportIssue"
+        actionId: "org.diffscope.maintenance.getInvolved.reportIssue"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Issue)
@@ -56,7 +56,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.getInvolved.contribute"
+        actionId: "org.diffscope.maintenance.getInvolved.contribute"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Contribute)
@@ -64,7 +64,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.getInvolved.joinTheCommunity"
+        actionId: "org.diffscope.maintenance.getInvolved.joinTheCommunity"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.Community)
@@ -72,7 +72,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.update.checkForUpdates"
+        actionId: "org.diffscope.maintenance.update.checkForUpdates"
         Action {
             onTriggered: () => {
 
@@ -80,7 +80,7 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "maintenance.update.viewReleaseLog"
+        actionId: "org.diffscope.maintenance.update.viewReleaseLog"
         Action {
             onTriggered: () => {
                 d.addOn.reveal(MaintenanceAddOn.ReleaseLog)

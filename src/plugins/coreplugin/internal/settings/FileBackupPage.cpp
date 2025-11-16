@@ -13,7 +13,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcFileBackupPage, "diffscope.core.filebackuppage")
 
-    FileBackupPage::FileBackupPage(QObject *parent) : ISettingPage("core.FileBackup", parent) {
+    FileBackupPage::FileBackupPage(QObject *parent) : ISettingPage("org.diffscope.core.FileBackup", parent) {
         setTitle(tr("File and Backup"));
         setDescription(tr("Configure file handling and backup behaviors of %1").arg(QApplication::applicationDisplayName()));
     }

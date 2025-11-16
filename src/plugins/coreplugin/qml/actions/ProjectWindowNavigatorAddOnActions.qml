@@ -16,7 +16,7 @@ ActionCollection {
     required property QtObject addOn
 
     ActionItem {
-        actionId: "core.window.nextProjectWindow"
+        actionId: "org.diffscope.core.window.nextProjectWindow"
         Action {
             enabled: d.addOn.projectWindows.length !== 0
             onTriggered: d.addOn.navigateToWindow(1)
@@ -24,7 +24,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.window.previousProjectWindow"
+        actionId: "org.diffscope.core.window.previousProjectWindow"
         Action {
             enabled: d.addOn.projectWindows.length !== 0
             onTriggered: d.addOn.navigateToWindow(-1)
@@ -32,7 +32,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.window.projectWindows"
+        actionId: "org.diffscope.core.window.projectWindows"
         Menu {
             id: menu
             Instantiator {
@@ -61,7 +61,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.window.switchToProjectWindow"
+        actionId: "org.diffscope.core.window.switchToProjectWindow"
         Action {
             enabled: d.addOn.projectWindows.length !== 0
             onTriggered: d.addOn.showSwitchToProjectWindowCommand()

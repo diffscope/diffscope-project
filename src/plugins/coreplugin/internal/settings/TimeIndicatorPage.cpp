@@ -13,7 +13,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcTimeIndicatorPage, "diffscope.core.timeindicatorpage")
 
-    TimeIndicatorPage::TimeIndicatorPage(QObject *parent) : ISettingPage("core.TimeIndicator", parent) {
+    TimeIndicatorPage::TimeIndicatorPage(QObject *parent) : ISettingPage("org.diffscope.core.TimeIndicator", parent) {
         setTitle(tr("Time Indicator"));
         setDescription(tr("Configure time indicator display and interaction behaviors"));
     }

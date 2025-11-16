@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.maintenance</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
+        <translationContext
+            text="Application::ActionText"
+            class="Application::ActionClass"
+            description="Application::ActionDescription"
+        />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
+    </configuration>
+
+    <items>
+        <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport^" />
+        <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" />
+        <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" />
+        <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" />
+        <action id="org.diffscope.maintenance.getInvolved.reportIssue" description="Report bugs, request new features, or ask for support" />
+        <action id="org.diffscope.maintenance.getInvolved.contribute" text="Contribute to ${APP_NAME}" />
+        <action id="org.diffscope.maintenance.getInvolved.joinTheCommunity" />
+        <action id="org.diffscope.maintenance.update.checkForUpdates" />
+        <action id="org.diffscope.maintenance.update.viewReleaseLog" />
+    </items>
+
+    <layouts>
+        <group id="org.diffscope.maintenance.diagnosisActions">
+            <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport" />
+            <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" />
+            <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" />
+            <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" />
+        </group>
+
+        <group id="org.diffscope.maintenance.getInvolvedActions">
+            <action id="org.diffscope.maintenance.getInvolved.reportIssue" />
+            <action id="org.diffscope.maintenance.getInvolved.contribute" />
+            <action id="org.diffscope.maintenance.getInvolved.joinTheCommunity" />
+        </group>
+
+        <group id="org.diffscope.maintenance.updateActions">
+            <action id="org.diffscope.maintenance.update.checkForUpdates" />
+            <action id="org.diffscope.maintenance.update.viewReleaseLog" />
+        </group>
+    </layouts>
+
+    <insertions>
+        <insertion target="org.diffscope.core.help" anchor="last">
+            <group id="org.diffscope.maintenance.diagnosisActions" />
+            <group id="org.diffscope.maintenance.getInvolvedActions" />
+            <group id="org.diffscope.maintenance.updateActions" />
+        </insertion>
+    </insertions>
+
+</actionExtension>

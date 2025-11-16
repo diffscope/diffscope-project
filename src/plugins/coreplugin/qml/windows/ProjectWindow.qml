@@ -38,7 +38,7 @@ ProjectWindow {
 
     menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.mainMenu"
+            actionId: "org.diffscope.core.mainMenu"
             context: projectWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 projectWindow.menusModel.insert(index, object)
@@ -68,17 +68,17 @@ ProjectWindow {
         }
     }
     leftToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarLeft"
+        actionId: "org.diffscope.core.mainToolBarLeft"
     }
     rightToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarRight"
+        actionId: "org.diffscope.core.mainToolBarRight"
     }
     middleToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarMiddle"
+        actionId: "org.diffscope.core.mainToolBarMiddle"
     }
     statusButtonsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.mainStatusBar"
+            actionId: "org.diffscope.core.mainStatusBar"
             context: projectWindow.windowHandle.actionContext
             separatorComponent: ToolBarContainerSeparator {
             }

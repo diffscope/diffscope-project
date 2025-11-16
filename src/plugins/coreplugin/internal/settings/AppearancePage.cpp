@@ -14,7 +14,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcAppearancePage, "diffscope.core.appearancepage")
 
-    AppearancePage::AppearancePage(QObject *parent) : ISettingPage("core.Appearance", parent) {
+    AppearancePage::AppearancePage(QObject *parent) : ISettingPage("org.diffscope.core.Appearance", parent) {
         setTitle(tr("Appearance"));
         setDescription(tr("Configure how %1 looks like").arg(QApplication::applicationDisplayName()));
     }

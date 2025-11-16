@@ -11,7 +11,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcLogPage, "diffscope.core.logpage")
 
-    LogPage::LogPage(QObject *parent) : ISettingPage("core.Log", parent) {
+    LogPage::LogPage(QObject *parent) : ISettingPage("org.diffscope.core.Log", parent) {
         setTitle(tr("Log"));
         setDescription(tr("Configure log output and archiving behaviors"));
     }

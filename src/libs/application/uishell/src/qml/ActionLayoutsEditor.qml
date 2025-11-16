@@ -74,7 +74,9 @@ TreeView {
                 y: (parent.height - height) / 2
                 width: 12
                 height: 12
-                source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronRight12Filled.svg"
+                sourceSize.width: 12
+                sourceSize.height: 12
+                source: "image://fluent-system-icons/chevron_right?size=12"
                 color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
                     control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
                         control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
@@ -125,7 +127,7 @@ TreeView {
             IconLabel {
                 id: separatorIcon
                 visible: control.info.type === ActionLayoutsEditorHelper.Separator || control.info.type === ActionLayoutsEditorHelper.Stretch
-                icon.source: control.info.type === ActionLayoutsEditorHelper.Separator ? "qrc:/qt/qml/DiffScope/UIShell/assets/LineHorizontal1Dashed16Filled.svg" : "qrc:/qt/qml/DiffScope/UIShell/assets/AutoFitWidth20Filled.svg"
+                icon.source: control.info.type === ActionLayoutsEditorHelper.Separator ? "image://fluent-system-icons/line_horizontal_1_dashes" : "image://fluent-system-icons/auto_fit_width"
                 icon.color: typeLabel.color
                 icon.width: 16
                 icon.height: 16

@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTDOCUMENTCONTEXT_P_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTDOCUMENTCONTEXT_P_H
 
+#include <opendspx/model.h>
+
 #include <coreplugin/ProjectDocumentContext.h>
 
 namespace Core {
@@ -11,12 +13,14 @@ namespace Core {
         ProjectDocumentContext *q_ptr;
 
         FileLocker *fileLocker{};
-
-        QByteArray fileData_TODO; // TODO
+        DspxDocument *document{};
+        OpenSaveProjectFileScenario *openSaveProjectFileScenario;
 
         void markSaved();
         QByteArray serializeDocument() const;
-        void deserializeDocument(const QByteArray &data);
+
+        bool deserializeAndInitializeDocument(const QByteArray &data);
+        bool initializeDocument(const QDspx::Model &model, bool doCheck);
     };
 
 }

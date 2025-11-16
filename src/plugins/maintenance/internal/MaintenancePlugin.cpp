@@ -8,6 +8,8 @@
 
 #include <extensionsystem/pluginspec.h>
 
+#include <QAKCore/actionregistry.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -17,7 +19,7 @@
 #include <maintenance/internal/updatepage.h>
 
 static auto getMaintenanceActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(maintenance_actions);
+    return QAK_STATIC_ACTION_EXTENSION(maintenance);
 }
 
 namespace Maintenance {
@@ -36,7 +38,7 @@ namespace Maintenance {
 
         new ApplicationUpdateChecker(this);
 
-        if (auto generalPage = Core::CoreInterface::settingCatalog()->page("core.General")) {
+        if (auto generalPage = Core::CoreInterface::settingCatalog()->page("org.diffscope.core.General")) {
             generalPage->addPage(new UpdatePage);
         } else {
             Core::CoreInterface::settingCatalog()->addPage(new UpdatePage);

@@ -49,12 +49,9 @@ namespace Core::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 
-            windowInterface->actionContext()->addAction("core.panel.properties", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.arrangement", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ArrangementPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.mixer", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MixerPanel", this));
-            windowInterface->actionContext()->addAction("core.panel.pianoRoll", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PianoRollPanel", this));
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.properties", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
@@ -140,12 +137,10 @@ namespace Core::Internal {
                     if (i == spec.visibleIndex || opened) {
                         visibleIndices.append(result.size());
                     }
-                    if (data.isValid()) {
-                        object->setProperty("panelPersistentData", data);
-                    }
                     result.append(QVariantMap{
                         {"object", QVariant::fromValue(object)},
                         {"geometry", geometry},
+                        {"state", data}
                     });
                 }
             }
@@ -227,9 +222,9 @@ namespace Core::Internal {
         if (index == -1)
             return;
         if (index == 0) {
-            windowInterface->triggerAction("core.workspace.saveLayout");
+            windowInterface->triggerAction("org.diffscope.core.workspace.saveLayout");
         } else if (index == 2) {
-            windowInterface->triggerAction("core.workspace.defaultLayout");
+            windowInterface->triggerAction("org.diffscope.core.workspace.defaultLayout");
         } else {
             auto layout =
                 model.item(index)->data(Qt::DisplayRole).value<ProjectWindowWorkspaceLayout>();
@@ -271,14 +266,14 @@ namespace Core::Internal {
     QVariantList WorkspaceAddOn::panelEntries() const {
         QVariantList ret;
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        auto a = CoreInterface::actionRegistry()->catalog().children("core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
+        auto a = CoreInterface::actionRegistry()->catalog().children("org.diffscope.core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.id());
+            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.icon());
             return QVariantMap{
                 {"id", id},
                 {"text", info.text()},
-                {"iconSource", QUrl::fromLocalFile(actionIcon.filePath())},
+                {"iconSource", actionIcon.url()},
                 {"iconColor", QColor::fromString(actionIcon.currentColor())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}
             };

@@ -11,18 +11,19 @@ ActionCollection {
     readonly property Window window: addOn?.windowHandle.window ?? null
 
     ActionItem {
-        actionId: "core.view.showMenuBar"
-        Action {
+        actionId: "org.diffscope.core.view.showMenuBar"
+        readonly property Component _actionComponent: Action {
             checkable: true
-            checked: d.window.menuBar.visible
+            checked: d.window.menuBar.alwaysVisible
             onTriggered: () => {
-                Qt.callLater(() => d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked, this))
+                d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked)
             }
         }
+        actionComponent: (Qt.platform.os !== "osx" && Qt.platform.os !== "macos") ? _actionComponent : null
     }
 
     ActionItem {
-        actionId: "core.view.showToolBar"
+        actionId: "org.diffscope.core.view.showToolBar"
         Action {
             checkable: true
             checked: d.window.toolBar.visible
@@ -33,7 +34,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.view.showLeftSideBar"
+        actionId: "org.diffscope.core.view.showLeftSideBar"
         Action {
             checkable: true
             checked: d.window.leftDockingView.barSize !== 0
@@ -44,18 +45,18 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.view.showRightSideBar"
+        actionId: "org.diffscope.core.view.showRightSideBar"
         Action {
             checkable: true
             checked: d.window.rightDockingView.barSize !== 0
             onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.RightSideBar, checked, this)
+                d.addOn.toggleVisibility(ViewVisibilityAddOn.RightSideBar, checked)
             }
         }
     }
 
     ActionItem {
-        actionId: "core.view.showTopSideBar"
+        actionId: "org.diffscope.core.view.showTopSideBar"
         Action {
             checkable: true
             checked: d.window.topDockingView.barSize !== 0
@@ -66,7 +67,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.view.showBottomSideBar"
+        actionId: "org.diffscope.core.view.showBottomSideBar"
         Action {
             checkable: true
             checked: d.window.bottomDockingView.barSize !== 0
@@ -77,7 +78,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.view.showStatusBar"
+        actionId: "org.diffscope.core.view.showStatusBar"
         Action {
             checkable: true
             checked: d.window.statusBar.visible

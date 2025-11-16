@@ -1,7 +1,6 @@
 #include "ProjectWindowInterface.h"
 
 #include <QAbstractItemModel>
-#include <QEventLoop>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QJSValue>
@@ -26,9 +25,9 @@
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/NotificationMessage.h>
+#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
-#include <coreplugin/ProjectViewModelContext.h>
 #include <coreplugin/QuickInput.h>
 #include <coreplugin/QuickPick.h>
 
@@ -38,21 +37,6 @@ namespace Core {
 
     static ProjectWindowInterface *m_instance = nullptr;
 
-    class MessageBoxDialogDoneListener : public QObject {
-        Q_OBJECT
-    public:
-        inline explicit MessageBoxDialogDoneListener(QEventLoop *eventLoop) : eventLoop(eventLoop) {
-        }
-
-    public slots:
-        void done(const QVariant &id) const {
-            eventLoop->exit(id.toInt());
-        }
-
-    private:
-        QEventLoop *eventLoop;
-    };
-
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
@@ -61,14 +45,12 @@ namespace Core {
         ProjectTimeline *projectTimeline;
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         ProjectDocumentContext *projectDocumentContext;
-        ProjectViewModelContext *projectViewModelContext;
         void init() {
             Q_Q(ProjectWindowInterface);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(q);
             mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
-            projectViewModelContext = new ProjectViewModelContext(projectTimeline, q);
         }
 
         void initActionContext() {
@@ -83,28 +65,6 @@ namespace Core {
             });
             o->setParent(q);
             QMetaObject::invokeMethod(o, "registerToContext", actionContext);
-        }
-
-        QString promptSaveDspxFile() const {
-            auto settings = RuntimeInterface::settings();
-            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
-            auto defaultSaveDir = projectDocumentContext->fileLocker() && !projectDocumentContext->fileLocker()->path().isEmpty() ? projectDocumentContext->fileLocker()->path() : settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-            settings->endGroup();
-
-            auto path = QFileDialog::getSaveFileName(
-                nullptr,
-                {},
-                defaultSaveDir,
-                CoreInterface::dspxFileFilter(true)
-            );
-            if (path.isEmpty())
-                return {};
-
-            settings->beginGroup(ProjectWindowInterface::staticMetaObject.className());
-            settings->setValue(QStringLiteral("defaultSaveDir"), QFileInfo(path).absolutePath());
-            settings->endGroup();
-
-            return path;
         }
 
         void updateRecentFile() const {
@@ -141,12 +101,7 @@ namespace Core {
                  {"icon", SVS::SVSCraft::Warning},
                  {"transientParent", QVariant::fromValue(q->window())}}
             )));
-            Q_ASSERT(mb);
-            QEventLoop eventLoop;
-            MessageBoxDialogDoneListener listener(&eventLoop);
-            QObject::connect(mb.get(), SIGNAL(done(QVariant)), &listener, SLOT(done(QVariant)));
-            mb->show();
-            return static_cast<ExternalChangeOperation>(eventLoop.exec());
+            return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb.get()).toInt());
         }
     };
 
@@ -167,11 +122,6 @@ namespace Core {
     EditActionsHandlerRegistry *ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
         Q_D(const ProjectWindowInterface);
         return d->mainEditActionsHandlerRegistry;
-    }
-
-    ProjectViewModelContext *ProjectWindowInterface::projectViewModelContext() const {
-        Q_D(const ProjectWindowInterface);
-        return d->projectViewModelContext;
     }
 
     void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
@@ -200,7 +150,7 @@ namespace Core {
                 return saveAs();
             }
         }
-        bool isSuccess = d->projectDocumentContext->save(window());
+        bool isSuccess = d->projectDocumentContext->save();
         if (isSuccess) {
             d->updateRecentFile();
             return true;
@@ -210,10 +160,10 @@ namespace Core {
 
     bool ProjectWindowInterface::saveAs() {
         Q_D(ProjectWindowInterface);
-        auto path = d->promptSaveDspxFile();
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
         if (path.isEmpty())
             return false;
-        bool isSuccess = d->projectDocumentContext->saveAs(path, window());
+        bool isSuccess = d->projectDocumentContext->saveAs(path);
         if (isSuccess) {
             d->updateRecentFile();
             return true;
@@ -223,10 +173,10 @@ namespace Core {
 
     bool ProjectWindowInterface::saveCopy() {
         Q_D(ProjectWindowInterface);
-        auto path = d->promptSaveDspxFile();
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
         if (path.isEmpty())
             return false;
-        return d->projectDocumentContext->saveCopy(path, window());
+        return d->projectDocumentContext->saveCopy(path);
     }
 
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
@@ -240,6 +190,7 @@ namespace Core {
         Q_ASSERT(win);
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
+        d->projectDocumentContext->openSaveProjectFileScenario()->setWindow(win);
         return win;
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {

@@ -29,7 +29,7 @@ namespace Core::Internal {
                                                        },
                                                        RuntimeInterface::qmlEngine()->rootContext());
         o->setParent(this);
-        windowInterface->actionContext()->addAction("core.panel.metadata", o->property("metadataPanelComponent").value<QQmlComponent *>());
+        windowInterface->actionContext()->addAction("org.diffscope.core.panel.metadata", o->property("metadataPanelComponent").value<QQmlComponent *>());
     }
 
     void MetadataAddOn::extensionsInitialized() {

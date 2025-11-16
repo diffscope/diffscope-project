@@ -1,6 +1,7 @@
 #ifndef UISHELL_BUBBLENOTIFICATIONHANDLE_H
 #define UISHELL_BUBBLENOTIFICATIONHANDLE_H
 
+#include <QDateTime>
 #include <QObject>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
@@ -22,6 +23,7 @@ namespace UIShell {
         Q_PROPERTY(bool progressAbortable READ progressAbortable NOTIFY progressAbortableChanged)
         Q_PROPERTY(bool permanentlyHideable READ permanentlyHideable NOTIFY permanentlyHideableChanged)
         Q_PROPERTY(int textFormat READ textFormat WRITE setTextFormat NOTIFY textFormatChanged)
+        Q_PROPERTY(QDateTime time READ time NOTIFY timeChanged)
 
     public:
         inline explicit BubbleNotificationHandle(QObject *parent = nullptr) : QObject(parent) {
@@ -119,6 +121,14 @@ namespace UIShell {
             }
         }
 
+        inline QDateTime time() const { return m_time; }
+        inline void setTime(const QDateTime &time) {
+            if (m_time != time) {
+                m_time = time;
+                emit timeChanged();
+            }
+        }
+
     signals:
         void titleChanged();
         void textChanged();
@@ -131,6 +141,7 @@ namespace UIShell {
         void progressAbortableChanged();
         void permanentlyHideableChanged();
         void textFormatChanged();
+        void timeChanged();
 
         void hideClicked();
         void closeClicked();
@@ -153,6 +164,7 @@ namespace UIShell {
         bool m_progressAbortable{};
         bool m_permanentlyHideable{};
         int m_textFormat{Qt::AutoText};
+        QDateTime m_time{};
     };
 
 }

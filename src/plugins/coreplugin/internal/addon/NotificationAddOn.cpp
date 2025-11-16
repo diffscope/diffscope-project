@@ -39,7 +39,7 @@ namespace Core::Internal {
                                                            },
                                                            RuntimeInterface::qmlEngine()->rootContext());
             o->setParent(this);
-            windowInterface->actionContext()->addAction("core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }
         auto updateStatusText = [=] {
             auto statusContext = SVS::StatusTextContext::statusContext(qobject_cast<QQuickWindow *>(windowInterface->window()));

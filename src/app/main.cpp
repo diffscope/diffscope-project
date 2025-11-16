@@ -19,6 +19,8 @@
 
 #include <qjsonsettings.h>
 
+#include <SVSCraftFluentSystemIcons/FluentSystemIconsImageProvider.h>
+
 #include <loadapi/initroutine.h>
 
 #include <application_config.h>
@@ -52,6 +54,7 @@ public:
         splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +
                            QStringLiteral("/config.json");
         pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
+        coreName = QStringLiteral("org.diffscope.core");
     }
 
     QSettings *createExtensionSystemSettings(QSettings::Scope scope) override {
@@ -84,6 +87,7 @@ public:
 
     void beforeLoadPlugins() override {
         RuntimeInterface::setQmlEngine(engine);
+        SVS::FluentSystemIconsImageProvider::addToEngine(engine);
         auto settings = RuntimeInterface::settings();
 
         QLocale locale;

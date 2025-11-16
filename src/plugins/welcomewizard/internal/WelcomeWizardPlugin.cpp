@@ -7,6 +7,8 @@
 
 #include <extensionsystem/pluginspec.h>
 
+#include <QAKCore/actionregistry.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -14,7 +16,7 @@
 #include <welcomewizard/internal/welcomewizardaddon.h>
 
 static auto getWelcomeWizardActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(welcome_wizard_actions);
+    return QAK_STATIC_ACTION_EXTENSION(welcomewizard);
 }
 
 namespace WelcomeWizard {

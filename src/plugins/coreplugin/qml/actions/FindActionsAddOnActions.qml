@@ -10,11 +10,10 @@ ActionCollection {
     required property QtObject addOn
 
     ActionItem {
-        actionId: "core.findActions"
+        actionId: "org.diffscope.core.findActions"
         Action {
             onTriggered: () => {
                 Qt.callLater(() => {
-                    CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_FindActions);
                     d.addOn.findActions()
                 })
             }

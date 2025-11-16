@@ -1,19 +1,20 @@
 #ifndef DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 #define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
+#include <QObject>
 #include <qqmlintegration.h>
 
-#include <QObject>
-#include <QSettings>
-
 #include <CoreApi/coreinterfacebase.h>
-
-#include <QAKCore/actionregistry.h>
 
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
 class QJSEngine;
+class QWindow;
+
+namespace QAK {
+    class ActionRegistry;
+}
 
 namespace Core {
 
@@ -22,6 +23,7 @@ namespace Core {
     }
 
     class ProjectWindowInterface;
+    class DspxCheckerRegistry;
 
     class CoreInterfacePrivate;
 
@@ -37,6 +39,12 @@ namespace Core {
 
         static QAK::ActionRegistry *actionRegistry();
 
+        static DspxCheckerRegistry *dspxCheckerRegistry();
+
+        static constexpr const char *dspxEditorId() {
+            return "org.diffscope.diffscope";
+        }
+
         Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void execPluginsDialog(QWindow *parent);
         Q_INVOKABLE static void execAboutAppDialog(QWindow *parent);
@@ -44,7 +52,6 @@ namespace Core {
         Q_INVOKABLE static void showHome();
 
     public:
-        Q_INVOKABLE static QString dspxFileFilter(bool withAllFiles = false);
         Q_INVOKABLE static ProjectWindowInterface *newFile(QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *newFileFromTemplate(const QString &templateFilePath, QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *openFile(const QString &filePath, QWindow *parent = nullptr);

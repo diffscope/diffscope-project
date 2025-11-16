@@ -34,7 +34,7 @@
 #include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/pluginspec.h>
 
-#include <QAKQuick/actioniconimageprovider.h>
+#include <QAKCore/actionregistry.h>
 
 #include <SVSCraftQuick/Theme.h>
 
@@ -42,11 +42,11 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/internal/AfterSavingNotifyAddOn.h>
 #include <coreplugin/internal/AppearancePage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/ColorSchemeCollection.h>
 #include <coreplugin/internal/ColorSchemePage.h>
-#include <coreplugin/internal/CoreAchievementsModel.h>
 #include <coreplugin/internal/EditActionsAddOn.h>
 #include <coreplugin/internal/FileBackupPage.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
@@ -67,7 +67,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 static auto getCoreActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(core_actions);
+    return QAK_STATIC_ACTION_EXTENSION(coreplugin);
 }
 
 namespace Core::Internal {
@@ -131,21 +131,10 @@ namespace Core::Internal {
     static constexpr char kOpenSettingsArg[] = "--open-settings";
     static constexpr char kNewProjectArg[] = "--new";
 
-    static void checkUltimateSimplicityAchievement() {
-        using namespace ExtensionSystem;
-        bool ok = std::ranges::all_of(PluginManager::plugins(), [](PluginSpec *spec) {
-            return !spec->isEffectivelyEnabled() || spec->name() == "Core" || spec->name() == "Achievement";
-        });
-        if (!ok)
-            return;
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_UltimateSimplicity);
-    }
-
     static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
-            CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_CommandLineSettings);
         }
         ActionWindowInterfaceBase *windowInterface;
         if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
@@ -175,7 +164,6 @@ namespace Core::Internal {
 
         initializeSingletons();
         initializeBehaviorPreference();
-        initializeImageProviders();
         initializeActions();
         initializeSettings();
         initializeWindows();
@@ -217,8 +205,6 @@ namespace Core::Internal {
         };
         auto listener = new ExposedListener(win);
         win->installEventFilter(listener);
-        CoreAchievementsModel::triggerAchievementCompleted(CoreAchievementsModel::Achievement_DiffScope);
-        checkUltimateSimplicityAchievement();
         QApplication::setQuitOnLastWindowClosed(true);
         return false;
     }
@@ -303,47 +289,15 @@ namespace Core::Internal {
         new BehaviorPreference(this);
     }
 
-    void CorePlugin::initializeImageProviders() {
-        auto actionIconImageProvider = new QAK::ActionIconImageProvider;
-        actionIconImageProvider->setActionFamily(CoreInterface::actionRegistry());
-        RuntimeInterface::qmlEngine()->addImageProvider("action", actionIconImageProvider);
-    }
-
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-
+        CoreInterface::actionRegistry()->addIconManifest(":/diffscope/coreplugin/icons/config.json");
         // TODO: move to icon manifest later
         const auto addIcon = [&](const QString &id, const QString &iconName) {
             QAK::ActionIcon icon;
-            icon.addFile(":/diffscope/coreplugin/icons/" + iconName + ".svg");
+            icon.addUrl("image://fluent-system-icons/" + iconName);
             CoreInterface::actionRegistry()->addIcon("", id, icon);
         };
-        addIcon("core.homePreferences", "Settings16Filled");
-        addIcon("core.help", "QuestionCircle16Filled");
-        addIcon("core.file.new", "DocumentAdd16Filled");
-        addIcon("core.file.open", "FolderOpen16Filled");
-        addIcon("core.file.save", "Save16Filled");
-        addIcon("core.settings", "Settings16Filled");
-        addIcon("core.plugins", "PuzzlePiece16Filled");
-        addIcon("core.showHomeWindow", "Home16Filled");
-        addIcon("core.documentations", "QuestionCircle16Filled");
-        addIcon("core.findActions", "Search16Filled");
-        addIcon("core.edit.undo", "ArrowUndo16Filled");
-        addIcon("core.edit.redo", "ArrowRedo16Filled");
-        addIcon("core.edit.cut", "Cut16Filled");
-        addIcon("core.edit.copy", "Copy16Filled");
-        addIcon("core.edit.paste", "ClipboardPaste16Filled");
-        addIcon("core.edit.delete", "Delete16Filled");
-        addIcon("core.panel.properties", "TextBulletListSquareEdit20Filled");
-        addIcon("core.panel.metadata", "TextBulletListSquareEdit20Filled");
-        addIcon("core.panel.plugins", "PuzzlePiece16Filled");
-        addIcon("core.panel.arrangement", "GanttChart16Filled");
-        addIcon("core.panel.mixer", "OptionsVertical16Filled");
-        addIcon("core.panel.pianoRoll", "Midi20Filled");
-        addIcon("core.panel.notifications", "Alert16Filled");
-        addIcon("core.panel.tips", "ChatSparkle16Filled");
-        addIcon("core.timeline.goToStart", "Previous16Filled");
-        addIcon("core.timeline.goToEnd", "Next16Filled");
     }
 
     void CorePlugin::initializeSettings() const {
@@ -376,6 +330,7 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {
@@ -397,11 +352,6 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::fontFamilyChanged, updateFont);
         QObject::connect(behaviorPreference, &BehaviorPreference::fontStyleChanged, updateFont);
         const auto updateAnimation = [=] {
-            if (!BehaviorPreference::isAnimationEnabled()) {
-                CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableAnimation
-                );
-            }
             auto v = 250 * BehaviorPreference::animationSpeedRatio() *
                      (BehaviorPreference::isAnimationEnabled() ? 1 : 0);
             SVS::Theme::defaultTheme()->setColorAnimationDuration(static_cast<int>(v));
@@ -424,13 +374,6 @@ namespace Core::Internal {
             sf.setSamples(8);
             QSurfaceFormat::setDefaultFormat(sf);
         }
-        QObject::connect(behaviorPreference, &BehaviorPreference::uiBehaviorChanged, [] {
-            if (!(BehaviorPreference::uiBehavior() & BehaviorPreference::UB_Frameless)) {
-                CoreAchievementsModel::triggerAchievementCompleted(
-                    CoreAchievementsModel::Achievement_DisableCustomTitleBar
-                );
-            }
-        });
     }
 
     void CorePlugin::initializeColorScheme() {
@@ -448,7 +391,6 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeHelpContents() {
-        RuntimeInterface::instance()->addObject("org.diffscope.achievements", new CoreAchievementsModel(this));
         {
             auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
             if (component->isError()) {

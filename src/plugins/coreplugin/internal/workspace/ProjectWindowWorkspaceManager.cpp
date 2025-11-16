@@ -46,9 +46,9 @@ namespace Core::Internal {
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::LeftTop,
             {{
-                 {"core.panel.properties", true},
-                 {"core.panel.metadata", true},
-                 {"core.panel.plugins", true},
+                 {"org.diffscope.core.panel.properties", true},
+                 {"org.diffscope.core.panel.metadata", true},
+                 {"org.diffscope.core.panel.plugins", true},
              },
              400,
              400,
@@ -57,8 +57,8 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::LeftBottom,
-            {{{"core.panel.tips", true},
-              {"core.settings", false}
+            {{{"org.diffscope.core.panel.tips", true},
+              {"org.diffscope.core.settings", false}
              },
              400,
              150,
@@ -67,36 +67,34 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::TopLeft,
-            {{{"core.panel.arrangement", true}
+            {{{"org.diffscope.visualeditor.panel.arrangement", true}
              },
              400,
-             360,
+             0.4,
              0
             }
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::TopRight,
-            {{}, 400, 360, -1
-            }
+            {{}, 400, 0.4, -1}
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomLeft,
-            {{{"core.panel.pianoRoll", true},
-              {"core.panel.mixer", true}
+            {{{"org.diffscope.visualeditor.panel.pianoRoll", true},
+              {"org.diffscope.visualeditor.panel.mixer", true}
              },
              400,
-             640,
+             0.4,
              0
             }
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::BottomRight,
-            {{}, 400, 640, -1
-            }
+            {{}, 400, 0.4, -1}
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::RightTop,
-            {{{"core.panel.notifications", true}
+            {{{"org.diffscope.core.panel.notifications", true}
              },
              400,
              400,
