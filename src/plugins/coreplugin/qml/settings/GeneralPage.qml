@@ -92,18 +92,6 @@ ScrollView {
                         }
                     }
                     CheckBox {
-                        text: qsTr("Open previous projects on startup automatically")
-                        TextMatcherItem on text { matcher: page.matcher }
-                        checked: page.startupBehavior & BehaviorPreference.SB_AutoOpenPreviousProjects
-                        onClicked: () => {
-                            if (checked) {
-                                page.startupBehavior |= BehaviorPreference.SB_AutoOpenPreviousProjects
-                            } else {
-                                page.startupBehavior &= ~BehaviorPreference.SB_AutoOpenPreviousProjects
-                            }
-                        }
-                    }
-                    CheckBox {
                         text: qsTr("Close the home window after opening a project")
                         TextMatcherItem on text { matcher: page.matcher }
                         checked: page.startupBehavior & BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
