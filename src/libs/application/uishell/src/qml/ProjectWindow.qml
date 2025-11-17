@@ -132,8 +132,13 @@ Window {
         }
     }
     ColumnLayout {
-        spacing: 1
+        spacing: 0
         anchors.fill: parent
+        component PaneSeparator: Rectangle {
+            color: Theme.paneSeparatorColor
+            implicitHeight: 1
+            Layout.fillWidth: true
+        }
         Rectangle { // TODO macOS fullscreen transition
             id: titleBar
             Accessible.role: Accessible.TitleBar
@@ -225,11 +230,7 @@ Window {
                 color: parent.color
             }
         }
-        Item {
-            Layout.fillWidth: true
-            implicitHeight: 0
-            visible: !titleBar.visible && separatedMenuParent.visible
-        }
+        PaneSeparator {}
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
@@ -237,6 +238,9 @@ Window {
             visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
             implicitHeight: menuBar.visualVisible ? 24 : 0
             // FIXME remove spacing when visual invisible
+        }
+        PaneSeparator {
+            visible: separatedMenuParent.visible && menuBar.visualVisible
         }
         ToolBar {
             id: toolBar
@@ -304,6 +308,7 @@ Window {
                 }
             }
         }
+        PaneSeparator {}
         Item {
             id: mainPane
             readonly property double minimumPanelSize: 64
@@ -312,11 +317,13 @@ Window {
             SplitView {
                 anchors.fill: parent
                 ThemedItem.splitHandleEnabled: rightDock.panelOpened
+                ThemedItem.dividerStroke: rightDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
                 Accessible.ignored: true
                 SplitView {
                     SplitView.minimumWidth: leftDock.SplitView.minimumWidth + mainPane.minimumPanelSize
                     SplitView.fillWidth: true
                     ThemedItem.splitHandleEnabled: leftDock.panelOpened
+                    ThemedItem.dividerStroke: leftDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
                     Accessible.ignored: true
                     DockingView {
                         id: leftDock
@@ -340,6 +347,8 @@ Window {
                         SplitView.fillHeight: true
                         SplitView.minimumWidth: mainPane.minimumPanelSize
                         ThemedItem.splitHandleVisible: topDock.panelOpened || bottomDock.panelOpened
+                        ThemedItem.splitHandleEnabled: topDock.panelOpened && bottomDock.panelOpened
+                        ThemedItem.dividerStroke: topDock.panelOpened && bottomDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
                         Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
@@ -364,7 +373,7 @@ Window {
                                 width: parent.width
                                 height: 1
                                 anchors.top: topDock.bottom
-                                color: Theme.splitterColor
+                                color: Theme.paneSeparatorColor
                                 visible: !topDock.panelOpened
                             }
                         }
@@ -386,7 +395,7 @@ Window {
                                 width: parent.width
                                 height: 1
                                 anchors.bottom: bottomDock.top
-                                color: Theme.splitterColor
+                                color: Theme.paneSeparatorColor
                                 visible: !bottomDock.panelOpened
                             }
                         }
@@ -411,6 +420,7 @@ Window {
                 }
             }
         }
+        PaneSeparator {}
         ToolBar {
             id: statusBar
             Accessible.role: Accessible.StatusBar

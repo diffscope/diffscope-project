@@ -351,6 +351,10 @@ Item {
             text: qsTr("Splitter color")
         }
         ListElement {
+            name: "paneSeparatorColor"
+            text: qsTr("Pane separator color")
+        }
+        ListElement {
             name: "foregroundPrimaryColor"
             text: qsTr("Primary foreground color")
         }

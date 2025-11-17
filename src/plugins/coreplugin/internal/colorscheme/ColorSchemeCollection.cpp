@@ -30,6 +30,7 @@ namespace Core::Internal {
              {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x252629))},
              {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x313235))},
              {"splitterColor", QVariant::fromValue(QColor(0x121315))},
+             {"paneSeparatorColor", QVariant::fromValue(QColor(0x343538))},
              {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xdadada))},
              {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0dadada))},
              {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
@@ -62,6 +63,7 @@ namespace Core::Internal {
              {"backgroundTertiaryColor", QVariant::fromValue(QColor(0xd6d9da))},
              {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0xcacdce))},
              {"splitterColor", QVariant::fromValue(QColor(0xeaeced))},
+             {"paneSeparatorColor", QVariant::fromValue(QColor(0xc7cacb))},
              {"foregroundPrimaryColor", QVariant::fromValue(QColor(0x252525))},
              {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0252525))},
              {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
@@ -93,7 +95,8 @@ namespace Core::Internal {
              {"backgroundSecondaryColor", QVariant::fromValue(QColor(0x060606))},
              {"backgroundTertiaryColor", QVariant::fromValue(QColor(0x0c0c0c))},
              {"backgroundQuaternaryColor", QVariant::fromValue(QColor(0x121212))},
-             {"splitterColor", QVariant::fromValue(QColor(0xcc00aa))},
+             {"splitterColor", QVariant::fromValue(QColor(0x00aacc))},
+             {"paneSeparatorColor", QVariant::fromValue(QColor(0x7f7f7f))},
              {"foregroundPrimaryColor", QVariant::fromValue(QColor(0xffffff))},
              {"foregroundSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xa0ffffff))},
              {"linkColor", QVariant::fromValue(QColor(0x5566ff))},
@@ -332,6 +335,7 @@ namespace Core::Internal {
         theme->setProperty("backgroundTertiaryColor", m_unsavedPreset.value("backgroundTertiaryColor"));
         theme->setProperty("backgroundQuaternaryColor", m_unsavedPreset.value("backgroundQuaternaryColor"));
         theme->setProperty("splitterColor", m_unsavedPreset.value("splitterColor"));
+        theme->setProperty("paneSeparatorColor", m_unsavedPreset.value("paneSeparatorColor"));
         theme->setProperty("foregroundPrimaryColor", m_unsavedPreset.value("foregroundPrimaryColor"));
         theme->setProperty("foregroundSecondaryColor", m_unsavedPreset.value("foregroundSecondaryColor"));
         theme->setProperty("linkColor", m_unsavedPreset.value("linkColor"));

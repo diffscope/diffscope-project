@@ -212,13 +212,12 @@ Window {
             return mapFromSource(sourceModel.indexForPageId(id))
         }
     }
-    Rectangle {
+    Item {
         anchors.fill: parent
-        color: Theme.backgroundQuaternaryColor
         Keys.onEscapePressed: dialog.close()
         ColumnLayout {
             anchors.fill: parent
-            spacing: 1
+            spacing: 0
             SplitView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -424,6 +423,11 @@ Window {
                         }
                     }
                 }
+            }
+            Rectangle {
+                color: Theme.paneSeparatorColor
+                implicitHeight: 1
+                Layout.fillWidth: true
             }
             Rectangle {
                 color: Theme.backgroundSecondaryColor
