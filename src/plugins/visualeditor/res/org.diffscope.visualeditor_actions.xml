@@ -18,14 +18,14 @@
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
         <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.snapDurationCommand" text="Snap Duration" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.snapTupletCommand" text="Snap Tuplet" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
 
-        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:componentType="custom"/>
     </items>
 
     <layouts>

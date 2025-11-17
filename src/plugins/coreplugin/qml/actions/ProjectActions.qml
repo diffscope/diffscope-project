@@ -33,7 +33,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "org.diffscope.core.file.saveCopy"
+        actionId: "org.diffscope.core.file.saveCopyAs"
         Action {
             onTriggered: Qt.callLater(() => d.windowHandle.saveCopy())
         }

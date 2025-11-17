@@ -9,6 +9,10 @@ namespace QAK {
     class QuickActionContext;
 }
 
+namespace Core {
+    class ActionWindowInterfaceBase;
+}
+
 namespace Core::Internal {
 
     class FindActionsAddOn;
@@ -28,6 +32,8 @@ namespace Core::Internal {
         void setActions(const QStringList &actions);
         void setPriorityActions(const QStringList &priorityActions);
         void refresh();
+
+        void trigger(int index, ActionWindowInterfaceBase *windowInterface);
 
     private:
         void updateActionList();

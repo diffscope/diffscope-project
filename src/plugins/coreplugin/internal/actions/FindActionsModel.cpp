@@ -4,8 +4,12 @@
 #include <ranges>
 
 #include <QKeySequence>
+#include <QLoggingCategory>
 #include <QPointer>
 #include <QSettings>
+
+#include <QtQuickTemplates2/private/qquickaction_p.h>
+#include <QtQuickTemplates2/private/qquickmenu_p.h>
 
 #include <QAKCore/actionregistry.h>
 
@@ -14,8 +18,11 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/internal/ActionHelper.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
+#include <coreplugin/ActionWindowInterfaceBase.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcFindActionsModel, "diffscope.core.findactionsmodel")
 
     FindActionsModel::FindActionsModel(QAK::QuickActionContext *actionContext, FindActionsAddOn *parent)
         : QAbstractItemModel(parent), m_actionContext(actionContext) {
@@ -103,40 +110,11 @@ namespace Core::Internal {
         return result;
     }
 
-    static QString removeMnemonic(const QString &s) {
-        QString text(s.size(), QChar::Null);
-        int idx = 0;
-        int pos = 0;
-        int len = s.size();
-        while (len) {
-            if (s.at(pos) == QLatin1Char('&') && (len == 1 || s.at(pos + 1) != QLatin1Char('&'))) {
-                ++pos;
-                --len;
-                if (len == 0)
-                    break;
-            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 && s.at(pos + 1) == QLatin1Char('&') && s.at(pos + 2) != QLatin1Char('&') && s.at(pos + 3) == QLatin1Char(')')) {
-                // a mnemonic with format "\s*(&X)"
-                int n = 0;
-                while (idx > n && text.at(idx - n - 1).isSpace())
-                    ++n;
-                idx -= n;
-                pos += 4;
-                len -= 4;
-                continue;
-            }
-            text[idx] = s.at(pos);
-            ++pos;
-            ++idx;
-            --len;
-        }
-        text.truncate(idx);
-        return text;
-    }
-
     enum ActionInternalFlag {
         None,
         Checkable,
         Separator,
+        Menu,
     };
 
     QVariant FindActionsModel::data(const QModelIndex &index, int role) const {
@@ -150,9 +128,11 @@ namespace Core::Internal {
             case Qt::DisplayRole:
                 return actionId;
             case SVS::SVSCraft::CP_TitleRole: {
-                auto text = removeMnemonic(getTextWithFallback(actionId, true));
+                auto text = ActionHelper::removeMnemonic(getTextWithFallback(actionId, true));
                 if (flag == Checkable) {
                     text = tr("Toggle \"%1\"").arg(text);
+                } else if (flag == Menu) {
+                    text = tr("Open Menu \"%1\"...").arg(text);
                 }
                 auto clazz = getClassWithFallback(actionId, true);
                 if (clazz.isEmpty())
@@ -183,11 +163,21 @@ namespace Core::Internal {
         }
     }
 
+    static bool includeActionPredicate(const QString &id) {
+        static const QString namespaceUri = "http://schemas.diffscope.org/diffscope/actions/diffscope";
+        auto info = CoreInterface::actionRegistry()->actionInfo(id);
+        if (info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", namespaceUri))) {
+            return false;
+        }
+        auto componentType = info.attributes().value(QAK::ActionAttributeKey("componentType", namespaceUri));
+        if (!componentType.isEmpty() && componentType != "action" && componentType != "menu") {
+            return false;
+        }
+        return true;
+    }
+
     void FindActionsModel::setActions(const QStringList &actions) {
-        auto v = actions | std::views::filter([](const QString &id) {
-                     auto info = CoreInterface::actionRegistry()->actionInfo(id);
-                     return !info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", "http://schemas.diffscope.org/diffscope/actions/diffscope"));
-                 });
+        auto v = actions | std::views::filter(includeActionPredicate);
         m_actions = QStringList(v.begin(), v.end());
     }
 
@@ -197,6 +187,15 @@ namespace Core::Internal {
 
     void FindActionsModel::refresh() {
         updateActionList();
+    }
+
+    void FindActionsModel::trigger(int index, ActionWindowInterfaceBase *windowInterface) {
+        const auto &[actionId, flag] = m_actionList.at(index);
+        if (flag == Menu) {
+            windowInterface->execQuickPick(static_cast<QQuickMenu *>(getActionObject(actionId)));
+        } else {
+            windowInterface->triggerAction(actionId, windowInterface->window()->property("contentItem").value<QObject *>());
+        }
     }
 
     void FindActionsModel::updateActionList() {
@@ -215,15 +214,26 @@ namespace Core::Internal {
         // Sort remaining actions using local collator
         std::sort(remainingActions.begin(), remainingActions.end(), [this](const QString &a, const QString &b) { return m_collator.compare(a, b) < 0; });
 
-        auto pipeline = std::views::transform([=](const QString &id) -> QPair<QString, int> {
-                            // TODO avoid creating action object on each time updating action list
-                            auto actionObject = getActionObject(id);
-                            if (!actionObject || !actionObject->property("enabled").toBool()) {
-                                return {};
-                            }
-                            return {id, actionObject->property("checkable").toBool() ? Checkable : None};
-                        }) |
-                        std::views::filter([](const auto &p) { return !p.first.isEmpty(); });
+        auto getActionFlagPair = [this](const QString &id) -> QPair<QString, int> {
+            // TODO avoid creating action object on each time updating action list
+            auto actionObject = getActionObject(id);
+            if (auto action = qobject_cast<QQuickAction *>(actionObject)) {
+                if (!action->isEnabled()) {
+                    return {};
+                }
+                return {id, action->isCheckable() ? Checkable : None};
+            }
+            if (auto menu = qobject_cast<QQuickMenu *>(actionObject)) {
+                if (!menu->isEnabled()) {
+                    return {};
+                }
+                return {id, Menu};
+            }
+            qCWarning(lcFindActionsModel) << "Action" << id << "is neither an action or a menu. Please declare `componentType` in the action manifest.";
+            return {};
+        };
+
+        auto pipeline = std::views::transform(getActionFlagPair) | std::views::filter([](const auto &p) { return !p.first.isEmpty(); });
         for (const auto &item : m_priorityActions | pipeline) {
             m_actionList.append(item);
         }
@@ -240,7 +250,7 @@ namespace Core::Internal {
         if (m_actionObjects.value(id)) {
             return m_actionObjects.value(id);
         } else {
-            auto obj = ActionHelper::createActionObject(m_actionContext, id, true);
+            auto obj = ActionHelper::createActionObject(m_actionContext, id, false);
             if (!obj)
                 return nullptr;
             auto window = static_cast<FindActionsAddOn *>(QObject::parent())->windowHandle()->window();

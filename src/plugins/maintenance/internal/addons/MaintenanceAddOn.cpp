@@ -92,7 +92,7 @@ namespace Maintenance {
         SVS::MessageBox::information(
             Core::RuntimeInterface::qmlEngine(),
             windowInterface->window(),
-            tr("Important Notice"),
+            tr("Disclaimer"),
             tr(
                 "<p>The diagnostic report may contain <b>sensitive information</b> (e.g., usernames, hostnames, network addresses, personalized configurations).</p>\n"
                 "<p>If you do not wish to make such information public, please <b>do not</b> share this report on public platforms like GitHub Issues or online chat rooms.</p>\n"

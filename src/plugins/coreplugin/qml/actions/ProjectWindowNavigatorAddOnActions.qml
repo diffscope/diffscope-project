@@ -35,6 +35,7 @@ ActionCollection {
         actionId: "org.diffscope.core.window.projectWindows"
         Menu {
             id: menu
+            enabled: d.addOn.projectWindows.length !== 0
             Instantiator {
                 model: DelegateModel {
                     model: d.addOn.projectWindows
@@ -57,14 +58,6 @@ ActionCollection {
                     menu.removeAction(object)
                 }
             }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.window.switchToProjectWindow"
-        Action {
-            enabled: d.addOn.projectWindows.length !== 0
-            onTriggered: d.addOn.showSwitchToProjectWindowCommand()
         }
     }
 

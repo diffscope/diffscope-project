@@ -26,7 +26,6 @@ namespace Core::Internal {
 
         Q_INVOKABLE static void raiseWindow(ProjectWindowInterface *windowInterface);
         Q_INVOKABLE void navigateToWindow(int step) const;
-        Q_INVOKABLE void showSwitchToProjectWindowCommand() const;
 
     Q_SIGNALS:
         void projectWindowsChanged();
@@ -35,7 +34,6 @@ namespace Core::Internal {
         void updateProjectWindows();
 
         QList<ProjectWindowInterface *> m_projectWindows;
-        QStandardItemModel *m_quickPickCommandModel;
     };
 
 }

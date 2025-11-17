@@ -5,7 +5,6 @@
 
 #include <QLoggingCategory>
 #include <QQmlComponent>
-#include <QStandardItemModel>
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/windowsystem.h>
@@ -20,7 +19,6 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcProjectWindowNavigatorAddOn, "diffscope.core.projectwindownavigatoraddon")
 
     ProjectWindowNavigatorAddOn::ProjectWindowNavigatorAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        m_quickPickCommandModel = new QStandardItemModel(this);
     }
 
     ProjectWindowNavigatorAddOn::~ProjectWindowNavigatorAddOn() = default;
@@ -90,14 +88,6 @@ namespace Core::Internal {
         }
     }
 
-    void ProjectWindowNavigatorAddOn::showSwitchToProjectWindowCommand() const {
-        auto windowInterface = windowHandle()->cast<ActionWindowInterfaceBase>();
-        auto index = windowInterface->execQuickPick(m_quickPickCommandModel, "Switch to project window", 0);
-        if (index == -1)
-            return;
-        raiseWindow(m_projectWindows.at(index));
-    }
-
     void ProjectWindowNavigatorAddOn::updateProjectWindows() {
         m_projectWindows.clear();
         auto windows = CoreInterface::windowSystem()->windows();
@@ -106,12 +96,6 @@ namespace Core::Internal {
             std::back_inserter(m_projectWindows),
             [](auto w) { return qobject_cast<ProjectWindowInterface *>(w); }
         );
-        m_quickPickCommandModel->clear();
-        for (auto windowInterface : m_projectWindows) {
-            auto item = new QStandardItem;
-            item->setData(windowInterface->window()->property("documentName"), SVS::SVSCraft::CP_TitleRole);
-            m_quickPickCommandModel->appendRow(item);
-        }
         Q_EMIT projectWindowsChanged();
     }
 

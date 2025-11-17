@@ -18,10 +18,10 @@
         <action id="org.diffscope.core.file.&amp;new" description="Create a project in a new window" icon="document_add" shortcut="Ctrl+N" />
         <action id="org.diffscope.core.file.newFromTemplate^" description="Create a project from template in a new window" shortcut="Ctrl+Alt+N" />
         <action id="org.diffscope.core.file.&amp;open^" description="Open an existing project in a new window" icon="folder_open" shortcut="Ctrl+O" />
-        <action id="org.diffscope.core.file.open&amp;RecentFile" />
+        <action id="org.diffscope.core.file.open&amp;RecentFile" diffscope:componentType="menu" />
         <action id="org.diffscope.core.file.&amp;save" icon="save" shortcut="Ctrl+S" />
         <action id="org.diffscope.core.file.save&amp;As^" shortcut="Ctrl+Shift+S" />
-        <action id="org.diffscope.core.file.saveCopy^" shortcut="Ctrl+Alt+Shift+S" />
+        <action id="org.diffscope.core.file.saveCopyAs^" shortcut="Ctrl+Alt+Shift+S" />
 
         <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" class="Preferences" icon="settings" shortcut="Ctrl+,"/>
         <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" icon="puzzle_piece" shortcut=""/>
@@ -107,7 +107,7 @@
 
         <action id="org.diffscope.core.workspace.workspaceLayout^" />
         <action id="org.diffscope.core.workspace.default&amp;Layout" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;customLayouts" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.&amp;customLayouts" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.saveLayout" text="&amp;Save Current Layout As..." diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.&amp;allPanels" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.panelLeftTop" text="None (Left Top)" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
@@ -118,7 +118,7 @@
         <action id="org.diffscope.core.workspace.panelTopRight" text="None (Top Right)" shortcut="Ctrl+Alt+6" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.panelBottomLeft" text="None (Bottom Left)" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.panelBottomRight" text="None (Bottom Right)" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;floatingPanels" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.&amp;floatingPanels" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.dockActionToSideBar" text="Add &amp;New Panel or Action" diffscope:excludeFromCommands="true" />
 
         <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" text="Always Show &amp;Menu Bar" description="Show or hide the main menu bar" />
@@ -131,8 +131,7 @@
 
         <action id="org.diffscope.core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="org.diffscope.core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
-        <action id="org.diffscope.core.window.pro&amp;jectWindows" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.window.switchToProjectWindow^" />
+        <action id="org.diffscope.core.window.pro&amp;jectWindows" diffscope:componentType="menu" />
 
         <action id="org.diffscope.core.documentations" text="&amp;Help" description="Show help contents" class="Help" icon="question_circle" shortcut="F1" />
         <action id="org.diffscope.core.&amp;findActions^" class="Help" description="Find and trigger action by name" icon="search" shortcut="Ctrl+Shift+P" />
@@ -153,13 +152,13 @@
 
         <phony id="org.diffscope.core.workspacePanelWidgets" topLevel="true" />
 
-        <action id="org.diffscope.core.statusText" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:uniquePanel="true" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:excludeFromCommands="true"/>
-        <action id="org.diffscope.core.widget.digitalClock" diffscope:excludeFromCommands="true"/>
+        <action id="org.diffscope.core.statusText" diffscope:componentType="widget"/>
+        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.widget.digitalClock" diffscope:componentType="widget"/>
     </items>
 
     <layouts>

@@ -85,24 +85,29 @@ namespace Core {
                 if (!action->isEnabled())
                     continue;
                 auto item = new QStandardItem;
-                item->setData(action->isCheckable() ? tr("Toggle \"%1\"").arg(action->text()) : action->text(), SVS::SVSCraft::CP_TitleRole);
+                auto text = Internal::ActionHelper::removeMnemonic(action->text());
+                item->setData(action->isCheckable() ? tr("Toggle \"%1\"").arg(text) : text, SVS::SVSCraft::CP_TitleRole);
                 item->setData(QVariant::fromValue(action), Qt::DisplayRole);
                 model.appendRow(item);
             } else if (auto subMenu = menu->menuAt(i)) {
                 if (!subMenu->isEnabled())
                     continue;
                 auto item = new QStandardItem;
-                item->setData(subMenu->title(), SVS::SVSCraft::CP_TitleRole);
+                item->setData(Internal::ActionHelper::removeMnemonic(tr("Open Menu \"%1\"...").arg(subMenu->title())), SVS::SVSCraft::CP_TitleRole);
                 item->setData(QVariant::fromValue(subMenu), Qt::DisplayRole);
                 model.appendRow(item);
             }
         }
-        int index = execQuickPick(&model, menu->title());
+        int index = execQuickPick(&model, Internal::ActionHelper::removeMnemonic(menu->title()));
         if (index >= 0) {
             if (auto action = model.item(index)->data(Qt::DisplayRole).value<QQuickAction *>()) {
-                return action->trigger();
+                if (!action->isEnabled())
+                    return;
+                return action->trigger(window()->property("contentItem").value<QObject *>());
             }
             if (auto subMenu = model.item(index)->data(Qt::DisplayRole).value<QQuickMenu *>()) {
+                if (!subMenu->isEnabled())
+                    return;
                 return execQuickPick(subMenu);
             }
         }
