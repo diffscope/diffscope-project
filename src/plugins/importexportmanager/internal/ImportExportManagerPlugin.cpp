@@ -13,11 +13,14 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <importexportmanager/internal/ImportAddOn.h>
+#include <importexportmanager/internal/ProjectAddOn.h>
+
 static auto getImportExportManagerActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(importexportmanager);
 }
 
-namespace ImportExportManager {
+namespace ImportExportManager::Internal {
 
     ImportExportManagerPlugin::ImportExportManagerPlugin() {
     }
@@ -27,6 +30,9 @@ namespace ImportExportManager {
     bool ImportExportManagerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getImportExportManagerActionExtension());
+        Core::HomeWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
         return true;
     }
     void ImportExportManagerPlugin::extensionsInitialized() {

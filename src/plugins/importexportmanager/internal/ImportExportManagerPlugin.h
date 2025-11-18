@@ -3,7 +3,7 @@
 
 #include <extensionsystem/iplugin.h>
 
-namespace ImportExportManager {
+namespace ImportExportManager::Internal {
 
     class ImportExportManagerPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT

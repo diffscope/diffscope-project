@@ -63,13 +63,6 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "org.diffscope.core.edit.pasteSpecial"
-        EditAction {
-            flag: EditActionsHandler.PasteSpecial
-        }
-    }
-
-    ActionItem {
         actionId: "org.diffscope.core.edit.delete"
         EditAction {
             flag: EditActionsHandler.Delete

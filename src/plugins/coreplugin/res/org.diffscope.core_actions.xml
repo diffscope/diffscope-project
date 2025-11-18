@@ -40,7 +40,6 @@
         <action id="org.diffscope.core.edit.cu&amp;t" icon="cut" shortcut="Ctrl+X" />
         <action id="org.diffscope.core.edit.&amp;copy" icon="copy" shortcut="Ctrl+C" />
         <action id="org.diffscope.core.edit.&amp;paste" icon="clipboard_paste" shortcut="Ctrl+V" />
-        <action id="org.diffscope.core.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
         <action id="org.diffscope.core.edit.&amp;delete" icon="delete" shortcut="Del" />
         <action id="org.diffscope.core.edit.select&amp;All" shortcut="Ctrl+A" />
         <action id="org.diffscope.core.edit.dese&amp;lect" shortcut="D" />
