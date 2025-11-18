@@ -13,6 +13,7 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <importexportmanager/ConverterCollection.h>
 #include <importexportmanager/internal/ImportAddOn.h>
 #include <importexportmanager/internal/ProjectAddOn.h>
 
@@ -30,6 +31,7 @@ namespace ImportExportManager::Internal {
     bool ImportExportManagerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getImportExportManagerActionExtension());
+        new ConverterCollection(this);
         Core::HomeWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();

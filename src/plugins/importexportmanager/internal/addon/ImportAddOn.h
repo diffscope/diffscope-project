@@ -14,6 +14,8 @@ namespace ImportExportManager::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        Q_INVOKABLE void execImport() const;
     };
 
 }

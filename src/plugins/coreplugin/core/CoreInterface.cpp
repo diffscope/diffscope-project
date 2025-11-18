@@ -234,7 +234,7 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
     }
 
-    static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
+    ProjectWindowInterface *CoreInterface::createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
         Internal::ProjectStartupTimerAddOn::startTimer();
         auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
@@ -251,8 +251,24 @@ namespace Core {
     ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
         static QDspx::Model defaultModel{
             .version = QDspx::Model::V1,
-            .content = {
-
+            .content {
+                .tracks {
+                    {
+                        .name = tr("Track 1"),
+                        .clips = {
+                            QDspx::SingingClipRef::create(
+                                tr("Untitled clip"),
+                                QDspx::BusControl{},
+                                QDspx::ClipTime{
+                                    .start = 0,
+                                    .length = 48000,
+                                    .clipStart = 0,
+                                    .clipLen = 48000,
+                                }
+                            )
+                        }
+                    }
+                }
             }
         };
         qCInfo(lcCoreInterface) << "New file";

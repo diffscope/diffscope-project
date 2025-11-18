@@ -10,6 +10,10 @@ class QJSEngine;
 
 namespace ImportExportManager {
 
+    namespace Internal {
+        class ImportExportManagerPlugin;
+    }
+
     class FileConverter;
     class ClipboardConverter;
 
@@ -32,6 +36,7 @@ namespace ImportExportManager {
         QList<ClipboardConverter *> clipboardConverters() const;
 
     private:
+        friend class Internal::ImportExportManagerPlugin;
         explicit ConverterCollection(QObject *parent);
 
     };

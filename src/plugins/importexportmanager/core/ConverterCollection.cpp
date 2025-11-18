@@ -29,3 +29,5 @@ namespace ImportExportManager {
     }
 
 }
+
+#include "moc_ConverterCollection.cpp"

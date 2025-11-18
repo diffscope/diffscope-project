@@ -24,6 +24,7 @@ namespace Core {
 
     class ProjectWindowInterface;
     class DspxCheckerRegistry;
+    class ProjectDocumentContext;
 
     class CoreInterfacePrivate;
 
@@ -55,6 +56,7 @@ namespace Core {
         Q_INVOKABLE static ProjectWindowInterface *newFile(QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *newFileFromTemplate(const QString &templateFilePath, QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *openFile(const QString &filePath, QWindow *parent = nullptr);
+        Q_INVOKABLE static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext);
 
     Q_SIGNALS:
         void resetAllDoNotShowAgainRequested();

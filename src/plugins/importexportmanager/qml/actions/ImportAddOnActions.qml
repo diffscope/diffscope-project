@@ -9,13 +9,14 @@ import QActionKit
 import DiffScope.UIShell
 
 ActionCollection {
+    id: d
+
+    required property QtObject addOn
 
     ActionItem {
         actionId: "org.diffscope.importexportmanager.file.import"
         Action {
-            onTriggered: () => {
-
-            }
+            onTriggered: Qt.callLater(() => d.addOn.execImport())
         }
     }
 }

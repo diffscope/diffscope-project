@@ -172,7 +172,7 @@
                 <group id="org.diffscope.core.fileSaveActions">
                     <action id="org.diffscope.core.file.save" />
                     <action id="org.diffscope.core.file.saveAs" />
-                    <action id="org.diffscope.core.file.saveCopy" />
+                    <action id="org.diffscope.core.file.saveCopyAs" />
                 </group>
                 <group id="org.diffscope.core.preferenceActions">
                     <action id="org.diffscope.core.settings"/>
@@ -189,7 +189,6 @@
                     <action id="org.diffscope.core.edit.cut" />
                     <action id="org.diffscope.core.edit.copy" />
                     <action id="org.diffscope.core.edit.paste" />
-                    <action id="org.diffscope.core.edit.pasteSpecial" />
                     <action id="org.diffscope.core.edit.delete" />
                     <action id="org.diffscope.core.edit.selectAll" />
                     <action id="org.diffscope.core.edit.deselect" />

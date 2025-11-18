@@ -30,15 +30,11 @@ namespace ImportExportManager {
         return d->modes;
     }
 
-    bool FileConverter::execImport(const QString &filename, QDspx::Model &model) {
-        Q_UNUSED(filename)
-        Q_UNUSED(model)
+    bool FileConverter::execImport(const QString &filename, QDspx::Model &model, QWindow *window) {
         return false;
     }
 
-    bool FileConverter::execExport(const QString &filename, const QDspx::Model &model) {
-        Q_UNUSED(filename)
-        Q_UNUSED(model)
+    bool FileConverter::execExport(const QString &filename, const QDspx::Model &model, QWindow *window) {
         return false;
     }
 
