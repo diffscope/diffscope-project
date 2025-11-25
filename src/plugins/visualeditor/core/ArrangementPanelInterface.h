@@ -82,7 +82,7 @@ namespace VisualEditor {
     private:
         friend class Internal::ArrangementAddOn;
         QScopedPointer<ArrangementPanelInterfacePrivate> d_ptr;
-        explicit ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle);
+        explicit ArrangementPanelInterface(Internal::ArrangementAddOn *addOn, Core::ProjectWindowInterface *windowHandle);
     };
 
 }

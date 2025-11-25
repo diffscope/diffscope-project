@@ -11,6 +11,7 @@
 
 #include <visualeditor/ArrangementPanelInterface.h>
 #include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/internal/AdditionalTrackLoader.h>
 
 namespace VisualEditor::Internal {
     ArrangementAddOn::ArrangementAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -21,7 +22,9 @@ namespace VisualEditor::Internal {
     void ArrangementAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->window()->installEventFilter(this);
-        new ArrangementPanelInterface(windowInterface);
+        m_additionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets", this);
+        auto arrangementPanelInterface = new ArrangementPanelInterface(this, windowInterface);
+        m_additionalTrackLoader->setContextObject(arrangementPanelInterface);
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementAddOnActions");
             if (component.isError()) {
@@ -60,6 +63,9 @@ namespace VisualEditor::Internal {
     }
     ArrangementPanelInterface *ArrangementAddOn::arrangementPanelInterface() const {
         return ArrangementPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
+    }
+    AdditionalTrackLoader *ArrangementAddOn::additionalTrackLoader() const {
+        return m_additionalTrackLoader;
     }
     bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
         if (watched == windowHandle()->window()) {

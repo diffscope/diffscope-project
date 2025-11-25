@@ -12,6 +12,9 @@ namespace VisualEditor {
         ArrangementPanelInterface *q_ptr;
 
         Core::ProjectWindowInterface *windowHandle;
+
+        Internal::ArrangementAddOn *addon;
+
         sflow::TimeViewModel *timeViewModel;
         sflow::TimeLayoutViewModel *timeLayoutViewModel;
         sflow::TimelineInteractionController *timelineInteractionController;

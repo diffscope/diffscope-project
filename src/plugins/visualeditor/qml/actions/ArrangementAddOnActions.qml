@@ -139,4 +139,33 @@ ActionCollection {
         }
     }
 
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.arrangementPanel.additionalTracks"
+        Menu {
+            id: menu
+            Instantiator {
+                model: d.addOn?.additionalTrackLoader.components ?? null
+                delegate: Action {
+                    required property string modelData
+                    text: d.addOn.additionalTrackLoader.componentName(modelData)
+                    checkable: true
+                    checked: d.addOn.additionalTrackLoader.loadedComponents.indexOf(modelData) >= 0
+                    onTriggered: () => {
+                        if (checked) {
+                            d.addOn.additionalTrackLoader.loadItem(modelData)
+                        } else {
+                            d.addOn.additionalTrackLoader.removeItem(modelData)
+                        }
+                    }
+                }
+                onObjectAdded: (index, object) => {
+                    menu.insertAction(index, object)
+                }
+                onObjectRemoved: (index, object) => {
+                    menu.removeAction(object)
+                }
+            }
+        }
+    }
+
 }

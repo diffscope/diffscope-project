@@ -17,6 +17,8 @@
 #include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/ProjectAddOn.h>
+#include <visualeditor/internal/LabelTrackAddOn.h>
+#include <visualeditor/internal/TempoTrackAddOn.h>
 #include <visualeditor/internal/EditorPage.h>
 
 static auto getVisualEditorActionExtension() {
@@ -66,5 +68,7 @@ namespace VisualEditor::Internal {
     void VisualEditorPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<LabelTrackAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<TempoTrackAddOn>();
     }
 }

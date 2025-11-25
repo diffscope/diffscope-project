@@ -19,6 +19,7 @@
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
+#include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
 
 namespace VisualEditor {
@@ -105,12 +106,13 @@ namespace VisualEditor {
         });
     }
 
-    ArrangementPanelInterface::ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
+    ArrangementPanelInterface::ArrangementPanelInterface(Internal::ArrangementAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
         Q_D(ArrangementPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
         windowHandle->addObject(staticMetaObject.className(), this);
         d->q_ptr = this;
         d->windowHandle = windowHandle;
+        d->addon = addOn;
 
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
@@ -130,6 +132,7 @@ namespace VisualEditor {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
+            {"addOn", QVariant::fromValue(d->addon)},
             {"arrangementPanelInterface", QVariant::fromValue(this)},
             {"projectViewModelContext", QVariant::fromValue(ProjectViewModelContext::of(d->windowHandle))},
         });
