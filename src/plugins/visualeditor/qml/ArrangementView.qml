@@ -175,6 +175,7 @@ Item {
         }
         Item {
             SplitView.fillWidth: true
+            clip: true
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
