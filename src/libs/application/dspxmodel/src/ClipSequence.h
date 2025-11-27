@@ -61,9 +61,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        friend class Track;
-        explicit ClipSequence(Handle handle, Model *model);
-        void setTrack(Track *track);
+        explicit ClipSequence(Track *track, Handle handle, Model *model);
         QScopedPointer<ClipSequencePrivate> d_ptr;
     };
 

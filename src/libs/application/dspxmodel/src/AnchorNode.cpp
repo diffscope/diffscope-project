@@ -1,28 +1,16 @@
 #include "AnchorNode.h"
+#include "AnchorNode_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/anchornode.h>
 
+#include <dspxmodel/AnchorNodeSequence.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 
 namespace dspx {
-
-    class AnchorNodePrivate {
-        Q_DECLARE_PUBLIC(AnchorNode)
-    public:
-        AnchorNode *q_ptr;
-        AnchorNode::InterpolationMode interp;
-        int x;
-        int y;
-
-        void setInterpUnchecked(AnchorNode::InterpolationMode interp_);
-        void setInterp(AnchorNode::InterpolationMode interp_);
-        void setXUnchecked(int x_);
-        void setX(int x_);
-    };
 
     void AnchorNodePrivate::setInterpUnchecked(AnchorNode::InterpolationMode interp_) {
         Q_Q(AnchorNode);
@@ -50,6 +38,14 @@ namespace dspx {
             return;
         }
         setXUnchecked(x_);
+    }
+
+    void AnchorNodePrivate::setAnchorNodeSequence(AnchorNode *item, AnchorNodeSequence *anchorNodeSequence) {
+        auto d = item->d_func();
+        if (d->anchorNodeSequence != anchorNodeSequence) {
+            d->anchorNodeSequence = anchorNodeSequence;
+            Q_EMIT item->anchorNodeSequenceChanged();
+        }
     }
 
     AnchorNode::AnchorNode(Handle handle, Model *model)
@@ -110,6 +106,11 @@ namespace dspx {
         setInterp(static_cast<InterpolationMode>(node.interp));
         setX(node.x);
         setY(node.y);
+    }
+
+    AnchorNodeSequence *AnchorNode::anchorNodeSequence() const {
+        Q_D(const AnchorNode);
+        return d->anchorNodeSequence;
     }
 
     void AnchorNode::handleSetEntityProperty(int property, const QVariant &value) {

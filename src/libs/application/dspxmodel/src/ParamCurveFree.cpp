@@ -23,7 +23,7 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
 
-        d->values = d->pModel->createObject<FreeValueDataArray>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
+        d->values = d->pModel->createObject<FreeValueDataArray>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
     }
 
     ParamCurveFree::~ParamCurveFree() = default;

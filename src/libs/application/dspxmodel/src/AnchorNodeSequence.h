@@ -12,6 +12,7 @@ namespace QDspx {
 namespace dspx {
 
     class AnchorNode;
+    class ParamCurveAnchor;
 
     class AnchorNodeSequencePrivate;
 
@@ -23,6 +24,7 @@ namespace dspx {
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(AnchorNode *firstItem READ firstItem NOTIFY firstItemChanged)
         Q_PROPERTY(AnchorNode *lastItem READ lastItem NOTIFY lastItemChanged)
+        Q_PROPERTY(ParamCurveAnchor *paramCurveAnchor READ paramCurveAnchor CONSTANT)
         Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
     public:
         ~AnchorNodeSequence() override;
@@ -41,6 +43,8 @@ namespace dspx {
         QList<QDspx::AnchorNode> toQDspx() const;
         void fromQDspx(const QList<QDspx::AnchorNode> &nodes);
 
+        ParamCurveAnchor *paramCurveAnchor() const;
+
     Q_SIGNALS:
         void itemAboutToInsert(AnchorNode *item);
         void itemInserted(AnchorNode *item);
@@ -56,7 +60,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        explicit AnchorNodeSequence(Handle handle, Model *model);
+        explicit AnchorNodeSequence(ParamCurveAnchor *paramCurveAnchor, Handle handle, Model *model);
         QScopedPointer<AnchorNodeSequencePrivate> d_ptr;
     };
 

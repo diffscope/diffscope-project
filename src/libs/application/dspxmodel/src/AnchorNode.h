@@ -11,6 +11,10 @@ namespace QDspx {
 
 namespace dspx {
 
+    class AnchorNodeSequence;
+
+    class AnchorNodeSequencePrivate;
+
     class AnchorNodePrivate;
 
     class DSPX_MODEL_EXPORT AnchorNode : public EntityObject {
@@ -21,6 +25,7 @@ namespace dspx {
         Q_PRIVATE_PROPERTY(d_func(), InterpolationMode interp MEMBER interp WRITE setInterp NOTIFY interpChanged)
         Q_PRIVATE_PROPERTY(d_func(), int x MEMBER x WRITE setX NOTIFY xChanged)
         Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
+        Q_PROPERTY(AnchorNodeSequence *anchorNodeSequence READ anchorNodeSequence NOTIFY anchorNodeSequenceChanged)
 
     public:
         enum InterpolationMode {
@@ -44,10 +49,13 @@ namespace dspx {
         QDspx::AnchorNode toQDspx() const;
         void fromQDspx(const QDspx::AnchorNode &node);
 
+        AnchorNodeSequence *anchorNodeSequence() const;
+
     Q_SIGNALS:
         void interpChanged(InterpolationMode interp);
         void xChanged(int x);
         void yChanged(int y);
+        void anchorNodeSequenceChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

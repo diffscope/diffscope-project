@@ -28,9 +28,8 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_SingingClip);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
-        d->notes = d->pModel->createObject<NoteSequence>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
-        d->notes->setSingingClip(this);
-        d->params = d->pModel->createObject<ParamMap>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Params));
+        d->notes = d->pModel->createObject<NoteSequence>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
+        d->params = d->pModel->createObject<ParamMap>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Params));
         d->sources = d->pModel->createObject<SourceMap>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Sources));
     }
 

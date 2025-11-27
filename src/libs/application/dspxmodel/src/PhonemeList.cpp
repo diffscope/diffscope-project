@@ -4,20 +4,26 @@
 #include <opendspx/phoneme.h>
 
 #include <dspxmodel/Phoneme.h>
+#include <dspxmodel/PhonemeInfo.h>
 #include <dspxmodel/private/ListData_p.h>
 #include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PhonemeList_p.h>
+#include <dspxmodel/private/Phoneme_p.h>
 
 namespace dspx {
 
-    class PhonemeListPrivate : public ListData<PhonemeList, Phoneme> {
-        Q_DECLARE_PUBLIC(PhonemeList)
-    };
-
-    PhonemeList::PhonemeList(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new PhonemeListPrivate) {
+    PhonemeList::PhonemeList(PhonemeInfo *phonemeInfo, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new PhonemeListPrivate) {
         Q_D(PhonemeList);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EL_Phonemes);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->phonemeInfo = phonemeInfo;
+        connect(this, &PhonemeList::itemInserted, this, [this](int, Phoneme *item) {
+            PhonemePrivate::setPhonemeList(item, this);
+        });
+        connect(this, &PhonemeList::itemRemoved, this, [this](int, Phoneme *item) {
+            PhonemePrivate::setPhonemeList(item, nullptr);
+        });
     }
 
     PhonemeList::~PhonemeList() = default;
@@ -86,6 +92,11 @@ namespace dspx {
     void PhonemeList::handleRotateListContainer(int leftIndex, int middleIndex, int rightIndex) {
         Q_D(PhonemeList);
         d->handleRotateListContainer(leftIndex, middleIndex, rightIndex);
+    }
+
+    PhonemeInfo *PhonemeList::phonemeInfo() const {
+        Q_D(const PhonemeList);
+        return d->phonemeInfo;
     }
 
 }

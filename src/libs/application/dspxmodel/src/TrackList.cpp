@@ -6,6 +6,7 @@
 #include <dspxmodel/Track.h>
 #include <dspxmodel/private/ListData_p.h>
 #include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/Track_p.h>
 
 namespace dspx {
 
@@ -18,6 +19,12 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EL_Tracks);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        connect(this, &TrackList::itemInserted, this, [this](int, Track *item) {
+            TrackPrivate::setTrackList(item, this);
+        });
+        connect(this, &TrackList::itemRemoved, this, [this](int, Track *item) {
+            TrackPrivate::setTrackList(item, nullptr);
+        });
     }
 
     TrackList::~TrackList() = default;

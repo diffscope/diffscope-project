@@ -61,9 +61,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        friend class SingingClip;
-        explicit NoteSequence(Handle handle, Model *model);
-        void setSingingClip(SingingClip *singingClip);
+        explicit NoteSequence(SingingClip *singingClip, Handle handle, Model *model);
         QScopedPointer<NoteSequencePrivate> d_ptr;
     };
 

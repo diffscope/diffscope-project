@@ -1,4 +1,5 @@
 #include "Clip.h"
+#include "Clip_p.h"
 
 #include <opendspx/audioclip.h>
 #include <opendspx/singingclip.h>
@@ -9,25 +10,27 @@
 #include <dspxmodel/ClipTime.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Track.h>
+#include <dspxmodel/ClipSequence.h>
 #include <dspxmodel/Workspace.h>
 #include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
-    class ClipPrivate {
-        Q_DECLARE_PUBLIC(Clip)
-    public:
-        Clip *q_ptr;
-        ModelPrivate *pModel;
-        QString name;
-        BusControl *control;
-        ClipTime *time;
-        Clip::ClipType type;
-        Track *track{};
-        Workspace *workspace;
-        bool overlapped{};
-    };
+    void ClipPrivate::setOverlapped(Clip *item, bool overlapped) {
+        auto d = item->d_func();
+        if (d->overlapped != overlapped) {
+            d->overlapped = overlapped;
+            Q_EMIT item->overlappedChanged(overlapped);
+        }
+    }
+
+    void ClipPrivate::setClipSequence(Clip *item, ClipSequence *clipSequence) {
+        auto d = item->d_func();
+        if (d->clipSequence != clipSequence) {
+            d->clipSequence = clipSequence;
+            Q_EMIT item->clipSequenceChanged();
+        }
+    }
 
     Clip::Clip(ClipType type, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipPrivate) {
         Q_D(Clip);
@@ -107,9 +110,9 @@ namespace dspx {
         }
     }
 
-    Track *Clip::track() const {
+    ClipSequence *Clip::clipSequence() const {
         Q_D(const Clip);
-        return d->track;
+        return d->clipSequence;
     }
 
     int Clip::position() const {
@@ -125,22 +128,6 @@ namespace dspx {
     bool Clip::isOverlapped() const {
         Q_D(const Clip);
         return d->overlapped;
-    }
-
-    void Clip::setOverlapped(bool overlapped) {
-        Q_D(Clip);
-        if (d->overlapped != overlapped) {
-            d->overlapped = overlapped;
-            Q_EMIT overlappedChanged(overlapped);
-        }
-    }
-
-    void Clip::setTrack(Track *track) {
-        Q_D(Clip);
-        if (d->track != track) {
-            d->track = track;
-            Q_EMIT trackChanged();
-        }
     }
 
     void Clip::handleSetEntityProperty(int property, const QVariant &value) {

@@ -1,4 +1,5 @@
 #include "NoteSequence.h"
+#include "NoteSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -9,41 +10,21 @@
 #include <dspxmodel/Note.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
-#include <dspxmodel/private/RangeSequenceContainer_p.h>
-#include <dspxmodel/private/RangeSequenceData_p.h>
 
 namespace dspx {
 
-    static void setNoteOverlapped(Note *item, bool overlapped);
-
-    class NoteSequencePrivate : public RangeSequenceData<NoteSequence, Note, &Note::pos, &Note::posChanged, &Note::length, &Note::lengthChanged, &setNoteOverlapped> {
-        Q_DECLARE_PUBLIC(NoteSequence)
-    public:
-        SingingClip *singingClip{};
-        static void setOverlapped(Note *item, bool overlapped) {
-            item->setOverlapped(overlapped);
-        }
-        static void setSingingClip(Note *item, SingingClip *singingClip) {
-            item->setSingingClip(singingClip);
-        }
-    };
-
-    void setNoteOverlapped(Note *item, bool overlapped) {
-        NoteSequencePrivate::setOverlapped(item, overlapped);
-    }
-
-    NoteSequence::NoteSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new NoteSequencePrivate) {
+    NoteSequence::NoteSequence(SingingClip *singingClip, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new NoteSequencePrivate) {
         Q_D(NoteSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Notes);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->singingClip = singingClip;
         connect(this, &NoteSequence::itemInserted, this, [=](Note *item) {
-            NoteSequencePrivate::setSingingClip(item, d->singingClip);
+            NotePrivate::setNoteSequence(item, this);
         });
         connect(this, &NoteSequence::itemRemoved, this, [=](Note *item) {
-            NoteSequencePrivate::setSingingClip(item, nullptr);
+            NotePrivate::setNoteSequence(item, nullptr);
         });
     }
 
@@ -117,11 +98,6 @@ namespace dspx {
             note->fromQDspx(noteData);
             insertItem(note);
         }
-    }
-
-    void NoteSequence::setSingingClip(SingingClip *singingClip) {
-        Q_D(NoteSequence);
-        d->singingClip = singingClip;
     }
 
     void NoteSequence::handleInsertIntoSequenceContainer(Handle entity) {

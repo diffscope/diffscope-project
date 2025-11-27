@@ -1,4 +1,5 @@
 #include "AnchorNodeSequence.h"
+#include "AnchorNodeSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -7,21 +8,24 @@
 
 #include <dspxmodel/AnchorNode.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/ParamCurveAnchor.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {
 
-    class AnchorNodeSequencePrivate : public PointSequenceData<AnchorNodeSequence, AnchorNode, &AnchorNode::x, &AnchorNode::xChanged> {
-        Q_DECLARE_PUBLIC(AnchorNodeSequence)
-    };
-
-    AnchorNodeSequence::AnchorNodeSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new AnchorNodeSequencePrivate) {
+    AnchorNodeSequence::AnchorNodeSequence(ParamCurveAnchor *paramCurveAnchor, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new AnchorNodeSequencePrivate) {
         Q_D(AnchorNodeSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_ParamCurveAnchorNodes);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->paramCurveAnchor = paramCurveAnchor;
+        connect(this, &AnchorNodeSequence::itemInserted, this, [=](AnchorNode *item) {
+            AnchorNodePrivate::setAnchorNodeSequence(item, this);
+        });
+        connect(this, &AnchorNodeSequence::itemRemoved, this, [=](AnchorNode *item) {
+            AnchorNodePrivate::setAnchorNodeSequence(item, nullptr);
+        });
     }
 
     AnchorNodeSequence::~AnchorNodeSequence() = default;
@@ -101,6 +105,13 @@ namespace dspx {
         Q_D(AnchorNodeSequence);
         d->handleTakeFromSequenceContainer(takenEntity, entity);
     }
+
+    ParamCurveAnchor *AnchorNodeSequence::paramCurveAnchor() const {
+        Q_D(const AnchorNodeSequence);
+        return d->paramCurveAnchor;
+    }
+
+
 
 }
 

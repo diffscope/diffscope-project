@@ -23,7 +23,7 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
 
-        d->nodes = d->pModel->createObject<AnchorNodeSequence>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
+        d->nodes = d->pModel->createObject<AnchorNodeSequence>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
     }
 
     ParamCurveAnchor::~ParamCurveAnchor() = default;

@@ -11,6 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class TimeSignatureSequence;
     class TimeSignaturePrivate;
 
     class DSPX_MODEL_EXPORT TimeSignature : public EntityObject {
@@ -21,6 +22,7 @@ namespace dspx {
         Q_PRIVATE_PROPERTY(d_func(), int index MEMBER index WRITE setIndex NOTIFY indexChanged)
         Q_PRIVATE_PROPERTY(d_func(), int numerator MEMBER numerator WRITE setNumerator NOTIFY numeratorChanged)
         Q_PRIVATE_PROPERTY(d_func(), int denominator MEMBER denominator WRITE setDenominator NOTIFY denominatorChanged)
+        Q_PROPERTY(TimeSignatureSequence *timeSignatureSequence READ timeSignatureSequence NOTIFY timeSignatureSequenceChanged)
     public:
         ~TimeSignature() override;
 
@@ -33,6 +35,8 @@ namespace dspx {
         int denominator() const;
         void setDenominator(int denominator);
 
+        TimeSignatureSequence *timeSignatureSequence() const;
+
         QDspx::TimeSignature toQDspx() const;
         void fromQDspx(const QDspx::TimeSignature &timeSignature);
 
@@ -40,6 +44,7 @@ namespace dspx {
         void indexChanged(int index);
         void numeratorChanged(int numerator);
         void denominatorChanged(int denominator);
+        void timeSignatureSequenceChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

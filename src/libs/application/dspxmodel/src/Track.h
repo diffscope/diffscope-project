@@ -15,6 +15,8 @@ namespace dspx {
     class TrackControl;
     class Workspace;
 
+    class TrackList;
+
     class TrackPrivate;
 
     class DSPX_MODEL_EXPORT Track : public EntityObject {
@@ -26,6 +28,7 @@ namespace dspx {
         Q_PROPERTY(TrackControl *control READ control CONSTANT)
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
+        Q_PROPERTY(TrackList *trackList READ trackList CONSTANT)
 
     public:
         ~Track() override;
@@ -42,8 +45,11 @@ namespace dspx {
         QDspx::Track toQDspx() const;
         void fromQDspx(const QDspx::Track &track);
 
+        TrackList *trackList() const;
+
     Q_SIGNALS:
         void nameChanged(const QString &name);
+        void trackListChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

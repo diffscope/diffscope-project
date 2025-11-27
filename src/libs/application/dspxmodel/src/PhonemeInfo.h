@@ -16,6 +16,7 @@ namespace dspx {
     class Model;
     class ModelPrivate;
     class PhonemeList;
+    class Note;
 
     class PhonemeInfoPrivate;
 
@@ -26,6 +27,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(PhonemeInfo)
         Q_PROPERTY(PhonemeList *edited READ edited CONSTANT)
         Q_PROPERTY(PhonemeList *original READ original CONSTANT)
+        Q_PROPERTY(Note *note READ note CONSTANT)
 
     public:
         ~PhonemeInfo() override;
@@ -33,12 +35,17 @@ namespace dspx {
         PhonemeList *edited() const;
         PhonemeList *original() const;
 
+        Note *note() const;
+
         QDspx::Phonemes toQDspx() const;
         void fromQDspx(const QDspx::Phonemes &phonemeInfo);
 
+    Q_SIGNALS:
+        void noteChanged();
+
     private:
         friend class ModelPrivate;
-        explicit PhonemeInfo(Handle handle, Model *model);
+        explicit PhonemeInfo(Note *note, Handle handle, Model *model);
         QScopedPointer<PhonemeInfoPrivate> d_ptr;
     };
 
