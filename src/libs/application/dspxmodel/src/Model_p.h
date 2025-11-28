@@ -26,7 +26,7 @@ namespace dspx {
         LabelSequence *labels;
         TempoSequence *tempos;
         TimeSignatureSequence *timeSignatures;
-        TrackList *trackList;
+        TrackList *tracks;
         Workspace *workspace;
 
         QHash<Handle, EntityObject *> objectMap;

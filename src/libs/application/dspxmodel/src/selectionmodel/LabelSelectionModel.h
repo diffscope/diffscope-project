@@ -27,12 +27,13 @@ namespace dspx {
         QList<Label *> selectedItems() const;
         int selectedCount() const;
 
-        Q_INVOKABLE void select(Label *item, SelectionModel::SelectionCommand command);
+        Q_INVOKABLE bool isItemSelected(Label *item) const;
 
     Q_SIGNALS:
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
+        void itemSelected(Label *item, bool selected);
 
     private:
         friend class SelectionModel;

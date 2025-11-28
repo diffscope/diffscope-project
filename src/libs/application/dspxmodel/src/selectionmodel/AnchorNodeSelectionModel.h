@@ -13,6 +13,7 @@ namespace dspx {
     class ParamCurveAnchor;
     class ParamCurveSequence;
     class AnchorNodeSelectionModelPrivate;
+    class SelectionModel;
 
     class DSPX_MODEL_EXPORT AnchorNodeSelectionModel : public QObject {
         Q_OBJECT
@@ -26,7 +27,6 @@ namespace dspx {
         Q_PROPERTY(ParamCurveSequence *paramCurveSequenceWithSelectedItems READ paramCurveSequenceWithSelectedItems NOTIFY paramCurveSequenceWithSelectedItemsChanged)
 
     public:
-        explicit AnchorNodeSelectionModel(QObject *parent = nullptr);
         ~AnchorNodeSelectionModel() override;
 
         AnchorNode *currentItem() const;
@@ -43,6 +43,8 @@ namespace dspx {
         void paramCurveSequenceWithSelectedItemsChanged();
 
     private:
+        friend class SelectionModel;
+        explicit AnchorNodeSelectionModel(QObject *parent = nullptr);
         QScopedPointer<AnchorNodeSelectionModelPrivate> d_ptr;
     };
 

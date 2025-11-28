@@ -33,13 +33,13 @@ namespace dspx {
 
     public:
         enum SelectionType {
-            None,
-            AnchorNode,
-            Clip,
-            Label,
-            Note,
-            Tempo,
-            Track
+            ST_None,
+            ST_AnchorNode,
+            ST_Clip,
+            ST_Label,
+            ST_Note,
+            ST_Tempo,
+            ST_Track
         };
         Q_ENUM(SelectionType)
 
@@ -67,6 +67,7 @@ namespace dspx {
         Q_ENUM(SelectionCommandFlag)
         Q_DECLARE_FLAGS(SelectionCommand, SelectionCommandFlag)
 
+        Q_INVOKABLE static SelectionType selectionTypeFromItem(QObject *item);
         Q_INVOKABLE void select(QObject *item, SelectionCommand command);
 
     Q_SIGNALS:

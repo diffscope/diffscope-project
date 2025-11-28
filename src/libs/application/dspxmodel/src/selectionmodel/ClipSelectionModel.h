@@ -9,8 +9,9 @@
 
 namespace dspx {
 
+    class SelectionModel;
     class Clip;
-    class Track;
+    class ClipSequence;
     class ClipSelectionModelPrivate;
 
     class DSPX_MODEL_EXPORT ClipSelectionModel : public QObject {
@@ -21,24 +22,28 @@ namespace dspx {
         Q_PROPERTY(Clip *currentItem READ currentItem NOTIFY currentItemChanged)
         Q_PROPERTY(QList<Clip *> selectedItems READ selectedItems NOTIFY selectedItemsChanged)
         Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
-        Q_PROPERTY(QList<Track *> tracksWithSelectedItems READ tracksWithSelectedItems NOTIFY tracksWithSelectedItemsChanged)
+        Q_PROPERTY(QList<ClipSequence *> clipSequencesWithSelectedItems READ clipSequencesWithSelectedItems NOTIFY clipSequencesWithSelectedItemsChanged)
 
     public:
-        explicit ClipSelectionModel(QObject *parent = nullptr);
         ~ClipSelectionModel() override;
 
         Clip *currentItem() const;
         QList<Clip *> selectedItems() const;
         int selectedCount() const;
-        QList<Track *> tracksWithSelectedItems() const;
+        QList<ClipSequence *> clipSequencesWithSelectedItems() const;
+
+        Q_INVOKABLE bool isItemSelected(Clip *item) const;
 
     Q_SIGNALS:
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
-        void tracksWithSelectedItemsChanged();
+        void clipSequencesWithSelectedItemsChanged();
+        void itemSelected(Clip *item, bool selected);
 
     private:
+        friend class SelectionModel;
+        explicit ClipSelectionModel(SelectionModel *parent = nullptr);
         QScopedPointer<ClipSelectionModelPrivate> d_ptr;
     };
 

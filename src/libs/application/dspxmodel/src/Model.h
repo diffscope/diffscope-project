@@ -44,7 +44,7 @@ namespace dspx {
         Q_PROPERTY(Global *global READ global CONSTANT)
         Q_PROPERTY(Master *master READ master CONSTANT)
         Q_PROPERTY(Timeline *timeline READ timeline CONSTANT)
-        Q_PROPERTY(TrackList *trackList READ trackList CONSTANT)
+        Q_PROPERTY(TrackList *tracks READ tracks CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
 
     public:
@@ -56,7 +56,7 @@ namespace dspx {
         Global *global() const;
         Master *master() const;
         Timeline *timeline() const;
-        TrackList *trackList() const;
+        TrackList *tracks() const;
         Workspace *workspace() const;
 
         QDspx::Model toQDspx() const;

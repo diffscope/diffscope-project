@@ -63,7 +63,7 @@ namespace dspx {
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
         tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
         timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
-        trackList = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
+        tracks = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
@@ -196,9 +196,9 @@ namespace dspx {
         return d->timeline;
     }
 
-    TrackList *Model::trackList() const {
+    TrackList *Model::tracks() const {
         Q_D(const Model);
-        return d->trackList;
+        return d->tracks;
     }
 
     Workspace *Model::workspace() const {
@@ -213,7 +213,7 @@ namespace dspx {
                 .global = global()->toQDspx(),
                 .master = master()->toQDspx(),
                 .timeline = timeline()->toQDspx(),
-                .tracks = trackList()->toQDspx(),
+                .tracks = tracks()->toQDspx(),
                 .workspace = workspace()->toQDspx(),
             }
         };
@@ -224,7 +224,7 @@ namespace dspx {
         d->global->fromQDspx(model.content.global);
         d->master->fromQDspx(model.content.master);
         d->timeline->fromQDspx(model.content.timeline);
-        d->trackList->fromQDspx(model.content.tracks);
+        d->tracks->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
     }
 

@@ -2,27 +2,22 @@
 #define DIFFSCOPE_DSPX_MODEL_LABELSELECTIONMODEL_P_H
 
 #include <dspxmodel/LabelSelectionModel.h>
-
-#include <QSet>
+#include <dspxmodel/Label.h>
+#include <dspxmodel/private/GenericGlobalItemSelectionModelData_p.h>
 
 namespace dspx {
 
     class SelectionModel;
 
-    class LabelSelectionModelPrivate {
+    class LabelSelectionModelPrivate : public GenericGlobalItemSelectionModelData<
+        LabelSelectionModel,
+        LabelSelectionModelPrivate,
+        Label,
+        &Label::labelSequenceChanged
+    > {
         Q_DECLARE_PUBLIC(LabelSelectionModel)
     public:
-        LabelSelectionModel *q_ptr;
-        SelectionModel *selectionModel;
-        Label *currentItem = nullptr;
-        QSet<Label *> selectedItems;
-
         bool isAddedToModel(Label *item) const;
-        void setCurrentItem(Label *item);
-        void addToSelection(Label *item);
-        void removeFromSelection(Label *item);
-        void clearSelection();
-        inline void updateOnItemRemoved(Label *item);
     };
 
 }

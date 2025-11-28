@@ -12,13 +12,14 @@ namespace dspx {
 
         Model *model;
 
-        SelectionModel::SelectionType selectionType = SelectionModel::None;
+        SelectionModel::SelectionType selectionType{SelectionModel::ST_None};
         AnchorNodeSelectionModel *anchorNodeSelectionModel;
         ClipSelectionModel *clipSelectionModel;
         LabelSelectionModel *labelSelectionModel;
         NoteSelectionModel *noteSelectionModel;
         TempoSelectionModel *tempoSelectionModel;
         TrackSelectionModel *trackSelectionModel;
+
     };
 
 }

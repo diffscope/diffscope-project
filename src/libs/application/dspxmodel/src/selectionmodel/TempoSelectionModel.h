@@ -5,7 +5,7 @@
 #include <QList>
 #include <qqmlintegration.h>
 
-#include <dspxmodel/SelectionModel.h>
+#include <dspxmodel/DspxModelGlobal.h>
 
 namespace dspx {
 
@@ -29,12 +29,13 @@ namespace dspx {
         QList<Tempo *> selectedItems() const;
         int selectedCount() const;
 
-        Q_INVOKABLE void select(Tempo *item, SelectionModel::SelectionCommand command);
+        Q_INVOKABLE bool isItemSelected(Tempo *item) const;
 
     Q_SIGNALS:
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
+        void itemSelected(Tempo *item, bool selected);
 
     private:
         friend class SelectionModel;
