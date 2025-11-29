@@ -30,6 +30,9 @@ namespace dspx {
         Q_PROPERTY(NoteSelectionModel *noteSelectionModel READ noteSelectionModel CONSTANT)
         Q_PROPERTY(TempoSelectionModel *tempoSelectionModel READ tempoSelectionModel CONSTANT)
         Q_PROPERTY(TrackSelectionModel *trackSelectionModel READ trackSelectionModel CONSTANT)
+        Q_PROPERTY(QObject *currentItemSelectionModel READ currentItemSelectionModel NOTIFY currentItemSelectionModelChanged)
+        Q_PROPERTY(QObject *currentItem READ currentItem NOTIFY currentItemChanged)
+        Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
 
     public:
         enum SelectionType {
@@ -57,6 +60,11 @@ namespace dspx {
         TempoSelectionModel *tempoSelectionModel() const;
         TrackSelectionModel *trackSelectionModel() const;
 
+        QObject *currentItemSelectionModel() const;
+        QObject *currentItem() const;
+        int selectedCount() const;
+        Q_INVOKABLE bool isItemSelected(QObject *item) const;
+
         enum SelectionCommandFlag {
             Select = 0x1,
             Deselect = 0x2,
@@ -72,6 +80,10 @@ namespace dspx {
 
     Q_SIGNALS:
         void selectionTypeChanged();
+        void currentItemSelectionModelChanged();
+        void currentItemChanged();
+        void selectedCountChanged();
+        void itemSelected(QObject *item, bool selected);
 
     private:
         QScopedPointer<SelectionModelPrivate> d_ptr;

@@ -1,9 +1,13 @@
 #include "TrackSelectionModel.h"
 #include "TrackSelectionModel_p.h"
 
-#include <dspxmodel/Track.h>
+#include <dspxmodel/Model.h>
 
 namespace dspx {
+
+    bool TrackSelectionModelPrivate::isAddedToModel(Track *item) const {
+        return item->trackList() == selectionModel->model()->tracks();
+    }
 
     TrackSelectionModel::TrackSelectionModel(QObject *parent) : QObject(parent), d_ptr(new TrackSelectionModelPrivate) {
         Q_D(TrackSelectionModel);
@@ -27,9 +31,9 @@ namespace dspx {
         return d->selectedItems.size();
     }
 
-    void TrackSelectionModel::select(Track *item, SelectionModel::SelectionCommand command) {
-        Q_D(TrackSelectionModel);
-
+    bool TrackSelectionModel::isItemSelected(Track *item) const {
+        Q_D(const TrackSelectionModel);
+        return d->selectedItems.contains(item);
     }
 
 }

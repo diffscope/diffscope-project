@@ -9,8 +9,9 @@
 
 namespace dspx {
 
+    class SelectionModel;
     class Note;
-    class SingingClip;
+    class NoteSequence;
     class NoteSelectionModelPrivate;
 
     class DSPX_MODEL_EXPORT NoteSelectionModel : public QObject {
@@ -21,24 +22,28 @@ namespace dspx {
         Q_PROPERTY(Note *currentItem READ currentItem NOTIFY currentItemChanged)
         Q_PROPERTY(QList<Note *> selectedItems READ selectedItems NOTIFY selectedItemsChanged)
         Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
-        Q_PROPERTY(SingingClip *singingClipWithSelectedItems READ singingClipWithSelectedItems NOTIFY singingClipWithSelectedItemsChanged)
+        Q_PROPERTY(NoteSequence *noteSequenceWithSelectedItems READ noteSequenceWithSelectedItems NOTIFY noteSequenceWithSelectedItemsChanged)
 
     public:
-        explicit NoteSelectionModel(QObject *parent = nullptr);
         ~NoteSelectionModel() override;
 
         Note *currentItem() const;
         QList<Note *> selectedItems() const;
         int selectedCount() const;
-        SingingClip *singingClipWithSelectedItems() const;
+        NoteSequence *noteSequenceWithSelectedItems() const;
+
+        Q_INVOKABLE bool isItemSelected(Note *item) const;
 
     Q_SIGNALS:
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
-        void singingClipWithSelectedItemsChanged();
+        void noteSequenceWithSelectedItemsChanged();
+        void itemSelected(Note *item, bool selected);
 
     private:
+        friend class SelectionModel;
+        explicit NoteSelectionModel(QObject *parent = nullptr);
         QScopedPointer<NoteSelectionModelPrivate> d_ptr;
     };
 

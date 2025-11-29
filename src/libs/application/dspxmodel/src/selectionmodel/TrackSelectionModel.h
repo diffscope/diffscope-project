@@ -20,21 +20,22 @@ namespace dspx {
         Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
 
     public:
-        explicit TrackSelectionModel(QObject *parent = nullptr);
         ~TrackSelectionModel() override;
 
         Track *currentItem() const;
         QList<Track *> selectedItems() const;
         int selectedCount() const;
-
-        Q_INVOKABLE void select(Track *item, SelectionModel::SelectionCommand command);
+        Q_INVOKABLE bool isItemSelected(Track *item) const;
 
     Q_SIGNALS:
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
+        void itemSelected(Track *item, bool selected);
 
     private:
+        friend class SelectionModel;
+        explicit TrackSelectionModel(QObject *parent = nullptr);
         QScopedPointer<TrackSelectionModelPrivate> d_ptr;
     };
 

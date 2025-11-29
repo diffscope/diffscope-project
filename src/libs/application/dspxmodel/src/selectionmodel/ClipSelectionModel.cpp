@@ -41,11 +41,6 @@ namespace dspx {
                     updateOnItemRemoved(item);
                 }
             });
-            QObject::connect(currentClipSequence, &QObject::destroyed, q, [currentClipSequence, this] {
-                for (auto item : clipSequencesWithSelectedItems[currentClipSequence]) {
-                    updateOnItemRemoved(item);
-                }
-            });
         }
         clipSequencesWithSelectedItems[currentClipSequence].insert(item);
 
