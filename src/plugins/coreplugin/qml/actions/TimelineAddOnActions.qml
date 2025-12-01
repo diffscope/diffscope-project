@@ -109,6 +109,27 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.core.widget.tempoTimeSignatureIndicator"
+        TempoTimeSignatureIndicator {
+            id: tempoTimeSignatureIndicator
+
+            backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
+            tempoText: d.addOn.tempoText
+            timeSignatureText: d.addOn.timeSignatureText
+
+            onTempoClicked: editTempoTimeSignatureScenario.editTempo()
+            onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature()
+
+            EditTempoTimeSignatureScenario {
+                id: editTempoTimeSignatureScenario
+                window: d.window
+                projectTimeline: d.windowHandle.projectTimeline
+                document: d.windowHandle.projectDocumentContext.document
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.core.timeIndicator.showMusicTime"
         Action {
             checkable: true

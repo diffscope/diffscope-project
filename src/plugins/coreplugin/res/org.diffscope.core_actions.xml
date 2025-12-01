@@ -159,6 +159,7 @@
         <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.metadata" catalog="org.diffscope.core.workspacePanelWidgets" icon="text_bullet_list_square_edit" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.widget.digitalClock" diffscope:componentType="widget"/>
+        <action id="org.diffscope.core.widget.tempoTimeSignatureIndicator" diffscope:componentType="widget"/>
     </items>
 
     <layouts>
@@ -350,6 +351,7 @@
         <menu id="org.diffscope.core.mainToolBarMiddle">
             <group id="org.diffscope.core.toolBarTimelineNavigationActions">
                 <action id="org.diffscope.core.widget.digitalClock" />
+                <action id="org.diffscope.core.widget.tempoTimeSignatureIndicator" />
                 <action id="org.diffscope.core.timeline.goToStart" />
                 <action id="org.diffscope.core.timeline.goToEnd" />
             </group>

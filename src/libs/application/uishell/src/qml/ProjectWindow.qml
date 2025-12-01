@@ -40,6 +40,7 @@ Window {
     readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
+    readonly property double popupTopMarginHint: titleBar.height + toolBar.height + 4
 
     property bool notificationEnablesAnimation: false
 
