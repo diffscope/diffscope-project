@@ -12,6 +12,7 @@ namespace dspx {
         ModelPrivate *pModel;
         ClipSequence *clips;
         QString name;
+        int colorId;
         TrackControl *control;
         Workspace *workspace;
         TrackList *trackList;
