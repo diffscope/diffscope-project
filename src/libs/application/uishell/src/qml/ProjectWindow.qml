@@ -208,6 +208,8 @@ Window {
                     source: window.icon
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
+                    sourceSize.width: 16
+                    sourceSize.height: 16
                 }
                 Text {
                     readonly property color _baseColor: !titleTextGroup.menuBarMergedInTitleBar ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
