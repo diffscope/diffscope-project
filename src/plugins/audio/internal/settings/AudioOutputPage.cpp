@@ -6,7 +6,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <audio/internal/audiooutputsettingshelper.h>
+#include <audio/internal/AudioOutputSettingsHelper.h>
 
 namespace Audio::Internal {
 

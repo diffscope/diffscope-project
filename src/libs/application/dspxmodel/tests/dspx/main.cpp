@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     // Test TrackList functionality
     qDebug() << "=== Testing TrackList ===";
     
-    auto trackList = model.trackList();
+    auto trackList = model.tracks();
     qDebug() << "Initial track count:" << trackList->size();
     
     // Create some tracks

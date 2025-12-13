@@ -7,7 +7,7 @@
 
 #include <coreplugin/ActionWindowInterfaceBase.h>
 
-#include <welcomewizard/internal/welcomewizardplugin.h>
+#include <welcomewizard/internal/WelcomeWizardPlugin.h>
 
 namespace WelcomeWizard {
     WelcomeWizardAddOn::WelcomeWizardAddOn(QObject *parent) : Core::WindowInterfaceAddOn(parent) {

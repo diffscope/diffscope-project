@@ -65,6 +65,9 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
             windowAgent.setSystemButton(WindowAgent.WindowIcon, iconArea)
             windowAgent.setHitTestVisible(Overlay.overlay)
+            windowAgent.setHitTestVisible(leftToolBarContainer)
+            windowAgent.setHitTestVisible(rightToolBarContainer)
+            windowAgent.setHitTestVisible(middleToolBarContainer)
         }
     }
 
@@ -172,7 +175,8 @@ Window {
                 Item {
                     id: titleBarArea
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    Layout.fillHeight: !window.isMacOS
+                    Layout.preferredHeight: window.isMacOS ? titleBar.height + toolBar.height : undefined
                     RowLayout {
                         anchors.right: parent.right
                         visible: !window.isMacOS
@@ -231,7 +235,9 @@ Window {
                 color: parent.color
             }
         }
-        PaneSeparator {}
+        PaneSeparator {
+            visible: !window.isMacOS
+        }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true

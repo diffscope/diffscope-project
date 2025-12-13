@@ -18,7 +18,7 @@
 
 #include <coreplugin/ActionWindowInterfaceBase.h>
 
-#include <maintenance/internal/maintenanceplugin.h>
+#include <maintenance/internal/MaintenancePlugin.h>
 
 namespace Maintenance {
 

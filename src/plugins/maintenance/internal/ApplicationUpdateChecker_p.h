@@ -3,7 +3,7 @@
 
 #include <QNetworkAccessManager>
 
-#include <maintenance/internal/applicationupdatechecker.h>
+#include <maintenance/internal/ApplicationUpdateChecker.h>
 
 namespace Maintenance {
 

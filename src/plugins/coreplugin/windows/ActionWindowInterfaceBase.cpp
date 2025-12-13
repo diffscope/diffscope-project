@@ -47,7 +47,9 @@ namespace Core {
                 if (component.isError()) {
                     qFatal() << component.errorString();
                 }
-                auto o = component.create();
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)}
+                });
                 o->setParent(q);
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }

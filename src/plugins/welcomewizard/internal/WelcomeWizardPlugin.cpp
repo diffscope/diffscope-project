@@ -13,7 +13,7 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <welcomewizard/internal/welcomewizardaddon.h>
+#include <welcomewizard/internal/WelcomeWizardAddOn.h>
 
 static auto getWelcomeWizardActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(welcomewizard);

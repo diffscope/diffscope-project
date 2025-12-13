@@ -1,6 +1,6 @@
 #include "AudioSystem.h"
 
-#include <audio/internal/outputsystem.h>
+#include <audio/internal/OutputSystem.h>
 
 namespace Audio::Internal {
 

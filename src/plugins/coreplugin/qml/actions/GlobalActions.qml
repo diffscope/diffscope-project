@@ -11,12 +11,15 @@ import DiffScope.UIShell
 import DiffScope.Core
 
 ActionCollection {
+    id: d
+    
+    required property ActionWindowInterfaceBase windowHandle
 
     ActionItem {
         actionId: "org.diffscope.core.file.new"
         Action {
             onTriggered: (o) => {
-                CoreInterface.newFile(o?.Window.window ?? null)
+                CoreInterface.newFile(d.windowHandle.window)
             }
         }
     }
@@ -25,7 +28,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.newFromTemplate"
         Action {
             onTriggered: (o) => {
-                CoreInterface.newFileFromTemplate("", o?.Window.window ?? null)
+                CoreInterface.newFileFromTemplate("", d.windowHandle.window)
             }
         }
     }
@@ -34,7 +37,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.open"
         Action {
             onTriggered: (o) => {
-                CoreInterface.openFile("", o?.Window.window ?? null)
+                CoreInterface.openFile("", d.windowHandle.window)
             }
         }
     }
@@ -52,7 +55,7 @@ ActionCollection {
         actionId: "org.diffscope.core.settings"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execSettingsDialog("", w))
             }
         }
@@ -62,7 +65,7 @@ ActionCollection {
         actionId: "org.diffscope.core.plugins"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execPluginsDialog(w))
             }
         }
@@ -90,7 +93,7 @@ ActionCollection {
         actionId: "org.diffscope.core.aboutApp"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execAboutAppDialog(w))
             }
         }
@@ -100,7 +103,7 @@ ActionCollection {
         actionId: "org.diffscope.core.aboutQt"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execAboutQtDialog(w))
             }
         }
