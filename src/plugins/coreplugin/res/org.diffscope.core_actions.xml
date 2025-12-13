@@ -350,8 +350,8 @@
 
         <menu id="org.diffscope.core.mainToolBarMiddle">
             <group id="org.diffscope.core.toolBarTimelineNavigationActions">
-                <action id="org.diffscope.core.widget.digitalClock" />
                 <action id="org.diffscope.core.widget.tempoTimeSignatureIndicator" />
+                <action id="org.diffscope.core.widget.digitalClock" />
                 <action id="org.diffscope.core.timeline.goToStart" />
                 <action id="org.diffscope.core.timeline.goToEnd" />
             </group>

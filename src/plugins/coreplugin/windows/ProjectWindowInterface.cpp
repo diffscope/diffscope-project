@@ -56,15 +56,28 @@ namespace Core {
         void initActionContext() {
             Q_Q(ProjectWindowInterface);
             auto actionContext = q->actionContext();
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
-            if (component.isError()) {
-                qFatal() << component.errorString();
+            {
+                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)}
+                });
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
-            auto o = component.createWithInitialProperties({
-                {"windowHandle", QVariant::fromValue(q)},
-            });
-            o->setParent(q);
-            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            {
+                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)},
+                });
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            }
         }
 
         void updateRecentFile() const {
