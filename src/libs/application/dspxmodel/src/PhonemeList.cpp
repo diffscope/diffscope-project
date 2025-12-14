@@ -18,6 +18,9 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->phonemeInfo = phonemeInfo;
+
+        d->init(model->strategy()->getEntitiesFromListContainer(handle));
+
         connect(this, &PhonemeList::itemInserted, this, [this](int, Phoneme *item) {
             PhonemePrivate::setPhonemeList(item, this);
         });

@@ -14,6 +14,9 @@ namespace dspx {
         Handle createEntity(Entity entityType) override;
         void destroyEntity(Handle entity) override;
         Entity getEntityType(Handle entity) override;
+        QList<Handle> getEntitiesFromSequenceContainer(Handle sequenceContainerEntity) override;
+        QList<Handle> getEntitiesFromListContainer(Handle listContainerEntity) override;
+        QList<QPair<QString, Handle>> getEntitiesFromMapContainer(Handle mapContainerEntity) override;
         bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
         bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) override;
         bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) override;

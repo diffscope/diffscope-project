@@ -35,6 +35,14 @@ namespace dspx {
             Q_UNREACHABLE();
         }
 
+        void init(const QList<Handle> &handles) {
+            for (auto handle : handles) {
+                auto item = getItem(handle, true);
+                container.insertItem(item, (item->*positionGetter)());
+            }
+            updateFirstAndLastItem();
+        }
+
         void insertItem(ItemType *item, int position) {
             auto q = q_ptr;
             bool containsItem = container.contains(item);

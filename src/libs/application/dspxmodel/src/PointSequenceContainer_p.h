@@ -15,10 +15,16 @@ namespace dspx {
         QHash<T *, int> m_positions;
 
         T *firstItem() const {
+            if (m_items.empty()) {
+                return nullptr;
+            }
             return m_items.cbegin()->second;
         }
 
         T *lastItem() const {
+            if (m_items.empty()) {
+                return nullptr;
+            }
             return m_items.crbegin()->second;
         }
 

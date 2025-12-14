@@ -18,6 +18,8 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EM_Workspace);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromMapContainer(handle));
     }
 
     Workspace::~Workspace() = default;

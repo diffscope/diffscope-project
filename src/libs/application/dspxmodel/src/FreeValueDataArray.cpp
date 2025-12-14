@@ -18,6 +18,8 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->paramCurveFree = paramCurveFree;
+
+        d->init(model->strategy()->sliceDataArray(handle, 0, model->strategy()->getSizeOfDataArray(handle)));
     }
 
     FreeValueDataArray::~FreeValueDataArray() = default;

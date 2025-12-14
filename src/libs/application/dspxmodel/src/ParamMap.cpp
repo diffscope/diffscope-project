@@ -23,6 +23,9 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->singingClip = singingClip;
+
+        d->init(model->strategy()->getEntitiesFromMapContainer(handle));
+
         connect(this, &ParamMap::itemInserted, this, [this](const QString &, Param *item) {
             ParamPrivate::setParamMap(item, this);
         });

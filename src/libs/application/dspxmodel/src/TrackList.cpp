@@ -19,6 +19,9 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EL_Tracks);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromListContainer(handle));
+
         connect(this, &TrackList::itemInserted, this, [this](int, Track *item) {
             TrackPrivate::setTrackList(item, this);
         });

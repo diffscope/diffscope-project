@@ -18,6 +18,9 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Labels);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &LabelSequence::itemInserted, this, [=](Label *item) {
             LabelPrivate::setLabelSequence(item, this);
         });

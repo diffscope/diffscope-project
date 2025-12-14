@@ -140,6 +140,30 @@ namespace dspx {
         return reinterpret_cast<BasicModelStrategyEntity *>(entity.d)->type;
     }
 
+    QList<Handle> BasicModelStrategy::getEntitiesFromSequenceContainer(Handle sequenceContainerEntity) {
+        QList<Handle> a;
+        std::ranges::transform(handleCast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity)->sequence, std::back_inserter(a), [](auto *obj) {
+            return Handle{reinterpret_cast<quintptr>(obj)};
+        });
+        return a;
+    }
+
+    QList<Handle> BasicModelStrategy::getEntitiesFromListContainer(Handle listContainerEntity) {
+        QList<Handle> a;
+        std::ranges::transform(handleCast<BasicModelStrategyListContainerEntity>(listContainerEntity)->list, std::back_inserter(a), [](auto *obj) {
+            return Handle{reinterpret_cast<quintptr>(obj)};
+        });
+        return a;
+    }
+
+    QList<QPair<QString, Handle>> BasicModelStrategy::getEntitiesFromMapContainer(Handle mapContainerEntity) {
+        QList<QPair<QString, Handle>> a;
+        for (auto [key, value] : handleCast<BasicModelStrategyMapContainerEntity>(mapContainerEntity)->map.asKeyValueRange()) {
+            a.append({key, Handle{reinterpret_cast<quintptr>(value)}});
+        }
+        return a;
+    }
+
     bool BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
         auto sequenceContainerObject = handleCast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
@@ -231,12 +255,14 @@ namespace dspx {
 
     void BasicModelStrategy::setEntityProperty(Handle entity, Property property, const QVariant &value) {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
+        Q_ASSERT(isEntityTypeAndPropertyTypeCompatible(object->type, property));
         object->properties.insert(property, value);
         Q_EMIT setEntityPropertyNotified(entity, property, value);
     }
 
     QVariant BasicModelStrategy::getEntityProperty(Handle entity, Property property) {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
+        Q_ASSERT(isEntityTypeAndPropertyTypeCompatible(object->type, property));
         return object->properties.value(property);
     }
     bool BasicModelStrategy::spliceDataArray(Handle dataArrayEntity, int index, int length, const QVariantList &values) {
@@ -273,63 +299,7 @@ namespace dspx {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
         auto subObject = object->associatedSubEntities.value(relationship);
         if (!subObject) {
-            Entity subObjectType;
-            switch (relationship) {
-                case R_Children:
-                    switch (object->type) {
-                        case EI_Global:
-                            subObjectType = EL_Tracks;
-                            break;
-                        case EI_Track:
-                            subObjectType = ES_Clips;
-                            break;
-                        case EI_SingingClip:
-                            subObjectType = ES_Notes;
-                            break;
-                        case EI_ParamCurveAnchor:
-                            subObjectType = ES_ParamCurveAnchorNodes;
-                            break;
-                        case EI_ParamCurveFree:
-                            subObjectType = ED_ParamCurveFreeValues;
-                            break;
-                        default:
-                            Q_UNREACHABLE();
-                    }
-                    break;
-                case R_Labels:
-                    subObjectType = ES_Labels;
-                    break;
-                case R_ParamCurvesEdited:
-                case R_ParamCurvesOriginal:
-                case R_ParamCurvesTransform:
-                    subObjectType = ES_ParamCurves;
-                    break;
-                case R_Params:
-                    subObjectType = EM_Params;
-                    break;
-                case R_PhonemesEdited:
-                case R_PhonemesOriginal:
-                    subObjectType = EL_Phonemes;
-                    break;
-                case R_Sources:
-                    subObjectType = EM_Sources;
-                    break;
-                case R_Tempos:
-                    subObjectType = ES_Tempos;
-                    break;
-                case R_TimeSignatures:
-                    subObjectType = ES_TimeSignatures;
-                    break;
-                case R_VibratoPointsAmplitude:
-                case R_VibratoPointsFrequency:
-                    subObjectType = ED_VibratoPoints;
-                    break;
-                case R_Workspace:
-                    subObjectType = EM_Workspace;
-                    break;
-                default:
-                    Q_UNREACHABLE();
-            }
+            Entity subObjectType = getAssociatedSubEntityTypeFromEntityTypeAndRelationship(object->type, relationship);
             subObject = createByType(subObjectType, object);
             object->associatedSubEntities.insert(relationship, subObject);
         }

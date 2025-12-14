@@ -20,6 +20,9 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->paramCurveAnchor = paramCurveAnchor;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &AnchorNodeSequence::itemInserted, this, [=](AnchorNode *item) {
             AnchorNodePrivate::setAnchorNodeSequence(item, this);
         });

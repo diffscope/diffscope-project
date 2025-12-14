@@ -22,6 +22,9 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->track = track;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {
             ClipPrivate::setClipSequence(item, this);
         });

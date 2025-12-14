@@ -25,6 +25,8 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->param = param;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
         
         connect(this, &ParamCurveSequence::itemInserted, this, [this](ParamCurve *paramCurve) {
             ParamCurvePrivate::setParamCurveSequence(paramCurve, this);

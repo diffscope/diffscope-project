@@ -20,6 +20,9 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->singingClip = singingClip;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &NoteSequence::itemInserted, this, [=](Note *item) {
             NotePrivate::setNoteSequence(item, this);
         });

@@ -18,6 +18,9 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Tempos);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &TempoSequence::itemInserted, this, [=](Tempo *item) {
             TempoPrivate::setTempoSequence(item, this);
         });
