@@ -12,6 +12,8 @@ namespace dspx {
 
 namespace Core {
 
+    class TransactionController;
+
     class DspxDocumentPrivate;
 
     class CORE_EXPORT DspxDocument : public QObject {
@@ -24,6 +26,7 @@ namespace Core {
         ~DspxDocument() override;
 
         dspx::Model *model() const;
+        TransactionController *transactionController() const;
 
     private:
         QScopedPointer<DspxDocumentPrivate> d_ptr;
