@@ -21,6 +21,7 @@ namespace Core {
         QML_ELEMENT
         Q_DECLARE_PRIVATE(DspxDocument)
         Q_PROPERTY(dspx::Model *model READ model CONSTANT)
+        Q_PROPERTY(TransactionController *transactionController READ transactionController CONSTANT)
     public:
         explicit DspxDocument(QObject *parent = nullptr);
         ~DspxDocument() override;

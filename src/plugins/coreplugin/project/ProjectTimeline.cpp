@@ -1,6 +1,10 @@
 #include "ProjectTimeline.h"
 #include "ProjectTimeline_p.h"
 
+#include <QQmlComponent>
+
+#include <CoreApi/runtimeinterface.h>
+
 #include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/MusicTimeSignature.h>
 
@@ -109,7 +113,19 @@ namespace Core {
         Q_D(ProjectTimeline);
         d->q_ptr = this;
         d->document = document;
-        d->musicTimeline = new SVS::MusicTimeline(this);
+        {
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "MusicTimelineHelper");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto musicTimeline = component.create();
+            if (!musicTimeline) {
+                qFatal() << component.errorString();
+            }
+            musicTimeline->setParent(this);
+            d->musicTimeline = qobject_cast<SVS::MusicTimeline *>(musicTimeline);
+            Q_ASSERT(d->musicTimeline);
+        }
         auto tempoSequence = document->model()->timeline()->tempos();
         auto timeSignatureSequence = document->model()->timeline()->timeSignatures();
         for (auto item : tempoSequence->asRange()) {

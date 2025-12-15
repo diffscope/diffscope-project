@@ -23,6 +23,7 @@ namespace Core {
         Q_PROPERTY(QQuickWindow *window READ window WRITE setWindow NOTIFY windowChanged)
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline WRITE setProjectTimeline NOTIFY projectTimelineChanged)
         Q_PROPERTY(DspxDocument *document READ document WRITE setDocument NOTIFY documentChanged)
+        Q_PROPERTY(bool shouldDialogPopupAtCursor READ shouldDialogPopupAtCursor WRITE setShouldDialogPopupAtCursor NOTIFY shouldDialogPopupAtCursorChanged)
 
     public:
         explicit EditTempoTimeSignatureScenario(QObject *parent = nullptr);
@@ -36,6 +37,9 @@ namespace Core {
 
         DspxDocument *document() const;
         void setDocument(DspxDocument *document);
+
+        bool shouldDialogPopupAtCursor() const;
+        void setShouldDialogPopupAtCursor(bool shouldDialogPopupAtCursor);
 
         Q_INVOKABLE void editTempo() const;
         Q_INVOKABLE void editTempo(int position, bool doInsertNew, double initialTempo) const;
@@ -52,6 +56,7 @@ namespace Core {
         void windowChanged();
         void projectTimelineChanged();
         void documentChanged();
+        void shouldDialogPopupAtCursorChanged();
 
     private:
         QScopedPointer<EditTempoTimeSignatureScenarioPrivate> d_ptr;

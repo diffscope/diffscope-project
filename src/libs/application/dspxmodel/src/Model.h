@@ -77,6 +77,8 @@ namespace dspx {
         Q_INVOKABLE Param *createParam();
         Q_INVOKABLE Source *createSource();
 
+        Q_INVOKABLE void destroyItem(EntityObject *object);
+
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;
 

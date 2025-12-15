@@ -312,6 +312,12 @@ namespace dspx {
         return d->createObject<Source>(handle);
     }
 
+    void Model::destroyItem(EntityObject *object) {
+        Q_D(Model);
+        // TODO do some checks
+        object->deleteLater();
+    }
+
     void Model::handleSetEntityProperty(int property, const QVariant &value) {
         Q_D(Model);
         switch (property) {

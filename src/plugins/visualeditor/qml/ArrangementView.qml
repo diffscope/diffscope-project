@@ -24,6 +24,13 @@ Item {
 
     readonly property Timeline timeline: timeline
 
+    TimelineContextMenuHelper {
+        timeline: view.timeline
+        window: view.Window.window
+        projectTimeline: view.arrangementPanelInterface?.windowHandle.projectTimeline ?? null
+        document: view.arrangementPanelInterface?.windowHandle.projectDocumentContext.document ?? null
+    }
+
     SplitView {
         id: splitView
         anchors.fill: parent

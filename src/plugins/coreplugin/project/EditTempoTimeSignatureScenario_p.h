@@ -14,6 +14,7 @@ namespace Core {
         QQuickWindow *window = nullptr;
         ProjectTimeline *projectTimeline = nullptr;
         DspxDocument *document = nullptr;
+        bool shouldDialogPopupAtCursor = false;
 
         QObject *createAndPositionDialog(QQmlComponent *component, int position, bool doInsertNew) const;
         bool execDialog(QObject *dialog) const;

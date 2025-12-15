@@ -6,6 +6,7 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QCursor>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -44,12 +45,18 @@ namespace Core {
         }
         auto width = dialog->property("width").toDouble();
         auto height = dialog->property("height").toDouble();
-        dialog->setProperty("x", window->width() / 2.0 - width / 2);
-        if (auto popupTopMarginHint = window->property("popupTopMarginHint"); popupTopMarginHint.isValid()) {
-            // Assume it is project window
-            dialog->setProperty("y", popupTopMarginHint);
+        if (shouldDialogPopupAtCursor) {
+            auto pos = window->mapFromGlobal(QCursor::pos()).toPointF();
+            dialog->setProperty("x", qBound(0.0, pos.x(), window->width() - width));
+            dialog->setProperty("y", qBound(0.0, pos.y(), window->height() - height));
         } else {
-            dialog->setProperty("y", window->height() / 2.0 - height / 2);
+            dialog->setProperty("x", window->width() / 2.0 - width / 2);
+            if (auto popupTopMarginHint = window->property("popupTopMarginHint"); popupTopMarginHint.isValid()) {
+                // Assume it is project window
+                dialog->setProperty("y", popupTopMarginHint);
+            } else {
+                dialog->setProperty("y", window->height() / 2.0 - height / 2);
+            }
         }
         return dialog;
 
@@ -110,6 +117,20 @@ namespace Core {
             Q_EMIT documentChanged();
         }
     }
+
+    bool EditTempoTimeSignatureScenario::shouldDialogPopupAtCursor() const {
+        Q_D(const EditTempoTimeSignatureScenario);
+        return d->shouldDialogPopupAtCursor;
+    }
+
+    void EditTempoTimeSignatureScenario::setShouldDialogPopupAtCursor(bool shouldDialogPopupAtCursor) {
+        Q_D(EditTempoTimeSignatureScenario);
+        if (d->shouldDialogPopupAtCursor != shouldDialogPopupAtCursor) {
+            d->shouldDialogPopupAtCursor = shouldDialogPopupAtCursor;
+            Q_EMIT shouldDialogPopupAtCursorChanged();
+        }
+    }
+
     void EditTempoTimeSignatureScenario::editTempo() const {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline)
@@ -153,14 +174,14 @@ namespace Core {
                 for (auto redundantTempoItem : currentTempos) {
                     if (redundantTempoItem != tempoItem) {
                         tempoSequence->removeItem(redundantTempoItem);
-                        redundantTempoItem->deleteLater();
+                        d->document->model()->destroyItem(redundantTempoItem);
                     }
                 }
                 tempoItem->setValue(tempo);
             }
             return true;
         }, [] {
-            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
         });
 
 
@@ -224,7 +245,7 @@ namespace Core {
                 for (auto redundantTimeSignatureItem : currentTimeSignatures) {
                     if (redundantTimeSignatureItem != timeSignatureItem) {
                         timeSignatureSequence->removeItem(redundantTimeSignatureItem);
-                        redundantTimeSignatureItem->deleteLater();
+                        d->document->model()->destroyItem(redundantTimeSignatureItem);
                     }
                 }
                 timeSignatureItem->setNumerator(numerator);
@@ -232,7 +253,7 @@ namespace Core {
             }
             return true;
         }, [] {
-            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
         });
     }
     void EditTempoTimeSignatureScenario::insertTimeSignatureAt(int position) const {
