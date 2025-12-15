@@ -10,25 +10,6 @@ ActionCollection {
     required property QtObject addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
 
-    // Basic edit actions
-    ActionItem {
-        actionId: "org.diffscope.core.edit.undo"
-        Action {
-            onTriggered: {
-                // TODO: Implement undo functionality
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.edit.redo"
-        Action {
-            onTriggered: {
-                // TODO: Implement redo functionality
-            }
-        }
-    }
-
     component EditAction: Action {
         required property int flag
         enabled: d.windowHandle.mainEditActionsHandlerRegistry.enabledActions & flag

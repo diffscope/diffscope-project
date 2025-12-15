@@ -69,6 +69,9 @@ namespace dspx {
 
     void ModelPrivate::handleNotifications() {
         Q_Q(Model);
+        QObject::connect(strategy, &ModelStrategy::destroyEntityNotified, q, [=, this](Handle handle) {
+            handleEntityDestroyed(handle);
+        });
         QObject::connect(strategy, &ModelStrategy::insertIntoSequenceContainerNotified, q, [=, this](Handle sequenceContainerEntity, Handle entity) {
             if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
                 sequenceContainerObject->handleInsertIntoSequenceContainer(entity);
@@ -314,7 +317,9 @@ namespace dspx {
 
     void Model::destroyItem(EntityObject *object) {
         Q_D(Model);
-        // TODO do some checks
+        auto handle = object->handle();
+        object->d_func()->handle = {};
+        d->strategy->destroyEntity(handle);
         object->deleteLater();
     }
 

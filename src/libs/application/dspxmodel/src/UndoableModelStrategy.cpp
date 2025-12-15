@@ -17,14 +17,16 @@ namespace dspx {
     }
 
     CreateEntityCommand::~CreateEntityCommand() {
-        if (m_object && m_object->parent() != m_strategy) {
-            delete m_object;
+        // Delete object if command is in undone state
+        if (m_object && m_undone) {
+            delete m_object.data();
         }
     }
 
     void CreateEntityCommand::undo() {
         // Detach object from strategy but keep it alive
         m_object->setParent(nullptr);
+        m_undone = true;
         Q_EMIT m_strategy->destroyEntityNotified(entity());
     }
 
@@ -36,6 +38,7 @@ namespace dspx {
             // Subsequent times: re-parent the existing object
             m_object->setParent(m_strategy);
         }
+        m_undone = false;
         Q_EMIT m_strategy->createEntityNotified(entity(), m_entityType);
     }
 
@@ -49,8 +52,9 @@ namespace dspx {
     }
 
     DestroyEntityCommand::~DestroyEntityCommand() {
-        if (m_object && m_object->parent() != m_strategy) {
-            delete m_object;
+        // Delete object if command is NOT in undone state (i.e., destroy was executed)
+        if (m_object && !m_undone) {
+            delete m_object.data();
         }
     }
 
@@ -94,10 +98,12 @@ namespace dspx {
 
     void DestroyEntityCommand::undo() {
         recursivelyCreate(m_object);
+        m_undone = true;
     }
 
     void DestroyEntityCommand::redo() {
         recursivelyDestroy(m_object);
+        m_undone = false;
     }
 
     //================================================================
@@ -134,8 +140,9 @@ namespace dspx {
     }
 
     TakeFromSequenceContainerCommand::~TakeFromSequenceContainerCommand() {
-        if (m_object && m_object->parent() != handle_cast<QObject>(m_container)) {
-            delete m_object;
+        // Delete object if command is NOT in undone state (i.e., take was executed)
+        if (m_object && !m_undone) {
+            delete m_object.data();
         }
     }
 
@@ -143,15 +150,17 @@ namespace dspx {
         auto containerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_container);
         containerObj->sequence.insert(m_object);
         m_object->setParent(containerObj);
-        Q_EMIT m_strategy->insertIntoSequenceContainerNotified(m_container, {reinterpret_cast<quintptr>(m_object)});
+        m_undone = true;
+        Q_EMIT m_strategy->insertIntoSequenceContainerNotified(m_container, {reinterpret_cast<quintptr>(m_object.data())});
     }
 
     void TakeFromSequenceContainerCommand::redo() {
         auto containerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_container);
         containerObj->sequence.remove(m_object);
         m_object->setParent(m_strategy);
-        Q_EMIT m_strategy->takeFromContainerNotified({reinterpret_cast<quintptr>(m_object)}, m_container,
-                                                     {reinterpret_cast<quintptr>(m_object)});
+        m_undone = false;
+        Q_EMIT m_strategy->takeFromContainerNotified({reinterpret_cast<quintptr>(m_object.data())}, m_container,
+                                                     {reinterpret_cast<quintptr>(m_object.data())});
     }
 
     InsertIntoListContainerCommand::InsertIntoListContainerCommand(
@@ -185,8 +194,9 @@ namespace dspx {
     }
 
     TakeFromListContainerCommand::~TakeFromListContainerCommand() {
-        if (m_object && m_object->parent() != handle_cast<QObject>(m_container)) {
-            delete m_object;
+        // Delete object if command is NOT in undone state (i.e., take was executed)
+        if (m_object && !m_undone) {
+            delete m_object.data();
         }
     }
 
@@ -194,6 +204,7 @@ namespace dspx {
         auto containerObj = handle_cast<BasicModelStrategyListContainerEntity>(m_container);
         containerObj->list.insert(m_index, m_object);
         m_object->setParent(containerObj);
+        m_undone = true;
         Q_EMIT m_strategy->insertIntoListContainerNotified(m_container, entity(), m_index);
     }
 
@@ -205,11 +216,12 @@ namespace dspx {
         auto containerObj = handle_cast<BasicModelStrategyListContainerEntity>(m_container);
         containerObj->list.removeAt(m_index);
         m_object->setParent(m_strategy);
+        m_undone = false;
         Q_EMIT m_strategy->takeFromListContainerNotified(entity(), m_container, m_index);
     }
 
     Handle TakeFromListContainerCommand::entity() const {
-        return {reinterpret_cast<quintptr>(m_object)};
+        return {reinterpret_cast<quintptr>(m_object.data())};
     }
 
     InsertIntoMapContainerCommand::InsertIntoMapContainerCommand(UndoableModelStrategy *strategy,
@@ -222,7 +234,7 @@ namespace dspx {
 
     InsertIntoMapContainerCommand::~InsertIntoMapContainerCommand() {
         if (m_oldObject) {
-            delete m_oldObject;
+            delete m_oldObject.data();
         }
     }
 
@@ -238,7 +250,7 @@ namespace dspx {
             containerObj->map.insert(m_key, m_oldObject);
             m_oldObject->setParent(containerObj);
             Q_EMIT m_strategy->insertIntoMapContainerNotified(m_container,
-                                                              {reinterpret_cast<quintptr>(m_oldObject)}, m_key);
+                                                              {reinterpret_cast<quintptr>(m_oldObject.data())}, m_key);
             m_oldObject = nullptr; // Transfer ownership back to container
         }
     }
@@ -250,7 +262,7 @@ namespace dspx {
         if (containerObj->map.contains(m_key)) {
             m_oldObject = containerObj->map.take(m_key);
             m_oldObject->setParent(nullptr); // Take ownership
-            Q_EMIT m_strategy->takeFromMapContainerNotified({reinterpret_cast<quintptr>(m_oldObject)}, m_container,
+            Q_EMIT m_strategy->takeFromMapContainerNotified({reinterpret_cast<quintptr>(m_oldObject.get())}, m_container,
                                                             m_key);
         }
 
@@ -266,8 +278,9 @@ namespace dspx {
     }
 
     TakeFromMapContainerCommand::~TakeFromMapContainerCommand() {
-        if (m_object && m_object->parent() != handle_cast<QObject>(m_container)) {
-            delete m_object;
+        // Delete object if command is NOT in undone state (i.e., take was executed)
+        if (m_object && !m_undone) {
+            delete m_object.data();
         }
     }
 
@@ -275,6 +288,7 @@ namespace dspx {
         auto containerObj = handle_cast<BasicModelStrategyMapContainerEntity>(m_container);
         containerObj->map.insert(m_key, m_object);
         m_object->setParent(containerObj);
+        m_undone = true;
         Q_EMIT m_strategy->insertIntoMapContainerNotified(m_container, entity(), m_key);
     }
 
@@ -286,11 +300,12 @@ namespace dspx {
         auto containerObj = handle_cast<BasicModelStrategyMapContainerEntity>(m_container);
         containerObj->map.remove(m_key);
         m_object->setParent(m_strategy);
+        m_undone = false;
         Q_EMIT m_strategy->takeFromMapContainerNotified(entity(), m_container, m_key);
     }
 
     Handle TakeFromMapContainerCommand::entity() const {
-        return {reinterpret_cast<quintptr>(m_object)};
+        return {reinterpret_cast<quintptr>(m_object.data())};
     }
 
     RotateListContainerCommand::RotateListContainerCommand(UndoableModelStrategy *strategy,

@@ -58,7 +58,7 @@ namespace Core {
             musicTimeline->setTempo(pos, (*tempoSet.begin())->value());
         }
         tempoPosMap.remove(tempo);
-        QObject::disconnect(tempo, &dspx::Tempo::valueChanged, q, nullptr);
+        QObject::disconnect(tempo, nullptr, q, nullptr);
     }
     void ProjectTimelinePrivate::handleTimeSignatureInsertedOrUpdated(dspx::TimeSignature *timeSignature) {
         Q_Q(ProjectTimeline);
@@ -106,7 +106,7 @@ namespace Core {
             musicTimeline->setTimeSignature(measure, {item->numerator(), item->denominator()});
         }
         timeSignatureMeasureMap.remove(timeSignature);
-        QObject::disconnect(timeSignature, &dspx::TimeSignature::numeratorChanged, q, nullptr);
+        QObject::disconnect(timeSignature, nullptr, q, nullptr);
     }
 
     ProjectTimeline::ProjectTimeline(DspxDocument *document, QObject *parent) : QObject(parent), d_ptr(new ProjectTimelinePrivate) {

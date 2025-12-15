@@ -32,6 +32,7 @@ namespace dspx {
         UndoableModelStrategy *m_strategy;
         BasicModelStrategy::Entity m_entityType;
         QPointer<BasicModelStrategyEntity> m_object;
+        bool m_undone = false;
     };
 
     class DestroyEntityCommand : public QUndoCommand {
@@ -45,6 +46,7 @@ namespace dspx {
     private:
         UndoableModelStrategy *m_strategy;
         QPointer<BasicModelStrategyEntity> m_object;
+        bool m_undone = false;
         void recursivelyDestroy(BasicModelStrategyEntity *object);
         void recursivelyCreate(BasicModelStrategyEntity *object);
     };
@@ -80,7 +82,8 @@ namespace dspx {
     private:
         UndoableModelStrategy *m_strategy;
         Handle m_container;
-        BasicModelStrategyEntity *m_object;
+        QPointer<BasicModelStrategyEntity> m_object;
+        bool m_undone = false;
     };
 
     class InsertIntoListContainerCommand : public QUndoCommand {
@@ -110,8 +113,9 @@ namespace dspx {
     private:
         UndoableModelStrategy *m_strategy;
         Handle m_container;
-        BasicModelStrategyEntity *m_object;
+        QPointer<BasicModelStrategyEntity> m_object;
         int m_index;
+        bool m_undone = false;
     };
 
     class InsertIntoMapContainerCommand : public QUndoCommand {
@@ -128,7 +132,7 @@ namespace dspx {
         Handle m_container;
         Handle m_entity;
         QString m_key;
-        BasicModelStrategyEntity *m_oldObject;
+        QPointer<BasicModelStrategyEntity> m_oldObject;
     };
 
     class TakeFromMapContainerCommand : public QUndoCommand {
@@ -143,8 +147,9 @@ namespace dspx {
     private:
         UndoableModelStrategy *m_strategy;
         Handle m_container;
-        BasicModelStrategyEntity *m_object;
+        QPointer<BasicModelStrategyEntity> m_object;
         QString m_key;
+        bool m_undone = false;
     };
 
     class RotateListContainerCommand : public QUndoCommand {

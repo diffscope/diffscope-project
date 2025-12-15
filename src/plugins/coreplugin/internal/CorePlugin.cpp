@@ -62,6 +62,7 @@
 #include <coreplugin/internal/RecentFileAddOn.h>
 #include <coreplugin/internal/TimeIndicatorPage.h>
 #include <coreplugin/internal/TimelineAddOn.h>
+#include <coreplugin/internal/UndoAddOn.h>
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -323,6 +324,7 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<UndoAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
