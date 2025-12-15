@@ -252,7 +252,19 @@ namespace Core {
         static QDspx::Model defaultModel{
             .version = QDspx::Model::V1,
             .content = {
-
+                .global = {},
+                .master = {
+                    .control = {
+                        .gain = 1,
+                        .pan = 0,
+                        .mute = false,
+                    }
+                },
+                .timeline = {
+                    .labels = {},
+                    .tempos = {{0, 120}},
+                    .timeSignatures = {{0, 4, 4}}
+                }
             }
         };
         qCInfo(lcCoreInterface) << "New file";

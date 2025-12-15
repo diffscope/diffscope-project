@@ -71,7 +71,7 @@ namespace Core::Internal {
     QString TimelineAddOn::timeSignatureText() const {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto projectTimeline = windowInterface->projectTimeline();
-        return projectTimeline->musicTimeline()->timeSignatureAt(projectTimeline->position()).toString();
+        return projectTimeline->musicTimeline()->timeSignatureAt(projectTimeline->musicTimeline()->create(0, 0, projectTimeline->position()).measure()).toString();
     }
     bool TimelineAddOn::showMusicTime() const {
         return m_showMusicTime;

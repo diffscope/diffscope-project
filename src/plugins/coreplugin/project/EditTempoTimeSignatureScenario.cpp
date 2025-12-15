@@ -1,20 +1,33 @@
 #include "EditTempoTimeSignatureScenario.h"
 #include "EditTempoTimeSignatureScenario_p.h"
 
-#include <QQuickWindow>
-#include <QQmlComponent>
 #include <QEventLoop>
+#include <QLoggingCategory>
+#include <QQmlComponent>
 #include <QQuickItem>
+#include <QQuickWindow>
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/MusicTimeSignature.h>
+#include <SVSCraftCore/MusicTimeline.h>
+#include <SVSCraftCore/MusicTime.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxmodel/Model.h>
+#include <dspxmodel/Tempo.h>
+#include <dspxmodel/TempoSequence.h>
+#include <dspxmodel/TimeSignature.h>
+#include <dspxmodel/TimeSignatureSequence.h>
+#include <dspxmodel/Timeline.h>
+
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/ProjectTimeline.h>
+
+#include <transactional/TransactionController.h>
 
 namespace Core {
+
+    Q_STATIC_LOGGING_CATEGORY(lcEditTempoTimeSignatureScenario, "diffscope.core.edittempotimesignaturescenario")
 
     QObject *EditTempoTimeSignatureScenarioPrivate::createAndPositionDialog(QQmlComponent *component, int position, bool doInsertNew) const {
         if (component->isError()) {
@@ -103,17 +116,53 @@ namespace Core {
             return;
         modifyExistingTempoAt(d->projectTimeline->position());
     }
-    void EditTempoTimeSignatureScenario::editTempo(int position, bool doInsertNew, double initialTempo) const {
+    void EditTempoTimeSignatureScenario::editTempo(int position, bool doInsertNew, double tempo) const {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline || !d->document || !d->window)
             return;
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditTempoDialog");
         auto dialog = d->createAndPositionDialog(&component, position, doInsertNew);
-        dialog->setProperty("tempo", initialTempo);
+        dialog->setProperty("tempo", tempo);
         if (!d->execDialog(dialog))
             return;
-        qDebug() << "Tempo" << dialog->property("tempo");
-        // TODO
+        doInsertNew = dialog->property("doInsertNew").toBool();
+        tempo = dialog->property("tempo").toDouble();
+        position = dialog->property("position").toInt();
+        qCInfo(lcEditTempoTimeSignatureScenario) << "Edit tempo" << position << tempo;
+        if (!doInsertNew) {
+            position = d->projectTimeline->musicTimeline()->nearestTickWithTempoTo(position);
+            qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing tempo at" << position;
+        }
+        d->document->transactionController()->beginScopedTransaction(tr("Editing tempo"), [=] {
+            auto tempoSequence = d->document->model()->timeline()->tempos();
+            auto currentTempos = tempoSequence->slice(position, position + 1);
+            dspx::Tempo *tempoItem;
+            if (currentTempos.isEmpty()) {
+                qCDebug(lcEditTempoTimeSignatureScenario) << "Current tempos is empty";
+                tempoItem = d->document->model()->createTempo();
+                tempoItem->setPos(position);
+                tempoItem->setValue(tempo);
+                tempoSequence->insertItem(tempoItem);
+            } else if (currentTempos.size() == 1) {
+                qCDebug(lcEditTempoTimeSignatureScenario) << "Currently one tempo exists";
+                tempoItem = currentTempos.first();
+                tempoItem->setValue(tempo);
+            } else {
+                qCWarning(lcEditTempoTimeSignatureScenario) << "Unexpected multiple tempos" << currentTempos.size() << "will be auto removed";
+                tempoItem = currentTempos.first();
+                for (auto redundantTempoItem : currentTempos) {
+                    if (redundantTempoItem != tempoItem) {
+                        tempoSequence->removeItem(redundantTempoItem);
+                        redundantTempoItem->deleteLater();
+                    }
+                }
+                tempoItem->setValue(tempo);
+            }
+            return true;
+        }, [] {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+        });
+
 
     }
     void EditTempoTimeSignatureScenario::insertTempoAt(int position) const {
@@ -134,18 +183,57 @@ namespace Core {
             return;
         modifyExistingTimeSignatureAt(d->projectTimeline->position());
     }
-    void EditTempoTimeSignatureScenario::editTimeSignature(int position, bool doInsertNew, int initialNumerator, int initialDenominator) const {
+    void EditTempoTimeSignatureScenario::editTimeSignature(int position, bool doInsertNew, int numerator, int denominator) const {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline || !d->document || !d->window)
             return;
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditTimeSignatureDialog");
         auto dialog = d->createAndPositionDialog(&component, position, doInsertNew);
-        dialog->setProperty("numerator", initialNumerator);
-        dialog->setProperty("denominator", initialDenominator);
+        dialog->setProperty("numerator", numerator);
+        dialog->setProperty("denominator", denominator);
         if (!d->execDialog(dialog))
             return;
-        qDebug() << "TimeSignature" << dialog->property("numerator") << dialog->property("denominator");
-        // TODO
+        doInsertNew = dialog->property("doInsertNew").toBool();
+        numerator = dialog->property("numerator").toInt();
+        denominator = dialog->property("denominator").toInt();
+        int measure = d->projectTimeline->musicTimeline()->create(0, 0, position).measure();
+        qCInfo(lcEditTempoTimeSignatureScenario) << "Edit time signature" << measure << numerator << denominator;
+        if (!doInsertNew) {
+            measure = d->projectTimeline->musicTimeline()->nearestBarWithTimeSignatureTo(measure);
+            qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing time signature at" << measure;
+        }
+        d->document->transactionController()->beginScopedTransaction(tr("Editing time signature"), [=] {
+            auto timeSignatureSequence = d->document->model()->timeline()->timeSignatures();
+            auto currentTimeSignatures = timeSignatureSequence->slice(measure, measure + 1);
+            dspx::TimeSignature *timeSignatureItem;
+            if (currentTimeSignatures.isEmpty()) {
+                qCDebug(lcEditTempoTimeSignatureScenario()) << "Current time signatures is empty";
+                timeSignatureItem = d->document->model()->createTimeSignature();
+                timeSignatureItem->setIndex(measure);
+                timeSignatureItem->setNumerator(numerator);
+                timeSignatureItem->setDenominator(denominator);
+                timeSignatureSequence->insertItem(timeSignatureItem);
+            } else if (currentTimeSignatures.size() == 1) {
+                qCDebug(lcEditTempoTimeSignatureScenario()) << "Currently one time signature exists";
+                timeSignatureItem = currentTimeSignatures.first();
+                timeSignatureItem->setNumerator(numerator);
+                timeSignatureItem->setDenominator(denominator);
+            } else {
+                qCWarning(lcEditTempoTimeSignatureScenario) << "Unexpected multiple time signatures" << currentTimeSignatures.size() << "will be auto removed";
+                timeSignatureItem = currentTimeSignatures.first();
+                for (auto redundantTimeSignatureItem : currentTimeSignatures) {
+                    if (redundantTimeSignatureItem != timeSignatureItem) {
+                        timeSignatureSequence->removeItem(redundantTimeSignatureItem);
+                        redundantTimeSignatureItem->deleteLater();
+                    }
+                }
+                timeSignatureItem->setNumerator(numerator);
+                timeSignatureItem->setDenominator(denominator);
+            }
+            return true;
+        }, [] {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+        });
     }
     void EditTempoTimeSignatureScenario::insertTimeSignatureAt(int position) const {
         Q_D(const EditTempoTimeSignatureScenario);

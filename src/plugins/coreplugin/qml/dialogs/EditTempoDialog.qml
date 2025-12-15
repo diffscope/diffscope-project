@@ -30,6 +30,7 @@ Dialog {
             readonly property int decimals: 2
             from: 10 * Math.pow(10, decimals)
             to: 1000 * Math.pow(10, decimals)
+            stepSize: 100
             value: Math.round(dialog.tempo * Math.pow(10, decimals))
             onValueModified: dialog.tempo = value / Math.pow(10, decimals)
             textFromValue: function(value, locale) {
@@ -37,6 +38,11 @@ Dialog {
             }
             valueFromText: function(text, locale) {
                 return Math.round(Number.fromLocaleString(locale, text) * Math.pow(10, decimals))
+            }
+            validator: DoubleValidator {
+                bottom: 10
+                top: 1000
+                decimals: 2
             }
         }
         Label {
@@ -51,12 +57,12 @@ Dialog {
         RowLayout {
             Layout.columnSpan: 2
             RadioButton {
-                text: qsTr("Modify existing")
+                text: qsTr("Modify existing one")
                 checked: !dialog.doInsertNew
                 onClicked: dialog.doInsertNew = false
             }
             RadioButton {
-                text: qsTr("Insert new")
+                text: qsTr("Insert new one")
                 checked: dialog.doInsertNew
                 onClicked: dialog.doInsertNew = true
             }

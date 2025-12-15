@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct Clip;
@@ -45,6 +46,10 @@ namespace dspx {
         void fromQDspx(const QList<QDspx::ClipRef> &clips);
 
         Track *track() const;
+
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
 
     Q_SIGNALS:
         void itemAboutToInsert(Clip *item);

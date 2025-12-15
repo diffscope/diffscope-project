@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct AnchorNode;
@@ -44,6 +45,10 @@ namespace dspx {
         void fromQDspx(const QList<QDspx::AnchorNode> &nodes);
 
         ParamCurveAnchor *paramCurveAnchor() const;
+
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
 
     Q_SIGNALS:
         void itemAboutToInsert(AnchorNode *item);

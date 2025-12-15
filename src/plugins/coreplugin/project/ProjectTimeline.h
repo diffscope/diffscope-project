@@ -14,6 +14,8 @@ namespace SVS {
 
 namespace Core {
 
+    class DspxDocument;
+
     class ProjectTimelinePrivate;
 
     class CORE_EXPORT ProjectTimeline : public QObject {
@@ -28,7 +30,7 @@ namespace Core {
         Q_PROPERTY(int rangeHint READ rangeHint WRITE setRangeHint NOTIFY rangeHintChanged)
 
     public:
-        explicit ProjectTimeline(QObject *parent = nullptr);
+        explicit ProjectTimeline(DspxDocument *document, QObject *parent = nullptr);
         ~ProjectTimeline() override;
 
         SVS::MusicTimeline *musicTimeline() const;

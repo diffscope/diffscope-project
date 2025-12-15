@@ -66,12 +66,12 @@ Dialog {
         RowLayout {
             Layout.columnSpan: 2
             RadioButton {
-                text: qsTr("Modify existing")
+                text: qsTr("Modify existing one")
                 checked: !dialog.doInsertNew
                 onClicked: dialog.doInsertNew = false
             }
             RadioButton {
-                text: qsTr("Insert new")
+                text: qsTr("Insert new one")
                 checked: dialog.doInsertNew
                 onClicked: dialog.doInsertNew = true
             }

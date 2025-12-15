@@ -35,8 +35,6 @@ namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectWindow, "diffscope.core.projectwindow")
 
-    static ProjectWindowInterface *m_instance = nullptr;
-
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
@@ -49,7 +47,7 @@ namespace Core {
             Q_Q(ProjectWindowInterface);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
-            projectTimeline = new ProjectTimeline(q);
+            projectTimeline = new ProjectTimeline(projectDocumentContext->document(), q);
             mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
         }
 
@@ -117,10 +115,6 @@ namespace Core {
             return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb.get()).toInt());
         }
     };
-
-    ProjectWindowInterface *ProjectWindowInterface::instance() {
-        return m_instance;
-    }
 
     ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
         Q_D(const ProjectWindowInterface);
@@ -223,7 +217,6 @@ namespace Core {
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         Q_D(ProjectWindowInterface);
-        m_instance = this;
         d->projectDocumentContext = projectDocumentContext;
         if (d->projectDocumentContext->fileLocker()) {
             connect(d->projectDocumentContext->fileLocker(), &FileLocker::pathChanged, this, [=, this] {
@@ -234,14 +227,12 @@ namespace Core {
                 win->setFilePath(path.isEmpty() ? tr("Untitled") + ".dspx" : path);
             });
         }
+        d->init();
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {
         d.q_ptr = this;
-        d.init();
     }
-    ProjectWindowInterface::~ProjectWindowInterface() {
-        m_instance = nullptr;
-    }
+    ProjectWindowInterface::~ProjectWindowInterface() = default;
 
     ProjectWindowInterfaceRegistry *ProjectWindowInterfaceRegistry::instance() {
         static ProjectWindowInterfaceRegistry reg;
