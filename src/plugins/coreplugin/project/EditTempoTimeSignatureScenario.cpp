@@ -260,14 +260,14 @@ namespace Core {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto timeSignature = d->projectTimeline->musicTimeline()->timeSignatureAt(position);
+        auto timeSignature = d->projectTimeline->musicTimeline()->timeSignatureAt(d->projectTimeline->musicTimeline()->create(0, 0, position).measure());
         editTimeSignature(position, true, timeSignature.numerator(), timeSignature.denominator());
     }
     void EditTempoTimeSignatureScenario::modifyExistingTimeSignatureAt(int position) const {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto timeSignature = d->projectTimeline->musicTimeline()->timeSignatureAt(position);
+        auto timeSignature = d->projectTimeline->musicTimeline()->timeSignatureAt(d->projectTimeline->musicTimeline()->create(0, 0, position).measure());
         editTimeSignature(position, false, timeSignature.numerator(), timeSignature.denominator());
     }
 
