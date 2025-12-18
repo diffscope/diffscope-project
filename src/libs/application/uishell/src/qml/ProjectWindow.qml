@@ -11,8 +11,8 @@ import SVSCraft.UIComponents.impl
 
 Window {
     id: window
-    width: 1280
-    height: 800
+    width: 1600
+    height: 960
     minimumWidth: 360
     title: `${documentName} - ${Application.displayName}`
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft

@@ -15,6 +15,8 @@ namespace Core::Internal {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(QAbstractItemModel *recentFilesModel READ recentFilesModel CONSTANT)
+        Q_PROPERTY(QAbstractItemModel *recoveryFilesModel READ recoveryFilesModel CONSTANT)
+        Q_PROPERTY(bool isHomeWindow READ isHomeWindow CONSTANT)
     public:
         explicit RecentFileAddOn(QObject *parent = nullptr);
         ~RecentFileAddOn() override;
@@ -24,15 +26,20 @@ namespace Core::Internal {
         bool delayedInitialize() override;
 
         QAbstractItemModel *recentFilesModel() const;
+        QAbstractItemModel *recoveryFilesModel() const;
+
+        bool isHomeWindow() const;
+
+    public Q_SLOTS:
+        static void openRecentFile(int index);
+        static void removeRecentFile(int index);
 
     private:
         QStandardItemModel *m_recentFilesModel;
+        QStandardItemModel *m_recoveryFilesModel;
 
         void updateRecentFilesModel() const;
 
-    private Q_SLOTS:
-        static void openRecentFile(int index);
-        static void removeRecentFile(int index);
     };
 
 }

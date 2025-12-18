@@ -31,24 +31,57 @@ namespace Core::Internal {
         }
     };
 
-    RecentFileAddOn::RecentFileAddOn(QObject *parent) : WindowInterfaceAddOn(parent), m_recentFilesModel(new RecentFilesModel(this)) {
+    RecentFileAddOn::RecentFileAddOn(QObject *parent) : WindowInterfaceAddOn(parent), m_recentFilesModel(new RecentFilesModel(this)), m_recoveryFilesModel(new QStandardItemModel(this)) {
         connect(CoreInterface::recentFileCollection(), &RecentFileCollection::recentFilesChanged, this, &RecentFileAddOn::updateRecentFilesModel);
         updateRecentFilesModel();
+        // TODO mock data
+        {
+            auto item = new QStandardItem;
+            item->setData("mock_recovery_file.dspx", UIShell::USDef::RF_NameRole);
+            item->setData("/path/to/mock_recovery_file.dspx", UIShell::USDef::RF_PathRole);
+            item->setData(QLocale().toString(QDateTime::fromString("1919-08-10T11:45:14", Qt::ISODate), QLocale::ShortFormat), UIShell::USDef::RF_LastModifiedTextRole);
+            item->setData(QUrl(), UIShell::USDef::RF_ThumbnailRole);
+            item->setData(QUrl("image://appicon/dspx"), UIShell::USDef::RF_IconRole);
+            m_recoveryFilesModel->appendRow(item);
+        }
     }
 
     RecentFileAddOn::~RecentFileAddOn() = default;
 
     void RecentFileAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ActionWindowInterfaceBase>();
-        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "RecentFileAddOnActions");
-        if (component.isError()) {
-            qFatal() << component.errorString();
+        {
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "RecentFileAddOnActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"addOn", QVariant::fromValue(this)},
+            });
+            o->setParent(this);
+            QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
-        auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)},
-        });
-        o->setParent(this);
-        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
+        {
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "RecentFilesPanel", this);
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            {
+                auto o = component.createWithInitialProperties({
+                    {"addOn", QVariant::fromValue(this)},
+                }, component.creationContext());
+                o->setParent(this);
+                windowInterface->actionContext()->addAction("org.diffscope.core.panel.recentFiles", o->property("recentFilesPanelComponent").value<QQmlComponent *>());
+            }
+            {
+                auto o = component.createWithInitialProperties({
+                    {"addOn", QVariant::fromValue(this)},
+                    {"isRecovery", true}
+                }, component.creationContext());
+                o->setParent(this);
+                windowInterface->actionContext()->addAction("org.diffscope.core.panel.recoveryFiles", o->property("recentFilesPanelComponent").value<QQmlComponent *>());
+            }
+        }
         if (auto homeWindowInterface = qobject_cast<HomeWindowInterface *>(windowInterface)) {
             auto win = homeWindowInterface->window();
             win->setProperty("recentFilesModel", QVariant::fromValue(m_recentFilesModel));
@@ -66,6 +99,14 @@ namespace Core::Internal {
 
     QAbstractItemModel *RecentFileAddOn::recentFilesModel() const {
         return m_recentFilesModel;
+    }
+
+    QAbstractItemModel *RecentFileAddOn::recoveryFilesModel() const {
+        return m_recoveryFilesModel;
+    }
+
+    bool RecentFileAddOn::isHomeWindow() const {
+        return static_cast<bool>(qobject_cast<HomeWindowInterface *>(windowHandle()));
     }
 
     void RecentFileAddOn::updateRecentFilesModel() const {

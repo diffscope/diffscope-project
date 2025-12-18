@@ -17,13 +17,14 @@ Window {
     height: 500
     property bool frameless: true
     property url banner: ""
-    property alias recoveryFilesVisible: recoveryFilesButton.checked
     property var recentFilesModel: null
     property bool recentFilesIsListView: false
     property var recoveryFilesModel: null
+    property var panelsModel: null
     property var navigationActionsModel: null
     property var toolActionsModel: null
     property var menusModel: null
+    property int currentNavIndex: 0
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
 
@@ -71,6 +72,10 @@ Window {
         setupFrameless()
     }
 
+    onCurrentNavIndexChanged: () => {
+        navItemsModel.get(currentNavIndex)?.click()
+    }
+
     CommandPalette {
         id: commandPalettePopup
         property double horizontalOffset: 0
@@ -87,24 +92,6 @@ Window {
         y: titleBarArea.height + verticalOffset
     }
 
-    RecentFilesProxyModel {
-        id: recentFilesProxyModel
-        sourceModel: window.recentFilesModel
-        filterRole: USDef.RF_NameRole
-        filterCaseSensitivity: Qt.CaseInsensitive
-        property string _filterRegularExpression: searchTextField.text
-        on_FilterRegularExpressionChanged: setFilterRegularExpression(_filterRegularExpression)
-    }
-
-    RecentFilesProxyModel {
-        id: recoveryFilesProxyModel
-        sourceModel: window.recoveryFilesModel
-        filterRole: USDef.RF_NameRole
-        filterCaseSensitivity: Qt.CaseInsensitive
-        property string _filterRegularExpression: searchTextField.text
-        on_FilterRegularExpressionChanged: setFilterRegularExpression(_filterRegularExpression)
-    }
-
 
     component NavButton: Button {
         flat: true
@@ -115,207 +102,6 @@ Window {
         flat: true
         display: AbstractButton.IconOnly
         implicitWidth: implicitHeight
-    }
-    component CellButton: Button {
-        id: cell
-        required property int index
-        required property var modelData
-        flat: true
-        padding: 4
-        Accessible.name: modelData.name + "\n" + modelData.lastModifiedText
-        Accessible.description: modelData.path
-        DescriptiveText.toolTip: modelData.path
-        DescriptiveText.activated: !modelData.newFile && hovered
-        contentItem: ColumnLayout {
-            id: cellContent
-            spacing: 4
-            Item {
-                implicitWidth: 160
-                implicitHeight: 120
-                Layout.alignment: Qt.AlignHCenter
-                Rectangle {
-                    anchors.fill: parent
-                    color: Theme.backgroundTertiaryColor
-                    border.width: 1
-                    border.color: Theme.borderColor
-                    ColorImage {
-                        visible: cell.index === -1
-                        width: 80
-                        height: 80
-                        anchors.centerIn: parent
-                        source: "image://fluent-system-icons/document_add?size=48&style=regular"
-                        sourceSize.width: 80
-                        sourceSize.height: 80
-                        color: Theme.foregroundSecondaryColor
-                    }
-                    // fallback display icon as thumbnail
-                    ColorImage {
-                        width: 80
-                        height: 80
-                        anchors.centerIn: parent
-                        source: cell.modelData.icon
-                        color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
-                        sourceSize.width: 80
-                        sourceSize.height: 80
-                    }
-                }
-                Image {
-                    anchors.fill: parent
-                    fillMode: Image.PreserveAspectCrop
-                    source: cell.modelData.thumbnail
-                    cache: false
-                    mipmap: true
-                }
-            }
-            Label {
-                id: nameLabel
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: 160
-                text: cell.modelData.name
-                elide: Text.ElideMiddle
-            }
-            Label {
-                id: lastModifiedTextLabel
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: 160
-                text: cell.modelData.lastModifiedText
-                elide: Text.ElideMiddle
-                ThemedItem.foregroundLevel: SVS.FL_Secondary
-            }
-        }
-        FileMenuHandler {
-            id: fileMenuHandler
-            index: cell.index
-            modelData: cell.modelData
-        }
-        Keys.onMenuPressed: fileMenuHandler.fileMenu.popup(this, width / 2, height / 2)
-        onClicked: () => {
-            if (cell.index === -1) {
-                window.newFileRequested()
-            } else if (cell.recovery) {
-                window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(cell.index))
-            } else {
-                window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(cell.index))
-            }
-        }
-    }
-    component ListItemButton: Button {
-        id: cell
-        required property int index
-        required property var modelData
-        property bool recovery: false
-        flat: true
-        padding: 4
-        Accessible.name: modelData.name + "\n" + modelData.lastModifiedText
-        Accessible.description: modelData.path
-        DescriptiveText.toolTip: modelData.path
-        DescriptiveText.activated: !modelData.newFile && hovered
-        contentItem: RowLayout {
-            id: cellContent
-            spacing: 4
-            Item {
-                implicitWidth: 48
-                implicitHeight: 48
-                Layout.alignment: Qt.AlignHCenter
-                ColorImage {
-                    visible: cell.index === -1
-                    anchors.fill: parent
-                    source: "image://fluent-system-icons/document_add?size=48&style=regular"
-                    color: Theme.foregroundSecondaryColor
-                    sourceSize.width: 48
-                    sourceSize.height: 48
-                }
-                ColorImage {
-                    anchors.fill: parent
-                    source: cell.modelData.icon
-                    color: cell.modelData.colorize ? Theme.foregroundSecondaryColor : "transparent"
-                    sourceSize.width: 48
-                    sourceSize.height: 48
-                }
-            }
-            ColumnLayout {
-                spacing: 4
-                Layout.fillWidth: true
-                RowLayout {
-                    spacing: 4
-                    Label {
-                        Layout.fillWidth: true
-                        text: cell.modelData.name
-                        elide: Text.ElideMiddle
-                    }
-                    Label {
-                        text: cell.modelData.lastModifiedText
-                        elide: Text.ElideMiddle
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    }
-                }
-                Label {
-                    visible: cell.modelData.path.length !== 0
-                    text: cell.modelData.path
-                    elide: Text.ElideMiddle
-                    ThemedItem.foregroundLevel: SVS.FL_Secondary
-                }
-            }
-        }
-        FileMenuHandler {
-            id: fileMenuHandler
-            index: cell.index
-            modelData: cell.modelData
-            recovery: cell.recovery
-        }
-        Keys.onMenuPressed: fileMenuHandler.fileMenu.popup(this, width / 2, height / 2)
-        onClicked: () => {
-            if (cell.index === -1) {
-                window.newFileRequested()
-            } else if (cell.recovery) {
-                window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(cell.index))
-            } else {
-                window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(cell.index))
-            }
-        }
-    }
-    component FileMenuHandler: TapHandler {
-        id: tapHandler
-        required property int index
-        required property var modelData
-        property bool recovery: false
-        readonly property Menu fileMenu: Menu {
-            Action {
-                text: qsTr("Open")
-                icon.source: "image://fluent-system-icons/folder_open"
-                onTriggered: () => {
-                    if (tapHandler.recovery) {
-                        window.openRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
-                    } else {
-                        window.openRecentFileRequested(recentFilesProxyModel.mapIndexToSource(tapHandler.index))
-                    }
-                }
-            }
-            Action {
-                text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
-                icon.source: "image://fluent-system-icons/open_folder"
-                enabled: tapHandler.modelData.path.length !== 0
-                onTriggered: () => {
-                    DesktopServices.reveal(tapHandler.modelData.path)
-                }
-            }
-            Action {
-                text: tapHandler.recovery ? qsTr('Remove from "Recovery Files"') : qsTr('Remove from "Recent Files"')
-                icon.source: "image://fluent-system-icons/document_dismiss"
-                onTriggered: () => {
-                    if (tapHandler.recovery) {
-                        window.removeRecoveryFileRequested(recoveryFilesProxyModel.mapIndexToSource(tapHandler.index))
-                    } else {
-                        window.removeRecentFileRequested(recentFilesProxyModel.mapIndexToSource(tapHandler.index))
-                    }
-                }
-            }
-        }
-        acceptedButtons: Qt.RightButton
-        enabled: index !== -1
-        onSingleTapped: () => {
-            fileMenu.popup()
-        }
     }
 
     WindowAgent {
@@ -422,38 +208,51 @@ Window {
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 6
-                    NavButton {
-                        text: qsTr("Recent Files")
-                        Accessible.role: Accessible.RadioButton
-                        checkable: true
-                        autoExclusive: true
-                        checked: true
-                        icon.source: "image://fluent-system-icons/history"
-                    }
-                    NavButton {
-                        id: recoveryFilesButton
-                        text: qsTr("Recovery Files")
-                        Accessible.role: Accessible.RadioButton
-                        checkable: true
-                        autoExclusive: true
-                        icon.source: "image://fluent-system-icons/document_sync"
-                        Rectangle {
-                            width: Math.max(16, recoveryFileCountText.width)
-                            height: 16
-                            radius: 8
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            anchors.rightMargin: 6
-                            color: Theme.warningColor
-                            visible: recoveryFilesProxyModel.count !== 0
-                            Label {
-                                id: recoveryFileCountText
-                                padding: 2
-                                anchors.centerIn: parent
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 10
-                                text: recoveryFilesProxyModel.count.toLocaleString()
+                    Repeater {
+                        model: ObjectModel {
+                            id: navItemsModel
+                            readonly property Component navButtonComponent: NavButton {
+                                id: button
+                                required property QtObject pane
+                                text: pane.title
+                                Accessible.role: Accessible.RadioButton
+                                checkable: true
+                                autoExclusive: true
+                                icon: pane.icon
+                                Rectangle {
+                                    width: button.pane.badgeNumber > 0 ? Math.max(16, numberText.width) : 8
+                                    height: button.pane.badgeNumber > 0 ? 16 : 8
+                                    radius: button.pane.badgeNumber > 0 ? 8 : 4
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 6
+                                    color: Theme.controlColor(button.pane.badgeType)
+                                    visible: button.pane.badgeNumber !== 0
+                                    Label {
+                                        id: numberText
+                                        padding: 2
+                                        anchors.centerIn: parent
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.pixelSize: 10
+                                        text: button.pane.badgeNumber.toLocaleString()
+                                    }
+                                }
+                                onClicked: () => {
+                                    if (checked) {
+                                        recentFilesStack.pane = pane
+                                    }
+                                }
                             }
+                            readonly property Instantiator instantiator: Instantiator {
+                                model: window.panelsModel
+                                onObjectAdded: (index, object) => {
+                                    navItemsModel.insert(index, navItemsModel.navButtonComponent.createObject(navLayout, {pane: object}))
+                                }
+                                onObjectRemoved: (index, object) => {
+                                    navItemsModel.remove(index)
+                                }
+                            }
+                            onCountChanged: get(window.currentNavIndex).click()
                         }
                     }
                 }
@@ -511,149 +310,25 @@ Window {
                 }
             }
         }
-        Pane {
-            id: recentFiles
-            ThemedItem.backgroundLevel: SVS.BL_Quaternary
-            Layout.fillHeight: true
+        Rectangle {
             Layout.fillWidth: true
-            padding: 16
-            readonly property var newFilePseudoElement: ({
-                name: qsTr("New project"),
-                path: "",
-                lastModifiedText: "",
-                thumbnail: "",
-                icon: "",
-            })
+            Layout.fillHeight: true
+            color: Theme.backgroundQuaternaryColor
             ColumnLayout {
                 id: recentFilesLayout
                 spacing: 16
                 anchors.fill: parent
                 Item {
                     Layout.fillWidth: true
-                    height: titleBarArea.height - recentFilesLayout.spacing - recentFiles.topPadding
+                    height: titleBarArea.height - recentFilesLayout.spacing
                     visible: titleBarArea.visible
                 }
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 8
-                    TextField {
-                        id: searchTextField
-                        placeholderText: qsTr("Search")
-                        Accessible.name: qsTr("Search")
-                        Layout.fillWidth: true
-                        ThemedItem.icon.source: "image://fluent-system-icons/search"
-                    }
-                    RowLayout {
-                        visible: !recoveryFilesButton.checked
-                        ToolButton {
-                            icon.source: "image://fluent-system-icons/grid"
-                            checkable: true
-                            autoExclusive: true
-                            checked: !window.recentFilesIsListView
-                            onClicked: GlobalHelper.setProperty(window, "recentFilesIsListView", !checked)
-                            text: qsTr("Grid view")
-                            display: AbstractButton.IconOnly
-                        }
-                        ToolButton {
-                            icon.source: "image://fluent-system-icons/list"
-                            checkable: true
-                            autoExclusive: true
-                            checked: window.recentFilesIsListView
-                            onClicked: GlobalHelper.setProperty(window, "recentFilesIsListView", checked)
-                            text: qsTr("List view")
-                            display: AbstractButton.IconOnly
-                        }
-                    }
-                }
-                Item {
+                StackLayout {
+                    id: recentFilesStack
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Label {
-                        text: qsTr("No result found")
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.Wrap
-                        visible: searchTextField.length !== 0 && (fileGridLayout.visibleChildren.length === 1 || fileListLayout.visibleChildren.length === 1)
-                    }
-                    Label {
-                        text: qsTr("No recovery file\nIf %1 crashes, automatic recovery files will be displayed here.").arg(Application.displayName)
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.Wrap
-                        visible: recoveryFilesButton.checked && searchTextField.length === 0 && recoveryFilesProxyModel.count === 0
-                    }
-                }
-                ScrollView {
-                    id: fileGridScrollView
-                    visible: !window.recentFilesIsListView && !recoveryFilesButton.checked
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    GridLayout {
-                        id: fileGridLayout
-                        rowSpacing: 16
-                        columnSpacing: 16
-                        width: parent.width
-                        columns: Math.floor(fileGridScrollView.width / (160 + columnSpacing))
-                        CellButton {
-                            index: -1
-                            modelData: recentFiles.newFilePseudoElement
-                            visible: searchTextField.text.length === 0
-                        }
-                        Repeater {
-                            model: recentFilesProxyModel
-                            CellButton {
-                            }
-                        }
-                    }
-                }
-                ScrollView {
-                    id: fileListScrollView
-                    visible: window.recentFilesIsListView && !recoveryFilesButton.checked
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    ColumnLayout {
-                        id: fileListLayout
-                        spacing: 4
-                        implicitWidth: fileListScrollView.width
-                        width: fileListScrollView.width
-                        ListItemButton {
-                            Layout.fillWidth: true
-                            index: -1
-                            modelData: recentFiles.newFilePseudoElement
-                            visible: searchTextField.text.length === 0 && !recoveryFilesButton.checked
-                        }
-                        Repeater {
-                            model: recentFilesProxyModel
-                            ListItemButton {
-                                Layout.fillWidth: true
-                            }
-                        }
-                    }
-                }
-                ScrollView {
-                    id: recoveryFileListScrollView
-                    visible: recoveryFilesButton.checked
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    ColumnLayout {
-                        id: recoveryFileListLayout
-                        spacing: 4
-                        implicitWidth: recoveryFileListScrollView.width
-                        width: recoveryFileListScrollView.width
-                        Repeater {
-                            model: recoveryFilesProxyModel
-                            ListItemButton {
-                                Layout.fillWidth: true
-                                recovery: true
-                            }
-                        }
-                    }
+                    property Item pane: null
+                    data: [pane]
                 }
             }
         }
