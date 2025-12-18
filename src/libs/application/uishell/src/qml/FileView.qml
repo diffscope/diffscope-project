@@ -37,6 +37,47 @@ Item {
     signal openFileRequested(int index)
     signal contextMenuRequested(int index)
 
+    component ButtonHandler: Item {
+        id: handler
+        required property Button button
+        Component.onCompleted: () => {
+            button.Drag.mimeData = {
+                "text/uri-list": [GlobalHelper.localFileUrl(button.modelData.path)]
+            }
+            button.Drag.supportedActions = Qt.CopyAction
+            button.Drag.active = Qt.binding(() => dragHandler.active)
+            button.Drag.dragType = Drag.Automatic
+        }
+        DragHandler {
+            id: dragHandler
+            parent: handler.button ?? handler
+            enabled: handler.button.index !== -1
+            target: null
+        }
+        TapHandler {
+            parent: handler.button ?? handler
+            acceptedButtons: Qt.RightButton
+            enabled: handler.button.index !== -1
+            onSingleTapped: view.contextMenuRequested(filesProxyModel.mapIndexToSource(handler.button.index))
+        }
+        Connections {
+            target: handler.button
+            function onClicked() {
+                if (handler.button.index === -1) {
+                    view.newFileRequested()
+                } else {
+                    view.openFileRequested(filesProxyModel.mapIndexToSource(handler.button.index))
+                }
+            }
+        }
+        Connections {
+            target: handler.button.Keys
+            function onMenuPressed() {
+                view.contextMenuRequested(filesProxyModel.mapIndexToSource(handler.buttonl.index))
+            }
+        }
+    }
+
     component CellButton: Button {
         id: cell
         required property int index
@@ -108,18 +149,8 @@ Item {
                 ThemedItem.foregroundLevel: SVS.FL_Secondary
             }
         }
-        TapHandler {
-            acceptedButtons: Qt.RightButton
-            enabled: cell.index !== -1
-            onSingleTapped: view.contextMenuRequested(filesProxyModel.mapIndexToSource(cell.index))
-        }
-        Keys.onMenuPressed: view.contextMenuRequested(filesProxyModel.mapIndexToSource(cell.index))
-        onClicked: () => {
-            if (cell.index === -1) {
-                view.newFileRequested()
-            } else {
-                view.openFileRequested(filesProxyModel.mapIndexToSource(cell.index))
-            }
+        ButtonHandler {
+            button: cell
         }
     }
     component ListItemButton: Button {
@@ -180,18 +211,8 @@ Item {
                 }
             }
         }
-        TapHandler {
-            acceptedButtons: Qt.RightButton
-            enabled: cell.index !== -1
-            onSingleTapped: view.contextMenuRequested(filesProxyModel.mapIndexToSource(cell.index))
-        }
-        Keys.onMenuPressed: view.contextMenuRequested(filesProxyModel.mapIndexToSource(cell.index))
-        onClicked: () => {
-            if (cell.index === -1) {
-                view.newFileRequested()
-            } else {
-                view.openFileRequested(filesProxyModel.mapIndexToSource(cell.index))
-            }
+        ButtonHandler {
+            button: cell
         }
     }
 
