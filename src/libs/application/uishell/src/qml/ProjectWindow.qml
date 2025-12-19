@@ -245,7 +245,7 @@ Window {
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
             visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
-            implicitHeight: menuBar.visualVisible ? 24 : 0
+            Layout.preferredHeight: menuBar.visualVisible ? 24 : 0
             // FIXME remove spacing when visual invisible
         }
         PaneSeparator {

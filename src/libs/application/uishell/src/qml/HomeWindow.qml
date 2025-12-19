@@ -128,10 +128,12 @@ Window {
         }
         MenuBar {
             id: menuBar
-            parent: window.isMacOS ? window.contentItem : titleBarArea
+            parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup ? menuBarArea : titleBarArea
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: activeFocus || menus.some(menu => menu.visible) || children.some(item => item.activeFocus) ? 0 : -height
+            topPadding: windowAgent.framelessSetup ? 4 : 0
+            bottomPadding: windowAgent.framelessSetup ? 4 : 0
             ThemedItem.backgroundLevel: SVS.BL_Quaternary
             Behavior on anchors.topMargin {
                 id: topMarginBehavior
@@ -179,9 +181,21 @@ Window {
         }
     }
 
+    Item {
+        id: menuBarArea
+        visible: !window.isMacOS && !windowAgent.framelessSetup
+        width: parent.width
+        height: menuBar.y + menuBar.height
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.backgroundQuaternaryColor
+        }
+    }
+
     RowLayout {
         spacing: 0
         anchors.fill: parent
+        anchors.topMargin: menuBarArea.visible ? menuBarArea.height : 0
         Pane {
             id: nav
             padding: 6
