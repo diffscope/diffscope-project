@@ -40,7 +40,7 @@ Window {
     readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
-    readonly property double popupTopMarginHint: titleBar.height + toolBar.height + 4
+    readonly property double popupTopMarginHint: mainPane.y + 2
 
     property bool notificationEnablesAnimation: false
 
@@ -89,7 +89,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
         emptyText: qsTr("Empty")
     }
     InputPalette {
@@ -97,7 +97,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
     }
     Rectangle {
         anchors.fill: parent

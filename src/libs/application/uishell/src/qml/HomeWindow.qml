@@ -30,6 +30,7 @@ Window {
 
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
+    readonly property double popupTopMarginHint: (titleBarArea.visible ? titleBarArea.height : 8)
 
     readonly property InvisibleCentralWidget invisibleCentralWidget: InvisibleCentralWidget {
         visible: window.visible
@@ -81,7 +82,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBarArea.height + verticalOffset
+        y: popupTopMarginHint + verticalOffset
         emptyText: qsTr("Empty")
     }
     InputPalette {
@@ -89,7 +90,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBarArea.height + verticalOffset
+        y: popupTopMarginHint + verticalOffset
     }
 
 
@@ -127,6 +128,7 @@ Window {
         }
         MenuBar {
             id: menuBar
+            parent: window.isMacOS ? window.contentItem : titleBarArea
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: activeFocus || menus.some(menu => menu.visible) || children.some(item => item.activeFocus) ? 0 : -height
@@ -320,8 +322,7 @@ Window {
                 anchors.fill: parent
                 Item {
                     Layout.fillWidth: true
-                    height: titleBarArea.height - recentFilesLayout.spacing
-                    visible: titleBarArea.visible
+                    implicitHeight: titleBarArea.visible ? titleBarArea.height - recentFilesLayout.spacing : 0
                 }
                 StackLayout {
                     id: recentFilesStack
