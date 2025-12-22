@@ -8,6 +8,7 @@
 
 namespace dspx {
     class Model;
+    class SelectionModel;
 }
 
 namespace Core {
@@ -21,12 +22,14 @@ namespace Core {
         QML_ELEMENT
         Q_DECLARE_PRIVATE(DspxDocument)
         Q_PROPERTY(dspx::Model *model READ model CONSTANT)
+        Q_PROPERTY(dspx::SelectionModel *selectionModel READ selectionModel CONSTANT)
         Q_PROPERTY(TransactionController *transactionController READ transactionController CONSTANT)
     public:
         explicit DspxDocument(QObject *parent = nullptr);
         ~DspxDocument() override;
 
         dspx::Model *model() const;
+        dspx::SelectionModel *selectionModel() const;
         TransactionController *transactionController() const;
 
     private:

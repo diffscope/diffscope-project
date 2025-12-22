@@ -4,6 +4,7 @@
 #include <QUndoStack>
 
 #include <dspxmodel/Model.h>
+#include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/UndoableModelStrategy.h>
 
 #include <transactional/TransactionController.h>
@@ -42,6 +43,7 @@ namespace Core {
         auto modelStrategy = new dspx::UndoableModelStrategy; // TODO use substate in future
         d->model = new dspx::Model(modelStrategy, this);
         modelStrategy->setParent(d->model);
+        d->selectionModel = new dspx::SelectionModel(d->model, this);
         auto transactionalStrategy = new TransactionalModelStrategy(modelStrategy);
         d->transactionController = new TransactionController(transactionalStrategy, this);
         transactionalStrategy->setParent(d->transactionController);
@@ -52,6 +54,11 @@ namespace Core {
     dspx::Model *DspxDocument::model() const {
         Q_D(const DspxDocument);
         return d->model;
+    }
+
+    dspx::SelectionModel *DspxDocument::selectionModel() const {
+        Q_D(const DspxDocument);
+        return d->selectionModel;
     }
 
     TransactionController *DspxDocument::transactionController() const {

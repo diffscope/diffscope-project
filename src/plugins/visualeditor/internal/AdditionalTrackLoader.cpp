@@ -133,7 +133,7 @@ namespace VisualEditor::Internal {
         }
         std::unique_ptr<QObject> object(component->createWithInitialProperties({
             {"contextObject", QVariant::fromValue(m_contextObject)},
-        }));
+        }, component->creationContext()));
         if (!object) {
             qCWarning(lcAdditionalTrackLoader) << "Failed to create component" << id << component->errorString();
             return nullptr;

@@ -8,6 +8,14 @@
 
 namespace sflow {
     class PlaybackViewModel;
+    class PointSequenceViewModel;
+    class LabelSequenceInteractionController;
+    class LabelViewModel;
+    class SelectionController;
+}
+
+namespace dspx {
+    class Tempo;
 }
 
 namespace Core {
@@ -29,6 +37,8 @@ namespace VisualEditor {
         Q_DECLARE_PRIVATE(ProjectViewModelContext)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
         Q_PROPERTY(sflow::PlaybackViewModel *playbackViewModel READ playbackViewModel CONSTANT)
+        Q_PROPERTY(sflow::PointSequenceViewModel *tempoSequenceViewModel READ tempoSequenceViewModel CONSTANT)
+        Q_PROPERTY(sflow::SelectionController *tempoSelectionController READ tempoSelectionController CONSTANT)
 
     public:
         ~ProjectViewModelContext() override;
@@ -38,6 +48,15 @@ namespace VisualEditor {
         Core::ProjectWindowInterface *windowHandle() const;
 
         sflow::PlaybackViewModel *playbackViewModel() const;
+        sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
+
+        sflow::SelectionController *tempoSelectionController() const;
+
+        Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
+
+        Q_INVOKABLE dspx::Tempo *getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
+        Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;
+
 
     private:
         friend class Internal::ProjectAddOn;

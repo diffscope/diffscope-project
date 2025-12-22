@@ -8,6 +8,8 @@
 
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <visualeditor/ProjectViewModelContext.h>
+
 namespace VisualEditor::Internal {
     TempoTrackAddOn::TempoTrackAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
@@ -23,6 +25,7 @@ namespace VisualEditor::Internal {
             }
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
+                {"projectViewModelContext", QVariant::fromValue(ProjectViewModelContext::of(windowInterface))}
             });
             if (component.isError()) {
                 qFatal() << component.errorString();

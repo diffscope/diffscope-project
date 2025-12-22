@@ -158,9 +158,12 @@ namespace dspx {
         return ST_None;
     }
 
-    void SelectionModel::select(QObject *item, SelectionCommand command) {
+    void SelectionModel::select(QObject *item, SelectionCommand command, SelectionType emptySelectionType) {
         Q_D(SelectionModel);
         auto targetSelectionType = selectionTypeFromItem(item);
+        if (targetSelectionType == ST_None) {
+            targetSelectionType = emptySelectionType;
+        }
         if (targetSelectionType != d->selectionType) {
             switch (d->selectionType) {
                 case ST_AnchorNode:

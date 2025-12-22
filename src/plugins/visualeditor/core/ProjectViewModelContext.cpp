@@ -1,32 +1,22 @@
 #include "ProjectViewModelContext.h"
 #include "ProjectViewModelContext_p.h"
-
-#include <QBindable>
+#include "PlaybackViewModelContextData_p.h"
+#include "TempoViewModelContextData_p.h"
 
 #include <ScopicFlowCore/PlaybackViewModel.h>
+#include <ScopicFlowCore/PointSequenceViewModel.h>
+#include <ScopicFlowCore/LabelViewModel.h>
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
+#include <ScopicFlowCore/SelectionController.h>
+
+#include <dspxmodel/Tempo.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-namespace VisualEditor {
+#include <memory>
 
-    void ProjectViewModelContextPrivate::bindPlaybackViewModel() const {
-        auto projectTimeline = windowHandle->projectTimeline();
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::positionChanged, playbackViewModel, [=] {
-            playbackViewModel->setPrimaryPosition(projectTimeline->position());
-        });
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::lastPositionChanged, playbackViewModel, [=] {
-            playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
-        });
-        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::primaryPositionChanged, projectTimeline, [=] {
-            projectTimeline->setPosition(playbackViewModel->primaryPosition());
-        });
-        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::secondaryPositionChanged, projectTimeline, [=] {
-            projectTimeline->setLastPosition(playbackViewModel->secondaryPosition());
-        });
-        playbackViewModel->setPrimaryPosition(projectTimeline->position()); 
-        playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
-    }
+namespace VisualEditor {
 
     ProjectViewModelContext::ProjectViewModelContext(Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ProjectViewModelContextPrivate) {
         Q_D(ProjectViewModelContext);
@@ -34,9 +24,16 @@ namespace VisualEditor {
         windowHandle->addObject(staticMetaObject.className(), this);
         d->q_ptr = this;
         d->windowHandle = windowHandle;
-        d->playbackViewModel = new sflow::PlaybackViewModel(this);
 
-        d->bindPlaybackViewModel();
+        d->playbackData = std::make_unique<PlaybackViewModelContextData>();
+        d->playbackData->q_ptr = this;
+        d->playbackData->init();
+        d->playbackData->bindPlaybackViewModel();
+
+        d->tempoData = std::make_unique<TempoViewModelContextData>();
+        d->tempoData->q_ptr = this;
+        d->tempoData->init();
+        d->tempoData->bindTempoSequenceViewModel();
     }
 
     ProjectViewModelContext::~ProjectViewModelContext() = default;
@@ -52,7 +49,32 @@ namespace VisualEditor {
 
     sflow::PlaybackViewModel *ProjectViewModelContext::playbackViewModel() const {
         Q_D(const ProjectViewModelContext);
-        return d->playbackViewModel;
+        return d->playbackData->playbackViewModel;
+    }
+
+    sflow::PointSequenceViewModel *ProjectViewModelContext::tempoSequenceViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->tempoData->tempoSequenceViewModel;
+    }
+
+    sflow::SelectionController *ProjectViewModelContext::tempoSelectionController() const {
+        Q_D(const ProjectViewModelContext);
+        return d->tempoData->tempoSelectionController;
+    }
+
+    sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->tempoData->createController(parent);
+    }
+
+    dspx::Tempo *ProjectViewModelContext::getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {
+        Q_D(const ProjectViewModelContext);
+        return d->tempoData->tempoDocumentItemMap.value(viewItem);
+    }
+
+    sflow::LabelViewModel *ProjectViewModelContext::getTempoViewItemFromDocumentItem(dspx::Tempo *item) const {
+        Q_D(const ProjectViewModelContext);
+        return d->tempoData->tempoViewItemMap.value(item);
     }
 
 }

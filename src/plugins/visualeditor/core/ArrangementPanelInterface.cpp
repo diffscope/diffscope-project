@@ -12,6 +12,7 @@
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -118,6 +119,7 @@ namespace VisualEditor {
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->timelineInteractionController = new sflow::TimelineInteractionController(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
+        d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
@@ -178,6 +180,10 @@ namespace VisualEditor {
     sflow::TimelineInteractionController *ArrangementPanelInterface::timelineInteractionController() const {
         Q_D(const ArrangementPanelInterface);
         return d->timelineInteractionController;
+    }
+    sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfTempo() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->labelSequenceInteractionControllerOfTempo;
     }
 
     PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {

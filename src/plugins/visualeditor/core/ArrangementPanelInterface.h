@@ -13,6 +13,7 @@ namespace sflow {
     class TimeLayoutViewModel;
     class TimelineInteractionController;
     class ScrollBehaviorViewModel;
+    class LabelSequenceInteractionController;
 }
 
 namespace Core {
@@ -40,6 +41,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::TimeLayoutViewModel *timeLayoutViewModel READ timeLayoutViewModel CONSTANT)
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
@@ -57,6 +59,7 @@ namespace VisualEditor {
         sflow::TimeLayoutViewModel *timeLayoutViewModel() const;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
         sflow::TimelineInteractionController *timelineInteractionController() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
 
         PositionAlignmentManipulator *positionAlignmentManipulator() const;
         AutoPageScrollingManipulator *autoPageScrollingManipulator() const;
