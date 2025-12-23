@@ -34,6 +34,7 @@ Item {
         component IndicatorToolButton: ToolButton {
             font.family: Theme.font.family
             font.pixelSize: 16
+            implicitWidth: Math.max(control.backgroundVisible ? 54 : 0, implicitContentWidth + 16)
             implicitHeight: 24
             leftPadding: 12
             rightPadding: 12

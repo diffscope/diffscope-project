@@ -6,6 +6,8 @@
 
 #include <ScopicFlowCore/SelectionController.h>
 
+#include <transactional/TransactionController.h>
+
 #include <visualeditor/ProjectViewModelContext.h>
 
 class QStateMachine;
@@ -37,7 +39,8 @@ namespace VisualEditor {
         dspx::TempoSelectionModel *tempoSelectionModel;
     };
 
-    class TempoViewModelContextData {
+    class TempoViewModelContextData : public QObject {
+        Q_OBJECT
         Q_DECLARE_PUBLIC(ProjectViewModelContext)
     public:
         ProjectViewModelContext *q_ptr;
@@ -55,14 +58,24 @@ namespace VisualEditor {
 
         QStateMachine *stateMachine;
         QState *idleState;
+        QState *movePendingState;
         QState *movingState;
         QState *rubberBandDraggingState;
+
+        Core::TransactionController::TransactionId moveTransactionId{};
 
         void init();
         void bindTempoSequenceViewModel();
         void bindTempoDocumentItem(dspx::Tempo *item);
         void unbindTempoDocumentItem(dspx::Tempo *item);
         sflow::LabelSequenceInteractionController *createController(QObject *parent);
+
+        void handleMovePendingStateEntered();
+        void handleMovingStateExited();
+
+    Q_SIGNALS:
+        void transactionStarted();
+        void transactionNotStarted();
     };
 
 }

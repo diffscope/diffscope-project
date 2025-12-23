@@ -152,6 +152,10 @@ namespace VisualEditor {
         d->bindTimelineInteractionController();
         d->bindScrollBehaviorViewModel();
         d->bindPositionAlignmentManipulator();
+
+        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
+            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
+        });
     }
 
     ArrangementPanelInterface::~ArrangementPanelInterface() = default;
@@ -224,6 +228,17 @@ namespace VisualEditor {
         if (d->isSnapTemporarilyDisabled != disabled) {
             d->isSnapTemporarilyDisabled = disabled;
             Q_EMIT snapTemporarilyDisabledChanged();
+        }
+    }
+    bool ArrangementPanelInterface::isMouseTrackingDisabled() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->isMouseTrackingDisabled;
+    }
+    void ArrangementPanelInterface::setMouseTrackingDisabled(bool disabled) {
+        Q_D(ArrangementPanelInterface);
+        if (d->isMouseTrackingDisabled != disabled) {
+            d->isMouseTrackingDisabled = disabled;
+            Q_EMIT mouseTrackingDisabledChanged();
         }
     }
 

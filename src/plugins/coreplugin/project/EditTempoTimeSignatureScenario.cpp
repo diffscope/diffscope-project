@@ -156,7 +156,7 @@ namespace Core {
         }
         d->document->transactionController()->beginScopedTransaction(tr("Editing tempo"), [=] {
             auto tempoSequence = d->document->model()->timeline()->tempos();
-            auto currentTempos = tempoSequence->slice(position, position + 1);
+            auto currentTempos = tempoSequence->slice(position, 1);
             dspx::Tempo *tempoItem;
             if (currentTempos.isEmpty()) {
                 qCDebug(lcEditTempoTimeSignatureScenario) << "Current tempos is empty";
@@ -225,7 +225,7 @@ namespace Core {
         }
         d->document->transactionController()->beginScopedTransaction(tr("Editing time signature"), [=] {
             auto timeSignatureSequence = d->document->model()->timeline()->timeSignatures();
-            auto currentTimeSignatures = timeSignatureSequence->slice(measure, measure + 1);
+            auto currentTimeSignatures = timeSignatureSequence->slice(measure, 1);
             dspx::TimeSignature *timeSignatureItem;
             if (currentTimeSignatures.isEmpty()) {
                 qCDebug(lcEditTempoTimeSignatureScenario()) << "Current time signatures is empty";

@@ -91,50 +91,62 @@ namespace VisualEditor {
 
         tempoSelectionController = new TempoSelectionController(q);
 
-        stateMachine = new QStateMachine(q);
+        stateMachine = new QStateMachine(QState::ExclusiveStates, q);
         idleState = new QState;
+        movePendingState = new QState;
         movingState = new QState;
         rubberBandDraggingState = new QState;
         stateMachine->addState(idleState);
+        stateMachine->addState(movePendingState);
         stateMachine->addState(movingState);
         stateMachine->addState(rubberBandDraggingState);
         stateMachine->setInitialState(idleState);
         stateMachine->start();
 
-        QObject::connect(movingState, &QState::exited, q, [=, this] {
-            QSet<dspx::Tempo *> updatedItems;
-            for (auto viewItem : transactionalUpdatedTempos) {
-                auto item = tempoDocumentItemMap.value(viewItem);
-                Q_ASSERT(item);
-                item->setPos(viewItem->position());
-                updatedItems.insert(item);
-            }
-            transactionalUpdatedTempos.clear();
-            for (auto item : updatedItems) {
-                auto overlappingItems = tempoSequence->slice(item->pos(), item->pos() + 1);
-                for (auto overlappingItem : overlappingItems) {
-                    if (updatedItems.contains(overlappingItem))
-                        continue;
-                    tempoSequence->removeItem(overlappingItem);
-                    q->windowHandle()->projectDocumentContext()->document()->model()->destroyItem(overlappingItem);
-                }
-            }
+        movePendingState->addTransition(this, &TempoViewModelContextData::transactionStarted, movingState);
+        movePendingState->addTransition(this, &TempoViewModelContextData::transactionNotStarted, idleState);
+
+        connect(idleState, &QState::entered, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Idle state entered";
+        });
+        connect(idleState, &QState::exited, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Idle state exited";
+        });
+        connect(movePendingState, &QState::entered, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move pending state entered";
+            handleMovePendingStateEntered();
+        });
+        connect(movePendingState, &QState::exited, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move pending state exited";
+        });
+        connect(movingState, &QState::entered, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Moving state entered";
+        });
+        connect(movingState, &QState::exited, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Moving state exited";
+            handleMovingStateExited();
+        });
+        connect(rubberBandDraggingState, &QState::entered, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Rubber band dragging state entered";
+        });
+        connect(rubberBandDraggingState, &QState::exited, q, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Rubber band dragging state exited";
         });
     }
 
     void TempoViewModelContextData::bindTempoSequenceViewModel() {
         Q_Q(ProjectViewModelContext);
-        QObject::connect(tempoSequence, &dspx::TempoSequence::itemInserted, tempoSequenceViewModel, [=, this](dspx::Tempo *item) {
+        connect(tempoSequence, &dspx::TempoSequence::itemInserted, tempoSequenceViewModel, [=, this](dspx::Tempo *item) {
             bindTempoDocumentItem(item);
         });
-        QObject::connect(tempoSequence, &dspx::TempoSequence::itemRemoved, tempoSequenceViewModel, [=, this](dspx::Tempo *item) {
+        connect(tempoSequence, &dspx::TempoSequence::itemRemoved, tempoSequenceViewModel, [=, this](dspx::Tempo *item) {
             unbindTempoDocumentItem(item);
         });
         // For tempo sequence, item will never be inserted or removed from view
         for (auto item : tempoSequence->asRange()) {
             bindTempoDocumentItem(item);
         }
-        QObject::connect(tempoSelectionModel, &dspx::TempoSelectionModel::itemSelected, q, [=, this](dspx::Tempo *item, bool selected) {
+        connect(tempoSelectionModel, &dspx::TempoSelectionModel::itemSelected, q, [=, this](dspx::Tempo *item, bool selected) {
             qCDebug(lcTempoViewModelContextData) << "Tempo item selected" << item << selected;
             auto viewItem = tempoViewItemMap.value(item);
             Q_ASSERT(viewItem);
@@ -151,30 +163,31 @@ namespace VisualEditor {
         tempoDocumentItemMap.insert(viewItem, item);
         qCDebug(lcTempoViewModelContextData) << "Tempo item inserted" << item << viewItem << item->pos() << item->value();
 
-        QObject::connect(item, &dspx::Tempo::posChanged, viewItem, [=] {
+        connect(item, &dspx::Tempo::posChanged, viewItem, [=] {
             if (viewItem->position() == item->pos())
                 return;
             qCDebug(lcTempoViewModelContextData) << "Tempo item pos updated" << item << item->pos();
             viewItem->setPosition(item->pos());
         });
-        QObject::connect(item, &dspx::Tempo::valueChanged, viewItem, [=] {
+        connect(item, &dspx::Tempo::valueChanged, viewItem, [=] {
             qCDebug(lcTempoViewModelContextData) << "Tempo item value updated" << item << item->value();
-            viewItem->setContent(QLocale().toString(item->value(), 'f', 2));
+            viewItem->setContent(QLocale().toString(item->value()));
         });
         viewItem->setPosition(item->pos());
-        viewItem->setContent(QLocale().toString(item->value(), 'f', 2));
+        viewItem->setContent(QLocale().toString(item->value()));
 
-        QObject::connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
+        connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
             if (viewItem->position() == item->pos())
                 return;
             if (item->pos() == 0) {
-                viewItem->setPosition(0);
+                viewItem->setPosition(item->pos());
+                return;
+            }
+            if (!stateMachine->configuration().contains(movingState)) {
+                viewItem->setPosition(item->pos());
                 return;
             }
             qCDebug(lcTempoViewModelContextData) << "Tempo view item pos updated" << viewItem << viewItem->position();
-            if (!stateMachine->configuration().contains(movingState)) {
-                qCWarning(lcTempoViewModelContextData) << "Suspicious tempo view updating: moving state not entered";
-            }
             transactionalUpdatedTempos.insert(viewItem);
         });
 
@@ -190,8 +203,8 @@ namespace VisualEditor {
         tempoViewItemMap.remove(item);
         qCDebug(lcTempoViewModelContextData) << "Tempo item removed" << item << viewItem;
 
-        QObject::disconnect(item, nullptr, viewItem, nullptr);
-        QObject::disconnect(viewItem, nullptr, item, nullptr);
+        disconnect(item, nullptr, viewItem, nullptr);
+        disconnect(viewItem, nullptr, item, nullptr);
 
         transactionalUpdatedTempos.remove(viewItem);
 
@@ -243,7 +256,7 @@ namespace VisualEditor {
         controller->setInteraction(sflow::LabelSequenceInteractionController::SelectByRubberBand);
         controller->setItemInteraction(sflow::LabelSequenceInteractionController::Move | sflow::LabelSequenceInteractionController::Select);
         auto moveStartTransition = new ItemInteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::Move, &sflow::LabelSequenceInteractionController::itemInteractionOperationStarted);
-        moveStartTransition->setTargetState(movingState);
+        moveStartTransition->setTargetState(movePendingState);
         idleState->addTransition(moveStartTransition);
         auto moveFinishTransition = new ItemInteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::Move, &sflow::LabelSequenceInteractionController::itemInteractionOperationFinished);
         moveFinishTransition->setTargetState(idleState);
@@ -254,13 +267,52 @@ namespace VisualEditor {
         auto rubberBandDragFinishTransition = new InteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::SelectByRubberBand, &sflow::LabelSequenceInteractionController::interactionOperationFinished);
         rubberBandDragFinishTransition->setTargetState(idleState);
         rubberBandDraggingState->addTransition(rubberBandDragFinishTransition);
-        QObject::connect(controller, &QObject::destroyed, [=] {
+        connect(controller, &QObject::destroyed, [=] {
             idleState->removeTransition(moveStartTransition);
             idleState->removeTransition(rubberBandDragStartTransition);
             movingState->removeTransition(moveFinishTransition);
             rubberBandDraggingState->removeTransition(rubberBandDragFinishTransition);
         });
         return controller;
+    }
+
+    void TempoViewModelContextData::handleMovePendingStateEntered() {
+        Q_Q(ProjectViewModelContext);
+        for (auto item : tempoSelectionModel->selectedItems()) {
+            if (item->pos() == 0) {
+                // Not allowed to move tempo to position 0
+                Q_EMIT transactionNotStarted();
+                return;
+            }
+        }
+        moveTransactionId = q->windowHandle()->projectDocumentContext()->document()->transactionController()->beginTransaction();
+        if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
+            Q_EMIT transactionStarted();
+        } else {
+            Q_EMIT transactionNotStarted();
+        }
+    }
+
+    void TempoViewModelContextData::handleMovingStateExited() {
+        Q_Q(ProjectViewModelContext);
+        QSet<dspx::Tempo *> updatedItems;
+        for (auto viewItem : transactionalUpdatedTempos) {
+            auto item = tempoDocumentItemMap.value(viewItem);
+            Q_ASSERT(item);
+            item->setPos(viewItem->position());
+            updatedItems.insert(item);
+        }
+        transactionalUpdatedTempos.clear();
+        for (auto item : updatedItems) {
+            auto overlappingItems = tempoSequence->slice(item->pos(), 1);
+            for (auto overlappingItem : overlappingItems) {
+                if (updatedItems.contains(overlappingItem))
+                    continue;
+                tempoSequence->removeItem(overlappingItem);
+                q->windowHandle()->projectDocumentContext()->document()->model()->destroyItem(overlappingItem);
+            }
+        }
+        q->windowHandle()->projectDocumentContext()->document()->transactionController()->commitTransaction(moveTransactionId, tr("Moving tempo"));
     }
 
 }

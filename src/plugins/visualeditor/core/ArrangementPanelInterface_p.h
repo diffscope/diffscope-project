@@ -28,6 +28,7 @@ namespace VisualEditor {
 
         ArrangementPanelInterface::Tool tool{ArrangementPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};
+        bool isMouseTrackingDisabled{false};
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
 

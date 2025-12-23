@@ -194,6 +194,30 @@ Item {
                     playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                     scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
                     timelineInteractionController: view.arrangementPanelInterface?.timelineInteractionController ?? null
+
+                    property bool dragging: false
+
+                    Connections {
+                        target: timeline.playbackViewModel
+                        enabled: timeline.dragging
+                        function onPrimaryPositionChanged() {
+                            timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.primaryPosition
+                        }
+                    }
+
+                    Connections {
+                        target: timeline.timelineInteractionController
+                        function onInteractionOperationStarted(timeline_, interactionFlag) {
+                            if (timeline_ === timeline && interactionFlag === TimelineInteractionController.MovePositionIndicator) {
+                                timeline.dragging = true
+                            }
+                        }
+                        function onInteractionOperationFinished(timeline_, interactionFlag) {
+                            if (timeline_ === timeline && interactionFlag === LabelSequenceInteractionController.MovePositionIndicator) {
+                                timeline.dragging = false
+                            }
+                        }
+                    }
                 }
                 Rectangle {
                     Layout.fillWidth: true
@@ -234,6 +258,29 @@ Item {
                 timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
                 playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                 timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+            }
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                enabled: !(view.arrangementPanelInterface?.mouseTrackingDisabled)
+                hoverEnabled: true
+                TimeManipulator {
+                    id: timeManipulator
+                    target: parent
+                    timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
+                    timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+                }
+                onExited: {
+                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                }
+                onPositionChanged: (mouse) => {
+                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(mouse.x), ScopicFlow.AO_Visible)
+                }
+                onEnabledChanged: {
+                    if (!enabled) {
+                        view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                    }
+                }
             }
         }
     }

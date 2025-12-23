@@ -20,6 +20,8 @@ QtObject {
     required property ProjectViewModelContext projectViewModelContext
 
     readonly property Component tempoTrackComponent: LabelSequence {
+        id: control
+
         required property QtObject contextObject
         Layout.fillWidth: true
         labelSequenceViewModel: d.projectViewModelContext?.tempoSequenceViewModel ?? null
@@ -28,6 +30,29 @@ QtObject {
         timeViewModel: contextObject?.timeViewModel ?? null
         labelSequenceInteractionController: contextObject?.labelSequenceInteractionControllerOfTempo ?? null
         selectionController: d.projectViewModelContext?.tempoSelectionController ?? null
+
+        property LabelViewModel itemBeingDragged: null
+
+        Connections {
+            target: control.itemBeingDragged
+            function onPositionChanged() {
+                control.timeLayoutViewModel.cursorPosition = control.itemBeingDragged.position
+            }
+        }
+
+        Connections {
+            target: control.labelSequenceInteractionController
+            function onItemInteractionOperationStarted(labelSequence, item, interactionFlag) {
+                if (labelSequence === control && interactionFlag === LabelSequenceInteractionController.Move) {
+                    control.itemBeingDragged = item
+                }
+            }
+            function onItemInteractionOperationFinished(labelSequence, item, interactionFlag) {
+                if (labelSequence === control && interactionFlag === LabelSequenceInteractionController.Move) {
+                    control.itemBeingDragged = null
+                }
+            }
+        }
     }
 
 }
