@@ -80,7 +80,7 @@ namespace VisualEditor {
         void handleMovePendingStateEntered();
         void handleMovingStateExited();
         void handleDoubleClicked(QQuickItem *labelSequenceItem, int position);
-        void handleItemDoubleClicked(sflow::LabelViewModel *viewItem);
+        void handleItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem);
 
     Q_SIGNALS:
         void transactionStarted();

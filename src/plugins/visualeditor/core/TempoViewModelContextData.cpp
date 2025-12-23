@@ -146,7 +146,6 @@ namespace VisualEditor {
         });
 
         scenario = new Core::EditTempoTimeSignatureScenario(this);
-        scenario->setWindow(static_cast<QQuickWindow *>(q->windowHandle()->window()));
         scenario->setProjectTimeline(q->windowHandle()->projectTimeline());
         scenario->setDocument(q->windowHandle()->projectDocumentContext()->document());
         scenario->setShouldDialogPopupAtCursor(true);
@@ -295,9 +294,9 @@ namespace VisualEditor {
             qCDebug(lcTempoViewModelContextData) << "Tempo sequence double clicked" << position;
             handleDoubleClicked(labelSequenceItem, position);
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::itemDoubleClicked, this, [=](QQuickItem *, sflow::LabelViewModel *viewItem) {
+        connect(controller, &sflow::LabelSequenceInteractionController::itemDoubleClicked, this, [=](QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
             qCDebug(lcTempoViewModelContextData) << "Tempo sequence view item double clicked" << viewItem;
-            handleItemDoubleClicked(viewItem);
+            handleItemDoubleClicked(labelSequenceItem, viewItem);
         });
         return controller;
     }
@@ -347,6 +346,7 @@ namespace VisualEditor {
         timeManipulator.setTimeViewModel(labelSequenceItem->property("timeViewModel").value<sflow::TimeViewModel *>());
         timeManipulator.setTimeLayoutViewModel(labelSequenceItem->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
         position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
+        scenario->setWindow(labelSequenceItem->window());
         scenario->insertTempoAt(position);
         auto items = tempoSequence->slice(position, 1);
         if (items.isEmpty()) {
@@ -354,8 +354,9 @@ namespace VisualEditor {
         }
         q->windowHandle()->projectDocumentContext()->document()->selectionModel()->select(items.first(), dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
     }
-    void TempoViewModelContextData::handleItemDoubleClicked(sflow::LabelViewModel *viewItem) {
+    void TempoViewModelContextData::handleItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
         Q_Q(ProjectViewModelContext);
+        scenario->setWindow(labelSequenceItem->window());
         scenario->modifyExistingTempoAt(viewItem->position());
     }
 
