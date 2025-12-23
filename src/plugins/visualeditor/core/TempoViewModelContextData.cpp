@@ -5,21 +5,27 @@
 
 #include <QLocale>
 #include <QLoggingCategory>
-#include <QStateMachine>
+#include <QQuickItem>
+#include <QQuickWindow>
 #include <QSignalTransition>
+#include <QStateMachine>
 
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
-#include <ScopicFlowCore/LabelSequenceInteractionController.h>
+#include <ScopicFlowCore/TimeManipulator.h>
+#include <ScopicFlowCore/TimeViewModel.h>
+#include <ScopicFlowCore/TimeLayoutViewModel.h>
 
 #include <dspxmodel/Model.h>
+#include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/Tempo.h>
+#include <dspxmodel/TempoSelectionModel.h>
 #include <dspxmodel/TempoSequence.h>
 #include <dspxmodel/Timeline.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/TempoSelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/EditTempoTimeSignatureScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -52,10 +58,16 @@ namespace VisualEditor {
         auto endDocumentItem = endItem ? q->getTempoDocumentItemFromViewItem(qobject_cast<sflow::LabelViewModel *>(endItem)) : tempoSequence->lastItem();
         Q_ASSERT(startDocumentItem && endDocumentItem);
         QObjectList viewItems;
-        for (auto item = startDocumentItem; item && item != endDocumentItem; item = tempoSequence->nextItem(item)) {
+        if (startDocumentItem->pos() > endDocumentItem->pos()) {
+            std::swap(startDocumentItem, endDocumentItem);
+        }
+        for (auto item = startDocumentItem; item; item = tempoSequence->nextItem(item)) {
             auto viewItem = q->getTempoViewItemFromDocumentItem(item);
             Q_ASSERT(viewItem);
             viewItems.append(viewItem);
+            if (item == endDocumentItem) {
+                break;
+            }
         }
         return viewItems;
     }
@@ -79,7 +91,7 @@ namespace VisualEditor {
         selectionModel->select(documentItem, documentSelectionCommand, dspx::SelectionModel::ST_Tempo);
     }
     QObject *TempoSelectionController::currentItem() const {
-        return tempoSelectionModel->currentItem();
+        return q->getTempoViewItemFromDocumentItem(tempoSelectionModel->currentItem());
     }
 
     void TempoViewModelContextData::init() {
@@ -106,32 +118,38 @@ namespace VisualEditor {
         movePendingState->addTransition(this, &TempoViewModelContextData::transactionStarted, movingState);
         movePendingState->addTransition(this, &TempoViewModelContextData::transactionNotStarted, idleState);
 
-        connect(idleState, &QState::entered, q, [=, this] {
+        connect(idleState, &QState::entered, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Idle state entered";
         });
-        connect(idleState, &QState::exited, q, [=, this] {
+        connect(idleState, &QState::exited, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Idle state exited";
         });
-        connect(movePendingState, &QState::entered, q, [=, this] {
+        connect(movePendingState, &QState::entered, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Move pending state entered";
             handleMovePendingStateEntered();
         });
-        connect(movePendingState, &QState::exited, q, [=, this] {
+        connect(movePendingState, &QState::exited, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Move pending state exited";
         });
-        connect(movingState, &QState::entered, q, [=, this] {
+        connect(movingState, &QState::entered, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Moving state entered";
         });
-        connect(movingState, &QState::exited, q, [=, this] {
+        connect(movingState, &QState::exited, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Moving state exited";
             handleMovingStateExited();
         });
-        connect(rubberBandDraggingState, &QState::entered, q, [=, this] {
+        connect(rubberBandDraggingState, &QState::entered, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Rubber band dragging state entered";
         });
-        connect(rubberBandDraggingState, &QState::exited, q, [=, this] {
+        connect(rubberBandDraggingState, &QState::exited, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Rubber band dragging state exited";
         });
+
+        scenario = new Core::EditTempoTimeSignatureScenario(this);
+        scenario->setWindow(static_cast<QQuickWindow *>(q->windowHandle()->window()));
+        scenario->setProjectTimeline(q->windowHandle()->projectTimeline());
+        scenario->setDocument(q->windowHandle()->projectDocumentContext()->document());
+        scenario->setShouldDialogPopupAtCursor(true);
     }
 
     void TempoViewModelContextData::bindTempoSequenceViewModel() {
@@ -146,7 +164,7 @@ namespace VisualEditor {
         for (auto item : tempoSequence->asRange()) {
             bindTempoDocumentItem(item);
         }
-        connect(tempoSelectionModel, &dspx::TempoSelectionModel::itemSelected, q, [=, this](dspx::Tempo *item, bool selected) {
+        connect(tempoSelectionModel, &dspx::TempoSelectionModel::itemSelected, this, [=, this](dspx::Tempo *item, bool selected) {
             qCDebug(lcTempoViewModelContextData) << "Tempo item selected" << item << selected;
             auto viewItem = tempoViewItemMap.value(item);
             Q_ASSERT(viewItem);
@@ -273,6 +291,14 @@ namespace VisualEditor {
             movingState->removeTransition(moveFinishTransition);
             rubberBandDraggingState->removeTransition(rubberBandDragFinishTransition);
         });
+        connect(controller, &sflow::LabelSequenceInteractionController::doubleClicked, this, [=](QQuickItem *labelSequenceItem, int position) {
+            qCDebug(lcTempoViewModelContextData) << "Tempo sequence double clicked" << position;
+            handleDoubleClicked(labelSequenceItem, position);
+        });
+        connect(controller, &sflow::LabelSequenceInteractionController::itemDoubleClicked, this, [=](QQuickItem *, sflow::LabelViewModel *viewItem) {
+            qCDebug(lcTempoViewModelContextData) << "Tempo sequence view item double clicked" << viewItem;
+            handleItemDoubleClicked(viewItem);
+        });
         return controller;
     }
 
@@ -313,6 +339,24 @@ namespace VisualEditor {
             }
         }
         q->windowHandle()->projectDocumentContext()->document()->transactionController()->commitTransaction(moveTransactionId, tr("Moving tempo"));
+    }
+    void TempoViewModelContextData::handleDoubleClicked(QQuickItem *labelSequenceItem, int position) {
+        Q_Q(ProjectViewModelContext);
+        sflow::TimeManipulator timeManipulator;
+        timeManipulator.setTarget(labelSequenceItem);
+        timeManipulator.setTimeViewModel(labelSequenceItem->property("timeViewModel").value<sflow::TimeViewModel *>());
+        timeManipulator.setTimeLayoutViewModel(labelSequenceItem->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
+        position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
+        scenario->insertTempoAt(position);
+        auto items = tempoSequence->slice(position, 1);
+        if (items.isEmpty()) {
+            return;
+        }
+        q->windowHandle()->projectDocumentContext()->document()->selectionModel()->select(items.first(), dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+    }
+    void TempoViewModelContextData::handleItemDoubleClicked(sflow::LabelViewModel *viewItem) {
+        Q_Q(ProjectViewModelContext);
+        scenario->modifyExistingTempoAt(viewItem->position());
     }
 
 }

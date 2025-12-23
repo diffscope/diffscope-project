@@ -12,11 +12,16 @@
 
 class QStateMachine;
 class QState;
+class QQuickItem;
 
 namespace dspx {
     class TempoSequence;
     class TempoSelectionModel;
     class SelectionModel;
+}
+
+namespace Core {
+    class EditTempoTimeSignatureScenario;
 }
 
 namespace VisualEditor {
@@ -62,6 +67,8 @@ namespace VisualEditor {
         QState *movingState;
         QState *rubberBandDraggingState;
 
+        Core::EditTempoTimeSignatureScenario *scenario;
+
         Core::TransactionController::TransactionId moveTransactionId{};
 
         void init();
@@ -72,6 +79,8 @@ namespace VisualEditor {
 
         void handleMovePendingStateEntered();
         void handleMovingStateExited();
+        void handleDoubleClicked(QQuickItem *labelSequenceItem, int position);
+        void handleItemDoubleClicked(sflow::LabelViewModel *viewItem);
 
     Q_SIGNALS:
         void transactionStarted();
