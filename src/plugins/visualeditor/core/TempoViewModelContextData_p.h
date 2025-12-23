@@ -51,6 +51,7 @@ namespace VisualEditor {
         TempoSelectionController *tempoSelectionController;
 
         dspx::TempoSequence *tempoSequence;
+        dspx::TempoSelectionModel *tempoSelectionModel;
 
         QStateMachine *stateMachine;
         QState *idleState;

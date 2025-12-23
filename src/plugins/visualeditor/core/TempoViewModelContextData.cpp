@@ -6,6 +6,7 @@
 #include <QLocale>
 #include <QLoggingCategory>
 #include <QStateMachine>
+#include <QSignalTransition>
 
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
@@ -61,16 +62,16 @@ namespace VisualEditor {
     void TempoSelectionController::select(QObject *item, SelectionCommand command) {
         qCDebug(lcTempoViewModelContextData) << "Tempo view item selected" << item << command;
         dspx::SelectionModel::SelectionCommand documentSelectionCommand = {};
-        if (command | Select) {
+        if (command & Select) {
             documentSelectionCommand |= dspx::SelectionModel::Select;
         }
-        if (command | Deselect) {
+        if (command & Deselect) {
             documentSelectionCommand |= dspx::SelectionModel::Deselect;
         }
-        if (command | ClearPreviousSelection) {
+        if (command & ClearPreviousSelection) {
             documentSelectionCommand |= dspx::SelectionModel::ClearPreviousSelection;
         }
-        if (command | SetCurrentItem) {
+        if (command & SetCurrentItem) {
             documentSelectionCommand |= dspx::SelectionModel::SetCurrentItem;
         }
         auto documentItem = q->getTempoDocumentItemFromViewItem(qobject_cast<sflow::LabelViewModel *>(item));
@@ -84,6 +85,7 @@ namespace VisualEditor {
     void TempoViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         tempoSequence = q->windowHandle()->projectDocumentContext()->document()->model()->timeline()->tempos();
+        tempoSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->tempoSelectionModel();
 
         tempoSequenceViewModel = new sflow::PointSequenceViewModel(q);
 
@@ -97,6 +99,27 @@ namespace VisualEditor {
         stateMachine->addState(movingState);
         stateMachine->addState(rubberBandDraggingState);
         stateMachine->setInitialState(idleState);
+        stateMachine->start();
+
+        QObject::connect(movingState, &QState::exited, q, [=, this] {
+            QSet<dspx::Tempo *> updatedItems;
+            for (auto viewItem : transactionalUpdatedTempos) {
+                auto item = tempoDocumentItemMap.value(viewItem);
+                Q_ASSERT(item);
+                item->setPos(viewItem->position());
+                updatedItems.insert(item);
+            }
+            transactionalUpdatedTempos.clear();
+            for (auto item : updatedItems) {
+                auto overlappingItems = tempoSequence->slice(item->pos(), item->pos() + 1);
+                for (auto overlappingItem : overlappingItems) {
+                    if (updatedItems.contains(overlappingItem))
+                        continue;
+                    tempoSequence->removeItem(overlappingItem);
+                    q->windowHandle()->projectDocumentContext()->document()->model()->destroyItem(overlappingItem);
+                }
+            }
+        });
     }
 
     void TempoViewModelContextData::bindTempoSequenceViewModel() {
@@ -111,6 +134,12 @@ namespace VisualEditor {
         for (auto item : tempoSequence->asRange()) {
             bindTempoDocumentItem(item);
         }
+        QObject::connect(tempoSelectionModel, &dspx::TempoSelectionModel::itemSelected, q, [=, this](dspx::Tempo *item, bool selected) {
+            qCDebug(lcTempoViewModelContextData) << "Tempo item selected" << item << selected;
+            auto viewItem = tempoViewItemMap.value(item);
+            Q_ASSERT(viewItem);
+            viewItem->setSelected(selected);
+        });
     }
 
     void TempoViewModelContextData::bindTempoDocumentItem(dspx::Tempo *item) {
@@ -138,6 +167,10 @@ namespace VisualEditor {
         QObject::connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
             if (viewItem->position() == item->pos())
                 return;
+            if (item->pos() == 0) {
+                viewItem->setPosition(0);
+                return;
+            }
             qCDebug(lcTempoViewModelContextData) << "Tempo view item pos updated" << viewItem << viewItem->position();
             if (!stateMachine->configuration().contains(movingState)) {
                 qCWarning(lcTempoViewModelContextData) << "Suspicious tempo view updating: moving state not entered";
@@ -167,11 +200,66 @@ namespace VisualEditor {
         viewItem->deleteLater();
     }
 
+    class InteractionSignalTransition : public QSignalTransition {
+    public:
+        template <typename PointerToMemberFunction>
+        explicit InteractionSignalTransition(sflow::LabelSequenceInteractionController *controller, sflow::LabelSequenceInteractionController::InteractionFlag flag, PointerToMemberFunction signal)
+            : QSignalTransition(controller, signal), m_flag(flag) {
+        }
+
+    protected:
+        bool eventTest(QEvent *event) override {
+            if (!QSignalTransition::eventTest(event))
+                return false;
+            auto se = static_cast<QStateMachine::SignalEvent*>(event);
+            return se->arguments().at(1).toInt() == m_flag;
+        }
+
+    private:
+        sflow::LabelSequenceInteractionController::InteractionFlag m_flag;
+    };
+
+    class ItemInteractionSignalTransition : public QSignalTransition {
+    public:
+        template <typename PointerToMemberFunction>
+        explicit ItemInteractionSignalTransition(sflow::LabelSequenceInteractionController *controller, sflow::LabelSequenceInteractionController::ItemInteractionFlag flag, PointerToMemberFunction signal)
+            : QSignalTransition(controller, signal), m_flag(flag) {
+        }
+
+    protected:
+        bool eventTest(QEvent *event) override {
+            if (!QSignalTransition::eventTest(event))
+                return false;
+            auto se = static_cast<QStateMachine::SignalEvent*>(event);
+            return se->arguments().at(2).toInt() == m_flag;
+        }
+
+    private:
+        sflow::LabelSequenceInteractionController::ItemInteractionFlag m_flag;
+    };
+
     sflow::LabelSequenceInteractionController *TempoViewModelContextData::createController(QObject *parent) {
-        // TODO
         auto controller = new sflow::LabelSequenceInteractionController(parent);
-        controller->setInteraction({});
-        controller->setItemInteraction({});
+        controller->setInteraction(sflow::LabelSequenceInteractionController::SelectByRubberBand);
+        controller->setItemInteraction(sflow::LabelSequenceInteractionController::Move | sflow::LabelSequenceInteractionController::Select);
+        auto moveStartTransition = new ItemInteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::Move, &sflow::LabelSequenceInteractionController::itemInteractionOperationStarted);
+        moveStartTransition->setTargetState(movingState);
+        idleState->addTransition(moveStartTransition);
+        auto moveFinishTransition = new ItemInteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::Move, &sflow::LabelSequenceInteractionController::itemInteractionOperationFinished);
+        moveFinishTransition->setTargetState(idleState);
+        movingState->addTransition(moveFinishTransition);
+        auto rubberBandDragStartTransition = new InteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::SelectByRubberBand, &sflow::LabelSequenceInteractionController::interactionOperationStarted);
+        rubberBandDragStartTransition->setTargetState(rubberBandDraggingState);
+        idleState->addTransition(rubberBandDragStartTransition);
+        auto rubberBandDragFinishTransition = new InteractionSignalTransition(controller, sflow::LabelSequenceInteractionController::SelectByRubberBand, &sflow::LabelSequenceInteractionController::interactionOperationFinished);
+        rubberBandDragFinishTransition->setTargetState(idleState);
+        rubberBandDraggingState->addTransition(rubberBandDragFinishTransition);
+        QObject::connect(controller, &QObject::destroyed, [=] {
+            idleState->removeTransition(moveStartTransition);
+            idleState->removeTransition(rubberBandDragStartTransition);
+            movingState->removeTransition(moveFinishTransition);
+            rubberBandDraggingState->removeTransition(rubberBandDragFinishTransition);
+        });
         return controller;
     }
 

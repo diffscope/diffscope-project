@@ -27,7 +27,7 @@ namespace dspx {
             bool selectionUpdatedFlag = false;
             bool currentItemUpdatedFlag = false;
 
-            if (!static_cast<PrivateClass *>(this)->isAddedToModel(item)) {
+            if (item && !static_cast<PrivateClass *>(this)->isAddedToModel(item)) {
                 return;
             }
 
@@ -130,6 +130,7 @@ namespace dspx {
             selectedItems.insert(item);
             static_cast<PrivateClass *>(this)->updateSuperItem(getSuperItem(item));
             static_cast<PrivateClass *>(this)->updateAssociation(item);
+            Q_EMIT q->itemSelected(item, true);
         }
         void removeFromSelection(Item *item) {
             auto q = q_ptr;
@@ -138,6 +139,7 @@ namespace dspx {
             }
             selectedItems.remove(item);
             static_cast<PrivateClass *>(this)->removeAssociation(item);
+            Q_EMIT q->itemSelected(item, false);
         }
         void clearSelection() {
             auto q = q_ptr;
@@ -145,6 +147,7 @@ namespace dspx {
                 if (currentItem != item) {
                     QObject::disconnect(item, nullptr, q, nullptr);
                 }
+                Q_EMIT q->itemSelected(item, false);
             }
             selectedItems.clear();
             static_cast<PrivateClass *>(this)->clearAssociation();
