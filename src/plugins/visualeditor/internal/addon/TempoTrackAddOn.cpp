@@ -24,8 +24,7 @@ namespace VisualEditor::Internal {
                 qFatal() << component.errorString();
             }
             auto o = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)},
-                {"projectViewModelContext", QVariant::fromValue(ProjectViewModelContext::of(windowInterface))}
+                {"addOn", QVariant::fromValue(this)}
             });
             if (component.isError()) {
                 qFatal() << component.errorString();

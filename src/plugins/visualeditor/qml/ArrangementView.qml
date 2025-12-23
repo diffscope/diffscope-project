@@ -18,7 +18,8 @@ Item {
 
     required property QtObject addOn
     required property ArrangementPanelInterface arrangementPanelInterface
-    required property ProjectViewModelContext projectViewModelContext
+
+    readonly property ProjectViewModelContext projectViewModelContext: addOn?.windowHandle.ProjectViewModelContext.context ?? null
 
     anchors.fill: parent
 

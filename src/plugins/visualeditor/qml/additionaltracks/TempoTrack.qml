@@ -17,7 +17,8 @@ import DiffScope.UIShell
 QtObject {
     id: d
     required property QtObject addOn
-    required property ProjectViewModelContext projectViewModelContext
+
+    readonly property ProjectViewModelContext projectViewModelContext: addOn?.windowHandle.ProjectViewModelContext.context ?? null
 
     readonly property Component tempoTrackComponent: LabelSequence {
         id: control

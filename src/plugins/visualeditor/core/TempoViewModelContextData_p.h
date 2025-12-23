@@ -4,10 +4,7 @@
 #include <QHash>
 #include <QSet>
 
-#include <ScopicFlowCore/SelectionController.h>
-
 #include <transactional/TransactionController.h>
-
 #include <visualeditor/ProjectViewModelContext.h>
 
 class QStateMachine;
@@ -20,29 +17,19 @@ namespace dspx {
     class SelectionModel;
 }
 
+namespace sflow {
+    class LabelSequenceInteractionController;
+    class LabelViewModel;
+    class PointSequenceViewModel;
+}
+
 namespace Core {
-    class EditTempoTimeSignatureScenario;
+    class DspxDocument;
 }
 
 namespace VisualEditor {
 
-    class TempoSelectionController : public sflow::SelectionController {
-        Q_OBJECT
-    public:
-        explicit TempoSelectionController(ProjectViewModelContext *parent);
-        ~TempoSelectionController() override;
-
-        QObjectList getSelectedItems() const override;
-        QObjectList getItemsBetween(QObject *startItem, QObject *endItem) const override;
-        void select(QObject *item, SelectionCommand command) override;
-        QObject *currentItem() const override;
-
-    private:
-        ProjectViewModelContext *q;
-        dspx::TempoSequence *tempoSequence;
-        dspx::SelectionModel *selectionModel;
-        dspx::TempoSelectionModel *tempoSelectionModel;
-    };
+    class TempoSelectionController;
 
     class TempoViewModelContextData : public QObject {
         Q_OBJECT
@@ -50,16 +37,17 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
+        // Cached document objects
+        Core::DspxDocument *document;
+        dspx::TempoSequence *tempoSequence;
+        dspx::TempoSelectionModel *tempoSelectionModel;
+
         sflow::PointSequenceViewModel *tempoSequenceViewModel;
+        TempoSelectionController *tempoSelectionController;
 
         QHash<dspx::Tempo *, sflow::LabelViewModel *> tempoViewItemMap;
         QHash<sflow::LabelViewModel *, dspx::Tempo *> tempoDocumentItemMap;
         QSet<sflow::LabelViewModel *> transactionalUpdatedTempos;
-
-        TempoSelectionController *tempoSelectionController;
-
-        dspx::TempoSequence *tempoSequence;
-        dspx::TempoSelectionModel *tempoSelectionModel;
 
         QStateMachine *stateMachine;
         QState *idleState;
@@ -67,24 +55,27 @@ namespace VisualEditor {
         QState *movingState;
         QState *rubberBandDraggingState;
 
-        Core::EditTempoTimeSignatureScenario *scenario;
-
         Core::TransactionController::TransactionId moveTransactionId{};
 
         void init();
+        void initStateMachine();
         void bindTempoSequenceViewModel();
         void bindTempoDocumentItem(dspx::Tempo *item);
         void unbindTempoDocumentItem(dspx::Tempo *item);
         sflow::LabelSequenceInteractionController *createController(QObject *parent);
 
-        void handleMovePendingStateEntered();
-        void handleMovingStateExited();
-        void handleDoubleClicked(QQuickItem *labelSequenceItem, int position);
-        void handleItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem);
+        void onMovePendingStateEntered();
+        void onMovingStateExited();
+        void onDoubleClicked(QQuickItem *labelSequenceItem, int position);
+        void onItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem);
 
     Q_SIGNALS:
-        void transactionStarted();
-        void transactionNotStarted();
+        void moveTransactionWillStart();
+        void moveTransactionStarted();
+        void moveTransactionNotStarted();
+        void moveTransactionWillFinish();
+        void rubberBandDragWillStart();
+        void rubberBandDragWillFinish();
     };
 
 }

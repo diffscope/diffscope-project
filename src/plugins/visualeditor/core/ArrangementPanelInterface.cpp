@@ -120,6 +120,7 @@ namespace VisualEditor {
         d->timelineInteractionController = new sflow::TimelineInteractionController(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
+        d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel();
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
@@ -135,8 +136,7 @@ namespace VisualEditor {
         }
         auto o = component.createWithInitialProperties({
             {"addOn", QVariant::fromValue(d->addon)},
-            {"arrangementPanelInterface", QVariant::fromValue(this)},
-            {"projectViewModelContext", QVariant::fromValue(ProjectViewModelContext::of(d->windowHandle))},
+            {"arrangementPanelInterface", QVariant::fromValue(this)}
         });
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -188,6 +188,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfTempo() const {
         Q_D(const ArrangementPanelInterface);
         return d->labelSequenceInteractionControllerOfTempo;
+    }
+
+    sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfLabel() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->labelSequenceInteractionControllerOfLabel;
     }
 
     PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {

@@ -20,6 +20,7 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
 
         PositionAlignmentManipulator *positionAlignmentManipulator;
         AutoPageScrollingManipulator *autoPageScrollingManipulator;
