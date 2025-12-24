@@ -1,25 +1,16 @@
 #include "Label.h"
+#include "Label_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/label.h>
 
+#include <dspxmodel/LabelSequence.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 
 namespace dspx {
-
-    class LabelPrivate {
-        Q_DECLARE_PUBLIC(Label)
-    public:
-        Label *q_ptr;
-        int pos;
-        QString text;
-
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
-    };
 
     void LabelPrivate::setPosUnchecked(int pos_) {
         Q_Q(Label);
@@ -33,6 +24,14 @@ namespace dspx {
             return;
         }
         setPosUnchecked(pos_);
+    }
+
+    void LabelPrivate::setLabelSequence(Label *item, LabelSequence *labelSequence) {
+        auto d = item->d_func();
+        if (d->labelSequence != labelSequence) {
+            d->labelSequence = labelSequence;
+            Q_EMIT item->labelSequenceChanged();
+        }
     }
 
     Label::Label(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelPrivate) {
@@ -64,6 +63,11 @@ namespace dspx {
     void Label::setText(const QString &text) {
         Q_D(Label);
         model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Text, text);
+    }
+
+    LabelSequence *Label::labelSequence() const {
+        Q_D(const Label);
+        return d->labelSequence;
     }
 
     QDspx::Label Label::toQDspx() const {

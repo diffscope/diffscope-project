@@ -59,6 +59,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("autoDurationPositionAlignment");
         m_widget->setProperty("enableTemporarySnapOff", EditorPreference::instance()->property("enableTemporarySnapOff"));
         qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
+        m_widget->setProperty("trackCursorPosition", EditorPreference::instance()->property("trackCursorPosition"));
+        qCDebug(lcEditorPage) << m_widget->property("trackCursorPosition");
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
     }
@@ -79,6 +81,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("autoDurationPositionAlignment", m_widget->property("autoDurationPositionAlignment"));
         qCDebug(lcEditorPage) << "enableTemporarySnapOff" << m_widget->property("enableTemporarySnapOff");
         EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
+        qCDebug(lcEditorPage) << "trackCursorPosition" << m_widget->property("trackCursorPosition");
+        EditorPreference::instance()->setProperty("trackCursorPosition", m_widget->property("trackCursorPosition"));
         EditorPreference::instance()->save();
         return Core::ISettingPage::accept();
     }

@@ -9,6 +9,8 @@ namespace Core {
     public:
         DspxDocument *q_ptr;
         dspx::Model *model;
+        dspx::SelectionModel *selectionModel;
+        TransactionController *transactionController;
     };
 }
 

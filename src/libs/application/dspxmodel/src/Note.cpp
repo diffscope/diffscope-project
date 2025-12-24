@@ -1,4 +1,5 @@
 #include "Note.h"
+#include "Note_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
@@ -8,41 +9,12 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/PhonemeInfo.h>
 #include <dspxmodel/Pronunciation.h>
-#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/Vibrato.h>
 #include <dspxmodel/Workspace.h>
 #include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
-
-    class NotePrivate {
-        Q_DECLARE_PUBLIC(Note)
-    public:
-        Note *q_ptr;
-        ModelPrivate *pModel;
-
-        int centShift;
-        int keyNum;
-        QString language;
-        int length;
-        QString lyric;
-        PhonemeInfo *phonemes;
-        int pos;
-        Pronunciation *pronunciation;
-        Vibrato *vibrato;
-        Workspace *workspace;
-        SingingClip *singingClip{};
-        bool overlapped{};
-
-        void setCentShiftUnchecked(int centShift_);
-        void setCentShift(int centShift_);
-        void setKeyNumUnchecked(int keyNum_);
-        void setKeyNum(int keyNum_);
-        void setLengthUnchecked(int length_);
-        void setLength(int length_);
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
-    };
 
     void NotePrivate::setCentShiftUnchecked(int centShift_) {
         Q_Q(Note);
@@ -100,6 +72,22 @@ namespace dspx {
         setPosUnchecked(pos_);
     }
 
+    void NotePrivate::setOverlapped(Note *item, bool overlapped) {
+        auto d = item->d_func();
+        if (d->overlapped != overlapped) {
+            d->overlapped = overlapped;
+            Q_EMIT item->overlappedChanged(overlapped);
+        }
+    }
+
+    void NotePrivate::setNoteSequence(Note *item, NoteSequence *noteSequence) {
+        auto d = item->d_func();
+        if (d->noteSequence != noteSequence) {
+            d->noteSequence = noteSequence;
+            Q_EMIT item->noteSequenceChanged();
+        }
+    }
+
     Note::Note(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new NotePrivate) {
         Q_D(Note);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Note);
@@ -111,7 +99,7 @@ namespace dspx {
         d->length = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Length).toInt();
         d->lyric = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Text).toString();
         d->pos = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Position).toInt();
-        d->phonemes = d->pModel->createObject<PhonemeInfo>(handle);
+        d->phonemes = d->pModel->createObject<PhonemeInfo>(this, handle);
         d->pronunciation = d->pModel->createObject<Pronunciation>(handle);
         d->vibrato = d->pModel->createObject<Vibrato>(handle);
         d->workspace = d->pModel->createObject<Workspace>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace));
@@ -203,9 +191,9 @@ namespace dspx {
         return d->workspace;
     }
 
-    SingingClip *Note::singingClip() const {
+    NoteSequence *Note::noteSequence() const {
         Q_D(const Note);
-        return d->singingClip;
+        return d->noteSequence;
     }
 
     bool Note::isOverlapped() const {
@@ -291,18 +279,6 @@ namespace dspx {
             default:
                 Q_UNREACHABLE();
         }
-    }
-
-    void Note::setSingingClip(SingingClip *singingClip) {
-        Q_D(Note);
-        d->singingClip = singingClip;
-        Q_EMIT singingClipChanged();
-    }
-
-    void Note::setOverlapped(bool overlapped) {
-        Q_D(Note);
-        d->overlapped = overlapped;
-        Q_EMIT overlappedChanged(overlapped);
     }
 
 }

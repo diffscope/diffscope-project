@@ -12,6 +12,7 @@ namespace QDspx {
 namespace dspx {
 
     class Phoneme;
+    class PhonemeInfo;
 
     class PhonemeListPrivate;
 
@@ -22,6 +23,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(PhonemeList)
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(QList<Phoneme *> items READ items NOTIFY itemsChanged)
+        Q_PROPERTY(PhonemeInfo *phonemeInfo READ phonemeInfo CONSTANT)
         Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
 
     public:
@@ -36,6 +38,8 @@ namespace dspx {
 
         QList<QDspx::Phoneme> toQDspx() const;
         void fromQDspx(const QList<QDspx::Phoneme> &phonemeList);
+
+        PhonemeInfo *phonemeInfo() const;
 
     Q_SIGNALS:
         void itemAboutToInsert(int index, Phoneme *item);
@@ -54,7 +58,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        explicit PhonemeList(Handle handle, Model *model);
+        explicit PhonemeList(PhonemeInfo *phonemeInfo, Handle handle, Model *model);
         QScopedPointer<PhonemeListPrivate> d_ptr;
     };
 

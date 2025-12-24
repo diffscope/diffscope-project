@@ -14,9 +14,9 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <maintenance/internal/applicationupdatechecker.h>
-#include <maintenance/internal/maintenanceaddon.h>
-#include <maintenance/internal/updatepage.h>
+#include <maintenance/internal/ApplicationUpdateChecker.h>
+#include <maintenance/internal/MaintenanceAddOn.h>
+#include <maintenance/internal/UpdatePage.h>
 
 static auto getMaintenanceActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(maintenance);

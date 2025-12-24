@@ -1,4 +1,5 @@
 #include "Phoneme.h"
+#include "Phoneme_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
@@ -7,23 +8,25 @@
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/PhonemeList.h>
+#include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
-    class PhonemePrivate {
-        Q_DECLARE_PUBLIC(Phoneme)
-    public:
-        Phoneme *q_ptr;
-        QString language;
-        int start;
-        QString token;
-        bool onset;
-    };
+    void PhonemePrivate::setPhonemeList(Phoneme *item, PhonemeList *phonemeList) {
+        auto d = item->d_func();
+        if (d->phonemeList != phonemeList) {
+            d->phonemeList = phonemeList;
+            Q_EMIT item->phonemeListChanged();
+        }
+    }
 
     Phoneme::Phoneme(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new PhonemePrivate) {
         Q_D(Phoneme);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Phoneme);
         d->q_ptr = this;
+        d->pModel = ModelPrivate::get(model);
+        d->phonemeList = nullptr;
         d->language = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Language).toString();
         d->start = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Position).toInt();
         d->token = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Text).toString();
@@ -114,6 +117,11 @@ namespace dspx {
             default:
                 Q_UNREACHABLE();
         }
+    }
+
+    PhonemeList *Phoneme::phonemeList() const {
+        Q_D(const Phoneme);
+        return d->phonemeList;
     }
 
 }

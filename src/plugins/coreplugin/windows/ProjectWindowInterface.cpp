@@ -35,8 +35,6 @@ namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectWindow, "diffscope.core.projectwindow")
 
-    static ProjectWindowInterface *m_instance = nullptr;
-
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
@@ -49,22 +47,35 @@ namespace Core {
             Q_Q(ProjectWindowInterface);
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
-            projectTimeline = new ProjectTimeline(q);
+            projectTimeline = new ProjectTimeline(projectDocumentContext->document(), q);
             mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
         }
 
         void initActionContext() {
             Q_Q(ProjectWindowInterface);
             auto actionContext = q->actionContext();
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
-            if (component.isError()) {
-                qFatal() << component.errorString();
+            {
+                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)}
+                });
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
-            auto o = component.createWithInitialProperties({
-                {"windowHandle", QVariant::fromValue(q)},
-            });
-            o->setParent(q);
-            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            {
+                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                auto o = component.createWithInitialProperties({
+                    {"windowHandle", QVariant::fromValue(q)},
+                });
+                o->setParent(q);
+                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            }
         }
 
         void updateRecentFile() const {
@@ -104,10 +115,6 @@ namespace Core {
             return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb.get()).toInt());
         }
     };
-
-    ProjectWindowInterface *ProjectWindowInterface::instance() {
-        return m_instance;
-    }
 
     ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
         Q_D(const ProjectWindowInterface);
@@ -191,20 +198,41 @@ namespace Core {
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
         d->projectDocumentContext->openSaveProjectFileScenario()->setWindow(win);
+        static QIcon dspxIcon = [] {
+            QIcon icon;
+            for (const auto &file : QDir(":/diffscope/icons/dspx").entryInfoList(QDir::Files)) {
+                icon.addFile(file.absoluteFilePath());
+            }
+            return icon;
+        }();
+        win->setIcon(QIcon(":/diffscope/icons/dspx/24x24.png"));
+        QString path;
+        if (d->projectDocumentContext->fileLocker() && !d->projectDocumentContext->fileLocker()->path().isEmpty()) {
+            path = d->projectDocumentContext->fileLocker()->path();
+        } else {
+            path = tr("Untitled") + ".dspx";
+        }
+        win->setFilePath(path);
         return win;
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         Q_D(ProjectWindowInterface);
-        m_instance = this;
         d->projectDocumentContext = projectDocumentContext;
+        if (d->projectDocumentContext->fileLocker()) {
+            connect(d->projectDocumentContext->fileLocker(), &FileLocker::pathChanged, this, [=, this] {
+                auto win = window();
+                if (!win)
+                    return;
+                auto path = d->projectDocumentContext->fileLocker()->path();
+                win->setFilePath(path.isEmpty() ? tr("Untitled") + ".dspx" : path);
+            });
+        }
+        d->init();
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {
         d.q_ptr = this;
-        d.init();
     }
-    ProjectWindowInterface::~ProjectWindowInterface() {
-        m_instance = nullptr;
-    }
+    ProjectWindowInterface::~ProjectWindowInterface() = default;
 
     ProjectWindowInterfaceRegistry *ProjectWindowInterfaceRegistry::instance() {
         static ProjectWindowInterfaceRegistry reg;

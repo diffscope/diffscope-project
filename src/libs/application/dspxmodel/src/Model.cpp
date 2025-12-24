@@ -63,12 +63,15 @@ namespace dspx {
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
         tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
         timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
-        trackList = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
+        tracks = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
         workspace = new Workspace(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace), q);
     }
 
     void ModelPrivate::handleNotifications() {
         Q_Q(Model);
+        QObject::connect(strategy, &ModelStrategy::destroyEntityNotified, q, [=, this](Handle handle) {
+            handleEntityDestroyed(handle);
+        });
         QObject::connect(strategy, &ModelStrategy::insertIntoSequenceContainerNotified, q, [=, this](Handle sequenceContainerEntity, Handle entity) {
             if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
                 sequenceContainerObject->handleInsertIntoSequenceContainer(entity);
@@ -196,9 +199,9 @@ namespace dspx {
         return d->timeline;
     }
 
-    TrackList *Model::trackList() const {
+    TrackList *Model::tracks() const {
         Q_D(const Model);
-        return d->trackList;
+        return d->tracks;
     }
 
     Workspace *Model::workspace() const {
@@ -213,7 +216,7 @@ namespace dspx {
                 .global = global()->toQDspx(),
                 .master = master()->toQDspx(),
                 .timeline = timeline()->toQDspx(),
-                .tracks = trackList()->toQDspx(),
+                .tracks = tracks()->toQDspx(),
                 .workspace = workspace()->toQDspx(),
             }
         };
@@ -224,7 +227,7 @@ namespace dspx {
         d->global->fromQDspx(model.content.global);
         d->master->fromQDspx(model.content.master);
         d->timeline->fromQDspx(model.content.timeline);
-        d->trackList->fromQDspx(model.content.tracks);
+        d->tracks->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
     }
 
@@ -310,6 +313,14 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Source);
         return d->createObject<Source>(handle);
+    }
+
+    void Model::destroyItem(EntityObject *object) {
+        Q_D(Model);
+        auto handle = object->handle();
+        object->d_func()->handle = {};
+        d->strategy->destroyEntity(handle);
+        object->deleteLater();
     }
 
     void Model::handleSetEntityProperty(int property, const QVariant &value) {

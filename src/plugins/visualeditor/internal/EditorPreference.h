@@ -26,6 +26,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool middleButtonAutoScroll READ middleButtonAutoScroll WRITE setMiddleButtonAutoScroll NOTIFY middleButtonAutoScrollChanged)
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
+        Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
 
     public:
         ~EditorPreference() override;
@@ -67,6 +68,9 @@ namespace VisualEditor::Internal {
         static bool enableTemporarySnapOff();
         static void setEnableTemporarySnapOff(bool enableTemporarySnapOff);
 
+        static bool trackCursorPosition();
+        static void setTrackCursorPosition(bool trackCursorPosition);
+
     Q_SIGNALS:
         void alternateAxisModifierChanged();
         void zoomModifierChanged();
@@ -75,6 +79,7 @@ namespace VisualEditor::Internal {
         void middleButtonAutoScrollChanged();
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
+        void trackCursorPositionChanged();
 
     private:
         friend class VisualEditorPlugin;

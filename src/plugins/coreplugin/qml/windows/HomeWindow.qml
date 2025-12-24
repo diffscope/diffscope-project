@@ -34,6 +34,23 @@ HomeWindow {
     onNewFileRequested: () => {
         windowHandle.triggerAction("org.diffscope.core.file.new", homeWindow.contentItem)
     }
+    panelsModel: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "org.diffscope.core.homePanels"
+            context: homeWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                homeWindow.panelsModel.insert(index, object)
+                let stateData = settings.value("panelData")?.[index] ?? undefined
+                if (stateData && stateData.id === object.ActionInstantiator.id) {
+                    if (object.loadState)
+                        object.loadState(stateData.state)
+                }
+            }
+            onObjectRemoved: (index, object) => {
+                homeWindow.panelsModel.remove(index)
+            }
+        }
+    }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "org.diffscope.core.homeNavigation"
@@ -72,8 +89,22 @@ HomeWindow {
     }
 
     Settings {
+        id: settings
         settings: RuntimeInterface.settings
         category: "DiffScope.Core.HomeWindow"
         property alias recentFilesIsListView: homeWindow.recentFilesIsListView
+    }
+
+    onClosing: () => {
+        let a = []
+        for (let i = 0; i < homeWindow.panelsModel.count; i++) {
+            let pane = homeWindow.panelsModel.get(i)
+            let state = pane.saveState ? pane.saveState() : null
+            a.push({
+                id: pane.ActionInstantiator.id,
+                state
+            })
+        }
+        settings.setValue("panelData", a)
     }
 }

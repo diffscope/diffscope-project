@@ -44,6 +44,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         dspxmodel
         opendspx::model
         opendspx::serializer
+        transactional
     INCLUDE_PRIVATE
         core
         windows

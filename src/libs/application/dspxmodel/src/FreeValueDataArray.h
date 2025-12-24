@@ -7,6 +7,8 @@
 
 namespace dspx {
 
+    class ParamCurveFree;
+
     class FreeValueDataArrayPrivate;
 
     class DSPX_MODEL_EXPORT FreeValueDataArray : public EntityObject {
@@ -15,6 +17,7 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(FreeValueDataArray)
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+        Q_PROPERTY(ParamCurveFree *paramCurveFree READ paramCurveFree CONSTANT)
         Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
 
     public:
@@ -27,6 +30,8 @@ namespace dspx {
 
         QList<int> toQDspx() const;
         void fromQDspx(const QList<int> &values);
+
+        ParamCurveFree *paramCurveFree() const;
 
     Q_SIGNALS:
         void sizeChanged(int size);
@@ -41,7 +46,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        explicit FreeValueDataArray(Handle handle, Model *model);
+        explicit FreeValueDataArray(ParamCurveFree *paramCurveFree, Handle handle, Model *model);
         QScopedPointer<FreeValueDataArrayPrivate> d_ptr;
     };
 

@@ -26,7 +26,7 @@ namespace dspx {
         LabelSequence *labels;
         TempoSequence *tempos;
         TimeSignatureSequence *timeSignatures;
-        TrackList *trackList;
+        TrackList *tracks;
         Workspace *workspace;
 
         QHash<Handle, EntityObject *> objectMap;
@@ -48,6 +48,12 @@ namespace dspx {
 
         EntityObject *mapToObject(Handle handle) const;
         Handle mapToHandle(EntityObject *object) const;
+
+        template <class T, class S>
+        T *createObject(S *superItem, Handle handle) {
+            Q_Q(Model);
+            return new T(superItem, handle, q);
+        }
 
         template <class T>
         T *createObject(Handle handle) {

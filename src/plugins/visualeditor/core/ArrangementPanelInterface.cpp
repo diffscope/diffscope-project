@@ -12,6 +12,7 @@
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -19,6 +20,7 @@
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
+#include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
 
 namespace VisualEditor {
@@ -105,17 +107,20 @@ namespace VisualEditor {
         });
     }
 
-    ArrangementPanelInterface::ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
+    ArrangementPanelInterface::ArrangementPanelInterface(Internal::ArrangementAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
         Q_D(ArrangementPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
         windowHandle->addObject(staticMetaObject.className(), this);
         d->q_ptr = this;
         d->windowHandle = windowHandle;
+        d->addon = addOn;
 
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->timelineInteractionController = new sflow::TimelineInteractionController(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
+        d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
+        d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel();
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
@@ -130,8 +135,8 @@ namespace VisualEditor {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({
-            {"arrangementPanelInterface", QVariant::fromValue(this)},
-            {"projectViewModelContext", QVariant::fromValue(ProjectViewModelContext::of(d->windowHandle))},
+            {"addOn", QVariant::fromValue(d->addon)},
+            {"arrangementPanelInterface", QVariant::fromValue(this)}
         });
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -147,6 +152,10 @@ namespace VisualEditor {
         d->bindTimelineInteractionController();
         d->bindScrollBehaviorViewModel();
         d->bindPositionAlignmentManipulator();
+
+        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
+            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
+        });
     }
 
     ArrangementPanelInterface::~ArrangementPanelInterface() = default;
@@ -175,6 +184,15 @@ namespace VisualEditor {
     sflow::TimelineInteractionController *ArrangementPanelInterface::timelineInteractionController() const {
         Q_D(const ArrangementPanelInterface);
         return d->timelineInteractionController;
+    }
+    sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfTempo() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->labelSequenceInteractionControllerOfTempo;
+    }
+
+    sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfLabel() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->labelSequenceInteractionControllerOfLabel;
     }
 
     PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {
@@ -215,6 +233,17 @@ namespace VisualEditor {
         if (d->isSnapTemporarilyDisabled != disabled) {
             d->isSnapTemporarilyDisabled = disabled;
             Q_EMIT snapTemporarilyDisabledChanged();
+        }
+    }
+    bool ArrangementPanelInterface::isMouseTrackingDisabled() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->isMouseTrackingDisabled;
+    }
+    void ArrangementPanelInterface::setMouseTrackingDisabled(bool disabled) {
+        Q_D(ArrangementPanelInterface);
+        if (d->isMouseTrackingDisabled != disabled) {
+            d->isMouseTrackingDisabled = disabled;
+            Q_EMIT mouseTrackingDisabledChanged();
         }
     }
 

@@ -1,4 +1,5 @@
 #include "TempoSequence.h"
+#include "TempoSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -8,20 +9,24 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {
-
-    class TempoSequencePrivate : public PointSequenceData<TempoSequence, Tempo, &Tempo::pos, &Tempo::posChanged> {
-        Q_DECLARE_PUBLIC(TempoSequence)
-    };
 
     TempoSequence::TempoSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TempoSequencePrivate) {
         Q_D(TempoSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Tempos);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
+        connect(this, &TempoSequence::itemInserted, this, [=](Tempo *item) {
+            TempoPrivate::setTempoSequence(item, this);
+        });
+        connect(this, &TempoSequence::itemRemoved, this, [=](Tempo *item) {
+            TempoPrivate::setTempoSequence(item, nullptr);
+        });
     }
 
     TempoSequence::~TempoSequence() = default;

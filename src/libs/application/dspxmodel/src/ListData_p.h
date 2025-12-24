@@ -35,6 +35,12 @@ namespace dspx {
             Q_UNREACHABLE();
         }
 
+        void init(const QList<Handle> &handles) {
+            for (auto handle : handles) {
+                itemList.append(getItem(handle, true));
+            }
+        }
+
         void insertItem(int index, ItemType *item) {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToInsert(index, item);

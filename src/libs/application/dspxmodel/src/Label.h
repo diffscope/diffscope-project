@@ -11,6 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class LabelSequence;
     class LabelPrivate;
 
     class DSPX_MODEL_EXPORT Label : public EntityObject {
@@ -20,6 +21,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(Label);
         Q_PRIVATE_PROPERTY(d_func(), int pos MEMBER pos WRITE setPos NOTIFY posChanged)
         Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+        Q_PROPERTY(LabelSequence *labelSequence READ labelSequence NOTIFY labelSequenceChanged)
     public:
         ~Label() override;
 
@@ -29,12 +31,15 @@ namespace dspx {
         QString text() const;
         void setText(const QString &text);
 
+        LabelSequence *labelSequence() const;
+
         QDspx::Label toQDspx() const;
         void fromQDspx(const QDspx::Label &label);
 
     Q_SIGNALS:
         void posChanged(int pos);
         void textChanged(const QString &text);
+        void labelSequenceChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

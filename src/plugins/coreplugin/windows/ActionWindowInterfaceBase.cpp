@@ -42,15 +42,6 @@ namespace Core {
             actionContext->setMenuComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
             actionContext->setSeparatorComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
             actionContext->setStretchComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            {
-                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                auto o = component.create();
-                o->setParent(q);
-                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
-            }
         }
     };
 

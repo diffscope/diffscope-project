@@ -104,22 +104,45 @@ namespace Core::Internal {
                                    ? firstSpec.width / (firstSpec.width + lastSpec.width)
                                    : firstSpec.height / (firstSpec.height + lastSpec.height);
         qCDebug(lcWorkspaceAddOn) << "Calculated splitter ratio" << splitterRatio;
+        QQmlComponent fallbackComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "LoadingFailedFallbackPanel");
+        if (fallbackComponent.isError()) {
+            qFatal() << fallbackComponent.errorString();
+        }
+        auto createFallbackAction = [&](const QString &id, bool isComponentRegistered, const QString &errorString) -> QObject * {
+            auto info = CoreInterface::actionRegistry()->actionInfo(id);
+            QString actionText = info.text(true);
+            if (actionText.isEmpty()) {
+                actionText = info.text(false);
+            }
+            if (actionText.isEmpty()) {
+                actionText = id;
+            }
+            auto object = fallbackComponent.createWithInitialProperties({
+                {"actionId", id},
+                {"actionText", actionText},
+                {"componentRegistered", isComponentRegistered},
+                {"errorString", errorString}
+            });
+            Q_ASSERT(object);
+            QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
+            return object;
+        };
         auto createAction = [&](const QString &id) -> QObject * {
             auto component = windowInterface->actionContext()->action(id);
             if (!component) {
                 qCWarning(lcWorkspaceAddOn) << "Action" << id << "not found";
-                return nullptr;
+                return createFallbackAction(id, false, {});
             }
             if (component->isError()) {
                 qCWarning(lcWorkspaceAddOn) << "Action" << id << "component has error";
                 qWarning() << component->errorString();
-                return nullptr;
+                return createFallbackAction(id, true, component->errorString());
             }
             auto object = component->create(component->creationContext());
             if (!object) {
                 qCWarning(lcWorkspaceAddOn) << "Action" << id << "component cannot be created";
                 qWarning() << component->errorString();
-                return nullptr;
+                return createFallbackAction(id, true, component->errorString());
             }
             QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
             windowInterface->actionContext()->attachActionInfo(id, object);
@@ -130,19 +153,17 @@ namespace Core::Internal {
                 const auto &[id, dock, opened, geometry, data] = spec.panels.at(i);
                 qCDebug(lcWorkspaceAddOn) << "Creating panel" << id << dock << opened << geometry;
                 auto object = createAction(id);
-                if (object) {
-                    qCDebug(lcWorkspaceAddOn) << "Created object" << object;
-                    // TODO: check if object has dock property (it might be an Action)
-                    object->setProperty("dock", dock);
-                    if (i == spec.visibleIndex || opened) {
-                        visibleIndices.append(result.size());
-                    }
-                    result.append(QVariantMap{
-                        {"object", QVariant::fromValue(object)},
-                        {"geometry", geometry},
-                        {"state", data}
-                    });
+                qCDebug(lcWorkspaceAddOn) << "Created object" << object;
+                // TODO: check if object has dock property (it might be an Action)
+                object->setProperty("dock", dock);
+                if (i == spec.visibleIndex || opened) {
+                    visibleIndices.append(result.size());
                 }
+                result.append(QVariantMap{
+                    {"object", QVariant::fromValue(object)},
+                    {"geometry", geometry},
+                    {"state", data}
+                });
             }
         };
         qCDebug(lcWorkspaceAddOn) << "Creating first spec";

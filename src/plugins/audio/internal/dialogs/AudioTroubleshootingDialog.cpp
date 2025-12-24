@@ -11,9 +11,9 @@
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 
-#include <audio/internal/audiooutputsettingshelper.h>
-#include <audio/internal/audiosystem.h>
-#include <audio/internal/outputsystem.h>
+#include <audio/internal/AudioOutputSettingsHelper.h>
+#include <audio/internal/AudioSystem.h>
+#include <audio/internal/OutputSystem.h>
 
 namespace Audio::Internal {
 

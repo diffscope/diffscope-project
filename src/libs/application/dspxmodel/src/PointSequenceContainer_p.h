@@ -15,10 +15,16 @@ namespace dspx {
         QHash<T *, int> m_positions;
 
         T *firstItem() const {
+            if (m_items.empty()) {
+                return nullptr;
+            }
             return m_items.cbegin()->second;
         }
 
         T *lastItem() const {
+            if (m_items.empty()) {
+                return nullptr;
+            }
             return m_items.crbegin()->second;
         }
 
@@ -70,10 +76,7 @@ namespace dspx {
                 return {};
             }
             QList<T *> ret;
-            auto it = m_items.lower_bound(position + length - 1);
-            while (it != m_items.end() && it != m_items.begin() && it->first >= position + length - 1) {
-                --it;
-            }
+            auto it = m_items.lower_bound(position + length);
             std::transform(m_items.lower_bound(position), it, std::back_inserter(ret), [](auto it) {
                 return it.second;
             });

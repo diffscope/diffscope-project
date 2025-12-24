@@ -12,10 +12,15 @@ namespace VisualEditor {
         ArrangementPanelInterface *q_ptr;
 
         Core::ProjectWindowInterface *windowHandle;
+
+        Internal::ArrangementAddOn *addon;
+
         sflow::TimeViewModel *timeViewModel;
         sflow::TimeLayoutViewModel *timeLayoutViewModel;
         sflow::TimelineInteractionController *timelineInteractionController;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
 
         PositionAlignmentManipulator *positionAlignmentManipulator;
         AutoPageScrollingManipulator *autoPageScrollingManipulator;
@@ -24,6 +29,7 @@ namespace VisualEditor {
 
         ArrangementPanelInterface::Tool tool{ArrangementPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};
+        bool isMouseTrackingDisabled{false};
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
 

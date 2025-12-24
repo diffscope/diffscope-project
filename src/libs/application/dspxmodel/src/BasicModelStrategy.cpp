@@ -2,121 +2,10 @@
 
 #include <algorithm>
 
-#include <QHash>
-#include <QVariant>
-
 #include <dspxmodel/private/SpliceHelper_p.h>
+#include <dspxmodel/private/BasicModelStrategyEntity_p.h>
 
 namespace dspx {
-
-    class BasicModelStrategyEntity : public QObject {
-        Q_OBJECT
-    public:
-        using QObject::QObject;
-
-        ModelStrategy::Entity type{};
-    };
-
-    class BasicModelStrategyItemEntity : public BasicModelStrategyEntity {
-        Q_OBJECT
-    public:
-        using BasicModelStrategyEntity::BasicModelStrategyEntity;
-
-        QHash<ModelStrategy::Property, QVariant> properties;
-        QHash<ModelStrategy::Relationship, BasicModelStrategyEntity *> associatedSubEntities;
-    };
-
-    class BasicModelStrategySequenceContainerEntity : public BasicModelStrategyEntity {
-        Q_OBJECT
-    public:
-        using BasicModelStrategyEntity::BasicModelStrategyEntity;
-
-        QSet<BasicModelStrategyEntity *> sequence;
-    };
-
-    class BasicModelStrategyListContainerEntity : public BasicModelStrategyEntity {
-        Q_OBJECT
-    public:
-        using BasicModelStrategyEntity::BasicModelStrategyEntity;
-
-        QList<BasicModelStrategyEntity *> list;
-    };
-
-    class BasicModelStrategyMapContainerEntity : public BasicModelStrategyEntity {
-        Q_OBJECT
-    public:
-        using BasicModelStrategyEntity::BasicModelStrategyEntity;
-
-        QHash<QString, BasicModelStrategyEntity *> map;
-    };
-
-    class BasicModelStrategyDataArrayEntity : public BasicModelStrategyEntity {
-        Q_OBJECT
-    public:
-        using BasicModelStrategyEntity::BasicModelStrategyEntity;
-
-        QVariantList data;
-    };
-
-    static BasicModelStrategyEntity *createByType(ModelStrategy::Entity type, QObject *parent) {
-        BasicModelStrategyEntity *obj;
-        switch (type) {
-            case ModelStrategy::EI_AudioClip:
-            case ModelStrategy::EI_Global:
-            case ModelStrategy::EI_Label:
-            case ModelStrategy::EI_Note:
-            case ModelStrategy::EI_Param:
-            case ModelStrategy::EI_ParamCurveAnchor:
-            case ModelStrategy::EI_ParamCurveFree:
-            case ModelStrategy::EI_ParamCurveAnchorNode:
-            case ModelStrategy::EI_Phoneme:
-            case ModelStrategy::EI_SingingClip:
-            case ModelStrategy::EI_Source:
-            case ModelStrategy::EI_Tempo:
-            case ModelStrategy::EI_TimeSignature:
-            case ModelStrategy::EI_Track:
-            case ModelStrategy::EI_WorkspaceInfo:
-                obj = new BasicModelStrategyItemEntity(parent);
-                obj->type = type;
-                break;
-            case ModelStrategy::ES_Clips:
-            case ModelStrategy::ES_Labels:
-            case ModelStrategy::ES_Notes:
-            case ModelStrategy::ES_ParamCurveAnchorNodes:
-            case ModelStrategy::ES_ParamCurves:
-            case ModelStrategy::ES_Tempos:
-            case ModelStrategy::ES_TimeSignatures:
-                obj = new BasicModelStrategySequenceContainerEntity(parent);
-                obj->type = type;
-                break;
-            case ModelStrategy::EL_Phonemes:
-            case ModelStrategy::EL_Tracks:
-                obj = new BasicModelStrategyListContainerEntity(parent);
-                obj->type = type;
-                break;
-            case ModelStrategy::ED_ParamCurveFreeValues:
-            case ModelStrategy::ED_VibratoPoints:
-                obj = new BasicModelStrategyDataArrayEntity(parent);
-                obj->type = type;
-                break;
-            case ModelStrategy::EM_Params:
-            case ModelStrategy::EM_Sources:
-            case ModelStrategy::EM_Workspace:
-                obj = new BasicModelStrategyMapContainerEntity(parent);
-                obj->type = type;
-                break;
-            default:
-                Q_UNREACHABLE();
-        }
-        return obj;
-    }
-
-    template <class T>
-    T *handleCast(Handle entity) {
-        auto obj = qobject_cast<T *>(reinterpret_cast<BasicModelStrategyEntity *>(entity.d));
-        Q_ASSERT(obj);
-        return obj;
-    }
 
     BasicModelStrategy::BasicModelStrategy(QObject *parent) : ModelStrategy(parent) {
     }
@@ -124,7 +13,7 @@ namespace dspx {
     BasicModelStrategy::~BasicModelStrategy() = default;
 
     Handle BasicModelStrategy::createEntity(Entity entityType) {
-        auto object = createByType(entityType, this);
+        auto object = BasicModelStrategyEntity::createByType(entityType, this);
         Handle entity{reinterpret_cast<quintptr>(object)};
         Q_EMIT createEntityNotified(entity, entityType);
         return entity;
@@ -138,6 +27,30 @@ namespace dspx {
 
     ModelStrategy::Entity BasicModelStrategy::getEntityType(Handle entity) {
         return reinterpret_cast<BasicModelStrategyEntity *>(entity.d)->type;
+    }
+
+    QList<Handle> BasicModelStrategy::getEntitiesFromSequenceContainer(Handle sequenceContainerEntity) {
+        QList<Handle> a;
+        std::ranges::transform(handleCast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity)->sequence, std::back_inserter(a), [](auto *obj) {
+            return Handle{reinterpret_cast<quintptr>(obj)};
+        });
+        return a;
+    }
+
+    QList<Handle> BasicModelStrategy::getEntitiesFromListContainer(Handle listContainerEntity) {
+        QList<Handle> a;
+        std::ranges::transform(handleCast<BasicModelStrategyListContainerEntity>(listContainerEntity)->list, std::back_inserter(a), [](auto *obj) {
+            return Handle{reinterpret_cast<quintptr>(obj)};
+        });
+        return a;
+    }
+
+    QList<QPair<QString, Handle>> BasicModelStrategy::getEntitiesFromMapContainer(Handle mapContainerEntity) {
+        QList<QPair<QString, Handle>> a;
+        for (auto [key, value] : handleCast<BasicModelStrategyMapContainerEntity>(mapContainerEntity)->map.asKeyValueRange()) {
+            a.append({key, Handle{reinterpret_cast<quintptr>(value)}});
+        }
+        return a;
     }
 
     bool BasicModelStrategy::insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
@@ -231,12 +144,14 @@ namespace dspx {
 
     void BasicModelStrategy::setEntityProperty(Handle entity, Property property, const QVariant &value) {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
+        Q_ASSERT(isEntityTypeAndPropertyTypeCompatible(object->type, property));
         object->properties.insert(property, value);
         Q_EMIT setEntityPropertyNotified(entity, property, value);
     }
 
     QVariant BasicModelStrategy::getEntityProperty(Handle entity, Property property) {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
+        Q_ASSERT(isEntityTypeAndPropertyTypeCompatible(object->type, property));
         return object->properties.value(property);
     }
     bool BasicModelStrategy::spliceDataArray(Handle dataArrayEntity, int index, int length, const QVariantList &values) {
@@ -273,64 +188,8 @@ namespace dspx {
         auto object = handleCast<BasicModelStrategyItemEntity>(entity);
         auto subObject = object->associatedSubEntities.value(relationship);
         if (!subObject) {
-            Entity subObjectType;
-            switch (relationship) {
-                case R_Children:
-                    switch (object->type) {
-                        case EI_Global:
-                            subObjectType = EL_Tracks;
-                            break;
-                        case EI_Track:
-                            subObjectType = ES_Clips;
-                            break;
-                        case EI_SingingClip:
-                            subObjectType = ES_Notes;
-                            break;
-                        case EI_ParamCurveAnchor:
-                            subObjectType = ES_ParamCurveAnchorNodes;
-                            break;
-                        case EI_ParamCurveFree:
-                            subObjectType = ED_ParamCurveFreeValues;
-                            break;
-                        default:
-                            Q_UNREACHABLE();
-                    }
-                    break;
-                case R_Labels:
-                    subObjectType = ES_Labels;
-                    break;
-                case R_ParamCurvesEdited:
-                case R_ParamCurvesOriginal:
-                case R_ParamCurvesTransform:
-                    subObjectType = ES_ParamCurves;
-                    break;
-                case R_Params:
-                    subObjectType = EM_Params;
-                    break;
-                case R_PhonemesEdited:
-                case R_PhonemesOriginal:
-                    subObjectType = EL_Phonemes;
-                    break;
-                case R_Sources:
-                    subObjectType = EM_Sources;
-                    break;
-                case R_Tempos:
-                    subObjectType = ES_Tempos;
-                    break;
-                case R_TimeSignatures:
-                    subObjectType = ES_TimeSignatures;
-                    break;
-                case R_VibratoPointsAmplitude:
-                case R_VibratoPointsFrequency:
-                    subObjectType = ED_VibratoPoints;
-                    break;
-                case R_Workspace:
-                    subObjectType = EM_Workspace;
-                    break;
-                default:
-                    Q_UNREACHABLE();
-            }
-            subObject = createByType(subObjectType, object);
+            Entity subObjectType = getAssociatedSubEntityTypeFromEntityTypeAndRelationship(object->type, relationship);
+            subObject = BasicModelStrategyEntity::createByType(subObjectType, object);
             object->associatedSubEntities.insert(relationship, subObject);
         }
         Handle subEntity{reinterpret_cast<quintptr>(subObject)};
@@ -338,5 +197,3 @@ namespace dspx {
     }
 
 }
-
-#include "BasicModelStrategy.moc"

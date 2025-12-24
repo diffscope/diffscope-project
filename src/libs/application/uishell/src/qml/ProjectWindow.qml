@@ -11,8 +11,8 @@ import SVSCraft.UIComponents.impl
 
 Window {
     id: window
-    width: 1280
-    height: 800
+    width: 1600
+    height: 960
     minimumWidth: 360
     title: `${documentName} - ${Application.displayName}`
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
@@ -40,6 +40,7 @@ Window {
     readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
+    readonly property double popupTopMarginHint: mainPane.y + 2
 
     property bool notificationEnablesAnimation: false
 
@@ -64,6 +65,9 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
             windowAgent.setSystemButton(WindowAgent.WindowIcon, iconArea)
             windowAgent.setHitTestVisible(Overlay.overlay)
+            windowAgent.setHitTestVisible(leftToolBarContainer)
+            windowAgent.setHitTestVisible(rightToolBarContainer)
+            windowAgent.setHitTestVisible(middleToolBarContainer)
         }
     }
 
@@ -85,7 +89,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
         emptyText: qsTr("Empty")
     }
     InputPalette {
@@ -93,7 +97,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
     }
     Rectangle {
         anchors.fill: parent
@@ -171,7 +175,8 @@ Window {
                 Item {
                     id: titleBarArea
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    Layout.fillHeight: !window.isMacOS
+                    Layout.preferredHeight: window.isMacOS ? titleBar.height + toolBar.height : 0
                     RowLayout {
                         anchors.right: parent.right
                         visible: !window.isMacOS
@@ -203,6 +208,8 @@ Window {
                     source: window.icon
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
+                    sourceSize.width: 16
+                    sourceSize.height: 16
                 }
                 Text {
                     readonly property color _baseColor: !titleTextGroup.menuBarMergedInTitleBar ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
@@ -230,13 +237,15 @@ Window {
                 color: parent.color
             }
         }
-        PaneSeparator {}
+        PaneSeparator {
+            visible: !window.isMacOS
+        }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
             visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
-            implicitHeight: menuBar.visualVisible ? 24 : 0
+            Layout.preferredHeight: menuBar.visualVisible ? 24 : 0
             // FIXME remove spacing when visual invisible
         }
         PaneSeparator {

@@ -13,6 +13,7 @@ namespace sflow {
     class TimeLayoutViewModel;
     class TimelineInteractionController;
     class ScrollBehaviorViewModel;
+    class LabelSequenceInteractionController;
 }
 
 namespace Core {
@@ -40,11 +41,14 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::TimeLayoutViewModel *timeLayoutViewModel READ timeLayoutViewModel CONSTANT)
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
+        Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
 
     public:
         ~ArrangementPanelInterface() override;
@@ -57,6 +61,8 @@ namespace VisualEditor {
         sflow::TimeLayoutViewModel *timeLayoutViewModel() const;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
         sflow::TimelineInteractionController *timelineInteractionController() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
 
         PositionAlignmentManipulator *positionAlignmentManipulator() const;
         AutoPageScrollingManipulator *autoPageScrollingManipulator() const;
@@ -75,14 +81,18 @@ namespace VisualEditor {
         bool isSnapTemporarilyDisabled() const;
         void setSnapTemporarilyDisabled(bool disabled);
 
+        bool isMouseTrackingDisabled() const;
+        void setMouseTrackingDisabled(bool disabled);
+
     Q_SIGNALS:
         void toolChanged();
         void snapTemporarilyDisabledChanged();
+        void mouseTrackingDisabledChanged();
 
     private:
         friend class Internal::ArrangementAddOn;
         QScopedPointer<ArrangementPanelInterfacePrivate> d_ptr;
-        explicit ArrangementPanelInterface(Core::ProjectWindowInterface *windowHandle);
+        explicit ArrangementPanelInterface(Internal::ArrangementAddOn *addOn, Core::ProjectWindowInterface *windowHandle);
     };
 
 }

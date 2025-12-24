@@ -12,6 +12,7 @@ namespace QDspx {
 namespace dspx {
 
     class ParamCurveSequence;
+    class ParamMap;
     class ParamPrivate;
 
     class DSPX_MODEL_EXPORT Param : public EntityObject {
@@ -22,6 +23,7 @@ namespace dspx {
         Q_PROPERTY(ParamCurveSequence *original READ original CONSTANT)
         Q_PROPERTY(ParamCurveSequence *transform READ transform CONSTANT)
         Q_PROPERTY(ParamCurveSequence *edited READ edited CONSTANT)
+        Q_PROPERTY(ParamMap *paramMap READ paramMap CONSTANT)
 
     public:
         ~Param() override;
@@ -30,8 +32,13 @@ namespace dspx {
         ParamCurveSequence *transform() const;
         ParamCurveSequence *edited() const;
 
+        ParamMap *paramMap() const;
+
         QDspx::Param toQDspx() const;
         void fromQDspx(const QDspx::Param &param);
+
+    Q_SIGNALS:
+        void paramMapChanged();
 
     private:
         friend class ModelPrivate;

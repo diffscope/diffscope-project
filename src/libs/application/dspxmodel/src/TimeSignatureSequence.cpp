@@ -1,4 +1,5 @@
 #include "TimeSignatureSequence.h"
+#include "TimeSignatureSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -8,20 +9,24 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/TimeSignature.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {
-
-    class TimeSignatureSequencePrivate : public PointSequenceData<TimeSignatureSequence, TimeSignature, &TimeSignature::index, &TimeSignature::indexChanged> {
-        Q_DECLARE_PUBLIC(TimeSignatureSequence)
-    };
 
     TimeSignatureSequence::TimeSignatureSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TimeSignatureSequencePrivate) {
         Q_D(TimeSignatureSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_TimeSignatures);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
+        connect(this, &TimeSignatureSequence::itemInserted, this, [=](TimeSignature *item) {
+            TimeSignaturePrivate::setTimeSignatureSequence(item, this);
+        });
+        connect(this, &TimeSignatureSequence::itemRemoved, this, [=](TimeSignature *item) {
+            TimeSignaturePrivate::setTimeSignatureSequence(item, nullptr);
+        });
     }
 
     TimeSignatureSequence::~TimeSignatureSequence() = default;

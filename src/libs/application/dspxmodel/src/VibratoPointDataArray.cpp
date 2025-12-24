@@ -18,6 +18,8 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ED_VibratoPoints);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->sliceDataArray(handle, 0, model->strategy()->getSizeOfDataArray(handle)));
     }
 
     VibratoPointDataArray::~VibratoPointDataArray() = default;

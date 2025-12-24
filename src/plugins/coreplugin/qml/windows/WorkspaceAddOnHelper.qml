@@ -95,6 +95,11 @@ QtObject {
         }
     }
 
+
+    function getIdHelper(object) {
+        return object.ActionInstantiator.id ? object.ActionInstantiator.id : (object.actionId ?? "")
+
+    }
     function initializeDockingViews() {
         console.info(lcWorkspaceAddOnHelper, "Initializing docking views")
         const conv = v => {
@@ -106,7 +111,7 @@ QtObject {
         const loadState = v => {
             try {
                 v.object.loadState(v.state)
-                console.debug(lcWorkspaceAddOnHelper, "State loaded:", v.object, v.object.ActionInstantiator.id)
+                console.debug(lcWorkspaceAddOnHelper, "State loaded:", v.object, getIdHelper(v.object))
             } catch (e) {
             }
         }
@@ -152,7 +157,7 @@ QtObject {
         const saveState = o => {
             try {
                 let state = o.saveState()
-                console.debug(lcWorkspaceAddOnHelper, "State saved:", o, o.ActionInstantiator.id)
+                console.debug(lcWorkspaceAddOnHelper, "State saved:", o, getIdHelper(o))
                 return state
             } catch (e) {
                 return undefined
@@ -162,9 +167,9 @@ QtObject {
             console.debug(lcWorkspaceAddOnHelper, "Saving docking view", firstKey);
             viewSpecMap[firstKey] = {
                 panels: dockingView.contentData.slice(0, dockingView.stretchIndex).map(o => {
-                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, o.ActionInstantiator.id)
+                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, getIdHelper(o))
                     let v = {
-                        id: o.ActionInstantiator.id,
+                        id: getIdHelper(o),
                         dock: o.dock,
                         opened: o.Docking.window?.visible ?? false,
                         geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
@@ -181,9 +186,9 @@ QtObject {
             console.debug(lcWorkspaceAddOnHelper, "Saving docking view", lastKey)
             viewSpecMap[lastKey] = {
                 panels: dockingView.contentData.slice(dockingView.stretchIndex + 1).map(o => {
-                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, o.ActionInstantiator.id)
+                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, getIdHelper(o))
                     let v = {
-                        id: o.ActionInstantiator.id,
+                        id: getIdHelper(o),
                         dock: o.dock,
                         opened: o.Docking.window?.visible ?? false,
                         geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),

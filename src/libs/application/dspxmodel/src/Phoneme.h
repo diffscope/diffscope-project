@@ -11,6 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class PhonemeList;
     class PhonemePrivate;
 
     class DSPX_MODEL_EXPORT Phoneme : public EntityObject {
@@ -22,6 +23,7 @@ namespace dspx {
         Q_PROPERTY(int start READ start WRITE setStart NOTIFY startChanged)
         Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
         Q_PROPERTY(bool onset READ onset WRITE setOnset NOTIFY onsetChanged)
+        Q_PROPERTY(PhonemeList *phonemeList READ phonemeList NOTIFY phonemeListChanged)
 
     public:
         ~Phoneme() override;
@@ -38,6 +40,8 @@ namespace dspx {
         bool onset() const;
         void setOnset(bool onset);
 
+        PhonemeList *phonemeList() const;
+
         QDspx::Phoneme toQDspx() const;
         void fromQDspx(const QDspx::Phoneme &phoneme);
 
@@ -46,6 +50,7 @@ namespace dspx {
         void startChanged(int start);
         void tokenChanged(const QString &token);
         void onsetChanged(bool onset);
+        void phonemeListChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

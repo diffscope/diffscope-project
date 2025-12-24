@@ -22,7 +22,7 @@ namespace dspx {
     EntityObject::~EntityObject() {
         Q_D(EntityObject);
         if (d->model && d->handle) {
-            d->model->strategy()->destroyEntity(d->handle);
+
         }
     }
 

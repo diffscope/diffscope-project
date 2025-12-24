@@ -38,7 +38,6 @@ namespace Core {
         Q_PROPERTY(EditActionsHandlerRegistry *mainEditActionsHandlerRegistry READ mainEditActionsHandlerRegistry CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
-        static ProjectWindowInterface *instance();
 
         ProjectTimeline *projectTimeline() const;
 

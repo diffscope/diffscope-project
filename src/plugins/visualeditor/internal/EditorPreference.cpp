@@ -17,6 +17,7 @@ namespace VisualEditor::Internal {
         bool middleButtonAutoScroll{};
         int autoDurationPositionAlignment{48};
         bool enableTemporarySnapOff{true};
+        bool trackCursorPosition{true};
     };
 
     static EditorPreference *m_instance = nullptr;
@@ -162,6 +163,17 @@ namespace VisualEditor::Internal {
             return;
         d->enableTemporarySnapOff = enableTemporarySnapOff;
         emit m_instance->enableTemporarySnapOffChanged();
+    }
+    bool EditorPreference::trackCursorPosition() {
+        M_INSTANCE_D;
+        return d->trackCursorPosition;
+    }
+    void EditorPreference::setTrackCursorPosition(bool trackCursorPosition) {
+        M_INSTANCE_D;
+        if (d->trackCursorPosition == trackCursorPosition)
+            return;
+        d->trackCursorPosition = trackCursorPosition;
+        emit m_instance->trackCursorPositionChanged();
     }
 
 }

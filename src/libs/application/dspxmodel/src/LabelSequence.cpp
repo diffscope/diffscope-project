@@ -1,4 +1,5 @@
 #include "LabelSequence.h"
+#include "LabelSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -8,20 +9,24 @@
 #include <dspxmodel/Label.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
 
 namespace dspx {
-
-    class LabelSequencePrivate : public PointSequenceData<LabelSequence, Label, &Label::pos, &Label::posChanged> {
-        Q_DECLARE_PUBLIC(LabelSequence)
-    };
 
     LabelSequence::LabelSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelSequencePrivate) {
         Q_D(LabelSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Labels);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
+        connect(this, &LabelSequence::itemInserted, this, [=](Label *item) {
+            LabelPrivate::setLabelSequence(item, this);
+        });
+        connect(this, &LabelSequence::itemRemoved, this, [=](Label *item) {
+            LabelPrivate::setLabelSequence(item, nullptr);
+        });
     }
 
     LabelSequence::~LabelSequence() = default;

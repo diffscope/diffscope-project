@@ -15,7 +15,7 @@ namespace dspx {
     class Pronunciation;
     class Vibrato;
     class Workspace;
-    class SingingClip;
+    class NoteSequence;
 
     class NoteSequencePrivate;
 
@@ -36,7 +36,7 @@ namespace dspx {
         Q_PROPERTY(Pronunciation *pronunciation READ pronunciation CONSTANT)
         Q_PROPERTY(Vibrato *vibrato READ vibrato CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
-        Q_PROPERTY(SingingClip *singingClip READ singingClip NOTIFY singingClipChanged)
+        Q_PROPERTY(NoteSequence *noteSequence READ noteSequence NOTIFY noteSequenceChanged)
         Q_PROPERTY(bool overlapped READ isOverlapped NOTIFY overlappedChanged)
 
     public:
@@ -68,7 +68,7 @@ namespace dspx {
 
         Workspace *workspace() const;
 
-        SingingClip *singingClip() const;
+        NoteSequence *noteSequence() const;
 
         bool isOverlapped() const;
 
@@ -82,7 +82,7 @@ namespace dspx {
         void lengthChanged(int length);
         void lyricChanged(const QString &lyric);
         void posChanged(int pos);
-        void singingClipChanged();
+        void noteSequenceChanged();
         void overlappedChanged(bool overlapped);
 
     protected:
@@ -90,11 +90,8 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        friend class NoteSequencePrivate;
         explicit Note(Handle handle, Model *model);
         QScopedPointer<NotePrivate> d_ptr;
-        void setSingingClip(SingingClip *singingClip);
-        void setOverlapped(bool overlapped);
     };
 
 }

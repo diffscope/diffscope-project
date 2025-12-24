@@ -14,10 +14,10 @@ namespace Core::Internal {
 
         Q_PROPERTY(QString musicTimeText READ musicTimeText NOTIFY musicTimeTextChanged)
         Q_PROPERTY(QString longTimeText READ longTimeText NOTIFY longTimeTextChanged)
-        Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY
-                       showMusicTimeChanged)
-        Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY
-                       showMusicTimeChanged)
+        Q_PROPERTY(QString tempoText READ tempoText NOTIFY tempoTextChanged)
+        Q_PROPERTY(QString timeSignatureText READ timeSignatureText NOTIFY timeSignatureTextChanged)
+        Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY showMusicTimeChanged)
+        Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY showMusicTimeChanged)
         Q_PROPERTY(int doubleClickInterval READ doubleClickInterval)
     public:
         explicit TimelineAddOn(QObject *parent = nullptr);
@@ -29,6 +29,8 @@ namespace Core::Internal {
 
         QString musicTimeText() const;
         QString longTimeText() const;
+        QString tempoText() const;
+        QString timeSignatureText() const;
 
         bool showMusicTime() const;
         void setShowMusicTime(bool on);
@@ -58,6 +60,8 @@ namespace Core::Internal {
     Q_SIGNALS:
         void musicTimeTextChanged();
         void longTimeTextChanged();
+        void tempoTextChanged();
+        void timeSignatureTextChanged();
         void showMusicTimeChanged();
 
     private:

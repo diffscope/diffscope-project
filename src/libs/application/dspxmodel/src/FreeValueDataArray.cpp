@@ -1,19 +1,25 @@
 #include "FreeValueDataArray.h"
 
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/ParamCurveFree.h>
 #include <dspxmodel/private/DataArrayData_p.h>
 
 namespace dspx {
 
     class FreeValueDataArrayPrivate : public DataArrayData<FreeValueDataArray, int> {
         Q_DECLARE_PUBLIC(FreeValueDataArray)
+    public:
+        ParamCurveFree *paramCurveFree{};
     };
 
-    FreeValueDataArray::FreeValueDataArray(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new FreeValueDataArrayPrivate) {
+    FreeValueDataArray::FreeValueDataArray(ParamCurveFree *paramCurveFree, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new FreeValueDataArrayPrivate) {
         Q_D(FreeValueDataArray);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ED_ParamCurveFreeValues);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->paramCurveFree = paramCurveFree;
+
+        d->init(model->strategy()->sliceDataArray(handle, 0, model->strategy()->getSizeOfDataArray(handle)));
     }
 
     FreeValueDataArray::~FreeValueDataArray() = default;
@@ -64,6 +70,13 @@ namespace dspx {
         Q_D(FreeValueDataArray);
         d->handleRotateDataArray(leftIndex, middleIndex, rightIndex);
     }
+
+    ParamCurveFree *FreeValueDataArray::paramCurveFree() const {
+        Q_D(const FreeValueDataArray);
+        return d->paramCurveFree;
+    }
+
+
 
 }
 

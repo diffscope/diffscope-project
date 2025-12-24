@@ -14,10 +14,10 @@
 
 #include <coreplugin/CoreInterface.h>
 
-#include <audio/internal/audioandmidipage.h>
-#include <audio/internal/audiooutputpage.h>
-#include <audio/internal/audiosystem.h>
-#include <audio/internal/outputsystem.h>
+#include <audio/internal/AudioAndMidiPage.h>
+#include <audio/internal/AudioOutputPage.h>
+#include <audio/internal/AudioSystem.h>
+#include <audio/internal/OutputSystem.h>
 
 namespace Audio::Internal {
 

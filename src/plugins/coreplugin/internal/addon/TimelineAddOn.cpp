@@ -11,6 +11,7 @@
 
 #include <SVSCraftCore/LongTime.h>
 #include <SVSCraftCore/MusicTime.h>
+#include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -34,10 +35,14 @@ namespace Core::Internal {
         connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this] {
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
+            Q_EMIT tempoTextChanged();
+            Q_EMIT timeSignatureTextChanged();
         });
         connect(windowInterface->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
+            Q_EMIT tempoTextChanged();
+            Q_EMIT timeSignatureTextChanged();
         });
     }
     void TimelineAddOn::extensionsInitialized() {
@@ -57,6 +62,16 @@ namespace Core::Internal {
                                  ->create(0, 0, windowInterface->projectTimeline()->position())
                                  .millisecond())
             .toString();
+    }
+    QString TimelineAddOn::tempoText() const {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto projectTimeline = windowInterface->projectTimeline();
+        return QLocale().toString(projectTimeline->musicTimeline()->tempoAt(projectTimeline->position()));
+    }
+    QString TimelineAddOn::timeSignatureText() const {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto projectTimeline = windowInterface->projectTimeline();
+        return projectTimeline->musicTimeline()->timeSignatureAt(projectTimeline->musicTimeline()->create(0, 0, projectTimeline->position()).measure()).toString();
     }
     bool TimelineAddOn::showMusicTime() const {
         return m_showMusicTime;

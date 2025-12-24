@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct Clip;
@@ -46,6 +47,10 @@ namespace dspx {
 
         Track *track() const;
 
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
+
     Q_SIGNALS:
         void itemAboutToInsert(Clip *item);
         void itemInserted(Clip *item);
@@ -61,9 +66,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        friend class Track;
-        explicit ClipSequence(Handle handle, Model *model);
-        void setTrack(Track *track);
+        explicit ClipSequence(Track *track, Handle handle, Model *model);
         QScopedPointer<ClipSequencePrivate> d_ptr;
     };
 

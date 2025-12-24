@@ -12,6 +12,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class ParamCurveSequence;
     class ParamCurvePrivate;
 
     class DSPX_MODEL_EXPORT ParamCurve : public EntityObject {
@@ -21,6 +22,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(ParamCurve)
         Q_PROPERTY(int start READ start WRITE setStart NOTIFY startChanged)
         Q_PROPERTY(CurveType type READ type CONSTANT)
+        Q_PROPERTY(ParamCurveSequence *paramCurveSequence READ paramCurveSequence NOTIFY paramCurveSequenceChanged)
 
     public:
         enum CurveType {
@@ -36,11 +38,14 @@ namespace dspx {
 
         CurveType type() const;
 
+        ParamCurveSequence *paramCurveSequence() const;
+
         QDspx::ParamCurveRef toQDspx() const;
         void fromQDspx(const QDspx::ParamCurveRef &curve);
 
     Q_SIGNALS:
         void startChanged(int start);
+        void paramCurveSequenceChanged();
 
     protected:
         explicit ParamCurve(CurveType type, Handle handle, Model *model);

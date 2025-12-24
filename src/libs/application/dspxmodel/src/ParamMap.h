@@ -12,6 +12,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class SingingClip;
     class Param;
     class ParamMapPrivate;
 
@@ -23,6 +24,7 @@ namespace dspx {
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(QStringList keys READ keys NOTIFY keysChanged)
         Q_PROPERTY(QList<Param *> items READ items NOTIFY itemsChanged)
+        Q_PROPERTY(SingingClip *singingClip READ singingClip CONSTANT)
         Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
 
     public:
@@ -39,6 +41,8 @@ namespace dspx {
         QDspx::Params toQDspx() const;
         void fromQDspx(const QDspx::Params &paramMap);
 
+        SingingClip *singingClip() const;
+
     Q_SIGNALS:
         void itemAboutToInsert(const QString &key, Param *item);
         void itemInserted(const QString &key, Param *item);
@@ -54,7 +58,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        explicit ParamMap(Handle handle, Model *model);
+        explicit ParamMap(SingingClip *singingClip, Handle handle, Model *model);
         QScopedPointer<ParamMapPrivate> d_ptr;
     };
 

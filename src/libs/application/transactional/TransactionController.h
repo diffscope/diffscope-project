@@ -49,6 +49,38 @@ namespace Core {
         Q_INVOKABLE bool abortTransaction(TransactionId transactionId);
         Q_INVOKABLE bool commitTransaction(TransactionId transactionId, const QString &name);
 
+        template <typename Callback>
+        requires requires (Callback callback) {
+            { callback() } -> std::convertible_to<bool>;
+        }
+        bool beginScopedTransaction(const QString &name, Callback callback) {
+            auto transactionId = beginTransaction();
+            if (transactionId == TransactionId::Invalid) {
+                return false;
+            }
+            bool ok;
+            if (!callback()) {
+                ok = abortTransaction(transactionId);
+            } else {
+                ok = commitTransaction(transactionId, name);
+            }
+            Q_ASSERT(ok);
+            return true;
+        }
+
+        template <typename Callback, typename CallbackIfFails>
+        requires requires (Callback callback, CallbackIfFails callbackIfFails) {
+            { callback() } -> std::convertible_to<bool>;
+            { callbackIfFails() };
+        }
+        bool beginScopedTransaction(const QString &name, Callback callback, CallbackIfFails callbackIfFails) {
+            if (!beginScopedTransaction(name, callback)) {
+                callbackIfFails();
+                return false;
+            }
+            return true;
+        }
+
         Q_INVOKABLE TransactionId beginNonExclusiveTransaction(int lifeTime, const QString &name);
         Q_INVOKABLE void resetNonExclusiveTransactionLifeTime(TransactionId transactionId, int lifeTime, const QString &name = {});
 

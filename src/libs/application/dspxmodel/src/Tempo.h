@@ -11,6 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
+    class TempoSequence;
     class TempoPrivate;
 
     class DSPX_MODEL_EXPORT Tempo : public EntityObject {
@@ -20,6 +21,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(Tempo);
         Q_PRIVATE_PROPERTY(d_func(), int pos MEMBER pos WRITE setPos NOTIFY posChanged)
         Q_PRIVATE_PROPERTY(d_func(), double value MEMBER value WRITE setValue NOTIFY valueChanged)
+        Q_PROPERTY(TempoSequence *tempoSequence READ tempoSequence NOTIFY tempoSequenceChanged)
     public:
         ~Tempo() override;
 
@@ -29,12 +31,15 @@ namespace dspx {
         double value() const;
         void setValue(double value);
 
+        TempoSequence *tempoSequence() const;
+
         QDspx::Tempo toQDspx() const;
         void fromQDspx(const QDspx::Tempo &tempo);
 
     Q_SIGNALS:
         void posChanged(int pos);
         void valueChanged(double value);
+        void tempoSequenceChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

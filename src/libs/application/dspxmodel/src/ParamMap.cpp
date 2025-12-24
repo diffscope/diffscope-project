@@ -4,20 +4,34 @@
 #include <opendspx/param.h>
 
 #include <dspxmodel/Param.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/Param_p.h>
 
 namespace dspx {
 
     class ParamMapPrivate : public MapData<ParamMap, Param> {
         Q_DECLARE_PUBLIC(ParamMap)
+    public:
+        SingingClip *singingClip;
     };
 
-    ParamMap::ParamMap(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ParamMapPrivate) {
+    ParamMap::ParamMap(SingingClip *singingClip, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ParamMapPrivate) {
         Q_D(ParamMap);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EM_Params);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->singingClip = singingClip;
+
+        d->init(model->strategy()->getEntitiesFromMapContainer(handle));
+
+        connect(this, &ParamMap::itemInserted, this, [this](const QString &, Param *item) {
+            ParamPrivate::setParamMap(item, this);
+        });
+        connect(this, &ParamMap::itemRemoved, this, [this](const QString &, Param *item) {
+            ParamPrivate::setParamMap(item, nullptr);
+        });
     }
 
     ParamMap::~ParamMap() = default;
@@ -76,6 +90,11 @@ namespace dspx {
             param->fromQDspx(value);
             insertItem(key, param);
         }
+    }
+
+    SingingClip *ParamMap::singingClip() const {
+        Q_D(const ParamMap);
+        return d->singingClip;
     }
 
     void ParamMap::handleInsertIntoMapContainer(Handle entity, const QString &key) {

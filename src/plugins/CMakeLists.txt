@@ -38,6 +38,7 @@ function(diffscope_add_builtin_plugin _target)
 
     qm_configure_target(${_target}
         SOURCES ${_src}
+        INCLUDE_PRIVATE *
         ${FUNC_UNPARSED_ARGUMENTS}
     )
 

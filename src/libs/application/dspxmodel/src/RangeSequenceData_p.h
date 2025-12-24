@@ -34,6 +34,19 @@ namespace dspx {
             Q_UNREACHABLE();
         }
 
+        void init(const QList<Handle> &handles) {
+            for (auto handle : handles) {
+                auto item = getItem(handle, true);
+                pointContainer.insertItem(item, (item->*positionGetter)());
+                auto affectedItems = rangeContainer.insertItem(item, (item->*positionGetter)(), (item->*lengthGetter)());
+                for (auto affectedItem : affectedItems) {
+                    bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+                    setOverlapped(affectedItem, isOverlapped);
+                }
+            }
+            updateFirstAndLastItem();
+        }
+
         void insertItem(ItemType *item, int position, int length) {
             auto q = q_ptr;
             bool containsItem = pointContainer.contains(item);

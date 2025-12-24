@@ -15,9 +15,7 @@ namespace dspx {
     class BusControl;
     class ClipTime;
     class Workspace;
-    class Track;
-
-    class ClipSequencePrivate;
+    class ClipSequence;
 
     class ClipPrivate;
 
@@ -31,7 +29,7 @@ namespace dspx {
         Q_PROPERTY(ClipTime *time READ time CONSTANT)
         Q_PROPERTY(ClipType type READ type CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
-        Q_PROPERTY(Track *track READ track NOTIFY trackChanged)
+        Q_PROPERTY(ClipSequence *clipSequence READ clipSequence NOTIFY clipSequenceChanged)
         Q_PROPERTY(bool overlapped READ isOverlapped NOTIFY overlappedChanged)
     public:
         enum ClipType {
@@ -56,7 +54,7 @@ namespace dspx {
         QDspx::ClipRef toQDspx() const;
         void fromQDspx(const QDspx::ClipRef &clip);
 
-        Track *track() const;
+        ClipSequence *clipSequence() const;
 
         int position() const;
 
@@ -66,7 +64,7 @@ namespace dspx {
 
     Q_SIGNALS:
         void nameChanged(const QString &name);
-        void trackChanged();
+        void clipSequenceChanged();
         void positionChanged(int position);
         void lengthChanged(int length);
         void overlappedChanged(bool overlapped);
@@ -76,10 +74,7 @@ namespace dspx {
         void handleSetEntityProperty(int property, const QVariant &value) override;
 
     private:
-        friend class ClipSequencePrivate;
         QScopedPointer<ClipPrivate> d_ptr;
-        void setTrack(Track *track);
-        void setOverlapped(bool overlapped);
     };
 
 } // dspx

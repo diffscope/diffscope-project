@@ -21,7 +21,7 @@ ProjectWindow {
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
     documentName: [
-        ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || qsTr("Untitled"),
+        ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || qsTr("Untitled") + ".dspx",
         windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? "Modified Externally" : ""
     ].filter(x => x).join(" - ")
 

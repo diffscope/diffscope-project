@@ -25,6 +25,9 @@ QtObject {
             arrangementPanelInterface.positionAlignmentManipulator.duration = state.duration
             arrangementPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
             arrangementPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+            for (let id of state.additionalTracks) {
+                d.addOn.additionalTrackLoader.loadItem(id)
+            }
         }
 
         function saveState() {
@@ -33,7 +36,8 @@ QtObject {
                 tool: arrangementPanelInterface.tool,
                 duration: arrangementPanelInterface.positionAlignmentManipulator.duration,
                 tuplet: arrangementPanelInterface.positionAlignmentManipulator.tuplet,
-                isAutoPageScrollingEnabled: arrangementPanelInterface.autoPageScrollingManipulator.enabled
+                isAutoPageScrollingEnabled: arrangementPanelInterface.autoPageScrollingManipulator.enabled,
+                additionalTracks: d.addOn.additionalTrackLoader.loadedComponents
             }
         }
 
@@ -44,7 +48,7 @@ QtObject {
         header: ToolBarContainer {
             id: toolBar
             anchors.fill: parent
-            property ActionInstantiator instantiator: ActionInstantiator {
+            property MenuActionInstantiator instantiator: MenuActionInstantiator {
                 actionId: "org.diffscope.visualeditor.arrangementPanelToolBar"
                 context: d.addOn?.windowHandle.actionContext ?? null
                 separatorComponent: ToolBarContainerSeparator {
@@ -52,28 +56,6 @@ QtObject {
                 stretchComponent: ToolBarContainerStretch {
                 }
                 Component.onCompleted: forceUpdateLayouts()
-                onObjectAdded: (index, object) => {
-                    if (object instanceof Item) {
-                        toolBar.insertItem(index, object)
-                    } else if (object instanceof T.Action) {
-                        toolBar.insertAction(index, object)
-                    } else if (object instanceof T.Menu) {
-                        toolBar.insertMenu(index, object)
-                    } else {
-                        toolBar.insertItem(index, dummyItem.createObject(this))
-                    }
-                }
-                onObjectRemoved: (index, object) => {
-                    if (object instanceof Item) {
-                        toolBar.removeItem(object)
-                    } else if (object instanceof Action) {
-                        toolBar.removeAction(object)
-                    } else if (object instanceof Menu) {
-                        toolBar.removeMenu(object)
-                    } else {
-                        toolBar.removeItem(target.itemAt(index))
-                    }
-                }
             }
         }
         data: [d.addOn?.arrangementPanelInterface.arrangementView ?? null]

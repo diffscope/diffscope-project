@@ -1,4 +1,5 @@
 #include "TimeSignature.h"
+#include "TimeSignature_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
@@ -7,24 +8,13 @@
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/TimeSignatureSequence.h>
 
 namespace dspx {
 
-    class TimeSignaturePrivate {
-        Q_DECLARE_PUBLIC(TimeSignature)
-    public:
-        TimeSignature *q_ptr;
-        int index;
-        int numerator;
-        int denominator;
-
-        void setIndexUnchecked(int index_);
-        void setIndex(int index_);
-        void setNumeratorUnchecked(int numerator_);
-        void setNumerator(int numerator_);
-        void setDenominatorUnchecked(int denominator_);
-        void setDenominator(int denominator_);
-    };
+    static constexpr bool validateDenominator(int d) {
+        return d == 1 || d == 2 || d == 4 || d == 8 || d == 16 || d == 32 || d == 64 || d == 128 || d == 256;
+    }
 
     void TimeSignaturePrivate::setIndexUnchecked(int index_) {
         Q_Q(TimeSignature);
@@ -59,10 +49,6 @@ namespace dspx {
         q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Denominator, denominator_);
     }
 
-    static constexpr bool validateDenominator(int d) {
-        return d == 1 || d == 2 || d == 4 || d == 8 || d == 16 || d == 32 || d == 64 || d == 128 || d == 256;
-    }
-
     void TimeSignaturePrivate::setDenominator(int denominator_) {
         Q_Q(TimeSignature);
         if (auto engine = qjsEngine(q); engine) {
@@ -72,6 +58,14 @@ namespace dspx {
             }
         }
         setDenominatorUnchecked(denominator_);
+    }
+
+    void TimeSignaturePrivate::setTimeSignatureSequence(TimeSignature *item, TimeSignatureSequence *timeSignatureSequence) {
+        auto d = item->d_func();
+        if (d->timeSignatureSequence != timeSignatureSequence) {
+            d->timeSignatureSequence = timeSignatureSequence;
+            Q_EMIT item->timeSignatureSequenceChanged();
+        }
     }
 
     TimeSignature::TimeSignature(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TimeSignaturePrivate) {
@@ -116,6 +110,11 @@ namespace dspx {
         Q_D(TimeSignature);
         Q_ASSERT(validateDenominator(denominator));
         d->setDenominatorUnchecked(denominator);
+    }
+
+    TimeSignatureSequence *TimeSignature::timeSignatureSequence() const {
+        Q_D(const TimeSignature);
+        return d->timeSignatureSequence;
     }
 
     QDspx::TimeSignature TimeSignature::toQDspx() const {

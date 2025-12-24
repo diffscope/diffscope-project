@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct Label;
@@ -40,6 +41,10 @@ namespace dspx {
 
         QList<QDspx::Label> toQDspx() const;
         void fromQDspx(const QList<QDspx::Label> &labels);
+
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
 
     Q_SIGNALS:
         void itemAboutToInsert(Label *item);

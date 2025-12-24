@@ -9,9 +9,12 @@ namespace VisualEditor {
 
 namespace VisualEditor::Internal {
 
+    class AdditionalTrackLoader;
+
     class ArrangementAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(VisualEditor::ArrangementPanelInterface *arrangementPanelInterface READ arrangementPanelInterface CONSTANT)
+        Q_PROPERTY(AdditionalTrackLoader *additionalTrackLoader READ additionalTrackLoader CONSTANT)
     public:
         explicit ArrangementAddOn(QObject *parent = nullptr);
         ~ArrangementAddOn() override;
@@ -22,7 +25,12 @@ namespace VisualEditor::Internal {
 
         ArrangementPanelInterface *arrangementPanelInterface() const;
 
+        AdditionalTrackLoader *additionalTrackLoader() const;
+
         bool eventFilter(QObject *watched, QEvent *event) override;
+
+    private:
+        AdditionalTrackLoader *m_additionalTrackLoader{};
 
     };
 

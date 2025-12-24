@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct ParamCurve;
@@ -13,6 +14,7 @@ namespace QDspx {
 namespace dspx {
 
     class ParamCurve;
+    class Param;
 
     class ParamCurveSequencePrivate;
 
@@ -24,6 +26,7 @@ namespace dspx {
         Q_PROPERTY(int size READ size NOTIFY sizeChanged)
         Q_PROPERTY(ParamCurve *firstItem READ firstItem NOTIFY firstItemChanged)
         Q_PROPERTY(ParamCurve *lastItem READ lastItem NOTIFY lastItemChanged)
+        Q_PROPERTY(Param *param READ param CONSTANT)
         Q_PRIVATE_PROPERTY(d_func(), QJSValue iterable READ iterable CONSTANT)
     public:
         ~ParamCurveSequence() override;
@@ -42,6 +45,12 @@ namespace dspx {
         QList<QDspx::ParamCurveRef> toQDspx() const;
         void fromQDspx(const QList<QDspx::ParamCurveRef> &curves);
 
+        Param *param() const;
+
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
+
     Q_SIGNALS:
         void itemAboutToInsert(ParamCurve *item);
         void itemInserted(ParamCurve *item);
@@ -57,7 +66,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        explicit ParamCurveSequence(Handle handle, Model *model);
+        explicit ParamCurveSequence(Param *param, Handle handle, Model *model);
         QScopedPointer<ParamCurveSequencePrivate> d_ptr;
     };
 

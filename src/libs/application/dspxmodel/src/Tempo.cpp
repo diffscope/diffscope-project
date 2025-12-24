@@ -1,4 +1,5 @@
 #include "Tempo.h"
+#include "Tempo_p.h"
 
 #include <QJSEngine>
 #include <QVariant>
@@ -7,22 +8,9 @@
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
+#include <dspxmodel/TempoSequence.h>
 
 namespace dspx {
-
-    class TempoPrivate {
-        Q_DECLARE_PUBLIC(Tempo)
-    public:
-        Tempo *q_ptr;
-        int pos;
-        double value;
-
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
-
-        void setValueUnchecked(double value_);
-        void setValue(double value_);
-    };
 
     void TempoPrivate::setPosUnchecked(int pos_) {
         Q_Q(Tempo);
@@ -50,6 +38,14 @@ namespace dspx {
             return;
         }
         setValueUnchecked(value_);
+    }
+
+    void TempoPrivate::setTempoSequence(Tempo *item, TempoSequence *tempoSequence) {
+        auto d = item->d_func();
+        if (d->tempoSequence != tempoSequence) {
+            d->tempoSequence = tempoSequence;
+            Q_EMIT item->tempoSequenceChanged();
+        }
     }
 
     Tempo::Tempo(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TempoPrivate) {
@@ -82,6 +78,11 @@ namespace dspx {
         Q_D(Tempo);
         Q_ASSERT(value >= 10.0 && value <= 1000.0);
         d->setValueUnchecked(value);
+    }
+
+    TempoSequence *Tempo::tempoSequence() const {
+        Q_D(const Tempo);
+        return d->tempoSequence;
     }
 
     QDspx::Tempo Tempo::toQDspx() const {

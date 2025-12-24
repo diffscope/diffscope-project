@@ -17,6 +17,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QuickControls2
         QuickTemplates2
         QuickDialogs2
+        StateMachine
     QT_INCLUDE_PRIVATE
         Core
         Gui

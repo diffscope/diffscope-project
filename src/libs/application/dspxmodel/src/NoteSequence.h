@@ -4,6 +4,7 @@
 #include <qqmlintegration.h>
 
 #include <dspxmodel/EntityObject.h>
+#include <dspxmodel/rangehelpers.h>
 
 namespace QDspx {
     struct Note;
@@ -46,6 +47,10 @@ namespace dspx {
 
         SingingClip *singingClip() const;
 
+        auto asRange() const {
+            return impl::SequenceRange(this);
+        }
+
     Q_SIGNALS:
         void itemAboutToInsert(Note *item);
         void itemInserted(Note *item);
@@ -61,9 +66,7 @@ namespace dspx {
 
     private:
         friend class ModelPrivate;
-        friend class SingingClip;
-        explicit NoteSequence(Handle handle, Model *model);
-        void setSingingClip(SingingClip *singingClip);
+        explicit NoteSequence(SingingClip *singingClip, Handle handle, Model *model);
         QScopedPointer<NoteSequencePrivate> d_ptr;
     };
 

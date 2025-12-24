@@ -24,6 +24,12 @@ namespace dspx {
         QList<DataType> data;
         QJSValue iterable_;
 
+        void init(const QVariantList &values) {
+            for (auto v : values) {
+                data.append(v.value<DataType>());
+            }
+        }
+
         int size() const {
             return data.size();
         }

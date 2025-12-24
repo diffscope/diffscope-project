@@ -17,51 +17,29 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "org.diffscope.core.home.recentFiles"
-        Action {
-            checkable: true
-            checked: !d.window.recoveryFilesVisible
-            onTriggered: () => {
-                d.window.recoveryFilesVisible = false
-                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.home.recoveryFiles"
-        Action {
-            checkable: true
-            checked: d.window.recoveryFilesVisible
-            onTriggered: () => {
-                d.window.recoveryFilesVisible = true
-                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.home.gridView"
-        Action {
-            enabled: !d.window.recoveryFilesVisible
-            checkable: true
-            checked: !d.window.recentFilesIsListView
-            onTriggered: () => {
-                d.window.recentFilesIsListView = false
-                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.home.listView"
-        Action {
-            enabled: !d.window.recoveryFilesVisible
-            checkable: true
-            checked: d.window.recentFilesIsListView
-            onTriggered: () => {
-                d.window.recentFilesIsListView = true
-                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
+        actionId: "org.diffscope.core.home.navigationPanels"
+        Menu {
+            id: menu
+            Instantiator {
+                model: DelegateModel {
+                    model: window.panelsModel.count
+                    delegate: Action {
+                        required property int index
+                        checkable: true
+                        checked: window.currentNavIndex === index
+                        text: window.panelsModel.get(index).title
+                        onTriggered: () => {
+                            window.currentNavIndex = index
+                            Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
+                        }
+                    }
+                }
+                onObjectAdded: (index, object) => {
+                    menu.insertAction(index, object)
+                }
+                onObjectRemoved: (index, object) => {
+                    menu.removeAction(object)
+                }
             }
         }
     }

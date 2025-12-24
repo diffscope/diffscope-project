@@ -1,4 +1,5 @@
 #include "ClipSequence.h"
+#include "ClipSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -11,42 +12,24 @@
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Track.h>
-#include <dspxmodel/private/Model_p.h>
-#include <dspxmodel/private/PointSequenceContainer_p.h>
 #include <dspxmodel/private/PointSequenceData_p.h>
-#include <dspxmodel/private/RangeSequenceContainer_p.h>
-#include <dspxmodel/private/RangeSequenceData_p.h>
 
 namespace dspx {
 
-    static void setClipOverlapped(Clip *item, bool overlapped);
-
-    class ClipSequencePrivate : public RangeSequenceData<ClipSequence, Clip, &Clip::position, &Clip::positionChanged, &Clip::length, &Clip::lengthChanged, &setClipOverlapped> {
-        Q_DECLARE_PUBLIC(ClipSequence)
-    public:
-        Track *track{};
-        static void setOverlapped(Clip *item, bool overlapped) {
-            item->setOverlapped(overlapped);
-        }
-        static void setTrack(Clip *item, Track *track) {
-            item->setTrack(track);
-        }
-    };
-
-    void setClipOverlapped(Clip *item, bool overlapped) {
-        ClipSequencePrivate::setOverlapped(item, overlapped);
-    }
-
-    ClipSequence::ClipSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipSequencePrivate) {
+    ClipSequence::ClipSequence(Track *track, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipSequencePrivate) {
         Q_D(ClipSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Clips);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->track = track;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+
         connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {
-            ClipSequencePrivate::setTrack(item, d->track);
+            ClipPrivate::setClipSequence(item, this);
         });
         connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item) {
-            ClipSequencePrivate::setTrack(item, nullptr);
+            ClipPrivate::setClipSequence(item, nullptr);
         });
     }
 
@@ -131,11 +114,6 @@ namespace dspx {
             item->fromQDspx(clip);
             insertItem(item);
         }
-    }
-
-    void ClipSequence::setTrack(Track *track) {
-        Q_D(ClipSequence);
-        d->track = track;
     }
 
     void ClipSequence::handleInsertIntoSequenceContainer(Handle entity) {

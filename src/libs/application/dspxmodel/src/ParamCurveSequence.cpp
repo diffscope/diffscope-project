@@ -1,4 +1,5 @@
 #include "ParamCurveSequence.h"
+#include "ParamCurveSequence_p.h"
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -9,6 +10,7 @@
 
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/ParamCurve.h>
+#include <dspxmodel/Param.h>
 #include <dspxmodel/ParamCurveAnchor.h>
 #include <dspxmodel/ParamCurveFree.h>
 #include <dspxmodel/private/Model_p.h>
@@ -17,15 +19,21 @@
 
 namespace dspx {
 
-    class ParamCurveSequencePrivate : public PointSequenceData<ParamCurveSequence, ParamCurve, &ParamCurve::start, &ParamCurve::startChanged> {
-        Q_DECLARE_PUBLIC(ParamCurveSequence)
-    };
-
-    ParamCurveSequence::ParamCurveSequence(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ParamCurveSequencePrivate) {
+    ParamCurveSequence::ParamCurveSequence(Param *param, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ParamCurveSequencePrivate) {
         Q_D(ParamCurveSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_ParamCurves);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->param = param;
+
+        d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
+        
+        connect(this, &ParamCurveSequence::itemInserted, this, [this](ParamCurve *paramCurve) {
+            ParamCurvePrivate::setParamCurveSequence(paramCurve, this);
+        });
+        connect(this, &ParamCurveSequence::itemRemoved, this, [this](ParamCurve *paramCurve) {
+            ParamCurvePrivate::setParamCurveSequence(paramCurve, nullptr);
+        });
     }
 
     ParamCurveSequence::~ParamCurveSequence() = default;
@@ -114,6 +122,11 @@ namespace dspx {
     void ParamCurveSequence::handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
         Q_D(ParamCurveSequence);
         d->handleTakeFromSequenceContainer(takenEntity, entity);
+    }
+
+    Param *ParamCurveSequence::param() const {
+        Q_D(const ParamCurveSequence);
+        return d->param;
     }
 
 }

@@ -251,23 +251,19 @@ namespace Core {
     ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
         static QDspx::Model defaultModel{
             .version = QDspx::Model::V1,
-            .content {
-                .tracks {
-                    {
-                        .name = tr("Track 1"),
-                        .clips = {
-                            QDspx::SingingClipRef::create(
-                                tr("Untitled clip"),
-                                QDspx::BusControl{},
-                                QDspx::ClipTime{
-                                    .start = 0,
-                                    .length = 48000,
-                                    .clipStart = 0,
-                                    .clipLen = 48000,
-                                }
-                            )
-                        }
+            .content = {
+                .global = {},
+                .master = {
+                    .control = {
+                        .gain = 1,
+                        .pan = 0,
+                        .mute = false,
                     }
+                },
+                .timeline = {
+                    .labels = {},
+                    .tempos = {{0, 120}},
+                    .timeSignatures = {{0, 4, 4}}
                 }
             }
         };

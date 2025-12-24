@@ -20,6 +20,7 @@ ScrollView {
     property bool middleButtonAutoScroll: false
     property int autoDurationPositionAlignment: 20
     property bool enableTemporarySnapOff: false
+    property bool trackCursorPosition: false
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
     onZoomModifierChanged: if (started) pageHandle.markDirty()
@@ -28,6 +29,7 @@ ScrollView {
     onMiddleButtonAutoScrollChanged: if (started) pageHandle.markDirty()
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
+    onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -153,6 +155,27 @@ ScrollView {
                         Layout.columnSpan: 3
                         checked: page.enableTemporarySnapOff
                         onClicked: page.enableTemporarySnapOff = checked
+                    }
+
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Miscellaneous")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 3
+
+                    CheckBox {
+                        text: qsTr("Track cursor position")
+                        Layout.columnSpan: 3
+                        checked: page.trackCursorPosition
+                        onClicked: page.trackCursorPosition = checked
                     }
 
                 }

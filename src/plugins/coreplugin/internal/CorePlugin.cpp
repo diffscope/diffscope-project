@@ -62,6 +62,7 @@
 #include <coreplugin/internal/RecentFileAddOn.h>
 #include <coreplugin/internal/TimeIndicatorPage.h>
 #include <coreplugin/internal/TimelineAddOn.h>
+#include <coreplugin/internal/UndoAddOn.h>
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -132,26 +133,43 @@ namespace Core::Internal {
     static constexpr char kNewProjectArg[] = "--new";
 
     static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+        qCDebug(lcCorePlugin) << "Initializing GUI" << options << args;
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
         }
-        ActionWindowInterfaceBase *windowInterface;
-        if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
-            qCInfo(lcCorePlugin) << "Create new project on startup";
-            windowInterface = CoreInterface::newFile();
-        } else {
-            qCInfo(lcCorePlugin) << "Open home window on startup";
-            CoreInterface::showHome();
-            windowInterface = HomeWindowInterface::instance();
+        QList<ActionWindowInterfaceBase *> windowInterfaceList;
+        do {
+            if (!args.isEmpty()) {
+                for (const auto &arg : args) {
+                    auto filePath = QDir(workingDirectory).absoluteFilePath(arg);
+                    auto windowInterface = CoreInterface::openFile(filePath);
+                    if (windowInterface) {
+                        windowInterfaceList.append(windowInterface);
+                    }
+                }
+                if (!windowInterfaceList.isEmpty()) {
+                    break;
+                }
+            }
+            if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
+                qCInfo(lcCorePlugin) << "Create new project on startup";
+                windowInterfaceList.append(CoreInterface::newFile());
+            } else {
+                qCInfo(lcCorePlugin) << "Open home window on startup";
+                CoreInterface::showHome();
+                windowInterfaceList.append(HomeWindowInterface::instance());
+            }
+        } while (false);
+        for (auto windowInterface : windowInterfaceList) {
+            auto win = windowInterface->window();
+            if (win->visibility() == QWindow::Minimized) {
+                win->showNormal();
+            }
+            win->raise();
+            win->requestActivate();
         }
-        auto win = windowInterface->window();
-        if (win->visibility() == QWindow::Minimized) {
-            win->showNormal();
-        }
-        win->raise();
-        win->requestActivate();
-        return windowInterface;
+        return windowInterfaceList.first();
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
@@ -188,7 +206,7 @@ namespace Core::Internal {
         qCInfo(lcCorePlugin) << "Initializing GUI";
         // TODO plugin arguments
         auto args = QApplication::arguments();
-        auto windowInterface = initializeGui(args, QDir::currentPath(), args);
+        auto windowInterface = initializeGui(args, QDir::currentPath(), ExtensionSystem::PluginManager::arguments());
         auto win = windowInterface->window();
         class ExposedListener : public QObject {
         public:
@@ -323,6 +341,7 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<UndoAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();

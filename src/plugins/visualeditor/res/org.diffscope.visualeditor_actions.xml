@@ -22,10 +22,17 @@
         <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" icon="layout_add_above" diffscope:componentType="menu" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:componentType="custom"/>
+
+        <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
+
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
+
     </items>
 
     <layouts>
@@ -40,6 +47,11 @@
             </group>
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+        </menu>
+        <menu id="org.diffscope.visualeditor.arrangementPanelTimelineToolBar">
+            <action id="org.diffscope.core.file.new" />
+            <stretch />
+            <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" />
         </menu>
     </layouts>
 
