@@ -12,8 +12,10 @@ namespace ImportExportManager {
         
         QString name;
         QString description;
-        QStringList filters;
-        FileConverter::Modes modes{};
+        QStringList fileDialogFilters;
+        FileConverter::Mode mode{FileConverter::Import};
+        FileConverter::HeuristicPriority heuristicPriority{FileConverter::Normal};
+        QStringList heuristicFilters;
     };
 
 }

@@ -2,7 +2,8 @@
 #define DIFFSCOPE_IMPORT_EXPORT_MANAGER_FILECONVERTER_H
 
 #include <QObject>
-#include <qqmlintegration.h>
+
+#include <importexportmanager/importexportmanagerglobal.h>
 
 class QWindow;
 
@@ -14,46 +15,54 @@ namespace ImportExportManager {
 
     class FileConverterPrivate;
 
-    class FileConverter : public QObject {
+    class IMPORT_EXPORT_MANAGER_EXPORT FileConverter : public QObject {
         Q_OBJECT
-        QML_ELEMENT
-        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(FileConverter)
         Q_PROPERTY(QString name READ name CONSTANT)
         Q_PROPERTY(QString description READ description CONSTANT)
-        Q_PROPERTY(QStringList filters READ filters CONSTANT)
-        Q_PROPERTY(Modes modes READ modes CONSTANT)
+        Q_PROPERTY(QStringList fileDialogFilters READ fileDialogFilters CONSTANT)
+        Q_PROPERTY(Mode mode READ mode CONSTANT)
     public:
         ~FileConverter() override;
 
         QString name() const;
         QString description() const;
-        QStringList filters() const;
+        QStringList fileDialogFilters() const;
 
         enum Mode {
-            Import = 0x1,
-            Export = 0x2,
+            Import,
+            Export,
         };
         Q_ENUM(Mode)
-        Q_DECLARE_FLAGS(Modes, Mode)
 
-        Modes modes() const;
+        Mode mode() const;
 
-        virtual bool execImport(const QString &filename, QDspx::Model &model, QWindow *window);
-        virtual bool execExport(const QString &filename, const QDspx::Model &model, QWindow *window);
+        enum HeuristicPriority {
+            Normal,
+            Low,
+        };
+        Q_ENUM(HeuristicPriority)
+
+        HeuristicPriority heuristicPriority() const;
+
+        QStringList heuristicFilters() const;
+
+        virtual bool runPreExecCheck();
+        virtual bool execImport(const QString &path, QDspx::Model &model, QWindow *window);
+        virtual bool execExport(const QString &path, const QDspx::Model &model, QWindow *window);
 
     protected:
         explicit FileConverter(QObject *parent = nullptr);
         void setName(const QString &name);
         void setDescription(const QString &description);
-        void setFilters(const QStringList &filters);
-        void setModes(Modes modes);
+        void setFileDialogFilters(const QStringList &filters);
+        void setMode(Mode mode);
+        void setHeuristicPriority(HeuristicPriority priority);
+        void setHeuristicFilters(const QStringList &filters);
 
     private:
         QScopedPointer<FileConverterPrivate> d_ptr;
     };
-
-    Q_DECLARE_OPERATORS_FOR_FLAGS(FileConverter::Modes)
 
 }
 

@@ -12,7 +12,7 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Core",
+    "Category": "Format",
     "Description": "Manages the formats used for importing and exporting",
     "Url": "@APPLICATION_URL@",
     "Dependencies" : [

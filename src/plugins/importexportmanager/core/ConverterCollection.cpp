@@ -1,7 +1,6 @@
 #include "ConverterCollection.h"
 
 #include <importexportmanager/FileConverter.h>
-#include <importexportmanager/ClipboardConverter.h>
 
 namespace ImportExportManager {
 
@@ -22,10 +21,6 @@ namespace ImportExportManager {
 
     QList<FileConverter *> ConverterCollection::fileConverters() const {
         return getObjects<FileConverter>();
-    }
-
-    QList<ClipboardConverter *> ConverterCollection::clipboardConverters() const {
-        return getObjects<ClipboardConverter>();
     }
 
 }

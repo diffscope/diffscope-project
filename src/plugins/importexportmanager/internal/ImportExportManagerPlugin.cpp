@@ -14,8 +14,9 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <importexportmanager/ConverterCollection.h>
-#include <importexportmanager/internal/ImportAddOn.h>
-#include <importexportmanager/internal/ProjectAddOn.h>
+#include <importexportmanager/internal/FileImportExportAddOn.h>
+#include <importexportmanager/internal/DspxFileImporter.h>
+#include <importexportmanager/internal/DspxFileExporter.h>
 
 static auto getImportExportManagerActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(importexportmanager);
@@ -31,10 +32,15 @@ namespace ImportExportManager::Internal {
     bool ImportExportManagerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::getImportExportManagerActionExtension());
+
         new ConverterCollection(this);
-        Core::HomeWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
-        Core::ProjectWindowInterfaceRegistry::instance()->attach<ImportAddOn>();
-        Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
+
+        Core::HomeWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
+
+        ConverterCollection::instance()->addObject(new DspxFileImporter);
+        ConverterCollection::instance()->addObject(new DspxFileExporter);
+
         return true;
     }
     void ImportExportManagerPlugin::extensionsInitialized() {

@@ -20,21 +20,35 @@ namespace ImportExportManager {
         return d->description;
     }
 
-    QStringList FileConverter::filters() const {
+    QStringList FileConverter::fileDialogFilters() const {
         Q_D(const FileConverter);
-        return d->filters;
+        return d->fileDialogFilters;
     }
 
-    FileConverter::Modes FileConverter::modes() const {
+    FileConverter::Mode FileConverter::mode() const {
         Q_D(const FileConverter);
-        return d->modes;
+        return d->mode;
     }
 
-    bool FileConverter::execImport(const QString &filename, QDspx::Model &model, QWindow *window) {
+    FileConverter::HeuristicPriority FileConverter::heuristicPriority() const {
+        Q_D(const FileConverter);
+        return d->heuristicPriority;
+    }
+
+    QStringList FileConverter::heuristicFilters() const {
+        Q_D(const FileConverter);
+        return d->heuristicFilters;
+    }
+
+    bool FileConverter::runPreExecCheck() {
+        return true;
+    }
+
+    bool FileConverter::execImport(const QString &path, QDspx::Model &model, QWindow *window) {
         return false;
     }
 
-    bool FileConverter::execExport(const QString &filename, const QDspx::Model &model, QWindow *window) {
+    bool FileConverter::execExport(const QString &path, const QDspx::Model &model, QWindow *window) {
         return false;
     }
 
@@ -48,14 +62,24 @@ namespace ImportExportManager {
         d->description = description;
     }
 
-    void FileConverter::setFilters(const QStringList &filters) {
+    void FileConverter::setFileDialogFilters(const QStringList &filters) {
         Q_D(FileConverter);
-        d->filters = filters;
+        d->fileDialogFilters = filters;
     }
 
-    void FileConverter::setModes(Modes modes) {
+    void FileConverter::setMode(Mode mode) {
         Q_D(FileConverter);
-        d->modes = modes;
+        d->mode = mode;
+    }
+
+    void FileConverter::setHeuristicPriority(HeuristicPriority priority) {
+        Q_D(FileConverter);
+        d->heuristicPriority = priority;
+    }
+
+    void FileConverter::setHeuristicFilters(const QStringList &filters) {
+        Q_D(FileConverter);
+        d->heuristicFilters = filters;
     }
 
 }

@@ -15,11 +15,13 @@
     </configuration>
 
     <items>
-        <action id="org.diffscope.importexportmanager.file.&amp;import^" icon="document_arrow_right" />
-        <action id="org.diffscope.importexportmanager.file.&amp;export^" icon="document_arrow_left" />
+        <action id="org.diffscope.importexportmanager.file.&amp;import" icon="document_arrow_right" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.file.&amp;export" icon="document_arrow_left" diffscope:componentType="menu" />
         <action id="org.diffscope.importexportmanager.project.importAsTracks^" />
         <action id="org.diffscope.importexportmanager.edit.copySpecial^" shortcut="Ctrl+Alt+C" />
         <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
+
+        <action id="org.diffscope.importexportmanager.panel.import" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_arrow_right" diffscope:componentType="custom" />
     </items>
 
     <layouts>
@@ -39,14 +41,14 @@
         <insertion target="org.diffscope.core.homeFile" anchor="after" relativeTo="org.diffscope.core.fileOpenActions">
             <group id="org.diffscope.importexportmanager.importActions" />
         </insertion>
-        <insertion target="org.diffscope.core.homeNavigation" anchor="last">
-            <action id="org.diffscope.importexportmanager.file.import" />
-        </insertion>
         <insertion target="org.diffscope.core.edit.generic" anchor="after" relativeTo="org.diffscope.core.edit.copy">
             <action id="org.diffscope.importexportmanager.edit.copySpecial" />
         </insertion>
         <insertion target="org.diffscope.core.edit.generic" anchor="after" relativeTo="org.diffscope.core.edit.paste">
             <action id="org.diffscope.importexportmanager.edit.pasteSpecial" />
+        </insertion>
+        <insertion target="org.diffscope.core.homePanels" anchor="last">
+            <action id="org.diffscope.importexportmanager.panel.import" />
         </insertion>
     </insertions>
 
