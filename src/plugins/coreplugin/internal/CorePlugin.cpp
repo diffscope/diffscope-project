@@ -66,6 +66,7 @@
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/CloseSaveCheckAddOn.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(coreplugin);
@@ -353,6 +354,7 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<CloseSaveCheckAddOn>();
     }
 
     void CorePlugin::initializeBehaviorPreference() {

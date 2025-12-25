@@ -10,18 +10,21 @@
 #include <CoreApi/runtimeinterface.h>
 
 #include <opendspx/model.h>
-#include <opendspxserializer/serializer.h>
 
 #include <SVSCraftCore/Semver.h>
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <dspxmodel/Model.h>
 
-#include <coreplugin/OpenSaveProjectFileScenario.h>
-#include <coreplugin/internal/BehaviorPreference.h>
-#include <coreplugin/DspxDocument.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxCheckerRegistry.h>
+#include <coreplugin/DspxDocument.h>
+#include <coreplugin/OpenSaveProjectFileScenario.h>
+#include <coreplugin/internal/BehaviorPreference.h>
+
+#include <opendspxserializer/serializer.h>
+
+#include <transactional/TransactionController.h>
 
 namespace Core {
 
@@ -50,7 +53,7 @@ namespace Core {
 
     void ProjectDocumentContextPrivate::markSaved() {
         Q_Q(ProjectDocumentContext);
-        // TODO
+        document->transactionController()->setCleanStep(document->transactionController()->currentStep());
         Q_EMIT q->saved();
     }
 

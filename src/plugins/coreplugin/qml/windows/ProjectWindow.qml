@@ -22,7 +22,8 @@ ProjectWindow {
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
     documentName: [
         ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || qsTr("Untitled") + ".dspx",
-        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? "Modified Externally" : ""
+        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
+        windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep ? qsTr("Unsaved") : "",
     ].filter(x => x).join(" - ")
 
     icon: "image://appicon/dspx"

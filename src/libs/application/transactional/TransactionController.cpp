@@ -82,7 +82,7 @@ namespace Core {
         Q_D(TransactionController);
         
         // Validate range
-        if (step < 0 || step > totalSteps()) {
+        if (step > totalSteps()) {
             return;
         }
         
@@ -287,6 +287,10 @@ namespace Core {
         Q_EMIT q->transactionActiveChanged(false);
         if (wasExclusive) {
             Q_EMIT q->exclusiveToTransactionChanged(false);
+        }
+        if (cleanStep >= currentStep) {
+            cleanStep = -1;
+            Q_EMIT q->cleanStepChanged(cleanStep);
         }
         Q_EMIT q->currentStepChanged(currentStep);
         Q_EMIT q->totalStepsChanged(q->totalSteps());
