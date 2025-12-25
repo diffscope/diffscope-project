@@ -234,6 +234,11 @@ namespace VisualEditor {
     void TempoViewModelContextData::onMovingStateExited() {
         Q_Q(ProjectViewModelContext);
         QSet<dspx::Tempo *> updatedItems;
+        if (transactionalUpdatedTempos.isEmpty()) {
+            document->transactionController()->abortTransaction(moveTransactionId);
+            moveTransactionId = {};
+            return;
+        }
         for (auto viewItem : transactionalUpdatedTempos) {
             auto item = tempoDocumentItemMap.value(viewItem);
             Q_ASSERT(item);

@@ -336,6 +336,11 @@ namespace VisualEditor {
     }
 
     void LabelViewModelContextData::onMovingStateExited() {
+        if (transactionalUpdatedLabels.isEmpty()) {
+            document->transactionController()->abortTransaction(moveTransactionId);
+            moveTransactionId = {};
+            return;
+        }
         for (auto viewItem : transactionalUpdatedLabels) {
             auto item = labelDocumentItemMap.value(viewItem);
             Q_ASSERT(item);
