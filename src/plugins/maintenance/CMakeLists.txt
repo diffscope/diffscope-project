@@ -21,6 +21,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         coreplugin
+        opendspx::model
+        opendspx::serializer
     INCLUDE_PRIVATE
         internal/**
 )

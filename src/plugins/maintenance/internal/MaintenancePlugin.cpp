@@ -16,6 +16,7 @@
 
 #include <maintenance/internal/ApplicationUpdateChecker.h>
 #include <maintenance/internal/MaintenanceAddOn.h>
+#include <maintenance/internal/ViewJsonAddOn.h>
 #include <maintenance/internal/UpdatePage.h>
 
 static auto getMaintenanceActionExtension() {
@@ -35,6 +36,7 @@ namespace Maintenance {
         Core::CoreInterface::actionRegistry()->addExtension(::getMaintenanceActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<MaintenanceAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MaintenanceAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ViewJsonAddOn>();
 
         new ApplicationUpdateChecker(this);
 
