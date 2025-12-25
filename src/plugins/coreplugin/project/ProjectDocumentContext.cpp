@@ -155,16 +155,16 @@ namespace Core {
         return true;
     }
 
-    void ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument) {
+    bool ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (d->document) {
             qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
-            return;
+            return false;
         }
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
         }
-        d->initializeDocument(templateModel, false);
+        return d->initializeDocument(templateModel, false);
     }
 
     bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument) {

@@ -38,8 +38,8 @@ namespace ImportExportManager::Internal {
         Core::HomeWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
 
-        ConverterCollection::instance()->addObject(new DspxFileImporter);
-        ConverterCollection::instance()->addObject(new DspxFileExporter);
+        ConverterCollection::addFileConverter(new DspxFileImporter);
+        ConverterCollection::addFileConverter(new DspxFileExporter);
 
         return true;
     }

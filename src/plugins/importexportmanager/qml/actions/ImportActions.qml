@@ -25,9 +25,7 @@ ActionCollection {
                         required property QtObject modelData
                         text: modelData.name
                         DescriptiveAction.statusTip: modelData.description
-                        onTriggered: {
-                            d.addOn.execImport(modelData)
-                        }
+                        onTriggered: Qt.callLater(() => d.addOn.execImport(modelData))
                     }
                 }
                 onObjectAdded: (index, object) => {

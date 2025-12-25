@@ -269,7 +269,9 @@ namespace Core {
         };
         qCInfo(lcCoreInterface) << "New file";
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        projectDocumentContext->newFile(defaultModel, false);
+        if (!projectDocumentContext->newFile(defaultModel, false)) {
+            return nullptr;
+        }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
         return windowInterface;
     }

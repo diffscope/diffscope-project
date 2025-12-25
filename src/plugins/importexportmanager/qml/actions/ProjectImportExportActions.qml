@@ -24,9 +24,7 @@ ActionCollection {
                         required property QtObject modelData
                         text: modelData.name
                         DescriptiveAction.statusTip: modelData.description
-                        onTriggered: {
-                            d.addOn.execExport(modelData)
-                        }
+                        onTriggered: Qt.callLater(() => d.addOn.execExport(modelData))
                     }
                 }
                 onObjectAdded: (index, object) => {

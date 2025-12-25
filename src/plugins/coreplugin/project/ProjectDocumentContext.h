@@ -36,7 +36,7 @@ namespace Core {
         OpenSaveProjectFileScenario *openSaveProjectFileScenario() const;
 
         bool openFile(const QString &filePath);
-        void newFile(const QDspx::Model &templateModel, bool isNonFileDocument);
+        bool newFile(const QDspx::Model &templateModel, bool isNonFileDocument);
         bool newFile(const QString &templateFilePath, bool isNonFileDocument);
         bool save();
         bool saveAs(const QString &filePath);

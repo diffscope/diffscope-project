@@ -21,8 +21,8 @@ namespace MIDIFormatConverter::Internal {
 
     bool MIDIFormatConverterPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        ImportExportManager::ConverterCollection::instance()->addObject(new MIDIFileImporter);
-        ImportExportManager::ConverterCollection::instance()->addObject(new MIDIFileExporter);
+        ImportExportManager::ConverterCollection::addFileConverter(new MIDIFileImporter);
+        ImportExportManager::ConverterCollection::addFileConverter(new MIDIFileExporter);
         return true;
     }
 

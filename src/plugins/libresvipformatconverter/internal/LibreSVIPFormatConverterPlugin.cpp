@@ -21,8 +21,8 @@ namespace LibreSVIPFormatConverter::Internal {
 
     bool LibreSVIPFormatConverterPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        ImportExportManager::ConverterCollection::instance()->addObject(new LibreSVIPFileImporter);
-        ImportExportManager::ConverterCollection::instance()->addObject(new LibreSVIPFileExporter);
+        ImportExportManager::ConverterCollection::addFileConverter(new LibreSVIPFileImporter);
+        ImportExportManager::ConverterCollection::addFileConverter(new LibreSVIPFileExporter);
         return true;
     }
 

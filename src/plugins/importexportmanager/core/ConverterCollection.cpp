@@ -6,7 +6,9 @@ namespace ImportExportManager {
 
     ConverterCollection *m_instance = nullptr;
 
-    ConverterCollection::ConverterCollection(QObject *parent) : Core::ObjectPool(parent) {
+    static QList<FileConverter *> s_fileConverters;
+
+    ConverterCollection::ConverterCollection(QObject *parent) : QObject(parent) {
         Q_ASSERT(!m_instance);
         m_instance = this;
     }
@@ -19,8 +21,12 @@ namespace ImportExportManager {
         return m_instance;
     }
 
-    QList<FileConverter *> ConverterCollection::fileConverters() const {
-        return getObjects<FileConverter>();
+    QList<FileConverter *> ConverterCollection::fileConverters() {
+        return s_fileConverters;
+    }
+
+    void ConverterCollection::addFileConverter(FileConverter *converter) {
+        s_fileConverters.append(converter);
     }
 
 }

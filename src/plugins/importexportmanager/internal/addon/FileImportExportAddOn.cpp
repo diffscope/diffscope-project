@@ -23,10 +23,13 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <dspxmodel/Model.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/DspxDocument.h>
 
 #include <importexportmanager/ConverterCollection.h>
 #include <importexportmanager/FileConverter.h>
@@ -85,7 +88,7 @@ namespace ImportExportManager::Internal {
     }
 
     QList<FileConverter *> FileImportExportAddOn::importConverters(const QString &path) {
-        auto converters = ConverterCollection::instance()->fileConverters();
+        auto converters = ConverterCollection::fileConverters();
 
         auto filtered = converters | std::views::filter([&](const FileConverter *converter) {
             if (converter->mode() != FileConverter::Import) {
@@ -112,7 +115,7 @@ namespace ImportExportManager::Internal {
     }
 
     QList<FileConverter *> FileImportExportAddOn::exportConverters() {
-        auto converters = ConverterCollection::instance()->fileConverters();
+        auto converters = ConverterCollection::fileConverters();
         auto filtered = converters | std::views::filter([&](const FileConverter *converter) {
             return converter->mode() == FileConverter::Export;
         });
@@ -120,26 +123,58 @@ namespace ImportExportManager::Internal {
     }
 
     void FileImportExportAddOn::execImport(FileConverter *converter) const {
+        qCInfo(lcFileImportExportAddOn) << "Exec import" << converter << converter->name();
+        if (!converter->runPreExecCheck()) {
+            qCInfo(lcFileImportExportAddOn) << "Import pre-exec check failed";
+            return;
+        }
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
         settings->endGroup();
-        auto path = QFileDialog::getOpenFileName(nullptr, {}, defaultDir, converter->fileDialogFilters().join(";;"));
+        auto path = QFileDialog::getOpenFileName(nullptr, tr("Import File"), defaultDir, converter->fileDialogFilters().join(";;"));
         if (path.isEmpty()) {
+            qCInfo(lcFileImportExportAddOn) << "Import canceled: file not selected";
             return;
         }
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
         settings->endGroup();
         QDspx::Model model;
-        converter->execImport(path, model, windowHandle()->window());
+        if (!converter->execImport(path, model, windowHandle()->window())) {
+            qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
+            return;
+        }
         auto projectDocumentContext = std::make_unique<Core::ProjectDocumentContext>();
         projectDocumentContext->newFile(model, false);
         Core::CoreInterface::createProjectWindow(projectDocumentContext.release());
     }
 
-    void FileImportExportAddOn::execExport(FileConverter *converter) {
-        // TODO
+    void FileImportExportAddOn::execExport(FileConverter *converter) const {
+        qCInfo(lcFileImportExportAddOn) << "Exec export" << converter << converter->name() << "from window" << windowHandle();
+        if (!converter->runPreExecCheck()) {
+            qCInfo(lcFileImportExportAddOn) << "Export pre-exec check failed";
+            return;
+        }
+        Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
+        auto projectDocumentContext = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext();
+        auto model = projectDocumentContext->document()->model()->toQDspx();
+        auto settings = Core::RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        settings->endGroup();
+        auto path = QFileDialog::getSaveFileName(nullptr, tr("Export File"), defaultDir, converter->fileDialogFilters().join(";;"));
+        if (path.isEmpty()) {
+            qCInfo(lcFileImportExportAddOn) << "Export canceled: file not selected";
+            return;
+        }
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
+        settings->endGroup();
+        if (!converter->execExport(path, model, windowHandle()->window())) {
+            qCInfo(lcFileImportExportAddOn) << "Export failed or canceled";
+            return;
+        }
     }
 
     bool FileImportExportAddOn::isHomeWindow() const {

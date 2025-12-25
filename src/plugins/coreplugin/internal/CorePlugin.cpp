@@ -199,6 +199,9 @@ namespace Core::Internal {
     void CorePlugin::extensionsInitialized() {
         auto settings = RuntimeInterface::settings();
         settings->setValue("lastInitializationAbortedFlag", false);
+        for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
+            qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled();
+        }
     }
 
     bool CorePlugin::delayedInitialize() {
