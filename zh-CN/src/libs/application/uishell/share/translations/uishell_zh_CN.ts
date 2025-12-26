@@ -65,12 +65,12 @@
     <message>
       <location filename="../../src/qml/FileView.qml" line="29"/>
       <source>New project</source>
-      <translation type="unfinished">New project</translation>
+      <translation>新建工程</translation>
     </message>
     <message>
       <location filename="../../src/qml/FileView.qml" line="237"/>
       <source>No result found</source>
-      <translation type="unfinished">No result found</translation>
+      <translation>未找到结果</translation>
     </message>
   </context>
   <context>
@@ -529,12 +529,12 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
     <message>
       <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="44"/>
       <source>Tempo</source>
-      <translation type="unfinished">Tempo</translation>
+      <translation>曲速</translation>
     </message>
     <message>
       <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="50"/>
       <source>Time Signature</source>
-      <translation type="unfinished">Time Signature</translation>
+      <translation>拍号</translation>
     </message>
   </context>
   <context>
