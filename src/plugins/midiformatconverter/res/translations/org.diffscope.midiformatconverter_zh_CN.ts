@@ -6,12 +6,12 @@
     <message>
       <location filename="../../../../app/main.cpp" line="80"/>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>版本 %1</translation>
     </message>
     <message>
       <location filename="../../../../app/main.cpp" line="81"/>
       <source>Copyright © %1-%2 %3. All rights reserved.</source>
-      <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
+      <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
   </context>
   <context>
@@ -19,17 +19,17 @@
     <message>
       <location filename="../../internal/MIDIFileExporter.cpp" line="8"/>
       <source>MIDI</source>
-      <translation type="unfinished">MIDI</translation>
+      <translation>MIDI</translation>
     </message>
     <message>
       <location filename="../../internal/MIDIFileExporter.cpp" line="9"/>
       <source>Export as Standard MIDI file</source>
-      <translation type="unfinished">Export as Standard MIDI file</translation>
+      <translation>导出为标准 MIDI 文件</translation>
     </message>
     <message>
       <location filename="../../internal/MIDIFileExporter.cpp" line="10"/>
       <source>Standard MIDI File (*.mid *.midi *.smf)</source>
-      <translation type="unfinished">Standard MIDI File (*.mid *.midi *.smf)</translation>
+      <translation>标准 MIDI 文件 (*.mid *.midi *.smf)</translation>
     </message>
   </context>
   <context>
@@ -37,17 +37,17 @@
     <message>
       <location filename="../../internal/MIDIFileImporter.cpp" line="8"/>
       <source>MIDI</source>
-      <translation type="unfinished">MIDI</translation>
+      <translation>MIDI</translation>
     </message>
     <message>
       <location filename="../../internal/MIDIFileImporter.cpp" line="9"/>
       <source>Import Standard MIDI file</source>
-      <translation type="unfinished">Import Standard MIDI file</translation>
+      <translation>导入标准 MIDI 文件</translation>
     </message>
     <message>
       <location filename="../../internal/MIDIFileImporter.cpp" line="10"/>
       <source>Standard MIDI File (*.mid *.midi *.smf)</source>
-      <translation type="unfinished">Standard MIDI File (*.mid *.midi *.smf)</translation>
+      <translation>标准 MIDI 文件 (*.mid *.midi *.smf)</translation>
     </message>
   </context>
 </TS>

@@ -294,7 +294,7 @@
     <message>
       <location filename="../../qml/settings/EditorPage.qml" line="175"/>
       <source>Track cursor position</source>
-      <translation>轨道光标位置</translation>
+      <translation>跟踪光标位置</translation>
     </message>
   </context>
   <context>

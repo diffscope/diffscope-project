@@ -6,12 +6,12 @@
     <message>
       <location filename="../../../../app/main.cpp" line="80"/>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>版本 %1</translation>
     </message>
     <message>
       <location filename="../../../../app/main.cpp" line="81"/>
       <source>Copyright © %1-%2 %3. All rights reserved.</source>
-      <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
+      <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
   </context>
   <context>
@@ -19,12 +19,12 @@
     <message>
       <location filename="../../internal/LibreSVIPFileExporter.cpp" line="10"/>
       <source>Multiple formats (export via LibreSVIP)</source>
-      <translation type="unfinished">Multiple formats (export via LibreSVIP)</translation>
+      <translation>多种格式（通过 LibreSVIP 导出）</translation>
     </message>
     <message>
       <location filename="../../internal/LibreSVIPFileExporter.cpp" line="11"/>
       <source>Export as project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
-      <translation type="unfinished">Export as project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</translation>
+      <translation>通过 LibreSVIP 导出为其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
   </context>
   <context>
@@ -32,12 +32,12 @@
     <message>
       <location filename="../../internal/LibreSVIPFileImporter.cpp" line="10"/>
       <source>Multiple formats (import via LibreSVIP)</source>
-      <translation type="unfinished">Multiple formats (import via LibreSVIP)</translation>
+      <translation>多种格式（通过 LibreSVIP 导入）</translation>
     </message>
     <message>
       <location filename="../../internal/LibreSVIPFileImporter.cpp" line="11"/>
       <source>Import project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
-      <translation type="unfinished">Import project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</translation>
+      <translation>通过 LibreSVIP 导入其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
   </context>
 </TS>

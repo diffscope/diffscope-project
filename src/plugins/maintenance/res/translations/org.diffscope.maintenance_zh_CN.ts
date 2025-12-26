@@ -14,12 +14,12 @@
     <message>
       <location filename="../../../../app/main.cpp" line="80"/>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>版本 %1</translation>
     </message>
     <message>
       <location filename="../../../../app/main.cpp" line="81"/>
       <source>Copyright © %1-%2 %3. All rights reserved.</source>
-      <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
+      <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
   </context>
   <context>
@@ -52,7 +52,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="569"/>
       <source>View the JSON code of the current project in the default editor</source>
-      <translation type="unfinished">View the JSON code of the current project in the default editor</translation>
+      <translation>在默认编辑器中查看当前工程的 JSON 代码</translation>
     </message>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="570"/>
@@ -85,7 +85,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="545"/>
       <source>View JSON Code of Project</source>
-      <translation type="unfinished">View JSON Code of Project</translation>
+      <translation>查看工程 JSON 代码</translation>
     </message>
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="546"/>
@@ -120,7 +120,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="552"/>
       <source>Open Directory Actions</source>
-      <translation type="unfinished">Open Directory Actions</translation>
+      <translation>打开目录操作</translation>
     </message>
     <message>
       <source>Diagnosis Actions</source>
@@ -146,7 +146,7 @@
     <message>
       <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="95"/>
       <source>Disclaimer</source>
-      <translation type="unfinished">Disclaimer</translation>
+      <translation>免责声明</translation>
     </message>
     <message>
       <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="96"/>
@@ -209,14 +209,14 @@
     <message>
       <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="102"/>
       <source>Failed to create JSON file</source>
-      <translation type="unfinished">Failed to create JSON file</translation>
+      <translation>创建 JSON 文件失败</translation>
     </message>
     <message>
       <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="103"/>
       <source>Could not create temporary JSON file:
 
 %1</source>
-      <translation type="unfinished">Could not create temporary JSON file:
+      <translation>无法创建临时 JSON 文件：
 
 %1</translation>
     </message>
