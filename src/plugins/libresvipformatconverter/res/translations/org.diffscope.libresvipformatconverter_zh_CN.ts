@@ -24,7 +24,7 @@
     <message>
       <location filename="../../internal/LibreSVIPFileExporter.cpp" line="11"/>
       <source>Export as project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
-      <translation>通过 LibreSVIP 导出为其他编辑器（例如 VOCALOID、OpenUtau 等）的项目文件</translation>
+      <translation>通过 LibreSVIP 导出为其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
   </context>
   <context>
@@ -37,7 +37,7 @@
     <message>
       <location filename="../../internal/LibreSVIPFileImporter.cpp" line="11"/>
       <source>Import project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
-      <translation>通过 LibreSVIP 导入其他编辑器（例如 VOCALOID、OpenUtau 等）的项目文件</translation>
+      <translation>通过 LibreSVIP 导入其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
   </context>
 </TS>
