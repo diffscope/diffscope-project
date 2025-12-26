@@ -14,12 +14,12 @@
     <message>
       <location filename="../../../../app/main.cpp" line="80"/>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>版本 %1</translation>
     </message>
     <message>
       <location filename="../../../../app/main.cpp" line="81"/>
       <source>Copyright © %1-%2 %3. All rights reserved.</source>
-      <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
+      <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
   </context>
   <context>
@@ -31,7 +31,7 @@
     <message>
       <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
       <source>Welcomewizard</source>
-      <translation type="unfinished">Welcomewizard</translation>
+      <translation>欢迎向导</translation>
     </message>
   </context>
   <context>
