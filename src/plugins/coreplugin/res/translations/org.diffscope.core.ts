@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_TW" sourcelanguage="en-US">
+<TS version="2.1" language="en_US" sourcelanguage="en-US">
   <context>
     <name>AppearancePage</name>
     <message>
@@ -2204,12 +2204,12 @@
     <message>
       <location filename="../../internal/settings/GeneralPage.cpp" line="163"/>
       <source>Restart %1</source>
-      <translation>重新啟動 %1</translation>
+      <translation type="unfinished">Restart %1</translation>
     </message>
     <message>
       <location filename="../../internal/settings/GeneralPage.cpp" line="163"/>
       <source>Restart %1 to apply language changes?</source>
-      <translation>重新啟動 %1 以應用語言變更？</translation>
+      <translation type="unfinished">Restart %1 to apply language changes?</translation>
     </message>
   </context>
   <context>
@@ -2257,6 +2257,7 @@
       <location filename="../../internal/addon/NotificationAddOn.cpp" line="51"/>
       <source>%1 (+%Ln notification(s))</source>
       <translation type="unfinished">
+        <numerusform>%1 (+%Ln notification(s))</numerusform>
         <numerusform>%1 (+%Ln notification(s))</numerusform>
       </translation>
     </message>
@@ -2318,6 +2319,7 @@
       <comment>absolute time</comment>
       <translation type="unfinished">
         <numerusform>%Ln minute(s)</numerusform>
+        <numerusform>%Ln minute(s)</numerusform>
       </translation>
     </message>
     <message numerus="yes">
@@ -2326,6 +2328,7 @@
       <comment>absolute time</comment>
       <translation type="unfinished">
         <numerusform>%Ln second(s)</numerusform>
+        <numerusform>%Ln second(s)</numerusform>
       </translation>
     </message>
     <message numerus="yes">
@@ -2333,6 +2336,7 @@
       <source>%Ln millisecond(s)</source>
       <comment>absolute time</comment>
       <translation type="unfinished">
+        <numerusform>%Ln millisecond(s)</numerusform>
         <numerusform>%Ln millisecond(s)</numerusform>
       </translation>
     </message>
@@ -2361,6 +2365,7 @@
       <comment>relative time</comment>
       <translation type="unfinished">
         <numerusform>%Ln minute(s)</numerusform>
+        <numerusform>%Ln minute(s)</numerusform>
       </translation>
     </message>
     <message numerus="yes">
@@ -2369,6 +2374,7 @@
       <comment>relative time</comment>
       <translation type="unfinished">
         <numerusform>%Ln second(s)</numerusform>
+        <numerusform>%Ln second(s)</numerusform>
       </translation>
     </message>
     <message numerus="yes">
@@ -2376,6 +2382,7 @@
       <source>%Ln millisecond(s)</source>
       <comment>relative time</comment>
       <translation type="unfinished">
+        <numerusform>%Ln millisecond(s)</numerusform>
         <numerusform>%Ln millisecond(s)</numerusform>
       </translation>
     </message>
