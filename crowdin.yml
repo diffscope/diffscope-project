@@ -1,13 +1,5 @@
 files:
-  - source: /src/plugins/coreplugin/res/translations/Core_en_US.ts
-    translation: /src/plugins/coreplugin/res/translations/Core_%locale_with_underscore%.ts
-  - source: /src/plugins/audio/res/translations/org.diffscope.audio_en_US.ts
-    translation: /src/plugins/audio/res/translations/org.diffscope.audio_%locale_with_underscore%.ts
-  - source: /src/plugins/welcomewizard/res/translations/org.diffscope.welcomewizard_en_US.ts
-    translation: /src/plugins/welcomewizard/res/translations/org.diffscope.welcomewizard_%locale_with_underscore%.ts
-  - source: /src/plugins/achievement/res/translations/org.diffscope.achievement_en_US.ts
-    translation: /src/plugins/achievement/res/translations/org.diffscope.achievement_%locale_with_underscore%.ts
-  - source: /src/plugins/maintenance/res/translations/org.diffscope.maintenance_en_US.ts
-    translation: /src/plugins/maintenance/res/translations/org.diffscope.maintenance_%locale_with_underscore%.ts
-  - source: /src/libs/application/uishell/share/translations/uishell_en_US.ts
-    translation: /src/libs/application/uishell/share/translations/uishell_%locale_with_underscore%.ts
+  - source: '/**/translations/*_en_US.ts'
+    translation: '%original_path%/%file_name%_%locale_with_underscore%.ts'
+    translation_replace:
+      '_en_US': ''
