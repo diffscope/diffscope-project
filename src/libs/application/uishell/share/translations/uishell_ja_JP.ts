@@ -4,27 +4,27 @@
   <context>
     <name>ActionLayoutsEditor</name>
     <message>
-      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="151"/>
+      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="153"/>
       <source>Action</source>
       <translation type="unfinished">Action</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="154"/>
+      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="156"/>
       <source>Menu</source>
       <translation type="unfinished">Menu</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="157"/>
+      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="159"/>
       <source>Action group</source>
       <translation type="unfinished">Action group</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="160"/>
+      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="162"/>
       <source>Separator</source>
       <translation type="unfinished">Separator</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="163"/>
+      <location filename="../../src/qml/ActionLayoutsEditor.qml" line="165"/>
       <source>Stretch</source>
       <translation type="unfinished">Stretch</translation>
     </message>
@@ -32,22 +32,22 @@
   <context>
     <name>BubbleNotification</name>
     <message>
-      <location filename="../../src/qml/BubbleNotification.qml" line="72"/>
+      <location filename="../../src/qml/BubbleNotification.qml" line="74"/>
       <source>Do Not Show Again</source>
       <translation type="unfinished">Do Not Show Again</translation>
     </message>
     <message>
-      <location filename="../../src/qml/BubbleNotification.qml" line="86"/>
+      <location filename="../../src/qml/BubbleNotification.qml" line="88"/>
       <source>Collapse to Notifications Panel</source>
       <translation type="unfinished">Collapse to Notifications Panel</translation>
     </message>
     <message>
-      <location filename="../../src/qml/BubbleNotification.qml" line="100"/>
+      <location filename="../../src/qml/BubbleNotification.qml" line="102"/>
       <source>Clear</source>
       <translation type="unfinished">Clear</translation>
     </message>
     <message>
-      <location filename="../../src/qml/BubbleNotification.qml" line="137"/>
+      <location filename="../../src/qml/BubbleNotification.qml" line="139"/>
       <source>Abort</source>
       <translation type="unfinished">Abort</translation>
     </message>
@@ -61,14 +61,26 @@
     </message>
   </context>
   <context>
+    <name>FileView</name>
+    <message>
+      <location filename="../../src/qml/FileView.qml" line="29"/>
+      <source>New project</source>
+      <translation type="unfinished">New project</translation>
+    </message>
+    <message>
+      <location filename="../../src/qml/FileView.qml" line="237"/>
+      <source>No result found</source>
+      <translation type="unfinished">No result found</translation>
+    </message>
+  </context>
+  <context>
     <name>HomeWindow</name>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="77"/>
+      <location filename="../../src/qml/HomeWindow.qml" line="86"/>
       <source>Empty</source>
       <translation type="unfinished">Empty</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="277"/>
       <source>Open</source>
       <translation type="unfinished">Open</translation>
     </message>
@@ -77,58 +89,46 @@
       <translation type="unfinished">Open File Location</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="288"/>
       <source>Reveal in %1</source>
       <translation type="unfinished">Reveal in %1</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="296"/>
       <source>Remove from &quot;Recovery Files&quot;</source>
       <translation type="unfinished">Remove from &quot;Recovery Files&quot;</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="296"/>
       <source>Remove from &quot;Recent Files&quot;</source>
       <translation type="unfinished">Remove from &quot;Recent Files&quot;</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="396"/>
       <source>Recent Files</source>
       <translation type="unfinished">Recent Files</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="405"/>
       <source>Recovery Files</source>
       <translation type="unfinished">Recovery Files</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="491"/>
       <source>New project</source>
       <translation type="unfinished">New project</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="511"/>
-      <location filename="../../src/qml/HomeWindow.qml" line="512"/>
       <source>Search</source>
       <translation type="unfinished">Search</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="524"/>
       <source>Grid view</source>
       <translation type="unfinished">Grid view</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="533"/>
       <source>List view</source>
       <translation type="unfinished">List view</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="542"/>
       <source>No result found</source>
       <translation type="unfinished">No result found</translation>
     </message>
     <message>
-      <location filename="../../src/qml/HomeWindow.qml" line="552"/>
       <source>No recovery file
 If %1 crashes, automatic recovery files will be displayed here.</source>
       <translation type="unfinished">No recovery file
@@ -258,123 +258,123 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
       <translation type="unfinished">Disabling %1 will also disable the following plugins:</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="141"/>
-      <location filename="../../src/qml/PluginView.qml" line="299"/>
+      <location filename="../../src/qml/PluginView.qml" line="145"/>
+      <location filename="../../src/qml/PluginView.qml" line="305"/>
       <source>Restart required</source>
       <translation type="unfinished">Restart required</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="209"/>
+      <location filename="../../src/qml/PluginView.qml" line="213"/>
       <source>Back</source>
       <translation type="unfinished">Back</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="219"/>
+      <location filename="../../src/qml/PluginView.qml" line="223"/>
       <source>Plugin name</source>
       <translation type="unfinished">Plugin name</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="232"/>
+      <location filename="../../src/qml/PluginView.qml" line="236"/>
       <source>Vendor</source>
       <translation type="unfinished">Vendor</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="246"/>
+      <location filename="../../src/qml/PluginView.qml" line="250"/>
       <source>Version</source>
       <translation type="unfinished">Version</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="262"/>
+      <location filename="../../src/qml/PluginView.qml" line="266"/>
       <source>Visit plugin homepage</source>
       <translation type="unfinished">Visit plugin homepage</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="270"/>
+      <location filename="../../src/qml/PluginView.qml" line="274"/>
       <source>Description</source>
       <translation type="unfinished">Description</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="284"/>
+      <location filename="../../src/qml/PluginView.qml" line="288"/>
       <source>Required</source>
       <translation type="unfinished">Required</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="284"/>
+      <location filename="../../src/qml/PluginView.qml" line="288"/>
       <source>Enabled</source>
       <translation type="unfinished">Enabled</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="284"/>
+      <location filename="../../src/qml/PluginView.qml" line="288"/>
       <source>Disabled</source>
       <translation type="unfinished">Disabled</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="293"/>
+      <location filename="../../src/qml/PluginView.qml" line="299"/>
       <source>Plugin status: Error</source>
       <translation type="unfinished">Plugin status: Error</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="293"/>
+      <location filename="../../src/qml/PluginView.qml" line="299"/>
       <source>Plugin status: Not loaded</source>
       <translation type="unfinished">Plugin status: Not loaded</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="293"/>
+      <location filename="../../src/qml/PluginView.qml" line="299"/>
       <source>Plugin status: Loaded</source>
       <translation type="unfinished">Plugin status: Loaded</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="306"/>
+      <location filename="../../src/qml/PluginView.qml" line="312"/>
       <source>Error details</source>
       <translation type="unfinished">Error details</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="316"/>
+      <location filename="../../src/qml/PluginView.qml" line="322"/>
       <source>Details</source>
       <translation type="unfinished">Details</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="321"/>
+      <location filename="../../src/qml/PluginView.qml" line="327"/>
       <source>Dependencies</source>
       <translation type="unfinished">Dependencies</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="324"/>
+      <location filename="../../src/qml/PluginView.qml" line="330"/>
       <source>Plugins required by this plugin, including indirect dependencies</source>
       <translation type="unfinished">Plugins required by this plugin, including indirect dependencies</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="329"/>
+      <location filename="../../src/qml/PluginView.qml" line="335"/>
       <source>Dependents</source>
       <translation type="unfinished">Dependents</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="332"/>
+      <location filename="../../src/qml/PluginView.qml" line="338"/>
       <source>Plugins that require this plugin, including indirect dependants</source>
       <translation type="unfinished">Plugins that require this plugin, including indirect dependants</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="337"/>
+      <location filename="../../src/qml/PluginView.qml" line="343"/>
       <source>Additional Info</source>
       <translation type="unfinished">Additional Info</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="366"/>
+      <location filename="../../src/qml/PluginView.qml" line="372"/>
       <source>Identifier</source>
       <translation type="unfinished">Identifier</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="370"/>
+      <location filename="../../src/qml/PluginView.qml" line="376"/>
       <source>Category</source>
       <translation type="unfinished">Category</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="389"/>
+      <location filename="../../src/qml/PluginView.qml" line="395"/>
       <source>Path</source>
       <translation type="unfinished">Path</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="403"/>
+      <location filename="../../src/qml/PluginView.qml" line="409"/>
       <source>Reveal in %1</source>
       <translation type="unfinished">Reveal in %1</translation>
     </message>
@@ -387,57 +387,57 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
       <translation type="unfinished">File Explorer</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="412"/>
+      <location filename="../../src/qml/PluginView.qml" line="418"/>
       <source>Compat version</source>
       <translation type="unfinished">Compat version</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="417"/>
+      <location filename="../../src/qml/PluginView.qml" line="423"/>
       <source>Copyright</source>
       <translation type="unfinished">Copyright</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="422"/>
+      <location filename="../../src/qml/PluginView.qml" line="428"/>
       <source>License</source>
       <translation type="unfinished">License</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="442"/>
+      <location filename="../../src/qml/PluginView.qml" line="448"/>
       <source>This plugin does not require other plugins.</source>
       <translation type="unfinished">This plugin does not require other plugins.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="474"/>
+      <location filename="../../src/qml/PluginView.qml" line="480"/>
       <source>No plugins require this plugin.</source>
       <translation type="unfinished">No plugins require this plugin.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="505"/>
+      <location filename="../../src/qml/PluginView.qml" line="511"/>
       <source>Plugin is not available on this platform.</source>
       <translation type="unfinished">Plugin is not available on this platform.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="507"/>
+      <location filename="../../src/qml/PluginView.qml" line="513"/>
       <source>Plugin is enabled as dependency of an enabled plugin.</source>
       <translation type="unfinished">Plugin is enabled as dependency of an enabled plugin.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="509"/>
+      <location filename="../../src/qml/PluginView.qml" line="515"/>
       <source>Plugin is enabled by command line argument.</source>
       <translation type="unfinished">Plugin is enabled by command line argument.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="511"/>
+      <location filename="../../src/qml/PluginView.qml" line="517"/>
       <source>Plugin is disabled by command line argument.</source>
       <translation type="unfinished">Plugin is disabled by command line argument.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="530"/>
+      <location filename="../../src/qml/PluginView.qml" line="536"/>
       <source>Search</source>
       <translation type="unfinished">Search</translation>
     </message>
     <message>
-      <location filename="../../src/qml/PluginView.qml" line="544"/>
+      <location filename="../../src/qml/PluginView.qml" line="550"/>
       <source>No result found</source>
       <translation type="unfinished">No result found</translation>
     </message>
@@ -445,27 +445,27 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
   <context>
     <name>ProjectWindow</name>
     <message>
-      <location filename="../../src/qml/ProjectWindow.qml" line="89"/>
+      <location filename="../../src/qml/ProjectWindow.qml" line="93"/>
       <source>Empty</source>
       <translation type="unfinished">Empty</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ProjectWindow.qml" line="316"/>
+      <location filename="../../src/qml/ProjectWindow.qml" line="339"/>
       <source>Left Docking View</source>
       <translation type="unfinished">Left Docking View</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ProjectWindow.qml" line="343"/>
+      <location filename="../../src/qml/ProjectWindow.qml" line="368"/>
       <source>Top Docking View</source>
       <translation type="unfinished">Top Docking View</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ProjectWindow.qml" line="370"/>
+      <location filename="../../src/qml/ProjectWindow.qml" line="395"/>
       <source>Bottom Docking View</source>
       <translation type="unfinished">Bottom Docking View</translation>
     </message>
     <message>
-      <location filename="../../src/qml/ProjectWindow.qml" line="391"/>
+      <location filename="../../src/qml/ProjectWindow.qml" line="416"/>
       <source>Right Docking View</source>
       <translation type="unfinished">Right Docking View</translation>
     </message>
@@ -478,50 +478,63 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
       <translation type="unfinished">Settings</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="234"/>
       <location filename="../../src/qml/SettingDialog.qml" line="235"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="236"/>
       <source>Search</source>
       <translation type="unfinished">Search</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="240"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="241"/>
       <source>No result found</source>
       <translation type="unfinished">No result found</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="305"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="306"/>
       <source>This page is in compatibility mode</source>
       <translation type="unfinished">This page is in compatibility mode</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="325"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="326"/>
       <source>This settings page cannot be displayed because its type is not supported.</source>
       <translation type="unfinished">This settings page cannot be displayed because its type is not supported.</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="434"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="442"/>
       <source>Cannot Apply Settings</source>
       <translation type="unfinished">Cannot Apply Settings</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="435"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="443"/>
       <source>Failed to apply &quot;%1&quot;</source>
       <translation type="unfinished">Failed to apply &quot;%1&quot;</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="450"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="458"/>
       <source>OK</source>
       <translation type="unfinished">OK</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="460"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="468"/>
       <source>Cancel</source>
       <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-      <location filename="../../src/qml/SettingDialog.qml" line="469"/>
+      <location filename="../../src/qml/SettingDialog.qml" line="477"/>
       <source>Apply</source>
       <translation type="unfinished">Apply</translation>
+    </message>
+  </context>
+  <context>
+    <name>TempoTimeSignatureIndicator</name>
+    <message>
+      <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="44"/>
+      <source>Tempo</source>
+      <translation type="unfinished">Tempo</translation>
+    </message>
+    <message>
+      <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="50"/>
+      <source>Time Signature</source>
+      <translation type="unfinished">Time Signature</translation>
     </message>
   </context>
   <context>
