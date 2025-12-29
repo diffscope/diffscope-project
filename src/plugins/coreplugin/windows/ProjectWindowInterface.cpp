@@ -43,7 +43,6 @@ namespace Core {
         ProjectTimeline *projectTimeline;
         EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         ProjectDocumentContext *projectDocumentContext;
-        QList<std::function<bool()>> closeCallbacks;
 
         void init() {
             Q_Q(ProjectWindowInterface);
@@ -188,11 +187,6 @@ namespace Core {
         return d->projectDocumentContext->saveCopy(path);
     }
 
-    void ProjectWindowInterface::addCloseCallback(const std::function<bool()> &callback) {
-        Q_D(ProjectWindowInterface);
-        d->closeCallbacks.append(callback);
-    }
-
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {
         Q_D(const ProjectWindowInterface);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectWindow");
@@ -220,23 +214,7 @@ namespace Core {
             path = tr("Untitled") + ".dspx";
         }
         win->setFilePath(path);
-        win->installEventFilter(const_cast<ProjectWindowInterface *>(this));
         return win;
-    }
-
-    bool ProjectWindowInterface::eventFilter(QObject *watched, QEvent *event) {
-        Q_D(ProjectWindowInterface);
-        if (watched == window()) {
-            if (event->type() == QEvent::Close) {
-                for (const auto &callback : d->closeCallbacks) {
-                    if (!callback()) {
-                        event->ignore();
-                        return true;
-                    }
-                }
-            }
-        }
-        return ActionWindowInterfaceBase::eventFilter(watched, event);
     }
 
     ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {

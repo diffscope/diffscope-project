@@ -1,8 +1,6 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTWINDOWINTERFACE_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTWINDOWINTERFACE_H
 
-#include <functional>
-
 #include <qqmlintegration.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
@@ -60,11 +58,10 @@ namespace Core {
         Q_INVOKABLE bool saveAs();
         Q_INVOKABLE bool saveCopy();
 
-        void addCloseCallback(const std::function<bool()> &callback);
+
 
     protected:
         QWindow *createWindow(QObject *parent) const override;
-        bool eventFilter(QObject *watched, QEvent *event) override;
 
         explicit ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent = nullptr);
         explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
