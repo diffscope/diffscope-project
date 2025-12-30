@@ -34,6 +34,7 @@ QtObject {
 
         property LabelViewModel itemBeingDragged: null
 
+        // TODO move this to C++ code
         Connections {
             target: control.itemBeingDragged
             function onPositionChanged() {
@@ -43,13 +44,13 @@ QtObject {
 
         Connections {
             target: control.labelSequenceInteractionController
-            function onItemInteractionOperationStarted(labelSequence, item, interactionFlag) {
-                if (labelSequence === control && interactionFlag === LabelSequenceInteractionController.Move) {
+            function onMovingStarted(labelSequence, item) {
+                if (labelSequence === control) {
                     control.itemBeingDragged = item
                 }
             }
-            function onItemInteractionOperationFinished(labelSequence, item, interactionFlag) {
-                if (labelSequence === control && interactionFlag === LabelSequenceInteractionController.Move) {
+            function onMovingFinished(labelSequence, item) {
+                if (labelSequence === control) {
                     control.itemBeingDragged = null
                 }
             }

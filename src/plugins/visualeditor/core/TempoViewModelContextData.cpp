@@ -182,25 +182,17 @@ namespace VisualEditor {
         controller->setInteraction(sflow::LabelSequenceInteractionController::SelectByRubberBand);
         controller->setItemInteraction(sflow::LabelSequenceInteractionController::Move | sflow::LabelSequenceInteractionController::Select);
 
-        connect(controller, &sflow::LabelSequenceInteractionController::interactionOperationStarted, this, [=](QQuickItem *, sflow::LabelSequenceInteractionController::InteractionFlag type) {
-            if (type == sflow::LabelSequenceInteractionController::SelectByRubberBand) {
-                Q_EMIT rubberBandDragWillStart();
-            }
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::interactionOperationFinished, this, [=](QQuickItem *, sflow::LabelSequenceInteractionController::InteractionFlag type) {
-            if (type == sflow::LabelSequenceInteractionController::SelectByRubberBand) {
-                Q_EMIT rubberBandDragWillFinish();
-            }
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::itemInteractionOperationStarted, this, [=](QQuickItem *, sflow::LabelViewModel *, sflow::LabelSequenceInteractionController::ItemInteractionFlag type) {
-            if (type == sflow::LabelSequenceInteractionController::Move) {
-                Q_EMIT moveTransactionWillStart();
-            }
+        connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::itemInteractionOperationFinished, this, [=](QQuickItem *, sflow::LabelViewModel *, sflow::LabelSequenceInteractionController::ItemInteractionFlag type) {
-            if (type == sflow::LabelSequenceInteractionController::Move) {
-                Q_EMIT moveTransactionWillFinish();
-            }
+        connect(controller, &sflow::LabelSequenceInteractionController::movingFinished, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillFinish();
         });
 
         connect(controller, &sflow::LabelSequenceInteractionController::doubleClicked, this, [=](QQuickItem *labelSequenceItem, int position) {

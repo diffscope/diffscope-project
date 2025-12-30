@@ -198,6 +198,7 @@ Item {
 
                     property bool dragging: false
 
+                    // TODO move this to C++ code
                     Connections {
                         target: timeline.playbackViewModel
                         enabled: timeline.dragging
@@ -208,13 +209,13 @@ Item {
 
                     Connections {
                         target: timeline.timelineInteractionController
-                        function onInteractionOperationStarted(timeline_, interactionFlag) {
-                            if (timeline_ === timeline && interactionFlag === TimelineInteractionController.MovePositionIndicator) {
+                        function onPositionIndicatorMovingStarted(timeline_) {
+                            if (timeline_ === timeline) {
                                 timeline.dragging = true
                             }
                         }
-                        function onInteractionOperationFinished(timeline_, interactionFlag) {
-                            if (timeline_ === timeline && interactionFlag === LabelSequenceInteractionController.MovePositionIndicator) {
+                        function onPositionIndicatorMovingFinished(timeline_) {
+                            if (timeline_ === timeline) {
                                 timeline.dragging = false
                             }
                         }
