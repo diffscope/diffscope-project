@@ -117,8 +117,8 @@ namespace VisualEditor {
 
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
-        d->timelineInteractionController = new sflow::TimelineInteractionController(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
+        d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController();
         d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
         d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel();
 

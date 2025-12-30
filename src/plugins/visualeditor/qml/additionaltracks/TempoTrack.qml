@@ -54,6 +54,10 @@ QtObject {
                     control.itemBeingDragged = null
                 }
             }
+
+            function onRubberBandDraggingStarted() {
+                control.timeLayoutViewModel.cursorPosition = -1
+            }
         }
     }
 

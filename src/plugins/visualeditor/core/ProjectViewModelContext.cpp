@@ -5,6 +5,7 @@
 #include <ScopicFlowCore/PointSequenceViewModel.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
+#include <ScopicFlowCore/TimelineInteractionController.h>
 
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/Label.h>
@@ -96,6 +97,11 @@ namespace VisualEditor {
     sflow::SelectionController *ProjectViewModelContext::labelSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelSelectionController;
+    }
+
+    sflow::TimelineInteractionController *ProjectViewModelContext::createAndBindTimelineInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->playbackData->createController(parent);
     }
 
     sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent) {

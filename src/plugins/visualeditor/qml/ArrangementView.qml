@@ -219,6 +219,10 @@ Item {
                                 timeline.dragging = false
                             }
                         }
+
+                        function onRubberBandDraggingStarted() {
+                            timeline.timeLayoutViewModel.cursorPosition = -1
+                        }
                     }
                 }
                 Rectangle {

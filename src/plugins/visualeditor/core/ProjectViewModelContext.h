@@ -12,6 +12,7 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class LabelViewModel;
     class SelectionController;
+    class TimelineInteractionController;
 }
 
 namespace dspx {
@@ -61,6 +62,7 @@ namespace VisualEditor {
         sflow::SelectionController *tempoSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
 
+        Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
 
