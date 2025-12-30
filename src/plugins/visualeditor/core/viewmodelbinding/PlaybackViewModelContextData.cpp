@@ -101,7 +101,7 @@ namespace VisualEditor {
         connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *, sflow::TimelineInteractionController::InteractionFlag) {
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
         connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingStarted, this, [=](QQuickItem *) {

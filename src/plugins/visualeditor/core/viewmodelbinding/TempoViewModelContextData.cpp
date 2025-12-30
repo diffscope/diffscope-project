@@ -1,5 +1,4 @@
 #include "TempoViewModelContextData_p.h"
-#include "TempoSelectionController_p.h"
 
 #include <QLocale>
 #include <QLoggingCategory>
@@ -27,6 +26,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
+#include <visualeditor/private/TempoSelectionController_p.h>
 
 namespace VisualEditor {
 

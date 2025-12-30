@@ -1,5 +1,4 @@
 #include "LabelViewModelContextData_p.h"
-#include "LabelSelectionController_p.h"
 
 #include <QLoggingCategory>
 #include <QQuickItem>
@@ -24,6 +23,8 @@
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+
+#include <visualeditor/private/LabelSelectionController_p.h>
 
 namespace VisualEditor {
 
