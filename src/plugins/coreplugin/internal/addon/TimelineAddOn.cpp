@@ -4,6 +4,7 @@
 
 #include <QApplication>
 #include <QQmlComponent>
+#include <QLoggingCategory>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -13,11 +14,22 @@
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
+
+#include <dspxmodel/Model.h>
+#include <dspxmodel/Timeline.h>
+
+#include <transactional/TransactionController.h>
+
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/QuickInput.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/DspxDocument.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcTimelineAddOn, "diffscope.core.timelineaddon")
+
     TimelineAddOn::TimelineAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
     TimelineAddOn::~TimelineAddOn() = default;
@@ -44,6 +56,7 @@ namespace Core::Internal {
             Q_EMIT tempoTextChanged();
             Q_EMIT timeSignatureTextChanged();
         });
+        connect(windowInterface->projectDocumentContext()->document()->model()->timeline(), &dspx::Timeline::loopEnabledChanged, this, &TimelineAddOn::loopEnabledChanged);
     }
     void TimelineAddOn::extensionsInitialized() {
     }
@@ -84,6 +97,24 @@ namespace Core::Internal {
     }
     int TimelineAddOn::doubleClickInterval() {
         return QApplication::doubleClickInterval();
+    }
+
+    bool TimelineAddOn::isLoopEnabled() const {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        return windowInterface->projectDocumentContext()->document()->model()->timeline()->isLoopEnabled();
+    }
+
+    void TimelineAddOn::setLoopEnabled(bool enabled) {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        qCInfo(lcTimelineAddOn) << "Toggle loop:" << enabled;
+        windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(enabled ? tr("Enabling loop") : tr("Disabling loop"), [=] {
+            auto dspxTimeline = windowInterface->projectDocumentContext()->document()->model()->timeline();
+            dspxTimeline->setLoopEnabled(enabled);
+            return true;
+        }, [=, this] {
+            qCCritical(lcTimelineAddOn()) << "Failed to edit loop in exclusive transaction";
+            Q_EMIT loopEnabledChanged();
+        });
     }
 
     static inline QString absoluteMusicTimePromptText(const SVS::MusicTime &t) {

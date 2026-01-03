@@ -19,8 +19,9 @@ namespace dspx {
 
     void AnchorNodePrivate::setInterp(AnchorNode::InterpolationMode interp_) {
         Q_Q(AnchorNode);
-        if (auto engine = qjsEngine(q); engine && (interp_ != AnchorNode::None && interp_ != AnchorNode::Linear && interp_ != AnchorNode::Hermite)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Interpolation mode must be one of None, Linear, or Hermite"));
+        if ((interp_ != AnchorNode::None && interp_ != AnchorNode::Linear && interp_ != AnchorNode::Hermite)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Interpolation mode must be one of None, Linear, or Hermite"));
             return;
         }
         setInterpUnchecked(interp_);
@@ -33,8 +34,9 @@ namespace dspx {
 
     void AnchorNodePrivate::setX(int x_) {
         Q_Q(AnchorNode);
-        if (auto engine = qjsEngine(q); engine && x_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Position must be greater or equal to 0"));
+        if (x_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Position must be greater or equal to 0"));
             return;
         }
         setXUnchecked(x_);

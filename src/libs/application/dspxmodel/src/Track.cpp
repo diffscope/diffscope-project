@@ -80,7 +80,9 @@ namespace dspx {
             .clips = clips()->toQDspx(),
             .workspace = workspace()->toQDspx(),
         };
-        track.workspace["diffscope"]["colorId"] = colorId();
+        track.workspace["diffscope"] = QJsonObject{
+            {"colorId", colorId()},
+        };
         return track;
     }
 

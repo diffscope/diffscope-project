@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <transactional/TransactionController.h>
+
 #include <visualeditor/ProjectViewModelContext.h>
 
 class QState;
@@ -13,6 +15,14 @@ namespace sflow {
     class TimelineInteractionController;
 }
 
+namespace dspx {
+    class Timeline;
+}
+
+namespace Core {
+    class DspxDocument;
+}
+
 namespace VisualEditor {
 
     class PlaybackViewModelContextData : public QObject {
@@ -21,19 +31,29 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
+        Core::DspxDocument *document;
         Core::ProjectWindowInterface *windowHandle;
+        dspx::Timeline *timeline;
         sflow::PlaybackViewModel *playbackViewModel;
 
         QStateMachine *stateMachine;
         QState *idleState;
         QState *rubberBandDraggingState;
         QState *positionIndicatorMovingState;
+        QState *loopRangeAdjustPendingState;
+        QState *loopRangeAdjustingState;
+
+        Core::TransactionController::TransactionId loopRangeTransactionId{};
+        int pendingLoopStart{};
+        int pendingLoopLength{};
 
         void init();
         void initStateMachine();
         void bindPlaybackViewModel();
         sflow::TimelineInteractionController *createController(QObject *parent);
 
+        void onLoopRangeAdjustPendingStateEntered();
+        void onLoopRangeAdjustingStateExited();
         void onPositionIndicatorMovingStateEntered();
         void onPositionIndicatorMovingStateExited();
 
@@ -43,6 +63,11 @@ namespace VisualEditor {
 
         void positionIndicatorMoveWillStart();
         void positionIndicatorMoveWillFinish();
+
+        void loopRangeTransactionWillStart();
+        void loopRangeTransactionStarted();
+        void loopRangeTransactionNotStarted();
+        void loopRangeTransactionWillFinish();
     };
 
 }

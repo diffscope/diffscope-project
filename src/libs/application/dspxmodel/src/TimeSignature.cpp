@@ -23,8 +23,9 @@ namespace dspx {
 
     void TimeSignaturePrivate::setIndex(int index_) {
         Q_Q(TimeSignature);
-        if (auto engine = qjsEngine(q); engine && index_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Index must be greater or equal to 0"));
+        if (index_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Index must be greater or equal to 0"));
             return;
         }
         setIndexUnchecked(index_);
@@ -37,8 +38,9 @@ namespace dspx {
 
     void TimeSignaturePrivate::setNumerator(int numerator_) {
         Q_Q(TimeSignature);
-        if (auto engine = qjsEngine(q); engine && numerator_ < 1) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Numerator must be greater or equal to 1"));
+        if (numerator_ < 1) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Numerator must be greater or equal to 1"));
             return;
         }
         setNumeratorUnchecked(numerator_);

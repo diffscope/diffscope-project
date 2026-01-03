@@ -44,8 +44,9 @@ namespace dspx {
 
     void VibratoPrivate::setEnd(double end_) {
         Q_Q(Vibrato);
-        if (auto engine = qjsEngine(q); engine && (end_ < 0.0 || end_ > 1.0)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("End must be in range [0, 1]"));
+        if ((end_ < 0.0 || end_ > 1.0)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("End must be in range [0, 1]"));
             return;
         }
         setEndUnchecked(end_);
@@ -58,8 +59,9 @@ namespace dspx {
 
     void VibratoPrivate::setFreq(double freq_) {
         Q_Q(Vibrato);
-        if (auto engine = qjsEngine(q); engine && freq_ < 0.0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Freq must be greater than or equal to 0"));
+        if (freq_ < 0.0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Freq must be greater than or equal to 0"));
             return;
         }
         setFreqUnchecked(freq_);
@@ -72,8 +74,9 @@ namespace dspx {
 
     void VibratoPrivate::setPhase(double phase_) {
         Q_Q(Vibrato);
-        if (auto engine = qjsEngine(q); engine && (phase_ < 0.0 || phase_ > 1.0)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Phase must be in range [0, 1]"));
+        if ((phase_ < 0.0 || phase_ > 1.0)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Phase must be in range [0, 1]"));
             return;
         }
         setPhaseUnchecked(phase_);
@@ -86,8 +89,9 @@ namespace dspx {
 
     void VibratoPrivate::setStart(double start_) {
         Q_Q(Vibrato);
-        if (auto engine = qjsEngine(q); engine && (start_ < 0.0 || start_ > 1.0)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Start must be in range [0, 1]"));
+        if ((start_ < 0.0 || start_ > 1.0)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Start must be in range [0, 1]"));
             return;
         }
         setStartUnchecked(start_);

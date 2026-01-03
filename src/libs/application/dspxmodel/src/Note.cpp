@@ -23,8 +23,9 @@ namespace dspx {
 
     void NotePrivate::setCentShift(int centShift_) {
         Q_Q(Note);
-        if (auto engine = qjsEngine(q); engine && (centShift_ < -50 || centShift_ > 50)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("CentShift must be in range [-50, 50]"));
+        if ((centShift_ < -50 || centShift_ > 50)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("CentShift must be in range [-50, 50]"));
             return;
         }
         setCentShiftUnchecked(centShift_);
@@ -37,8 +38,9 @@ namespace dspx {
 
     void NotePrivate::setKeyNum(int keyNum_) {
         Q_Q(Note);
-        if (auto engine = qjsEngine(q); engine && (keyNum_ < 0 || keyNum_ > 127)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("KeyNum must be in range [0, 127]"));
+        if ((keyNum_ < 0 || keyNum_ > 127)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("KeyNum must be in range [0, 127]"));
             return;
         }
         setKeyNumUnchecked(keyNum_);
@@ -51,8 +53,9 @@ namespace dspx {
 
     void NotePrivate::setLength(int length_) {
         Q_Q(Note);
-        if (auto engine = qjsEngine(q); engine && length_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
+        if (length_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
             return;
         }
         setLengthUnchecked(length_);
@@ -65,8 +68,9 @@ namespace dspx {
 
     void NotePrivate::setPos(int pos_) {
         Q_Q(Note);
-        if (auto engine = qjsEngine(q); engine && pos_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater than or equal to 0"));
+        if (pos_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater than or equal to 0"));
             return;
         }
         setPosUnchecked(pos_);

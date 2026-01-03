@@ -210,7 +210,7 @@ namespace dspx {
     }
 
     QDspx::Model Model::toQDspx() const {
-        return {
+        QDspx::Model model = {
             .version = QDspx::Model::V1,
             .content = {
                 .global = global()->toQDspx(),
@@ -220,6 +220,14 @@ namespace dspx {
                 .workspace = workspace()->toQDspx(),
             }
         };
+        model.content.workspace["diffscope"] = QJsonObject{
+            {"loop", QJsonObject{
+                {"enabled", timeline()->isLoopEnabled()},
+                {"start", timeline()->loopStart()},
+                {"length", timeline()->loopLength()},
+            }}
+        };
+        return model;
     }
 
     void Model::fromQDspx(const QDspx::Model &model) {
@@ -229,6 +237,21 @@ namespace dspx {
         d->timeline->fromQDspx(model.content.timeline);
         d->tracks->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
+        {
+            auto loop = model.content.workspace.value("diffscope").value("loop").toObject();
+            auto enabled = loop.value("enabled").toBool();
+            auto start = loop.value("start").toInt();
+            auto length = loop.value("length").toInt();
+            if (start < 0 || length <= 0) {
+                d->timeline->setLoopEnabled(false);
+                d->timeline->setLoopStart(0);
+                d->timeline->setLoopLength(1920);
+            } else {
+                d->timeline->setLoopEnabled(enabled);
+                d->timeline->setLoopStart(start);
+                d->timeline->setLoopLength(length);
+            }
+        }
     }
 
     Label *Model::createLabel() {
@@ -355,6 +378,12 @@ namespace dspx {
             case ModelStrategy::P_ControlPan:
             case ModelStrategy::P_ControlMute: {
                 ModelPrivate::proxySetEntityPropertyNotify(d->master, property, value);
+                break;
+            }
+            case ModelStrategy::P_LoopEnabled:
+            case ModelStrategy::P_LoopLength:
+            case ModelStrategy::P_LoopStart: {
+                ModelPrivate::proxySetEntityPropertyNotify(d->timeline, property, value);
                 break;
             }
             default:

@@ -33,8 +33,9 @@ namespace dspx {
 
     void ControlPrivate::setGain(double gain_) {
         Q_Q(Control);
-        if (auto engine = qjsEngine(q); engine && (gain_ < 0)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Gain must be greater or equal to 0"));
+        if ((gain_ < 0)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Gain must be greater or equal to 0"));
             return;
         }
         setGainUnchecked(gain_);
@@ -47,8 +48,9 @@ namespace dspx {
 
     void ControlPrivate::setPan(double pan_) {
         Q_Q(Control);
-        if (auto engine = qjsEngine(q); engine && (pan_ < -1 || pan_ > 1)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Pan must be in range [-1.0, 1.0]"));
+        if ((pan_ < -1 || pan_ > 1)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Pan must be in range [-1.0, 1.0]"));
             return;
         }
         setPanUnchecked(pan_);

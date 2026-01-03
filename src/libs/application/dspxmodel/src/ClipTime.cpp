@@ -37,8 +37,9 @@ namespace dspx {
 
     void ClipTimePrivate::setLength(int length_) {
         Q_Q(ClipTime);
-        if (auto engine = qjsEngine(q); engine && length_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
+        if (length_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
             return;
         }
         setLengthUnchecked(length_);
@@ -51,8 +52,9 @@ namespace dspx {
 
     void ClipTimePrivate::setClipStart(int clipStart_) {
         Q_Q(ClipTime);
-        if (auto engine = qjsEngine(q); engine && clipStart_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("ClipStart must be greater than or equal to 0"));
+        if (clipStart_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("ClipStart must be greater than or equal to 0"));
             return;
         }
         setClipStartUnchecked(clipStart_);
@@ -65,8 +67,9 @@ namespace dspx {
 
     void ClipTimePrivate::setClipLen(int clipLen_) {
         Q_Q(ClipTime);
-        if (auto engine = qjsEngine(q); engine && clipLen_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("ClipLen must be greater than or equal to 0"));
+        if (clipLen_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("ClipLen must be greater than or equal to 0"));
             return;
         }
         setClipLenUnchecked(clipLen_);

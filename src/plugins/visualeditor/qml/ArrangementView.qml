@@ -197,6 +197,8 @@ Item {
                     timelineInteractionController: view.arrangementPanelInterface?.timelineInteractionController ?? null
 
                     property bool dragging: false
+                    property bool adjustingLoop: false
+                    property int loopAdjustmentOperation: 0
 
                     // TODO move this to C++ code
                     Connections {
@@ -204,6 +206,24 @@ Item {
                         enabled: timeline.dragging
                         function onPrimaryPositionChanged() {
                             timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.primaryPosition
+                        }
+                    }
+
+                    Connections {
+                        target: timeline.playbackViewModel
+                        enabled: timeline.adjustingLoop
+                        function onLoopStartChanged() {
+                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustRange || timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustStart) {
+                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart
+                            } else if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
+                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
+                            }
+                        }
+
+                        function onLoopLengthChanged() {
+                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
+                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
+                            }
                         }
                     }
 
@@ -222,6 +242,15 @@ Item {
 
                         function onRubberBandDraggingStarted() {
                             timeline.timeLayoutViewModel.cursorPosition = -1
+                        }
+
+                        function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
+                            timeline.adjustingLoop = true
+                            timeline.loopAdjustmentOperation = adjustmentOperation
+                        }
+
+                        function onLoopRangeAdjustingFinished() {
+                            timeline.adjustingLoop = false
                         }
                     }
                 }
@@ -270,6 +299,7 @@ Item {
                 acceptedButtons: Qt.NoButton
                 enabled: !(view.arrangementPanelInterface?.mouseTrackingDisabled)
                 hoverEnabled: true
+                cursorShape: undefined
                 TimeManipulator {
                     id: timeManipulator
                     target: parent

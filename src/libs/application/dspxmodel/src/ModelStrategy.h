@@ -69,6 +69,9 @@ namespace dspx {
             P_KeyNumber,
             P_Language,
             P_Length,
+            P_LoopEnabled,
+            P_LoopLength,
+            P_LoopStart,
             P_Measure,
             P_Name,
             P_Numerator,
@@ -236,6 +239,10 @@ namespace dspx {
             auto v = value.toInt();
             return v >= 0;
         };
+        static auto validateIntGreaterZero = [](const QVariant &value) {
+            auto v = value.toInt();
+            return v > 0;
+        };
         static auto validateDoubleGreaterOrEqualZero = [](const QVariant &value) {
             auto v = value.toDouble();
             return v >= 0;
@@ -280,7 +287,10 @@ namespace dspx {
                 {P_EditorName, QMetaType::QString},
                 {P_ControlGain, QMetaType::Double},
                 {P_ControlPan, QMetaType::Double, validatePan},
-                {P_ControlMute, QMetaType::Bool}
+                {P_ControlMute, QMetaType::Bool},
+                {P_LoopEnabled, QMetaType::Bool},
+                {P_LoopStart, QMetaType::Int, validateIntGreaterOrEqualZero},
+                {P_LoopLength, QMetaType::Int, validateIntGreaterZero},
             };
             case EI_Label: return {
                 {P_Position, QMetaType::Int, validateIntGreaterOrEqualZero},

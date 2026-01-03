@@ -22,7 +22,7 @@ namespace dspx {
     EntityObject::~EntityObject() {
         Q_D(EntityObject);
         if (d->model && d->handle) {
-
+            Q_ASSERT(false && "EntityObject::~EntityObject: handle is not null. You should call Model::destroyItem() to delete EntityObject.");
         }
     }
 

@@ -103,6 +103,8 @@
         <action id="org.diffscope.core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
         <action id="org.diffscope.core.timeline.goInsideViewRange" shortcut="Ctrl+Alt+Y" />
         <action id="org.diffscope.core.timeline.&amp;resetProjectTimeRange" description="Reset project end time based on project content" shortcut="Ctrl+Alt+R" />
+        <action id="org.diffscope.core.timeline.editLoop^" icon="arrow_repeat_all" />
+        <action id="org.diffscope.core.timeline.enableLoop" icon="arrow_repeat_all" />
 
         <action id="org.diffscope.core.workspace.workspaceLayout^" />
         <action id="org.diffscope.core.workspace.default&amp;Layout" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
@@ -258,6 +260,9 @@
                     <action id="org.diffscope.core.timeline.goInsideViewRange" />
                     <separator />
                     <action id="org.diffscope.core.timeline.resetProjectTimeRange" />
+                    <group id="org.diffscope.core.timelineLoopActions">
+                        <action id="org.diffscope.core.timeline.editLoop" />
+                    </group>
                 </menu>
             </menu>
             <menu id="org.diffscope.core.&amp;view">
@@ -357,6 +362,7 @@
                 <action id="org.diffscope.core.widget.digitalClock" />
                 <action id="org.diffscope.core.timeline.goToStart" />
                 <action id="org.diffscope.core.timeline.goToEnd" />
+                <action id="org.diffscope.core.timeline.enableLoop" />
             </group>
         </menu>
 

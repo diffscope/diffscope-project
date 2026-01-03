@@ -19,8 +19,9 @@ namespace dspx {
 
     void TempoPrivate::setPos(int pos_) {
         Q_Q(Tempo);
-        if (auto engine = qjsEngine(q); engine && pos_ < 0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
+        if (pos_ < 0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
             return;
         }
         setPosUnchecked(pos_);
@@ -33,8 +34,9 @@ namespace dspx {
 
     void TempoPrivate::setValue(double value_) {
         Q_Q(Tempo);
-        if (auto engine = qjsEngine(q); engine && (value_ < 10.0 || value_ > 1000.0)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Value must be in range [10.0, 1000.0]"));
+        if ((value_ < 10.0 || value_ > 1000.0)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Value must be in range [10.0, 1000.0]"));
             return;
         }
         setValueUnchecked(value_);

@@ -34,8 +34,9 @@ namespace dspx {
 
     void GlobalPrivate::setCentShift(int centShift) {
         Q_Q(Global);
-        if (auto engine = qjsEngine(q); engine && (centShift < -50 || centShift > 50)) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Cent shift must be in range [-50, 50]"));
+        if ((centShift < -50 || centShift > 50)) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Cent shift must be in range [-50, 50]"));
             return;
         }
         setCentShiftUnchecked(centShift);

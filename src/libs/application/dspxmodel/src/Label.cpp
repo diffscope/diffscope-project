@@ -19,8 +19,9 @@ namespace dspx {
 
     void LabelPrivate::setPos(int pos_) {
         Q_Q(Label);
-        if (auto engine = qjsEngine(q); engine && pos_ < -0) {
-            engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
+        if (pos_ < -0) {
+            if (auto engine = qjsEngine(q))
+                engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
             return;
         }
         setPosUnchecked(pos_);

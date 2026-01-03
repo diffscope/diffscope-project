@@ -13,6 +13,12 @@ ActionCollection {
     required property TimelineAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
+    readonly property EditLoopScenario editLoopScenario: EditLoopScenario {
+        id: editLoopScenario
+        window: d.window
+        projectTimeline: windowHandle?.projectTimeline ?? null
+        document: windowHandle?.projectDocumentContext.document ?? null
+    }
 
     ActionItem {
         actionId: "org.diffscope.core.widget.digitalClock"
@@ -221,6 +227,22 @@ ActionCollection {
         actionId: "org.diffscope.core.timeline.resetProjectTimeRange"
         Action {
             onTriggered: d.addOn.resetProjectTimeRange()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editLoop"
+        Action {
+            onTriggered: Qt.callLater(() => editLoopScenario.editLoop())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.enableLoop"
+        Action {
+            checkable: true
+            checked: d.addOn.loopEnabled
+            onTriggered: d.addOn.loopEnabled = checked
         }
     }
 

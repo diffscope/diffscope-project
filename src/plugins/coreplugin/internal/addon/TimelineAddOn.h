@@ -19,6 +19,7 @@ namespace Core::Internal {
         Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY showMusicTimeChanged)
         Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY showMusicTimeChanged)
         Q_PROPERTY(int doubleClickInterval READ doubleClickInterval)
+        Q_PROPERTY(bool loopEnabled READ isLoopEnabled WRITE setLoopEnabled NOTIFY loopEnabledChanged)
     public:
         explicit TimelineAddOn(QObject *parent = nullptr);
         ~TimelineAddOn() override;
@@ -44,6 +45,9 @@ namespace Core::Internal {
 
         static int doubleClickInterval();
 
+        bool isLoopEnabled() const;
+        void setLoopEnabled(bool enabled);
+
         Q_INVOKABLE void execQuickJump(const QString &initialText = {}) const;
 
         Q_INVOKABLE void goToStart() const;
@@ -63,6 +67,7 @@ namespace Core::Internal {
         void tempoTextChanged();
         void timeSignatureTextChanged();
         void showMusicTimeChanged();
+        void loopEnabledChanged();
 
     private:
         bool m_showMusicTime{true};
