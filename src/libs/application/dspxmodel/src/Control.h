@@ -14,7 +14,7 @@ namespace dspx {
 
     class ControlPrivate;
 
-    class Control : public QObject {
+    class DSPX_MODEL_EXPORT Control : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

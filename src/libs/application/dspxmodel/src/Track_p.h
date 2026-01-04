@@ -13,6 +13,7 @@ namespace dspx {
         ClipSequence *clips;
         QString name;
         int colorId;
+        double height;
         TrackControl *control;
         Workspace *workspace;
         TrackList *trackList;

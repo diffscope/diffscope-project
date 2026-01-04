@@ -9,9 +9,10 @@ namespace dspx {
         return item->trackList() == selectionModel->model()->tracks();
     }
 
-    TrackSelectionModel::TrackSelectionModel(QObject *parent) : QObject(parent), d_ptr(new TrackSelectionModelPrivate) {
+    TrackSelectionModel::TrackSelectionModel(SelectionModel *parent) : QObject(parent), d_ptr(new TrackSelectionModelPrivate) {
         Q_D(TrackSelectionModel);
         d->q_ptr = this;
+        d->selectionModel = parent;
     }
 
     TrackSelectionModel::~TrackSelectionModel() = default;

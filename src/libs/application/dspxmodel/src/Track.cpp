@@ -31,6 +31,7 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
         d->name = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Name).toString();
         d->colorId = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_ColorId).toInt();
+        d->height = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Height).toDouble();
         d->control = d->pModel->createObject<TrackControl>(handle);
         d->workspace = d->pModel->createObject<Workspace>(d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Workspace));
         d->clips = d->pModel->createObject<ClipSequence>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children));
@@ -51,6 +52,16 @@ namespace dspx {
     void Track::setColorId(int colorId) {
         Q_D(Track);
         d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_ColorId, colorId);
+    }
+
+    double Track::height() const {
+        Q_D(const Track);
+        return d->height;
+    }
+
+    void Track::setHeight(double height) {
+        Q_D(Track);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_Height, height);
     }
 
     TrackControl *Track::control() const {
@@ -82,6 +93,8 @@ namespace dspx {
         };
         track.workspace["diffscope"] = QJsonObject{
             {"colorId", colorId()},
+            {"height", height()},
+            {"record", control()->record()},
         };
         return track;
     }
@@ -92,6 +105,8 @@ namespace dspx {
         clips()->fromQDspx(track.clips);
         workspace()->fromQDspx(track.workspace);
         setColorId(track.workspace["diffscope"]["colorId"].toInt());
+        setHeight(track.workspace["diffscope"]["height"].toDouble(80));
+        control()->setRecord(track.workspace["diffscope"]["record"].toBool());
     }
 
     TrackList *Track::trackList() const {
@@ -112,9 +127,15 @@ namespace dspx {
                 Q_EMIT colorIdChanged(d->colorId);
                 break;
             }
+            case ModelStrategy::P_Height: {
+                d->height = value.toDouble();
+                Q_EMIT heightChanged(d->height);
+                break;
+            }
             case ModelStrategy::P_ControlGain:
             case ModelStrategy::P_ControlPan:
             case ModelStrategy::P_ControlMute:
+            case ModelStrategy::P_ControlRecord:
             case ModelStrategy::P_ControlSolo: {
                 ModelPrivate::proxySetEntityPropertyNotify(d->control, property, value);
                 break;

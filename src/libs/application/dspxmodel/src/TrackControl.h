@@ -11,12 +11,13 @@ namespace dspx {
 
     class TrackControlPrivate;
 
-    class TrackControl : public Control {
+    class DSPX_MODEL_EXPORT TrackControl : public Control {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(TrackControl)
         Q_PROPERTY(bool solo READ solo WRITE setSolo NOTIFY soloChanged)
+        Q_PROPERTY(bool record READ record WRITE setRecord NOTIFY recordChanged)
 
     public:
         ~TrackControl() override;
@@ -24,11 +25,15 @@ namespace dspx {
         bool solo() const;
         void setSolo(bool solo);
 
+        bool record() const;
+        void setRecord(bool record);
+
         QDspx::TrackControl toQDspx() const;
         void fromQDspx(const QDspx::TrackControl &trackControl);
 
     Q_SIGNALS:
         void soloChanged(bool solo);
+        void recordChanged(bool record);
 
     private:
         friend class ModelPrivate;

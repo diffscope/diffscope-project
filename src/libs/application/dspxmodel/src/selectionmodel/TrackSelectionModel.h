@@ -35,7 +35,7 @@ namespace dspx {
 
     private:
         friend class SelectionModel;
-        explicit TrackSelectionModel(QObject *parent = nullptr);
+        explicit TrackSelectionModel(SelectionModel *parent = nullptr);
         QScopedPointer<TrackSelectionModelPrivate> d_ptr;
     };
 

@@ -13,11 +13,15 @@ namespace sflow {
     class LabelViewModel;
     class SelectionController;
     class TimelineInteractionController;
+    class ListViewModel;
+    class TrackListInteractionController;
+    class TrackViewModel;
 }
 
 namespace dspx {
     class Label;
     class Tempo;
+    class Track;
 }
 
 namespace Core {
@@ -45,6 +49,8 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::SelectionController *tempoSelectionController READ tempoSelectionController CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *labelSequenceViewModel READ labelSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
+        Q_PROPERTY(sflow::ListViewModel *trackListViewModel READ trackListViewModel CONSTANT)
+        Q_PROPERTY(sflow::SelectionController *trackSelectionController READ trackSelectionController CONSTANT)
 
     public:
         ~ProjectViewModelContext() override;
@@ -58,18 +64,23 @@ namespace VisualEditor {
         sflow::PlaybackViewModel *playbackViewModel() const;
         sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
         sflow::PointSequenceViewModel *labelSequenceViewModel() const;
+        sflow::ListViewModel *trackListViewModel() const;
 
         sflow::SelectionController *tempoSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
+        sflow::SelectionController *trackSelectionController() const;
 
         Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionController(QObject *parent = nullptr);
 
         Q_INVOKABLE dspx::Tempo *getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;
         Q_INVOKABLE dspx::Label *getLabelDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getLabelViewItemFromDocumentItem(dspx::Label *item) const;
+        Q_INVOKABLE dspx::Track *getTrackDocumentItemFromViewItem(sflow::TrackViewModel *viewItem) const;
+        Q_INVOKABLE sflow::TrackViewModel *getTrackViewItemFromDocumentItem(dspx::Track *item) const;
 
 
     private:

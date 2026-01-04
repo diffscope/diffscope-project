@@ -17,6 +17,7 @@ namespace VisualEditor::Internal {
         bool middleButtonAutoScroll{};
         int autoDurationPositionAlignment{48};
         bool enableTemporarySnapOff{true};
+        bool trackListOnRight{};
         bool trackCursorPosition{true};
     };
 
@@ -53,6 +54,10 @@ namespace VisualEditor::Internal {
         emit autoDurationPositionAlignmentChanged();
         d->enableTemporarySnapOff = settings->value("enableTemporarySnapOff", true).toBool();
         emit enableTemporarySnapOffChanged();
+        d->trackListOnRight = settings->value("trackListOnRight", false).toBool();
+        emit trackListOnRightChanged();
+        d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
+        emit trackCursorPositionChanged();
         settings->endGroup();
     }
 
@@ -67,6 +72,8 @@ namespace VisualEditor::Internal {
         settings->setValue("middleButtonAutoScroll", d->middleButtonAutoScroll);
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
+        settings->setValue("trackListOnRight", d->trackListOnRight);
+        settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->endGroup();
     }
 
@@ -164,6 +171,20 @@ namespace VisualEditor::Internal {
         d->enableTemporarySnapOff = enableTemporarySnapOff;
         emit m_instance->enableTemporarySnapOffChanged();
     }
+
+    bool EditorPreference::trackListOnRight() {
+        M_INSTANCE_D;
+        return d->trackListOnRight;
+    }
+
+    void EditorPreference::setTrackListOnRight(bool trackListOnRight) {
+        M_INSTANCE_D;
+        if (d->trackListOnRight == trackListOnRight)
+            return;
+        d->trackListOnRight = trackListOnRight;
+        emit m_instance->trackListOnRightChanged();
+    }
+
     bool EditorPreference::trackCursorPosition() {
         M_INSTANCE_D;
         return d->trackCursorPosition;

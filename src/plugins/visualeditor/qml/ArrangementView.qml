@@ -37,8 +37,8 @@ Item {
         anchors.fill: parent
         orientation: Qt.Horizontal
         Item {
-            // TODO
-            SplitView.preferredWidth: 200
+            id: trackArea
+            SplitView.preferredWidth: 360
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
@@ -178,10 +178,19 @@ Item {
                     id: trackListContainer
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    TrackList {
+                        anchors.fill: parent
+                        trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
+                        trackListLayoutViewModel: view.arrangementPanelInterface?.trackListLayoutViewModel ?? null
+                        scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
+                        trackListInteractionController: view.arrangementPanelInterface?.trackListInteractionController ?? null
+                        selectionController: view.projectViewModelContext?.trackSelectionController ?? null
+                    }
                 }
             }
         }
         Item {
+            id: clipArea
             SplitView.fillWidth: true
             clip: true
             ColumnLayout {

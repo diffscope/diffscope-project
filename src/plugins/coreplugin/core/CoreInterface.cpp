@@ -253,17 +253,15 @@ namespace Core {
             .version = QDspx::Model::V1,
             .content = {
                 .global = {},
-                .master = {
-                    .control = {
-                        .gain = 1,
-                        .pan = 0,
-                        .mute = false,
-                    }
-                },
                 .timeline = {
                     .labels = {},
                     .tempos = {{0, 120}},
                     .timeSignatures = {{0, 4, 4}}
+                },
+                .tracks = {
+                    QDspx::Track{
+                        .name = tr("Unnamed track")
+                    }
                 }
             }
         };

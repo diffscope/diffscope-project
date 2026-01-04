@@ -10,6 +10,7 @@ namespace VisualEditor {
     class PlaybackViewModelContextData;
     class TempoViewModelContextData;
     class LabelViewModelContextData;
+    class TrackViewModelContextData;
 
     class ProjectViewModelContextAttachedType : public QObject {
         Q_OBJECT
@@ -33,6 +34,7 @@ namespace VisualEditor {
         std::unique_ptr<PlaybackViewModelContextData> playbackData;
         std::unique_ptr<TempoViewModelContextData> tempoData;
         std::unique_ptr<LabelViewModelContextData> labelData;
+        std::unique_ptr<TrackViewModelContextData> trackData;
     };
 }
 

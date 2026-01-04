@@ -26,6 +26,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(Track)
         Q_PROPERTY(ClipSequence *clips READ clips CONSTANT)
         Q_PROPERTY(int colorId READ colorId WRITE setColorId NOTIFY colorIdChanged)
+        Q_PROPERTY(double height READ height WRITE setHeight NOTIFY heightChanged)
         Q_PROPERTY(TrackControl *control READ control CONSTANT)
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
@@ -38,6 +39,9 @@ namespace dspx {
 
         int colorId() const;
         void setColorId(int colorId);
+
+        double height() const;
+        void setHeight(double height);
 
         TrackControl *control() const;
 
@@ -54,6 +58,7 @@ namespace dspx {
     Q_SIGNALS:
         void nameChanged(const QString &name);
         void colorIdChanged(int colorId);
+        void heightChanged(double height);
         void trackListChanged();
 
     protected:

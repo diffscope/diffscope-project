@@ -13,6 +13,7 @@ namespace dspx {
         TrackControl *q_ptr;
         ModelPrivate *pModel;
         bool solo;
+        bool record;
     };
 
     TrackControl::TrackControl(Handle handle, Model *model) : Control(handle, model), d_ptr(new TrackControlPrivate) {
@@ -20,6 +21,7 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->solo = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_ControlSolo).toBool();
+        d->record = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_ControlRecord).toBool();
     }
 
     TrackControl::~TrackControl() = default;
@@ -32,6 +34,16 @@ namespace dspx {
     void TrackControl::setSolo(bool solo) {
         Q_D(TrackControl);
         d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_ControlSolo, solo);
+    }
+
+    bool TrackControl::record() const {
+        Q_D(const TrackControl);
+        return d->record;
+    }
+
+    void TrackControl::setRecord(bool record) {
+        Q_D(TrackControl);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_ControlRecord, record);
     }
 
     QDspx::TrackControl TrackControl::toQDspx() const {
@@ -55,6 +67,11 @@ namespace dspx {
             case ModelStrategy::P_ControlSolo: {
                 d->solo = value.toBool();
                 Q_EMIT soloChanged(d->solo);
+                break;
+            }
+            case ModelStrategy::P_ControlRecord: {
+                d->record = value.toBool();
+                Q_EMIT recordChanged(d->record);
                 break;
             }
             default: {

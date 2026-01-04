@@ -61,10 +61,12 @@ namespace dspx {
             P_ControlGain,
             P_ControlMute,
             P_ControlPan,
+            P_ControlRecord,
             P_ControlSolo,
             P_Denominator,
             P_EditorId,
             P_EditorName,
+            P_Height,
             P_JsonObject,
             P_KeyNumber,
             P_Language,
@@ -358,7 +360,9 @@ namespace dspx {
                 {P_ControlGain, QMetaType::Double},
                 {P_ControlPan, QMetaType::Double, validatePan},
                 {P_ControlMute, QMetaType::Bool},
-                {P_ControlSolo, QMetaType::Bool}
+                {P_ControlRecord, QMetaType::Bool},
+                {P_ControlSolo, QMetaType::Bool},
+                {P_Height, QMetaType::Double, validateDoubleGreaterOrEqualZero}
             };
             case EI_WorkspaceInfo: return {
                 {P_JsonObject, QMetaType::QJsonObject}

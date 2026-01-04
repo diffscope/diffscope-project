@@ -59,6 +59,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("autoDurationPositionAlignment");
         m_widget->setProperty("enableTemporarySnapOff", EditorPreference::instance()->property("enableTemporarySnapOff"));
         qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
+        m_widget->setProperty("trackListOnRight", EditorPreference::instance()->property("trackListOnRight"));
+        qCDebug(lcEditorPage) << m_widget->property("trackListOnRight");
         m_widget->setProperty("trackCursorPosition", EditorPreference::instance()->property("trackCursorPosition"));
         qCDebug(lcEditorPage) << m_widget->property("trackCursorPosition");
         m_widget->setProperty("started", true);
@@ -81,6 +83,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("autoDurationPositionAlignment", m_widget->property("autoDurationPositionAlignment"));
         qCDebug(lcEditorPage) << "enableTemporarySnapOff" << m_widget->property("enableTemporarySnapOff");
         EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
+        qCDebug(lcEditorPage) << "trackListOnRight" << m_widget->property("trackListOnRight");
+        EditorPreference::instance()->setProperty("trackListOnRight", m_widget->property("trackListOnRight"));
         qCDebug(lcEditorPage) << "trackCursorPosition" << m_widget->property("trackCursorPosition");
         EditorPreference::instance()->setProperty("trackCursorPosition", m_widget->property("trackCursorPosition"));
         EditorPreference::instance()->save();

@@ -1,25 +1,31 @@
 #include "ProjectViewModelContext.h"
 #include "ProjectViewModelContext_p.h"
 
+#include <memory>
+
 #include <ScopicFlowCore/PlaybackViewModel.h>
+#include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
 #include <ScopicFlowCore/LabelViewModel.h>
+#include <ScopicFlowCore/TrackViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
+#include <ScopicFlowCore/TrackListInteractionController.h>
 
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/Label.h>
+#include <dspxmodel/Track.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/private/TempoSelectionController_p.h>
 #include <visualeditor/private/LabelSelectionController_p.h>
+#include <visualeditor/private/TrackSelectionController_p.h>
 #include <visualeditor/private/PlaybackViewModelContextData_p.h>
 #include <visualeditor/private/TempoViewModelContextData_p.h>
 #include <visualeditor/private/LabelViewModelContextData_p.h>
-
-#include <memory>
+#include <visualeditor/private/TrackViewModelContextData_p.h>
 
 namespace VisualEditor {
 
@@ -57,6 +63,11 @@ namespace VisualEditor {
         d->labelData->q_ptr = this;
         d->labelData->init();
         d->labelData->bindLabelSequenceViewModel();
+
+        d->trackData = std::make_unique<TrackViewModelContextData>();
+        d->trackData->q_ptr = this;
+        d->trackData->init();
+        d->trackData->bindTrackListViewModel();
     }
 
     ProjectViewModelContext::~ProjectViewModelContext() = default;
@@ -89,6 +100,11 @@ namespace VisualEditor {
         return d->labelData->labelSequenceViewModel;
     }
 
+    sflow::ListViewModel *ProjectViewModelContext::trackListViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->trackData->trackListViewModel;
+    }
+
     sflow::SelectionController *ProjectViewModelContext::tempoSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->tempoData->tempoSelectionController;
@@ -97,6 +113,11 @@ namespace VisualEditor {
     sflow::SelectionController *ProjectViewModelContext::labelSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelSelectionController;
+    }
+
+    sflow::SelectionController *ProjectViewModelContext::trackSelectionController() const {
+        Q_D(const ProjectViewModelContext);
+        return d->trackData->trackSelectionController;
     }
 
     sflow::TimelineInteractionController *ProjectViewModelContext::createAndBindTimelineInteractionController(QObject *parent) {
@@ -112,6 +133,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->labelData->createController(parent);
+    }
+
+    sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->trackData->createController(parent);
     }
 
     dspx::Tempo *ProjectViewModelContext::getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {
@@ -132,6 +158,16 @@ namespace VisualEditor {
     sflow::LabelViewModel *ProjectViewModelContext::getLabelViewItemFromDocumentItem(dspx::Label *item) const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelViewItemMap.value(item);
+    }
+
+    dspx::Track *ProjectViewModelContext::getTrackDocumentItemFromViewItem(sflow::TrackViewModel *viewItem) const {
+        Q_D(const ProjectViewModelContext);
+        return d->trackData->trackDocumentItemMap.value(viewItem);
+    }
+
+    sflow::TrackViewModel *ProjectViewModelContext::getTrackViewItemFromDocumentItem(dspx::Track *item) const {
+        Q_D(const ProjectViewModelContext);
+        return d->trackData->trackViewItemMap.value(item);
     }
 
 }

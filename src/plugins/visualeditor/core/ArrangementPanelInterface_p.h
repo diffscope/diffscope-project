@@ -17,10 +17,12 @@ namespace VisualEditor {
 
         sflow::TimeViewModel *timeViewModel;
         sflow::TimeLayoutViewModel *timeLayoutViewModel;
+        sflow::TrackListLayoutViewModel *trackListLayoutViewModel;
         sflow::TimelineInteractionController *timelineInteractionController;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
+        sflow::TrackListInteractionController *trackListInteractionController;
 
         PositionAlignmentManipulator *positionAlignmentManipulator;
         AutoPageScrollingManipulator *autoPageScrollingManipulator;

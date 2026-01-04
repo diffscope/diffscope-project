@@ -26,6 +26,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool middleButtonAutoScroll READ middleButtonAutoScroll WRITE setMiddleButtonAutoScroll NOTIFY middleButtonAutoScrollChanged)
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
+        Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
 
     public:
@@ -68,6 +69,9 @@ namespace VisualEditor::Internal {
         static bool enableTemporarySnapOff();
         static void setEnableTemporarySnapOff(bool enableTemporarySnapOff);
 
+        static bool trackListOnRight();
+        static void setTrackListOnRight(bool trackListOnRight);
+
         static bool trackCursorPosition();
         static void setTrackCursorPosition(bool trackCursorPosition);
 
@@ -79,6 +83,7 @@ namespace VisualEditor::Internal {
         void middleButtonAutoScrollChanged();
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
+        void trackListOnRightChanged();
         void trackCursorPositionChanged();
 
     private:

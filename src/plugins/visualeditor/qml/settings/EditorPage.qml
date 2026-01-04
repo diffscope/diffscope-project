@@ -20,6 +20,7 @@ ScrollView {
     property bool middleButtonAutoScroll: false
     property int autoDurationPositionAlignment: 20
     property bool enableTemporarySnapOff: false
+    property bool trackListOnRight: false
     property bool trackCursorPosition: false
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
@@ -29,6 +30,7 @@ ScrollView {
     onMiddleButtonAutoScrollChanged: if (started) pageHandle.markDirty()
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
+    onTrackListOnRightChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -157,6 +159,32 @@ ScrollView {
                         onClicked: page.enableTemporarySnapOff = checked
                     }
 
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Arrangement")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 3
+
+                    Label {
+                        text: qsTr("Track list position")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    ComboBox {
+                        model: [qsTr("Left"), qsTr("Right")]
+                        currentIndex: page.trackListOnRight ? 1 : 0
+                        onActivated: (index) => page.trackListOnRight = (index === 1)
+                    }
                 }
             }
 

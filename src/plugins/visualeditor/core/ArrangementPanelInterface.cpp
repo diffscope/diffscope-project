@@ -11,8 +11,10 @@
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
+#include <ScopicFlowCore/TrackListLayoutViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
+#include <ScopicFlowCore/TrackListInteractionController.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -117,10 +119,12 @@ namespace VisualEditor {
 
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
+        d->trackListLayoutViewModel = new sflow::TrackListLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController();
         d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
         d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel();
+        d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController();
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
@@ -177,6 +181,12 @@ namespace VisualEditor {
         Q_D(const ArrangementPanelInterface);
         return d->timeLayoutViewModel;
     }
+
+    sflow::TrackListLayoutViewModel *ArrangementPanelInterface::trackListLayoutViewModel() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->trackListLayoutViewModel;
+    }
+
     sflow::ScrollBehaviorViewModel *ArrangementPanelInterface::scrollBehaviorViewModel() const {
         Q_D(const ArrangementPanelInterface);
         return d->scrollBehaviorViewModel;
@@ -193,6 +203,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfLabel() const {
         Q_D(const ArrangementPanelInterface);
         return d->labelSequenceInteractionControllerOfLabel;
+    }
+
+    sflow::TrackListInteractionController *ArrangementPanelInterface::trackListInteractionController() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->trackListInteractionController;
     }
 
     PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {
