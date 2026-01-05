@@ -26,6 +26,7 @@
 #include <visualeditor/private/TempoViewModelContextData_p.h>
 #include <visualeditor/private/LabelViewModelContextData_p.h>
 #include <visualeditor/private/TrackViewModelContextData_p.h>
+#include <visualeditor/private/MasterTrackViewModelContextData_p.h>
 
 namespace VisualEditor {
 
@@ -68,6 +69,11 @@ namespace VisualEditor {
         d->trackData->q_ptr = this;
         d->trackData->init();
         d->trackData->bindTrackListViewModel();
+
+        d->masterTrackData = std::make_unique<MasterTrackViewModelContextData>();
+        d->masterTrackData->q_ptr = this;
+        d->masterTrackData->init();
+        d->masterTrackData->bindMasterTrackViewModel();
     }
 
     ProjectViewModelContext::~ProjectViewModelContext() = default;
@@ -105,6 +111,11 @@ namespace VisualEditor {
         return d->trackData->trackListViewModel;
     }
 
+    sflow::ListViewModel *ProjectViewModelContext::masterTrackListViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->masterTrackData->masterTrackListViewModel;
+    }
+
     sflow::SelectionController *ProjectViewModelContext::tempoSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->tempoData->tempoSelectionController;
@@ -138,6 +149,11 @@ namespace VisualEditor {
     sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionController(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->trackData->createController(parent);
+    }
+
+    sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionControllerOfMaster(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->masterTrackData->createController(parent);
     }
 
     dspx::Tempo *ProjectViewModelContext::getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {

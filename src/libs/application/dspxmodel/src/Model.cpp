@@ -225,6 +225,9 @@ namespace dspx {
                 {"enabled", timeline()->isLoopEnabled()},
                 {"start", timeline()->loopStart()},
                 {"length", timeline()->loopLength()},
+            }},
+            {"master", QJsonObject{
+                {"multiChannelOutput", master()->multiChannelOutput()}
             }}
         };
         return model;
@@ -251,6 +254,10 @@ namespace dspx {
                 d->timeline->setLoopStart(start);
                 d->timeline->setLoopLength(length);
             }
+        }
+        {
+            auto master = model.content.workspace.value("diffscope").value("master").toObject();
+            d->master->setMultiChannelOutput(master.value("multiChannelOutput").toBool());
         }
     }
 
@@ -376,7 +383,8 @@ namespace dspx {
             }
             case ModelStrategy::P_ControlGain:
             case ModelStrategy::P_ControlPan:
-            case ModelStrategy::P_ControlMute: {
+            case ModelStrategy::P_ControlMute:
+            case ModelStrategy::P_MultiChannelOutput: {
                 ModelPrivate::proxySetEntityPropertyNotify(d->master, property, value);
                 break;
             }

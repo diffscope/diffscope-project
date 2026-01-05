@@ -18,6 +18,8 @@
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
         <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
+        <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" icon="cursor" />
+        <action id="org.diffscope.visualeditor.mixerPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" diffscope:componentType="menu" />
@@ -47,6 +49,13 @@
             </group>
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+        </menu>
+        <menu id="org.diffscope.visualeditor.mixerPanelToolBar">
+            <group id="org.diffscope.visualeditor.mixerPanelToolBar.toolActions">
+                <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" />
+                <action id="org.diffscope.visualeditor.mixerPanel.handTool" />
+            </group>
+            <stretch />
         </menu>
         <menu id="org.diffscope.visualeditor.arrangementPanelTimelineToolBar">
             <action id="org.diffscope.core.file.new" />

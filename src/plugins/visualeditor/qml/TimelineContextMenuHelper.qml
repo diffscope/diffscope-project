@@ -37,7 +37,7 @@ EditTempoTimeSignatureScenario {
         id: menu
         required property int position
         Action {
-            text: helper.musicTimeline.create(0, 0, menu.position).toString()
+            text: helper.musicTimeline?.create(0, 0, menu.position).toString() ?? ""
             enabled: false
         }
         MenuSeparator {

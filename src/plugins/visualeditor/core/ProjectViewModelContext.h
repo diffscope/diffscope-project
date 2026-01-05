@@ -51,6 +51,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *trackListViewModel READ trackListViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *trackSelectionController READ trackSelectionController CONSTANT)
+        Q_PROPERTY(sflow::ListViewModel *masterTrackListViewModel READ masterTrackListViewModel CONSTANT)
 
     public:
         ~ProjectViewModelContext() override;
@@ -65,6 +66,7 @@ namespace VisualEditor {
         sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
         sflow::PointSequenceViewModel *labelSequenceViewModel() const;
         sflow::ListViewModel *trackListViewModel() const;
+        sflow::ListViewModel *masterTrackListViewModel() const;
 
         sflow::SelectionController *tempoSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
@@ -74,6 +76,7 @@ namespace VisualEditor {
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionController(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionControllerOfMaster(QObject *parent = nullptr);
 
         Q_INVOKABLE dspx::Tempo *getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;

@@ -36,7 +36,8 @@ Item {
         id: splitView
         anchors.fill: parent
         orientation: Qt.Horizontal
-        Item {
+        readonly property bool rightAligned: EditorPreference.trackListOnRight
+        readonly property Item trackArea: Item {
             id: trackArea
             SplitView.preferredWidth: 360
             ColumnLayout {
@@ -81,7 +82,10 @@ Item {
                             id: layout
                             required property string modelData
                             required property int index
-                            readonly property Item item: additionalTrackRepeater.itemAt(index)?.item ?? null
+                            readonly property Item item: {
+                                let a = additionalTrackRepeater.count - additionalTrackRepeater.count
+                                return additionalTrackRepeater.itemAt(a + index)?.item ?? null
+                            }
                             readonly property double itemSize: 12
                             Layout.fillWidth: true
                             spacing: 0
@@ -116,8 +120,8 @@ Item {
                                         Layout.fillHeight: true
                                         icon.height: layout.itemSize
                                         icon.width: layout.itemSize
-                                        icon.source: layout.item.ActionInstantiator.icon.source
-                                        icon.color: layout.item.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
+                                        icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
+                                        icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                                         text: view.addOn.additionalTrackLoader.componentName(layout.modelData)
                                         color: Theme.foregroundPrimaryColor
                                         font.pixelSize: layout.itemSize * 0.75
@@ -185,11 +189,12 @@ Item {
                         scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
                         trackListInteractionController: view.arrangementPanelInterface?.trackListInteractionController ?? null
                         selectionController: view.projectViewModelContext?.trackSelectionController ?? null
+                        rightAligned: splitView.rightAligned
                     }
                 }
             }
         }
-        Item {
+        readonly property Item clipArea: Item {
             id: clipArea
             SplitView.fillWidth: true
             clip: true
@@ -328,6 +333,22 @@ Item {
                 }
             }
         }
+
+        function updateContainer() {
+            while (count) {
+                takeItem(0)
+            }
+            if (rightAligned) {
+                addItem(clipArea)
+                addItem(trackArea)
+            } else {
+                addItem(trackArea)
+                addItem(clipArea)
+            }
+        }
+
+        Component.onCompleted: updateContainer()
+        onRightAlignedChanged: updateContainer()
     }
 
 }

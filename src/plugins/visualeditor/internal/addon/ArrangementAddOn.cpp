@@ -53,7 +53,6 @@ namespace VisualEditor::Internal {
 
         // TODO
         windowInterface->actionContext()->addAction("org.diffscope.visualeditor.panel.pianoRoll", new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollPanel", this));
-        windowInterface->actionContext()->addAction("org.diffscope.visualeditor.panel.mixer", new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "MixerPanel", this));
     }
 
     void ArrangementAddOn::extensionsInitialized() {}
