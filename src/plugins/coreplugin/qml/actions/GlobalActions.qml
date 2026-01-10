@@ -5,6 +5,8 @@ import QtQuick.Controls
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
+import ChorusKit.AppCore
+
 import QActionKit
 
 import DiffScope.UIShell
@@ -84,7 +86,7 @@ ActionCollection {
         actionId: "org.diffscope.core.exit"
         Action {
             onTriggered: () => {
-                CoreInterface.exitApplicationGracefully()
+                RuntimeInterface.exitApplicationGracefully()
             }
         }
     }

@@ -20,7 +20,7 @@ Window {
     onClosing: finished()
     PluginView {
         anchors.fill: parent
-        onRestartRequested: CoreInterface.restartApplication()
+        onRestartRequested: RuntimeInterface.restartApplication()
     }
     // TODO: load/save window and splitter size
 }

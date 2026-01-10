@@ -121,7 +121,7 @@ namespace Core::Internal {
                     title.arg(QApplication::applicationDisplayName()),
                     text.arg(QApplication::applicationDisplayName())
                 ) == SVS::SVSCraft::Yes) {
-                CoreInterface::restartApplication();
+                RuntimeInterface::restartApplication();
             }
         }
         return ISettingPage::accept();

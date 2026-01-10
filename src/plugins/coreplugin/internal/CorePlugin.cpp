@@ -1,13 +1,5 @@
 #include "CorePlugin.h"
 
-#ifdef Q_OS_WIN
-#    include <ShObjIdl.h>
-#    include <ShlObj.h>
-#    include <atlbase.h>
-#    include <propkey.h>
-#    include <propvarutil.h>
-#endif
-
 #include <algorithm>
 
 #include <QApplication>
@@ -37,6 +29,7 @@
 #include <QAKCore/actionregistry.h>
 
 #include <SVSCraftQuick/Theme.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <loadapi/initroutine.h>
 
@@ -67,6 +60,7 @@
 #include <coreplugin/internal/WorkspaceAddOn.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/CloseSaveCheckAddOn.h>
+#include <coreplugin/internal/PlatformJumpListHelper.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(coreplugin);
@@ -198,11 +192,25 @@ namespace Core::Internal {
     }
 
     void CorePlugin::extensionsInitialized() {
-        auto settings = RuntimeInterface::settings();
-        settings->setValue("lastInitializationAbortedFlag", false);
+        RuntimeInterface::splash()->showMessage(tr("Plugins loading complete, preparing for subsequent initialization..."));
         for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
             qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled();
         }
+        auto settings = RuntimeInterface::settings();
+        settings->setValue("lastInitializationAbortedFlag", false);
+        if (settings->value("lastRunTerminatedAbnormally").toBool()) {
+            qCWarning(lcCorePlugin) << "Last run terminated abnormally";
+            SVS::MessageBox::warning(RuntimeInterface::qmlEngine(), nullptr,
+                tr("Last run terminated abnormally"),
+                tr("%1 did not exit normally during its last run.\n\nTo check for unsaved files, please go to Recovery Files.").arg(QApplication::applicationDisplayName())
+            );
+        }
+        settings->setValue("lastRunTerminatedAbnormally", true);
+        RuntimeInterface::addExitCallback([](int exitCode) {
+            if (exitCode == 0) {
+                RuntimeInterface::settings()->setValue("lastRunTerminatedAbnormally", false);
+            }
+        });
     }
 
     bool CorePlugin::delayedInitialize() {
@@ -240,71 +248,6 @@ namespace Core::Internal {
         // TODO open file
         return QObject::eventFilter(obj, event);
     }
-
-#ifdef Q_OS_WIN
-    static void initializeWindowsJumpList() {
-        CoInitialize(nullptr);
-
-        CComPtr<ICustomDestinationList> pcdl;
-        HRESULT hr = pcdl.CoCreateInstance(CLSID_DestinationList, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        UINT cMinSlots;
-        CComPtr<IObjectArray> poaRemoved;
-        hr = pcdl->BeginList(&cMinSlots, IID_PPV_ARGS(&poaRemoved));
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        CComPtr<IObjectCollection> poc;
-        hr = poc.CoCreateInstance(CLSID_EnumerableObjectCollection, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        CComPtr<IShellLink> psl;
-        hr = psl.CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER);
-        if (FAILED(hr)) {
-            CoUninitialize();
-            return;
-        }
-
-        auto appPath = QApplication::applicationFilePath().toStdWString();
-        psl->SetPath(appPath.c_str());
-        psl->SetArguments(L"--new");
-
-        CComPtr<IPropertyStore> pps;
-        hr = psl->QueryInterface(IID_PPV_ARGS(&pps));
-        if (SUCCEEDED(hr)) {
-            PROPVARIANT propvar;
-            InitPropVariantFromString(L"New Project", &propvar);
-            pps->SetValue(PKEY_Title, propvar);
-            PropVariantClear(&propvar);
-            pps->Commit();
-        }
-
-        poc->AddObject(psl);
-
-        CComPtr<IObjectArray> poa;
-        hr = poc->QueryInterface(IID_PPV_ARGS(&poa));
-        if (SUCCEEDED(hr)) {
-            pcdl->AddUserTasks(poa);
-        }
-
-        pcdl->CommitList();
-        CoUninitialize();
-    }
-#endif
-
-#ifdef Q_OS_MACOS
-    static void initializeMacOSJumpList() {
-    }
-#endif
 
     void CorePlugin::initializeSingletons() {
         new CoreInterface(this);
@@ -407,11 +350,7 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeJumpList() {
-#ifdef Q_OS_WIN
-        initializeWindowsJumpList();
-#elif defined(Q_OS_MACOS)
-        initializeMacOSJumpList();
-#endif
+        PlatformJumpListHelper::initializePlatformJumpList();
     }
 
     void CorePlugin::initializeHelpContents() {
