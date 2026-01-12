@@ -24,6 +24,7 @@ Dialog {
         anchors.fill: parent
         columns: 2
         Label {
+            id: timeSignatureLabel
             text: qsTr("Time signature")
         }
         RowLayout {
@@ -55,9 +56,12 @@ Dialog {
             }
         }
         Label {
+            id: positionLabel
             text: qsTr("Position")
         }
         MusicTimeSpinBox {
+            Accessible.labelledBy: positionLabel
+            Accessible.name: positionLabel.text
             Layout.fillWidth: true
             timeline: dialog.timeline
             value: dialog.position

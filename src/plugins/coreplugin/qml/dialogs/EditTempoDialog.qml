@@ -23,9 +23,12 @@ Dialog {
         anchors.fill: parent
         columns: 2
         Label {
+            id: tempoLabel
             text: qsTr("Tempo")
         }
         SpinBox {
+            Accessible.labelledBy: tempoLabel
+            Accessible.name: tempoLabel.text
             Layout.fillWidth: true
             readonly property int decimals: 2
             from: 10 * Math.pow(10, decimals)
@@ -46,9 +49,12 @@ Dialog {
             }
         }
         Label {
+            id: positionLabel
             text: qsTr("Position")
         }
         MusicTimeSpinBox {
+            Accessible.labelledBy: positionLabel
+            Accessible.name: positionLabel.text
             Layout.fillWidth: true
             timeline: dialog.timeline
             value: dialog.position

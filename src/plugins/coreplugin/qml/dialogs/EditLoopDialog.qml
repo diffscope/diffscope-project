@@ -29,9 +29,12 @@ Dialog {
             onClicked: dialog.loopEnabled = checked
         }
         Label {
+            id: startPositionLabel
             text: qsTr("Start position")
         }
         MusicTimeSpinBox {
+            Accessible.labelledBy: startPositionLabel
+            Accessible.name: startPositionLabel.text
             Layout.fillWidth: true
             timeline: dialog.timeline
             value: dialog.startPosition
@@ -39,9 +42,12 @@ Dialog {
             onValueModified: dialog.startPosition = value
         }
         Label {
+            id: endPositionLabel
             text: qsTr("End position")
         }
         MusicTimeSpinBox {
+            Accessible.labelledBy: endPositionLabel
+            Accessible.name: endPositionLabel.text
             Layout.fillWidth: true
             timeline: dialog.timeline
             value: dialog.endPosition
