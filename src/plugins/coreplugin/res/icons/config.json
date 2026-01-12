@@ -11209,6 +11209,10 @@
         {
           "id": "playhead_panel_chevron_double",
           "icon": "playhead_panel_chevron_double"
+        },
+        {
+          "id": "properties",
+          "icon": "properties"
         }
       ]
     }
