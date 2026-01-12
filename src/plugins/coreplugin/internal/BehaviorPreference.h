@@ -62,6 +62,7 @@ namespace Core::Internal {
         enum StartupBehaviorFlag {
             SB_CreateNewProject = 0x01,
             SB_CloseHomeWindowAfterOpeningProject = 0x02,
+            SB_OpenHomeWindowWhenLastProjectClosed = 0x04,
         };
         Q_ENUM(StartupBehaviorFlag)
         Q_DECLARE_FLAGS(StartupBehavior, StartupBehaviorFlag)

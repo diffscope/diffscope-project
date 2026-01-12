@@ -25,7 +25,7 @@ namespace Core::Internal {
         void initializeSingletons();
         static void initializeActions();
         void initializeSettings() const;
-        static void initializeWindows();
+        void initializeWindows();
         static void initializeBehaviorPreference();
         static void initializeColorScheme();
         static void initializeJumpList();

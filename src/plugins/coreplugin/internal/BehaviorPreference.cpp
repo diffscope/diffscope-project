@@ -58,7 +58,7 @@ namespace Core::Internal {
         Q_D(BehaviorPreference);
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject)).value<StartupBehavior>();
+        d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject | SB_OpenHomeWindowWhenLastProjectClosed)).value<StartupBehavior>();
         emit startupBehaviorChanged();
         d->useSystemLanguage = settings->value("useSystemLanguage", true).toBool();
         emit useSystemLanguageChanged();

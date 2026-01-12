@@ -298,6 +298,29 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<CloseSaveCheckAddOn>();
+
+        auto windowSystem = CoreInterface::windowSystem();
+        connect(windowSystem, &WindowSystem::windowAboutToDestroy, this, [](WindowInterface *windowInterface) {
+            if (!qobject_cast<ProjectWindowInterface *>(windowInterface)) {
+                return;
+            }
+
+            const auto startupBehavior = BehaviorPreference::startupBehavior();
+            const bool closeHomeAfterOpening = startupBehavior & BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject;
+            const bool reopenHomeOnLastProjectClosed = startupBehavior & BehaviorPreference::SB_OpenHomeWindowWhenLastProjectClosed;
+
+            if (closeHomeAfterOpening && !reopenHomeOnLastProjectClosed) {
+                return;
+            }
+
+            const bool hasOtherProjectWindow = std::ranges::any_of(CoreInterface::windowSystem()->windows(), [](auto w) {
+                return qobject_cast<ProjectWindowInterface *>(w);
+            });
+
+            if (!hasOtherProjectWindow) {
+                CoreInterface::showHome();
+            }
+        });
     }
 
     void CorePlugin::initializeBehaviorPreference() {

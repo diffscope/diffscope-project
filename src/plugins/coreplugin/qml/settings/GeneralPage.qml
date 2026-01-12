@@ -103,6 +103,20 @@ ScrollView {
                             }
                         }
                     }
+                    CheckBox {
+                        Layout.leftMargin: 22
+                        text: qsTr("Reopen the home window when the last project window closes")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.startupBehavior & BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
+                        enabled: page.startupBehavior & BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
+                        onClicked: () => {
+                            if (checked) {
+                                page.startupBehavior |= BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
+                            } else {
+                                page.startupBehavior &= ~BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
+                            }
+                        }
+                    }
                 }
             }
             GroupBox {
