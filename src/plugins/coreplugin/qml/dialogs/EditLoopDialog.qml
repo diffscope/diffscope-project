@@ -19,6 +19,8 @@ Dialog {
 
     title: qsTr("Edit Loop")
 
+    onAboutToShow: startPositionSpinBox.forceActiveFocus()
+
     GridLayout {
         anchors.fill: parent
         columns: 2
@@ -33,6 +35,7 @@ Dialog {
             text: qsTr("Start position")
         }
         MusicTimeSpinBox {
+            id: startPositionSpinBox
             Accessible.labelledBy: startPositionLabel
             Accessible.name: startPositionLabel.text
             Layout.fillWidth: true
@@ -46,6 +49,7 @@ Dialog {
             text: qsTr("End position")
         }
         MusicTimeSpinBox {
+            id: endPositionSpinBox
             Accessible.labelledBy: endPositionLabel
             Accessible.name: endPositionLabel.text
             Layout.fillWidth: true

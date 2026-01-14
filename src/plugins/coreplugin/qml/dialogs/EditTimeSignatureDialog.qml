@@ -20,6 +20,8 @@ Dialog {
 
     title: qsTr("Edit Time Signature")
 
+    onAboutToShow: numeratorSpinBox.forceActiveFocus()
+
     GridLayout {
         anchors.fill: parent
         columns: 2
@@ -30,6 +32,7 @@ Dialog {
         RowLayout {
             Layout.fillWidth: true
             SpinBox {
+                id: numeratorSpinBox
                 Accessible.name: qsTr("Numerator")
                 from: 1
                 to: 2147483647
@@ -42,6 +45,7 @@ Dialog {
                 text: "/"
             }
             ComboBox {
+                id: denominatorComboBox
                 Accessible.name: qsTr("Denominator")
                 Layout.fillWidth: true
                 Layout.horizontalStretchFactor: 1
@@ -60,6 +64,7 @@ Dialog {
             text: qsTr("Position")
         }
         MusicTimeSpinBox {
+            id: positionSpinBox
             Accessible.labelledBy: positionLabel
             Accessible.name: positionLabel.text
             Layout.fillWidth: true

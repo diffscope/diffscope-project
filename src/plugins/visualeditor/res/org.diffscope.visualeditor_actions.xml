@@ -58,7 +58,7 @@
             <stretch />
         </menu>
         <menu id="org.diffscope.visualeditor.arrangementPanelTimelineToolBar">
-            <action id="org.diffscope.core.file.new" />
+            <action id="org.diffscope.core.insert.addTrack" />
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" />
         </menu>

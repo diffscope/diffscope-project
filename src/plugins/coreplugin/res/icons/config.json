@@ -11213,6 +11213,10 @@
         {
           "id": "properties",
           "icon": "properties"
+        },
+        {
+          "id": "list_bar_add",
+          "icon": "list_bar_add"
         }
       ]
     }

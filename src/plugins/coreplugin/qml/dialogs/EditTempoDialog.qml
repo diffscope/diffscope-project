@@ -19,6 +19,8 @@ Dialog {
 
     title: qsTr("Edit Tempo")
 
+    onAboutToShow: tempoSpinBox.forceActiveFocus()
+
     GridLayout {
         anchors.fill: parent
         columns: 2
@@ -27,6 +29,7 @@ Dialog {
             text: qsTr("Tempo")
         }
         SpinBox {
+            id: tempoSpinBox
             Accessible.labelledBy: tempoLabel
             Accessible.name: tempoLabel.text
             Layout.fillWidth: true
@@ -53,6 +56,7 @@ Dialog {
             text: qsTr("Position")
         }
         MusicTimeSpinBox {
+            id: positionSpinBox
             Accessible.labelledBy: positionLabel
             Accessible.name: positionLabel.text
             Layout.fillWidth: true

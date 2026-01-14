@@ -130,6 +130,10 @@
         <action id="org.diffscope.core.view.show&amp;BottomSideBar" description="Show or hide the bottom side bar" />
         <action id="org.diffscope.core.view.show&amp;StatusBar" description="Show or hide the status bar" />
 
+        <action id="org.diffscope.core.insert.&amp;addTrack" icon="list_bar_add" />
+        <action id="org.diffscope.core.insert.&amp;insertTrack^" icon="list_bar_add" />
+        <action id="org.diffscope.core.insert.&amp;insertLabel^" icon="tag_add" />
+
         <action id="org.diffscope.core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="org.diffscope.core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
         <action id="org.diffscope.core.window.pro&amp;jectWindows" diffscope:componentType="menu" />
@@ -320,6 +324,11 @@
                     <action id="org.diffscope.core.view.showBottomSideBar" />
                     <action id="org.diffscope.core.view.showStatusBar" />
                 </group>
+            </menu>
+            <menu id="org.diffscope.core.&amp;insert">
+                <action id="org.diffscope.core.insert.addTrack" />
+                <action id="org.diffscope.core.insert.insertTrack" />
+                <action id="org.diffscope.core.insert.insertLabel" />
             </menu>
             <menu id="org.diffscope.core.&amp;window">
                 <action id="org.diffscope.core.showHomeWindow" />

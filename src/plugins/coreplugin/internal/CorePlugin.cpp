@@ -44,6 +44,7 @@
 #include <coreplugin/internal/FileBackupPage.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
 #include <coreplugin/internal/GeneralPage.h>
+#include <coreplugin/internal/InsertItemAddOn.h>
 #include <coreplugin/internal/HomeAddOn.h>
 #include <coreplugin/internal/KeymapPage.h>
 #include <coreplugin/internal/LogPage.h>
@@ -288,6 +289,7 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<InsertItemAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<UndoAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<TimelineAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
