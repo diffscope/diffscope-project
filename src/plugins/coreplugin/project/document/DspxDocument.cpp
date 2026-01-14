@@ -282,14 +282,14 @@ namespace Core {
         return data;
     }
 
-    bool DspxDocumentPrivate::pasteClipboardData(const DspxClipboardData &data, int playheadPosition) {
+    bool DspxDocumentPrivate::pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         switch (data.type()) {
             case DspxClipboardData::Tempo:
-                return pasteTempos(data.tempos(), data, playheadPosition);
+                return pasteTempos(data.tempos(), data, playheadPosition, pastedItems);
             case DspxClipboardData::Label:
-                return pasteLabels(data.labels(), data, playheadPosition);
+                return pasteLabels(data.labels(), data, playheadPosition, pastedItems);
             case DspxClipboardData::Track:
-                return pasteTracks(data.tracks());
+                return pasteTracks(data.tracks(), pastedItems);
             case DspxClipboardData::Clip:
             case DspxClipboardData::Note:
                 // TODO paste support for clips and notes
@@ -298,7 +298,7 @@ namespace Core {
         return false;
     }
 
-    bool DspxDocumentPrivate::pasteTempos(const QList<QDspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition) {
+    bool DspxDocumentPrivate::pasteTempos(const QList<QDspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || !model->timeline() || tempos.isEmpty())
             return false;
 
@@ -351,6 +351,7 @@ namespace Core {
             }
 
             inserted = true;
+            pastedItems.append(tempo);
             const auto overlappingItems = tempoSequence->slice(tempoData.pos, 1);
             for (auto *overlappingItem : overlappingItems) {
                 if (overlappingItem == tempo)
@@ -369,7 +370,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteLabels(const QList<QDspx::Label> &labels, const DspxClipboardData &data, int playheadPosition) {
+    bool DspxDocumentPrivate::pasteLabels(const QList<QDspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || !model->timeline() || labels.isEmpty())
             return false;
 
@@ -420,6 +421,7 @@ namespace Core {
                 continue;
             }
             inserted = true;
+            pastedItems.append(label);
         }
 
         if (inserted)
@@ -430,7 +432,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteTracks(const QList<QDspx::Track> &tracks) {
+    bool DspxDocumentPrivate::pasteTracks(const QList<QDspx::Track> &tracks, QList<QObject *> &pastedItems) {
         if (!model || tracks.isEmpty())
             return false;
 
@@ -457,6 +459,7 @@ namespace Core {
             }
             insertionIndex++;
             inserted = true;
+            pastedItems.append(track);
         }
 
         if (inserted)
@@ -471,61 +474,17 @@ namespace Core {
         if (!selectionModel || selectionModel->selectedCount() <= 0)
             return false;
 
-        bool removed = false;
         int removedCount = 0;
         switch (selectionModel->selectionType()) {
-            case dspx::SelectionModel::ST_Tempo: {
-                auto *tempoSequence = model->timeline()->tempos();
-                for (auto *item : selectionModel->tempoSelectionModel()->selectedItems()) {
-                    if (item->pos() == 0) {
-                        const auto overlappingItems = tempoSequence->slice(0, 1);
-                        if (overlappingItems.size() == 1) {
-                            continue;
-                        }
-                    }
-                    if (tempoSequence->removeItem(item)) {
-                        model->destroyItem(item);
-                        removed = true;
-                        ++removedCount;
-                    }
-                }
+            case dspx::SelectionModel::ST_Tempo:
+                removedCount = deleteTempos();
                 break;
-            }
-            case dspx::SelectionModel::ST_Label: {
-                auto *labelSequence = model->timeline()->labels();
-                for (auto *item : selectionModel->labelSelectionModel()->selectedItems()) {
-                    if (labelSequence->removeItem(item)) {
-                        model->destroyItem(item);
-                        removed = true;
-                        ++removedCount;
-                    }
-                }
+            case dspx::SelectionModel::ST_Label:
+                removedCount = deleteLabels();
                 break;
-            }
-            case dspx::SelectionModel::ST_Track: {
-                auto *trackList = model->tracks();
-                const auto allTracks = trackList->items();
-                QList<int> indexes;
-                for (auto *item : selectionModel->trackSelectionModel()->selectedItems()) {
-                    const int index = allTracks.indexOf(item);
-                    if (index >= 0)
-                        indexes.append(index);
-                }
-
-                std::sort(indexes.begin(), indexes.end(), [](int lhs, int rhs) {
-                    return lhs > rhs;
-                });
-
-                for (const int index : std::as_const(indexes)) {
-                    auto *removedTrack = trackList->removeItem(index);
-                    if (removedTrack) {
-                        model->destroyItem(removedTrack);
-                        removed = true;
-                        ++removedCount;
-                    }
-                }
+            case dspx::SelectionModel::ST_Track:
+                removedCount = deleteTracks();
                 break;
-            }
             case dspx::SelectionModel::ST_Clip:
             case dspx::SelectionModel::ST_Note:
             case dspx::SelectionModel::ST_AnchorNode:
@@ -536,12 +495,83 @@ namespace Core {
                 break;
         }
 
-        if (removed)
+        if (removedCount > 0)
             qCInfo(lcDspxDocument) << "Deleted selection" << selectionTypeName(selectionModel->selectionType()) << "count" << removedCount;
         else
             qCDebug(lcDspxDocument) << "Delete selection produced no changes" << selectionTypeName(selectionModel->selectionType());
 
-        return removed;
+        return removedCount > 0;
+    }
+
+    int DspxDocumentPrivate::deleteTempos() {
+        if (!model || !selectionModel || !model->timeline())
+            return 0;
+
+        auto *tempoSequence = model->timeline()->tempos();
+        int removedCount = 0;
+        for (auto *item : selectionModel->tempoSelectionModel()->selectedItems()) {
+            if (!item)
+                continue;
+
+            // Protect the initial tempo at position 0 when it is the only one.
+            if (item->pos() == 0) {
+                const auto overlappingItems = tempoSequence->slice(0, 1);
+                if (overlappingItems.size() == 1)
+                    continue;
+            }
+
+            if (tempoSequence->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
+    int DspxDocumentPrivate::deleteLabels() {
+        if (!model || !selectionModel || !model->timeline())
+            return 0;
+
+        auto *labelSequence = model->timeline()->labels();
+        int removedCount = 0;
+        for (auto *item : selectionModel->labelSelectionModel()->selectedItems()) {
+            if (!item)
+                continue;
+            if (labelSequence->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
+    int DspxDocumentPrivate::deleteTracks() {
+        if (!model || !selectionModel)
+            return 0;
+
+        auto *trackList = model->tracks();
+        const auto allTracks = trackList->items();
+        QList<int> indexes;
+        for (auto *item : selectionModel->trackSelectionModel()->selectedItems()) {
+            const int index = allTracks.indexOf(item);
+            if (index >= 0)
+                indexes.append(index);
+        }
+
+        std::sort(indexes.begin(), indexes.end(), [](int lhs, int rhs) {
+            return lhs > rhs;
+        });
+
+        int removedCount = 0;
+        for (const int index : std::as_const(indexes)) {
+            auto *removedTrack = trackList->removeItem(index);
+            if (removedTrack) {
+                model->destroyItem(removedTrack);
+                ++removedCount;
+            }
+        }
+
+        return removedCount;
     }
 
     DspxDocument::DspxDocument(QObject *parent) : QObject(parent), d_ptr(new DspxDocumentPrivate) {
@@ -665,13 +695,27 @@ namespace Core {
             return tr("Pasting selection");
         }();
 
+        QList<QObject *> pastedItems;
         bool pasted = false;
-        transactionController()->beginScopedTransaction(transactionName, [=, &pasted, &data] {
-            pasted = d->pasteClipboardData(data, playheadPosition);
+        transactionController()->beginScopedTransaction(transactionName, [=, &pasted, &data, &pastedItems] {
+            pasted = d->pasteClipboardData(data, playheadPosition, pastedItems);
             return pasted;
         }, [] {
             qCCritical(lcDspxDocument()) << "Failed to paste in scoped transaction";
         });
+
+        if (pasted && d->selectionModel) {
+            bool first = true;
+            for (auto *item : std::as_const(pastedItems)) {
+                if (!item)
+                    continue;
+                const auto command = first
+                    ? dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection
+                    : dspx::SelectionModel::Select;
+                d->selectionModel->select(item, command, dspx::SelectionModel::selectionTypeFromItem(item));
+                first = false;
+            }
+        }
 
         qCInfo(lcDspxDocument) << "Paste result" << clipboardTypeName(data.type()) << (pasted ? "succeeded" : "no changes");
     }
@@ -680,9 +724,30 @@ namespace Core {
         Q_D(DspxDocument);
         if (!anyItemsSelected())
             return;
-        qCInfo(lcDspxDocument) << "Delete selection";
+        const auto selectionType = d->selectionModel ? d->selectionModel->selectionType() : dspx::SelectionModel::ST_None;
+        const QString transactionName = [selectionType, this] {
+            switch (selectionType) {
+                case dspx::SelectionModel::ST_Tempo:
+                    return tr("Deleting tempo");
+                case dspx::SelectionModel::ST_Label:
+                    return tr("Deleting label");
+                case dspx::SelectionModel::ST_Track:
+                    return tr("Deleting track");
+                case dspx::SelectionModel::ST_Clip:
+                    return tr("Deleting clip");
+                case dspx::SelectionModel::ST_Note:
+                    return tr("Deleting note");
+                case dspx::SelectionModel::ST_AnchorNode:
+                    return tr("Deleting anchor node");
+                case dspx::SelectionModel::ST_None:
+                default:
+                    return tr("Deleting selection");
+            }
+        }();
+
+        qCInfo(lcDspxDocument) << "Delete selection" << selectionTypeName(selectionType);
         bool deleted = false;
-        transactionController()->beginScopedTransaction(tr("Deleting selection"), [=, &deleted] {
+        transactionController()->beginScopedTransaction(transactionName, [=, &deleted] {
             deleted = d->deleteSelection();
             return deleted;
         }, [] {
