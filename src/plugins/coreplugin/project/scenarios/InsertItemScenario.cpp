@@ -155,7 +155,7 @@ namespace Core {
                 if (index == -1) {
                    break;
                 }
-                insertionIndex = index;
+                insertionIndex = index + 1;
             } while (false);
             if (!trackList->insertItem(insertionIndex, newTrack)) {
                 model->destroyItem(newTrack);

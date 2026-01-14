@@ -448,7 +448,7 @@ namespace Core {
             if (index == -1) {
                 break;
             }
-            insertionIndex = index;
+            insertionIndex = index + 1;
         } while (false);
         for (const auto &trackData : tracks) {
             auto *track = model->createTrack();
@@ -711,7 +711,7 @@ namespace Core {
                     continue;
                 const auto command = first
                     ? dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection
-                    : dspx::SelectionModel::Select;
+                    : dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem;
                 d->selectionModel->select(item, command, dspx::SelectionModel::selectionTypeFromItem(item));
                 first = false;
             }
