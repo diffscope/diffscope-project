@@ -62,6 +62,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/CloseSaveCheckAddOn.h>
 #include <coreplugin/internal/PlatformJumpListHelper.h>
+#include <coreplugin/DspxClipboard.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(coreplugin);
@@ -253,6 +254,7 @@ namespace Core::Internal {
     void CorePlugin::initializeSingletons() {
         new CoreInterface(this);
         new BehaviorPreference(this);
+        new DspxClipboard(this);
     }
 
     void CorePlugin::initializeActions() {
