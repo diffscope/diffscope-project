@@ -30,7 +30,7 @@ namespace Core {
             m_data = tempos;
         }
 
-        QList<QDspx::Tempo> tempos() {
+        QList<QDspx::Tempo> tempos() const {
             return std::get<Tempo>(m_data);
         }
 
@@ -38,7 +38,7 @@ namespace Core {
             m_data = labels;
         }
 
-        QList<QDspx::Label> labels() {
+        QList<QDspx::Label> labels() const {
             return std::get<Label>(m_data);
         }
 
@@ -46,7 +46,7 @@ namespace Core {
             m_data = tracks;
         }
 
-        QList<QDspx::Track> tracks() {
+        QList<QDspx::Track> tracks() const {
             return std::get<Track>(m_data);
         }
 
@@ -54,7 +54,7 @@ namespace Core {
             m_data = clips;
         }
 
-        QList<QList<QDspx::ClipRef>> clips() {
+        QList<QList<QDspx::ClipRef>> clips() const {
             return std::get<Clip>(m_data);
         }
 
@@ -62,7 +62,7 @@ namespace Core {
             m_data = notes;
         }
 
-        QList<QDspx::Note> notes() {
+        QList<QDspx::Note> notes() const {
             return std::get<Note>(m_data);
         }
 
