@@ -24,29 +24,33 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.edit.cut"
-        EditAction {
-            flag: EditActionsHandler.Cut
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.cutSelection(d.windowHandle.projectTimeline.position)
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.edit.copy"
-        EditAction {
-            flag: EditActionsHandler.Copy
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.copySelection(d.windowHandle.projectTimeline.position)
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.edit.paste"
-        EditAction {
-            flag: EditActionsHandler.Paste
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.pasteAvailable ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position)
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.edit.delete"
-        EditAction {
-            flag: EditActionsHandler.Delete
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.deleteSelection()
         }
     }
 
