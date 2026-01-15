@@ -26,6 +26,8 @@
         <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" class="Preferences" icon="settings" shortcut="Ctrl+,"/>
         <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" class="Preferences" icon="puzzle_piece" shortcut=""/>
 
+        <action id="org.diffscope.core.file.metadata^" icon="document_settings" />
+
         <action id="org.diffscope.core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" class="Window" icon="home" shortcut="Ctrl+Shift+H" />
 
         <action id="org.diffscope.core.e&amp;xit" description="Quit ${APP_NAME}" class="Application" />
@@ -189,6 +191,9 @@
                 <group id="org.diffscope.core.preferenceActions">
                     <action id="org.diffscope.core.settings"/>
                     <action id="org.diffscope.core.plugins"/>
+                </group>
+                <group id="org.diffscope.core.fileMetadataActions">
+                    <action id="org.diffscope.core.file.metadata" />
                 </group>
                 <action id="org.diffscope.core.exit" />
             </menu>

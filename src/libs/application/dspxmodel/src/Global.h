@@ -5,6 +5,8 @@
 
 #include <QObject>
 
+#include <dspxmodel/DspxModelGlobal.h>
+
 namespace QDspx {
     struct Global;
 }
@@ -17,7 +19,7 @@ namespace dspx {
 
     class GlobalPrivate;
 
-    class Global : public QObject {
+    class DSPX_MODEL_EXPORT Global : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

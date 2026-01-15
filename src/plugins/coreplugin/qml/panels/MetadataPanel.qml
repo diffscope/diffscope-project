@@ -60,7 +60,7 @@ QtObject {
                 icon.source: "image://fluent-system-icons/edit"
                 text: qsTr("Edit")
                 onClicked: () => {
-
+                    d.addOn.windowHandle.triggerAction("org.diffscope.core.file.metadata", this)
                 }
             }
         }
@@ -120,15 +120,15 @@ QtObject {
                         }
                         InfoCard {
                             title: qsTr("Title")
-                            text: ""
+                            text: d.addOn?.windowHandle.projectDocumentContext.document.model.global.name ?? ""
                         }
                         InfoCard {
                             title: qsTr("Author")
-                            text: ""
+                            text: d.addOn?.windowHandle.projectDocumentContext.document.model.global.author ?? ""
                         }
                         InfoCard {
                             title: qsTr("Cent Shift")
-                            text: ""
+                            text: (d.addOn?.windowHandle.projectDocumentContext.document.model.global.centShift ?? 0).toLocaleString()
                         }
                     }
                 }
