@@ -29,6 +29,7 @@ endif()
 ck_configure_application(
     ${_ico_args}
     ${_icns_args}
+    INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/info.plist.in
 )
 
 qm_configure_target(${PROJECT_NAME}
@@ -69,6 +70,12 @@ ck_add_shared_files(
     SRC ${_config_file} ${APP_CONFIG_SPLASH_IMAGE} DEST ${CK_BUILD_DATA_DIR}    # config.json
     # SRC conf/${CK_PLATFORM_LOWER}/qtmediate.json DEST ${CK_BUILD_QT_CONF_DIR}   # qtmediate.json
 )
+
+if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns)
+    ck_add_shared_files(
+        SRC ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns DEST ${CK_BUILD_DATA_DIR}
+    )
+endif()
 
 file(GLOB _icons icons/*)
 list(FILTER _icons EXCLUDE REGEX CMakeLists.txt)

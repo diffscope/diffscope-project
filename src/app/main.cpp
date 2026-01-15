@@ -102,9 +102,15 @@ public:
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
         RuntimeInterface::setTranslationManager(new TranslationManager(RuntimeInterface::instance()));
         RuntimeInterface::translationManager()->setLocale(locale);
-        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/ChorusKit/translations"));
-        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/svscraft/translations"));
-        RuntimeInterface::translationManager()->addTranslationPath(ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/uishell/translations"));
+        auto translationBaseDir =
+#ifdef Q_OS_MAC
+            ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/share");
+#else
+            ApplicationInfo::systemLocation(ApplicationInfo::Resources);
+#endif
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/ChorusKit/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/svscraft/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
 
         if (settings->value("lastInitializationAbortedFlag").toBool()) {
             qInfo() << "Last initialization was aborted abnormally";

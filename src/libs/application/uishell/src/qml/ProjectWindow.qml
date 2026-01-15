@@ -176,7 +176,7 @@ Window {
                     id: titleBarArea
                     Layout.fillWidth: true
                     Layout.fillHeight: !window.isMacOS
-                    Layout.preferredHeight: window.isMacOS ? titleBar.height + toolBar.height : 0
+                    Layout.preferredHeight: window.isMacOS ? titleBar.height + (toolBar.visible ? toolBar.height : 0) : 0
                     RowLayout {
                         anchors.right: parent.right
                         visible: !window.isMacOS

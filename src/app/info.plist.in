@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+
+	<key>CFBundleExecutable</key>
+	<string>@APPLICATION_NAME@</string>
+
+	<key>CFBundleIconFile</key>
+	<string>app.icns</string>
+
+	<key>CFBundleIdentifier</key>
+	<string>@APPLICATION_NAME@</string>
+
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+
+	<key>CFBundleName</key>
+	<string>@APPLICATION_DISPLAY_NAME@</string>
+
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CFBundleShortVersionString</key>
+	<string>@APPLICATION_SEMVER@</string>
+
+	<key>CFBundleSignature</key>
+	<string>????</string>
+
+	<key>CFBundleVersion</key>
+	<string>@APPLICATION_SEMVER@</string>
+
+	<key>CSResourcesFileMapped</key>
+	<true/>
+
+	<key>NSHumanReadableCopyright</key>
+	<string>@RC_COPYRIGHT@</string>
+
+	<key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>org.diffscope.dspx</string>
+
+            <key>UTTypeDescription</key>
+            <string>DiffScope Project Exchange Format</string>
+
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.json</string>
+            </array>
+
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>dspx</string>
+                </array>
+
+                <key>public.mime-type</key>
+                <string>application/vnd.openvpi.dspx+json</string>
+            </dict>
+        </dict>
+    </array>
+
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>DiffScope Project File</string>
+
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>org.diffscope.dspx</string>
+            </array>
+
+            <key>CFBundleTypeIconFile</key>
+            <string>dspx.icns</string>
+
+            <key>LSHandlerRank</key>
+            <string>Default</string>
+        </dict>
+    </array>
+
+</dict>
+</plist>
