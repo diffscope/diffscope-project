@@ -47,6 +47,7 @@ if ($IsWindows) {
             }
             dsymutil $dllFile.FullName -o "$pdbTargetDirectory/$($dllFile.Name).dSYM"
             strip -S $dllFile.FullName
+            codesign --force --sign - $dllFile.FullName
         } else {
             Write-Host "Skip: $dllFile"
         }

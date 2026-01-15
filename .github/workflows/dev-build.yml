@@ -16,6 +16,7 @@ on:
       - 'LICENSE'
       - 'crowdin.yml'
       - '.github/**'
+      - '**/translations/*.ts'
   workflow_dispatch:
     inputs:
       identifier:
@@ -40,8 +41,7 @@ jobs:
         os:
           - windows-2025
           # - ubuntu-24.04
-          # - macos-15
-
+          - macos-15
     env:
       QT_VERSION: 6.10.1
       VCPKG_REF: 74e6536215718009aae747d86d84b78376bf9e09
@@ -50,6 +50,7 @@ jobs:
       BUILD_DIR: ${{ github.workspace }}/build/build
       INSTALL_DIR: ${{ github.workspace }}/build/install
       CCACHE_DIR: ${{ github.workspace }}/build/ccache
+      MACOSX_DEPLOYMENT_TARGET: 13.0
 
     runs-on: ${{ matrix.os }}
 
@@ -87,7 +88,10 @@ jobs:
             -InstallDir $env:INSTALL_DIR `
             -VersionIdentifier $env:VERSION_IDENTIFIER `
             ${{ github.event.inputs.use_ccache == 'true' && '-CCache' || '' }} 
-          Write-Output ARTIFACT_NAME=$($output.ApplicationName)_$($output.Semver -replace '[\.\-\+]', '_') >> $env:GITHUB_ENV
+          Write-Output ARTIFACT_NAME=$($output.ApplicationName)_$($output.Semver -replace '[\.\-\+]', '_')_${{ runner.os }}_${{ runner.arch }} >> $env:GITHUB_ENV
+          Write-Output APPLICATION_SEMVER=$($output.Semver) >> $env:GITHUB_ENV
+          Write-Output APPLICATION_DISPLAY_NAME=$($output.ApplicationDisplayName) >> $env:GITHUB_ENV
+          Write-Output APPLICATION_NAME=$($output.ApplicationName) >> $env:GITHUB_ENV
           Write-Output INSTALLER_FILE_BASE=$($output.InstallerFileBase) >> $env:GITHUB_ENV
 
       - name: Save CCache cache
@@ -102,10 +106,21 @@ jobs:
           $output = & ./scripts/ci/Collect-Symbol-Files.ps1 -VcpkgRootDir $env:VCPKG_ROOT_DIR -InstallDir $env:INSTALL_DIR
           Write-Output SYMBOL_FILES_PATH=$($output.Path) >> $env:GITHUB_ENV
 
-      - name: Pack
+      - name: Create InnoSetup installer (Windows)
+        if: ${{ runner.os == 'Windows' }}
         run: |
           $output = & ./scripts/ci/Pack.ps1 -BuildDir $env:BUILD_DIR -InstallerFileBase $env:INSTALLER_FILE_BASE -InnoSetupCommit $env:INNOSETUP_REF
           Write-Output PACKAGE_PATH=$($output.Path) >> $env:GITHUB_ENV
+
+      - name: Create DMG installer (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          $output = & ./scripts/ci/Create-DMG.ps1 `
+            -AppPath $(Join-Path $env:INSTALL_DIR $env:APPLICATION_NAME'.app') `
+            -Semver $env:APPLICATION_SEMVER `
+            -ApplicationDisplayName $env:APPLICATION_DISPLAY_NAME `
+            -InstallerFileBase $env:INSTALLER_FILE_BASE
+          Write-Output PACKAGE_PATH=$($output) >> $env:GITHUB_ENV
 
       - name: Upload symbol files
         uses: actions/upload-artifact@v4

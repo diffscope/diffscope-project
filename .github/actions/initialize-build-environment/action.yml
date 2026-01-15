@@ -39,7 +39,7 @@ runs:
         HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         brew update
-        brew install ninja
+        brew install ninja ccache imagemagick create-dmg
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4

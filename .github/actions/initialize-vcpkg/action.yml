@@ -31,7 +31,7 @@ runs:
         QT_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
         Qt6_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_CMAKE_RELEASE_BUILD_TYPE: "RelWithDebInfo"
-        VCPKG_KEEP_ENV_VARS: "QT_DIR;Qt6_DIR;VCPKG_CMAKE_RELEASE_BUILD_TYPE;VCPKG_BUILD_TYPE"
+        VCPKG_KEEP_ENV_VARS: "QT_DIR;Qt6_DIR;VCPKG_CMAKE_RELEASE_BUILD_TYPE;VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
       shell: pwsh
       run: |
         if (!(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {

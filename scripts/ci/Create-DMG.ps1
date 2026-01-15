@@ -32,6 +32,8 @@ New-Item -ItemType Directory -Path $TempDir | Out-Null
 $Bg1xOut = Join-Path $TempDir "dmg_background.png"
 $Bg2xOut = Join-Path $TempDir "dmg_background@2x.png"
 $BgTiff  = Join-Path $TempDir "dmg_background.tiff"
+$AppBundleName = "$ApplicationDisplayName.app"
+$AppBundlePath = Join-Path $TempDir $AppBundleName
 
 $VersionText = "Version $Semver"
 
@@ -87,16 +89,24 @@ try {
         Remove-Item $DmgPath -Force
     }
 
+    if (Test-Path $AppBundlePath) {
+        Remove-Item $AppBundlePath -Recurse -Force
+    }
+
+    Move-Item -Path $AppPath -Destination $AppBundlePath
+
+    & codesign --deep --force --sign - $AppBundlePath | Write-Host
+
     <# TODO: create-dmg currently places hidden .background file to the right of the visible area, so we have to leave some space for the horizontal scroll bar #>
     & create-dmg `
         --volname "$ApplicationDisplayName" `
         --background "$BgTiff" `
         --window-size 600 448 `
         --icon-size 128 `
-        --icon "$(Split-Path $AppPath -Leaf)" 132 280 `
+        --icon "$(Split-Path $AppBundlePath -Leaf)" 132 280 `
         --app-drop-link 468 280 `
         "$DmgPath" `
-        "$AppPath" | Write-Host
+        "$AppBundlePath" | Write-Host
 
     if ($LASTEXITCODE -ne 0) {
         throw "create-dmg failed"
