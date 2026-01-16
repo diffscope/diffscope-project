@@ -128,6 +128,9 @@ namespace Core::Internal {
 
     static constexpr char kOpenSettingsArg[] = "--open-settings";
     static constexpr char kNewProjectArg[] = "--new";
+    static constexpr char kNoWarningLastRun[] = "--no-warning-last-run";
+    static constexpr char kFatalWithoutPlugins[] = "--fatal-without-plugins";
+    static constexpr char kNoWarningPluginError[] = "--no-warning-plugin-error";
 
     static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         qCDebug(lcCorePlugin) << "Initializing GUI" << options << args;
@@ -196,23 +199,10 @@ namespace Core::Internal {
     void CorePlugin::extensionsInitialized() {
         RuntimeInterface::splash()->showMessage(tr("Plugins loading complete, preparing for subsequent initialization..."));
         for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
-            qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled();
+            qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled() << "enabledBySettings =" << plugin->isEnabledBySettings() << "hasError =" << plugin->hasError();
         }
-        auto settings = RuntimeInterface::settings();
-        settings->setValue("lastInitializationAbortedFlag", false);
-        if (settings->value("lastRunTerminatedAbnormally").toBool()) {
-            qCWarning(lcCorePlugin) << "Last run terminated abnormally";
-            SVS::MessageBox::warning(RuntimeInterface::qmlEngine(), nullptr,
-                tr("Last run terminated abnormally"),
-                tr("%1 did not exit normally during its last run.\n\nTo check for unsaved files, please go to Recovery Files.").arg(QApplication::applicationDisplayName())
-            );
-        }
-        settings->setValue("lastRunTerminatedAbnormally", true);
-        RuntimeInterface::addExitCallback([](int exitCode) {
-            if (exitCode == 0) {
-                RuntimeInterface::settings()->setValue("lastRunTerminatedAbnormally", false);
-            }
-        });
+        checkLastRun();
+        checkPlugins();
     }
 
     bool CorePlugin::delayedInitialize() {
@@ -260,12 +250,6 @@ namespace Core::Internal {
     void CorePlugin::initializeActions() {
         CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
         CoreInterface::actionRegistry()->addIconManifest(":/diffscope/coreplugin/icons/config.json");
-        // TODO: move to icon manifest later
-        const auto addIcon = [&](const QString &id, const QString &iconName) {
-            QAK::ActionIcon icon;
-            icon.addUrl("image://fluent-system-icons/" + iconName);
-            CoreInterface::actionRegistry()->addIcon("", id, icon);
-        };
     }
 
     void CorePlugin::initializeSettings() const {
@@ -387,6 +371,66 @@ namespace Core::Internal {
                 qFatal() << component->errorString();
             }
             RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        }
+    }
+
+    void CorePlugin::checkLastRun() {
+        auto settings = RuntimeInterface::settings();
+        settings->setValue("lastInitializationAbortedFlag", false);
+        bool lastRunWarningSuppressed = QApplication::arguments().contains(kNoWarningLastRun);
+        if (settings->value("lastRunTerminatedAbnormally").toBool() && !lastRunWarningSuppressed) {
+            qCWarning(lcCorePlugin) << "Last run terminated abnormally";
+            SVS::MessageBox::warning(RuntimeInterface::qmlEngine(), nullptr, tr("Last run terminated abnormally"), tr("%1 did not exit normally during its last run.\n\nTo check for unsaved files, please go to Recovery Files.").arg(QApplication::applicationDisplayName()));
+        }
+        settings->setValue("lastRunTerminatedAbnormally", true);
+        RuntimeInterface::addExitCallback([](int exitCode) {
+            if (exitCode == 0) {
+                RuntimeInterface::settings()->setValue("lastRunTerminatedAbnormally", false);
+            }
+        });
+    }
+
+    void CorePlugin::checkPlugins() {
+        auto args = QApplication::arguments();
+        if (auto i = args.indexOf(kFatalWithoutPlugins); i != -1) {
+            QList<QString> pluginIdList;
+            for (auto j = i + 1; j < args.size(); ++j) {
+                if (args[j].startsWith('-'))
+                    break;
+                pluginIdList.append(args[j]);
+            }
+            QList<QString> requiredPluginsWithError;
+            for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
+                if (pluginIdList.contains(plugin->name())) {
+                    pluginIdList.removeAll(plugin->name());
+                    if (plugin->hasError()) {
+                        requiredPluginsWithError.append(plugin->name());
+                    }
+                }
+            }
+            if (!pluginIdList.isEmpty()) {
+                qFatal() << "Missing plugins specified by" << kFatalWithoutPlugins << ":" << pluginIdList;
+            }
+            if (!requiredPluginsWithError.isEmpty()) {
+                qFatal() << "Plugins specified by" << kFatalWithoutPlugins << "have errors:" << requiredPluginsWithError;
+            }
+        }
+
+        QList<ExtensionSystem::PluginSpec *> errorPlugins;
+        std::ranges::copy(
+            ExtensionSystem::PluginManager::plugins() | std::views::filter([](auto *plugin) {
+                return plugin->hasError();
+            }),
+            std::back_inserter(errorPlugins)
+        );
+        bool isPluginErrorSuppressed = QApplication::arguments().contains(kNoWarningPluginError);
+        if (!errorPlugins.isEmpty() && !isPluginErrorSuppressed) {
+            static auto errorMessage = tr("Errors occurred while loading some plugins:\n\n%1\n\nPlease go to Plugins to see more details.");
+            QStringList pluginErrorMessages;
+            std::ranges::transform(errorPlugins, std::back_inserter(pluginErrorMessages), [](auto plugin) {
+                return tr("%1 (%2)").arg(plugin->displayName(), plugin->name());
+            });
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), nullptr, tr("Plugin Error"), errorMessage.arg(pluginErrorMessages.join("\n")));
         }
     }
 

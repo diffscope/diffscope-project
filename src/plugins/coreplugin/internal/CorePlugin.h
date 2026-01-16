@@ -30,6 +30,10 @@ namespace Core::Internal {
         static void initializeColorScheme();
         static void initializeJumpList();
         void initializeHelpContents();
+
+        static void checkLastRun();
+        static void checkPlugins();
+
     };
 
 }

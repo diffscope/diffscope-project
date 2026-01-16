@@ -39,6 +39,8 @@ static QSettings::Format getJsonSettingsFormat() {
 
 static QQmlEngine *engine{};
 
+static constexpr char kNoWarningLastInitialization[] = "--no-warning-last-initialization";
+
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
     MyLoaderSpec() {
@@ -55,6 +57,11 @@ public:
                            QStringLiteral("/config.json");
         pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
         coreName = QStringLiteral("org.diffscope.core");
+        extraArguments << Argument{
+            {kNoWarningLastInitialization},
+            {},
+            QStringLiteral("Suppress warning about 'Last initialization was aborted abnormally'")
+        };
     }
 
     QSettings *createExtensionSystemSettings(QSettings::Scope scope) override {
@@ -112,7 +119,8 @@ public:
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/svscraft/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
 
-        if (settings->value("lastInitializationAbortedFlag").toBool()) {
+        bool lastInitializationWarningSuppressed = QApplication::arguments().contains(kNoWarningLastInitialization);
+        if (settings->value("lastInitializationAbortedFlag").toBool() && !lastInitializationWarningSuppressed) {
             qInfo() << "Last initialization was aborted abnormally";
             QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
             std::unique_ptr<QObject> dialog(component.isError() ? nullptr : component.createWithInitialProperties({
