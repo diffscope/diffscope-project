@@ -41,6 +41,10 @@ namespace Core {
         int deleteLabels();
         int deleteTracks();
 
+        void selectAllTempos();
+        void selectAllLabels();
+        void selectAllTracks();
+
         template<typename Signal>
         bool emitOnChange(bool value, bool &cache, Signal signal);
 

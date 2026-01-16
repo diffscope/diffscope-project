@@ -574,6 +574,24 @@ namespace Core {
         return removedCount;
     }
 
+    void DspxDocumentPrivate::selectAllTempos() {
+        for (auto item : model->timeline()->tempos()->asRange()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllLabels() {
+        for (auto item : model->timeline()->labels()->asRange()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllTracks() {
+        for (auto item : model->tracks()->items()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
     DspxDocument::DspxDocument(QObject *parent) : QObject(parent), d_ptr(new DspxDocumentPrivate) {
         Q_D(DspxDocument);
         d->q_ptr = this;
@@ -749,10 +767,43 @@ namespace Core {
         bool deleted = false;
         transactionController()->beginScopedTransaction(transactionName, [=, &deleted] {
             deleted = d->deleteSelection();
-            return deleted;
-        }, [] {
-            qCCritical(lcDspxDocument()) << "Failed to delete selection in scoped transaction";
-        });
+            return deleted; }, [] { qCCritical(lcDspxDocument()) << "Failed to delete selection in scoped transaction"; });
+    }
+
+    void DspxDocument::selectAll() {
+        Q_D(DspxDocument);
+        if (!isEditScopeFocused()) {
+            return;
+        }
+        qCInfo(lcDspxDocument) << "Select all" << selectionTypeName(d->selectionModel->selectionType());
+        switch (d->selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_Tempo:
+                d->selectAllTempos();
+                break;
+            case dspx::SelectionModel::ST_Label:
+                d->selectAllLabels();
+                break;
+            case dspx::SelectionModel::ST_Track:
+                d->selectAllTracks();
+                break;
+            case dspx::SelectionModel::ST_Clip:
+            case dspx::SelectionModel::ST_Note:
+            case dspx::SelectionModel::ST_AnchorNode:
+                // TODO select all support for additional selection types
+                break;
+            case dspx::SelectionModel::ST_None:
+            default:
+                break;
+        }
+    }
+
+    void DspxDocument::deselectAll() {
+        Q_D(DspxDocument);
+        if (!anyItemsSelected()) {
+            return;
+        }
+        qCInfo(lcDspxDocument) << "Deselect all" << selectionTypeName(d->selectionModel->selectionType());
+        d->selectionModel->select(nullptr, dspx::SelectionModel::ClearPreviousSelection, d->selectionModel->selectionType());
     }
 
 }

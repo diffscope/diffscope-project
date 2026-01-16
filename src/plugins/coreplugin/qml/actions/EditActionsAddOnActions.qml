@@ -56,15 +56,17 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.edit.selectAll"
-        EditAction {
-            flag: EditActionsHandler.SelectAll
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.selectAll()
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.edit.deselect"
-        EditAction {
-            flag: EditActionsHandler.Deselect
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.deselectAll()
         }
     }
 

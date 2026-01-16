@@ -45,6 +45,8 @@ namespace Core {
         Q_INVOKABLE void copySelection(int playheadPosition = 0);
         Q_INVOKABLE void paste(int playheadPosition = 0);
         Q_INVOKABLE void deleteSelection();
+        Q_INVOKABLE void selectAll();
+        Q_INVOKABLE void deselectAll();
 
     Q_SIGNALS:
         void anyItemsSelectedChanged();
