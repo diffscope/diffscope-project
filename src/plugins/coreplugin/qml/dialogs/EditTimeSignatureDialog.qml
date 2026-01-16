@@ -60,6 +60,26 @@ Dialog {
             }
         }
         Label {
+            id: commonLabel
+            text: qsTr("Common")
+        }
+        RowLayout {
+            component CommomTimeSignatureButton: Button {
+                required property int numerator
+                required property int denominator
+                text: Qt.locale().toString(numerator) + "/" + Qt.locale().toString(denominator)
+                highlighted: numerator === dialog.numerator && denominator === dialog.denominator
+                onClicked: {
+                    dialog.numerator = numerator
+                    dialog.denominator = denominator
+                }
+            }
+            CommomTimeSignatureButton { numerator: 4; denominator: 4 }
+            CommomTimeSignatureButton { numerator: 2; denominator: 4 }
+            CommomTimeSignatureButton { numerator: 3; denominator: 4 }
+            CommomTimeSignatureButton { numerator: 6; denominator: 8 }
+        }
+        Label {
             id: positionLabel
             text: qsTr("Position")
         }
