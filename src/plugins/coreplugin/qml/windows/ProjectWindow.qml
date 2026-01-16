@@ -31,6 +31,11 @@ ProjectWindow {
     WindowSystem.windowSystem: CoreInterface.windowSystem
     WindowSystem.id: "org.diffscope.core.projectwindow"
 
+    PlatformWindowModifiedHelper {
+        window: projectWindow
+        windowModified: windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep || windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave
+    }
+
     signal beforeTerminated()
 
     onClosing: () => {
