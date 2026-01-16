@@ -238,7 +238,7 @@ Window {
             }
         }
         PaneSeparator {
-            visible: !window.isMacOS
+            visible: !window.isMacOS && ((separatedMenuParent.visible && menuBar.visualVisible) || toolBar.visible)
         }
         Rectangle {
             id: separatedMenuParent
@@ -249,7 +249,7 @@ Window {
             // FIXME remove spacing when visual invisible
         }
         PaneSeparator {
-            visible: separatedMenuParent.visible && menuBar.visualVisible
+            visible: separatedMenuParent.visible && menuBar.visualVisible && toolBar.visible
         }
         ToolBar {
             id: toolBar
@@ -317,7 +317,9 @@ Window {
                 }
             }
         }
-        PaneSeparator {}
+        PaneSeparator {
+
+        }
         Item {
             id: mainPane
             readonly property double minimumPanelSize: 64
@@ -429,7 +431,9 @@ Window {
                 }
             }
         }
-        PaneSeparator {}
+        PaneSeparator {
+            visible: statusBar.visible
+        }
         ToolBar {
             id: statusBar
             Accessible.role: Accessible.StatusBar

@@ -206,7 +206,7 @@ namespace Core {
             }
             return icon;
         }();
-        win->setIcon(QIcon(":/diffscope/icons/dspx/24x24.png"));
+        win->setIcon(dspxIcon);
         QString path;
         if (d->projectDocumentContext->fileLocker() && !d->projectDocumentContext->fileLocker()->path().isEmpty()) {
             path = d->projectDocumentContext->fileLocker()->path();
