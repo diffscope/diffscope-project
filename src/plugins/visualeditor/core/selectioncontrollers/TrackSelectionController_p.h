@@ -24,6 +24,7 @@ namespace VisualEditor {
         QObjectList getItemsBetween(QObject *startItem, QObject *endItem) const override;
         void select(QObject *item, SelectionCommand command) override;
         QObject *currentItem() const override;
+        bool editScopeFocused() const override;
 
     private:
         ProjectViewModelContext *q;

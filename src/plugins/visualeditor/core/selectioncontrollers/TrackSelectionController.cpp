@@ -30,6 +30,7 @@ namespace VisualEditor {
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         trackSelectionModel = selectionModel->trackSelectionModel();
         connect(trackSelectionModel, &dspx::TrackSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
+        connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, this, &SelectionController::editScopeFocusedChanged);
     }
 
     TrackSelectionController::~TrackSelectionController() = default;
@@ -88,6 +89,10 @@ namespace VisualEditor {
 
     QObject *TrackSelectionController::currentItem() const {
         return q->getTrackViewItemFromDocumentItem(trackSelectionModel->currentItem());
+    }
+
+    bool TrackSelectionController::editScopeFocused() const {
+        return selectionModel->selectionType() == dspx::SelectionModel::ST_Track;
     }
 
 }

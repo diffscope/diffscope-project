@@ -167,22 +167,22 @@ namespace dspx {
         if (targetSelectionType != d->selectionType) {
             switch (d->selectionType) {
                 case ST_AnchorNode:
-                    // d->anchorNodeSelectionModel->d_func()->clearAll();
+                    // d->anchorNodeSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Clip:
-                    d->clipSelectionModel->d_func()->clearAll();
+                    d->clipSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Label:
-                    d->labelSelectionModel->d_func()->clearAll();
+                    d->labelSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Note:
-                    d->noteSelectionModel->d_func()->clearAll();
+                    d->noteSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Tempo:
-                    d->tempoSelectionModel->d_func()->clearAll();
+                    d->tempoSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Track:
-                    d->trackSelectionModel->d_func()->clearAll();
+                    d->trackSelectionModel->d_func()->select(nullptr, command);
                     break;
                 default:
                     break;

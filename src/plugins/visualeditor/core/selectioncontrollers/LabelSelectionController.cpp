@@ -31,6 +31,7 @@ namespace VisualEditor {
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         labelSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->labelSelectionModel();
         connect(labelSelectionModel, &dspx::LabelSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
+        connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, this, &SelectionController::editScopeFocusedChanged);
     }
 
     LabelSelectionController::~LabelSelectionController() = default;
@@ -86,6 +87,10 @@ namespace VisualEditor {
 
     QObject *LabelSelectionController::currentItem() const {
         return q->getLabelViewItemFromDocumentItem(labelSelectionModel->currentItem());
+    }
+
+    bool LabelSelectionController::editScopeFocused() const {
+        return selectionModel->selectionType() == dspx::SelectionModel::ST_Label;
     }
 
 }

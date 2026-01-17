@@ -31,6 +31,7 @@ namespace VisualEditor {
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         tempoSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->tempoSelectionModel();
         connect(tempoSelectionModel, &dspx::TempoSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
+        connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, this, &SelectionController::editScopeFocusedChanged);
     }
 
     TempoSelectionController::~TempoSelectionController() = default;
@@ -86,6 +87,10 @@ namespace VisualEditor {
 
     QObject *TempoSelectionController::currentItem() const {
         return q->getTempoViewItemFromDocumentItem(tempoSelectionModel->currentItem());
+    }
+
+    bool TempoSelectionController::editScopeFocused() const {
+        return selectionModel->selectionType() == dspx::SelectionModel::ST_Tempo;
     }
 
 }
