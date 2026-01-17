@@ -97,18 +97,22 @@ namespace Core::Internal {
         } else if (option == LeftSideBar) {
             auto leftDockingView = window->property("leftDockingView").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Left side bar" << visible;
+            leftDockingView->setProperty("barVisible", visible);
             leftDockingView->setProperty("barSize", visible ? 32 : 0);
         } else if (option == RightSideBar) {
             auto rightDockingView = window->property("rightDockingView").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Right side bar" << visible;
+            rightDockingView->setProperty("barVisible", visible);
             rightDockingView->setProperty("barSize", visible ? 32 : 0);
         } else if (option == TopSideBar) {
             auto topDockingView = window->property("topDockingView").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Top side bar" << visible;
+            topDockingView->setProperty("barVisible", visible);
             topDockingView->setProperty("barSize", visible ? 32 : 0);
         } else if (option == BottomSideBar) {
             auto bottomDockingView = window->property("bottomDockingView").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Bottom side bar" << visible;
+            bottomDockingView->setProperty("barVisible", visible);
             bottomDockingView->setProperty("barSize", visible ? 32 : 0);
         } else if (option == StatusBar) {
             auto statusBar = window->property("statusBar").value<QObject *>();
