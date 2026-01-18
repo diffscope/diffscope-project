@@ -53,21 +53,25 @@ namespace Core::Internal {
         qCDebug(lcViewVisibilityAddOn) << "Left side bar" << leftSideBarVisible;
         auto leftDockingView = window->property("leftDockingView").value<QObject *>();
         leftDockingView->setProperty("barSize", leftSideBarVisible ? 32 : 0);
+        leftDockingView->setProperty("barVisible", leftSideBarVisible);
 
         auto rightSideBarVisible = !settings->value(QString::number(RightSideBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Right side bar" << rightSideBarVisible;
         auto rightDockingView = window->property("rightDockingView").value<QObject *>();
         rightDockingView->setProperty("barSize", rightSideBarVisible ? 32 : 0);
+        rightDockingView->setProperty("barVisible", rightSideBarVisible);
 
         auto topSideBarVisible = !settings->value(QString::number(TopSideBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Top side bar" << topSideBarVisible;
         auto topDockingView = window->property("topDockingView").value<QObject *>();
         topDockingView->setProperty("barSize", topSideBarVisible ? 32 : 0);
+        topDockingView->setProperty("barVisible", topSideBarVisible);
 
         auto bottomSideBarVisible = !settings->value(QString::number(BottomSideBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Bottom side bar" << bottomSideBarVisible;
         auto bottomDockingView = window->property("bottomDockingView").value<QObject *>();
         bottomDockingView->setProperty("barSize", bottomSideBarVisible ? 32 : 0);
+        bottomDockingView->setProperty("barVisible", bottomSideBarVisible);
 
         auto statusBarVisible = !settings->value(QString::number(StatusBar)).value<bool>();
         qCDebug(lcViewVisibilityAddOn) << "Status bar" << statusBarVisible;
