@@ -3,6 +3,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
 #include <QtCore/QLoggingCategory>
+#include <QtCore/QRegularExpression>
 #include <QtGui/QWindow>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
@@ -17,6 +18,9 @@
 #include <CoreApi/logger.h>
 #include <CoreApi/translationmanager.h>
 
+#include <extensionsystem/pluginmanager.h>
+#include <extensionsystem/pluginspec.h>
+
 #include <qjsonsettings.h>
 
 #include <SVSCraftFluentSystemIcons/FluentSystemIconsImageProvider.h>
@@ -25,6 +29,8 @@
 
 #include <application_config.h>
 #include <application_buildinfo.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
 #  include <QBreakpadHandler.h>
@@ -118,6 +124,13 @@ public:
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/ChorusKit/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/svscraft/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
+
+        for (auto pluginSpec : ExtensionSystem::PluginManager::plugins()) {
+            static QRegularExpression rx("^([a-z_][a-z0-9_]*)(\\.[a-z_][a-z0-9_]*)+$");
+            if (!rx.match(pluginSpec->name()).hasMatch()) {
+                qFatal() << "Refused to load due to an invalid plugin name:" << pluginSpec->name() << "Plugin name should match" << rx.pattern();
+            }
+        }
 
         bool lastInitializationWarningSuppressed = QApplication::arguments().contains(kNoWarningLastInitialization);
         if (settings->value("lastInitializationAbortedFlag").toBool() && !lastInitializationWarningSuppressed) {
