@@ -57,11 +57,21 @@ namespace Core {
         Q_EMIT q->saved();
     }
 
-    QByteArray ProjectDocumentContextPrivate::serializeDocument() const {
+    QByteArray ProjectDocumentContextPrivate::serializeDocument(bool *hasError) const {
         QDspx::SerializationErrorList errors;
         auto model = document->model()->toQDspx();
         writeEditorInfo(model);
-        return QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
+        auto data = QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
+        if (errors.containsError()) {
+            if (hasError) {
+                *hasError = true;
+            }
+        } else {
+            if (hasError) {
+                *hasError = false;
+            }
+        }
+        return data;
     }
 
     bool ProjectDocumentContextPrivate::initializeDocument(const QDspx::Model &model, bool doCheck) {
@@ -204,7 +214,14 @@ namespace Core {
         Q_D(ProjectDocumentContext);
         if (!d->fileLocker || d->fileLocker->path().isEmpty())
             return false;
-        auto data = d->serializeDocument();
+        bool hasError;
+        auto data = d->serializeDocument(&hasError);
+        if (hasError) {
+            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
+            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
+                return false;
+            }
+        }
         bool isSuccess = d->fileLocker->save(data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file:" << d->fileLocker->path();
@@ -219,7 +236,14 @@ namespace Core {
         Q_D(ProjectDocumentContext);
         if (!d->fileLocker)
             return false;
-        auto data = d->serializeDocument();
+        bool hasError;
+        auto data = d->serializeDocument(&hasError);
+        if (hasError) {
+            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
+            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
+                return false;
+            }
+        }
         bool isSuccess = d->fileLocker->saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save file as:" << d->fileLocker->path();
@@ -233,7 +257,14 @@ namespace Core {
     bool ProjectDocumentContext::saveCopy(const QString &filePath) {
         Q_D(ProjectDocumentContext);
         FileLocker copyFileLocker;
-        auto data = d->serializeDocument();
+        bool hasError;
+        auto data = d->serializeDocument(&hasError);
+        if (hasError) {
+            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
+            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
+                return false;
+            }
+        }
         bool isSuccess = copyFileLocker.saveAs(filePath, data);
         if (!isSuccess) {
             qCCritical(lcProjectDocumentContext) << "Failed to save copy file:" << d->fileLocker->path();

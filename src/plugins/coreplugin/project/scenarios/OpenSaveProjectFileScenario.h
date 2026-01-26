@@ -33,6 +33,7 @@ namespace Core {
         Q_INVOKABLE bool confirmFileCreatedByAnotherApplication(const QString &name) const;
         Q_INVOKABLE bool confirmFileCreatedByIncompatibleVersion(const QString &version) const;
         Q_INVOKABLE bool confirmCustomCheckWarning(const QString &message) const;
+        Q_INVOKABLE bool confirmSaveFileIntegrity() const;
 
     Q_SIGNALS:
         void windowChanged();

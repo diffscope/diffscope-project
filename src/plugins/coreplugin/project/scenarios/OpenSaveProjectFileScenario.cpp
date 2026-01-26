@@ -161,4 +161,15 @@ namespace Core {
         ) == SVS::SVSCraft::Yes;
     }
 
+    bool OpenSaveProjectFileScenario::confirmSaveFileIntegrity() const {
+        Q_D(const OpenSaveProjectFileScenario);
+        return SVS::MessageBox::warning(
+           RuntimeInterface::qmlEngine(),
+           d->window,
+           tr("Potential document integrity issue"),
+           tr("The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.\n\nUnder normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.\n\nIf you are currently using Save or overwriting an existing file, it is recommended that you cancel the current operation. Instead, use Save Copy to save the document in another file, and then inspect the file using DSPX Inspector.\n\nDo you want to continue?").arg(QApplication::applicationDisplayName()),
+           SVS::SVSCraft::Yes | SVS::SVSCraft::No
+       ) == SVS::SVSCraft::Yes;
+    }
+
 }

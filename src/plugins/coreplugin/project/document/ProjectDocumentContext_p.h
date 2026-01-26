@@ -17,7 +17,7 @@ namespace Core {
         OpenSaveProjectFileScenario *openSaveProjectFileScenario;
 
         void markSaved();
-        QByteArray serializeDocument() const;
+        QByteArray serializeDocument(bool *hasError = nullptr) const;
 
         bool deserializeAndInitializeDocument(const QByteArray &data);
         bool initializeDocument(const QDspx::Model &model, bool doCheck);
