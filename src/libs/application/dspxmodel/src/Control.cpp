@@ -1,6 +1,4 @@
 #include "Control.h"
-
-#include <QJSEngine>
 #include <QVariant>
 
 #include <dspxmodel/ModelStrategy.h>
@@ -19,42 +17,10 @@ namespace dspx {
         double pan;
         bool mute;
 
-        void setGainUnchecked(double gain_);
-        void setGain(double gain_);
 
-        void setPanUnchecked(double pan_);
-        void setPan(double pan_);
     };
 
-    void ControlPrivate::setGainUnchecked(double gain_) {
-        Q_Q(Control);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ControlGain, gain_);
-    }
 
-    void ControlPrivate::setGain(double gain_) {
-        Q_Q(Control);
-        if ((gain_ < 0)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Gain must be greater or equal to 0"));
-            return;
-        }
-        setGainUnchecked(gain_);
-    }
-
-    void ControlPrivate::setPanUnchecked(double pan_) {
-        Q_Q(Control);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ControlPan, pan_);
-    }
-
-    void ControlPrivate::setPan(double pan_) {
-        Q_Q(Control);
-        if ((pan_ < -1 || pan_ > 1)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Pan must be in range [-1.0, 1.0]"));
-            return;
-        }
-        setPanUnchecked(pan_);
-    }
 
     Control::Control(Handle handle, Model *model) : QObject(model), d_ptr(new ControlPrivate) {
         Q_D(Control);
@@ -76,7 +42,7 @@ namespace dspx {
     void Control::setGain(double gain) {
         Q_D(Control);
         Q_ASSERT(gain >= 0.0);
-        d->setGainUnchecked(gain);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlGain, gain);
     }
 
     double Control::pan() const {
@@ -87,7 +53,7 @@ namespace dspx {
     void Control::setPan(double pan) {
         Q_D(Control);
         Q_ASSERT(pan >= -1.0 && pan <= 1.0);
-        d->setPanUnchecked(pan);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ControlPan, pan);
     }
 
     bool Control::mute() const {

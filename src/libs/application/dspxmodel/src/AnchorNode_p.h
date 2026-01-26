@@ -14,10 +14,7 @@ namespace dspx {
         int y;
         AnchorNodeSequence *anchorNodeSequence{};
 
-        void setInterpUnchecked(AnchorNode::InterpolationMode interp_);
-        void setInterp(AnchorNode::InterpolationMode interp_);
-        void setXUnchecked(int x_);
-        void setX(int x_);
+
 
         static void setAnchorNodeSequence(AnchorNode *item, AnchorNodeSequence *anchorNodeSequence);
     };

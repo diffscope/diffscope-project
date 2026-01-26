@@ -1,7 +1,5 @@
 #include "Timeline.h"
 
-#include <QJSEngine>
-
 #include <opendspx/timeline.h>
 
 #include <dspxmodel/ModelStrategy.h>
@@ -22,36 +20,6 @@ namespace dspx {
         bool loopEnabled{false};
         int loopStart{0};
         int loopLength{1920};
-
-        void setLoopStartUnchecked(int loopStart_) {
-            Q_Q(Timeline);
-            pModel->strategy->setEntityProperty(handle, ModelStrategy::P_LoopStart, loopStart_);
-        }
-
-        void setLoopStart(int loopStart_) {
-            Q_Q(Timeline);
-            if (loopStart_ < 0) {
-                if (auto engine = qjsEngine(q))
-                    engine->throwError(QJSValue::RangeError, QStringLiteral("Loop start must be greater or equal to 0"));
-                return;
-            }
-            setLoopStartUnchecked(loopStart_);
-        }
-
-        void setLoopLengthUnchecked(int loopLength_) {
-            Q_Q(Timeline);
-            pModel->strategy->setEntityProperty(handle, ModelStrategy::P_LoopLength, loopLength_);
-        }
-
-        void setLoopLength(int loopLength_) {
-            Q_Q(Timeline);
-            if (loopLength_ <= 0) {
-                if (auto engine = qjsEngine(q))
-                    engine->throwError(QJSValue::RangeError, QStringLiteral("Loop length must be greater than 0"));
-                return;
-            }
-            setLoopLengthUnchecked(loopLength_);
-        }
     };
 
     Timeline::Timeline(Model *model)
@@ -117,7 +85,7 @@ namespace dspx {
     void Timeline::setLoopStart(int loopStart) {
         Q_D(Timeline);
         Q_ASSERT(loopStart >= 0);
-        d->setLoopStartUnchecked(loopStart);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_LoopStart, loopStart);
     }
 
     int Timeline::loopLength() const {
@@ -128,7 +96,7 @@ namespace dspx {
     void Timeline::setLoopLength(int loopLength) {
         Q_D(Timeline);
         Q_ASSERT(loopLength > 0);
-        d->setLoopLengthUnchecked(loopLength);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_LoopLength, loopLength);
     }
 
     QDspx::Timeline Timeline::toQDspx() const {

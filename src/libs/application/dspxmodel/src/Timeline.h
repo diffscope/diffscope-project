@@ -30,8 +30,8 @@ namespace dspx {
         Q_PROPERTY(TempoSequence *tempos READ tempos CONSTANT)
         Q_PROPERTY(TimeSignatureSequence *timeSignatures READ timeSignatures CONSTANT)
         Q_PROPERTY(bool loopEnabled READ isLoopEnabled WRITE setLoopEnabled NOTIFY loopEnabledChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int loopStart MEMBER loopStart WRITE setLoopStart NOTIFY loopStartChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int loopLength MEMBER loopLength WRITE setLoopLength NOTIFY loopLengthChanged)
+        Q_PROPERTY(int loopStart READ loopStart WRITE setLoopStart NOTIFY loopStartChanged)
+        Q_PROPERTY(int loopLength READ loopLength WRITE setLoopLength NOTIFY loopLengthChanged)
     public:
         ~Timeline() override;
 

@@ -1,7 +1,5 @@
 #include "Tempo.h"
 #include "Tempo_p.h"
-
-#include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/tempo.h>
@@ -11,36 +9,6 @@
 #include <dspxmodel/TempoSequence.h>
 
 namespace dspx {
-
-    void TempoPrivate::setPosUnchecked(int pos_) {
-        Q_Q(Tempo);
-        q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Position, pos_);
-    }
-
-    void TempoPrivate::setPos(int pos_) {
-        Q_Q(Tempo);
-        if (pos_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater or equal to 0"));
-            return;
-        }
-        setPosUnchecked(pos_);
-    }
-
-    void TempoPrivate::setValueUnchecked(double value_) {
-        Q_Q(Tempo);
-        q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Value, value_);
-    }
-
-    void TempoPrivate::setValue(double value_) {
-        Q_Q(Tempo);
-        if ((value_ < 10.0 || value_ > 1000.0)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Value must be in range [10.0, 1000.0]"));
-            return;
-        }
-        setValueUnchecked(value_);
-    }
 
     void TempoPrivate::setTempoSequence(Tempo *item, TempoSequence *tempoSequence) {
         auto d = item->d_func();
@@ -68,7 +36,7 @@ namespace dspx {
     void Tempo::setPos(int pos) {
         Q_D(Tempo);
         Q_ASSERT(pos >= 0);
-        d->setPosUnchecked(pos);
+        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Position, pos);
     }
 
     double Tempo::value() const {
@@ -79,7 +47,7 @@ namespace dspx {
     void Tempo::setValue(double value) {
         Q_D(Tempo);
         Q_ASSERT(value >= 10.0 && value <= 1000.0);
-        d->setValueUnchecked(value);
+        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Value, value);
     }
 
     TempoSequence *Tempo::tempoSequence() const {

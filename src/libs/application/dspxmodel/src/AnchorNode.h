@@ -22,8 +22,8 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(AnchorNode)
-        Q_PRIVATE_PROPERTY(d_func(), InterpolationMode interp MEMBER interp WRITE setInterp NOTIFY interpChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int x MEMBER x WRITE setX NOTIFY xChanged)
+        Q_PROPERTY(InterpolationMode interp READ interp WRITE setInterp NOTIFY interpChanged)
+        Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
         Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
         Q_PROPERTY(AnchorNodeSequence *anchorNodeSequence READ anchorNodeSequence NOTIFY anchorNodeSequenceChanged)
 

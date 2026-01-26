@@ -1,6 +1,4 @@
 #include "ClipTime.h"
-
-#include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/cliptime.h>
@@ -21,59 +19,9 @@ namespace dspx {
         int length;
         int clipStart;
         int clipLen;
-
-        void setLengthUnchecked(int length_);
-        void setLength(int length_);
-        void setClipStartUnchecked(int clipStart_);
-        void setClipStart(int clipStart_);
-        void setClipLenUnchecked(int clipLen_);
-        void setClipLen(int clipLen_);
     };
 
-    void ClipTimePrivate::setLengthUnchecked(int length_) {
-        Q_Q(ClipTime);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_Length, length_);
-    }
 
-    void ClipTimePrivate::setLength(int length_) {
-        Q_Q(ClipTime);
-        if (length_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
-            return;
-        }
-        setLengthUnchecked(length_);
-    }
-
-    void ClipTimePrivate::setClipStartUnchecked(int clipStart_) {
-        Q_Q(ClipTime);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ClipStart, clipStart_);
-    }
-
-    void ClipTimePrivate::setClipStart(int clipStart_) {
-        Q_Q(ClipTime);
-        if (clipStart_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("ClipStart must be greater than or equal to 0"));
-            return;
-        }
-        setClipStartUnchecked(clipStart_);
-    }
-
-    void ClipTimePrivate::setClipLenUnchecked(int clipLen_) {
-        Q_Q(ClipTime);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_ClipLength, clipLen_);
-    }
-
-    void ClipTimePrivate::setClipLen(int clipLen_) {
-        Q_Q(ClipTime);
-        if (clipLen_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("ClipLen must be greater than or equal to 0"));
-            return;
-        }
-        setClipLenUnchecked(clipLen_);
-    }
 
     ClipTime::ClipTime(Handle handle, Model *model) : QObject(model), d_ptr(new ClipTimePrivate) {
         Q_D(ClipTime);
@@ -106,7 +54,7 @@ namespace dspx {
     void ClipTime::setLength(int length) {
         Q_D(ClipTime);
         Q_ASSERT(length >= 0);
-        d->setLengthUnchecked(length);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_Length, length);
     }
 
     int ClipTime::clipStart() const {
@@ -117,7 +65,7 @@ namespace dspx {
     void ClipTime::setClipStart(int clipStart) {
         Q_D(ClipTime);
         Q_ASSERT(clipStart >= 0);
-        d->setClipStartUnchecked(clipStart);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ClipStart, clipStart);
     }
 
     int ClipTime::clipLen() const {
@@ -128,7 +76,7 @@ namespace dspx {
     void ClipTime::setClipLen(int clipLen) {
         Q_D(ClipTime);
         Q_ASSERT(clipLen >= 0);
-        d->setClipLenUnchecked(clipLen);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ClipLength, clipLen);
     }
 
     QDspx::ClipTime ClipTime::toQDspx() const {

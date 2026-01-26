@@ -13,11 +13,6 @@ namespace dspx {
         double value;
         TempoSequence *tempoSequence{};
 
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
-        void setValueUnchecked(double value_);
-        void setValue(double value_);
-
         static void setTempoSequence(Tempo *item, TempoSequence *tempoSequence);
     };
 

@@ -25,12 +25,12 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Vibrato)
         Q_PROPERTY(int amp READ amp WRITE setAmp NOTIFY ampChanged)
-        Q_PRIVATE_PROPERTY(d_func(), double end MEMBER end WRITE setEnd NOTIFY endChanged)
-        Q_PRIVATE_PROPERTY(d_func(), double freq MEMBER freq WRITE setFreq NOTIFY freqChanged)
+        Q_PROPERTY(double end READ end WRITE setEnd NOTIFY endChanged)
+        Q_PROPERTY(double freq READ freq WRITE setFreq NOTIFY freqChanged)
         Q_PROPERTY(int offset READ offset WRITE setOffset NOTIFY offsetChanged)
-        Q_PRIVATE_PROPERTY(d_func(), double phase MEMBER phase WRITE setPhase NOTIFY phaseChanged)
+        Q_PROPERTY(double phase READ phase WRITE setPhase NOTIFY phaseChanged)
         Q_PROPERTY(VibratoPoints *points READ points CONSTANT)
-        Q_PRIVATE_PROPERTY(d_func(), double start MEMBER start WRITE setStart NOTIFY startChanged)
+        Q_PROPERTY(double start READ start WRITE setStart NOTIFY startChanged)
 
     public:
         ~Vibrato() override;

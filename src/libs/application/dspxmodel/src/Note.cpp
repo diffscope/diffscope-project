@@ -1,7 +1,5 @@
 #include "Note.h"
 #include "Note_p.h"
-
-#include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/note.h>
@@ -16,65 +14,7 @@
 
 namespace dspx {
 
-    void NotePrivate::setCentShiftUnchecked(int centShift_) {
-        Q_Q(Note);
-        pModel->strategy->setEntityProperty(q->handle(), ModelStrategy::P_CentShift, centShift_);
-    }
 
-    void NotePrivate::setCentShift(int centShift_) {
-        Q_Q(Note);
-        if ((centShift_ < -50 || centShift_ > 50)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("CentShift must be in range [-50, 50]"));
-            return;
-        }
-        setCentShiftUnchecked(centShift_);
-    }
-
-    void NotePrivate::setKeyNumUnchecked(int keyNum_) {
-        Q_Q(Note);
-        pModel->strategy->setEntityProperty(q->handle(), ModelStrategy::P_KeyNumber, keyNum_);
-    }
-
-    void NotePrivate::setKeyNum(int keyNum_) {
-        Q_Q(Note);
-        if ((keyNum_ < 0 || keyNum_ > 127)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("KeyNum must be in range [0, 127]"));
-            return;
-        }
-        setKeyNumUnchecked(keyNum_);
-    }
-
-    void NotePrivate::setLengthUnchecked(int length_) {
-        Q_Q(Note);
-        pModel->strategy->setEntityProperty(q->handle(), ModelStrategy::P_Length, length_);
-    }
-
-    void NotePrivate::setLength(int length_) {
-        Q_Q(Note);
-        if (length_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Length must be greater than or equal to 0"));
-            return;
-        }
-        setLengthUnchecked(length_);
-    }
-
-    void NotePrivate::setPosUnchecked(int pos_) {
-        Q_Q(Note);
-        pModel->strategy->setEntityProperty(q->handle(), ModelStrategy::P_Position, pos_);
-    }
-
-    void NotePrivate::setPos(int pos_) {
-        Q_Q(Note);
-        if (pos_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Pos must be greater than or equal to 0"));
-            return;
-        }
-        setPosUnchecked(pos_);
-    }
 
     void NotePrivate::setOverlapped(Note *item, bool overlapped) {
         auto d = item->d_func();
@@ -119,7 +59,7 @@ namespace dspx {
     void Note::setCentShift(int centShift) {
         Q_D(Note);
         Q_ASSERT(centShift >= -50 && centShift <= 50);
-        d->setCentShiftUnchecked(centShift);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_CentShift, centShift);
     }
 
     int Note::keyNum() const {
@@ -130,7 +70,7 @@ namespace dspx {
     void Note::setKeyNum(int keyNum) {
         Q_D(Note);
         Q_ASSERT(keyNum >= 0 && keyNum <= 127);
-        d->setKeyNumUnchecked(keyNum);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_KeyNumber, keyNum);
     }
 
     QString Note::language() const {
@@ -151,7 +91,7 @@ namespace dspx {
     void Note::setLength(int length) {
         Q_D(Note);
         Q_ASSERT(length >= 0);
-        d->setLengthUnchecked(length);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_Length, length);
     }
 
     QString Note::lyric() const {
@@ -177,7 +117,7 @@ namespace dspx {
     void Note::setPos(int pos) {
         Q_D(Note);
         Q_ASSERT(pos >= 0);
-        d->setPosUnchecked(pos);
+        d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_Position, pos);
     }
 
     Pronunciation *Note::pronunciation() const {

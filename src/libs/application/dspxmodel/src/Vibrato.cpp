@@ -1,6 +1,4 @@
 #include "Vibrato.h"
-
-#include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/vibrato.h>
@@ -26,76 +24,7 @@ namespace dspx {
         double phase;
         VibratoPoints *points;
         double start;
-
-        void setEndUnchecked(double end_);
-        void setEnd(double end_);
-        void setFreqUnchecked(double freq_);
-        void setFreq(double freq_);
-        void setPhaseUnchecked(double phase_);
-        void setPhase(double phase_);
-        void setStartUnchecked(double start_);
-        void setStart(double start_);
     };
-
-    void VibratoPrivate::setEndUnchecked(double end_) {
-        Q_Q(Vibrato);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_VibratoEnd, end_);
-    }
-
-    void VibratoPrivate::setEnd(double end_) {
-        Q_Q(Vibrato);
-        if ((end_ < 0.0 || end_ > 1.0)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("End must be in range [0, 1]"));
-            return;
-        }
-        setEndUnchecked(end_);
-    }
-
-    void VibratoPrivate::setFreqUnchecked(double freq_) {
-        Q_Q(Vibrato);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_VibratoFrequency, freq_);
-    }
-
-    void VibratoPrivate::setFreq(double freq_) {
-        Q_Q(Vibrato);
-        if (freq_ < 0.0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Freq must be greater than or equal to 0"));
-            return;
-        }
-        setFreqUnchecked(freq_);
-    }
-
-    void VibratoPrivate::setPhaseUnchecked(double phase_) {
-        Q_Q(Vibrato);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_VibratoPhase, phase_);
-    }
-
-    void VibratoPrivate::setPhase(double phase_) {
-        Q_Q(Vibrato);
-        if ((phase_ < 0.0 || phase_ > 1.0)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Phase must be in range [0, 1]"));
-            return;
-        }
-        setPhaseUnchecked(phase_);
-    }
-
-    void VibratoPrivate::setStartUnchecked(double start_) {
-        Q_Q(Vibrato);
-        pModel->strategy->setEntityProperty(handle, ModelStrategy::P_VibratoStart, start_);
-    }
-
-    void VibratoPrivate::setStart(double start_) {
-        Q_Q(Vibrato);
-        if ((start_ < 0.0 || start_ > 1.0)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Start must be in range [0, 1]"));
-            return;
-        }
-        setStartUnchecked(start_);
-    }
 
     Vibrato::Vibrato(Handle handle, Model *model) : QObject(model), d_ptr(new VibratoPrivate) {
         Q_D(Vibrato);
@@ -130,8 +59,8 @@ namespace dspx {
 
     void Vibrato::setEnd(double end) {
         Q_D(Vibrato);
-        Q_ASSERT(end >= 0.0 && end <= 1.0);
-        d->setEndUnchecked(end);
+        Q_ASSERT(end >= 0 && end <= 1);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_VibratoEnd, end);
     }
 
     double Vibrato::freq() const {
@@ -141,8 +70,8 @@ namespace dspx {
 
     void Vibrato::setFreq(double freq) {
         Q_D(Vibrato);
-        Q_ASSERT(freq >= 0.0);
-        d->setFreqUnchecked(freq);
+        Q_ASSERT(freq >= 0);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_VibratoFrequency, freq);
     }
 
     int Vibrato::offset() const {
@@ -162,8 +91,8 @@ namespace dspx {
 
     void Vibrato::setPhase(double phase) {
         Q_D(Vibrato);
-        Q_ASSERT(phase >= 0.0 && phase <= 1.0);
-        d->setPhaseUnchecked(phase);
+        Q_ASSERT(phase >= 0 && phase <= 1);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_VibratoPhase, phase);
     }
 
     VibratoPoints *Vibrato::points() const {
@@ -178,8 +107,8 @@ namespace dspx {
 
     void Vibrato::setStart(double start) {
         Q_D(Vibrato);
-        Q_ASSERT(start >= 0.0 && start <= 1.0);
-        d->setStartUnchecked(start);
+        Q_ASSERT(start >= 0 && start <= 1);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_VibratoStart, start);
     }
 
     QDspx::Vibrato Vibrato::toQDspx() const {

@@ -19,8 +19,8 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Tempo);
-        Q_PRIVATE_PROPERTY(d_func(), int pos MEMBER pos WRITE setPos NOTIFY posChanged)
-        Q_PRIVATE_PROPERTY(d_func(), double value MEMBER value WRITE setValue NOTIFY valueChanged)
+        Q_PROPERTY(int pos READ pos WRITE setPos NOTIFY posChanged)
+        Q_PROPERTY(double value READ value WRITE setValue NOTIFY valueChanged)
         Q_PROPERTY(TempoSequence *tempoSequence READ tempoSequence NOTIFY tempoSequenceChanged)
     public:
         ~Tempo() override;

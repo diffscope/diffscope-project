@@ -1,7 +1,6 @@
 #include "AnchorNode.h"
 #include "AnchorNode_p.h"
 
-#include <QJSEngine>
 #include <QVariant>
 
 #include <opendspx/anchornode.h>
@@ -11,36 +10,6 @@
 #include <dspxmodel/ModelStrategy.h>
 
 namespace dspx {
-
-    void AnchorNodePrivate::setInterpUnchecked(AnchorNode::InterpolationMode interp_) {
-        Q_Q(AnchorNode);
-        q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Type, QVariant::fromValue(interp_));
-    }
-
-    void AnchorNodePrivate::setInterp(AnchorNode::InterpolationMode interp_) {
-        Q_Q(AnchorNode);
-        if ((interp_ != AnchorNode::None && interp_ != AnchorNode::Linear && interp_ != AnchorNode::Hermite)) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Interpolation mode must be one of None, Linear, or Hermite"));
-            return;
-        }
-        setInterpUnchecked(interp_);
-    }
-
-    void AnchorNodePrivate::setXUnchecked(int x_) {
-        Q_Q(AnchorNode);
-        q->model()->strategy()->setEntityProperty(q->handle(), ModelStrategy::P_Position, x_);
-    }
-
-    void AnchorNodePrivate::setX(int x_) {
-        Q_Q(AnchorNode);
-        if (x_ < 0) {
-            if (auto engine = qjsEngine(q))
-                engine->throwError(QJSValue::RangeError, QStringLiteral("Position must be greater or equal to 0"));
-            return;
-        }
-        setXUnchecked(x_);
-    }
 
     void AnchorNodePrivate::setAnchorNodeSequence(AnchorNode *item, AnchorNodeSequence *anchorNodeSequence) {
         auto d = item->d_func();
@@ -70,7 +39,7 @@ namespace dspx {
     void AnchorNode::setInterp(InterpolationMode interp) {
         Q_D(AnchorNode);
         Q_ASSERT(interp == None || interp == Linear || interp == Hermite);
-        d->setInterpUnchecked(interp);
+        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Type, QVariant::fromValue(interp));
     }
 
     int AnchorNode::x() const {
@@ -81,7 +50,7 @@ namespace dspx {
     void AnchorNode::setX(int x) {
         Q_D(AnchorNode);
         Q_ASSERT(x >= 0);
-        d->setXUnchecked(x);
+        model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Position, x);
     }
 
     int AnchorNode::y() const {

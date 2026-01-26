@@ -24,9 +24,9 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(ClipTime)
         Q_PROPERTY(int start READ start WRITE setStart NOTIFY startChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int length MEMBER length WRITE setLength NOTIFY lengthChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int clipStart MEMBER clipStart WRITE setClipStart NOTIFY clipStartChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int clipLen MEMBER clipLen WRITE setClipLen NOTIFY clipLenChanged)
+        Q_PROPERTY(int length READ length WRITE setLength NOTIFY lengthChanged)
+        Q_PROPERTY(int clipStart READ clipStart WRITE setClipStart NOTIFY clipStartChanged)
+        Q_PROPERTY(int clipLen READ clipLen WRITE setClipLen NOTIFY clipLenChanged)
 
     public:
         ~ClipTime() override;

@@ -14,13 +14,6 @@ namespace dspx {
         int denominator;
         TimeSignatureSequence *timeSignatureSequence{};
 
-        void setIndexUnchecked(int index_);
-        void setIndex(int index_);
-        void setNumeratorUnchecked(int numerator_);
-        void setNumerator(int numerator_);
-        void setDenominatorUnchecked(int denominator_);
-        void setDenominator(int denominator_);
-
         static void setTimeSignatureSequence(TimeSignature *item, TimeSignatureSequence *timeSignatureSequence);
     };
 

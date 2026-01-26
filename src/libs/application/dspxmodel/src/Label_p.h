@@ -13,8 +13,7 @@ namespace dspx {
         QString text;
         LabelSequence *labelSequence{};
 
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
+
 
         static void setLabelSequence(Label *item, LabelSequence *labelSequence);
     };

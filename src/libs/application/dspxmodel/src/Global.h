@@ -26,7 +26,7 @@ namespace dspx {
         Q_DECLARE_PRIVATE(Global)
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(QString author READ author WRITE setAuthor NOTIFY authorChanged)
-        Q_PRIVATE_PROPERTY(d_func(), int centShift READ centShift WRITE setCentShift NOTIFY centShiftChanged)
+        Q_PROPERTY(int centShift READ centShift WRITE setCentShift NOTIFY centShiftChanged)
         Q_PROPERTY(QString editorId READ editorId WRITE setEditorId NOTIFY editorIdChanged)
         Q_PROPERTY(QString editorName READ editorName WRITE setEditorName NOTIFY editorNameChanged)
 

@@ -24,14 +24,7 @@ namespace dspx {
         NoteSequence *noteSequence{};
         bool overlapped{};
 
-        void setCentShiftUnchecked(int centShift_);
-        void setCentShift(int centShift_);
-        void setKeyNumUnchecked(int keyNum_);
-        void setKeyNum(int keyNum_);
-        void setLengthUnchecked(int length_);
-        void setLength(int length_);
-        void setPosUnchecked(int pos_);
-        void setPos(int pos_);
+
 
         static void setOverlapped(Note *item, bool overlapped);
         static void setNoteSequence(Note *item, NoteSequence *noteSequence);
