@@ -25,6 +25,7 @@ namespace Core {
     class ProjectWindowInterface;
     class DspxCheckerRegistry;
     class ProjectDocumentContext;
+    class PropertyEditorManager;
 
     class CoreInterfacePrivate;
 
@@ -34,6 +35,7 @@ namespace Core {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(CoreInterface)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
+        Q_PROPERTY(PropertyEditorManager *propertyEditorManager READ propertyEditorManager CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -41,6 +43,8 @@ namespace Core {
         static QAK::ActionRegistry *actionRegistry();
 
         static DspxCheckerRegistry *dspxCheckerRegistry();
+
+        static PropertyEditorManager *propertyEditorManager();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";

@@ -21,6 +21,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT SelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(SelectionModel)
         Q_PROPERTY(Model *model READ model CONSTANT)
         Q_PROPERTY(SelectionType selectionType READ selectionType NOTIFY selectionTypeChanged)

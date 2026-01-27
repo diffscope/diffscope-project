@@ -28,41 +28,43 @@
 
 #include <QAKCore/actionregistry.h>
 
-#include <SVSCraftQuick/Theme.h>
 #include <SVSCraftQuick/MessageBox.h>
+#include <SVSCraftQuick/Theme.h>
 
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/DspxClipboard.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/AfterSavingNotifyAddOn.h>
 #include <coreplugin/internal/AppearancePage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/internal/CloseSaveCheckAddOn.h>
 #include <coreplugin/internal/ColorSchemeCollection.h>
 #include <coreplugin/internal/ColorSchemePage.h>
 #include <coreplugin/internal/EditActionsAddOn.h>
 #include <coreplugin/internal/FileBackupPage.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
 #include <coreplugin/internal/GeneralPage.h>
-#include <coreplugin/internal/InsertItemAddOn.h>
 #include <coreplugin/internal/HomeAddOn.h>
+#include <coreplugin/internal/InsertItemAddOn.h>
 #include <coreplugin/internal/KeymapPage.h>
 #include <coreplugin/internal/LogPage.h>
 #include <coreplugin/internal/MenuPage.h>
 #include <coreplugin/internal/MetadataAddOn.h>
 #include <coreplugin/internal/NotificationAddOn.h>
+#include <coreplugin/internal/PlatformJumpListHelper.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
+#include <coreplugin/internal/PropertiesAddOn.h>
 #include <coreplugin/internal/RecentFileAddOn.h>
 #include <coreplugin/internal/TimeIndicatorPage.h>
 #include <coreplugin/internal/TimelineAddOn.h>
 #include <coreplugin/internal/UndoAddOn.h>
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
-#include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/internal/CloseSaveCheckAddOn.h>
-#include <coreplugin/internal/PlatformJumpListHelper.h>
-#include <coreplugin/DspxClipboard.h>
+#include <coreplugin/PropertyEditorManager.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(coreplugin);
@@ -188,6 +190,7 @@ namespace Core::Internal {
         initializeColorScheme();
         initializeJumpList();
         initializeHelpContents();
+        initializePropertyEditors();
 
         QApplication::setQuitOnLastWindowClosed(false);
 
@@ -252,7 +255,7 @@ namespace Core::Internal {
         CoreInterface::actionRegistry()->addIconManifest(":/diffscope/coreplugin/icons/config.json");
     }
 
-    void CorePlugin::initializeSettings() const {
+    void CorePlugin::initializeSettings() {
         GeneralPage::setCorePluginTranslationsPath(pluginSpec()->location() + QStringLiteral("/translations"));
         auto sc = CoreInterface::settingCatalog();
         auto generalPage = new GeneralPage;
@@ -286,6 +289,7 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<CloseSaveCheckAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<PropertiesAddOn>();
 
         auto windowSystem = CoreInterface::windowSystem();
         connect(windowSystem, &WindowSystem::windowAboutToDestroy, this, [](WindowInterface *windowInterface) {
@@ -372,6 +376,29 @@ namespace Core::Internal {
             }
             RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
         }
+    }
+
+    void CorePlugin::initializePropertyEditors() {
+        auto labelPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "LabelPropertyEditor", this);
+        if (labelPropertyEditorComponent->isError()) {
+            qFatal() << labelPropertyEditorComponent->errorString();
+        }
+        CoreInterface::propertyEditorManager()->addLabelComponent(labelPropertyEditorComponent);
+        auto tempoPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TempoPropertyEditor", this);
+        if (tempoPropertyEditorComponent->isError()) {
+            qFatal() << tempoPropertyEditorComponent->errorString();
+        }
+        CoreInterface::propertyEditorManager()->addTempoComponent(tempoPropertyEditorComponent);
+        auto trackPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TrackPropertyEditor", this);
+        if (trackPropertyEditorComponent->isError()) {
+            qFatal() << trackPropertyEditorComponent->errorString();
+        }
+        CoreInterface::propertyEditorManager()->addTrackComponent(trackPropertyEditorComponent);
+        auto trackControlPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ControlPropertyEditor", this);
+        if (trackControlPropertyEditorComponent->isError()) {
+            qFatal() << trackControlPropertyEditorComponent->errorString();
+        }
+        CoreInterface::propertyEditorManager()->addTrackComponent(trackControlPropertyEditorComponent);
     }
 
     void CorePlugin::checkLastRun() {

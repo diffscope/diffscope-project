@@ -23,13 +23,14 @@ namespace Core::Internal {
 
     private:
         void initializeSingletons();
-        static void initializeActions();
-        void initializeSettings() const;
+        void initializeActions();
+        void initializeSettings();
         void initializeWindows();
-        static void initializeBehaviorPreference();
-        static void initializeColorScheme();
-        static void initializeJumpList();
+        void initializeBehaviorPreference();
+        void initializeColorScheme();
+        void initializeJumpList();
         void initializeHelpContents();
+        void initializePropertyEditors();
 
         static void checkLastRun();
         static void checkPlugins();

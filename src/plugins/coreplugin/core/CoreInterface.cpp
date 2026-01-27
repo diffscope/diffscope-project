@@ -45,6 +45,7 @@
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/PropertyEditorManager.h>
 
 namespace Core {
 
@@ -59,12 +60,14 @@ namespace Core {
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
         DspxCheckerRegistry *dspxCheckerRegistry;
+        PropertyEditorManager *propertyEditorManager;
 
         void init() {
             Q_Q(CoreInterface);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
+            propertyEditorManager = new PropertyEditorManager(q);
         }
     };
 
@@ -84,9 +87,14 @@ namespace Core {
         return instance()->d_func()->actionRegistry;
     }
 
-    DspxCheckerRegistry * CoreInterface::dspxCheckerRegistry() {
+    DspxCheckerRegistry *CoreInterface::dspxCheckerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->dspxCheckerRegistry;
+    }
+
+    PropertyEditorManager *CoreInterface::propertyEditorManager() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->propertyEditorManager;
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {

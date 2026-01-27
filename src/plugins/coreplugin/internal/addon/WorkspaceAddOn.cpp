@@ -48,8 +48,6 @@ namespace Core::Internal {
             auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.get())}});
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.properties", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this));
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
         }
