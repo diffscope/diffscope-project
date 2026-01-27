@@ -395,6 +395,7 @@ namespace VisualEditor {
     void LabelViewModelContextData::onInsertCommittingStateEntered() {
         targetDocumentItem->setText(labelViewItemMap.value(targetDocumentItem)->content());
         document->transactionController()->commitTransaction(insertTransactionId, tr("Inserting label"));
+        document->selectionModel()->select(targetDocumentItem, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         insertTransactionId = {};
         targetLabelSequenceItem = {};
         targetDocumentItem = {};
