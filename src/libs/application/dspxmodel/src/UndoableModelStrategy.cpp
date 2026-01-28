@@ -362,7 +362,7 @@ namespace dspx {
 
     int SetEntityPropertyCommand::id() const {
         // Return a constant to force mergeWith to be called for comparison
-        return -1;
+        return 1;
     }
 
     SpliceDataArrayCommand::SpliceDataArrayCommand(UndoableModelStrategy *strategy,
