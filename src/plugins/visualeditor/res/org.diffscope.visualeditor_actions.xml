@@ -33,7 +33,7 @@
         <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
 
         <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
 
     </items>
 

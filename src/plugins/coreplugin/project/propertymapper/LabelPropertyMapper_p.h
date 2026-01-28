@@ -26,16 +26,8 @@ namespace Core {
         QHash<dspx::Label *, int> labelToPos;
         QHash<dspx::Label *, QString> labelToText;
 
-        struct LabelConnections {
-            QMetaObject::Connection posChanged;
-            QMetaObject::Connection textChanged;
-            QMetaObject::Connection destroyed;
-        };
-        QHash<dspx::Label *, LabelConnections> labelConnections;
-
         QVariant cachedPos;
         QVariant cachedText;
-
         void setSelectionModel(dspx::SelectionModel *selectionModel_);
         void attachSelectionModel();
         void detachSelectionModel();

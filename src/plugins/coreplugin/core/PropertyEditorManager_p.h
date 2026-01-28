@@ -14,12 +14,13 @@ namespace Core {
     public:
         PropertyEditorManager *q_ptr;
 
+        QList<QQmlComponent *> noneComponents;
+        QList<QQmlComponent *> anchorNodeComponents;
+        QList<QQmlComponent *> clipComponents;
         QList<QQmlComponent *> labelComponents;
+        QList<QQmlComponent *> noteComponents;
         QList<QQmlComponent *> tempoComponents;
         QList<QQmlComponent *> trackComponents;
-        QList<QQmlComponent *> clipComponents;
-        QList<QQmlComponent *> noteComponents;
-        QList<QQmlComponent *> anchorNodeComponents;
     };
 
 }

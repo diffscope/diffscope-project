@@ -8,18 +8,23 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 
-ColumnLayout {
+PropertyEditorGroupBox {
+    id: groupBox
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
-    FormGroup {
-        Layout.fillWidth: true
-        label: qsTr("Name")
-        columnItem: TextField {
+    title: qsTr("Basic")
+    ColumnLayout {
+        width: parent.width
+        FormGroup {
+            Layout.fillWidth: true
+            label: qsTr("Name")
+            columnItem: TextField {
 
+            }
         }
-    }
-    FormGroup {
-        Layout.fillWidth: true
-        label: qsTr("Color")
+        FormGroup {
+            Layout.fillWidth: true
+            label: qsTr("Color")
+        }
     }
 }

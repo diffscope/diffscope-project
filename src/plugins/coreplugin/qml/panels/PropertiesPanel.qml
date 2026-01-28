@@ -1,4 +1,5 @@
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -13,179 +14,146 @@ QtObject {
     required property QtObject addOn
 
     readonly property Component propertiesPanelComponent: ActionDockingPane {
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 12
-            Label {
-                ThemedItem.foregroundLevel: SVS.FL_Secondary
-                Layout.fillWidth: true
-                Layout.topMargin: 12
-                horizontalAlignment: Qt.AlignHCenter
-                text: qsTr("Select an item to edit properties")
-                wrapMode: Text.Wrap
-                visible: tabBarStackLayout.currentIndex === 0
+        ListModel {
+            id: selectionTypeModel
+            ListElement {
+                text: qsTr("Document")
+                iconSource: "image://fluent-system-icons/document"
+                componentsKey: "noneComponents"
+                propertyMapperKey: "nonePropertyMapper"
             }
-            ScrollView {
-                Layout.fillWidth: true
-                Layout.leftMargin: 12
-                Layout.rightMargin: 12
-                Layout.topMargin: 12
-                visible: tabBarStackLayout.currentIndex !== 0
-                StackLayout {
-                    id: tabBarStackLayout
-                    currentIndex: {
-                        let selectionModel = d.addOn?.windowHandle.projectDocumentContext.document.selectionModel
-                        if (!selectionModel)
-                            return 0
-                        let t = selectionModel.selectionType
-                        if (selectionModel.selectedCount !== 0) {
-                            return t
-                        } else {
-                            return [0, 2, 0, 0, 2, 0, 0][t]
-                        }
-                    }
-                    onCurrentIndexChanged: () => {
-                        let tabBar = itemAt(currentIndex)
-                        if (!(tabBar instanceof TabBar)) {
-                            propertyEditorStackLayout.currentIndex = 0
-                        } else {
-                            tabBar.currentIndex = 0
-                            tabBar.currentIndexChanged()
-                        }
-
-                    }
-                    Item {
-                        id: noneTabBar
-                    }
-                    TabBar {
-                        id: anchorNodeTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [1, 2, 6][currentIndex]
-                        TabButton {
-                            text: qsTr("Anchor Node")
+            ListElement {
+                text: qsTr("Anchor Node")
+                iconSource: "image://fluent-system-icons/automation_3p"
+                componentsKey: "anchorNodeComponents"
+                propertyMapperKey: "anchorNodePropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Clip")
+                iconSource: "image://fluent-system-icons/gantt_chart"
+                componentsKey: "clipComponents"
+                propertyMapperKey: "clipPropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Label")
+                iconSource: "image://fluent-system-icons/tag"
+                componentsKey: "labelComponents"
+                propertyMapperKey: "labelPropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Note")
+                iconSource: "image://fluent-system-icons/music_note_1"
+                componentsKey: "noteComponents"
+                propertyMapperKey: "labelPropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Tempo")
+                iconSource: "image://fluent-system-icons/metronome"
+                componentsKey: "tempoComponents"
+                propertyMapperKey: "tempoPropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Track")
+                iconSource: "image://fluent-system-icons/list_bar"
+                componentsKey: "trackComponents"
+                propertyMapperKey: "trackPropertyMapper"
+            }
+        }
+        QtObject {
+            id: propertyMappers
+            readonly property QtObject nonePropertyMapper: null
+            readonly property QtObject anchorNodePropertyMapper: null
+            readonly property QtObject clipPropertyMapper: null
+            readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+            }
+            readonly property QtObject notePropertyMapper: null
+            readonly property QtObject tempoPropertyMapper: TempoPropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+            }
+            readonly property QtObject trackPropertyMapper: null
+        }
+        StackLayout {
+            id: tabBarStackLayout
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 12
+            currentIndex: {
+                let selectionModel = d.addOn?.windowHandle.projectDocumentContext.document.selectionModel
+                if (!selectionModel)
+                    return 0
+                let t = selectionModel.selectionType
+                if (selectionModel.selectedCount !== 0) {
+                    return t
+                } else {
+                    return [0, 2, 0, 0, 2, 0, 0][t]
+                }
+            }
+            onCurrentIndexChanged: () => {
+                let tabBar = itemAt(currentIndex)
+                if (!(tabBar instanceof TabBar)) {
+                    propertyEditorStackLayout.currentIndex = 0
+                } else {
+                    tabBar.currentIndex = 0
+                    tabBar.currentIndexChanged()
+                }
+            }
+            Component.onCompleted: propertyEditorStackLayout.currentIndex = 0
+            Repeater {
+                model: [
+                    [0], [1, 2, 6, 0], [2, 6, 0], [3, 0], [4, 2, 6, 0], [5, 0], [6, 0]
+                ]
+                delegate: TabBar {
+                    id: tabBar
+                    required property var modelData
+                    ThemedItem.flat: true
+                    onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = modelData[currentIndex]
+                    Layout.preferredHeight: 30
+                    Repeater {
+                        model: tabBar.modelData
+                        delegate: TabButton {
+                            required property int modelData
+                            text: selectionTypeModel.get(modelData).text
                             ThemedItem.tabIndicator: SVS.TI_Bottom
                             width: implicitWidth
-                            icon.source: "image://fluent-system-icons/data_line"
-                        }
-                        TabButton {
-                            text: qsTr("Clip")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/gantt_chart"
-                        }
-                        TabButton {
-                            text: qsTr("Track")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/list_bar"
-                        }
-                    }
-                    TabBar {
-                        id: clipTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [2, 6][currentIndex]
-                        TabButton {
-                            text: qsTr("Clip")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/gantt_chart"
-                        }
-                        TabButton {
-                            text: qsTr("Track")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/list_bar"
-                        }
-                    }
-                    TabBar {
-                        id: labelTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [3][currentIndex]
-                        TabButton {
-                            text: qsTr("Label")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/tag"
-                        }
-                    }
-                    TabBar {
-                        id: noteTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [4, 2, 6][currentIndex]
-                        TabButton {
-                            text: qsTr("Note")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/music_note_1"
-                        }
-                        TabButton {
-                            text: qsTr("Clip")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/gantt_chart"
-                        }
-                        TabButton {
-                            text: qsTr("Track")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/list_bar"
-                        }
-                    }
-                    TabBar {
-                        id: tempoTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [5][currentIndex]
-                        TabButton {
-                            text: qsTr("Tempo")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                        }
-                    }
-                    TabBar {
-                        id: trackTabBar
-                        ThemedItem.flat: true
-                        onCurrentIndexChanged: propertyEditorStackLayout.currentIndex = [6][currentIndex]
-                        TabButton {
-                            text: qsTr("Track")
-                            ThemedItem.tabIndicator: SVS.TI_Bottom
-                            width: implicitWidth
-                            icon.source: "image://fluent-system-icons/list_bar"
+                            icon.source: selectionTypeModel.get(modelData).iconSource
                         }
                     }
                 }
             }
-            ScrollView {
-                id: scrollView
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                ColumnLayout {
-                    width: scrollView.width - 24
-                    x: 12
-                    StackLayout {
-                        id: propertyEditorStackLayout
-                        Layout.fillWidth: true
-                        Layout.bottomMargin: 12
+        }
+        StackLayout {
+            id: propertyEditorStackLayout
+            anchors.top: tabBarStackLayout.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 12
+            Repeater {
+                model: selectionTypeModel
+                delegate: ScrollView {
+                    id: propertyEditorScrollView
+                    required property var modelData
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        width: propertyEditorScrollView.width - 24
+                        x: 12
                         Repeater {
-                            model: [null, "anchorNodeComponents", "clipComponents", "labelComponents", "noteComponents", "tempoComponents", "trackComponents"]
-                            delegate: ColumnLayout {
-                                id: propertyEditor
+                            model: CoreInterface.propertyEditorManager[propertyEditorScrollView.modelData.componentsKey]
+                            delegate: Item {
                                 required property var modelData
-                                spacing: 12
-                                Repeater {
-                                    model: propertyEditor.modelData ? CoreInterface.propertyEditorManager[propertyEditor.modelData] : null
-                                    delegate: StackLayout {
-                                        required property var modelData
-                                        Layout.fillWidth: true
-                                        Layout.preferredHeight: item?.implicitHeight ?? 0
-                                        property Item item: null
-                                        data: [item]
-                                        Component.onCompleted: () => {
-                                            item = modelData.createObject(this, {
-                                                windowHandle: d.addOn?.windowHandle ?? null,
-                                                propertyMapper: null
-                                            })
-                                        }
-                                    }
+                                Layout.fillWidth: true
+                                Layout.bottomMargin: 12
+                                implicitHeight: item?.height ?? 0
+                                property Item item: null
+                                data: [item]
+                                Component.onCompleted: () => {
+                                    item = modelData.createObject(this, {
+                                        windowHandle: d.addOn?.windowHandle ?? null,
+                                        propertyMapper: propertyMappers[propertyEditorScrollView.modelData.propertyMapperKey]
+                                    })
+                                    item.width = Qt.binding(() => width)
                                 }
                             }
                         }

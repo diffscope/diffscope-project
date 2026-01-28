@@ -13,9 +13,29 @@ namespace Core {
 
     PropertyEditorManager::~PropertyEditorManager() = default;
 
+    void PropertyEditorManager::addNoneComponent(QQmlComponent *component) {
+        Q_D(PropertyEditorManager);
+        d->noneComponents.append(component);
+    }
+
+    void PropertyEditorManager::addAnchorNodeComponent(QQmlComponent *component) {
+        Q_D(PropertyEditorManager);
+        d->anchorNodeComponents.append(component);
+    }
+
+    void PropertyEditorManager::addClipComponent(QQmlComponent *component) {
+        Q_D(PropertyEditorManager);
+        d->clipComponents.append(component);
+    }
+
     void PropertyEditorManager::addLabelComponent(QQmlComponent *component) {
         Q_D(PropertyEditorManager);
         d->labelComponents.append(component);
+    }
+
+    void PropertyEditorManager::addNoteComponent(QQmlComponent *component) {
+        Q_D(PropertyEditorManager);
+        d->noteComponents.append(component);
     }
 
     void PropertyEditorManager::addTempoComponent(QQmlComponent *component) {
@@ -28,24 +48,29 @@ namespace Core {
         d->trackComponents.append(component);
     }
 
-    void PropertyEditorManager::addClipComponent(QQmlComponent *component) {
-        Q_D(PropertyEditorManager);
-        d->clipComponents.append(component);
+    QList<QQmlComponent *> PropertyEditorManager::noneComponents() const {
+        Q_D(const PropertyEditorManager);
+        return d->noneComponents;
     }
 
-    void PropertyEditorManager::addNoteComponent(QQmlComponent *component) {
-        Q_D(PropertyEditorManager);
-        d->noteComponents.append(component);
+    QList<QQmlComponent *> PropertyEditorManager::anchorNodeComponents() const {
+        Q_D(const PropertyEditorManager);
+        return d->anchorNodeComponents;
     }
 
-    void PropertyEditorManager::addAnchorNodeComponent(QQmlComponent *component) {
-        Q_D(PropertyEditorManager);
-        d->anchorNodeComponents.append(component);
+    QList<QQmlComponent *> PropertyEditorManager::clipComponents() const {
+        Q_D(const PropertyEditorManager);
+        return d->clipComponents;
     }
 
     QList<QQmlComponent *> PropertyEditorManager::labelComponents() const {
         Q_D(const PropertyEditorManager);
         return d->labelComponents;
+    }
+
+    QList<QQmlComponent *> PropertyEditorManager::noteComponents() const {
+        Q_D(const PropertyEditorManager);
+        return d->noteComponents;
     }
 
     QList<QQmlComponent *> PropertyEditorManager::tempoComponents() const {
@@ -56,21 +81,6 @@ namespace Core {
     QList<QQmlComponent *> PropertyEditorManager::trackComponents() const {
         Q_D(const PropertyEditorManager);
         return d->trackComponents;
-    }
-
-    QList<QQmlComponent *> PropertyEditorManager::clipComponents() const {
-        Q_D(const PropertyEditorManager);
-        return d->clipComponents;
-    }
-
-    QList<QQmlComponent *> PropertyEditorManager::noteComponents() const {
-        Q_D(const PropertyEditorManager);
-        return d->noteComponents;
-    }
-
-    QList<QQmlComponent *> PropertyEditorManager::anchorNodeComponents() const {
-        Q_D(const PropertyEditorManager);
-        return d->anchorNodeComponents;
     }
 
 }

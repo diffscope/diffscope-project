@@ -379,26 +379,20 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializePropertyEditors() {
-        auto labelPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "LabelPropertyEditor", this);
-        if (labelPropertyEditorComponent->isError()) {
-            qFatal() << labelPropertyEditorComponent->errorString();
-        }
-        CoreInterface::propertyEditorManager()->addLabelComponent(labelPropertyEditorComponent);
-        auto tempoPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TempoPropertyEditor", this);
-        if (tempoPropertyEditorComponent->isError()) {
-            qFatal() << tempoPropertyEditorComponent->errorString();
-        }
-        CoreInterface::propertyEditorManager()->addTempoComponent(tempoPropertyEditorComponent);
-        auto trackPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TrackPropertyEditor", this);
-        if (trackPropertyEditorComponent->isError()) {
-            qFatal() << trackPropertyEditorComponent->errorString();
-        }
-        CoreInterface::propertyEditorManager()->addTrackComponent(trackPropertyEditorComponent);
-        auto trackControlPropertyEditorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ControlPropertyEditor", this);
-        if (trackControlPropertyEditorComponent->isError()) {
-            qFatal() << trackControlPropertyEditorComponent->errorString();
-        }
-        CoreInterface::propertyEditorManager()->addTrackComponent(trackControlPropertyEditorComponent);
+        const auto f = [=, this](const QString &typeName, void(PropertyEditorManager::*addMethod)(QQmlComponent *)) {
+            auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", typeName, this);
+            if (component->isError()) {
+                qFatal() << component->errorString();
+            }
+            (CoreInterface::propertyEditorManager()->*addMethod)(component);
+        };
+        f("LabelPropertyEditor", &PropertyEditorManager::addLabelComponent);
+        f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
+        f("TrackPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
+        f("GlobalCentShiftPropertyEditor", &PropertyEditorManager::addNoneComponent);
+        f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);
     }
 
     void CorePlugin::checkLastRun() {

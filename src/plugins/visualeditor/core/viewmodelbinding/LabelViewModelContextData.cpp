@@ -232,6 +232,7 @@ namespace VisualEditor {
 
             qCDebug(lcLabelViewModelContextData) << "Label view item pos updated" << viewItem << viewItem->position();
             transactionalUpdatedLabels.insert(viewItem);
+            item->setPos(viewItem->position());
         });
 
         labelSequenceViewModel->insertItem(viewItem);

@@ -11202,6 +11202,9 @@
           "id": "item_compare",
           "icon": "item_compare"
         },
+
+
+
         {
           "id": "options_vertical",
           "icon": "options_vertical"
@@ -11217,6 +11220,14 @@
         {
           "id": "list_bar_add",
           "icon": "list_bar_add"
+        },
+        {
+          "id": "metronome",
+          "icon": "metronome"
+        },
+        {
+          "id": "automation_3p",
+          "icon": "automation_3p"
         }
       ]
     }
