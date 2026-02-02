@@ -187,12 +187,15 @@ namespace VisualEditor {
 
     sflow::TimelineInteractionController *PlaybackViewModelContextData::createController(QObject *parent) {
         auto controller = new sflow::TimelineInteractionController(parent);
-        controller->setInteraction(sflow::TimelineInteractionController::MovePositionIndicator | sflow::TimelineInteractionController::ZoomByRubberBand | sflow::TimelineInteractionController::AdjustLoopRange);
+        controller->setInteraction(sflow::TimelineInteractionController::MovePlayhead | sflow::TimelineInteractionController::ZoomByRubberBand | sflow::TimelineInteractionController::AdjustLoopRange);
 
         connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillFinish();
+        });
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
         connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingStarted, this, [=](QQuickItem *) {

@@ -13,6 +13,8 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 
+#include <opendspx/label.h>
+
 #include <dspxmodel/Label.h>
 #include <dspxmodel/LabelSelectionModel.h>
 #include <dspxmodel/LabelSequence.h>
@@ -34,7 +36,9 @@ namespace VisualEditor {
         stateMachine = new QStateMachine(QState::ExclusiveStates, this);
         idleState = new QState;
         movePendingState = new QState;
-        movingState = new QState;
+        moveProgressingState = new QState;
+        moveCommittingState = new QState;
+        moveAbortingState = new QState;
         rubberBandDraggingState = new QState;
         editPendingState = new QState;
         editProgressingState = new QState;
@@ -46,7 +50,9 @@ namespace VisualEditor {
         insertAbortingState = new QState;
         stateMachine->addState(idleState);
         stateMachine->addState(movePendingState);
-        stateMachine->addState(movingState);
+        stateMachine->addState(moveProgressingState);
+        stateMachine->addState(moveCommittingState);
+        stateMachine->addState(moveAbortingState);
         stateMachine->addState(rubberBandDraggingState);
         stateMachine->addState(editPendingState);
         stateMachine->addState(editProgressingState);
@@ -60,9 +66,12 @@ namespace VisualEditor {
         stateMachine->start();
 
         idleState->addTransition(this, &LabelViewModelContextData::moveTransactionWillStart, movePendingState);
-        movePendingState->addTransition(this, &LabelViewModelContextData::moveTransactionStarted, movingState);
+        movePendingState->addTransition(this, &LabelViewModelContextData::moveTransactionStarted, moveProgressingState);
         movePendingState->addTransition(this, &LabelViewModelContextData::moveTransactionNotStarted, idleState);
-        movingState->addTransition(this, &LabelViewModelContextData::moveTransactionWillFinish, idleState);
+        moveProgressingState->addTransition(this, &LabelViewModelContextData::moveTransactionWillCommit, moveCommittingState);
+        moveProgressingState->addTransition(this, &LabelViewModelContextData::moveTransactionWillAbort, moveAbortingState);
+        moveCommittingState->addTransition(idleState);
+        moveAbortingState->addTransition(idleState);
 
         idleState->addTransition(this, &LabelViewModelContextData::rubberBandDragWillStart, rubberBandDraggingState);
         rubberBandDraggingState->addTransition(this, &LabelViewModelContextData::rubberBandDragWillFinish, idleState);
@@ -96,12 +105,25 @@ namespace VisualEditor {
         connect(movePendingState, &QState::exited, this, [=, this] {
             qCInfo(lcLabelViewModelContextData) << "Move pending state exited";
         });
-        connect(movingState, &QState::entered, this, [=, this] {
-            qCInfo(lcLabelViewModelContextData) << "Moving state entered";
+        connect(moveProgressingState, &QState::entered, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move progressing state entered";
         });
-        connect(movingState, &QState::exited, this, [=, this] {
-            qCInfo(lcLabelViewModelContextData) << "Moving state exited";
-            onMovingStateExited();
+        connect(moveProgressingState, &QState::exited, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move progressing state exited";
+        });
+        connect(moveCommittingState, &QState::entered, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move committing state entered";
+            onMoveCommittingStateEntered();
+        });
+        connect(moveCommittingState, &QState::exited, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move committing state exited";
+        });
+        connect(moveAbortingState, &QState::entered, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move aborting state entered";
+            onMoveAbortingStateEntered();
+        });
+        connect(moveAbortingState, &QState::exited, this, [=, this] {
+            qCInfo(lcLabelViewModelContextData) << "Move aborting state exited";
         });
         connect(rubberBandDraggingState, &QState::entered, this, [=, this] {
             qCInfo(lcLabelViewModelContextData) << "Rubber band dragging state entered";
@@ -225,13 +247,21 @@ namespace VisualEditor {
                 return;
             }
 
-            if (!stateMachine->configuration().contains(movingState)) {
+            if (!stateMachine->configuration().contains(moveProgressingState)) {
                 viewItem->setPosition(item->pos());
                 return;
             }
 
             qCDebug(lcLabelViewModelContextData) << "Label view item pos updated" << viewItem << viewItem->position();
             transactionalUpdatedLabels.insert(viewItem);
+            if (shouldCopyBeforeMove) {
+                for (auto selectedItem : labelSelectionModel->selectedItems()) {
+                    auto duplicatedItem = document->model()->createLabel();
+                    duplicatedItem->fromQDspx(selectedItem->toQDspx());
+                    labelSequence->insertItem(duplicatedItem);
+                }
+                shouldCopyBeforeMove = false;
+            }
             item->setPos(viewItem->position());
         });
 
@@ -259,20 +289,35 @@ namespace VisualEditor {
 
     sflow::LabelSequenceInteractionController *LabelViewModelContextData::createController(QObject *parent) {
         auto controller = new sflow::LabelSequenceInteractionController(parent);
-        controller->setInteraction(sflow::LabelSequenceInteractionController::SelectByRubberBand);
-        controller->setItemInteraction(sflow::LabelSequenceInteractionController::Move | sflow::LabelSequenceInteractionController::Select);
+        controller->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+        controller->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+        controller->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setPrimarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setSecondarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
         connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillFinish();
+        });
+        connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=](QQuickItem *, sflow::LabelViewModel *, sflow::LabelSequenceInteractionController::MoveFlag moveFlag) {
+            if (moveFlag == sflow::LabelSequenceInteractionController::MF_CopyAndMove) {
+                shouldCopyBeforeMove = true;
+            } else {
+                shouldCopyBeforeMove = false;
+            }
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingFinished, this, [=](QQuickItem *, sflow::LabelViewModel *) {
-            Q_EMIT moveTransactionWillFinish();
+        connect(controller, &sflow::LabelSequenceInteractionController::movingCommitted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillCommit();
+        });
+        connect(controller, &sflow::LabelSequenceInteractionController::movingAborted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillAbort();
         });
         connect(controller, &sflow::LabelSequenceInteractionController::inPlaceEditOperationTriggered, this, [=](QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem, sflow::LabelSequenceInteractionController::InPlaceEditOperation type) {
             switch (type) {
@@ -329,7 +374,7 @@ namespace VisualEditor {
         }
     }
 
-    void LabelViewModelContextData::onMovingStateExited() {
+    void LabelViewModelContextData::onMoveCommittingStateEntered() {
         if (transactionalUpdatedLabels.isEmpty()) {
             document->transactionController()->abortTransaction(moveTransactionId);
             moveTransactionId = {};
@@ -342,6 +387,12 @@ namespace VisualEditor {
         }
         transactionalUpdatedLabels.clear();
         document->transactionController()->commitTransaction(moveTransactionId, tr("Moving label"));
+        moveTransactionId = {};
+    }
+
+    void LabelViewModelContextData::onMoveAbortingStateEntered() {
+        transactionalUpdatedLabels.clear();
+        document->transactionController()->abortTransaction(moveTransactionId);
         moveTransactionId = {};
     }
 

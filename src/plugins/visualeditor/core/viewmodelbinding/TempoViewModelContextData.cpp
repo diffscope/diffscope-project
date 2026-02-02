@@ -36,19 +36,26 @@ namespace VisualEditor {
         stateMachine = new QStateMachine(QState::ExclusiveStates, this);
         idleState = new QState;
         movePendingState = new QState;
-        movingState = new QState;
+        moveProgressingState = new QState;
+        moveCommittingState = new QState;
+        moveAbortingState = new QState;
         rubberBandDraggingState = new QState;
         stateMachine->addState(idleState);
         stateMachine->addState(movePendingState);
-        stateMachine->addState(movingState);
+        stateMachine->addState(moveProgressingState);
+        stateMachine->addState(moveCommittingState);
+        stateMachine->addState(moveAbortingState);
         stateMachine->addState(rubberBandDraggingState);
         stateMachine->setInitialState(idleState);
         stateMachine->start();
 
         idleState->addTransition(this, &TempoViewModelContextData::moveTransactionWillStart, movePendingState);
-        movePendingState->addTransition(this, &TempoViewModelContextData::moveTransactionStarted, movingState);
+        movePendingState->addTransition(this, &TempoViewModelContextData::moveTransactionStarted, moveProgressingState);
         movePendingState->addTransition(this, &TempoViewModelContextData::moveTransactionNotStarted, idleState);
-        movingState->addTransition(this, &TempoViewModelContextData::moveTransactionWillFinish, idleState);
+        moveProgressingState->addTransition(this, &TempoViewModelContextData::moveTransactionWillCommit, moveCommittingState);
+        moveProgressingState->addTransition(this, &TempoViewModelContextData::moveTransactionWillAbort, moveAbortingState);
+        moveCommittingState->addTransition(idleState);
+        moveAbortingState->addTransition(idleState);
 
         idleState->addTransition(this, &TempoViewModelContextData::rubberBandDragWillStart, rubberBandDraggingState);
         rubberBandDraggingState->addTransition(this, &TempoViewModelContextData::rubberBandDragWillFinish, idleState);
@@ -66,12 +73,25 @@ namespace VisualEditor {
         connect(movePendingState, &QState::exited, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Move pending state exited";
         });
-        connect(movingState, &QState::entered, this, [=, this] {
-            qCInfo(lcTempoViewModelContextData) << "Moving state entered";
+        connect(moveProgressingState, &QState::entered, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move progressing state entered";
         });
-        connect(movingState, &QState::exited, this, [=, this] {
-            qCInfo(lcTempoViewModelContextData) << "Moving state exited";
-            onMovingStateExited();
+        connect(moveProgressingState, &QState::exited, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move progressing state exited";
+        });
+        connect(moveCommittingState, &QState::entered, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move committing state entered";
+            onMoveCommittingStateEntered();
+        });
+        connect(moveCommittingState, &QState::exited, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move committing state exited";
+        });
+        connect(moveAbortingState, &QState::entered, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move aborting state entered";
+            onMoveAbortingStateEntered();
+        });
+        connect(moveAbortingState, &QState::exited, this, [=, this] {
+            qCInfo(lcTempoViewModelContextData) << "Move aborting state exited";
         });
         connect(rubberBandDraggingState, &QState::entered, this, [=, this] {
             qCInfo(lcTempoViewModelContextData) << "Rubber band dragging state entered";
@@ -146,7 +166,7 @@ namespace VisualEditor {
             }
 
             // If the tempo is not being moved, restore the original position
-            if (!stateMachine->configuration().contains(movingState)) {
+            if (!stateMachine->configuration().contains(moveProgressingState)) {
                 viewItem->setPosition(item->pos());
                 return;
             }
@@ -179,20 +199,30 @@ namespace VisualEditor {
 
     sflow::LabelSequenceInteractionController *TempoViewModelContextData::createController(QObject *parent) {
         auto controller = new sflow::LabelSequenceInteractionController(parent);
-        controller->setInteraction(sflow::LabelSequenceInteractionController::SelectByRubberBand);
-        controller->setItemInteraction(sflow::LabelSequenceInteractionController::Move | sflow::LabelSequenceInteractionController::Select);
+        controller->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+        controller->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+        controller->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setPrimarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+        controller->setSecondarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
         connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillFinish();
+        });
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
         connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingFinished, this, [=](QQuickItem *, sflow::LabelViewModel *) {
-            Q_EMIT moveTransactionWillFinish();
+        connect(controller, &sflow::LabelSequenceInteractionController::movingCommitted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillCommit();
+        });
+        connect(controller, &sflow::LabelSequenceInteractionController::movingAborted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+            Q_EMIT moveTransactionWillAbort();
         });
 
         connect(controller, &sflow::LabelSequenceInteractionController::doubleClicked, this, [=](QQuickItem *labelSequenceItem, int position) {
@@ -223,7 +253,7 @@ namespace VisualEditor {
         }
     }
 
-    void TempoViewModelContextData::onMovingStateExited() {
+    void TempoViewModelContextData::onMoveCommittingStateEntered() {
         Q_Q(ProjectViewModelContext);
         QSet<dspx::Tempo *> updatedItems;
         if (transactionalUpdatedTempos.isEmpty()) {
@@ -248,6 +278,12 @@ namespace VisualEditor {
             }
         }
         document->transactionController()->commitTransaction(moveTransactionId, tr("Moving tempo"));
+        moveTransactionId = {};
+    }
+
+    void TempoViewModelContextData::onMoveAbortingStateEntered() {
+        transactionalUpdatedTempos.clear();
+        document->transactionController()->abortTransaction(moveTransactionId);
         moveTransactionId = {};
     }
 

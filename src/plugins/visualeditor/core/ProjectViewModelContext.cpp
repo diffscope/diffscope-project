@@ -3,15 +3,19 @@
 
 #include <memory>
 
+#include <ScopicFlowCore/ClipViewModel.h>
 #include <ScopicFlowCore/PlaybackViewModel.h>
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
 #include <ScopicFlowCore/LabelViewModel.h>
+#include <ScopicFlowCore/RangeSequenceViewModel.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
+#include <ScopicFlowCore/ClipPaneInteractionController.h>
 
+#include <dspxmodel/Clip.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/Label.h>
 #include <dspxmodel/Track.h>
@@ -21,10 +25,12 @@
 
 #include <visualeditor/private/TempoSelectionController_p.h>
 #include <visualeditor/private/LabelSelectionController_p.h>
+#include <visualeditor/private/ClipViewModelContextData_p.h>
 #include <visualeditor/private/TrackSelectionController_p.h>
 #include <visualeditor/private/PlaybackViewModelContextData_p.h>
 #include <visualeditor/private/TempoViewModelContextData_p.h>
 #include <visualeditor/private/LabelViewModelContextData_p.h>
+#include <visualeditor/private/ClipSelectionController_p.h>
 #include <visualeditor/private/TrackViewModelContextData_p.h>
 #include <visualeditor/private/MasterTrackViewModelContextData_p.h>
 
@@ -64,6 +70,11 @@ namespace VisualEditor {
         d->labelData->q_ptr = this;
         d->labelData->init();
         d->labelData->bindLabelSequenceViewModel();
+
+        d->clipData = std::make_unique<ClipViewModelContextData>();
+        d->clipData->q_ptr = this;
+        d->clipData->init();
+        d->clipData->bindClipSequences();
 
         d->trackData = std::make_unique<TrackViewModelContextData>();
         d->trackData->q_ptr = this;
@@ -106,6 +117,11 @@ namespace VisualEditor {
         return d->labelData->labelSequenceViewModel;
     }
 
+    sflow::RangeSequenceViewModel *ProjectViewModelContext::clipSequenceViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->clipData->clipSequenceViewModel;
+    }
+
     sflow::ListViewModel *ProjectViewModelContext::trackListViewModel() const {
         Q_D(const ProjectViewModelContext);
         return d->trackData->trackListViewModel;
@@ -124,6 +140,11 @@ namespace VisualEditor {
     sflow::SelectionController *ProjectViewModelContext::labelSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelSelectionController;
+    }
+
+    sflow::SelectionController *ProjectViewModelContext::clipSelectionController() const {
+        Q_D(const ProjectViewModelContext);
+        return d->clipData->clipSelectionController;
     }
 
     sflow::SelectionController *ProjectViewModelContext::trackSelectionController() const {
@@ -146,6 +167,11 @@ namespace VisualEditor {
         return d->labelData->createController(parent);
     }
 
+    sflow::ClipPaneInteractionController *ProjectViewModelContext::createAndBindClipPaneInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->clipData->createController(parent);
+    }
+
     sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionController(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->trackData->createController(parent);
@@ -154,6 +180,16 @@ namespace VisualEditor {
     sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionControllerOfMaster(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->masterTrackData->createController(parent);
+    }
+
+    dspx::Clip *ProjectViewModelContext::getClipDocumentItemFromViewItem(sflow::ClipViewModel *viewItem) const {
+        Q_D(const ProjectViewModelContext);
+        return d->clipData->clipDocumentItemMap.value(viewItem);
+    }
+
+    sflow::ClipViewModel *ProjectViewModelContext::getClipViewItemFromDocumentItem(dspx::Clip *item) const {
+        Q_D(const ProjectViewModelContext);
+        return d->clipData->clipViewItemMap.value(item);
     }
 
     dspx::Tempo *ProjectViewModelContext::getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {

@@ -23,6 +23,7 @@ namespace VisualEditor {
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
         sflow::TrackListInteractionController *trackListInteractionController;
+        sflow::ClipPaneInteractionController *clipPaneInteractionController;
 
         PositionAlignmentManipulator *positionAlignmentManipulator;
         AutoPageScrollingManipulator *autoPageScrollingManipulator;
@@ -40,6 +41,7 @@ namespace VisualEditor {
         void bindTimelineInteractionController() const;
         void bindScrollBehaviorViewModel() const;
         void bindPositionAlignmentManipulator() const;
+        void bindControllersInteraction() const;
     };
 
 }

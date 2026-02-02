@@ -44,14 +44,20 @@ QtObject {
 
         Connections {
             target: control.labelSequenceInteractionController
-            function onMovingStarted(labelSequence, item, interactionFlag) {
+            function onMovingStarted(labelSequence, item) {
                 if (labelSequence === control) {
                     control.itemBeingDragged = item
                 }
             }
-            function onMovingFinished(labelSequence, item, interactionFlag) {
+            function onMovingCommitted(labelSequence, item) {
                 if (labelSequence === control) {
                     control.itemBeingDragged = null
+                }
+            }
+
+            function onMovingAborted(labelSequence, item) {
+                if (labelSequence === control) {
+                    control.timeLayoutViewModel.cursorPosition = item.position
                 }
             }
 

@@ -8,6 +8,9 @@
 
 namespace sflow {
     class PlaybackViewModel;
+    class ClipPaneInteractionController;
+    class ClipViewModel;
+    class RangeSequenceViewModel;
     class PointSequenceViewModel;
     class LabelSequenceInteractionController;
     class LabelViewModel;
@@ -19,6 +22,7 @@ namespace sflow {
 }
 
 namespace dspx {
+    class Clip;
     class Label;
     class Tempo;
     class Track;
@@ -49,6 +53,8 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::SelectionController *tempoSelectionController READ tempoSelectionController CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *labelSequenceViewModel READ labelSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
+        Q_PROPERTY(sflow::RangeSequenceViewModel *clipSequenceViewModel READ clipSequenceViewModel CONSTANT)
+        Q_PROPERTY(sflow::SelectionController *clipSelectionController READ clipSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *trackListViewModel READ trackListViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *trackSelectionController READ trackSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *masterTrackListViewModel READ masterTrackListViewModel CONSTANT)
@@ -65,19 +71,24 @@ namespace VisualEditor {
         sflow::PlaybackViewModel *playbackViewModel() const;
         sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
         sflow::PointSequenceViewModel *labelSequenceViewModel() const;
+        sflow::RangeSequenceViewModel *clipSequenceViewModel() const;
         sflow::ListViewModel *trackListViewModel() const;
         sflow::ListViewModel *masterTrackListViewModel() const;
 
         sflow::SelectionController *tempoSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
+        sflow::SelectionController *clipSelectionController() const;
         sflow::SelectionController *trackSelectionController() const;
 
         Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::ClipPaneInteractionController *createAndBindClipPaneInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionControllerOfMaster(QObject *parent = nullptr);
 
+        Q_INVOKABLE dspx::Clip *getClipDocumentItemFromViewItem(sflow::ClipViewModel *viewItem) const;
+        Q_INVOKABLE sflow::ClipViewModel *getClipViewItemFromDocumentItem(dspx::Clip *item) const;
         Q_INVOKABLE dspx::Tempo *getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;
         Q_INVOKABLE dspx::Label *getLabelDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;

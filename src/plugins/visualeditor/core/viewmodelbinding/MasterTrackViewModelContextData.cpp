@@ -297,8 +297,14 @@ namespace VisualEditor {
 
     sflow::TrackListInteractionController *MasterTrackViewModelContextData::createController(QObject *parent) {
         auto controller = new sflow::TrackListInteractionController(parent);
-        controller->setInteraction({});
-        controller->setItemInteraction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::EditMultiChannelOutput);
+        controller->setClickSelectable(false);
+        controller->setPrimarySceneInteraction(sflow::TrackListInteractionController::None);
+        controller->setSecondarySceneInteraction(sflow::TrackListInteractionController::None);
+        controller->setPrimarySelectInteraction(sflow::TrackListInteractionController::None);
+        controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::None);
+        controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::None);
+        controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::None);
+        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::EditMultiChannelOutput);
 
         connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=](QQuickItem *, int) {
             Q_EMIT muteTransactionWillStart();

@@ -16,6 +16,7 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class TrackListLayoutViewModel;
     class TrackListInteractionController;
+    class ClipPaneInteractionController;
 }
 
 namespace Core {
@@ -47,6 +48,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
         Q_PROPERTY(sflow::TrackListInteractionController *trackListInteractionController READ trackListInteractionController CONSTANT)
+        Q_PROPERTY(sflow::ClipPaneInteractionController *clipPaneInteractionController READ clipPaneInteractionController CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *arrangementView READ arrangementView CONSTANT)
@@ -69,6 +71,7 @@ namespace VisualEditor {
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
         sflow::TrackListInteractionController *trackListInteractionController() const;
+        sflow::ClipPaneInteractionController *clipPaneInteractionController() const;
 
         PositionAlignmentManipulator *positionAlignmentManipulator() const;
         AutoPageScrollingManipulator *autoPageScrollingManipulator() const;

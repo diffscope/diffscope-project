@@ -298,6 +298,18 @@ Item {
                     id: clipViewContainer
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    ClipPane {
+                        id: clipPane
+                        anchors.fill: parent
+                        trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
+                        trackListLayoutViewModel: view.arrangementPanelInterface?.trackListLayoutViewModel ?? null
+                        scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
+                        selectionController: view.projectViewModelContext?.clipSelectionController ?? null
+                        timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
+                        timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+                        clipSequenceViewModel: view.projectViewModelContext?.clipSequenceViewModel ?? null
+                        clipPaneInteractionController: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
+                    }
                 }
             }
             PositionIndicators {

@@ -47,11 +47,14 @@ namespace VisualEditor {
         QHash<dspx::Label *, sflow::LabelViewModel *> labelViewItemMap;
         QHash<sflow::LabelViewModel *, dspx::Label *> labelDocumentItemMap;
         QSet<sflow::LabelViewModel *> transactionalUpdatedLabels;
+        bool shouldCopyBeforeMove{};
 
         QStateMachine *stateMachine;
         QState *idleState;
         QState *movePendingState;
-        QState *movingState;
+        QState *moveProgressingState;
+        QState *moveCommittingState;
+        QState *moveAbortingState;
         QState *rubberBandDraggingState;
         QState *editPendingState;
         QState *editProgressingState;
@@ -78,7 +81,8 @@ namespace VisualEditor {
         sflow::LabelSequenceInteractionController *createController(QObject *parent);
 
         void onMovePendingStateEntered();
-        void onMovingStateExited();
+        void onMoveCommittingStateEntered();
+        void onMoveAbortingStateEntered();
         void onEditPendingStateEntered();
         void onEditCommittingStateEntered();
         void onEditAbortingStateEntered();
@@ -92,7 +96,8 @@ namespace VisualEditor {
         void moveTransactionWillStart();
         void moveTransactionStarted();
         void moveTransactionNotStarted();
-        void moveTransactionWillFinish();
+        void moveTransactionWillCommit();
+        void moveTransactionWillAbort();
 
         void rubberBandDragWillStart();
         void rubberBandDragWillFinish();

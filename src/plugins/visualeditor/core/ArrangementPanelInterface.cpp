@@ -8,16 +8,17 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <ScopicFlowCore/ClipPaneInteractionController.h>
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
-#include <ScopicFlowCore/TrackListLayoutViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
-#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
+#include <ScopicFlowCore/TrackListLayoutViewModel.h>
 
-#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectTimeline.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
@@ -109,6 +110,28 @@ namespace VisualEditor {
         });
     }
 
+    void ArrangementPanelInterfacePrivate::bindControllersInteraction() const {
+        Q_Q(const ArrangementPanelInterface);
+        // TODO select tool
+        QObject::connect(q, &ArrangementPanelInterface::toolChanged, scrollBehaviorViewModel, [=, this] {
+            switch (tool) {
+                case ArrangementPanelInterface::PointerTool: {
+                    clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::Move);
+                    clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::CopyAndMove);
+                    clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
+                    clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
+                }
+                case ArrangementPanelInterface::PencilTool: {
+                    clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::Move);
+                    clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::Draw);
+                    clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::Draw);
+                    clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::Draw);
+                }
+                case ArrangementPanelInterface::HandTool: break;
+            }
+        });
+    }
+
     ArrangementPanelInterface::ArrangementPanelInterface(Internal::ArrangementAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new ArrangementPanelInterfacePrivate) {
         Q_D(ArrangementPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
@@ -121,10 +144,11 @@ namespace VisualEditor {
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->trackListLayoutViewModel = new sflow::TrackListLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
-        d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController();
-        d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo();
-        d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel();
-        d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController();
+        d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController(this);
+        d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo(this);
+        d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel(this);
+        d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController(this);
+        d->clipPaneInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindClipPaneInteractionController(this);
 
         d->positionAlignmentManipulator = new PositionAlignmentManipulator(this);
         d->positionAlignmentManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
@@ -156,6 +180,7 @@ namespace VisualEditor {
         d->bindTimelineInteractionController();
         d->bindScrollBehaviorViewModel();
         d->bindPositionAlignmentManipulator();
+        d->bindControllersInteraction();
 
         connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
             setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
@@ -208,6 +233,11 @@ namespace VisualEditor {
     sflow::TrackListInteractionController *ArrangementPanelInterface::trackListInteractionController() const {
         Q_D(const ArrangementPanelInterface);
         return d->trackListInteractionController;
+    }
+
+    sflow::ClipPaneInteractionController *ArrangementPanelInterface::clipPaneInteractionController() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->clipPaneInteractionController;
     }
 
     PositionAlignmentManipulator *ArrangementPanelInterface::positionAlignmentManipulator() const {

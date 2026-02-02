@@ -579,13 +579,21 @@ namespace VisualEditor {
 
     sflow::TrackListInteractionController *TrackViewModelContextData::createController(QObject *parent) {
         auto controller = new sflow::TrackListInteractionController(parent);
-        controller->setInteraction(sflow::TrackListInteractionController::SelectByRubberBand);
-        controller->setItemInteraction(sflow::TrackListInteractionController::DragMove | sflow::TrackListInteractionController::Select | sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditRecord | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
+        controller->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+        controller->setSecondarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+        controller->setPrimarySelectInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+        controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+        controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
+        controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
+        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditRecord | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
 
         connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+            Q_EMIT rubberBandDragWillFinish();
+        });
+        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
 

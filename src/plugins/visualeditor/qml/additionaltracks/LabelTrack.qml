@@ -49,7 +49,13 @@ QtObject {
                     control.itemBeingDragged = item
                 }
             }
-            function onMovingFinished(labelSequence, item) {
+            function onMovingCommitted(labelSequence, item) {
+                if (labelSequence === control) {
+                    control.itemBeingDragged = null
+                }
+            }
+
+            function onMovingAborted(labelSequence, item) {
                 if (labelSequence === control) {
                     control.itemBeingDragged = null
                 }

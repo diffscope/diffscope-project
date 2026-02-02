@@ -52,7 +52,9 @@ namespace VisualEditor {
         QStateMachine *stateMachine;
         QState *idleState;
         QState *movePendingState;
-        QState *movingState;
+        QState *moveProgressingState;
+        QState *moveCommittingState;
+        QState *moveAbortingState;
         QState *rubberBandDraggingState;
 
         Core::TransactionController::TransactionId moveTransactionId{};
@@ -65,7 +67,8 @@ namespace VisualEditor {
         sflow::LabelSequenceInteractionController *createController(QObject *parent);
 
         void onMovePendingStateEntered();
-        void onMovingStateExited();
+        void onMoveCommittingStateEntered();
+        void onMoveAbortingStateEntered();
         void onDoubleClicked(QQuickItem *labelSequenceItem, int position);
         void onItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem);
 
@@ -73,7 +76,8 @@ namespace VisualEditor {
         void moveTransactionWillStart();
         void moveTransactionStarted();
         void moveTransactionNotStarted();
-        void moveTransactionWillFinish();
+        void moveTransactionWillCommit();
+        void moveTransactionWillAbort();
         void rubberBandDragWillStart();
         void rubberBandDragWillFinish();
     };
