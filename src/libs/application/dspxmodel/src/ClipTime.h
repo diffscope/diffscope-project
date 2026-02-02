@@ -18,7 +18,7 @@ namespace dspx {
 
     class ClipTimePrivate;
 
-    class ClipTime : public QObject {
+    class DSPX_MODEL_EXPORT ClipTime : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

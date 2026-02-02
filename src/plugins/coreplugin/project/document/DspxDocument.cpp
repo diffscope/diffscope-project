@@ -13,21 +13,24 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <coreplugin/DspxClipboard.h>
-
+#include <dspxmodel/ClipSelectionModel.h>
 #include <dspxmodel/Label.h>
+#include <dspxmodel/LabelSelectionModel.h>
 #include <dspxmodel/LabelSequence.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/TempoSelectionModel.h>
-#include <dspxmodel/LabelSelectionModel.h>
-#include <dspxmodel/TrackSelectionModel.h>
 #include <dspxmodel/Tempo.h>
+#include <dspxmodel/TempoSelectionModel.h>
 #include <dspxmodel/TempoSequence.h>
 #include <dspxmodel/Timeline.h>
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackList.h>
+#include <dspxmodel/TrackSelectionModel.h>
 #include <dspxmodel/UndoableModelStrategy.h>
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipSequence.h>
+
+#include <coreplugin/DspxClipboard.h>
 
 #include <transactional/TransactionController.h>
 #include <transactional/TransactionalStrategy.h>
@@ -486,6 +489,8 @@ namespace Core {
                 removedCount = deleteTracks();
                 break;
             case dspx::SelectionModel::ST_Clip:
+                removedCount = deleteClips();
+                break;
             case dspx::SelectionModel::ST_Note:
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO delete support for additional selection types
@@ -504,15 +509,9 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteTempos() {
-        if (!model || !selectionModel || !model->timeline())
-            return 0;
-
         auto *tempoSequence = model->timeline()->tempos();
         int removedCount = 0;
         for (auto *item : selectionModel->tempoSelectionModel()->selectedItems()) {
-            if (!item)
-                continue;
-
             // Protect the initial tempo at position 0 when it is the only one.
             if (item->pos() == 0) {
                 const auto overlappingItems = tempoSequence->slice(0, 1);
@@ -529,14 +528,9 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteLabels() {
-        if (!model || !selectionModel || !model->timeline())
-            return 0;
-
         auto *labelSequence = model->timeline()->labels();
         int removedCount = 0;
         for (auto *item : selectionModel->labelSelectionModel()->selectedItems()) {
-            if (!item)
-                continue;
             if (labelSequence->removeItem(item)) {
                 model->destroyItem(item);
                 ++removedCount;
@@ -546,9 +540,6 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteTracks() {
-        if (!model || !selectionModel)
-            return 0;
-
         auto *trackList = model->tracks();
         const auto allTracks = trackList->items();
         QList<int> indexes;
@@ -574,6 +565,20 @@ namespace Core {
         return removedCount;
     }
 
+    int DspxDocumentPrivate::deleteClips() {
+        if (!model || !selectionModel || !model->timeline())
+            return 0;
+
+        int removedCount = 0;
+        for (auto *item : selectionModel->clipSelectionModel()->selectedItems()) {
+            if (item->clipSequence()->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
     void DspxDocumentPrivate::selectAllTempos() {
         for (auto item : model->timeline()->tempos()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
@@ -589,6 +594,14 @@ namespace Core {
     void DspxDocumentPrivate::selectAllTracks() {
         for (auto item : model->tracks()->items()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllClips() {
+        for (auto track : model->tracks()->items()) {
+            for (auto item : track->clips()->asRange()) {
+                selectionModel->select(item, dspx::SelectionModel::Select);
+            }
         }
     }
 
@@ -787,6 +800,8 @@ namespace Core {
                 d->selectAllTracks();
                 break;
             case dspx::SelectionModel::ST_Clip:
+                d->selectAllClips();
+                break;
             case dspx::SelectionModel::ST_Note:
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO select all support for additional selection types

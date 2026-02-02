@@ -41,6 +41,7 @@ namespace dspx {
 
         Q_INVOKABLE bool insertItem(Clip *item);
         Q_INVOKABLE bool removeItem(Clip *item);
+        [[deprecated]] Q_INVOKABLE bool moveToAnotherClipSequence(Clip *item, ClipSequence *sequence);
 
         QList<QDspx::ClipRef> toQDspx() const;
         void fromQDspx(const QList<QDspx::ClipRef> &clips);

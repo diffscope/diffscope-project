@@ -29,6 +29,13 @@ namespace dspx {
             ClipPrivate::setClipSequence(item, this);
         });
         connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item) {
+            if (d->pendingMoveToAnotherClipSequence.contains(item)) {
+                auto newClipSequence = d->pendingMoveToAnotherClipSequence.take(item);
+                if (newClipSequence->insertItem(item)) {
+                    return;
+                }
+                Q_UNREACHABLE();
+            }
             ClipPrivate::setClipSequence(item, nullptr);
         });
     }
@@ -82,6 +89,21 @@ namespace dspx {
 
     bool ClipSequence::removeItem(Clip *item) {
         Q_D(ClipSequence);
+        return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
+    }
+
+    bool ClipSequence::moveToAnotherClipSequence(Clip *item, ClipSequence *sequence) {
+        // FIXME this seems to be unfeasible
+        // FIXME There should be a new method in the model strategy to solve this
+        Q_D(ClipSequence);
+        auto previousClipSequence = item->clipSequence();
+        if (previousClipSequence != this) {
+            return false;
+        }
+        if (previousClipSequence ==  sequence) {
+            return true;
+        }
+        d->pendingMoveToAnotherClipSequence.insert(item, sequence);
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 

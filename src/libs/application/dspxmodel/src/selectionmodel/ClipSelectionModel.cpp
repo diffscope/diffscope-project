@@ -37,7 +37,14 @@ namespace dspx {
             QObject::connect(currentClipSequence->track(), &Track::trackListChanged, q, [currentClipSequence, this] {
                 if (currentClipSequence->track()->trackList() == selectionModel->model()->tracks())
                     return;
-                for (auto item : clipSequencesWithSelectedItems[currentClipSequence]) {
+                auto s = clipSequencesWithSelectedItems[currentClipSequence];
+                for (auto item : s) {
+                    updateOnItemRemoved(item);
+                }
+            });
+            QObject::connect(currentClipSequence, &ClipSequence::destroyed, q, [currentClipSequence, this] {
+                auto s = clipSequencesWithSelectedItems[currentClipSequence];
+                for (auto item : s) {
                     updateOnItemRemoved(item);
                 }
             });
