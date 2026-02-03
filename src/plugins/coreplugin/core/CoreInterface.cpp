@@ -276,7 +276,19 @@ namespace Core {
                 },
                 .tracks = {
                     QDspx::Track{
-                        .name = tr("Unnamed track")
+                        .name = tr("Unnamed track"),
+                        .clips = {
+                            QDspx::SingingClipRef::create(
+                                tr("Unnamed clip"),
+                                QDspx::BusControl{},
+                                QDspx::ClipTime{
+                                    .start = 0,
+                                    .length = 0,
+                                    .clipStart = 0,
+                                    .clipLen = 46080
+                                }
+                            )
+                        }
                     }
                 }
             }
