@@ -11,12 +11,6 @@ namespace Core {
         Q_DECLARE_PUBLIC(EditMetadataScenario)
     public:
         EditMetadataScenario *q_ptr;
-        QQuickWindow *window = nullptr;
-        DspxDocument *document = nullptr;
-        bool shouldDialogPopupAtCursor = false;
-
-        QObject *createAndPositionDialog(QQmlComponent *component, const QVariantMap &initialProperties) const;
-        bool execDialog(QObject *dialog) const;
     };
 
 }

@@ -11,13 +11,7 @@ namespace Core {
         Q_DECLARE_PUBLIC(InsertItemScenario)
     public:
         InsertItemScenario *q_ptr;
-        QQuickWindow *window = nullptr;
         ProjectTimeline *projectTimeline = nullptr;
-        DspxDocument *document = nullptr;
-        bool shouldDialogPopupAtCursor = false;
-
-        QObject *createAndPositionDialog(QQmlComponent *component, const QVariantMap &initialProperties) const;
-        bool execDialog(QObject *dialog) const;
     };
 
 }

@@ -1,45 +1,27 @@
 #ifndef DIFFSCOPE_COREPLUGIN_EDITTEMPOTIMESIGNATURESCENARIO_H
 #define DIFFSCOPE_COREPLUGIN_EDITTEMPOTIMESIGNATURESCENARIO_H
 
-#include <QObject>
-#include <qqmlintegration.h>
-
-#include <coreplugin/coreglobal.h>
-
-class QQuickWindow;
+#include <coreplugin/DocumentEditScenario.h>
 
 namespace Core {
 
     class ProjectTimeline;
-    class DspxDocument;
 
     class EditTempoTimeSignatureScenarioPrivate;
 
-    class CORE_EXPORT EditTempoTimeSignatureScenario : public QObject {
+    class CORE_EXPORT EditTempoTimeSignatureScenario : public DocumentEditScenario {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(EditTempoTimeSignatureScenario)
 
-        Q_PROPERTY(QQuickWindow *window READ window WRITE setWindow NOTIFY windowChanged)
         Q_PROPERTY(ProjectTimeline *projectTimeline READ projectTimeline WRITE setProjectTimeline NOTIFY projectTimelineChanged)
-        Q_PROPERTY(DspxDocument *document READ document WRITE setDocument NOTIFY documentChanged)
-        Q_PROPERTY(bool shouldDialogPopupAtCursor READ shouldDialogPopupAtCursor WRITE setShouldDialogPopupAtCursor NOTIFY shouldDialogPopupAtCursorChanged)
 
     public:
         explicit EditTempoTimeSignatureScenario(QObject *parent = nullptr);
         ~EditTempoTimeSignatureScenario() override;
 
-        QQuickWindow *window() const;
-        void setWindow(QQuickWindow *window);
-
         ProjectTimeline *projectTimeline() const;
         void setProjectTimeline(ProjectTimeline *projectTimeline);
-
-        DspxDocument *document() const;
-        void setDocument(DspxDocument *document);
-
-        bool shouldDialogPopupAtCursor() const;
-        void setShouldDialogPopupAtCursor(bool shouldDialogPopupAtCursor);
 
         Q_INVOKABLE void editTempo() const;
         Q_INVOKABLE void editTempo(int position, bool doInsertNew, double initialTempo) const;
@@ -51,12 +33,8 @@ namespace Core {
         Q_INVOKABLE void insertTimeSignatureAt(int position) const;
         Q_INVOKABLE void modifyExistingTimeSignatureAt(int position) const;
 
-
     Q_SIGNALS:
-        void windowChanged();
         void projectTimelineChanged();
-        void documentChanged();
-        void shouldDialogPopupAtCursorChanged();
 
     private:
         QScopedPointer<EditTempoTimeSignatureScenarioPrivate> d_ptr;
