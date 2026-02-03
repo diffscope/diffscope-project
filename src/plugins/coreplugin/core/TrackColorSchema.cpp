@@ -6,18 +6,18 @@ namespace Core {
         Q_D(TrackColorSchema);
         d->q_ptr = this;
         d->colors = {
-            QColor::fromRgb(0x316f50),
-            QColor::fromRgb(0x306e6e),
-            QColor::fromRgb(0x466585),
-            QColor::fromRgb(0x5d5d9e),
-            QColor::fromRgb(0x765696),
-            QColor::fromRgb(0x8c4c8c),
-            QColor::fromRgb(0x8f4d6e),
-            QColor::fromRgb(0x914e4e),
-            QColor::fromRgb(0x7a5c3d),
-            QColor::fromRgb(0x66662a),
-            QColor::fromRgb(0x4d6c2e),
-            QColor::fromRgb(0x316f31),
+            QColor::fromRgb(0x555eab),
+            QColor::fromRgb(0x7554a7),
+            QColor::fromRgb(0x8e4b95),
+            QColor::fromRgb(0x944a76),
+            QColor::fromRgb(0x964b52),
+            QColor::fromRgb(0x825b41),
+            QColor::fromRgb(0x696435),
+            QColor::fromRgb(0x546934),
+            QColor::fromRgb(0x3d6f38),
+            QColor::fromRgb(0x376d4c),
+            QColor::fromRgb(0x376e68),
+            QColor::fromRgb(0x426983),
         };
     }
 
