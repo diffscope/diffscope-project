@@ -320,23 +320,22 @@ Item {
                 playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                 timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
             }
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.NoButton
+            HoverHandler {
                 enabled: !(view.arrangementPanelInterface?.mouseTrackingDisabled)
-                hoverEnabled: true
                 cursorShape: undefined
-                TimeManipulator {
+                readonly property TimeManipulator timeManipulator: TimeManipulator {
                     id: timeManipulator
                     target: parent
                     timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
                     timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
                 }
-                onExited: {
-                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                onHoveredChanged: () => {
+                    if (!hovered) {
+                        view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                    }
                 }
-                onPositionChanged: (mouse) => {
-                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(mouse.x), ScopicFlow.AO_Visible)
+                onPointChanged: () => {
+                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(point.position.x), ScopicFlow.AO_Visible)
                 }
                 onEnabledChanged: {
                     if (!enabled) {

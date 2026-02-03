@@ -80,6 +80,10 @@ namespace VisualEditor::Internal {
                     }
                     break;
                 }
+                case QEvent::FocusOut: {
+                    arrangementPanelInterface()->setSnapTemporarilyDisabled(false);
+                    break;
+                }
                 default:
                     break;
             }
