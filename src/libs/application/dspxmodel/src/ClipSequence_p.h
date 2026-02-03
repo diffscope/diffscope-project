@@ -12,7 +12,9 @@ namespace dspx {
         Q_DECLARE_PUBLIC(ClipSequence)
     public:
         Track *track{};
-        QHash<Clip *, ClipSequence *> pendingMoveToAnotherClipSequence;
+
+        void handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity);
+        void handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity);
     };
 
 }

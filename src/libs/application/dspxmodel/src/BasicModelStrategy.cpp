@@ -96,6 +96,20 @@ namespace dspx {
         return true;
     }
 
+    bool BasicModelStrategy::moveToAnotherSequenceContainer(Handle sequenceContainerEntity, Handle entity, Handle otherSequenceContainerEntity) {
+        auto sequenceContainerObject = handleCast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity);
+        auto otherSequenceContainerObject = handleCast<BasicModelStrategySequenceContainerEntity>(otherSequenceContainerEntity);
+        auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);
+        if (!sequenceContainerObject->sequence.contains(object)) {
+            return false;
+        }
+        sequenceContainerObject->sequence.remove(object);
+        otherSequenceContainerObject->sequence.insert(object);
+        object->setParent(otherSequenceContainerObject);
+        Q_EMIT moveToAnotherSequenceContainerNotified(sequenceContainerEntity, entity, otherSequenceContainerEntity);
+        return true;
+    }
+
     Handle BasicModelStrategy::takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) {
         auto sequenceContainerObject = handleCast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity);
         auto object = reinterpret_cast<BasicModelStrategyEntity *>(entity.d);

@@ -86,6 +86,24 @@ namespace dspx {
         bool m_undone = false;
     };
 
+    class MoveToAnotherSequenceContainerCommand : public QUndoCommand {
+    public:
+        MoveToAnotherSequenceContainerCommand(UndoableModelStrategy *strategy,
+                                              Handle sequenceContainerEntity,
+                                              Handle entity,
+                                              Handle otherSequenceContainerEntity,
+                                              QUndoCommand *parent = nullptr);
+        ~MoveToAnotherSequenceContainerCommand() override = default;
+        void undo() override;
+        void redo() override;
+
+    private:
+        UndoableModelStrategy *m_strategy;
+        Handle m_container;
+        Handle m_entity;
+        Handle m_otherContainer;
+    };
+
     class InsertIntoListContainerCommand : public QUndoCommand {
     public:
         InsertIntoListContainerCommand(UndoableModelStrategy *strategy, Handle listContainerEntity,

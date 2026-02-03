@@ -90,6 +90,15 @@ namespace dspx {
             }
         });
 
+        QObject::connect(strategy, &ModelStrategy::moveToAnotherSequenceContainerNotified, q, [=, this](Handle sequenceContainerEntity, Handle entity, Handle otherSequenceContainerEntity) {
+            auto sequenceContainerObject = mapToObject(sequenceContainerEntity);
+            auto otherSequenceContainerObject = mapToObject(otherSequenceContainerEntity);
+            if (sequenceContainerObject && otherSequenceContainerObject) {
+                sequenceContainerObject->handleMoveToAnotherSequenceContainer(entity, otherSequenceContainerEntity);
+                otherSequenceContainerObject->handleMoveFromAnotherSequenceContainer(entity, sequenceContainerEntity);
+            }
+        });
+
         QObject::connect(strategy, &ModelStrategy::takeFromContainerNotified, q, [=, this](Handle takenEntity, Handle sequenceContainerEntity, Handle entity) {
             if (auto sequenceContainerObject = mapToObject(sequenceContainerEntity)) {
                 sequenceContainerObject->handleTakeFromSequenceContainer(takenEntity, entity);

@@ -20,6 +20,7 @@ namespace dspx {
         bool insertIntoSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
         bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) override;
         bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) override;
+        bool moveToAnotherSequenceContainer(Handle sequenceContainerEntity, Handle entity, Handle otherSequenceContainerEntity) override;
         Handle takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) override;
         Handle takeFromListContainer(Handle listContainerEntity, int index) override;
         Handle takeFromMapContainer(Handle mapContainerEntity, const QString &key) override;

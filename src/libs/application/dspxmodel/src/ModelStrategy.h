@@ -138,6 +138,8 @@ namespace dspx {
         virtual bool insertIntoListContainer(Handle listContainerEntity, Handle entity, int index) = 0;
         virtual bool insertIntoMapContainer(Handle mapContainerEntity, Handle entity, const QString &key) = 0;
 
+        virtual bool moveToAnotherSequenceContainer(Handle sequenceContainerEntity, Handle entity, Handle otherSequenceContainerEntity) = 0;
+
         virtual Handle takeFromSequenceContainer(Handle sequenceContainerEntity, Handle entity) = 0;
         virtual Handle takeFromListContainer(Handle listContainerEntity, int index) = 0;
         virtual Handle takeFromMapContainer(Handle mapContainerEntity, const QString &key) = 0;
@@ -160,6 +162,8 @@ namespace dspx {
         void insertIntoSequenceContainerNotified(Handle sequenceContainerEntity, Handle entity);
         void insertIntoListContainerNotified(Handle listContainerEntity, Handle entity, int index);
         void insertIntoMapContainerNotified(Handle mapContainerEntity, Handle entity, const QString &key);
+
+        void moveToAnotherSequenceContainerNotified(Handle sequenceContainerEntity, Handle entity, Handle otherSequenceContainerEntity);
 
         void takeFromContainerNotified(Handle takenEntity, Handle sequenceContainerEntity, Handle entity);
         void takeFromListContainerNotified(Handle takenEntities, Handle listContainerEntity, int index);

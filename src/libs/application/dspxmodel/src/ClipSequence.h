@@ -41,7 +41,7 @@ namespace dspx {
 
         Q_INVOKABLE bool insertItem(Clip *item);
         Q_INVOKABLE bool removeItem(Clip *item);
-        [[deprecated]] Q_INVOKABLE bool moveToAnotherClipSequence(Clip *item, ClipSequence *sequence);
+        Q_INVOKABLE bool moveToAnotherClipSequence(Clip *item, ClipSequence *sequence);
 
         QList<QDspx::ClipRef> toQDspx() const;
         void fromQDspx(const QList<QDspx::ClipRef> &clips);
@@ -53,10 +53,10 @@ namespace dspx {
         }
 
     Q_SIGNALS:
-        void itemAboutToInsert(Clip *item);
-        void itemInserted(Clip *item);
-        void itemAboutToRemove(Clip *item);
-        void itemRemoved(Clip *item);
+        void itemAboutToInsert(Clip *item, ClipSequence *clipSequenceFromWhichMoved = nullptr);
+        void itemInserted(Clip *item, ClipSequence *clipSequenceFromWhichMoved = nullptr);
+        void itemAboutToRemove(Clip *item, ClipSequence *clipSequenceToWhichMoved = nullptr);
+        void itemRemoved(Clip *item, ClipSequence *clipSequenceToWhichMoved = nullptr);
         void sizeChanged(int size);
         void firstItemChanged(Clip *item);
         void lastItemChanged(Clip *item);
@@ -64,6 +64,8 @@ namespace dspx {
     protected:
         void handleInsertIntoSequenceContainer(Handle entity) override;
         void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) override;
+        void handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) override;
+        void handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) override;
 
     private:
         friend class ModelPrivate;

@@ -29,6 +29,9 @@ namespace dspx {
         virtual void handleInsertIntoListContainer(Handle entities, int index);
         virtual void handleInsertIntoMapContainer(Handle entity, const QString &key);
 
+        virtual void handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity);
+        virtual void handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity);
+
         virtual void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity);
         virtual void handleTakeFromListContainer(Handle takenEntities, int index);
         virtual void handleTakeFromMapContainer(Handle takenEntity, const QString &key);

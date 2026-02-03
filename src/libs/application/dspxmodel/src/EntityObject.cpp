@@ -45,6 +45,12 @@ namespace dspx {
     void EntityObject::handleInsertIntoMapContainer(Handle entity, const QString &key) {
         Q_UNREACHABLE();
     }
+    void EntityObject::handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        Q_UNREACHABLE();
+    }
+    void EntityObject::handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        Q_UNREACHABLE();
+    }
     void EntityObject::handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
         Q_UNREACHABLE();
     }

@@ -280,8 +280,10 @@ namespace VisualEditor {
         connect(sequence, &dspx::ClipSequence::itemInserted, this, [=, this](dspx::Clip *item) {
             bindClipDocumentItem(item);
         });
-        connect(sequence, &dspx::ClipSequence::itemRemoved, this, [=, this](dspx::Clip *item) {
-            unbindClipDocumentItem(item);
+        connect(sequence, &dspx::ClipSequence::itemRemoved, this, [=, this](dspx::Clip *item, dspx::ClipSequence *clipSequenceToWhichMoved) {
+            if (!clipSequenceToWhichMoved || !trackList->items().contains(clipSequenceToWhichMoved->track())) {
+                unbindClipDocumentItem(item);
+            }
         });
 
         for (auto item : sequence->asRange()) {
@@ -450,12 +452,6 @@ namespace VisualEditor {
             }
         });
         connect(viewItem, &sflow::ClipViewModel::trackIndexChanged, item, [=, this] {
-            // FIXME temporarily bypass this, sync model fix later
-            const int currentIndex = trackList->items().indexOf(item->clipSequence()->track());
-            if (currentIndex >= 0 && viewItem->trackIndex() != currentIndex) {
-                viewItem->setTrackIndex(currentIndex);
-            }
-            return;
             if (!stateMachine->configuration().contains(moveProcessingState)) {
                 const int currentIndex = trackList->items().indexOf(item->clipSequence()->track());
                 if (currentIndex >= 0 && viewItem->trackIndex() != currentIndex) {

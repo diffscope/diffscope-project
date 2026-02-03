@@ -163,6 +163,35 @@ namespace dspx {
                                                      {reinterpret_cast<quintptr>(m_object.data())});
     }
 
+    MoveToAnotherSequenceContainerCommand::MoveToAnotherSequenceContainerCommand(UndoableModelStrategy *strategy,
+                                                                                 Handle sequenceContainerEntity,
+                                                                                 Handle entity,
+                                                                                 Handle otherSequenceContainerEntity,
+                                                                                 QUndoCommand *parent)
+        : QUndoCommand(parent), m_strategy(strategy), m_container(sequenceContainerEntity), m_entity(entity),
+          m_otherContainer(otherSequenceContainerEntity) {
+    }
+
+    void MoveToAnotherSequenceContainerCommand::undo() {
+        auto containerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_otherContainer);
+        auto otherContainerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_container);
+        auto entityObj = handle_cast<BasicModelStrategyEntity>(m_entity);
+        containerObj->sequence.remove(entityObj);
+        otherContainerObj->sequence.insert(entityObj);
+        entityObj->setParent(otherContainerObj);
+        Q_EMIT m_strategy->moveToAnotherSequenceContainerNotified(m_otherContainer, m_entity, m_container);
+    }
+
+    void MoveToAnotherSequenceContainerCommand::redo() {
+        auto containerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_container);
+        auto otherContainerObj = handle_cast<BasicModelStrategySequenceContainerEntity>(m_otherContainer);
+        auto entityObj = handle_cast<BasicModelStrategyEntity>(m_entity);
+        containerObj->sequence.remove(entityObj);
+        otherContainerObj->sequence.insert(entityObj);
+        entityObj->setParent(otherContainerObj);
+        Q_EMIT m_strategy->moveToAnotherSequenceContainerNotified(m_container, m_entity, m_otherContainer);
+    }
+
     InsertIntoListContainerCommand::InsertIntoListContainerCommand(
         UndoableModelStrategy *strategy, Handle listContainerEntity,
         Handle entity, int index, QUndoCommand *parent)
@@ -460,6 +489,22 @@ namespace dspx {
             return false;
         }
         m_undoStack->push(new InsertIntoMapContainerCommand(this, mapContainerEntity, entity, key));
+        return true;
+    }
+
+    bool UndoableModelStrategy::moveToAnotherSequenceContainer(Handle sequenceContainerEntity, Handle entity,
+                                                               Handle otherSequenceContainerEntity) {
+        auto sequenceContainerObject = handle_cast<BasicModelStrategySequenceContainerEntity>(sequenceContainerEntity);
+        auto otherSequenceContainerObject = handle_cast<BasicModelStrategySequenceContainerEntity>(otherSequenceContainerEntity);
+        auto object = handle_cast<BasicModelStrategyEntity>(entity);
+        if (sequenceContainerObject == otherSequenceContainerObject) {
+            return false;
+        }
+        if (!sequenceContainerObject->sequence.contains(object)) {
+            return false;
+        }
+        m_undoStack->push(new MoveToAnotherSequenceContainerCommand(this, sequenceContainerEntity, entity,
+                                                                    otherSequenceContainerEntity));
         return true;
     }
 

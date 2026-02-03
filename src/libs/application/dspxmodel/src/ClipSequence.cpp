@@ -16,6 +16,65 @@
 
 namespace dspx {
 
+    void ClipSequencePrivate::handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        auto q = q_ptr;
+        auto item = getItem(entity, true);
+        if (!pointContainer.contains(item)) {
+            QObject::connect(item, &Clip::positionChanged, q, [=](int pos) {
+                int length = item->length();
+                insertItem(item, pos, length);
+            });
+            QObject::connect(item, &Clip::lengthChanged, q, [=](int len) {
+                int position = item->position();
+                insertItem(item, position, len);
+            });
+            QObject::connect(item, &QObject::destroyed, q, [=] {
+                removeItem(item);
+            });
+        }
+        auto otherClipSequence = qobject_cast<ClipSequence *>(pModel->mapToObject(otherSequenceContainerEntity));
+        bool containsItem = pointContainer.contains(item);
+        if (!containsItem) {
+            Q_EMIT q->itemAboutToInsert(item, otherClipSequence);
+        }
+
+        pointContainer.insertItem(item, item->position());
+        auto affectedItems = rangeContainer.insertItem(item, item->position(), item->length());
+
+        for (auto affectedItem : affectedItems) {
+            bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+            ClipPrivate::setOverlapped(affectedItem, isOverlapped);
+        }
+
+        if (!containsItem) {
+            updateFirstAndLastItem();
+            Q_EMIT q->itemInserted(item, otherClipSequence);
+            Q_EMIT q->sizeChanged(pointContainer.size());
+        }
+    }
+
+    void ClipSequencePrivate::handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        auto q = q_ptr;
+        auto item = getItem(entity, false);
+        if (item) {
+            QObject::disconnect(item, nullptr, q, nullptr);
+            auto otherClipSequence = qobject_cast<ClipSequence *>(pModel->mapToObject(otherSequenceContainerEntity));
+            Q_EMIT q->itemAboutToRemove(item, otherClipSequence);
+
+            pointContainer.removeItem(item);
+            auto affectedItems = rangeContainer.removeItem(item);
+
+            for (auto affectedItem : affectedItems) {
+                bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+                ClipPrivate::setOverlapped(affectedItem, isOverlapped);
+            }
+
+            updateFirstAndLastItem();
+            Q_EMIT q->itemRemoved(item, otherClipSequence);
+            Q_EMIT q->sizeChanged(pointContainer.size());
+        }
+    }
+
     ClipSequence::ClipSequence(Track *track, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipSequencePrivate) {
         Q_D(ClipSequence);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::ES_Clips);
@@ -28,15 +87,8 @@ namespace dspx {
         connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {
             ClipPrivate::setClipSequence(item, this);
         });
-        connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item) {
-            if (d->pendingMoveToAnotherClipSequence.contains(item)) {
-                auto newClipSequence = d->pendingMoveToAnotherClipSequence.take(item);
-                if (newClipSequence->insertItem(item)) {
-                    return;
-                }
-                Q_UNREACHABLE();
-            }
-            ClipPrivate::setClipSequence(item, nullptr);
+        connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item, ClipSequence *otherClipSequence) {
+            ClipPrivate::setClipSequence(item, otherClipSequence);
         });
     }
 
@@ -93,18 +145,8 @@ namespace dspx {
     }
 
     bool ClipSequence::moveToAnotherClipSequence(Clip *item, ClipSequence *sequence) {
-        // FIXME this seems to be unfeasible
-        // FIXME There should be a new method in the model strategy to solve this
         Q_D(ClipSequence);
-        auto previousClipSequence = item->clipSequence();
-        if (previousClipSequence != this) {
-            return false;
-        }
-        if (previousClipSequence ==  sequence) {
-            return true;
-        }
-        d->pendingMoveToAnotherClipSequence.insert(item, sequence);
-        return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
+        return d->pModel->strategy->moveToAnotherSequenceContainer(handle(), item->handle(), sequence->handle());
     }
 
     QList<QDspx::ClipRef> ClipSequence::toQDspx() const {
@@ -146,6 +188,14 @@ namespace dspx {
     void ClipSequence::handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
         Q_D(ClipSequence);
         d->handleTakeFromSequenceContainer(takenEntity, entity);
+    }
+    void ClipSequence::handleMoveFromAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        Q_D(ClipSequence);
+        d->handleMoveFromAnotherSequenceContainer(entity, otherSequenceContainerEntity);
+    }
+    void ClipSequence::handleMoveToAnotherSequenceContainer(Handle entity, Handle otherSequenceContainerEntity) {
+        Q_D(ClipSequence);
+        d->handleMoveToAnotherSequenceContainer(entity, otherSequenceContainerEntity);
     }
 
 }
