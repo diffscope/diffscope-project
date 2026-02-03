@@ -1,6 +1,7 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_TRACKVIEWMODELCONTEXTDATA_P_H
 #define DIFFSCOPE_VISUALEDITOR_TRACKVIEWMODELCONTEXTDATA_P_H
 
+#include <QColor>
 #include <QHash>
 #include <QObject>
 
@@ -25,6 +26,7 @@ namespace sflow {
 
 namespace Core {
     class DspxDocument;
+    class TrackColorSchema;
 }
 
 namespace VisualEditor {
@@ -40,6 +42,8 @@ namespace VisualEditor {
         Core::DspxDocument *document;
         dspx::TrackList *trackList;
         dspx::TrackSelectionModel *trackSelectionModel;
+
+        Core::TrackColorSchema *trackColorSchema{};
 
         sflow::ListViewModel *trackListViewModel;
         TrackSelectionController *trackSelectionController;
@@ -105,6 +109,12 @@ namespace VisualEditor {
         void bindTrackDocumentItem(int index, dspx::Track *item);
         void unbindTrackDocumentItem(int index, dspx::Track *item);
         sflow::TrackListInteractionController *createController(QObject *parent);
+
+        void onItemColorIndicatorClicked(QQuickItem *trackListItem, int index);
+
+        QColor trackColorForId(int colorId) const;
+        void assignInitialTrackColor(int index, dspx::Track *item);
+        void updateAllTrackColors();
 
         void onMovePendingStateEntered();
         void onMoveCommittingStateEntered();

@@ -26,6 +26,7 @@ namespace Core {
     class DspxCheckerRegistry;
     class ProjectDocumentContext;
     class PropertyEditorManager;
+    class TrackColorSchema;
 
     class CoreInterfacePrivate;
 
@@ -36,6 +37,7 @@ namespace Core {
         Q_DECLARE_PRIVATE(CoreInterface)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
         Q_PROPERTY(PropertyEditorManager *propertyEditorManager READ propertyEditorManager CONSTANT)
+        Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -45,6 +47,8 @@ namespace Core {
         static DspxCheckerRegistry *dspxCheckerRegistry();
 
         static PropertyEditorManager *propertyEditorManager();
+
+        static TrackColorSchema *trackColorSchema();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";

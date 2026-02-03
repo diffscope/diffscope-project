@@ -1,9 +1,14 @@
 #include "TrackViewModelContextData_p.h"
 
 #include <QLoggingCategory>
+#include <QQuickItem>
 #include <QState>
 #include <QStateMachine>
 #include <QtGlobal>
+
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/PickTrackColorScenario.h>
+#include <coreplugin/TrackColorSchema.h>
 
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
@@ -403,6 +408,11 @@ namespace VisualEditor {
         trackList = document->model()->tracks();
         trackSelectionModel = document->selectionModel()->trackSelectionModel();
 
+        trackColorSchema = Core::CoreInterface::trackColorSchema();
+        connect(trackColorSchema, &Core::TrackColorSchema::colorsChanged, this, [=, this](const QList<QColor> &) {
+            updateAllTrackColors();
+        });
+
         trackListViewModel = new sflow::ListViewModel(q);
         trackSelectionController = new TrackSelectionController(q);
 
@@ -411,6 +421,7 @@ namespace VisualEditor {
 
     void TrackViewModelContextData::bindTrackListViewModel() {
         connect(trackList, &dspx::TrackList::itemInserted, trackListViewModel, [=, this](int index, dspx::Track *item) {
+            assignInitialTrackColor(index, item);
             bindTrackDocumentItem(index, item);
         });
         connect(trackList, &dspx::TrackList::itemRemoved, trackListViewModel, [=, this](int index, dspx::Track *item) {
@@ -456,13 +467,24 @@ namespace VisualEditor {
             return;
         }
 
+        const auto &colors = trackColorSchema->colors();
+        if (!colors.isEmpty() && (item->colorId() < 0 || item->colorId() >= colors.size())) {
+            assignInitialTrackColor(index, item);
+        }
+
         auto viewItem = new sflow::TrackViewModel(trackListViewModel);
-        viewItem->setColor(QColor::fromHsl(120, 100, 80)); // TODO
         trackViewItemMap.insert(item, viewItem);
         trackDocumentItemMap.insert(viewItem, item);
 
         auto control = item->control();
 
+        connect(item, &dspx::Track::colorIdChanged, viewItem, [=, this](int colorId) {
+            const QColor color = trackColorForId(colorId);
+            if (viewItem->color() == color) {
+                return;
+            }
+            viewItem->setColor(color);
+        });
         connect(item, &dspx::Track::nameChanged, viewItem, [=] {
             if (viewItem->name() == item->name()) {
                 return;
@@ -557,6 +579,7 @@ namespace VisualEditor {
         viewItem->setRecord(control->record());
         viewItem->setGain(toDecibel(control->gain()));
         viewItem->setPan(control->pan());
+        viewItem->setColor(trackColorForId(item->colorId()));
 
         trackListViewModel->insertItem(index, viewItem);
     }
@@ -671,6 +694,11 @@ namespace VisualEditor {
         });
         connect(controller, &sflow::TrackListInteractionController::heightAdjustingFinished, this, [=](QQuickItem *, int) {
             Q_EMIT heightTransactionWillFinish();
+        });
+
+        connect(controller, &sflow::TrackListInteractionController::itemColorIndicatorClicked, this, [=](QQuickItem *trackListItem, int index) {
+            qCDebug(lcTrackViewModelContextData) << "Track color indicator clicked" << index;
+            onItemColorIndicatorClicked(trackListItem, index);
         });
 
         return controller;
@@ -908,6 +936,63 @@ namespace VisualEditor {
         }
         heightTransactionId = {};
         targetTrack = {};
+    }
+
+    void TrackViewModelContextData::onItemColorIndicatorClicked(QQuickItem *trackListItem, int index) {
+        if (!trackListItem) {
+            return;
+        }
+
+        auto track = trackList->item(index);
+        if (!track) {
+            return;
+        }
+
+        Core::PickTrackColorScenario scenario;
+        scenario.setDocument(document);
+        scenario.setWindow(trackListItem->window());
+        scenario.setShouldDialogPopupAtCursor(true);
+        scenario.pickTrackColor(track);
+    }
+
+    QColor TrackViewModelContextData::trackColorForId(int colorId) const {
+        const auto colors = trackColorSchema->colors();
+        if (colors.isEmpty()) {
+            return QColor();
+        }
+
+        const int paletteSize = colors.size();
+        int normalizedId = colorId % paletteSize;
+        if (normalizedId < 0) {
+            normalizedId += paletteSize;
+        }
+        return colors.at(normalizedId);
+    }
+
+    void TrackViewModelContextData::assignInitialTrackColor(int index, dspx::Track *item) {
+        if (!trackColorSchema) {
+            return;
+        }
+
+        const auto colors = trackColorSchema->colors();
+        if (colors.isEmpty()) {
+            return;
+        }
+
+        const int n = colors.size();
+        const int i = index % n;
+        const int colorIndex = (i % 2) ? (n + i) / 2 : i / 2;
+        if (item->colorId() != colorIndex) {
+            item->setColorId(colorIndex);
+        }
+    }
+
+    void TrackViewModelContextData::updateAllTrackColors() {
+        for (auto it = trackViewItemMap.cbegin(); it != trackViewItemMap.cend(); ++it) {
+            auto track = it.key();
+            auto viewItem = it.value();
+            viewItem->setColor(trackColorForId(track->colorId()));
+        }
     }
 
 }

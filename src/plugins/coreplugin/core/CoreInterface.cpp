@@ -46,6 +46,7 @@
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/PropertyEditorManager.h>
+#include <coreplugin/TrackColorSchema.h>
 
 namespace Core {
 
@@ -61,6 +62,7 @@ namespace Core {
         QAK::ActionRegistry *actionRegistry;
         DspxCheckerRegistry *dspxCheckerRegistry;
         PropertyEditorManager *propertyEditorManager;
+        TrackColorSchema *trackColorSchema;
 
         void init() {
             Q_Q(CoreInterface);
@@ -68,6 +70,7 @@ namespace Core {
             actionRegistry = new QAK::ActionRegistry(q);
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
             propertyEditorManager = new PropertyEditorManager(q);
+            trackColorSchema = new TrackColorSchema(q);
         }
     };
 
@@ -95,6 +98,11 @@ namespace Core {
     PropertyEditorManager *CoreInterface::propertyEditorManager() {
         Q_ASSERT(instance());
         return instance()->d_func()->propertyEditorManager;
+    }
+
+    TrackColorSchema *CoreInterface::trackColorSchema() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->trackColorSchema;
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
