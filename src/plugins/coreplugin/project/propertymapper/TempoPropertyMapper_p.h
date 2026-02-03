@@ -3,49 +3,50 @@
 
 #include "TempoPropertyMapper.h"
 
-#include <QHash>
-#include <QSet>
-#include <QVariant>
+#include <dspxmodel/Tempo.h>
+
+#include <CorePlugin/private/PropertyMapperData_p.h>
 
 namespace dspx {
-    class Tempo;
     class TempoSelectionModel;
 }
 
 namespace Core {
-    class TempoPropertyMapperPrivate {
+    class TempoPropertyMapperPrivate : public PropertyMapperData<
+        TempoPropertyMapper,
+        TempoPropertyMapperPrivate,
+        dspx::Tempo,
+        PropertyMetadata<dspx::Tempo, int, int>, // pos
+        PropertyMetadata<dspx::Tempo, double, double> // value
+    > {
         Q_DECLARE_PUBLIC(TempoPropertyMapper)
     public:
-        explicit TempoPropertyMapperPrivate(TempoPropertyMapper *q);
+        TempoPropertyMapperPrivate() : PropertyMapperData(
+            {&dspx::Tempo::pos, &dspx::Tempo::setPos, &dspx::Tempo::posChanged},
+            {&dspx::Tempo::value, &dspx::Tempo::setValue, &dspx::Tempo::valueChanged}
+        ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;
         dspx::TempoSelectionModel *tempoSelectionModel = nullptr;
 
-        QHash<int, QSet<dspx::Tempo *>> posToTempos;
-        QHash<double, QSet<dspx::Tempo *>> valueToTempos;
-        QHash<dspx::Tempo *, int> tempoToPos;
-        QHash<dspx::Tempo *, double> tempoToValue;
-
-        QVariant cachedPos;
-        QVariant cachedValue;
         void setSelectionModel(dspx::SelectionModel *selectionModel_);
         void attachSelectionModel();
         void detachSelectionModel();
 
-        void handleItemSelected(dspx::Tempo *tempo, bool selected);
-        void addTempo(dspx::Tempo *tempo);
-        void removeTempo(dspx::Tempo *tempo);
-        void clear();
+        enum {
+            PosProperty = 0,
+            ValueProperty = 1
+        };
 
-        void updatePos(dspx::Tempo *tempo, int pos);
-        void updateValue(dspx::Tempo *tempo, double value);
-
-        QVariant unifiedPos() const;
-        QVariant unifiedValue() const;
-        void refreshCache();
-
-    private:
-        TempoPropertyMapper *q_ptr;
+        template<int i>
+        void notifyValueChange() {
+            Q_Q(TempoPropertyMapper);
+            if constexpr (i == PosProperty) {
+                q->posChanged();
+            } else if constexpr (i == ValueProperty) {
+                q->valueChanged();
+            }
+        }
     };
 }
 

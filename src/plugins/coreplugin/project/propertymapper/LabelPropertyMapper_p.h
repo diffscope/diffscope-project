@@ -3,49 +3,50 @@
 
 #include "LabelPropertyMapper.h"
 
-#include <QHash>
-#include <QSet>
-#include <QVariant>
+#include <dspxmodel/Label.h>
+
+#include <CorePlugin/private/PropertyMapperData_p.h>
 
 namespace dspx {
-    class Label;
     class LabelSelectionModel;
 }
 
 namespace Core {
-    class LabelPropertyMapperPrivate {
+    class LabelPropertyMapperPrivate : public PropertyMapperData<
+        LabelPropertyMapper,
+        LabelPropertyMapperPrivate,
+        dspx::Label,
+        PropertyMetadata<dspx::Label, int, int>, // pos
+        PropertyMetadata<dspx::Label, QString, const QString &> // text
+    > {
         Q_DECLARE_PUBLIC(LabelPropertyMapper)
     public:
-        explicit LabelPropertyMapperPrivate(LabelPropertyMapper *q);
+        LabelPropertyMapperPrivate() : PropertyMapperData(
+            {&dspx::Label::pos, &dspx::Label::setPos, &dspx::Label::posChanged},
+            {&dspx::Label::text, &dspx::Label::setText, &dspx::Label::textChanged}
+        ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;
         dspx::LabelSelectionModel *labelSelectionModel = nullptr;
 
-        QHash<int, QSet<dspx::Label *>> posToLabels;
-        QHash<QString, QSet<dspx::Label *>> textToLabels;
-        QHash<dspx::Label *, int> labelToPos;
-        QHash<dspx::Label *, QString> labelToText;
-
-        QVariant cachedPos;
-        QVariant cachedText;
         void setSelectionModel(dspx::SelectionModel *selectionModel_);
         void attachSelectionModel();
         void detachSelectionModel();
 
-        void handleItemSelected(dspx::Label *label, bool selected);
-        void addLabel(dspx::Label *label);
-        void removeLabel(dspx::Label *label);
-        void clear();
+        enum {
+            PosProperty = 0,
+            TextProperty = 1
+        };
 
-        void updatePos(dspx::Label *label, int pos);
-        void updateText(dspx::Label *label, const QString &text);
-
-        QVariant unifiedPos() const;
-        QVariant unifiedText() const;
-        void refreshCache();
-
-    private:
-        LabelPropertyMapper *q_ptr;
+        template<int i>
+        void notifyValueChange() {
+            Q_Q(LabelPropertyMapper);
+            if constexpr (i == PosProperty) {
+                q->posChanged();
+            } else if constexpr (i == TextProperty) {
+                q->textChanged();
+            }
+        }
     };
 }
 
