@@ -392,6 +392,7 @@ namespace VisualEditor {
                 if (!shouldCopyBeforeMove || !stateMachine->configuration().contains(moveProcessingState)) {
                     return;
                 }
+                shouldCopyBeforeMove = false;
                 for (auto selectedItem : clipSelectionModel->selectedItems()) {
                     auto duplicated = duplicateClip(selectedItem, document);
                     if (!duplicated) {
@@ -399,7 +400,6 @@ namespace VisualEditor {
                     }
                     selectedItem->clipSequence()->insertItem(duplicated);
                 }
-                shouldCopyBeforeMove = false;
             };
             duplicateSelectionIfNeeded();
 
@@ -460,6 +460,7 @@ namespace VisualEditor {
                 return;
             }
             if (shouldCopyBeforeMove) {
+                shouldCopyBeforeMove = false;
                 for (auto selectedItem : clipSelectionModel->selectedItems()) {
                     auto duplicated = duplicateClip(selectedItem, document);
                     if (!duplicated) {
@@ -467,7 +468,6 @@ namespace VisualEditor {
                     }
                     selectedItem->clipSequence()->insertItem(duplicated);
                 }
-                shouldCopyBeforeMove = false;
             }
             const int newIndex = viewItem->trackIndex();
             const auto tracks = trackList->items();

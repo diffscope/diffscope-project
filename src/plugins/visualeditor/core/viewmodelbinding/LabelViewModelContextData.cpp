@@ -255,12 +255,12 @@ namespace VisualEditor {
             qCDebug(lcLabelViewModelContextData) << "Label view item pos updated" << viewItem << viewItem->position();
             transactionalUpdatedLabels.insert(viewItem);
             if (shouldCopyBeforeMove) {
+                shouldCopyBeforeMove = false;
                 for (auto selectedItem : labelSelectionModel->selectedItems()) {
                     auto duplicatedItem = document->model()->createLabel();
                     duplicatedItem->fromQDspx(selectedItem->toQDspx());
                     labelSequence->insertItem(duplicatedItem);
                 }
-                shouldCopyBeforeMove = false;
             }
             item->setPos(viewItem->position());
         });
