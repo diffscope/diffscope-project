@@ -17,6 +17,7 @@
     <items>
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" icon="rectangle_landscape_dash" />
         <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.mixerPanel.handTool" icon="hand_left" />
@@ -42,6 +43,7 @@
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.handTool" />
             </group>
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.snapActions">

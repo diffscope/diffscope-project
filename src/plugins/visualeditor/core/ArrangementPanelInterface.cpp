@@ -112,22 +112,76 @@ namespace VisualEditor {
 
     void ArrangementPanelInterfacePrivate::bindControllersInteraction() const {
         Q_Q(const ArrangementPanelInterface);
-        // TODO select tool
         QObject::connect(q, &ArrangementPanelInterface::toolChanged, scrollBehaviorViewModel, [=, this] {
             switch (tool) {
                 case ArrangementPanelInterface::PointerTool: {
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
+                    trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
+                    trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setSecondarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+
                     clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::Move);
                     clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::CopyAndMove);
                     clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
                     clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
+                    break;
                 }
                 case ArrangementPanelInterface::PencilTool: {
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
+                    trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
+                    trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setSecondarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+
                     clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::Move);
                     clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::Draw);
                     clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::Draw);
                     clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::Draw);
+                    break;
                 }
-                case ArrangementPanelInterface::HandTool: break;
+                case ArrangementPanelInterface::SelectTool: {
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setSecondarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+
+                    clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
+                    clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
+                    clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
+                    clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
+                    break;
+                }
+                case ArrangementPanelInterface::HandTool:
+                    break;
             }
         });
     }

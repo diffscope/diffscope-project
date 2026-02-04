@@ -66,6 +66,9 @@ namespace VisualEditor::Internal {
     AdditionalTrackLoader *ArrangementAddOn::additionalTrackLoader() const {
         return m_additionalTrackLoader;
     }
+    bool ArrangementAddOn::altPressed() const {
+        return m_altPressed;
+    }
     bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
         if (watched == windowHandle()->window()) {
             switch (event->type()) {
@@ -75,13 +78,26 @@ namespace VisualEditor::Internal {
                         break;
                     }
                     auto keyEvent = static_cast<QKeyEvent *>(event);
+                    if (keyEvent->isAutoRepeat()) {
+                        break;
+                    }
                     if (keyEvent->key() == Qt::Key_Shift) {
                         arrangementPanelInterface()->setSnapTemporarilyDisabled(keyEvent->type() == QEvent::KeyPress);
+                    } else if (keyEvent->key() == Qt::Key_Alt) {
+                        auto p = keyEvent->type() == QEvent::KeyPress;
+                        if (m_altPressed != p) {
+                            m_altPressed = p;
+                            Q_EMIT altPressedChanged();
+                        }
                     }
                     break;
                 }
                 case QEvent::FocusOut: {
                     arrangementPanelInterface()->setSnapTemporarilyDisabled(false);
+                    if (m_altPressed) {
+                        m_altPressed = false;
+                        Q_EMIT altPressedChanged();
+                    }
                     break;
                 }
                 default:

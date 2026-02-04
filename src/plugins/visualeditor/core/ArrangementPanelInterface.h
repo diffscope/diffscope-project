@@ -81,6 +81,7 @@ namespace VisualEditor {
         enum Tool {
             PointerTool,
             PencilTool,
+            SelectTool,
             HandTool,
         };
         Q_ENUM(Tool)

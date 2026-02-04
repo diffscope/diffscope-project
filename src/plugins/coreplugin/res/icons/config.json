@@ -11228,6 +11228,18 @@
         {
           "id": "automation_3p",
           "icon": "automation_3p"
+        },
+        {
+          "id": "cursor_text",
+          "icon": "cursor_text"
+        },
+        {
+          "id": "rectangle_landscape_dash",
+          "icon": "rectangle_landscape_dash"
+        },
+        {
+          "id": "cursor_text_rectangle_landscape_dash",
+          "icon": "cursor_text_rectangle_landscape_dash"
         }
       ]
     }

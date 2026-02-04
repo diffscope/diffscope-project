@@ -40,6 +40,19 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.arrangementPanel.selectTool"
+        Action {
+            checkable: true
+            checked: d.arrangementPanelInterface?.tool === ArrangementPanelInterface.SelectTool
+            icon.source: d.addOn?.altPressed ? "image://fluent-system-icons/cursor_text_rectangle_landscape_dash" : "image://fluent-system-icons/rectangle_landscape_dash"
+            onTriggered: () => {
+                d.arrangementPanelInterface.tool = ArrangementPanelInterface.SelectTool
+                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.arrangementPanel.handTool"
         Action {
             checkable: true
