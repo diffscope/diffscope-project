@@ -6,6 +6,11 @@
 
 namespace Core {
 
+    template <class T, class O, O *(T::*f)() const>
+    struct PropertyObjectMemberGetterTag {
+        static constexpr auto propertyObjectMemberGetter = f;
+    };
+
     template <class T, typename Pg, typename Ps, class O = T>
     struct PropertyMetadata {
 
@@ -25,8 +30,9 @@ namespace Core {
         constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal, O *(*propertyObjectGetter)(T *))
             : getter(getter), setter(setter), notifySignal(notifySignal), propertyObjectGetter(propertyObjectGetter) {}
 
-        constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal, O *(T::*propertyObjectMemberGetter)() const)
-            : getter(getter), setter(setter), notifySignal(notifySignal), propertyObjectGetter([propertyObjectMemberGetter](const T *t) { return (t->*propertyObjectMemberGetter)(); }) {}
+        template <typename OMG>
+        constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal, OMG)
+            : getter(getter), setter(setter), notifySignal(notifySignal), propertyObjectGetter([](const T *t) { return (t->*OMG::propertyObjectMemberGetter)(); }) {}
     };
 
     template <
@@ -85,10 +91,23 @@ namespace Core {
             updateAllProperties(item);
             connectAllProperties(item);
             QObject::connect(item, &QObject::destroyed, q, [item, this] {
-                removeItem(item);
+                removeItem<false>(item);
                 refreshCache();
             });
             selectedItems.insert(item);
+        }
+
+        template<int propertyIndex>
+        void disconnectProperty(T *item) {
+            auto q = q_ptr;
+            const auto notifySignal = std::get<propertyIndex>(propertyMetadataList).notifySignal;
+            auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
+            QObject::disconnect(o, notifySignal, q, nullptr);
+        }
+
+        template<size_t... i>
+        void disconnectAllPropertiesImpl(T *item, std::index_sequence<i...>) {
+            (disconnectProperty<i>(item), ...);
         }
 
         template<int i>
@@ -108,9 +127,12 @@ namespace Core {
             (removeItemImpl_i<i>(item), ...);
         }
 
+        template <bool shouldDisconnectProperty = true>
         void removeItem(T *item) {
             auto q = q_ptr;
-            QObject::disconnect(item, nullptr, q, nullptr);
+            if constexpr (shouldDisconnectProperty) {
+                disconnectAllPropertiesImpl(item, std::make_index_sequence<N>{});
+            }
             removeItemImpl(item, std::make_index_sequence<N>{});
             selectedItems.remove(item);
         }
@@ -129,7 +151,7 @@ namespace Core {
 
         void clear() {
             for (auto *item : selectedItems) {
-                QObject::disconnect(item, nullptr, q_ptr, nullptr);
+                disconnectAllPropertiesImpl(item, std::make_index_sequence<N>{});
             }
             selectedItems.clear();
             clearImpl(std::make_index_sequence<N>{});
@@ -219,6 +241,15 @@ namespace Core {
         template <int propertyIndex>
         QVariant value() const {
             return cache[propertyIndex];
+        }
+
+        template <int propertyIndex>
+        void setValue(const QVariant &value) {
+            const auto setter = std::get<propertyIndex>(propertyMetadataList).setter;
+            for (auto item : selectedItems) {
+                auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
+                (o->*setter)(value.value<PropertyType<propertyIndex>>());
+            }
         }
     };
 

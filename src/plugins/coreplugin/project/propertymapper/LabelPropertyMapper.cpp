@@ -36,14 +36,7 @@ namespace Core {
 
     void LabelPropertyMapper::setPos(const QVariant &pos) {
         Q_D(LabelPropertyMapper);
-        if (!d->labelSelectionModel) {
-            return;
-        }
-        const int value = pos.toInt();
-        const auto labels = d->labelSelectionModel->selectedItems();
-        for (auto *label : labels) {
-            label->setPos(value);
-        }
+        d->setValue<LabelPropertyMapperPrivate::PosProperty>(pos);
     }
     QVariant LabelPropertyMapper::text() const {
         Q_D(const LabelPropertyMapper);
@@ -52,14 +45,7 @@ namespace Core {
 
     void LabelPropertyMapper::setText(const QVariant &text) {
         Q_D(LabelPropertyMapper);
-        if (!d->labelSelectionModel) {
-            return;
-        }
-        const QString value = text.toString();
-        const auto labels = d->labelSelectionModel->selectedItems();
-        for (auto *label : labels) {
-            label->setText(value);
-        }
+        d->setValue<LabelPropertyMapperPrivate::TextProperty>(text);
     }
 
     void LabelPropertyMapperPrivate::setSelectionModel(dspx::SelectionModel *selectionModel_) {

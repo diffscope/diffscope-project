@@ -36,14 +36,7 @@ namespace Core {
 
     void TempoPropertyMapper::setPos(const QVariant &pos) {
         Q_D(TempoPropertyMapper);
-        if (!d->tempoSelectionModel) {
-            return;
-        }
-        const int value = pos.toInt();
-        const auto tempos = d->tempoSelectionModel->selectedItems();
-        for (auto *tempo : tempos) {
-            tempo->setPos(value);
-        }
+        d->setValue<TempoPropertyMapperPrivate::PosProperty>(pos);
     }
 
     QVariant TempoPropertyMapper::value() const {
@@ -53,14 +46,7 @@ namespace Core {
 
     void TempoPropertyMapper::setValue(const QVariant &value) {
         Q_D(TempoPropertyMapper);
-        if (!d->tempoSelectionModel) {
-            return;
-        }
-        const double val = value.toDouble();
-        const auto tempos = d->tempoSelectionModel->selectedItems();
-        for (auto *tempo : tempos) {
-            tempo->setValue(val);
-        }
+        d->setValue<TempoPropertyMapperPrivate::ValueProperty>(value);
     }
 
     void TempoPropertyMapperPrivate::setSelectionModel(dspx::SelectionModel *selectionModel_) {
