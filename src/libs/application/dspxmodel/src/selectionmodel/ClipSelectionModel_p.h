@@ -1,30 +1,38 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_P_H
 #define DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_P_H
 
-#include <dspxmodel/ClipSelectionModel.h>
-#include <dspxmodel/private/GenericGlobalItemSelectionModelData_p.h>
-#include <dspxmodel/Clip.h>
+#include <QSet>
 
-#include <QHash>
+#include <dspxmodel/ClipSelectionModel.h>
+#include <dspxmodel/Clip.h>
 
 namespace dspx {
 
-    class ClipSelectionModelPrivate : public GenericGlobalItemSelectionModelData<
-        ClipSelectionModel,
-        ClipSelectionModelPrivate,
-        Clip,
-        &Clip::clipSequenceChanged
-    > {
+    class SelectionModel;
+    class ClipSequence;
+
+    class ClipSelectionModelPrivate {
         Q_DECLARE_PUBLIC(ClipSelectionModel)
     public:
-        QHash<Clip *, ClipSequence *> clipClipSequence;
+        ClipSelectionModel *q_ptr;
+        SelectionModel *selectionModel;
+        QSet<Clip *> selectedItems;
+        Clip *currentItem = nullptr;
+        QSet<Clip *> connectedItems;
+
+        QHash<Clip *, ClipSequence *> clipToClipSequence;
         QHash<ClipSequence *, QSet<Clip *>> clipSequencesWithSelectedItems;
 
-        bool isAddedToModel(Clip *item) const;
-        void updateAssociation(Clip *item);
-        void removeAssociation(Clip *item);
-        void clearAssociation();
+        bool isValidItem(Clip *item) const;
+        void connectItem(Clip *item);
+        void disconnectItem(Clip *item);
+        bool addToSelection(Clip *item);
+        bool removeFromSelection(Clip *item);
+        bool clearSelection();
+        void dropItem(Clip *item);
+        void setCurrentItem(Clip *item);
 
+        void select(Clip *item, SelectionModel::SelectionCommand command);
     };
 
 }

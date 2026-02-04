@@ -1,11 +1,9 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_H
 #define DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_H
 
-#include <QObject>
-#include <QList>
 #include <qqmlintegration.h>
 
-#include <dspxmodel/DspxModelGlobal.h>
+#include <dspxmodel/SelectionModel.h>
 
 namespace dspx {
 
