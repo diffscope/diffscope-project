@@ -33,6 +33,7 @@ Dialog {
                 autoExclusive: true
                 required property color modelData
                 required property int index
+                text: qsTr("Track Color %L1").arg(index + 1)
                 background: Rectangle {
                     color: modelData
                     border.color: control.checked ? Theme.foregroundPrimaryColor : Theme.borderColor

@@ -390,6 +390,7 @@ namespace Core::Internal {
         f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
         f("TrackPropertyEditor", &PropertyEditorManager::addTrackComponent);
         f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("TrackDisplayPropertyEditor", &PropertyEditorManager::addTrackComponent);
         f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("GlobalCentShiftPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);

@@ -12,18 +12,17 @@ PropertyEditorGroupBox {
     id: groupBox
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
-    title: qsTr("Global Cent Shift")
+    title: qsTr("Display")
     ColumnLayout {
+        id: columnLayout
         width: parent.width
         IntegerPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
-            useSlider: true
-            key: "centShift"
-            label: qsTr("Cent shift")
-            from: -50
-            to: 50
-            transactionName: qsTr("Editing cent shift")
+            propertyMapper: groupBox.propertyMapper
+            key: "height"
+            label: qsTr("View height")
+            from: 40
+            transactionName: qsTr("Resizing track")
         }
     }
 }

@@ -71,7 +71,9 @@ QtObject {
             readonly property QtObject tempoPropertyMapper: TempoPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
             }
-            readonly property QtObject trackPropertyMapper: null
+            readonly property QtObject trackPropertyMapper: TrackPropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+            }
         }
         StackLayout {
             id: tabBarStackLayout
