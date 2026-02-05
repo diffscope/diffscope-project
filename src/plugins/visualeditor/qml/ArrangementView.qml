@@ -275,6 +275,7 @@ Item {
                 }
                 ColumnLayout {
                     Layout.fillWidth: true
+                    Layout.fillHeight: false
                     spacing: 0
                     Repeater {
                         id: additionalTrackRepeater
