@@ -394,6 +394,7 @@ namespace Core::Internal {
         f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("GlobalCentShiftPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);
+        f("LoopPropertyEditor", &PropertyEditorManager::addNoneComponent);
     }
 
     void CorePlugin::checkLastRun() {

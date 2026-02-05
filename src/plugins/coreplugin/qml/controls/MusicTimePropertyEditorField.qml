@@ -14,6 +14,8 @@ FormGroup {
     required property QtObject propertyMapper
     required property string key
     required property string transactionName
+    property int from: 0
+    property int to: 2147483647
     Layout.fillWidth: true
     property int transactionId: 0
     function beginTransaction() {
@@ -32,7 +34,8 @@ FormGroup {
         id: control
         timeline: d.windowHandle?.projectTimeline.musicTimeline ?? null
         value: d.propertyMapper?.[d.key] ?? 0
-        from: 0
+        from: d.from
+        to: d.to
         contentItem.visible: d.propertyMapper?.[d.key] !== undefined
         onValueModified: () => {
             if (!helper.buttonPressed) {
