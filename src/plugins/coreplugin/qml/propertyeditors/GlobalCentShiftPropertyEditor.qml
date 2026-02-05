@@ -25,5 +25,10 @@ PropertyEditorGroupBox {
             to: 50
             transactionName: qsTr("Editing cent shift")
         }
+        Label {
+            text: qsTr("The standard pitch for this cent shift: %L1 Hz").arg(440 * Math.pow(2, (groupBox.windowHandle?.projectDocumentContext.document.model.global.centShift ?? 0) / 1200))
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+        }
     }
 }
