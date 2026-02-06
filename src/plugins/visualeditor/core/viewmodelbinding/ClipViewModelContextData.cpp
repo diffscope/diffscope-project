@@ -321,25 +321,29 @@ namespace VisualEditor {
             if (viewItem->name() == item->name()) {
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip item name updated" << item << item->name();
             viewItem->setName(item->name());
         });
         connect(item, &dspx::Clip::positionChanged, viewItem, [=] {
             if (viewItem->position() == item->position()) {
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip item position (time.start + time.clipStart) updated" << item << item->position() << time->start() << time->clipStart();
             viewItem->setPosition(item->position());
         });
         connect(item, &dspx::Clip::lengthChanged, viewItem, [=] {
             if (viewItem->length() == time->clipLen()) {
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip item length (time.clipLen) updated" << item << item->length();
             viewItem->setLength(time->clipLen());
         });
-        connect(item, &dspx::Clip::overlappedChanged, viewItem, [=](bool overlapped) {
-            if (viewItem->isOverlapped() == overlapped) {
+        connect(item, &dspx::Clip::overlappedChanged, viewItem, [=]() {
+            if (viewItem->isOverlapped() == item->isOverlapped()) {
                 return;
             }
-            viewItem->setOverlapped(overlapped);
+            qCDebug(lcClipViewModelContextData) << "Clip item overlapped updated" << item << item->isOverlapped();
+            viewItem->setOverlapped(item->isOverlapped());
         });
         connect(item, &dspx::Clip::clipSequenceChanged, viewItem, [=, this] {
             if (stateMachine->configuration().contains(moveProcessingState)) {
@@ -349,12 +353,14 @@ namespace VisualEditor {
                 return;
             }
             const auto trackIndex = trackList->items().indexOf(item->clipSequence()->track());
+            qCDebug(lcClipViewModelContextData) << "Clip item clipSequence updated" << item << item->clipSequence() << "Track" << trackIndex;
             if (trackIndex >= 0 && viewItem->trackIndex() != trackIndex) {
                 viewItem->setTrackIndex(trackIndex);
             }
         });
         connect(time, &dspx::ClipTime::clipStartChanged, viewItem, [=, this](int clipStart) {
             const int documentPosition = item->position();
+            qCDebug(lcClipViewModelContextData) << "Clip item time.clipStart updated" << item << time->clipStart();
             if (viewItem->clipStart() != clipStart) {
                 viewItem->setClipStart(clipStart);
             }
@@ -362,23 +368,19 @@ namespace VisualEditor {
                 viewItem->setPosition(documentPosition);
             }
         });
-        connect(time, &dspx::ClipTime::clipLenChanged, viewItem, [=](int clipLen) {
-            if (viewItem->length() == clipLen) {
-                return;
-            }
-            viewItem->setLength(clipLen);
-        });
         connect(time, &dspx::ClipTime::lengthChanged, viewItem, [=](int length) {
             const int maxLength = viewMaxLengthFromDocument(length);
             if (viewItem->maxLength() == maxLength) {
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip item time.length updated" << item << time->length();
             viewItem->setMaxLength(maxLength);
         });
         connect(control, &dspx::Control::muteChanged, viewItem, [=](bool mute) {
             if (viewItem->isMute() == mute) {
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip item control.mute updated" << item << control->mute();
             viewItem->setMute(mute);
         });
 
@@ -387,6 +389,7 @@ namespace VisualEditor {
                 viewItem->setPosition(item->position());
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip view item position updated" << viewItem << viewItem->position() << "item time.clipStart" << time->clipStart();
 
             auto duplicateSelectionIfNeeded = [=, this] {
                 if (!shouldCopyBeforeMove || !stateMachine->configuration().contains(moveProcessingState)) {
@@ -403,7 +406,7 @@ namespace VisualEditor {
             };
             duplicateSelectionIfNeeded();
 
-            const int newStart = viewItem->position() - viewItem->clipStart();
+            const int newStart = viewItem->position() - time->clipStart();
             time->setStart(newStart);
             if (stateMachine->configuration().contains(moveProcessingState)) {
                 moveChanged = true;
@@ -423,6 +426,7 @@ namespace VisualEditor {
                 viewItem->setLength(time->clipLen());
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip view item length updated" << viewItem << viewItem->length();
             time->setClipLen(viewItem->length());
             if (stateMachine->configuration().contains(adjustProcessingState)) {
                 lengthChanged = true;
@@ -439,9 +443,10 @@ namespace VisualEditor {
                 viewItem->setPosition(item->position());
                 return;
             }
-            time->setClipStart(viewItem->clipStart());
-            const int newStart = viewItem->position() - viewItem->clipStart();
+            qCDebug(lcClipViewModelContextData) << "Clip view item clipStart updated" << viewItem << viewItem->clipStart() << "item position" << item->position();
+            const int newStart = item->position() - viewItem->clipStart();
             time->setStart(newStart);
+            time->setClipStart(viewItem->clipStart());
             if (stateMachine->configuration().contains(adjustProcessingState)) {
                 lengthChanged = true;
                 lengthUpdatedClips.insert(viewItem);
@@ -459,6 +464,7 @@ namespace VisualEditor {
                 }
                 return;
             }
+            qCDebug(lcClipViewModelContextData) << "Clip view item trackIndex updated" << viewItem << viewItem->trackIndex();
             if (shouldCopyBeforeMove) {
                 shouldCopyBeforeMove = false;
                 for (auto selectedItem : clipSelectionModel->selectedItems()) {
