@@ -114,6 +114,10 @@ namespace Core::Internal {
                     ret << tr("Bottom Blend: %1").arg(colorToRgba(QColor::fromRgba(static_cast<QRgb>(data))));
                     break;
                 }
+                case 8: { // OkLabLighter
+                    ret << tr("OkLab Lighter: %L1").arg(std::bit_cast<double>(data));
+                    break;
+                }
             }
         }
         return ret.join("\n");
@@ -157,6 +161,10 @@ namespace Core::Internal {
                 }
                 case 7: { // BottomBlend
                     ret << QStringLiteral("bottom-blend: %1").arg(colorToRgba(QColor::fromRgba(static_cast<QRgb>(data))));
+                    break;
+                }
+                case 8: { // OkLabLighter
+                    ret << QStringLiteral("oklab-lighter: %1").arg(std::bit_cast<double>(data));
                     break;
                 }
             }
@@ -294,6 +302,14 @@ namespace Core::Internal {
                     return {};
                 }
                 ret.append(SVS::BottomBlendColorFilter(color));
+            } else if (propertyName == "oklab-lighter") {
+                bool ok;
+                double value = propertyValue.toDouble(&ok);
+                if (!ok || value <= 0) {
+                    RuntimeInterface::qmlEngine()->throwError(tr("Syntax error at line %L1: Invalid 'oklab-lighter' value (must be a positive number)").arg(lineNumber));
+                    return {};
+                }
+                ret.append(SVS::OkLabLighterColorChange(value));
             } else {
                 RuntimeInterface::qmlEngine()->throwError(
                     tr("Syntax error at line %L1: Unknown property '%2'").arg(lineNumber).arg(propertyName)
