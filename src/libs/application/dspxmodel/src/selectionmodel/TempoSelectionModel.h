@@ -14,6 +14,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT TempoSelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(TempoSelectionModel)
 
         Q_PROPERTY(Tempo *currentItem READ currentItem NOTIFY currentItemChanged)

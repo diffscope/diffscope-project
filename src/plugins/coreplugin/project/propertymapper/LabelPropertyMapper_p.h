@@ -16,14 +16,14 @@ namespace Core {
         LabelPropertyMapper,
         LabelPropertyMapperPrivate,
         dspx::Label,
-        PropertyMetadata<dspx::Label, int, int>, // pos
-        PropertyMetadata<dspx::Label, QString, const QString &> // text
+        PropertyMetadata<dspx::Label, &dspx::Label::pos, &dspx::Label::setPos, decltype(&dspx::Label::posChanged)>,
+        PropertyMetadata<dspx::Label, &dspx::Label::text, &dspx::Label::setText, decltype(&dspx::Label::textChanged)>
     > {
         Q_DECLARE_PUBLIC(LabelPropertyMapper)
     public:
         LabelPropertyMapperPrivate() : PropertyMapperData(
-            {&dspx::Label::pos, &dspx::Label::setPos, &dspx::Label::posChanged},
-            {&dspx::Label::text, &dspx::Label::setText, &dspx::Label::textChanged}
+            {&dspx::Label::posChanged},
+            {&dspx::Label::textChanged}
         ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;

@@ -17,6 +17,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT NoteSelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(NoteSelectionModel)
 
         Q_PROPERTY(Note *currentItem READ currentItem NOTIFY currentItemChanged)

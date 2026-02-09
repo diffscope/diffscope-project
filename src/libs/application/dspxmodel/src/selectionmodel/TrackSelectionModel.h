@@ -13,6 +13,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT TrackSelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(TrackSelectionModel)
 
         Q_PROPERTY(Track *currentItem READ currentItem NOTIFY currentItemChanged)

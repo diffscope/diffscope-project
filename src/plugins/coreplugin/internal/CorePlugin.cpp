@@ -386,15 +386,25 @@ namespace Core::Internal {
             }
             (CoreInterface::propertyEditorManager()->*addMethod)(component);
         };
-        f("LabelPropertyEditor", &PropertyEditorManager::addLabelComponent);
-        f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
-        f("TrackPropertyEditor", &PropertyEditorManager::addTrackComponent);
-        f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
-        f("TrackDisplayPropertyEditor", &PropertyEditorManager::addTrackComponent);
         f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("GlobalCentShiftPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("LoopPropertyEditor", &PropertyEditorManager::addNoneComponent);
+
+        f("ClipPropertyEditor", &PropertyEditorManager::addClipComponent);
+        f("AudioPropertyEditor", &PropertyEditorManager::addClipComponent);
+        f("VirtualSingerPropertyEditor", &PropertyEditorManager::addClipComponent);
+        f("ControlPropertyEditor", &PropertyEditorManager::addClipComponent);
+        f("ClipTimePropertyEditor", &PropertyEditorManager::addClipComponent);
+
+        f("LabelPropertyEditor", &PropertyEditorManager::addLabelComponent);
+
+        f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
+
+        f("TrackPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("TrackDisplayPropertyEditor", &PropertyEditorManager::addTrackComponent);
+
     }
 
     void CorePlugin::checkLastRun() {

@@ -14,6 +14,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT LabelSelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(LabelSelectionModel)
 
         Q_PROPERTY(Label *currentItem READ currentItem NOTIFY currentItemChanged)

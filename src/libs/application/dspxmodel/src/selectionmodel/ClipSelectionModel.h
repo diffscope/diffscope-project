@@ -15,6 +15,7 @@ namespace dspx {
     class DSPX_MODEL_EXPORT ClipSelectionModel : public QObject {
         Q_OBJECT
         QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(ClipSelectionModel)
 
         Q_PROPERTY(Clip *currentItem READ currentItem NOTIFY currentItemChanged)

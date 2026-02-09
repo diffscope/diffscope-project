@@ -28,26 +28,26 @@ namespace Core {
         TrackPropertyMapper,
         TrackPropertyMapperPrivate,
         dspx::Track,
-        PropertyMetadata<dspx::Track, QString, const QString &>,
-        PropertyMetadata<dspx::Track, int, int>,
-        PropertyMetadata<dspx::Track, double, double>,
-        PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>,
-        PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>,
-        PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>,
-        PropertyMetadata<dspx::Track, double, double, dspx::TrackControl>,
-        PropertyMetadata<dspx::Track, double, double, dspx::TrackControl>
+        PropertyMetadata<dspx::Track, &dspx::Track::name, &dspx::Track::setName, decltype(&dspx::Track::nameChanged)>,
+        PropertyMetadata<dspx::Track, &dspx::Track::colorId, &dspx::Track::setColorId, decltype(&dspx::Track::colorIdChanged)>,
+        PropertyMetadata<dspx::Track, &dspx::Track::height, &dspx::Track::setHeight, decltype(&dspx::Track::heightChanged)>,
+        PropertyMetadata<dspx::Track, &dspx::TrackControl::mute, &dspx::TrackControl::setMute, decltype(&dspx::TrackControl::muteChanged), &dspx::Track::control>,
+        PropertyMetadata<dspx::Track, &dspx::TrackControl::solo, &dspx::TrackControl::setSolo, decltype(&dspx::TrackControl::soloChanged), &dspx::Track::control>,
+        PropertyMetadata<dspx::Track, &dspx::TrackControl::record, &dspx::TrackControl::setRecord, decltype(&dspx::TrackControl::recordChanged), &dspx::Track::control>,
+        PropertyMetadata<dspx::Track, &dspx::TrackControl::gain, &dspx::TrackControl::setGain, decltype(&dspx::TrackControl::gainChanged), &dspx::Track::control>,
+        PropertyMetadata<dspx::Track, &dspx::TrackControl::pan, &dspx::TrackControl::setPan, decltype(&dspx::TrackControl::panChanged), &dspx::Track::control>
     > {
         Q_DECLARE_PUBLIC(TrackPropertyMapper)
     public:
         TrackPropertyMapperPrivate() : PropertyMapperData(
-            {&dspx::Track::name, &dspx::Track::setName, &dspx::Track::nameChanged},
-            {&dspx::Track::colorId, &dspx::Track::setColorId, &dspx::Track::colorIdChanged},
-            {&dspx::Track::height, &dspx::Track::setHeight, &dspx::Track::heightChanged},
-            PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>{&dspx::TrackControl::mute, &dspx::TrackControl::setMute, &dspx::TrackControl::muteChanged, PropertyObjectMemberGetterTag<dspx::Track, dspx::TrackControl, &dspx::Track::control>{}},
-            PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>{&dspx::TrackControl::solo, &dspx::TrackControl::setSolo, &dspx::TrackControl::soloChanged, PropertyObjectMemberGetterTag<dspx::Track, dspx::TrackControl, &dspx::Track::control>{}},
-            PropertyMetadata<dspx::Track, bool, bool, dspx::TrackControl>{&dspx::TrackControl::record, &dspx::TrackControl::setRecord, &dspx::TrackControl::recordChanged, PropertyObjectMemberGetterTag<dspx::Track, dspx::TrackControl, &dspx::Track::control>{}},
-            PropertyMetadata<dspx::Track, double, double, dspx::TrackControl>{&dspx::TrackControl::gain, &dspx::TrackControl::setGain, &dspx::TrackControl::gainChanged, PropertyObjectMemberGetterTag<dspx::Track, dspx::TrackControl, &dspx::Track::control>{}},
-            PropertyMetadata<dspx::Track, double, double, dspx::TrackControl>{&dspx::TrackControl::pan, &dspx::TrackControl::setPan, &dspx::TrackControl::panChanged, PropertyObjectMemberGetterTag<dspx::Track, dspx::TrackControl, &dspx::Track::control>{}}
+            {&dspx::Track::nameChanged},
+            {&dspx::Track::colorIdChanged},
+            {&dspx::Track::heightChanged},
+            {&dspx::TrackControl::muteChanged},
+            {&dspx::TrackControl::soloChanged},
+            {&dspx::TrackControl::recordChanged},
+            {&dspx::TrackControl::gainChanged},
+            {&dspx::TrackControl::panChanged}
         ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;

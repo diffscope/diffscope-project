@@ -170,19 +170,19 @@ namespace dspx {
                     // d->anchorNodeSelectionModel->d_func()->select(nullptr, command);
                     break;
                 case ST_Clip:
-                    d->clipSelectionModel->d_func()->select(nullptr, command);
+                    d->clipSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Label:
-                    d->labelSelectionModel->d_func()->select(nullptr, command);
+                    d->labelSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Note:
-                    d->noteSelectionModel->d_func()->select(nullptr, command);
+                    d->noteSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Tempo:
-                    d->tempoSelectionModel->d_func()->select(nullptr, command);
+                    d->tempoSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Track:
-                    d->trackSelectionModel->d_func()->select(nullptr, command);
+                    d->trackSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 default:
                     break;

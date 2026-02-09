@@ -6,33 +6,82 @@
 
 namespace Core {
 
-    template <class T, class O, O *(T::*f)() const>
-    struct PropertyObjectMemberGetterTag {
-        static constexpr auto propertyObjectMemberGetter = f;
-    };
+    namespace PropertyMetadataImpl {
+        template <typename T>
+        struct FuncTraits;
 
-    template <class T, typename Pg, typename Ps, class O = T>
+        template <typename Ret, typename Class, typename... Args>
+        struct FuncTraits<Ret (Class::*)(Args...)> {
+            using ClassType = Class;
+            static constexpr bool is_member = true;
+            static constexpr bool is_lambda = false;
+        };
+
+        template <typename Ret, typename Class, typename... Args>
+        struct FuncTraits<Ret (Class::*)(Args...) const> {
+            using ClassType = const Class;
+            static constexpr bool is_member = true;
+            static constexpr bool is_lambda = false;
+        };
+
+        template <typename Ret, typename... Args>
+        struct FuncTraits<Ret (*)(Args...)> {
+            using ClassType = void;
+            static constexpr bool is_member = false;
+            static constexpr bool is_lambda = false;
+        };
+
+        template <typename T>
+        requires requires { &T::operator(); }
+        struct FuncTraits<T> {
+            using OpTraits = FuncTraits<decltype(&T::operator())>;
+            static constexpr bool is_member = false;
+            static constexpr bool is_lambda = true;
+        };
+
+        template <>
+        struct FuncTraits<nullptr_t> {
+            static constexpr bool is_member = false;
+            static constexpr bool is_lambda = false;
+        };
+
+        template <auto Ptr>
+        struct FunctionWrapper {
+            using Traits = FuncTraits<decltype(Ptr)>;
+
+            static constexpr auto value = [] {
+                if constexpr (Traits::is_member) {
+                    return [](typename Traits::ClassType* self, auto&&... args) {
+                        return (self->*Ptr)(std::forward<decltype(args)>(args)...);
+                    };
+                } else if constexpr (Traits::is_lambda) {
+                    return Ptr;
+                } else if constexpr (Ptr == nullptr) {
+                    return [](auto&&...) {
+                        Q_UNREACHABLE();
+                    };
+                } else {
+                    return Ptr;
+                }
+            }();
+
+            using type = decltype(value);
+        };
+    }
+
+    template <class T, auto g, auto s, typename Sig, auto p = [](const T *t) { return const_cast<T *>(t); }>
     struct PropertyMetadata {
+        static constexpr auto getter = PropertyMetadataImpl::FunctionWrapper<g>::value;
+        static constexpr auto setter = PropertyMetadataImpl::FunctionWrapper<s>::value;
+        static constexpr auto propertyObjectGetter = PropertyMetadataImpl::FunctionWrapper<p>::value;
+        using Property = std::invoke_result_t<decltype(getter), std::invoke_result_t<decltype(propertyObjectGetter), const T *>>;
+        using NotifySignal = Sig;
 
-        using Property = Pg;
-        using Getter = Pg(O::*)() const;
-        using Setter = void(O::*)(Ps);
-        using NotifySignal = void(O::*)(Ps);
-
-        Getter getter;
-        Setter setter;
         NotifySignal notifySignal;
-        O *(*propertyObjectGetter)(const T *) = [](const T *t) { return const_cast<T *>(t); };
 
-        constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal)
-            : getter(getter), setter(setter), notifySignal(notifySignal) {}
+        constexpr PropertyMetadata(NotifySignal notifySignal)
+            : notifySignal(notifySignal) {}
 
-        constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal, O *(*propertyObjectGetter)(T *))
-            : getter(getter), setter(setter), notifySignal(notifySignal), propertyObjectGetter(propertyObjectGetter) {}
-
-        template <typename OMG>
-        constexpr PropertyMetadata(Getter getter, Setter setter, NotifySignal notifySignal, OMG)
-            : getter(getter), setter(setter), notifySignal(notifySignal), propertyObjectGetter([](const T *t) { return (t->*OMG::propertyObjectMemberGetter)(); }) {}
     };
 
     template <
@@ -101,8 +150,10 @@ namespace Core {
         void disconnectProperty(T *item) {
             auto q = q_ptr;
             const auto notifySignal = std::get<propertyIndex>(propertyMetadataList).notifySignal;
-            auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
-            QObject::disconnect(o, notifySignal, q, nullptr);
+            if constexpr (!std::is_null_pointer_v<decltype(notifySignal)>) {
+                auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
+                QObject::disconnect(o, notifySignal, q, nullptr);
+            }
         }
 
         template<size_t... i>
@@ -178,7 +229,7 @@ namespace Core {
 
         template<size_t... i>
         void updateAllPropertiesImpl(T* item, std::index_sequence<i...>) {
-            (updateProperty<i>(item, (std::get<i>(propertyMetadataList).propertyObjectGetter(item)->*std::get<i>(propertyMetadataList).getter)()), ...);
+            (updateProperty<i>(item, std::get<i>(propertyMetadataList).getter(std::get<i>(propertyMetadataList).propertyObjectGetter(item))), ...);
         }
 
         void updateAllProperties(T *item) {
@@ -189,10 +240,14 @@ namespace Core {
         void connectProperty(T *item) {
             auto q = q_ptr;
             const auto notifySignal = std::get<propertyIndex>(propertyMetadataList).notifySignal;
-            auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
-            QObject::connect(o, notifySignal, q, [item, this](auto v) {
-                updateProperty<propertyIndex>(item, v);
-            });
+            if constexpr (!std::is_null_pointer_v<decltype(notifySignal)>) {
+                auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
+                QObject::connect(o, notifySignal, q, [item, this]() {
+                    const auto propertyObjectGetter = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter;
+                    const auto getter = std::get<propertyIndex>(propertyMetadataList).getter;
+                    updateProperty<propertyIndex>(item, getter(propertyObjectGetter(item)));
+                });
+            }
         }
 
         template<size_t... i>
@@ -216,7 +271,7 @@ namespace Core {
             if (it.value().size() != count) {
                 return {};
             }
-            return it.key();
+            return QVariant::fromValue(it.key());
         }
 
         template<int i>
@@ -240,7 +295,7 @@ namespace Core {
 
         template <int propertyIndex>
         QVariant value() const {
-            return cache[propertyIndex];
+            return QVariant::fromValue(cache[propertyIndex]);
         }
 
         template <int propertyIndex>
@@ -248,7 +303,7 @@ namespace Core {
             const auto setter = std::get<propertyIndex>(propertyMetadataList).setter;
             for (auto item : selectedItems) {
                 auto o = std::get<propertyIndex>(propertyMetadataList).propertyObjectGetter(item);
-                (o->*setter)(value.value<PropertyType<propertyIndex>>());
+                setter(o, value.value<PropertyType<propertyIndex>>());
             }
         }
     };

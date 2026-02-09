@@ -16,14 +16,14 @@ namespace Core {
         TempoPropertyMapper,
         TempoPropertyMapperPrivate,
         dspx::Tempo,
-        PropertyMetadata<dspx::Tempo, int, int>, // pos
-        PropertyMetadata<dspx::Tempo, double, double> // value
+        PropertyMetadata<dspx::Tempo, &dspx::Tempo::pos, &dspx::Tempo::setPos, decltype(&dspx::Tempo::posChanged)>,
+        PropertyMetadata<dspx::Tempo, &dspx::Tempo::value, &dspx::Tempo::setValue, decltype(&dspx::Tempo::valueChanged)>
     > {
         Q_DECLARE_PUBLIC(TempoPropertyMapper)
     public:
         TempoPropertyMapperPrivate() : PropertyMapperData(
-            {&dspx::Tempo::pos, &dspx::Tempo::setPos, &dspx::Tempo::posChanged},
-            {&dspx::Tempo::value, &dspx::Tempo::setValue, &dspx::Tempo::valueChanged}
+            {&dspx::Tempo::posChanged},
+            {&dspx::Tempo::valueChanged}
         ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;

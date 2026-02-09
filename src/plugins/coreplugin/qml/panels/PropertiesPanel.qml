@@ -63,7 +63,9 @@ QtObject {
             id: propertyMappers
             readonly property QtObject nonePropertyMapper: null
             readonly property QtObject anchorNodePropertyMapper: null
-            readonly property QtObject clipPropertyMapper: null
+            readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+            }
             readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
             }
@@ -150,6 +152,7 @@ QtObject {
                                 implicitHeight: item?.height ?? 0
                                 property Item item: null
                                 data: [item]
+                                visible: item?.visualVisible ?? true
                                 Component.onCompleted: () => {
                                     item = modelData.createObject(this, {
                                         windowHandle: d.addOn?.windowHandle ?? null,
