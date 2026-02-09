@@ -7,3 +7,5 @@ add_subdirectory(SettingDialog)
 add_subdirectory(LyricPronunciationEditor)
 
 add_subdirectory(PluginView)
+
+add_subdirectory(MIDITrackSelector)
