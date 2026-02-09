@@ -368,6 +368,7 @@
         <menu id="org.diffscope.core.mainToolBarRight">
             <action id="org.diffscope.core.findActions" />
             <action id="org.diffscope.core.documentations" />
+            <action id="org.diffscope.core.settings"/>
         </menu>
 
         <menu id="org.diffscope.core.mainToolBarMiddle">

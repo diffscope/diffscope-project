@@ -52,7 +52,6 @@
 #include <coreplugin/internal/KeymapPage.h>
 #include <coreplugin/internal/LogPage.h>
 #include <coreplugin/internal/MenuPage.h>
-#include <coreplugin/internal/MetadataAddOn.h>
 #include <coreplugin/internal/NotificationAddOn.h>
 #include <coreplugin/internal/PlatformJumpListHelper.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
@@ -284,7 +283,6 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectStartupTimerAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<RecentFileAddOn>();
-        ProjectWindowInterfaceRegistry::instance()->attach<MetadataAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProjectWindowNavigatorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<AfterSavingNotifyAddOn>();
