@@ -68,6 +68,8 @@ PropertyEditorGroupBox {
                 valueRole: "value"
                 currentIndex: indexOfValue(groupBox.propertyMapper?.associatedTrack)
                 onActivated: (index) => {
+                    if (index === currentIndex)
+                        return
                     assiciatedTrackSelector.beginTransaction()
                     if (!assiciatedTrackSelector.transactionId)
                         return

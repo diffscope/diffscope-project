@@ -65,20 +65,20 @@ QtObject {
             readonly property QtObject anchorNodePropertyMapper: null
             readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: !(selectionModel?.selectionType in [1, 2, 4]) || !selectionModel?.selectionCount
+                readonly property bool inactive: ![1, 2, 4].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
             }
             readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: !(selectionModel?.selectionType === 3) || !selectionModel?.selectionCount
+                readonly property bool inactive: selectionModel?.selectionType !== 3 || !selectionModel?.selectedCount
             }
             readonly property QtObject notePropertyMapper: null
             readonly property QtObject tempoPropertyMapper: TempoPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: !(selectionModel?.selectionType === 5) || !selectionModel?.selectionCount
+                readonly property bool inactive: selectionModel?.selectionType !== 5 || !selectionModel?.selectedCount
             }
             readonly property QtObject trackPropertyMapper: TrackPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: !(selectionModel?.selectionType in [1, 2, 4, 6]) || !selectionModel?.selectionCount
+                readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
             }
         }
         StackLayout {
