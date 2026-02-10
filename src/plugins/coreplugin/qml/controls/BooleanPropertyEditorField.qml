@@ -15,7 +15,7 @@ CheckBox {
     required property string key
     required property string transactionName
     tristate: true
-    checkState: propertyMapper?.[key] === undefined ? Qt.PartiallyChecked : propertyMapper[key] ? Qt.Checked : Qt.Unchecked
+    checkState: propertyMapper?.inactive ? Qt.Unchecked : propertyMapper?.[key] === undefined ? Qt.PartiallyChecked : propertyMapper[key] ? Qt.Checked : Qt.Unchecked
     nextCheckState: function() {
         return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
     }
