@@ -58,7 +58,7 @@ namespace Core {
         Q_INVOKABLE bool saveAs();
         Q_INVOKABLE bool saveCopy();
 
-
+        Q_INVOKABLE void boundTimelineRangeHint();
 
     protected:
         QWindow *createWindow(QObject *parent) const override;

@@ -448,8 +448,6 @@ namespace Core::Internal {
         l->goTo(t.totalTick());
     }
     void TimelineAddOn::resetProjectTimeRange() const {
-        // TODO
-        auto l = windowHandle()->cast<ProjectWindowInterface>()->projectTimeline();
-        l->setRangeHint(qMax(l->position(), l->lastPosition()) + 1);
+        windowHandle()->cast<ProjectWindowInterface>()->boundTimelineRangeHint();
     }
 }

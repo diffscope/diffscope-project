@@ -16,20 +16,40 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <SVSCraftCore/MusicTime.h>
+#include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/StatusTextContext.h>
 
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/ClipTime.h>
+#include <dspxmodel/Label.h>
+#include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/Model.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/NoteSequence.h>
+#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/Tempo.h>
+#include <dspxmodel/TempoSequence.h>
+#include <dspxmodel/TimeSignature.h>
+#include <dspxmodel/TimeSignatureSequence.h>
+#include <dspxmodel/Timeline.h>
+#include <dspxmodel/Track.h>
+#include <dspxmodel/TrackList.h>
+
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/DspxDocument.h>
 #include <coreplugin/EditActionsHandlerRegistry.h>
-#include <coreplugin/internal/ActionHelper.h>
-#include <coreplugin/internal/BehaviorPreference.h>
-#include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/QuickInput.h>
 #include <coreplugin/QuickPick.h>
+#include <coreplugin/internal/ActionHelper.h>
+#include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/internal/NotificationManager.h>
 
 namespace Core {
 
@@ -50,6 +70,7 @@ namespace Core {
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(projectDocumentContext->document(), q);
             mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
+            q->boundTimelineRangeHint();
         }
 
         void initActionContext() {
@@ -185,6 +206,28 @@ namespace Core {
         if (path.isEmpty())
             return false;
         return d->projectDocumentContext->saveCopy(path);
+    }
+
+    void ProjectWindowInterface::boundTimelineRangeHint() {
+        Q_D(ProjectWindowInterface);
+        auto model = d->projectDocumentContext->document()->model();
+        d->projectTimeline->setRangeHint(1920 + std::max({
+            model->timeline()->loopStart() + model->timeline()->loopLength(),
+            model->timeline()->labels()->size() == 0 ? 0 : model->timeline()->labels()->lastItem()->pos(),
+            model->timeline()->tempos()->size() == 0 ? 0 : model->timeline()->tempos()->lastItem()->pos(),
+            model->timeline()->timeSignatures()->size() == 0 ? 0 : d->projectTimeline->musicTimeline()->create(model->timeline()->timeSignatures()->lastItem()->index(), 0, 0).totalTick(),
+            model->tracks()->size() == 0 ? 0 : std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
+                return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
+                    return std::max({
+                        clip->time()->start() + clip->time()->clipStart() + clip->time()->clipLen(),
+                        clip->type() == dspx::Clip::Audio ? 0 : clip->time()->start() + static_cast<dspx::SingingClip *>(clip)->notes()->size() == 0 ? 0 : std::ranges::max(std::views::transform(static_cast<dspx::SingingClip *>(clip)->notes()->asRange(), [](dspx::Note *note) {
+                            return note->pos() + note->length();
+                        })),
+                        // TODO param
+                    });
+                }));
+            }))
+        }));
     }
 
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {

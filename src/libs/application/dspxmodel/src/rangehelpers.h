@@ -1,6 +1,7 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_RANGEHELPERS_H
 #define DIFFSCOPE_DSPX_MODEL_RANGEHELPERS_H
 
+#include <ranges>
 #include <iterator>
 
 namespace dspx::impl {
@@ -20,6 +21,9 @@ namespace dspx::impl {
             using difference_type = std::ptrdiff_t;
             using pointer = ItemType **;
             using reference = ItemType *&;
+
+            iterator() : m_sequence(nullptr), m_item(nullptr) {
+            }
 
             iterator(const SequenceType *sequence, ItemType *item) : m_sequence(sequence), m_item(item) {
             }
@@ -110,5 +114,8 @@ namespace dspx::impl {
     };
 
 }
+
+template<class T>
+constexpr bool std::ranges::enable_borrowed_range<dspx::impl::SequenceRange<T>> = true;
 
 #endif //DIFFSCOPE_DSPX_MODEL_RANGEHELPERS_H
