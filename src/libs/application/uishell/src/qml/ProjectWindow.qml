@@ -328,13 +328,23 @@ Window {
             SplitView {
                 anchors.fill: parent
                 ThemedItem.splitHandleEnabled: rightDock.panelOpened
-                ThemedItem.dividerStroke: rightDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                ThemedItem.dividerStroke: {
+                    if (!rightDock.barVisible && !rightDock.panelOpened) {
+                        return SVS.DS_None
+                    }
+                    return rightDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                }
                 Accessible.ignored: true
                 SplitView {
                     SplitView.minimumWidth: leftDock.SplitView.minimumWidth + mainPane.minimumPanelSize
                     SplitView.fillWidth: true
                     ThemedItem.splitHandleEnabled: leftDock.panelOpened
-                    ThemedItem.dividerStroke: leftDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                    ThemedItem.dividerStroke: {
+                        if (!leftDock.barVisible && !leftDock.panelOpened) {
+                            return SVS.DS_None
+                        }
+                        return leftDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                    }
                     Accessible.ignored: true
                     DockingView {
                         id: leftDock
@@ -359,7 +369,12 @@ Window {
                         SplitView.minimumWidth: mainPane.minimumPanelSize
                         ThemedItem.splitHandleVisible: topDock.panelOpened || bottomDock.panelOpened
                         ThemedItem.splitHandleEnabled: topDock.panelOpened && bottomDock.panelOpened
-                        ThemedItem.dividerStroke: topDock.panelOpened && bottomDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                        ThemedItem.dividerStroke: {
+                            if ((!topDock.barVisible && !topDock.panelOpened) || (!bottomDock.barVisible && !bottomDock.panelOpened)) {
+                                return SVS.DS_None
+                            }
+                            return topDock.panelOpened && bottomDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                        }
                         Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
@@ -385,7 +400,7 @@ Window {
                                 height: 1
                                 anchors.top: topDock.bottom
                                 color: Theme.paneSeparatorColor
-                                visible: !topDock.panelOpened
+                                visible: !topDock.panelOpened && topDock.barVisible
                             }
                         }
                         Item {
@@ -407,7 +422,7 @@ Window {
                                 height: 1
                                 anchors.bottom: bottomDock.top
                                 color: Theme.paneSeparatorColor
-                                visible: !bottomDock.panelOpened
+                                visible: !bottomDock.panelOpened && bottomDock.barVisible
                             }
                         }
                     }
