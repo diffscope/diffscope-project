@@ -84,7 +84,7 @@ Item {
                                 let a = additionalTrackRepeater.count - additionalTrackRepeater.count
                                 return additionalTrackRepeater.itemAt(a + index)?.item ?? null
                             }
-                            readonly property double itemSize: 12
+                            readonly property double itemSize: 14
                             Layout.fillWidth: true
                             spacing: 0
                             Item {
@@ -118,6 +118,7 @@ Item {
                                         Layout.fillHeight: true
                                         icon.height: layout.itemSize
                                         icon.width: layout.itemSize
+                                        spacing: 2
                                         icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
                                         icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                                         text: view.addOn.additionalTrackLoader.componentName(layout.modelData)
