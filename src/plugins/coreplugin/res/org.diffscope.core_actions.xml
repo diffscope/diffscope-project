@@ -163,7 +163,7 @@
         <phony id="org.diffscope.core.workspacePanelWidgets" topLevel="true" />
 
         <action id="org.diffscope.core.statusText" diffscope:componentType="widget"/>
-        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="properties" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="properties" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.tips" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" diffscope:componentType="custom"/>
