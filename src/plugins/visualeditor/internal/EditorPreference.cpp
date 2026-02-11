@@ -18,6 +18,8 @@ namespace VisualEditor::Internal {
         int autoDurationPositionAlignment{48};
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
+        bool pianoKeyboardUseSimpleStyle{};
+        EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
         bool trackCursorPosition{true};
     };
 
@@ -56,6 +58,10 @@ namespace VisualEditor::Internal {
         emit enableTemporarySnapOffChanged();
         d->trackListOnRight = settings->value("trackListOnRight", false).toBool();
         emit trackListOnRightChanged();
+        d->pianoKeyboardUseSimpleStyle = settings->value("pianoKeyboardUseSimpleStyle", false).toBool();
+        emit pianoKeyboardUseSimpleStyleChanged();
+        d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
+        emit pianoKeyboardLabelPolicyChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
         emit trackCursorPositionChanged();
         settings->endGroup();
@@ -73,6 +79,8 @@ namespace VisualEditor::Internal {
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->setValue("trackListOnRight", d->trackListOnRight);
+        settings->setValue("pianoKeyboardUseSimpleStyle", d->pianoKeyboardUseSimpleStyle);
+        settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->endGroup();
     }
@@ -183,6 +191,32 @@ namespace VisualEditor::Internal {
             return;
         d->trackListOnRight = trackListOnRight;
         emit m_instance->trackListOnRightChanged();
+    }
+
+    bool EditorPreference::pianoKeyboardUseSimpleStyle() {
+        M_INSTANCE_D;
+        return d->pianoKeyboardUseSimpleStyle;
+    }
+
+    void EditorPreference::setPianoKeyboardUseSimpleStyle(bool pianoKeyboardUseSimpleStyle) {
+        M_INSTANCE_D;
+        if (d->pianoKeyboardUseSimpleStyle == pianoKeyboardUseSimpleStyle)
+            return;
+        d->pianoKeyboardUseSimpleStyle = pianoKeyboardUseSimpleStyle;
+        emit m_instance->pianoKeyboardUseSimpleStyleChanged();
+    }
+
+    EditorPreference::PianoKeyboardLabelPolicy EditorPreference::pianoKeyboardLabelPolicy() {
+        M_INSTANCE_D;
+        return d->pianoKeyboardLabelPolicy;
+    }
+
+    void EditorPreference::setPianoKeyboardLabelPolicy(PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy) {
+        M_INSTANCE_D;
+        if (d->pianoKeyboardLabelPolicy == pianoKeyboardLabelPolicy)
+            return;
+        d->pianoKeyboardLabelPolicy = pianoKeyboardLabelPolicy;
+        emit m_instance->pianoKeyboardLabelPolicyChanged();
     }
 
     bool EditorPreference::trackCursorPosition() {

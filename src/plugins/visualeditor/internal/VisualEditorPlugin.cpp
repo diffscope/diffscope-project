@@ -15,6 +15,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/internal/ArrangementAddOn.h>
+#include <visualeditor/internal/PianoRollAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/ProjectAddOn.h>
 #include <visualeditor/internal/LabelTrackAddOn.h>
@@ -69,6 +70,7 @@ namespace VisualEditor::Internal {
     void VisualEditorPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<PianoRollAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MixerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LabelTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<TempoTrackAddOn>();

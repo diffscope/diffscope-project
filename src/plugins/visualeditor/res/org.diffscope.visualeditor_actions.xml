@@ -21,15 +21,23 @@
         <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.mixerPanel.handTool" icon="hand_left" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" icon="cursor" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" icon="rectangle_landscape_dash" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" icon="layout_add_above" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" icon="more_vertical" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.snap" diffscope:componentType="widget" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.snapDuration" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
 
-        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:componentType="custom"/>
-        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:componentType="custom"/>
-        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.pianoRoll" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
 
         <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
 
@@ -51,6 +59,19 @@
             </group>
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
+        </menu>
+        <menu id="org.diffscope.visualeditor.pianoRollPanelToolBar">
+            <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.toolActions">
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" />
+            </group>
+            <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.snapActions">
+                <action id="org.diffscope.visualeditor.pianoRollPanel.snap" />
+            </group>
+            <stretch />
+            <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" />
         </menu>
         <menu id="org.diffscope.visualeditor.mixerPanelToolBar">
             <group id="org.diffscope.visualeditor.mixerPanelToolBar.toolActions">

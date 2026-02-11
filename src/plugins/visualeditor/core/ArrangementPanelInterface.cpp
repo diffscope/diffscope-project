@@ -112,7 +112,7 @@ namespace VisualEditor {
 
     void ArrangementPanelInterfacePrivate::bindControllersInteraction() const {
         Q_Q(const ArrangementPanelInterface);
-        QObject::connect(q, &ArrangementPanelInterface::toolChanged, scrollBehaviorViewModel, [=, this] {
+        QObject::connect(q, &ArrangementPanelInterface::toolChanged, q, [=, this] {
             switch (tool) {
                 case ArrangementPanelInterface::PointerTool: {
                     labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);

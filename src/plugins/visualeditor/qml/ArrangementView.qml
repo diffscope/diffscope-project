@@ -46,7 +46,7 @@ Item {
                 ToolBar {
                     Layout.fillWidth: true
                     Layout.preferredHeight: timeline.height
-                    padding: 2
+                    padding: 4
                     ToolBarContainer {
                         id: toolBar
                         anchors.fill: parent
@@ -60,8 +60,6 @@ Item {
                             Component.onCompleted: forceUpdateLayouts()
                         }
                         toolButtonComponent: ToolButton {
-                            implicitWidth: 20
-                            implicitHeight: 20
                             display: icon.source.toString().length !== 0 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon
                             DescriptiveText.bindAccessibleDescription: true
                         }

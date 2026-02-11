@@ -27,6 +27,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
+        Q_PROPERTY(bool pianoKeyboardUseSimpleStyle READ pianoKeyboardUseSimpleStyle WRITE setPianoKeyboardUseSimpleStyle NOTIFY pianoKeyboardUseSimpleStyleChanged)
+        Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
 
     public:
@@ -40,6 +42,13 @@ namespace VisualEditor::Internal {
 
         void load();
         void save() const;
+
+        enum PianoKeyboardLabelPolicy {
+            LP_All,
+            LP_COnly,
+            LP_None,
+        };
+        Q_ENUM(PianoKeyboardLabelPolicy)
 
         enum ScrollModifier {
             SM_Control,
@@ -72,6 +81,12 @@ namespace VisualEditor::Internal {
         static bool trackListOnRight();
         static void setTrackListOnRight(bool trackListOnRight);
 
+        static bool pianoKeyboardUseSimpleStyle();
+        static void setPianoKeyboardUseSimpleStyle(bool pianoKeyboardUseSimpleStyle);
+
+        static PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy();
+        static void setPianoKeyboardLabelPolicy(PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy);
+
         static bool trackCursorPosition();
         static void setTrackCursorPosition(bool trackCursorPosition);
 
@@ -84,6 +99,8 @@ namespace VisualEditor::Internal {
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
         void trackListOnRightChanged();
+        void pianoKeyboardUseSimpleStyleChanged();
+        void pianoKeyboardLabelPolicyChanged();
         void trackCursorPositionChanged();
 
     private:

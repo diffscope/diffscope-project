@@ -21,6 +21,8 @@ ScrollView {
     property int autoDurationPositionAlignment: 20
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
+    property bool pianoKeyboardUseSimpleStyle: false
+    property int pianoKeyboardLabelPolicy: 0
     property bool trackCursorPosition: false
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
@@ -31,6 +33,8 @@ ScrollView {
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
+    onPianoKeyboardUseSimpleStyleChanged: if (started) pageHandle.markDirty()
+    onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -184,6 +188,45 @@ ScrollView {
                         model: [qsTr("Left"), qsTr("Right")]
                         currentIndex: page.trackListOnRight ? 1 : 0
                         onActivated: (index) => page.trackListOnRight = (index === 1)
+                    }
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Piano Roll")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 3
+
+                    Label {
+                        text: qsTr("Piano keyboard style")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    ComboBox {
+                        model: [qsTr("Realistic"), qsTr("Simple")]
+                        currentIndex: page.pianoKeyboardUseSimpleStyle ? 1 : 0
+                        onActivated: (index) => page.pianoKeyboardUseSimpleStyle = (index === 1)
+                    }
+
+                    Label {
+                        text: qsTr("Display piano key label on")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    ComboBox {
+                        model: [qsTr("All keys"), qsTr("C keys only"), qsTr("None")]
+                        currentIndex: page.pianoKeyboardLabelPolicy
+                        onActivated: (index) => page.pianoKeyboardLabelPolicy = index
                     }
                 }
             }

@@ -1,7 +1,8 @@
-#include "ArrangementAddOn.h"
+#include "PianoRollAddOn.h"
 
 #include <QKeyEvent>
 #include <QQmlComponent>
+#include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -9,24 +10,23 @@
 
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <visualeditor/ArrangementPanelInterface.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/internal/EditorPreference.h>
-#include <visualeditor/internal/AdditionalTrackLoader.h>
 
 namespace VisualEditor::Internal {
-    ArrangementAddOn::ArrangementAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+
+    PianoRollAddOn::PianoRollAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 
-    ArrangementAddOn::~ArrangementAddOn() = default;
+    PianoRollAddOn::~PianoRollAddOn() = default;
 
-    void ArrangementAddOn::initialize() {
+    void PianoRollAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->window()->installEventFilter(this);
-        m_additionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets", this);
-        auto arrangementPanelInterface = new ArrangementPanelInterface(this, windowInterface);
-        m_additionalTrackLoader->setContextObject(arrangementPanelInterface);
+        new PianoRollPanelInterface(this, windowInterface);
+
         {
-            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementAddOnActions");
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollAddOnActions");
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -36,8 +36,9 @@ namespace VisualEditor::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
+
         {
-            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ArrangementPanel", this);
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollPanel", this);
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
@@ -48,25 +49,22 @@ namespace VisualEditor::Internal {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
-            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.panel.arrangement", o->property("arrangementPanelComponent").value<QQmlComponent *>());
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.panel.pianoRoll", o->property("pianoRollPanelComponent").value<QQmlComponent *>());
         }
     }
 
-    void ArrangementAddOn::extensionsInitialized() {}
+    void PianoRollAddOn::extensionsInitialized() {
+    }
 
-    bool ArrangementAddOn::delayedInitialize() {
+    bool PianoRollAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
-    ArrangementPanelInterface *ArrangementAddOn::arrangementPanelInterface() const {
-        return ArrangementPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
+
+    PianoRollPanelInterface *PianoRollAddOn::pianoRollPanelInterface() const {
+        return PianoRollPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
     }
-    AdditionalTrackLoader *ArrangementAddOn::additionalTrackLoader() const {
-        return m_additionalTrackLoader;
-    }
-    bool ArrangementAddOn::altPressed() const {
-        return m_altPressed;
-    }
-    bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
+
+    bool PianoRollAddOn::eventFilter(QObject *watched, QEvent *event) {
         if (watched == windowHandle()->window()) {
             switch (event->type()) {
                 case QEvent::KeyPress:
@@ -79,7 +77,7 @@ namespace VisualEditor::Internal {
                         break;
                     }
                     if (keyEvent->key() == Qt::Key_Shift) {
-                        arrangementPanelInterface()->setSnapTemporarilyDisabled(keyEvent->type() == QEvent::KeyPress);
+                        pianoRollPanelInterface()->setSnapTemporarilyDisabled(keyEvent->type() == QEvent::KeyPress);
                     } else if (keyEvent->key() == Qt::Key_Alt) {
                         auto p = keyEvent->type() == QEvent::KeyPress;
                         if (m_altPressed != p) {
@@ -90,7 +88,7 @@ namespace VisualEditor::Internal {
                     break;
                 }
                 case QEvent::FocusOut: {
-                    arrangementPanelInterface()->setSnapTemporarilyDisabled(false);
+                    pianoRollPanelInterface()->setSnapTemporarilyDisabled(false);
                     if (m_altPressed) {
                         m_altPressed = false;
                         Q_EMIT altPressedChanged();
@@ -103,6 +101,11 @@ namespace VisualEditor::Internal {
         }
         return WindowInterfaceAddOn::eventFilter(watched, event);
     }
+
+    bool PianoRollAddOn::altPressed() const {
+        return m_altPressed;
+    }
+
 }
 
-#include "moc_ArrangementAddOn.cpp"
+#include "moc_PianoRollAddOn.cpp"
