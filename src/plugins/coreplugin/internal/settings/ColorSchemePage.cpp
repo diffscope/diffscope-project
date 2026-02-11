@@ -58,7 +58,7 @@ namespace Core::Internal {
     bool ColorSchemePage::accept() {
         qCInfo(lcColorSchemePage) << "Accepting";
         m_collection->save();
-        m_collection->applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
+        m_collection->apply();
         return ISettingPage::accept();
     }
 

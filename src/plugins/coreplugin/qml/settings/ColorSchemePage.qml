@@ -432,6 +432,157 @@ Item {
             text: qsTr("Docking panel header active color change")
             colorChange: true
         }
+        ListElement {
+            name: "trackColorSchema0"
+            text: qsTr("Track color 1")
+        }
+        ListElement {
+            name: "trackColorSchema1"
+            text: qsTr("Track color 2")
+        }
+        ListElement {
+            name: "trackColorSchema2"
+            text: qsTr("Track color 3")
+        }
+        ListElement {
+            name: "trackColorSchema3"
+            text: qsTr("Track color 4")
+        }
+        ListElement {
+            name: "trackColorSchema4"
+            text: qsTr("Track color 5")
+        }
+        ListElement {
+            name: "trackColorSchema5"
+            text: qsTr("Track color 6")
+        }
+        ListElement {
+            name: "trackColorSchema6"
+            text: qsTr("Track color 7")
+        }
+        ListElement {
+            name: "trackColorSchema7"
+            text: qsTr("Track color 8")
+        }
+        ListElement {
+            name: "trackColorSchema8"
+            text: qsTr("Track color 9")
+        }
+        ListElement {
+            name: "trackColorSchema9"
+            text: qsTr("Track color 10")
+        }
+        ListElement {
+            name: "trackColorSchema10"
+            text: qsTr("Track color 11")
+        }
+        ListElement {
+            name: "trackColorSchema11"
+            text: qsTr("Track color 12")
+        }
+        ListElement {
+            name: "loopColor"
+            text: qsTr("Loop range slider color")
+        }
+        ListElement {
+            name: "levelMeterColor"
+            text: qsTr("Level meter background color")
+        }
+        ListElement {
+            name: "editAreaPrimaryColor"
+            text: qsTr("Edit area primary background color")
+        }
+        ListElement {
+            name: "editAreaSecondaryColor"
+            text: qsTr("Edit area secondary background color")
+        }
+        ListElement {
+            name: "playheadPrimaryColor"
+            text: qsTr("Playhead primary color")
+        }
+        ListElement {
+            name: "playheadSecondaryColor"
+            text: qsTr("Playhead secondary color")
+        }
+        ListElement {
+            name: "cursorIndicatorColor"
+            text: qsTr("Cursor indicator color")
+        }
+        ListElement {
+            name: "scalePrimaryColor"
+            text: qsTr("Scale primary color")
+        }
+        ListElement {
+            name: "scaleSecondaryColor"
+            text: qsTr("Scale secondary color")
+        }
+        ListElement {
+            name: "scaleTertiaryColor"
+            text: qsTr("Scale tertiary color")
+        }
+        ListElement {
+            name: "levelLowColor"
+            text: qsTr("Level meter low level color")
+        }
+        ListElement {
+            name: "levelMediumColor"
+            text: qsTr("Level meter medium level color")
+        }
+        ListElement {
+            name: "levelHighColor"
+            text: qsTr("Level meter high level color")
+        }
+        ListElement {
+            name: "muteColor"
+            text: qsTr("Mute button color")
+        }
+        ListElement {
+            name: "soloColor"
+            text: qsTr("Solo button color")
+        }
+        ListElement {
+            name: "recordColor"
+            text: qsTr("Record button color")
+        }
+        ListElement {
+            name: "routeColor"
+            text: qsTr("Multi-channel output button color")
+        }
+        ListElement {
+            name: "clipMuteColor"
+            text: qsTr("Mute clip color")
+        }
+        ListElement {
+            name: "whiteKeyColor"
+            text: qsTr("Piano white key color")
+        }
+        ListElement {
+            name: "blackKeyColor"
+            text: qsTr("Piano black key color")
+        }
+        ListElement {
+            name: "whiteKeyTextColor"
+            text: qsTr("Text on piano white key color")
+        }
+        ListElement {
+            name: "blackKeyTextColor"
+            text: qsTr("Text on piano black key color")
+        }
+        ListElement {
+            name: "itemSelectedColorChange"
+            text: qsTr("Item selected color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "clipSelectedColorChange"
+            text: qsTr("Clip selected color change")
+            colorChange: true
+        }
+        ListElement {
+            name: "clipThumbnailColorChange"
+            text: qsTr("Clip thumbnail color change")
+            colorChange: true
+        }
     }
 
     ColumnLayout {

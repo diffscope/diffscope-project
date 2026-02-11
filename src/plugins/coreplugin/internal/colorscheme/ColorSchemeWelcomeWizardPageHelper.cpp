@@ -29,7 +29,7 @@ namespace Core::Internal {
         m_colorSchemeCollection->setCurrentIndex(index);
         m_colorSchemeCollection->loadPreset(index);
         m_colorSchemeCollection->save();
-        m_colorSchemeCollection->applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
+        m_colorSchemeCollection->apply();
     }
 
     int ColorSchemeWelcomeWizardPageHelper::getCurrentPresetIndex() const {

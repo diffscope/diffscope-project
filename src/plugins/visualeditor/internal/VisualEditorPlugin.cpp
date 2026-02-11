@@ -14,6 +14,8 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <ScopicFlowCore/Palette.h>
+
 #include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/PianoRollAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
@@ -55,6 +57,7 @@ namespace VisualEditor::Internal {
 
     void VisualEditorPlugin::initializeSingletons() {
         new EditorPreference(this);
+        Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.sfdefaultpalette", sflow::Palette::defaultPalette());
     }
 
     void VisualEditorPlugin::initializeEditorPreference() {

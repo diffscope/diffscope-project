@@ -186,7 +186,6 @@ namespace Core::Internal {
         initializeActions();
         initializeSettings();
         initializeWindows();
-        initializeColorScheme();
         initializeJumpList();
         initializeHelpContents();
         initializePropertyEditors();
@@ -200,6 +199,7 @@ namespace Core::Internal {
 
     void CorePlugin::extensionsInitialized() {
         RuntimeInterface::splash()->showMessage(tr("Plugins loading complete, preparing for subsequent initialization..."));
+        initializeColorScheme();
         for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
             qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled() << "enabledBySettings =" << plugin->isEnabledBySettings() << "hasError =" << plugin->hasError();
         }
@@ -359,7 +359,7 @@ namespace Core::Internal {
     void CorePlugin::initializeColorScheme() {
         ColorSchemeCollection collection;
         collection.load();
-        collection.applyTo(SVS::Theme::defaultTheme(), nullptr); // TODO: ScopicFlow editing area palette
+        collection.apply();
     }
 
     void CorePlugin::initializeJumpList() {

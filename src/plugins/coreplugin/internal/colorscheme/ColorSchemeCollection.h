@@ -6,17 +6,11 @@
 #include <QVariant>
 #include <QWindow>
 
-namespace SVS {
-    class Theme;
-}
-
-namespace sflow {
-    class Palette;
-}
+#include <coreplugin/coreglobal.h>
 
 namespace Core::Internal {
 
-    class ColorSchemeCollection : public QObject {
+    class CORE_EXPORT ColorSchemeCollection : public QObject {
         Q_OBJECT
         Q_PROPERTY(QVariantList allPresets READ allPresets NOTIFY allPresetsChanged)
         Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
@@ -42,7 +36,7 @@ namespace Core::Internal {
         int visualCurrentIndex() const;
         void setCurrentIndex(int index);
 
-        void applyTo(SVS::Theme *theme, sflow::Palette *palette) const;
+        void apply() const;
         void load();
         void save() const;
 
