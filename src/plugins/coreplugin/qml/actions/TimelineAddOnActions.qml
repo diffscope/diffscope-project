@@ -16,8 +16,8 @@ ActionCollection {
     readonly property EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: EditTempoTimeSignatureScenario {
         id: editTempoTimeSignatureScenario
         window: d.window
-        projectTimeline: d.windowHandle.projectTimeline
-        document: d.windowHandle.projectDocumentContext.document
+        projectTimeline: d.windowHandle?.projectTimeline ?? null
+        document: d.windowHandle?.projectDocumentContext.document ?? null
     }
     readonly property EditLoopScenario editLoopScenario: EditLoopScenario {
         id: editLoopScenario
