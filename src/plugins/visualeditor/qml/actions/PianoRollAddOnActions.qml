@@ -40,6 +40,18 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.scissorTool"
+        Action {
+            checkable: true
+            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.ScissorTool
+            onTriggered: () => {
+                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.ScissorTool
+                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.selectTool"
         Action {
             checkable: true

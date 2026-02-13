@@ -79,6 +79,10 @@ namespace VisualEditor {
         QState *drawProcessingState;
         QState *drawCommittingState;
         QState *drawAbortingState;
+        QState *splitPendingState;
+        QState *splitCommittingState;
+
+        int splitPosition{};
 
         void init();
         void initStateMachine();
@@ -101,6 +105,8 @@ namespace VisualEditor {
         void onDrawCommittingStateEntered();
         void onDrawAbortingStateEntered();
 
+        void onSplitCommittingStateEntered();
+
     Q_SIGNALS:
         void rubberBandDragWillStart();
         void rubberBandDragWillFinish();
@@ -122,6 +128,10 @@ namespace VisualEditor {
         void drawTransactionNotStarted();
         void drawTransactionWillCommit();
         void drawTransactionWillAbort();
+
+        void splitWillStart();
+        void splitWillCommit();
+        void splitWillAbort();
     };
 
 }

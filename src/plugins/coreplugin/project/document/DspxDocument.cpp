@@ -18,6 +18,9 @@
 #include <dspxmodel/LabelSelectionModel.h>
 #include <dspxmodel/LabelSequence.h>
 #include <dspxmodel/Model.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/NoteSequence.h>
+#include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/TempoSelectionModel.h>
@@ -29,6 +32,9 @@
 #include <dspxmodel/UndoableModelStrategy.h>
 #include <dspxmodel/Clip.h>
 #include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/ClipTime.h>
+#include <dspxmodel/AudioClip.h>
+#include <dspxmodel/SingingClip.h>
 
 #include <coreplugin/DspxClipboard.h>
 
@@ -819,6 +825,93 @@ namespace Core {
         }
         qCInfo(lcDspxDocument) << "Deselect all" << selectionTypeName(d->selectionModel->selectionType());
         d->selectionModel->select(nullptr, dspx::SelectionModel::ClearPreviousSelection, d->selectionModel->selectionType());
+    }
+
+    void DspxDocument::splitItems(int position) {
+        Q_D(DspxDocument);
+        const auto selectionType = d->selectionModel->selectionType();
+        if (selectionType != dspx::SelectionModel::ST_Clip && selectionType != dspx::SelectionModel::ST_Note)
+            return;
+
+        const QString transactionName = selectionType == dspx::SelectionModel::ST_Clip ? tr("Splitting clip") : tr("Splitting note");
+
+        bool changed = false;
+        transactionController()->beginScopedTransaction(transactionName, [=, &changed] {
+            switch (selectionType) {
+                case dspx::SelectionModel::ST_Clip: {
+                    const auto selectedClips = d->selectionModel->clipSelectionModel()->selectedItems();
+                    for (auto *clip : selectedClips) {
+                        const int clipPos = clip->position();
+                        const int clipEnd = clipPos + clip->length();
+                        if (position <= clipPos || position >= clipEnd)
+                            continue;
+
+                        const auto data = clip->toQDspx();
+                        const int newClipLength = position - clipPos;
+                        clip->time()->setClipLen(newClipLength);
+                        data->time.clipLen -= newClipLength;
+                        data->time.clipStart = position - data->time.start;
+
+                        dspx::Clip *newClip = nullptr;
+                        switch (clip->type()) {
+                            case dspx::Clip::Audio:
+                                newClip = d->model->createAudioClip();
+                                break;
+                            case dspx::Clip::Singing:
+                                newClip = d->model->createSingingClip();
+                                break;
+                        }
+
+                        newClip->fromQDspx(data);
+                        auto *clipSequence = clip->clipSequence();
+                        if (!clipSequence || !clipSequence->insertItem(newClip)) {
+                            d->model->destroyItem(newClip);
+                            continue;
+                        }
+
+                        changed = true;
+                        d->selectionModel->select(newClip,
+                            dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem,
+                            dspx::SelectionModel::selectionTypeFromItem(newClip));
+                    }
+                    break;
+                }
+                case dspx::SelectionModel::ST_Note: {
+                    const auto selectedNotes = d->selectionModel->noteSelectionModel()->selectedItems();
+                    for (auto *note : selectedNotes) {
+                        const int notePos = note->pos();
+                        const int noteEnd = notePos + note->length();
+                        if (position <= notePos || position >= noteEnd)
+                            continue;
+
+                        auto data = note->toQDspx();
+                        const int newNoteLength = position - notePos;
+                        note->setLength(newNoteLength);
+                        data.length -= newNoteLength;
+                        data.pos = position;
+
+                        auto *newNote = d->model->createNote();
+                        newNote->fromQDspx(data);
+                        auto *noteSequence = note->noteSequence();
+                        if (!noteSequence || !noteSequence->insertItem(newNote)) {
+                            d->model->destroyItem(newNote);
+                            continue;
+                        }
+
+                        changed = true;
+                        d->selectionModel->select(newNote,
+                            dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem,
+                            dspx::SelectionModel::selectionTypeFromItem(newNote));
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+            return changed;
+        }, [] {
+            qCCritical(lcDspxDocument()) << "Failed to split items in scoped transaction";
+        });
     }
 
 }

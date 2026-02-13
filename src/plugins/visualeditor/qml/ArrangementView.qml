@@ -377,6 +377,69 @@ Item {
                         timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
                         clipSequenceViewModel: view.projectViewModelContext?.clipSequenceViewModel ?? null
                         clipPaneInteractionController: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
+
+                        property ClipViewModel activeClip: null
+
+                        Binding {
+                            id: clipStartBinding
+                            when: false
+                            clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position
+                        }
+
+                        Binding {
+                            id: clipEndBinding
+                            when: false
+                            clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position + clipPane.activeClip.length
+                        }
+
+                        Connections {
+                            target: clipPane.clipPaneInteractionController
+                            function onMovingStarted(clipPane_, clipViewModel) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.activeClip = clipViewModel
+                                    clipStartBinding.when = true
+                                }
+                            }
+                            function onMovingCommitted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipStartBinding.when = false
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onMovingAborted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipStartBinding.when = false
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onAdjustLengthStarted(clipPane_, clipViewModel, edge) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.activeClip = clipViewModel
+                                    if (edge === ClipPaneInteractionController.LeftEdge) {
+                                        clipStartBinding.when = true
+                                    } else {
+                                        clipEndBinding.when = true
+                                    }
+                                }
+                            }
+                            function onAdjustLengthCommitted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipStartBinding.when = clipEndBinding.when = false
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onAdjustLengthAborted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipStartBinding.when = clipEndBinding.when = false
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onSplitStarted(clipPane_, position) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.timeLayoutViewModel.cursorPosition = position
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -122,6 +122,10 @@ namespace VisualEditor {
                     // TODO: bind controller interactions for PencilTool
                     break;
                 }
+                case PianoRollPanelInterface::ScissorTool: {
+                    // TODO: bind controller interactions for ScissorTool
+                    break;
+                }
                 case PianoRollPanelInterface::SelectTool: {
                     // TODO: bind controller interactions for SelectTool
                     break;

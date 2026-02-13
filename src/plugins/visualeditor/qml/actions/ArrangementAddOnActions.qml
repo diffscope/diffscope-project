@@ -40,6 +40,18 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.arrangementPanel.scissorTool"
+        Action {
+            checkable: true
+            checked: d.arrangementPanelInterface?.tool === ArrangementPanelInterface.ScissorTool
+            onTriggered: () => {
+                d.arrangementPanelInterface.tool = ArrangementPanelInterface.ScissorTool
+                Qt.callLater(() => GlobalHelper.setProperty(this, "checked", true))
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.arrangementPanel.selectTool"
         Action {
             checkable: true

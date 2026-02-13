@@ -158,6 +158,28 @@ namespace VisualEditor {
                     clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::Draw);
                     break;
                 }
+                case ArrangementPanelInterface::ScissorTool: {
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
+                    trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
+                    trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+                    trackListInteractionController->setSecondarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
+
+                    clipPaneInteractionController->setPrimaryItemInteraction(sflow::ClipPaneInteractionController::Split);
+                    clipPaneInteractionController->setSecondaryItemInteraction(sflow::ClipPaneInteractionController::Split);
+                    clipPaneInteractionController->setPrimarySceneInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
+                    clipPaneInteractionController->setSecondarySceneInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
+                    break;
+                }
                 case ArrangementPanelInterface::SelectTool: {
                     labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);

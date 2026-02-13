@@ -47,6 +47,7 @@ namespace Core {
         Q_INVOKABLE void deleteSelection();
         Q_INVOKABLE void selectAll();
         Q_INVOKABLE void deselectAll();
+        Q_INVOKABLE void splitItems(int position);
 
     Q_SIGNALS:
         void anyItemsSelectedChanged();

@@ -95,6 +95,9 @@ namespace VisualEditor {
         drawCommittingState = new QState;
         drawAbortingState = new QState;
 
+        splitPendingState = new QState;
+        splitCommittingState = new QState;
+
         stateMachine->addState(idleState);
         stateMachine->addState(rubberBandDraggingState);
         stateMachine->addState(movePendingState);
@@ -109,6 +112,8 @@ namespace VisualEditor {
         stateMachine->addState(drawProcessingState);
         stateMachine->addState(drawCommittingState);
         stateMachine->addState(drawAbortingState);
+        stateMachine->addState(splitPendingState);
+        stateMachine->addState(splitCommittingState);
         stateMachine->setInitialState(idleState);
         stateMachine->start();
 
@@ -138,6 +143,11 @@ namespace VisualEditor {
         drawProcessingState->addTransition(this, &ClipViewModelContextData::drawTransactionWillAbort, drawAbortingState);
         drawCommittingState->addTransition(idleState);
         drawAbortingState->addTransition(idleState);
+
+        idleState->addTransition(this, &ClipViewModelContextData::splitWillStart, splitPendingState);
+        splitPendingState->addTransition(this, &ClipViewModelContextData::splitWillCommit, splitCommittingState);
+        splitPendingState->addTransition(this, &ClipViewModelContextData::splitWillAbort, idleState);
+        splitCommittingState->addTransition(idleState);
 
         auto logEntered = [](const char *name) { qCInfo(lcClipViewModelContextData) << name << "entered"; };
         auto logExited = [](const char *name) { qCInfo(lcClipViewModelContextData) << name << "exited"; };
@@ -200,6 +210,14 @@ namespace VisualEditor {
             onDrawAbortingStateEntered();
         });
         connect(drawAbortingState, &QState::exited, this, [=] { logExited("Draw aborting state"); });
+
+        connect(splitPendingState, &QState::entered, this, [=] { logEntered("Split pending state"); });
+        connect(splitPendingState, &QState::exited, this, [=] { logExited("Split pending state"); });
+        connect(splitCommittingState, &QState::entered, this, [=, this] {
+            logEntered("Split committing state");
+            onSplitCommittingStateEntered();
+        });
+        connect(splitCommittingState, &QState::exited, this, [=] { logExited("Split committing state"); });
     }
 
     void ClipViewModelContextData::init() {
@@ -579,6 +597,19 @@ namespace VisualEditor {
             Q_EMIT drawTransactionWillAbort();
         });
 
+        connect(controller, &sflow::ClipPaneInteractionController::splitStarted, this, [=](QQuickItem *) {
+            splitPosition = {};
+            Q_EMIT splitWillStart();
+        });
+        connect(controller, &sflow::ClipPaneInteractionController::splitCommitted, this, [=](QQuickItem *, int position) {
+            splitPosition = position;
+            Q_EMIT splitWillCommit();
+        });
+        connect(controller, &sflow::ClipPaneInteractionController::splitAborted, this, [=](QQuickItem *) {
+            splitPosition = {};
+            Q_EMIT splitWillAbort();
+        });
+
         return controller;
     }
 
@@ -701,6 +732,11 @@ namespace VisualEditor {
         drawChanged = false;
         targetClip = {};
         targetClipPane = {};
+    }
+
+    void ClipViewModelContextData::onSplitCommittingStateEntered() {
+        document->splitItems(splitPosition);
+        splitPosition = {};
     }
 
     sflow::ClipViewModel *ClipPaneInteractionControllerProxy::createAndInsertClipOnDrawing(sflow::RangeSequenceViewModel *clipSequenceViewModel, int position, int trackIndex) {

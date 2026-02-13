@@ -17,12 +17,14 @@
     <items>
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.scissorTool" icon="cut" />
         <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" icon="rectangle_landscape_dash" />
         <action id="org.diffscope.visualeditor.arrangementPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.mixerPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" icon="edit" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" icon="cut" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" icon="rectangle_landscape_dash" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
@@ -51,6 +53,7 @@
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.arrangementPanel.scissorTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.handTool" />
             </group>
@@ -64,6 +67,7 @@
             <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" />
             </group>
