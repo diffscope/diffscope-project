@@ -244,18 +244,18 @@ namespace dspx {
         bool selectionChanged = false;
         
         if (command & SelectionModel::ClearPreviousSelection) {
-            selectionChanged = selectionChanged || clearSelection();
+            selectionChanged |= clearSelection();
         }
         if ((command & SelectionModel::Select) && (command & SelectionModel::Deselect)) {
             if (selectedItems.contains(item)) {
-                selectionChanged = selectionChanged || removeFromSelection(item);
+                selectionChanged |= removeFromSelection(item);
             } else {
-                selectionChanged = selectionChanged || addToSelection(item);
+                selectionChanged |= addToSelection(item);
             }
         } else if (command & SelectionModel::Select) {
-            selectionChanged = selectionChanged || addToSelection(item);
+            selectionChanged |= addToSelection(item);
         } else if (command & SelectionModel::Deselect) {
-            selectionChanged = selectionChanged || removeFromSelection(item);
+            selectionChanged |= removeFromSelection(item);
         }
         if (command & SelectionModel::SetCurrentItem) {
             setCurrentItem(item);

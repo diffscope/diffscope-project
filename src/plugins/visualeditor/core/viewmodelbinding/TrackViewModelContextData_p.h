@@ -113,8 +113,9 @@ namespace VisualEditor {
         void onItemColorIndicatorClicked(QQuickItem *trackListItem, int index);
 
         QColor trackColorForId(int colorId) const;
-        void assignInitialTrackColor(int index, dspx::Track *item);
         void updateAllTrackColors();
+
+        void selectAllClipsOnTrack(int index);
 
         void onMovePendingStateEntered();
         void onMoveCommittingStateEntered();

@@ -6,27 +6,28 @@
 #include <QStateMachine>
 #include <QtGlobal>
 
-#include <coreplugin/CoreInterface.h>
-#include <coreplugin/PickTrackColorScenario.h>
-#include <coreplugin/TrackColorSchema.h>
+#include <SVSCraftCore/DecibelLinearizer.h>
 
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
-
 #include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
+#include <dspxmodel/Timeline.h>
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackControl.h>
 #include <dspxmodel/TrackList.h>
 #include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/Clip.h>
 
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/PickTrackColorScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/TrackColorSchema.h>
 
 #include <visualeditor/private/TrackSelectionController_p.h>
 
@@ -421,7 +422,6 @@ namespace VisualEditor {
 
     void TrackViewModelContextData::bindTrackListViewModel() {
         connect(trackList, &dspx::TrackList::itemInserted, trackListViewModel, [=, this](int index, dspx::Track *item) {
-            assignInitialTrackColor(index, item);
             bindTrackDocumentItem(index, item);
         });
         connect(trackList, &dspx::TrackList::itemRemoved, trackListViewModel, [=, this](int index, dspx::Track *item) {
@@ -465,11 +465,6 @@ namespace VisualEditor {
     void TrackViewModelContextData::bindTrackDocumentItem(int index, dspx::Track *item) {
         if (trackViewItemMap.contains(item)) {
             return;
-        }
-
-        const auto &colors = trackColorSchema->colors();
-        if (!colors.isEmpty() && (item->colorId() < 0 || item->colorId() >= colors.size())) {
-            assignInitialTrackColor(index, item);
         }
 
         auto viewItem = new sflow::TrackViewModel(trackListViewModel);
@@ -699,6 +694,11 @@ namespace VisualEditor {
         connect(controller, &sflow::TrackListInteractionController::itemColorIndicatorClicked, this, [=](QQuickItem *trackListItem, int index) {
             qCDebug(lcTrackViewModelContextData) << "Track color indicator clicked" << index;
             onItemColorIndicatorClicked(trackListItem, index);
+        });
+
+        connect(controller, &sflow::TrackListInteractionController::itemDoubleClicked, this, [=](QQuickItem *, int index) {
+            qCDebug(lcTrackViewModelContextData) << "Track item double clicked" << index;
+            selectAllClipsOnTrack(index);
         });
 
         return controller;
@@ -969,29 +969,19 @@ namespace VisualEditor {
         return colors.at(normalizedId);
     }
 
-    void TrackViewModelContextData::assignInitialTrackColor(int index, dspx::Track *item) {
-        if (!trackColorSchema) {
-            return;
-        }
-
-        const auto colors = trackColorSchema->colors();
-        if (colors.isEmpty()) {
-            return;
-        }
-
-        const int n = colors.size();
-        const int i = index % n;
-        const int colorIndex = (i % 2) ? (n + i) / 2 : i / 2;
-        if (item->colorId() != colorIndex) {
-            item->setColorId(colorIndex);
-        }
-    }
-
     void TrackViewModelContextData::updateAllTrackColors() {
         for (auto it = trackViewItemMap.cbegin(); it != trackViewItemMap.cend(); ++it) {
             auto track = it.key();
             auto viewItem = it.value();
             viewItem->setColor(trackColorForId(track->colorId()));
+        }
+    }
+
+    void TrackViewModelContextData::selectAllClipsOnTrack(int index) {
+        auto track = trackList->item(index);
+        document->selectionModel()->select(nullptr, dspx::SelectionModel::ClearPreviousSelection);
+        for (auto clip : track->clips()->asRange()) {
+            document->selectionModel()->select(clip, dspx::SelectionModel::Select);
         }
     }
 

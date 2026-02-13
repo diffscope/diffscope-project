@@ -40,7 +40,6 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/EditActionsHandlerRegistry.h>
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -61,7 +60,6 @@ namespace Core {
         ProjectWindowInterface *q_ptr;
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
-        EditActionsHandlerRegistry *mainEditActionsHandlerRegistry;
         ProjectDocumentContext *projectDocumentContext;
 
         void init() {
@@ -69,7 +67,6 @@ namespace Core {
             initActionContext();
             notificationManager = new Internal::NotificationManager(q);
             projectTimeline = new ProjectTimeline(projectDocumentContext->document(), q);
-            mainEditActionsHandlerRegistry = new EditActionsHandlerRegistry(q);
             q->boundTimelineRangeHint();
         }
 
@@ -146,11 +143,6 @@ namespace Core {
     ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
         Q_D(const ProjectWindowInterface);
         return d->projectDocumentContext;
-    }
-
-    EditActionsHandlerRegistry *ProjectWindowInterface::mainEditActionsHandlerRegistry() const {
-        Q_D(const ProjectWindowInterface);
-        return d->mainEditActionsHandlerRegistry;
     }
 
     void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {

@@ -53,6 +53,21 @@ Item {
                     clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                     clavierInteractionController: view.pianoRollPanelInterface?.clavierInteractionController ?? null
                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+
+                    Connections {
+                        target: clavier.clavierInteractionController
+                        function onHoverEntered(clavier_, key) {
+                            if (clavier_ === clavier) {
+                                clavier.clavierViewModel.cursorPosition = key
+                            }
+                        }
+
+                        function onHoverExited(clavier_, key) {
+                            if (clavier_ === clavier) {
+                                clavier.clavierViewModel.cursorPosition = -1
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -172,17 +187,37 @@ Item {
                     timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                     timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                 }
+                readonly property ClavierManipulator clavierManipulator: ClavierManipulator {
+                    id: clavierManipulator
+                    target: parent
+                    clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                }
                 onHoveredChanged: () => {
                     if (!hovered) {
                         view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
                     }
                 }
                 onPointChanged: () => {
-                    view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(point.position.x), ScopicFlow.AO_Visible)
+                    let p = noteArea.mapToItem(pianoRollViewContainer, point.position)
+                    if (p.x < 0) {
+                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                    } else {
+                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(p.x), ScopicFlow.AO_Visible)
+                    }
+                    if (p.y < 0) {
+                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
+                    } else {
+                        let i = Math.floor(clavierManipulator.mapToPosition(p.y))
+                        if (i >= 128) i = -1
+                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = i
+                    }
+
                 }
                 onEnabledChanged: {
                     if (!enabled) {
                         view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
                     }
                 }
             }

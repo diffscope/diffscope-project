@@ -18,6 +18,18 @@ namespace Core::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        enum ShiftCursorDirection {
+            ShiftCursorDirection_Left,
+            ShiftCursorDirection_Right,
+            ShiftCursorDirection_Up,
+            ShiftCursorDirection_Down
+        };
+        Q_ENUM(ShiftCursorDirection)
+
+        Q_INVOKABLE void shiftCursor(ShiftCursorDirection direction);
+        Q_INVOKABLE void selectCurrent();
+        Q_INVOKABLE void multipleSelectCurrent();
     };
 
 }

@@ -45,51 +45,16 @@
         <action id="org.diffscope.core.edit.&amp;delete" icon="delete" shortcut="Del" />
         <action id="org.diffscope.core.edit.select&amp;All" shortcut="Ctrl+A" />
         <action id="org.diffscope.core.edit.dese&amp;lect" shortcut="D" />
-        <action id="org.diffscope.core.edit.selectCurrent" shortcut="Ctrl+Space" />
-
-        <action id="org.diffscope.core.edit.select&amp;Up" shortcut="K" />
-        <action id="org.diffscope.core.edit.select&amp;Down" shortcut="J" />
-        <action id="org.diffscope.core.edit.select&amp;Left" shortcut="H" />
-        <action id="org.diffscope.core.edit.select&amp;Right" shortcut="L" />
-
-        <action id="org.diffscope.core.edit.move&amp;Up" shortcut="Ctrl+K" />
-        <action id="org.diffscope.core.edit.move&amp;Down" shortcut="Ctrl+J" />
-        <action id="org.diffscope.core.edit.move&amp;Left" shortcut="Ctrl+H" />
-        <action id="org.diffscope.core.edit.move&amp;Right" shortcut="Ctrl+L" />
-
-        <action id="org.diffscope.core.edit.moveAction" text="&amp;Move..." shortcut="Ctrl+T" />
-
-        <action id="org.diffscope.core.view.scroll&amp;Up" shortcut="Up" />
-        <action id="org.diffscope.core.view.scroll&amp;Down" shortcut="Down" />
-        <action id="org.diffscope.core.view.scroll&amp;Left" shortcut="Left" />
-        <action id="org.diffscope.core.view.scroll&amp;Right" shortcut="Right" />
-
-        <action id="org.diffscope.core.edit.moveCursor&amp;Up" shortcut="Ctrl+Up" />
-        <action id="org.diffscope.core.edit.moveCursor&amp;Down" shortcut="Ctrl+Down" /> 
-        <action id="org.diffscope.core.edit.moveCursor&amp;Left" shortcut="Ctrl+Left" />
-        <action id="org.diffscope.core.edit.moveCursor&amp;Right" shortcut="Ctrl+Right" />
-
-        <action id="org.diffscope.core.edit.extendSelection&amp;Up" shortcut="Shift+Up" />
-        <action id="org.diffscope.core.edit.extendSelection&amp;Down" shortcut="Shift+Down" />
-        <action id="org.diffscope.core.edit.extendSelection&amp;Left" shortcut="Shift+Left" />
-        <action id="org.diffscope.core.edit.extendSelection&amp;Right" shortcut="Shift+Right" />
-
-        <action id="org.diffscope.core.edit.shrinkSelection&amp;Up" shortcut="Ctrl+Shift+Up" />
-        <action id="org.diffscope.core.edit.shrinkSelection&amp;Down" shortcut="Ctrl+Shift+Down" />
-        <action id="org.diffscope.core.edit.shrinkSelection&amp;Left" shortcut="Ctrl+Shift+Left" />
-        <action id="org.diffscope.core.edit.shrinkSelection&amp;Right" shortcut="Ctrl+Shift+Right" />
-
-        <action id="org.diffscope.core.view.page&amp;Up" shortcut="PgUp" />
-        <action id="org.diffscope.core.view.page&amp;Down" shortcut="PgDown" />
-        <action id="org.diffscope.core.view.page&amp;Left" shortcut="Alt+PgUp" />
-        <action id="org.diffscope.core.view.page&amp;Right" shortcut="Alt+PgDown" />
-
-        <action id="org.diffscope.core.view.scrollTo&amp;Top" shortcut="Ctrl+Home" />
-        <action id="org.diffscope.core.view.scrollTo&amp;Bottom" shortcut="Ctrl+End" />
-        <action id="org.diffscope.core.view.scrollTo&amp;Start" shortcut="Ctrl+Alt+Home" />
-        <action id="org.diffscope.core.view.scrollTo&amp;End" shortcut="Ctrl+Alt+End" />
-
-        <action id="org.diffscope.core.view.scrollToCurrentTime" shortcut="Ctrl+Y" />
+        <action id="org.diffscope.core.edit.selectCurrent" shortcut="\;" />
+        <action id="org.diffscope.core.edit.multipleSelectCurrent" shortcut="Ctrl+\;" />
+        <action id="org.diffscope.core.edit.shiftCursorUp" shortcut="K" />
+        <action id="org.diffscope.core.edit.shiftCursorDown" shortcut="J" />
+        <action id="org.diffscope.core.edit.shiftCursorLeft" shortcut="H" />
+        <action id="org.diffscope.core.edit.shiftCursorRight" shortcut="L" />
+        <action id="org.diffscope.core.edit.mute" shortcut="M" />
+        <action id="org.diffscope.core.edit.solo" shortcut="S" />
+        <action id="org.diffscope.core.edit.record" shortcut="R" />
+        <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" shortcut="=" />
 
         <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" description="Show music time (measure:beat:tick) on the time indicator" />
         <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />
@@ -103,8 +68,9 @@
         <action id="org.diffscope.core.timeline.goToNextMeasure" shortcut="]" />
         <action id="org.diffscope.core.timeline.goToNextBeat" shortcut="Ctrl+]" />
         <action id="org.diffscope.core.timeline.goToNextTick" shortcut="Ctrl+Shift+]" />
-        <action id="org.diffscope.core.timeline.goInsideViewRange" shortcut="Ctrl+Alt+Y" />
         <action id="org.diffscope.core.timeline.&amp;resetProjectTimeRange" description="Reset project end time based on project content" shortcut="Ctrl+Alt+R" />
+        <action id="org.diffscope.core.timeline.editTempo^" icon="metronome" />
+        <action id="org.diffscope.core.timeline.editTimeSignature^" />
         <action id="org.diffscope.core.timeline.editLoop^" icon="arrow_repeat_all" />
         <action id="org.diffscope.core.timeline.enableLoop" icon="arrow_repeat_all" />
 
@@ -207,72 +173,66 @@
                     <action id="org.diffscope.core.edit.copy" />
                     <action id="org.diffscope.core.edit.paste" />
                     <action id="org.diffscope.core.edit.delete" />
-                    <action id="org.diffscope.core.edit.selectAll" />
-                    <action id="org.diffscope.core.edit.deselect" />
-                    <action id="org.diffscope.core.edit.selectCurrent" />
                 </group>
-                <group id="org.diffscope.core.edit.navigation">
-                    <menu id="org.diffscope.core.edit.moveCu&amp;rsor">
-                        <action id="org.diffscope.core.edit.moveCursorUp" />
-                        <action id="org.diffscope.core.edit.moveCursorDown" />
-                        <action id="org.diffscope.core.edit.moveCursorLeft" />
-                        <action id="org.diffscope.core.edit.moveCursorRight" />
-                    </menu>
-                    <menu id="org.diffscope.core.edit.&amp;move">
-                        <action id="org.diffscope.core.edit.moveUp" />
-                        <action id="org.diffscope.core.edit.moveDown" />
-                        <action id="org.diffscope.core.edit.moveLeft" />
-                        <action id="org.diffscope.core.edit.moveRight" />
-                        <separator />
-                        <action id="org.diffscope.core.edit.moveAction" />
-                    </menu>
-                    <menu id="org.diffscope.core.edit.&amp;select">
-                        <action id="org.diffscope.core.edit.selectUp" />
-                        <action id="org.diffscope.core.edit.selectDown" />
-                        <action id="org.diffscope.core.edit.selectLeft" />
-                        <action id="org.diffscope.core.edit.selectRight" />
-                    </menu>
-                    <menu id="org.diffscope.core.edit.&amp;extendSelection">
-                        <action id="org.diffscope.core.edit.extendSelectionUp" />
-                        <action id="org.diffscope.core.edit.extendSelectionDown" />
-                        <action id="org.diffscope.core.edit.extendSelectionLeft" />
-                        <action id="org.diffscope.core.edit.extendSelectionRight" />
-                    </menu>
-                    <menu id="org.diffscope.core.edit.shrin&amp;kSelection">
-                        <action id="org.diffscope.core.edit.shrinkSelectionUp" />
-                        <action id="org.diffscope.core.edit.shrinkSelectionDown" />
-                        <action id="org.diffscope.core.edit.shrinkSelectionLeft" />
-                        <action id="org.diffscope.core.edit.shrinkSelectionRight" />
-                    </menu>
-                </group>
-                <menu id="org.diffscope.core.timeline">
-                    <group id="org.diffscope.core.timeIndicatorTimecodeFormatActions">
-                        <action id="org.diffscope.core.timeIndicator.showMusicTime" />
-                        <action id="org.diffscope.core.timeIndicator.showAbsoluteTime" />
+                <separator />
+                <menu id="org.diffscope.core.edit.select">
+                    <group id="org.diffscope.core.edit.selectAllActions">
+                        <action id="org.diffscope.core.edit.selectAll" />
+                        <action id="org.diffscope.core.edit.deselect" />
                     </group>
-                    <group id="org.diffscope.core.timelineGoToActions">
-                        <action id="org.diffscope.core.timeline.goTo" />
-                        <action id="org.diffscope.core.timeline.quickJump" />
+                    <group id="org.diffscope.core.edit.selectCurrentActions">
+                        <action id="org.diffscope.core.edit.selectCurrent" />
+                        <action id="org.diffscope.core.edit.multipleSelectCurrent" />
                     </group>
-                    <group id="org.diffscope.core.timelineBackNavigationActions">
-                        <action id="org.diffscope.core.timeline.goToStart" />
-                        <action id="org.diffscope.core.timeline.goToPreviousMeasure" />
-                        <action id="org.diffscope.core.timeline.goToPreviousBeat" />
-                        <action id="org.diffscope.core.timeline.goToPreviousTick" />
-                    </group>
-                    <group id="org.diffscope.core.timelineForwardNavigationActions">
-                        <action id="org.diffscope.core.timeline.goToEnd" />
-                        <action id="org.diffscope.core.timeline.goToNextMeasure" />
-                        <action id="org.diffscope.core.timeline.goToNextBeat" />
-                        <action id="org.diffscope.core.timeline.goToNextTick" />
-                    </group>
-                    <action id="org.diffscope.core.timeline.goInsideViewRange" />
-                    <separator />
-                    <action id="org.diffscope.core.timeline.resetProjectTimeRange" />
-                    <group id="org.diffscope.core.timelineLoopActions">
-                        <action id="org.diffscope.core.timeline.editLoop" />
+                    <group id="org.diffscope.core.edit.shiftCursorActions">
+                        <action id="org.diffscope.core.edit.shiftCursorUp" />
+                        <action id="org.diffscope.core.edit.shiftCursorDown" />
+                        <action id="org.diffscope.core.edit.shiftCursorLeft" />
+                        <action id="org.diffscope.core.edit.shiftCursorRight" />
                     </group>
                 </menu>
+                <separator />
+                <group id="org.diffscope.core.edit.msrActions">
+                    <action id="org.diffscope.core.edit.mute" />
+                    <action id="org.diffscope.core.edit.solo" />
+                    <action id="org.diffscope.core.edit.record" />
+                </group>
+                <group id="org.diffscope.core.edit.trackSelectActions">
+                    <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
+                </group>
+            </menu>
+            <menu id="org.diffscope.core.&amp;timeline">
+                <group id="org.diffscope.core.timeIndicatorTimecodeFormatActions">
+                    <action id="org.diffscope.core.timeIndicator.showMusicTime" />
+                    <action id="org.diffscope.core.timeIndicator.showAbsoluteTime" />
+                </group>
+                <group id="org.diffscope.core.timelineGoToActions">
+                    <action id="org.diffscope.core.timeline.goTo" />
+                    <action id="org.diffscope.core.timeline.quickJump" />
+                </group>
+                <group id="org.diffscope.core.timelineBackNavigationActions">
+                    <action id="org.diffscope.core.timeline.goToStart" />
+                    <action id="org.diffscope.core.timeline.goToPreviousMeasure" />
+                    <action id="org.diffscope.core.timeline.goToPreviousBeat" />
+                    <action id="org.diffscope.core.timeline.goToPreviousTick" />
+                </group>
+                <group id="org.diffscope.core.timelineForwardNavigationActions">
+                    <action id="org.diffscope.core.timeline.goToEnd" />
+                    <action id="org.diffscope.core.timeline.goToNextMeasure" />
+                    <action id="org.diffscope.core.timeline.goToNextBeat" />
+                    <action id="org.diffscope.core.timeline.goToNextTick" />
+                </group>
+                <action id="org.diffscope.core.timeline.resetProjectTimeRange" />
+                <group id="org.diffscope.core.timelineEditActions">
+                    <action id="org.diffscope.core.timeline.editTempo" />
+                    <action id="org.diffscope.core.timeline.editTimeSignature" />
+                    <action id="org.diffscope.core.timeline.editLoop" />
+                </group>
+            </menu>
+            <menu id="org.diffscope.core.&amp;insert">
+                <action id="org.diffscope.core.insert.addTrack" />
+                <action id="org.diffscope.core.insert.insertTrack" />
+                <action id="org.diffscope.core.insert.insertLabel" />
             </menu>
             <menu id="org.diffscope.core.&amp;view">
                 <group id="org.diffscope.core.workspaceActions">
@@ -299,27 +259,6 @@
                         <action id="org.diffscope.core.dockActionToSideBar" />
                     </menu>
                 </group>
-                <group id="org.diffscope.core.view.scrollActions">
-                    <menu id="org.diffscope.core.view.scroll">
-                        <action id="org.diffscope.core.view.scrollUp" />
-                        <action id="org.diffscope.core.view.scrollDown" />
-                        <action id="org.diffscope.core.view.scrollLeft" />
-                        <action id="org.diffscope.core.view.scrollRight" />
-                    </menu>
-                    <menu id="org.diffscope.core.view.scrollByPage">
-                        <action id="org.diffscope.core.view.pageUp" />
-                        <action id="org.diffscope.core.view.pageDown" />
-                        <action id="org.diffscope.core.view.pageLeft" />
-                        <action id="org.diffscope.core.view.pageRight" />
-                    </menu>
-                    <menu id="org.diffscope.core.view.scrollTo">
-                        <action id="org.diffscope.core.view.scrollToTop" />
-                        <action id="org.diffscope.core.view.scrollToBottom" />
-                        <action id="org.diffscope.core.view.scrollToStart" />
-                        <action id="org.diffscope.core.view.scrollToEnd" />
-                    </menu>
-                    <action id="org.diffscope.core.view.scrollToCurrentTime" />
-                </group>
                 <group id="org.diffscope.core.viewVisibilityActions">
                     <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" />
                     <action id="org.diffscope.core.view.showToolBar" />
@@ -329,11 +268,6 @@
                     <action id="org.diffscope.core.view.showBottomSideBar" />
                     <action id="org.diffscope.core.view.showStatusBar" />
                 </group>
-            </menu>
-            <menu id="org.diffscope.core.&amp;insert">
-                <action id="org.diffscope.core.insert.addTrack" />
-                <action id="org.diffscope.core.insert.insertTrack" />
-                <action id="org.diffscope.core.insert.insertLabel" />
             </menu>
             <menu id="org.diffscope.core.&amp;window">
                 <action id="org.diffscope.core.showHomeWindow" />
@@ -404,7 +338,6 @@
             <menu id="org.diffscope.core.help" />
         </menu>
 
-
         <menu id="org.diffscope.core.homeMenu">
             <menu id="org.diffscope.core.homeFile" text="&amp;File">
                 <group id="org.diffscope.core.fileOpenActions" />
@@ -416,6 +349,58 @@
             </menu>
             <menu id="org.diffscope.core.window" />
             <menu id="org.diffscope.core.help" />
+        </menu>
+
+        <group id="org.diffscope.core.genericItemContextMenuActions">
+            <action id="org.diffscope.core.edit.cut" />
+            <action id="org.diffscope.core.edit.copy" />
+            <separator />
+            <action id="org.diffscope.core.edit.delete" />
+        </group>
+
+        <group id="org.diffscope.core.genericSceneContextMenuActions">
+            <action id="org.diffscope.core.edit.paste" />
+        </group>
+
+        <menu id="org.diffscope.core.clipItemContextMenu">
+            <group id="org.diffscope.core.clipMsrActions">
+                <action id="org.diffscope.core.edit.mute" />
+            </group>
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.clipSceneContextMenu">
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.labelItemContextMenu">
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.labelSceneContextMenu">
+            <action id="org.diffscope.core.insert.insertLabel" />
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.tempoItemContextMenu">
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.tempoSceneContextMenu">
+            <action id="org.diffscope.core.timeline.editTempo" />
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.trackItemContextMenu">
+            <group id="org.diffscope.core.edit.msrActions" />
+            <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.trackSceneContextMenu">
+            <action id="org.diffscope.core.insert.addTrack" />
+            <action id="org.diffscope.core.insert.insertTrack" />
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
     </layouts>
 

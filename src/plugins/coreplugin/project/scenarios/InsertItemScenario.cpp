@@ -17,6 +17,9 @@
 
 #include <opendspx/track.h>
 
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/TrackColorSchema.h>
+
 #include <SVSCraftCore/MusicTimeline.h>
 
 #include <dspxmodel/Label.h>
@@ -36,6 +39,18 @@
 namespace Core {
 
     Q_STATIC_LOGGING_CATEGORY(lcInsertItemScenario, "diffscope.core.insertitemscenario")
+
+    static void assignInitialTrackColor(int index, dspx::Track *item) {
+        const auto colors = CoreInterface::trackColorSchema()->colors();
+        if (colors.isEmpty()) {
+            return;
+        }
+
+        const int n = colors.size();
+        const int i = index % n;
+        const int colorIndex = (i % 2) ? (n + i) / 2 : i / 2;
+        item->setColorId(colorIndex);
+    }
 
     InsertItemScenario::InsertItemScenario(QObject *parent)
         : DocumentEditScenario(parent), d_ptr(new InsertItemScenarioPrivate) {
@@ -72,6 +87,7 @@ namespace Core {
             newTrack->fromQDspx(QDspx::Track{});
             newTrack->setName(tr("Unnamed track"));
             auto insertionIndex = trackList->size();
+            assignInitialTrackColor(insertionIndex, newTrack);
             do {
                 auto currentTrack = qobject_cast<dspx::Track *>(selectionModel->currentItem());
                 if (!currentTrack) {
@@ -123,6 +139,7 @@ namespace Core {
                 auto track = model->createTrack();
                 track->fromQDspx(QDspx::Track{});
                 track->setName(tr("Unnamed track"));
+                assignInitialTrackColor(insertionIndex + i, track);
                 if (!trackList->insertItem(insertionIndex + i, track)) {
                     model->destroyItem(track);
                     return false;

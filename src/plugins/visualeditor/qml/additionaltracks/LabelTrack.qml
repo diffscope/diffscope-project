@@ -66,6 +66,39 @@ QtObject {
             }
 
         }
+
+        Menu {
+            id: labelItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.labelItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+
+        Menu {
+            id: labelSceneContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.labelSceneContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+
+        Connections {
+            target: control.contextObject?.labelSequenceInteractionControllerOfLabel ?? null ?? null
+            function onContextMenuRequested(labelSequence) {
+                if (labelSequence !== control)
+                    return
+                labelSceneContextMenu.popup()
+            }
+
+            function onItemContextMenuRequested(labelSequence) {
+                if (labelSequence !== control)
+                    return
+                labelItemContextMenu.popup()
+            }
+        }
     }
 
 }

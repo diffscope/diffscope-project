@@ -65,6 +65,39 @@ QtObject {
                 control.timeLayoutViewModel.cursorPosition = -1
             }
         }
+
+        Menu {
+            id: tempoItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.tempoItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+
+        Menu {
+            id: tempoSceneContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.tempoSceneContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+
+        Connections {
+            target: control.contextObject?.labelSequenceInteractionControllerOfTempo ?? null ?? null
+            function onContextMenuRequested(labelSequence) {
+                if (labelSequence !== control)
+                    return
+                tempoSceneContextMenu.popup()
+            }
+
+            function onItemContextMenuRequested(labelSequence) {
+                if (labelSequence !== control)
+                    return
+                tempoItemContextMenu.popup()
+            }
+        }
     }
 
 }

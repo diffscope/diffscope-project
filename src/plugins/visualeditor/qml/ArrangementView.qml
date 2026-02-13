@@ -32,6 +32,73 @@ Item {
         document: view.arrangementPanelInterface?.windowHandle.projectDocumentContext.document ?? null
     }
 
+    Menu {
+        id: trackItemContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.trackItemContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Menu {
+        id: trackSceneContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.trackSceneContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Connections {
+        target: view.arrangementPanelInterface?.trackListInteractionController ?? null
+        function onContextMenuRequested(trackList_) {
+            if (trackList_ !== trackList)
+                return
+            trackSceneContextMenu.popup()
+
+        }
+
+        function onItemContextMenuRequested(trackList_) {
+            if (trackList_ !== trackList)
+                return
+            trackItemContextMenu.popup()
+        }
+    }
+
+    Menu {
+        id: clipItemContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.clipItemContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Menu {
+        id: clipSceneContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.clipSceneContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Connections {
+        target: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
+        function onContextMenuRequested(clipPane_) {
+            if (clipPane_ !== clipPane)
+                return
+            clipSceneContextMenu.popup()
+        }
+
+        function onItemContextMenuRequested(clipPane_) {
+            if (clipPane_ !== clipPane)
+                return
+            clipItemContextMenu.popup()
+        }
+    }
+
     SplitView {
         id: splitView
         anchors.fill: parent
@@ -182,6 +249,7 @@ Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     TrackList {
+                        id: trackList
                         anchors.fill: parent
                         trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
                         trackListLayoutViewModel: view.arrangementPanelInterface?.trackListLayoutViewModel ?? null

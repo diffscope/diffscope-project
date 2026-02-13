@@ -191,6 +191,7 @@ namespace dspx {
         d->selectionType = targetSelectionType;
         Q_EMIT selectionTypeChanged();
         Q_EMIT currentItemSelectionModelChanged();
+        Q_EMIT currentItemChanged();
         switch (targetSelectionType) {
             case ST_AnchorNode:
                 // d->anchorNodeSelectionModel->d_func()->select(static_cast<AnchorNode *>(item), command);

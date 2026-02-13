@@ -7,7 +7,10 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
+import QActionKit
+
 import DiffScope.UIShell
+import DiffScope.DspxModel as DspxModel
 
 QtObject {
     id: d
@@ -58,6 +61,52 @@ QtObject {
                 componentsKey: "trackComponents"
                 propertyMapperKey: "trackPropertyMapper"
             }
+        }
+        Menu {
+            id: clipItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.clipItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+        Menu {
+            id: labelItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.labelItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+        Menu {
+            id: tempoItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.tempoItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+        Menu {
+            id: trackItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.trackItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
+        menu: {
+            if (!d.addOn?.windowHandle.projectDocumentContext.document.anyItemsSelected)
+                return null
+            let selectionType = d.addOn?.windowHandle.projectDocumentContext.document.selectionModel.selectionType
+            if (selectionType === DspxModel.SelectionModel.ST_Clip)
+                return clipItemContextMenu
+            if (selectionType === DspxModel.SelectionModel.ST_Label)
+                return labelItemContextMenu
+            if (selectionType === DspxModel.SelectionModel.ST_Tempo)
+                return tempoItemContextMenu
+            if (selectionType === DspxModel.SelectionModel.ST_Track)
+                return trackItemContextMenu
+            return null
         }
         QtObject {
             id: propertyMappers

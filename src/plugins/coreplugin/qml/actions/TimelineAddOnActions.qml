@@ -13,6 +13,12 @@ ActionCollection {
     required property TimelineAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
+    readonly property EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: EditTempoTimeSignatureScenario {
+        id: editTempoTimeSignatureScenario
+        window: d.window
+        projectTimeline: d.windowHandle.projectTimeline
+        document: d.windowHandle.projectDocumentContext.document
+    }
     readonly property EditLoopScenario editLoopScenario: EditLoopScenario {
         id: editLoopScenario
         window: d.window
@@ -125,13 +131,6 @@ ActionCollection {
 
             onTempoClicked: editTempoTimeSignatureScenario.editTempo()
             onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature()
-
-            EditTempoTimeSignatureScenario {
-                id: editTempoTimeSignatureScenario
-                window: d.window
-                projectTimeline: d.windowHandle.projectTimeline
-                document: d.windowHandle.projectDocumentContext.document
-            }
         }
     }
 
@@ -227,6 +226,20 @@ ActionCollection {
         actionId: "org.diffscope.core.timeline.resetProjectTimeRange"
         Action {
             onTriggered: d.addOn.resetProjectTimeRange()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editTempo"
+        Action {
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTempo())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editTimeSignature"
+        Action {
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTimeSignature())
         }
     }
 
