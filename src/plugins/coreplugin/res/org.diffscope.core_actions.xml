@@ -236,28 +236,26 @@
             </menu>
             <menu id="org.diffscope.core.&amp;view">
                 <group id="org.diffscope.core.workspaceActions">
-                    <menu id="org.diffscope.core.workspace" text="&amp;Workspace">
-                        <group id="org.diffscope.core.workspaceLayouts">
-                            <action id="org.diffscope.core.workspace.defaultLayout" />
-                            <action id="org.diffscope.core.workspace.customLayouts" />
-                            <action id="org.diffscope.core.workspace.saveLayout" />
-                        </group>
-                        <separator />
-                        <action id="org.diffscope.core.workspace.allPanels" />
-                        <menu id="org.diffscope.core.openedDockingPanels" text="Opened &amp;Docking Panels">
-                            <action id="org.diffscope.core.workspace.panelLeftTop" />
-                            <action id="org.diffscope.core.workspace.panelLeftBottom" />
-                            <action id="org.diffscope.core.workspace.panelRightTop" />
-                            <action id="org.diffscope.core.workspace.panelRightBottom" />
-                            <action id="org.diffscope.core.workspace.panelTopLeft" />
-                            <action id="org.diffscope.core.workspace.panelTopRight" />
-                            <action id="org.diffscope.core.workspace.panelBottomLeft" />
-                            <action id="org.diffscope.core.workspace.panelBottomRight" />
-                        </menu>
-                        <action id="org.diffscope.core.workspace.floatingPanels" />
-                        <separator />
-                        <action id="org.diffscope.core.dockActionToSideBar" />
+                    <group id="org.diffscope.core.workspaceLayouts">
+                        <action id="org.diffscope.core.workspace.defaultLayout" />
+                        <action id="org.diffscope.core.workspace.customLayouts" />
+                        <action id="org.diffscope.core.workspace.saveLayout" />
+                    </group>
+                    <separator />
+                    <action id="org.diffscope.core.workspace.allPanels" />
+                    <menu id="org.diffscope.core.openedDockingPanels" text="Opened &amp;Docking Panels">
+                        <action id="org.diffscope.core.workspace.panelLeftTop" />
+                        <action id="org.diffscope.core.workspace.panelLeftBottom" />
+                        <action id="org.diffscope.core.workspace.panelRightTop" />
+                        <action id="org.diffscope.core.workspace.panelRightBottom" />
+                        <action id="org.diffscope.core.workspace.panelTopLeft" />
+                        <action id="org.diffscope.core.workspace.panelTopRight" />
+                        <action id="org.diffscope.core.workspace.panelBottomLeft" />
+                        <action id="org.diffscope.core.workspace.panelBottomRight" />
                     </menu>
+                    <action id="org.diffscope.core.workspace.floatingPanels" />
+                    <separator />
+                    <action id="org.diffscope.core.dockActionToSideBar" />
                 </group>
                 <group id="org.diffscope.core.viewVisibilityActions">
                     <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" />
