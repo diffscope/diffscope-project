@@ -439,6 +439,11 @@ Item {
                                     clipPane.timeLayoutViewModel.cursorPosition = position
                                 }
                             }
+                            function onRubberBandDraggingStarted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.timeLayoutViewModel.cursorPosition = -1
+                                }
+                            }
                         }
                     }
                 }
