@@ -12,6 +12,8 @@ import QActionKit
 import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
 
+import DiffScope.Core
+
 Item {
     id: view
 
@@ -36,15 +38,199 @@ Item {
         anchors.fill: parent
         orientation: Qt.Horizontal
 
+        Pane {
+            id: trackOverlaySelector
+            SplitView.minimumWidth: 80
+            SplitView.preferredWidth: 200
+            visible: view.addOn?.trackSelectorVisible ?? false
+            ScrollView {
+                anchors.fill: parent
+                ColumnLayout {
+                    width: parent.width
+                    spacing: 1
+                    Repeater {
+                        model: DelegateModel {
+                            model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
+                            delegate: RowLayout {
+                                id: trackRow
+                                required property int index
+                                required property var modelData
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 28
+                                Rectangle {
+                                    implicitWidth: 8
+                                    Layout.fillHeight: true
+                                    color: CoreInterface.trackColorSchema.colors[trackRow.modelData.track.colorId]
+                                }
+                                Label {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    text: (trackRow.index + 1).toLocaleString()
+                                }
+                                ToolButton {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    implicitWidth: 20
+                                    implicitHeight: 20
+                                    padding: 2
+                                    checkable: true
+                                    icon.source: checked ? "image://fluent-system-icons/eye" : "image://fluent-system-icons/eye_off"
+                                    text: qsTr("Show")
+                                    display: AbstractButton.IconOnly
+                                    checked: trackRow.modelData.overlayVisible
+                                    onClicked: trackRow.modelData.overlayVisible = checked
+                                }
+                                ToolButton {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    implicitWidth: 20
+                                    implicitHeight: 20
+                                    padding: 2
+                                    icon.source: "image://fluent-system-icons/edit"
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.alignment: Qt.AlignVCenter
+                                    text: trackRow.modelData.track.name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         Item {
             id: pianoArea
             SplitView.preferredWidth: 96
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
-                Item {
+                ToolBar {
                     Layout.fillWidth: true
                     Layout.preferredHeight: timeline.height
+                    padding: 4
+                    ToolBarContainer {
+                        id: toolBar
+                        anchors.fill: parent
+                        property MenuActionInstantiator instantiator: MenuActionInstantiator {
+                            actionId: "org.diffscope.visualeditor.pianoRollPanelTimelineToolBar"
+                            context: view.pianoRollPanelInterface?.windowHandle.actionContext ?? null
+                            separatorComponent: ToolBarContainerSeparator {
+                            }
+                            stretchComponent: ToolBarContainerStretch {
+                            }
+                            Component.onCompleted: forceUpdateLayouts()
+                        }
+                        toolButtonComponent: ToolButton {
+                            display: icon.source.toString().length !== 0 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon
+                            DescriptiveText.bindAccessibleDescription: true
+                        }
+                    }
+                }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    spacing: 0
+                    Repeater {
+                        model: view.addOn?.additionalTrackLoader.loadedComponents ?? []
+                        ColumnLayout {
+                            id: layout
+                            required property string modelData
+                            required property int index
+                            readonly property Item item: {
+                                let a = additionalTrackRepeater.count - additionalTrackRepeater.count
+                                return additionalTrackRepeater.itemAt(a + index)?.item ?? null
+                            }
+                            readonly property double itemSize: 14
+                            Layout.fillWidth: true
+                            spacing: 0
+                            Item {
+                                id: container
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: layout.item?.height ?? 0
+                                readonly property Action moveUpAction: Action {
+                                    enabled: layout.index !== 0
+                                    text: qsTr("Move Up")
+                                    icon.source: "image://fluent-system-icons/arrow_up"
+                                    onTriggered: view.addOn.additionalTrackLoader.moveUp(layout.modelData)
+                                }
+                                readonly property Action moveDownAction: Action {
+                                    enabled: layout.index !== (view.addOn?.additionalTrackLoader.loadedComponents.length ?? 0) - 1
+                                    text: qsTr("Move Down")
+                                    icon.source: "image://fluent-system-icons/arrow_down"
+                                    onTriggered: view.addOn.additionalTrackLoader.moveDown(layout.modelData)
+                                }
+                                readonly property Action removeAction: Action {
+                                    text: qsTr("Remove")
+                                    icon.source: "image://fluent-system-icons/dismiss"
+                                    onTriggered: view.addOn.additionalTrackLoader.removeItem(layout.modelData)
+                                }
+                                RowLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 2
+                                    anchors.leftMargin: 4
+                                    anchors.rightMargin: 4
+                                    visible: (layout.item?.height ?? 0) >= 12
+                                    IconLabel {
+                                        Layout.fillHeight: true
+                                        icon.height: layout.itemSize
+                                        icon.width: layout.itemSize
+                                        spacing: 2
+                                        icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
+                                        icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
+                                        text: view.addOn.additionalTrackLoader.componentName(layout.modelData)
+                                        color: Theme.foregroundPrimaryColor
+                                        font.pixelSize: layout.itemSize * 0.75
+                                    }
+                                    Item {
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+                                    }
+                                    ToolButton {
+                                        implicitWidth: layout.itemSize
+                                        implicitHeight: layout.itemSize
+                                        padding: 0
+                                        visible: hoverHandler.hovered
+                                        display: AbstractButton.IconOnly
+                                        action: container.moveUpAction
+                                    }
+                                    ToolButton {
+                                        implicitWidth: layout.itemSize
+                                        implicitHeight: layout.itemSize
+                                        padding: 0
+                                        visible: hoverHandler.hovered
+                                        display: AbstractButton.IconOnly
+                                        action: container.moveDownAction
+                                    }
+                                    ToolButton {
+                                        implicitWidth: layout.itemSize
+                                        implicitHeight: layout.itemSize
+                                        padding: 1
+                                        visible: hoverHandler.hovered
+                                        display: AbstractButton.IconOnly
+                                        action: container.removeAction
+                                    }
+                                }
+                                MouseArea {
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton
+                                    Menu {
+                                        id: menu
+                                        contentData: [container.moveUpAction, container.moveDownAction, container.removeAction]
+                                    }
+                                    onClicked: menu.popup()
+                                }
+                                HoverHandler {
+                                    id: hoverHandler
+                                }
+                                DescriptiveText.activated: hoverHandler.hovered && (layout.item?.height ?? 0) < 12
+                                DescriptiveText.toolTip: view.addOn.additionalTrackLoader.componentName(layout.modelData)
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                                implicitHeight: 1
+                                color: Theme.paneSeparatorColor
+                            }
+                        }
+                    }
                 }
                 Clavier {
                     id: clavier
@@ -150,6 +336,28 @@ Item {
                     Layout.fillWidth: true
                     implicitHeight: 1
                     color: Theme.paneSeparatorColor
+                }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    spacing: 0
+                    Repeater {
+                        id: additionalTrackRepeater
+                        model: view.addOn?.additionalTrackLoader.loadedComponents ?? []
+                        ColumnLayout {
+                            required property string modelData
+                            required property int index
+                            Layout.fillWidth: true
+                            spacing: 0
+                            readonly property Item separator: Rectangle {
+                                Layout.fillWidth: true
+                                implicitHeight: 1
+                                color: Theme.paneSeparatorColor
+                            }
+                            readonly property Item item: view.addOn?.additionalTrackLoader.loadedItems[index] ?? null
+                            data: [item, separator]
+                        }
+                    }
                 }
                 Item {
                     id: pianoRollViewContainer

@@ -19,6 +19,8 @@ namespace VisualEditor {
         sflow::TimeLayoutViewModel *timeLayoutViewModel;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel;
         sflow::TimelineInteractionController *timelineInteractionController;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
         sflow::ClavierViewModel *clavierViewModel;
         sflow::ClavierInteractionController *clavierInteractionController;
 
@@ -26,6 +28,7 @@ namespace VisualEditor {
         AutoPageScrollingManipulator *autoPageScrollingManipulator;
 
         QQuickItem *pianoRollView;
+        QObject *trackOverlaySelectorModel;
 
         PianoRollPanelInterface::Tool tool{PianoRollPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};

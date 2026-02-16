@@ -29,6 +29,7 @@ namespace VisualEditor::Internal {
             }
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.visualeditor.arrangementPanel.additionalTracks.label", o->property("labelTrackComponent").value<QQmlComponent *>());
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.label", o->property("labelTrackComponent").value<QQmlComponent *>());
         }
     }
 

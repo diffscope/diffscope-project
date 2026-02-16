@@ -13,6 +13,7 @@ namespace sflow {
     class TimeLayoutViewModel;
     class ScrollBehaviorViewModel;
     class TimelineInteractionController;
+    class LabelSequenceInteractionController;
     class ClavierViewModel;
     class ClavierInteractionController;
 }
@@ -42,11 +43,14 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::TimeLayoutViewModel *timeLayoutViewModel READ timeLayoutViewModel CONSTANT)
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
         Q_PROPERTY(sflow::ClavierViewModel *clavierViewModel READ clavierViewModel CONSTANT)
         Q_PROPERTY(sflow::ClavierInteractionController *clavierInteractionController READ clavierInteractionController CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *pianoRollView READ pianoRollView CONSTANT)
+        Q_PROPERTY(QObject *trackOverlaySelectorModel READ trackOverlaySelectorModel CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
         Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
@@ -62,6 +66,8 @@ namespace VisualEditor {
         sflow::TimeLayoutViewModel *timeLayoutViewModel() const;
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
         sflow::TimelineInteractionController *timelineInteractionController() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
         sflow::ClavierViewModel *clavierViewModel() const;
         sflow::ClavierInteractionController *clavierInteractionController() const;
 
@@ -69,6 +75,7 @@ namespace VisualEditor {
         AutoPageScrollingManipulator *autoPageScrollingManipulator() const;
 
         QQuickItem *pianoRollView() const;
+        QObject *trackOverlaySelectorModel() const;
 
         enum Tool {
             PointerTool,

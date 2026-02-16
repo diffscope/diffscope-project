@@ -1,4 +1,5 @@
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -24,6 +25,9 @@ QtObject {
 			pianoRollPanelInterface.positionAlignmentManipulator.duration = state.duration
 			pianoRollPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
 			pianoRollPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+			for (let id of state.additionalTracks ?? []) {
+				d.addOn.additionalTrackLoader.loadItem(id)
+			}
 		}
 
 		function saveState() {
@@ -33,6 +37,7 @@ QtObject {
 				duration: pianoRollPanelInterface.positionAlignmentManipulator.duration,
 				tuplet: pianoRollPanelInterface.positionAlignmentManipulator.tuplet,
 				isAutoPageScrollingEnabled: pianoRollPanelInterface.autoPageScrollingManipulator.enabled,
+				additionalTracks: d.addOn.additionalTrackLoader.loadedComponents
 			}
 		}
 

@@ -11,13 +11,19 @@
 
 #include <ScopicFlowCore/ClavierViewModel.h>
 #include <ScopicFlowCore/ClavierInteractionController.h>
+#include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
+#include <dspxmodel/Model.h>
+#include <dspxmodel/TrackList.h>
+
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/DspxDocument.h>
 
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
@@ -115,23 +121,54 @@ namespace VisualEditor {
         QObject::connect(q, &PianoRollPanelInterface::toolChanged, q, [=, this] {
             switch (tool) {
                 case PianoRollPanelInterface::PointerTool: {
-                    // TODO: bind controller interactions for PointerTool
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     break;
                 }
                 case PianoRollPanelInterface::PencilTool: {
-                    // TODO: bind controller interactions for PencilTool
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     break;
                 }
                 case PianoRollPanelInterface::ScissorTool: {
-                    // TODO: bind controller interactions for ScissorTool
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::CopyAndMove);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     break;
                 }
                 case PianoRollPanelInterface::SelectTool: {
-                    // TODO: bind controller interactions for SelectTool
+                    labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfLabel->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfTempo->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     break;
                 }
                 case PianoRollPanelInterface::HandTool:
-                    // TODO: bind controller interactions for HandTool
                     break;
             }
         });
@@ -175,6 +212,8 @@ namespace VisualEditor {
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController(this);
+        d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo(this);
+        d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel(this);
         d->clavierViewModel = new sflow::ClavierViewModel(this);
         d->clavierInteractionController = new sflow::ClavierInteractionController(this);
 
@@ -186,20 +225,38 @@ namespace VisualEditor {
         d->autoPageScrollingManipulator->setTimeLayoutViewModel(d->timeLayoutViewModel);
         d->autoPageScrollingManipulator->setPlaybackViewModel(ProjectViewModelContext::of(d->windowHandle)->playbackViewModel());
 
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollView");
-        if (component.isError()) {
-            qFatal() << component.errorString();
+        {
+            auto tracks = windowHandle->projectDocumentContext()->document()->model()->tracks();
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "TrackOverlaySelectorModel");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"trackList", QVariant::fromValue(tracks)},
+            });
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(this);
+            d->trackOverlaySelectorModel = o;
         }
-        auto o = component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(d->addon)},
-            {"pianoRollPanelInterface", QVariant::fromValue(this)}
-        });
-        if (component.isError()) {
-            qFatal() << component.errorString();
+
+        {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollView");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"addOn", QVariant::fromValue(d->addon)},
+                {"pianoRollPanelInterface", QVariant::fromValue(this)}
+            });
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(this);
+            d->pianoRollView = qobject_cast<QQuickItem *>(o);
+            Q_ASSERT(d->pianoRollView);
         }
-        o->setParent(this);
-        d->pianoRollView = qobject_cast<QQuickItem *>(o);
-        Q_ASSERT(d->pianoRollView);
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());
 
@@ -247,6 +304,16 @@ namespace VisualEditor {
         return d->timelineInteractionController;
     }
 
+    sflow::LabelSequenceInteractionController *PianoRollPanelInterface::labelSequenceInteractionControllerOfTempo() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->labelSequenceInteractionControllerOfTempo;
+    }
+
+    sflow::LabelSequenceInteractionController *PianoRollPanelInterface::labelSequenceInteractionControllerOfLabel() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->labelSequenceInteractionControllerOfLabel;
+    }
+
     sflow::ClavierViewModel *PianoRollPanelInterface::clavierViewModel() const {
         Q_D(const PianoRollPanelInterface);
         return d->clavierViewModel;
@@ -270,6 +337,11 @@ namespace VisualEditor {
     QQuickItem *PianoRollPanelInterface::pianoRollView() const {
         Q_D(const PianoRollPanelInterface);
         return d->pianoRollView;
+    }
+
+    QObject *PianoRollPanelInterface::trackOverlaySelectorModel() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->trackOverlaySelectorModel;
     }
 
     PianoRollPanelInterface::Tool PianoRollPanelInterface::tool() const {

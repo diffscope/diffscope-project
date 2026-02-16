@@ -31,6 +31,7 @@ namespace VisualEditor::Internal {
             }
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo", o->property("tempoTrackComponent").value<QQmlComponent *>());
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.tempo", o->property("tempoTrackComponent").value<QQmlComponent *>());
         }
     }
 

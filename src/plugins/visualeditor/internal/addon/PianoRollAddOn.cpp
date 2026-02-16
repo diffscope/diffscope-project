@@ -12,6 +12,7 @@
 
 #include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/internal/AdditionalTrackLoader.h>
 
 namespace VisualEditor::Internal {
 
@@ -23,7 +24,9 @@ namespace VisualEditor::Internal {
     void PianoRollAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->window()->installEventFilter(this);
-        new PianoRollPanelInterface(this, windowInterface);
+        m_additionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets", this);
+        auto pianoRollPanelInterface = new PianoRollPanelInterface(this, windowInterface);
+        m_additionalTrackLoader->setContextObject(pianoRollPanelInterface);
 
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollAddOnActions");
@@ -62,6 +65,10 @@ namespace VisualEditor::Internal {
 
     PianoRollPanelInterface *PianoRollAddOn::pianoRollPanelInterface() const {
         return PianoRollPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
+    }
+
+    AdditionalTrackLoader *PianoRollAddOn::additionalTrackLoader() const {
+        return m_additionalTrackLoader;
     }
 
     bool PianoRollAddOn::eventFilter(QObject *watched, QEvent *event) {
@@ -104,6 +111,17 @@ namespace VisualEditor::Internal {
 
     bool PianoRollAddOn::altPressed() const {
         return m_altPressed;
+    }
+
+    bool PianoRollAddOn::isTrackSelectorVisible() const {
+        return m_trackSelectorVisible;
+    }
+
+    void PianoRollAddOn::setTrackSelectorVisible(bool visible) {
+        if (m_trackSelectorVisible != visible) {
+            m_trackSelectorVisible = visible;
+            Q_EMIT trackSelectorVisibleChanged();
+        }
     }
 
 }
