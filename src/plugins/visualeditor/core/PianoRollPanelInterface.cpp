@@ -4,8 +4,10 @@
 #include <cmath>
 
 #include <QQmlComponent>
+#include <QSortFilterProxyModel>
 #include <QQuickItem>
 #include <QVariant>
+#include <QLoggingCategory>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -19,6 +21,8 @@
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/TrackList.h>
+#include <dspxmodel/SelectionModel.h>
+#include <dspxmodel/SingingClip.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -30,8 +34,11 @@
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/PianoRollAddOn.h>
+#include <visualeditor/internal/SingingClipListModel.h>
 
 namespace VisualEditor {
+
+    Q_STATIC_LOGGING_CATEGORY(lcPianoRollPanelInterface, "diffscope.visualeditor.pianorollpanelinterface")
 
     void PianoRollPanelInterfacePrivate::bindTimeViewModel() const {
         auto projectTimeline = windowHandle->projectTimeline();
@@ -241,6 +248,15 @@ namespace VisualEditor {
             d->trackOverlaySelectorModel = o;
         }
 
+        d->singingClipListModel = new Internal::SingingClipListModel(this);
+
+        d->editingClipSelectorModel = new QSortFilterProxyModel(this);
+        d->editingClipSelectorModel->setSourceModel(d->singingClipListModel);
+        d->editingClipSelectorModel->setDynamicSortFilter(true);
+        d->editingClipSelectorModel->setSortRole(Internal::SingingClipListModel::ClipPositionRole);
+
+        d->editingClipSelectionModel = new dspx::SelectionModel(d->windowHandle->projectDocumentContext()->document()->model(), this);
+
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollView");
             if (component.isError()) {
@@ -259,6 +275,20 @@ namespace VisualEditor {
         }
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());
+
+        connect(d->editingClipSelectionModel, &dspx::SelectionModel::currentItemChanged, this, [=, this] {
+            Q_ASSERT(!d->editingClipSelectionModel->currentItem() || qobject_cast<dspx::SingingClip *>(d->editingClipSelectionModel->currentItem()));
+            Q_EMIT editingClipChanged();
+        });
+
+        connect(this, &PianoRollPanelInterface::editingClipChanged, this, [this] {
+            Q_D(PianoRollPanelInterface);
+            auto *clip = editingClip();
+            auto *sequence = clip ? clip->clipSequence() : nullptr;
+            d->singingClipListModel->setClipSequence(sequence);
+        });
+
+        Q_EMIT editingClipChanged();
 
         d->bindTimeViewModel();
         d->bindTimeLayoutViewModel();
@@ -344,6 +374,11 @@ namespace VisualEditor {
         return d->trackOverlaySelectorModel;
     }
 
+    QAbstractItemModel *PianoRollPanelInterface::editingClipSelectorModel() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->editingClipSelectorModel;
+    }
+
     PianoRollPanelInterface::Tool PianoRollPanelInterface::tool() const {
         Q_D(const PianoRollPanelInterface);
         return d->tool;
@@ -380,6 +415,20 @@ namespace VisualEditor {
         if (d->isMouseTrackingDisabled != disabled) {
             d->isMouseTrackingDisabled = disabled;
             Q_EMIT mouseTrackingDisabledChanged();
+        }
+    }
+
+    dspx::SingingClip *PianoRollPanelInterface::editingClip() const {
+        Q_D(const PianoRollPanelInterface);
+        Q_ASSERT(!d->editingClipSelectionModel->currentItem() || qobject_cast<dspx::SingingClip *>(d->editingClipSelectionModel->currentItem()));
+        return static_cast<dspx::SingingClip *>(d->editingClipSelectionModel->currentItem());
+    }
+
+    void PianoRollPanelInterface::setEditingClip(dspx::SingingClip *clip) {
+        Q_D(PianoRollPanelInterface);
+        if (d->editingClipSelectionModel->currentItem() != clip) {
+            qCInfo(lcPianoRollPanelInterface) << "Set editing clip to" << clip;
+            d->editingClipSelectionModel->select(clip, dspx::SelectionModel::SetCurrentItem);
         }
     }
 

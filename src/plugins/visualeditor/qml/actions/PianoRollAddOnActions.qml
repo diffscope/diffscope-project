@@ -2,6 +2,7 @@ import QtQml
 import QtQml.Models
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -150,6 +151,53 @@ ActionCollection {
                 }
                 onObjectRemoved: (index, object) => {
                     menuTuplet.removeAction(object)
+                }
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.editingClip"
+        Item {
+            id: editClipControl
+
+            readonly property var selectorModel: d.pianoRollPanelInterface?.editingClipSelectorModel ?? null
+
+            implicitWidth: layout.implicitWidth
+            implicitHeight: layout.implicitHeight
+            enabled: !!d.pianoRollPanelInterface?.editingClip
+
+            RowLayout {
+                id: layout
+
+                Label {
+                    text: qsTr("Edit clip")
+                }
+
+                ComboBox {
+                    implicitHeight: 24
+
+                    model: editClipControl.selectorModel
+                    textRole: "display"
+                    valueRole: "clip"
+
+                    Component.onCompleted: currentIndex = Qt.binding(() => {
+                        let clipSequence = editClipControl.selectorModel.sourceModel.clipSequence
+                        if (!clipSequence) {
+                            return -1
+                        }
+                        return indexOfValue(d.pianoRollPanelInterface?.editingClip ?? null)
+                    })
+                    onActivated: (index) => {
+                        if (!d.pianoRollPanelInterface || !model) {
+                            return
+                        }
+
+                        const value = valueAt(index)
+                        if (value !== undefined) {
+                            d.pianoRollPanelInterface.editingClip = value
+                        }
+                    }
                 }
             }
         }

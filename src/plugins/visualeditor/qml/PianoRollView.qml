@@ -13,6 +13,7 @@ import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
 
 import DiffScope.Core
+import DiffScope.DspxModel as DspxModel
 
 Item {
     id: view
@@ -84,6 +85,16 @@ Item {
                                     implicitHeight: 20
                                     padding: 2
                                     icon.source: "image://fluent-system-icons/edit"
+                                    highlighted: view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === trackRow.modelData.track
+                                    enabled: (trackRow.modelData.track?.clips.size ?? 0) > 0
+                                    onClicked: () => {
+                                        // TODO consider playback position
+                                        let clip = trackRow.modelData.track.clips.firstItem
+                                        for (; clip && clip.type !== DspxModel.Clip.Singing; clip = trackRow.modelData.track.clips.nextItem(clip));
+                                        if (!clip)
+                                            return
+                                        view.pianoRollPanelInterface.editingClip = clip
+                                    }
                                 }
                                 Label {
                                     Layout.fillWidth: true

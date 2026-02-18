@@ -26,7 +26,7 @@ namespace VisualEditor::Internal {
         bool delayedInitialize() override;
 
         PianoRollPanelInterface *pianoRollPanelInterface() const;
-    AdditionalTrackLoader *additionalTrackLoader() const;
+        AdditionalTrackLoader *additionalTrackLoader() const;
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 

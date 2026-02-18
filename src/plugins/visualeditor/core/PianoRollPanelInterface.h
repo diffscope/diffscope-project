@@ -2,11 +2,13 @@
 #define DIFFSCOPE_VISUALEDITOR_PIANOROLLPANELINTERFACE_H
 
 #include <QObject>
+#include <QAbstractItemModel>
 #include <qqmlintegration.h>
 
 #include <visualeditor/visualeditorglobal.h>
 
 class QQuickItem;
+class QAbstractItemModel;
 
 namespace sflow {
     class TimeViewModel;
@@ -16,6 +18,10 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class ClavierViewModel;
     class ClavierInteractionController;
+}
+
+namespace dspx {
+    class SingingClip;
 }
 
 namespace Core {
@@ -51,9 +57,11 @@ namespace VisualEditor {
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *pianoRollView READ pianoRollView CONSTANT)
         Q_PROPERTY(QObject *trackOverlaySelectorModel READ trackOverlaySelectorModel CONSTANT)
+        Q_PROPERTY(QAbstractItemModel *editingClipSelectorModel READ editingClipSelectorModel CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
         Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
+        Q_PROPERTY(dspx::SingingClip *editingClip READ editingClip WRITE setEditingClip NOTIFY editingClipChanged)
 
     public:
         ~PianoRollPanelInterface() override;
@@ -76,6 +84,7 @@ namespace VisualEditor {
 
         QQuickItem *pianoRollView() const;
         QObject *trackOverlaySelectorModel() const;
+        QAbstractItemModel *editingClipSelectorModel() const;
 
         enum Tool {
             PointerTool,
@@ -94,10 +103,14 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled() const;
         void setMouseTrackingDisabled(bool disabled);
 
+        dspx::SingingClip *editingClip() const;
+        void setEditingClip(dspx::SingingClip *clip);
+
     Q_SIGNALS:
         void toolChanged();
         void snapTemporarilyDisabledChanged();
         void mouseTrackingDisabledChanged();
+        void editingClipChanged();
 
     private:
         friend class Internal::PianoRollAddOn;

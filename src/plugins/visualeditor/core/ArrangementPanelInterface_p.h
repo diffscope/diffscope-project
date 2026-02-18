@@ -39,6 +39,7 @@ namespace VisualEditor {
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;
         void bindTimelineInteractionController() const;
+        void bindClipPaneInteractionController() const;
         void bindScrollBehaviorViewModel() const;
         void bindPositionAlignmentManipulator() const;
         void bindControllersInteraction() const;

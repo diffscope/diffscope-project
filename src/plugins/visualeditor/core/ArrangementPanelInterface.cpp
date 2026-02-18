@@ -17,6 +17,8 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackListLayoutViewModel.h>
 
+#include <dspxmodel/SingingClip.h>
+
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -25,6 +27,7 @@
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 
 namespace VisualEditor {
 
@@ -42,7 +45,19 @@ namespace VisualEditor {
     void ArrangementPanelInterfacePrivate::bindTimeLayoutViewModel() const {
     }
     void ArrangementPanelInterfacePrivate::bindTimelineInteractionController() const {
-
+    }
+    void ArrangementPanelInterfacePrivate::bindClipPaneInteractionController() const {
+        Q_Q(const ArrangementPanelInterface);
+        QObject::connect(clipPaneInteractionController, &sflow::ClipPaneInteractionController::itemDoubleClicked, q, [=, this](QQuickItem *, sflow::ClipViewModel *clipViewModel) {
+            auto item = ProjectViewModelContext::of(windowHandle)->getClipDocumentItemFromViewItem(clipViewModel);
+            if (!item)
+                return;
+            if (item->type() == dspx::Clip::Singing) {
+                PianoRollPanelInterface::of(windowHandle)->setEditingClip(static_cast<dspx::SingingClip *>(item));
+            } else {
+                // TODO
+            }
+        });
     }
 
     static Qt::KeyboardModifier getModifier(Internal::EditorPreference::ScrollModifier modifier) {
@@ -254,6 +269,7 @@ namespace VisualEditor {
         d->bindTimeViewModel();
         d->bindTimeLayoutViewModel();
         d->bindTimelineInteractionController();
+        d->bindClipPaneInteractionController();
         d->bindScrollBehaviorViewModel();
         d->bindPositionAlignmentManipulator();
         d->bindControllersInteraction();

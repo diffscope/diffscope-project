@@ -4,6 +4,16 @@
 #include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 
+namespace dspx {
+    class SelectionModel;
+}
+
+class QSortFilterProxyModel;
+
+namespace VisualEditor::Internal {
+    class SingingClipListModel;
+}
+
 namespace VisualEditor {
 
     class PianoRollPanelInterfacePrivate {
@@ -29,10 +39,14 @@ namespace VisualEditor {
 
         QQuickItem *pianoRollView;
         QObject *trackOverlaySelectorModel;
+        Internal::SingingClipListModel *singingClipListModel;
+        QSortFilterProxyModel *editingClipSelectorModel;
 
         PianoRollPanelInterface::Tool tool{PianoRollPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};
         bool isMouseTrackingDisabled{false};
+
+        dspx::SelectionModel *editingClipSelectionModel;
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
 
