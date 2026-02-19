@@ -22,13 +22,6 @@ namespace dspx {
         d->singingClip = singingClip;
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &NoteSequence::itemInserted, this, [=](Note *item) {
-            NotePrivate::setNoteSequence(item, this);
-        });
-        connect(this, &NoteSequence::itemRemoved, this, [=](Note *item) {
-            NotePrivate::setNoteSequence(item, nullptr);
-        });
     }
 
     NoteSequence::~NoteSequence() = default;

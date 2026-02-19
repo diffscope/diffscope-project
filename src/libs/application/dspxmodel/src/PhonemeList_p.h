@@ -3,12 +3,13 @@
 
 #include <dspxmodel/PhonemeList.h>
 #include <dspxmodel/private/ListData_p.h>
+#include <dspxmodel/private/Phoneme_p.h>
 
 namespace dspx {
 
     class PhonemeInfo;
 
-    class PhonemeListPrivate : public ListData<PhonemeList, Phoneme> {
+    class PhonemeListPrivate : public ListData<PhonemeList, Phoneme, &PhonemePrivate::setPhonemeList> {
         Q_DECLARE_PUBLIC(PhonemeList)
     public:
         PhonemeInfo *phonemeInfo{};

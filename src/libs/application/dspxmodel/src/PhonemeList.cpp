@@ -20,13 +20,6 @@ namespace dspx {
         d->phonemeInfo = phonemeInfo;
 
         d->init(model->strategy()->getEntitiesFromListContainer(handle));
-
-        connect(this, &PhonemeList::itemInserted, this, [this](int, Phoneme *item) {
-            PhonemePrivate::setPhonemeList(item, this);
-        });
-        connect(this, &PhonemeList::itemRemoved, this, [this](int, Phoneme *item) {
-            PhonemePrivate::setPhonemeList(item, nullptr);
-        });
     }
 
     PhonemeList::~PhonemeList() = default;

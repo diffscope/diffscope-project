@@ -27,13 +27,6 @@ namespace dspx {
         d->param = param;
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-        
-        connect(this, &ParamCurveSequence::itemInserted, this, [this](ParamCurve *paramCurve) {
-            ParamCurvePrivate::setParamCurveSequence(paramCurve, this);
-        });
-        connect(this, &ParamCurveSequence::itemRemoved, this, [this](ParamCurve *paramCurve) {
-            ParamCurvePrivate::setParamCurveSequence(paramCurve, nullptr);
-        });
     }
 
     ParamCurveSequence::~ParamCurveSequence() = default;

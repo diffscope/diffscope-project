@@ -20,13 +20,6 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &TempoSequence::itemInserted, this, [=](Tempo *item) {
-            TempoPrivate::setTempoSequence(item, this);
-        });
-        connect(this, &TempoSequence::itemRemoved, this, [=](Tempo *item) {
-            TempoPrivate::setTempoSequence(item, nullptr);
-        });
     }
 
     TempoSequence::~TempoSequence() = default;

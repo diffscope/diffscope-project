@@ -1,29 +1,40 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_NOTESELECTIONMODEL_P_H
 #define DIFFSCOPE_DSPX_MODEL_NOTESELECTIONMODEL_P_H
 
+#include <QSet>
+
 #include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/private/GenericGlobalItemSelectionModelData_p.h>
 #include <dspxmodel/Note.h>
+#include <dspxmodel/SelectionModel.h>
 
 namespace dspx {
 
-    class NoteSelectionModelPrivate : public GenericGlobalItemSelectionModelData<
-        NoteSelectionModel,
-        NoteSelectionModelPrivate,
-        Note,
-        &Note::noteSequenceChanged,
-        NoteSequence
-    > {
+    class NoteSequence;
+
+    class NoteSelectionModelPrivate {
         Q_DECLARE_PUBLIC(NoteSelectionModel)
     public:
-        bool isAddedToModel(Note *item) const;
+        NoteSelectionModel *q_ptr;
+        SelectionModel *selectionModel;
+        QSet<Note *> selectedItems;
+        Note *currentItem = nullptr;
+        NoteSequence *noteSequenceWithSelectedItems = nullptr;
+        QSet<Note *> connectedItems;
 
-        static NoteSequence *getSuperItem(Note *item) {
-            return item ? item->noteSequence() : nullptr;
-        }
+        bool isValidItem(Note *item) const;
+        void connectItem(Note *item);
+        void disconnectItem(Note *item);
+        bool addToSelection(Note *item);
+        bool removeFromSelection(Note *item);
+        bool clearSelection();
+        void dropItem(Note *item);
+        void setCurrentItem(Note *item);
 
-        void clearSuperItem();
-        void updateSuperItem(NoteSequence *superItem);
+        void connectNoteSequence(NoteSequence *noteSeq);
+        void disconnectNoteSequence();
+        void clearAllAndResetNoteSequence();
+
+        void select(Note *item, SelectionModel::SelectionCommand command, NoteSequence *containerItemHint);
     };
 
 }

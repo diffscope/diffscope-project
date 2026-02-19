@@ -10,7 +10,7 @@
 
 namespace dspx {
 
-    class TrackListPrivate : public ListData<TrackList, Track> {
+    class TrackListPrivate : public ListData<TrackList, Track, &TrackPrivate::setTrackList> {
         Q_DECLARE_PUBLIC(TrackList)
     };
 
@@ -21,13 +21,6 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
 
         d->init(model->strategy()->getEntitiesFromListContainer(handle));
-
-        connect(this, &TrackList::itemInserted, this, [this](int, Track *item) {
-            TrackPrivate::setTrackList(item, this);
-        });
-        connect(this, &TrackList::itemRemoved, this, [this](int, Track *item) {
-            TrackPrivate::setTrackList(item, nullptr);
-        });
     }
 
     TrackList::~TrackList() = default;

@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class AnchorNodeSequencePrivate : public PointSequenceData<AnchorNodeSequence, AnchorNode, &AnchorNode::x, &AnchorNode::xChanged> {
+    class AnchorNodeSequencePrivate : public PointSequenceData<AnchorNodeSequence, AnchorNode, &AnchorNode::x, &AnchorNode::xChanged, &AnchorNodePrivate::setAnchorNodeSequence> {
         Q_DECLARE_PUBLIC(AnchorNodeSequence)
     public:
         ParamCurveAnchor *paramCurveAnchor{};

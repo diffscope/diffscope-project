@@ -22,13 +22,6 @@ namespace dspx {
         d->paramCurveAnchor = paramCurveAnchor;
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &AnchorNodeSequence::itemInserted, this, [=](AnchorNode *item) {
-            AnchorNodePrivate::setAnchorNodeSequence(item, this);
-        });
-        connect(this, &AnchorNodeSequence::itemRemoved, this, [=](AnchorNode *item) {
-            AnchorNodePrivate::setAnchorNodeSequence(item, nullptr);
-        });
     }
 
     AnchorNodeSequence::~AnchorNodeSequence() = default;

@@ -20,13 +20,6 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &TimeSignatureSequence::itemInserted, this, [=](TimeSignature *item) {
-            TimeSignaturePrivate::setTimeSignatureSequence(item, this);
-        });
-        connect(this, &TimeSignatureSequence::itemRemoved, this, [=](TimeSignature *item) {
-            TimeSignaturePrivate::setTimeSignatureSequence(item, nullptr);
-        });
     }
 
     TimeSignatureSequence::~TimeSignatureSequence() = default;

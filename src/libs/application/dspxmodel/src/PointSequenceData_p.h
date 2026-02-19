@@ -13,7 +13,7 @@ namespace dspx {
         static QJSValue create(QObject *o);
     };
 
-    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int)>
+    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), void (*setSequence)(ItemType *item, SequenceType *sequence)>
     class PointSequenceData {
     public:
         SequenceType *q_ptr;
@@ -36,9 +36,11 @@ namespace dspx {
         }
 
         void init(const QList<Handle> &handles) {
+            auto q = q_ptr;
             for (auto handle : handles) {
                 auto item = getItem(handle, true);
                 container.insertItem(item, (item->*positionGetter)());
+                setSequence(item, q);
             }
             updateFirstAndLastItem();
         }
@@ -50,6 +52,7 @@ namespace dspx {
                 Q_EMIT q->itemAboutToInsert(item);
             }
             container.insertItem(item, position);
+            setSequence(item, q);
             if (!containsItem) {
                 updateFirstAndLastItem();
                 Q_EMIT q->itemInserted(item);
@@ -61,6 +64,7 @@ namespace dspx {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToRemove(item);
             container.removeItem(item);
+            setSequence(item, nullptr);
             updateFirstAndLastItem();
             Q_EMIT q->itemRemoved(item);
             Q_EMIT q->sizeChanged(container.size());

@@ -74,6 +74,10 @@ namespace dspx {
             for (auto child : std::as_const(map->map)) {
                 recursivelyCreate(child);
             }
+        } else if (auto item = qobject_cast<BasicModelStrategyItemEntity *>(object)) {
+            for (auto child: std::as_const(item->associatedSubEntities)) {
+                recursivelyCreate(child);
+            }
         }
     }
 
@@ -88,6 +92,10 @@ namespace dspx {
             }
         } else if (auto map = qobject_cast<BasicModelStrategyMapContainerEntity *>(object)) {
             for (auto child : std::as_const(map->map)) {
+                recursivelyDestroy(child);
+            }
+        } else if (auto item = qobject_cast<BasicModelStrategyItemEntity *>(object)) {
+            for (auto child: std::as_const(item->associatedSubEntities)) {
                 recursivelyDestroy(child);
             }
         }

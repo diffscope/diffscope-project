@@ -39,6 +39,7 @@ namespace dspx {
         }
 
         pointContainer.insertItem(item, item->position());
+        ClipPrivate::setClipSequence(item, q);
         auto affectedItems = rangeContainer.insertItem(item, item->position(), item->length());
 
         for (auto affectedItem : affectedItems) {
@@ -62,6 +63,7 @@ namespace dspx {
             Q_EMIT q->itemAboutToRemove(item, otherClipSequence);
 
             pointContainer.removeItem(item);
+            ClipPrivate::setClipSequence(item, otherClipSequence);
             auto affectedItems = rangeContainer.removeItem(item);
 
             for (auto affectedItem : affectedItems) {
@@ -83,13 +85,6 @@ namespace dspx {
         d->track = track;
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &ClipSequence::itemInserted, this, [=](Clip *item) {
-            ClipPrivate::setClipSequence(item, this);
-        });
-        connect(this, &ClipSequence::itemRemoved, this, [=](Clip *item, ClipSequence *otherClipSequence) {
-            ClipPrivate::setClipSequence(item, otherClipSequence);
-        });
     }
 
     ClipSequence::~ClipSequence() = default;

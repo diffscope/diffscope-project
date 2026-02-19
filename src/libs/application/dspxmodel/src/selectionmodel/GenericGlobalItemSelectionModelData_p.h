@@ -14,7 +14,7 @@ namespace dspx {
         void (Item::*superItemChangedSignal)(),
         class SuperItem = void
     >
-    class GenericGlobalItemSelectionModelData {
+    [[deprecated]] class GenericGlobalItemSelectionModelData {
     public:
         PublicClass *q_ptr;
         SelectionModel *selectionModel;

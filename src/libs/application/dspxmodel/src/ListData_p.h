@@ -15,7 +15,7 @@ namespace dspx {
         static QJSValue create(QObject *o);
     };
 
-    template <class ListType, class ItemType>
+    template <class ListType, class ItemType, void (*setList)(ItemType *item, ListType *list)>
     class ListData {
     public:
         ListType *q_ptr;
@@ -36,8 +36,11 @@ namespace dspx {
         }
 
         void init(const QList<Handle> &handles) {
+            auto q = q_ptr;
             for (auto handle : handles) {
-                itemList.append(getItem(handle, true));
+                auto item = getItem(handle, true);
+                itemList.append(item);
+                setList(item, q);
             }
         }
 
@@ -45,6 +48,7 @@ namespace dspx {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToInsert(index, item);
             itemList.insert(index, item);
+            setList(item, q);
             Q_EMIT q->itemInserted(index, item);
             Q_EMIT q->sizeChanged(itemList.size());
             Q_EMIT q->itemsChanged();
@@ -55,6 +59,7 @@ namespace dspx {
             auto item = itemList.at(index);
             Q_EMIT q->itemAboutToRemove(index, item);
             itemList.removeAt(index);
+            setList(item, nullptr);
             Q_EMIT q->itemRemoved(index, item);
             Q_EMIT q->sizeChanged(itemList.size());
             Q_EMIT q->itemsChanged();

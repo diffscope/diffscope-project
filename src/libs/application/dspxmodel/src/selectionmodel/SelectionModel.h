@@ -77,7 +77,7 @@ namespace dspx {
         Q_DECLARE_FLAGS(SelectionCommand, SelectionCommandFlag)
 
         Q_INVOKABLE static SelectionType selectionTypeFromItem(QObject *item);
-        Q_INVOKABLE void select(QObject *item, SelectionCommand command, SelectionType emptySelectionType = {});
+        Q_INVOKABLE void select(QObject *item, SelectionCommand command, SelectionType emptySelectionType = {}, QObject *containerItemHint = {});
 
     Q_SIGNALS:
         void selectionTypeChanged();

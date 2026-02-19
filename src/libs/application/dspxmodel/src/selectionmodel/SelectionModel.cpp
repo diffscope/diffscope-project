@@ -8,6 +8,7 @@
 #include <dspxmodel/Note.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/Track.h>
+#include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/private/AnchorNodeSelectionModel_p.h>
 #include <dspxmodel/private/ClipSelectionModel_p.h>
 #include <dspxmodel/private/LabelSelectionModel_p.h>
@@ -158,7 +159,7 @@ namespace dspx {
         return ST_None;
     }
 
-    void SelectionModel::select(QObject *item, SelectionCommand command, SelectionType emptySelectionType) {
+    void SelectionModel::select(QObject *item, SelectionCommand command, SelectionType emptySelectionType, QObject *containerItemHint) {
         Q_D(SelectionModel);
         auto targetSelectionType = selectionTypeFromItem(item);
         if (targetSelectionType == ST_None) {
@@ -176,7 +177,7 @@ namespace dspx {
                     d->labelSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Note:
-                    d->noteSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
+                    d->noteSelectionModel->d_func()->select(nullptr, ClearPreviousSelection, static_cast<NoteSequence *>(containerItemHint));
                     break;
                 case ST_Tempo:
                     d->tempoSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
@@ -203,7 +204,7 @@ namespace dspx {
                 d->labelSelectionModel->d_func()->select(static_cast<Label *>(item), command);
                 break;
             case ST_Note:
-                d->noteSelectionModel->d_func()->select(static_cast<Note *>(item), command);
+                d->noteSelectionModel->d_func()->select(static_cast<Note *>(item), command, static_cast<NoteSequence *>(containerItemHint));
                 break;
             case ST_Tempo:
                 d->tempoSelectionModel->d_func()->select(static_cast<Tempo *>(item), command);

@@ -11,7 +11,7 @@ namespace dspx {
 
     class PointSequenceJSIterable;
 
-    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), int (ItemType::*lengthGetter)() const, void (ItemType::*lengthChangedSignal)(int), void (*setOverlapped)(ItemType *item, bool overlapped)>
+    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), int (ItemType::*lengthGetter)() const, void (ItemType::*lengthChangedSignal)(int), void (*setOverlapped)(ItemType *item, bool overlapped), void (*setSequence)(ItemType *item, SequenceType *sequence)>
     class RangeSequenceData {
     public:
         SequenceType *q_ptr;
@@ -35,9 +35,11 @@ namespace dspx {
         }
 
         void init(const QList<Handle> &handles) {
+            auto q = q_ptr;
             for (auto handle : handles) {
                 auto item = getItem(handle, true);
                 pointContainer.insertItem(item, (item->*positionGetter)());
+                setSequence(item, q);
                 auto affectedItems = rangeContainer.insertItem(item, (item->*positionGetter)(), (item->*lengthGetter)());
                 for (auto affectedItem : affectedItems) {
                     bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
@@ -56,6 +58,7 @@ namespace dspx {
 
             // Insert into both containers
             pointContainer.insertItem(item, position);
+            setSequence(item, q);
             auto affectedItems = rangeContainer.insertItem(item, position, length);
 
             // Update overlapped status for all affected items
@@ -77,6 +80,7 @@ namespace dspx {
 
             // Remove from both containers
             pointContainer.removeItem(item);
+            setSequence(item, nullptr);
             auto affectedItems = rangeContainer.removeItem(item);
 
             // Update overlapped status for all affected items

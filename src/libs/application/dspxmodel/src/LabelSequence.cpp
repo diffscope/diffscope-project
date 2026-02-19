@@ -20,13 +20,6 @@ namespace dspx {
         d->pModel = ModelPrivate::get(model);
 
         d->init(model->strategy()->getEntitiesFromSequenceContainer(handle));
-
-        connect(this, &LabelSequence::itemInserted, this, [=](Label *item) {
-            LabelPrivate::setLabelSequence(item, this);
-        });
-        connect(this, &LabelSequence::itemRemoved, this, [=](Label *item) {
-            LabelPrivate::setLabelSequence(item, nullptr);
-        });
     }
 
     LabelSequence::~LabelSequence() = default;
