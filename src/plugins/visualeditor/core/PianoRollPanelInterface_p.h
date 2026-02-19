@@ -12,6 +12,7 @@ class QSortFilterProxyModel;
 
 namespace VisualEditor::Internal {
     class SingingClipListModel;
+    class TrackOverlaySelectorModel;
 }
 
 namespace VisualEditor {
@@ -38,7 +39,7 @@ namespace VisualEditor {
         AutoPageScrollingManipulator *autoPageScrollingManipulator;
 
         QQuickItem *pianoRollView;
-        QObject *trackOverlaySelectorModel;
+        Internal::TrackOverlaySelectorModel *trackOverlaySelectorModel;
         Internal::SingingClipListModel *singingClipListModel;
         QSortFilterProxyModel *editingClipSelectorModel;
 

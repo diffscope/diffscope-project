@@ -61,7 +61,7 @@ Item {
                                 Rectangle {
                                     implicitWidth: 8
                                     Layout.fillHeight: true
-                                    color: CoreInterface.trackColorSchema.colors[trackRow.modelData.track.colorId]
+                                    color: CoreInterface.trackColorSchema.colors[trackRow.modelData.display.track.colorId]
                                 }
                                 Label {
                                     Layout.alignment: Qt.AlignVCenter
@@ -76,8 +76,8 @@ Item {
                                     icon.source: checked ? "image://fluent-system-icons/eye" : "image://fluent-system-icons/eye_off"
                                     text: qsTr("Show")
                                     display: AbstractButton.IconOnly
-                                    checked: trackRow.modelData.overlayVisible
-                                    onClicked: trackRow.modelData.overlayVisible = checked
+                                    checked: trackRow.modelData.display.overlayVisible
+                                    onClicked: trackRow.modelData.display.overlayVisible = checked
                                 }
                                 ToolButton {
                                     Layout.alignment: Qt.AlignVCenter
@@ -85,12 +85,12 @@ Item {
                                     implicitHeight: 20
                                     padding: 2
                                     icon.source: "image://fluent-system-icons/edit"
-                                    highlighted: view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === trackRow.modelData.track
-                                    enabled: (trackRow.modelData.track?.clips.size ?? 0) > 0
+                                    highlighted: view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === trackRow.modelData.display.track
+                                    enabled: (trackRow.modelData.display.track?.clips.size ?? 0) > 0
                                     onClicked: () => {
                                         // TODO consider playback position
-                                        let clip = trackRow.modelData.track.clips.firstItem
-                                        for (; clip && clip.type !== DspxModel.Clip.Singing; clip = trackRow.modelData.track.clips.nextItem(clip));
+                                        let clip = trackRow.modelData.display.track.clips.firstItem
+                                        for (; clip && clip.type !== DspxModel.Clip.Singing; clip = trackRow.modelData.display.track.clips.nextItem(clip));
                                         if (!clip)
                                             return
                                         view.pianoRollPanelInterface.editingClip = clip
@@ -99,7 +99,7 @@ Item {
                                 Label {
                                     Layout.fillWidth: true
                                     Layout.alignment: Qt.AlignVCenter
-                                    text: trackRow.modelData.track.name
+                                    text: trackRow.modelData.display.track.name
                                 }
                             }
                         }

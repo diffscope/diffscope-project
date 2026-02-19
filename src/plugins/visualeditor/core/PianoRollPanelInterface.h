@@ -56,7 +56,7 @@ namespace VisualEditor {
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
         Q_PROPERTY(AutoPageScrollingManipulator *autoPageScrollingManipulator READ autoPageScrollingManipulator CONSTANT)
         Q_PROPERTY(QQuickItem *pianoRollView READ pianoRollView CONSTANT)
-        Q_PROPERTY(QObject *trackOverlaySelectorModel READ trackOverlaySelectorModel CONSTANT)
+        Q_PROPERTY(QAbstractItemModel *trackOverlaySelectorModel READ trackOverlaySelectorModel CONSTANT)
         Q_PROPERTY(QAbstractItemModel *editingClipSelectorModel READ editingClipSelectorModel CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
@@ -83,7 +83,7 @@ namespace VisualEditor {
         AutoPageScrollingManipulator *autoPageScrollingManipulator() const;
 
         QQuickItem *pianoRollView() const;
-        QObject *trackOverlaySelectorModel() const;
+        QAbstractItemModel *trackOverlaySelectorModel() const;
         QAbstractItemModel *editingClipSelectorModel() const;
 
         enum Tool {
