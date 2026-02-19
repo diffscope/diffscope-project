@@ -10,6 +10,8 @@ namespace sflow {
     class PlaybackViewModel;
     class ClipPaneInteractionController;
     class ClipViewModel;
+    class NoteEditLayerInteractionController;
+    class NoteViewModel;
     class RangeSequenceViewModel;
     class PointSequenceViewModel;
     class LabelSequenceInteractionController;
@@ -24,7 +26,9 @@ namespace sflow {
 namespace dspx {
     class Clip;
     class Label;
+    class Note;
     class Tempo;
+    class SingingClip;
     class Track;
 }
 
@@ -55,6 +59,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
         Q_PROPERTY(sflow::RangeSequenceViewModel *clipSequenceViewModel READ clipSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *clipSelectionController READ clipSelectionController CONSTANT)
+        Q_PROPERTY(sflow::SelectionController *noteSelectionController READ noteSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *trackListViewModel READ trackListViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *trackSelectionController READ trackSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *masterTrackListViewModel READ masterTrackListViewModel CONSTANT)
@@ -78,12 +83,14 @@ namespace VisualEditor {
         sflow::SelectionController *tempoSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
         sflow::SelectionController *clipSelectionController() const;
+        sflow::SelectionController *noteSelectionController() const;
         sflow::SelectionController *trackSelectionController() const;
 
         Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
         Q_INVOKABLE sflow::ClipPaneInteractionController *createAndBindClipPaneInteractionController(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::NoteEditLayerInteractionController *createAndBindNoteEditLayerInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionControllerOfMaster(QObject *parent = nullptr);
 
@@ -93,8 +100,13 @@ namespace VisualEditor {
         Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;
         Q_INVOKABLE dspx::Label *getLabelDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getLabelViewItemFromDocumentItem(dspx::Label *item) const;
+        Q_INVOKABLE dspx::Note *getNoteDocumentItemFromViewItem(sflow::NoteViewModel *viewItem) const;
+        Q_INVOKABLE sflow::NoteViewModel *getNoteViewItemFromDocumentItem(dspx::Note *item) const;
         Q_INVOKABLE dspx::Track *getTrackDocumentItemFromViewItem(sflow::TrackViewModel *viewItem) const;
         Q_INVOKABLE sflow::TrackViewModel *getTrackViewItemFromDocumentItem(dspx::Track *item) const;
+
+        Q_INVOKABLE sflow::RangeSequenceViewModel *getSingingClipPerTrackSequenceViewModel(dspx::Track *track) const;
+        Q_INVOKABLE sflow::RangeSequenceViewModel *getNoteSequenceViewModel(dspx::SingingClip *clip) const;
 
 
     private:

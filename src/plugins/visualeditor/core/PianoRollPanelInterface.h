@@ -16,6 +16,7 @@ namespace sflow {
     class ScrollBehaviorViewModel;
     class TimelineInteractionController;
     class LabelSequenceInteractionController;
+    class NoteEditLayerInteractionController;
     class ClavierViewModel;
     class ClavierInteractionController;
 }
@@ -51,6 +52,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
+        Q_PROPERTY(sflow::NoteEditLayerInteractionController *noteEditLayerInteractionController READ noteEditLayerInteractionController CONSTANT)
         Q_PROPERTY(sflow::ClavierViewModel *clavierViewModel READ clavierViewModel CONSTANT)
         Q_PROPERTY(sflow::ClavierInteractionController *clavierInteractionController READ clavierInteractionController CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
@@ -76,6 +78,7 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController() const;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
+        sflow::NoteEditLayerInteractionController *noteEditLayerInteractionController() const;
         sflow::ClavierViewModel *clavierViewModel() const;
         sflow::ClavierInteractionController *clavierInteractionController() const;
 

@@ -380,6 +380,30 @@ Item {
                         timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                         clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                     }
+                    Item {
+                        id: noteEditLayerSequenceStack
+                        anchors.fill: parent
+                        Repeater {
+                            model: DelegateModel {
+                                model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
+                                delegate: NoteEditLayerSequence {
+                                    required property int index
+                                    required property var modelData
+                                    anchors.fill: parent
+                                    scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+                                    selectionController: view.projectViewModelContext?.noteSelectionController ?? null
+                                    timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
+                                    timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+                                    clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                                    noteEditLayerInteractionController: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
+                                    // TODO this should not depend on signal connection order
+                                    clipSequenceViewModel: view.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(modelData.display.track) ?? null
+                                    trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
+                                    editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                                }
+                            }
+                        }
+                    }
                     PianoRollScrollLayer {
                         anchors.fill: parent
                         timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null

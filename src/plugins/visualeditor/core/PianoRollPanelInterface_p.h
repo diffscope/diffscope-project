@@ -32,6 +32,7 @@ namespace VisualEditor {
         sflow::TimelineInteractionController *timelineInteractionController;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel;
+        sflow::NoteEditLayerInteractionController *noteEditLayerInteractionController;
         sflow::ClavierViewModel *clavierViewModel;
         sflow::ClavierInteractionController *clavierInteractionController;
 

@@ -6,6 +6,7 @@
 #include <ScopicFlowCore/ClipViewModel.h>
 #include <ScopicFlowCore/PlaybackViewModel.h>
 #include <ScopicFlowCore/ListViewModel.h>
+#include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
@@ -14,8 +15,11 @@
 #include <ScopicFlowCore/TimelineInteractionController.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/ClipPaneInteractionController.h>
+#include <ScopicFlowCore/NoteEditLayerInteractionController.h>
 
 #include <dspxmodel/Clip.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Tempo.h>
 #include <dspxmodel/Label.h>
 #include <dspxmodel/Track.h>
@@ -33,6 +37,8 @@
 #include <visualeditor/private/ClipSelectionController_p.h>
 #include <visualeditor/private/TrackViewModelContextData_p.h>
 #include <visualeditor/private/MasterTrackViewModelContextData_p.h>
+#include <visualeditor/private/NoteViewModelContextData_p.h>
+#include <visualeditor/private/NoteSelectionController_p.h>
 
 namespace VisualEditor {
 
@@ -75,6 +81,11 @@ namespace VisualEditor {
         d->clipData->q_ptr = this;
         d->clipData->init();
         d->clipData->bindClipSequences();
+
+        d->noteData = std::make_unique<NoteViewModelContextData>();
+        d->noteData->q_ptr = this;
+        d->noteData->init();
+        d->noteData->bindTrackSequences();
 
         d->trackData = std::make_unique<TrackViewModelContextData>();
         d->trackData->q_ptr = this;
@@ -147,6 +158,11 @@ namespace VisualEditor {
         return d->clipData->clipSelectionController;
     }
 
+    sflow::SelectionController *ProjectViewModelContext::noteSelectionController() const {
+        Q_D(const ProjectViewModelContext);
+        return d->noteData->noteSelectionController;
+    }
+
     sflow::SelectionController *ProjectViewModelContext::trackSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->trackData->trackSelectionController;
@@ -170,6 +186,11 @@ namespace VisualEditor {
     sflow::ClipPaneInteractionController *ProjectViewModelContext::createAndBindClipPaneInteractionController(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->clipData->createController(parent);
+    }
+
+    sflow::NoteEditLayerInteractionController *ProjectViewModelContext::createAndBindNoteEditLayerInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->noteData->createController(parent);
     }
 
     sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionController(QObject *parent) {
@@ -212,6 +233,16 @@ namespace VisualEditor {
         return d->labelData->labelViewItemMap.value(item);
     }
 
+    dspx::Note *ProjectViewModelContext::getNoteDocumentItemFromViewItem(sflow::NoteViewModel *viewItem) const {
+        Q_D(const ProjectViewModelContext);
+        return d->noteData->noteDocumentItemMap.value(viewItem);
+    }
+
+    sflow::NoteViewModel *ProjectViewModelContext::getNoteViewItemFromDocumentItem(dspx::Note *item) const {
+        Q_D(const ProjectViewModelContext);
+        return d->noteData->noteViewItemMap.value(item);
+    }
+
     dspx::Track *ProjectViewModelContext::getTrackDocumentItemFromViewItem(sflow::TrackViewModel *viewItem) const {
         Q_D(const ProjectViewModelContext);
         return d->trackData->trackDocumentItemMap.value(viewItem);
@@ -220,6 +251,16 @@ namespace VisualEditor {
     sflow::TrackViewModel *ProjectViewModelContext::getTrackViewItemFromDocumentItem(dspx::Track *item) const {
         Q_D(const ProjectViewModelContext);
         return d->trackData->trackViewItemMap.value(item);
+    }
+
+    sflow::RangeSequenceViewModel *ProjectViewModelContext::getSingingClipPerTrackSequenceViewModel(dspx::Track *track) const {
+        Q_D(const ProjectViewModelContext);
+        return d->noteData->singingClipPerTrackSequenceViewModelMap.value(track);
+    }
+
+    sflow::RangeSequenceViewModel *ProjectViewModelContext::getNoteSequenceViewModel(dspx::SingingClip *clip) const {
+        Q_D(const ProjectViewModelContext);
+        return d->noteData->noteSequenceViewModelMap.value(clip);
     }
 
 }

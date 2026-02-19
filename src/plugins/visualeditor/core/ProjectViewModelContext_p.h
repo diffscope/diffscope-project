@@ -11,6 +11,7 @@ namespace VisualEditor {
     class TempoViewModelContextData;
     class LabelViewModelContextData;
     class ClipViewModelContextData;
+    class NoteViewModelContextData;
     class TrackViewModelContextData;
     class MasterTrackViewModelContextData;
 
@@ -37,6 +38,7 @@ namespace VisualEditor {
         std::unique_ptr<TempoViewModelContextData> tempoData;
         std::unique_ptr<LabelViewModelContextData> labelData;
         std::unique_ptr<ClipViewModelContextData> clipData;
+        std::unique_ptr<NoteViewModelContextData> noteData;
         std::unique_ptr<TrackViewModelContextData> trackData;
         std::unique_ptr<MasterTrackViewModelContextData> masterTrackData;
     };
