@@ -181,12 +181,8 @@ ActionCollection {
                     textRole: "display"
                     valueRole: "clip"
 
-                    Component.onCompleted: currentIndex = Qt.binding(() => {
-                        let clipSequence = editClipControl.selectorModel.sourceModel.clipSequence
-                        if (!clipSequence) {
-                            return -1
-                        }
-                        return indexOfValue(d.pianoRollPanelInterface?.editingClip ?? null)
+                    Component.onCompleted: currentValue = Qt.binding(() => {
+                        return d.pianoRollPanelInterface?.editingClip ?? null
                     })
                     onActivated: (index) => {
                         if (!d.pianoRollPanelInterface || !model) {
