@@ -15,6 +15,8 @@
     </configuration>
 
     <items>
+        <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" icon="midi" shortcut="Ctrl+P" />
+
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
         <action id="org.diffscope.visualeditor.arrangementPanel.scissorTool" icon="cut" />
@@ -55,6 +57,9 @@
     </items>
 
     <layouts>
+        <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions">
+            <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" />
+        </group>
         <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
@@ -106,7 +111,12 @@
     </layouts>
 
     <insertions>
-
+        <insertion target="org.diffscope.core.edit" anchor="last">
+            <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.clipItemContextMenu" anchor="before" relativeTo="org.diffscope.core.genericItemContextMenuActions">
+            <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />
+        </insertion>
     </insertions>
 
 </actionExtension>
