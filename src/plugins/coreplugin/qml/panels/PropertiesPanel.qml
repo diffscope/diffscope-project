@@ -47,7 +47,7 @@ QtObject {
                 text: qsTr("Note")
                 iconSource: "image://fluent-system-icons/music_note_1"
                 componentsKey: "noteComponents"
-                propertyMapperKey: "labelPropertyMapper"
+                propertyMapperKey: "notePropertyMapper"
             }
             ListElement {
                 text: qsTr("Tempo")
@@ -120,7 +120,10 @@ QtObject {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 3 || !selectionModel?.selectedCount
             }
-            readonly property QtObject notePropertyMapper: null
+            readonly property QtObject notePropertyMapper: NotePropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                readonly property bool inactive: selectionModel?.selectionType !== 4 || !selectionModel?.selectedCount
+            }
             readonly property QtObject tempoPropertyMapper: TempoPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 5 || !selectionModel?.selectedCount

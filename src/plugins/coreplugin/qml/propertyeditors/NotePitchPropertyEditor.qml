@@ -12,23 +12,30 @@ PropertyEditorGroupBox {
     id: groupBox
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
-    title: qsTr("Global Cent Shift")
+    title: qsTr("Pitch")
+
     ColumnLayout {
         width: parent.width
+
+        MusicPitchPropertyEditorField {
+            windowHandle: groupBox.windowHandle
+            propertyMapper: groupBox.propertyMapper
+            key: "keyNum"
+            label: qsTr("Pitch")
+            from: 0
+            to: 127
+            transactionName: qsTr("Editing pitch")
+        }
+
         IntegerPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
-            useSlider: true
+            propertyMapper: groupBox.propertyMapper
             key: "centShift"
             label: qsTr("Cent shift")
             from: -50
             to: 50
             transactionName: qsTr("Editing cent shift")
-        }
-        Label {
-            text: qsTr("The standard pitch for this cent shift: %L1 Hz").arg(440 * Math.pow(2, (groupBox.windowHandle?.projectDocumentContext.document.model.global.centShift ?? 0) / 1200))
-            Layout.fillWidth: true
-            wrapMode: Text.Wrap
+            useSlider: true
         }
     }
 }

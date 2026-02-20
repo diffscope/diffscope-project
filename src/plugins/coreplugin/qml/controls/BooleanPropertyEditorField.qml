@@ -8,35 +8,15 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 
-CheckBox {
+AbstractPropertyEditorField {
     id: d
-    required property ProjectWindowInterface windowHandle
-    required property QtObject propertyMapper
-    required property string key
-    required property string transactionName
-    tristate: true
-    checkState: propertyMapper?.inactive ? Qt.Unchecked : propertyMapper?.[key] === undefined ? Qt.PartiallyChecked : propertyMapper[key] ? Qt.Checked : Qt.Unchecked
-    nextCheckState: function() {
-        return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
-    }
-    property int transactionId: 0
-    function beginTransaction() {
-        let a = d.windowHandle.projectDocumentContext.document.transactionController.beginTransaction()
-        if (a) {
-            transactionId = a
-            return true
+    CheckBox {
+        text: d.label
+        tristate: true
+        checkState: d.propertyMapper?.inactive ? Qt.Unchecked : d.value === undefined ? Qt.PartiallyChecked : d.value ? Qt.Checked : Qt.Unchecked
+        nextCheckState: function() {
+            return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
         }
-        return false
-    }
-    function commitTransaction() {
-        d.windowHandle.projectDocumentContext.document.transactionController.commitTransaction(transactionId, d.transactionName)
-        transactionId = 0
-    }
-    onClicked: () => {
-        beginTransaction()
-        if (!transactionId)
-            return
-        propertyMapper[key] = checkState === Qt.Checked
-        commitTransaction()
+        onClicked: d.setValue(checkState === Qt.Checked)
     }
 }

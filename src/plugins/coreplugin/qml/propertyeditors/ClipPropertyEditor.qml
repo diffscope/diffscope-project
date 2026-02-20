@@ -27,8 +27,10 @@ PropertyEditorGroupBox {
         FormGroup {
             Layout.fillWidth: true
             label: qsTr("Type")
-            columnItem: Label {
+            columnItem: TextField {
                 text: groupBox.propertyMapper?.type === 0 ? qsTr("Audio") : groupBox.propertyMapper?.type === 1 ? qsTr("Singing") : qsTr("Multiple types")
+                readOnly: true
+                ThemedItem.flat: true
             }
         }
         FormGroup {
@@ -66,9 +68,9 @@ PropertyEditorGroupBox {
                 model: groupBox.windowHandle?.projectDocumentContext.document.model.tracks.items.map((track, i) => ({text: qsTr("%L1: %2").arg(i + 1).arg(track.name), value: track})) ?? null
                 textRole: "text"
                 valueRole: "value"
-                currentIndex: indexOfValue(groupBox.propertyMapper?.associatedTrack)
+                currentValue: groupBox.propertyMapper?.associatedTrack
                 onActivated: (index) => {
-                    if (index === currentIndex)
+                    if (groupBox.propertyMapper.associatedTrack === valueAt(index))
                         return
                     assiciatedTrackSelector.beginTransaction()
                     if (!assiciatedTrackSelector.transactionId)

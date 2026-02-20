@@ -42,8 +42,10 @@ PropertyEditorGroupBox {
         }
         FormGroup {
             label: qsTr("Full length")
-            columnItem: Label {
+            columnItem: TextField {
                 text: groupBox.propertyMapper?.fullLength === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.fullLength === undefined ? "" : groupBox.propertyMapper.fullLength
+                readOnly: true
+                ThemedItem.flat: true
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Core {
         PropertyMetadata<dspx::Clip, &dspx::Clip::name, &dspx::Clip::setName, decltype(&dspx::Clip::nameChanged)>,
         PropertyMetadata<dspx::Clip, &dspx::Clip::type, nullptr, nullptr_t>,
         PropertyMetadata<dspx::Clip,
-            [](const dspx::Clip *clip) { return clip->clipSequence()->track(); },
+            [](const dspx::Clip *clip) { return clip->clipSequence() ? clip->clipSequence()->track() : nullptr; },
             [](dspx::Clip *clip, dspx::Track *track) { if (track) clip->clipSequence()->moveToAnotherClipSequence(clip, track->clips()); },
             decltype(&dspx::Clip::clipSequenceChanged)
         >,

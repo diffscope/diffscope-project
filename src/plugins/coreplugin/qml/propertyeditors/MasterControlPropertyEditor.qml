@@ -20,14 +20,14 @@ PropertyEditorGroupBox {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master.control ?? null
             key: "mute"
-            text: qsTr("Mute")
+            label: qsTr("Mute")
             transactionName: qsTr("Toggling mute")
         }
         BooleanPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master ?? null
             key: "multiChannelOutput"
-            text: qsTr("Multi-channel output")
+            label: qsTr("Multi-channel output")
             transactionName: qsTr("Toggling multi-channel output")
         }
         IntegerPropertyEditorField {

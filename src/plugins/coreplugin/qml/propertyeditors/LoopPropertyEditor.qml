@@ -19,7 +19,7 @@ PropertyEditorGroupBox {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.timeline ?? null
             key: "loopEnabled"
-            text: qsTr("Enable loop")
+            label: qsTr("Enable loop")
             transactionName: qsTr("Toggling loop")
         }
         MusicTimePropertyEditorField {

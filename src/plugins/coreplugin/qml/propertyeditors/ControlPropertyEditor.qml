@@ -20,7 +20,7 @@ PropertyEditorGroupBox {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "mute"
-            text: qsTr("Mute")
+            label: qsTr("Mute")
             transactionName: qsTr("Toggling mute")
         }
         BooleanPropertyEditorField {
@@ -28,7 +28,7 @@ PropertyEditorGroupBox {
             propertyMapper: groupBox.propertyMapper
             visible: groupBox.propertyMapper && ("solo" in groupBox.propertyMapper)
             key: "solo"
-            text: qsTr("Solo")
+            label: qsTr("Solo")
             transactionName: qsTr("Toggling solo")
         }
         BooleanPropertyEditorField {
@@ -36,7 +36,7 @@ PropertyEditorGroupBox {
             propertyMapper: groupBox.propertyMapper
             visible: groupBox.propertyMapper && ("record" in groupBox.propertyMapper)
             key: "record"
-            text: qsTr("Record")
+            label: qsTr("Record")
             transactionName: qsTr("Toggling record")
         }
         IntegerPropertyEditorField {

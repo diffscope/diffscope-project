@@ -385,7 +385,6 @@ namespace Core::Internal {
             (CoreInterface::propertyEditorManager()->*addMethod)(component);
         };
         f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
-        f("GlobalCentShiftPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);
         f("LoopPropertyEditor", &PropertyEditorManager::addNoneComponent);
 
@@ -396,6 +395,11 @@ namespace Core::Internal {
         f("ClipTimePropertyEditor", &PropertyEditorManager::addClipComponent);
 
         f("LabelPropertyEditor", &PropertyEditorManager::addLabelComponent);
+
+        f("NotePropertyEditor", &PropertyEditorManager::addNoteComponent);
+        f("NoteLyricPropertyEditor", &PropertyEditorManager::addNoteComponent);
+        f("NotePitchPropertyEditor", &PropertyEditorManager::addNoteComponent);
+        f("NoteTimePropertyEditor", &PropertyEditorManager::addNoteComponent);
 
         f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
 

@@ -27,15 +27,10 @@ PropertyEditorGroupBox {
                     DesktopServices.reveal(groupBox.windowHandle.projectDocumentContext.fileLocker.path)
                 }
             }
-            columnItem: TextEdit {
-                readOnly: true
-                color: Theme.foregroundColor(ThemedItem.foregroundLevel)
-                font: Theme.font
-                Accessible.role: Accessible.StaticText
-                Accessible.name: text
-                selectionColor: Theme.accentColor
+            columnItem: TextField {
                 text: groupBox.windowHandle?.projectDocumentContext.fileLocker?.path || qsTr("Unspecified")
-
+                readOnly: true
+                ThemedItem.flat: true
             }
         }
         TextPropertyEditorField {
@@ -51,6 +46,46 @@ PropertyEditorGroupBox {
             key: "author"
             label: qsTr("Author")
             transactionName: qsTr("Editing author")
+        }
+        IntegerPropertyEditorField {
+            windowHandle: groupBox.windowHandle
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
+            useSlider: true
+            key: "centShift"
+            label: qsTr("Cent shift")
+            from: -50
+            to: 50
+            transactionName: qsTr("Editing cent shift")
+        }
+        Label {
+            text: qsTr("The standard pitch for this cent shift: %L1 Hz").arg(440 * Math.pow(2, (groupBox.windowHandle?.projectDocumentContext.document.model.global.centShift ?? 0) / 1200))
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+        }
+        AbstractPropertyEditorField {
+            id: accidentalTypeField
+            windowHandle: groupBox.windowHandle
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
+            key: "accidentalType"
+            label: qsTr("Accidental type")
+            transactionName: qsTr("Editing accidental type")
+            FormGroup {
+                Layout.fillWidth: true
+                label: accidentalTypeField.label
+                columnItem: TabBar {
+                    currentIndex: accidentalTypeField.value
+                    TabButton {
+                        icon.source: "qrc:/diffscope/coreplugin/icons/accidental_flat.svg"
+                        text: qsTr("Flat")
+                        onClicked: accidentalTypeField.setValue(0)
+                    }
+                    TabButton {
+                        icon.source: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
+                        text: qsTr("Sharp")
+                        onClicked: accidentalTypeField.setValue(1)
+                    }
+                }
+            }
         }
     }
 }
