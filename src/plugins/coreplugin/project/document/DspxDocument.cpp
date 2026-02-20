@@ -498,6 +498,8 @@ namespace Core {
                 removedCount = deleteClips();
                 break;
             case dspx::SelectionModel::ST_Note:
+                removedCount = deleteNotes();
+                break;
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO delete support for additional selection types
                 break;
@@ -572,12 +574,20 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteClips() {
-        if (!model || !selectionModel || !model->timeline())
-            return 0;
-
         int removedCount = 0;
         for (auto *item : selectionModel->clipSelectionModel()->selectedItems()) {
             if (item->clipSequence()->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
+    int DspxDocumentPrivate::deleteNotes() {
+        int removedCount = 0;
+        for (auto *item : selectionModel->noteSelectionModel()->selectedItems()) {
+            if (item->noteSequence()->removeItem(item)) {
                 model->destroyItem(item);
                 ++removedCount;
             }
@@ -608,6 +618,15 @@ namespace Core {
             for (auto item : track->clips()->asRange()) {
                 selectionModel->select(item, dspx::SelectionModel::Select);
             }
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllNotes() {
+        auto noteSequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+        if (!noteSequence)
+            return;
+        for (auto item : noteSequence->asRange()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
         }
     }
 
@@ -809,6 +828,8 @@ namespace Core {
                 d->selectAllClips();
                 break;
             case dspx::SelectionModel::ST_Note:
+                d->selectAllNotes();
+                break;
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO select all support for additional selection types
                 break;

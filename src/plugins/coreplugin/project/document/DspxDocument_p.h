@@ -41,11 +41,13 @@ namespace Core {
         int deleteLabels();
         int deleteTracks();
         int deleteClips();
+        int deleteNotes();
 
         void selectAllTempos();
         void selectAllLabels();
         void selectAllTracks();
         void selectAllClips();
+        void selectAllNotes();
 
         template<typename Signal>
         bool emitOnChange(bool value, bool &cache, Signal signal);
