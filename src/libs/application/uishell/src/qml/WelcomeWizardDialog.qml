@@ -90,12 +90,12 @@ Window {
                     Label {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("Welcome")
-                        font.pointSize: 24
+                        font.pixelSize: 32
                     }
                     Label {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("This wizard will help you complete the initial configuration")
-                        font.pointSize: 12
+                        font.pixelSize: 16
                     }
                 }
             }

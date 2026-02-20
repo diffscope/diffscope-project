@@ -148,9 +148,10 @@ Item {
                        restartButton.hovered ? Theme.controlHoveredColorChange.apply(Theme.accentColor) :
                        Theme.accentColor
             }
+            font.pixelSize: 11
             contentItem: Text {
                 color: Theme.foregroundPrimaryColor
-                font: { font = Theme.font; font.pixelSize = 11 }
+                font: restartButton.font
                 horizontalAlignment: Text.AlignHCenter
                 text: restartButton.text
             }

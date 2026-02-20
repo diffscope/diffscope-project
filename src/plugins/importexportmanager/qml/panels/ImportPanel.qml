@@ -26,7 +26,7 @@ QtObject {
             Label {
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
-                font: { font = Theme.font; font.pointSize = 12 }
+                font.pixelSize: 16
                 text: qsTr("Select a format to import")
             }
             ScrollView {
@@ -47,6 +47,7 @@ QtObject {
                                 implicitHeight: implicitContentHeight + topPadding + bottomPadding
                                 padding: 8
                                 rightPadding: 24
+                                font.pixelSize: 16
                                 text: modelData.name
                                 onClicked: d.addOn.execImport(modelData)
                                 background: ButtonRectangle {
@@ -64,7 +65,7 @@ QtObject {
                                 contentItem: ColumnLayout {
                                     Text {
                                         Layout.fillWidth: true
-                                        font: { font = Theme.font; font.pointSize = 12 }
+                                        font: control.font
                                         text: control.text
                                         wrapMode: Text.Wrap
                                         color: Theme.foregroundPrimaryColor
