@@ -73,7 +73,7 @@ PropertyEditorGroupBox {
                 Layout.fillWidth: true
                 label: accidentalTypeField.label
                 columnItem: TabBar {
-                    currentIndex: accidentalTypeField.value
+                    currentIndex: accidentalTypeField.value ?? 0
                     TabButton {
                         icon.source: "qrc:/diffscope/coreplugin/icons/accidental_flat.svg"
                         text: qsTr("Flat")

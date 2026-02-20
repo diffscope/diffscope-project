@@ -18,7 +18,7 @@ AbstractPropertyEditorField {
         label: d.label
         columnItem: MusicPitchSpinBox {
             id: control
-            accidentalType: d.windowHandle?.projectDocumentContext.document.model.global.accidentalType
+            accidentalType: d.windowHandle?.projectDocumentContext.document.model.global.accidentalType ?? 0
             value: d.value ?? 0
             from: d.from
             to: d.to

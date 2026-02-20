@@ -146,8 +146,6 @@ namespace VisualEditor {
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::CopyAndMove);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
                     noteEditLayerInteractionController->setSecondarySceneInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
-                    noteEditLayerInteractionController->setPrimarySelectInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
-                    noteEditLayerInteractionController->setSecondarySelectInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
                     break;
                 }
                 case PianoRollPanelInterface::PencilTool: {
@@ -165,8 +163,6 @@ namespace VisualEditor {
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::Draw);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::Draw);
                     noteEditLayerInteractionController->setSecondarySceneInteraction(sflow::NoteEditLayerInteractionController::Draw);
-                    noteEditLayerInteractionController->setPrimarySelectInteraction(sflow::NoteEditLayerInteractionController::Draw);
-                    noteEditLayerInteractionController->setSecondarySelectInteraction(sflow::NoteEditLayerInteractionController::Draw);
                     break;
                 }
                 case PianoRollPanelInterface::ScissorTool: {
@@ -184,8 +180,6 @@ namespace VisualEditor {
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::Split);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
                     noteEditLayerInteractionController->setSecondarySceneInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
-                    noteEditLayerInteractionController->setPrimarySelectInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
-                    noteEditLayerInteractionController->setSecondarySelectInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
                     break;
                 }
                 case PianoRollPanelInterface::SelectTool: {
@@ -203,8 +197,6 @@ namespace VisualEditor {
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
                     noteEditLayerInteractionController->setSecondarySceneInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
-                    noteEditLayerInteractionController->setPrimarySelectInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
-                    noteEditLayerInteractionController->setSecondarySelectInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
                     break;
                 }
                 case PianoRollPanelInterface::HandTool:
