@@ -389,6 +389,7 @@ Item {
                                 delegate: NoteEditLayerSequence {
                                     required property int index
                                     required property var modelData
+                                    readonly property bool isEditingTrack:view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === modelData.display.track
                                     anchors.fill: parent
                                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
                                     selectionController: view.projectViewModelContext?.noteSelectionController ?? null
@@ -400,9 +401,31 @@ Item {
                                     clipSequenceViewModel: view.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(modelData.display.track) ?? null
                                     trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
                                     editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                                    z: isEditingTrack ? 1 : 0
+                                    active: modelData.display.overlayVisible || isEditingTrack
                                 }
                             }
                         }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
+                        visible: !view.pianoRollPanelInterface?.editingClip
+                        ColumnLayout {
+                            anchors.centerIn: parent
+                            Label {
+                                text: qsTr("No clip selected")
+                                font.pixelSize: 20
+                                Layout.alignment: Qt.AlignHCenter
+                                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            }
+                            Label {
+                                text: qsTr("Activate a clip to edit")
+                                Layout.alignment: Qt.AlignHCenter
+                                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            }
+                        }
+
                     }
                     PianoRollScrollLayer {
                         anchors.fill: parent

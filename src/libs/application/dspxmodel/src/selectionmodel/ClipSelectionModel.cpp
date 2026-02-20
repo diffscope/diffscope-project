@@ -2,6 +2,7 @@
 #include "ClipSelectionModel_p.h"
 
 #include <QList>
+#include <QPointer>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/Clip.h>
@@ -75,9 +76,10 @@ namespace dspx {
         if (clipSeq) {
             auto track = clipSeq->track();
             if (track) {
-                QObject::connect(track, &Track::trackListChanged, q_ptr, [this, item]() {
-                    if (!isValidItem(item)) {
-                        dropItem(item);
+                QPointer item_ = item;
+                QObject::connect(track, &Track::trackListChanged, q_ptr, [this, item_]() {
+                    if (!isValidItem(item_)) {
+                        dropItem(item_);
                     }
                 });
             }

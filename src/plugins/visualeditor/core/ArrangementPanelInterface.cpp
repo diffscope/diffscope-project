@@ -233,6 +233,7 @@ namespace VisualEditor {
 
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
+        d->timeLayoutViewModel->setPixelDensity(0.04);
         d->trackListLayoutViewModel = new sflow::TrackListLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController(this);

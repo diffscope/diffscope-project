@@ -21,6 +21,7 @@
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
 #include <dspxmodel/ClipSelectionModel.h>
+#include <dspxmodel/Global.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/SingingClip.h>
@@ -236,6 +237,20 @@ namespace VisualEditor {
         };
         applyLabelStrategy();
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardLabelPolicyChanged, clavierInteractionController, applyLabelStrategy);
+
+        auto applyAccidentalType = [=, this] {
+            auto accidentalType = windowHandle->projectDocumentContext()->document()->model()->global()->accidentalType();
+            switch (accidentalType) {
+                case dspx::Global::Flat:
+                    clavierInteractionController->setAccidentalType(sflow::ClavierInteractionController::Flat);
+                    break;
+                case dspx::Global::Sharp:
+                    clavierInteractionController->setAccidentalType(sflow::ClavierInteractionController::Sharp);
+                    break;
+            }
+        };
+        applyAccidentalType();
+        QObject::connect(windowHandle->projectDocumentContext()->document()->model()->global(), &dspx::Global::accidentalTypeChanged, clavierInteractionController, applyAccidentalType);
     }
 
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {

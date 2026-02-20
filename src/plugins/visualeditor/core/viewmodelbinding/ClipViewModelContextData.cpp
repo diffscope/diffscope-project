@@ -758,6 +758,7 @@ namespace VisualEditor {
         time->setClipStart(0);
         time->setClipLen(0);
         time->setStart(position);
+        clip->control()->setGain(1);
 
         track->clips()->insertItem(clip);
 
