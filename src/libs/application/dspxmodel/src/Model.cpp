@@ -230,6 +230,7 @@ namespace dspx {
             }
         };
         model.content.workspace["diffscope"] = QJsonObject{
+            {"accidentalType", static_cast<int>(global()->accidentalType())},
             {"loop", QJsonObject{
                 {"enabled", timeline()->isLoopEnabled()},
                 {"start", timeline()->loopStart()},
@@ -249,6 +250,10 @@ namespace dspx {
         d->timeline->fromQDspx(model.content.timeline);
         d->tracks->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
+        {
+            auto accidentalType = model.content.workspace.value("diffscope").value("accidentalType").toInt();
+            d->global->setAccidentalType(static_cast<Global::AccidentalType>(accidentalType));
+        }
         {
             auto loop = model.content.workspace.value("diffscope").value("loop").toObject();
             auto enabled = loop.value("enabled").toBool();
@@ -378,6 +383,11 @@ namespace dspx {
             case ModelStrategy::P_CentShift: {
                 d->centShift = value.toInt();
                 Q_EMIT d->global->centShiftChanged(d->centShift);
+                break;
+            }
+            case ModelStrategy::P_AccidentalType: {
+                d->accidentalType = static_cast<Global::AccidentalType>(value.toInt());
+                Q_EMIT d->global->accidentalTypeChanged(static_cast<Global::AccidentalType>(d->accidentalType));
                 break;
             }
             case ModelStrategy::P_EditorId: {

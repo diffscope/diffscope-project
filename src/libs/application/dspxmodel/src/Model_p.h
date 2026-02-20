@@ -35,6 +35,7 @@ namespace dspx {
         QString name;
         QString author;
         int centShift;
+        int accidentalType;
         QString editorId;
         QString editorName;
 

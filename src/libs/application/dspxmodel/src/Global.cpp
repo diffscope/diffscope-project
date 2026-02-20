@@ -15,16 +15,7 @@ namespace dspx {
         Global *q_ptr;
         ModelPrivate *pModel;
         Handle handle;
-
-        int centShift() const;
-
     };
-
-    int GlobalPrivate::centShift() const {
-        return pModel->centShift;
-    }
-
-
 
     Global::Global(Model *model) : QObject(model), d_ptr(new GlobalPrivate) {
         Q_D(Global);
@@ -52,12 +43,21 @@ namespace dspx {
     }
     int Global::centShift() const {
         Q_D(const Global);
-        return d->centShift();
+        return d->pModel->centShift;
     }
     void Global::setCentShift(int centShift) {
         Q_D(Global);
         Q_ASSERT(centShift >= -50 && centShift <= 50);
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_CentShift, centShift);
+    }
+    Global::AccidentalType Global::accidentalType() const {
+        Q_D(const Global);
+        return static_cast<AccidentalType>(d->pModel->accidentalType);
+    }
+    void Global::setAccidentalType(AccidentalType accidentalType) {
+        Q_D(Global);
+        Q_ASSERT(accidentalType == Flat || accidentalType == Sharp);
+        d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_AccidentalType, accidentalType);
     }
     QString Global::editorId() const {
         Q_D(const Global);

@@ -53,6 +53,7 @@ namespace dspx {
         };
 
         enum Property {
+            P_AccidentalType,
             P_Author,
             P_CentShift,
             P_ClipStart,
@@ -238,6 +239,10 @@ namespace dspx {
             auto v = value.toInt();
             return v >= -50 && v <= 50;
         };
+        static auto validateAccidentalType = [](const QVariant &value) {
+            auto v = value.toInt();
+            return v == 0 || v == 1;
+        };
         static auto validatePan = [](const QVariant &value) {
             auto v = value.toDouble();
             return v >= -1 && v <= 1;
@@ -290,6 +295,7 @@ namespace dspx {
                 {P_Name, QMetaType::QString},
                 {P_Author, QMetaType::QString},
                 {P_CentShift, QMetaType::Int, validateCentShift},
+                {P_AccidentalType, QMetaType::Int, validateAccidentalType},
                 {P_EditorId, QMetaType::QString},
                 {P_EditorName, QMetaType::QString},
                 {P_ControlGain, QMetaType::Double},

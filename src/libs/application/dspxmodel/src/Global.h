@@ -27,6 +27,7 @@ namespace dspx {
         Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(QString author READ author WRITE setAuthor NOTIFY authorChanged)
         Q_PROPERTY(int centShift READ centShift WRITE setCentShift NOTIFY centShiftChanged)
+        Q_PROPERTY(AccidentalType accidentalType READ accidentalType WRITE setAccidentalType NOTIFY accidentalTypeChanged)
         Q_PROPERTY(QString editorId READ editorId WRITE setEditorId NOTIFY editorIdChanged)
         Q_PROPERTY(QString editorName READ editorName WRITE setEditorName NOTIFY editorNameChanged)
 
@@ -42,6 +43,14 @@ namespace dspx {
         int centShift() const;
         void setCentShift(int centShift);
 
+        enum AccidentalType {
+            Flat,
+            Sharp,
+        };
+        Q_ENUM(AccidentalType)
+        AccidentalType accidentalType() const;
+        void setAccidentalType(AccidentalType accidentalType);
+
         QString editorId() const;
         void setEditorId(const QString &editorId);
 
@@ -55,6 +64,7 @@ namespace dspx {
         void nameChanged(const QString &name);
         void authorChanged(const QString &author);
         void centShiftChanged(int centShift);
+        void accidentalTypeChanged(AccidentalType accidentalType);
         void editorIdChanged(const QString &editorId);
         void editorNameChanged(const QString &editorName);
 
