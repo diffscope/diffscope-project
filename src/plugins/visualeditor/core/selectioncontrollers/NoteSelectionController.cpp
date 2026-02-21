@@ -7,16 +7,18 @@
 
 #include <ScopicFlowCore/NoteViewModel.h>
 
+#include <dspxmodel/SingingClip.h>
+#include <dspxmodel/Model.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/ProjectViewModelContext.h>
 
 namespace VisualEditor {
@@ -91,7 +93,9 @@ namespace VisualEditor {
         }
         auto documentItem = q->getNoteDocumentItemFromViewItem(qobject_cast<sflow::NoteViewModel *>(item));
         Q_ASSERT(!item || documentItem);
-        selectionModel->select(documentItem, documentSelectionCommand, dspx::SelectionModel::ST_Note);
+        // TODO Use piano roll's editing clip for now, and then think about whether there's a better way.
+        auto clip = PianoRollPanelInterface::of(q->windowHandle())->editingClip();
+        selectionModel->select(documentItem, documentSelectionCommand, dspx::SelectionModel::ST_Note, clip ? clip->notes() : nullptr);
     }
 
     QObject *NoteSelectionController::currentItem() const {

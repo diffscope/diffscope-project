@@ -94,6 +94,7 @@ Item {
                                         if (!clip)
                                             return
                                         view.pianoRollPanelInterface.editingClip = clip
+                                        view.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, clip.notes);
                                     }
                                 }
                                 Label {

@@ -26,6 +26,7 @@
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/TrackList.h>
+#include <dspxmodel/NoteSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>

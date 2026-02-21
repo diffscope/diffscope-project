@@ -202,6 +202,7 @@ ActionCollection {
                         const value = valueAt(index)
                         if (value !== undefined) {
                             d.pianoRollPanelInterface.editingClip = value
+                            d.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, value.notes);
                         }
                     }
                 }

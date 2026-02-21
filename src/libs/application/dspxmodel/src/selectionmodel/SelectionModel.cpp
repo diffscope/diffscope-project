@@ -177,6 +177,7 @@ namespace dspx {
                     d->labelSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
                 case ST_Note:
+                    Q_ASSERT(!containerItemHint || qobject_cast<NoteSequence *>(containerItemHint));
                     d->noteSelectionModel->d_func()->select(nullptr, ClearPreviousSelection, static_cast<NoteSequence *>(containerItemHint));
                     break;
                 case ST_Tempo:

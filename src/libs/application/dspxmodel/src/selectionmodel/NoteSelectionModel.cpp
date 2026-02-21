@@ -2,6 +2,7 @@
 #include "NoteSelectionModel_p.h"
 
 #include <QList>
+#include <QPointer>
 
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/Model.h>
@@ -136,96 +137,97 @@ namespace dspx {
         Q_EMIT q_ptr->currentItemChanged();
     }
 
+    void NoteSelectionModelPrivate::connectTrackForNoteSequence(const QPointer<NoteSequence> &noteSeq) {
+        QObject::disconnect(trackListConnection);
+        trackListConnection = {};
+        connectedTrack = nullptr;
+
+        if (!noteSeq) {
+            return;
+        }
+
+        auto clipSeq = noteSeq->singingClip()->clipSequence();
+        if (!clipSeq) {
+            return;
+        }
+
+        auto track = clipSeq->track();
+        if (!track) {
+            return;
+        }
+
+        connectedTrack = track;
+        trackListConnection = QObject::connect(track, &Track::trackListChanged, q_ptr, [this, noteSeq]() {
+            if (!noteSeq) {
+                return;
+            }
+
+            auto clipSeq = noteSeq->singingClip()->clipSequence();
+            if (!clipSeq) {
+                clearAllAndResetNoteSequence();
+                return;
+            }
+
+            auto trackList = clipSeq->track()->trackList();
+            if (trackList != selectionModel->model()->tracks()) {
+                clearAllAndResetNoteSequence();
+            }
+        });
+    }
+
     void NoteSelectionModelPrivate::connectNoteSequence(NoteSequence *noteSeq) {
         if (!noteSeq) {
             return;
         }
 
-        // Connect to NoteSequence destroyed signal
-        QObject::connect(noteSeq, &QObject::destroyed, q_ptr, [this]() {
+        QObject::disconnect(noteSequenceDestroyedConnection);
+        noteSequenceDestroyedConnection = QObject::connect(noteSeq, &QObject::destroyed, q_ptr, [this]() {
             clearSelection();
             setCurrentItem(nullptr);
+            disconnectNoteSequence();
             noteSequenceWithSelectedItems = nullptr;
             Q_EMIT q_ptr->noteSequenceWithSelectedItemsChanged();
         });
 
-        // noteSeq->singingClip() is guaranteed to be non-null
         auto singingClip = noteSeq->singingClip();
+        QPointer noteSeq_ = noteSeq;
 
-        // Connect to SingingClip::clipSequenceChanged
-        QObject::connect(singingClip, &SingingClip::clipSequenceChanged, q_ptr, [this, noteSeq]() {
-            auto clipSeq = noteSeq->singingClip()->clipSequence();
-            
-            if (!clipSeq) {
-                // SingingClip has been detached from ClipSequence
-                clearAllAndResetNoteSequence();
-                return;
-            }
-            
-            // clipSeq->track() is guaranteed to be non-null
-            auto track = clipSeq->track();
-            
-            // Reconnect to Track::trackListChanged
-            // Note: We need to disconnect old track connections first
-            // This is handled by disconnectNoteSequence() being called before connectNoteSequence()
-            QObject::connect(track, &Track::trackListChanged, q_ptr, [this, noteSeq]() {
-                // Get current trackList through the full chain
-                auto clipSeq = noteSeq->singingClip()->clipSequence();
+        QObject::disconnect(singingClipConnection);
+        connectedSingingClip = singingClip;
+        if (connectedSingingClip) {
+            singingClipConnection = QObject::connect(connectedSingingClip, &SingingClip::clipSequenceChanged, q_ptr, [this, noteSeq_]() {
+                if (!noteSeq_) {
+                    return;
+                }
+
+                auto clipSeq = noteSeq_->singingClip()->clipSequence();
                 if (!clipSeq) {
+                    // SingingClip has been detached from ClipSequence
                     clearAllAndResetNoteSequence();
                     return;
                 }
-                auto trackList = clipSeq->track()->trackList();
-                
-                if (trackList != selectionModel->model()->tracks()) {
-                    // NoteSequence has left the current Model
-                    clearAllAndResetNoteSequence();
-                }
-            });
-        });
 
-        // Also connect to Track::trackListChanged initially
-        auto clipSeq = singingClip->clipSequence();
-        if (clipSeq) {
-            auto track = clipSeq->track();
-            QObject::connect(track, &Track::trackListChanged, q_ptr, [this, noteSeq]() {
-                // Get current trackList through the full chain
-                auto clipSeq = noteSeq->singingClip()->clipSequence();
-                if (!clipSeq) {
-                    clearAllAndResetNoteSequence();
-                    return;
-                }
-                auto trackList = clipSeq->track()->trackList();
-                
-                if (trackList != selectionModel->model()->tracks()) {
-                    // NoteSequence has left the current Model
-                    clearAllAndResetNoteSequence();
-                }
+                connectTrackForNoteSequence(noteSeq_);
             });
+        } else {
+            singingClipConnection = {};
         }
+
+        connectTrackForNoteSequence(noteSeq_);
     }
 
     void NoteSelectionModelPrivate::disconnectNoteSequence() {
-        if (!noteSequenceWithSelectedItems) {
-            return;
-        }
+        QObject::disconnect(noteSequenceDestroyedConnection);
+        QObject::disconnect(singingClipConnection);
+        QObject::disconnect(trackListConnection);
+        noteSequenceDestroyedConnection = {};
+        singingClipConnection = {};
+        trackListConnection = {};
+        connectedSingingClip = nullptr;
+        connectedTrack = nullptr;
 
-        // Disconnect from NoteSequence
-        QObject::disconnect(noteSequenceWithSelectedItems, nullptr, q_ptr, nullptr);
-
-        // Disconnect from SingingClip
-        auto singingClip = noteSequenceWithSelectedItems->singingClip();
-        if (singingClip) {
-            QObject::disconnect(singingClip, nullptr, q_ptr, nullptr);
-        }
-
-        // Disconnect from Track (if clipSequence exists)
-        auto clipSeq = singingClip ? singingClip->clipSequence() : nullptr;
-        if (clipSeq) {
-            auto track = clipSeq->track();
-            if (track) {
-                QObject::disconnect(track, nullptr, q_ptr, nullptr);
-            }
+        if (noteSequenceWithSelectedItems) {
+            QObject::disconnect(noteSequenceWithSelectedItems, nullptr, q_ptr, nullptr);
         }
     }
 
