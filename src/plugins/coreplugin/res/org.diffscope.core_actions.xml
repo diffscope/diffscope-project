@@ -105,7 +105,9 @@
         <action id="org.diffscope.core.insert.addTrack" icon="list_bar_add" />
         <action id="org.diffscope.core.insert.insertTrack^" icon="list_bar_add" />
         <action id="org.diffscope.core.insert.insertLabel^" icon="tag_add" />
+        <!--TODO: make "add" icons for insert actions-->
         <action id="org.diffscope.core.insert.insertSingingClip^" icon="mic" />
+        <action id="org.diffscope.core.insert.insertNote^" icon="music_note_1" />
 
         <action id="org.diffscope.core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="org.diffscope.core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
@@ -245,6 +247,7 @@
                 <action id="org.diffscope.core.insert.insertTrack" />
                 <action id="org.diffscope.core.insert.insertLabel" />
                 <action id="org.diffscope.core.insert.insertSingingClip" />
+                <action id="org.diffscope.core.insert.insertNote" />
             </menu>
             <menu id="org.diffscope.core.&amp;view">
                 <group id="org.diffscope.core.workspaceActions">
@@ -420,6 +423,7 @@
         </menu>
 
         <menu id="org.diffscope.core.noteSceneContextMenu">
+            <action id="org.diffscope.core.insert.insertNote" />
             <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
     </layouts>

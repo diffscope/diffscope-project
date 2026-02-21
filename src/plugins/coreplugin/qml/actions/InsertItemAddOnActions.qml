@@ -45,4 +45,12 @@ ActionCollection {
             onTriggered: Qt.callLater(() => insertItemScenario.insertSingingClip())
         }
     }
+
+    ActionItem {
+        actionId: "org.diffscope.core.insert.insertNote"
+        Action {
+            enabled: Boolean(d.windowHandle?.projectDocumentContext.document.selectionModel.noteSelectionModel.noteSequenceWithSelectedItems)
+            onTriggered: Qt.callLater(() => insertItemScenario.insertNote())
+        }
+    }
 }

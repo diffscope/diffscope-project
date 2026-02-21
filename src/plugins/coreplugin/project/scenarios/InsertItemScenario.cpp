@@ -35,6 +35,9 @@
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackList.h>
 #include <dspxmodel/BusControl.h>
+#include <dspxmodel/NoteSelectionModel.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/NoteSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -222,7 +225,7 @@ namespace Core {
             return;
 
         auto selectionModel = document()->selectionModel();
-        auto trackSelectionModel = selectionModel ? selectionModel->trackSelectionModel() : nullptr;
+        auto trackSelectionModel = selectionModel->trackSelectionModel();
         auto currentTrack = trackSelectionModel ? trackSelectionModel->currentItem() : nullptr;
         if (!currentTrack) {
             if (auto currentClip = qobject_cast<dspx::Clip *>(selectionModel ? selectionModel->currentItem() : nullptr)) {
@@ -292,9 +295,66 @@ namespace Core {
         });
 
         if (success && newClip) {
-            if (selectionModel) {
-                selectionModel->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+            selectionModel->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+        }
+    }
+
+    void InsertItemScenario::insertNote() const {
+        Q_D(const InsertItemScenario);
+        if (!document() || !d->projectTimeline || !window())
+            return;
+
+        auto model = document()->model();
+        auto selectionModel = document()->selectionModel();
+        auto noteSelectionModel = selectionModel->noteSelectionModel();
+
+        auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+        if (!noteSequence)
+            return;
+
+        auto clip = noteSequence->singingClip();
+
+        // Calculate initial position: playback position - clip position
+        const int clipPosition = clip->position();
+        const int initialPosition = qMax(0, d->projectTimeline->position() - clipPosition);
+
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertNoteDialog");
+        QVariantMap properties;
+        properties.insert("timeline", QVariant::fromValue(d->projectTimeline->musicTimeline()));
+        properties.insert("notePosition", initialPosition);
+        properties.insert("noteLength", 480);
+        properties.insert("notePitch", 60); // Default to middle C (C4)
+        properties.insert("noteLyric", QString()); // TODO: determine initial lyric
+        auto dialog = createAndPositionDialog(&component, properties);
+        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+            return;
+
+        const auto notePosition = qMax(0, dialog->property("notePosition").toInt());
+        const auto noteLength = qMax(1, dialog->property("noteLength").toInt());
+        const auto notePitch = qBound(0, dialog->property("notePitch").toInt(), 127);
+        const auto noteLyric = dialog->property("noteLyric").toString();
+
+        dspx::Note *newNote = nullptr;
+        bool success = false;
+        document()->transactionController()->beginScopedTransaction(tr("Inserting note"), [=, &newNote, &success] {
+            newNote = model->createNote();
+            newNote->setPos(notePosition);
+            newNote->setLength(noteLength);
+            newNote->setKeyNum(notePitch);
+            newNote->setLyric(noteLyric);
+            if (!noteSequence->insertItem(newNote)) {
+                model->destroyItem(newNote);
+                newNote = nullptr;
+                return false;
             }
+            success = true;
+            return true;
+        }, [] {
+            qCCritical(lcInsertItemScenario) << "Failed to insert note in exclusive transaction";
+        });
+
+        if (success && newNote) {
+            selectionModel->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
     }
 
