@@ -94,6 +94,14 @@ QtObject {
                 Component.onCompleted: forceUpdateLayouts()
             }
         }
+        Menu {
+            id: noteItemContextMenu
+            MenuActionInstantiator {
+                actionId: "org.diffscope.core.noteItemContextMenu"
+                context: d.addOn?.windowHandle.actionContext ?? null
+                Component.onCompleted: forceUpdateLayouts()
+            }
+        }
         menu: {
             if (!d.addOn?.windowHandle.projectDocumentContext.document.anyItemsSelected)
                 return null
@@ -106,6 +114,8 @@ QtObject {
                 return tempoItemContextMenu
             if (selectionType === DspxModel.SelectionModel.ST_Track)
                 return trackItemContextMenu
+            if (selectionType === DspxModel.SelectionModel.ST_Note)
+                return noteItemContextMenu
             return null
         }
         QtObject {

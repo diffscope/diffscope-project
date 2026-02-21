@@ -186,5 +186,33 @@ ActionCollection {
             }
         }
     }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftUpByASemitone"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(1)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftDownByASemitone"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(-1)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftUpByAnOctave"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(12)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftDownByAnOctave"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(-12)
+        }
+    }
 
 }

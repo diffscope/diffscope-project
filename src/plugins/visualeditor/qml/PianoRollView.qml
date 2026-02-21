@@ -34,6 +34,35 @@ Item {
         document: view.pianoRollPanelInterface?.windowHandle.projectDocumentContext.document ?? null
     }
 
+    Menu {
+        id: noteItemContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.noteItemContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Menu {
+        id: noteSceneContextMenu
+        MenuActionInstantiator {
+            actionId: "org.diffscope.core.noteSceneContextMenu"
+            context: view.addOn?.windowHandle.actionContext ?? null
+            Component.onCompleted: forceUpdateLayouts()
+        }
+    }
+
+    Connections {
+        target: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
+        function onContextMenuRequested() {
+            noteSceneContextMenu.popup()
+        }
+
+        function onItemContextMenuRequested() {
+            noteItemContextMenu.popup()
+        }
+    }
+
     SplitView {
         id: splitView
         anchors.fill: parent

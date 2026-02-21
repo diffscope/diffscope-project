@@ -1,5 +1,7 @@
 #include "EditActionsAddOn.h"
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QQmlComponent>
 
@@ -22,10 +24,15 @@
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackList.h>
 #include <dspxmodel/TrackSelectionModel.h>
+#include <dspxmodel/NoteSelectionModel.h>
+#include <dspxmodel/Note.h>
+
+#include <transactional/TransactionController.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/NotificationMessage.h>
 
 namespace Core::Internal {
 
@@ -77,6 +84,10 @@ namespace Core::Internal {
     }
 
     EditActionsAddOn::EditActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+        m_pitchOutOfRangeNotification = new NotificationMessage(this);
+        m_pitchOutOfRangeNotification->setTitle(tr("Cannot Shift Notes"));
+        m_pitchOutOfRangeNotification->setText(tr("Pitch out of range"));
+        m_pitchOutOfRangeNotification->setIcon(SVS::SVSCraft::Warning);
     }
 
     EditActionsAddOn::~EditActionsAddOn() = default;
@@ -149,6 +160,23 @@ namespace Core::Internal {
         if (!selectionModel->currentItem())
             return;
         selectionModel->select(selectionModel->currentItem(), dspx::SelectionModel::Toggle);
+    }
+    void EditActionsAddOn::shiftNotes(int semitone) {
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto noteSelectionModel = windowInterface->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
+        auto notes = noteSelectionModel->selectedItems();
+        windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(tr("Shifting note pitch"), [=] {
+            for (auto *note : notes) {
+                auto p = note->keyNum() + semitone;
+                if (p < 0 || p > 127) {
+                    m_pitchOutOfRangeNotification->close();
+                    windowInterface->sendNotification(m_pitchOutOfRangeNotification, ProjectWindowInterface::AutoHide);
+                    return false;
+                }
+                note->setKeyNum(p);
+            }
+            return true;
+        });
     }
 
 }

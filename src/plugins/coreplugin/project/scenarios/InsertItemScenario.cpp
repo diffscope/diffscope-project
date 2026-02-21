@@ -24,11 +24,17 @@
 
 #include <dspxmodel/Label.h>
 #include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipTime.h>
+#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
+#include <dspxmodel/TrackSelectionModel.h>
 #include <dspxmodel/Timeline.h>
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackList.h>
+#include <dspxmodel/BusControl.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -125,11 +131,13 @@ namespace Core {
         properties.insert("trackCount", trackList->size());
         properties.insert("insertionIndex", trackList->size());
         properties.insert("insertionCount", 1);
+        properties.insert("trackName", tr("Unnamed track"));
         auto dialog = createAndPositionDialog(&component, properties);
         if (!DocumentEditScenarioPrivate::execDialog(dialog))
             return;
         auto insertionIndex = dialog->property("insertionIndex").toInt();
         auto insertionCount = dialog->property("insertionCount").toInt();
+        auto trackName = dialog->property("trackName").toString();
         insertionIndex = std::clamp(insertionIndex, 0, trackList->size());
         QList<dspx::Track *> newTracks;
         newTracks.reserve(insertionCount);
@@ -138,7 +146,7 @@ namespace Core {
             for (int i = 0; i < insertionCount; ++i) {
                 auto track = model->createTrack();
                 track->fromQDspx(QDspx::Track{});
-                track->setName(tr("Unnamed track"));
+                track->setName(i == 0 ? trackName : QString("%1 (%L2)").arg(trackName).arg(i + 1));
                 assignInitialTrackColor(insertionIndex + i, track);
                 if (!trackList->insertItem(insertionIndex + i, track)) {
                     model->destroyItem(track);
@@ -200,6 +208,93 @@ namespace Core {
         if (success && newLabel) {
             auto selectionModel = document()->selectionModel();
             selectionModel->select(newLabel, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+        }
+    }
+
+    void InsertItemScenario::insertSingingClip() const {
+        Q_D(const InsertItemScenario);
+        if (!document() || !d->projectTimeline || !window())
+            return;
+
+        auto model = document()->model();
+        auto trackList = model->tracks();
+        if (!trackList || trackList->size() == 0)
+            return;
+
+        auto selectionModel = document()->selectionModel();
+        auto trackSelectionModel = selectionModel ? selectionModel->trackSelectionModel() : nullptr;
+        auto currentTrack = trackSelectionModel ? trackSelectionModel->currentItem() : nullptr;
+        if (!currentTrack) {
+            if (auto currentClip = qobject_cast<dspx::Clip *>(selectionModel ? selectionModel->currentItem() : nullptr)) {
+                if (auto clipSequence = currentClip->clipSequence()) {
+                    currentTrack = clipSequence->track();
+                }
+            }
+        }
+
+        if (!currentTrack) {
+            const auto tracks = trackList->items();
+            if (!tracks.isEmpty()) {
+                currentTrack = tracks.first();
+            }
+        }
+
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertSingingClipDialog");
+        QVariantMap properties;
+        properties.insert("trackList", QVariant::fromValue(trackList));
+        properties.insert("selectedTrack", QVariant::fromValue(currentTrack));
+        properties.insert("timeline", QVariant::fromValue(d->projectTimeline->musicTimeline()));
+        properties.insert("clipPosition", d->projectTimeline->position());
+        properties.insert("clipLength", 46080);
+        properties.insert("clipName", tr("Unnamed clip"));
+        auto dialog = createAndPositionDialog(&component, properties);
+        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+            return;
+
+        auto selectedTrack = qobject_cast<dspx::Track *>(dialog->property("selectedTrack").value<QObject *>());
+        if (!selectedTrack) {
+            selectedTrack = currentTrack;
+        }
+        if (!selectedTrack) {
+            const auto tracks = trackList->items();
+            if (!tracks.isEmpty()) {
+                selectedTrack = tracks.first();
+            }
+        }
+
+        if (!selectedTrack)
+            return;
+
+        const auto clipPosition = qMax(0, dialog->property("clipPosition").toInt());
+        const auto clipLength = qMax(1, dialog->property("clipLength").toInt());
+        const auto clipName = dialog->property("clipName").toString();
+
+        dspx::SingingClip *newClip = nullptr;
+        bool success = false;
+        document()->transactionController()->beginScopedTransaction(tr("Inserting singing clip"), [=, &newClip, &success] {
+            newClip = model->createSingingClip();
+            newClip->setName(clipName);
+            auto time = newClip->time();
+            time->setClipStart(0);
+            time->setClipLen(clipLength);
+            time->setStart(clipPosition);
+            newClip->control()->setGain(1);
+            auto clipSequence = selectedTrack->clips();
+            if (!clipSequence || !clipSequence->insertItem(newClip)) {
+                model->destroyItem(newClip);
+                newClip = nullptr;
+                return false;
+            }
+            success = true;
+            return true;
+        }, [] {
+            qCCritical(lcInsertItemScenario) << "Failed to insert singing clip in exclusive transaction";
+        });
+
+        if (success && newClip) {
+            if (selectionModel) {
+                selectionModel->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+            }
         }
     }
 

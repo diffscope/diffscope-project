@@ -5,6 +5,10 @@
 
 #include <CoreApi/windowinterface.h>
 
+namespace Core {
+    class NotificationMessage;
+}
+
 namespace Core::Internal {
 
     class EditActionsAddOn : public WindowInterfaceAddOn {
@@ -30,6 +34,10 @@ namespace Core::Internal {
         Q_INVOKABLE void shiftCursor(ShiftCursorDirection direction);
         Q_INVOKABLE void selectCurrent();
         Q_INVOKABLE void multipleSelectCurrent();
+        Q_INVOKABLE void shiftNotes(int semitone);
+
+    private:
+        NotificationMessage *m_pitchOutOfRangeNotification;
     };
 
 }

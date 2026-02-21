@@ -38,4 +38,11 @@ ActionCollection {
             onTriggered: Qt.callLater(() => insertItemScenario.insertLabel())
         }
     }
+
+    ActionItem {
+        actionId: "org.diffscope.core.insert.insertSingingClip"
+        Action {
+            onTriggered: Qt.callLater(() => insertItemScenario.insertSingingClip())
+        }
+    }
 }

@@ -31,6 +31,7 @@ namespace Core {
         Q_INVOKABLE void addTrack() const;
         Q_INVOKABLE void insertTrack() const;
         Q_INVOKABLE void insertLabel() const;
+        Q_INVOKABLE void insertSingingClip() const;
 
     Q_SIGNALS:
         void projectTimelineChanged();

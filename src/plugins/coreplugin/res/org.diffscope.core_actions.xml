@@ -55,6 +55,10 @@
         <action id="org.diffscope.core.edit.solo" shortcut="S" />
         <action id="org.diffscope.core.edit.record" shortcut="R" />
         <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" shortcut="=" />
+        <action id="org.diffscope.core.edit.shiftUpByASemitone" shortcut="Ctrl+Up" />
+        <action id="org.diffscope.core.edit.shiftDownByASemitone" shortcut="Ctrl+Down" />
+        <action id="org.diffscope.core.edit.shiftUpByAnOctave" shortcut="Ctrl+Shift+Up" />
+        <action id="org.diffscope.core.edit.shiftDownByAnOctave" shortcut="Ctrl+Shift+Down" />
 
         <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" description="Show music time (measure:beat:tick) on the time indicator" />
         <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />
@@ -98,9 +102,10 @@
         <action id="org.diffscope.core.view.show&amp;BottomSideBar" description="Show or hide the bottom side bar" />
         <action id="org.diffscope.core.view.show&amp;StatusBar" description="Show or hide the status bar" />
 
-        <action id="org.diffscope.core.insert.&amp;addTrack" icon="list_bar_add" />
-        <action id="org.diffscope.core.insert.&amp;insertTrack^" icon="list_bar_add" />
-        <action id="org.diffscope.core.insert.&amp;insertLabel^" icon="tag_add" />
+        <action id="org.diffscope.core.insert.addTrack" icon="list_bar_add" />
+        <action id="org.diffscope.core.insert.insertTrack^" icon="list_bar_add" />
+        <action id="org.diffscope.core.insert.insertLabel^" icon="tag_add" />
+        <action id="org.diffscope.core.insert.insertSingingClip^" icon="mic" />
 
         <action id="org.diffscope.core.window.&amp;nextProjectWindow" description="Switch to the next project window" shortcut="Alt+J" />
         <action id="org.diffscope.core.window.&amp;previousProjectWindow" description="Switch to the previous project window" shortcut="Alt+K" />
@@ -200,6 +205,12 @@
                 <group id="org.diffscope.core.edit.trackSelectActions">
                     <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
                 </group>
+                <group id="org.diffscope.core.edit.noteShiftActions">
+                    <action id="org.diffscope.core.edit.shiftUpByASemitone" />
+                    <action id="org.diffscope.core.edit.shiftDownByASemitone" />
+                    <action id="org.diffscope.core.edit.shiftUpByAnOctave" />
+                    <action id="org.diffscope.core.edit.shiftDownByAnOctave" />
+                </group>
             </menu>
             <menu id="org.diffscope.core.&amp;timeline">
                 <group id="org.diffscope.core.timeIndicatorTimecodeFormatActions">
@@ -233,6 +244,7 @@
                 <action id="org.diffscope.core.insert.addTrack" />
                 <action id="org.diffscope.core.insert.insertTrack" />
                 <action id="org.diffscope.core.insert.insertLabel" />
+                <action id="org.diffscope.core.insert.insertSingingClip" />
             </menu>
             <menu id="org.diffscope.core.&amp;view">
                 <group id="org.diffscope.core.workspaceActions">
@@ -368,6 +380,7 @@
         </menu>
 
         <menu id="org.diffscope.core.clipSceneContextMenu">
+            <action id="org.diffscope.core.insert.insertSingingClip" />
             <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
 
@@ -398,6 +411,15 @@
         <menu id="org.diffscope.core.trackSceneContextMenu">
             <action id="org.diffscope.core.insert.addTrack" />
             <action id="org.diffscope.core.insert.insertTrack" />
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.noteItemContextMenu">
+            <group id="org.diffscope.core.edit.noteShiftActions" />
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.noteSceneContextMenu">
             <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
     </layouts>
