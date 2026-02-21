@@ -133,43 +133,97 @@ namespace Core {
             return;
         }
 
-        trackSelectionModel = selectionModel->trackSelectionModel();
-        clipSelectionModel = selectionModel->clipSelectionModel();
-        noteSelectionModel = selectionModel->noteSelectionModel();
-        anchorNodeSelectionModel = selectionModel->anchorNodeSelectionModel();
+        // Listen to selection type changes
+        QObject::connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, q, [this] {
+            rebindSelectionModels();
+        });
 
+        rebindSelectionModels();
+    }
+
+    void TrackPropertyMapperPrivate::rebindSelectionModels() {
+        Q_Q(TrackPropertyMapper);
+        if (!selectionModel) {
+            return;
+        }
+
+        // Disconnect all existing connections
+        unbindSelectionModels();
+
+        const auto selectionType = selectionModel->selectionType();
+
+        // Bind track selection model
+        if (selectionType == dspx::SelectionModel::ST_Track) {
+            trackSelectionModel = selectionModel->trackSelectionModel();
+            if (trackSelectionModel) {
+                QObject::connect(trackSelectionModel, &dspx::TrackSelectionModel::itemSelected, q, [this](dspx::Track *track, bool selected) {
+                    handleItemSelected(track, selected);
+                });
+            }
+        }
+
+        // Bind clip selection model
+        if (selectionType == dspx::SelectionModel::ST_Clip) {
+            clipSelectionModel = selectionModel->clipSelectionModel();
+            if (clipSelectionModel) {
+                QObject::connect(clipSelectionModel, &dspx::ClipSelectionModel::itemSelected, q, [this](dspx::Clip *clip, bool selected) {
+                    Q_UNUSED(selected);
+                    Q_UNUSED(clip);
+                    rebuildFromSelection();
+                });
+                QObject::connect(clipSelectionModel, &dspx::ClipSelectionModel::clipSequencesWithSelectedItemsChanged, q, [this] {
+                    rebuildFromSelection();
+                });
+            }
+        }
+
+        // Bind note selection model
+        if (selectionType == dspx::SelectionModel::ST_Note) {
+            noteSelectionModel = selectionModel->noteSelectionModel();
+            if (noteSelectionModel) {
+                QObject::connect(noteSelectionModel, &dspx::NoteSelectionModel::itemSelected, q, [this](dspx::Note *note, bool selected) {
+                    Q_UNUSED(selected);
+                    Q_UNUSED(note);
+                    rebuildFromSelection();
+                });
+                QObject::connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, q, [this] {
+                    rebuildFromSelection();
+                });
+            }
+        }
+
+        // Bind anchor node selection model
+        if (selectionType == dspx::SelectionModel::ST_AnchorNode) {
+            anchorNodeSelectionModel = selectionModel->anchorNodeSelectionModel();
+            if (anchorNodeSelectionModel) {
+                QObject::connect(anchorNodeSelectionModel, &dspx::AnchorNodeSelectionModel::paramCurveSequenceWithSelectedItemsChanged, q, [this] {
+                    rebuildFromSelection();
+                });
+                QObject::connect(anchorNodeSelectionModel, &dspx::AnchorNodeSelectionModel::paramCurvesAnchorWithSelectedItemsChanged, q, [this] {
+                    rebuildFromSelection();
+                });
+            }
+        }
+
+        rebuildFromSelection();
+    }
+
+    void TrackPropertyMapperPrivate::unbindSelectionModels() {
         if (trackSelectionModel) {
-            QObject::connect(trackSelectionModel, &dspx::TrackSelectionModel::itemSelected, q, [this](dspx::Track *track, bool selected) {
-                handleItemSelected(track, selected);
-            });
+            QObject::disconnect(trackSelectionModel, nullptr, q_ptr, nullptr);
+            trackSelectionModel = nullptr;
         }
         if (clipSelectionModel) {
-            QObject::connect(clipSelectionModel, &dspx::ClipSelectionModel::itemSelected, q, [this](dspx::Clip *clip, bool selected) {
-                Q_UNUSED(selected);
-                Q_UNUSED(clip);
-                rebuildFromSelection();
-            });
-            QObject::connect(clipSelectionModel, &dspx::ClipSelectionModel::clipSequencesWithSelectedItemsChanged, q, [this] {
-                rebuildFromSelection();
-            });
+            QObject::disconnect(clipSelectionModel, nullptr, q_ptr, nullptr);
+            clipSelectionModel = nullptr;
         }
         if (noteSelectionModel) {
-            QObject::connect(noteSelectionModel, &dspx::NoteSelectionModel::itemSelected, q, [this](dspx::Note *note, bool selected) {
-                Q_UNUSED(selected);
-                Q_UNUSED(note);
-                rebuildFromSelection();
-            });
-            QObject::connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, q, [this] {
-                rebuildFromSelection();
-            });
+            QObject::disconnect(noteSelectionModel, nullptr, q_ptr, nullptr);
+            noteSelectionModel = nullptr;
         }
         if (anchorNodeSelectionModel) {
-            QObject::connect(anchorNodeSelectionModel, &dspx::AnchorNodeSelectionModel::paramCurveSequenceWithSelectedItemsChanged, q, [this] {
-                rebuildFromSelection();
-            });
-            QObject::connect(anchorNodeSelectionModel, &dspx::AnchorNodeSelectionModel::paramCurvesAnchorWithSelectedItemsChanged, q, [this] {
-                rebuildFromSelection();
-            });
+            QObject::disconnect(anchorNodeSelectionModel, nullptr, q_ptr, nullptr);
+            anchorNodeSelectionModel = nullptr;
         }
     }
 
@@ -177,25 +231,13 @@ namespace Core {
         resetNoteWatchers();
         resetAnchorWatchers();
 
-        if (trackSelectionModel) {
-            QObject::disconnect(trackSelectionModel, nullptr, q_ptr, nullptr);
-        }
-        if (clipSelectionModel) {
-            QObject::disconnect(clipSelectionModel, nullptr, q_ptr, nullptr);
-        }
-        if (noteSelectionModel) {
-            QObject::disconnect(noteSelectionModel, nullptr, q_ptr, nullptr);
-        }
-        if (anchorNodeSelectionModel) {
-            QObject::disconnect(anchorNodeSelectionModel, nullptr, q_ptr, nullptr);
+        if (selectionModel) {
+            QObject::disconnect(selectionModel, nullptr, q_ptr, nullptr);
         }
 
+        unbindSelectionModels();
         clear();
 
-        trackSelectionModel = nullptr;
-        clipSelectionModel = nullptr;
-        noteSelectionModel = nullptr;
-        anchorNodeSelectionModel = nullptr;
         selectionModel = nullptr;
     }
 

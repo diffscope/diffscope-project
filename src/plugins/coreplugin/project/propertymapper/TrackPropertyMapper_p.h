@@ -70,6 +70,8 @@ namespace Core {
         void setSelectionModel(dspx::SelectionModel *selectionModel_);
         void attachSelectionModel();
         void detachSelectionModel();
+        void rebindSelectionModels();
+        void unbindSelectionModels();
 
         void rebuildFromSelection();
         void rebuildFromTrackSelection();

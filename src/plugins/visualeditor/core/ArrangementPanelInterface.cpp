@@ -17,17 +17,21 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackListLayoutViewModel.h>
 
+#include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/SingingClip.h>
+#include <dspxmodel/SelectionModel.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/DspxDocument.h>
 
 #include <visualeditor/AutoPageScrollingManipulator.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
-#include <visualeditor/PianoRollPanelInterface.h>
 
 namespace VisualEditor {
 
@@ -53,7 +57,11 @@ namespace VisualEditor {
             if (!item)
                 return;
             if (item->type() == dspx::Clip::Singing) {
-                PianoRollPanelInterface::of(windowHandle)->setEditingClip(static_cast<dspx::SingingClip *>(item));
+                auto selectionModel = windowHandle->projectDocumentContext()->document()->selectionModel();
+                auto singingClip = static_cast<dspx::SingingClip *>(item);
+                selectionModel->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, singingClip->notes());
+                selectionModel->select(singingClip, dspx::SelectionModel::Select);
+                PianoRollPanelInterface::of(windowHandle)->setEditingClip(singingClip);
             } else {
                 // TODO
             }
