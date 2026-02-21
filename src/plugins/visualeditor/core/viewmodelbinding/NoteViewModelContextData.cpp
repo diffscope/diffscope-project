@@ -646,14 +646,10 @@ namespace VisualEditor {
         lyricUpdatedNotes.remove(viewItem);
         additionalTextUpdatedNotes.remove(viewItem);
 
-        if (item->noteSequence()) {
-            auto clip = item->noteSequence()->singingClip();
-            auto sequenceViewModel = noteSequenceViewModelMap.value(clip);
-            if (sequenceViewModel) {
-                sequenceViewModel->removeItem(viewItem);
-            }
+        auto sequenceViewModel = qobject_cast<sflow::RangeSequenceViewModel *>(viewItem->parent());
+        if (sequenceViewModel) {
+            sequenceViewModel->removeItem(viewItem);
         }
-
         viewItem->deleteLater();
     }
 

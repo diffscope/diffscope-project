@@ -44,7 +44,7 @@ namespace VisualEditor {
         dspx::TrackList *trackList{};
         dspx::SelectionModel *selectionModel{};
         dspx::NoteSelectionModel *noteSelectionModel{};
-    NoteSelectionController *noteSelectionController{};
+        NoteSelectionController *noteSelectionController{};
 
         QHash<dspx::Track *, sflow::RangeSequenceViewModel *> singingClipPerTrackSequenceViewModelMap;
         QHash<sflow::RangeSequenceViewModel *, dspx::Track *> trackFromSingingClipSequenceViewModelMap;
