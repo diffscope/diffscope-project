@@ -67,7 +67,7 @@ Dialog {
             id: lengthLabel
             text: qsTr("Length")
         }
-        SpinBox {
+        MusicTimeOffsetSpinBox {
             id: lengthSpinBox
             Accessible.labelledBy: lengthLabel
             Accessible.name: lengthLabel.text

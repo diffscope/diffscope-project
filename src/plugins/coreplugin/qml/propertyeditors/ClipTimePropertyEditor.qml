@@ -23,7 +23,7 @@ PropertyEditorGroupBox {
             label: qsTr("Position")
             transactionName: qsTr("Editing clip position")
         }
-        IntegerPropertyEditorField {
+        MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "startingOffset"
@@ -31,7 +31,7 @@ PropertyEditorGroupBox {
             to: ((groupBox.propertyMapper?.fullLength ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.fullLength) - (groupBox.propertyMapper?.clipLength ?? 0)
             transactionName: qsTr("Editing clip starting offset")
         }
-        IntegerPropertyEditorField {
+        MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "clipLength"

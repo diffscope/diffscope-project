@@ -17,15 +17,15 @@ PropertyEditorGroupBox {
     ColumnLayout {
         width: parent.width
 
-        MusicTimePropertyEditorField {
+        MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "pos"
-            label: qsTr("Onset position")
+            label: qsTr("Onset position (relative to clip)")
             transactionName: qsTr("Editing onset position")
         }
 
-        IntegerPropertyEditorField {
+        MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "length"
