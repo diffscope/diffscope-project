@@ -706,7 +706,7 @@ namespace VisualEditor {
             Q_EMIT drawTransactionWillAbort();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::splitAboutToStart, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::splitStarted, this, [=](QQuickItem *) {
             splitPosition = {};
             Q_EMIT splitWillStart();
         });

@@ -509,6 +509,10 @@ Item {
             text: qsTr("Cursor indicator color")
         }
         ListElement {
+            name: "scissorIndicatorColor"
+            text: qsTr("Scissor indicator color")
+        }
+        ListElement {
             name: "scalePrimaryColor"
             text: qsTr("Scale primary color")
         }

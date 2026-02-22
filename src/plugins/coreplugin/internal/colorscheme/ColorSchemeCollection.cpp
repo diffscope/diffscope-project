@@ -70,6 +70,7 @@ namespace Core::Internal {
             {"playheadPrimaryColor", QVariant::fromValue(QColor(0xcc4455))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc4455))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0xbf00bfff))},
+            {"scissorIndicatorColor", QVariant::fromValue(QColor(0xcc4455))},
             {"scalePrimaryColor", QVariant::fromValue(QColor(Qt::black))},
             {"scaleSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xbf000000))},
             {"scaleTertiaryColor", QVariant::fromValue(QColor::fromRgba(0x7f000000))},
@@ -88,6 +89,7 @@ namespace Core::Internal {
             {"itemSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x11ffffff)}})},
             {"clipSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
             {"clipThumbnailColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+            {"noteSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
          }},
         {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "DiffScope Light"),
          {
@@ -140,6 +142,7 @@ namespace Core::Internal {
             {"playheadPrimaryColor", QVariant::fromValue(QColor(0xcc4455))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc4455))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0x7f5566ff))},
+            {"scissorIndicatorColor", QVariant::fromValue(QColor(0xcc4455))},
             {"scalePrimaryColor", QVariant::fromValue(QColor(Qt::black))},
             {"scaleSecondaryColor", QVariant::fromValue(QColor::fromRgba(0xbf000000))},
             {"scaleTertiaryColor", QVariant::fromValue(QColor::fromRgba(0x7f000000))},
@@ -158,6 +161,7 @@ namespace Core::Internal {
             {"itemSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x11ffffff)}})},
             {"clipSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
             {"clipThumbnailColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+            {"noteSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
          }},
         {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "DiffScope High Contrast"),
          {
@@ -210,6 +214,7 @@ namespace Core::Internal {
             {"playheadPrimaryColor", QVariant::fromValue(QColor::fromRgb(0xcc293c))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc293c))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0xbf00ff55))},
+            {"scissorIndicatorColor", QVariant::fromValue(QColor(0xcc293c))},
             {"scalePrimaryColor", QVariant::fromValue(QColor::fromRgb(0x007fff))},
             {"scaleSecondaryColor", QVariant::fromValue(QColor::fromRgb(0x005fbf))},
             {"scaleTertiaryColor", QVariant::fromValue(QColor::fromRgb(0x003f7f))},
@@ -228,6 +233,7 @@ namespace Core::Internal {
             {"itemSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x11ffffff)}})},
             {"clipSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
             {"clipThumbnailColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.5}})},
+            {"noteSelectedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::OkLabLighterColorChange{1.2}})},
          }}
     };
 
@@ -494,6 +500,7 @@ namespace Core::Internal {
             palette->setProperty("playheadPrimaryColor", m_unsavedPreset.value("playheadPrimaryColor"));
             palette->setProperty("playheadSecondaryColor", m_unsavedPreset.value("playheadSecondaryColor"));
             palette->setProperty("cursorIndicatorColor", m_unsavedPreset.value("cursorIndicatorColor"));
+            palette->setProperty("scissorIndicatorColor", m_unsavedPreset.value("scissorIndicatorColor"));
             palette->setProperty("scalePrimaryColor", m_unsavedPreset.value("scalePrimaryColor"));
             palette->setProperty("scaleSecondaryColor", m_unsavedPreset.value("scaleSecondaryColor"));
             palette->setProperty("scaleTertiaryColor", m_unsavedPreset.value("scaleTertiaryColor"));
@@ -512,6 +519,7 @@ namespace Core::Internal {
             palette->setProperty("itemSelectedColorChange", m_unsavedPreset.value("itemSelectedColorChange"));
             palette->setProperty("clipSelectedColorChange", m_unsavedPreset.value("clipSelectedColorChange"));
             palette->setProperty("clipThumbnailColorChange", m_unsavedPreset.value("clipThumbnailColorChange"));
+            palette->setProperty("noteSelectedColorChange", m_unsavedPreset.value("noteSelectedColorChange"));
         }
     }
     static const char settingCategoryC[] = "Core::Internal::ColorSchemeCollection";
