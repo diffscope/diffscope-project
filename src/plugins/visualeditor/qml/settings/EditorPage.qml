@@ -18,7 +18,7 @@ ScrollView {
     property int pageModifier: 0
     property bool usePageModifierAsAlternateAxisZoom: false
     property bool middleButtonAutoScroll: false
-    property int autoDurationPositionAlignment: 20
+    property double autoDurationPositionAlignment: 32
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
     property bool pianoKeyboardUseSimpleStyle: false
@@ -130,7 +130,7 @@ ScrollView {
 
                 GridLayout {
                     anchors.fill: parent
-                    columns: 3
+                    columns: 2
 
                     Label {
                         text: qsTr("Auto-snap length")
@@ -138,27 +138,29 @@ ScrollView {
                             matcher: page.matcher
                         }
                     }
-                    Slider {
-                        Layout.fillWidth: true
-                        from: 0
-                        to: 80
 
-                        stepSize: 1
-                        snapMode: Slider.SnapAlways
-                        value: page.autoDurationPositionAlignment - 20
-                        onMoved: page.autoDurationPositionAlignment = value + 20
-                    }
-                    SpinBox {
-                        from: 20
-                        to: 100
-                        stepSize: 1
-                        value: page.autoDurationPositionAlignment
-                        onValueModified: page.autoDurationPositionAlignment = value
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("More compact")
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 1
+                            value: Math.log10(page.autoDurationPositionAlignment) - 0.9
+                            onMoved: page.autoDurationPositionAlignment = Math.pow(10, value + 0.9)
+                        }
+                        Label {
+                            text: qsTr("More spacious")
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        }
                     }
 
                     CheckBox {
                         text: qsTr("Temporarily disable snap when pressing %1").arg(page.pageHandle.shiftText)
-                        Layout.columnSpan: 3
+                        Layout.columnSpan: 2
                         checked: page.enableTemporarySnapOff
                         onClicked: page.enableTemporarySnapOff = checked
                     }

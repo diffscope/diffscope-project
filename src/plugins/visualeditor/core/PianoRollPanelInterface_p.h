@@ -51,6 +51,7 @@ namespace VisualEditor {
         dspx::SelectionModel *editingClipSelectionModel;
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
+        mutable int previousPositionAlignment{};
 
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;

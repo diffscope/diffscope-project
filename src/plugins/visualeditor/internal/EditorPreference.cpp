@@ -15,7 +15,7 @@ namespace VisualEditor::Internal {
         EditorPreference::ScrollModifier pageModifier{};
         bool usePageModifierAsAlternateAxisZoom{};
         bool middleButtonAutoScroll{};
-        int autoDurationPositionAlignment{48};
+        int autoDurationPositionAlignment{24};
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
         bool pianoKeyboardUseSimpleStyle{};
@@ -52,7 +52,7 @@ namespace VisualEditor::Internal {
         emit usePageModifierAsAlternateAxisZoomChanged();
         d->middleButtonAutoScroll = settings->value("middleButtonAutoScroll", false).toBool();
         emit middleButtonAutoScrollChanged();
-        d->autoDurationPositionAlignment = settings->value("autoDurationPositionAlignment", 48).toInt();
+        d->autoDurationPositionAlignment = settings->value("autoDurationPositionAlignment", 24).toInt();
         emit autoDurationPositionAlignmentChanged();
         d->enableTemporarySnapOff = settings->value("enableTemporarySnapOff", true).toBool();
         emit enableTemporarySnapOffChanged();

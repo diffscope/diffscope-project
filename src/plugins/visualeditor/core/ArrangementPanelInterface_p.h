@@ -35,6 +35,7 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled{false};
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
+        mutable int previousPositionAlignment{};
 
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;

@@ -6,7 +6,7 @@
 namespace VisualEditor {
 
     // Static helper function to find the appropriate note duration for auto mode
-    static PositionAlignmentManipulator::Duration findNoteDurationInRange(double minValue, double maxValue) {
+    static PositionAlignmentManipulator::Duration findNoteDurationInRange(double minValue, double maxValue, int tuplet) {
         // Define all note durations in descending order (longest to shortest)
         static const QList<PositionAlignmentManipulator::Duration> noteDurations = {
             PositionAlignmentManipulator::Note1st,
@@ -21,7 +21,7 @@ namespace VisualEditor {
 
         // Find the first note duration that falls within the range [minValue, maxValue)
         for (auto noteDuration : noteDurations) {
-            double noteValue = static_cast<double>(noteDuration);
+            double noteValue = static_cast<double>(noteDuration) * 2 / tuplet;
             if (noteValue >= minValue && noteValue < maxValue) {
                 return noteDuration;
             }
@@ -136,7 +136,7 @@ namespace VisualEditor {
                 double minValue = autoDurationPositionAlignment / pixelDensity;
                 double maxValue = 2.0 * autoDurationPositionAlignment / pixelDensity;
                 
-                auto foundDuration = findNoteDurationInRange(minValue, maxValue);
+                auto foundDuration = findNoteDurationInRange(minValue, maxValue, tuplet);
                 newAlignment = static_cast<int>(foundDuration) * 2 / static_cast<int>(tuplet);
             }
         }

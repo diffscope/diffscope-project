@@ -126,9 +126,12 @@ namespace VisualEditor {
         QObject::connect(q, &ArrangementPanelInterface::snapTemporarilyDisabledChanged, positionAlignmentManipulator, [=, this] {
             if (isSnapTemporarilyDisabled) {
                 previousDuration = positionAlignmentManipulator->duration();
+                previousPositionAlignment = timeLayoutViewModel->positionAlignment();
                 positionAlignmentManipulator->setDuration(PositionAlignmentManipulator::Unset);
+                timeLayoutViewModel->setDisplayPositionAlignment(previousPositionAlignment);
             } else {
                 positionAlignmentManipulator->setDuration(previousDuration);
+                timeLayoutViewModel->resetDisplayPositionAlignment();
             }
         });
     }
