@@ -8,37 +8,37 @@ namespace Core {
         d->handle = new UIShell::BubbleNotificationHandle;
         d->handle->setClosable(true);
         connect(d->handle, &UIShell::BubbleNotificationHandle::titleChanged, this, [=] {
-            emit titleChanged(d->handle->title());
+            Q_EMIT titleChanged(d->handle->title());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::textChanged, this, [=] {
-            emit textChanged(d->handle->text());
+            Q_EMIT textChanged(d->handle->text());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::iconChanged, this, [=] {
-            emit iconChanged(d->handle->icon());
+            Q_EMIT iconChanged(d->handle->icon());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::buttonsChanged, this, [=] {
-            emit buttonsChanged(d->handle->buttons());
+            Q_EMIT buttonsChanged(d->handle->buttons());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::primaryButtonChanged, this, [=] {
-            emit primaryButtonChanged(d->handle->primaryButton());
+            Q_EMIT primaryButtonChanged(d->handle->primaryButton());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::closableChanged, this, [=] {
-            emit closableChanged(d->handle->closable());
+            Q_EMIT closableChanged(d->handle->closable());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::hasProgressChanged, this, [=] {
-            emit hasProgressChanged(d->handle->hasProgress());
+            Q_EMIT hasProgressChanged(d->handle->hasProgress());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::progressChanged, this, [=] {
-            emit progressChanged(d->handle->progress());
+            Q_EMIT progressChanged(d->handle->progress());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::progressAbortableChanged, this, [=] {
-            emit progressAbortableChanged(d->handle->progressAbortable());
+            Q_EMIT progressAbortableChanged(d->handle->progressAbortable());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::permanentlyHideableChanged, this, [=] {
-            emit allowDoNotShowAgainChanged(d->handle->permanentlyHideable());
+            Q_EMIT allowDoNotShowAgainChanged(d->handle->permanentlyHideable());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::textFormatChanged, this, [=] {
-            emit textFormatChanged(d->handle->textFormat());
+            Q_EMIT textFormatChanged(d->handle->textFormat());
         });
         connect(d->handle, &UIShell::BubbleNotificationHandle::hideClicked, this, &NotificationMessage::hidden);
         connect(d->handle, &UIShell::BubbleNotificationHandle::closeClicked, this, &NotificationMessage::closed);
@@ -133,6 +133,19 @@ namespace Core {
         Q_D(NotificationMessage);
         d->handle->setPermanentlyHideable(allow);
     }
+    
+    QString NotificationMessage::doNotShowAgainIdentifier() const {
+        Q_D(const NotificationMessage);
+        return d->doNotShowAgainIdentifier;
+    }
+    
+    void NotificationMessage::setDoNotShowAgainIdentifier(const QString &identifier) {
+        Q_D(NotificationMessage);
+        if (d->doNotShowAgainIdentifier != identifier) {
+            d->doNotShowAgainIdentifier = identifier;
+            Q_EMIT doNotShowAgainIdentifierChanged(identifier);
+        }
+    }
     int NotificationMessage::textFormat() const {
         Q_D(const NotificationMessage);
         return d->handle->textFormat();
@@ -143,11 +156,11 @@ namespace Core {
     }
     void NotificationMessage::hide() {
         Q_D(NotificationMessage);
-        emit d->handle->hideClicked();
+        Q_EMIT d->handle->hideClicked();
     }
     void NotificationMessage::close() {
         Q_D(NotificationMessage);
-        emit d->handle->closeClicked();
+        Q_EMIT d->handle->closeClicked();
     }
 }
 

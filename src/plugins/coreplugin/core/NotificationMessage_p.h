@@ -18,6 +18,7 @@ namespace Core {
     public:
         NotificationMessage *q_ptr;
         QPointer<UIShell::BubbleNotificationHandle> handle;
+        QString doNotShowAgainIdentifier;
     };
 
 }

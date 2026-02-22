@@ -21,12 +21,6 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcProjectStartupTimerAddOn, "diffscope.core.projectstartuptimeraddon")
 
     ProjectStartupTimerAddOn::ProjectStartupTimerAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [=] {
-            setNotificationVisible(true);
-            if (m_finishedMessage) {
-                m_finishedMessage->setAllowDoNotShowAgain(true);
-            }
-        });
     }
 
     ProjectStartupTimerAddOn::~ProjectStartupTimerAddOn() = default;
@@ -67,20 +61,6 @@ namespace Core::Internal {
         return ret;
     }
 
-    void ProjectStartupTimerAddOn::setNotificationVisible(bool visible) {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue("visible", visible);
-        settings->endGroup();
-    }
-
-    bool ProjectStartupTimerAddOn::notificationVisible() {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        bool visible = settings->value("visible", true).toBool();
-        settings->endGroup();
-        return visible;
-    }
     bool ProjectStartupTimerAddOn::eventFilter(QObject *watched, QEvent *event) {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto window = windowInterface->window();
@@ -95,12 +75,9 @@ namespace Core::Internal {
                 } else {
                     m_finishedMessage->setTitle(tr("Project window initialized"));
                 }
-                m_finishedMessage->setAllowDoNotShowAgain(notificationVisible());
-                connect(m_finishedMessage, &NotificationMessage::doNotShowAgainRequested, this, [=] {
-                    setNotificationVisible(false);
-                    m_finishedMessage->setAllowDoNotShowAgain(false);
-                });
-                windowInterface->sendNotification(m_finishedMessage, notificationVisible() ? ProjectWindowInterface::AutoHide : ProjectWindowInterface::DoNotShowBubble);
+                m_finishedMessage->setAllowDoNotShowAgain(true);
+                m_finishedMessage->setDoNotShowAgainIdentifier("org.diffscope.core.projectstartuptimeraddon.finishedmessage");
+                windowInterface->sendNotification(m_finishedMessage, ProjectWindowInterface::AutoHide);
                 m_initializingMessage->close();
             });
             window->removeEventFilter(this);

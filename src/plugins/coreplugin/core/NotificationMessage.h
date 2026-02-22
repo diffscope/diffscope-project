@@ -27,6 +27,7 @@ namespace Core {
         Q_PROPERTY(double progress READ progress WRITE setProgress NOTIFY progressChanged)
         Q_PROPERTY(bool progressAbortable READ progressAbortable WRITE setProgressAbortable NOTIFY progressAbortableChanged)
         Q_PROPERTY(bool allowDoNotShowAgain READ allowDoNotShowAgain WRITE setAllowDoNotShowAgain NOTIFY allowDoNotShowAgainChanged)
+        Q_PROPERTY(QString doNotShowAgainIdentifier READ doNotShowAgainIdentifier WRITE setDoNotShowAgainIdentifier NOTIFY doNotShowAgainIdentifierChanged)
         Q_PROPERTY(int textFormat READ textFormat WRITE setTextFormat NOTIFY textFormatChanged)
         Q_PRIVATE_PROPERTY(NotificationMessage::d_func(), QObject *handle MEMBER handle CONSTANT)
 
@@ -64,13 +65,16 @@ namespace Core {
         bool allowDoNotShowAgain() const;
         void setAllowDoNotShowAgain(bool allow);
 
+        QString doNotShowAgainIdentifier() const;
+        void setDoNotShowAgainIdentifier(const QString &identifier);
+
         int textFormat() const;
         void setTextFormat(int format);
 
         Q_INVOKABLE void hide();
         Q_INVOKABLE void close();
 
-    signals:
+    Q_SIGNALS:
         void titleChanged(const QString &title);
         void textChanged(const QString &text);
         void iconChanged(SVS::SVSCraft::MessageBoxIcon icon);
@@ -81,6 +85,7 @@ namespace Core {
         void progressChanged(double progress);
         void progressAbortableChanged(bool progressAbortable);
         void allowDoNotShowAgainChanged(bool allow);
+        void doNotShowAgainIdentifierChanged(const QString &identifier);
         void textFormatChanged(int format);
 
         void hidden();

@@ -22,9 +22,6 @@ namespace Core::Internal {
         static void startTimer();
         static qint64 stopTimerAndGetElapsedTime();
 
-        static void setNotificationVisible(bool visible);
-        static bool notificationVisible();
-
         bool eventFilter(QObject *watched, QEvent *event) override;
 
     private:

@@ -26,7 +26,9 @@ namespace Core::Internal {
             if (path.isEmpty())
                 return;
             m_message->setTitle(tr("The file has been saved to %1").arg(path));
-            windowInterface->sendNotification(m_message, ProjectWindowInterface::DoNotShowBubble);
+            m_message->setAllowDoNotShowAgain(true);
+            m_message->setDoNotShowAgainIdentifier("org.diffscope.core.aftersavingnotifyaddon.message");
+            windowInterface->sendNotification(m_message, ProjectWindowInterface::AutoHide);
         });
     }
 

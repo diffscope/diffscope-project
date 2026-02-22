@@ -37,10 +37,15 @@ namespace Core::Internal {
 
     private:
         void updateTopMessageTitleConnection();
+        void loadHiddenMessageIdentifiers();
+        void saveHiddenMessageIdentifiers();
+        bool isMessageHidden(const QString &identifier) const;
+        void clearHiddenMessageIdentifiers();
 
         QList<NotificationMessage *> m_messages;
         QList<NotificationMessage *> m_bubbleMessages;
         QMetaObject::Connection m_topMessageTitleConnection;
+        QStringList m_hiddenMessageIdentifiers;
     };
 
 }

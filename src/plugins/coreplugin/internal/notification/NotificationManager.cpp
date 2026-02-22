@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QLoggingCategory>
+#include <QSettings>
 #include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
@@ -18,6 +19,12 @@ namespace Core::Internal {
 
     NotificationManager::NotificationManager(ProjectWindowInterface *parent) : QObject(parent) {
         parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
+        loadHiddenMessageIdentifiers();
+
+        // Listen to reset all do not show again requests
+        connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [this] {
+            clearHiddenMessageIdentifiers();
+        });
     }
     NotificationManager::~NotificationManager() = default;
     NotificationManager *NotificationManager::of(ProjectWindowInterface *windowHandle) {
@@ -26,6 +33,25 @@ namespace Core::Internal {
 
     void NotificationManager::addMessage(NotificationMessage *message, ProjectWindowInterface::NotificationBubbleMode mode) {
         qCInfo(lcNotificationManager) << "Adding message:" << message << message->title() << message->text() << mode;
+
+        // Check if this message should be hidden based on its identifier
+        QString identifier = message->doNotShowAgainIdentifier();
+        if (!identifier.isEmpty() && isMessageHidden(identifier)) {
+            qCInfo(lcNotificationManager) << "Message identifier" << identifier << "is hidden, using DoNotShowBubble mode";
+            mode = ProjectWindowInterface::DoNotShowBubble;
+            message->setAllowDoNotShowAgain(false);
+        }
+
+        // Listen to doNotShowAgainRequested signal
+        connect(message, &NotificationMessage::doNotShowAgainRequested, this, [this, message] {
+            QString identifier = message->doNotShowAgainIdentifier();
+            if (!identifier.isEmpty() && !m_hiddenMessageIdentifiers.contains(identifier)) {
+                qCInfo(lcNotificationManager) << "Adding message identifier to hidden list:" << identifier;
+                m_hiddenMessageIdentifiers.append(identifier);
+                saveHiddenMessageIdentifiers();
+                message->setAllowDoNotShowAgain(false);
+            }
+        });
 
         int autoHideTimeout = BehaviorPreference::notificationAutoHideTimeout();
         bool beepOnNotification = BehaviorPreference::hasNotificationSoundAlert();
@@ -123,6 +149,39 @@ namespace Core::Internal {
             m_topMessageTitleConnection = connect(topMessage, &NotificationMessage::titleChanged, this, [this](const QString &) {
                 emit topMessageTitleChanged(topMessageTitle());
             });
+        }
+    }
+
+    void NotificationManager::loadHiddenMessageIdentifiers() {
+        auto settings = RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        m_hiddenMessageIdentifiers = settings->value("hiddenMessageIdentifiers", QStringList()).toStringList();
+        settings->endGroup();
+        qCInfo(lcNotificationManager) << "Loaded hidden message identifiers:" << m_hiddenMessageIdentifiers;
+    }
+
+    void NotificationManager::saveHiddenMessageIdentifiers() {
+        auto settings = RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue("hiddenMessageIdentifiers", m_hiddenMessageIdentifiers);
+        settings->endGroup();
+        qCInfo(lcNotificationManager) << "Saved hidden message identifiers:" << m_hiddenMessageIdentifiers;
+    }
+
+    bool NotificationManager::isMessageHidden(const QString &identifier) const {
+        return m_hiddenMessageIdentifiers.contains(identifier);
+    }
+
+    void NotificationManager::clearHiddenMessageIdentifiers() {
+        qCInfo(lcNotificationManager) << "Clearing hidden message identifiers";
+        m_hiddenMessageIdentifiers.clear();
+        saveHiddenMessageIdentifiers();
+
+        // Reset allowDoNotShowAgain for all messages with non-empty doNotShowAgainIdentifier
+        for (auto *message : m_messages) {
+            if (!message->doNotShowAgainIdentifier().isEmpty()) {
+                message->setAllowDoNotShowAgain(true);
+            }
         }
     }
 }
