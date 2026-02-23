@@ -27,6 +27,7 @@ namespace Core {
     class ProjectDocumentContext;
     class PropertyEditorManager;
     class TrackColorSchema;
+    class DefaultLyricManager;
 
     class CoreInterfacePrivate;
 
@@ -38,6 +39,7 @@ namespace Core {
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
         Q_PROPERTY(PropertyEditorManager *propertyEditorManager READ propertyEditorManager CONSTANT)
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
+        Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -49,6 +51,8 @@ namespace Core {
         static PropertyEditorManager *propertyEditorManager();
 
         static TrackColorSchema *trackColorSchema();
+
+        static DefaultLyricManager *defaultLyricManager();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";

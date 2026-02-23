@@ -49,6 +49,8 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled{false};
 
         dspx::SelectionModel *editingClipSelectionModel;
+        int implicitNoteLength{480};
+        QMetaObject::Connection currentNoteConnection;
 
         mutable PositionAlignmentManipulator::Duration previousDuration{};
         mutable int previousPositionAlignment{};
@@ -60,6 +62,7 @@ namespace VisualEditor {
         void bindPositionAlignmentManipulator() const;
         void bindControllersInteraction() const;
         void bindClavierInteractionController() const;
+        void bindNoteEditLayerInteractionController() const;
     };
 
 }

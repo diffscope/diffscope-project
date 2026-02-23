@@ -913,6 +913,7 @@ namespace Core {
 
                         auto *newNote = d->model->createNote();
                         newNote->fromQDspx(data);
+                        newNote->setLyric("-");
                         auto *noteSequence = note->noteSequence();
                         if (!noteSequence || !noteSequence->insertItem(newNote)) {
                             d->model->destroyItem(newNote);

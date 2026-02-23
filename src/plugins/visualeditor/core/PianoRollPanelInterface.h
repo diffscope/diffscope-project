@@ -64,7 +64,7 @@ namespace VisualEditor {
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
         Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
         Q_PROPERTY(dspx::SingingClip *editingClip READ editingClip WRITE setEditingClip NOTIFY editingClipChanged)
-
+        Q_PROPERTY(int implicitNoteLength READ implicitNoteLength WRITE setImplicitNoteLength NOTIFY implicitNoteLengthChanged)
     public:
         ~PianoRollPanelInterface() override;
 
@@ -109,11 +109,15 @@ namespace VisualEditor {
         dspx::SingingClip *editingClip() const;
         void setEditingClip(dspx::SingingClip *clip);
 
+        int implicitNoteLength() const;
+        void setImplicitNoteLength(int length);
+
     Q_SIGNALS:
         void toolChanged();
         void snapTemporarilyDisabledChanged();
         void mouseTrackingDisabledChanged();
         void editingClipChanged();
+        void implicitNoteLengthChanged();
 
     private:
         friend class Internal::PianoRollAddOn;

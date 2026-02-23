@@ -1,3 +1,4 @@
+#include "../../../libs/application/dspxmodel/src/selectionmodel/NoteSelectionModel.h"
 #include "PianoRollPanelInterface.h"
 #include "PianoRollPanelInterface_p.h"
 
@@ -17,22 +18,27 @@
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
+#include <ScopicFlowCore/TimeManipulator.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
 #include <dspxmodel/ClipSelectionModel.h>
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Model.h>
+#include <dspxmodel/Note.h>
+#include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/TrackList.h>
-#include <dspxmodel/NoteSequence.h>
 
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <transactional/TransactionController.h>
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
@@ -249,6 +255,42 @@ namespace VisualEditor {
         QObject::connect(windowHandle->projectDocumentContext()->document()->model()->global(), &dspx::Global::accidentalTypeChanged, clavierInteractionController, applyAccidentalType);
     }
 
+    void PianoRollPanelInterfacePrivate::bindNoteEditLayerInteractionController() const {
+        Q_Q(const PianoRollPanelInterface);
+        QObject::connect(noteEditLayerInteractionController, &sflow::NoteEditLayerInteractionController::doubleClicked, q, [=, this](QQuickItem *noteArea, int position, int key) {
+            auto singingClip = q->editingClip();
+            if (!singingClip)
+                return;
+            dspx::Note *newNote = nullptr;
+            bool success = false;
+            auto document = windowHandle->projectDocumentContext()->document();
+            {
+                sflow::TimeManipulator timeManipulator;
+                timeManipulator.setTarget(noteArea);
+                timeManipulator.setTimeViewModel(timeViewModel);
+                timeManipulator.setTimeLayoutViewModel(timeLayoutViewModel);
+                position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
+            }
+            document->transactionController()->beginScopedTransaction(VisualEditor::PianoRollPanelInterface::tr("Inserting note"), [=, &newNote, &success] {
+                newNote = document->model()->createNote();
+                newNote->setPos(position);
+                newNote->setLength(implicitNoteLength);
+                newNote->setKeyNum(key);
+                newNote->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
+                if (!singingClip->notes()->insertItem(newNote)) {
+                    document->model()->destroyItem(newNote);
+                    newNote = nullptr;
+                    return false;
+                }
+                success = true;
+                return true;
+            });
+            if (success && newNote) {
+                document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+            }
+        });
+    }
+
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {
         Q_D(PianoRollPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
@@ -315,6 +357,18 @@ namespace VisualEditor {
             d->singingClipListModel->setClipSequence(sequence);
         });
 
+        auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
+        connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, [=, this] {
+            disconnect(d->currentNoteConnection);
+            auto currentNote = noteSelectionModel->currentItem();
+            if (currentNote) {
+                setImplicitNoteLength(currentNote->length());
+                d->currentNoteConnection = connect(currentNote, &dspx::Note::lengthChanged, this, [=, this] {
+                    setImplicitNoteLength(currentNote->length());
+                });
+            }
+        });
+
         Q_EMIT editingClipChanged();
 
         d->bindTimeViewModel();
@@ -324,6 +378,7 @@ namespace VisualEditor {
         d->bindPositionAlignmentManipulator();
         d->bindControllersInteraction();
         d->bindClavierInteractionController();
+        d->bindNoteEditLayerInteractionController();
 
         connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
             setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
@@ -464,6 +519,19 @@ namespace VisualEditor {
         if (d->editingClipSelectionModel->currentItem() != clip) {
             qCInfo(lcPianoRollPanelInterface) << "Set editing clip to" << clip;
             d->editingClipSelectionModel->select(clip, dspx::SelectionModel::Select | dspx::SelectionModel::ClearPreviousSelection);
+        }
+    }
+
+    int PianoRollPanelInterface::implicitNoteLength() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->implicitNoteLength;
+    }
+
+    void PianoRollPanelInterface::setImplicitNoteLength(int length) {
+        Q_D(PianoRollPanelInterface);
+        if (d->implicitNoteLength != length) {
+            d->implicitNoteLength = length;
+            Q_EMIT implicitNoteLengthChanged();
         }
     }
 

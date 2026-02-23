@@ -26,6 +26,8 @@
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DefaultLyricManager.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/private/NoteSelectionController_p.h>
@@ -1031,6 +1033,7 @@ namespace VisualEditor {
         note->setPos(position);
         note->setLength(0);
         note->setKeyNum(trackIndex);
+        note->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
         singingClip->notes()->insertItem(note);
 
         m_context->targetNote = note;

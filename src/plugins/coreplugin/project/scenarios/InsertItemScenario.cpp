@@ -42,6 +42,8 @@
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/private/DocumentEditScenario_p.h>
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DefaultLyricManager.h>
 
 #include <transactional/TransactionController.h>
 
@@ -324,7 +326,7 @@ namespace Core {
         properties.insert("notePosition", initialPosition);
         properties.insert("noteLength", 480);
         properties.insert("notePitch", 60); // Default to middle C (C4)
-        properties.insert("noteLyric", QString()); // TODO: determine initial lyric
+        properties.insert("noteLyric", CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(clip));
         auto dialog = createAndPositionDialog(&component, properties);
         if (!DocumentEditScenarioPrivate::execDialog(dialog))
             return;
