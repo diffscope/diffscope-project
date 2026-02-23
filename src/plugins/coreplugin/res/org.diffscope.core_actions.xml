@@ -55,10 +55,10 @@
         <action id="org.diffscope.core.edit.solo" shortcut="S" />
         <action id="org.diffscope.core.edit.record" shortcut="R" />
         <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" shortcut="=" />
-        <action id="org.diffscope.core.edit.shiftUpByASemitone" shortcut="Ctrl+Up" />
-        <action id="org.diffscope.core.edit.shiftDownByASemitone" shortcut="Ctrl+Down" />
-        <action id="org.diffscope.core.edit.shiftUpByAnOctave" shortcut="Ctrl+Shift+Up" />
-        <action id="org.diffscope.core.edit.shiftDownByAnOctave" shortcut="Ctrl+Shift+Down" />
+        <action id="org.diffscope.core.edit.shiftUpByASemitone" shortcut="Alt+Up" />
+        <action id="org.diffscope.core.edit.shiftDownByASemitone" shortcut="Alt+Down" />
+        <action id="org.diffscope.core.edit.shiftUpByAnOctave" shortcut="Alt+Shift+Up" />
+        <action id="org.diffscope.core.edit.shiftDownByAnOctave" shortcut="Alt+Shift+Down" />
 
         <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" description="Show music time (measure:beat:tick) on the time indicator" />
         <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />

@@ -16,10 +16,10 @@
 
     <items>
         <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" icon="midi" shortcut="Ctrl+P" />
-        <action id="org.diffscope.visualeditor.view.scrollUp" icon="arrow_up" shortcut="Up" />
-        <action id="org.diffscope.visualeditor.view.scrollDown" icon="arrow_down" shortcut="Down" />
-        <action id="org.diffscope.visualeditor.view.scrollLeft" icon="arrow_left" shortcut="Left" />
-        <action id="org.diffscope.visualeditor.view.scrollRight" icon="arrow_right" shortcut="Right" />
+        <action id="org.diffscope.visualeditor.view.scrollUp" icon="arrow_up" shortcut="Ctrl+Up" />
+        <action id="org.diffscope.visualeditor.view.scrollDown" icon="arrow_down" shortcut="Ctrl+Down" />
+        <action id="org.diffscope.visualeditor.view.scrollLeft" icon="arrow_left" shortcut="Ctrl+Left" />
+        <action id="org.diffscope.visualeditor.view.scrollRight" icon="arrow_right" shortcut="Ctrl+Right" />
         <action id="org.diffscope.visualeditor.view.scrollUpPage" shortcut="PgUp" />
         <action id="org.diffscope.visualeditor.view.scrollDownPage" shortcut="PgDown" />
         <action id="org.diffscope.visualeditor.view.scrollLeftPage" shortcut="Alt+PgUp" />
