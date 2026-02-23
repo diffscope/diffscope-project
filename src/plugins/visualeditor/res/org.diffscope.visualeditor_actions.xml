@@ -16,6 +16,28 @@
 
     <items>
         <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" icon="midi" shortcut="Ctrl+P" />
+        <action id="org.diffscope.visualeditor.view.scrollUp" icon="arrow_up" shortcut="Up" />
+        <action id="org.diffscope.visualeditor.view.scrollDown" icon="arrow_down" shortcut="Down" />
+        <action id="org.diffscope.visualeditor.view.scrollLeft" icon="arrow_left" shortcut="Left" />
+        <action id="org.diffscope.visualeditor.view.scrollRight" icon="arrow_right" shortcut="Right" />
+        <action id="org.diffscope.visualeditor.view.scrollUpPage" shortcut="PgUp" />
+        <action id="org.diffscope.visualeditor.view.scrollDownPage" shortcut="PgDown" />
+        <action id="org.diffscope.visualeditor.view.scrollLeftPage" shortcut="Alt+PgUp" />
+        <action id="org.diffscope.visualeditor.view.scrollRightPage" shortcut="Alt+PgDown" />
+        <action id="org.diffscope.visualeditor.view.scrollToTop" shortcut="Ctrl+Home" />
+        <action id="org.diffscope.visualeditor.view.scrollToBottom" shortcut="Ctrl+End" />
+        <action id="org.diffscope.visualeditor.view.scrollToLeftmost" shortcut="Ctrl+Alt+Home" />
+        <action id="org.diffscope.visualeditor.view.scrollToRightmost" shortcut="Ctrl+Alt+End" />
+        <action id="org.diffscope.visualeditor.view.scrollToPlaybackPosition" shortcut="Ctrl+Y" />
+        <action id="org.diffscope.visualeditor.view.scrollToCurrentItem" shortcut="Ctrl+\\" />
+        <action id="org.diffscope.visualeditor.view.scrollTo^" />
+        <action id="org.diffscope.visualeditor.view.verticalZoomIn" shortcut="Ctrl+=" />
+        <action id="org.diffscope.visualeditor.view.verticalZoomOut" shortcut="Ctrl+-" />
+        <action id="org.diffscope.visualeditor.view.horizontalZoomIn" shortcut="Ctrl+Alt+=" />
+        <action id="org.diffscope.visualeditor.view.horizontalZoomOut" shortcut="Ctrl+Alt+-" />
+        <action id="org.diffscope.visualeditor.view.resetVerticalScale" />
+        <action id="org.diffscope.visualeditor.view.resetHorizontalScale" />
+        <action id="org.diffscope.visualeditor.view.setScalingRatio^" />
 
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
@@ -60,6 +82,42 @@
         <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions">
             <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" />
         </group>
+        <menu id="org.diffscope.visualeditor.view.scroll">
+            <group id="org.diffscope.visualeditor.view.scrollActions">
+                <action id="org.diffscope.visualeditor.view.scrollUp" />
+                <action id="org.diffscope.visualeditor.view.scrollDown" />
+                <action id="org.diffscope.visualeditor.view.scrollLeft" />
+                <action id="org.diffscope.visualeditor.view.scrollRight" />
+            </group>
+            <group id="org.diffscope.visualeditor.view.scrollPageActions">
+                <action id="org.diffscope.visualeditor.view.scrollUpPage" />
+                <action id="org.diffscope.visualeditor.view.scrollDownPage" />
+                <action id="org.diffscope.visualeditor.view.scrollLeftPage" />
+                <action id="org.diffscope.visualeditor.view.scrollRightPage" />
+            </group>
+            <group id="org.diffscope.visualeditor.view.scrollToActions">
+                <action id="org.diffscope.visualeditor.view.scrollToTop" />
+                <action id="org.diffscope.visualeditor.view.scrollToBottom" />
+                <action id="org.diffscope.visualeditor.view.scrollToLeftmost" />
+                <action id="org.diffscope.visualeditor.view.scrollToRightmost" />
+                <separator />
+                <action id="org.diffscope.visualeditor.view.scrollToPlaybackPosition" />
+                <action id="org.diffscope.visualeditor.view.scrollToCurrentItem" />
+                <separator />
+                <action id="org.diffscope.visualeditor.view.scrollTo" />
+            </group>
+        </menu>
+        <menu id="org.diffscope.visualeditor.view.zoom">
+            <action id="org.diffscope.visualeditor.view.verticalZoomIn" />
+            <action id="org.diffscope.visualeditor.view.verticalZoomOut" />
+            <action id="org.diffscope.visualeditor.view.horizontalZoomIn" />
+            <action id="org.diffscope.visualeditor.view.horizontalZoomOut" />
+            <separator />
+            <action id="org.diffscope.visualeditor.view.resetVerticalScale" />
+            <action id="org.diffscope.visualeditor.view.resetHorizontalScale" />
+            <separator />
+            <action id="org.diffscope.visualeditor.view.setScalingRatio" />
+        </menu>
         <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
@@ -113,6 +171,12 @@
     <insertions>
         <insertion target="org.diffscope.core.edit" anchor="last">
             <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.view" anchor="last">
+            <menu id="org.diffscope.visualeditor.view.scroll" />
+        </insertion>
+        <insertion target="org.diffscope.core.view" anchor="last">
+            <menu id="org.diffscope.visualeditor.view.zoom" />
         </insertion>
         <insertion target="org.diffscope.core.clipItemContextMenu" anchor="before" relativeTo="org.diffscope.core.genericItemContextMenuActions">
             <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />

@@ -17,6 +17,8 @@ Item {
 
     readonly property ProjectViewModelContext projectViewModelContext: addOn?.windowHandle.ProjectViewModelContext.context ?? null
 
+    readonly property Item centerEditArea: trackMixer
+
     anchors.fill: parent
 
     SplitView {

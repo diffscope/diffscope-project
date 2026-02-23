@@ -14,6 +14,7 @@ import DiffScope.UIShell
 QtObject {
 	id: d
 	required property QtObject addOn
+    required property QtObject scrollAddOn
 
 	readonly property Component pianoRollPanelComponent: ActionDockingPane {
 
@@ -45,6 +46,9 @@ QtObject {
 			id: dummyItem
 			Item {}
 		}
+
+        Docking.onActivated: d.scrollAddOn.activeEditingArea = 1
+
 		header: ToolBarContainer {
 			anchors.fill: parent
 			property MenuActionInstantiator instantiator: MenuActionInstantiator {

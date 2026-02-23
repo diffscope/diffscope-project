@@ -26,6 +26,7 @@ Item {
     anchors.fill: parent
 
     readonly property Timeline timeline: timeline
+    readonly property Item centerEditArea: pianoRollViewContainer
 
     TimelineContextMenuHelper {
         timeline: view.timeline

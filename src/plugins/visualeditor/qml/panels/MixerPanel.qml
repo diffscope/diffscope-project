@@ -13,6 +13,7 @@ import QActionKit
 QtObject {
 	id: d
 	required property QtObject addOn
+    required property QtObject scrollAddOn
 
 	readonly property Component mixerPanelComponent: ActionDockingPane {
 		function loadState(state) {
@@ -26,6 +27,8 @@ QtObject {
 				tool: d.addOn?.mixerPanelInterface.tool,
 			}
 		}
+
+        Docking.onActivated: d.scrollAddOn.activeEditingArea = 2
 
 		header: ToolBarContainer {
 			anchors.fill: parent

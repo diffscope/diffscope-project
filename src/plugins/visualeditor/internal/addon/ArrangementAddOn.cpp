@@ -12,6 +12,7 @@
 #include <visualeditor/ArrangementPanelInterface.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/AdditionalTrackLoader.h>
+#include <visualeditor/internal/ScrollAddOn.h>
 
 namespace VisualEditor::Internal {
     ArrangementAddOn::ArrangementAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -43,6 +44,7 @@ namespace VisualEditor::Internal {
             }
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
+                {"scrollAddOn", QVariant::fromValue(windowInterface->getFirstObject<ScrollAddOn>())},
             });
             if (component.isError()) {
                 qFatal() << component.errorString();

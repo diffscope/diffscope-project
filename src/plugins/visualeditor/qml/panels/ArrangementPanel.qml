@@ -14,6 +14,7 @@ import DiffScope.UIShell
 QtObject {
     id: d
     required property QtObject addOn
+    required property QtObject scrollAddOn
 
     readonly property Component arrangementPanelComponent: ActionDockingPane {
 
@@ -40,6 +41,8 @@ QtObject {
                 additionalTracks: d.addOn.additionalTrackLoader.loadedComponents
             }
         }
+
+        Docking.onActivated: d.scrollAddOn.activeEditingArea = 0
 
         Component {
             id: dummyItem

@@ -23,6 +23,7 @@
 #include <visualeditor/internal/LabelTrackAddOn.h>
 #include <visualeditor/internal/TempoTrackAddOn.h>
 #include <visualeditor/internal/MixerAddOn.h>
+#include <visualeditor/internal/ScrollAddOn.h>
 #include <visualeditor/internal/EditorPage.h>
 
 static auto getVisualEditorActionExtension() {
@@ -72,6 +73,7 @@ namespace VisualEditor::Internal {
 
     void VisualEditorPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ScrollAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PianoRollAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MixerAddOn>();

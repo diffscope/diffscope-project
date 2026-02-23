@@ -24,6 +24,7 @@ Item {
     anchors.fill: parent
 
     readonly property Timeline timeline: timeline
+    readonly property Item centerEditArea: clipViewContainer
 
     TimelineContextMenuHelper {
         timeline: view.timeline

@@ -11,6 +11,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/MixerPanelInterface.h>
+#include <visualeditor/internal/ScrollAddOn.h>
 
 namespace VisualEditor::Internal {
 
@@ -45,6 +46,7 @@ namespace VisualEditor::Internal {
             }
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
+                {"scrollAddOn", QVariant::fromValue(windowInterface->getFirstObject<ScrollAddOn>())},
             });
             if (component.isError()) {
                 qFatal() << component.errorString();
