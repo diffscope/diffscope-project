@@ -17,6 +17,7 @@ QtObject {
     required property QtObject scrollAddOn
 
 	readonly property Component pianoRollPanelComponent: ActionDockingPane {
+        id: pane
 
 		function loadState(state) {
 			if (!state)
@@ -48,6 +49,13 @@ QtObject {
 		}
 
         Docking.onActivated: d.scrollAddOn.activeEditingArea = 1
+
+        Connections {
+            target: d.addOn?.pianoRollPanelInterface ?? null
+            function onEditingClipChanged() {
+                pane.Docking.dockingView.showPane(pane)
+            }
+        }
 
 		header: ToolBarContainer {
 			anchors.fill: parent
