@@ -88,6 +88,7 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document())
             return;
+        qCInfo(lcInsertItemScenario) << "Adding track";
         auto model = document()->model();
         auto trackList = model->tracks();
         dspx::Track *newTrack = nullptr;
@@ -116,6 +117,7 @@ namespace Core {
                 return false;
             }
             success = true;
+            qCDebug(lcInsertItemScenario) << "Added track" << newTrack;
             return true;
         }, [] {
             qCCritical(lcInsertItemScenario) << "Failed to add track in exclusive transaction";
@@ -129,6 +131,7 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !window())
             return;
+        qCInfo(lcInsertItemScenario) << "Inserting track";
         auto model = document()->model();
         auto trackList = model->tracks();
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertTrackDialog");
@@ -143,6 +146,7 @@ namespace Core {
         auto insertionIndex = dialog->property("insertionIndex").toInt();
         auto insertionCount = dialog->property("insertionCount").toInt();
         auto trackName = dialog->property("trackName").toString();
+        qCDebug(lcInsertItemScenario) << "Inserting track at" << insertionIndex << "with" << insertionCount << "tracks" << "named" << trackName;
         insertionIndex = std::clamp(insertionIndex, 0, trackList->size());
         QList<dspx::Track *> newTracks;
         newTracks.reserve(insertionCount);
@@ -160,6 +164,7 @@ namespace Core {
                 newTracks.append(track);
             }
             success = true;
+            qCDebug(lcInsertItemScenario) << "Inserted tracks" << newTracks;
             return true;
         }, [] {
             qCCritical(lcInsertItemScenario) << "Failed to insert track in exclusive transaction";
@@ -182,6 +187,7 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !d->projectTimeline || !window())
             return;
+        qCInfo(lcInsertItemScenario) << "Inserting label";
         auto model = document()->model();
         auto labelSequence = model->timeline()->labels();
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertLabelDialog");
@@ -194,6 +200,7 @@ namespace Core {
             return;
         auto labelPos = dialog->property("labelPos").toInt();
         auto labelText = dialog->property("labelText").toString();
+        qCDebug(lcInsertItemScenario) << "Inserting label at" << labelPos << "with text" << labelText;
         dspx::Label *newLabel = nullptr;
         bool success = false;
         document()->transactionController()->beginScopedTransaction(tr("Inserting label"), [=, &newLabel, &success] {
@@ -206,6 +213,7 @@ namespace Core {
                 return false;
             }
             success = true;
+            qCDebug(lcInsertItemScenario) << "Inserted label" << newLabel;
             return true;
         }, [] {
             qCCritical(lcInsertItemScenario) << "Failed to insert label in exclusive transaction";
@@ -225,6 +233,8 @@ namespace Core {
         auto trackList = model->tracks();
         if (!trackList || trackList->size() == 0)
             return;
+
+        qCInfo(lcInsertItemScenario) << "Inserting singing clip";
 
         auto selectionModel = document()->selectionModel();
         auto trackSelectionModel = selectionModel->trackSelectionModel();
@@ -273,6 +283,7 @@ namespace Core {
         const auto clipPosition = qMax(0, dialog->property("clipPosition").toInt());
         const auto clipLength = qMax(1, dialog->property("clipLength").toInt());
         const auto clipName = dialog->property("clipName").toString();
+        qCDebug(lcInsertItemScenario) << "Inserting singing clip at" << clipPosition << "with length" << clipLength << "and name" << clipName << "to track" << selectedTrack;
 
         dspx::SingingClip *newClip = nullptr;
         bool success = false;
@@ -291,6 +302,7 @@ namespace Core {
                 return false;
             }
             success = true;
+            qCDebug(lcInsertItemScenario) << "Inserted singing clip" << newClip;
             return true;
         }, [] {
             qCCritical(lcInsertItemScenario) << "Failed to insert singing clip in exclusive transaction";
@@ -314,6 +326,8 @@ namespace Core {
         if (!noteSequence)
             return;
 
+        qCInfo(lcInsertItemScenario) << "Inserting note";
+
         auto clip = noteSequence->singingClip();
 
         // Calculate initial position: playback position - clip position
@@ -335,6 +349,7 @@ namespace Core {
         const auto noteLength = qMax(1, dialog->property("noteLength").toInt());
         const auto notePitch = qBound(0, dialog->property("notePitch").toInt(), 127);
         const auto noteLyric = dialog->property("noteLyric").toString();
+        qCDebug(lcInsertItemScenario) << "Inserting note at" << notePosition << "with length" << noteLength << "and pitch" << notePitch << "and lyric" << noteLyric << "to clip" << clip;
 
         dspx::Note *newNote = nullptr;
         bool success = false;
@@ -350,6 +365,7 @@ namespace Core {
                 return false;
             }
             success = true;
+            qCDebug(lcInsertItemScenario) << "Inserted note" << newNote;
             return true;
         }, [] {
             qCCritical(lcInsertItemScenario) << "Failed to insert note in exclusive transaction";
