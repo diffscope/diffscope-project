@@ -191,6 +191,7 @@ Item {
                                         icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                                         text: view.addOn.additionalTrackLoader.componentName(layout.modelData)
                                         color: Theme.foregroundPrimaryColor
+                                        font.family: Theme.font.family
                                         font.pixelSize: layout.itemSize * 0.75
                                     }
                                     Item {
