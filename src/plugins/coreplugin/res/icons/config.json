@@ -11207,7 +11207,7 @@
 
         {
           "id": "options_vertical",
-          "icon": "options_vertical"
+          "icon": "options?rotate=1"
         },
         {
           "id": "playhead_panel_chevron_double",
@@ -11240,6 +11240,22 @@
         {
           "id": "cursor_text_rectangle_landscape_dash",
           "icon": "cursor_text_rectangle_landscape_dash"
+        },
+        {
+          "id": "arrow_import_right",
+          "icon": "arrow_import"
+        },
+        {
+          "id": "arrow_import_down",
+          "icon": "arrow_import?rotate=1"
+        },
+        {
+          "id": "arrow_import_left",
+          "icon": "arrow_import?rotate=2"
+        },
+        {
+          "id": "arrow_import_up",
+          "icon": "arrow_import?rotate=3"
         }
       ]
     }

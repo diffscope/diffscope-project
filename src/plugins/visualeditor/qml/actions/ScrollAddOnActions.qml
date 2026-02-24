@@ -200,13 +200,6 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "org.diffscope.visualeditor.view.scrollTo"
-        Action {
-            // TODO
-        }
-    }
-
-    ActionItem {
         actionId: "org.diffscope.visualeditor.view.verticalZoomIn"
         Action {
             enabled: Boolean(d.verticalManipulator && d.verticalManipulator.zoomViewBy)
@@ -264,11 +257,4 @@ ActionCollection {
         }
     }
 
-    ActionItem {
-        actionId: "org.diffscope.visualeditor.view.setScalingRatio"
-        Action {
-            enabled: Boolean(d.verticalManipulator && d.verticalManipulator.zoomViewBy) || Boolean(d.horizontalManipulator && d.horizontalManipulator.zoomViewBy)
-            // TODO
-        }
-    }
 }

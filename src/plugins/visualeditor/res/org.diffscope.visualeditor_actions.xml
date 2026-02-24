@@ -20,24 +20,22 @@
         <action id="org.diffscope.visualeditor.view.scrollDown" icon="arrow_down" shortcut="Ctrl+Down" />
         <action id="org.diffscope.visualeditor.view.scrollLeft" icon="arrow_left" shortcut="Ctrl+Left" />
         <action id="org.diffscope.visualeditor.view.scrollRight" icon="arrow_right" shortcut="Ctrl+Right" />
-        <action id="org.diffscope.visualeditor.view.scrollUpPage" shortcut="PgUp" />
-        <action id="org.diffscope.visualeditor.view.scrollDownPage" shortcut="PgDown" />
-        <action id="org.diffscope.visualeditor.view.scrollLeftPage" shortcut="Alt+PgUp" />
-        <action id="org.diffscope.visualeditor.view.scrollRightPage" shortcut="Alt+PgDown" />
-        <action id="org.diffscope.visualeditor.view.scrollToTop" shortcut="Ctrl+Home" />
-        <action id="org.diffscope.visualeditor.view.scrollToBottom" shortcut="Ctrl+End" />
-        <action id="org.diffscope.visualeditor.view.scrollToLeftmost" shortcut="Ctrl+Alt+Home" />
-        <action id="org.diffscope.visualeditor.view.scrollToRightmost" shortcut="Ctrl+Alt+End" />
+        <action id="org.diffscope.visualeditor.view.scrollUpPage" icon="chevron_double_up" shortcut="PgUp" />
+        <action id="org.diffscope.visualeditor.view.scrollDownPage" icon="chevron_double_down" shortcut="PgDown" />
+        <action id="org.diffscope.visualeditor.view.scrollLeftPage" icon="chevron_double_left" shortcut="Alt+PgUp" />
+        <action id="org.diffscope.visualeditor.view.scrollRightPage" icon="chevron_double_right" shortcut="Alt+PgDown" />
+        <action id="org.diffscope.visualeditor.view.scrollToTop" icon="arrow_import_up" shortcut="Ctrl+Home" />
+        <action id="org.diffscope.visualeditor.view.scrollToBottom" icon="arrow_import_down" shortcut="Ctrl+End" />
+        <action id="org.diffscope.visualeditor.view.scrollToLeftmost" icon="arrow_import_left" shortcut="Ctrl+Alt+Home" />
+        <action id="org.diffscope.visualeditor.view.scrollToRightmost" icon="arrow_import_right" shortcut="Ctrl+Alt+End" />
         <action id="org.diffscope.visualeditor.view.scrollToPlaybackPosition" shortcut="Ctrl+Y" />
         <action id="org.diffscope.visualeditor.view.scrollToCurrentItem" shortcut="Ctrl+\\" />
-        <action id="org.diffscope.visualeditor.view.scrollTo^" />
-        <action id="org.diffscope.visualeditor.view.verticalZoomIn" shortcut="Ctrl+=" />
-        <action id="org.diffscope.visualeditor.view.verticalZoomOut" shortcut="Ctrl+-" />
-        <action id="org.diffscope.visualeditor.view.horizontalZoomIn" shortcut="Ctrl+Alt+=" />
-        <action id="org.diffscope.visualeditor.view.horizontalZoomOut" shortcut="Ctrl+Alt+-" />
-        <action id="org.diffscope.visualeditor.view.resetVerticalScale" />
-        <action id="org.diffscope.visualeditor.view.resetHorizontalScale" />
-        <action id="org.diffscope.visualeditor.view.setScalingRatio^" />
+        <action id="org.diffscope.visualeditor.view.verticalZoomIn" icon="zoom_in" shortcut="Ctrl+=" />
+        <action id="org.diffscope.visualeditor.view.verticalZoomOut" icon="zoom_out" shortcut="Ctrl+-" />
+        <action id="org.diffscope.visualeditor.view.horizontalZoomIn" icon="zoom_in" shortcut="Ctrl+Alt+=" />
+        <action id="org.diffscope.visualeditor.view.horizontalZoomOut" icon="zoom_out" shortcut="Ctrl+Alt+-" />
+        <action id="org.diffscope.visualeditor.view.resetVerticalScale" icon="arrow_autofit_height" shortcut="Ctrl+Shift+R" />
+        <action id="org.diffscope.visualeditor.view.resetHorizontalScale" icon="arrow_autofit_width" shortcut="Ctrl+Alt+Shift+R" />
 
         <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" icon="cursor" />
         <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" icon="edit" />
@@ -62,7 +60,7 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" diffscope:componentType="widget" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" icon="line_horizontal_3" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" icon="navigation" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.mixer" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
@@ -103,8 +101,6 @@
                 <separator />
                 <action id="org.diffscope.visualeditor.view.scrollToPlaybackPosition" />
                 <action id="org.diffscope.visualeditor.view.scrollToCurrentItem" />
-                <separator />
-                <action id="org.diffscope.visualeditor.view.scrollTo" />
             </group>
         </menu>
         <menu id="org.diffscope.visualeditor.view.zoom">
@@ -115,8 +111,6 @@
             <separator />
             <action id="org.diffscope.visualeditor.view.resetVerticalScale" />
             <action id="org.diffscope.visualeditor.view.resetHorizontalScale" />
-            <separator />
-            <action id="org.diffscope.visualeditor.view.setScalingRatio" />
         </menu>
         <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
