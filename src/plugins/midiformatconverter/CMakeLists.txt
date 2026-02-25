@@ -4,11 +4,11 @@ project(midiformatconverter
 )
 
 set(_links_icu)
-if(NOT WIN32)
+if(WIN32)
+    list(APPEND _links_icu icu)
+elseif(NOT APPLE)
     find_package(ICU COMPONENTS uc REQUIRED)
     list(APPEND _links_icu ICU::uc)
-else()
-    list(APPEND _links_icu icu)
 endif()
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
@@ -17,6 +17,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     MACRO_PREFIX MIDI_FORMAT_CONVERTER
     QML_MODULE_NAME MIDIFormatConverter
     NO_ACTION
+    MACOS_INCLUDE_OBJC_SRC
     QT_LINKS
         Core
         Gui
@@ -34,4 +35,5 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ${_links_icu}
     INCLUDE_PRIVATE
         internal/**
+    MACOS_EXCLUDE_SRC *_icu.cpp
 )
