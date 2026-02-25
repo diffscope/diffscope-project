@@ -66,7 +66,7 @@ namespace Core::Internal {
             connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer, [=] { timer->start(); });
             connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, timer, &QObject::deleteLater);
             connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer, &QObject::deleteLater);
-            connect(timer, &QTimer::timeout, [=] {
+            connect(timer, &QTimer::timeout, message, [=] {
                 qCInfo(lcNotificationManager) << "Auto-hiding message on timeout:" << message;
                 emit handle->hideClicked();
             });

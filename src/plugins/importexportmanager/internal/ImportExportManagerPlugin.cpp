@@ -38,12 +38,11 @@ namespace ImportExportManager::Internal {
         Core::HomeWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<FileImportExportAddOn>();
 
-        ConverterCollection::addFileConverter(new DspxFileImporter);
-        ConverterCollection::addFileConverter(new DspxFileExporter);
-
         return true;
     }
     void ImportExportManagerPlugin::extensionsInitialized() {
+        ConverterCollection::addFileConverter(new DspxFileImporter);
+        ConverterCollection::addFileConverter(new DspxFileExporter);
     }
     bool ImportExportManagerPlugin::delayedInitialize() {
         return IPlugin::delayedInitialize();
