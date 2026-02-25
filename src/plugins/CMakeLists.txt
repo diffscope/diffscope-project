@@ -7,9 +7,9 @@ set(CURRENT_PLUGIN_DESC "${APPLICATION_NAME} Application Plugin")
 find_package(ExtensionSystem REQUIRED)
 
 function(diffscope_add_builtin_plugin _target)
-    set(options NO_TRANSLATION NO_QML_MODULE NO_ACTION)
+    set(options NO_TRANSLATION NO_QML_MODULE NO_ACTION MACOS_INCLUDE_OBJC_SRC)
     set(oneValueArgs NAME DISPLAY_NAME MACRO_PREFIX QML_MODULE_NAME)
-    set(multiValueArgs QAK_DEFINES)
+    set(multiValueArgs QAK_DEFINES WIN_EXCLUDE_SRC MACOS_EXCLUDE_SRC LINUX_EXCLUDE_SRC)
     cmake_parse_arguments(FUNC "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     set(_plugin_name ${FUNC_NAME})
@@ -25,6 +25,32 @@ function(diffscope_add_builtin_plugin _target)
     )
 
     file(GLOB_RECURSE _src *.h *.cpp)
+
+    if(APPLE AND FUNC_MACOS_INCLUDE_OBJC_SRC)
+        file(GLOB_RECURSE _objc_src *.m *.mm)
+        list(APPEND _src ${_objc_src})
+    endif()
+
+    if(WIN32 AND FUNC_WIN_EXCLUDE_SRC)
+        foreach(_pattern IN LISTS FUNC_WIN_EXCLUDE_SRC)
+            file(GLOB_RECURSE _win_excluded ${_pattern})
+            list(REMOVE_ITEM _src ${_win_excluded})
+        endforeach()
+    endif()
+
+    if(APPLE AND FUNC_MACOS_EXCLUDE_SRC)
+        foreach(_pattern IN LISTS FUNC_MACOS_EXCLUDE_SRC)
+            file(GLOB_RECURSE _mac_excluded ${_pattern})
+            list(REMOVE_ITEM _src ${_mac_excluded})
+        endforeach()
+    endif()
+
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND FUNC_LINUX_EXCLUDE_SRC)
+        foreach(_pattern IN LISTS FUNC_LINUX_EXCLUDE_SRC)
+            file(GLOB_RECURSE _linux_excluded ${_pattern})
+            list(REMOVE_ITEM _src ${_linux_excluded})
+        endforeach()
+    endif()
 
     if(NOT FUNC_NO_ACTION)
         qak_add_action_extension(

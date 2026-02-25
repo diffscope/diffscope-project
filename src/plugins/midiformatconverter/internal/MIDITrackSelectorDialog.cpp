@@ -1,15 +1,13 @@
-#include "MIDITrackSelectorDialog.h"
 #include "MIDITrackSelectorDialog_p.h"
-
-#include <uishell/MIDITrackSelectorStringConverter.h>
+#include "MIDITrackSelectorDialog.h"
 
 #include <QAbstractItemView>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QGroupBox>
-#include <QHeaderView>
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QSet>
 #include <QSignalBlocker>
@@ -19,95 +17,12 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-namespace UIShell {
+#include <midiformatconverter/internal/MIDITextCodecConverter.h>
 
-    class QtStringConverterStrategy : public MIDITrackSelectorStringConverter {
-    public:
-        QtStringConverterStrategy();
-        ~QtStringConverterStrategy() override;
+namespace MIDIFormatConverter::Internal {
 
-        QList<CodecInfo> availableCodecs() const override;
-        QByteArray detectEncoding(const QByteArray &data) const override;
-        QString decode(const QByteArray &data, const QByteArray &codec) const override;
-        QByteArray defaultCodec() const override;
-    };
-
-    QtStringConverterStrategy::QtStringConverterStrategy() = default;
-
-    QtStringConverterStrategy::~QtStringConverterStrategy() = default;
-
-    QList<MIDITrackSelectorStringConverter::CodecInfo> QtStringConverterStrategy::availableCodecs() const {
-        struct EncodingEntry {
-            QStringConverter::Encoding encoding;
-        };
-
-        const QVector<EncodingEntry> orderedEncodings = {
-            {QStringConverter::Utf8},
-            {QStringConverter::System},
-            {QStringConverter::Utf16},
-            {QStringConverter::Utf16BE},
-            {QStringConverter::Utf16LE},
-            {QStringConverter::Utf32},
-            {QStringConverter::Utf32BE},
-            {QStringConverter::Utf32LE},
-            {QStringConverter::Latin1},
-        };
-
-        QList<CodecInfo> result;
-        QSet<QByteArray> seen;
-
-        for (const auto &entry : orderedEncodings) {
-            const QByteArray nameBytes = QStringConverter::nameForEncoding(entry.encoding);
-            if (nameBytes.isEmpty())
-                continue;
-            const QByteArray normalized = nameBytes;
-            if (seen.contains(normalized))
-                continue;
-            seen.insert(normalized);
-
-            CodecInfo info;
-            info.identifier = normalized;
-            info.displayName = QString::fromLatin1(nameBytes);
-            result.append(info);
-        }
-
-        return result;
-    }
-
-    QByteArray QtStringConverterStrategy::detectEncoding(const QByteArray &data) const {
-        if (data.isEmpty())
-            return {};
-
-        const auto encoding = QStringConverter::encodingForData(data);
-        if (encoding) {
-            const QByteArray nameBytes = QStringConverter::nameForEncoding(*encoding);
-            if (!nameBytes.isEmpty())
-                return nameBytes;
-        }
-
-        return {};
-    }
-
-    QString QtStringConverterStrategy::decode(const QByteArray &data, const QByteArray &codec) const {
-        const auto encoding = QStringConverter::encodingForName(codec);
-        if (!encoding)
-            return QString::fromUtf8(data);
-
-        QStringDecoder decoder(*encoding);
-        QString text = decoder.decode(data);
-        if (decoder.hasError())
-            text = QString::fromUtf8(data);
-
-        return text;
-    }
-
-    QByteArray QtStringConverterStrategy::defaultCodec() const {
-        return QStringConverter::nameForEncoding(QStringConverter::Utf8);
-    }
-
-    MIDITrackSelectorDialogPrivate::MIDITrackSelectorDialogPrivate(MIDITrackSelectorDialog *q, MIDITrackSelectorStringConverter *converter)
-        : q_ptr(q), converter(converter ? converter : new QtStringConverterStrategy) {
-        currentCodec = this->converter->defaultCodec();
+    MIDITrackSelectorDialogPrivate::MIDITrackSelectorDialogPrivate(MIDITrackSelectorDialog *q) : q_ptr(q) {
+        currentCodec = MIDITextCodecConverter::defaultCodec();
     }
 
     MIDITrackSelectorDialogPrivate::~MIDITrackSelectorDialogPrivate() = default;
@@ -118,7 +33,7 @@ namespace UIShell {
         auto *mainLayout = new QVBoxLayout(q);
 
         auto *codecLayout = new QHBoxLayout;
-        auto *codecLabel = new QLabel(UIShell::MIDITrackSelectorDialog::tr("Encoding:"), q);
+        auto *codecLabel = new QLabel(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Encoding:"), q);
         codecComboBox = new QComboBox(q);
         codecLayout->addWidget(codecLabel);
         codecLayout->addWidget(codecComboBox, 1);
@@ -131,14 +46,14 @@ namespace UIShell {
                 return;
             const QByteArray codecId = codecComboBox->itemData(index).toByteArray();
             Q_Q(MIDITrackSelectorDialog);
-            q->setCodec(QString::fromLatin1(codecId));
+            q->setCodec(codecId);
         });
 
-        auto *selectorGroup = new QGroupBox(UIShell::MIDITrackSelectorDialog::tr("Track Selector"), q);
+        auto *selectorGroup = new QGroupBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Track Selector"), q);
         auto *selectorLayout = new QVBoxLayout(selectorGroup);
 
         auto *buttonLayout = new QHBoxLayout;
-        selectAllCheckBox = new BinaryToggleCheckBox(UIShell::MIDITrackSelectorDialog::tr("Select All"), selectorGroup);
+        selectAllCheckBox = new BinaryToggleCheckBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Select All"), selectorGroup);
         selectAllCheckBox->setTristate(true);
         buttonLayout->addWidget(selectAllCheckBox);
         buttonLayout->addStretch();
@@ -153,13 +68,30 @@ namespace UIShell {
 
         mainLayout->addWidget(selectorGroup, 2);
 
-        auto *previewGroup = new QGroupBox(UIShell::MIDITrackSelectorDialog::tr("Preview"), q);
+        auto *previewGroup = new QGroupBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Preview"), q);
         auto *previewLayout = new QVBoxLayout(previewGroup);
         previewEdit = new QTextEdit(previewGroup);
         previewEdit->setReadOnly(true);
         previewEdit->setLineWrapMode(QTextEdit::WidgetWidth);
         previewLayout->addWidget(previewEdit);
         mainLayout->addWidget(previewGroup, 1);
+
+        auto *optionsGroup = new QGroupBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Options"), q);
+        auto *optionsLayout = new QVBoxLayout(optionsGroup);
+
+        separateMidiChannelsCheckBox = new QCheckBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Separate MIDI channels"), optionsGroup);
+        separateMidiChannelsCheckBox->setChecked(separateMidiChannels);
+        optionsLayout->addWidget(separateMidiChannelsCheckBox);
+
+        importTempoCheckBox = new QCheckBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Import tempo"), optionsGroup);
+        importTempoCheckBox->setChecked(importTempo);
+        optionsLayout->addWidget(importTempoCheckBox);
+
+        importTimeSignatureCheckBox = new QCheckBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Import time signature"), optionsGroup);
+        importTimeSignatureCheckBox->setChecked(importTimeSignature);
+        optionsLayout->addWidget(importTimeSignatureCheckBox);
+
+        mainLayout->addWidget(optionsGroup);
 
         auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, q);
         QObject::connect(buttonBox, &QDialogButtonBox::accepted, q, &QDialog::accept);
@@ -185,20 +117,35 @@ namespace UIShell {
                 trackView->viewport()->update();
             updateSelectedIndexes();
         });
+
+        QObject::connect(separateMidiChannelsCheckBox, &QCheckBox::toggled, q, [this](bool checked) {
+            Q_Q(MIDITrackSelectorDialog);
+            q->setseparateMidiChannels(checked);
+        });
+
+        QObject::connect(importTempoCheckBox, &QCheckBox::toggled, q, [this](bool checked) {
+            Q_Q(MIDITrackSelectorDialog);
+            q->setImportTempo(checked);
+        });
+
+        QObject::connect(importTimeSignatureCheckBox, &QCheckBox::toggled, q, [this](bool checked) {
+            Q_Q(MIDITrackSelectorDialog);
+            q->setImportTimeSignature(checked);
+        });
         q->resize(640, 480);
     }
 
     void MIDITrackSelectorDialogPrivate::populateCodecCombo() {
-        if (!codecComboBox || !converter)
+        if (!codecComboBox)
             return;
 
         codecComboBox->clear();
 
-        const auto codecs = converter->availableCodecs();
+        const auto codecs = MIDITextCodecConverter::availableCodecs();
         for (const auto &codec : codecs) {
             QString itemText = codec.displayName;
             if (!autoDetectedCodec.isEmpty() && codec.identifier == autoDetectedCodec) {
-                itemText = UIShell::MIDITrackSelectorDialog::tr("%1 (auto detected)").arg(codec.displayName);
+                itemText = MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("%1 (auto detected)").arg(codec.displayName);
             }
             codecComboBox->addItem(itemText, codec.identifier);
         }
@@ -209,7 +156,7 @@ namespace UIShell {
 
         auto *newModel = new QStandardItemModel(q);
         newModel->setColumnCount(3);
-        newModel->setHorizontalHeaderLabels({UIShell::MIDITrackSelectorDialog::tr("Name"), UIShell::MIDITrackSelectorDialog::tr("Range"), UIShell::MIDITrackSelectorDialog::tr("Note Count")});
+        newModel->setHorizontalHeaderLabels({MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Name"), MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Range"), MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Note Count")});
 
         const int count = trackInfos.size();
         for (int i = 0; i < count; ++i) {
@@ -343,9 +290,7 @@ namespace UIShell {
     }
 
     QString MIDITrackSelectorDialogPrivate::decodeBytes(const QByteArray &bytes) const {
-        if (!converter)
-            return QString::fromUtf8(bytes);
-        return converter->decode(bytes, currentCodec);
+        return MIDITextCodecConverter::decode(bytes, currentCodec);
     }
 
     QString MIDITrackSelectorDialogPrivate::decodedName(const QByteArray &bytes) const {
@@ -390,8 +335,8 @@ namespace UIShell {
         }
     }
 
-    MIDITrackSelectorDialog::MIDITrackSelectorDialog(QWidget *parent, MIDITrackSelectorStringConverter *converter)
-        : QDialog(parent), d_ptr(new MIDITrackSelectorDialogPrivate(this, converter)) {
+    MIDITrackSelectorDialog::MIDITrackSelectorDialog(QWidget *parent)
+        : QDialog(parent), d_ptr(new MIDITrackSelectorDialogPrivate(this)) {
         Q_D(MIDITrackSelectorDialog);
         d->init();
     }
@@ -411,19 +356,18 @@ namespace UIShell {
         d->rebuildModel();
     }
 
-    QString MIDITrackSelectorDialog::codec() const {
+    QByteArray MIDITrackSelectorDialog::codec() const {
         Q_D(const MIDITrackSelectorDialog);
-        return QString::fromLatin1(d->currentCodec);
+        return d->currentCodec;
     }
 
-    void MIDITrackSelectorDialog::setCodec(const QString &codec) {
+    void MIDITrackSelectorDialog::setCodec(const QByteArray &codec) {
         Q_D(MIDITrackSelectorDialog);
-        const QByteArray normalized = codec.toLatin1();
-        if (normalized.isEmpty())
+        if (codec.isEmpty())
             return;
-        if (normalized == d->currentCodec)
+        if (codec == d->currentCodec)
             return;
-        d->currentCodec = normalized;
+        d->currentCodec = codec;
         d->syncComboToCodec();
         d->updateNamesForCodec();
         d->updatePreviewForRow(d->trackView ? d->trackView->currentIndex().row() : -1);
@@ -435,18 +379,67 @@ namespace UIShell {
         return d->selectedIndexesCache;
     }
 
+    bool MIDITrackSelectorDialog::separateMidiChannels() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->separateMidiChannels;
+    }
+
+    void MIDITrackSelectorDialog::setseparateMidiChannels(bool enabled) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->separateMidiChannels == enabled)
+            return;
+        d->separateMidiChannels = enabled;
+        if (d->separateMidiChannelsCheckBox) {
+            QSignalBlocker blocker(d->separateMidiChannelsCheckBox);
+            d->separateMidiChannelsCheckBox->setChecked(enabled);
+        }
+        emit separateMidiChannelsChanged(enabled);
+    }
+
+    bool MIDITrackSelectorDialog::importTempo() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->importTempo;
+    }
+
+    void MIDITrackSelectorDialog::setImportTempo(bool enabled) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->importTempo == enabled)
+            return;
+        d->importTempo = enabled;
+        if (d->importTempoCheckBox) {
+            QSignalBlocker blocker(d->importTempoCheckBox);
+            d->importTempoCheckBox->setChecked(enabled);
+        }
+        emit importTempoChanged(enabled);
+    }
+
+    bool MIDITrackSelectorDialog::importTimeSignature() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->importTimeSignature;
+    }
+
+    void MIDITrackSelectorDialog::setImportTimeSignature(bool enabled) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->importTimeSignature == enabled)
+            return;
+        d->importTimeSignature = enabled;
+        if (d->importTimeSignatureCheckBox) {
+            QSignalBlocker blocker(d->importTimeSignatureCheckBox);
+            d->importTimeSignatureCheckBox->setChecked(enabled);
+        }
+        emit importTimeSignatureChanged(enabled);
+    }
+
     void MIDITrackSelectorDialog::detectCodec() {
         Q_D(MIDITrackSelectorDialog);
-        if (!d->converter)
-            return;
         const QByteArray combined = d->aggregateLyricsForDetection();
         if (combined.isEmpty())
             return;
-        const QByteArray detected = d->converter->detectEncoding(combined);
+        const QByteArray detected = MIDITextCodecConverter::detectEncoding(combined);
         if (!detected.isEmpty()) {
             d->autoDetectedCodec = detected;
             d->populateCodecCombo();
-            setCodec(QString::fromLatin1(detected));
+            setCodec(detected);
         }
     }
 
