@@ -3,6 +3,14 @@ project(midiformatconverter
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+set(_links_icu)
+if(NOT WIN32)
+    find_package(ICU COMPONENTS uc REQUIRED)
+    list(APPEND _links_icu ICU::uc)
+else()
+    list(APPEND _links_icu icu)
+endif()
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.midiformatconverter
     DISPLAY_NAME "MIDI Format Converter"
@@ -22,6 +30,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         coreplugin
         importexportmanager
         opendspx::model
+        opendspx::converter
+        ${_links_icu}
     INCLUDE_PRIVATE
         internal/**
 )
