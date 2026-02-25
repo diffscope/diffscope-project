@@ -87,14 +87,11 @@ namespace MIDIFormatConverter::Internal {
         @autoreleasepool {
             NSData *nsData = [NSData dataWithBytes:data.constData() length:static_cast<NSUInteger>(data.size())];
             NSString *converted = nil;
-            BOOL lossy = NO;
-            const NSDictionary *options = @{NSStringEncodingDetectionUseOnlySuggestedEncodingsKey: @NO,
-                                             NSStringEncodingDetectionAllowLossyKey: @NO};
 
             const NSStringEncoding encoding = [NSString stringEncodingForData:nsData
-                                                               encodingOptions:options
+                                                               encodingOptions:nil
                                                                convertedString:&converted
-                                                         usedLossyConversion:&lossy];
+                                                         usedLossyConversion:nil];
 
             if (encoding == 0) {
                 return {};
@@ -156,7 +153,7 @@ namespace MIDIFormatConverter::Internal {
     }
 
     QByteArray MIDITextCodecConverter::defaultCodec() {
-        return "UTF-8";
+        return "utf-8";
     }
 
 }
