@@ -59,15 +59,16 @@ Window {
         if (frameless && !windowAgent.framelessSetup) {
             windowAgent.setup(window)
             windowAgent.framelessSetup = true
-            windowAgent.setTitleBar(titleBarArea)
+            windowAgent.setTitleBar(titleBar)
             windowAgent.setSystemButton(WindowAgent.Minimize, minimizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
-            windowAgent.setSystemButton(WindowAgent.WindowIcon, iconArea)
+            windowAgent.setSystemButton(WindowAgent.WindowIcon, windowIcon)
             windowAgent.setHitTestVisible(Overlay.overlay)
             windowAgent.setHitTestVisible(leftToolBarContainer)
             windowAgent.setHitTestVisible(rightToolBarContainer)
             windowAgent.setHitTestVisible(middleToolBarContainer)
+            windowAgent.setHitTestVisible(menuBar)
         }
     }
 
@@ -159,6 +160,7 @@ Window {
                     Layout.fillHeight: true
                     width: 40
                     Image {
+                        id: windowIcon
                         anchors.centerIn: parent
                         source: window.icon
                         width: 16
