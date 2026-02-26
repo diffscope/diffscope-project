@@ -127,9 +127,14 @@ namespace Core {
         return d->document;
     }
 
-    OpenSaveProjectFileScenario * ProjectDocumentContext::openSaveProjectFileScenario() const {
+    OpenSaveProjectFileScenario *ProjectDocumentContext::openSaveProjectFileScenario() const {
         Q_D(const ProjectDocumentContext);
         return d->openSaveProjectFileScenario;
+    }
+
+    QString ProjectDocumentContext::defaultDocumentName() const {
+        Q_D(const ProjectDocumentContext);
+        return d->defaultDocumentName;
     }
 
     bool ProjectDocumentContext::openFile(const QString &filePath) {
@@ -168,7 +173,7 @@ namespace Core {
         return true;
     }
 
-    bool ProjectDocumentContext::newFile(const QDspx::Model &templateModel, bool isNonFileDocument) {
+    bool ProjectDocumentContext::newFile(const QDspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (d->document) {
             qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
@@ -177,10 +182,15 @@ namespace Core {
         if (!isNonFileDocument) {
             d->fileLocker = new FileLocker(this);
         }
-        return d->initializeDocument(templateModel, false);
+        if (!d->initializeDocument(templateModel, false)) {
+            return false;
+        }
+        d->defaultDocumentName = defaultDocumentName;
+        Q_EMIT defaultDocumentNameChanged();
+        return true;
     }
 
-    bool ProjectDocumentContext::newFile(const QString &templateFilePath, bool isNonFileDocument) {
+    bool ProjectDocumentContext::newFile(const QString &templateFilePath, const QString &defaultDocumentName, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (d->document) {
             qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
@@ -207,6 +217,8 @@ namespace Core {
             d->openSaveProjectFileScenario->showDeserializationFailMessageBox(templateFilePath);
             return false;
         }
+        d->defaultDocumentName = defaultDocumentName;
+        Q_EMIT defaultDocumentNameChanged();
         return true;
     }
 
@@ -251,6 +263,10 @@ namespace Core {
             return false;
         }
         d->markSaved();
+        if (!d->defaultDocumentName.isEmpty()) {
+            d->defaultDocumentName.clear();
+            Q_EMIT defaultDocumentNameChanged();
+        }
         return true;
     }
 

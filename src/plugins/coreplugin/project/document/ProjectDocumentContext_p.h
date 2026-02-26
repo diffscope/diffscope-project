@@ -15,6 +15,7 @@ namespace Core {
         FileLocker *fileLocker{};
         DspxDocument *document{};
         OpenSaveProjectFileScenario *openSaveProjectFileScenario;
+        QString defaultDocumentName;
 
         void markSaved();
         QByteArray serializeDocument(bool *hasError = nullptr) const;

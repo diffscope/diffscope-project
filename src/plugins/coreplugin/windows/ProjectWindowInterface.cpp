@@ -181,7 +181,7 @@ namespace Core {
 
     bool ProjectWindowInterface::saveAs() {
         Q_D(ProjectWindowInterface);
-        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString(), d->projectDocumentContext->defaultDocumentName());
         if (path.isEmpty())
             return false;
         bool isSuccess = d->projectDocumentContext->saveAs(path);
@@ -194,7 +194,7 @@ namespace Core {
 
     bool ProjectWindowInterface::saveCopy() {
         Q_D(ProjectWindowInterface);
-        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString());
+        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString(), d->projectDocumentContext->defaultDocumentName());
         if (path.isEmpty())
             return false;
         return d->projectDocumentContext->saveCopy(path);
@@ -246,7 +246,7 @@ namespace Core {
         if (d->projectDocumentContext->fileLocker() && !d->projectDocumentContext->fileLocker()->path().isEmpty()) {
             path = d->projectDocumentContext->fileLocker()->path();
         } else {
-            path = tr("Untitled") + ".dspx";
+            path = d->projectDocumentContext->defaultDocumentName();
         }
         win->setFilePath(path);
         return win;
@@ -261,7 +261,7 @@ namespace Core {
                 if (!win)
                     return;
                 auto path = d->projectDocumentContext->fileLocker()->path();
-                win->setFilePath(path.isEmpty() ? tr("Untitled") + ".dspx" : path);
+                win->setFilePath(path.isEmpty() ? d->projectDocumentContext->defaultDocumentName() : path);
             });
         }
         d->init();

@@ -303,7 +303,7 @@ namespace Core {
         };
         qCInfo(lcCoreInterface) << "New file";
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->newFile(defaultModel, false)) {
+        if (!projectDocumentContext->newFile(defaultModel, tr("Untitled") + ".dspx", false)) {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());
@@ -320,7 +320,7 @@ namespace Core {
             if (templateFilePath.isEmpty())
                 return nullptr;
         }
-        if (!projectDocumentContext->newFile(templateFilePath, false)) {
+        if (!projectDocumentContext->newFile(templateFilePath, tr("Untitled") + ".dspx", false)) {
             return nullptr;
         }
         auto windowInterface = createProjectWindow(projectDocumentContext.release());

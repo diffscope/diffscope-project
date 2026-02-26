@@ -69,12 +69,20 @@ namespace Core {
         return path;
     }
 
-    QString OpenSaveProjectFileScenario::saveProjectFile(const QString &defaultDir) const {
+    QString OpenSaveProjectFileScenario::saveProjectFile(const QString &defaultDir, const QString &defaultDocumentName) const {
         Q_D(const OpenSaveProjectFileScenario);
         Q_UNUSED(d->window);
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        auto defaultSaveDir = !defaultDir.isEmpty() ? defaultDir : settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        QString defaultSaveDir;
+        if (!defaultDir.isEmpty()) {
+            defaultSaveDir = defaultDir;
+        } else {
+            defaultSaveDir = settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+            if (!defaultDocumentName.isEmpty()) {
+                defaultSaveDir = QDir(defaultSaveDir).filePath(defaultDocumentName);
+            }
+        }
         settings->endGroup();
 
         auto path = QFileDialog::getSaveFileName(

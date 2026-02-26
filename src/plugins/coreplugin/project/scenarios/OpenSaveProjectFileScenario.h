@@ -26,7 +26,7 @@ namespace Core {
 
         Q_INVOKABLE static QString dspxFileFilter(bool withAllFiles = false);
         Q_INVOKABLE QString openProjectFile(const QString &defaultDir = {}) const;
-        Q_INVOKABLE QString saveProjectFile(const QString &defaultDir = {}) const;
+        Q_INVOKABLE QString saveProjectFile(const QString &defaultDir = {}, const QString &defaultDocumentName = {}) const;
         Q_INVOKABLE void showOpenFailMessageBox(const QString &path, const QString &error) const;
         Q_INVOKABLE void showSaveFailMessageBox(const QString &path, const QString &error) const;
         Q_INVOKABLE void showDeserializationFailMessageBox(const QString &path) const;

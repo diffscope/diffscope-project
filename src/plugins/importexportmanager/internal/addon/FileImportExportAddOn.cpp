@@ -146,7 +146,7 @@ namespace ImportExportManager::Internal {
             return;
         }
         auto projectDocumentContext = std::make_unique<Core::ProjectDocumentContext>();
-        projectDocumentContext->newFile(model, false);
+        projectDocumentContext->newFile(model, QFileInfo(path).baseName() + ".dspx", false);
         Core::CoreInterface::createProjectWindow(projectDocumentContext.release());
     }
 

@@ -25,6 +25,7 @@ namespace Core {
         Q_PROPERTY(FileLocker *fileLocker READ fileLocker CONSTANT)
         Q_PROPERTY(DspxDocument *document READ document CONSTANT)
         Q_PROPERTY(OpenSaveProjectFileScenario *openSaveProjectFileScenario READ openSaveProjectFileScenario CONSTANT)
+        Q_PROPERTY(QString defaultDocumentName READ defaultDocumentName NOTIFY defaultDocumentNameChanged)
     public:
         explicit ProjectDocumentContext(QObject *parent = nullptr);
         ~ProjectDocumentContext() override;
@@ -35,15 +36,18 @@ namespace Core {
 
         OpenSaveProjectFileScenario *openSaveProjectFileScenario() const;
 
+        QString defaultDocumentName() const;
+
         bool openFile(const QString &filePath);
-        bool newFile(const QDspx::Model &templateModel, bool isNonFileDocument);
-        bool newFile(const QString &templateFilePath, bool isNonFileDocument);
+        bool newFile(const QDspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument);
+        bool newFile(const QString &templateFilePath, const QString &defaultDocumentName, bool isNonFileDocument);
         bool save();
         bool saveAs(const QString &filePath);
         bool saveCopy(const QString &filePath);
 
     Q_SIGNALS:
         void saved();
+        void defaultDocumentNameChanged();
 
     private:
         QScopedPointer<ProjectDocumentContextPrivate> d_ptr;
