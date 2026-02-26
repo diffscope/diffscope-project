@@ -74,8 +74,8 @@ namespace VisualEditor::Internal {
     void VisualEditorPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ScrollAddOn>();
-        Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PianoRollAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MixerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LabelTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<TempoTrackAddOn>();

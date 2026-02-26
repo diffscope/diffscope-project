@@ -10,6 +10,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ArrangementPanelInterface.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/AdditionalTrackLoader.h>
 #include <visualeditor/internal/ScrollAddOn.h>
@@ -61,6 +62,9 @@ namespace VisualEditor::Internal {
     }
     ArrangementPanelInterface *ArrangementAddOn::arrangementPanelInterface() const {
         return ArrangementPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
+    }
+    PianoRollPanelInterface *ArrangementAddOn::pianoRollPanelInterface() const {
+        return PianoRollPanelInterface::of(windowHandle()->cast<Core::ProjectWindowInterface>());
     }
     AdditionalTrackLoader *ArrangementAddOn::additionalTrackLoader() const {
         return m_additionalTrackLoader;

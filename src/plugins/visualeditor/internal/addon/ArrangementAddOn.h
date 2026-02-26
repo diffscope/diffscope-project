@@ -5,6 +5,7 @@
 
 namespace VisualEditor {
     class ArrangementPanelInterface;
+    class PianoRollPanelInterface;
 }
 
 namespace VisualEditor::Internal {
@@ -13,7 +14,8 @@ namespace VisualEditor::Internal {
 
     class ArrangementAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
-        Q_PROPERTY(VisualEditor::ArrangementPanelInterface *arrangementPanelInterface READ arrangementPanelInterface CONSTANT)
+        Q_PROPERTY(ArrangementPanelInterface *arrangementPanelInterface READ arrangementPanelInterface CONSTANT)
+        Q_PROPERTY(PianoRollPanelInterface *pianoRollPanelInterface READ pianoRollPanelInterface CONSTANT)
         Q_PROPERTY(AdditionalTrackLoader *additionalTrackLoader READ additionalTrackLoader CONSTANT)
         Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
     public:
@@ -25,6 +27,8 @@ namespace VisualEditor::Internal {
         bool delayedInitialize() override;
 
         ArrangementPanelInterface *arrangementPanelInterface() const;
+
+        PianoRollPanelInterface *pianoRollPanelInterface() const;
 
         AdditionalTrackLoader *additionalTrackLoader() const;
 

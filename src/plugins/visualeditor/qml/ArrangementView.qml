@@ -379,6 +379,10 @@ Item {
                         timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
                         clipSequenceViewModel: view.projectViewModelContext?.clipSequenceViewModel ?? null
                         clipPaneInteractionController: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
+                        thumbnailComponent: ArrangementViewThumbnail {
+                            pianoRollPanelInterface: view.addOn?.pianoRollPanelInterface ?? null
+                            projectViewModelContext: view.projectViewModelContext
+                        }
 
                         property ClipViewModel activeClip: null
 
