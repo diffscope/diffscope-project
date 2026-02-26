@@ -24,7 +24,6 @@ namespace MIDIFormatConverter::Internal {
                 continue; // just skip non-IANA standard charset to avoid making the encoding list too long (they are generally not used)
             }
             info.displayName = QString::fromUtf8(standardName);
-            qDebug() << info.identifier << info.displayName;
             result.append(info);
         }
         return result;
