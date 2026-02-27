@@ -12,8 +12,12 @@ namespace dspx {
         int pos;
         double value;
         TempoSequence *tempoSequence{};
+        Tempo *previousItem{};
+        Tempo *nextItem{};
 
         static void setTempoSequence(Tempo *item, TempoSequence *tempoSequence);
+        static void setPreviousItem(Tempo *item, Tempo *previousItem);
+        static void setNextItem(Tempo *item, Tempo *nextItem);
     };
 
 }

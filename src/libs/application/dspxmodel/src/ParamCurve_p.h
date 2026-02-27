@@ -16,8 +16,12 @@ namespace dspx {
         ParamCurve::CurveType type;
         int start{};
         ParamCurveSequence *paramCurveSequence{};
+        ParamCurve *previousItem{};
+        ParamCurve *nextItem{};
 
         static void setParamCurveSequence(ParamCurve *item, ParamCurveSequence *paramCurveSequence);
+        static void setPreviousItem(ParamCurve *item, ParamCurve *previousItem);
+        static void setNextItem(ParamCurve *item, ParamCurve *nextItem);
     };
 
 }

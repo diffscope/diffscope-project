@@ -11,7 +11,17 @@ namespace dspx {
 
     class PointSequenceJSIterable;
 
-    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), int (ItemType::*lengthGetter)() const, void (ItemType::*lengthChangedSignal)(int), void (*setOverlapped)(ItemType *item, bool overlapped), void (*setSequence)(ItemType *item, SequenceType *sequence)>
+    template <
+        class SequenceType,
+        class ItemType,
+        int (ItemType::*positionGetter)() const,
+        void (ItemType::*positionChangedSignal)(int),
+        int (ItemType::*lengthGetter)() const,
+        void (ItemType::*lengthChangedSignal)(int),
+        void (*setOverlapped)(ItemType *item, bool overlapped),
+        void (*setSequence)(ItemType *item, SequenceType *sequence),
+        void (*setPreviousItem)(ItemType *item, ItemType *previousItem),
+        void (*setNextItem)(ItemType *item, ItemType *nextItem)>
     class RangeSequenceData {
     public:
         SequenceType *q_ptr;
@@ -55,7 +65,8 @@ namespace dspx {
             if (!containsItem) {
                 Q_EMIT q->itemAboutToInsert(item);
             }
-
+            auto oldPreviousItem = pointContainer.previousItem(item);
+            auto oldNextItem = pointContainer.nextItem(item);
             // Insert into both containers
             pointContainer.insertItem(item, position);
             setSequence(item, q);
@@ -66,9 +77,24 @@ namespace dspx {
                 bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
                 setOverlapped(affectedItem, isOverlapped);
             }
-
+            updateFirstAndLastItem();
+            auto newPreviousItem = pointContainer.previousItem(item);
+            auto newNextItem = pointContainer.nextItem(item);
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            if (newPreviousItem) {
+                setNextItem(newPreviousItem, item);
+            }
+            if (newNextItem) {
+                setPreviousItem(newNextItem, item);
+            }
+            setPreviousItem(item, newPreviousItem);
+            setNextItem(item, newNextItem);
             if (!containsItem) {
-                updateFirstAndLastItem();
                 Q_EMIT q->itemInserted(item);
                 Q_EMIT q->sizeChanged(pointContainer.size());
             }
@@ -77,7 +103,8 @@ namespace dspx {
         void removeItem(ItemType *item) {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToRemove(item);
-
+            auto oldPreviousItem = pointContainer.previousItem(item);
+            auto oldNextItem = pointContainer.nextItem(item);
             // Remove from both containers
             pointContainer.removeItem(item);
             setSequence(item, nullptr);
@@ -90,6 +117,14 @@ namespace dspx {
             }
 
             updateFirstAndLastItem();
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            setPreviousItem(item, nullptr);
+            setNextItem(item, nullptr);
             Q_EMIT q->itemRemoved(item);
             Q_EMIT q->sizeChanged(pointContainer.size());
         }

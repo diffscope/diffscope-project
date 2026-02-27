@@ -37,6 +37,8 @@ namespace dspx {
         Q_PROPERTY(Vibrato *vibrato READ vibrato CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
         Q_PROPERTY(NoteSequence *noteSequence READ noteSequence NOTIFY noteSequenceChanged)
+        Q_PROPERTY(Note *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(Note *nextItem READ nextItem NOTIFY nextItemChanged)
         Q_PROPERTY(bool overlapped READ isOverlapped NOTIFY overlappedChanged)
 
     public:
@@ -70,6 +72,9 @@ namespace dspx {
 
         NoteSequence *noteSequence() const;
 
+        Note *previousItem() const;
+        Note *nextItem() const;
+
         bool isOverlapped() const;
 
         QDspx::Note toQDspx() const;
@@ -83,6 +88,8 @@ namespace dspx {
         void lyricChanged(const QString &lyric);
         void posChanged(int pos);
         void noteSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
         void overlappedChanged(bool overlapped);
 
     protected:

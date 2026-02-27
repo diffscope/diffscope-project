@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class TempoSequencePrivate : public PointSequenceData<TempoSequence, Tempo, &Tempo::pos, &Tempo::posChanged, &TempoPrivate::setTempoSequence> {
+    class TempoSequencePrivate : public PointSequenceData<TempoSequence, Tempo, &Tempo::pos, &Tempo::posChanged, &TempoPrivate::setTempoSequence, &TempoPrivate::setPreviousItem, &TempoPrivate::setNextItem> {
         Q_DECLARE_PUBLIC(TempoSequence)
     };
 

@@ -32,6 +32,22 @@ namespace dspx {
         }
     }
 
+    void NotePrivate::setPreviousItem(Note *item, Note *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void NotePrivate::setNextItem(Note *item, Note *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     Note::Note(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new NotePrivate) {
         Q_D(Note);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Note);
@@ -138,6 +154,16 @@ namespace dspx {
     NoteSequence *Note::noteSequence() const {
         Q_D(const Note);
         return d->noteSequence;
+    }
+
+    Note *Note::previousItem() const {
+        Q_D(const Note);
+        return d->previousItem;
+    }
+
+    Note *Note::nextItem() const {
+        Q_D(const Note);
+        return d->nextItem;
     }
 
     bool Note::isOverlapped() const {

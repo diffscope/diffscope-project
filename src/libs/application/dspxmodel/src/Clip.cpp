@@ -32,6 +32,22 @@ namespace dspx {
         }
     }
 
+    void ClipPrivate::setPreviousItem(Clip *item, Clip *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void ClipPrivate::setNextItem(Clip *item, Clip *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     Clip::Clip(ClipType type, Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new ClipPrivate) {
         Q_D(Clip);
         d->q_ptr = this;
@@ -113,6 +129,16 @@ namespace dspx {
     ClipSequence *Clip::clipSequence() const {
         Q_D(const Clip);
         return d->clipSequence;
+    }
+
+    Clip *Clip::previousItem() const {
+        Q_D(const Clip);
+        return d->previousItem;
+    }
+
+    Clip *Clip::nextItem() const {
+        Q_D(const Clip);
+        return d->nextItem;
     }
 
     int Clip::position() const {

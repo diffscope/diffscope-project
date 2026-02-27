@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class ClipSequencePrivate : public RangeSequenceData<ClipSequence, Clip, &Clip::position, &Clip::positionChanged, &Clip::length, &Clip::lengthChanged, &ClipPrivate::setOverlapped, &ClipPrivate::setClipSequence> {
+    class ClipSequencePrivate : public RangeSequenceData<ClipSequence, Clip, &Clip::position, &Clip::positionChanged, &Clip::length, &Clip::lengthChanged, &ClipPrivate::setOverlapped, &ClipPrivate::setClipSequence, &ClipPrivate::setPreviousItem, &ClipPrivate::setNextItem> {
         Q_DECLARE_PUBLIC(ClipSequence)
     public:
         Track *track{};

@@ -18,6 +18,22 @@ namespace dspx {
         }
     }
 
+    void TempoPrivate::setPreviousItem(Tempo *item, Tempo *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void TempoPrivate::setNextItem(Tempo *item, Tempo *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     Tempo::Tempo(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TempoPrivate) {
         Q_D(Tempo);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Tempo);
@@ -53,6 +69,16 @@ namespace dspx {
     TempoSequence *Tempo::tempoSequence() const {
         Q_D(const Tempo);
         return d->tempoSequence;
+    }
+
+    Tempo *Tempo::previousItem() const {
+        Q_D(const Tempo);
+        return d->previousItem;
+    }
+
+    Tempo *Tempo::nextItem() const {
+        Q_D(const Tempo);
+        return d->nextItem;
     }
 
     QDspx::Tempo Tempo::toQDspx() const {

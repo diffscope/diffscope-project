@@ -22,12 +22,14 @@ namespace dspx {
         Vibrato *vibrato;
         Workspace *workspace;
         NoteSequence *noteSequence{};
+        Note *previousItem{};
+        Note *nextItem{};
         bool overlapped{};
-
-
 
         static void setOverlapped(Note *item, bool overlapped);
         static void setNoteSequence(Note *item, NoteSequence *noteSequence);
+        static void setPreviousItem(Note *item, Note *previousItem);
+        static void setNextItem(Note *item, Note *nextItem);
     };
 
 }

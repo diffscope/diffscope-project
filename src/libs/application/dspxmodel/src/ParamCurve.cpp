@@ -22,6 +22,22 @@ namespace dspx {
         Q_EMIT paramCurve->paramCurveSequenceChanged();
     }
 
+    void ParamCurvePrivate::setPreviousItem(ParamCurve *paramCurve, ParamCurve *previousItem) {
+        auto d = paramCurve->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT paramCurve->previousItemChanged();
+        }
+    }
+
+    void ParamCurvePrivate::setNextItem(ParamCurve *paramCurve, ParamCurve *nextItem) {
+        auto d = paramCurve->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT paramCurve->nextItemChanged();
+        }
+    }
+
     ParamCurve::ParamCurve(CurveType type, Handle handle, Model *model)
         : EntityObject(handle, model), d_ptr(new ParamCurvePrivate) {
         Q_D(ParamCurve);
@@ -51,6 +67,16 @@ namespace dspx {
     ParamCurveSequence *ParamCurve::paramCurveSequence() const {
         Q_D(const ParamCurve);
         return d->paramCurveSequence;
+    }
+
+    ParamCurve *ParamCurve::previousItem() const {
+        Q_D(const ParamCurve);
+        return d->previousItem;
+    }
+
+    ParamCurve *ParamCurve::nextItem() const {
+        Q_D(const ParamCurve);
+        return d->nextItem;
     }
 
     QDspx::ParamCurveRef ParamCurve::toQDspx() const {

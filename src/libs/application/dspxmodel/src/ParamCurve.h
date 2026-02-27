@@ -23,6 +23,8 @@ namespace dspx {
         Q_PROPERTY(int start READ start WRITE setStart NOTIFY startChanged)
         Q_PROPERTY(CurveType type READ type CONSTANT)
         Q_PROPERTY(ParamCurveSequence *paramCurveSequence READ paramCurveSequence NOTIFY paramCurveSequenceChanged)
+        Q_PROPERTY(ParamCurve *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(ParamCurve *nextItem READ nextItem NOTIFY nextItemChanged)
 
     public:
         enum CurveType {
@@ -40,12 +42,17 @@ namespace dspx {
 
         ParamCurveSequence *paramCurveSequence() const;
 
+        ParamCurve *previousItem() const;
+        ParamCurve *nextItem() const;
+
         QDspx::ParamCurveRef toQDspx() const;
         void fromQDspx(const QDspx::ParamCurveRef &curve);
 
     Q_SIGNALS:
         void startChanged(int start);
         void paramCurveSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         explicit ParamCurve(CurveType type, Handle handle, Model *model);

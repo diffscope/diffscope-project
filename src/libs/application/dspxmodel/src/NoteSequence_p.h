@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class NoteSequencePrivate : public RangeSequenceData<NoteSequence, Note, &Note::pos, &Note::posChanged, &Note::length, &Note::lengthChanged, &NotePrivate::setOverlapped, &NotePrivate::setNoteSequence> {
+    class NoteSequencePrivate : public RangeSequenceData<NoteSequence, Note, &Note::pos, &Note::posChanged, &Note::length, &Note::lengthChanged, &NotePrivate::setOverlapped, &NotePrivate::setNoteSequence, &NotePrivate::setPreviousItem, &NotePrivate::setNextItem> {
         Q_DECLARE_PUBLIC(NoteSequence)
     public:
         SingingClip *singingClip{};

@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class ParamCurveSequencePrivate : public PointSequenceData<ParamCurveSequence, ParamCurve, &ParamCurve::start, &ParamCurve::startChanged, &ParamCurvePrivate::setParamCurveSequence> {
+    class ParamCurveSequencePrivate : public PointSequenceData<ParamCurveSequence, ParamCurve, &ParamCurve::start, &ParamCurve::startChanged, &ParamCurvePrivate::setParamCurveSequence, &ParamCurvePrivate::setPreviousItem, &ParamCurvePrivate::setNextItem> {
         Q_DECLARE_PUBLIC(ParamCurveSequence)
     public:
         Param *param{};

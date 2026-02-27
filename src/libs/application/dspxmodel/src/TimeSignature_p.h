@@ -13,8 +13,12 @@ namespace dspx {
         int numerator;
         int denominator;
         TimeSignatureSequence *timeSignatureSequence{};
+        TimeSignature *previousItem{};
+        TimeSignature *nextItem{};
 
         static void setTimeSignatureSequence(TimeSignature *item, TimeSignatureSequence *timeSignatureSequence);
+        static void setPreviousItem(TimeSignature *item, TimeSignature *previousItem);
+        static void setNextItem(TimeSignature *item, TimeSignature *nextItem);
     };
 
 }

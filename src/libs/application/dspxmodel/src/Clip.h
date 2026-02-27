@@ -30,6 +30,8 @@ namespace dspx {
         Q_PROPERTY(ClipType type READ type CONSTANT)
         Q_PROPERTY(Workspace *workspace READ workspace CONSTANT)
         Q_PROPERTY(ClipSequence *clipSequence READ clipSequence NOTIFY clipSequenceChanged)
+        Q_PROPERTY(Clip *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(Clip *nextItem READ nextItem NOTIFY nextItemChanged)
         Q_PROPERTY(bool overlapped READ isOverlapped NOTIFY overlappedChanged)
     public:
         enum ClipType {
@@ -56,6 +58,9 @@ namespace dspx {
 
         ClipSequence *clipSequence() const;
 
+        Clip *previousItem() const;
+        Clip *nextItem() const;
+
         int position() const;
 
         int length() const;
@@ -65,6 +70,8 @@ namespace dspx {
     Q_SIGNALS:
         void nameChanged(const QString &name);
         void clipSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
         void positionChanged(int position);
         void lengthChanged(int length);
         void overlappedChanged(bool overlapped);

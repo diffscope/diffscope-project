@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class TimeSignatureSequencePrivate : public PointSequenceData<TimeSignatureSequence, TimeSignature, &TimeSignature::index, &TimeSignature::indexChanged, &TimeSignaturePrivate::setTimeSignatureSequence> {
+    class TimeSignatureSequencePrivate : public PointSequenceData<TimeSignatureSequence, TimeSignature, &TimeSignature::index, &TimeSignature::indexChanged, &TimeSignaturePrivate::setTimeSignatureSequence, &TimeSignaturePrivate::setPreviousItem, &TimeSignaturePrivate::setNextItem> {
         Q_DECLARE_PUBLIC(TimeSignatureSequence)
     };
 

@@ -19,6 +19,22 @@ namespace dspx {
         }
     }
 
+    void AnchorNodePrivate::setPreviousItem(AnchorNode *item, AnchorNode *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void AnchorNodePrivate::setNextItem(AnchorNode *item, AnchorNode *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     AnchorNode::AnchorNode(Handle handle, Model *model)
         : EntityObject(handle, model), d_ptr(new AnchorNodePrivate) {
         Q_D(AnchorNode);
@@ -82,6 +98,16 @@ namespace dspx {
     AnchorNodeSequence *AnchorNode::anchorNodeSequence() const {
         Q_D(const AnchorNode);
         return d->anchorNodeSequence;
+    }
+
+    AnchorNode *AnchorNode::previousItem() const {
+        Q_D(const AnchorNode);
+        return d->previousItem;
+    }
+
+    AnchorNode *AnchorNode::nextItem() const {
+        Q_D(const AnchorNode);
+        return d->nextItem;
     }
 
     void AnchorNode::handleSetEntityProperty(int property, const QVariant &value) {

@@ -22,6 +22,8 @@ namespace dspx {
         Q_PROPERTY(int pos READ pos WRITE setPos NOTIFY posChanged)
         Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
         Q_PROPERTY(LabelSequence *labelSequence READ labelSequence NOTIFY labelSequenceChanged)
+        Q_PROPERTY(Label *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(Label *nextItem READ nextItem NOTIFY nextItemChanged)
     public:
         ~Label() override;
 
@@ -33,6 +35,9 @@ namespace dspx {
 
         LabelSequence *labelSequence() const;
 
+        Label *previousItem() const;
+        Label *nextItem() const;
+
         QDspx::Label toQDspx() const;
         void fromQDspx(const QDspx::Label &label);
 
@@ -40,6 +45,8 @@ namespace dspx {
         void posChanged(int pos);
         void textChanged(const QString &text);
         void labelSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

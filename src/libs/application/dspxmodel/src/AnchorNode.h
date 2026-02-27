@@ -26,6 +26,8 @@ namespace dspx {
         Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
         Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
         Q_PROPERTY(AnchorNodeSequence *anchorNodeSequence READ anchorNodeSequence NOTIFY anchorNodeSequenceChanged)
+        Q_PROPERTY(AnchorNode *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(AnchorNode *nextItem READ nextItem NOTIFY nextItemChanged)
 
     public:
         enum InterpolationMode {
@@ -50,12 +52,16 @@ namespace dspx {
         void fromQDspx(const QDspx::AnchorNode &node);
 
         AnchorNodeSequence *anchorNodeSequence() const;
+        AnchorNode *previousItem() const;
+        AnchorNode *nextItem() const;
 
     Q_SIGNALS:
         void interpChanged(InterpolationMode interp);
         void xChanged(int x);
         void yChanged(int y);
         void anchorNodeSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

@@ -12,10 +12,12 @@ namespace dspx {
         int pos;
         QString text;
         LabelSequence *labelSequence{};
-
-
+        Label *previousItem{};
+        Label *nextItem{};
 
         static void setLabelSequence(Label *item, LabelSequence *labelSequence);
+        static void setPreviousItem(Label *item, Label *previousItem);
+        static void setNextItem(Label *item, Label *nextItem);
     };
 
 }

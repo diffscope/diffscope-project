@@ -13,7 +13,14 @@ namespace dspx {
         static QJSValue create(QObject *o);
     };
 
-    template <class SequenceType, class ItemType, int (ItemType::*positionGetter)() const, void (ItemType::*positionChangedSignal)(int), void (*setSequence)(ItemType *item, SequenceType *sequence)>
+    template <
+        class SequenceType,
+        class ItemType,
+        int (ItemType::*positionGetter)() const,
+        void (ItemType::*positionChangedSignal)(int),
+        void (*setSequence)(ItemType *item, SequenceType *sequence),
+        void (*setPreviousItem)(ItemType *item, ItemType *previousItem),
+        void (*setNextItem)(ItemType *item, ItemType *nextItem)>
     class PointSequenceData {
     public:
         SequenceType *q_ptr;
@@ -48,13 +55,31 @@ namespace dspx {
         void insertItem(ItemType *item, int position) {
             auto q = q_ptr;
             bool containsItem = container.contains(item);
+            auto oldPreviousItem = container.previousItem(item);
+            auto oldNextItem = container.nextItem(item);
             if (!containsItem) {
                 Q_EMIT q->itemAboutToInsert(item);
             }
             container.insertItem(item, position);
             setSequence(item, q);
+            updateFirstAndLastItem();
+            auto newPreviousItem = container.previousItem(item);
+            auto newNextItem = container.nextItem(item);
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            if (newPreviousItem) {
+                setNextItem(newPreviousItem, item);
+            }
+            if (newNextItem) {
+                setPreviousItem(newNextItem, item);
+            }
+            setPreviousItem(item, newPreviousItem);
+            setNextItem(item, newNextItem);
             if (!containsItem) {
-                updateFirstAndLastItem();
                 Q_EMIT q->itemInserted(item);
                 Q_EMIT q->sizeChanged(container.size());
             }
@@ -63,9 +88,19 @@ namespace dspx {
         void removeItem(ItemType *item) {
             auto q = q_ptr;
             Q_EMIT q->itemAboutToRemove(item);
+            auto oldPreviousItem = container.previousItem(item);
+            auto oldNextItem = container.nextItem(item);
             container.removeItem(item);
             setSequence(item, nullptr);
             updateFirstAndLastItem();
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            setPreviousItem(item, nullptr);
+            setNextItem(item, nullptr);
             Q_EMIT q->itemRemoved(item);
             Q_EMIT q->sizeChanged(container.size());
         }

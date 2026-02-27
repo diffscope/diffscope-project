@@ -23,6 +23,8 @@ namespace dspx {
         Q_PROPERTY(int numerator READ numerator WRITE setNumerator NOTIFY numeratorChanged)
         Q_PROPERTY(int denominator READ denominator WRITE setDenominator NOTIFY denominatorChanged)
         Q_PROPERTY(TimeSignatureSequence *timeSignatureSequence READ timeSignatureSequence NOTIFY timeSignatureSequenceChanged)
+        Q_PROPERTY(TimeSignature *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(TimeSignature *nextItem READ nextItem NOTIFY nextItemChanged)
     public:
         ~TimeSignature() override;
 
@@ -37,6 +39,9 @@ namespace dspx {
 
         TimeSignatureSequence *timeSignatureSequence() const;
 
+        TimeSignature *previousItem() const;
+        TimeSignature *nextItem() const;
+
         QDspx::TimeSignature toQDspx() const;
         void fromQDspx(const QDspx::TimeSignature &timeSignature);
 
@@ -45,6 +50,8 @@ namespace dspx {
         void numeratorChanged(int numerator);
         void denominatorChanged(int denominator);
         void timeSignatureSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

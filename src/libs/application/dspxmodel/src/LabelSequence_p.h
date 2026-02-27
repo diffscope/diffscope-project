@@ -8,7 +8,7 @@
 
 namespace dspx {
 
-    class LabelSequencePrivate : public PointSequenceData<LabelSequence, Label, &Label::pos, &Label::posChanged, &LabelPrivate::setLabelSequence> {
+    class LabelSequencePrivate : public PointSequenceData<LabelSequence, Label, &Label::pos, &Label::posChanged, &LabelPrivate::setLabelSequence, &LabelPrivate::setPreviousItem, &LabelPrivate::setNextItem> {
         Q_DECLARE_PUBLIC(LabelSequence)
     };
 

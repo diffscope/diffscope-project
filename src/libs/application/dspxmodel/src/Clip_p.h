@@ -15,11 +15,15 @@ namespace dspx {
         ClipTime *time;
         Clip::ClipType type;
         ClipSequence *clipSequence{};
+        Clip *previousItem{};
+        Clip *nextItem{};
         Workspace *workspace;
         bool overlapped{};
 
         static void setOverlapped(Clip *item, bool overlapped);
         static void setClipSequence(Clip *item, ClipSequence *clipSequence);
+        static void setPreviousItem(Clip *item, Clip *previousItem);
+        static void setNextItem(Clip *item, Clip *nextItem);
     };
 
 }

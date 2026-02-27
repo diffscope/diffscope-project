@@ -22,6 +22,22 @@ namespace dspx {
         }
     }
 
+    void TimeSignaturePrivate::setPreviousItem(TimeSignature *item, TimeSignature *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void TimeSignaturePrivate::setNextItem(TimeSignature *item, TimeSignature *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     TimeSignature::TimeSignature(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new TimeSignaturePrivate) {
         Q_D(TimeSignature);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_TimeSignature);
@@ -69,6 +85,16 @@ namespace dspx {
     TimeSignatureSequence *TimeSignature::timeSignatureSequence() const {
         Q_D(const TimeSignature);
         return d->timeSignatureSequence;
+    }
+
+    TimeSignature *TimeSignature::previousItem() const {
+        Q_D(const TimeSignature);
+        return d->previousItem;
+    }
+
+    TimeSignature *TimeSignature::nextItem() const {
+        Q_D(const TimeSignature);
+        return d->nextItem;
     }
 
     QDspx::TimeSignature TimeSignature::toQDspx() const {

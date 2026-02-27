@@ -13,10 +13,12 @@ namespace dspx {
         int x;
         int y;
         AnchorNodeSequence *anchorNodeSequence{};
-
-
+        AnchorNode *previousItem{};
+        AnchorNode *nextItem{};
 
         static void setAnchorNodeSequence(AnchorNode *item, AnchorNodeSequence *anchorNodeSequence);
+        static void setPreviousItem(AnchorNode *item, AnchorNode *previousItem);
+        static void setNextItem(AnchorNode *item, AnchorNode *nextItem);
     };
 
 }

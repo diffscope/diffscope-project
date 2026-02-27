@@ -22,6 +22,8 @@ namespace dspx {
         Q_PROPERTY(int pos READ pos WRITE setPos NOTIFY posChanged)
         Q_PROPERTY(double value READ value WRITE setValue NOTIFY valueChanged)
         Q_PROPERTY(TempoSequence *tempoSequence READ tempoSequence NOTIFY tempoSequenceChanged)
+        Q_PROPERTY(Tempo *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(Tempo *nextItem READ nextItem NOTIFY nextItemChanged)
     public:
         ~Tempo() override;
 
@@ -33,6 +35,9 @@ namespace dspx {
 
         TempoSequence *tempoSequence() const;
 
+        Tempo *previousItem() const;
+        Tempo *nextItem() const;
+
         QDspx::Tempo toQDspx() const;
         void fromQDspx(const QDspx::Tempo &tempo);
 
@@ -40,6 +45,8 @@ namespace dspx {
         void posChanged(int pos);
         void valueChanged(double value);
         void tempoSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

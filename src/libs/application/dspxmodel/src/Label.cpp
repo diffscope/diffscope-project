@@ -20,6 +20,22 @@ namespace dspx {
         }
     }
 
+    void LabelPrivate::setPreviousItem(Label *item, Label *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void LabelPrivate::setNextItem(Label *item, Label *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
+        }
+    }
+
     Label::Label(Handle handle, Model *model) : EntityObject(handle, model), d_ptr(new LabelPrivate) {
         Q_D(Label);
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Label);
@@ -54,6 +70,16 @@ namespace dspx {
     LabelSequence *Label::labelSequence() const {
         Q_D(const Label);
         return d->labelSequence;
+    }
+
+    Label *Label::previousItem() const {
+        Q_D(const Label);
+        return d->previousItem;
+    }
+
+    Label *Label::nextItem() const {
+        Q_D(const Label);
+        return d->nextItem;
     }
 
     QDspx::Label Label::toQDspx() const {
