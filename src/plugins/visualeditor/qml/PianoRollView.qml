@@ -416,7 +416,7 @@ Item {
                         timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                         timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                         clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                        scaleHighlightSequenceViewModel: view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null
+                        scaleHighlightSequenceViewModel: view.pianoRollPanelInterface?.scaleHighlightEnabled ? (view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null) : null
                     }
                     Item {
                         id: noteEditLayerSequenceStack

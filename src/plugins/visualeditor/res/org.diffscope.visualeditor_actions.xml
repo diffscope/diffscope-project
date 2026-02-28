@@ -60,6 +60,7 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" diffscope:componentType="widget" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" icon="navigation" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
@@ -142,6 +143,7 @@
             <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.editingClipActions">
                 <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" />
             </group>
+            <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" />
             <stretch />
             <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" />
         </menu>

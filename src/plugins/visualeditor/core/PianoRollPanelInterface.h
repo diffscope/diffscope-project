@@ -64,6 +64,7 @@ namespace VisualEditor {
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
         Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
+        Q_PROPERTY(bool scaleHighlightEnabled READ isScaleHighlightEnabled WRITE setScaleHighlightEnabled NOTIFY scaleHighlightEnabledChanged)
         Q_PROPERTY(dspx::SingingClip *editingClip READ editingClip WRITE setEditingClip NOTIFY editingClipChanged)
         Q_PROPERTY(int implicitNoteLength READ implicitNoteLength WRITE setImplicitNoteLength NOTIFY implicitNoteLengthChanged)
     public:
@@ -108,6 +109,9 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled() const;
         void setMouseTrackingDisabled(bool disabled);
 
+        bool isScaleHighlightEnabled() const;
+        void setScaleHighlightEnabled(bool enabled);
+
         dspx::SingingClip *editingClip() const;
         void setEditingClip(dspx::SingingClip *clip);
 
@@ -118,6 +122,7 @@ namespace VisualEditor {
         void toolChanged();
         void snapTemporarilyDisabledChanged();
         void mouseTrackingDisabledChanged();
+        void scaleHighlightEnabledChanged();
         void editingClipChanged();
         void implicitNoteLengthChanged();
 

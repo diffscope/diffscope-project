@@ -211,6 +211,15 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.highlightScale"
+        Action {
+            checkable: true
+            checked: d.pianoRollPanelInterface?.scaleHighlightEnabled ?? false
+            onTriggered: d.pianoRollPanelInterface.scaleHighlightEnabled = checked
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling"
         Action {
             checkable: true

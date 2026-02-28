@@ -207,6 +207,7 @@ namespace VisualEditor {
 
             qCDebug(lcKeySignatureViewModelContextData) << "KeySignature view item pos updated" << viewItem << viewItem->position();
             transactionalUpdatedKeySignatures.insert(viewItem);
+            item->setPos(viewItem->position());
         });
 
         keySignatureSequenceViewModel->insertItem(viewItem);
@@ -292,7 +293,7 @@ namespace VisualEditor {
         for (auto viewItem : transactionalUpdatedKeySignatures) {
             auto item = keySignatureDocumentItemMap.value(viewItem);
             Q_ASSERT(item);
-            item->setPos(viewItem->position());
+            // Position is already synchronized immediately, no need to set it here
             updatedItems.insert(item);
         }
         transactionalUpdatedKeySignatures.clear();

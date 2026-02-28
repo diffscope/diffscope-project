@@ -529,6 +529,19 @@ namespace VisualEditor {
         }
     }
 
+    bool PianoRollPanelInterface::isScaleHighlightEnabled() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->scaleHighlightEnabled;
+    }
+
+    void PianoRollPanelInterface::setScaleHighlightEnabled(bool enabled) {
+        Q_D(PianoRollPanelInterface);
+        if (d->scaleHighlightEnabled != enabled) {
+            d->scaleHighlightEnabled = enabled;
+            Q_EMIT scaleHighlightEnabledChanged();
+        }
+    }
+
     dspx::SingingClip *PianoRollPanelInterface::editingClip() const {
         Q_D(const PianoRollPanelInterface);
         auto items = d->editingClipSelectionModel->clipSelectionModel()->selectedItems();

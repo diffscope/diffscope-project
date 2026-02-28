@@ -48,6 +48,7 @@ namespace VisualEditor {
         PianoRollPanelInterface::Tool tool{PianoRollPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};
         bool isMouseTrackingDisabled{false};
+        bool scaleHighlightEnabled{false};
 
         dspx::SelectionModel *editingClipSelectionModel;
         int implicitNoteLength{480};

@@ -67,8 +67,8 @@ namespace Core::Internal {
             {"levelMeterColor", QVariant::fromValue(QColor(0x111112))},
             {"editAreaPrimaryColor", QVariant::fromValue(QColor(0x333740))},
             {"editAreaSecondaryColor", QVariant::fromValue(QColor(0x444954))},
-            {"editAreaPrimaryHighlightColor", QVariant::fromValue(QColor(0x5566ff))},
-            {"editAreaSecondaryHighlightColor", QVariant::fromValue(QColor(0x7d8aff))}, // TODO
+            {"editAreaPrimaryHighlightColor", QVariant::fromValue(QColor(0x3c4370))},
+            {"editAreaSecondaryHighlightColor", QVariant::fromValue(QColor(0x48507f))}, // TODO
             {"playheadPrimaryColor", QVariant::fromValue(QColor(0xcc4455))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc4455))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0xbf00bfff))},
