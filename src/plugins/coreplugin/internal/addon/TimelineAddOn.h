@@ -7,6 +7,8 @@
 
 namespace Core::Internal {
 
+    class KeySignatureAtSpecifiedPositionHelper;
+
     class TimelineAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
@@ -16,6 +18,7 @@ namespace Core::Internal {
         Q_PROPERTY(QString longTimeText READ longTimeText NOTIFY longTimeTextChanged)
         Q_PROPERTY(QString tempoText READ tempoText NOTIFY tempoTextChanged)
         Q_PROPERTY(QString timeSignatureText READ timeSignatureText NOTIFY timeSignatureTextChanged)
+        Q_PROPERTY(QString keySignatureText READ keySignatureText NOTIFY keySignatureTextChanged)
         Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY showMusicTimeChanged)
         Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY showMusicTimeChanged)
         Q_PROPERTY(int doubleClickInterval READ doubleClickInterval)
@@ -32,6 +35,7 @@ namespace Core::Internal {
         QString longTimeText() const;
         QString tempoText() const;
         QString timeSignatureText() const;
+        QString keySignatureText() const;
 
         bool showMusicTime() const;
         void setShowMusicTime(bool on);
@@ -66,11 +70,13 @@ namespace Core::Internal {
         void longTimeTextChanged();
         void tempoTextChanged();
         void timeSignatureTextChanged();
+        void keySignatureTextChanged();
         void showMusicTimeChanged();
         void loopEnabledChanged();
 
     private:
         bool m_showMusicTime{true};
+        KeySignatureAtSpecifiedPositionHelper *m_keySignatureAtSpecifiedPositionHelper{};
     };
 
 }

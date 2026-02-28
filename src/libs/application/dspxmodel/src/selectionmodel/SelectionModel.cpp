@@ -4,6 +4,7 @@
 #include <dspxmodel/Model.h>
 #include <dspxmodel/AnchorNode.h>
 #include <dspxmodel/Clip.h>
+#include <dspxmodel/KeySignature.h>
 #include <dspxmodel/Label.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/Tempo.h>
@@ -11,6 +12,7 @@
 #include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/private/AnchorNodeSelectionModel_p.h>
 #include <dspxmodel/private/ClipSelectionModel_p.h>
+#include <dspxmodel/private/KeySignatureSelectionModel_p.h>
 #include <dspxmodel/private/LabelSelectionModel_p.h>
 #include <dspxmodel/private/NoteSelectionModel_p.h>
 #include <dspxmodel/private/TempoSelectionModel_p.h>
@@ -33,6 +35,8 @@ namespace dspx {
         // connectSignals(d->anchorNodeSelectionModel, this);
         d->clipSelectionModel = new ClipSelectionModel(this);
         connectSignals(d->clipSelectionModel, this);
+        d->keySignatureSelectionModel = new KeySignatureSelectionModel(this);
+        connectSignals(d->keySignatureSelectionModel, this);
         d->labelSelectionModel = new LabelSelectionModel(this);
         connectSignals(d->labelSelectionModel, this);
         d->noteSelectionModel = new NoteSelectionModel(this);
@@ -65,6 +69,11 @@ namespace dspx {
         return d->clipSelectionModel;
     }
 
+    KeySignatureSelectionModel *SelectionModel::keySignatureSelectionModel() const {
+        Q_D(const SelectionModel);
+        return d->keySignatureSelectionModel;
+    }
+
     LabelSelectionModel *SelectionModel::labelSelectionModel() const {
         Q_D(const SelectionModel);
         return d->labelSelectionModel;
@@ -90,6 +99,7 @@ namespace dspx {
         switch (d->selectionType) {
             case ST_AnchorNode: return d->anchorNodeSelectionModel;
             case ST_Clip: return d->clipSelectionModel;
+            case ST_KeySignature: return d->keySignatureSelectionModel;
             case ST_Label: return d->labelSelectionModel;
             case ST_Note: return d->noteSelectionModel;
             case ST_Tempo: return d->tempoSelectionModel;
@@ -103,6 +113,7 @@ namespace dspx {
         switch (d->selectionType) {
             case ST_AnchorNode: return d->anchorNodeSelectionModel->currentItem();
             case ST_Clip: return d->clipSelectionModel->currentItem();
+            case ST_KeySignature: return d->keySignatureSelectionModel->currentItem();
             case ST_Label: return d->labelSelectionModel->currentItem();
             case ST_Note: return d->noteSelectionModel->currentItem();
             case ST_Tempo: return d->tempoSelectionModel->currentItem();
@@ -116,6 +127,7 @@ namespace dspx {
         switch (d->selectionType) {
             case ST_AnchorNode: return d->anchorNodeSelectionModel->selectedCount();
             case ST_Clip: return d->clipSelectionModel->selectedCount();
+            case ST_KeySignature: return d->keySignatureSelectionModel->selectedCount();
             case ST_Label: return d->labelSelectionModel->selectedCount();
             case ST_Note: return d->noteSelectionModel->selectedCount();
             case ST_Tempo: return d->tempoSelectionModel->selectedCount();
@@ -129,6 +141,7 @@ namespace dspx {
         switch (d->selectionType) {
             // case ST_AnchorNode: return d->anchorNodeSelectionModel->isItemSelected(qobject_cast<AnchorNode *>(item));
             case ST_Clip: return d->clipSelectionModel->isItemSelected(qobject_cast<Clip *>(item));
+            case ST_KeySignature: return d->keySignatureSelectionModel->isItemSelected(qobject_cast<KeySignature *>(item));
             case ST_Label: return d->labelSelectionModel->isItemSelected(qobject_cast<Label *>(item));
             case ST_Note: return d->noteSelectionModel->isItemSelected(qobject_cast<Note *>(item));
             case ST_Tempo: return d->tempoSelectionModel->isItemSelected(qobject_cast<Tempo *>(item));
@@ -143,6 +156,9 @@ namespace dspx {
         }
         if (qobject_cast<Clip *>(item)) {
             return ST_Clip;
+        }
+        if (qobject_cast<KeySignature *>(item)) {
+            return ST_KeySignature;
         }
         if (qobject_cast<Label *>(item)) {
             return ST_Label;
@@ -173,6 +189,9 @@ namespace dspx {
                 case ST_Clip:
                     d->clipSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
+                case ST_KeySignature:
+                    d->keySignatureSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
+                    break;
                 case ST_Label:
                     d->labelSelectionModel->d_func()->select(nullptr, ClearPreviousSelection);
                     break;
@@ -200,6 +219,9 @@ namespace dspx {
                 break;
             case ST_Clip:
                 d->clipSelectionModel->d_func()->select(static_cast<Clip *>(item), command);
+                break;
+            case ST_KeySignature:
+                d->keySignatureSelectionModel->d_func()->select(static_cast<KeySignature *>(item), command);
                 break;
             case ST_Label:
                 d->labelSelectionModel->d_func()->select(static_cast<Label *>(item), command);

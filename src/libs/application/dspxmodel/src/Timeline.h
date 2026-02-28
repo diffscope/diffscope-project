@@ -16,6 +16,7 @@ namespace dspx {
     class Model;
 
     class LabelSequence;
+    class KeySignatureSequence;
     class TempoSequence;
     class TimeSignatureSequence;
 
@@ -27,6 +28,7 @@ namespace dspx {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(Timeline)
         Q_PROPERTY(LabelSequence *labels READ labels CONSTANT)
+        Q_PROPERTY(KeySignatureSequence *keySignatures READ keySignatures CONSTANT)
         Q_PROPERTY(TempoSequence *tempos READ tempos CONSTANT)
         Q_PROPERTY(TimeSignatureSequence *timeSignatures READ timeSignatures CONSTANT)
         Q_PROPERTY(bool loopEnabled READ isLoopEnabled WRITE setLoopEnabled NOTIFY loopEnabledChanged)
@@ -36,6 +38,7 @@ namespace dspx {
         ~Timeline() override;
 
         LabelSequence *labels() const;
+        KeySignatureSequence *keySignatures() const;
         TempoSequence *tempos() const;
         TimeSignatureSequence *timeSignatures() const;
 

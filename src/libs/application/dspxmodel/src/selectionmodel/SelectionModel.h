@@ -12,6 +12,7 @@ namespace dspx {
 
     class AnchorNodeSelectionModel;
     class ClipSelectionModel;
+    class KeySignatureSelectionModel;
     class LabelSelectionModel;
     class NoteSelectionModel;
     class TempoSelectionModel;
@@ -27,6 +28,7 @@ namespace dspx {
         Q_PROPERTY(SelectionType selectionType READ selectionType NOTIFY selectionTypeChanged)
         Q_PROPERTY(AnchorNodeSelectionModel *anchorNodeSelectionModel READ anchorNodeSelectionModel CONSTANT)
         Q_PROPERTY(ClipSelectionModel *clipSelectionModel READ clipSelectionModel CONSTANT)
+        Q_PROPERTY(KeySignatureSelectionModel *keySignatureSelectionModel READ keySignatureSelectionModel CONSTANT)
         Q_PROPERTY(LabelSelectionModel *labelSelectionModel READ labelSelectionModel CONSTANT)
         Q_PROPERTY(NoteSelectionModel *noteSelectionModel READ noteSelectionModel CONSTANT)
         Q_PROPERTY(TempoSelectionModel *tempoSelectionModel READ tempoSelectionModel CONSTANT)
@@ -43,7 +45,8 @@ namespace dspx {
             ST_Label,
             ST_Note,
             ST_Tempo,
-            ST_Track
+            ST_Track,
+            ST_KeySignature
         };
         Q_ENUM(SelectionType)
 
@@ -56,6 +59,7 @@ namespace dspx {
 
         AnchorNodeSelectionModel *anchorNodeSelectionModel() const;
         ClipSelectionModel *clipSelectionModel() const;
+        KeySignatureSelectionModel *keySignatureSelectionModel() const;
         LabelSelectionModel *labelSelectionModel() const;
         NoteSelectionModel *noteSelectionModel() const;
         TempoSelectionModel *tempoSelectionModel() const;

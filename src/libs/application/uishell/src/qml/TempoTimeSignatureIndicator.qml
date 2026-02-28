@@ -11,12 +11,14 @@ Item {
     property bool backgroundVisible: true
     property string tempoText
     property string timeSignatureText
+    property string keySignatureText
 
     implicitWidth: layout.implicitWidth
     implicitHeight: 24
 
     signal tempoClicked()
     signal timeSignatureClicked()
+    signal keySignatureClicked()
 
     Rectangle {
         id: background
@@ -49,6 +51,11 @@ Item {
             text: control.timeSignatureText
             Accessible.description: qsTr("Time Signature")
             onClicked: control.timeSignatureClicked()
+        }
+        IndicatorToolButton {
+            text: control.keySignatureText
+            Accessible.description: qsTr("Key Signature")
+            onClicked: control.keySignatureClicked()
         }
     }
 }

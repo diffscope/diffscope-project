@@ -20,6 +20,8 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QSettings>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
@@ -298,6 +300,18 @@ namespace Core {
                             )
                         }
                     }
+                },
+                .workspace = {
+                    {"diffscope", QJsonObject{
+                        {"keySignatures", QJsonArray{
+                            QJsonObject{
+                                {"pos", 0},
+                                {"mode", 2741},
+                                {"tonality", 0},
+                                {"accidentalType", 1}
+                            }
+                        }}
+                    }}
                 }
             }
         };

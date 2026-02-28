@@ -14,6 +14,8 @@
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
+#include <SVSCraftCore/MusicModeInfo.h>
+#include <SVSCraftCore/MusicMode.h>
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/Timeline.h>
@@ -25,12 +27,35 @@
 #include <coreplugin/QuickInput.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
 
 namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcTimelineAddOn, "diffscope.core.timelineaddon")
 
+    static QString getKeySignatureText(int mode, int tonality, int accidentalType) {
+        static auto map = [] {
+            QMap<int, QString> map;
+            for (const auto &[musicMode, name] : SVS::MusicModeInfo::getBuiltInMusicModeInfoList()) {
+                map.insert(musicMode.mask(), name);
+            }
+            return map;
+        }();
+        auto modeName = map.value(mode);
+        if (modeName.isEmpty()) {
+            modeName = Core::Internal::TimelineAddOn::tr("Custom Mode");
+        }
+        if (mode == 0) { // Atonal
+            return modeName;
+        }
+        auto keyName = SVS::MusicPitch(tonality).toString(static_cast<SVS::MusicPitch::Accidental>(accidentalType));
+        keyName = keyName.slice(0, keyName.length() - 1);
+        return QString("%1 %2").arg(keyName, modeName);
+    }
+
     TimelineAddOn::TimelineAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+        m_keySignatureAtSpecifiedPositionHelper = new KeySignatureAtSpecifiedPositionHelper(this);
+
     }
     TimelineAddOn::~TimelineAddOn() = default;
     void TimelineAddOn::initialize() {
@@ -44,7 +69,10 @@ namespace Core::Internal {
         });
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-        connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this] {
+        m_keySignatureAtSpecifiedPositionHelper->setPosition(windowInterface->projectTimeline()->position());
+        m_keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowInterface->projectDocumentContext()->document()->model()->timeline()->keySignatures());
+        connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this](int position) {
+            m_keySignatureAtSpecifiedPositionHelper->setPosition(position);
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
             Q_EMIT tempoTextChanged();
@@ -57,6 +85,9 @@ namespace Core::Internal {
             Q_EMIT timeSignatureTextChanged();
         });
         connect(windowInterface->projectDocumentContext()->document()->model()->timeline(), &dspx::Timeline::loopEnabledChanged, this, &TimelineAddOn::loopEnabledChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::modeChanged, this, &TimelineAddOn::keySignatureTextChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::tonalityChanged, this, &TimelineAddOn::keySignatureTextChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, this, &TimelineAddOn::keySignatureTextChanged);
     }
     void TimelineAddOn::extensionsInitialized() {
     }
@@ -85,6 +116,9 @@ namespace Core::Internal {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto projectTimeline = windowInterface->projectTimeline();
         return projectTimeline->musicTimeline()->timeSignatureAt(projectTimeline->musicTimeline()->create(0, 0, projectTimeline->position()).measure()).toString();
+    }
+    QString TimelineAddOn::keySignatureText() const {
+        return getKeySignatureText(m_keySignatureAtSpecifiedPositionHelper->mode(), m_keySignatureAtSpecifiedPositionHelper->tonality(), m_keySignatureAtSpecifiedPositionHelper->accidentalType());
     }
     bool TimelineAddOn::showMusicTime() const {
         return m_showMusicTime;

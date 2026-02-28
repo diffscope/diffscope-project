@@ -16,6 +16,7 @@ namespace Core {
         enum Type {
             Tempo,
             Label,
+            KeySignature,
             Track,
             Clip,
             Note,
@@ -40,6 +41,14 @@ namespace Core {
 
         QList<QDspx::Label> labels() const {
             return std::get<Label>(m_data);
+        }
+
+        void setKeySignatures(const QList<QJsonObject> &keySignatures) {
+            m_data = keySignatures;
+        }
+
+        QList<QJsonObject> keySignatures() const {
+            return std::get<KeySignature>(m_data);
         }
 
         void setTracks(const QList<QDspx::Track> &tracks) {
@@ -99,6 +108,7 @@ namespace Core {
         std::variant<
             QList<QDspx::Tempo>,
             QList<QDspx::Label>,
+            QList<QJsonObject>,
             QList<QDspx::Track>,
             QList<QList<QDspx::ClipRef>>,
             QList<QDspx::Note>

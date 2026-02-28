@@ -19,6 +19,7 @@ namespace dspx {
         enum Entity {
             EI_AudioClip,
             EI_Global,
+            EI_KeySignature,
             EI_Label,
             EI_Note,
             EI_Param,
@@ -34,6 +35,7 @@ namespace dspx {
             EI_WorkspaceInfo,
 
             ES_Clips,
+            ES_KeySignatures,
             ES_Labels,
             ES_Notes,
             ES_ParamCurveAnchorNodes,
@@ -76,6 +78,7 @@ namespace dspx {
             P_LoopLength,
             P_LoopStart,
             P_Measure,
+            P_Mode,
             P_MultiChannelOutput,
             P_Name,
             P_Numerator,
@@ -85,6 +88,7 @@ namespace dspx {
             P_PronunciationEdited,
             P_PronunciationOriginal,
             P_Text,
+            P_Tonality,
             P_Type,
             P_Value,
             P_VibratoAmplitude,
@@ -97,6 +101,7 @@ namespace dspx {
 
         enum Relationship {
             R_Children,
+            R_KeySignatures,
             R_Labels,
             R_ParamCurvesEdited,
             R_ParamCurvesOriginal,
@@ -194,6 +199,10 @@ namespace dspx {
             if (entityType == EI_ParamCurveFree) {
                 return ED_ParamCurveFreeValues;
             }
+        } else if (relationship == R_KeySignatures) {
+            if (entityType == EI_Global) {
+                return ES_KeySignatures;
+            }
         } else if (relationship == R_Labels) {
             if (entityType == EI_Global) {
                 return ES_Labels;
@@ -242,6 +251,14 @@ namespace dspx {
         static auto validateAccidentalType = [](const QVariant &value) {
             auto v = value.toInt();
             return v == 0 || v == 1;
+        };
+        static auto validateMode = [](const QVariant &value) {
+            auto v = value.toInt();
+            return v >= 0 && v <= 4095;
+        };
+        static auto validateTonality = [](const QVariant &value) {
+            auto v = value.toInt();
+            return v >= 0 && v <= 11;
         };
         static auto validatePan = [](const QVariant &value) {
             auto v = value.toDouble();
@@ -295,7 +312,6 @@ namespace dspx {
                 {P_Name, QMetaType::QString},
                 {P_Author, QMetaType::QString},
                 {P_CentShift, QMetaType::Int, validateCentShift},
-                {P_AccidentalType, QMetaType::Int, validateAccidentalType},
                 {P_EditorId, QMetaType::QString},
                 {P_EditorName, QMetaType::QString},
                 {P_ControlGain, QMetaType::Double},
@@ -305,6 +321,12 @@ namespace dspx {
                 {P_LoopEnabled, QMetaType::Bool},
                 {P_LoopStart, QMetaType::Int, validateIntGreaterOrEqualZero},
                 {P_LoopLength, QMetaType::Int, validateIntGreaterZero},
+            };
+            case EI_KeySignature: return {
+                {P_Position, QMetaType::Int, validateIntGreaterOrEqualZero},
+                {P_Mode, QMetaType::Int, validateMode},
+                {P_Tonality, QMetaType::Int, validateTonality},
+                {P_AccidentalType, QMetaType::Int, validateAccidentalType}
             };
             case EI_Label: return {
                 {P_Position, QMetaType::Int, validateIntGreaterOrEqualZero},

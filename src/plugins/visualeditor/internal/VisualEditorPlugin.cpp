@@ -25,6 +25,7 @@
 #include <visualeditor/internal/MixerAddOn.h>
 #include <visualeditor/internal/ScrollAddOn.h>
 #include <visualeditor/internal/EditorPage.h>
+#include <visualeditor/internal/KeySignatureTrackAddOn.h>
 
 static auto getVisualEditorActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(visualeditor);
@@ -79,5 +80,6 @@ namespace VisualEditor::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MixerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LabelTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<TempoTrackAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<KeySignatureTrackAddOn>();
     }
 }

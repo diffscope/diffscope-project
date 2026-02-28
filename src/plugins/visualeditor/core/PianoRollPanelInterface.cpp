@@ -1,4 +1,3 @@
-#include "../../../libs/application/dspxmodel/src/selectionmodel/NoteSelectionModel.h"
 #include "PianoRollPanelInterface.h"
 #include "PianoRollPanelInterface_p.h"
 
@@ -26,10 +25,12 @@
 #include <dspxmodel/Global.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/Note.h>
+#include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/NoteSequence.h>
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/TrackList.h>
+#include <dspxmodel/Timeline.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
@@ -37,6 +38,7 @@
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
 
 #include <transactional/TransactionController.h>
 #include <visualeditor/AutoPageScrollingManipulator.h>
@@ -152,6 +154,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
                     noteEditLayerInteractionController->setPrimaryItemInteraction(sflow::NoteEditLayerInteractionController::Move);
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::CopyAndMove);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
@@ -168,6 +175,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
                     noteEditLayerInteractionController->setPrimaryItemInteraction(sflow::NoteEditLayerInteractionController::Move);
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::Draw);
@@ -186,6 +198,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
                     noteEditLayerInteractionController->setPrimaryItemInteraction(sflow::NoteEditLayerInteractionController::Split);
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::Split);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
@@ -203,6 +220,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
                     noteEditLayerInteractionController->setPrimaryItemInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
                     noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
                     noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
@@ -216,6 +238,7 @@ namespace VisualEditor {
     }
 
     void PianoRollPanelInterfacePrivate::bindClavierInteractionController() const {
+        Q_Q(const PianoRollPanelInterface);
         auto applyStyle = [=, this] {
             auto simple = Internal::EditorPreference::pianoKeyboardUseSimpleStyle();
             clavierInteractionController->setDisplayStyle(simple ? sflow::ClavierInteractionController::Simple : sflow::ClavierInteractionController::Realistic);
@@ -240,19 +263,14 @@ namespace VisualEditor {
         applyLabelStrategy();
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardLabelPolicyChanged, clavierInteractionController, applyLabelStrategy);
 
-        auto applyAccidentalType = [=, this] {
-            auto accidentalType = windowHandle->projectDocumentContext()->document()->model()->global()->accidentalType();
-            switch (accidentalType) {
-                case dspx::Global::Flat:
-                    clavierInteractionController->setAccidentalType(sflow::ClavierInteractionController::Flat);
-                    break;
-                case dspx::Global::Sharp:
-                    clavierInteractionController->setAccidentalType(sflow::ClavierInteractionController::Sharp);
-                    break;
-            }
-        };
-        applyAccidentalType();
-        QObject::connect(windowHandle->projectDocumentContext()->document()->model()->global(), &dspx::Global::accidentalTypeChanged, clavierInteractionController, applyAccidentalType);
+        auto keySignatureAtSpecifiedPositionHelper = new Core::Internal::KeySignatureAtSpecifiedPositionHelper(const_cast<PianoRollPanelInterface *>(q));
+        keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowHandle->projectDocumentContext()->document()->model()->timeline()->keySignatures());
+        keySignatureAtSpecifiedPositionHelper->setPosition(windowHandle->projectTimeline()->position());
+        clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
+        QObject::connect(windowHandle->projectTimeline(), &Core::ProjectTimeline::positionChanged, keySignatureAtSpecifiedPositionHelper, &Core::Internal::KeySignatureAtSpecifiedPositionHelper::setPosition);
+        QObject::connect(keySignatureAtSpecifiedPositionHelper, &Core::Internal::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, clavierInteractionController, [=] {
+            clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
+        });
     }
 
     void PianoRollPanelInterfacePrivate::bindNoteEditLayerInteractionController() const {
@@ -304,6 +322,7 @@ namespace VisualEditor {
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController(this);
         d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo(this);
+        d->labelSequenceInteractionControllerOfKeySignature = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfKeySignature(this);
         d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel(this);
         d->noteEditLayerInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindNoteEditLayerInteractionController(this);
         d->clavierViewModel = new sflow::ClavierViewModel(this);
@@ -419,6 +438,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *PianoRollPanelInterface::labelSequenceInteractionControllerOfTempo() const {
         Q_D(const PianoRollPanelInterface);
         return d->labelSequenceInteractionControllerOfTempo;
+    }
+
+    sflow::LabelSequenceInteractionController *PianoRollPanelInterface::labelSequenceInteractionControllerOfKeySignature() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->labelSequenceInteractionControllerOfKeySignature;
     }
 
     sflow::LabelSequenceInteractionController *PianoRollPanelInterface::labelSequenceInteractionControllerOfLabel() const {

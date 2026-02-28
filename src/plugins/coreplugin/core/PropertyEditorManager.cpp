@@ -28,6 +28,11 @@ namespace Core {
         d->clipComponents.append(component);
     }
 
+    void PropertyEditorManager::addKeySignatureComponent(QQmlComponent *component) {
+        Q_D(PropertyEditorManager);
+        d->keySignatureComponents.append(component);
+    }
+
     void PropertyEditorManager::addLabelComponent(QQmlComponent *component) {
         Q_D(PropertyEditorManager);
         d->labelComponents.append(component);
@@ -61,6 +66,11 @@ namespace Core {
     QList<QQmlComponent *> PropertyEditorManager::clipComponents() const {
         Q_D(const PropertyEditorManager);
         return d->clipComponents;
+    }
+
+    QList<QQmlComponent *> PropertyEditorManager::keySignatureComponents() const {
+        Q_D(const PropertyEditorManager);
+        return d->keySignatureComponents;
     }
 
     QList<QQmlComponent *> PropertyEditorManager::labelComponents() const {

@@ -61,6 +61,12 @@ QtObject {
                 componentsKey: "trackComponents"
                 propertyMapperKey: "trackPropertyMapper"
             }
+            ListElement {
+                text: qsTr("Key Signature")
+                iconSource: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
+                componentsKey: "keySignatureComponents"
+                propertyMapperKey: "keySignaturePropertyMapper"
+            }
         }
         Menu {
             id: clipItemContextMenu
@@ -142,6 +148,7 @@ QtObject {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
             }
+            readonly property QtObject keySignaturePropertyMapper: null
         }
         StackLayout {
             id: tabBarStackLayout
@@ -157,7 +164,7 @@ QtObject {
                 if (selectionModel.selectedCount !== 0) {
                     return t
                 } else {
-                    return [0, 2, 0, 0, 2, 0, 0][t]
+                    return [0, 2, 0, 0, 2, 0, 0, 0][t]
                 }
             }
             onCurrentIndexChanged: () => {
@@ -172,7 +179,7 @@ QtObject {
             Component.onCompleted: propertyEditorStackLayout.currentIndex = 0
             Repeater {
                 model: [
-                    [0], [1, 2, 6, 0], [2, 6, 0], [3, 0], [4, 2, 6, 0], [5, 0], [6, 0]
+                    [0], [1, 2, 6, 0], [2, 6, 0], [3, 0], [4, 2, 6, 0], [5, 0], [6, 0], [7, 0]
                 ]
                 delegate: TabBar {
                     id: tabBar

@@ -25,6 +25,12 @@ ActionCollection {
         projectTimeline: windowHandle?.projectTimeline ?? null
         document: windowHandle?.projectDocumentContext.document ?? null
     }
+    readonly property EditKeySignatureScenario editKeySignatureScenario: EditKeySignatureScenario {
+        id: editKeySignatureScenario
+        window: d.window
+        projectTimeline: windowHandle?.projectTimeline ?? null
+        document: windowHandle?.projectDocumentContext.document ?? null
+    }
 
     ActionItem {
         actionId: "org.diffscope.core.widget.digitalClock"
@@ -128,9 +134,11 @@ ActionCollection {
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
             tempoText: d.addOn.tempoText
             timeSignatureText: d.addOn.timeSignatureText
+            keySignatureText: d.addOn.keySignatureText
 
             onTempoClicked: editTempoTimeSignatureScenario.editTempo()
             onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature()
+            onKeySignatureClicked: editKeySignatureScenario.editKeySignature()
         }
     }
 

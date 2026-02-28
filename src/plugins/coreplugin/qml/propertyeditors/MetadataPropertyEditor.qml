@@ -62,30 +62,5 @@ PropertyEditorGroupBox {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
         }
-        AbstractPropertyEditorField {
-            id: accidentalTypeField
-            windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
-            key: "accidentalType"
-            label: qsTr("Accidental type")
-            transactionName: qsTr("Editing accidental type")
-            FormGroup {
-                Layout.fillWidth: true
-                label: accidentalTypeField.label
-                columnItem: TabBar {
-                    currentIndex: accidentalTypeField.value ?? 0
-                    TabButton {
-                        icon.source: "qrc:/diffscope/coreplugin/icons/accidental_flat.svg"
-                        text: qsTr("Flat")
-                        onClicked: accidentalTypeField.setValue(0)
-                    }
-                    TabButton {
-                        icon.source: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
-                        text: qsTr("Sharp")
-                        onClicked: accidentalTypeField.setValue(1)
-                    }
-                }
-            }
-        }
     }
 }

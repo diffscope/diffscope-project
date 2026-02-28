@@ -400,10 +400,19 @@
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
 
-        <menu id="org.diffscope.core.tempoSceneContextMenu">
+        <menu id="org.diffscope.core.keySignatureSceneContextMenu">
             <action id="org.diffscope.core.timeline.editTempo" />
             <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
+
+        <menu id="org.diffscope.core.keySignatureItemContextMenu">
+            <group id="org.diffscope.core.genericItemContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.tempoSceneContextMenu">
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
 
         <menu id="org.diffscope.core.trackItemContextMenu">
             <group id="org.diffscope.core.edit.msrActions" />

@@ -17,6 +17,7 @@ namespace Core {
         static const QList<DspxClipboardData::Type> types = {
             DspxClipboardData::Tempo,
             DspxClipboardData::Label,
+            DspxClipboardData::KeySignature,
             DspxClipboardData::Track,
             DspxClipboardData::Clip,
             DspxClipboardData::Note

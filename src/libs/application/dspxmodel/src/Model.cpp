@@ -2,12 +2,15 @@
 #include "Model_p.h"
 
 #include <QVariant>
+#include <QJsonArray>
 
 #include <opendspx/model.h>
 
 #include <dspxmodel/AnchorNode.h>
 #include <dspxmodel/AudioClip.h>
 #include <dspxmodel/Global.h>
+#include <dspxmodel/KeySignature.h>
+#include <dspxmodel/KeySignatureSequence.h>
 #include <dspxmodel/Label.h>
 #include <dspxmodel/LabelSequence.h>
 #include <dspxmodel/Master.h>
@@ -61,6 +64,7 @@ namespace dspx {
         timeline = new Timeline(q);
 
         labels = new LabelSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Labels), q);
+        keySignatures = new KeySignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_KeySignatures), q);
         tempos = new TempoSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Tempos), q);
         timeSignatures = new TimeSignatureSequence(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_TimeSignatures), q);
         tracks = new TrackList(strategy->getAssociatedSubEntity(handle, ModelStrategy::R_Children), q);
@@ -230,7 +234,6 @@ namespace dspx {
             }
         };
         model.content.workspace["diffscope"] = QJsonObject{
-            {"accidentalType", static_cast<int>(global()->accidentalType())},
             {"loop", QJsonObject{
                 {"enabled", timeline()->isLoopEnabled()},
                 {"start", timeline()->loopStart()},
@@ -238,7 +241,8 @@ namespace dspx {
             }},
             {"master", QJsonObject{
                 {"multiChannelOutput", master()->multiChannelOutput()}
-            }}
+            }},
+            {"keySignatures", timeline()->keySignatures()->toQDspx()}
         };
         return model;
     }
@@ -250,10 +254,6 @@ namespace dspx {
         d->timeline->fromQDspx(model.content.timeline);
         d->tracks->fromQDspx(model.content.tracks);
         d->workspace->fromQDspx(model.content.workspace);
-        {
-            auto accidentalType = model.content.workspace.value("diffscope").value("accidentalType").toInt();
-            d->global->setAccidentalType(static_cast<Global::AccidentalType>(accidentalType));
-        }
         {
             auto loop = model.content.workspace.value("diffscope").value("loop").toObject();
             auto enabled = loop.value("enabled").toBool();
@@ -273,6 +273,10 @@ namespace dspx {
             auto master = model.content.workspace.value("diffscope").value("master").toObject();
             d->master->setMultiChannelOutput(master.value("multiChannelOutput").toBool());
         }
+        {
+            auto keySignatures = model.content.workspace.value("diffscope").value("keySignatures").toArray();
+            d->timeline->keySignatures()->fromQDspx(keySignatures);
+        }
     }
 
     Label *Model::createLabel() {
@@ -291,6 +295,12 @@ namespace dspx {
         Q_D(Model);
         auto handle = d->strategy->createEntity(ModelStrategy::EI_Phoneme);
         return d->createObject<Phoneme>(handle);
+    }
+
+    KeySignature *Model::createKeySignature() {
+        Q_D(Model);
+        auto handle = d->strategy->createEntity(ModelStrategy::EI_KeySignature);
+        return d->createObject<KeySignature>(handle);
     }
 
     Tempo *Model::createTempo() {
@@ -383,11 +393,6 @@ namespace dspx {
             case ModelStrategy::P_CentShift: {
                 d->centShift = value.toInt();
                 Q_EMIT d->global->centShiftChanged(d->centShift);
-                break;
-            }
-            case ModelStrategy::P_AccidentalType: {
-                d->accidentalType = static_cast<Global::AccidentalType>(value.toInt());
-                Q_EMIT d->global->accidentalTypeChanged(static_cast<Global::AccidentalType>(d->accidentalType));
                 break;
             }
             case ModelStrategy::P_EditorId: {

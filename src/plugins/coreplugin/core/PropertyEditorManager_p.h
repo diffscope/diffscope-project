@@ -17,6 +17,7 @@ namespace Core {
         QList<QQmlComponent *> noneComponents;
         QList<QQmlComponent *> anchorNodeComponents;
         QList<QQmlComponent *> clipComponents;
+        QList<QQmlComponent *> keySignatureComponents;
         QList<QQmlComponent *> labelComponents;
         QList<QQmlComponent *> noteComponents;
         QList<QQmlComponent *> tempoComponents;

@@ -24,6 +24,7 @@ PropertyEditorGroupBox {
             label: qsTr("Pitch")
             from: 0
             to: 127
+            positionHint: groupBox.propertyMapper?.pos === undefined ? -1 : groupBox.propertyMapper.pos
             transactionName: qsTr("Editing pitch")
         }
 

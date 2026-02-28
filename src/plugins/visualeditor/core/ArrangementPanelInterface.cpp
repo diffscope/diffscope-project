@@ -151,6 +151,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
                     trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
                     trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
                     trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
@@ -172,6 +177,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
                     trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
                     trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
@@ -195,6 +205,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
                     trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
                     trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
                     trackListInteractionController->setPrimarySceneInteraction(sflow::TrackListInteractionController::RubberBandSelect);
@@ -216,6 +231,11 @@ namespace VisualEditor {
                     labelSequenceInteractionControllerOfTempo->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
                     labelSequenceInteractionControllerOfTempo->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+
+                    labelSequenceInteractionControllerOfKeySignature->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondaryItemInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setPrimarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
+                    labelSequenceInteractionControllerOfKeySignature->setSecondarySceneInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
                     trackListInteractionController->setPrimaryItemInteraction(sflow::TrackListInteractionController::RubberBandSelect);
                     trackListInteractionController->setSecondaryItemInteraction(sflow::TrackListInteractionController::RubberBandSelect);
@@ -249,6 +269,7 @@ namespace VisualEditor {
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
         d->timelineInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTimelineInteractionController(this);
         d->labelSequenceInteractionControllerOfTempo = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfTempo(this);
+        d->labelSequenceInteractionControllerOfKeySignature = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfKeySignature(this);
         d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel(this);
         d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController(this);
         d->clipPaneInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindClipPaneInteractionController(this);
@@ -327,6 +348,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfTempo() const {
         Q_D(const ArrangementPanelInterface);
         return d->labelSequenceInteractionControllerOfTempo;
+    }
+
+    sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfKeySignature() const {
+        Q_D(const ArrangementPanelInterface);
+        return d->labelSequenceInteractionControllerOfKeySignature;
     }
 
     sflow::LabelSequenceInteractionController *ArrangementPanelInterface::labelSequenceInteractionControllerOfLabel() const {

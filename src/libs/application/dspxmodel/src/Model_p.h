@@ -8,6 +8,7 @@
 namespace dspx {
 
     class LabelSequence;
+    class KeySignatureSequence;
     class TempoSequence;
     class TimeSignatureSequence;
     class Clip;
@@ -24,6 +25,7 @@ namespace dspx {
         Timeline *timeline;
 
         LabelSequence *labels;
+        KeySignatureSequence *keySignatures;
         TempoSequence *tempos;
         TimeSignatureSequence *timeSignatures;
         TrackList *tracks;
@@ -35,7 +37,6 @@ namespace dspx {
         QString name;
         QString author;
         int centShift;
-        int accidentalType;
         QString editorId;
         QString editorName;
 

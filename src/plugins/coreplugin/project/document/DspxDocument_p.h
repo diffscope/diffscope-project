@@ -29,22 +29,26 @@ namespace Core {
         std::optional<DspxClipboardData> buildClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTempoClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildLabelClipboardData(int playheadPosition) const;
+        std::optional<DspxClipboardData> buildKeySignatureClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTrackClipboardData() const;
 
         bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTempos(const QList<QDspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteLabels(const QList<QDspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteKeySignatures(const QList<QJsonObject> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTracks(const QList<QDspx::Track> &tracks, QList<QObject *> &pastedItems);
 
         bool deleteSelection();
         int deleteTempos();
         int deleteLabels();
+        int deleteKeySignatures();
         int deleteTracks();
         int deleteClips();
         int deleteNotes();
 
         void selectAllTempos();
         void selectAllLabels();
+        void selectAllKeySignatures();
         void selectAllTracks();
         void selectAllClips();
         void selectAllNotes();

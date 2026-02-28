@@ -25,6 +25,7 @@ namespace sflow {
 
 namespace dspx {
     class Clip;
+    class KeySignature;
     class Label;
     class Note;
     class Tempo;
@@ -55,6 +56,8 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::PlaybackViewModel *playbackViewModel READ playbackViewModel CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *tempoSequenceViewModel READ tempoSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *tempoSelectionController READ tempoSelectionController CONSTANT)
+        Q_PROPERTY(sflow::PointSequenceViewModel *keySignatureSequenceViewModel READ keySignatureSequenceViewModel CONSTANT)
+        Q_PROPERTY(sflow::SelectionController *keySignatureSelectionController READ keySignatureSelectionController CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *labelSequenceViewModel READ labelSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
         Q_PROPERTY(sflow::RangeSequenceViewModel *clipSequenceViewModel READ clipSequenceViewModel CONSTANT)
@@ -75,12 +78,14 @@ namespace VisualEditor {
 
         sflow::PlaybackViewModel *playbackViewModel() const;
         sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
+        sflow::PointSequenceViewModel *keySignatureSequenceViewModel() const;
         sflow::PointSequenceViewModel *labelSequenceViewModel() const;
         sflow::RangeSequenceViewModel *clipSequenceViewModel() const;
         sflow::ListViewModel *trackListViewModel() const;
         sflow::ListViewModel *masterTrackListViewModel() const;
 
         sflow::SelectionController *tempoSelectionController() const;
+        sflow::SelectionController *keySignatureSelectionController() const;
         sflow::SelectionController *labelSelectionController() const;
         sflow::SelectionController *clipSelectionController() const;
         sflow::SelectionController *noteSelectionController() const;
@@ -88,6 +93,7 @@ namespace VisualEditor {
 
         Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfKeySignature(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
         Q_INVOKABLE sflow::ClipPaneInteractionController *createAndBindClipPaneInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::NoteEditLayerInteractionController *createAndBindNoteEditLayerInteractionController(QObject *parent = nullptr);
@@ -98,6 +104,8 @@ namespace VisualEditor {
         Q_INVOKABLE sflow::ClipViewModel *getClipViewItemFromDocumentItem(dspx::Clip *item) const;
         Q_INVOKABLE dspx::Tempo *getTempoDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getTempoViewItemFromDocumentItem(dspx::Tempo *item) const;
+        Q_INVOKABLE dspx::KeySignature *getKeySignatureDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
+        Q_INVOKABLE sflow::LabelViewModel *getKeySignatureViewItemFromDocumentItem(dspx::KeySignature *item) const;
         Q_INVOKABLE dspx::Label *getLabelDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const;
         Q_INVOKABLE sflow::LabelViewModel *getLabelViewItemFromDocumentItem(dspx::Label *item) const;
         Q_INVOKABLE dspx::Note *getNoteDocumentItemFromViewItem(sflow::NoteViewModel *viewItem) const;

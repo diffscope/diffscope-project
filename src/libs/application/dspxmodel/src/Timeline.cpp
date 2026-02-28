@@ -4,6 +4,7 @@
 
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/LabelSequence.h>
+#include <dspxmodel/KeySignatureSequence.h>
 #include <dspxmodel/TempoSequence.h>
 #include <dspxmodel/TimeSignatureSequence.h>
 #include <dspxmodel/private/Model_p.h>
@@ -55,6 +56,11 @@ namespace dspx {
     LabelSequence *Timeline::labels() const {
         Q_D(const Timeline);
         return d->pModel->labels;
+    }
+
+    KeySignatureSequence *Timeline::keySignatures() const {
+        Q_D(const Timeline);
+        return d->pModel->keySignatures;
     }
 
     TempoSequence *Timeline::tempos() const {

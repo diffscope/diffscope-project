@@ -64,6 +64,7 @@ namespace dspx {
         switch (type) {
             case ModelStrategy::EI_AudioClip:
             case ModelStrategy::EI_Global:
+            case ModelStrategy::EI_KeySignature:
             case ModelStrategy::EI_Label:
             case ModelStrategy::EI_Note:
             case ModelStrategy::EI_Param:
@@ -81,6 +82,7 @@ namespace dspx {
                 obj->type = type;
                 break;
             case ModelStrategy::ES_Clips:
+            case ModelStrategy::ES_KeySignatures:
             case ModelStrategy::ES_Labels:
             case ModelStrategy::ES_Notes:
             case ModelStrategy::ES_ParamCurveAnchorNodes:

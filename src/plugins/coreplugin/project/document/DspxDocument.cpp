@@ -35,6 +35,9 @@
 #include <dspxmodel/ClipTime.h>
 #include <dspxmodel/AudioClip.h>
 #include <dspxmodel/SingingClip.h>
+#include <dspxmodel/KeySignature.h>
+#include <dspxmodel/KeySignatureSelectionModel.h>
+#include <dspxmodel/KeySignatureSequence.h>
 
 #include <coreplugin/DspxClipboard.h>
 
@@ -51,6 +54,8 @@ namespace Core {
                 return "Tempo";
             case DspxClipboardData::Label:
                 return "Label";
+            case DspxClipboardData::KeySignature:
+                return "KeySignature";
             case DspxClipboardData::Track:
                 return "Track";
             case DspxClipboardData::Clip:
@@ -77,6 +82,8 @@ namespace Core {
                 return "Tempo";
             case dspx::SelectionModel::ST_Track:
                 return "Track";
+            case dspx::SelectionModel::ST_KeySignature:
+                return "KeySignature";
         }
         return "Unknown";
     }
@@ -154,6 +161,8 @@ namespace Core {
                 return DspxClipboardData::Tempo;
             case dspx::SelectionModel::ST_Label:
                 return DspxClipboardData::Label;
+            case dspx::SelectionModel::ST_KeySignature:
+                return DspxClipboardData::KeySignature;
             case dspx::SelectionModel::ST_Track:
                 return DspxClipboardData::Track;
             case dspx::SelectionModel::ST_Clip:
@@ -189,6 +198,8 @@ namespace Core {
                 return buildTempoClipboardData(playheadPosition);
             case dspx::SelectionModel::ST_Label:
                 return buildLabelClipboardData(playheadPosition);
+            case dspx::SelectionModel::ST_KeySignature:
+                return buildKeySignatureClipboardData(playheadPosition);
             case dspx::SelectionModel::ST_Track:
                 return buildTrackClipboardData();
             case dspx::SelectionModel::ST_Clip:
@@ -264,6 +275,38 @@ namespace Core {
         return data;
     }
 
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildKeySignatureClipboardData(int playheadPosition) const {
+        if (!model || !selectionModel)
+            return std::nullopt;
+
+        const auto selectedItems = selectionModel->keySignatureSelectionModel()->selectedItems();
+        if (selectedItems.isEmpty())
+            return std::nullopt;
+
+        QList<QJsonObject> keySignatures;
+        keySignatures.reserve(selectedItems.size());
+        for (const auto *item : selectedItems) {
+            keySignatures.append(item->toQDspx());
+        }
+        if (keySignatures.isEmpty())
+            return std::nullopt;
+
+        std::sort(keySignatures.begin(), keySignatures.end(), [](const QJsonObject &lhs, const QJsonObject &rhs) {
+            return lhs.value("pos").toInt() < rhs.value("pos").toInt();
+        });
+
+        const int absolute = keySignatures.first().value("pos").toInt();
+        for (auto &keySignature : keySignatures) {
+            keySignature.insert("pos", keySignature.value("pos").toInt() - absolute);
+        }
+
+        DspxClipboardData data;
+        data.setKeySignatures(keySignatures);
+        data.setAbsolute(absolute);
+        data.setPlayhead(playheadPosition - absolute);
+        return data;
+    }
+
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildTrackClipboardData() const {
         if (!model || !selectionModel)
             return std::nullopt;
@@ -297,6 +340,8 @@ namespace Core {
                 return pasteTempos(data.tempos(), data, playheadPosition, pastedItems);
             case DspxClipboardData::Label:
                 return pasteLabels(data.labels(), data, playheadPosition, pastedItems);
+            case DspxClipboardData::KeySignature:
+                return pasteKeySignatures(data.keySignatures(), data, playheadPosition, pastedItems);
             case DspxClipboardData::Track:
                 return pasteTracks(data.tracks(), pastedItems);
             case DspxClipboardData::Clip:
@@ -441,6 +486,81 @@ namespace Core {
         return inserted;
     }
 
+    bool DspxDocumentPrivate::pasteKeySignatures(const QList<QJsonObject> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+        if (!model || !model->timeline() || keySignatures.isEmpty())
+            return false;
+
+        enum class PasteMode {
+            CurrentPosition,
+            RelativeToCopiedPlayhead,
+            OriginalPosition,
+        };
+
+        // TODO allow selecting paste mode from user settings
+        const auto pasteMode = PasteMode::CurrentPosition;
+
+        const auto baseOffset = [pasteMode, &data, playheadPosition] {
+            switch (pasteMode) {
+                case PasteMode::CurrentPosition:
+                    return playheadPosition;
+                case PasteMode::RelativeToCopiedPlayhead:
+                    return playheadPosition - data.playhead();
+                case PasteMode::OriginalPosition:
+                    return data.absolute();
+            }
+            return playheadPosition;
+        }();
+
+        QList<QJsonObject> adjusted = keySignatures;
+        int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
+        for (auto &keySignature : adjusted) {
+            const int pos = keySignature.value("pos").toInt() + baseOffset;
+            keySignature.insert("pos", pos);
+            minPos = std::min(minPos, pos);
+        }
+        if (minPos < 0) {
+            const int shift = -minPos;
+            for (auto &keySignature : adjusted) {
+                keySignature.insert("pos", keySignature.value("pos").toInt() + shift);
+            }
+        }
+
+        std::sort(adjusted.begin(), adjusted.end(), [](const QJsonObject &lhs, const QJsonObject &rhs) {
+            return lhs.value("pos").toInt() < rhs.value("pos").toInt();
+        });
+
+        bool inserted = false;
+        int removedOverlaps = 0;
+        auto keySignatureSequence = model->timeline()->keySignatures();
+        for (const auto &keySignatureData : adjusted) {
+            auto *keySignature = model->createKeySignature();
+            keySignature->fromQDspx(keySignatureData);
+            if (!keySignatureSequence->insertItem(keySignature)) {
+                model->destroyItem(keySignature);
+                continue;
+            }
+
+            inserted = true;
+            pastedItems.append(keySignature);
+            const auto pos = keySignatureData.value("pos").toInt();
+            const auto overlappingItems = keySignatureSequence->slice(pos, 1);
+            for (auto *overlappingItem : overlappingItems) {
+                if (overlappingItem == keySignature)
+                    continue;
+                keySignatureSequence->removeItem(overlappingItem);
+                model->destroyItem(overlappingItem);
+                ++removedOverlaps;
+            }
+        }
+
+        if (inserted)
+            qCInfo(lcDspxDocument) << "Pasted key signatures" << adjusted.size() << "removed overlaps" << removedOverlaps;
+        else
+            qCDebug(lcDspxDocument) << "No key signature pasted";
+
+        return inserted;
+    }
+
     bool DspxDocumentPrivate::pasteTracks(const QList<QDspx::Track> &tracks, QList<QObject *> &pastedItems) {
         if (!model || tracks.isEmpty())
             return false;
@@ -491,6 +611,9 @@ namespace Core {
             case dspx::SelectionModel::ST_Label:
                 removedCount = deleteLabels();
                 break;
+            case dspx::SelectionModel::ST_KeySignature:
+                removedCount = deleteKeySignatures();
+                break;
             case dspx::SelectionModel::ST_Track:
                 removedCount = deleteTracks();
                 break;
@@ -540,6 +663,19 @@ namespace Core {
         int removedCount = 0;
         for (auto *item : selectionModel->labelSelectionModel()->selectedItems()) {
             if (labelSequence->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
+    int DspxDocumentPrivate::deleteKeySignatures() {
+        auto *keySignatureSequence = model->timeline()->keySignatures();
+        int removedCount = 0;
+        for (auto *item : selectionModel->keySignatureSelectionModel()->selectedItems()) {
+            // Note: KeySignature allows deletion at position 0, unlike Tempo
+            if (keySignatureSequence->removeItem(item)) {
                 model->destroyItem(item);
                 ++removedCount;
             }
@@ -603,6 +739,12 @@ namespace Core {
 
     void DspxDocumentPrivate::selectAllLabels() {
         for (auto item : model->timeline()->labels()->asRange()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllKeySignatures() {
+        for (auto item : model->timeline()->keySignatures()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
         }
     }
@@ -704,6 +846,9 @@ namespace Core {
             case DspxClipboardData::Label:
                 copiedCount = clipboardData->labels().size();
                 break;
+            case DspxClipboardData::KeySignature:
+                copiedCount = clipboardData->keySignatures().size();
+                break;
             case DspxClipboardData::Track:
                 copiedCount = clipboardData->tracks().size();
                 break;
@@ -741,6 +886,8 @@ namespace Core {
                     return tr("Pasting tempo");
                 case DspxClipboardData::Label:
                     return tr("Pasting label");
+                case DspxClipboardData::KeySignature:
+                    return tr("Pasting key signature");
                 case DspxClipboardData::Track:
                     return tr("Pasting track");
                 case DspxClipboardData::Clip:
@@ -787,6 +934,8 @@ namespace Core {
                     return tr("Deleting tempo");
                 case dspx::SelectionModel::ST_Label:
                     return tr("Deleting label");
+                case dspx::SelectionModel::ST_KeySignature:
+                    return tr("Deleting key signature");
                 case dspx::SelectionModel::ST_Track:
                     return tr("Deleting track");
                 case dspx::SelectionModel::ST_Clip:
@@ -820,6 +969,9 @@ namespace Core {
                 break;
             case dspx::SelectionModel::ST_Label:
                 d->selectAllLabels();
+                break;
+            case dspx::SelectionModel::ST_KeySignature:
+                d->selectAllKeySignatures();
                 break;
             case dspx::SelectionModel::ST_Track:
                 d->selectAllTracks();

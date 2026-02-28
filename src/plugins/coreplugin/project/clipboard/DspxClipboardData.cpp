@@ -15,6 +15,8 @@ namespace Core {
                 return "application/x.diffscope.clipboard.tempo+json";
             case Label:
                 return "application/x.diffscope.clipboard.label+json";
+            case KeySignature:
+                return "application/x.diffscope.clipboard.keysignature+json";
             case Track:
                 return "application/x.diffscope.clipboard.track+json";
             case Clip:
@@ -34,6 +36,9 @@ namespace Core {
         }
         if (mimeType == "application/x.diffscope.clipboard.label+json") {
             return Label;
+        }
+        if (mimeType == "application/x.diffscope.clipboard.keysignature+json") {
+            return KeySignature;
         }
         if (mimeType == "application/x.diffscope.clipboard.track+json") {
             return Track;
@@ -68,6 +73,11 @@ namespace Core {
                 break;
             case Label:
                 toJsonArray.operator()<Label>();
+                break;
+            case KeySignature:
+                for (const auto &item : std::get<KeySignature>(m_data)) {
+                    dataArray.append(item);
+                }
                 break;
             case Track:
                 toJsonArray.operator()<Track>();
@@ -119,19 +129,27 @@ namespace Core {
                 switch (type) {
                     case Tempo:
                         fromJsonArrayV1.operator()<Tempo>();
-                    break;
+                        break;
                     case Label:
                         fromJsonArrayV1.operator()<Label>();
-                    break;
+                        break;
+                    case KeySignature: {
+                        QList<QJsonObject> list;
+                        for (const auto &value : dataArray) {
+                            list.append(value.toObject());
+                        }
+                        result.m_data = std::move(list);
+                        break;
+                    }
                     case Track:
                         fromJsonArrayV1.operator()<Track>();
-                    break;
+                        break;
                     case Clip:
                         fromJsonArrayV1.operator()<Clip>();
-                    break;
+                        break;
                     case Note:
                         fromJsonArrayV1.operator()<Note>();
-                    break;
+                        break;
                 }
                 break;
             }

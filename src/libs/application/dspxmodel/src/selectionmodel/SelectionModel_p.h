@@ -15,6 +15,7 @@ namespace dspx {
         SelectionModel::SelectionType selectionType{SelectionModel::ST_None};
         AnchorNodeSelectionModel *anchorNodeSelectionModel;
         ClipSelectionModel *clipSelectionModel;
+        KeySignatureSelectionModel *keySignatureSelectionModel;
         LabelSelectionModel *labelSelectionModel;
         NoteSelectionModel *noteSelectionModel;
         TempoSelectionModel *tempoSelectionModel;

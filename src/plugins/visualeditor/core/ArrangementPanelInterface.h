@@ -46,6 +46,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel READ scrollBehaviorViewModel CONSTANT)
         Q_PROPERTY(sflow::TimelineInteractionController *timelineInteractionController READ timelineInteractionController CONSTANT)
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo READ labelSequenceInteractionControllerOfTempo CONSTANT)
+        Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfKeySignature READ labelSequenceInteractionControllerOfKeySignature CONSTANT)
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
         Q_PROPERTY(sflow::TrackListInteractionController *trackListInteractionController READ trackListInteractionController CONSTANT)
         Q_PROPERTY(sflow::ClipPaneInteractionController *clipPaneInteractionController READ clipPaneInteractionController CONSTANT)
@@ -69,6 +70,7 @@ namespace VisualEditor {
         sflow::ScrollBehaviorViewModel *scrollBehaviorViewModel() const;
         sflow::TimelineInteractionController *timelineInteractionController() const;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfTempo() const;
+        sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfKeySignature() const;
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
         sflow::TrackListInteractionController *trackListInteractionController() const;
         sflow::ClipPaneInteractionController *clipPaneInteractionController() const;

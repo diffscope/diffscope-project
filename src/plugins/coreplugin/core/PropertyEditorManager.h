@@ -19,6 +19,7 @@ namespace Core {
         Q_PROPERTY(QList<QQmlComponent *> noneComponents READ noneComponents CONSTANT)
         Q_PROPERTY(QList<QQmlComponent *> anchorNodeComponents READ anchorNodeComponents CONSTANT)
         Q_PROPERTY(QList<QQmlComponent *> clipComponents READ clipComponents CONSTANT)
+        Q_PROPERTY(QList<QQmlComponent *> keySignatureComponents READ keySignatureComponents CONSTANT)
         Q_PROPERTY(QList<QQmlComponent *> labelComponents READ labelComponents CONSTANT)
         Q_PROPERTY(QList<QQmlComponent *> noteComponents READ noteComponents CONSTANT)
         Q_PROPERTY(QList<QQmlComponent *> tempoComponents READ tempoComponents CONSTANT)
@@ -31,6 +32,7 @@ namespace Core {
         void addNoneComponent(QQmlComponent *component);
         void addAnchorNodeComponent(QQmlComponent *component);
         void addClipComponent(QQmlComponent *component);
+        void addKeySignatureComponent(QQmlComponent *component);
         void addLabelComponent(QQmlComponent *component);
         void addNoteComponent(QQmlComponent *component);
         void addTempoComponent(QQmlComponent *component);
@@ -39,6 +41,7 @@ namespace Core {
         QList<QQmlComponent *> noneComponents() const;
         QList<QQmlComponent *> anchorNodeComponents() const;
         QList<QQmlComponent *> clipComponents() const;
+        QList<QQmlComponent *> keySignatureComponents() const;
         QList<QQmlComponent *> labelComponents() const;
         QList<QQmlComponent *> noteComponents() const;
         QList<QQmlComponent *> tempoComponents() const;

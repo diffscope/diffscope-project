@@ -9,6 +9,7 @@ namespace VisualEditor {
 
     class PlaybackViewModelContextData;
     class TempoViewModelContextData;
+    class KeySignatureViewModelContextData;
     class LabelViewModelContextData;
     class ClipViewModelContextData;
     class NoteViewModelContextData;
@@ -36,6 +37,7 @@ namespace VisualEditor {
 
         std::unique_ptr<PlaybackViewModelContextData> playbackData;
         std::unique_ptr<TempoViewModelContextData> tempoData;
+        std::unique_ptr<KeySignatureViewModelContextData> keySignatureData;
         std::unique_ptr<LabelViewModelContextData> labelData;
         std::unique_ptr<ClipViewModelContextData> clipData;
         std::unique_ptr<NoteViewModelContextData> noteData;

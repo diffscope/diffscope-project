@@ -71,8 +71,10 @@
 
         <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.keySignature" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.keySignature" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
 
     </items>
 

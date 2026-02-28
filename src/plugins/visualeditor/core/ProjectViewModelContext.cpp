@@ -18,6 +18,7 @@
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
 
 #include <dspxmodel/Clip.h>
+#include <dspxmodel/KeySignature.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Tempo.h>
@@ -28,11 +29,13 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/private/TempoSelectionController_p.h>
+#include <visualeditor/private/KeySignatureSelectionController_p.h>
 #include <visualeditor/private/LabelSelectionController_p.h>
 #include <visualeditor/private/ClipViewModelContextData_p.h>
 #include <visualeditor/private/TrackSelectionController_p.h>
 #include <visualeditor/private/PlaybackViewModelContextData_p.h>
 #include <visualeditor/private/TempoViewModelContextData_p.h>
+#include <visualeditor/private/KeySignatureViewModelContextData_p.h>
 #include <visualeditor/private/LabelViewModelContextData_p.h>
 #include <visualeditor/private/ClipSelectionController_p.h>
 #include <visualeditor/private/TrackViewModelContextData_p.h>
@@ -71,6 +74,11 @@ namespace VisualEditor {
         d->tempoData->q_ptr = this;
         d->tempoData->init();
         d->tempoData->bindTempoSequenceViewModel();
+
+        d->keySignatureData = std::make_unique<KeySignatureViewModelContextData>();
+        d->keySignatureData->q_ptr = this;
+        d->keySignatureData->init();
+        d->keySignatureData->bindKeySignatureSequenceViewModel();
 
         d->labelData = std::make_unique<LabelViewModelContextData>();
         d->labelData->q_ptr = this;
@@ -123,6 +131,11 @@ namespace VisualEditor {
         return d->tempoData->tempoSequenceViewModel;
     }
 
+    sflow::PointSequenceViewModel *ProjectViewModelContext::keySignatureSequenceViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->keySignatureData->keySignatureSequenceViewModel;
+    }
+
     sflow::PointSequenceViewModel *ProjectViewModelContext::labelSequenceViewModel() const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelSequenceViewModel;
@@ -146,6 +159,11 @@ namespace VisualEditor {
     sflow::SelectionController *ProjectViewModelContext::tempoSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->tempoData->tempoSelectionController;
+    }
+
+    sflow::SelectionController *ProjectViewModelContext::keySignatureSelectionController() const {
+        Q_D(const ProjectViewModelContext);
+        return d->keySignatureData->keySignatureSelectionController;
     }
 
     sflow::SelectionController *ProjectViewModelContext::labelSelectionController() const {
@@ -176,6 +194,11 @@ namespace VisualEditor {
     sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->tempoData->createController(parent);
+    }
+
+    sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfKeySignature(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->keySignatureData->createController(parent);
     }
 
     sflow::LabelSequenceInteractionController *ProjectViewModelContext::createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent) {
@@ -221,6 +244,16 @@ namespace VisualEditor {
     sflow::LabelViewModel *ProjectViewModelContext::getTempoViewItemFromDocumentItem(dspx::Tempo *item) const {
         Q_D(const ProjectViewModelContext);
         return d->tempoData->tempoViewItemMap.value(item);
+    }
+
+    dspx::KeySignature *ProjectViewModelContext::getKeySignatureDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {
+        Q_D(const ProjectViewModelContext);
+        return d->keySignatureData->keySignatureDocumentItemMap.value(viewItem);
+    }
+
+    sflow::LabelViewModel *ProjectViewModelContext::getKeySignatureViewItemFromDocumentItem(dspx::KeySignature *item) const {
+        Q_D(const ProjectViewModelContext);
+        return d->keySignatureData->keySignatureViewItemMap.value(item);
     }
 
     dspx::Label *ProjectViewModelContext::getLabelDocumentItemFromViewItem(sflow::LabelViewModel *viewItem) const {
