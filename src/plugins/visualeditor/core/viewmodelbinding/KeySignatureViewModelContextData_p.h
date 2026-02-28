@@ -21,6 +21,8 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class LabelViewModel;
     class PointSequenceViewModel;
+    class RangeSequenceViewModel;
+    class ScaleHighlightViewModel;
 }
 
 namespace Core {
@@ -45,7 +47,10 @@ namespace VisualEditor {
         sflow::PointSequenceViewModel *keySignatureSequenceViewModel;
         KeySignatureSelectionController *keySignatureSelectionController;
 
+        sflow::RangeSequenceViewModel *scaleHighlightSequenceViewModel;
+
         QHash<dspx::KeySignature *, sflow::LabelViewModel *> keySignatureViewItemMap;
+        QHash<dspx::KeySignature *, sflow::ScaleHighlightViewModel *> keySignatureScaleHighlightViewItemMap;
         QHash<sflow::LabelViewModel *, dspx::KeySignature *> keySignatureDocumentItemMap;
         QSet<sflow::LabelViewModel *> transactionalUpdatedKeySignatures;
 
@@ -64,6 +69,9 @@ namespace VisualEditor {
         void bindKeySignatureSequenceViewModel();
         void bindKeySignatureDocumentItem(dspx::KeySignature *item);
         void unbindKeySignatureDocumentItem(dspx::KeySignature *item);
+        void bindScaleHighlightDocumentItem(dspx::KeySignature *item);
+        void unbindScaleHighlightDocumentItem(dspx::KeySignature *item);
+        void updateScaleHighlightViewItem(dspx::KeySignature *item);
         sflow::LabelSequenceInteractionController *createController(QObject *parent);
 
         void onMovePendingStateEntered();

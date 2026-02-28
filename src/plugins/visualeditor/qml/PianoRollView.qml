@@ -167,6 +167,11 @@ Item {
                         }
                     }
                 }
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: Theme.paneSeparatorColor
+                }
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.fillHeight: false
@@ -411,6 +416,7 @@ Item {
                         timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                         timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                         clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                        scaleHighlightSequenceViewModel: view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null
                     }
                     Item {
                         id: noteEditLayerSequenceStack

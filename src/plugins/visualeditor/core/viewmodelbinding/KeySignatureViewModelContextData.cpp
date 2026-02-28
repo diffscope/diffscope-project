@@ -13,6 +13,8 @@
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
+#include <ScopicFlowCore/RangeSequenceViewModel.h>
+#include <ScopicFlowCore/ScaleHighlightViewModel.h>
 #include <ScopicFlowCore/TimeManipulator.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
@@ -133,6 +135,8 @@ namespace VisualEditor {
         keySignatureSequenceViewModel = new sflow::PointSequenceViewModel(q);
         keySignatureSelectionController = new KeySignatureSelectionController(q);
 
+        scaleHighlightSequenceViewModel = new sflow::RangeSequenceViewModel(q);
+
         initStateMachine();
     }
 
@@ -140,13 +144,16 @@ namespace VisualEditor {
         Q_Q(ProjectViewModelContext);
         connect(keySignatureSequence, &dspx::KeySignatureSequence::itemInserted, keySignatureSequenceViewModel, [=, this](dspx::KeySignature *item) {
             bindKeySignatureDocumentItem(item);
+            bindScaleHighlightDocumentItem(item);
         });
         connect(keySignatureSequence, &dspx::KeySignatureSequence::itemRemoved, keySignatureSequenceViewModel, [=, this](dspx::KeySignature *item) {
             unbindKeySignatureDocumentItem(item);
+            unbindScaleHighlightDocumentItem(item);
         });
         // For key signature sequence, item will never be inserted or removed from view
         for (auto item : keySignatureSequence->asRange()) {
             bindKeySignatureDocumentItem(item);
+            bindScaleHighlightDocumentItem(item);
         }
         connect(keySignatureSelectionModel, &dspx::KeySignatureSelectionModel::itemSelected, this, [=, this](dspx::KeySignature *item, bool selected) {
             qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item selected" << item << selected;
@@ -336,6 +343,113 @@ namespace VisualEditor {
         scenario.setShouldDialogPopupAtCursor(true);
         scenario.setWindow(labelSequenceItem->window());
         scenario.modifyExistingKeySignatureAt(viewItem->position());
+    }
+
+    void KeySignatureViewModelContextData::bindScaleHighlightDocumentItem(dspx::KeySignature *item) {
+        if (keySignatureScaleHighlightViewItemMap.contains(item)) {
+            return;
+        }
+        auto viewItem = new sflow::ScaleHighlightViewModel(scaleHighlightSequenceViewModel);
+        keySignatureScaleHighlightViewItemMap.insert(item, viewItem);
+        qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight item inserted" << item << viewItem;
+
+        // Store the current nextItem to track disconnections
+        QPointer<dspx::KeySignature> currentNextItem = item->nextItem();
+
+        // Connect pos signal
+        connect(item, &dspx::KeySignature::posChanged, viewItem, [=, this] {
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight pos updated" << item << item->pos();
+            updateScaleHighlightViewItem(item);
+        });
+
+        // Connect nextItem signal and handle nextItem's pos signal
+        connect(item, &dspx::KeySignature::nextItemChanged, viewItem, [=, this] () mutable {
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem changed" << item << item->nextItem();
+            
+            // Disconnect previous nextItem's pos signal if any
+            if (currentNextItem) {
+                disconnect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, nullptr);
+            }
+            
+            // Update current nextItem
+            currentNextItem = item->nextItem();
+            
+            // Connect new nextItem's pos signal if exists
+            if (currentNextItem) {
+                connect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, [=, this] {
+                    qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->pos();
+                    updateScaleHighlightViewItem(item);
+                });
+            }
+            
+            updateScaleHighlightViewItem(item);
+        });
+
+        // Connect mode and tonality signals
+        connect(item, &dspx::KeySignature::modeChanged, viewItem, [=, this] {
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight mode updated" << item << item->mode();
+            updateScaleHighlightViewItem(item);
+        });
+        
+        connect(item, &dspx::KeySignature::tonalityChanged, viewItem, [=, this] {
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight tonality updated" << item << item->tonality();
+            updateScaleHighlightViewItem(item);
+        });
+
+        // Connect current nextItem's pos signal if exists
+        if (currentNextItem) {
+            connect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, [=, this] {
+                qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->pos();
+                updateScaleHighlightViewItem(item);
+            });
+        }
+
+        // Initialize values
+        updateScaleHighlightViewItem(item);
+
+        scaleHighlightSequenceViewModel->insertItem(viewItem);
+    }
+
+    void KeySignatureViewModelContextData::unbindScaleHighlightDocumentItem(dspx::KeySignature *item) {
+        if (!keySignatureScaleHighlightViewItemMap.contains(item)) {
+            return;
+        }
+        auto viewItem = keySignatureScaleHighlightViewItemMap.take(item);
+        qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight item removed" << item << viewItem;
+
+        disconnect(item, nullptr, viewItem, nullptr);
+        
+        // Disconnect nextItem's pos signal if any
+        if (auto nextItem = item->nextItem()) {
+            disconnect(nextItem, nullptr, viewItem, nullptr);
+        }
+
+        scaleHighlightSequenceViewModel->removeItem(viewItem);
+
+        viewItem->deleteLater();
+    }
+
+    void KeySignatureViewModelContextData::updateScaleHighlightViewItem(dspx::KeySignature *item) {
+        auto viewItem = keySignatureScaleHighlightViewItemMap.value(item);
+        if (!viewItem) {
+            return;
+        }
+
+        // Calculate position
+        viewItem->setPosition(item->pos());
+
+        // Calculate length
+        int length;
+        if (auto nextItem = item->nextItem()) {
+            length = nextItem->pos() - item->pos();
+        } else {
+            length = 1073741824; // Default length when no next item
+        }
+        viewItem->setLength(length);
+
+        // Calculate cMask using MusicMode::translateMask
+        int cMask = SVS::MusicMode(item->mode()).translateMask(item->tonality(), 0);
+        viewItem->setCMask(cMask);
     }
 
 }

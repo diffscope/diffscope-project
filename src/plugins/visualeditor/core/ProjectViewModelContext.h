@@ -58,6 +58,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::SelectionController *tempoSelectionController READ tempoSelectionController CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *keySignatureSequenceViewModel READ keySignatureSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *keySignatureSelectionController READ keySignatureSelectionController CONSTANT)
+        Q_PROPERTY(sflow::RangeSequenceViewModel *scaleHighlightSequenceViewModel READ scaleHighlightSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::PointSequenceViewModel *labelSequenceViewModel READ labelSequenceViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *labelSelectionController READ labelSelectionController CONSTANT)
         Q_PROPERTY(sflow::RangeSequenceViewModel *clipSequenceViewModel READ clipSequenceViewModel CONSTANT)
@@ -79,6 +80,7 @@ namespace VisualEditor {
         sflow::PlaybackViewModel *playbackViewModel() const;
         sflow::PointSequenceViewModel *tempoSequenceViewModel() const;
         sflow::PointSequenceViewModel *keySignatureSequenceViewModel() const;
+        sflow::RangeSequenceViewModel *scaleHighlightSequenceViewModel() const;
         sflow::PointSequenceViewModel *labelSequenceViewModel() const;
         sflow::RangeSequenceViewModel *clipSequenceViewModel() const;
         sflow::ListViewModel *trackListViewModel() const;

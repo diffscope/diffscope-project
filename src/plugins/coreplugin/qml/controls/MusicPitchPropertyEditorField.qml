@@ -17,7 +17,7 @@ AbstractPropertyEditorField {
     KeySignatureAtSpecifiedPositionHelper {
         id: keySignatureAtSpecifiedPositionHelper
         position: d.positionHint !== -1 ? d.positionHint : (d.windowHandle?.projectTimeline.position ?? 0)
-        keySignatureSequence: d.windowHandle?.projectDocumentContext.document.model.timeline.keySignatures
+        keySignatureSequence: d.windowHandle?.projectDocumentContext.document.model.timeline.keySignatures ?? null
     }
     FormGroup {
         Layout.fillWidth: true

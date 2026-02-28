@@ -497,6 +497,14 @@ Item {
             text: qsTr("Edit area secondary background color")
         }
         ListElement {
+            name: "editAreaPrimaryHighlightColor"
+            text: qsTr("Edit area primary highlight background color")
+        }
+        ListElement {
+            name: "editAreaSecondaryHighlightColor"
+            text: qsTr("Edit area secondary highlight background color")
+        }
+        ListElement {
             name: "playheadPrimaryColor"
             text: qsTr("Playhead primary color")
         }

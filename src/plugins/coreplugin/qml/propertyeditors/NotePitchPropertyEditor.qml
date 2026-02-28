@@ -24,7 +24,7 @@ PropertyEditorGroupBox {
             label: qsTr("Pitch")
             from: 0
             to: 127
-            positionHint: groupBox.propertyMapper?.pos === undefined ? -1 : groupBox.propertyMapper.pos
+            positionHint: groupBox.propertyMapper?.pos === undefined ? -1 : (groupBox.propertyMapper.pos + (groupBox.windowHandle?.projectDocumentContext.document.selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.singingClip.time.start ?? 0))
             transactionName: qsTr("Editing pitch")
         }
 

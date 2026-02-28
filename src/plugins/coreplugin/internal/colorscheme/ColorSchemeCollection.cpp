@@ -67,6 +67,8 @@ namespace Core::Internal {
             {"levelMeterColor", QVariant::fromValue(QColor(0x111112))},
             {"editAreaPrimaryColor", QVariant::fromValue(QColor(0x333740))},
             {"editAreaSecondaryColor", QVariant::fromValue(QColor(0x444954))},
+            {"editAreaPrimaryHighlightColor", QVariant::fromValue(QColor(0x5566ff))},
+            {"editAreaSecondaryHighlightColor", QVariant::fromValue(QColor(0x7d8aff))}, // TODO
             {"playheadPrimaryColor", QVariant::fromValue(QColor(0xcc4455))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc4455))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0xbf00bfff))},
@@ -139,6 +141,8 @@ namespace Core::Internal {
             {"levelMeterColor", QVariant::fromValue(QColor(0x111112))},
             {"editAreaPrimaryColor", QVariant::fromValue(QColor(0x333740))},
             {"editAreaSecondaryColor", QVariant::fromValue(QColor(0x444954))},
+            {"editAreaPrimaryHighlightColor", QVariant::fromValue(QColor(0x333740))},
+            {"editAreaSecondaryHighlightColor", QVariant::fromValue(QColor(0x444954))},
             {"playheadPrimaryColor", QVariant::fromValue(QColor(0xcc4455))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc4455))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0x7f5566ff))},
@@ -211,6 +215,8 @@ namespace Core::Internal {
             {"levelMeterColor", QVariant::fromValue(QColor::fromRgb(0x111112))},
             {"editAreaPrimaryColor", QVariant::fromValue(QColor::fromRgb(0x292c33))},
             {"editAreaSecondaryColor", QVariant::fromValue(QColor::fromRgb(0x535966))},
+            {"editAreaPrimaryHighlightColor", QVariant::fromValue(QColor::fromRgb(0x292c33))},
+            {"editAreaSecondaryHighlightColor", QVariant::fromValue(QColor::fromRgb(0x535966))},
             {"playheadPrimaryColor", QVariant::fromValue(QColor::fromRgb(0xcc293c))},
             {"playheadSecondaryColor", QVariant::fromValue(QColor::fromRgba(0x7fcc293c))},
             {"cursorIndicatorColor", QVariant::fromValue(QColor::fromRgba(0xbf00ff55))},
@@ -497,6 +503,8 @@ namespace Core::Internal {
             palette->setProperty("levelMeterColor", m_unsavedPreset.value("levelMeterColor"));
             palette->setProperty("editAreaPrimaryColor", m_unsavedPreset.value("editAreaPrimaryColor"));
             palette->setProperty("editAreaSecondaryColor", m_unsavedPreset.value("editAreaSecondaryColor"));
+            palette->setProperty("editAreaPrimaryHighlightColor", m_unsavedPreset.value("editAreaPrimaryHighlightColor"));
+            palette->setProperty("editAreaSecondaryHighlightColor", m_unsavedPreset.value("editAreaSecondaryHighlightColor"));
             palette->setProperty("playheadPrimaryColor", m_unsavedPreset.value("playheadPrimaryColor"));
             palette->setProperty("playheadSecondaryColor", m_unsavedPreset.value("playheadSecondaryColor"));
             palette->setProperty("cursorIndicatorColor", m_unsavedPreset.value("cursorIndicatorColor"));

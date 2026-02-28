@@ -136,6 +136,11 @@ namespace VisualEditor {
         return d->keySignatureData->keySignatureSequenceViewModel;
     }
 
+    sflow::RangeSequenceViewModel *ProjectViewModelContext::scaleHighlightSequenceViewModel() const {
+        Q_D(const ProjectViewModelContext);
+        return d->keySignatureData->scaleHighlightSequenceViewModel;
+    }
+
     sflow::PointSequenceViewModel *ProjectViewModelContext::labelSequenceViewModel() const {
         Q_D(const ProjectViewModelContext);
         return d->labelData->labelSequenceViewModel;
