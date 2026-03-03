@@ -16,6 +16,7 @@ $BackgroundSrcDir = "src/app/share/dmg"
 
 $Bg1x = Join-Path $BackgroundSrcDir "dmg_background.png"
 $Bg2x = Join-Path $BackgroundSrcDir "dmg_background@2x.png"
+$Font = Join-Path $BackgroundSrcDir "noto-sans.ttf"
 
 if (!(Test-Path $Bg1x) -or !(Test-Path $Bg2x)) {
     throw "dmg_background.png and dmg_background@2x.png do not exist in $BackgroundSrcDir"
@@ -46,6 +47,7 @@ try {
     & magick `
         "$Bg1x" `
         -gravity south `
+        -font $Font `
         -pointsize 12 `
         -fill "rgba(37,37,37,0.25)" `
         -annotate +0+8 "$VersionText" `
@@ -59,6 +61,7 @@ try {
     & magick `
         "$Bg2x" `
         -gravity south `
+        -font $Font `
         -pointsize 24 `
         -fill "rgba(37,37,37,0.25)" `
         -annotate +0+16 "$VersionText" `
