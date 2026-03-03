@@ -26,14 +26,13 @@ Dialog {
     GridLayout {
         anchors.fill: parent
         columns: 2
-        // TODO
-        SpinBox {
+        MusicModeMaskSelector {
             Layout.columnSpan: 2
             Layout.fillWidth: true
-            from: 0
-            to: 4095
-            value: dialog.mode
-            onValueModified: dialog.mode = value
+            mode: dialog.mode
+            tonality: dialog.tonality
+            onModeModified: dialog.mode = mode
+            onTonalityModified: dialog.tonality = tonality
         }
         Label {
             id: tonalityLabel
