@@ -17,6 +17,7 @@ Item {
     property int tonality: 0
     signal modeModified()
     signal tonalityModified()
+    signal modified()
 
     readonly property int cMask: SVS.musicMode(mode).translateMask(tonality, 0)
 
@@ -137,6 +138,7 @@ Item {
                 if (newMode !== control.mode) {
                     GlobalHelper.setProperty(control, "mode", newMode)
                     control.modeModified()
+                    control.modified()
                 }
                 if (button.index === control.tonality) {
                     GlobalHelper.setProperty(button, "checked", true)
@@ -148,12 +150,20 @@ Item {
                 onClicked: () => {
                     let newCMask = control.cMask
                     newCMask |= (1 << button.index)
-                    GlobalHelper.setProperty(control, "tonality", button.index)
-                    control.tonalityModified()
+                    let anyModified = false
+                    if (button.index !== control.tonality) {
+                        GlobalHelper.setProperty(control, "tonality", button.index)
+                        control.tonalityModified()
+                        anyModified = true
+                    }
                     let newMode = SVS.musicMode(newCMask).translateMask(0, control.tonality)
                     if (newMode !== control.mode) {
                         GlobalHelper.setProperty(control, "mode", newMode)
                         control.modeModified()
+                        anyModified = true
+                    }
+                    if (anyModified) {
+                        control.modified()
                     }
                 }
             }

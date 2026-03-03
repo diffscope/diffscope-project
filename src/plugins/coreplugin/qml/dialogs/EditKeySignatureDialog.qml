@@ -60,6 +60,7 @@ Dialog {
             textRole: "name"
             valueRole: "musicMode"
             model: SVS.getBuiltInMusicModeInfoList()
+            displayText: currentText.length ? currentText : qsTr("Custom Mode")
             currentValue: dialog.mode
             onActivated: (index) => dialog.mode = valueAt(index)
         }

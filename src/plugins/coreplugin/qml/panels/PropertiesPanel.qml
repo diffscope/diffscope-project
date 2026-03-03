@@ -148,7 +148,10 @@ QtObject {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
             }
-            readonly property QtObject keySignaturePropertyMapper: null
+            readonly property QtObject keySignaturePropertyMapper: KeySignaturePropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                readonly property bool inactive: selectionModel?.selectionType !== 7 || !selectionModel?.selectedCount
+            }
         }
         StackLayout {
             id: tabBarStackLayout

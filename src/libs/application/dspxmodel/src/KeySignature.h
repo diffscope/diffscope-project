@@ -5,10 +5,6 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
-    struct KeySignature;
-}
-
 namespace dspx {
 
     class KeySignatureSequence;

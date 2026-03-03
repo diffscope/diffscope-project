@@ -407,6 +407,8 @@ namespace Core::Internal {
         f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
         f("TrackDisplayPropertyEditor", &PropertyEditorManager::addTrackComponent);
 
+        f("KeySignaturePropertyEditor", &PropertyEditorManager::addKeySignatureComponent);
+
     }
 
     void CorePlugin::checkLastRun() {
