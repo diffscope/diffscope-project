@@ -19,7 +19,7 @@
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Track.h>
 
-#include <CorePlugin/private/PropertyMapperData_p.h>
+#include <coreplugin/private/PropertyMapperData_p.h>
 
 namespace dspx {
     class SelectionModel;

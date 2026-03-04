@@ -17,7 +17,7 @@
 #include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/TrackSelectionModel.h>
 
-#include <CorePlugin/private/PropertyMapperData_p.h>
+#include <coreplugin/private/PropertyMapperData_p.h>
 
 namespace dspx {
     class SelectionModel;
