@@ -312,13 +312,13 @@ Window {
             }
         }
         PaneSeparator {
-            visible: (!window.isMacOS && !windowAgent.framelessSetup) || window.titleBarStyle !== ProjectWindow.Style_MacOS && ((separatedMenuParent.visible && menuBar.visible) || toolBar.visible)
+            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && ((separatedMenuParent.visible && menuBar.visible) || toolBar.visible))
         }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
-            visible: window.isMacOS || !windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && window.useSeparatedMenu && menuBar.height !== 0
+            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && window.useSeparatedMenu && menuBar.height !== 0)
             Layout.preferredHeight: menuBar.visible ? 24 : 0
             // FIXME remove spacing when visual invisible
         }
