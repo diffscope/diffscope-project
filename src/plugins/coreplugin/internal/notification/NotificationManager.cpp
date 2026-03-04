@@ -6,6 +6,7 @@
 #include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
+#include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <uishell/BubbleNotificationHandle.h>
 
@@ -53,6 +54,34 @@ namespace Core::Internal {
             }
         });
 
+        // Listen to iconChanged signal to update counts
+        connect(message, &NotificationMessage::iconChanged, this,
+            [this, message](SVS::SVSCraft::MessageBoxIcon newIcon) {
+                auto oldIcon = m_messageIcons.value(message, SVS::SVSCraft::NoIcon);
+                updateIconCount(oldIcon, newIcon);
+                m_messageIcons[message] = newIcon;
+                
+                // Emit errorActivated if icon changed to Critical or Warning
+                bool wasError = (oldIcon == SVS::SVSCraft::Critical || oldIcon == SVS::SVSCraft::Warning);
+                bool isError = (newIcon == SVS::SVSCraft::Critical || newIcon == SVS::SVSCraft::Warning);
+                if (!wasError && isError) {
+                    emit errorActivated();
+                }
+            });
+
+        // Initialize icon count based on current icon
+        auto currentIcon = message->icon();
+        m_messageIcons[message] = currentIcon;
+        if (currentIcon == SVS::SVSCraft::Critical) {
+            m_criticalCount++;
+            emit criticalCountChanged(m_criticalCount);
+            emit errorActivated();
+        } else if (currentIcon == SVS::SVSCraft::Warning) {
+            m_warningCount++;
+            emit warningCountChanged(m_warningCount);
+            emit errorActivated();
+        }
+
         int autoHideTimeout = BehaviorPreference::notificationAutoHideTimeout();
         bool beepOnNotification = BehaviorPreference::hasNotificationSoundAlert();
 
@@ -88,6 +117,19 @@ namespace Core::Internal {
             auto index = m_messages.indexOf(message);
             if (index == -1)
                 return;
+
+            // Disconnect all signals for this message and update icon count
+            // Use hash to get icon instead of calling message->icon() as message may be being destroyed
+            auto currentIcon = m_messageIcons.value(message, SVS::SVSCraft::NoIcon);
+            if (currentIcon == SVS::SVSCraft::Critical) {
+                m_criticalCount--;
+                emit criticalCountChanged(m_criticalCount);
+            } else if (currentIcon == SVS::SVSCraft::Warning) {
+                m_warningCount--;
+                emit warningCountChanged(m_warningCount);
+            }
+            disconnectMessageSignals(message);
+
             bool wasLast = (index == m_messages.size() - 1);
             m_messages.removeAt(index);
             emit messageRemoved(index, message);
@@ -134,6 +176,14 @@ namespace Core::Internal {
             return QString();
         }
         return m_messages.last()->title();
+    }
+
+    int NotificationManager::criticalCount() const {
+        return m_criticalCount;
+    }
+
+    int NotificationManager::warningCount() const {
+        return m_warningCount;
     }
 
     void NotificationManager::updateTopMessageTitleConnection() {
@@ -183,5 +233,39 @@ namespace Core::Internal {
                 message->setAllowDoNotShowAgain(true);
             }
         }
+    }
+
+    void NotificationManager::updateIconCount(SVS::SVSCraft::MessageBoxIcon oldIcon, SVS::SVSCraft::MessageBoxIcon newIcon) {
+        // Decrement old icon count
+        if (oldIcon == SVS::SVSCraft::Critical) {
+            m_criticalCount--;
+            emit criticalCountChanged(m_criticalCount);
+        } else if (oldIcon == SVS::SVSCraft::Warning) {
+            m_warningCount--;
+            emit warningCountChanged(m_warningCount);
+        }
+
+        // Increment new icon count
+        if (newIcon == SVS::SVSCraft::Critical) {
+            m_criticalCount++;
+            emit criticalCountChanged(m_criticalCount);
+        } else if (newIcon == SVS::SVSCraft::Warning) {
+            m_warningCount++;
+            emit warningCountChanged(m_warningCount);
+        }
+    }
+
+    void NotificationManager::disconnectMessageSignals(NotificationMessage *message) {
+        // Disconnect all signal connections from message to this
+        disconnect(message, nullptr, this, nullptr);
+        
+        // Disconnect all signal connections from handle to this
+        auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
+        if (handle) {
+            disconnect(handle, nullptr, this, nullptr);
+        }
+        
+        // Remove icon tracking for this message
+        m_messageIcons.remove(message);
     }
 }

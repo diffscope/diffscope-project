@@ -27,6 +27,13 @@ QtObject {
             function on_Diffscope_statusTipTriggered() {
                 pane.Docking.dockingView.showPane(pane)
             }
+            function onShowPanelRequested() {
+                pane.Docking.dockingView.showPane(pane)
+            }
+        }
+        Docking.onVisibleChanged: () => {
+            if (Docking.visible)
+                d.addOn.deactivateIndicator()
         }
         header: Item {
             anchors.fill: parent

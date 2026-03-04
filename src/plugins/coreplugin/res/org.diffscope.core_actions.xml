@@ -136,6 +136,7 @@
         <phony id="org.diffscope.core.workspacePanelWidgets" topLevel="true" />
 
         <action id="org.diffscope.core.statusText" diffscope:componentType="widget"/>
+        <action id="org.diffscope.core.notificationErrorIndicator" diffscope:componentType="widget" />
         <action id="org.diffscope.core.panel.properties" catalog="org.diffscope.core.workspacePanelWidgets" icon="properties" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.plugins" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.notifications" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" diffscope:componentType="custom"/>
@@ -331,6 +332,7 @@
         <menu id="org.diffscope.core.mainStatusBar">
             <action id="org.diffscope.core.statusText" />
             <stretch />
+            <action id="org.diffscope.core.notificationErrorIndicator" />
         </menu>
 
         <menu id="org.diffscope.core.homePanels">

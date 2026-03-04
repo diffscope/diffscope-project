@@ -22,6 +22,8 @@ namespace Core::Internal {
 
     signals:
         void _diffscope_statusTipTriggered();
+        void deactivateIndicator();
+        void showPanelRequested();
 
     private:
         NotificationManager *m_notificationManager{};
