@@ -169,14 +169,17 @@ Window {
             SystemButton {
                 id: minimizeSystemButton
                 type: SystemButton.Minimize
+                useWindowsStyle: true
             }
             SystemButton {
                 id: maximizeSystemButton
                 type: SystemButton.MaximizeRestore
+                useWindowsStyle: true
             }
             SystemButton {
                 id: closeSystemButton
                 type: SystemButton.Close
+                useWindowsStyle: true
             }
         }
     }

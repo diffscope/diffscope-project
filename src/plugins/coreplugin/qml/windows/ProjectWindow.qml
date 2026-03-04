@@ -20,6 +20,8 @@ ProjectWindow {
     required property ProjectWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
+    titleBarStyle: isMacOS ? ProjectWindow.Style_MacOS : BehaviorPreference.projectWindowTitleBarStyle
+    useLeftSystemButton: Boolean(BehaviorPreference.uiBehavior & BehaviorPreference.UB_UseLeftSystemButton)
     documentName: [
         ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || windowHandle.projectDocumentContext.defaultDocumentName,
         windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
@@ -51,6 +53,18 @@ ProjectWindow {
             }
             onObjectRemoved: (index, object) => {
                 projectWindow.menusModel.remove(index)
+            }
+        }
+    }
+    menusModelForMainMenu: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "org.diffscope.core.mainMenu"
+            context: projectWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                projectWindow.menusModelForMainMenu.insert(index, object)
+            }
+            onObjectRemoved: (index, object) => {
+                projectWindow.menusModelForMainMenu.remove(index)
             }
         }
     }

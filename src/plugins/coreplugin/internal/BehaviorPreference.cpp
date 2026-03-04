@@ -28,6 +28,7 @@ namespace Core::Internal {
         bool useCustomFont{};
         QString fontFamily{};
         QString fontStyle{};
+        BehaviorPreference::ProjectWindowTitleBarStyle projectWindowTitleBarStyle{};
         BehaviorPreference::UIBehavior uiBehavior{};
         BehaviorPreference::GraphicsBehavior graphicsBehavior{};
         bool animationEnabled{};
@@ -92,6 +93,16 @@ namespace Core::Internal {
         emit fontFamilyChanged();
         d->fontStyle = settings->value("fontStyle", QApplication::font().style()).toString();
         emit fontStyleChanged();
+        d->projectWindowTitleBarStyle = settings->value("projectWindowTitleBarStyle", QVariant::fromValue(
+#ifdef Q_OS_WIN
+            TS_Windows
+#elif defined(Q_OS_MACOS)
+            TS_MacOS
+#else
+            TS_Simple
+#endif
+        )).value<ProjectWindowTitleBarStyle>();
+        emit projectWindowTitleBarStyleChanged();
         d->uiBehavior = settings->value("uiBehavior", QVariant::fromValue(UB_Frameless | UB_MergeMenuAndTitleBar)).value<UIBehavior>();
         emit uiBehaviorChanged();
         d->graphicsBehavior = settings->value("graphicsBehavior", QVariant::fromValue(GB_Hardware | GB_Antialiasing)).value<GraphicsBehavior>();
@@ -135,6 +146,7 @@ namespace Core::Internal {
         settings->setValue("useCustomFont", d->useCustomFont);
         settings->setValue("fontFamily", d->fontFamily);
         settings->setValue("fontStyle", d->fontStyle);
+        settings->setValue("projectWindowTitleBarStyle", static_cast<int>(d->projectWindowTitleBarStyle));
         settings->setValue("uiBehavior", static_cast<int>(d->uiBehavior));
         settings->setValue("graphicsBehavior", static_cast<int>(d->graphicsBehavior));
         settings->setValue("animationEnabled", d->animationEnabled);
@@ -342,6 +354,19 @@ namespace Core::Internal {
             return;
         d->fontStyle = fontStyle;
         emit m_instance->fontStyleChanged();
+    }
+
+    BehaviorPreference::ProjectWindowTitleBarStyle BehaviorPreference::projectWindowTitleBarStyle() {
+        M_INSTANCE_D;
+        return d->projectWindowTitleBarStyle;
+    }
+
+    void BehaviorPreference::setProjectWindowTitleBarStyle(ProjectWindowTitleBarStyle projectWindowTitleBarStyle) {
+        M_INSTANCE_D;
+        if (d->projectWindowTitleBarStyle == projectWindowTitleBarStyle)
+            return;
+        d->projectWindowTitleBarStyle = projectWindowTitleBarStyle;
+        emit m_instance->projectWindowTitleBarStyleChanged();
     }
 
     BehaviorPreference::UIBehavior BehaviorPreference::uiBehavior() {

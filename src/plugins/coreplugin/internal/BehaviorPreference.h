@@ -36,6 +36,7 @@ namespace Core::Internal {
         Q_PROPERTY(bool useCustomFont READ useCustomFont WRITE setUseCustomFont NOTIFY useCustomFontChanged)
         Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
         Q_PROPERTY(QString fontStyle READ fontStyle WRITE setFontStyle NOTIFY fontStyleChanged)
+        Q_PROPERTY(BehaviorPreference::ProjectWindowTitleBarStyle projectWindowTitleBarStyle READ projectWindowTitleBarStyle WRITE setProjectWindowTitleBarStyle NOTIFY projectWindowTitleBarStyleChanged)
         Q_PROPERTY(BehaviorPreference::UIBehavior uiBehavior READ uiBehavior WRITE setUiBehavior NOTIFY uiBehaviorChanged)
         Q_PROPERTY(BehaviorPreference::GraphicsBehavior graphicsBehavior READ graphicsBehavior WRITE setGraphicsBehavior NOTIFY graphicsBehaviorChanged)
         Q_PROPERTY(bool animationEnabled READ isAnimationEnabled WRITE setAnimationEnabled NOTIFY animationEnabledChanged)
@@ -137,10 +138,21 @@ namespace Core::Internal {
         static QString fontStyle();
         static void setFontStyle(const QString &fontStyle);
 
+        enum ProjectWindowTitleBarStyle {
+            TS_Windows,
+            TS_MacOS,
+            TS_Simple,
+        };
+        Q_ENUM(ProjectWindowTitleBarStyle)
+
+        static ProjectWindowTitleBarStyle projectWindowTitleBarStyle();
+        static void setProjectWindowTitleBarStyle(ProjectWindowTitleBarStyle projectWindowTitleBarStyle);
+
         enum UIBehaviorFlag {
             UB_Frameless = 0x01,
             UB_MergeMenuAndTitleBar = 0x02,
             UB_FullPath = 0x04,
+            UB_UseLeftSystemButton = 0x08,
         };
         Q_ENUM(UIBehaviorFlag)
         Q_DECLARE_FLAGS(UIBehavior, UIBehaviorFlag)
@@ -207,6 +219,7 @@ namespace Core::Internal {
         void useCustomFontChanged();
         void fontFamilyChanged();
         void fontStyleChanged();
+        void projectWindowTitleBarStyleChanged();
         void uiBehaviorChanged();
         void graphicsBehaviorChanged();
         void animationEnabledChanged();
