@@ -54,6 +54,18 @@ ProjectWindow {
             }
         }
     }
+    menusModelForMainMenu: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "org.diffscope.core.mainMenu"
+            context: projectWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                projectWindow.menusModelForMainMenu.insert(index, object)
+            }
+            onObjectRemoved: (index, object) => {
+                projectWindow.menusModelForMainMenu.remove(index)
+            }
+        }
+    }
     component ToolButtonsObjectModel: ObjectModel {
         id: model
         property string actionId
