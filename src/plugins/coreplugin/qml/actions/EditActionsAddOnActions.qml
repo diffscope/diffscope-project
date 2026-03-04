@@ -214,5 +214,45 @@ ActionCollection {
             onTriggered: d.addOn.shiftNotes(-12)
         }
     }
-
+    ActionItem {
+        actionId: "org.diffscope.core.selectionIndicator"
+        Label {
+            leftPadding: 4
+            rightPadding: 4
+            text: {
+                const model = d.windowHandle?.projectDocumentContext.document.model
+                const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
+                if (!model || !selectionModel)
+                    return ""
+                const getContainerText = () => {
+                    switch (selectionModel.selectionType) {
+                    case DspxModel.SelectionModel.ST_None:
+                        return qsTr("No selection")
+                    case DspxModel.SelectionModel.ST_AnchorNode:
+                        return "" // TODO
+                    case DspxModel.SelectionModel.ST_Clip:
+                        return qsTr("%Ln clip(s)", "", model.tracks.items.reduce((count, track) => count + track.clips.size, 0))
+                    case DspxModel.SelectionModel.ST_Label:
+                        return qsTr("%Ln label(s)", "", model.timeline.labels.size)
+                    case DspxModel.SelectionModel.ST_Note:
+                        return qsTr("%Ln note(s)", "", selectionModel.noteSelectionModel.noteSequenceWithSelectedItems.size)
+                    case DspxModel.SelectionModel.ST_Tempo:
+                        return qsTr("%Ln tempo(s)", "", model.timeline.tempos.size)
+                    case DspxModel.SelectionModel.ST_Track:
+                        return qsTr("%Ln track(s)", "", model.tracks.size)
+                    case DspxModel.SelectionModel.ST_KeySignature:
+                        return qsTr("%Ln key signature(s)", "", model.timeline.keySignatures.size)
+                    default:
+                        return ""
+                    }
+                }
+                const getSelectionText = () => {
+                    if (selectionModel.selectedCount === 0)
+                        return ""
+                    return qsTr(" (%Ln selected)", "", selectionModel.selectedCount)
+                }
+                return getContainerText() + getSelectionText()
+            }
+        }
+    }
 }
