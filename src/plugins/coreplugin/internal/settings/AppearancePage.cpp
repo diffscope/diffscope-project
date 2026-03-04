@@ -48,6 +48,8 @@ namespace Core::Internal {
         qCDebug(lcAppearancePage) << m_widget->property("fontFamily");
         m_widget->setProperty("fontStyle", BehaviorPreference::instance()->property("fontStyle"));
         qCDebug(lcAppearancePage) << m_widget->property("fontStyle");
+        m_widget->setProperty("projectWindowTitleBarStyle", BehaviorPreference::instance()->property("projectWindowTitleBarStyle"));
+        qCDebug(lcAppearancePage) << m_widget->property("projectWindowTitleBarStyle");
         m_widget->setProperty("uiBehavior", BehaviorPreference::instance()->property("uiBehavior"));
         qCDebug(lcAppearancePage) << m_widget->property("uiBehavior");
         m_widget->setProperty("graphicsBehavior", BehaviorPreference::instance()->property("graphicsBehavior"));
@@ -67,6 +69,8 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("fontFamily", m_widget->property("fontFamily"));
         qCDebug(lcAppearancePage) << "fontStyle" << m_widget->property("fontStyle");
         BehaviorPreference::instance()->setProperty("fontStyle", m_widget->property("fontStyle"));
+        qCDebug(lcAppearancePage) << "projectWindowTitleBarStyle" << m_widget->property("projectWindowTitleBarStyle");
+        BehaviorPreference::instance()->setProperty("projectWindowTitleBarStyle", m_widget->property("projectWindowTitleBarStyle"));
         qCDebug(lcAppearancePage) << "uiBehavior" << m_widget->property("uiBehavior");
         BehaviorPreference::instance()->setProperty("uiBehavior", m_widget->property("uiBehavior"));
         qCDebug(lcAppearancePage) << "graphicsBehavior" << m_widget->property("graphicsBehavior");

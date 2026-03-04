@@ -124,12 +124,12 @@ Window {
     MenuBar {
         id: menuBar
         property bool alwaysVisible: true
-        parent: window.titleBarStyle === ProjectWindow.Style_MacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
+        parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : window.titleBarStyle === ProjectWindow.Style_MacOS ? window.contentItem : titleBarMenuParent
         padding: 0
         leftPadding: 4
         topPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
         bottomPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
-        visible: window.isMacOS || alwaysVisible && window.titleBarStyle !== ProjectWindow.Style_MacOS && (window.titleBarStyle !== ProjectWindow.Style_Simple || window.useSeparatedMenu)
+        visible: window.isMacOS || alwaysVisible && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && (window.titleBarStyle !== ProjectWindow.Style_Simple || window.useSeparatedMenu))
         background: Item {
         }
         Instantiator {
@@ -223,9 +223,9 @@ Window {
                     readonly property color _baseColor: !titleTextGroup.menuBarMergedInTitleBar || window.titleBarStyle !== ProjectWindow.Style_Windows ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
                     color: Window.active ? _baseColor : Theme.foregroundDisabledColorChange.apply(_baseColor)
                     Layout.alignment: Qt.AlignVCenter
-                    font: Theme.font
+                    font.family: Theme.font.family
+                    font.weight: window.titleBarStyle === ProjectWindow.Style_MacOS ? Font.ExtraBold : Font.Normal
                     text: Window.window.title
-                    Component.onCompleted: { font.weight = window.titleBarStyle === ProjectWindow.Style_MacOS ? Font.ExtraBold : Font.Normal }
                 }
                 x: {
                     if (window.titleBarStyle !== ProjectWindow.Style_Windows) {
@@ -245,8 +245,7 @@ Window {
                 color: parent.color
             }
             RowLayout {
-                anchors.left: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? parent.left : undefined
-                anchors.right: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? undefined : parent.right
+                x: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? 0 : parent.width - width
                 layoutDirection: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? Qt.RightToLeft : Qt.LeftToRight
                 height: parent.height
                 visible: !window.isMacOS
@@ -313,13 +312,13 @@ Window {
             }
         }
         PaneSeparator {
-            visible: window.titleBarStyle !== ProjectWindow.Style_MacOS && ((separatedMenuParent.visible && menuBar.visible) || toolBar.visible)
+            visible: (!window.isMacOS && !windowAgent.framelessSetup) || window.titleBarStyle !== ProjectWindow.Style_MacOS && ((separatedMenuParent.visible && menuBar.visible) || toolBar.visible)
         }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
-            visible: window.titleBarStyle !== ProjectWindow.Style_MacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
+            visible: window.isMacOS || !windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && window.useSeparatedMenu && menuBar.height !== 0
             Layout.preferredHeight: menuBar.visible ? 24 : 0
             // FIXME remove spacing when visual invisible
         }

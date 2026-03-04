@@ -20,6 +20,8 @@ ProjectWindow {
     required property ProjectWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
+    titleBarStyle: isMacOS ? ProjectWindow.Style_MacOS : BehaviorPreference.projectWindowTitleBarStyle
+    useLeftSystemButton: Boolean(BehaviorPreference.uiBehavior & BehaviorPreference.UB_UseLeftSystemButton)
     documentName: [
         ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || windowHandle.projectDocumentContext.defaultDocumentName,
         windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
