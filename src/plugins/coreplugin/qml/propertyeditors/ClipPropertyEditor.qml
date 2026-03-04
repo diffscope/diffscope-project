@@ -57,7 +57,12 @@ PropertyEditorGroupBox {
                 icon.source: "image://fluent-system-icons/location_target_square"
                 onClicked: () => {
                     let selectionModel = groupBox.windowHandle.projectDocumentContext.document.selectionModel
-                    let tracks = selectionModel.clipSelectionModel.clipSequencesWithSelectedItems.map(v => v.track)
+                    let tracks
+                    if (selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip) {
+                        tracks = selectionModel.clipSelectionModel.clipSequencesWithSelectedItems.map(v => v.track)
+                    } else {
+                        tracks = groupBox.propertyMapper?.associatedTrack ? [groupBox.propertyMapper.associatedTrack] : []
+                    }
                     for (let track of tracks) {
                         selectionModel.select(track, DspxModel.SelectionModel.Select | DspxModel.SelectionModel.SetCurrentItem)
                     }
