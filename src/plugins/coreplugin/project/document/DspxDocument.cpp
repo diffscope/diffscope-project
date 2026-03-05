@@ -904,7 +904,7 @@ namespace Core {
             pasted = d->pasteClipboardData(data, playheadPosition, pastedItems);
             return pasted;
         }, [] {
-            qCCritical(lcDspxDocument()) << "Failed to paste in scoped transaction";
+            qCCritical(lcDspxDocument) << "Failed to paste in scoped transaction";
         });
 
         if (pasted && d->selectionModel) {
@@ -954,7 +954,7 @@ namespace Core {
         bool deleted = false;
         transactionController()->beginScopedTransaction(transactionName, [=, &deleted] {
             deleted = d->deleteSelection();
-            return deleted; }, [] { qCCritical(lcDspxDocument()) << "Failed to delete selection in scoped transaction"; });
+            return deleted; }, [] { qCCritical(lcDspxDocument) << "Failed to delete selection in scoped transaction"; });
     }
 
     void DspxDocument::selectAll() {
@@ -1043,9 +1043,7 @@ namespace Core {
                         }
 
                         changed = true;
-                        d->selectionModel->select(newClip,
-                            dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem,
-                            dspx::SelectionModel::selectionTypeFromItem(newClip));
+                        d->selectionModel->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem);
                     }
                     break;
                 }
@@ -1084,8 +1082,109 @@ namespace Core {
             }
             return changed;
         }, [] {
-            qCCritical(lcDspxDocument()) << "Failed to split items in scoped transaction";
+            qCCritical(lcDspxDocument) << "Failed to split items in scoped transaction";
         });
+    }
+
+    void DspxDocument::bounceToClip() {
+        Q_D(DspxDocument);
+        auto selectionType = d->selectionModel->selectionType();
+        if (selectionType != dspx::SelectionModel::ST_Clip)
+            return;
+        qCInfo(lcDspxDocument) << "Bouncing to clip";
+        struct BounceInfo {
+            dspx::SingingClip *pivotClip{};
+            QList<dspx::SingingClip *> clips;
+            QDspx::ClipTime bouncedClipTime;
+        };
+        QHash<dspx::Track *, BounceInfo> trackBounceInfoMap;
+        for (auto clip : d->selectionModel->clipSelectionModel()->selectedItems()) {
+            auto singingClip = qobject_cast<dspx::SingingClip *>(clip);
+            if (!singingClip)
+                continue;
+            Q_ASSERT(singingClip->clipSequence());
+            auto track = singingClip->clipSequence()->track();
+            auto &info = trackBounceInfoMap[track];
+            constexpr auto boundClipTime = [](const QDspx::ClipTime &clipTime) {
+                return QDspx::ClipTime {
+                    .start = clipTime.start + clipTime.clipStart,
+                    .length = 0,
+                    .clipStart = 0,
+                    .clipLen = clipTime.clipLen
+                };
+            };
+            if (!info.pivotClip) {
+                info.pivotClip = singingClip;
+                info.bouncedClipTime = boundClipTime(singingClip->time()->toQDspx());
+            } else {
+                info.pivotClip = std::min(info.pivotClip, singingClip, [=](dspx::SingingClip *a, dspx::SingingClip *b) {
+                    if (a->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
+                        return true;
+                    if (b->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
+                        return false;
+                    auto ta = boundClipTime(a->time()->toQDspx());
+                    auto tb = boundClipTime(b->time()->toQDspx());
+                    if (ta.start + ta.clipStart ==  tb.start + tb.clipStart) {
+                        return ta.clipLen < tb.clipLen;
+                    }
+                    return ta.start + ta.clipStart < tb.start + tb.clipStart;
+                });
+                auto t = boundClipTime(singingClip->time()->toQDspx());
+                auto left = std::min(info.bouncedClipTime.start, t.start + t.clipStart);
+                auto right = std::max(info.bouncedClipTime.start + info.bouncedClipTime.clipLen, t.start + t.clipStart + t.clipLen);
+                info.bouncedClipTime.start = left;
+                info.bouncedClipTime.clipLen = right - left;
+            }
+            info.clips.append(singingClip);
+        }
+        if (trackBounceInfoMap.isEmpty()) {
+            qCDebug(lcDspxDocument) << "No singing-clips selected, ignoring this operation";
+            return;
+        }
+        d->transactionController->beginScopedTransaction(tr("Bouncing to clip"), [&] {
+            qCDebug(lcDspxDocument) << "Merging and rebounding clips";
+            for (const auto &info : trackBounceInfoMap) {
+                QList<dspx::Note *> notes;
+                // Take all notes and reposition notes
+                for (auto clip : info.clips) {
+                    const auto deltaPosition = clip->time()->start() - info.bouncedClipTime.start;
+                    // It is needed to copy all notes to a new list, because notes will be removed while iterating
+                    // asRange() returns an enable borrowed range so it's safe to get iterator from prvalue
+                    for (auto note : QList(clip->notes()->asRange().cbegin(), clip->notes()->asRange().cend())) {
+                        clip->notes()->removeItem(note);
+                        if (note->pos() + note->length() <= clip->time()->clipStart() || note->pos() >= clip->time()->clipStart() + clip->time()->clipLen()) {
+                            d->model->destroyItem(note);
+                            continue;
+                        } else if (note->pos() < clip->time()->clipStart() || note->pos() + note->length() > clip->time()->clipStart() + clip->time()->clipLen()) {
+                            auto left = std::max(note->pos(), clip->time()->clipStart());
+                            auto right = std::min(note->pos() + note->length(), clip->time()->clipStart() + clip->time()->clipLen());
+                            note->setPos(left);
+                            note->setLength(right - left);
+                        }
+                        note->setPos(note->pos() + deltaPosition);
+                        notes.append(note);
+                    }
+                }
+                // Insert notes into pivot clip
+                for (auto note : notes) {
+                    info.pivotClip->notes()->insertItem(note);
+                }
+                // TODO param
+                // Update time of pivot clip and delete non-pivot clips
+                for (auto clip : info.clips) {
+                    if (clip == info.pivotClip) {
+                        clip->time()->fromQDspx(info.bouncedClipTime);
+                    } else {
+                        clip->clipSequence()->removeItem(clip);
+                        d->model->destroyItem(clip);
+                    }
+                }
+            }
+            return true;
+        }, [&] {
+            qCCritical(lcDspxDocument) << "Failed to begin transaction";
+        });
+        qCInfo(lcDspxDocument) << "End bouncing to clip";
     }
 
 }

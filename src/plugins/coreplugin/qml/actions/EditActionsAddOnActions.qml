@@ -255,4 +255,18 @@ ActionCollection {
             }
         }
     }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.split"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note)
+            onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.bounceToClip"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip
+            onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
+        }
+    }
 }

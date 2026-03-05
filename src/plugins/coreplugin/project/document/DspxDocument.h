@@ -48,6 +48,7 @@ namespace Core {
         Q_INVOKABLE void selectAll();
         Q_INVOKABLE void deselectAll();
         Q_INVOKABLE void splitItems(int position);
+        Q_INVOKABLE void bounceToClip();
 
     Q_SIGNALS:
         void anyItemsSelectedChanged();
