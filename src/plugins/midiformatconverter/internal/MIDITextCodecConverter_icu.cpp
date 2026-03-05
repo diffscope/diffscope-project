@@ -5,6 +5,7 @@
 #else
 #    include <unicode/ucnv.h>
 #    include <unicode/ustring.h>
+#    include <unicode/ucsdet.h>
 #endif
 
 #include <QDebug>
