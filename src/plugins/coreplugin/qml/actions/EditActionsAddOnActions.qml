@@ -235,7 +235,7 @@ ActionCollection {
                     case DspxModel.SelectionModel.ST_Label:
                         return qsTr("%Ln label(s)", "", model.timeline.labels.size)
                     case DspxModel.SelectionModel.ST_Note:
-                        return qsTr("%Ln note(s)", "", selectionModel.noteSelectionModel.noteSequenceWithSelectedItems.size)
+                        return qsTr("%Ln note(s)", "", selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.size ?? 0)
                     case DspxModel.SelectionModel.ST_Tempo:
                         return qsTr("%Ln tempo(s)", "", model.timeline.tempos.size)
                     case DspxModel.SelectionModel.ST_Track:

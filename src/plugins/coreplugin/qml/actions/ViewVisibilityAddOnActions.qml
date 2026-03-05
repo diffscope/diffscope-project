@@ -15,6 +15,7 @@ ActionCollection {
         readonly property Component _actionComponent: Action {
             checkable: true
             checked: d.window.menuBar.alwaysVisible
+            enabled: BehaviorPreference.projectWindowTitleBarStyle !== BehaviorPreference.TS_MacOS
             onTriggered: () => {
                 d.addOn.toggleVisibility(ViewVisibilityAddOn.MenuBar, checked)
             }

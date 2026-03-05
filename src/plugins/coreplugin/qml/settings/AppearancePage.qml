@@ -113,11 +113,18 @@ ScrollView {
                             TextMatcherItem on text { matcher: page.matcher }
                             enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
                         }
-                        ComboBox {
-                            enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
-                            model: [qsTr("Classic"), qsTr("Cupertino"), qsTr("Simple")]
-                            currentIndex: page.projectWindowTitleBarStyle
-                            onActivated: page.projectWindowTitleBarStyle = currentIndex
+                        RowLayout {
+                            ComboBox {
+                                enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
+                                model: [qsTr("Classic"), qsTr("Cupertino"), qsTr("Simple")]
+                                currentIndex: page.projectWindowTitleBarStyle
+                                onActivated: page.projectWindowTitleBarStyle = currentIndex
+                            }
+                            Label {
+                                text: qsTr("Menu bar is hidden in Cupertino style")
+                                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                                visible: page.projectWindowTitleBarStyle === BehaviorPreference.TS_MacOS
+                            }
                         }
                         Label {
                             text: qsTr("Place system buttons on")
