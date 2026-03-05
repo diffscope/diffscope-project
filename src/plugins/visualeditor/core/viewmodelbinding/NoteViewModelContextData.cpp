@@ -9,6 +9,9 @@
 #include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
 #include <ScopicFlowCore/ClipViewModel.h>
+#include <ScopicFlowCore/TimeManipulator.h>
+#include <ScopicFlowCore/TimeViewModel.h>
+#include <ScopicFlowCore/TimeLayoutViewModel.h>
 
 #include <opendspx/note.h>
 
@@ -31,6 +34,7 @@
 
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/private/NoteSelectionController_p.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 
 namespace VisualEditor {
 
@@ -721,6 +725,8 @@ namespace VisualEditor {
             Q_EMIT splitWillAbort();
         });
 
+        connect(controller, &sflow::NoteEditLayerInteractionController::doubleClicked, this, &NoteViewModelContextData::onDoubleClicked);
+
         connect(controller, &sflow::NoteEditLayerInteractionController::itemDoubleClicked, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem) {
             targetNoteArea = noteArea;
             targetNote = noteDocumentItemMap.value(viewItem);
@@ -1015,6 +1021,51 @@ namespace VisualEditor {
         additionalTextUpdatedNotes.clear();
         targetNote = {};
         targetNoteArea = {};
+    }
+
+    void NoteViewModelContextData::onDoubleClicked(QQuickItem *noteArea, int position, int key) {
+        Q_Q(ProjectViewModelContext);
+
+        auto clipViewModel = noteArea->property("clipViewModel").value<sflow::ClipViewModel *>();
+        auto singingClip = qobject_cast<dspx::SingingClip *>(q->getClipDocumentItemFromViewItem(clipViewModel));
+
+        if (!singingClip) {
+            return;
+        }
+
+        qCInfo(lcNoteViewModelContextData) << "Note edit layer double clicked" << singingClip << " at position" << position << "key" << key;
+        
+        dspx::Note *newNote = nullptr;
+        bool success = false;
+            
+        sflow::TimeManipulator timeManipulator;
+        timeManipulator.setTarget(noteArea);
+        timeManipulator.setTimeViewModel(noteArea->property("timeViewModel").value<sflow::TimeViewModel *>());
+        timeManipulator.setTimeLayoutViewModel(noteArea->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
+        position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
+        auto implicitNoteLength = PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength();
+
+        document->transactionController()->beginScopedTransaction(QObject::tr("Inserting note"), [=, &newNote, &success] {
+            newNote = document->model()->createNote();
+            newNote->setPos(position);
+            newNote->setLength(implicitNoteLength);
+            newNote->setKeyNum(key);
+            newNote->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
+            if (!singingClip->notes()->insertItem(newNote)) {
+                document->model()->destroyItem(newNote);
+                newNote = nullptr;
+                return false;
+            }
+            success = true;
+            return true;
+        });
+        
+        if (success && newNote) {
+            qCInfo(lcNoteViewModelContextData) << "Note inserted successfully at position" << newNote->pos() << "key" << newNote->keyNum();
+            document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+        } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to insert note";
+        }
     }
 
     sflow::NoteViewModel *NoteEditLayerInteractionControllerProxy::createAndInsertNoteOnDrawing(sflow::RangeSequenceViewModel *noteSequenceViewModel, int position, int trackIndex) {

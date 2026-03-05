@@ -50,7 +50,6 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled{false};
         bool scaleHighlightEnabled{false};
 
-        dspx::SelectionModel *editingClipSelectionModel;
         int implicitNoteLength{480};
         QMetaObject::Connection currentNoteConnection;
 

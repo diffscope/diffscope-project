@@ -137,6 +137,8 @@ namespace VisualEditor {
         void onAdditionalTextCommittingStateEntered();
         void onAdditionalTextAbortingStateEntered();
 
+        void onDoubleClicked(QQuickItem *noteArea, int position, int key);
+
     Q_SIGNALS:
         void rubberBandDragWillStart();
         void rubberBandDragWillFinish();

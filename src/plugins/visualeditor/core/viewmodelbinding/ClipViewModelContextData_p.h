@@ -107,6 +107,8 @@ namespace VisualEditor {
 
         void onSplitCommittingStateEntered();
 
+        void onDoubleClicked(QQuickItem *clipPane, int position, int trackIndex);
+
     Q_SIGNALS:
         void rubberBandDragWillStart();
         void rubberBandDragWillFinish();

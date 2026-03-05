@@ -274,39 +274,6 @@ namespace VisualEditor {
     }
 
     void PianoRollPanelInterfacePrivate::bindNoteEditLayerInteractionController() const {
-        Q_Q(const PianoRollPanelInterface);
-        QObject::connect(noteEditLayerInteractionController, &sflow::NoteEditLayerInteractionController::doubleClicked, q, [=, this](QQuickItem *noteArea, int position, int key) {
-            auto singingClip = q->editingClip();
-            if (!singingClip)
-                return;
-            dspx::Note *newNote = nullptr;
-            bool success = false;
-            auto document = windowHandle->projectDocumentContext()->document();
-            {
-                sflow::TimeManipulator timeManipulator;
-                timeManipulator.setTarget(noteArea);
-                timeManipulator.setTimeViewModel(timeViewModel);
-                timeManipulator.setTimeLayoutViewModel(timeLayoutViewModel);
-                position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
-            }
-            document->transactionController()->beginScopedTransaction(VisualEditor::PianoRollPanelInterface::tr("Inserting note"), [=, &newNote, &success] {
-                newNote = document->model()->createNote();
-                newNote->setPos(position);
-                newNote->setLength(implicitNoteLength);
-                newNote->setKeyNum(key);
-                newNote->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
-                if (!singingClip->notes()->insertItem(newNote)) {
-                    document->model()->destroyItem(newNote);
-                    newNote = nullptr;
-                    return false;
-                }
-                success = true;
-                return true;
-            });
-            if (success && newNote) {
-                document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
-            }
-        });
     }
 
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {
@@ -346,8 +313,6 @@ namespace VisualEditor {
         d->editingClipSelectorModel->setDynamicSortFilter(true);
         d->editingClipSelectorModel->setSortRole(Internal::SingingClipListModel::ClipPositionRole);
 
-        d->editingClipSelectionModel = new dspx::SelectionModel(d->windowHandle->projectDocumentContext()->document()->model(), this);
-
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollView");
             if (component.isError()) {
@@ -367,16 +332,15 @@ namespace VisualEditor {
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());
 
-        connect(d->editingClipSelectionModel->clipSelectionModel(), &dspx::ClipSelectionModel::selectedItemsChanged, this, &PianoRollPanelInterface::editingClipChanged);
+        auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
 
-        connect(d->editingClipSelectionModel->clipSelectionModel(), &dspx::ClipSelectionModel::clipSequencesWithSelectedItemsChanged, this, [this] {
-            Q_D(PianoRollPanelInterface);
-            auto a = d->editingClipSelectionModel->clipSelectionModel()->clipSequencesWithSelectedItems();
-            auto sequence = a.isEmpty() ? nullptr : a.first();
-            d->singingClipListModel->setClipSequence(sequence);
+        connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, &PianoRollPanelInterface::editingClipChanged);
+        connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, [=, this] {
+            auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+            auto clipSequence = noteSequence ? noteSequence->singingClip()->clipSequence() : nullptr;
+            d->singingClipListModel->setClipSequence(clipSequence);
         });
 
-        auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
         connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, [=, this] {
             disconnect(d->currentNoteConnection);
             auto currentNote = noteSelectionModel->currentItem();
@@ -544,18 +508,20 @@ namespace VisualEditor {
 
     dspx::SingingClip *PianoRollPanelInterface::editingClip() const {
         Q_D(const PianoRollPanelInterface);
-        auto items = d->editingClipSelectionModel->clipSelectionModel()->selectedItems();
-        if (items.isEmpty())
-            return nullptr;
-        Q_ASSERT(qobject_cast<dspx::SingingClip *>(items.first()));
-        return static_cast<dspx::SingingClip *>(items.first());
+        auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
+        auto noteSequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+        if (noteSequence) {
+            return noteSequence->singingClip();
+        }
+        return nullptr;
     }
 
     void PianoRollPanelInterface::setEditingClip(dspx::SingingClip *clip) {
         Q_D(PianoRollPanelInterface);
-        if (d->editingClipSelectionModel->currentItem() != clip) {
+        auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
+        if (selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems() != clip->notes()) {
             qCInfo(lcPianoRollPanelInterface) << "Set editing clip to" << clip;
-            d->editingClipSelectionModel->select(clip, dspx::SelectionModel::Select | dspx::SelectionModel::ClearPreviousSelection);
+            selectionModel->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, clip->notes());
         }
     }
 

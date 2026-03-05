@@ -11,6 +11,9 @@
 #include <ScopicFlowCore/ClipPaneInteractionController.h>
 #include <ScopicFlowCore/ClipViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
+#include <ScopicFlowCore/TimeManipulator.h>
+#include <ScopicFlowCore/TimeViewModel.h>
+#include <ScopicFlowCore/TimeLayoutViewModel.h>
 
 #include <dspxmodel/AudioClip.h>
 #include <dspxmodel/BusControl.h>
@@ -610,6 +613,8 @@ namespace VisualEditor {
             Q_EMIT splitWillAbort();
         });
 
+        connect(controller, &sflow::ClipPaneInteractionController::doubleClicked, this, &ClipViewModelContextData::onDoubleClicked);
+
         return controller;
     }
 
@@ -737,6 +742,56 @@ namespace VisualEditor {
     void ClipViewModelContextData::onSplitCommittingStateEntered() {
         document->splitItems(splitPosition);
         splitPosition = {};
+    }
+
+    void ClipViewModelContextData::onDoubleClicked(QQuickItem *clipPane, int position, int trackIndex) {
+        Q_Q(ProjectViewModelContext);
+
+        if (!trackList || trackIndex < 0 || trackIndex >= trackList->size()) {
+            return;
+        }
+
+        auto track = trackList->items().at(trackIndex);
+        if (!track) {
+            return;
+        }
+
+        qCInfo(lcClipViewModelContextData) << "Clip pane double clicked at position" << position << "track index" << trackIndex;
+
+        sflow::TimeManipulator timeManipulator;
+        timeManipulator.setTarget(clipPane);
+        timeManipulator.setTimeViewModel(clipPane->property("timeViewModel").value<sflow::TimeViewModel *>());
+        timeManipulator.setTimeLayoutViewModel(clipPane->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
+        position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
+
+        dspx::SingingClip *newClip = nullptr;
+        bool success = false;
+
+        const int defaultClipLength = 15360;
+
+        document->transactionController()->beginScopedTransaction(QObject::tr("Inserting singing clip"), [=, &newClip, &success] {
+            newClip = document->model()->createSingingClip();
+            newClip->setName(tr("Unnamed clip"));
+            auto time = newClip->time();
+            time->setClipStart(0);
+            time->setClipLen(defaultClipLength);
+            time->setStart(position);
+            newClip->control()->setGain(1);
+            if (!track->clips()->insertItem(newClip)) {
+                document->model()->destroyItem(newClip);
+                newClip = nullptr;
+                return false;
+            }
+            success = true;
+            return true;
+        });
+
+        if (success && newClip) {
+            qCInfo(lcClipViewModelContextData) << "Singing clip inserted successfully at position" << newClip->position();
+            document->selectionModel()->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+        } else {
+            qCWarning(lcClipViewModelContextData) << "Failed to insert singing clip";
+        }
     }
 
     sflow::ClipViewModel *ClipPaneInteractionControllerProxy::createAndInsertClipOnDrawing(sflow::RangeSequenceViewModel *clipSequenceViewModel, int position, int trackIndex) {

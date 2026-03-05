@@ -260,7 +260,7 @@ namespace Core {
         properties.insert("selectedTrack", QVariant::fromValue(currentTrack));
         properties.insert("timeline", QVariant::fromValue(d->projectTimeline->musicTimeline()));
         properties.insert("clipPosition", d->projectTimeline->position());
-        properties.insert("clipLength", 46080);
+        properties.insert("clipLength", 15360);
         properties.insert("clipName", tr("Unnamed clip"));
         auto dialog = createAndPositionDialog(&component, properties);
         if (!DocumentEditScenarioPrivate::execDialog(dialog))
