@@ -63,17 +63,17 @@ namespace dspx {
             return new T(handle, q);
         }
 
-        template <>
-        Clip *createObject<Clip>(Handle handle);
-
-        template <>
-        ParamCurve *createObject<ParamCurve>(Handle handle);
-
         template <class T>
         static void proxySetEntityPropertyNotify(T *object, int property, const QVariant &value) {
             object->handleProxySetEntityProperty(property, value);
         }
     };
+
+    template <>
+    Clip *ModelPrivate::createObject<Clip>(Handle handle);
+
+    template <>
+    ParamCurve *ModelPrivate::createObject<ParamCurve>(Handle handle);
 
 }
 
