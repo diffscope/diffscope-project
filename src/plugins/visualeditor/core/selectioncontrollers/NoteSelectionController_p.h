@@ -30,6 +30,7 @@ namespace VisualEditor {
         ProjectViewModelContext *q;
         dspx::SelectionModel *selectionModel;
         dspx::NoteSelectionModel *noteSelectionModel;
+        dspx::NoteSequence *currentEditingNoteSequence;
     };
 
 }

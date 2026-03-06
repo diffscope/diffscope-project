@@ -19,14 +19,6 @@ ActionCollection {
     readonly property PianoRollPanelInterface pianoRollPanelInterface: addOn?.pianoRollPanelInterface ?? null
 
     ActionItem {
-        actionId: "org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll"
-        Action {
-            enabled: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.addOn?.windowHandle.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
-            onTriggered: d.pianoRollPanelInterface.editingClip = d.addOn.windowHandle.projectDocumentContext.document.selectionModel.currentItem
-        }
-    }
-
-    ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pointerTool"
         Action {
             checkable: true

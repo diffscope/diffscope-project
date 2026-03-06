@@ -269,4 +269,18 @@ ActionCollection {
             onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
         }
     }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.editCurrentClip"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
+            onTriggered: () => {
+                let selectionModel = d.windowHandle.projectDocumentContext.document.selectionModel
+                let clip = selectionModel.currentItem
+                if (clip.notes !== selectionModel.noteSelectionModel.noteSequenceWithSelectedItems) {
+                    selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, clip.notes)
+                }
+            }
+        }
+    }
 }

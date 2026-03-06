@@ -6,6 +6,7 @@
 #include <QLoggingCategory>
 
 #include <ScopicFlowCore/NoteViewModel.h>
+#include <ScopicFlowCore/ClipViewModel.h>
 
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/Model.h>
@@ -31,8 +32,22 @@ namespace VisualEditor {
         auto document = documentContext->document();
         selectionModel = document->selectionModel();
         noteSelectionModel = selectionModel->noteSelectionModel();
+        currentEditingNoteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
         connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
         connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, this, &SelectionController::editScopeFocusedChanged);
+        connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, [=, this] {
+            if (currentEditingNoteSequence) {
+                auto oldClipViewModel = parent->getClipViewItemFromDocumentItem(currentEditingNoteSequence->singingClip());
+                if (oldClipViewModel)
+                    oldClipViewModel->setEditing(false);
+            }
+            currentEditingNoteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+            if (currentEditingNoteSequence) {
+                auto clipViewModel = parent->getClipViewItemFromDocumentItem(currentEditingNoteSequence->singingClip());
+                if (clipViewModel)
+                    clipViewModel->setEditing(true);
+            }
+        });
     }
 
     NoteSelectionController::~NoteSelectionController() = default;

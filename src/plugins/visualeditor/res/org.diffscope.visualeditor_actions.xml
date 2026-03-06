@@ -15,7 +15,6 @@
     </configuration>
 
     <items>
-        <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" icon="midi" shortcut="Ctrl+P" />
         <action id="org.diffscope.visualeditor.view.scrollUp" icon="arrow_up" shortcut="Ctrl+Up" />
         <action id="org.diffscope.visualeditor.view.scrollDown" icon="arrow_down" shortcut="Ctrl+Down" />
         <action id="org.diffscope.visualeditor.view.scrollLeft" icon="arrow_left" shortcut="Ctrl+Left" />
@@ -76,13 +75,11 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.keySignature" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.clip" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
 
     </items>
 
     <layouts>
-        <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions">
-            <action id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRoll" />
-        </group>
         <menu id="org.diffscope.visualeditor.view.scroll">
             <group id="org.diffscope.visualeditor.view.scrollActions">
                 <action id="org.diffscope.visualeditor.view.scrollUp" />
@@ -167,17 +164,11 @@
     </layouts>
 
     <insertions>
-        <insertion target="org.diffscope.core.edit" anchor="last">
-            <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />
-        </insertion>
         <insertion target="org.diffscope.core.view" anchor="last">
             <menu id="org.diffscope.visualeditor.view.scroll" />
         </insertion>
         <insertion target="org.diffscope.core.view" anchor="last">
             <menu id="org.diffscope.visualeditor.view.zoom" />
-        </insertion>
-        <insertion target="org.diffscope.core.clipItemContextMenu" anchor="before" relativeTo="org.diffscope.core.genericItemContextMenuActions">
-            <group id="org.diffscope.visualeditor.edit.editCurrentClipInPianoRollActions" />
         </insertion>
     </insertions>
 
