@@ -18,7 +18,9 @@ namespace Audio::Internal {
     OutputSystem::OutputSystem(QObject *parent) : QObject(parent), m_outputContext(new talcs::OutputContext), m_deviceTester(new DeviceTester) {
     }
 
-    OutputSystem::~OutputSystem() = default;
+    OutputSystem::~OutputSystem() {
+        m_outputContext->preMixer()->removeSource(m_deviceTester.get());
+    }
 
     bool OutputSystem::initialize() {
         qCInfo(audioOutputSystem) << "Initializing";

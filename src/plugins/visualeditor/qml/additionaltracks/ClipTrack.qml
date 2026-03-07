@@ -25,7 +25,7 @@ QtObject {
 
         required property QtObject contextObject
         Layout.fillWidth: true
-        clipSequenceViewModel: d.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(contextObject.editingClip?.clipSequence?.track ?? null)
+        clipSequenceViewModel: d.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(contextObject.editingClip?.clipSequence?.track ?? null) ?? null
         trackListViewModel: d.projectViewModelContext?.trackListViewModel ?? null
         scrollBehaviorViewModel: contextObject?.scrollBehaviorViewModel ?? null
         timeLayoutViewModel: contextObject?.timeLayoutViewModel ?? null
