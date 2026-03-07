@@ -9,6 +9,8 @@
 
 namespace Audio::Internal {
 
+    class DeviceTester;
+
     class OutputSystem : public QObject {
         Q_OBJECT
     public:
@@ -27,6 +29,8 @@ namespace Audio::Internal {
 
         bool isReady() const;
 
+        void playTestSound();
+
     private:
         void load();
         void save() const;
@@ -36,6 +40,7 @@ namespace Audio::Internal {
         void logOutputInfo() const;
 
         std::unique_ptr<talcs::OutputContext> m_outputContext;
+        std::unique_ptr<DeviceTester> m_deviceTester;
 
         qint64 m_adoptedBufferSize{};
         double m_adoptedSampleRate{};

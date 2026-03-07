@@ -1,10 +1,11 @@
-
 #include "AudioOutputSettingsHelper.h"
 
+#include <algorithm>
 #include <QCoreApplication>
 #include <QLocale>
 #include <QSignalBlocker>
 
+#include <TalcsCore/MixerAudioSource.h>
 #include <TalcsDevice/AbstractOutputContext.h>
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioDriver.h>
@@ -16,6 +17,29 @@
 namespace Audio::Internal {
 
     static OutputSystem *m_outputSystem;
+
+    // DriverItem display name generation
+    QString DriverItem::generateDisplayName() const {
+        if (name.isEmpty()) {
+            return QCoreApplication::translate("Audio::Internal::AudioOutputSettingsHelper", "(Not working)");
+        }
+        if (status == ItemStatus::NotWorking) {
+            return name + " " + QCoreApplication::translate("Audio::Internal::AudioOutputSettingsHelper", "(Not working)");
+        }
+        return name;
+    }
+
+    // DeviceItem display name generation
+    QString DeviceItem::generateDisplayName() const {
+        QString baseName = name.isEmpty() 
+            ? QCoreApplication::translate("Audio::Internal::AudioOutputSettingsHelper", "Default device")
+            : name;
+        
+        if (status == ItemStatus::NotWorking) {
+            return baseName + " " + QCoreApplication::translate("Audio::Internal::AudioOutputSettingsHelper", "(Not working)");
+        }
+        return baseName;
+    }
 
     AudioOutputSettingsHelper::AudioOutputSettingsHelper(QObject *parent)
         : QObject(parent), m_driverCurrentIndex(-1), m_deviceCurrentIndex(-1),
@@ -40,12 +64,15 @@ namespace Audio::Internal {
 
     // Update driver list
     void AudioOutputSettingsHelper::updateDriverList() {
-        m_driverList.clear();
+        m_driverItems.clear();
 
         auto outputContext = m_outputSystem->outputContext();
         if (!outputContext || !outputContext->driverManager()) {
-            // Add "(Not working)" option when no driver manager is available
-            m_driverList.append(tr("(Not working)"));
+            // Add "(Not working)" item when no driver manager is available
+            DriverItem item;
+            item.name = QString();
+            item.status = ItemStatus::Normal;
+            m_driverItems.append(item);
             m_driverCurrentIndex = 0;
             emit driverCurrentIndexChanged();
             return;
@@ -53,13 +80,19 @@ namespace Audio::Internal {
 
         auto driverNames = outputContext->driverManager()->drivers();
         for (const QString &driverName : driverNames) {
-            m_driverList.append(driverName); // Use driver name directly without display name conversion
+            DriverItem item;
+            item.name = driverName;
+            item.status = ItemStatus::Normal;
+            m_driverItems.append(item);
         }
 
         // Check current driver status
         if (!outputContext->driver()) {
-            // Add "(Not working)" option when no driver is available
-            m_driverList.append(tr("(Not working)"));
+            // Add "(Not working)" item when no driver is available
+            DriverItem item;
+            item.name = QString();
+            item.status = ItemStatus::Normal;
+            m_driverItems.append(item);
         }
 
         findDriverIndex();
@@ -72,13 +105,20 @@ namespace Audio::Internal {
 
         if (outputContext && outputContext->driver()) {
             QString currentDriverName = outputContext->driver()->name();
-            newIndex = m_driverList.indexOf(currentDriverName);
+            newIndex = findDriverIndexByName(currentDriverName, ItemStatus::Normal);
         }
 
         if (newIndex == -1) {
-            // If current driver not found, check for "(Not working)" option
-            int notWorkingIndex = m_driverList.indexOf(tr("(Not working)"));
-            newIndex = notWorkingIndex != -1 ? notWorkingIndex : 0;
+            // If current driver not found, find first empty name item (not working)
+            for (int i = 0; i < m_driverItems.size(); ++i) {
+                if (m_driverItems[i].name.isEmpty()) {
+                    newIndex = i;
+                    break;
+                }
+            }
+            if (newIndex == -1) {
+                newIndex = 0;
+            }
         }
 
         if (m_driverCurrentIndex != newIndex) {
@@ -88,7 +128,11 @@ namespace Audio::Internal {
     }
 
     QStringList AudioOutputSettingsHelper::driverList() const {
-        return m_driverList;
+        QStringList list;
+        for (const auto &item : m_driverItems) {
+            list.append(item.generateDisplayName());
+        }
+        return list;
     }
 
     int AudioOutputSettingsHelper::driverCurrentIndex() const {
@@ -96,60 +140,68 @@ namespace Audio::Internal {
     }
 
     void AudioOutputSettingsHelper::setDriverCurrentIndex(int index) {
-        if (m_driverCurrentIndex == index || index < 0 || index >= m_driverList.size()) {
+        if (m_driverCurrentIndex == index || index < 0 || index >= m_driverItems.size()) {
             return;
         }
 
-        QString driverName = m_driverList[index];
+        const auto &item = m_driverItems[index];
 
-        // Return directly if "(Not working)" option is selected
-        if (driverName == tr("(Not working)")) {
+        // Return directly if selecting an empty name item (not working)
+        if (item.name.isEmpty()) {
             return;
         }
 
         // Try to set driver
-        if (!m_outputSystem->setDriver(driverName)) {
+        if (!m_outputSystem->setDriver(item.name)) {
             // Setting failed, emit error signal
-            emit deviceError(tr("Cannot initialize %1 driver").arg(driverName));
+            emit deviceError(tr("Cannot initialize %1 driver").arg(item.name));
 
-            // Ensure "(Not working)" option exists in list
-            if (!m_driverList.contains(tr("(Not working)"))) {
-                m_driverList.append(tr("(Not working)"));
+            // Mark current driver as NotWorking and add if not exists
+            int existingIndex = findDriverIndexByName(item.name, ItemStatus::Normal);
+            if (existingIndex != -1) {
+                m_driverItems[existingIndex].status = ItemStatus::NotWorking;
+            } else {
+                DriverItem notWorkingItem;
+                notWorkingItem.name = item.name;
+                notWorkingItem.status = ItemStatus::NotWorking;
+                m_driverItems.append(notWorkingItem);
             }
 
-            // Set to "(Not working)" option
-            int notWorkingIndex = m_driverList.indexOf(tr("(Not working)"));
-            m_driverCurrentIndex = notWorkingIndex;
-            emit driverCurrentIndexChanged();
+            // Find first empty name item to set as current
+            for (int i = 0; i < m_driverItems.size(); ++i) {
+                if (m_driverItems[i].name.isEmpty()) {
+                    m_driverCurrentIndex = i;
+                    emit driverCurrentIndexChanged();
+                    break;
+                }
+            }
             return;
         }
 
-        // Setting succeeded, remove "(Not working)" option if exists
-        int notWorkingIndex = m_driverList.indexOf(tr("(Not working)"));
-        if (notWorkingIndex != -1) {
-            m_driverList.removeAt(notWorkingIndex);
-            // Adjust index if removed option is before current option
-            if (notWorkingIndex < index) {
-                index--;
-            }
-        }
+        // Setting succeeded, remove NotWorking items
+        removeNotWorkingDriverItems();
 
-        m_driverCurrentIndex = index;
-        emit driverCurrentIndexChanged();
+        // Adjust index after removal
+        int newIndex = findDriverIndexByName(item.name, ItemStatus::Normal);
+        if (newIndex != -1) {
+            m_driverCurrentIndex = newIndex;
+            emit driverCurrentIndexChanged();
+        }
 
         // Driver change will automatically trigger deviceChanged signal, which updates device-related lists
     }
 
     // Update device list
     void AudioOutputSettingsHelper::updateDeviceList() {
-        m_deviceList.clear();
-        m_actualDeviceList.clear();
+        m_deviceItems.clear();
 
         auto outputContext = m_outputSystem->outputContext();
         if (!outputContext || !outputContext->driver()) {
-            // Add "(Not working)" option when no driver is available
-            m_deviceList.append(tr("(Not working)"));
-            m_actualDeviceList.append(QString()); // Empty actual name for not working
+            // Add "(Not working)" item when no driver is available
+            DeviceItem item;
+            item.name = QString();
+            item.status = ItemStatus::Normal;
+            m_deviceItems.append(item);
             m_deviceCurrentIndex = 0;
             emit deviceCurrentIndexChanged();
             emit deviceListChanged();
@@ -161,8 +213,10 @@ namespace Audio::Internal {
         // First, add default device from driver->defaultDevice() if exists
         QString driverDefaultDevice = driver->defaultDevice();
         if (!driverDefaultDevice.isEmpty()) {
-            m_deviceList.append(tr("Default device"));
-            m_actualDeviceList.append(QString()); // Empty string indicates default device
+            DeviceItem item;
+            item.name = QString(); // Empty string indicates default device
+            item.status = ItemStatus::Normal;
+            m_deviceItems.append(item);
         }
 
         // Then add specific devices
@@ -172,47 +226,44 @@ namespace Audio::Internal {
                 // Handle devices with empty name (another type of default device)
                 // Only add if we haven't already added a default device
                 if (driverDefaultDevice.isEmpty()) {
-                    m_deviceList.append(tr("Default device"));
-                    m_actualDeviceList.append(QString()); // Empty string indicates default device
+                    DeviceItem item;
+                    item.name = QString();
+                    item.status = ItemStatus::Normal;
+                    m_deviceItems.append(item);
                 }
             } else {
-                m_deviceList.append(deviceName);
-                m_actualDeviceList.append(deviceName);
+                DeviceItem item;
+                item.name = deviceName;
+                item.status = ItemStatus::Normal;
+                m_deviceItems.append(item);
             }
         }
 
         // Check current device status
         if (!outputContext->device()) {
-            // No device instance, add "(Not working)" option
-            m_deviceList.append(tr("(Not working)"));
-            m_actualDeviceList.append(QString()); // Empty actual name for not working
+            // No device instance, add "(Not working)" item if not already present
+            if (m_deviceItems.isEmpty() || !m_deviceItems[0].name.isEmpty()) {
+                DeviceItem item;
+                item.name = QString();
+                item.status = ItemStatus::Normal;
+                m_deviceItems.append(item);
+            }
         } else {
             // Check if device is in available list
-            bool currentDeviceFound = false;
             QString currentDeviceName = outputContext->device()->name();
+            int foundIndex = findDeviceIndexByName(currentDeviceName, ItemStatus::Normal);
 
-            if (currentDeviceName.isEmpty()) {
-                // Current device has empty name (default device)
-                // Check if we have a default device option
-                int defaultIndex = m_deviceList.indexOf(tr("Default device"));
-                if (defaultIndex != -1) {
-                    currentDeviceFound = true;
-                }
-            } else if (m_actualDeviceList.contains(currentDeviceName)) {
-                // Current device is in available list
-                currentDeviceFound = true;
-            }
-
-            if (!currentDeviceFound) {
-                // Device exists but not in available list, add option with "(Not working)" suffix
-                QString displayName = currentDeviceName.isEmpty() ? tr("Default device") + " " + tr("(Not working)") : currentDeviceName + " " + tr("(Not working)");
-                m_deviceList.append(displayName);
-                m_actualDeviceList.append(currentDeviceName);
+            if (foundIndex == -1) {
+                // Device exists but not in available list, add as NotWorking
+                DeviceItem item;
+                item.name = currentDeviceName;
+                item.status = ItemStatus::NotWorking;
+                m_deviceItems.append(item);
             }
         }
 
-        findDeviceIndex();
         emit deviceListChanged();
+        findDeviceIndex();
     }
 
     // Find the index of current device
@@ -222,30 +273,27 @@ namespace Audio::Internal {
 
         if (outputContext && outputContext->device()) {
             QString currentDeviceName = outputContext->device()->name();
-
-            if (currentDeviceName.isEmpty()) {
-                // Current device has empty name (default device)
-                // Find the first "Default device" option
-                int defaultIndex = m_deviceList.indexOf(tr("Default device"));
-                if (defaultIndex != -1) {
-                    newIndex = defaultIndex;
-                }
-            } else {
-                // Find specific device by actual device name
-                newIndex = m_actualDeviceList.indexOf(currentDeviceName);
-            }
-
-            // If not found in normal list, check for "(Not working)" variants
+            
+            // First try to find in normal items
+            newIndex = findDeviceIndexByName(currentDeviceName, ItemStatus::Normal);
+            
+            // If not found, try to find in NotWorking items
             if (newIndex == -1) {
-                QString notWorkingDisplayName = currentDeviceName.isEmpty() ? tr("Default device") + " " + tr("(Not working)") : currentDeviceName + " " + tr("(Not working)");
-                newIndex = m_deviceList.indexOf(notWorkingDisplayName);
+                newIndex = findDeviceIndexByName(currentDeviceName, ItemStatus::NotWorking);
             }
         }
 
         if (newIndex == -1) {
-            // If current device not found, select "(Not working)" option
-            int notWorkingIndex = m_deviceList.indexOf(tr("(Not working)"));
-            newIndex = notWorkingIndex != -1 ? notWorkingIndex : 0;
+            // If current device not found, find first empty name item
+            for (int i = 0; i < m_deviceItems.size(); ++i) {
+                if (m_deviceItems[i].name.isEmpty()) {
+                    newIndex = i;
+                    break;
+                }
+            }
+            if (newIndex == -1) {
+                newIndex = 0;
+            }
         }
 
         if (m_deviceCurrentIndex != newIndex) {
@@ -254,17 +302,12 @@ namespace Audio::Internal {
         }
     }
 
-    // Get actual device name based on index
-    QString AudioOutputSettingsHelper::getActualDeviceName(int index) const {
-        if (index < 0 || index >= m_actualDeviceList.size()) {
-            return QString();
-        }
-
-        return m_actualDeviceList[index];
-    }
-
     QStringList AudioOutputSettingsHelper::deviceList() const {
-        return m_deviceList;
+        QStringList list;
+        for (const auto &item : m_deviceItems) {
+            list.append(item.generateDisplayName());
+        }
+        return list;
     }
 
     int AudioOutputSettingsHelper::deviceCurrentIndex() const {
@@ -272,43 +315,41 @@ namespace Audio::Internal {
     }
 
     void AudioOutputSettingsHelper::setDeviceCurrentIndex(int index) {
-        if (m_deviceCurrentIndex == index || index < 0 || index >= m_deviceList.size()) {
+        if (m_deviceCurrentIndex == index || index < 0 || index >= m_deviceItems.size()) {
             return;
         }
 
-        QString deviceName = getActualDeviceName(index);
-        QString displayName = m_deviceList[index];
+        const auto &item = m_deviceItems[index];
 
-        // Return directly if "(Not working)" option is selected
-        if (displayName == tr("(Not working)") || displayName.contains(tr("(Not working)"))) {
+        // Return directly if selecting a NotWorking item
+        if (item.status == ItemStatus::NotWorking) {
+            emit deviceCurrentIndexChanged();
             return;
         }
 
         // Try to set device
-        if (!m_outputSystem->setDevice(deviceName)) {
+        if (!m_outputSystem->setDevice(item.name)) {
             // Setting failed, emit error signal
-            QString errorMessage = deviceName.isEmpty() ? tr("Audio device %1 is not available").arg(tr("Default device")) : tr("Audio device %1 is not available").arg(deviceName);
+            QString errorMessage = item.name.isEmpty() 
+                ? tr("Audio device %1 is not available").arg(tr("Default device"))
+                : tr("Audio device %1 is not available").arg(item.name);
             emit deviceError(errorMessage);
 
             // Keep current index unchanged
+            emit deviceCurrentIndexChanged();
             return;
         }
 
-        // Setting succeeded, remove any "(Not working)" options
-        for (int i = m_deviceList.size() - 1; i >= 0; i--) {
-            if (m_deviceList[i] == tr("(Not working)") ||
-                m_deviceList[i].contains(tr("(Not working)"))) {
-                m_deviceList.removeAt(i);
-                m_actualDeviceList.removeAt(i);
-                if (i < index) {
-                    index--; // Adjust index
-                }
-            }
-        }
+        // Setting succeeded, remove any NotWorking items
+        removeNotWorkingDeviceItems();
 
-        m_deviceCurrentIndex = index;
-        emit deviceCurrentIndexChanged();
-        emit deviceListChanged();
+        // Adjust index after removal
+        int newIndex = findDeviceIndexByName(item.name, ItemStatus::Normal);
+        if (newIndex != -1) {
+            m_deviceCurrentIndex = newIndex;
+            emit deviceCurrentIndexChanged();
+            emit deviceListChanged();
+        }
 
         // Device change will automatically trigger deviceChanged signal, which updates sample rate and buffer size lists
     }
@@ -333,8 +374,8 @@ namespace Audio::Internal {
             m_sampleRateList.append(locale.toString(rate));
         }
 
-        findSampleRateIndex();
         emit sampleRateListChanged();
+        findSampleRateIndex();
     }
 
     // Find current sample rate index
@@ -382,8 +423,8 @@ namespace Audio::Internal {
             m_bufferSizeList.append(locale.toString(size));
         }
 
-        findBufferSizeIndex();
         emit bufferSizeListChanged();
+        findBufferSizeIndex();
     }
 
     // Find current buffer size index
@@ -496,6 +537,7 @@ namespace Audio::Internal {
     }
 
     void AudioOutputSettingsHelper::testDevice() {
+        m_outputSystem->playTestSound();
     }
 
     void AudioOutputSettingsHelper::openControlPanel() {
@@ -521,6 +563,92 @@ namespace Audio::Internal {
     void AudioOutputSettingsHelper::onSampleRateChanged(double sampleRate) {
         Q_UNUSED(sampleRate) // Don't use parameter, directly re-find index
         findSampleRateIndex();
+    }
+
+    double AudioOutputSettingsHelper::deviceGain() const {
+        auto outputContext = m_outputSystem->outputContext();
+        if (!outputContext || !outputContext->controlMixer()) {
+            return 1.0;
+        }
+        return static_cast<double>(outputContext->controlMixer()->gain());
+    }
+
+    void AudioOutputSettingsHelper::setDeviceGain(double gain) {
+        auto outputContext = m_outputSystem->outputContext();
+        if (!outputContext || !outputContext->controlMixer()) {
+            return;
+        }
+        
+        if (qFuzzyCompare(outputContext->controlMixer()->gain(), static_cast<float>(gain))) {
+            return;
+        }
+        
+        outputContext->controlMixer()->setGain(static_cast<float>(gain));
+        emit deviceGainChanged();
+    }
+
+    double AudioOutputSettingsHelper::devicePan() const {
+        auto outputContext = m_outputSystem->outputContext();
+        if (!outputContext || !outputContext->controlMixer()) {
+            return 0.0;
+        }
+        return static_cast<double>(outputContext->controlMixer()->pan());
+    }
+
+    void AudioOutputSettingsHelper::setDevicePan(double pan) {
+        auto outputContext = m_outputSystem->outputContext();
+        if (!outputContext || !outputContext->controlMixer()) {
+            return;
+        }
+        
+        if (qFuzzyCompare(outputContext->controlMixer()->pan(), static_cast<float>(pan))) {
+            return;
+        }
+        
+        outputContext->controlMixer()->setPan(static_cast<float>(pan));
+        emit devicePanChanged();
+    }
+
+    // Helper method: Find driver index by name
+    int AudioOutputSettingsHelper::findDriverIndexByName(const QString &driverName, ItemStatus status) const {
+        for (int i = 0; i < m_driverItems.size(); ++i) {
+            if (m_driverItems[i].name == driverName && m_driverItems[i].status == status) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Helper method: Find device index by name
+    int AudioOutputSettingsHelper::findDeviceIndexByName(const QString &deviceName, ItemStatus status) const {
+        for (int i = 0; i < m_deviceItems.size(); ++i) {
+            if (m_deviceItems[i].name == deviceName && m_deviceItems[i].status == status) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Helper method: Remove NotWorking driver items
+    void AudioOutputSettingsHelper::removeNotWorkingDriverItems() {
+        m_driverItems.erase(
+            std::remove_if(m_driverItems.begin(), m_driverItems.end(),
+                [](const DriverItem &item) {
+                    return item.status == ItemStatus::NotWorking;
+                }),
+            m_driverItems.end()
+        );
+    }
+
+    // Helper method: Remove NotWorking device items
+    void AudioOutputSettingsHelper::removeNotWorkingDeviceItems() {
+        m_deviceItems.erase(
+            std::remove_if(m_deviceItems.begin(), m_deviceItems.end(),
+                [](const DeviceItem &item) {
+                    return item.status == ItemStatus::NotWorking;
+                }),
+            m_deviceItems.end()
+        );
     }
 
 }

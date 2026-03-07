@@ -9,11 +9,13 @@
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioDriver.h>
 
+#include <audio/internal/DeviceTester.h>
+
 namespace Audio::Internal {
 
     Q_LOGGING_CATEGORY(audioOutputSystem, "diffscope.audio.outputSystem")
 
-    OutputSystem::OutputSystem(QObject *parent) : QObject(parent), m_outputContext(new talcs::OutputContext) {
+    OutputSystem::OutputSystem(QObject *parent) : QObject(parent), m_outputContext(new talcs::OutputContext), m_deviceTester(new DeviceTester) {
     }
 
     OutputSystem::~OutputSystem() = default;
@@ -27,6 +29,8 @@ namespace Audio::Internal {
         m_outputContext->controlMixer()->setPan(static_cast<float>(m_devicePan));
         m_outputContext->setHotPlugNotificationMode(m_hotPlugNotificationMode);
         // setFileBufferingReadAheadSize(AudioSettings::fileBufferingReadAheadSize());
+
+        m_outputContext->preMixer()->addSource(m_deviceTester.get());
 
         if (m_outputContext->initialize(m_driverName, m_deviceName)) {
             qCInfo(audioOutputSystem) << "Audio device initialized";
@@ -42,7 +46,7 @@ namespace Audio::Internal {
         return m_outputContext.get();
     }
     bool OutputSystem::setDriver(const QString &driverName) {
-        if (m_outputContext->setDriver(driverName)) {
+        if (m_outputContext->setDriver(driverName, talcs::OutputContext::DO_UsePreferredSpec)) {
             postSetDevice();
             qCInfo(audioOutputSystem) << "Audio driver changed";
             logOutputInfo();
@@ -54,7 +58,7 @@ namespace Audio::Internal {
         }
     }
     bool OutputSystem::setDevice(const QString &deviceName) {
-        if (m_outputContext->setDevice(deviceName)) {
+        if (m_outputContext->setDevice(deviceName, talcs::OutputContext::DO_UsePreferredSpec)) {
             postSetDevice();
             qCInfo(audioOutputSystem) << "Device changed";
             logOutputInfo();
@@ -105,6 +109,10 @@ namespace Audio::Internal {
 
     bool OutputSystem::isReady() const {
         return m_outputContext->device() && m_outputContext->device()->isOpen();
+    }
+
+    void OutputSystem::playTestSound() {
+        m_deviceTester->playTestSound();
     }
 
     void OutputSystem::load() {

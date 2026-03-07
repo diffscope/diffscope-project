@@ -24,6 +24,13 @@ ScrollView {
         }
     }
 
+    Connections {
+        target: page.helper
+        function onDeviceError(message) {
+            page.MessageBox.critical(qsTr("Audio device error"), message)
+        }
+    }
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
@@ -114,29 +121,70 @@ ScrollView {
                     anchors.fill: parent
                     columns: 2
                     Label {
-                        text: qsTr("Device gain")
+                        text: qsTr("Device gain (dB)")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         Slider {
                             Layout.fillWidth: true
+                            from: SVS.decibelToLinearValue(-96)
+                            to: SVS.decibelToLinearValue(6)
+                            value: SVS.decibelToLinearValue(SVS.gainToDecibels(page.helper?.deviceGain ?? 1))
+                            onMoved: page.helper.deviceGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
+                            ThemedItem.onDoubleClickReset: moved()
                         }
                         SpinBox {
+                            id: gainSpinBox
+                            property int decimals: 1
+                            property real realValue: value / decimalFactor
+                            readonly property int decimalFactor: Math.pow(10, decimals)
 
+                            function decimalToInt(decimal) {
+                                return decimal * decimalFactor
+                            }
+
+                            validator: DoubleValidator {
+                                bottom: Math.min(gainSpinBox.from, gainSpinBox.to)
+                                top:  Math.max(gainSpinBox.from, gainSpinBox.to)
+                                decimals: gainSpinBox.decimals
+                                notation: DoubleValidator.StandardNotation
+                            }
+
+                            textFromValue: function(value, locale) {
+                                return Number(value / decimalFactor).toLocaleString(locale, 'f', decimals)
+                            }
+
+                            valueFromText: function(text, locale) {
+                                return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
+                            }
+
+                            from: decimalToInt(-96)
+                            to: decimalToInt(6)
+                            value: decimalToInt(SVS.gainToDecibels(page.helper?.deviceGain ?? 1))
+
+                            onValueModified: page.helper.deviceGain = SVS.decibelsToGain(realValue)
                         }
                     }
                     Label {
-                        text: qsTr("Device pan")
+                        text: qsTr("Device pan (%)")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         Slider {
                             Layout.fillWidth: true
+                            from: -1
+                            to: 1
+                            value: page.helper?.devicePan ?? 0
+                            onMoved: page.helper.devicePan = value
+                            ThemedItem.onDoubleClickReset: moved()
                         }
                         SpinBox {
-
+                            from: -100
+                            to: 100
+                            value: Math.round((page.helper?.devicePan ?? 0) * 100)
+                            onValueModified: page.helper.devicePan = value / 100
                         }
                     }
                 }

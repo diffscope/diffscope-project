@@ -8,6 +8,25 @@
 
 namespace Audio::Internal {
 
+    enum class ItemStatus {
+        Normal,      // 正常可用的条目
+        NotWorking   // 不可用的条目（用于标记当前选中但不在可用列表中的项）
+    };
+
+    struct DriverItem {
+        QString name;        // 实际驱动名称（空字符串表示无可用驱动）
+        ItemStatus status;   // 条目状态
+
+        QString generateDisplayName() const;
+    };
+
+    struct DeviceItem {
+        QString name;        // 实际设备名称（空字符串表示默认设备）
+        ItemStatus status;   // 条目状态
+
+        QString generateDisplayName() const;
+    };
+
     class AudioOutputSettingsHelper : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -20,6 +39,8 @@ namespace Audio::Internal {
         Q_PROPERTY(int sampleRateCurrentIndex READ sampleRateCurrentIndex WRITE setSampleRateCurrentIndex NOTIFY sampleRateCurrentIndexChanged)
         Q_PROPERTY(QStringList bufferSizeList READ bufferSizeList NOTIFY bufferSizeListChanged)
         Q_PROPERTY(int bufferSizeCurrentIndex READ bufferSizeCurrentIndex WRITE setBufferSizeCurrentIndex NOTIFY bufferSizeCurrentIndexChanged)
+        Q_PROPERTY(double deviceGain READ deviceGain WRITE setDeviceGain NOTIFY deviceGainChanged)
+        Q_PROPERTY(double devicePan READ devicePan WRITE setDevicePan NOTIFY devicePanChanged)
 
     public:
         explicit AudioOutputSettingsHelper(QObject *parent = nullptr);
@@ -45,6 +66,12 @@ namespace Audio::Internal {
         int bufferSizeCurrentIndex() const;
         void setBufferSizeCurrentIndex(int index);
 
+        double deviceGain() const;
+        void setDeviceGain(double gain);
+
+        double devicePan() const;
+        void setDevicePan(double pan);
+
         Q_INVOKABLE void testDevice();
         Q_INVOKABLE static void openControlPanel();
 
@@ -56,6 +83,8 @@ namespace Audio::Internal {
         void sampleRateCurrentIndexChanged();
         void bufferSizeListChanged();
         void bufferSizeCurrentIndexChanged();
+        void deviceGainChanged();
+        void devicePanChanged();
         void deviceError(const QString &message);
 
     private Q_SLOTS:
@@ -77,10 +106,15 @@ namespace Audio::Internal {
 
         QString getActualDeviceName(int index) const;
 
-        QStringList m_driverList;
+        // Helper methods for structured lists
+        int findDriverIndexByName(const QString &driverName, ItemStatus status = ItemStatus::Normal) const;
+        int findDeviceIndexByName(const QString &deviceName, ItemStatus status = ItemStatus::Normal) const;
+        void removeNotWorkingDriverItems();
+        void removeNotWorkingDeviceItems();
+
+        QList<DriverItem> m_driverItems;
         int m_driverCurrentIndex;
-        QStringList m_deviceList;
-        QStringList m_actualDeviceList; // Store actual device names corresponding to display names
+        QList<DeviceItem> m_deviceItems;
         int m_deviceCurrentIndex;
         QStringList m_sampleRateList;
         int m_sampleRateCurrentIndex;
