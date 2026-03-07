@@ -42,7 +42,7 @@ Item {
             }
             TextField {
                 id: searchTextField
-                ThemedItem.icon.source: "image://fluent-system-icon/search"
+                ThemedItem.icon.source: "image://fluent-system-icons/search"
                 placeholderText: qsTr("Search")
                 Layout.fillWidth: true
             }
@@ -65,7 +65,7 @@ Item {
         id: toolActionsModel
         Menu {
             title: qsTr("Add")
-            icon.source: "image://fluent-system-icon/add_circle"
+            icon.source: "image://fluent-system-icons/add_circle"
             Action {
                 text: qsTr("Add Action or Menu...")
             }
