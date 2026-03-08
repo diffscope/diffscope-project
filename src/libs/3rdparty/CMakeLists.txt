@@ -32,3 +32,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/qactionkit/src/QActionKitMacros.cmake")
 add_subdirectory(talcs)
 
 add_subdirectory(opendspx)
+
+if(WIN32)
+    add_subdirectory(QtWin32DirectManipulateHelper)
+endif()

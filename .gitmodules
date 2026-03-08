@@ -29,3 +29,7 @@
 [submodule "opendspx"]
 	path = src/libs/3rdparty/opendspx
 	url = ../../diffscope/opendspx.git
+
+[submodule "QtWin32DirectManipulateHelper"]
+	path = src/libs/3rdparty/QtWin32DirectManipulateHelper
+	url = ../../CrSjimo/QtWin32DirectManipulateHelper.git
