@@ -24,7 +24,7 @@ Frame {
         property list<string> candidatePronunciations: []
         Accessible.role: Accessible.Cell
         Accessible.name: lyric
-        Accessible.description: qsTr("Current pronunciation is %1. Candidate pronunciations are %2. Activate to modify pronunciation.").replace("%1", pronunciation).replace("%2", candidatePronunciations.join(" "))
+        Accessible.description: qsTr("Current pronunciation is %1. Candidate pronunciations are %2. Activate to modify pronunciation.").arg(pronunciation).arg(candidatePronunciations.join(" "))
         Accessible.checkable: true
         Accessible.checked: highlighted
         spacing: 1
@@ -57,7 +57,7 @@ Frame {
                     Accessible.ignored: true
                     Layout.minimumWidth: 200
                     Layout.fillWidth: true
-                    text: qsTr('Customize pronunciation of "%1"').replace("%1", cell.lyric)
+                    text: qsTr('Customize pronunciation of "%1"').arg(cell.lyric)
                 }
                 TextField {
                     id: customizePronunciationEdit
@@ -262,7 +262,7 @@ Frame {
                         Flow {
                             id: lyricRowFlow
                             Accessible.role: Accessible.Row
-                            Accessible.name: qsTr("Lyrics Line %1").replace("%1", (lyricRow.index + 1).toLocaleString())
+                            Accessible.name: qsTr("Lyrics Line %1").arg((lyricRow.index + 1).toLocaleString())
                             Layout.topMargin: 8
                             Layout.bottomMargin: 8
                             Layout.alignment: Qt.AlignVCenter

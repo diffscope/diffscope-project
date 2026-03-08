@@ -1,1 +1,0 @@
-magick convert .\src\app\icons\app\16x16.png .\src\app\icons\app\24x24.png .\src\app\icons\app\32x32.png .\src\app\icons\app\48x48.png .\src\app\icons\app\64x64.png .\src\app\icons\app\96x96.png .\src\app\icons\app\128x128.png .\src\app\icons\app\256x256.png .\src\app\app.ico

@@ -16,7 +16,7 @@ ActionCollection {
     required property WelcomeWizardAddOn addOn
 
     ActionItem {
-        actionId: "welcomeWizard.welcomeWizard"
+        actionId: "org.diffscope.welcomewizard.welcomeWizard"
         Action {
             onTriggered: () => {
                 Qt.callLater(() => d.addOn.execWelcomeWizard())

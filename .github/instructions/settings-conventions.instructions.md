@@ -6,16 +6,16 @@ This document outlines the conventions for using QSettings in the DiffScope proj
 
 ### C++ Settings Access
 
-Use `PluginDatabase` to access QSettings instances:
+Use `RuntimeInterface` to access QSettings instances:
 
 ```cpp
-#include <coreplugin/plugindatabase.h>
+#include <coreplugin/runtimeinterface.h>
 
 // User-scoped settings (stored per user)
-QSettings *userSettings = Core::PluginDatabase::settings();
+QSettings *userSettings = Core::RuntimeInterface::settings();
 
 // Global settings (system-wide)
-QSettings *globalSettings = Core::PluginDatabase::globalSettings();
+QSettings *globalSettings = Core::RuntimeInterface::globalSettings();
 ```
 
 ### Settings Groups
@@ -27,14 +27,14 @@ When reading or writing settings, always use groups to organize settings by clas
 class ProjectWindowWorkspaceManager : public QObject {
 private:
     void saveSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("ProjectWindowWorkspaceManager");
         settings->setValue("currentLayout", m_currentLayout.toVariant());
         settings->endGroup();
     }
     
     void loadSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("ProjectWindowWorkspaceManager");
         auto layout = settings->value("currentLayout").toMap();
         settings->endGroup();
@@ -71,7 +71,7 @@ import SVSCraft.Extras
 Item {
     Settings {
         id: settings
-        settings: ICore.settings  // or ICore.globalSettings
+        settings: CoreInterface.settings  // or CoreInterface.globalSettings
         category: "DiffScope.CorePlugin.MyComponent"
         
         property alias windowWidth: root.width
@@ -94,7 +94,7 @@ Item {
 
 The `Settings` component requires:
 
-- **settings**: A QSettings object (from `ICore.settings` or `ICore.globalSettings`)
+- **settings**: A QSettings object (from `CoreInterface.settings` or `CoreInterface.globalSettings`)
 - **category**: Optional group name (equivalent to C++ `beginGroup()`/`endGroup()`)
 
 ### Property Synchronization
@@ -104,7 +104,7 @@ Settings synchronization is achieved through property aliases:
 ```qml
 Settings {
     id: settings
-    settings: ICore.settings
+    settings: CoreInterface.settings
     category: "MyWindow"
     
     // These aliases automatically sync with QSettings
@@ -125,8 +125,8 @@ Window {
 
 ### 1. Use Appropriate Scope
 
-- **User Settings**: Use `PluginDatabase::settings()` for user preferences, window states, recent files, etc.
-- **Global Settings**: Use `PluginDatabase::globalSettings()` for system-wide configuration that affects all users
+- **User Settings**: Use `RuntimeInterface::settings()` for user preferences, window states, recent files, etc.
+- **Global Settings**: Use `RuntimeInterface::globalSettings()` for system-wide configuration that affects all users
 
 ### 2. Group Organization
 
@@ -187,7 +187,7 @@ void MyWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MyWindow::saveGeometry() {
-    auto settings = Core::PluginDatabase::settings();
+    auto settings = Core::RuntimeInterface::settings();
     settings->beginGroup("MyWindow");
     settings->setValue("geometry", geometry());
     settings->setValue("isMaximized", isMaximized());
@@ -203,7 +203,7 @@ void MyWindow::saveGeometry() {
 class MyWindow : public QMainWindow {
 private:
     void saveSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("MyWindow");
         settings->setValue("geometry", saveGeometry());
         settings->setValue("windowState", saveState());
@@ -211,7 +211,7 @@ private:
     }
     
     void restoreSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("MyWindow");
         restoreGeometry(settings->value("geometry").toByteArray());
         restoreState(settings->value("windowState").toByteArray());
@@ -229,7 +229,7 @@ ApplicationWindow {
     id: window
     
     Settings {
-        settings: ICore.settings
+        settings: CoreInterface.settings
         category: "MainWindow"
         
         property alias x: window.x
@@ -247,7 +247,7 @@ ApplicationWindow {
 class MyPlugin : public ExtensionSystem::IPlugin {
 private:
     void loadSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("MyPlugin");
         m_enabled = settings->value("enabled", true).toBool();
         m_configPath = settings->value("configPath", QString()).toString();
@@ -255,7 +255,7 @@ private:
     }
     
     void saveSettings() {
-        auto settings = Core::PluginDatabase::settings();
+        auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup("MyPlugin");
         settings->setValue("enabled", m_enabled);
         settings->setValue("configPath", m_configPath);

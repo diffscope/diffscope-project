@@ -3,34 +3,53 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
 #include <QtCore/QLoggingCategory>
+#include <QtCore/QRegularExpression>
+#include <QtGui/QWindow>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QStyleFactory>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlComponent>
+#include <QtQuickControls2/QQuickStyle>
 
 #include <CkLoader/loaderspec.h>
 #include <CoreApi/applicationinfo.h>
-#include <CoreApi/plugindatabase.h>
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/logger.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginmanager.h>
+#include <extensionsystem/pluginspec.h>
 
 #include <qjsonsettings.h>
+
+#include <SVSCraftFluentSystemIcons/FluentSystemIconsImageProvider.h>
 
 #include <loadapi/initroutine.h>
 
 #include <application_config.h>
+#include <application_buildinfo.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
 #  include <QBreakpadHandler.h>
 #endif
 
-using Core::ApplicationInfo;
+using namespace Core;
 
 static QSettings::Format getJsonSettingsFormat() {
     static auto format = QJsonSettings::registerFormat();
     return format;
 }
 
+static QQmlEngine *engine{};
+
+static constexpr char kNoWarningLastInitialization[] = "--no-warning-last-initialization";
+
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
-    MyLoaderSpec(QQmlEngine *engine) : engine(engine) {
+    MyLoaderSpec() {
         userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
         systemSettingsPath =
             ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
@@ -43,6 +62,12 @@ public:
         splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +
                            QStringLiteral("/config.json");
         pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
+        coreName = QStringLiteral("org.diffscope.core");
+        extraArguments << Argument{
+            {kNoWarningLastInitialization},
+            {},
+            QStringLiteral("Suppress warning about 'Last initialization was aborted abnormally'")
+        };
     }
 
     QSettings *createExtensionSystemSettings(QSettings::Scope scope) override {
@@ -64,10 +89,67 @@ public:
         // Do nothing
     }
 
+    void splashShown(QSplashScreen *screen) override {
+        QMetaObject::invokeMethod(screen, "setText", QStringLiteral("appVersion"), QApplication::translate("Application", "Version %1").arg(APPLICATION_SEMVER));
+        QMetaObject::invokeMethod(screen, "setText", QStringLiteral("copyright"), QApplication::translate("Application", "Copyright \u00a9 %1-%2 %3. All rights reserved.").arg(
+            QLocale().toString(QDate(QStringLiteral(APPLICATION_DEV_START_YEAR).toInt(), 1, 1), "yyyy"),
+            QLocale().toString(QDate(QStringLiteral(APPLICATION_BUILD_YEAR).toInt(), 1, 1), "yyyy"),
+            APPLICATION_VENDOR_NAME
+        ));
+    }
+
     void beforeLoadPlugins() override {
-        // Restore language and themes
-        // Core::InitRoutine::initializeAppearance(ExtensionSystem::PluginManager::settings());
-        Core::PluginDatabase::setQmlEngine(engine);
+        RuntimeInterface::setQmlEngine(engine);
+        SVS::FluentSystemIconsImageProvider::addToEngine(engine);
+        auto settings = RuntimeInterface::settings();
+
+        QLocale locale;
+
+        settings->beginGroup("Core::Internal::BehaviorPreference");
+        if (settings->value("useSystemLanguage", true).toBool()) {
+            locale = QLocale::system();
+        } else {
+            locale = QLocale(settings->value("localeName", QLocale().name()).toString());
+        }
+        settings->endGroup();
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        RuntimeInterface::setTranslationManager(new TranslationManager(RuntimeInterface::instance()));
+        RuntimeInterface::translationManager()->setLocale(locale);
+        auto translationBaseDir =
+#ifdef Q_OS_MAC
+            ApplicationInfo::systemLocation(ApplicationInfo::Resources) + QStringLiteral("/share");
+#else
+            ApplicationInfo::systemLocation(ApplicationInfo::Resources);
+#endif
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/ChorusKit/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/svscraft/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
+
+        for (auto pluginSpec : ExtensionSystem::PluginManager::plugins()) {
+            static QRegularExpression rx("^([a-z_][a-z0-9_]*)(\\.[a-z_][a-z0-9_]*)+$");
+            if (!rx.match(pluginSpec->name()).hasMatch()) {
+                qFatal() << "Refused to load due to an invalid plugin name:" << pluginSpec->name() << "Plugin name should match" << rx.pattern();
+            }
+        }
+
+        bool lastInitializationWarningSuppressed = QApplication::arguments().contains(kNoWarningLastInitialization);
+        if (settings->value("lastInitializationAbortedFlag").toBool() && !lastInitializationWarningSuppressed) {
+            qInfo() << "Last initialization was aborted abnormally";
+            QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
+            std::unique_ptr<QObject> dialog(component.isError() ? nullptr : component.createWithInitialProperties({
+                {"logsPath", Logger::logsLocation()}
+            }));
+            if (!dialog) {
+                qFatal() << "Failed to load InitializationFailureWarningDialog" << component.errorString();
+            }
+            QEventLoop eventLoop;
+            QObject::connect(dialog.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
+            auto win = qobject_cast<QWindow *>(dialog.get());
+            Q_ASSERT(win);
+            win->show();
+            eventLoop.exec();
+        }
+        settings->setValue("lastInitializationAbortedFlag", true);
     }
 
     void afterLoadPlugins() override {
@@ -76,7 +158,6 @@ public:
 
     QString userSettingsPath;
     QString systemSettingsPath;
-    QQmlEngine *engine;
 };
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
@@ -103,11 +184,13 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
     a.setApplicationName(QStringLiteral(APPLICATION_NAME));
-    a.setApplicationVersion(QStringLiteral(APPLICATION_VERSION));
+    a.setApplicationDisplayName(QStringLiteral(APPLICATION_DISPLAY_NAME));
+    a.setApplicationVersion(QStringLiteral(APPLICATION_SEMVER));
     a.setOrganizationName(QStringLiteral(APPLICATION_ORG_NAME));
     a.setOrganizationDomain(QStringLiteral(APPLICATION_ORG_DOMAIN));
 
-    QQmlEngine engine;
+    QQmlEngine m_engine;
+    engine = &m_engine;
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
@@ -122,5 +205,17 @@ int main(int argc, char *argv[]) {
     // Don't show plugin manager debug info
     QLoggingCategory::setFilterRules(QLatin1String("qtc.*.debug=false"));
 
-    return MyLoaderSpec(&engine).run();
+    QQuickStyle::setStyle("SVSCraft.UIComponents");
+    QQuickStyle::setFallbackStyle("Basic");
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
+    // Check QML import
+    {
+        QQmlComponent component(engine, "DiffScope.UIShell", "ProjectWindow");
+        if (component.isError()) {
+            qFatal().nospace() << "QML Import Check Failed: " << component.errorString() << "\n\n" << "Note for developers: If you encounter this error when running after building DiffScope, please check:\n- Whether all targets have been built\n- Whether the correct QML_IMPORT_PATH environment variable was specified at runtime (it may need to be set to `../qml`)";
+        }
+    }
+
+    return MyLoaderSpec().run();
 }

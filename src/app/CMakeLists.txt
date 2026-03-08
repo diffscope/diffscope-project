@@ -1,6 +1,35 @@
+add_subdirectory(icons)
+
+set(_ico_args)
+set(_icns_args)
+
+if(WIN32)
+    list(APPEND _ico_path
+        ${CMAKE_CURRENT_BINARY_DIR}/icons/app.ico
+        ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.ico
+    )
+    set(_filtered_ico_path "")
+    foreach(_file IN LISTS _ico_path)
+        if(EXISTS ${_file})
+            list(APPEND _filtered_ico_path ${_file})
+        endif()
+    endforeach()
+    set(_ico_args ICO ${_filtered_ico_path})
+endif()
+
+if(APPLE)
+    set(_icns_path ${CMAKE_CURRENT_BINARY_DIR}/icons/app.icns)
+    if(EXISTS ${_icns_path})
+        set(_icns_args ICNS ${_icns_path})
+    endif()
+endif()
+
+
+
 ck_configure_application(
-    ICO app.ico
-    ICNS app.icns
+    ${_ico_args}
+    ${_icns_args}
+    INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/info.plist.in
 )
 
 qm_configure_target(${PROJECT_NAME}
@@ -12,6 +41,7 @@ qm_configure_target(${PROJECT_NAME}
         ChorusKit::AppCore
         qjsonsettings
         loadapi
+        uishell
     INCLUDE_PRIVATE
         ${CK_BUILD_INCLUDE_DIR}
 )
@@ -41,7 +71,14 @@ ck_add_shared_files(
     # SRC conf/${CK_PLATFORM_LOWER}/qtmediate.json DEST ${CK_BUILD_QT_CONF_DIR}   # qtmediate.json
 )
 
+if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns)
+    ck_add_shared_files(
+        SRC ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns DEST ${CK_BUILD_DATA_DIR}
+    )
+endif()
+
 file(GLOB _icons icons/*)
+list(FILTER _icons EXCLUDE REGEX CMakeLists.txt)
 
 qt_add_resources(${PROJECT_NAME} icons
     PREFIX /diffscope/icons

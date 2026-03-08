@@ -27,6 +27,7 @@ T.Button {
         text: control.text
         anchors.centerIn: parent
         color: Theme.foregroundPrimaryColor
+        font.family: Theme.font.family
         font.pixelSize: 16
     }
 }

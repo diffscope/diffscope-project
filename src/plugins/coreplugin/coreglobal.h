@@ -4,9 +4,9 @@
 #include <QtCore/QtGlobal>
 
 #if defined(CORE_LIBRARY)
-#  define CORE_EXPORT Q_DECL_EXPORT
+#    define CORE_EXPORT Q_DECL_EXPORT
 #else
-#  define CORE_EXPORT Q_DECL_IMPORT
+#    define CORE_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // DIFFSCOPE_COREPLUGIN_COREGLOBAL_H

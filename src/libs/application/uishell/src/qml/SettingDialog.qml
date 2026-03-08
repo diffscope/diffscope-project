@@ -101,7 +101,9 @@ Window {
                 y: (parent.height - height) / 2
                 width: 12
                 height: 12
-                source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronRight12Filled.svg"
+                sourceSize.width: 12
+                sourceSize.height: 12
+                source: "image://fluent-system-icons/chevron_right?size=12"
                 color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
                        control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
                        control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
@@ -210,13 +212,12 @@ Window {
             return mapFromSource(sourceModel.indexForPageId(id))
         }
     }
-    Rectangle {
+    Item {
         anchors.fill: parent
-        color: Theme.backgroundQuaternaryColor
         Keys.onEscapePressed: dialog.close()
         ColumnLayout {
             anchors.fill: parent
-            spacing: 1
+            spacing: 0
             SplitView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -233,7 +234,7 @@ Window {
                             Layout.margins: 8
                             placeholderText: qsTr("Search")
                             Accessible.name: qsTr("Search")
-                            ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                            ThemedItem.icon.source: "image://fluent-system-icons/search"
                         }
                         Label {
                             id: noResultFoundLabel
@@ -272,7 +273,6 @@ Window {
                         id: defaultSettingPageWidget
                         anchors.fill: parent
                         anchors.margins: 12
-                        anchors.topMargin: 0
                         property list<QtObject> model: []
                         ColumnLayout {
                             spacing: 4
@@ -396,7 +396,9 @@ Window {
                                             height: 12
                                             width: 12
                                             color: Theme.foregroundPrimaryColor
-                                            source: "qrc:/qt/qml/DiffScope/UIShell/assets/ChevronRight12Filled.svg"
+                                            sourceSize.width: 12
+                                            sourceSize.height: 12
+                                            source: "image://fluent-system-icons/chevron_right?size=12"
                                             visible: index !== breadcrumbRepeater.count - 1
                                             Layout.alignment: Qt.AlignVCenter
                                         }
@@ -423,6 +425,11 @@ Window {
                 }
             }
             Rectangle {
+                color: Theme.paneSeparatorColor
+                implicitHeight: 1
+                Layout.fillWidth: true
+            }
+            Rectangle {
                 color: Theme.backgroundSecondaryColor
                 Layout.fillWidth: true
                 height: 60
@@ -433,7 +440,7 @@ Window {
                     closable: true
                     timeout: 3000
                     title: qsTr("Cannot Apply Settings")
-                    content: qsTr('Failed to apply "%1"').replace("%1", page?.title)
+                    content: qsTr('Failed to apply "%1"').arg(page?.title)
                     x: mirrored ? 6 : parent.width - width - 6
                     y: -height - 6
                 }

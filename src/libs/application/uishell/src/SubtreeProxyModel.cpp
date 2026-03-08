@@ -46,7 +46,7 @@ namespace UIShell {
         QList<int> pathFromRoot;
         QModelIndex sourceParent = m_rootIndex;
         if (parent.isValid()) {
-            SubtreeProxyItemData *parentData = static_cast<SubtreeProxyItemData*>(parent.internalPointer());
+            SubtreeProxyItemData *parentData = static_cast<SubtreeProxyItemData *>(parent.internalPointer());
             if (parentData) {
                 pathFromRoot = parentData->pathFromRoot;
                 pathFromRoot.append(parent.row());
@@ -73,7 +73,7 @@ namespace UIShell {
         if (!sourceModel() || !child.isValid() || !m_rootIndex.isValid()) {
             return QModelIndex();
         }
-        SubtreeProxyItemData *itemData = static_cast<SubtreeProxyItemData*>(child.internalPointer());
+        SubtreeProxyItemData *itemData = static_cast<SubtreeProxyItemData *>(child.internalPointer());
         if (!itemData || itemData->pathFromRoot.isEmpty()) {
             return QModelIndex();
         }
@@ -163,18 +163,12 @@ namespace UIShell {
         }
         QAbstractProxyModel::setSourceModel(sourceModel);
         if (sourceModel) {
-            connect(sourceModel, &QAbstractItemModel::dataChanged,
-                    this, &SubtreeProxyModel::sourceDataChanged);
-            connect(sourceModel, &QAbstractItemModel::rowsAboutToBeInserted,
-                    this, &SubtreeProxyModel::sourceRowsAboutToBeInserted);
-            connect(sourceModel, &QAbstractItemModel::rowsInserted,
-                    this, &SubtreeProxyModel::sourceRowsInserted);
-            connect(sourceModel, &QAbstractItemModel::rowsAboutToBeRemoved,
-                    this, &SubtreeProxyModel::sourceRowsAboutToBeRemoved);
-            connect(sourceModel, &QAbstractItemModel::rowsRemoved,
-                    this, &SubtreeProxyModel::sourceRowsRemoved);
-            connect(sourceModel, &QAbstractItemModel::modelReset,
-                    this, &SubtreeProxyModel::sourceModelReset);
+            connect(sourceModel, &QAbstractItemModel::dataChanged, this, &SubtreeProxyModel::sourceDataChanged);
+            connect(sourceModel, &QAbstractItemModel::rowsAboutToBeInserted, this, &SubtreeProxyModel::sourceRowsAboutToBeInserted);
+            connect(sourceModel, &QAbstractItemModel::rowsInserted, this, &SubtreeProxyModel::sourceRowsInserted);
+            connect(sourceModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &SubtreeProxyModel::sourceRowsAboutToBeRemoved);
+            connect(sourceModel, &QAbstractItemModel::rowsRemoved, this, &SubtreeProxyModel::sourceRowsRemoved);
+            connect(sourceModel, &QAbstractItemModel::modelReset, this, &SubtreeProxyModel::sourceModelReset);
         }
         beginResetModel();
         endResetModel();
@@ -281,7 +275,7 @@ namespace UIShell {
         if (!proxyIndex.isValid() || !m_rootIndex.isValid()) {
             return QModelIndex();
         }
-        SubtreeProxyItemData *itemData = static_cast<SubtreeProxyItemData*>(proxyIndex.internalPointer());
+        SubtreeProxyItemData *itemData = static_cast<SubtreeProxyItemData *>(proxyIndex.internalPointer());
         if (!itemData) {
             return QModelIndex();
         }

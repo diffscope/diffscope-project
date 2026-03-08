@@ -1,0 +1,80 @@
+#ifndef DIFFSCOPE_DSPX_MODEL_MODEL_P_H
+#define DIFFSCOPE_DSPX_MODEL_MODEL_P_H
+
+#include <QHash>
+
+#include <dspxmodel/Model.h>
+
+namespace dspx {
+
+    class LabelSequence;
+    class KeySignatureSequence;
+    class TempoSequence;
+    class TimeSignatureSequence;
+    class Clip;
+    class ParamCurve;
+
+    class ModelPrivate {
+        Q_DECLARE_PUBLIC(Model)
+    public:
+        Model *q_ptr;
+
+        ModelStrategy *strategy;
+        Global *global;
+        Master *master;
+        Timeline *timeline;
+
+        LabelSequence *labels;
+        KeySignatureSequence *keySignatures;
+        TempoSequence *tempos;
+        TimeSignatureSequence *timeSignatures;
+        TrackList *tracks;
+        Workspace *workspace;
+
+        QHash<Handle, EntityObject *> objectMap;
+        QHash<EntityObject *, Handle> handleMap;
+
+        QString name;
+        QString author;
+        int centShift;
+        QString editorId;
+        QString editorName;
+
+        static ModelPrivate *get(Model *model) {
+            return model->d_func();
+        }
+
+        void handleEntityDestroyed(Handle handle);
+        void init();
+        void handleNotifications();
+
+        EntityObject *mapToObject(Handle handle) const;
+        Handle mapToHandle(EntityObject *object) const;
+
+        template <class T, class S>
+        T *createObject(S *superItem, Handle handle) {
+            Q_Q(Model);
+            return new T(superItem, handle, q);
+        }
+
+        template <class T>
+        T *createObject(Handle handle) {
+            Q_Q(Model);
+            return new T(handle, q);
+        }
+
+        template <class T>
+        static void proxySetEntityPropertyNotify(T *object, int property, const QVariant &value) {
+            object->handleProxySetEntityProperty(property, value);
+        }
+    };
+
+    template <>
+    Clip *ModelPrivate::createObject<Clip>(Handle handle);
+
+    template <>
+    ParamCurve *ModelPrivate::createObject<ParamCurve>(Handle handle);
+
+}
+
+#endif //DIFFSCOPE_DSPX_MODEL_MODEL_P_H

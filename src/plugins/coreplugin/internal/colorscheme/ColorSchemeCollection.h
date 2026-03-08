@@ -1,0 +1,59 @@
+#ifndef DIFFSCOPE_COREPLUGIN_COLORSCHEMECOLLECTION_H
+#define DIFFSCOPE_COREPLUGIN_COLORSCHEMECOLLECTION_H
+
+#include <QJsonObject>
+#include <QObject>
+#include <QVariant>
+#include <QWindow>
+
+#include <coreplugin/coreglobal.h>
+
+namespace Core::Internal {
+
+    class CORE_EXPORT ColorSchemeCollection : public QObject {
+        Q_OBJECT
+        Q_PROPERTY(QVariantList allPresets READ allPresets NOTIFY allPresetsChanged)
+        Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
+        Q_PROPERTY(int visualCurrentIndex READ visualCurrentIndex NOTIFY currentIndexChanged)
+    public:
+        explicit ColorSchemeCollection(QObject *parent = nullptr);
+        ~ColorSchemeCollection() override;
+
+        Q_INVOKABLE void setValue(const QString &name, const QVariant &value);
+        Q_INVOKABLE QVariant value(const QString &name) const;
+
+        Q_INVOKABLE void loadPreset(int index);
+        Q_INVOKABLE void savePreset(const QString &name);
+        Q_INVOKABLE void removePreset(int index);
+        Q_INVOKABLE void renamePreset(int index, const QString &name);
+        Q_INVOKABLE bool presetExists(const QString &name);
+
+        Q_INVOKABLE void importPreset(QWindow *window, const QUrl &fileUrl);
+        Q_INVOKABLE void exportPreset(QWindow *window, const QUrl &fileUrl) const;
+
+        QVariantList allPresets() const;
+        int currentIndex() const;
+        int visualCurrentIndex() const;
+        void setCurrentIndex(int index);
+
+        void apply() const;
+        void load();
+        void save() const;
+
+        static QList<QPair<QString, QVariantHash>> internalPresets();
+
+    Q_SIGNALS:
+        void unsavedPresetUpdated();
+        void allPresetsChanged();
+        void currentIndexChanged();
+
+    private:
+        QList<QPair<QString, QVariantHash>> m_presets;
+        QVariantHash m_unsavedPreset;
+        int m_currentIndex{0};
+        bool m_showUnsavedPreset{};
+    };
+
+}
+
+#endif //DIFFSCOPE_COREPLUGIN_COLORSCHEMECOLLECTION_H

@@ -3,6 +3,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import ChorusKit.AppCore
+
 import SVSCraft
 import SVSCraft.UIComponents
 
@@ -12,5 +14,6 @@ ActionDockingPane {
     PluginView {
         anchors.fill: parent
         useSplitView: false
+        onRestartRequested: RuntimeInterface.restartApplication()
     }
 }

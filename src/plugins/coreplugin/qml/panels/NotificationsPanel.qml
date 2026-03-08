@@ -27,6 +27,13 @@ QtObject {
             function on_Diffscope_statusTipTriggered() {
                 pane.Docking.dockingView.showPane(pane)
             }
+            function onShowPanelRequested() {
+                pane.Docking.dockingView.showPane(pane)
+            }
+        }
+        Docking.onVisibleChanged: () => {
+            if (Docking.visible)
+                d.addOn.deactivateIndicator()
         }
         header: Item {
             anchors.fill: parent
@@ -34,7 +41,7 @@ QtObject {
                 enabled: notificationItemsModel.count !== 0
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "qrc:/diffscope/coreplugin/icons/DismissSquareMultiple16Filled"
+                icon.source: "image://fluent-system-icons/dismiss_square_multiple"
                 text: qsTr("Clear All")
                 onClicked: () => {
                     let messages = d.notificationManager.messages()
@@ -53,13 +60,15 @@ QtObject {
         Connections {
             target: d.notificationManager
             function onMessageAdded(index, message) {
-                notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(pane, {
+                let i = notificationItemsModel.count - index
+                notificationItemsModel.insert(i, bubbleNotificationComponent.createObject(pane, {
                     handle: message.handle
                 }))
             }
             function onMessageRemoved(index, message) {
-                let o = notificationItemsModel.get(index)
-                notificationItemsModel.remove(index)
+                let i = notificationItemsModel.count - index - 1
+                let o = notificationItemsModel.get(i)
+                notificationItemsModel.remove(i)
                 o.destroy()
             }
         }

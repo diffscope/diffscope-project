@@ -8,20 +8,33 @@
     "Vendor": "@PLUGIN_METADATA_VENDOR@",
     "Copyright": "@PLUGIN_METADATA_COPYRIGHT@",
     "License": [
-        "Apache 2.0"
+        "Apache-2.0"
     ],
     "Arguments" : [
         {
-            "Name" : "--open-settings",
-            "Description" : "Open settings on startup"
+            "Name": "--open-settings",
+            "Description": "Open settings on startup"
         },
         {
-            "Name" : "--new",
-            "Description" : "Create a new project on startup, ignoring default startup behavior"
+            "Name": "--new",
+            "Description": "Create a new project on startup, ignoring default startup behavior"
+        },
+        {
+            "Name": "--no-warning-last-run",
+            "Description": "Suppress warning about 'Last run terminated abnormally'"
+        },
+        {
+            "Name": "--fatal-without-plugins",
+            "Parameter": "plugin_list",
+            "Description": "Fatal if any of the specified plugins are not loaded"
+        },
+        {
+            "Name": "--no-warning-plugin-error",
+            "Description": "Suppress warning about plugin errors"
         }
     ],
     "Category": "Core",
-    "Description": "The core plugin for @APPLICATION_INSTALL_NAME@.",
-    "Url": "https://www.baidu.com/",
+    "Description": "The core plugin for @APPLICATION_DISPLAY_NAME@.",
+    "Url": "@APPLICATION_URL@",
     "Required": true
 }

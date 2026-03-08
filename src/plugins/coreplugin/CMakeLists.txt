@@ -3,40 +3,18 @@ project(coreplugin
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
-qm_import(Qml)
-
-set(_plugin_name Core)
-set(_plugin_display_name Core)
-
-# Add target
-ck_add_plugin(${PROJECT_NAME}
-    NAME ${_plugin_name}
-    DISPLAY_NAME ${_plugin_display_name}
-    COMPAT_VERSION 0.2.0
-    VENDOR "Team OpenVPI"
-    DESCRIPTION "${PROJECT_DESCRIPTION}"
-    MACRO_PREFIX CORE
-)
-
-find_package(ExtensionSystem REQUIRED)
-
-# Configure target
-file(GLOB_RECURSE _src *.h *.cpp)
-qak_add_action_extension(
-    _core_actions_src
-    res/core_actions.xml
-)
-list(APPEND _src ${_core_actions_src})
+set(_qak_not_macos)
 if(APPLE)
-    qak_add_action_extension(
-        _core_macos_actions_src
-        res/core_macos_actions.xml
-    )
-    list(APPEND _src ${_core_macos_actions_src})
+    set(_qak_not_macos false)
+else()
+    set(_qak_not_macos true)
 endif()
 
-qm_configure_target(${PROJECT_NAME}
-    SOURCES ${_src}
+diffscope_add_builtin_plugin(${PROJECT_NAME}
+    NAME org.diffscope.core
+    DISPLAY_NAME Core
+    MACRO_PREFIX CORE
+    QML_MODULE_NAME Core
     QT_LINKS
         Core
         Gui
@@ -45,6 +23,7 @@ qm_configure_target(${PROJECT_NAME}
         Quick
         QuickControls2
         QuickTemplates2
+        QuickDialogs2
         Network
     QT_INCLUDE_PRIVATE
         Core
@@ -62,57 +41,16 @@ qm_configure_target(${PROJECT_NAME}
         QAKCore
         QAKQuick
         svscraft::QmlExtras
-        # ChorusKit::AppCore
-        # JetBrainsDockingSystem
-        # dspxmodel
-        # opendspx::opendspx
+        dspxmodel
+        opendspx::model
+        opendspx::serializer
+        transactional
     INCLUDE_PRIVATE
         core
         windows
         internal/**
-)
-
-if(QT_KNOWN_POLICY_QTP0001)
-    qt_policy(SET QTP0001 NEW)
-endif()
-if(QT_KNOWN_POLICY_QTP0004)
-    qt_policy(SET QTP0004 NEW)
-endif()
-
-file(GLOB_RECURSE _qml_files_abs *.qml *.js *.mjs)
-set(_qml_files)
-foreach(_file IN LISTS _qml_files_abs)
-    file(RELATIVE_PATH _rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${_file})
-    list(APPEND _qml_files ${_rel_path})
-endforeach()
-
-qt_add_qml_module(${PROJECT_NAME}
-    URI DiffScope.Core
-    QML_FILES ${_qml_files}
-    OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/Core
-)
-
-qm_install_qml_modules(${PROJECT_NAME})
-
-# Add translation
-qm_add_translation(${PROJECT_NAME}_translations
-    PREFIX
-        ${_plugin_name}
-    TARGETS
-        ${CK_APPLICATION_NAME} ${PROJECT_NAME}
-    LOCALES
-        en_US zh_CN zh_TW ja_JP
-    TS_DIR
-        res/translations
-    QM_DIR
-        ${CMAKE_CURRENT_BINARY_DIR}/res/translations
-    TS_DEPENDS ChorusKit_UpdateTranslations
-    QM_DEPENDS ChorusKit_ReleaseTranslations
-)
-
-# Add resources
-ck_add_attached_files(${PROJECT_NAME}
-    SRC ${CMAKE_CURRENT_BINARY_DIR}/res/translations DEST .
+    QAK_DEFINES
+        NOT_MACOS=${_qak_not_macos}
 )
 
 file(GLOB _res_icons res/icons/*)
@@ -129,18 +67,4 @@ qt_add_resources(${PROJECT_NAME} logos
     PREFIX /diffscope/coreplugin/logos
     BASE res/logos
     FILES ${_res_logos}
-)
-
-# Add install command
-ck_sync_include(${PROJECT_NAME}
-    OPTIONS
-        EXCLUDE "${PROJECT_NAME}/internal/.+"
-        FORCE
-)
-
-ck_sync_include(${PROJECT_NAME}
-    DIRECTORY
-        internal
-    PREFIX "${PROJECT_NAME}/internal"
-    SKIP_INSTALL
 )

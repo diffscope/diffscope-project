@@ -51,6 +51,7 @@ namespace UIShell {
     }
 
     void DigitalClockLabel::updateDigitalFormat() {
+        // FIXME
         QString text = m_fullText;
         QList<QTextLayout::FormatRange> formats;
         if (m_fineTuneEnabled) {

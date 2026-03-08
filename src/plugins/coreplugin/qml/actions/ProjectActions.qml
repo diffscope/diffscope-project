@@ -17,7 +17,30 @@ ActionCollection {
     property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.statusText"
+        actionId: "org.diffscope.core.file.save"
+        Action {
+            enabled: d.windowHandle.projectDocumentContext.fileLocker
+            onTriggered: Qt.callLater(() => d.windowHandle.save())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.file.saveAs"
+        Action {
+            enabled: d.windowHandle.projectDocumentContext.fileLocker
+            onTriggered: Qt.callLater(() => d.windowHandle.saveAs())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.file.saveCopyAs"
+        Action {
+            onTriggered: Qt.callLater(() => d.windowHandle.saveCopy())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.statusText"
         Label {
             text: d.window.StatusTextContext.statusContext.text
             TapHandler {

@@ -1,9 +1,10 @@
 #ifndef UISHELL_SETTINGPAGEWIDGETDIALOG_P_H
 #define UISHELL_SETTINGPAGEWIDGETDIALOG_P_H
 
+#include <qqmlintegration.h>
+
 #include <QDialog>
 #include <QWindow>
-#include <qqmlintegration.h>
 
 namespace UIShell {
 
@@ -28,7 +29,6 @@ namespace UIShell {
 
     private:
         QWidget *m_widget{};
-
     };
 
 }

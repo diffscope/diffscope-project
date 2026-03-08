@@ -4,30 +4,13 @@ import QtQuick.Controls
 
 import QActionKit
 
+import DiffScope.DspxModel as DspxModel
+
 ActionCollection {
     id: d
 
     required property QtObject addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
-
-    // Basic edit actions
-    ActionItem {
-        actionId: "core.edit.undo"
-        Action {
-            onTriggered: {
-                // TODO: Implement undo functionality
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.redo"
-        Action {
-            onTriggered: {
-                // TODO: Implement redo functionality
-            }
-        }
-    }
 
     component EditAction: Action {
         required property int flag
@@ -42,314 +25,262 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.edit.cut"
-        EditAction {
-            flag: EditActionsHandler.Cut
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.copy"
-        EditAction {
-            flag: EditActionsHandler.Copy
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.paste"
-        EditAction {
-            flag: EditActionsHandler.Paste
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.pasteSpecial"
-        EditAction {
-            flag: EditActionsHandler.PasteSpecial
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.delete"
-        EditAction {
-            flag: EditActionsHandler.Delete
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.selectAll"
-        EditAction {
-            flag: EditActionsHandler.SelectAll
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.deselect"
-        EditAction {
-            flag: EditActionsHandler.Deselect
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.selectCurrent"
-        EditAction {
-            flag: EditActionsHandler.SelectCurrent
-        }
-    }
-
-    // Selection navigation actions
-    ActionItem {
-        actionId: "core.edit.selectUp"
-        EditAction {
-            flag: EditActionsHandler.SelectUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.selectDown"
-        EditAction {
-            flag: EditActionsHandler.SelectDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.selectLeft"
-        EditAction {
-            flag: EditActionsHandler.SelectLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.selectRight"
-        EditAction {
-            flag: EditActionsHandler.SelectRight
-        }
-    }
-
-    // Move actions
-    ActionItem {
-        actionId: "core.edit.moveUp"
-        MoveAction {
-            direction: EditActionsHandler.ValueUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveDown"
-        MoveAction {
-            direction: EditActionsHandler.ValueDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveLeft"
-        MoveAction {
-            direction: EditActionsHandler.TimeBackward
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveRight"
-        MoveAction {
-            direction: EditActionsHandler.TimeForward
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveAction"
+        actionId: "org.diffscope.core.edit.cut"
         Action {
-            onTriggered: {
-                // TODO: Implement move functionality
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.cutSelection(d.windowHandle.projectTimeline.position)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.copy"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.copySelection(d.windowHandle.projectTimeline.position)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.paste"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.pasteAvailable ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.delete"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.deleteSelection()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.selectAll"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.selectAll()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.deselect"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
+            onTriggered: d.windowHandle.projectDocumentContext.document.deselectAll()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.selectCurrent"
+        Action {
+            enabled: Boolean(d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem)
+            onTriggered: d.addOn.selectCurrent()
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.multipleSelectCurrent"
+        Action {
+            enabled: Boolean(d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem)
+            onTriggered: d.addOn.multipleSelectCurrent()
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftCursorUp"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.addOn.shiftCursor(EditActionsAddOn.ShiftCursorDirection_Up)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftCursorDown"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.addOn.shiftCursor(EditActionsAddOn.ShiftCursorDirection_Down)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftCursorLeft"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.addOn.shiftCursor(EditActionsAddOn.ShiftCursorDirection_Left)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftCursorRight"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.editScopeFocused ?? false
+            onTriggered: d.addOn.shiftCursor(EditActionsAddOn.ShiftCursorDirection_Right)
+        }
+    }
+    readonly property TrackPropertyMapper trackPropertyMapper: TrackPropertyMapper {
+        id: trackPropertyMapper
+        selectionModel: d.windowHandle?.projectDocumentContext.document.selectionModel ?? null
+    }
+    readonly property ClipPropertyMapper clipPropertyMapper: ClipPropertyMapper {
+        id: clipPropertyMapper
+        selectionModel: d.windowHandle?.projectDocumentContext.document.selectionModel ?? null
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.mute"
+        Action {
+            enabled: {
+                if (!d.windowHandle?.projectDocumentContext.document.anyItemsSelected)
+                    return false
+                let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
+                return selectionType === DspxModel.SelectionModel.ST_Clip || selectionType === DspxModel.SelectionModel.ST_Track
+            }
+            checkable: true
+            checked: {
+                let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
+                if (selectionType === DspxModel.SelectionModel.ST_Track) {
+                    return Boolean(trackPropertyMapper.mute)
+                } else {
+                    return Boolean(clipPropertyMapper.mute)
+                }
+                return false
+            }
+            onTriggered: () => {
+                let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
+                if (selectionType === DspxModel.SelectionModel.ST_Track) {
+                    trackPropertyMapper.mute = checked
+                } else {
+                    clipPropertyMapper.mute = checked
+                }
             }
         }
     }
-
-    // Scroll actions
     ActionItem {
-        actionId: "core.view.scrollUp"
-        EditAction {
-            flag: EditActionsHandler.ScrollUp
+        actionId: "org.diffscope.core.edit.solo"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            checkable: true
+            checked: Boolean(trackPropertyMapper.solo)
+            onTriggered: () => {
+                trackPropertyMapper.solo = checked
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.record"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            checkable: true
+            checked: Boolean(trackPropertyMapper.record)
+            onTriggered: () => {
+                trackPropertyMapper.record = checked
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.selectAllClipsOnCurrentTrack"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            onTriggered: () => {
+                let track = d.windowHandle.projectDocumentContext.document.selectionModel.currentItem;
+                d.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.ClearPreviousSelection)
+                for (let clip of track.clips.iterable) {
+                    d.windowHandle.projectDocumentContext.document.selectionModel.select(clip, DspxModel.SelectionModel.Select)
+                }
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftUpByASemitone"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(1)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftDownByASemitone"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(-1)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftUpByAnOctave"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(12)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.shiftDownByAnOctave"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            onTriggered: d.addOn.shiftNotes(-12)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.selectionIndicator"
+        Label {
+            leftPadding: 4
+            rightPadding: 4
+            text: {
+                const model = d.windowHandle?.projectDocumentContext.document.model
+                const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
+                if (!model || !selectionModel)
+                    return ""
+                const getContainerText = () => {
+                    switch (selectionModel.selectionType) {
+                    case DspxModel.SelectionModel.ST_None:
+                        return qsTr("No selection")
+                    case DspxModel.SelectionModel.ST_AnchorNode:
+                        return "" // TODO
+                    case DspxModel.SelectionModel.ST_Clip:
+                        return qsTr("%Ln clip(s)", "", model.tracks.items.reduce((count, track) => count + track.clips.size, 0))
+                    case DspxModel.SelectionModel.ST_Label:
+                        return qsTr("%Ln label(s)", "", model.timeline.labels.size)
+                    case DspxModel.SelectionModel.ST_Note:
+                        return qsTr("%Ln note(s)", "", selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.size ?? 0)
+                    case DspxModel.SelectionModel.ST_Tempo:
+                        return qsTr("%Ln tempo(s)", "", model.timeline.tempos.size)
+                    case DspxModel.SelectionModel.ST_Track:
+                        return qsTr("%Ln track(s)", "", model.tracks.size)
+                    case DspxModel.SelectionModel.ST_KeySignature:
+                        return qsTr("%Ln key signature(s)", "", model.timeline.keySignatures.size)
+                    default:
+                        return ""
+                    }
+                }
+                const getSelectionText = () => {
+                    if (selectionModel.selectedCount === 0)
+                        return ""
+                    return qsTr(" (%Ln selected)", "", selectionModel.selectedCount)
+                }
+                return getContainerText() + getSelectionText()
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.split"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note)
+            onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position)
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.core.edit.bounceToClip"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip
+            onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
         }
     }
 
     ActionItem {
-        actionId: "core.view.scrollDown"
-        EditAction {
-            flag: EditActionsHandler.ScrollDown
+        actionId: "org.diffscope.core.edit.editCurrentClip"
+        Action {
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
+            onTriggered: () => {
+                let selectionModel = d.windowHandle.projectDocumentContext.document.selectionModel
+                let clip = selectionModel.currentItem
+                if (clip.notes !== selectionModel.noteSelectionModel.noteSequenceWithSelectedItems) {
+                    selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, clip.notes)
+                }
+            }
         }
     }
-
-    ActionItem {
-        actionId: "core.view.scrollLeft"
-        EditAction {
-            flag: EditActionsHandler.ScrollLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.scrollRight"
-        EditAction {
-            flag: EditActionsHandler.ScrollRight
-        }
-    }
-
-    // Cursor movement actions
-    ActionItem {
-        actionId: "core.edit.moveCursorUp"
-        EditAction {
-            flag: EditActionsHandler.MoveCursorUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveCursorDown"
-        EditAction {
-            flag: EditActionsHandler.MoveCursorDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveCursorLeft"
-        EditAction {
-            flag: EditActionsHandler.MoveCursorLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.moveCursorRight"
-        EditAction {
-            flag: EditActionsHandler.MoveCursorRight
-        }
-    }
-
-    // Extend selection actions
-    ActionItem {
-        actionId: "core.edit.extendSelectionUp"
-        EditAction {
-            flag: EditActionsHandler.ExtendSelectionUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.extendSelectionDown"
-        EditAction {
-            flag: EditActionsHandler.ExtendSelectionDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.extendSelectionLeft"
-        EditAction {
-            flag: EditActionsHandler.ExtendSelectionLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.extendSelectionRight"
-        EditAction {
-            flag: EditActionsHandler.ExtendSelectionRight
-        }
-    }
-
-    // Shrink selection actions
-    ActionItem {
-        actionId: "core.edit.shrinkSelectionUp"
-        EditAction {
-            flag: EditActionsHandler.ShrinkSelectionUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.shrinkSelectionDown"
-        EditAction {
-            flag: EditActionsHandler.ShrinkSelectionDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.shrinkSelectionLeft"
-        EditAction {
-            flag: EditActionsHandler.ShrinkSelectionLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.edit.shrinkSelectionRight"
-        EditAction {
-            flag: EditActionsHandler.ShrinkSelectionRight
-        }
-    }
-
-    // Page navigation actions
-    ActionItem {
-        actionId: "core.view.pageUp"
-        EditAction {
-            flag: EditActionsHandler.PageUp
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.pageDown"
-        EditAction {
-            flag: EditActionsHandler.PageDown
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.pageLeft"
-        EditAction {
-            flag: EditActionsHandler.PageLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.pageRight"
-        EditAction {
-            flag: EditActionsHandler.PageRight
-        }
-    }
-
-    // Scroll to position actions
-    ActionItem {
-        actionId: "core.view.scrollToTop"
-        EditAction {
-            flag: EditActionsHandler.ScrollToValueTop
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.scrollToBottom"
-        EditAction {
-            flag: EditActionsHandler.ScrollToValueBottom
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.scrollToStart"
-        EditAction {
-            flag: EditActionsHandler.ScrollToTimeStart
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.scrollToEnd"
-        EditAction {
-            flag: EditActionsHandler.ScrollToTimeEnd
-        }
-    }
-
-    ActionItem {
-        actionId: "core.view.scrollToCurrentTime"
-        EditAction {
-            flag: EditActionsHandler.ScrollToCurrentTime
-        }
-    }
-
-    ActionItem {
-        actionId: "core.timeline.goInsideViewRange"
-        EditAction {
-            flag: EditActionsHandler.GoInsideViewRange
-        }
-    }
-
 }

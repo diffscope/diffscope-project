@@ -1,8 +1,9 @@
 #ifndef UISHELL_RECENTFILESPROXYMODEL_P_H
 #define UISHELL_RECENTFILESPROXYMODEL_P_H
 
-#include <QSortFilterProxyModel>
 #include <qqmlintegration.h>
+
+#include <QSortFilterProxyModel>
 
 namespace UIShell {
 

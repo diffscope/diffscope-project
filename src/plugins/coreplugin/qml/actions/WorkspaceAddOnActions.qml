@@ -19,7 +19,7 @@ ActionCollection {
     readonly property Window window: windowHandle?.window ?? null
 
     ActionItem {
-        actionId: "core.workspace.workspaceLayout"
+        actionId: "org.diffscope.core.workspace.workspaceLayout"
         Action {
             onTriggered: () => {
                 d.addOn.showWorkspaceLayoutCommand()
@@ -28,7 +28,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspace.defaultLayout"
+        actionId: "org.diffscope.core.workspace.defaultLayout"
         Action {
             onTriggered: () => {
                 d.addOn.workspaceManager.currentLayout = d.addOn.workspaceManager.defaultLayout
@@ -37,7 +37,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspace.customLayouts"
+        actionId: "org.diffscope.core.workspace.customLayouts"
         Menu {
             readonly property list<var> customLayouts: d.addOn.workspaceManager.customLayouts
             readonly property Component customLayoutAction: Menu {
@@ -85,7 +85,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspace.saveLayout"
+        actionId: "org.diffscope.core.workspace.saveLayout"
         Action {
             onTriggered: () => {
                 d.helper.saveCurrentLayout()
@@ -95,7 +95,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspace.allPanels"
+        actionId: "org.diffscope.core.workspace.allPanels"
         Menu {
             readonly property list<QtObject> allPanes: d.helper.allPanes
             readonly property Component panelAction: Action {
@@ -133,7 +133,6 @@ ActionCollection {
         readonly property QtObject currentPane: d.helper.dockingPanes[panelPosition]
         enabled: currentPane !== null
         readonly property string baseText: [
-            "",
             qsTr("%1 (Left Top)"),
             qsTr("%1 (Left Bottom)"),
             qsTr("%1 (Right Top)"),
@@ -146,7 +145,7 @@ ActionCollection {
         icon: GlobalHelper.defaultIcon()
         readonly property Binding binding: Binding {
             when: action.currentPane !== null
-            action.text: action.baseText.replace("%1", action.currentPane.title)
+            action.text: action.baseText.arg(action.currentPane.title)
             action.icon: action.currentPane.icon
         }
         onTriggered: () => {
@@ -157,63 +156,63 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.workspace.panelLeftTop"
+        actionId: "org.diffscope.core.workspace.panelLeftTop"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.LeftTop
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelLeftBottom"
+        actionId: "org.diffscope.core.workspace.panelLeftBottom"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.LeftBottom
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelRightTop"
+        actionId: "org.diffscope.core.workspace.panelRightTop"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.RightTop
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelRightBottom"
+        actionId: "org.diffscope.core.workspace.panelRightBottom"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.RightBottom
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelTopLeft"
+        actionId: "org.diffscope.core.workspace.panelTopLeft"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.TopLeft
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelTopRight"
+        actionId: "org.diffscope.core.workspace.panelTopRight"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.TopRight
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelBottomLeft"
+        actionId: "org.diffscope.core.workspace.panelBottomLeft"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.BottomLeft
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.panelBottomRight"
+        actionId: "org.diffscope.core.workspace.panelBottomRight"
         WorkspacePanelAction {
             panelPosition: WorkspaceAddOnHelper.BottomRight
         }
     }
 
     ActionItem {
-        actionId: "core.workspace.floatingPanels"
+        actionId: "org.diffscope.core.workspace.floatingPanels"
         Menu {
             readonly property list<QtObject> floatingPanes: d.helper.floatingPanes
             readonly property Component floatingPanelAction: Action {
@@ -246,7 +245,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.dockActionToSideBar"
+        actionId: "org.diffscope.core.dockActionToSideBar"
         Menu {
             readonly property list<var> panelEntries: d.addOn.panelEntries
             readonly property Component addActionActionComponent: Action {
@@ -261,7 +260,7 @@ ActionCollection {
                 onTriggered: () => {
                     let o = d.windowHandle.actionContext.action(panelEntry.id)?.createObject(null)
                     if (!o || !(o instanceof Action || o instanceof DockingPane)) {
-                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').replace("%1", panelEntry.text))
+                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').arg(panelEntry.text))
                         if (o)
                             o.destroy()
                         return

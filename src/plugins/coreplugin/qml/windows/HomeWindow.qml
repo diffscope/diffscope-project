@@ -27,12 +27,33 @@ HomeWindow {
             return "qrc:/diffscope/coreplugin/logos/BannerLight.png";
         }
     }
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.homewindow"
+
     onNewFileRequested: () => {
-        windowHandle.triggerAction("core.file.new")
+        windowHandle.triggerAction("org.diffscope.core.file.new", homeWindow.contentItem)
+    }
+    panelsModel: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "org.diffscope.core.homePanels"
+            context: homeWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                homeWindow.panelsModel.insert(index, object)
+                let stateData = settings.value("panelData")?.[index] ?? undefined
+                if (stateData && stateData.id === object.ActionInstantiator.id) {
+                    if (object.loadState)
+                        object.loadState(stateData.state)
+                }
+            }
+            onObjectRemoved: (index, object) => {
+                homeWindow.panelsModel.remove(index)
+            }
+        }
     }
     navigationActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.homeNavigation"
+            actionId: "org.diffscope.core.homeNavigation"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.navigationActionsModel.insert(index, object)
@@ -44,7 +65,7 @@ HomeWindow {
     }
     toolActionsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.homeTool"
+            actionId: "org.diffscope.core.homeTool"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 homeWindow.toolActionsModel.insert(index, object)
@@ -54,22 +75,36 @@ HomeWindow {
             }
         }
     }
-    macosMenusModel: ObjectModel {
+    menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: homeWindow.isMacOS ? "core.homeMenu" : ""
+            actionId: "org.diffscope.core.homeMenu"
             context: homeWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
-                homeWindow.macosMenusModel.insert(index, object)
+                homeWindow.menusModel.insert(index, object)
             }
             onObjectRemoved: (index, object) => {
-                homeWindow.macosMenusModel.remove(index)
+                homeWindow.menusModel.remove(index)
             }
         }
     }
 
     Settings {
-        settings: PluginDatabase.settings
+        id: settings
+        settings: RuntimeInterface.settings
         category: "DiffScope.Core.HomeWindow"
         property alias recentFilesIsListView: homeWindow.recentFilesIsListView
+    }
+
+    onClosing: () => {
+        let a = []
+        for (let i = 0; i < homeWindow.panelsModel.count; i++) {
+            let pane = homeWindow.panelsModel.get(i)
+            let state = pane.saveState ? pane.saveState() : null
+            a.push({
+                id: pane.ActionInstantiator.id,
+                state
+            })
+        }
+        settings.setValue("panelData", a)
     }
 }

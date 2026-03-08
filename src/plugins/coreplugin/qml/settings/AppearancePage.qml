@@ -14,6 +14,7 @@ ScrollView {
     property bool useCustomFont
     property string fontFamily
     property string fontStyle
+    property int projectWindowTitleBarStyle
     property int uiBehavior
     property int graphicsBehavior
     property bool animationEnabled
@@ -22,6 +23,7 @@ ScrollView {
     onUseCustomFontChanged: if (started) pageHandle.markDirty()
     onFontFamilyChanged: if (started) pageHandle.markDirty()
     onFontStyleChanged: if (started) pageHandle.markDirty()
+    onProjectWindowTitleBarStyleChanged: if (started) pageHandle.markDirty()
     onUiBehaviorChanged: if (started) pageHandle.markDirty()
     onGraphicsBehaviorChanged: if (started) pageHandle.markDirty()
     onAnimationEnabledChanged: if (started) pageHandle.markDirty()
@@ -72,7 +74,7 @@ ScrollView {
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         Layout.fillWidth: true
                         wrapMode: Text.Wrap
-                        text: qsTr("You may need to restart %1 for font changes to take full effect.").replace("%1", Application.name)
+                        text: qsTr("You may need to restart %1 for font changes to take full effect.").arg(Application.displayName)
                     }
                 }
             }
@@ -100,12 +102,54 @@ ScrollView {
                         wrapMode: Text.Wrap
                         text: qsTr("Windows where custom title bar has been enabled require reopening to enable native title bar.")
                     }
+                    GridLayout {
+                        Layout.leftMargin: 22
+                        visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
+                        columns: 2
+                        rowSpacing: 12
+                        columnSpacing: 12
+                        Label {
+                            text: qsTr("Title bar style")
+                            TextMatcherItem on text { matcher: page.matcher }
+                            enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
+                        }
+                        RowLayout {
+                            ComboBox {
+                                enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
+                                model: [qsTr("Classic"), qsTr("Cupertino"), qsTr("Simple")]
+                                currentIndex: page.projectWindowTitleBarStyle
+                                onActivated: page.projectWindowTitleBarStyle = currentIndex
+                            }
+                            Label {
+                                text: qsTr("Menu bar is hidden in Cupertino style")
+                                ThemedItem.foregroundLevel: SVS.FL_Secondary
+                                visible: page.projectWindowTitleBarStyle === BehaviorPreference.TS_MacOS
+                            }
+                        }
+                        Label {
+                            text: qsTr("Place system buttons on")
+                            TextMatcherItem on text { matcher: page.matcher }
+                            enabled: (page.uiBehavior & BehaviorPreference.UB_Frameless) && page.projectWindowTitleBarStyle !== BehaviorPreference.TS_Windows
+                        }
+                        ComboBox {
+                            enabled: (page.uiBehavior & BehaviorPreference.UB_Frameless) && page.projectWindowTitleBarStyle !== BehaviorPreference.TS_Windows
+                            model: [qsTr("Right"), qsTr("Left")]
+                            currentIndex: page.uiBehavior & BehaviorPreference.UB_UseLeftSystemButton ? 1 : 0
+                            onActivated: {
+                                if (currentIndex === 1) {
+                                    page.uiBehavior |= BehaviorPreference.UB_UseLeftSystemButton
+                                } else {
+                                    page.uiBehavior &= ~BehaviorPreference.UB_UseLeftSystemButton
+                                }
+                            }
+                        }
+                    }
                     CheckBox {
                         Layout.leftMargin: 22
                         visible: Qt.platform.os !== "osx" && Qt.platform.os !== "macos"
                         text: qsTr("Merge menu bar and title bar")
                         TextMatcherItem on text { matcher: page.matcher }
-                        enabled: page.uiBehavior & BehaviorPreference.UB_Frameless
+                        enabled: (page.uiBehavior & BehaviorPreference.UB_Frameless) && page.projectWindowTitleBarStyle !== BehaviorPreference.TS_MacOS
                         checked: page.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar
                         onClicked: {
                             if (checked) {

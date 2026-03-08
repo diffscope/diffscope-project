@@ -1,9 +1,10 @@
 #ifndef UISHELL_PLUGINMANAGERHELPER_H
 #define UISHELL_PLUGINMANAGERHELPER_H
 
-#include <QObject>
-#include <QHash>
 #include <qqmlintegration.h>
+
+#include <QHash>
+#include <QObject>
 
 namespace ExtensionSystem {
     class PluginSpec;

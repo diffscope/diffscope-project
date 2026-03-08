@@ -28,7 +28,6 @@ QtObject {
         return dockingPanes[activePanel] ?? null
     }
     readonly property list<QtObject> dockingPanes: [
-        null,
         window.leftDockingView.firstItem,
         window.leftDockingView.lastItem,
         window.rightDockingView.firstItem,
@@ -65,6 +64,11 @@ QtObject {
         BottomRight
     }
 
+    readonly property LoggingCategory lcWorkspaceAddOnHelper: LoggingCategory {
+        id: lcWorkspaceAddOnHelper
+        name: "diffscope.core.qml.workspaceaddonhelper"
+    }
+
     readonly property NotificationMessage noPanelNotification: NotificationMessage {
         id: noPanelNotification
         title: qsTr("The current workspace does not contain any panels")
@@ -91,15 +95,29 @@ QtObject {
         }
     }
 
+
+    function getIdHelper(object) {
+        return object.ActionInstantiator.id ? object.ActionInstantiator.id : (object.actionId ?? "")
+
+    }
     function initializeDockingViews() {
+        console.info(lcWorkspaceAddOnHelper, "Initializing docking views")
         const conv = v => {
             if ((v.geometry?.width ?? 0) !== 0) {
                 v.object.Docking.windowGeometryHint = v.geometry
             }
             return v.object
         }
+        const loadState = v => {
+            try {
+                v.object.loadState(v.state)
+                console.debug(lcWorkspaceAddOnHelper, "State loaded:", v.object, getIdHelper(v.object))
+            } catch (e) {
+            }
+        }
         const f = (dockingView, edge) => {
             let o = addOn.createDockingViewContents(edge)
+            o.objects.forEach(loadState)
             dockingView.contentData = o.objects.map(conv)
             dockingView.preferredPanelSize = o.preferredPanelSize
             dockingView.splitterRatio = o.splitterRatio
@@ -112,11 +130,13 @@ QtObject {
 
         let topData = addOn.createDockingViewContents(Qt.TopEdge)
         let bottomData = addOn.createDockingViewContents(Qt.BottomEdge)
+        topData.objects.forEach(loadState)
         window.topDockingView.contentData = topData.objects.map(conv)
         window.topDockingView.splitterRatio = topData.splitterRatio
+        bottomData.objects.forEach(loadState)
         window.bottomDockingView.contentData = bottomData.objects.map(conv)
         window.bottomDockingView.splitterRatio = bottomData.splitterRatio
-        window.topDockingViewHeightRatio = (window.topDockingView.barSize + topData.preferredPanelSize) / (window.topDockingView.barSize + topData.preferredPanelSize + window.bottomDockingView.barSize + bottomData.preferredPanelSize)
+        window.topDockingViewHeightRatio = topData.preferredPanelSize
         for (let i of topData.visibleIndices) {
             window.topDockingView.showPane(i)
         }
@@ -124,39 +144,64 @@ QtObject {
             window.bottomDockingView.showPane(i)
         }
         if (helper.allPanes.length === 0) {
+            console.warn(lcWorkspaceAddOnHelper, "No panels found in current layout")
             noPanelNotification.connectionEnabled = true
             helper.windowHandle.sendNotification(noPanelNotification)
         }
     }
 
     function saveCurrentLayout() {
+        console.info(lcWorkspaceAddOnHelper, "Saving current layout")
         savingCurrentLayout = true
         let viewSpecMap = []
+        const saveState = o => {
+            try {
+                let state = o.saveState()
+                console.debug(lcWorkspaceAddOnHelper, "State saved:", o, getIdHelper(o))
+                return state
+            } catch (e) {
+                return undefined
+            }
+        }
         const f = (dockingView, isLeftOrRight, firstKey, lastKey) => {
+            console.debug(lcWorkspaceAddOnHelper, "Saving docking view", firstKey);
             viewSpecMap[firstKey] = {
-                panels: dockingView.contentData.slice(0, dockingView.stretchIndex).map(o => ({
-                    id: o.ActionInstantiator.id,
-                    dock: o.dock,
-                    opened: o.Docking.window?.visible ?? false,
-                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                    data: o.panelPersistentData
-                })),
+                panels: dockingView.contentData.slice(0, dockingView.stretchIndex).map(o => {
+                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, getIdHelper(o))
+                    let v = {
+                        id: getIdHelper(o),
+                        dock: o.dock,
+                        opened: o.Docking.window?.visible ?? false,
+                        geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
+                        data: saveState(o)
+                    }
+                    console.debug(lcWorkspaceAddOnHelper, "Handled panel spec",o , v.id, v.dock, v.opened, v.geometry, v.data)
+                    return v
+                }),
                 width: isLeftOrRight ? dockingView.preferredPanelSize : dockingView.splitterRatio,
-                height: isLeftOrRight ? dockingView.splitterRatio : dockingView.preferredPanelSize,
+                height: isLeftOrRight ? dockingView.splitterRatio : window.topDockingViewHeightRatio,
                 visibleIndex: dockingView.firstIndex,
             }
+            console.debug(lcWorkspaceAddOnHelper, "Saved docking view", firstKey, viewSpecMap[firstKey].width, viewSpecMap[firstKey].height, viewSpecMap[firstKey].visibleIndex)
+            console.debug(lcWorkspaceAddOnHelper, "Saving docking view", lastKey)
             viewSpecMap[lastKey] = {
-                panels: dockingView.contentData.slice(dockingView.stretchIndex + 1).map(o => ({
-                    id: o.ActionInstantiator.id,
-                    dock: o.dock,
-                    opened: o.Docking.window?.visible ?? false,
-                    geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
-                    data: o.panelPersistentData
-                })),
+                panels: dockingView.contentData.slice(dockingView.stretchIndex + 1).map(o => {
+                    console.debug(lcWorkspaceAddOnHelper, "Handling panel", o, getIdHelper(o))
+                    let v = {
+                        id: getIdHelper(o),
+                        dock: o.dock,
+                        opened: o.Docking.window?.visible ?? false,
+                        geometry: Qt.rect(o.Docking.window?.x ?? 0, o.Docking.window?.y ?? 0, o.Docking.window?.width ?? 0, o.Docking.window?.height ?? 0),
+                        data: saveState(o)
+                    }
+                    console.debug(lcWorkspaceAddOnHelper, "Handled panel spec",o , v.id, v.dock, v.opened, v.geometry, v.data)
+                    return v
+                }),
                 width: isLeftOrRight ? dockingView.panelSize : 1 - dockingView.splitterRatio,
-                height: isLeftOrRight ? 1 - dockingView.splitterRatio : dockingView.panelSize,
+                height: isLeftOrRight ? 1 - dockingView.splitterRatio :  window.topDockingViewHeightRatio,
                 visibleIndex: dockingView.lastIndex - (dockingView.stretchIndex + 1),
             }
+            console.debug(lcWorkspaceAddOnHelper, "Saved docking view", lastKey, viewSpecMap[lastKey].width, viewSpecMap[lastKey].height, viewSpecMap[lastKey].visibleIndex)
         }
         f(window.leftDockingView, true, WorkspaceAddOnHelper.LeftTop, WorkspaceAddOnHelper.LeftBottom)
         f(window.rightDockingView, true, WorkspaceAddOnHelper.RightTop, WorkspaceAddOnHelper.RightBottom)
@@ -167,6 +212,7 @@ QtObject {
     }
 
     function cleanupPanes() {
+        console.info(lcWorkspaceAddOnHelper, "Cleaning up panes")
         let objects = []
         for (let dockingView of [window.leftDockingView, window.rightDockingView, window.topDockingView, window.bottomDockingView]) {
             for (let o of dockingView.contentData) {
@@ -181,6 +227,7 @@ QtObject {
     }
 
     function promptSaveLayout(layout, originName) {
+        console.info(lcWorkspaceAddOnHelper, "Prompting to save layout")
         let newName = helper.windowHandle.execQuickInput(qsTr("Custom layout name"), "", originName, (text, attempted) => {
             if (text === "") {
                 return {
@@ -210,25 +257,30 @@ QtObject {
             }
         })
         if (typeof(newName) === "string") {
+            console.info(lcWorkspaceAddOnHelper, "Saving layout", newName)
             helper.addOn.saveCustomLayoutFromJavaScript(layout, originName, newName)
+        } else {
+            console.info(lcWorkspaceAddOnHelper, "Save layout canceled")
         }
     }
 
     function promptAddAction(action) {
+        console.info(lcWorkspaceAddOnHelper, "Prompting to add action")
         newActionPopup.actionObject = action
         newActionPopup.open()
     }
 
     function promptDeleteLayout(name) {
-        if (window.contentItem.MessageBox.question(qsTr("Delete"), qsTr('Delete layout "%1"?').replace("%1", name)) === SVS.Yes) {
+        console.info(lcWorkspaceAddOnHelper, "Prompting to delete layout")
+        if (window.contentItem.MessageBox.question(qsTr("Delete"), qsTr('Delete layout "%1"?').arg(name)) === SVS.Yes) {
             addOn.removeCustomLayoutFromJavaScript(name)
         }
     }
 
     readonly property Connections windowHandleConnections: Connections {
-        target: helper.window
-        function onSceneGraphInitialized() {
-            helper.initializeDockingViews()
+        target: helper.addOn
+        function onWindowExposed() {
+            Qt.callLater(() => helper.initializeDockingViews())
         }
     }
 
@@ -261,7 +313,7 @@ QtObject {
             spacing: 16
             Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr('Drag to the sidebar to add "%1"').replace("%1", newActionPopup.actionObject?.ActionInstantiator.text ?? "")
+                text: qsTr('Drag to the sidebar to add "%1"').arg(newActionPopup.actionObject?.ActionInstantiator.text ?? "")
             }
             Frame {
                 Layout.alignment: Qt.AlignHCenter
@@ -340,19 +392,22 @@ QtObject {
         readonly property Connections connections: Connections {
             target: bindingHelper.dockingView
             function onFirstActivated() {
+                if (helper.activePanel === bindingHelper.firstKey && !helper.activeUndockedPane)
+                    return
+                console.debug(lcWorkspaceAddOnHelper, "Docking panel activated", bindingHelper.firstKey)
                 helper.activeUndockedPane = null
                 helper.activePanel = bindingHelper.firstKey
             }
             function onLastActivated() {
+                if (helper.activePanel === bindingHelper.lastKey && !helper.activeUndockedPane)
+                    return
+                console.debug(lcWorkspaceAddOnHelper, "Docking panel activated", bindingHelper.lastKey)
                 helper.activeUndockedPane = null
                 helper.activePanel = bindingHelper.lastKey
             }
             function onUndockedActivated(pane) {
+                console.debug(lcWorkspaceAddOnHelper, "Undocked panel activated", pane, pane.title)
                 helper.activeUndockedPane = pane
-            }
-            function onUndockedDeactivated(pane) {
-                if (helper.activeUndockedPane === pane)
-                    helper.activeUndockedPane = null
             }
         }
     }

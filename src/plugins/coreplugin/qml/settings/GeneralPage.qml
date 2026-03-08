@@ -26,8 +26,7 @@ ScrollView {
     property bool proxyHasAuthentication
     property string proxyUsername
     property string proxyPassword
-    property bool autoCheckForUpdates
-    property int updateOption
+    property bool shouldStoreGeometry
 
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
@@ -41,8 +40,7 @@ ScrollView {
     onProxyHasAuthenticationChanged: if (started) pageHandle.markDirty()
     onProxyUsernameChanged: if (started) pageHandle.markDirty()
     onProxyPasswordChanged: if (started) pageHandle.markDirty()
-    onAutoCheckForUpdatesChanged: if (started) pageHandle.markDirty()
-    onUpdateOptionChanged: if (started) pageHandle.markDirty()
+    onShouldStoreGeometryChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -64,7 +62,7 @@ ScrollView {
                     RowLayout {
                         spacing: 16
                         Label {
-                            text: qsTr("When starting %1").replace("%1", Application.name)
+                            text: qsTr("When starting %1").arg(Application.displayName)
                             TextMatcherItem on text { matcher: page.matcher }
                         }
                         RadioButton {
@@ -94,18 +92,6 @@ ScrollView {
                         }
                     }
                     CheckBox {
-                        text: qsTr("Open previous projects on startup automatically")
-                        TextMatcherItem on text { matcher: page.matcher }
-                        checked: page.startupBehavior & BehaviorPreference.SB_AutoOpenPreviousProjects
-                        onClicked: () => {
-                            if (checked) {
-                                page.startupBehavior |= BehaviorPreference.SB_AutoOpenPreviousProjects
-                            } else {
-                                page.startupBehavior &= ~BehaviorPreference.SB_AutoOpenPreviousProjects
-                            }
-                        }
-                    }
-                    CheckBox {
                         text: qsTr("Close the home window after opening a project")
                         TextMatcherItem on text { matcher: page.matcher }
                         checked: page.startupBehavior & BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
@@ -114,6 +100,20 @@ ScrollView {
                                 page.startupBehavior |= BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
                             } else {
                                 page.startupBehavior &= ~BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
+                            }
+                        }
+                    }
+                    CheckBox {
+                        Layout.leftMargin: 22
+                        text: qsTr("Reopen the home window when the last project window closes")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.startupBehavior & BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
+                        enabled: page.startupBehavior & BehaviorPreference.SB_CloseHomeWindowAfterOpeningProject
+                        onClicked: () => {
+                            if (checked) {
+                                page.startupBehavior |= BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
+                            } else {
+                                page.startupBehavior &= ~BehaviorPreference.SB_OpenHomeWindowWhenLastProjectClosed
                             }
                         }
                     }
@@ -129,17 +129,46 @@ ScrollView {
                         text: qsTr("Use system language")
                         TextMatcherItem on text { matcher: page.matcher }
                         checked: page.useSystemLanguage
-                        onClicked: page.useSystemLanguage = checked
+                        onClicked: () => {
+                            page.useSystemLanguage = checked
+                            if (checked) {
+                                page.localeName = Qt.locale().name
+                            } else {
+                                if (languageComboBox.currentIndex === -1) {
+                                    languageComboBox.incrementCurrentIndex()
+                                    languageComboBox.activated(0)
+                                }
+                            }
+                        }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         enabled: !page.useSystemLanguage
                         Label {
                             text: qsTr("Language")
+                            property string languageText: "Language"
                             TextMatcherItem on text { matcher: page.matcher }
+                            TextMatcherItem on languageText { matcher: page.matcher }
                         }
                         ComboBox {
+                            id: languageComboBox
                             Layout.fillWidth: true
+                            model: page.pageHandle.languages
+                            textRole: "text"
+                            valueRole: "value"
+                            Component.onCompleted: () => {
+                                currentIndex = Qt.binding(() => indexOfValue(page.localeName))
+                                displayText = Qt.binding(() => {
+                                    let index = indexOfValue(page.localeName)
+                                    if (index === -1) {
+                                        let locale = Qt.locale(page.localeName)
+                                        return `${locale.nativeLanguageName} (${locale.nativeTerritoryName})`
+                                    } else {
+                                        return undefined
+                                    }
+                                })
+                            }
+                            onActivated: (index) => page.localeName = valueAt(index)
                         }
                         Label {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
@@ -179,6 +208,20 @@ ScrollView {
                         text: qsTr('Reset All "Do Not Show Again"')
                         TextMatcherItem on text { matcher: page.matcher }
                         onClicked: CoreInterface.resetAllDoNotShowAgainRequested()
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Window")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    CheckBox {
+                        text: qsTr("Memorize window position and size")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.shouldStoreGeometry
+                        onClicked: page.shouldStoreGeometry = checked
                     }
                 }
             }
@@ -322,40 +365,6 @@ ScrollView {
                                 onTextEdited: page.proxyPassword = text
                             }
                         }
-                    }
-                }
-            }
-            GroupBox {
-                title: qsTr("Updates")
-                TextMatcherItem on title { matcher: page.matcher }
-                Layout.fillWidth: true
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    CheckBox {
-                        text: qsTr("Check for updates on startup")
-                        TextMatcherItem on text { matcher: page.matcher }
-                        checked: page.autoCheckForUpdates
-                        onClicked: page.autoCheckForUpdates = checked
-                    }
-                    RowLayout {
-                        Label {
-                            text: qsTr("Type of update to check for")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        ComboBox {
-                            textRole: "text"
-                            valueRole: "value"
-                            model: [
-                                { text: qsTr("Stable"), value: BehaviorPreference.UO_Stable },
-                                { text: qsTr("Beta"), value: BehaviorPreference.UO_Beta },
-                            ]
-                            currentIndex: page.updateOption
-                            onCurrentValueChanged: page.updateOption = currentValue
-                        }
-                    }
-                    Button {
-                        text: qsTr("Check for Updates")
-                        TextMatcherItem on text { matcher: page.matcher }
                     }
                 }
             }

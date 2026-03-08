@@ -1,0 +1,130 @@
+#include "ViewVisibilityAddOn.h"
+
+#include <QLoggingCategory>
+#include <QQmlComponent>
+#include <QSettings>
+
+#include <CoreApi/runtimeinterface.h>
+
+#include <QAKQuick/quickactioncontext.h>
+
+#include <SVSCraftQuick/MessageBox.h>
+
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
+
+namespace Core::Internal {
+    ViewVisibilityAddOn::ViewVisibilityAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+    }
+    ViewVisibilityAddOn::~ViewVisibilityAddOn() = default;
+
+    Q_STATIC_LOGGING_CATEGORY(lcViewVisibilityAddOn, "diffscope.core.viewvisibilityaddon")
+
+    void ViewVisibilityAddOn::initialize() {
+        auto settings = RuntimeInterface::settings();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto window = windowInterface->window();
+
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ViewVisibilityAddOnActions");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        auto o = component.createWithInitialProperties({
+            {"addOn", QVariant::fromValue(this)},
+        });
+        o->setParent(this);
+        QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
+
+        qCDebug(lcViewVisibilityAddOn) << "Loading view visibility properties from settings";
+
+        settings->beginGroup(staticMetaObject.className());
+
+        auto menuBarVisible = !settings->value(QString::number(MenuBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Menu bar" << menuBarVisible;
+        auto menuBar = window->property("menuBar").value<QObject *>();
+        menuBar->setProperty("alwaysVisible", menuBarVisible);
+
+        auto toolBarVisible = !settings->value(QString::number(ToolBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Tool bar" << toolBarVisible;
+        auto toolBar = window->property("toolBar").value<QObject *>();
+        toolBar->setProperty("visible", toolBarVisible);
+
+        auto leftSideBarVisible = !settings->value(QString::number(LeftSideBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Left side bar" << leftSideBarVisible;
+        auto leftDockingView = window->property("leftDockingView").value<QObject *>();
+        leftDockingView->setProperty("barSize", leftSideBarVisible ? 32 : 0);
+        leftDockingView->setProperty("barVisible", leftSideBarVisible);
+
+        auto rightSideBarVisible = !settings->value(QString::number(RightSideBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Right side bar" << rightSideBarVisible;
+        auto rightDockingView = window->property("rightDockingView").value<QObject *>();
+        rightDockingView->setProperty("barSize", rightSideBarVisible ? 32 : 0);
+        rightDockingView->setProperty("barVisible", rightSideBarVisible);
+
+        auto topSideBarVisible = !settings->value(QString::number(TopSideBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Top side bar" << topSideBarVisible;
+        auto topDockingView = window->property("topDockingView").value<QObject *>();
+        topDockingView->setProperty("barSize", topSideBarVisible ? 32 : 0);
+        topDockingView->setProperty("barVisible", topSideBarVisible);
+
+        auto bottomSideBarVisible = !settings->value(QString::number(BottomSideBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Bottom side bar" << bottomSideBarVisible;
+        auto bottomDockingView = window->property("bottomDockingView").value<QObject *>();
+        bottomDockingView->setProperty("barSize", bottomSideBarVisible ? 32 : 0);
+        bottomDockingView->setProperty("barVisible", bottomSideBarVisible);
+
+        auto statusBarVisible = !settings->value(QString::number(StatusBar)).value<bool>();
+        qCDebug(lcViewVisibilityAddOn) << "Status bar" << statusBarVisible;
+        auto statusBar = window->property("statusBar").value<QObject *>();
+        statusBar->setProperty("visible", statusBarVisible);
+
+        settings->endGroup();
+    }
+    void ViewVisibilityAddOn::extensionsInitialized() {
+    }
+    bool ViewVisibilityAddOn::delayedInitialize() {
+        return WindowInterfaceAddOn::delayedInitialize();
+    }
+    void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible) const {
+        auto settings = RuntimeInterface::settings();
+        auto window = windowHandle()->window();
+        qCInfo(lcViewVisibilityAddOn) << "Toggling visibility started";
+        settings->beginGroup(staticMetaObject.className());
+        if (option == MenuBar) {
+            auto menuBar = window->property("menuBar").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Menu bar" << visible;
+            menuBar->setProperty("alwaysVisible", visible);
+        } else if (option == ToolBar) {
+            auto toolBar = window->property("toolBar").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Tool bar" << visible;
+            toolBar->setProperty("visible", visible);
+        } else if (option == LeftSideBar) {
+            auto leftDockingView = window->property("leftDockingView").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Left side bar" << visible;
+            leftDockingView->setProperty("barVisible", visible);
+            leftDockingView->setProperty("barSize", visible ? 32 : 0);
+        } else if (option == RightSideBar) {
+            auto rightDockingView = window->property("rightDockingView").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Right side bar" << visible;
+            rightDockingView->setProperty("barVisible", visible);
+            rightDockingView->setProperty("barSize", visible ? 32 : 0);
+        } else if (option == TopSideBar) {
+            auto topDockingView = window->property("topDockingView").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Top side bar" << visible;
+            topDockingView->setProperty("barVisible", visible);
+            topDockingView->setProperty("barSize", visible ? 32 : 0);
+        } else if (option == BottomSideBar) {
+            auto bottomDockingView = window->property("bottomDockingView").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Bottom side bar" << visible;
+            bottomDockingView->setProperty("barVisible", visible);
+            bottomDockingView->setProperty("barSize", visible ? 32 : 0);
+        } else if (option == StatusBar) {
+            auto statusBar = window->property("statusBar").value<QObject *>();
+            qCInfo(lcViewVisibilityAddOn) << "Status bar" << visible;
+            statusBar->setProperty("visible", visible);
+        }
+        settings->setValue(QString::number(option), !visible);
+    end:
+        settings->endGroup();
+    }
+}

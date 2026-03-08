@@ -1,8 +1,9 @@
 #ifndef UISHELL_DIGITALCLOCKLABEL_P_H
 #define UISHELL_DIGITALCLOCKLABEL_P_H
 
-#include <QObject>
 #include <qqmlintegration.h>
+
+#include <QObject>
 
 #include <QtQuick/private/qquicktext_p.h>
 

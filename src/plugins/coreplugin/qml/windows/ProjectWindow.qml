@@ -9,6 +9,8 @@ import SVSCraft.UIComponents
 
 import QActionKit
 
+import ChorusKit.AppCore
+
 import DiffScope.UIShell
 import DiffScope.Core
 
@@ -18,8 +20,23 @@ ProjectWindow {
     required property ProjectWindowInterface windowHandle
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     useSeparatedMenu: !(BehaviorPreference.uiBehavior & BehaviorPreference.UB_MergeMenuAndTitleBar)
+    titleBarStyle: isMacOS ? ProjectWindow.Style_MacOS : BehaviorPreference.projectWindowTitleBarStyle
+    useLeftSystemButton: Boolean(BehaviorPreference.uiBehavior & BehaviorPreference.UB_UseLeftSystemButton)
+    documentName: [
+        ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || windowHandle.projectDocumentContext.defaultDocumentName,
+        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
+        windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep ? qsTr("Unsaved") : "",
+    ].filter(x => x).join(" - ")
 
     icon: "image://appicon/dspx"
+
+    WindowSystem.windowSystem: CoreInterface.windowSystem
+    WindowSystem.id: "org.diffscope.core.projectwindow"
+
+    PlatformWindowModifiedHelper {
+        window: projectWindow
+        windowModified: windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep || windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave
+    }
 
     signal beforeTerminated()
 
@@ -29,13 +46,25 @@ ProjectWindow {
 
     menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.mainMenu"
+            actionId: "org.diffscope.core.mainMenu"
             context: projectWindow.windowHandle.actionContext
             onObjectAdded: (index, object) => {
                 projectWindow.menusModel.insert(index, object)
             }
             onObjectRemoved: (index, object) => {
                 projectWindow.menusModel.remove(index)
+            }
+        }
+    }
+    menusModelForMainMenu: ObjectModel {
+        property ActionInstantiator instantiator: ActionInstantiator {
+            actionId: "org.diffscope.core.mainMenu"
+            context: projectWindow.windowHandle.actionContext
+            onObjectAdded: (index, object) => {
+                projectWindow.menusModelForMainMenu.insert(index, object)
+            }
+            onObjectRemoved: (index, object) => {
+                projectWindow.menusModelForMainMenu.remove(index)
             }
         }
     }
@@ -59,17 +88,17 @@ ProjectWindow {
         }
     }
     leftToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarLeft"
+        actionId: "org.diffscope.core.mainToolBarLeft"
     }
     rightToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarRight"
+        actionId: "org.diffscope.core.mainToolBarRight"
     }
     middleToolButtonsModel: ToolButtonsObjectModel {
-        actionId: "core.mainToolBarMiddle"
+        actionId: "org.diffscope.core.mainToolBarMiddle"
     }
     statusButtonsModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
-            actionId: "core.mainStatusBar"
+            actionId: "org.diffscope.core.mainStatusBar"
             context: projectWindow.windowHandle.actionContext
             separatorComponent: ToolBarContainerSeparator {
             }

@@ -1,7 +1,7 @@
 #include "SettingCatalogModel_p.h"
 
-#include <CoreApi/settingcatalog.h>
 #include <CoreApi/isettingpage.h>
+#include <CoreApi/settingcatalog.h>
 
 namespace UIShell {
 
@@ -108,10 +108,10 @@ namespace UIShell {
         }
 
         switch (role) {
-        case Qt::DisplayRole:
-            return QVariant::fromValue(page);
-        default:
-            return QVariant();
+            case Qt::DisplayRole:
+                return QVariant::fromValue(page);
+            default:
+                return QVariant();
         }
     }
 
@@ -149,7 +149,7 @@ namespace UIShell {
 
         // Find the parent of the added page
         Core::ISettingPage *parentPage = page->parentPage();
-        
+
         if (!parentPage) {
             // Top-level page added
             auto pages = m_catalog->pages();
@@ -235,7 +235,7 @@ namespace UIShell {
         return parentPage->pages().indexOf(page);
     }
 
-    static Core::ISettingPage *findPageById(const QList<Core::ISettingPage*> &pages, const QString &id) {
+    static Core::ISettingPage *findPageById(const QList<Core::ISettingPage *> &pages, const QString &id) {
         for (Core::ISettingPage *page : pages) {
             if (page && page->id() == id) {
                 return page;

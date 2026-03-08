@@ -13,9 +13,27 @@ ActionCollection {
     required property TimelineAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
+    readonly property EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: EditTempoTimeSignatureScenario {
+        id: editTempoTimeSignatureScenario
+        window: d.window
+        projectTimeline: d.windowHandle?.projectTimeline ?? null
+        document: d.windowHandle?.projectDocumentContext.document ?? null
+    }
+    readonly property EditLoopScenario editLoopScenario: EditLoopScenario {
+        id: editLoopScenario
+        window: d.window
+        projectTimeline: windowHandle?.projectTimeline ?? null
+        document: windowHandle?.projectDocumentContext.document ?? null
+    }
+    readonly property EditKeySignatureScenario editKeySignatureScenario: EditKeySignatureScenario {
+        id: editKeySignatureScenario
+        window: d.window
+        projectTimeline: windowHandle?.projectTimeline ?? null
+        document: windowHandle?.projectDocumentContext.document ?? null
+    }
 
     ActionItem {
-        actionId: "core.widget.digitalClock"
+        actionId: "org.diffscope.core.widget.digitalClock"
         DigitalClock {
             id: digitalClock
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
@@ -27,7 +45,7 @@ ActionCollection {
                 if (flag === BehaviorPreference.TIIB_ToggleFormat) {
                     d.addOn.showMusicTime = !d.addOn.showMusicTime
                 } else if (flag === BehaviorPreference.TIIB_ShowGoTo) {
-                    d.windowHandle.triggerAction("core.timeline.goTo", this)
+                    d.windowHandle.triggerAction("org.diffscope.core.timeline.goTo", this)
                 } else if (flag === BehaviorPreference.TIIB_ShowQuickJump) {
                     d.addOn.execQuickJump(text)
                 }
@@ -35,7 +53,7 @@ ActionCollection {
             Menu {
                 id: digitalClockContextMenu
                 MenuActionInstantiator {
-                    actionId: "core.timeline"
+                    actionId: "org.diffscope.core.timeline"
                     context: d.windowHandle?.actionContext ?? null
                     Component.onCompleted: forceUpdateLayouts()
                 }
@@ -109,7 +127,23 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timeIndicator.showMusicTime"
+        actionId: "org.diffscope.core.widget.tempoTimeSignatureIndicator"
+        TempoTimeSignatureIndicator {
+            id: tempoTimeSignatureIndicator
+
+            backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
+            tempoText: d.addOn.tempoText
+            timeSignatureText: d.addOn.timeSignatureText
+            keySignatureText: d.addOn.keySignatureText
+
+            onTempoClicked: editTempoTimeSignatureScenario.editTempo()
+            onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature()
+            onKeySignatureClicked: editKeySignatureScenario.editKeySignature()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeIndicator.showMusicTime"
         Action {
             checkable: true
             checked: d.addOn.showMusicTime
@@ -118,7 +152,7 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timeIndicator.showAbsoluteTime"
+        actionId: "org.diffscope.core.timeIndicator.showAbsoluteTime"
         Action {
             checkable: true
             checked: d.addOn.showAbsoluteTime
@@ -127,79 +161,109 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.timeline.goTo"
+        actionId: "org.diffscope.core.timeline.goTo"
         Action {
 
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.quickJump"
+        actionId: "org.diffscope.core.timeline.quickJump"
         Action {
             onTriggered: Qt.callLater(() => d.addOn.execQuickJump())
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToStart"
+        actionId: "org.diffscope.core.timeline.goToStart"
         Action {
             onTriggered: d.addOn.goToStart()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToPreviousMeasure"
+        actionId: "org.diffscope.core.timeline.goToPreviousMeasure"
         Action {
             onTriggered: d.addOn.goToPreviousMeasure()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToPreviousBeat"
+        actionId: "org.diffscope.core.timeline.goToPreviousBeat"
         Action {
             onTriggered: d.addOn.goToPreviousBeat()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToPreviousTick"
+        actionId: "org.diffscope.core.timeline.goToPreviousTick"
         Action {
             onTriggered: d.addOn.goToPreviousTick()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToEnd"
+        actionId: "org.diffscope.core.timeline.goToEnd"
         Action {
             onTriggered: d.addOn.goToEnd()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToNextMeasure"
+        actionId: "org.diffscope.core.timeline.goToNextMeasure"
         Action {
             onTriggered: d.addOn.goToNextMeasure()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToNextBeat"
+        actionId: "org.diffscope.core.timeline.goToNextBeat"
         Action {
             onTriggered: d.addOn.goToNextBeat()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.goToNextTick"
+        actionId: "org.diffscope.core.timeline.goToNextTick"
         Action {
             onTriggered: d.addOn.goToNextTick()
         }
     }
 
     ActionItem {
-        actionId: "core.timeline.resetProjectTimeRange"
+        actionId: "org.diffscope.core.timeline.resetProjectTimeRange"
         Action {
             onTriggered: d.addOn.resetProjectTimeRange()
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editTempo"
+        Action {
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTempo())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editTimeSignature"
+        Action {
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTimeSignature())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.editLoop"
+        Action {
+            onTriggered: Qt.callLater(() => editLoopScenario.editLoop())
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.timeline.enableLoop"
+        Action {
+            checkable: true
+            checked: d.addOn.loopEnabled
+            onTriggered: d.addOn.loopEnabled = checked
         }
     }
 

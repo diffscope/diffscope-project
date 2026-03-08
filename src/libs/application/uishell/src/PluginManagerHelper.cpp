@@ -5,8 +5,8 @@
 
 #include <QDir>
 
-#include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/plugincollection.h>
+#include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/pluginspec.h>
 #include <extensionsystem/pluginspec_p.h>
 
@@ -77,6 +77,7 @@ namespace UIShell {
         auto d = *reinterpret_cast<ExtensionSystem::Internal::PluginSpecPrivate **>(m_pluginSpec);
         if (value != d->enabledBySettings) {
             d->setEnabledBySettings(value);
+            ExtensionSystem::PluginManager::writeSettings();
             emit enabledBySettingsChanged();
             emit restartRequiredChanged();
         }
@@ -105,8 +106,6 @@ namespace UIShell {
         return result;
     }
 
-
-
     PluginCollectionHelper::PluginCollectionHelper(ExtensionSystem::PluginCollection *pluginCollection, PluginManagerHelper *parent) : QObject(parent), m_pluginCollection(pluginCollection) {
     }
 
@@ -128,8 +127,6 @@ namespace UIShell {
         return result;
     }
 
-
-
     PluginManagerHelper::PluginManagerHelper(QObject *parent) : QObject(parent) {
     }
 
@@ -137,9 +134,7 @@ namespace UIShell {
 
     QList<PluginCollectionHelper *> PluginManagerHelper::pluginCollections() {
         QList<PluginCollectionHelper *> result;
-        std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(),
-                               std::back_inserter(result),
-                               [=, this](auto *p) { return getHelper(p); });
+        std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(), std::back_inserter(result), [=, this](auto *p) { return getHelper(p); });
         return result;
     }
     PluginSpecHelper *PluginManagerHelper::findPlugin(const QString &name) {

@@ -2,6 +2,7 @@
 #define UISHELL_LYRICSSUBTREEPROXYMODEL_P_H
 
 #include "SubtreeProxyModel_p.h"
+
 #include <qqmlintegration.h>
 
 namespace UIShell {

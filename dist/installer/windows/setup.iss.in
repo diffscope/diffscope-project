@@ -1,0 +1,123 @@
+; Windows Application Installer Script
+;
+; Required CMake Variables:
+;   APPLICATION_NAME (internal name)
+;   APPLICATION_DISPLAY_NAME (display name)
+;   APPLICATION_SEMVER
+;   APPLICATION_VENDOR_NAME
+;   APPLICATION_URL
+;   APPLICATION_SUPPORT_URL
+;   APPLICATION_COPYRIGHT
+;   APPLICATION_TARGET
+;   CMAKE_INSTALL_PREFIX_WIN (converted from CMAKE_INSTALL_PREFIX with backslashes)
+;   INNOSETUP_MESSAGE_FILES_DIR (converted to _WIN version with backslashes)
+;   APPLICATION_INSTALLER_OUTPUT_DIR_WIN (converted from APPLICATION_INSTALLER_OUTPUT_DIR with backslashes)
+;   APPLICATION_INSTALLER_FILE_BASE
+;
+
+#define MyAppName "@APPLICATION_NAME@"
+#define MyAppDisplayName "@APPLICATION_DISPLAY_NAME@"
+#define MyAppVersion "@APPLICATION_SEMVER@"
+#define MyAppPublisher "@APPLICATION_VENDOR_NAME@"
+#define MyAppURL "@APPLICATION_URL@"
+#define MyAppSupportURL "@APPLICATION_SUPPORT_URL@"
+#define MyAppCopyright "Copyright (C) @APPLICATION_DEV_START_YEAR@-@_current_year@ @APPLICATION_VENDOR_NAME@"
+
+#define MyAppExeName "bin\@APPLICATION_TARGET@.exe"
+
+#define MyAppProjectAssocName MyAppDisplayName + " Project File"
+#define MyAppProjectAssocExt ".dspx"
+#define MyAppProjectAssocKey StringChange(MyAppProjectAssocName, " ", "") + MyAppProjectAssocExt
+
+#define MyAppSoundBankAssocName MyAppDisplayName + " Sound Bank"
+#define MyAppSoundBankAssocExt ".dspk"
+#define MyAppSoundBankAssocKey StringChange(MyAppSoundBankAssocName, " ", "") + MyAppSoundBankAssocExt
+
+#define MyAppInstalledDir "@CMAKE_INSTALL_PREFIX_WIN@"
+
+
+[Setup]
+AppId=org.diffscope.{#MyAppName}
+AppName={#MyAppDisplayName}
+AppVersion={#MyAppVersion}
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppSupportURL}
+AppCopyright={#MyAppCopyright}
+DefaultDirName={autopf}\OpenVPI\{#MyAppName}
+ChangesAssociations=yes
+DisableProgramGroupPage=yes
+; Uncomment the following line to run in non administrative install mode (install for current user only.)
+;PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=dialog
+LicenseFile={#MyAppInstalledDir}\share\doc\{#MyAppName}\LICENSE
+OutputDir=@APPLICATION_INSTALLER_OUTPUT_DIR_WIN@
+OutputBaseFilename=@APPLICATION_INSTALLER_FILE_BASE@
+Compression=lzma
+SolidCompression=yes
+WizardStyle=modern
+ArchitecturesInstallIn64BitMode=x64
+VersionInfoDescription={#MyAppDisplayName} Installer
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+@INNOSETUP_SETUP_UNOFFICIAL_LANGUAGES@
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "associateproject"; Description: "{cm:AssocFileExtension,{#MyAppDisplayName},.dspx}"; GroupDescription: "File associations:"; Flags: checkedonce
+Name: "associatesoundbank"; Description: "{cm:AssocFileExtension,{#MyAppDisplayName},.dspk}"; GroupDescription: "File associations:"; Flags: checkedonce
+
+[Code]
+function FullInstallationMessage(Param: String): String;
+begin
+    Result := SetupMessage(msgFullInstallation);
+end;
+
+function CompactInstallationMessage(Param: String): String;
+begin
+    Result := SetupMessage(msgCompactInstallation);
+end;
+
+function CustomInstallationMessage(Param: String): String;
+begin
+    Result := SetupMessage(msgCustomInstallation);
+end;
+
+#include "uninstall.iss"
+
+[Types]
+Name: "full"; Description: "{code:FullInstallationMessage}"
+Name: "compact"; Description: "{code:CompactInstallationMessage}"
+Name: "custom"; Description: "{code:CustomInstallationMessage}"; Flags: iscustom
+
+[Components]
+Name: "program"; Description: "{#MyAppDisplayName}"; Types: full compact custom; Flags: fixed
+
+[Files]
+Source: "{#MyAppInstalledDir}\*"; DestDir: "{app}"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
+
+; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Registry]
+; Project file (.dspx) associations
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppProjectAssocKey}"; ValueData: ""; Flags: uninsdeletevalue; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppProjectAssocName}"; Flags: uninsdeletekey; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},1"; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\{#MyAppProjectAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Tasks: associateproject
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppProjectAssocExt}"; ValueData: ""; Tasks: associateproject
+
+; Sound bank file (.dspk) associations
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppSoundBankAssocKey}"; ValueData: ""; Flags: uninsdeletevalue; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppSoundBankAssocName}"; Flags: uninsdeletekey; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},2"; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\{#MyAppSoundBankAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Tasks: associatesoundbank
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: "{#MyAppSoundBankAssocExt}"; ValueData: ""; Tasks: associatesoundbank
+
+[Icons]
+Name: "{autoprograms}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppDisplayName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

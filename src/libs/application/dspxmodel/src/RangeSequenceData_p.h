@@ -1,0 +1,184 @@
+#ifndef DIFFSCOPE_DSPX_MODEL_RANGESEQUENCEDATA_P_H
+#define DIFFSCOPE_DSPX_MODEL_RANGESEQUENCEDATA_P_H
+
+#include <QJSValue>
+
+#include <dspxmodel/private/Model_p.h>
+#include <dspxmodel/private/PointSequenceData_p.h>
+#include <dspxmodel/private/RangeSequenceContainer_p.h>
+
+namespace dspx {
+
+    class PointSequenceJSIterable;
+
+    template <
+        class SequenceType,
+        class ItemType,
+        int (ItemType::*positionGetter)() const,
+        void (ItemType::*positionChangedSignal)(int),
+        int (ItemType::*lengthGetter)() const,
+        void (ItemType::*lengthChangedSignal)(int),
+        void (*setOverlapped)(ItemType *item, bool overlapped),
+        void (*setSequence)(ItemType *item, SequenceType *sequence),
+        void (*setPreviousItem)(ItemType *item, ItemType *previousItem),
+        void (*setNextItem)(ItemType *item, ItemType *nextItem)>
+    class RangeSequenceData {
+    public:
+        SequenceType *q_ptr;
+        ModelPrivate *pModel;
+        PointSequenceContainer<ItemType> pointContainer;
+        RangeSequenceContainer<ItemType> rangeContainer;
+        ItemType *firstItem{};
+        ItemType *lastItem{};
+        QJSValue iterable_;
+
+        ItemType *getItem(Handle handle, bool create) const {
+            if (auto object = pModel->mapToObject(handle)) {
+                auto item = qobject_cast<ItemType *>(object);
+                Q_ASSERT(item);
+                return item;
+            }
+            if (create) {
+                return pModel->createObject<ItemType>(handle);
+            }
+            Q_UNREACHABLE();
+        }
+
+        void init(const QList<Handle> &handles) {
+            auto q = q_ptr;
+            for (auto handle : handles) {
+                auto item = getItem(handle, true);
+                pointContainer.insertItem(item, (item->*positionGetter)());
+                setSequence(item, q);
+                auto affectedItems = rangeContainer.insertItem(item, (item->*positionGetter)(), (item->*lengthGetter)());
+                for (auto affectedItem : affectedItems) {
+                    bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+                    setOverlapped(affectedItem, isOverlapped);
+                }
+            }
+            updateFirstAndLastItem();
+        }
+
+        void insertItem(ItemType *item, int position, int length) {
+            auto q = q_ptr;
+            bool containsItem = pointContainer.contains(item);
+            if (!containsItem) {
+                Q_EMIT q->itemAboutToInsert(item);
+            }
+            auto oldPreviousItem = pointContainer.previousItem(item);
+            auto oldNextItem = pointContainer.nextItem(item);
+            // Insert into both containers
+            pointContainer.insertItem(item, position);
+            setSequence(item, q);
+            auto affectedItems = rangeContainer.insertItem(item, position, length);
+
+            // Update overlapped status for all affected items
+            for (auto affectedItem : affectedItems) {
+                bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+                setOverlapped(affectedItem, isOverlapped);
+            }
+            updateFirstAndLastItem();
+            auto newPreviousItem = pointContainer.previousItem(item);
+            auto newNextItem = pointContainer.nextItem(item);
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            if (newPreviousItem) {
+                setNextItem(newPreviousItem, item);
+            }
+            if (newNextItem) {
+                setPreviousItem(newNextItem, item);
+            }
+            setPreviousItem(item, newPreviousItem);
+            setNextItem(item, newNextItem);
+            if (!containsItem) {
+                Q_EMIT q->itemInserted(item);
+                Q_EMIT q->sizeChanged(pointContainer.size());
+            }
+        }
+
+        void removeItem(ItemType *item) {
+            auto q = q_ptr;
+            Q_EMIT q->itemAboutToRemove(item);
+            auto oldPreviousItem = pointContainer.previousItem(item);
+            auto oldNextItem = pointContainer.nextItem(item);
+            // Remove from both containers
+            pointContainer.removeItem(item);
+            setSequence(item, nullptr);
+            auto affectedItems = rangeContainer.removeItem(item);
+
+            // Update overlapped status for all affected items
+            for (auto affectedItem : affectedItems) {
+                bool isOverlapped = rangeContainer.isOverlapped(affectedItem);
+                setOverlapped(affectedItem, isOverlapped);
+            }
+
+            updateFirstAndLastItem();
+            if (oldPreviousItem) {
+                setNextItem(oldPreviousItem, oldNextItem);
+            }
+            if (oldNextItem) {
+                setPreviousItem(oldNextItem, oldPreviousItem);
+            }
+            setPreviousItem(item, nullptr);
+            setNextItem(item, nullptr);
+            Q_EMIT q->itemRemoved(item);
+            Q_EMIT q->sizeChanged(pointContainer.size());
+        }
+
+        void updateFirstAndLastItem() {
+            auto q = q_ptr;
+            if (auto a = pointContainer.firstItem(); firstItem != a) {
+                firstItem = a;
+                Q_EMIT q->firstItemChanged(firstItem);
+            }
+            if (auto a = pointContainer.lastItem(); lastItem != a) {
+                lastItem = a;
+                Q_EMIT q->lastItemChanged(lastItem);
+            }
+        }
+
+        void handleInsertIntoSequenceContainer(Handle entity) {
+            auto q = q_ptr;
+            auto item = getItem(entity, true);
+            if (!pointContainer.contains(item)) {
+                QObject::connect(item, positionChangedSignal, q, [=](int pos) {
+                    int length = (item->*lengthGetter)();
+                    insertItem(item, pos, length);
+                });
+                QObject::connect(item, lengthChangedSignal, q, [=](int len) {
+                    int position = (item->*positionGetter)();
+                    insertItem(item, position, len);
+                });
+                QObject::connect(item, &QObject::destroyed, q, [=] {
+                    removeItem(item);
+                });
+            }
+            insertItem(item, (item->*positionGetter)(), (item->*lengthGetter)());
+        }
+
+        void handleTakeFromSequenceContainer(Handle takenEntity, Handle entity) {
+            auto q = q_ptr;
+            auto item = getItem(takenEntity, false);
+            if (item) {
+                QObject::disconnect(item, nullptr, q, nullptr);
+                removeItem(item);
+            }
+        }
+
+        QJSValue iterable() {
+            if (!iterable_.isUndefined()) {
+                return iterable_;
+            }
+            auto q = q_ptr;
+            iterable_ = PointSequenceJSIterable::create(q);
+            return iterable_;
+        }
+    };
+
+}
+
+#endif //DIFFSCOPE_DSPX_MODEL_RANGESEQUENCEDATA_P_H

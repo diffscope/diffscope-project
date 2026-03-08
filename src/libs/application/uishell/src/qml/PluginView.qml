@@ -33,7 +33,7 @@ Item {
 
     signal restartRequested()
     function askRestart() {
-        if (MessageBox.question(qsTr("Restart %1?").replace("%1", Application.name), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
+        if (MessageBox.question(qsTr("Restart %1?").arg(Application.displayName), qsTr("After restart, plugin changes will be applied.")) === SVS.Yes) {
             restartRequested()
         }
     }
@@ -45,7 +45,7 @@ Item {
                 return
             }
             if (MessageBox.question(
-                qsTr("Enabling %1 will also enable the following plugins:").replace("%1", pluginSpec.displayName),
+                qsTr("Enabling %1 will also enable the following plugins:").arg(pluginSpec.displayName),
                 deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
             ) === SVS.No) {
                 button.checked = false
@@ -62,7 +62,7 @@ Item {
                 return
             }
             if (MessageBox.question(
-                qsTr("Disabling %1 will also disable the following plugins:").replace("%1", pluginSpec.displayName),
+                qsTr("Disabling %1 will also disable the following plugins:").arg(pluginSpec.displayName),
                 deps.map(p => p.displayName).join("\n") + "\n\n" + qsTr("Continue?")
             ) === SVS.No) {
                 button.checked = true
@@ -114,14 +114,18 @@ Item {
                 color: Theme.backgroundQuaternaryColor
                 IconLabel {
                     anchors.centerIn: parent
-                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/PuzzlePiece32Regular.svg"
+                    icon.source: "image://fluent-system-icons/puzzle_piece?size=32&style=regular"
                     icon.color: Theme.foregroundSecondaryColor
+                    icon.width: 32
+                    icon.height: 32
                 }
             }
             toolBar: RowLayout {
                 IconLabel {
-                    icon.source: `qrc:/qt/qml/DiffScope/UIShell/assets/${pluginCard.modelData.hasError ? "DismissCircle16Filled" : !pluginCard.modelData.running ? "SubtractCircle16Filled" : pluginCard.modelData.required ? "CheckmarkLock16Filled" : "CheckmarkCircle16Filled"}.svg`
+                    icon.source: `image://fluent-system-icons/${pluginCard.modelData.hasError ? "dismiss_circle" : !pluginCard.modelData.running ? "subtract_circle" : pluginCard.modelData.required ? "checkmark_lock" : "checkmark_circle"}`
                     icon.color: pluginCard.modelData.hasError ? Theme.errorColor : !pluginCard.modelData.running ? Theme.foregroundSecondaryColor : Theme.accentColor
+                    icon.width: 16
+                    icon.height: 16
                 }
                 Switch {
                     enabled: !pluginCard.modelData.required
@@ -144,9 +148,10 @@ Item {
                        restartButton.hovered ? Theme.controlHoveredColorChange.apply(Theme.accentColor) :
                        Theme.accentColor
             }
+            font.pixelSize: 11
             contentItem: Text {
                 color: Theme.foregroundPrimaryColor
-                font: { font = Theme.font; font.pixelSize = 11 }
+                font: restartButton.font
                 horizontalAlignment: Text.AlignHCenter
                 text: restartButton.text
             }
@@ -205,7 +210,7 @@ Item {
                 Layout.maximumHeight: implicitHeight
                 Button {
                     visible: !view.useSplitView
-                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/ArrowLeft24Filled.svg"
+                    icon.source: "image://fluent-system-icons/arrow_left?size=24"
                     text: qsTr("Back")
                     flat: true
                     display: AbstractButton.IconOnly
@@ -288,8 +293,10 @@ Item {
                 IconLabel {
                     spacing: 4
                     font: Theme.font
-                    icon.source: `qrc:/qt/qml/DiffScope/UIShell/assets/${d.pluginSpec?.hasError ? "DismissCircle16Filled" : !d.pluginSpec?.running ? "SubtractCircle16Filled" : d.pluginSpec?.required ? "CheckmarkLock16Filled" : "CheckmarkCircle16Filled"}.svg`
+                    icon.source: `image://fluent-system-icons/${d.pluginSpec?.hasError ? "dismiss_circle" : !d.pluginSpec?.running ? "subtract_circle" : d.pluginSpec?.required ? "checkmark_lock" : "checkmark_circle"}`
                     icon.color: d.pluginSpec?.hasError ? Theme.errorColor : !d.pluginSpec?.running ? Theme.foregroundSecondaryColor : Theme.accentColor
+                    icon.width: 16
+                    icon.height: 16
                     text: d.pluginSpec?.hasError ? qsTr("Plugin status: Error") : !d.pluginSpec?.running ? qsTr("Plugin status: Not loaded") : qsTr("Plugin status: Loaded")
                     color: Theme.foregroundPrimaryColor
                 }
@@ -398,9 +405,9 @@ Item {
                                     }
                                 }
                                 ToolButton {
-                                    icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Open16Filled"
+                                    icon.source: "image://fluent-system-icons/open"
                                     display: AbstractButton.IconOnly
-                                    text: qsTr("Reveal in %1").replace("%1", Qt.platform.os === "osx" || Qt.platform.os === "macos" ? qsTr("Finder") : qsTr("File Explorer"))
+                                    text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
                                     onClicked: () => {
                                         DesktopServices.reveal(d.pluginSpec.filePath)
                                     }
@@ -528,7 +535,7 @@ Item {
                     id: searchTextField
                     Layout.fillWidth: true
                     placeholderText: qsTr("Search")
-                    ThemedItem.icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Search16Filled.svg"
+                    ThemedItem.icon.source: "image://fluent-system-icons/search"
                 }
             }
 

@@ -1,4 +1,5 @@
 #include "LyricsSubtreeProxyModel_p.h"
+
 #include <uishell/USDef.h>
 
 namespace UIShell {

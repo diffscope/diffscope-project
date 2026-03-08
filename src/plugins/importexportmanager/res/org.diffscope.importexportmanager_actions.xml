@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.importexportmanager</id>
+    <configuration>
+        <defaultCatalog>core.mainMenu</defaultCatalog>
+        <translationContext
+                text="Application::ActionText"
+                class="Application::ActionClass"
+                description="Application::ActionDescription"
+        />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
+    </configuration>
+
+    <items>
+        <action id="org.diffscope.importexportmanager.file.&amp;import" icon="document_arrow_right" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.file.&amp;export" icon="document_arrow_left" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.project.importAsTracks^" />
+        <action id="org.diffscope.importexportmanager.edit.copySpecial^" shortcut="Ctrl+Alt+C" />
+        <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
+
+        <action id="org.diffscope.importexportmanager.panel.import" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_arrow_right" diffscope:componentType="custom" />
+    </items>
+
+    <layouts>
+        <group id="org.diffscope.importexportmanager.importExportActions">
+            <action id="org.diffscope.importexportmanager.file.import" />
+            <action id="org.diffscope.importexportmanager.file.export" />
+        </group>
+        <group id="org.diffscope.importexportmanager.importActions">
+            <action id="org.diffscope.importexportmanager.file.import" />
+        </group>
+    </layouts>
+
+    <insertions>
+        <insertion target="org.diffscope.core.file" anchor="after" relativeTo="org.diffscope.core.fileSaveActions">
+            <group id="org.diffscope.importexportmanager.importExportActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.homeFile" anchor="after" relativeTo="org.diffscope.core.fileOpenActions">
+            <group id="org.diffscope.importexportmanager.importActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.edit.generic" anchor="after" relativeTo="org.diffscope.core.edit.copy">
+            <action id="org.diffscope.importexportmanager.edit.copySpecial" />
+        </insertion>
+        <insertion target="org.diffscope.core.edit.generic" anchor="after" relativeTo="org.diffscope.core.edit.paste">
+            <action id="org.diffscope.importexportmanager.edit.pasteSpecial" />
+        </insertion>
+        <insertion target="org.diffscope.core.homePanels" anchor="last">
+            <action id="org.diffscope.importexportmanager.panel.import" />
+        </insertion>
+    </insertions>
+
+</actionExtension>

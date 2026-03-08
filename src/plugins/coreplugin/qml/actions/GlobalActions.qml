@@ -5,58 +5,76 @@ import QtQuick.Controls
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
+import ChorusKit.AppCore
+
 import QActionKit
 
 import DiffScope.UIShell
 import DiffScope.Core
 
 ActionCollection {
+    id: d
+    
+    required property ActionWindowInterfaceBase windowHandle
 
     ActionItem {
-        actionId: "core.file.new"
+        actionId: "org.diffscope.core.file.new"
         Action {
-            onTriggered: CoreInterface.newFile()
-        }
-    }
-
-    ActionItem {
-        actionId: "core.file.open"
-        Action {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.documentations"
-        Action {
-            onTriggered: () => {
-                CoreAchievementsModel.triggerAchievementCompleted(CoreAchievementsModel.Achievement_Help);
+            onTriggered: (o) => {
+                CoreInterface.newFile(d.windowHandle.window)
             }
         }
     }
 
     ActionItem {
-        actionId: "core.settings"
+        actionId: "org.diffscope.core.file.newFromTemplate"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                CoreInterface.newFileFromTemplate("", d.windowHandle.window)
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.file.open"
+        Action {
+            onTriggered: (o) => {
+                CoreInterface.openFile("", d.windowHandle.window)
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.documentations"
+        Action {
+            onTriggered: () => {
+
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.settings"
+        Action {
+            onTriggered: (o) => {
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execSettingsDialog("", w))
             }
         }
     }
 
     ActionItem {
-        actionId: "core.plugins"
+        actionId: "org.diffscope.core.plugins"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execPluginsDialog(w))
             }
         }
     }
 
     ActionItem {
-        actionId: "core.showHomeWindow"
+        actionId: "org.diffscope.core.showHomeWindow"
         Action {
             onTriggered: () => {
                 CoreInterface.showHome()
@@ -65,51 +83,46 @@ ActionCollection {
     }
 
     ActionItem {
-        actionId: "core.exit"
+        actionId: "org.diffscope.core.exit"
         Action {
             onTriggered: () => {
-                CoreInterface.exitApplicationGracefully()
+                RuntimeInterface.exitApplicationGracefully()
             }
         }
     }
 
     ActionItem {
-        actionId: "core.window.nextProjectWindow"
-        Action {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.window.previousProjectWindow"
-        Action {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.window.projectWindows"
-        Menu {
-
-        }
-    }
-
-    ActionItem {
-        actionId: "core.aboutApp"
+        actionId: "org.diffscope.core.aboutApp"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execAboutAppDialog(w))
             }
         }
     }
 
     ActionItem {
-        actionId: "core.aboutQt"
+        actionId: "org.diffscope.core.aboutQt"
         Action {
             onTriggered: (o) => {
-                let w = o.Window.window
+                let w = d.windowHandle.window
                 Qt.callLater(() => CoreInterface.execAboutQtDialog(w))
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.runDspxInspector"
+        Action {
+            readonly property Component inspectorComponent: DspxInspectorDialog {
+            }
+            onTriggered: (o) => {
+                let w = o.Window.window
+                Qt.callLater(() => {
+                    let inspector = inspectorComponent.createObject()
+                    inspector.pos = Qt.point(w.x + 0.5 * (w.width - inspector.width), w.y + 0.5 * (w.height - inspector.height))
+                    inspector.exec()
+                })
             }
         }
     }

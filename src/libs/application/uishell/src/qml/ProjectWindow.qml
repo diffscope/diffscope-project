@@ -11,10 +11,10 @@ import SVSCraft.UIComponents.impl
 
 Window {
     id: window
-    width: 1280
-    height: 800
+    width: 1600
+    height: 960
     minimumWidth: 360
-    title: `${documentName} - ${Application.name}`
+    title: `${documentName} - ${Application.displayName}`
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
@@ -22,13 +22,22 @@ Window {
     property url icon: ""
     property string documentName: ""
     property ObjectModel menusModel: null
+    property ObjectModel menusModelForMainMenu: null
     property ObjectModel leftToolButtonsModel: null
     property ObjectModel middleToolButtonsModel: null
     property ObjectModel rightToolButtonsModel: null
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
-    property double topDockingViewHeightRatio: 0.3
+    property double topDockingViewHeightRatio: 0.5
     property bool useSeparatedMenu: false
+    property bool useLeftSystemButton: false
+
+    enum TitleBarStype {
+        Style_Windows,
+        Style_MacOS,
+        Style_Simple
+    }
+    property int titleBarStyle: ProjectWindow.Style_MacOS
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
     readonly property MenuBar menuBar: menuBar
@@ -40,6 +49,7 @@ Window {
     readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
+    readonly property double popupTopMarginHint: mainPane.y + 2
 
     property bool notificationEnablesAnimation: false
 
@@ -62,8 +72,13 @@ Window {
             windowAgent.setSystemButton(WindowAgent.Minimize, minimizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Maximize, maximizeSystemButton)
             windowAgent.setSystemButton(WindowAgent.Close, closeSystemButton)
-            windowAgent.setSystemButton(WindowAgent.WindowIcon, iconArea)
+            windowAgent.setSystemButton(WindowAgent.WindowIcon, windowIcon)
             windowAgent.setHitTestVisible(Overlay.overlay)
+            windowAgent.setHitTestVisible(leftToolBarContainer)
+            windowAgent.setHitTestVisible(rightToolBarContainer)
+            windowAgent.setHitTestVisible(middleToolBarContainer)
+            windowAgent.setHitTestVisible(menuBar)
+            windowAgent.setHitTestVisible(mainMenuButton)
         }
     }
 
@@ -80,12 +95,19 @@ Window {
         property bool framelessSetup: false
     }
 
+    Component {
+        id: dummyItem
+        Item {
+            visible: false
+        }
+    }
+
     CommandPalette {
         id: commandPalettePopup
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
         emptyText: qsTr("Empty")
     }
     InputPalette {
@@ -93,7 +115,7 @@ Window {
         property double horizontalOffset: 0
         property double verticalOffset: 0
         x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: titleBar.height + toolBar.height + 4 + verticalOffset
+        y: popupTopMarginHint + verticalOffset
     }
     Rectangle {
         anchors.fill: parent
@@ -101,9 +123,13 @@ Window {
     }
     MenuBar {
         id: menuBar
-        parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : titleBarMenuParent
+        property bool alwaysVisible: true
+        parent: window.isMacOS ? window.contentItem : !windowAgent.framelessSetup || window.useSeparatedMenu ? separatedMenuParent : window.titleBarStyle === ProjectWindow.Style_MacOS ? window.contentItem : titleBarMenuParent
         padding: 0
         leftPadding: 4
+        topPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
+        bottomPadding: !windowAgent.framelessSetup || window.useSeparatedMenu ? 0 : (titleBar.height - 24) / 2
+        visible: window.isMacOS || alwaysVisible && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && (window.titleBarStyle !== ProjectWindow.Style_Simple || window.useSeparatedMenu))
         background: Item {
         }
         Instantiator {
@@ -125,13 +151,27 @@ Window {
         }
     }
     ColumnLayout {
-        spacing: 1
+        spacing: 0
         anchors.fill: parent
+        component PaneSeparator: Rectangle {
+            color: Theme.paneSeparatorColor
+            implicitHeight: 1
+            Layout.fillWidth: true
+        }
         Rectangle { // TODO macOS fullscreen transition
             id: titleBar
             Accessible.role: Accessible.TitleBar
             Layout.fillWidth: true
-            height: !window.isMacOS ? 32 : 28
+            height: {
+                switch (window.titleBarStyle) {
+                    case ProjectWindow.Style_Windows:
+                        return 32
+                    case ProjectWindow.Style_MacOS:
+                        return 28
+                    case ProjectWindow.Style_Simple:
+                        return 32
+                }
+            }
             color: Theme.backgroundPrimaryColor
             visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
             RowLayout {
@@ -139,10 +179,11 @@ Window {
                 spacing: 0
                 Item {
                     id: iconArea
-                    visible: !window.isMacOS
+                    visible: window.titleBarStyle === ProjectWindow.Style_Windows
                     Layout.fillHeight: true
                     width: 40
                     Image {
+                        id: windowIcon
                         anchors.centerIn: parent
                         source: window.icon
                         width: 16
@@ -154,90 +195,139 @@ Window {
                 }
                 RowLayout {
                     id: titleBarMenuParent
-                    visible: !window.useSeparatedMenu && menuBar.height !== 0
+                    visible: window.titleBarStyle === ProjectWindow.Style_Windows && !window.useSeparatedMenu && menuBar.height !== 0
                 }
                 Item {
                     id: titleBarArea
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    RowLayout {
-                        anchors.right: parent.right
-                        visible: !window.isMacOS
-                        spacing: 0
-                        SystemButton {
-                            id: minimizeSystemButton
-                            type: SystemButton.Minimize
-                        }
-                        SystemButton {
-                            id: maximizeSystemButton
-                            type: SystemButton.MaximizeRestore
-                        }
-                        SystemButton {
-                            id: closeSystemButton
-                            type: SystemButton.Close
-                        }
-                    }
+                    Layout.fillHeight: window.titleBarStyle !== ProjectWindow.Style_MacOS
+                    Layout.preferredHeight: window.titleBarStyle === ProjectWindow.Style_MacOS ? titleBar.height + (toolBar.visible ? toolBar.height : 0) : 0
                 }
             }
             RowLayout {
                 id: titleTextGroup
+                readonly property bool menuBarMergedInTitleBar: !window.isMacOS && !window.useSeparatedMenu && menuBar.visible
                 visible: windowAgent.framelessSetup
                 height: parent.height
                 spacing: 4
                 Image {
-                    visible: window.isMacOS
+                    visible: window.titleBarStyle !== ProjectWindow.Style_Windows
                     Layout.alignment: Qt.AlignVCenter
                     source: window.icon
                     Layout.preferredWidth: 16
                     Layout.preferredHeight: 16
+                    sourceSize.width: 16
+                    sourceSize.height: 16
                 }
                 Text {
-                    readonly property color _baseColor: window.isMacOS || window.useSeparatedMenu ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
+                    readonly property color _baseColor: !titleTextGroup.menuBarMergedInTitleBar || window.titleBarStyle !== ProjectWindow.Style_Windows ? Theme.foregroundPrimaryColor : Theme.foregroundSecondaryColor
                     color: Window.active ? _baseColor : Theme.foregroundDisabledColorChange.apply(_baseColor)
                     Layout.alignment: Qt.AlignVCenter
-                    font: Theme.font
+                    font.family: Theme.font.family
+                    font.weight: window.titleBarStyle === ProjectWindow.Style_MacOS ? Font.ExtraBold : Font.Normal
                     text: Window.window.title
-                    Component.onCompleted: { font.weight = window.isMacOS ? Font.ExtraBold : Font.Normal }
                 }
                 x: {
-                    if (window.isMacOS) {
+                    if (window.titleBarStyle !== ProjectWindow.Style_Windows) {
                         return (parent.width - width) / 2
                     } else if (LayoutMirroring.enabled) {
-                        return (window.useSeparatedMenu ? iconArea.x : titleBarMenuParent.x - 24) - width
+                        return (!menuBarMergedInTitleBar ? iconArea.x : titleBarMenuParent.x - 24) - width
                     } else {
-                        return (window.useSeparatedMenu ? iconArea.x + iconArea.width : titleBarMenuParent.x + titleBarMenuParent.width + 24)
+                        return (!menuBarMergedInTitleBar ? iconArea.x + iconArea.width : titleBarMenuParent.x + titleBarMenuParent.width + 24)
                     }
                 }
             }
             Rectangle {
-                visible: window.isMacOS && toolBar.visible
+                visible: window.titleBarStyle === ProjectWindow.Style_MacOS && toolBar.visible
                 width: parent.width
                 height: 1
                 anchors.top: parent.bottom
                 color: parent.color
             }
+            RowLayout {
+                x: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? 0 : parent.width - width
+                layoutDirection: window.useLeftSystemButton && window.titleBarStyle !== ProjectWindow.Style_Windows ? Qt.RightToLeft : Qt.LeftToRight
+                height: parent.height
+                visible: !window.isMacOS
+                spacing: 0
+                ToolButton {
+                    id: mainMenuButton
+                    icon.source: "image://fluent-system-icons/more_horizontal"
+                    flat: false
+                    visible: window.titleBarStyle === ProjectWindow.Style_Simple && !window.useSeparatedMenu
+                    text: qsTr("&Main Menu")
+                    display: AbstractButton.IconOnly
+                    action: MenuAction {
+                        menu: Menu {
+                            id: mainMenu
+                            Instantiator {
+                                model: window.menusModelForMainMenu
+                                onObjectAdded: (index, object) => {
+                                    if (object instanceof Item) {
+                                        mainMenu.insertItem(index, object)
+                                    } else if (object instanceof Action) {
+                                        mainMenu.insertAction(index, object)
+                                    } else if (object instanceof Menu) {
+                                        mainMenu.insertMenu(index, object)
+                                    } else {
+                                        mainMenu.insertItem(index, dummyItem.createObject(this))
+                                    }
+                                }
+                                onObjectRemoved: (index, object) => {
+                                    if (object instanceof Item) {
+                                        mainMenu.removeItem(object)
+                                    } else if (object instanceof Action) {
+                                        mainMenu.removeAction(object)
+                                    } else if (object instanceof Menu) {
+                                        mainMenu.removeMenu(object)
+                                    } else {
+                                        mainMenu.removeItem(target.itemAt(index))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Item {
+                    implicitWidth: 8
+                }
+                SystemButton {
+                    id: minimizeSystemButton
+                    type: SystemButton.Minimize
+                    useWindowsStyle: window.titleBarStyle === ProjectWindow.Style_Windows
+                    Layout.fillHeight: true
+                }
+                SystemButton {
+                    id: maximizeSystemButton
+                    type: SystemButton.MaximizeRestore
+                    useWindowsStyle: window.titleBarStyle === ProjectWindow.Style_Windows
+                    Layout.fillHeight: true
+                }
+                SystemButton {
+                    id: closeSystemButton
+                    type: SystemButton.Close
+                    useWindowsStyle: window.titleBarStyle === ProjectWindow.Style_Windows
+                    Layout.fillHeight: true
+                }
+            }
         }
-        Item {
-            Layout.fillWidth: true
-            implicitHeight: 0
-            visible: !titleBar.visible && separatedMenuParent.visible
+        PaneSeparator {
+            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && ((separatedMenuParent.visible && menuBar.visible) || toolBar.visible))
         }
         Rectangle {
             id: separatedMenuParent
             Layout.fillWidth: true
             color: Theme.backgroundPrimaryColor
-            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.useSeparatedMenu) && menuBar.height !== 0
-            height: 24
+            visible: !window.isMacOS && (!windowAgent.framelessSetup || window.titleBarStyle !== ProjectWindow.Style_MacOS && window.useSeparatedMenu && menuBar.height !== 0)
+            Layout.preferredHeight: menuBar.visible ? 24 : 0
+            // FIXME remove spacing when visual invisible
+        }
+        PaneSeparator {
+            visible: separatedMenuParent.visible && menuBar.visible && toolBar.visible
         }
         ToolBar {
             id: toolBar
             Layout.fillWidth: true
-            Component {
-                id: dummyItem
-                Item {
-                    visible: false
-                }
-            }
             component ToolBarContainerInstantiator: Instantiator {
                 required property ToolBarContainer target
                 onObjectAdded: (index, object) => {
@@ -295,6 +385,9 @@ Window {
                 }
             }
         }
+        PaneSeparator {
+
+        }
         Item {
             id: mainPane
             readonly property double minimumPanelSize: 64
@@ -303,11 +396,23 @@ Window {
             SplitView {
                 anchors.fill: parent
                 ThemedItem.splitHandleEnabled: rightDock.panelOpened
+                ThemedItem.dividerStroke: {
+                    if (!rightDock.barVisible && !rightDock.panelOpened) {
+                        return SVS.DS_None
+                    }
+                    return rightDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                }
                 Accessible.ignored: true
                 SplitView {
                     SplitView.minimumWidth: leftDock.SplitView.minimumWidth + mainPane.minimumPanelSize
                     SplitView.fillWidth: true
                     ThemedItem.splitHandleEnabled: leftDock.panelOpened
+                    ThemedItem.dividerStroke: {
+                        if (!leftDock.barVisible && !leftDock.panelOpened) {
+                            return SVS.DS_None
+                        }
+                        return leftDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                    }
                     Accessible.ignored: true
                     DockingView {
                         id: leftDock
@@ -331,6 +436,13 @@ Window {
                         SplitView.fillHeight: true
                         SplitView.minimumWidth: mainPane.minimumPanelSize
                         ThemedItem.splitHandleVisible: topDock.panelOpened || bottomDock.panelOpened
+                        ThemedItem.splitHandleEnabled: topDock.panelOpened && bottomDock.panelOpened
+                        ThemedItem.dividerStroke: {
+                            if ((!topDock.barVisible && !topDock.panelOpened) || (!bottomDock.barVisible && !bottomDock.panelOpened)) {
+                                return SVS.DS_None
+                            }
+                            return topDock.panelOpened && bottomDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
+                        }
                         Accessible.ignored: true
                         Item {
                             SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
@@ -355,8 +467,8 @@ Window {
                                 width: parent.width
                                 height: 1
                                 anchors.top: topDock.bottom
-                                color: Theme.splitterColor
-                                visible: !topDock.panelOpened
+                                color: Theme.paneSeparatorColor
+                                visible: !topDock.panelOpened && topDock.barVisible
                             }
                         }
                         Item {
@@ -377,8 +489,8 @@ Window {
                                 width: parent.width
                                 height: 1
                                 anchors.bottom: bottomDock.top
-                                color: Theme.splitterColor
-                                visible: !bottomDock.panelOpened
+                                color: Theme.paneSeparatorColor
+                                visible: !bottomDock.panelOpened && bottomDock.barVisible
                             }
                         }
                     }
@@ -401,6 +513,9 @@ Window {
                     barBackgroundLevel: SVS.BL_Secondary
                 }
             }
+        }
+        PaneSeparator {
+            visible: statusBar.visible
         }
         ToolBar {
             id: statusBar

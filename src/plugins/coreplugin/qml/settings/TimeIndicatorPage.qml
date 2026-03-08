@@ -52,7 +52,6 @@ ScrollView {
                 ColumnLayout {
                     anchors.fill: parent
                     CheckBox {
-                        Layout.columnSpan: 2
                         text: qsTr("Show background")
                         checked: page.timeIndicatorBackgroundVisible
                         onClicked: page.timeIndicatorBackgroundVisible = checked
@@ -61,7 +60,6 @@ ScrollView {
                         }
                     }
                     CheckBox {
-                        Layout.columnSpan: 2
                         text: qsTr("Fine-tune character spacing")
                         checked: page.timeIndicatorTextFineTuneEnabled
                         onClicked: page.timeIndicatorTextFineTuneEnabled = checked
@@ -75,15 +73,6 @@ ScrollView {
                         wrapMode: Text.Wrap
                         text: qsTr("Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes")
                     }
-                    CheckBox {
-                        Layout.columnSpan: 2
-                        text: qsTr("Show slider on hover")
-                        checked: page.timeIndicatorShowSliderOnHover
-                        onClicked: page.timeIndicatorShowSliderOnHover = checked
-                        TextMatcherItem on text {
-                            matcher: page.matcher
-                        }
-                    }
                 }
             }
             GroupBox {
@@ -95,6 +84,15 @@ ScrollView {
                 GridLayout {
                     Layout.fillWidth: true
                     columns: 2
+                    CheckBox {
+                        Layout.columnSpan: 2
+                        text: qsTr("Show slider on hover")
+                        checked: page.timeIndicatorShowSliderOnHover
+                        onClicked: page.timeIndicatorShowSliderOnHover = checked
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
                     Label {
                         text: qsTr("Click action")
                         TextMatcherItem on text {

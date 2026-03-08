@@ -27,15 +27,15 @@ Window {
 
     onClosing: finished()
 
-    QtObject {
-        id: d
-    }
-
     Component {
         id: pageWithHeaderComponent
         Item {
             id: pageWithHeader
             required property Item page
+            Rectangle {
+                anchors.fill: parent
+                color: Theme.backgroundPrimaryColor
+            }
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 4
@@ -61,7 +61,7 @@ Window {
 
     Component.onCompleted: () => {
         for (let page of pages) {
-            let pageWithHeader = pageWithHeaderComponent.createObject(pagesStackView, {page})
+            let pageWithHeader = pageWithHeaderComponent.createObject(null, {page})
             pagesWithHeader.push(pageWithHeader)
         }
     }
@@ -85,17 +85,17 @@ Window {
                         fillMode: Image.PreserveAspectFit
                         mipmap: true
                         Accessible.role: Accessible.Graphic
-                        Accessible.name: qsTr("Logo of %1").arg(Application.name)
+                        Accessible.name: qsTr("Logo of %1").arg(Application.displayName)
                     }
                     Label {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("Welcome")
-                        font.pointSize: 24
+                        font.pixelSize: 32
                     }
                     Label {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("This wizard will help you complete the initial configuration")
-                        font.pointSize: 12
+                        font.pixelSize: 16
                     }
                 }
             }
