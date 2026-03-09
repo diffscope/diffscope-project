@@ -83,6 +83,38 @@ namespace VisualEditor::Internal {
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.clip", o->property("clipTrackComponent").value<QQmlComponent *>());
         }
+
+        // Phoneme Track
+        {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PhonemeTrack", this);
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"addOn", QVariant::fromValue(this)}
+            });
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(this);
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.phoneme", o->property("phonemeTrackComponent").value<QQmlComponent *>());
+        }
+
+        // Parameter Track
+        {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ParameterTrack", this);
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"addOn", QVariant::fromValue(this)}
+            });
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(this);
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter", o->property("parameterTrackComponent").value<QQmlComponent *>());
+        }
     }
 
     void AdditionalTrackAddOn::extensionsInitialized() {

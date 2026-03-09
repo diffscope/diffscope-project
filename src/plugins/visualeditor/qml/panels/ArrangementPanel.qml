@@ -22,11 +22,15 @@ QtObject {
             if (!state)
                 return
             let arrangementPanelInterface = addOn.arrangementPanelInterface
-            arrangementPanelInterface.tool = state.tool
-            arrangementPanelInterface.positionAlignmentManipulator.duration = state.duration
-            arrangementPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
-            arrangementPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
-            for (let id of state.additionalTracks) {
+            if (state.tool !== undefined)
+                arrangementPanelInterface.tool = state.tool
+            if (state.duration !== undefined)
+                arrangementPanelInterface.positionAlignmentManipulator.duration = state.duration
+            if (state.tuplet !== undefined)
+                arrangementPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
+            if (state.isAutoPageScrollingEnabled !== undefined)
+                arrangementPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+            for (let id of state.additionalTracks ?? []) {
                 d.addOn.additionalTrackLoader.loadItem(id)
             }
         }

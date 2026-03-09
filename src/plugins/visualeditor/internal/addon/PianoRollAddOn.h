@@ -15,6 +15,7 @@ namespace VisualEditor::Internal {
         Q_OBJECT
         Q_PROPERTY(VisualEditor::PianoRollPanelInterface *pianoRollPanelInterface READ pianoRollPanelInterface CONSTANT)
         Q_PROPERTY(AdditionalTrackLoader *additionalTrackLoader READ additionalTrackLoader CONSTANT)
+        Q_PROPERTY(AdditionalTrackLoader *bottomAdditionalTrackLoader READ bottomAdditionalTrackLoader CONSTANT)
         Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
         Q_PROPERTY(bool trackSelectorVisible READ isTrackSelectorVisible WRITE setTrackSelectorVisible NOTIFY trackSelectorVisibleChanged)
     public:
@@ -27,6 +28,7 @@ namespace VisualEditor::Internal {
 
         PianoRollPanelInterface *pianoRollPanelInterface() const;
         AdditionalTrackLoader *additionalTrackLoader() const;
+        AdditionalTrackLoader *bottomAdditionalTrackLoader() const;
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -41,6 +43,7 @@ namespace VisualEditor::Internal {
 
     private:
         AdditionalTrackLoader *m_additionalTrackLoader{};
+        AdditionalTrackLoader *m_bottomAdditionalTrackLoader{};
         bool m_altPressed{};
         bool m_trackSelectorVisible{};
     };

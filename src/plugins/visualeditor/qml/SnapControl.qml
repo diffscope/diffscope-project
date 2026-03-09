@@ -17,11 +17,11 @@ Item {
 
     RowLayout {
         id: layout
-        Label {
-            text: qsTr("Snap")
-        }
         ComboBox {
             implicitHeight: 24
+
+            DescriptiveText.toolTip: qsTr("Snap")
+            DescriptiveText.activated: hovered
 
             model: [
                 { text: qsTr("Auto"), data: PositionAlignmentManipulator.Auto },

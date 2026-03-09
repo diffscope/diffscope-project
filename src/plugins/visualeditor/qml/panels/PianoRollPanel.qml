@@ -23,13 +23,24 @@ QtObject {
 			if (!state)
 				return
 			let pianoRollPanelInterface = addOn.pianoRollPanelInterface
-			pianoRollPanelInterface.tool = state.tool
-			pianoRollPanelInterface.positionAlignmentManipulator.duration = state.duration
-			pianoRollPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
-			pianoRollPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+            if (state.tool !== undefined)
+			    pianoRollPanelInterface.tool = state.tool
+            if (state.duration !== undefined)
+			    pianoRollPanelInterface.positionAlignmentManipulator.duration = state.duration
+            if (state.tuplet !== undefined)
+			    pianoRollPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
+            if (state.isAutoPageScrollingEnabled !== undefined)
+			    pianoRollPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
+            if (state.scaleHighlightEnabled !== undefined)
+			    pianoRollPanelInterface.scaleHighlightEnabled = state.scaleHighlightEnabled
 			for (let id of state.additionalTracks ?? []) {
 				d.addOn.additionalTrackLoader.loadItem(id)
 			}
+            for (let id of state.bottomAdditionalTracks ?? []) {
+				d.addOn.bottomAdditionalTrackLoader.loadItem(id)
+			}
+            if (state.noteAreaSplitViewState !== undefined)
+                pianoRollPanelInterface.pianoRollView.noteAreaSplitView.restoreState(state.noteAreaSplitViewState)
 		}
 
 		function saveState() {
@@ -39,7 +50,10 @@ QtObject {
 				duration: pianoRollPanelInterface.positionAlignmentManipulator.duration,
 				tuplet: pianoRollPanelInterface.positionAlignmentManipulator.tuplet,
 				isAutoPageScrollingEnabled: pianoRollPanelInterface.autoPageScrollingManipulator.enabled,
-				additionalTracks: d.addOn.additionalTrackLoader.loadedComponents
+                scaleHighlightEnabled: pianoRollPanelInterface.scaleHighlightEnabled,
+				additionalTracks: d.addOn.additionalTrackLoader.loadedComponents,
+                bottomAdditionalTracks: d.addOn.bottomAdditionalTrackLoader.loadedComponents,
+                noteAreaSplitViewState: pianoRollPanelInterface.pianoRollView.noteAreaSplitView.saveState()
 			}
 		}
 

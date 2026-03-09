@@ -1,8 +1,10 @@
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.impl
+import QtQuick.Templates as T
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -26,7 +28,10 @@ Item {
     anchors.fill: parent
 
     readonly property Timeline timeline: timeline
-    readonly property Item centerEditArea: pianoRollViewContainer
+    readonly property Item centerEditArea: pianoRollViewContainerSplitViewport
+    readonly property T.SplitView noteAreaSplitView: noteAreaSplitView
+
+    readonly property double bottomExpansion: pianoRollViewContainer.height - pianoRollViewContainerSplitViewport.height
 
     TimelineContextMenuHelper {
         timeline: view.timeline
@@ -167,118 +172,11 @@ Item {
                         }
                     }
                 }
-                Rectangle {
+                AdditionalTrackNavigator {
+                    id: additionalTrackNavigator
+                    additionalTrackLoader: view.addOn?.additionalTrackLoader ?? null
+                    associatedPane: additionalTrackPane
                     Layout.fillWidth: true
-                    implicitHeight: 1
-                    color: Theme.paneSeparatorColor
-                }
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: false
-                    spacing: 0
-                    Repeater {
-                        model: view.addOn?.additionalTrackLoader.loadedComponents ?? []
-                        ColumnLayout {
-                            id: layout
-                            required property string modelData
-                            required property int index
-                            readonly property Item item: {
-                                let a = additionalTrackRepeater.count - additionalTrackRepeater.count
-                                return additionalTrackRepeater.itemAt(a + index)?.item ?? null
-                            }
-                            readonly property double itemSize: 14
-                            Layout.fillWidth: true
-                            spacing: 0
-                            Item {
-                                id: container
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: layout.item?.height ?? 0
-                                readonly property Action moveUpAction: Action {
-                                    enabled: layout.index !== 0
-                                    text: qsTr("Move Up")
-                                    icon.source: "image://fluent-system-icons/arrow_up"
-                                    onTriggered: view.addOn.additionalTrackLoader.moveUp(layout.modelData)
-                                }
-                                readonly property Action moveDownAction: Action {
-                                    enabled: layout.index !== (view.addOn?.additionalTrackLoader.loadedComponents.length ?? 0) - 1
-                                    text: qsTr("Move Down")
-                                    icon.source: "image://fluent-system-icons/arrow_down"
-                                    onTriggered: view.addOn.additionalTrackLoader.moveDown(layout.modelData)
-                                }
-                                readonly property Action removeAction: Action {
-                                    text: qsTr("Remove")
-                                    icon.source: "image://fluent-system-icons/dismiss"
-                                    onTriggered: view.addOn.additionalTrackLoader.removeItem(layout.modelData)
-                                }
-                                RowLayout {
-                                    anchors.fill: parent
-                                    anchors.margins: 2
-                                    anchors.leftMargin: 4
-                                    anchors.rightMargin: 4
-                                    visible: (layout.item?.height ?? 0) >= 12
-                                    IconLabel {
-                                        Layout.fillHeight: true
-                                        icon.height: layout.itemSize
-                                        icon.width: layout.itemSize
-                                        spacing: 2
-                                        icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
-                                        icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
-                                        text: view.addOn.additionalTrackLoader.componentName(layout.modelData)
-                                        color: Theme.foregroundPrimaryColor
-                                        font.family: Theme.font.family
-                                        font.pixelSize: layout.itemSize * 0.75
-                                    }
-                                    Item {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                    }
-                                    ToolButton {
-                                        implicitWidth: layout.itemSize
-                                        implicitHeight: layout.itemSize
-                                        padding: 0
-                                        visible: hoverHandler.hovered
-                                        display: AbstractButton.IconOnly
-                                        action: container.moveUpAction
-                                    }
-                                    ToolButton {
-                                        implicitWidth: layout.itemSize
-                                        implicitHeight: layout.itemSize
-                                        padding: 0
-                                        visible: hoverHandler.hovered
-                                        display: AbstractButton.IconOnly
-                                        action: container.moveDownAction
-                                    }
-                                    ToolButton {
-                                        implicitWidth: layout.itemSize
-                                        implicitHeight: layout.itemSize
-                                        padding: 1
-                                        visible: hoverHandler.hovered
-                                        display: AbstractButton.IconOnly
-                                        action: container.removeAction
-                                    }
-                                }
-                                MouseArea {
-                                    anchors.fill: parent
-                                    acceptedButtons: Qt.RightButton
-                                    Menu {
-                                        id: menu
-                                        contentData: [container.moveUpAction, container.moveDownAction, container.removeAction]
-                                    }
-                                    onClicked: menu.popup()
-                                }
-                                HoverHandler {
-                                    id: hoverHandler
-                                }
-                                DescriptiveText.activated: hoverHandler.hovered && (layout.item?.height ?? 0) < 12
-                                DescriptiveText.toolTip: view.addOn.additionalTrackLoader.componentName(layout.modelData)
-                            }
-                            Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: 1
-                                color: Theme.paneSeparatorColor
-                            }
-                        }
-                    }
                 }
                 Clavier {
                     id: clavier
@@ -287,6 +185,8 @@ Item {
                     clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                     clavierInteractionController: view.pianoRollPanelInterface?.clavierInteractionController ?? null
                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+
+                    bottomExpansion: view.bottomExpansion
 
                     Connections {
                         target: clavier.clavierInteractionController
@@ -380,97 +280,207 @@ Item {
                         }
                     }
                 }
-                Rectangle {
+                AdditionalTrackPane {
+                    id: additionalTrackPane
+                    additionalTrackLoader: view.addOn?.additionalTrackLoader ?? null
                     Layout.fillWidth: true
-                    implicitHeight: 1
-                    color: Theme.paneSeparatorColor
                 }
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: false
-                    spacing: 0
-                    Repeater {
-                        id: additionalTrackRepeater
-                        model: view.addOn?.additionalTrackLoader.loadedComponents ?? []
-                        ColumnLayout {
-                            required property string modelData
-                            required property int index
-                            Layout.fillWidth: true
-                            spacing: 0
-                            readonly property Item separator: Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: 1
-                                color: Theme.paneSeparatorColor
-                            }
-                            readonly property Item item: view.addOn?.additionalTrackLoader.loadedItems[index] ?? null
-                            data: [item, separator]
-                        }
-                    }
-                }
-                Item {
-                    id: pianoRollViewContainer
+                SplitView {
+                    id: noteAreaSplitView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    PianoRollBackground {
-                        anchors.fill: parent
-                        timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                        timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-                        clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                        scaleHighlightSequenceViewModel: view.pianoRollPanelInterface?.scaleHighlightEnabled ? (view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null) : null
-                    }
+                    orientation: Qt.Vertical
                     Item {
-                        id: noteEditLayerSequenceStack
-                        anchors.fill: parent
-                        Repeater {
-                            model: DelegateModel {
-                                model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
-                                delegate: NoteEditLayerSequence {
-                                    required property int index
-                                    required property var modelData
-                                    readonly property bool isEditingTrack:view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === modelData.display.track
+                        id: pianoRollViewContainerSplitViewport
+                        SplitView.fillHeight: true
+                        Item {
+                            id: pianoRollViewContainer
+
+                            width: parent.width
+                            height: noteAreaSplitView.height
+
+                            PianoRollBackground {
+                                anchors.fill: parent
+                                timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
+                                timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+                                clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                                scaleHighlightSequenceViewModel: view.pianoRollPanelInterface?.scaleHighlightEnabled ? (view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null) : null
+                            }
+                            Item {
+                                id: noteEditLayerSequenceStack
+                                anchors.fill: parent
+                                Repeater {
+                                    model: DelegateModel {
+                                        model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
+                                        delegate: NoteEditLayerSequence {
+                                            required property int index
+                                            required property var modelData
+                                            readonly property bool isEditingTrack:view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === modelData.display.track
+                                            anchors.fill: parent
+                                            scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+                                            selectionController: view.projectViewModelContext?.noteSelectionController ?? null
+                                            timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
+                                            timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+                                            clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                                            noteEditLayerInteractionController: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
+                                            // TODO this should not depend on signal connection order
+                                            clipSequenceViewModel: view.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(modelData.display.track) ?? null
+                                            trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
+                                            editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                                            z: isEditingTrack ? 1 : 0
+                                            active: modelData.display.overlayVisible || isEditingTrack
+                                            bottomExpansion: view.bottomExpansion
+                                        }
+                                    }
+                                }
+                            }
+                            Rectangle {
+                                anchors.fill: parent
+                                color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
+                                visible: !view.pianoRollPanelInterface?.editingClip
+                                clip: true
+                                Item {
                                     anchors.fill: parent
-                                    scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
-                                    selectionController: view.projectViewModelContext?.noteSelectionController ?? null
-                                    timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                                    timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-                                    clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                                    noteEditLayerInteractionController: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
-                                    // TODO this should not depend on signal connection order
-                                    clipSequenceViewModel: view.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(modelData.display.track) ?? null
-                                    trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
-                                    editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
-                                    z: isEditingTrack ? 1 : 0
-                                    active: modelData.display.overlayVisible || isEditingTrack
+                                    anchors.bottomMargin: view.bottomExpansion
+                                    ColumnLayout {
+                                        anchors.centerIn: parent
+                                        Label {
+                                            text: qsTr("No clip selected")
+                                            font.pixelSize: 20
+                                            Layout.alignment: Qt.AlignHCenter
+                                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                                        }
+                                        Label {
+                                            text: qsTr("Activate a clip to edit")
+                                            Layout.alignment: Qt.AlignHCenter
+                                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                                        }
+                                    }
+                                }
+                            }
+                            PianoRollScrollLayer {
+                                anchors.fill: parent
+                                timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
+                                timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+                                clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                                scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+
+                                bottomExpansion: view.bottomExpansion
+                            }
+                        }
+                    }
+                    Instantiator {
+                        id: bottomAdditionalTrackRepeater
+                        model: view.addOn?.bottomAdditionalTrackLoader.loadedComponents ?? []
+                        delegate: Item {
+                            id: bottomAdditionalTrackPanel
+                            implicitHeight: layout.implicitHeight
+                            required property string modelData
+                            required property int index
+                            SplitView.minimumHeight: 24
+                            Component.onCompleted: () => {
+                                SplitView.preferredHeight = implicitHeight
+                            }
+                            Action {
+                                id: moveUpAction
+                                enabled: bottomAdditionalTrackPanel.index !== 0
+                                text: qsTr("Move Up")
+                                icon.source: "image://fluent-system-icons/arrow_up"
+                                onTriggered: view.addOn.bottomAdditionalTrackLoader.moveUp(bottomAdditionalTrackPanel.modelData)
+                            }
+                            Action {
+                                id: moveDownAction
+                                enabled: bottomAdditionalTrackPanel.index !== (view.addOn?.bottomAdditionalTrackLoader.loadedComponents.length ?? 0) - 1
+                                text: qsTr("Move Down")
+                                icon.source: "image://fluent-system-icons/arrow_down"
+                                onTriggered: view.addOn.bottomAdditionalTrackLoader.moveDown(bottomAdditionalTrackPanel.modelData)
+                            }
+                            Action {
+                                id: removeAction
+                                text: qsTr("Remove")
+                                icon.source: "image://fluent-system-icons/dismiss"
+                                onTriggered: view.addOn.bottomAdditionalTrackLoader.removeItem(bottomAdditionalTrackPanel.modelData)
+                            }
+                            Rectangle {
+                                anchors.fill: parent
+                                color: Theme.backgroundPrimaryColor
+                                opacity: 0.5
+                            }
+                            ColumnLayout {
+                                id: layout
+                                anchors.fill: parent
+                                spacing: 0
+                                readonly property Item header: T.Pane {
+                                    implicitHeight: 25
+                                    Layout.fillWidth: true
+                                    background:Rectangle {
+                                        color: Theme.backgroundPrimaryColor
+                                    }
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.bottomMargin: 1
+                                        anchors.leftMargin: 4
+                                        anchors.rightMargin: 4
+                                        IconLabel {
+                                            Layout.fillHeight: true
+                                            icon.height: 16
+                                            icon.width: 16
+                                            spacing: 2
+                                            icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
+                                            icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
+                                            text: view.addOn?.additionalTrackLoader.componentName(bottomAdditionalTrackPanel.modelData) ?? ""
+                                            color: Theme.foregroundPrimaryColor
+                                            font: Theme.font
+                                        }
+                                        Item {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                        }
+                                        ToolButton {
+                                            implicitWidth: 20
+                                            implicitHeight: 20
+                                            padding: 2
+                                            display: AbstractButton.IconOnly
+                                            action: moveUpAction
+                                        }
+                                        ToolButton {
+                                            implicitWidth: 20
+                                            implicitHeight: 20
+                                            padding: 2
+                                            display: AbstractButton.IconOnly
+                                            action: moveDownAction
+                                        }
+                                        ToolButton {
+                                            implicitWidth: 20
+                                            implicitHeight: 20
+                                            padding: 2
+                                            display: AbstractButton.IconOnly
+                                            action: removeAction
+                                        }
+                                    }
+                                    Rectangle {
+                                        width: parent.width
+                                        anchors.bottom: parent.bottom
+                                        implicitHeight: 1
+                                        color: Theme.paneSeparatorColor
+                                    }
+                                }
+                                readonly property Item item: view.addOn?.bottomAdditionalTrackLoader.loadedItems[bottomAdditionalTrackPanel.index] ?? null
+                                data: [header, item]
+                                Connections {
+                                    target: layout.item
+                                    function onHeightChanged() {
+                                        layout.item.Layout.preferredHeight = layout.item.height
+                                    }
                                 }
                             }
                         }
-                    }
-                    Rectangle {
-                        anchors.fill: parent
-                        color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
-                        visible: !view.pianoRollPanelInterface?.editingClip
-                        ColumnLayout {
-                            anchors.centerIn: parent
-                            Label {
-                                text: qsTr("No clip selected")
-                                font.pixelSize: 20
-                                Layout.alignment: Qt.AlignHCenter
-                                ThemedItem.foregroundLevel: SVS.FL_Secondary
-                            }
-                            Label {
-                                text: qsTr("Activate a clip to edit")
-                                Layout.alignment: Qt.AlignHCenter
-                                ThemedItem.foregroundLevel: SVS.FL_Secondary
-                            }
+                        onObjectAdded: (index, object) => {
+                            noteAreaSplitView.insertItem(index + 1, object)
                         }
-
-                    }
-                    PianoRollScrollLayer {
-                        anchors.fill: parent
-                        timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                        timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-                        clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                        scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+                        onObjectRemoved: (index, object) => {
+                            noteAreaSplitView.removeItem(object)
+                        }
                     }
                 }
             }

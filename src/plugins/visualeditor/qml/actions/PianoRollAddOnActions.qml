@@ -172,12 +172,11 @@ ActionCollection {
             RowLayout {
                 id: layout
 
-                Label {
-                    text: qsTr("Edit clip")
-                }
-
                 ComboBox {
                     implicitHeight: 24
+
+                    DescriptiveText.toolTip: qsTr("Edit clip")
+                    DescriptiveText.activated: hovered
 
                     model: editClipControl.selectorModel
                     textRole: "display"
@@ -253,6 +252,35 @@ ActionCollection {
                 }
                 onObjectRemoved: (index, object) => {
                     menu.removeAction(object)
+                }
+            }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks"
+        Menu {
+            id: bottomMenu
+            Instantiator {
+                model: d.addOn?.bottomAdditionalTrackLoader.components ?? null
+                delegate: Action {
+                    required property string modelData
+                    text: d.addOn.bottomAdditionalTrackLoader.componentName(modelData)
+                    checkable: true
+                    checked: d.addOn.bottomAdditionalTrackLoader.loadedComponents.indexOf(modelData) >= 0
+                    onTriggered: () => {
+                        if (checked) {
+                            d.addOn.bottomAdditionalTrackLoader.loadItem(modelData)
+                        } else {
+                            d.addOn.bottomAdditionalTrackLoader.removeItem(modelData)
+                        }
+                    }
+                }
+                onObjectAdded: (index, object) => {
+                    bottomMenu.insertAction(index, object)
+                }
+                onObjectRemoved: (index, object) => {
+                    bottomMenu.removeAction(object)
                 }
             }
         }

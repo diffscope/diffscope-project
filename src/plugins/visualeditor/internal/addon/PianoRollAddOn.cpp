@@ -26,8 +26,10 @@ namespace VisualEditor::Internal {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->window()->installEventFilter(this);
         m_additionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets", this);
+        m_bottomAdditionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets", this);
         auto pianoRollPanelInterface = new PianoRollPanelInterface(this, windowInterface);
         m_additionalTrackLoader->setContextObject(pianoRollPanelInterface);
+        m_bottomAdditionalTrackLoader->setContextObject(pianoRollPanelInterface);
 
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollAddOnActions");
@@ -71,6 +73,10 @@ namespace VisualEditor::Internal {
 
     AdditionalTrackLoader *PianoRollAddOn::additionalTrackLoader() const {
         return m_additionalTrackLoader;
+    }
+
+    AdditionalTrackLoader *PianoRollAddOn::bottomAdditionalTrackLoader() const {
+        return m_bottomAdditionalTrackLoader;
     }
 
     bool PianoRollAddOn::eventFilter(QObject *watched, QEvent *event) {

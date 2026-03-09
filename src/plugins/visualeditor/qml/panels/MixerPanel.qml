@@ -19,7 +19,8 @@ QtObject {
 		function loadState(state) {
 			if (!state)
 				return
-			d.addOn.mixerPanelInterface.tool = state.tool
+            if (state.tool !== undefined)
+			    d.addOn.mixerPanelInterface.tool = state.tool
 		}
 
 		function saveState() {

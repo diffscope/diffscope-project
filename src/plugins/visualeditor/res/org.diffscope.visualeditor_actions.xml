@@ -49,6 +49,7 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" icon="rectangle_landscape_dash" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" icon="more_vertical" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" text="Bottom Panels" icon="layout_row_two_focus_bottom" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" diffscope:componentType="menu" />
@@ -59,7 +60,7 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" icon="playhead_panel_chevron_double" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" diffscope:componentType="widget" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" icon="highlight" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" icon="navigation" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:uniquePanel="true" diffscope:componentType="custom"/>
@@ -68,6 +69,7 @@
 
         <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
         <phony id="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" />
+        <phony id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" />
 
         <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.label" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="tag" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
@@ -76,6 +78,8 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.tempo" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="metronome" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.keySignature" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.clip" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.phoneme" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" icon="" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" icon="" diffscope:componentType="custom" />
 
     </items>
 
@@ -142,6 +146,7 @@
             </group>
             <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" />
             <stretch />
+            <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" />
             <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" />
         </menu>
         <menu id="org.diffscope.visualeditor.mixerPanelToolBar">
