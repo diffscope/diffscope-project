@@ -12,12 +12,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="80"/>
+        <location filename="../../../../app/main.cpp" line="93"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="81"/>
+        <location filename="../../../../app/main.cpp" line="94"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,53 +58,36 @@
 <context>
     <name>Audio::Internal::AudioOutputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="48"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="62"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="80"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="106"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="116"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="117"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="121"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="128"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="151"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="187"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="208"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="240"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="247"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="283"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="299"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="300"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="24"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="27"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="39"/>
         <source>(Not working)</source>
         <translation>(Not working)</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="113"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="157"/>
         <source>Cannot initialize %1 driver</source>
         <translation>Cannot initialize %1 driver</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="164"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="175"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="197"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="208"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="229"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="240"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="290"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="35"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="334"/>
         <source>Default device</source>
         <translation>Default device</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="290"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="334"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="335"/>
         <source>Audio device %1 is not available</source>
         <translation>Audio device %1 is not available</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="459"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="500"/>
         <source>Cannot set sample rate to %1</source>
         <translation>Cannot set sample rate to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="490"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="531"/>
         <source>Cannot set buffer size to %1</source>
         <translation>Cannot set buffer size to %1</translation>
     </message>
@@ -380,82 +363,95 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>AudioOutputPage</name>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="34"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="30"/>
+        <source>Audio device error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="41"/>
         <source>Device Parameters</source>
         <translation>Device Parameters</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="44"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="51"/>
         <source>Audio driver</source>
         <translation>Audio driver</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="54"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="61"/>
         <source>Audio device</source>
         <translation>Audio device</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="64"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="71"/>
         <source>Sample rate</source>
         <translation>Sample rate</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="74"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="81"/>
         <source>Buffer size</source>
         <translation>Buffer size</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="88"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="95"/>
         <source>Troubleshoot...</source>
         <translation type="unfinished">Troubleshoot...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="99"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="106"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="103"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="110"/>
         <source>Open Control Panel</source>
         <translation>Open Control Panel</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="110"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="117"/>
         <source>Mixer</source>
         <translation>Mixer</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="117"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="124"/>
+        <source>Device gain (dB)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="170"/>
+        <source>Device pan (%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Device gain</source>
-        <translation>Device gain</translation>
+        <translation type="vanished">Device gain</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="130"/>
         <source>Device pan</source>
-        <translation>Device pan</translation>
+        <translation type="vanished">Device pan</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="145"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="193"/>
         <source>Hot Plug</source>
         <translation>Hot Plug</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="151"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="199"/>
         <source>When device change detected</source>
         <translation>When device change detected</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="157"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="205"/>
         <source>Always show notification</source>
         <translation>Always show notification</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="158"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="206"/>
         <source>Show notification only when the current device is removed</source>
         <translation>Show notification only when the current device is removed</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="159"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="207"/>
         <source>Do not show notification</source>
         <translation>Do not show notification</translation>
     </message>

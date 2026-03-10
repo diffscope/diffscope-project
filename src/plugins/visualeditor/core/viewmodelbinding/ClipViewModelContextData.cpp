@@ -36,46 +36,45 @@
 
 namespace VisualEditor {
 
-    namespace {
-        QUrl clipIconForType(dspx::Clip::ClipType type) {
-            if (type == dspx::Clip::Singing) {
-                return QUrl("image://fluent-system-icons/mic");
-            }
-            return QUrl("image://fluent-system-icons/sound_wave_circle");
+    Q_STATIC_LOGGING_CATEGORY(lcClipViewModelContextData, "diffscope.visualeditor.clipviewmodelcontextdata")
+
+    static QUrl clipIconForType(dspx::Clip::ClipType type) {
+        if (type == dspx::Clip::Singing) {
+            return QUrl("image://fluent-system-icons/mic");
         }
-
-        int viewMaxLengthFromDocument(int length) {
-            return length == 0 ? std::numeric_limits<int>::max() : length;
-        }
-
-        dspx::Clip *duplicateClip(dspx::Clip *source, Core::DspxDocument *document) {
-            if (!source) {
-                return nullptr;
-            }
-            dspx::Clip *result = nullptr;
-            if (source->type() == dspx::Clip::Audio) {
-                result = document->model()->createAudioClip();
-            } else {
-                result = document->model()->createSingingClip();
-            }
-            result->fromQDspx(source->toQDspx());
-            return result;
-        }
-
-        class ClipPaneInteractionControllerProxy : public sflow::ClipPaneInteractionController {
-        public:
-            ClipPaneInteractionControllerProxy(ClipViewModelContextData *context, QObject *parent)
-                : sflow::ClipPaneInteractionController(parent), m_context(context) {
-            }
-
-            sflow::ClipViewModel *createAndInsertClipOnDrawing(sflow::RangeSequenceViewModel *clipSequenceViewModel, int position, int trackIndex) override;
-
-        private:
-            ClipViewModelContextData *m_context;
-        };
+        return QUrl("image://fluent-system-icons/sound_wave_circle");
     }
 
-    Q_STATIC_LOGGING_CATEGORY(lcClipViewModelContextData, "diffscope.visualeditor.clipviewmodelcontextdata")
+    static int viewMaxLengthFromDocument(int length) {
+        return length == 0 ? std::numeric_limits<int>::max() : length;
+    }
+
+    static dspx::Clip *duplicateClip(dspx::Clip *source, Core::DspxDocument *document) {
+        if (!source) {
+            return nullptr;
+        }
+        dspx::Clip *result = nullptr;
+        if (source->type() == dspx::Clip::Audio) {
+            result = document->model()->createAudioClip();
+        } else {
+            result = document->model()->createSingingClip();
+        }
+        result->fromQDspx(source->toQDspx());
+        return result;
+    }
+
+    class ClipPaneInteractionControllerProxy : public sflow::ClipPaneInteractionController {
+        Q_OBJECT
+    public:
+        ClipPaneInteractionControllerProxy(ClipViewModelContextData *context, QObject *parent)
+            : sflow::ClipPaneInteractionController(parent), m_context(context) {
+        }
+
+        sflow::ClipViewModel *createAndInsertClipOnDrawing(sflow::RangeSequenceViewModel *clipSequenceViewModel, int position, int trackIndex) override;
+
+    private:
+        ClipViewModelContextData *m_context;
+    };
 
     void ClipViewModelContextData::initStateMachine() {
         stateMachine = new QStateMachine(QState::ExclusiveStates, this);
@@ -833,3 +832,5 @@ namespace VisualEditor {
     }
 
 }
+
+#include "ClipViewModelContextData.moc"

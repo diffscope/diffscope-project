@@ -4,12 +4,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="80"/>
+        <location filename="../../../../app/main.cpp" line="93"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="81"/>
+        <location filename="../../../../app/main.cpp" line="94"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
