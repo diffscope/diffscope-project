@@ -138,6 +138,7 @@ namespace VisualEditor {
         void onAdditionalTextAbortingStateEntered();
 
         void onDoubleClicked(QQuickItem *noteArea, int position, int key);
+        void onRippleDeleteRequested(QQuickItem *noteArea, sflow::NoteViewModel *viewItem, int option);
 
     Q_SIGNALS:
         void rubberBandDragWillStart();

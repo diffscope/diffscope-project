@@ -29,6 +29,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
         Q_PROPERTY(bool pianoKeyboardUseSimpleStyle READ pianoKeyboardUseSimpleStyle WRITE setPianoKeyboardUseSimpleStyle NOTIFY pianoKeyboardUseSimpleStyleChanged)
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
+        Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
+        Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
 
     public:
@@ -87,6 +89,12 @@ namespace VisualEditor::Internal {
         static PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy();
         static void setPianoKeyboardLabelPolicy(PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy);
 
+        static bool displayPronunciationBelowNote();
+        static void setDisplayPronunciationBelowNote(bool displayPronunciationBelowNote);
+
+        static int shortNoteThreshold();
+        static void setShortNoteThreshold(int shortNoteThreshold);
+
         static bool trackCursorPosition();
         static void setTrackCursorPosition(bool trackCursorPosition);
 
@@ -101,6 +109,8 @@ namespace VisualEditor::Internal {
         void trackListOnRightChanged();
         void pianoKeyboardUseSimpleStyleChanged();
         void pianoKeyboardLabelPolicyChanged();
+        void displayPronunciationBelowNoteChanged();
+        void shortNoteThresholdChanged();
         void trackCursorPositionChanged();
 
     private:

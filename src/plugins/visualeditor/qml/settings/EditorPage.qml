@@ -23,6 +23,8 @@ ScrollView {
     property bool trackListOnRight: false
     property bool pianoKeyboardUseSimpleStyle: false
     property int pianoKeyboardLabelPolicy: 0
+    property bool displayPronunciationBelowNote: false
+    property int shortNoteThreshold: 30
     property bool trackCursorPosition: false
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
@@ -35,6 +37,8 @@ ScrollView {
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardUseSimpleStyleChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
+    onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
+    onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -229,6 +233,33 @@ ScrollView {
                         model: [qsTr("All keys"), qsTr("C keys only"), qsTr("None")]
                         currentIndex: page.pianoKeyboardLabelPolicy
                         onActivated: (index) => page.pianoKeyboardLabelPolicy = index
+                    }
+
+                    Label {
+                        text: qsTr("Pronunciation position")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    ComboBox {
+                        model: [qsTr("Above note"), qsTr("Below note")]
+                        currentIndex: page.displayPronunciationBelowNote ? 1 : 0
+                        onActivated: (index) => page.displayPronunciationBelowNote = (index === 1)
+                    }
+
+                    Label {
+                        text: qsTr("Short note threshold")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    SpinBox {
+                        from: 1
+                        to: 60
+                        value: page.shortNoteThreshold
+                        onValueModified: page.shortNoteThreshold = value
                     }
                 }
             }

@@ -20,6 +20,8 @@ namespace VisualEditor::Internal {
         bool trackListOnRight{};
         bool pianoKeyboardUseSimpleStyle{};
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
+        bool displayPronunciationBelowNote{};
+        int shortNoteThreshold{30};
         bool trackCursorPosition{true};
     };
 
@@ -62,6 +64,10 @@ namespace VisualEditor::Internal {
         emit pianoKeyboardUseSimpleStyleChanged();
         d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
         emit pianoKeyboardLabelPolicyChanged();
+        d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
+        emit displayPronunciationBelowNoteChanged();
+        d->shortNoteThreshold = settings->value("shortNoteThreshold", 30).toInt();
+        emit shortNoteThresholdChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
         emit trackCursorPositionChanged();
         settings->endGroup();
@@ -81,6 +87,8 @@ namespace VisualEditor::Internal {
         settings->setValue("trackListOnRight", d->trackListOnRight);
         settings->setValue("pianoKeyboardUseSimpleStyle", d->pianoKeyboardUseSimpleStyle);
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
+        settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
+        settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->endGroup();
     }
@@ -217,6 +225,32 @@ namespace VisualEditor::Internal {
             return;
         d->pianoKeyboardLabelPolicy = pianoKeyboardLabelPolicy;
         emit m_instance->pianoKeyboardLabelPolicyChanged();
+    }
+
+    bool EditorPreference::displayPronunciationBelowNote() {
+        M_INSTANCE_D;
+        return d->displayPronunciationBelowNote;
+    }
+
+    void EditorPreference::setDisplayPronunciationBelowNote(bool displayPronunciationBelowNote) {
+        M_INSTANCE_D;
+        if (d->displayPronunciationBelowNote == displayPronunciationBelowNote)
+            return;
+        d->displayPronunciationBelowNote = displayPronunciationBelowNote;
+        emit m_instance->displayPronunciationBelowNoteChanged();
+    }
+
+    int EditorPreference::shortNoteThreshold() {
+        M_INSTANCE_D;
+        return d->shortNoteThreshold;
+    }
+
+    void EditorPreference::setShortNoteThreshold(int shortNoteThreshold) {
+        M_INSTANCE_D;
+        if (d->shortNoteThreshold == shortNoteThreshold)
+            return;
+        d->shortNoteThreshold = shortNoteThreshold;
+        emit m_instance->shortNoteThresholdChanged();
     }
 
     bool EditorPreference::trackCursorPosition() {

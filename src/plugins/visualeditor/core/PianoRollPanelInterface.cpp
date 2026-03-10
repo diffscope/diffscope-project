@@ -274,6 +274,20 @@ namespace VisualEditor {
     }
 
     void PianoRollPanelInterfacePrivate::bindNoteEditLayerInteractionController() const {
+        auto applyPosition = [=, this] {
+            noteEditLayerInteractionController->setAdditionalTextPosition(
+                Internal::EditorPreference::displayPronunciationBelowNote()
+                    ? sflow::NoteEditLayerInteractionController::AdditionalTextPosition_Down
+                    : sflow::NoteEditLayerInteractionController::AdditionalTextPosition_Up);
+        };
+        applyPosition();
+        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::displayPronunciationBelowNoteChanged, noteEditLayerInteractionController, applyPosition);
+
+        auto applyThreshold = [=, this] {
+            noteEditLayerInteractionController->setShortNoteThreshold(Internal::EditorPreference::shortNoteThreshold());
+        };
+        applyThreshold();
+        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::shortNoteThresholdChanged, noteEditLayerInteractionController, applyThreshold);
     }
 
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {

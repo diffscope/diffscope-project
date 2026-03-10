@@ -524,6 +524,45 @@ namespace VisualEditor {
             }
         });
 
+        // Store the current nextItem to track disconnections
+        QPointer<dspx::Note> currentNextItem = item->nextItem();
+        // Connect nextItem signal and handle nextItem's pos and keyNum signals
+        connect(item, &dspx::Note::nextItemChanged, viewItem, [=, this] () mutable {
+            qCDebug(lcNoteViewModelContextData) << "Note nextItem changed" << item << item->nextItem();
+            // Disconnect previous nextItem's signals if any
+            if (currentNextItem) {
+                disconnect(currentNextItem, &dspx::Note::posChanged, viewItem, nullptr);
+                disconnect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, nullptr);
+            }
+            // Update current nextItem
+            currentNextItem = item->nextItem();
+            // Connect new nextItem's signals if exists
+            if (currentNextItem) {
+                connect(currentNextItem, &dspx::Note::posChanged, viewItem, [=, this] {
+                    qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->pos();
+                    viewItem->setNextNotePosition(currentNextItem->pos());
+                });
+                connect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, [=, this] {
+                    qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNum();
+                    viewItem->setNextNoteKey(currentNextItem->keyNum());
+                });
+            }
+            // Update nextNotePosition and nextNoteKey
+            viewItem->setNextNotePosition(currentNextItem ? currentNextItem->pos() : 0);
+            viewItem->setNextNoteKey(currentNextItem ? currentNextItem->keyNum() : 0);
+        });
+        // Connect current nextItem's signals if exists
+        if (currentNextItem) {
+            connect(currentNextItem, &dspx::Note::posChanged, viewItem, [=, this] {
+                qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->pos();
+                viewItem->setNextNotePosition(currentNextItem->pos());
+            });
+            connect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, [=, this] {
+                qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNum();
+                viewItem->setNextNoteKey(currentNextItem->keyNum());
+            });
+        }
+
         connect(viewItem, &sflow::NoteViewModel::positionChanged, item, [=, this] {
             if (!(stateMachine->configuration().contains(moveProcessingState) || stateMachine->configuration().contains(adjustProcessingState) || stateMachine->configuration().contains(drawProcessingState))) {
                 viewItem->setPosition(item->pos());
@@ -633,6 +672,8 @@ namespace VisualEditor {
         const auto additional = pronunciationAdditionalText(item->pronunciation());
         viewItem->setAdditionalText(additional);
         viewItem->setAdditionalTextHighlighted(!item->pronunciation()->edited().isEmpty());
+        viewItem->setNextNotePosition(item->nextItem() ? item->nextItem()->pos() : 0);
+        viewItem->setNextNoteKey(item->nextItem() ? item->nextItem()->keyNum() : 0);
 
         noteSequenceViewModel->insertItem(viewItem);
     }
@@ -646,6 +687,10 @@ namespace VisualEditor {
 
         disconnect(item, nullptr, viewItem, nullptr);
         disconnect(viewItem, nullptr, item, nullptr);
+        // Disconnect nextItem's pos signal if any
+        if (auto nextItem = item->nextItem()) {
+            disconnect(nextItem, nullptr, viewItem, nullptr);
+        }
 
         moveUpdatedNotes.remove(viewItem);
         lengthUpdatedNotes.remove(viewItem);
@@ -740,6 +785,8 @@ namespace VisualEditor {
             additionalTextChanged = false;
             Q_EMIT additionalTextTransactionWillStart();
         });
+
+        connect(controller, &sflow::NoteEditLayerInteractionController::rippleDeleteRequested, this, &NoteViewModelContextData::onRippleDeleteRequested);
 
         connect(controller, &sflow::NoteEditLayerInteractionController::lyricInPlaceEditOperationTriggered, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::InPlaceEditOperation operation) {
             targetNoteArea = noteArea;
@@ -1065,6 +1112,46 @@ namespace VisualEditor {
             document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         } else {
             qCWarning(lcNoteViewModelContextData) << "Failed to insert note";
+        }
+    }
+
+    void NoteViewModelContextData::onRippleDeleteRequested(QQuickItem *noteArea, sflow::NoteViewModel *viewItem, int option) {
+        Q_UNUSED(noteArea)
+        
+        auto note = noteDocumentItemMap.value(viewItem);
+        if (!note) {
+            qCWarning(lcNoteViewModelContextData) << "Ripple delete failed: Note document item not found";
+            return;
+        }
+
+        auto nextItem = note->nextItem();
+        if (!nextItem || note->pos() + note->length() >= nextItem->pos()) {
+            qCInfo(lcNoteViewModelContextData) << "Ripple delete skipped: No next item or no gap to fill";
+            return;
+        }
+
+        const int gapSize = nextItem->pos() - (note->pos() + note->length());
+        qCInfo(lcNoteViewModelContextData) << "Ripple delete requested for note" << note 
+                                           << "option:" << option 
+                                           << "gap size:" << gapSize;
+
+        if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Previous) {
+            document->transactionController()->beginScopedTransaction(tr("Ripple delete previous"), [=] {
+                const int newLength = nextItem->pos() - note->pos();
+                note->setLength(newLength);
+                qCDebug(lcNoteViewModelContextData) << "Extended current note length to" << newLength;
+                return true;
+            });
+        } else if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Next) {
+            document->transactionController()->beginScopedTransaction(tr("Ripple delete next"), [=] {
+                const int newNextPos = note->pos() + note->length();
+                const int newNextLength = nextItem->length() + gapSize;
+                nextItem->setPos(newNextPos);
+                nextItem->setLength(newNextLength);
+                qCDebug(lcNoteViewModelContextData) << "Moved next note to position" << newNextPos 
+                                                   << "and extended length to" << newNextLength;
+                return true;
+            });
         }
     }
 
