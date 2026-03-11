@@ -112,6 +112,11 @@ namespace Core {
         return d->value<NotePropertyMapperPrivate::SingingClipProperty>();
     }
 
+    QVariant NotePropertyMapper::phonemes() const {
+        Q_D(const NotePropertyMapper);
+        return d->value<NotePropertyMapperPrivate::PhonemesProperty>();
+    }
+
     void NotePropertyMapperPrivate::setSelectionModel(dspx::SelectionModel *selectionModel_) {
         if (selectionModel == selectionModel_) {
             return;

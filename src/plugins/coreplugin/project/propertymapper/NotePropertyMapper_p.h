@@ -9,6 +9,7 @@
 #include <dspxmodel/SingingClip.h>
 #include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/SelectionModel.h>
+#include <dspxmodel/PhonemeInfo.h>
 
 #include <coreplugin/private/PropertyMapperData_p.h>
 
@@ -29,7 +30,8 @@ namespace Core {
             [](const dspx::Note *note) { return note->noteSequence() ? note->noteSequence()->singingClip() : nullptr; },
             nullptr,
             decltype(&dspx::Note::noteSequenceChanged)
-        >
+        >,
+        PropertyMetadata<dspx::Note, &dspx::Note::phonemes, nullptr, nullptr_t>
     > {
         Q_DECLARE_PUBLIC(NotePropertyMapper)
     public:
@@ -42,7 +44,8 @@ namespace Core {
             {&dspx::Note::posChanged},
             {&dspx::Pronunciation::originalChanged},
             {&dspx::Pronunciation::editedChanged},
-            {&dspx::Note::noteSequenceChanged}
+            {&dspx::Note::noteSequenceChanged},
+            {nullptr}
         ) {}
 
         dspx::SelectionModel *selectionModel = nullptr;
@@ -61,7 +64,8 @@ namespace Core {
             PosProperty = 5,
             PronunciationOriginalProperty = 6,
             PronunciationEditedProperty = 7,
-            SingingClipProperty = 8
+            SingingClipProperty = 8,
+            PhonemesProperty = 9,
         };
 
         template<int i>
@@ -85,6 +89,8 @@ namespace Core {
                 q->pronunciationEditedChanged();
             } else if constexpr (i == SingingClipProperty) {
                 q->singingClipChanged();
+            } else if constexpr (i == PhonemesProperty) {
+                q->phonemesChanged();
             }
         }
     };

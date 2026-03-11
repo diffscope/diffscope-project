@@ -400,6 +400,7 @@ namespace Core::Internal {
         f("NoteLyricPropertyEditor", &PropertyEditorManager::addNoteComponent);
         f("NotePitchPropertyEditor", &PropertyEditorManager::addNoteComponent);
         f("NoteTimePropertyEditor", &PropertyEditorManager::addNoteComponent);
+        f("NotePhonemePropertyEditor", &PropertyEditorManager::addNoteComponent);
 
         f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
 

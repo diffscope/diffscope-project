@@ -28,6 +28,7 @@ namespace Core {
         Q_PROPERTY(QVariant pronunciationOriginal READ pronunciationOriginal WRITE setPronunciationOriginal NOTIFY pronunciationOriginalChanged)
         Q_PROPERTY(QVariant pronunciationEdited READ pronunciationEdited WRITE setPronunciationEdited NOTIFY pronunciationEditedChanged)
         Q_PROPERTY(QVariant singingClip READ singingClip NOTIFY singingClipChanged)
+        Q_PROPERTY(QVariant phonemes READ phonemes NOTIFY phonemesChanged)
 
     public:
         explicit NotePropertyMapper(QObject *parent = nullptr);
@@ -62,6 +63,8 @@ namespace Core {
 
         QVariant singingClip() const;
 
+        QVariant phonemes() const;
+
     Q_SIGNALS:
         void selectionModelChanged();
         void centShiftChanged();
@@ -73,6 +76,7 @@ namespace Core {
         void pronunciationOriginalChanged();
         void pronunciationEditedChanged();
         void singingClipChanged();
+        void phonemesChanged();
 
     private:
         QScopedPointer<NotePropertyMapperPrivate> d_ptr;
