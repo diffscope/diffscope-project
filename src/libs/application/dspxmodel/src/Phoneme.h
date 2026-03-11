@@ -11,7 +11,7 @@ namespace QDspx {
 
 namespace dspx {
 
-    class PhonemeList;
+    class PhonemeSequence;
     class PhonemePrivate;
 
     class DSPX_MODEL_EXPORT Phoneme : public EntityObject {
@@ -23,7 +23,9 @@ namespace dspx {
         Q_PROPERTY(int start READ start WRITE setStart NOTIFY startChanged)
         Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
         Q_PROPERTY(bool onset READ onset WRITE setOnset NOTIFY onsetChanged)
-        Q_PROPERTY(PhonemeList *phonemeList READ phonemeList NOTIFY phonemeListChanged)
+        Q_PROPERTY(PhonemeSequence *phonemeSequence READ phonemeSequence NOTIFY phonemeSequenceChanged)
+        Q_PROPERTY(Phoneme *previousItem READ previousItem NOTIFY previousItemChanged)
+        Q_PROPERTY(Phoneme *nextItem READ nextItem NOTIFY nextItemChanged)
 
     public:
         ~Phoneme() override;
@@ -40,7 +42,10 @@ namespace dspx {
         bool onset() const;
         void setOnset(bool onset);
 
-        PhonemeList *phonemeList() const;
+        PhonemeSequence *phonemeSequence() const;
+
+        Phoneme *previousItem() const;
+        Phoneme *nextItem() const;
 
         QDspx::Phoneme toQDspx() const;
         void fromQDspx(const QDspx::Phoneme &phoneme);
@@ -50,7 +55,9 @@ namespace dspx {
         void startChanged(int start);
         void tokenChanged(const QString &token);
         void onsetChanged(bool onset);
-        void phonemeListChanged();
+        void phonemeSequenceChanged();
+        void previousItemChanged();
+        void nextItemChanged();
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

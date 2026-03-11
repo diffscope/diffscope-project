@@ -8,16 +8,32 @@
 
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/PhonemeList.h>
+#include <dspxmodel/PhonemeSequence.h>
 #include <dspxmodel/private/Model_p.h>
 
 namespace dspx {
 
-    void PhonemePrivate::setPhonemeList(Phoneme *item, PhonemeList *phonemeList) {
+    void PhonemePrivate::setPhonemeSequence(Phoneme *item, PhonemeSequence *phonemeSequence) {
         auto d = item->d_func();
-        if (d->phonemeList != phonemeList) {
-            d->phonemeList = phonemeList;
-            Q_EMIT item->phonemeListChanged();
+        if (d->phonemeSequence != phonemeSequence) {
+            d->phonemeSequence = phonemeSequence;
+            Q_EMIT item->phonemeSequenceChanged();
+        }
+    }
+
+    void PhonemePrivate::setPreviousItem(Phoneme *item, Phoneme *previousItem) {
+        auto d = item->d_func();
+        if (d->previousItem != previousItem) {
+            d->previousItem = previousItem;
+            Q_EMIT item->previousItemChanged();
+        }
+    }
+
+    void PhonemePrivate::setNextItem(Phoneme *item, Phoneme *nextItem) {
+        auto d = item->d_func();
+        if (d->nextItem != nextItem) {
+            d->nextItem = nextItem;
+            Q_EMIT item->nextItemChanged();
         }
     }
 
@@ -26,7 +42,9 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_Phoneme);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
-        d->phonemeList = nullptr;
+        d->phonemeSequence = nullptr;
+        d->previousItem = nullptr;
+        d->nextItem = nullptr;
         d->language = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Language).toString();
         d->start = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Position).toInt();
         d->token = model->strategy()->getEntityProperty(handle, ModelStrategy::P_Text).toString();
@@ -119,9 +137,19 @@ namespace dspx {
         }
     }
 
-    PhonemeList *Phoneme::phonemeList() const {
+    PhonemeSequence *Phoneme::phonemeSequence() const {
         Q_D(const Phoneme);
-        return d->phonemeList;
+        return d->phonemeSequence;
+    }
+
+    Phoneme *Phoneme::previousItem() const {
+        Q_D(const Phoneme);
+        return d->previousItem;
+    }
+
+    Phoneme *Phoneme::nextItem() const {
+        Q_D(const Phoneme);
+        return d->nextItem;
     }
 
 }

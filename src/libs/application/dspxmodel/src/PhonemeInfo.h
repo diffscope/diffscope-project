@@ -15,7 +15,7 @@ namespace dspx {
 
     class Model;
     class ModelPrivate;
-    class PhonemeList;
+    class PhonemeSequence;
     class Note;
 
     class PhonemeInfoPrivate;
@@ -25,15 +25,15 @@ namespace dspx {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(PhonemeInfo)
-        Q_PROPERTY(PhonemeList *edited READ edited CONSTANT)
-        Q_PROPERTY(PhonemeList *original READ original CONSTANT)
+        Q_PROPERTY(PhonemeSequence *edited READ edited CONSTANT)
+        Q_PROPERTY(PhonemeSequence *original READ original CONSTANT)
         Q_PROPERTY(Note *note READ note CONSTANT)
 
     public:
         ~PhonemeInfo() override;
 
-        PhonemeList *edited() const;
-        PhonemeList *original() const;
+        PhonemeSequence *edited() const;
+        PhonemeSequence *original() const;
 
         Note *note() const;
 

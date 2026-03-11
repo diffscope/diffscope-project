@@ -40,10 +40,10 @@ namespace dspx {
             ES_Notes,
             ES_ParamCurveAnchorNodes,
             ES_ParamCurves,
+            ES_Phonemes,
             ES_Tempos,
             ES_TimeSignatures,
 
-            EL_Phonemes,
             EL_Tracks,
 
             ED_ParamCurveFreeValues,
@@ -217,7 +217,7 @@ namespace dspx {
             }
         } else if (relationship == R_PhonemesEdited || relationship == R_PhonemesOriginal) {
             if (entityType == EI_Note) {
-                return EL_Phonemes;
+                return ES_Phonemes;
             }
         } else if (relationship == R_Sources) {
             if (entityType == EI_SingingClip) {

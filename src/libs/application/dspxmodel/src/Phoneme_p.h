@@ -5,7 +5,7 @@
 
 namespace dspx {
 
-    class PhonemeList;
+    class PhonemeSequence;
     class ModelPrivate;
 
     class PhonemePrivate {
@@ -17,9 +17,13 @@ namespace dspx {
         int start{};
         QString token;
         bool onset{};
-        PhonemeList *phonemeList{};
+        PhonemeSequence *phonemeSequence{};
+        Phoneme *previousItem{};
+        Phoneme *nextItem{};
 
-        static void setPhonemeList(Phoneme *item, PhonemeList *phonemeList);
+        static void setPhonemeSequence(Phoneme *item, PhonemeSequence *phonemeSequence);
+        static void setPreviousItem(Phoneme *item, Phoneme *previousItem);
+        static void setNextItem(Phoneme *item, Phoneme *nextItem);
 
         void setLanguageUnchecked(const QString &language);
         void setStartUnchecked(int start);

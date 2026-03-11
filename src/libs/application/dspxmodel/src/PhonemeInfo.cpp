@@ -7,7 +7,7 @@
 #include <opendspx/phonemes.h>
 
 #include <dspxmodel/ModelStrategy.h>
-#include <dspxmodel/PhonemeList.h>
+#include <dspxmodel/PhonemeSequence.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/private/Model_p.h>
 
@@ -26,18 +26,18 @@ namespace dspx {
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
         d->note = note;
-        d->edited = d->pModel->createObject<PhonemeList>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_PhonemesEdited));
-        d->original = d->pModel->createObject<PhonemeList>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_PhonemesOriginal));
+        d->edited = d->pModel->createObject<PhonemeSequence>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_PhonemesEdited));
+        d->original = d->pModel->createObject<PhonemeSequence>(this, d->pModel->strategy->getAssociatedSubEntity(handle, ModelStrategy::R_PhonemesOriginal));
     }
 
     PhonemeInfo::~PhonemeInfo() = default;
 
-    PhonemeList *PhonemeInfo::edited() const {
+    PhonemeSequence *PhonemeInfo::edited() const {
         Q_D(const PhonemeInfo);
         return d->edited;
     }
 
-    PhonemeList *PhonemeInfo::original() const {
+    PhonemeSequence *PhonemeInfo::original() const {
         Q_D(const PhonemeInfo);
         return d->original;
     }

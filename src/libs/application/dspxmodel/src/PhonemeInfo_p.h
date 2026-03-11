@@ -13,8 +13,8 @@ namespace dspx {
     public:
         PhonemeInfo *q_ptr;
         ModelPrivate *pModel;
-        PhonemeList *edited{};
-        PhonemeList *original{};
+        PhonemeSequence *edited{};
+        PhonemeSequence *original{};
         Note *note{};
 
         static void setNote(PhonemeInfo *item, Note *note);

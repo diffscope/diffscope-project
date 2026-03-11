@@ -87,12 +87,12 @@ namespace dspx {
             case ModelStrategy::ES_Notes:
             case ModelStrategy::ES_ParamCurveAnchorNodes:
             case ModelStrategy::ES_ParamCurves:
+            case ModelStrategy::ES_Phonemes:
             case ModelStrategy::ES_Tempos:
             case ModelStrategy::ES_TimeSignatures:
                 obj = new BasicModelStrategySequenceContainerEntity(parent);
                 obj->type = type;
                 break;
-            case ModelStrategy::EL_Phonemes:
             case ModelStrategy::EL_Tracks:
                 obj = new BasicModelStrategyListContainerEntity(parent);
                 obj->type = type;
