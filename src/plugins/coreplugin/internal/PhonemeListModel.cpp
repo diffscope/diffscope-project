@@ -74,6 +74,8 @@ namespace Core::Internal {
                 return phoneme->start();
             case OnsetRole:
                 return phoneme->onset();
+            case PhonemeRole:
+                return QVariant::fromValue(phoneme);
             default:
                 return {};
         }
@@ -117,7 +119,8 @@ namespace Core::Internal {
             {TokenRole, "token"},
             {LanguageRole, "language"},
             {StartRole, "start"},
-            {OnsetRole, "onset"}
+            {OnsetRole, "onset"},
+            {PhonemeRole, "phoneme"}
         };
         return roles;
     }

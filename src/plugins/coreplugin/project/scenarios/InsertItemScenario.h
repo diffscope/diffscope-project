@@ -6,6 +6,8 @@
 namespace dspx {
     class Track;
     class Label;
+    class SingingClip;
+    class Note;
 }
 
 namespace Core {
@@ -32,7 +34,8 @@ namespace Core {
         Q_INVOKABLE void insertTrack() const;
         Q_INVOKABLE void insertLabel() const;
         Q_INVOKABLE void insertSingingClip() const;
-        Q_INVOKABLE void insertNote() const;
+        Q_INVOKABLE void insertNote(dspx::SingingClip *clip = nullptr) const;
+        Q_INVOKABLE void insertPhoneme(dspx::Note *note = nullptr) const;
 
     Q_SIGNALS:
         void projectTimelineChanged();

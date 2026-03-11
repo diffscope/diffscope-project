@@ -2,6 +2,7 @@
 #define DIFFSCOPE_COREPLUGIN_PHONEMELISTMODEL_H
 
 #include <QAbstractItemModel>
+#include <qqmlintegration.h>
 
 namespace dspx {
     class Phoneme;
@@ -12,6 +13,7 @@ namespace Core::Internal {
 
     class PhonemeListModel : public QAbstractItemModel {
         Q_OBJECT
+        QML_ELEMENT
 
         Q_PROPERTY(dspx::PhonemeSequence *phonemeSequence READ phonemeSequence WRITE setPhonemeSequence NOTIFY phonemeSequenceChanged)
 
@@ -21,6 +23,7 @@ namespace Core::Internal {
             LanguageRole,
             StartRole,
             OnsetRole,
+            PhonemeRole,
         };
         Q_ENUM(Roles)
 

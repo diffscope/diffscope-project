@@ -38,6 +38,9 @@
 #include <dspxmodel/NoteSelectionModel.h>
 #include <dspxmodel/Note.h>
 #include <dspxmodel/NoteSequence.h>
+#include <dspxmodel/PhonemeInfo.h>
+#include <dspxmodel/PhonemeSequence.h>
+#include <dspxmodel/Phoneme.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -313,22 +316,28 @@ namespace Core {
         }
     }
 
-    void InsertItemScenario::insertNote() const {
+    void InsertItemScenario::insertNote(dspx::SingingClip *clip) const {
         Q_D(const InsertItemScenario);
         if (!document() || !d->projectTimeline || !window())
             return;
 
         auto model = document()->model();
         auto selectionModel = document()->selectionModel();
-        auto noteSelectionModel = selectionModel->noteSelectionModel();
 
-        auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
-        if (!noteSequence)
-            return;
+        dspx::NoteSequence *noteSequence = nullptr;
+
+        // If clip is provided, use it and its notes
+        if (clip) {
+            noteSequence = clip->notes();
+        } else {
+            auto noteSelectionModel = selectionModel->noteSelectionModel();
+            noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+            if (!noteSequence)
+                return;
+            clip = noteSequence->singingClip();
+        }
 
         qCInfo(lcInsertItemScenario) << "Inserting note";
-
-        auto clip = noteSequence->singingClip();
 
         // Calculate initial position: playback position - clip position
         const int clipPosition = clip->position();
@@ -374,6 +383,68 @@ namespace Core {
         if (success && newNote) {
             selectionModel->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
+    }
+
+    void InsertItemScenario::insertPhoneme(dspx::Note *note) const {
+        Q_D(const InsertItemScenario);
+        if (!document() || !window())
+            return;
+
+        auto model = document()->model();
+        auto selectionModel = document()->selectionModel();
+
+        // If note is not provided, try to get it from the selection
+        if (!note) {
+            if (selectionModel->selectionType() == dspx::SelectionModel::ST_Note) {
+                auto noteSelectionModel = selectionModel->noteSelectionModel();
+                const auto selectedNotes = noteSelectionModel->selectedItems();
+                if (selectedNotes.isEmpty())
+                    return;
+                note = selectedNotes.first();
+            } else {
+                return;
+            }
+        }
+
+        qCInfo(lcInsertItemScenario) << "Inserting phoneme";
+
+        auto phonemeSequence = note->phonemes()->edited();
+
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertPhonemeDialog");
+        QVariantMap properties;
+        properties.insert("token", QString());
+        properties.insert("start", 0);
+        properties.insert("language", QString());
+        properties.insert("onset", false);
+        auto dialog = createAndPositionDialog(&component, properties);
+        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+            return;
+
+        const auto token = dialog->property("token").toString();
+        const auto start = dialog->property("start").toInt();
+        const auto language = dialog->property("language").toString();
+        const auto onset = dialog->property("onset").toBool();
+        qCDebug(lcInsertItemScenario) << "Inserting phoneme with token" << token << "start" << start << "language" << language << "onset" << onset << "to note" << note;
+
+        dspx::Phoneme *newPhoneme = nullptr;
+        bool success = false;
+        document()->transactionController()->beginScopedTransaction(tr("Inserting phoneme"), [=, &newPhoneme, &success] {
+            newPhoneme = model->createPhoneme();
+            newPhoneme->setToken(token);
+            newPhoneme->setStart(start);
+            newPhoneme->setLanguage(language);
+            newPhoneme->setOnset(onset);
+            if (!phonemeSequence->insertItem(newPhoneme)) {
+                model->destroyItem(newPhoneme);
+                newPhoneme = nullptr;
+                return false;
+            }
+            success = true;
+            qCDebug(lcInsertItemScenario) << "Inserted phoneme" << newPhoneme;
+            return true;
+        }, [] {
+            qCCritical(lcInsertItemScenario) << "Failed to insert phoneme in exclusive transaction";
+        });
     }
 
 }
