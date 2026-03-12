@@ -63,7 +63,7 @@ Dialog {
         Button {
             id: tapDetectButton
             text: qsTr("Tap to Detect Tempo")
-            DescriptiveText.toolTip: qsTr("Press the button to the rhythm to detect to detect the tempo. Right-click to cancel.")
+            DescriptiveText.toolTip: qsTr("Press the button to the rhythm to detect the tempo. Right-click to cancel.")
 
             property int tapCount: 0
             property double sessionStartMs: 0

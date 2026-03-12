@@ -1006,12 +1006,8 @@
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1139"/>
-        <source>Ripple delete previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1146"/>
-        <source>Ripple delete next</source>
+        <source>Filling gap</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

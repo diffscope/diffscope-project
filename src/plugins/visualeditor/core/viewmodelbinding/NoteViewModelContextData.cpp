@@ -1136,14 +1136,14 @@ namespace VisualEditor {
                                            << "gap size:" << gapSize;
 
         if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Previous) {
-            document->transactionController()->beginScopedTransaction(tr("Ripple delete previous"), [=] {
+            document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
                 const int newLength = nextItem->pos() - note->pos();
                 note->setLength(newLength);
                 qCDebug(lcNoteViewModelContextData) << "Extended current note length to" << newLength;
                 return true;
             });
         } else if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Next) {
-            document->transactionController()->beginScopedTransaction(tr("Ripple delete next"), [=] {
+            document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
                 const int newNextPos = note->pos() + note->length();
                 const int newNextLength = nextItem->length() + gapSize;
                 nextItem->setPos(newNextPos);

@@ -2724,39 +2724,44 @@
 <context>
     <name>Core::InsertItemScenario</name>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="97"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="100"/>
         <source>Adding track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="100"/>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="142"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="103"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="145"/>
         <source>Unnamed track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="154"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="157"/>
         <source>Inserting track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="206"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="209"/>
         <source>Inserting label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="264"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="267"/>
         <source>Unnamed clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="290"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="293"/>
         <source>Inserting singing clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="356"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="365"/>
         <source>Inserting note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="431"/>
+        <source>Inserting phoneme</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2996,19 +3001,19 @@
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="420"/>
+        <location filename="../../internal/CorePlugin.cpp" line="421"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="420"/>
+        <location filename="../../internal/CorePlugin.cpp" line="421"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="465"/>
+        <location filename="../../internal/CorePlugin.cpp" line="466"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3017,12 +3022,12 @@ Please go to Plugins to see more details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="468"/>
+        <location filename="../../internal/CorePlugin.cpp" line="469"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="470"/>
+        <location filename="../../internal/CorePlugin.cpp" line="471"/>
         <source>Plugin Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3949,7 +3954,7 @@ Do you want to save as a new file or overwrite it?</source>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditTempoDialog.qml" line="66"/>
-        <source>Press the button to the rhythm to detect to detect the tempo. Right-click to cancel.</source>
+        <source>Press the button to the rhythm to detect the tempo. Right-click to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4269,6 +4274,34 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="76"/>
         <source>Lyric</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InsertPhonemeDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="20"/>
+        <source>Insert Phoneme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="30"/>
+        <source>Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="43"/>
+        <source>Start (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="58"/>
+        <source>Language</source>
+        <translation type="unfinished">Language</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="73"/>
+        <source>Onset</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4806,6 +4839,64 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="53"/>
         <source>Editing pronunciation (edited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NotePhonemePropertyEditor</name>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="17"/>
+        <source>Phoneme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="39"/>
+        <source>Editing phoneme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="50"/>
+        <source>Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="55"/>
+        <source>Start (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="60"/>
+        <source>Language</source>
+        <translation type="unfinished">Language</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="65"/>
+        <source>Onset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="169"/>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="169"/>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="185"/>
+        <source>Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="195"/>
+        <source>Edited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="204"/>
+        <source>Insert</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

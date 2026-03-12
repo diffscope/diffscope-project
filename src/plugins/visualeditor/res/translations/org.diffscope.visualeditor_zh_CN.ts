@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN" sourcelanguage="en-US">
+<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
     <name></name>
     <message>
@@ -14,17 +14,17 @@
     <message>
         <location filename="../../qml/AdditionalTrackNavigator.qml" line="50"/>
         <source>Move Up</source>
-        <translation type="unfinished">上移</translation>
+        <translation>上移</translation>
     </message>
     <message>
         <location filename="../../qml/AdditionalTrackNavigator.qml" line="56"/>
         <source>Move Down</source>
-        <translation type="unfinished">下移</translation>
+        <translation>下移</translation>
     </message>
     <message>
         <location filename="../../qml/AdditionalTrackNavigator.qml" line="61"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
 </context>
 <context>
@@ -64,7 +64,7 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2708"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2709"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>视图</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2710"/>
@@ -84,7 +84,7 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2715"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2716"/>
         <source>Mixer Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>混音器面板</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2717"/>
@@ -102,7 +102,7 @@
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2734"/>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2735"/>
         <source>Piano Roll Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>钢琴卷帘面板</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2736"/>
@@ -114,7 +114,7 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2739"/>
         <source>Insert</source>
-        <translation type="unfinished"></translation>
+        <translation>插入</translation>
     </message>
     <message>
         <source>File</source>
@@ -166,132 +166,132 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2629"/>
         <source>Scroll Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2630"/>
         <source>Scroll Down</source>
-        <translation type="unfinished"></translation>
+        <translation>向下滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2631"/>
         <source>Scroll Left</source>
-        <translation type="unfinished"></translation>
+        <translation>向左滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2632"/>
         <source>Scroll Right</source>
-        <translation type="unfinished"></translation>
+        <translation>向右滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2633"/>
         <source>Scroll up Page</source>
-        <translation type="unfinished"></translation>
+        <translation>向上滚动页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2634"/>
         <source>Scroll down Page</source>
-        <translation type="unfinished"></translation>
+        <translation>向下滚动页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2635"/>
         <source>Scroll Left Page</source>
-        <translation type="unfinished"></translation>
+        <translation>向左滚动页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2636"/>
         <source>Scroll Right Page</source>
-        <translation type="unfinished"></translation>
+        <translation>向右滚动页面</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2637"/>
         <source>Scroll to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到顶部</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2638"/>
         <source>Scroll to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到底部</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2639"/>
         <source>Scroll to Leftmost</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到最左</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2640"/>
         <source>Scroll to Rightmost</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到最右</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2641"/>
         <source>Scroll to Playback Position</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到回放位置</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2642"/>
         <source>Scroll to Current Item</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到当前项目</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2643"/>
         <source>Vertical Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直放大</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2644"/>
         <source>Vertical Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直缩小</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2645"/>
         <source>Horizontal Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>水平放大</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2646"/>
         <source>Horizontal Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>水平缩小</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2647"/>
         <source>Reset Vertical Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>重置垂直缩放</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2648"/>
         <source>Reset Horizontal Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>重置水平缩放</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2651"/>
         <source>Scissor Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>剪刀工具</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2652"/>
         <source>Select Tool</source>
-        <translation type="unfinished"></translation>
+        <translation>选择工具</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2655"/>
         <source>Bottom Panels</source>
-        <translation type="unfinished"></translation>
+        <translation>底部面板</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2660"/>
         <source>Editing Clip</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑剪辑</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2661"/>
         <source>Highlight Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>高亮音阶</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2662"/>
         <source>Show Track Selector</source>
-        <translation type="unfinished"></translation>
+        <translation>显示轨道选择器</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2663"/>
@@ -316,7 +316,7 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2667"/>
         <source>Bottom Additional Track Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>底部附加轨道控件</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2668"/>
@@ -331,47 +331,47 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2670"/>
         <source>Key Signature</source>
-        <translation type="unfinished"></translation>
+        <translation>调号</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2671"/>
         <source>Clip</source>
-        <translation type="unfinished"></translation>
+        <translation>剪辑</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2672"/>
         <source>Phoneme</source>
-        <translation type="unfinished"></translation>
+        <translation>音素</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2673"/>
         <source>Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>参数</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2674"/>
         <source>Scroll</source>
-        <translation type="unfinished">滚动</translation>
+        <translation>滚动</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2675"/>
         <source>Scroll Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2676"/>
         <source>Scroll Page Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动页面操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2677"/>
         <source>Scroll to Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动到操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2678"/>
         <source>Zoom</source>
-        <translation type="unfinished">缩放</translation>
+        <translation>缩放</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2679"/>
@@ -391,17 +391,17 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2682"/>
         <source>Piano Roll Panel Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>钢琴卷帘面板工具栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2683"/>
         <source>Editing Clip Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>剪辑编辑操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2684"/>
         <source>Mixer Panel Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>混音器面板工具栏</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2685"/>
@@ -411,12 +411,12 @@
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2686"/>
         <source>Add Track</source>
-        <translation type="unfinished"></translation>
+        <translation>添加轨道</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-debug/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2687"/>
         <source>Piano Roll Panel Timeline Tool Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>钢琴卷帘面板时间轴工具栏</translation>
     </message>
     <message>
         <source>New</source>
@@ -557,12 +557,12 @@
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="149"/>
         <source>More compact</source>
-        <translation type="unfinished"></translation>
+        <translation>更紧凑</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="160"/>
         <source>More spacious</source>
-        <translation type="unfinished"></translation>
+        <translation>更宽敞</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="166"/>
@@ -572,82 +572,82 @@
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="176"/>
         <source>Arrangement</source>
-        <translation type="unfinished">编曲</translation>
+        <translation>编曲</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="187"/>
         <source>Track list position</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道列表位置</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="194"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>左侧</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="194"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>右侧</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="202"/>
         <source>Piano Roll</source>
-        <translation type="unfinished">钢琴卷帘</translation>
+        <translation>钢琴卷帘</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="213"/>
         <source>Piano keyboard style</source>
-        <translation type="unfinished"></translation>
+        <translation>钢琴键盘风格</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="220"/>
         <source>Realistic</source>
-        <translation type="unfinished"></translation>
+        <translation>逼真</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="220"/>
         <source>Simple</source>
-        <translation type="unfinished"></translation>
+        <translation>简单</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="226"/>
         <source>Display piano key label on</source>
-        <translation type="unfinished"></translation>
+        <translation>在钢琴键上显示标签</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="233"/>
         <source>All keys</source>
-        <translation type="unfinished"></translation>
+        <translation>所有琴键</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="233"/>
         <source>C keys only</source>
-        <translation type="unfinished"></translation>
+        <translation>仅 C 键</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="233"/>
         <source>None</source>
-        <translation type="unfinished">无</translation>
+        <translation>无</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="239"/>
         <source>Pronunciation position</source>
-        <translation type="unfinished"></translation>
+        <translation>发音位置</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="246"/>
         <source>Above note</source>
-        <translation type="unfinished"></translation>
+        <translation>音符上方</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="246"/>
         <source>Below note</source>
-        <translation type="unfinished"></translation>
+        <translation>音符下方</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="252"/>
         <source>Short note threshold</source>
-        <translation type="unfinished"></translation>
+        <translation>短音符阈值</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="268"/>
@@ -665,68 +665,68 @@
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="97"/>
         <source>Auto</source>
-        <translation type="unfinished">自动</translation>
+        <translation>自动</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="98"/>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="136"/>
         <source>None</source>
-        <translation type="unfinished">无</translation>
+        <translation>无</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="99"/>
         <source>Whole note</source>
-        <translation type="unfinished">全音符</translation>
+        <translation>全音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="100"/>
         <source>Half note</source>
-        <translation type="unfinished">二分音符</translation>
+        <translation>二分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="101"/>
         <source>Quarter note</source>
-        <translation type="unfinished">四分音符</translation>
+        <translation>四分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="102"/>
         <source>8th note</source>
-        <translation type="unfinished">八分音符</translation>
+        <translation>八分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="103"/>
         <source>16th note</source>
-        <translation type="unfinished">16 分音符</translation>
+        <translation>16 分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="104"/>
         <source>32nd note</source>
-        <translation type="unfinished">32 分音符</translation>
+        <translation>32 分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="105"/>
         <source>64th note</source>
-        <translation type="unfinished">64 分音符</translation>
+        <translation>64 分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="106"/>
         <source>128th note</source>
-        <translation type="unfinished">128 分音符</translation>
+        <translation>128 分音符</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="137"/>
         <source>Triplet</source>
-        <translation type="unfinished">三连音</translation>
+        <translation>三连音</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="138"/>
         <source>Quintuplet</source>
-        <translation type="unfinished">五连音</translation>
+        <translation>五连音</translation>
     </message>
     <message>
         <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="178"/>
         <source>Edit clip</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑剪辑</translation>
     </message>
 </context>
 <context>
@@ -734,32 +734,32 @@
     <message>
         <location filename="../../qml/PianoRollView.qml" line="112"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../../qml/PianoRollView.qml" line="348"/>
         <source>No clip selected</source>
-        <translation type="unfinished"></translation>
+        <translation>未选择剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/PianoRollView.qml" line="354"/>
         <source>Activate a clip to edit</source>
-        <translation type="unfinished"></translation>
+        <translation>激活剪辑以编辑</translation>
     </message>
     <message>
         <location filename="../../qml/PianoRollView.qml" line="387"/>
         <source>Move Up</source>
-        <translation type="unfinished">上移</translation>
+        <translation>上移</translation>
     </message>
     <message>
         <location filename="../../qml/PianoRollView.qml" line="394"/>
         <source>Move Down</source>
-        <translation type="unfinished">下移</translation>
+        <translation>下移</translation>
     </message>
     <message>
         <location filename="../../qml/PianoRollView.qml" line="400"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
 </context>
 <context>
@@ -767,12 +767,12 @@
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1095"/>
         <source>Inserting note</source>
-        <translation type="unfinished"></translation>
+        <translation>插入音符</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="771"/>
         <source>Inserting singing clip</source>
-        <translation type="unfinished"></translation>
+        <translation>插入歌声剪辑</translation>
     </message>
 </context>
 <context>
@@ -872,7 +872,7 @@
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="810"/>
         <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名剪辑</translation>
     </message>
 </context>
 <context>
@@ -880,22 +880,22 @@
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="634"/>
         <source>Moving clip</source>
-        <translation type="unfinished"></translation>
+        <translation>移动剪辑</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="675"/>
         <source>Adjusting clip length</source>
-        <translation type="unfinished"></translation>
+        <translation>调整剪辑长度</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="723"/>
         <source>Drawing clip</source>
-        <translation type="unfinished"></translation>
+        <translation>绘制剪辑</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="773"/>
         <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名剪辑</translation>
     </message>
 </context>
 <context>
@@ -923,12 +923,12 @@
     <message>
         <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="51"/>
         <source>Custom Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义调式</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="309"/>
         <source>Moving key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>移动调号</translation>
     </message>
 </context>
 <context>
@@ -954,27 +954,27 @@
     <message>
         <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="289"/>
         <source>Master</source>
-        <translation type="unfinished"></translation>
+        <translation>主音轨</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="357"/>
         <source>Editing master mute</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑主音轨静音</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="380"/>
         <source>Adjusting master gain</source>
-        <translation type="unfinished"></translation>
+        <translation>调整主音轨增益</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="408"/>
         <source>Adjusting master pan</source>
-        <translation type="unfinished"></translation>
+        <translation>调整主音轨声像</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="439"/>
         <source>Editing master multi-channel output</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑主音轨多声道输出</translation>
     </message>
 </context>
 <context>
@@ -982,37 +982,37 @@
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="886"/>
         <source>Moving note</source>
-        <translation type="unfinished"></translation>
+        <translation>移动音符</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="923"/>
         <source>Adjusting note length</source>
-        <translation type="unfinished"></translation>
+        <translation>调整音符长度</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="970"/>
         <source>Drawing note</source>
-        <translation type="unfinished"></translation>
+        <translation>绘制音符</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1010"/>
         <source>Editing lyric</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑歌词</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1052"/>
         <source>Editing pronunciation</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑发音</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1139"/>
-        <source>Ripple delete previous</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1146"/>
+        <source>Filling gap</source>
+        <translation>填充间隙</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1146"/>
         <source>Ripple delete next</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">涟漪删除下一个</translation>
     </message>
 </context>
 <context>
@@ -1020,7 +1020,7 @@
     <message>
         <location filename="../../core/viewmodelbinding/PlaybackViewModelContextData.cpp" line="245"/>
         <source>Adjust loop range</source>
-        <translation type="unfinished"></translation>
+        <translation>调整循环范围</translation>
     </message>
 </context>
 <context>
@@ -1036,42 +1036,42 @@
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="721"/>
         <source>Moving track</source>
-        <translation type="unfinished"></translation>
+        <translation>移动轨道</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="756"/>
         <source>Editing track mute</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑轨道静音</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="783"/>
         <source>Editing track solo</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑轨道独奏</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="810"/>
         <source>Editing track record</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑轨道录制</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="836"/>
         <source>Renaming track</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名轨道</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="869"/>
         <source>Adjusting track gain</source>
-        <translation type="unfinished"></translation>
+        <translation>调整轨道增益</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="902"/>
         <source>Adjusting track pan</source>
-        <translation type="unfinished"></translation>
+        <translation>调整轨道声像</translation>
     </message>
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="935"/>
         <source>Resizing track</source>
-        <translation type="unfinished"></translation>
+        <translation>调整轨道大小</translation>
     </message>
 </context>
 </TS>

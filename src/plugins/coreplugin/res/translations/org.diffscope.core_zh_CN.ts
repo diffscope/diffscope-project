@@ -6,7 +6,30 @@
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="186"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;输入操作符和时间码以调整回放位置&lt;/p&gt;
+&lt;b&gt;跳转&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;&amp;lt;小节&amp;gt;:&amp;lt;拍&amp;gt;:&amp;lt;刻&amp;gt;&lt;/b&gt;：跳转到音乐时间&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;+^&amp;lt;分&amp;gt;:&amp;lt;秒&amp;gt;.&amp;lt;毫秒&amp;gt;&lt;/b&gt;：跳转到绝对时间&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;\&lt;/b&gt;：跳转到工程结束&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;移动&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;+&amp;lt;四分音符&amp;gt;:&amp;lt;刻&amp;gt;&lt;/b&gt;：按音乐时间前进&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;-&amp;lt;四分音符&amp;gt;:&amp;lt;刻&amp;gt;&lt;/b&gt;：按音乐时间后退&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;+^&amp;lt;分&amp;gt;:&amp;lt;秒&amp;gt;.&amp;lt;毫秒&amp;gt;&lt;/b&gt;：按绝对时间前进&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;-^&amp;lt;分&amp;gt;:&amp;lt;秒&amp;gt;.&amp;lt;毫秒&amp;gt;&lt;/b&gt;：按绝对时间后退&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]&lt;/b&gt;：前进一小节&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]]&lt;/b&gt;：前进一拍&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]]]&lt;/b&gt;：前进一刻&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[&lt;/b&gt;：后退一小节&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[[&lt;/b&gt;：后退一拍&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[[[&lt;/b&gt;：后退一刻&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;帮助&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;?&lt;/b&gt;：显示此帮助&lt;/li&gt;
+&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -89,7 +112,7 @@
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="163"/>
         <source>Show full path in the title bar of project window</source>
-        <translation>在项目窗口标题栏显示完整路径</translation>
+        <translation>在工程窗口标题栏显示完整路径</translation>
     </message>
     <message>
         <location filename="../../qml/settings/AppearancePage.qml" line="177"/>
@@ -2243,102 +2266,102 @@
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="877"/>
         <source>Paste failed</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴失败</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="877"/>
         <source>Cannot paste data from the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法从剪贴板粘贴数据。</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="886"/>
         <source>Pasting tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴曲速</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="888"/>
         <source>Pasting label</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴标签</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="890"/>
         <source>Pasting key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴调号</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="892"/>
         <source>Pasting track</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴轨道</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="894"/>
         <source>Pasting clip</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴剪辑</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="896"/>
         <source>Pasting note</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴音符</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="898"/>
         <source>Pasting selection</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴选区</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="934"/>
         <source>Deleting tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>删除曲速</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="936"/>
         <source>Deleting label</source>
-        <translation type="unfinished"></translation>
+        <translation>删除标签</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="938"/>
         <source>Deleting key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>删除调号</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="940"/>
         <source>Deleting track</source>
-        <translation type="unfinished"></translation>
+        <translation>删除轨道</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="942"/>
         <source>Deleting clip</source>
-        <translation type="unfinished"></translation>
+        <translation>删除剪辑</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="944"/>
         <source>Deleting note</source>
-        <translation type="unfinished"></translation>
+        <translation>删除音符</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="946"/>
         <source>Deleting anchor node</source>
-        <translation type="unfinished"></translation>
+        <translation>删除锚点</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="949"/>
         <source>Deleting selection</source>
-        <translation type="unfinished"></translation>
+        <translation>删除选区</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="1009"/>
         <source>Splitting clip</source>
-        <translation type="unfinished"></translation>
+        <translation>分割剪辑</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="1009"/>
         <source>Splitting note</source>
-        <translation type="unfinished"></translation>
+        <translation>分割音符</translation>
     </message>
     <message>
         <location filename="../../project/document/DspxDocument.cpp" line="1144"/>
         <source>Bouncing to clip</source>
-        <translation type="unfinished"></translation>
+        <translation>合并到剪辑</translation>
     </message>
 </context>
 <context>
@@ -2697,7 +2720,7 @@
     <message>
         <location filename="../../project/scenarios/EditKeySignatureScenario.cpp" line="87"/>
         <source>Editing key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号</translation>
     </message>
 </context>
 <context>
@@ -2705,7 +2728,7 @@
     <message>
         <location filename="../../project/scenarios/EditLoopScenario.cpp" line="87"/>
         <source>Editing loop</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑循环</translation>
     </message>
 </context>
 <context>
@@ -2724,40 +2747,45 @@
 <context>
     <name>Core::InsertItemScenario</name>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="97"/>
-        <source>Adding track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../project/scenarios/InsertItemScenario.cpp" line="100"/>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="142"/>
+        <source>Adding track</source>
+        <translation>添加轨道</translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="103"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="145"/>
         <source>Unnamed track</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名轨道</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="154"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="157"/>
         <source>Inserting track</source>
-        <translation type="unfinished"></translation>
+        <translation>插入轨道</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="206"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="209"/>
         <source>Inserting label</source>
-        <translation type="unfinished"></translation>
+        <translation>插入标签</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="264"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="267"/>
         <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="290"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="293"/>
         <source>Inserting singing clip</source>
-        <translation type="unfinished"></translation>
+        <translation>插入歌声剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="356"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="365"/>
         <source>Inserting note</source>
-        <translation type="unfinished"></translation>
+        <translation>插入音符</translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="431"/>
+        <source>Inserting phoneme</source>
+        <translation>插入音素</translation>
     </message>
 </context>
 <context>
@@ -2811,17 +2839,17 @@
     <message>
         <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="22"/>
         <source>DiffScope Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>DiffScope 暗色</translation>
     </message>
     <message>
         <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="96"/>
         <source>DiffScope Light</source>
-        <translation type="unfinished"></translation>
+        <translation>DiffScope 亮色</translation>
     </message>
     <message>
         <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="170"/>
         <source>DiffScope High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>DiffScope 高对比度</translation>
     </message>
     <message>
         <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="357"/>
@@ -2910,7 +2938,7 @@
     <message>
         <location filename="../../internal/settings/ColorSchemePage.cpp" line="118"/>
         <source>OkLab Lighter: %L1</source>
-        <translation type="unfinished"></translation>
+        <translation>OkLab 变亮：%L1</translation>
     </message>
     <message>
         <location filename="../../internal/settings/ColorSchemePage.cpp" line="226"/>
@@ -2970,7 +2998,7 @@
     <message>
         <location filename="../../internal/settings/ColorSchemePage.cpp" line="309"/>
         <source>Syntax error at line %L1: Invalid &apos;oklab-lighter&apos; value (must be a positive number)</source>
-        <translation type="unfinished"></translation>
+        <translation>第 %L1 行语法错误：“oklab-lighter”值无效（必须为正数）</translation>
     </message>
     <message>
         <location filename="../../internal/settings/ColorSchemePage.cpp" line="315"/>
@@ -2988,7 +3016,11 @@
     <message>
         <location filename="../../internal/CorePlugin.cpp" line="201"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
-        <translation type="unfinished"></translation>
+        <translation>加载某些插件时发生错误：
+
+%1
+
+请前往“插件”查看详细信息。</translation>
     </message>
     <message>
         <location filename="../../internal/CorePlugin.cpp" line="211"/>
@@ -2996,35 +3028,41 @@
         <translation>正在初始化图形界面...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="420"/>
+        <location filename="../../internal/CorePlugin.cpp" line="421"/>
         <source>Last run terminated abnormally</source>
-        <translation type="unfinished"></translation>
+        <translation>上次运行异常终止</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="420"/>
+        <location filename="../../internal/CorePlugin.cpp" line="421"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 在上次运行时未正常退出。
+
+要检查未保存的文件，请前往“恢复文件”。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="465"/>
+        <location filename="../../internal/CorePlugin.cpp" line="466"/>
         <source>Errors occurred while loading some plugins:
 
 %1
 
 Please go to Plugins to see more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>加载某些插件时发生错误：
+
+%1
+
+请前往“插件”查看详细信息。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="468"/>
+        <location filename="../../internal/CorePlugin.cpp" line="469"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished">%1（%2）</translation>
+        <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="470"/>
+        <location filename="../../internal/CorePlugin.cpp" line="471"/>
         <source>Plugin Error</source>
-        <translation type="unfinished"></translation>
+        <translation>插件错误</translation>
     </message>
 </context>
 <context>
@@ -3032,17 +3070,17 @@ Please go to Plugins to see more details.</source>
     <message>
         <location filename="../../internal/addon/EditActionsAddOn.cpp" line="88"/>
         <source>Cannot Shift Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>无法移动音符</translation>
     </message>
     <message>
         <location filename="../../internal/addon/EditActionsAddOn.cpp" line="89"/>
         <source>Pitch out of range</source>
-        <translation type="unfinished"></translation>
+        <translation>音高超出范围</translation>
     </message>
     <message>
         <location filename="../../internal/addon/EditActionsAddOn.cpp" line="168"/>
         <source>Shifting note pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>调整音符音高</translation>
     </message>
 </context>
 <context>
@@ -3184,12 +3222,12 @@ Please go to Plugins to see more details.</source>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="180"/>
         <source>Type &quot;?&quot; to view tips</source>
-        <translation type="unfinished">键入“?”以查看提示</translation>
+        <translation>键入“?”以查看提示</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="197"/>
         <source>Invalid format</source>
-        <translation type="unfinished">无效格式</translation>
+        <translation>无效格式</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="210"/>
@@ -3202,29 +3240,29 @@ Please go to Plugins to see more details.</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="358"/>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="365"/>
         <source>Go to %1</source>
-        <translation type="unfinished">转到 %1</translation>
+        <translation>转到 %1</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="230"/>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="283"/>
         <source>Move backward by %1 (to %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>向后移动 %1（至 %2）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="230"/>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="283"/>
         <source>Move forward by %1 (to %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>向前移动 %1（至 %2）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="231"/>
         <source>Move backward by music time...</source>
-        <translation type="unfinished"></translation>
+        <translation>向后移动音乐时间...</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="231"/>
         <source>Move forward by music time...</source>
-        <translation type="unfinished"></translation>
+        <translation>向前移动音乐时间...</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="238"/>
@@ -3234,101 +3272,101 @@ Please go to Plugins to see more details.</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="341"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
-        <translation type="unfinished">
+        <translation>
 时间偏移超出边界，已被调整到零</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="260"/>
         <source>Go to absolute time...</source>
-        <translation type="unfinished"></translation>
+        <translation>跳转到绝对时间...</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="260"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished">%1（%2）</translation>
+        <translation>%1（%2）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="284"/>
         <source>Move backward by absolute time...</source>
-        <translation type="unfinished"></translation>
+        <translation>向后移动绝对时间...</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="284"/>
         <source>Move forward by absolute time...</source>
-        <translation type="unfinished"></translation>
+        <translation>向前移动绝对时间...</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="302"/>
         <source>the end of project (%1)</source>
-        <translation type="unfinished">工程结束（%1）</translation>
+        <translation>工程结束（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="317"/>
         <source>previous measure (%1)</source>
-        <translation type="unfinished">上一小节（%1）</translation>
+        <translation>上一小节（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="329"/>
         <source>previous beat (%1)</source>
-        <translation type="unfinished">上一拍（%1）</translation>
+        <translation>上一拍（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="341"/>
         <source>previous tick (%1)</source>
-        <translation type="unfinished">上一刻（%1）</translation>
+        <translation>上一刻（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="351"/>
         <source>next measure (%1)</source>
-        <translation type="unfinished">下一小节（%1）</translation>
+        <translation>下一小节（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="358"/>
         <source>next beat (%1)</source>
-        <translation type="unfinished">下一拍（%1）</translation>
+        <translation>下一拍（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="365"/>
         <source>next tick (%1)</source>
-        <translation type="unfinished">下一刻（%1）</translation>
+        <translation>下一刻（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="394"/>
         <source>measure %L1, beat %L2</source>
-        <translation type="unfinished">第 %L1 小节，第 %L2 拍</translation>
+        <translation>第 %L1 小节，第 %L2 拍</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="396"/>
         <source>measure %L1, beat %L2, tick %L3</source>
-        <translation type="unfinished">第 %L1 小节，第 %L2 拍，第 %L3 刻</translation>
+        <translation>第 %L1 小节，第 %L2 拍，第 %L3 刻</translation>
     </message>
     <message numerus="yes">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="400"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个四分音符</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 刻</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="408"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message numerus="yes">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="412"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 分钟</numerusform>
         </translation>
     </message>
@@ -3336,7 +3374,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 秒</numerusform>
         </translation>
     </message>
@@ -3344,7 +3382,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="414"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 毫秒</numerusform>
         </translation>
     </message>
@@ -3353,25 +3391,25 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="428"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="425"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 %3</translation>
     </message>
     <message numerus="yes">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="434"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 分钟</numerusform>
         </translation>
     </message>
@@ -3379,7 +3417,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 秒</numerusform>
         </translation>
     </message>
@@ -3387,7 +3425,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="436"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln 毫秒</numerusform>
         </translation>
     </message>
@@ -3396,19 +3434,19 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="450"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="447"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 %3</translation>
     </message>
 </context>
 <context>
@@ -3589,17 +3627,17 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="46"/>
         <source>Custom Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义调式</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="144"/>
         <source>Enabling loop</source>
-        <translation type="unfinished"></translation>
+        <translation>启用循环</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="144"/>
         <source>Disabling loop</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用循环</translation>
     </message>
     <message>
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="483"/>
@@ -3729,7 +3767,7 @@ You can check for problems in the file with DSPX Inspector.</source>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
         <source>Potential document integrity issue</source>
-        <translation type="unfinished"></translation>
+        <translation>潜在的文档完整性问题</translation>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
@@ -3740,7 +3778,13 @@ Under normal circumstances, this problem should not occur. It may be caused by d
 If you are currently using Save or overwriting an existing file, it is recommended that you cancel the current operation. Instead, use Save Copy to save the document in another file, and then inspect the file using DSPX Inspector.
 
 Do you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>保存文件时文档完整性检查失败。文件仍可保存，但再次打开时可能无法正确解析。
+
+正常情况下不应出现此问题。这可能是由 %1 中的缺陷或某些插件引起的。
+
+如果您当前正在使用“保存”或覆盖现有文件，建议取消当前操作。作为替代，请使用“保存副本”将文档保存到另一个文件中，然后使用“DSPX 检查器”检查该文件。
+
+是否继续？</translation>
     </message>
 </context>
 <context>
@@ -3748,7 +3792,7 @@ Do you want to continue?</source>
     <message>
         <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="51"/>
         <source>Picking track color</source>
-        <translation type="unfinished"></translation>
+        <translation>选择轨道颜色</translation>
     </message>
 </context>
 <context>
@@ -3787,55 +3831,55 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="230"/>
         <source>No selection</source>
-        <translation type="unfinished"></translation>
+        <translation>未选择</translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="234"/>
         <source>%Ln clip(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个剪辑</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="236"/>
         <source>%Ln label(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个标签</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="238"/>
         <source>%Ln note(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个音符</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="240"/>
         <source>%Ln tempo(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个曲速</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="242"/>
         <source>%Ln track(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个轨道</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="244"/>
         <source>%Ln key signature(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个调号</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="252"/>
         <source> (%Ln selected)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>（已选择 %Ln 个）</numerusform>
         </translation>
     </message>
 </context>
@@ -3844,53 +3888,53 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="22"/>
         <source>Edit Key Signature</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="39"/>
         <source>Tonality</source>
-        <translation type="unfinished"></translation>
+        <translation>调性</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="53"/>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="58"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>调式</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="63"/>
         <source>Custom Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义调式</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="69"/>
         <source>Accidental Type</source>
-        <translation type="unfinished"></translation>
+        <translation>变音类型</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="76"/>
         <source>Flat</source>
-        <translation type="unfinished"></translation>
+        <translation>降号</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="81"/>
         <source>Sharp</source>
-        <translation type="unfinished"></translation>
+        <translation>升号</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="87"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="101"/>
         <source>Modify existing one</source>
-        <translation type="unfinished">修改现有的</translation>
+        <translation>修改现有的</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditKeySignatureDialog.qml" line="106"/>
         <source>Insert new one</source>
-        <translation type="unfinished">添加新的</translation>
+        <translation>添加新的</translation>
     </message>
 </context>
 <context>
@@ -3898,22 +3942,22 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/EditLoopDialog.qml" line="20"/>
         <source>Edit Loop</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑循环</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditLoopDialog.qml" line="29"/>
         <source>Enable loop</source>
-        <translation type="unfinished"></translation>
+        <translation>启用循环</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditLoopDialog.qml" line="35"/>
         <source>Start position</source>
-        <translation type="unfinished"></translation>
+        <translation>开始位置</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditLoopDialog.qml" line="49"/>
         <source>End position</source>
-        <translation type="unfinished"></translation>
+        <translation>结束位置</translation>
     </message>
 </context>
 <context>
@@ -3931,12 +3975,12 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/EditTempoDialog.qml" line="65"/>
         <source>Tap to Detect Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>敲击检测曲速</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditTempoDialog.qml" line="66"/>
-        <source>Press the button to the rhythm to detect to detect the tempo. Right-click to cancel.</source>
-        <translation type="unfinished"></translation>
+        <source>Press the button to the rhythm to detect the tempo. Right-click to cancel.</source>
+        <translation>随节奏按下按钮以检测曲速。右键单击以取消。</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditTempoDialog.qml" line="119"/>
@@ -3979,7 +4023,7 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/EditTimeSignatureDialog.qml" line="64"/>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>常用</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/EditTimeSignatureDialog.qml" line="84"/>
@@ -4054,7 +4098,7 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="108"/>
         <source>Reopen the home window when the last project window closes</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭最后一个工程窗口时重新打开主窗口</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="123"/>
@@ -4217,17 +4261,17 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/InsertLabelDialog.qml" line="19"/>
         <source>Insert Label</source>
-        <translation type="unfinished"></translation>
+        <translation>插入标签</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertLabelDialog.qml" line="28"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>文本</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertLabelDialog.qml" line="40"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
 </context>
 <context>
@@ -4235,27 +4279,55 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="21"/>
         <source>Insert Note</source>
-        <translation type="unfinished"></translation>
+        <translation>插入音符</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="31"/>
         <source>Onset Position</source>
-        <translation type="unfinished"></translation>
+        <translation>起始位置</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="46"/>
         <source>Length</source>
-        <translation type="unfinished"></translation>
+        <translation>长度</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="61"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>音高</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertNoteDialog.qml" line="76"/>
         <source>Lyric</source>
-        <translation type="unfinished"></translation>
+        <translation>歌词</translation>
+    </message>
+</context>
+<context>
+    <name>InsertPhonemeDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="20"/>
+        <source>Insert Phoneme</source>
+        <translation>插入音素</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="30"/>
+        <source>Token</source>
+        <translation>符号</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="43"/>
+        <source>Start (ms)</source>
+        <translation>开始（毫秒）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="58"/>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/InsertPhonemeDialog.qml" line="73"/>
+        <source>Onset</source>
+        <translation>起音</translation>
     </message>
 </context>
 <context>
@@ -4263,32 +4335,32 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="23"/>
         <source>Insert Singing Clip</source>
-        <translation type="unfinished"></translation>
+        <translation>插入歌声剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="33"/>
         <source>Track</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="40"/>
         <source>%L1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%L1：%2</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="54"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="68"/>
         <source>Length</source>
-        <translation type="unfinished"></translation>
+        <translation>长度</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertSingingClipDialog.qml" line="83"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
 </context>
 <context>
@@ -4296,22 +4368,22 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/InsertTrackDialog.qml" line="20"/>
         <source>Insert Track</source>
-        <translation type="unfinished"></translation>
+        <translation>插入轨道</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertTrackDialog.qml" line="29"/>
         <source>Insert position</source>
-        <translation type="unfinished"></translation>
+        <translation>插入位置</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertTrackDialog.qml" line="43"/>
         <source>Number of tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道数量</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/InsertTrackDialog.qml" line="57"/>
         <source>Track name</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道名称</translation>
     </message>
 </context>
 <context>
@@ -4319,62 +4391,62 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="16"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>基本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="21"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="33"/>
         <source>Editing key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="55"/>
         <source>Tonality</source>
-        <translation type="unfinished"></translation>
+        <translation>调性</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="56"/>
         <source>Editing key signature tonality</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号调性</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="74"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>调式</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="75"/>
         <source>Editing key signature mode</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号调式</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="84"/>
         <source>Custom Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义调式</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="95"/>
         <source>Accidental type</source>
-        <translation type="unfinished"></translation>
+        <translation>变音类型</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="96"/>
         <source>Editing key signature accidental type</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑调号变音类型</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="115"/>
         <source>Flat</source>
-        <translation type="unfinished"></translation>
+        <translation>降号</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="124"/>
         <source>Sharp</source>
-        <translation type="unfinished"></translation>
+        <translation>升号</translation>
     </message>
 </context>
 <context>
@@ -4382,27 +4454,27 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="15"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>基本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="22"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="23"/>
         <source>Moving label</source>
-        <translation type="unfinished"></translation>
+        <translation>移动标签</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="29"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>文本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="30"/>
         <source>Editing label</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑标签</translation>
     </message>
 </context>
 <context>
@@ -4538,37 +4610,37 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="15"/>
         <source>Loop</source>
-        <translation type="unfinished"></translation>
+        <translation>循环</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="22"/>
         <source>Enable loop</source>
-        <translation type="unfinished"></translation>
+        <translation>启用循环</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="23"/>
         <source>Toggling loop</source>
-        <translation type="unfinished"></translation>
+        <translation>切换循环</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="30"/>
         <source>Start position</source>
-        <translation type="unfinished"></translation>
+        <translation>开始位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="38"/>
         <source>Editing loop start position</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑循环起始位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="67"/>
         <source>End position</source>
-        <translation type="unfinished"></translation>
+        <translation>结束位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/LoopPropertyEditor.qml" line="74"/>
         <source>Editing loop end position</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑循环结束位置</translation>
     </message>
 </context>
 <context>
@@ -4576,47 +4648,47 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="15"/>
         <source>Master Control</source>
-        <translation type="unfinished"></translation>
+        <translation>主音轨控制</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="23"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>静音</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="24"/>
         <source>Toggling mute</source>
-        <translation type="unfinished"></translation>
+        <translation>切换静音</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="30"/>
         <source>Multi-channel output</source>
-        <translation type="unfinished"></translation>
+        <translation>多声道输出</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="31"/>
         <source>Toggling multi-channel output</source>
-        <translation type="unfinished"></translation>
+        <translation>切换多声道输出</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="37"/>
         <source>Gain (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>增益（dB）</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="45"/>
         <source>Editing gain</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑增益</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="57"/>
         <source>Pan (%)</source>
-        <translation type="unfinished"></translation>
+        <translation>声像 (%)</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="63"/>
         <source>Editing pan</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑声像</translation>
     </message>
 </context>
 <context>
@@ -4718,57 +4790,57 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="15"/>
         <source>Metadata</source>
-        <translation type="unfinished">元数据</translation>
+        <translation>元数据</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="20"/>
         <source>Path</source>
-        <translation type="unfinished">路径</translation>
+        <translation>路径</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="24"/>
         <source>Reveal in %1</source>
-        <translation type="unfinished">在 %1 中显示</translation>
+        <translation>在 %1 中显示</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="31"/>
         <source>Unspecified</source>
-        <translation type="unfinished">未指定</translation>
+        <translation>未指定</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="40"/>
         <source>Title</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="41"/>
         <source>Editing title</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑标题</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="47"/>
         <source>Author</source>
-        <translation type="unfinished">作者</translation>
+        <translation>作者</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="48"/>
         <source>Editing author</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑作者</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="55"/>
         <source>Cent shift</source>
-        <translation type="unfinished"></translation>
+        <translation>音分偏移</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="58"/>
         <source>Editing cent shift</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑音分偏移</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/MetadataPropertyEditor.qml" line="61"/>
         <source>The standard pitch for this cent shift: %L1 Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>此音分偏移下的标准音高：%L1 Hz</translation>
     </message>
 </context>
 <context>
@@ -4776,47 +4848,105 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="15"/>
         <source>Lyric and Pronunciation</source>
-        <translation type="unfinished"></translation>
+        <translation>歌词与发音</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="24"/>
         <source>Lyric</source>
-        <translation type="unfinished"></translation>
+        <translation>歌词</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="25"/>
         <source>Editing lyric</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑歌词</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="32"/>
         <source>Language</source>
-        <translation type="unfinished">语言</translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="33"/>
         <source>Editing language</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑语言</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="38"/>
         <source>Pronunciation (original)</source>
-        <translation type="unfinished"></translation>
+        <translation>发音（原始）</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="41"/>
         <source>Multiple values</source>
-        <translation type="unfinished"></translation>
+        <translation>多个值</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="52"/>
         <source>Pronunciation (edited)</source>
-        <translation type="unfinished"></translation>
+        <translation>发音（已编辑）</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="53"/>
         <source>Editing pronunciation (edited)</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑发音（已编辑）</translation>
+    </message>
+</context>
+<context>
+    <name>NotePhonemePropertyEditor</name>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="17"/>
+        <source>Phoneme</source>
+        <translation>音素</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="39"/>
+        <source>Editing phoneme</source>
+        <translation>编辑音素</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="50"/>
+        <source>Token</source>
+        <translation>符号</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="55"/>
+        <source>Start (ms)</source>
+        <translation>开始（毫秒）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="60"/>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="65"/>
+        <source>Onset</source>
+        <translation>起音</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="169"/>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="169"/>
+        <source>No</source>
+        <translation>否</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="185"/>
+        <source>Original</source>
+        <translation>原始</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="195"/>
+        <source>Edited</source>
+        <translation>已编辑</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="204"/>
+        <source>Insert</source>
+        <translation>插入</translation>
     </message>
 </context>
 <context>
@@ -4825,22 +4955,22 @@ Do you want to save as a new file or overwrite it?</source>
         <location filename="../../qml/propertyeditors/NotePitchPropertyEditor.qml" line="15"/>
         <location filename="../../qml/propertyeditors/NotePitchPropertyEditor.qml" line="24"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>音高</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePitchPropertyEditor.qml" line="28"/>
         <source>Editing pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑音高</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePitchPropertyEditor.qml" line="35"/>
         <source>Cent shift</source>
-        <translation type="unfinished"></translation>
+        <translation>音分偏移</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePitchPropertyEditor.qml" line="38"/>
         <source>Editing cent shift</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑音分偏移</translation>
     </message>
 </context>
 <context>
@@ -4848,27 +4978,27 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="16"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>基本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="23"/>
         <source>Associated singing clip</source>
-        <translation type="unfinished"></translation>
+        <translation>关联的歌声剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="25"/>
         <source>Select singing clip</source>
-        <translation type="unfinished"></translation>
+        <translation>选择歌声剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="40"/>
         <source>Multiple clips</source>
-        <translation type="unfinished"></translation>
+        <translation>多个剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="41"/>
         <source>None</source>
-        <translation type="unfinished">无</translation>
+        <translation>无</translation>
     </message>
 </context>
 <context>
@@ -4876,27 +5006,27 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/propertyeditors/NoteTimePropertyEditor.qml" line="15"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>时间</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteTimePropertyEditor.qml" line="24"/>
         <source>Onset position (relative to clip)</source>
-        <translation type="unfinished"></translation>
+        <translation>起始位置（相对于剪辑）</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteTimePropertyEditor.qml" line="25"/>
         <source>Editing onset position</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑起始位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteTimePropertyEditor.qml" line="32"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>时长</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteTimePropertyEditor.qml" line="34"/>
         <source>Editing duration</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑时长</translation>
     </message>
 </context>
 <context>
@@ -4904,15 +5034,15 @@ Do you want to save as a new file or overwrite it?</source>
     <message numerus="yes">
         <location filename="../../qml/actions/NotificationAddOnActions.qml" line="20"/>
         <source>%Ln error(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个错误</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../qml/actions/NotificationAddOnActions.qml" line="20"/>
         <source>%Ln warning(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%Ln 个警告</numerusform>
         </translation>
     </message>
 </context>
@@ -4934,12 +5064,12 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/dialogs/PickTrackColorDialog.qml" line="18"/>
         <source>Pick Track Color</source>
-        <translation type="unfinished"></translation>
+        <translation>选择轨道颜色</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/PickTrackColorDialog.qml" line="36"/>
         <source>Track Color %L1</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道颜色 %L1</translation>
     </message>
 </context>
 <context>
@@ -4980,42 +5110,42 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="23"/>
         <source>Document</source>
-        <translation type="unfinished"></translation>
+        <translation>文档</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="29"/>
         <source>Anchor Node</source>
-        <translation type="unfinished"></translation>
+        <translation>锚点</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="35"/>
         <source>Clip</source>
-        <translation type="unfinished"></translation>
+        <translation>剪辑</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="41"/>
         <source>Label</source>
-        <translation type="unfinished"></translation>
+        <translation>标签</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="47"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>音符</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="53"/>
         <source>Tempo</source>
-        <translation type="unfinished">曲速</translation>
+        <translation>曲速</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="59"/>
         <source>Track</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道</translation>
     </message>
     <message>
         <location filename="../../qml/panels/PropertiesPanel.qml" line="65"/>
         <source>Key Signature</source>
-        <translation type="unfinished"></translation>
+        <translation>调号</translation>
     </message>
 </context>
 <context>
@@ -5088,22 +5218,22 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     <message>
         <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="16"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>基本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="21"/>
         <source>Position</source>
-        <translation type="unfinished">位置</translation>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="32"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>值</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="35"/>
         <source>Editing tempo</source>
-        <translation type="unfinished">编辑曲速</translation>
+        <translation>编辑曲速</translation>
     </message>
 </context>
 <context>
@@ -5187,17 +5317,17 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     <message>
         <location filename="../../qml/propertyeditors/TrackDisplayPropertyEditor.qml" line="15"/>
         <source>Display</source>
-        <translation type="unfinished">显示</translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackDisplayPropertyEditor.qml" line="23"/>
         <source>View height</source>
-        <translation type="unfinished"></translation>
+        <translation>视图高度</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackDisplayPropertyEditor.qml" line="25"/>
         <source>Resizing track</source>
-        <translation type="unfinished"></translation>
+        <translation>调整轨道</translation>
     </message>
 </context>
 <context>
@@ -5205,32 +5335,32 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="16"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation>基本</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="23"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="24"/>
         <source>Renaming track</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名轨道</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="31"/>
         <source>Color</source>
-        <translation type="unfinished">颜色</translation>
+        <translation>颜色</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="32"/>
         <source>Picking track color</source>
-        <translation type="unfinished"></translation>
+        <translation>选择轨道颜色</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="55"/>
         <source>Track Color %L1</source>
-        <translation type="unfinished"></translation>
+        <translation>轨道颜色 %L1</translation>
     </message>
 </context>
 <context>
@@ -5261,7 +5391,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     <message>
         <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="15"/>
         <source>Virtual Singer</source>
-        <translation type="unfinished"></translation>
+        <translation>虚拟歌手</translation>
     </message>
 </context>
 <context>
