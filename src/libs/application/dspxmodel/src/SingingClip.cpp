@@ -50,26 +50,26 @@ namespace dspx {
         return d->sources;
     }
 
-    QDspx::SingingClip SingingClip::toQDspx() const {
+    opendspx::SingingClip SingingClip::toOpenDspx() const {
         return {
-            name(),
-            control()->toQDspx(),
-            time()->toQDspx(),
-            workspace()->toQDspx(),
-            notes()->toQDspx(),
-            params()->toQDspx(),
-            sources()->toQDspx(),
+            name().toStdString(),
+            control()->toOpenDspx(),
+            time()->toOpenDspx(),
+            workspace()->toOpenDspx(),
+            notes()->toOpenDspx(),
+            params()->toOpenDspx(),
+            sources()->toOpenDspx(),
         };
     }
 
-    void SingingClip::fromQDspx(const QDspx::SingingClip &clip) {
-        setName(clip.name);
-        control()->fromQDspx(clip.control);
-        time()->fromQDspx(clip.time);
-        workspace()->fromQDspx(clip.workspace);
-        notes()->fromQDspx(clip.notes);
-        params()->fromQDspx(clip.params);
-        sources()->fromQDspx(clip.sources);
+    void SingingClip::fromOpenDspx(const opendspx::SingingClip &clip) {
+        setName(QString::fromStdString(clip.name));
+        control()->fromOpenDspx(clip.control);
+        time()->fromOpenDspx(clip.time);
+        workspace()->fromOpenDspx(clip.workspace);
+        notes()->fromOpenDspx(clip.notes);
+        params()->fromOpenDspx(clip.params);
+        sources()->fromOpenDspx(clip.sources);
     }
 
     void SingingClip::handleSetEntityProperty(int property, const QVariant &value) {

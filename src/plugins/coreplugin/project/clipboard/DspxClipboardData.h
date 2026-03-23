@@ -27,51 +27,51 @@ namespace Core {
             return static_cast<Type>(m_data.index());
         }
 
-        void setTempos(const QList<QDspx::Tempo> &tempos) {
+        void setTempos(const QList<opendspx::Tempo> &tempos) {
             m_data = tempos;
         }
 
-        QList<QDspx::Tempo> tempos() const {
+        QList<opendspx::Tempo> tempos() const {
             return std::get<Tempo>(m_data);
         }
 
-        void setLabels(const QList<QDspx::Label> &labels) {
+        void setLabels(const QList<opendspx::Label> &labels) {
             m_data = labels;
         }
 
-        QList<QDspx::Label> labels() const {
+        QList<opendspx::Label> labels() const {
             return std::get<Label>(m_data);
         }
 
-        void setKeySignatures(const QList<QJsonObject> &keySignatures) {
+        void setKeySignatures(const QList<nlohmann::json> &keySignatures) {
             m_data = keySignatures;
         }
 
-        QList<QJsonObject> keySignatures() const {
+        QList<nlohmann::json> keySignatures() const {
             return std::get<KeySignature>(m_data);
         }
 
-        void setTracks(const QList<QDspx::Track> &tracks) {
+        void setTracks(const QList<opendspx::Track> &tracks) {
             m_data = tracks;
         }
 
-        QList<QDspx::Track> tracks() const {
+        QList<opendspx::Track> tracks() const {
             return std::get<Track>(m_data);
         }
 
-        void setClips(const QList<QList<QDspx::ClipRef>> &clips) {
+        void setClips(const QList<std::vector<opendspx::ClipRef>> &clips) {
             m_data = clips;
         }
 
-        QList<QList<QDspx::ClipRef>> clips() const {
+        QList<std::vector<opendspx::ClipRef>> clips() const {
             return std::get<Clip>(m_data);
         }
 
-        void setNotes(const QList<QDspx::Note> &notes) {
+        void setNotes(const QList<opendspx::Note> &notes) {
             m_data = notes;
         }
 
-        QList<QDspx::Note> notes() const {
+        QList<opendspx::Note> notes() const {
             return std::get<Note>(m_data);
         }
 
@@ -106,12 +106,12 @@ namespace Core {
 
     private:
         std::variant<
-            QList<QDspx::Tempo>,
-            QList<QDspx::Label>,
-            QList<QJsonObject>,
-            QList<QDspx::Track>,
-            QList<QList<QDspx::ClipRef>>,
-            QList<QDspx::Note>
+            QList<opendspx::Tempo>,
+            QList<opendspx::Label>,
+            QList<nlohmann::json>,
+            QList<opendspx::Track>,
+            QList<std::vector<opendspx::ClipRef>>,
+            QList<opendspx::Note>
         > m_data;
         int m_playhead{};
         int m_absolute{};

@@ -21,7 +21,7 @@ namespace Core {
         QByteArray serializeDocument(bool *hasError = nullptr) const;
 
         bool deserializeAndInitializeDocument(const QByteArray &data);
-        bool initializeDocument(const QDspx::Model &model, bool doCheck);
+        bool initializeDocument(const opendspx::Model &model, bool doCheck);
     };
 
 }

@@ -7,7 +7,7 @@
 
 #include <dspxmodel/Handle.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Pronunciation;
 }
 
@@ -35,8 +35,8 @@ namespace dspx {
         QString edited() const;
         void setEdited(const QString &edited);
 
-        QDspx::Pronunciation toQDspx() const;
-        void fromQDspx(const QDspx::Pronunciation &pronunciation);
+        opendspx::Pronunciation toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Pronunciation &pronunciation);
 
     Q_SIGNALS:
         void originalChanged(const QString &original);

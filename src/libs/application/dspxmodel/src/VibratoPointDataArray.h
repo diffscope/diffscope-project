@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ControlPoint;
 }
 
@@ -29,8 +29,8 @@ namespace dspx {
         Q_INVOKABLE QList<QPointF> slice(int index, int length) const;
         Q_INVOKABLE bool rotate(int leftIndex, int middleIndex, int rightIndex);
 
-        QList<QDspx::ControlPoint> toQDspx() const;
-        void fromQDspx(const QList<QDspx::ControlPoint> &vibratoPoints);
+        std::vector<opendspx::ControlPoint> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::ControlPoint> &vibratoPoints);
 
     Q_SIGNALS:
         void sizeChanged(int size);

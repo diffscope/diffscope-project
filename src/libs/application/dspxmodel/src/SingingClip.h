@@ -5,7 +5,7 @@
 
 #include <dspxmodel/Clip.h>
 
-namespace QDspx {
+namespace opendspx {
     struct SingingClip;
 }
 
@@ -32,8 +32,8 @@ namespace dspx {
         ParamMap *params() const;
         SourceMap *sources() const;
 
-        QDspx::SingingClip toQDspx() const;
-        void fromQDspx(const QDspx::SingingClip &clip);
+        opendspx::SingingClip toOpenDspx() const;
+        void fromOpenDspx(const opendspx::SingingClip &clip);
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

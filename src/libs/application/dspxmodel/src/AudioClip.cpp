@@ -37,22 +37,22 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_Path, path);
     }
 
-    QDspx::AudioClip AudioClip::toQDspx() const {
+    opendspx::AudioClip AudioClip::toOpenDspx() const {
         return {
-            name(),
-            control()->toQDspx(),
-            time()->toQDspx(),
-            workspace()->toQDspx(),
-            path()
+            name().toStdString(),
+            control()->toOpenDspx(),
+            time()->toOpenDspx(),
+            workspace()->toOpenDspx(),
+            path().toStdString()
         };
     }
 
-    void AudioClip::fromQDspx(const QDspx::AudioClip &clip) {
-        setName(clip.name);
-        control()->fromQDspx(clip.control);
-        time()->fromQDspx(clip.time);
-        workspace()->fromQDspx(clip.workspace);
-        setPath(clip.path);
+    void AudioClip::fromOpenDspx(const opendspx::AudioClip &clip) {
+        setName(QString::fromStdString(clip.name));
+        control()->fromOpenDspx(clip.control);
+        time()->fromOpenDspx(clip.time);
+        workspace()->fromOpenDspx(clip.workspace);
+        setPath(QString::fromStdString(clip.path));
     }
 
     void AudioClip::handleSetEntityProperty(int property, const QVariant &value) {

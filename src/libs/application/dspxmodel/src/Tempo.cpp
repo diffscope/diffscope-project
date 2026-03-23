@@ -81,14 +81,14 @@ namespace dspx {
         return d->nextItem;
     }
 
-    QDspx::Tempo Tempo::toQDspx() const {
+    opendspx::Tempo Tempo::toOpenDspx() const {
         return {
             .pos = pos(),
             .value = value(),
         };
     }
 
-    void Tempo::fromQDspx(const QDspx::Tempo &tempo) {
+    void Tempo::fromOpenDspx(const opendspx::Tempo &tempo) {
         setPos(tempo.pos);
         setValue(tempo.value);
     }

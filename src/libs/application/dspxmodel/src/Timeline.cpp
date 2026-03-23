@@ -105,19 +105,19 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_LoopLength, loopLength);
     }
 
-    QDspx::Timeline Timeline::toQDspx() const {
+    opendspx::Timeline Timeline::toOpenDspx() const {
         return {
-            labels()->toQDspx(),
-            tempos()->toQDspx(),
-            timeSignatures()->toQDspx(),
+            labels()->toOpenDspx(),
+            tempos()->toOpenDspx(),
+            timeSignatures()->toOpenDspx(),
         };
     }
 
-    void Timeline::fromQDspx(const QDspx::Timeline &timeline) {
+    void Timeline::fromOpenDspx(const opendspx::Timeline &timeline) {
         Q_D(Timeline);
-        labels()->fromQDspx(timeline.labels);
-        tempos()->fromQDspx(timeline.tempos);
-        timeSignatures()->fromQDspx(timeline.timeSignatures);
+        labels()->fromOpenDspx(timeline.labels);
+        tempos()->fromOpenDspx(timeline.tempos);
+        timeSignatures()->fromOpenDspx(timeline.timeSignatures);
     }
 
 }

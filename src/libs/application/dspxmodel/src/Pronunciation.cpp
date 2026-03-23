@@ -52,16 +52,16 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_PronunciationEdited, edited);
     }
 
-    QDspx::Pronunciation Pronunciation::toQDspx() const {
+    opendspx::Pronunciation Pronunciation::toOpenDspx() const {
         return {
-            .original = original(),
-            .edited = edited()
+            .original = original().toStdString(),
+            .edited = edited().toStdString()
         };
     }
 
-    void Pronunciation::fromQDspx(const QDspx::Pronunciation &pronunciation) {
-        setOriginal(pronunciation.original);
-        setEdited(pronunciation.edited);
+    void Pronunciation::fromOpenDspx(const opendspx::Pronunciation &pronunciation) {
+        setOriginal(QString::fromStdString(pronunciation.original));
+        setEdited(QString::fromStdString(pronunciation.edited));
     }
 
     void Pronunciation::handleProxySetEntityProperty(int property, const QVariant &value) {

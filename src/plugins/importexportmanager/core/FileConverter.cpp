@@ -44,11 +44,11 @@ namespace ImportExportManager {
         return true;
     }
 
-    bool FileConverter::execImport(const QString &path, QDspx::Model &model, QWindow *window) {
+    bool FileConverter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {
         return false;
     }
 
-    bool FileConverter::execExport(const QString &path, const QDspx::Model &model, QWindow *window) {
+    bool FileConverter::execExport(const QString &path, const opendspx::Model &model, QWindow *window) {
         return false;
     }
 

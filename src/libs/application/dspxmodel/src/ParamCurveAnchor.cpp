@@ -33,16 +33,16 @@ namespace dspx {
         return d->nodes;
     }
 
-    QDspx::ParamCurveAnchor ParamCurveAnchor::toQDspx() const {
+    opendspx::ParamCurveAnchor ParamCurveAnchor::toOpenDspx() const {
         return {
             start(),
-            nodes()->toQDspx(),
+            nodes()->toOpenDspx(),
         };
     }
 
-    void ParamCurveAnchor::fromQDspx(const QDspx::ParamCurveAnchor &curve) {
+    void ParamCurveAnchor::fromOpenDspx(const opendspx::ParamCurveAnchor &curve) {
         setStart(curve.start);
-        nodes()->fromQDspx(curve.nodes);
+        nodes()->fromOpenDspx(curve.nodes);
     }
 
     void ParamCurveAnchor::handleSetEntityProperty(int property, const QVariant &value) {

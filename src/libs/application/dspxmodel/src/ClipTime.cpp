@@ -79,17 +79,17 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_ClipLength, clipLen);
     }
 
-    QDspx::ClipTime ClipTime::toQDspx() const {
+    opendspx::ClipTime ClipTime::toOpenDspx() const {
         return {
-            .start = start(),
+            .pos = start() + clipStart(),
             .length = length(),
             .clipStart = clipStart(),
             .clipLen = clipLen()
         };
     }
 
-    void ClipTime::fromQDspx(const QDspx::ClipTime &clipTime) {
-        setStart(clipTime.start);
+    void ClipTime::fromOpenDspx(const opendspx::ClipTime &clipTime) {
+        setStart(clipTime.pos - clipTime.clipStart);
         setLength(clipTime.length);
         setClipStart(clipTime.clipStart);
         setClipLen(clipTime.clipLen);

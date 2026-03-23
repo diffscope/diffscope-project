@@ -76,33 +76,33 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::ParamCurveRef> ParamCurveSequence::toQDspx() const {
+    std::vector<opendspx::ParamCurveRef> ParamCurveSequence::toOpenDspx() const {
         Q_D(const ParamCurveSequence);
-        QList<QDspx::ParamCurveRef> ret;
+        std::vector<opendspx::ParamCurveRef> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void ParamCurveSequence::fromQDspx(const QList<QDspx::ParamCurveRef> &curves) {
+    void ParamCurveSequence::fromOpenDspx(const std::vector<opendspx::ParamCurveRef> &curves) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &curve : curves) {
             ParamCurve *item = nullptr;
             switch (curve->type) {
-                case QDspx::ParamCurve::Anchor:
+                case opendspx::ParamCurve::Anchor:
                     item = model()->createParamCurveAnchor();
                     break;
-                case QDspx::ParamCurve::Free:
+                case opendspx::ParamCurve::Free:
                     item = model()->createParamCurveFree();
                     break;
                 default:
                     Q_UNREACHABLE();
             }
-            item->fromQDspx(curve);
+            item->fromOpenDspx(curve);
             insertItem(item);
         }
     }

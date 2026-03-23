@@ -13,6 +13,7 @@
 #include <dspxmodel/TrackList.h>
 #include <dspxmodel/private/Model_p.h>
 #include <dspxmodel/private/ClipSequence_p.h>
+#include <dspxmodel/private/jsonutils_p.h>
 
 namespace dspx {
 
@@ -84,29 +85,30 @@ namespace dspx {
         return d->workspace;
     }
 
-    QDspx::Track Track::toQDspx() const {
-        QDspx::Track track {
-            .name = name(),
-            .control = control()->toQDspx(),
-            .clips = clips()->toQDspx(),
-            .workspace = workspace()->toQDspx(),
+    opendspx::Track Track::toOpenDspx() const {
+        opendspx::Track track {
+            .name = name().toStdString(),
+            .control = control()->toOpenDspx(),
+            .clips = clips()->toOpenDspx(),
+            .workspace = workspace()->toOpenDspx(),
         };
-        track.workspace["diffscope"] = QJsonObject{
+        track.workspace["diffscope"] = nlohmann::json::object({
             {"colorId", colorId()},
             {"height", height()},
             {"record", control()->record()},
-        };
+        });
         return track;
     }
 
-    void Track::fromQDspx(const QDspx::Track &track) {
-        setName(track.name);
-        control()->fromQDspx(track.control);
-        clips()->fromQDspx(track.clips);
-        workspace()->fromQDspx(track.workspace);
-        setColorId(track.workspace["diffscope"]["colorId"].toInt());
-        setHeight(track.workspace["diffscope"]["height"].toDouble(80));
-        control()->setRecord(track.workspace["diffscope"]["record"].toBool());
+    void Track::fromOpenDspx(const opendspx::Track &track) {
+        setName(QString::fromStdString(track.name));
+        control()->fromOpenDspx(track.control);
+        clips()->fromOpenDspx(track.clips);
+        workspace()->fromOpenDspx(track.workspace);
+        auto diffscopeWorkspace = !track.workspace.contains("diffscope") ? QJsonObject() : JsonUtils::toQJsonValue(track.workspace.at("diffscope")).toObject();
+        setColorId(diffscopeWorkspace["colorId"].toInt());
+        setHeight(diffscopeWorkspace["height"].toDouble(80));
+        control()->setRecord(diffscopeWorkspace["record"].toBool());
     }
 
     TrackList *Track::trackList() const {

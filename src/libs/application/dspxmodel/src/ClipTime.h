@@ -7,7 +7,7 @@
 
 #include <dspxmodel/Handle.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ClipTime;
 }
 
@@ -43,8 +43,8 @@ namespace dspx {
         int clipLen() const;
         void setClipLen(int clipLen);
 
-        QDspx::ClipTime toQDspx() const;
-        void fromQDspx(const QDspx::ClipTime &clipTime);
+        opendspx::ClipTime toOpenDspx() const;
+        void fromOpenDspx(const opendspx::ClipTime &clipTime);
 
     Q_SIGNALS:
         void startChanged(int start);

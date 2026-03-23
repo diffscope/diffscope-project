@@ -5,9 +5,8 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
-    struct Param;
-    using Params = QMap<QString, Param>;
+namespace opendspx {
+    class Params;
 }
 
 namespace dspx {
@@ -38,8 +37,8 @@ namespace dspx {
         Q_INVOKABLE Param *item(const QString &key) const;
         Q_INVOKABLE bool contains(const QString &key) const;
 
-        QDspx::Params toQDspx() const;
-        void fromQDspx(const QDspx::Params &paramMap);
+        opendspx::Params toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Params &paramMap);
 
         SingingClip *singingClip() const;
 

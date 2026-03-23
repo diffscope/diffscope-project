@@ -5,8 +5,8 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
-    using Sources = QMap<QString, QJsonObject>;
+namespace opendspx {
+     class Sources;
 }
 
 namespace dspx {
@@ -35,8 +35,8 @@ namespace dspx {
         Q_INVOKABLE Source *item(const QString &key) const;
         Q_INVOKABLE bool contains(const QString &key) const;
 
-        QDspx::Sources toQDspx() const;
-        void fromQDspx(const QDspx::Sources &sourceMap);
+        opendspx::Sources toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Sources &sourceMap);
 
     Q_SIGNALS:
         void itemAboutToInsert(const QString &key, Source *item);

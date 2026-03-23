@@ -69,23 +69,23 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::Tempo> TempoSequence::toQDspx() const {
+    std::vector<opendspx::Tempo> TempoSequence::toOpenDspx() const {
         Q_D(const TempoSequence);
-        QList<QDspx::Tempo> ret;
+        std::vector<opendspx::Tempo> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void TempoSequence::fromQDspx(const QList<QDspx::Tempo> &tempos) {
+    void TempoSequence::fromOpenDspx(const std::vector<opendspx::Tempo> &tempos) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &tempo : tempos) {
             auto item = model()->createTempo();
-            item->fromQDspx(tempo);
+            item->fromOpenDspx(tempo);
             insertItem(item);
         }
     }

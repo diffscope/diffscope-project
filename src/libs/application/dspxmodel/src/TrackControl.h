@@ -3,7 +3,7 @@
 
 #include <dspxmodel/Control.h>
 
-namespace QDspx {
+namespace opendspx {
     struct TrackControl;
 }
 
@@ -28,8 +28,8 @@ namespace dspx {
         bool record() const;
         void setRecord(bool record);
 
-        QDspx::TrackControl toQDspx() const;
-        void fromQDspx(const QDspx::TrackControl &trackControl);
+        opendspx::TrackControl toOpenDspx() const;
+        void fromOpenDspx(const opendspx::TrackControl &trackControl);
 
     Q_SIGNALS:
         void soloChanged(bool solo);

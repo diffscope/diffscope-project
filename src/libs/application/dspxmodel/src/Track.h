@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Track;
 }
 
@@ -50,8 +50,8 @@ namespace dspx {
 
         Workspace *workspace() const;
 
-        QDspx::Track toQDspx() const;
-        void fromQDspx(const QDspx::Track &track);
+        opendspx::Track toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Track &track);
 
         TrackList *trackList() const;
 

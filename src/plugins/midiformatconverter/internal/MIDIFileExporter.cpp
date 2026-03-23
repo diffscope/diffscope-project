@@ -1,5 +1,7 @@
 #include "MIDIFileExporter.h"
 
+#include <sstream>
+
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialog>
@@ -37,7 +39,7 @@ namespace MIDIFormatConverter::Internal {
 
     MIDIFileExporter::~MIDIFileExporter() = default;
 
-    bool MIDIFileExporter::execExport(const QString &path, const QDspx::Model &model, QWindow *window) {
+    bool MIDIFileExporter::execExport(const QString &path, const opendspx::Model &model, QWindow *window) {
         QDialog dialog;
         dialog.setWindowTitle(tr("MIDI Export"));
 
@@ -85,10 +87,12 @@ namespace MIDIFormatConverter::Internal {
         const QByteArray selectedEncoding = encodingComboBox->currentData().toByteArray();
         const bool separateClips = separateCheckBox->isChecked();
 
-        auto intermediateData = QDspx::MidiConverter::convertDspxToIntermediate(model, [selectedEncoding](const QString &text) {
-            return MIDITextCodecConverter::encode(text, selectedEncoding);
+        auto intermediateData = opendspx::MidiConverter::convertDspxToIntermediate(model, [selectedEncoding](const std::string &text) {
+            return MIDITextCodecConverter::encode(QString::fromStdString(text), selectedEncoding).toStdString();
         }, {480, separateClips});
-        auto data = QDspx::MidiConverter::convertIntermediateToMidi(intermediateData);
+        std::stringstream out(std::ios::out);
+        opendspx::MidiConverter::convertIntermediateToMidi(out, intermediateData);
+        auto data = QByteArray::fromStdString(out.str());
         QSaveFile file(path);
         if (!file.open(QIODevice::WriteOnly)) {
             qCCritical(lcMIDIFileExporter) << "Failed to write file:" << path << file.errorString();

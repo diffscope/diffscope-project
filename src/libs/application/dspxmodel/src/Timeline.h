@@ -7,7 +7,7 @@
 
 #include <dspxmodel/DspxModelGlobal.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Timeline;
 }
 
@@ -51,8 +51,8 @@ namespace dspx {
         int loopLength() const;
         void setLoopLength(int loopLength);
 
-        QDspx::Timeline toQDspx() const;
-        void fromQDspx(const QDspx::Timeline &timeline);
+        opendspx::Timeline toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Timeline &timeline);
 
     Q_SIGNALS:
         void loopEnabledChanged(bool enabled);

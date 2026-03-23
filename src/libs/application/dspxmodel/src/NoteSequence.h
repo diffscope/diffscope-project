@@ -6,7 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Note;
 }
 
@@ -42,8 +42,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(Note *item);
         Q_INVOKABLE bool removeItem(Note *item);
 
-        QList<QDspx::Note> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Note> &notes);
+        std::vector<opendspx::Note> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::Note> &notes);
 
         SingingClip *singingClip() const;
 

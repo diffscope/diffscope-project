@@ -59,7 +59,7 @@ namespace VisualEditor {
         } else {
             result = document->model()->createSingingClip();
         }
-        result->fromQDspx(source->toQDspx());
+        result->fromOpenDspx(source->toOpenDspx());
         return result;
     }
 

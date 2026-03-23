@@ -1,7 +1,7 @@
 #include "ModelStrategy.h"
 #include "ParamMap.h"
 
-#include <opendspx/param.h>
+#include <opendspx/params.h>
 
 #include <dspxmodel/Param.h>
 #include <dspxmodel/SingingClip.h>
@@ -72,23 +72,23 @@ namespace dspx {
         return d->contains(key);
     }
 
-    QDspx::Params ParamMap::toQDspx() const {
+    opendspx::Params ParamMap::toOpenDspx() const {
         Q_D(const ParamMap);
-        QDspx::Params ret;
+        opendspx::Params ret;
         for (const auto &[key, value] : d->itemMap.asKeyValueRange()) {
-            ret.insert(key, value->toQDspx());
+            ret.insert({key.toStdString(), value->toOpenDspx()});
         }
         return ret;
     }
 
-    void ParamMap::fromQDspx(const QDspx::Params &paramMap) {
+    void ParamMap::fromOpenDspx(const opendspx::Params &paramMap) {
         for (const auto &key : keys()) {
             removeItem(key);
         }
-        for (const auto &[key, value] : paramMap.asKeyValueRange()) {
+        for (const auto &[key, value] : paramMap) {
             auto param = model()->createParam();
-            param->fromQDspx(value);
-            insertItem(key, param);
+            param->fromOpenDspx(value);
+            insertItem(QString::fromStdString(key), param);
         }
     }
 

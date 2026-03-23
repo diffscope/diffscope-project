@@ -71,23 +71,23 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::Phoneme> PhonemeSequence::toQDspx() const {
+    std::vector<opendspx::Phoneme> PhonemeSequence::toOpenDspx() const {
         Q_D(const PhonemeSequence);
-        QList<QDspx::Phoneme> ret;
+        std::vector<opendspx::Phoneme> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void PhonemeSequence::fromQDspx(const QList<QDspx::Phoneme> &phonemeList) {
+    void PhonemeSequence::fromOpenDspx(const std::vector<opendspx::Phoneme> &phonemeList) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &phoneme : phonemeList) {
             auto item = model()->createPhoneme();
-            item->fromQDspx(phoneme);
+            item->fromOpenDspx(phoneme);
             insertItem(item);
         }
     }

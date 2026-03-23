@@ -258,7 +258,7 @@ namespace VisualEditor {
                 shouldCopyBeforeMove = false;
                 for (auto selectedItem : labelSelectionModel->selectedItems()) {
                     auto duplicatedItem = document->model()->createLabel();
-                    duplicatedItem->fromQDspx(selectedItem->toQDspx());
+                    duplicatedItem->fromOpenDspx(selectedItem->toOpenDspx());
                     labelSequence->insertItem(duplicatedItem);
                 }
             }

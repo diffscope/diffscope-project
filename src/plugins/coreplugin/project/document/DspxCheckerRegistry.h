@@ -5,7 +5,7 @@
 
 #include <coreplugin/IDspxChecker.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Model;
 }
 
@@ -23,7 +23,7 @@ namespace Core {
         void registerChecker(IDspxChecker *checker);
         QList<IDspxChecker *> checkers() const;
 
-        QList<DspxCheckWarning> runCheck(const QDspx::Model &model, Level level, bool failFast) override;
+        QList<DspxCheckWarning> runCheck(const opendspx::Model &model, Level level, bool failFast) override;
 
     private:
         QScopedPointer<DspxCheckerRegistryPrivate> d_ptr;

@@ -11,7 +11,7 @@ namespace MIDIFormatConverter::Internal {
         explicit MIDIFileImporter(QObject *parent = nullptr);
         ~MIDIFileImporter() override;
 
-        bool execImport(const QString &path, QDspx::Model &model, QWindow *window) override;
+        bool execImport(const QString &path, opendspx::Model &model, QWindow *window) override;
     };
 
 }

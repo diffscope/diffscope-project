@@ -46,7 +46,7 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(handle(), ModelStrategy::P_ControlRecord, record);
     }
 
-    QDspx::TrackControl TrackControl::toQDspx() const {
+    opendspx::TrackControl TrackControl::toOpenDspx() const {
         return {
             .gain = gain(),
             .pan = pan(),
@@ -54,7 +54,7 @@ namespace dspx {
             .solo = solo()
         };
     }
-    void TrackControl::fromQDspx(const QDspx::TrackControl &trackControl) {
+    void TrackControl::fromOpenDspx(const opendspx::TrackControl &trackControl) {
         setGain(trackControl.gain);
         setPan(trackControl.pan);
         setMute(trackControl.mute);

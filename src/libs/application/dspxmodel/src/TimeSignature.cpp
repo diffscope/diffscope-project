@@ -97,7 +97,7 @@ namespace dspx {
         return d->nextItem;
     }
 
-    QDspx::TimeSignature TimeSignature::toQDspx() const {
+    opendspx::TimeSignature TimeSignature::toOpenDspx() const {
         return {
             .index = index(),
             .numerator = numerator(),
@@ -105,8 +105,8 @@ namespace dspx {
         };
     }
 
-    void TimeSignature::fromQDspx(const QDspx::TimeSignature &timeSignature) {
-        // TODO QDspx needs to rename these properties
+    void TimeSignature::fromOpenDspx(const opendspx::TimeSignature &timeSignature) {
+        // TODO opendspx needs to rename these properties
         setIndex(timeSignature.index);
         setNumerator(timeSignature.numerator);
         setDenominator(timeSignature.denominator);

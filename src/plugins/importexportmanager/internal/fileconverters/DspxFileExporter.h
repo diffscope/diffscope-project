@@ -11,7 +11,7 @@ namespace ImportExportManager::Internal {
         explicit DspxFileExporter(QObject *parent = nullptr);
         ~DspxFileExporter() override;
 
-        bool execExport(const QString &path, const QDspx::Model &model, QWindow *window) override;
+        bool execExport(const QString &path, const opendspx::Model &model, QWindow *window) override;
     };
 
 }

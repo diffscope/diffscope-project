@@ -3,6 +3,8 @@
 
 #include <qqmlintegration.h>
 
+#include <nlohmann/json_fwd.hpp>
+
 #include <dspxmodel/EntityObject.h>
 
 namespace dspx {
@@ -45,8 +47,8 @@ namespace dspx {
         KeySignature *previousItem() const;
         KeySignature *nextItem() const;
 
-        QJsonObject toQDspx() const;
-        void fromQDspx(const QJsonObject &keySignature);
+        nlohmann::json toOpenDspx() const;
+        void fromOpenDspx(const nlohmann::json &keySignature);
 
     Q_SIGNALS:
         void posChanged(int pos);

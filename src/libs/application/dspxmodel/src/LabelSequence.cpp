@@ -69,23 +69,23 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::Label> LabelSequence::toQDspx() const {
+    std::vector<opendspx::Label> LabelSequence::toOpenDspx() const {
         Q_D(const LabelSequence);
-        QList<QDspx::Label> ret;
+        std::vector<opendspx::Label> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void LabelSequence::fromQDspx(const QList<QDspx::Label> &labels) {
+    void LabelSequence::fromOpenDspx(const std::vector<opendspx::Label> &labels) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &label : labels) {
             auto item = model()->createLabel();
-            item->fromQDspx(label);
+            item->fromOpenDspx(label);
             insertItem(item);
         }
     }

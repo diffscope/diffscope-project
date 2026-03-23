@@ -221,15 +221,15 @@ namespace Core {
         if (selectedItems.isEmpty())
             return std::nullopt;
 
-        QList<QDspx::Tempo> tempos;
+        QList<opendspx::Tempo> tempos;
         tempos.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            tempos.append(item->toQDspx());
+            tempos.append(item->toOpenDspx());
         }
         if (tempos.isEmpty())
             return std::nullopt;
 
-        std::sort(tempos.begin(), tempos.end(), [](const QDspx::Tempo &lhs, const QDspx::Tempo &rhs) {
+        std::sort(tempos.begin(), tempos.end(), [](const opendspx::Tempo &lhs, const opendspx::Tempo &rhs) {
             return lhs.pos < rhs.pos;
         });
 
@@ -252,15 +252,15 @@ namespace Core {
         if (selectedItems.isEmpty())
             return std::nullopt;
 
-        QList<QDspx::Label> labels;
+        QList<opendspx::Label> labels;
         labels.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            labels.append(item->toQDspx());
+            labels.append(item->toOpenDspx());
         }
         if (labels.isEmpty())
             return std::nullopt;
 
-        std::sort(labels.begin(), labels.end(), [](const QDspx::Label &lhs, const QDspx::Label &rhs) {
+        std::sort(labels.begin(), labels.end(), [](const opendspx::Label &lhs, const opendspx::Label &rhs) {
             return lhs.pos < rhs.pos;
         });
 
@@ -283,21 +283,21 @@ namespace Core {
         if (selectedItems.isEmpty())
             return std::nullopt;
 
-        QList<QJsonObject> keySignatures;
+        QList<nlohmann::json> keySignatures;
         keySignatures.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            keySignatures.append(item->toQDspx());
+            keySignatures.append(item->toOpenDspx());
         }
         if (keySignatures.isEmpty())
             return std::nullopt;
 
-        std::sort(keySignatures.begin(), keySignatures.end(), [](const QJsonObject &lhs, const QJsonObject &rhs) {
-            return lhs.value("pos").toInt() < rhs.value("pos").toInt();
+        std::sort(keySignatures.begin(), keySignatures.end(), [](const nlohmann::json &lhs, const nlohmann::json &rhs) {
+            return lhs.at("pos").get<int>() < rhs.at("pos").get<int>();
         });
 
-        const int absolute = keySignatures.first().value("pos").toInt();
+        const int absolute = keySignatures.first().at("pos").get<int>();
         for (auto &keySignature : keySignatures) {
-            keySignature.insert("pos", keySignature.value("pos").toInt() - absolute);
+            keySignature["pos"] = keySignature.at("pos").get<int>() - absolute;
         }
 
         DspxClipboardData data;
@@ -320,10 +320,10 @@ namespace Core {
             return orderedTracks.indexOf(lhs) < orderedTracks.indexOf(rhs);
         });
 
-        QList<QDspx::Track> tracks;
+        QList<opendspx::Track> tracks;
         tracks.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            tracks.append(item->toQDspx());
+            tracks.append(item->toOpenDspx());
         }
 
         if (tracks.isEmpty())
@@ -352,7 +352,7 @@ namespace Core {
         return false;
     }
 
-    bool DspxDocumentPrivate::pasteTempos(const QList<QDspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || !model->timeline() || tempos.isEmpty())
             return false;
 
@@ -377,7 +377,7 @@ namespace Core {
             return playheadPosition;
         }();
 
-        QList<QDspx::Tempo> adjusted = tempos;
+        QList<opendspx::Tempo> adjusted = tempos;
         int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
         for (auto &tempo : adjusted) {
             tempo.pos += baseOffset;
@@ -389,7 +389,7 @@ namespace Core {
                 tempo.pos += shift;
         }
 
-        std::sort(adjusted.begin(), adjusted.end(), [](const QDspx::Tempo &lhs, const QDspx::Tempo &rhs) {
+        std::sort(adjusted.begin(), adjusted.end(), [](const opendspx::Tempo &lhs, const opendspx::Tempo &rhs) {
             return lhs.pos < rhs.pos;
         });
 
@@ -398,7 +398,7 @@ namespace Core {
         auto tempoSequence = model->timeline()->tempos();
         for (const auto &tempoData : adjusted) {
             auto *tempo = model->createTempo();
-            tempo->fromQDspx(tempoData);
+            tempo->fromOpenDspx(tempoData);
             if (!tempoSequence->insertItem(tempo)) {
                 model->destroyItem(tempo);
                 continue;
@@ -424,7 +424,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteLabels(const QList<QDspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || !model->timeline() || labels.isEmpty())
             return false;
 
@@ -449,7 +449,7 @@ namespace Core {
             return playheadPosition;
         }();
 
-        QList<QDspx::Label> adjusted = labels;
+        QList<opendspx::Label> adjusted = labels;
         int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
         for (auto &label : adjusted) {
             label.pos += baseOffset;
@@ -461,7 +461,7 @@ namespace Core {
                 label.pos += shift;
         }
 
-        std::sort(adjusted.begin(), adjusted.end(), [](const QDspx::Label &lhs, const QDspx::Label &rhs) {
+        std::sort(adjusted.begin(), adjusted.end(), [](const opendspx::Label &lhs, const opendspx::Label &rhs) {
             return lhs.pos < rhs.pos;
         });
 
@@ -469,7 +469,7 @@ namespace Core {
         auto labelSequence = model->timeline()->labels();
         for (const auto &labelData : adjusted) {
             auto *label = model->createLabel();
-            label->fromQDspx(labelData);
+            label->fromOpenDspx(labelData);
             if (!labelSequence->insertItem(label)) {
                 model->destroyItem(label);
                 continue;
@@ -486,7 +486,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteKeySignatures(const QList<QJsonObject> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || !model->timeline() || keySignatures.isEmpty())
             return false;
 
@@ -511,22 +511,22 @@ namespace Core {
             return playheadPosition;
         }();
 
-        QList<QJsonObject> adjusted = keySignatures;
+        QList<nlohmann::json> adjusted = keySignatures;
         int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
         for (auto &keySignature : adjusted) {
-            const int pos = keySignature.value("pos").toInt() + baseOffset;
-            keySignature.insert("pos", pos);
+            const int pos = keySignature.is_object() && keySignature.contains("pos") && keySignature.at("pos").is_number() ? keySignature.at("pos").get<int>() + baseOffset : baseOffset;
+            keySignature["pos"] = pos;
             minPos = std::min(minPos, pos);
         }
         if (minPos < 0) {
             const int shift = -minPos;
             for (auto &keySignature : adjusted) {
-                keySignature.insert("pos", keySignature.value("pos").toInt() + shift);
+                keySignature["pos"] = keySignature.at("pos").get<int>() + shift;
             }
         }
 
-        std::sort(adjusted.begin(), adjusted.end(), [](const QJsonObject &lhs, const QJsonObject &rhs) {
-            return lhs.value("pos").toInt() < rhs.value("pos").toInt();
+        std::sort(adjusted.begin(), adjusted.end(), [](const nlohmann::json &lhs, const nlohmann::json &rhs) {
+            return lhs.at("pos").get<int>() < rhs.at("pos").get<int>();
         });
 
         bool inserted = false;
@@ -534,7 +534,7 @@ namespace Core {
         auto keySignatureSequence = model->timeline()->keySignatures();
         for (const auto &keySignatureData : adjusted) {
             auto *keySignature = model->createKeySignature();
-            keySignature->fromQDspx(keySignatureData);
+            keySignature->fromOpenDspx(keySignatureData);
             if (!keySignatureSequence->insertItem(keySignature)) {
                 model->destroyItem(keySignature);
                 continue;
@@ -542,7 +542,7 @@ namespace Core {
 
             inserted = true;
             pastedItems.append(keySignature);
-            const auto pos = keySignatureData.value("pos").toInt();
+            const auto pos = keySignatureData.at("pos").get<int>();
             const auto overlappingItems = keySignatureSequence->slice(pos, 1);
             for (auto *overlappingItem : overlappingItems) {
                 if (overlappingItem == keySignature)
@@ -561,7 +561,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteTracks(const QList<QDspx::Track> &tracks, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems) {
         if (!model || tracks.isEmpty())
             return false;
 
@@ -581,7 +581,7 @@ namespace Core {
         } while (false);
         for (const auto &trackData : tracks) {
             auto *track = model->createTrack();
-            track->fromQDspx(trackData);
+            track->fromOpenDspx(trackData);
             if (!trackList->insertItem(insertionIndex, track)) {
                 model->destroyItem(track);
                 continue;
@@ -1019,11 +1019,12 @@ namespace Core {
                         if (position <= clipPos || position >= clipEnd)
                             continue;
 
-                        const auto data = clip->toQDspx();
+                        const auto data = clip->toOpenDspx();
                         const int newClipLength = position - clipPos;
                         clip->time()->setClipLen(newClipLength);
                         data->time.clipLen -= newClipLength;
-                        data->time.clipStart = position - data->time.start;
+                        data->time.clipStart = position - (data->time.pos - data->time.clipStart);
+                        data->time.pos = position;
 
                         dspx::Clip *newClip = nullptr;
                         switch (clip->type()) {
@@ -1035,7 +1036,7 @@ namespace Core {
                                 break;
                         }
 
-                        newClip->fromQDspx(data);
+                        newClip->fromOpenDspx(data);
                         auto *clipSequence = clip->clipSequence();
                         if (!clipSequence || !clipSequence->insertItem(newClip)) {
                             d->model->destroyItem(newClip);
@@ -1055,14 +1056,14 @@ namespace Core {
                         if (position <= notePos || position >= noteEnd)
                             continue;
 
-                        auto data = note->toQDspx();
+                        auto data = note->toOpenDspx();
                         const int newNoteLength = position - notePos;
                         note->setLength(newNoteLength);
                         data.length -= newNoteLength;
                         data.pos = position;
 
                         auto *newNote = d->model->createNote();
-                        newNote->fromQDspx(data);
+                        newNote->fromOpenDspx(data);
                         newNote->setLyric("-");
                         auto *noteSequence = note->noteSequence();
                         if (!noteSequence || !noteSequence->insertItem(newNote)) {
@@ -1095,7 +1096,7 @@ namespace Core {
         struct BounceInfo {
             dspx::SingingClip *pivotClip{};
             QList<dspx::SingingClip *> clips;
-            QDspx::ClipTime bouncedClipTime;
+            opendspx::ClipTime bouncedClipTime;
         };
         QHash<dspx::Track *, BounceInfo> trackBounceInfoMap;
         for (auto clip : d->selectionModel->clipSelectionModel()->selectedItems()) {
@@ -1105,9 +1106,9 @@ namespace Core {
             Q_ASSERT(singingClip->clipSequence());
             auto track = singingClip->clipSequence()->track();
             auto &info = trackBounceInfoMap[track];
-            constexpr auto boundClipTime = [](const QDspx::ClipTime &clipTime) {
-                return QDspx::ClipTime {
-                    .start = clipTime.start + clipTime.clipStart,
+            constexpr auto boundClipTime = [](const opendspx::ClipTime &clipTime) {
+                return opendspx::ClipTime {
+                    .pos = clipTime.pos,
                     .length = 0,
                     .clipStart = 0,
                     .clipLen = clipTime.clipLen
@@ -1115,24 +1116,24 @@ namespace Core {
             };
             if (!info.pivotClip) {
                 info.pivotClip = singingClip;
-                info.bouncedClipTime = boundClipTime(singingClip->time()->toQDspx());
+                info.bouncedClipTime = boundClipTime(singingClip->time()->toOpenDspx());
             } else {
                 info.pivotClip = std::min(info.pivotClip, singingClip, [=](dspx::SingingClip *a, dspx::SingingClip *b) {
                     if (a->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
                         return true;
                     if (b->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
                         return false;
-                    auto ta = boundClipTime(a->time()->toQDspx());
-                    auto tb = boundClipTime(b->time()->toQDspx());
-                    if (ta.start + ta.clipStart ==  tb.start + tb.clipStart) {
+                    auto ta = boundClipTime(a->time()->toOpenDspx());
+                    auto tb = boundClipTime(b->time()->toOpenDspx());
+                    if (ta.pos ==  tb.pos) {
                         return ta.clipLen < tb.clipLen;
                     }
-                    return ta.start + ta.clipStart < tb.start + tb.clipStart;
+                    return ta.pos < tb.pos;
                 });
-                auto t = boundClipTime(singingClip->time()->toQDspx());
-                auto left = std::min(info.bouncedClipTime.start, t.start + t.clipStart);
-                auto right = std::max(info.bouncedClipTime.start + info.bouncedClipTime.clipLen, t.start + t.clipStart + t.clipLen);
-                info.bouncedClipTime.start = left;
+                auto t = boundClipTime(singingClip->time()->toOpenDspx());
+                auto left = std::min(info.bouncedClipTime.pos, t.pos);
+                auto right = std::max(info.bouncedClipTime.pos + info.bouncedClipTime.clipLen, t.pos + t.clipLen);
+                info.bouncedClipTime.pos = left;
                 info.bouncedClipTime.clipLen = right - left;
             }
             info.clips.append(singingClip);
@@ -1147,7 +1148,7 @@ namespace Core {
                 QList<dspx::Note *> notes;
                 // Take all notes and reposition notes
                 for (auto clip : info.clips) {
-                    const auto deltaPosition = clip->time()->start() - info.bouncedClipTime.start;
+                    const auto deltaPosition = clip->time()->start() - info.bouncedClipTime.pos;
                     // It is needed to copy all notes to a new list, because notes will be removed while iterating
                     // asRange() returns an enable borrowed range so it's safe to get iterator from prvalue
                     for (auto note : QList(clip->notes()->asRange().cbegin(), clip->notes()->asRange().cend())) {
@@ -1173,7 +1174,7 @@ namespace Core {
                 // Update time of pivot clip and delete non-pivot clips
                 for (auto clip : info.clips) {
                     if (clip == info.pivotClip) {
-                        clip->time()->fromQDspx(info.bouncedClipTime);
+                        clip->time()->fromOpenDspx(info.bouncedClipTime);
                     } else {
                         clip->clipSequence()->removeItem(clip);
                         d->model->destroyItem(clip);

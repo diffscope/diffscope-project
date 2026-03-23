@@ -6,7 +6,7 @@
 
 #include <dspxmodel/DspxModelGlobal.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Master;
 }
 
@@ -35,8 +35,8 @@ namespace dspx {
         bool multiChannelOutput() const;
         void setMultiChannelOutput(bool multiChannelOutput);
 
-        QDspx::Master toQDspx() const;
-        void fromQDspx(const QDspx::Master &master);
+        opendspx::Master toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Master &master);
 
     Q_SIGNALS:
         void multiChannelOutputChanged(bool multiChannelOutput);

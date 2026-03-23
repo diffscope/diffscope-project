@@ -1,6 +1,7 @@
 #include "ViewJsonAddOn.h"
 
 #include <optional>
+#include <sstream>
 
 #include <QDesktopServices>
 #include <QDir>
@@ -61,9 +62,11 @@ namespace Maintenance {
     }
 
     QByteArray ViewJsonAddOn::serializeJson() const {
-        auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toQDspx();
-        QDspx::SerializationErrorList errors;
-        auto data = QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
+        auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toOpenDspx();
+        opendspx::SerializationErrorList errors;
+        std::stringstream out(std::ios::out);
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, false);
+        auto data = QByteArray::fromStdString(out.str());
         data = QJsonDocument::fromJson(data).toJson(QJsonDocument::Indented);
         return data;
     }

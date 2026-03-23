@@ -6,7 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct AnchorNode;
 }
 
@@ -41,8 +41,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(AnchorNode *item);
         Q_INVOKABLE bool removeItem(AnchorNode *item);
 
-        QList<QDspx::AnchorNode> toQDspx() const;
-        void fromQDspx(const QList<QDspx::AnchorNode> &nodes);
+        std::vector<opendspx::AnchorNode> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::AnchorNode> &nodes);
 
         ParamCurveAnchor *paramCurveAnchor() const;
 

@@ -5,7 +5,7 @@
 
 #include <dspxmodel/ParamCurve.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ParamCurveAnchor;
 }
 
@@ -26,8 +26,8 @@ namespace dspx {
 
         AnchorNodeSequence *nodes() const;
 
-        QDspx::ParamCurveAnchor toQDspx() const;
-        void fromQDspx(const QDspx::ParamCurveAnchor &curve);
+        opendspx::ParamCurveAnchor toOpenDspx() const;
+        void fromOpenDspx(const opendspx::ParamCurveAnchor &curve);
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

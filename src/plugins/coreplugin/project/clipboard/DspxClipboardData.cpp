@@ -7,6 +7,8 @@
 #include <opendspxserializer/serializer.h>
 #include <opendspxserializer/jsonconverterv1.h>
 
+#include <dspxmodel/private/jsonutils_p.h>
+
 namespace Core {
 
     QString DspxClipboardData::mimeType(Type type) {
@@ -56,15 +58,15 @@ namespace Core {
 
     QByteArray DspxClipboardData::toData() const {
         QJsonObject json;
-        json.insert("version", QDspx::Serializer::versionToText(QDspx::Model::V1));
+        json.insert("version", QString::fromStdString(opendspx::Serializer::versionToText(opendspx::Model::Version::V1)));
         json.insert("playhead", m_playhead);
         json.insert("absolute", m_absolute);
         json.insert("track", m_track);
         QJsonArray dataArray;
-        QDspx::SerializationErrorList errors;
+        opendspx::SerializationErrorList errors;
         auto toJsonArray = [&]<Type t> {
             for (const auto &item : std::get<t>(m_data)) {
-                dataArray.append(QDspx::JsonConverterV1::toJson(item, errors, {}));
+                dataArray.append(dspx::JsonUtils::toQJsonValue(opendspx::JsonConverterV1::toJson(item, errors, {})));
             }
         };
         switch (type()) {
@@ -75,9 +77,7 @@ namespace Core {
                 toJsonArray.operator()<Label>();
                 break;
             case KeySignature:
-                for (const auto &item : std::get<KeySignature>(m_data)) {
-                    dataArray.append(item);
-                }
+                toJsonArray.operator()<KeySignature>();
                 break;
             case Track:
                 toJsonArray.operator()<Track>();
@@ -101,7 +101,7 @@ namespace Core {
                 *ok = false;
             return {};
         }
-        auto version = QDspx::Serializer::versionFromText(json.value("version").toString(), ok);
+        auto version = opendspx::Serializer::versionFromText(json.value("version").toString().toStdString(), ok);
         if (ok && !*ok) {
             return {};
         }
@@ -115,14 +115,14 @@ namespace Core {
             return {};
         }
         auto dataArray = json.value("data").toArray();
-        QDspx::SerializationErrorList errors;
+        opendspx::SerializationErrorList errors;
         switch (version) {
-            case QDspx::Model::V1: {
+            case opendspx::Model::Version::V1: {
                 auto fromJsonArrayV1 = [&]<Type t> {
                     using T = std::variant_alternative_t<t, decltype(m_data)>;
                     T list;
                     for (const auto &item : dataArray) {
-                        list.append(QDspx::JsonConverterV1::fromJson<typename T::value_type>(item, errors));
+                        list.append(opendspx::JsonConverterV1::fromJson<typename T::value_type>(dspx::JsonUtils::fromQJsonValue(item), errors));
                     }
                     result.m_data = std::move(list);
                 };
@@ -133,14 +133,9 @@ namespace Core {
                     case Label:
                         fromJsonArrayV1.operator()<Label>();
                         break;
-                    case KeySignature: {
-                        QList<QJsonObject> list;
-                        for (const auto &value : dataArray) {
-                            list.append(value.toObject());
-                        }
-                        result.m_data = std::move(list);
+                    case KeySignature:
+                        fromJsonArrayV1.operator()<KeySignature>();
                         break;
-                    }
                     case Track:
                         fromJsonArrayV1.operator()<Track>();
                         break;

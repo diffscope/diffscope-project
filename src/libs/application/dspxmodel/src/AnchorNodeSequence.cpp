@@ -71,23 +71,23 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::AnchorNode> AnchorNodeSequence::toQDspx() const {
+    std::vector<opendspx::AnchorNode> AnchorNodeSequence::toOpenDspx() const {
         Q_D(const AnchorNodeSequence);
-        QList<QDspx::AnchorNode> ret;
+        std::vector<opendspx::AnchorNode> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void AnchorNodeSequence::fromQDspx(const QList<QDspx::AnchorNode> &nodes) {
+    void AnchorNodeSequence::fromOpenDspx(const std::vector<opendspx::AnchorNode> &nodes) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &node : nodes) {
             auto item = model()->createAnchorNode();
-            item->fromQDspx(node);
+            item->fromOpenDspx(node);
             insertItem(item);
         }
     }

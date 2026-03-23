@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Param;
 }
 
@@ -34,8 +34,8 @@ namespace dspx {
 
         ParamMap *paramMap() const;
 
-        QDspx::Param toQDspx() const;
-        void fromQDspx(const QDspx::Param &param);
+        opendspx::Param toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Param &param);
 
     Q_SIGNALS:
         void paramMapChanged();

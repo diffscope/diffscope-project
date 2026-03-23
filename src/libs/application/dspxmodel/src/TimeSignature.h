@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct TimeSignature;
 }
 
@@ -42,8 +42,8 @@ namespace dspx {
         TimeSignature *previousItem() const;
         TimeSignature *nextItem() const;
 
-        QDspx::TimeSignature toQDspx() const;
-        void fromQDspx(const QDspx::TimeSignature &timeSignature);
+        opendspx::TimeSignature toOpenDspx() const;
+        void fromOpenDspx(const opendspx::TimeSignature &timeSignature);
 
     Q_SIGNALS:
         void indexChanged(int index);

@@ -1,5 +1,7 @@
 #include "DspxFileExporter.h"
 
+#include <sstream>
+
 #include <QCheckBox>
 #include <QDialog>
 #include <QDir>
@@ -36,7 +38,7 @@ namespace ImportExportManager::Internal {
 
     DspxFileExporter::~DspxFileExporter() = default;
 
-    bool DspxFileExporter::execExport(const QString &path, const QDspx::Model &model_, QWindow *window) {
+    bool DspxFileExporter::execExport(const QString &path, const opendspx::Model &model_, QWindow *window) {
         Core::OpenSaveProjectFileScenario scenario;
         scenario.setWindow(window);
         QDialog dlg;
@@ -44,7 +46,7 @@ namespace ImportExportManager::Internal {
         auto layout = new QVBoxLayout;
         auto formLayout = new QFormLayout;
         auto versionComboBox = new QComboBox;
-        versionComboBox->addItem(QStringLiteral("1.0.0"), QVariant::fromValue(QDspx::Model::Version::V1));
+        versionComboBox->addItem(QStringLiteral("1.0.0"), QVariant::fromValue(opendspx::Model::Version::V1));
         formLayout->addRow(tr("Format version"), versionComboBox);
         auto keepWorkspaceDataCheckBox = new QCheckBox(tr("Keep Workspace data"));
         keepWorkspaceDataCheckBox->setChecked(true);
@@ -52,6 +54,9 @@ namespace ImportExportManager::Internal {
         auto workspaceInstruction = new QLabel(tr("Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues."));
         workspaceInstruction->setWordWrap(true);
         formLayout->addRow(workspaceInstruction);
+        auto compressCheckbox = new QCheckBox(tr("Compress"));
+        compressCheckbox->setChecked(true);
+        formLayout->addRow(compressCheckbox);
         layout->addLayout(formLayout);
         layout->addStretch();
         auto buttonLayout = new QHBoxLayout;
@@ -67,7 +72,7 @@ namespace ImportExportManager::Internal {
             return false;
         }
         auto model = model_;
-        model.version = versionComboBox->currentData().value<QDspx::Model::Version>();
+        model.version = versionComboBox->currentData().value<opendspx::Model::Version>();
         qCDebug(lcDspxFileExporter) << "Keep Workspace data:" << keepWorkspaceDataCheckBox->isChecked();
         if (!keepWorkspaceDataCheckBox->isChecked()) {
             model.content.workspace.clear();
@@ -75,10 +80,10 @@ namespace ImportExportManager::Internal {
                 track.workspace.clear();
                 for (auto &clip : track.clips) {
                     clip->workspace.clear();
-                    if (clip->type != QDspx::Clip::Singing) {
+                    if (clip->type != opendspx::Clip::Type::Singing) {
                         continue;
                     }
-                    auto singingClip = clip.staticCast<QDspx::SingingClip>();
+                    auto singingClip = std::static_pointer_cast<opendspx::SingingClip>(clip);
                     for (auto &note : singingClip->notes) {
                         note.workspace.clear();
                     }
@@ -91,8 +96,10 @@ namespace ImportExportManager::Internal {
             scenario.showSaveFailMessageBox(path, file.errorString());
             return false;
         }
-        QDspx::SerializationErrorList errors;
-        auto data = QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
+        opendspx::SerializationErrorList errors;
+        std::stringstream out(std::ios::out);
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, compressCheckbox->isChecked());
+        auto data = QByteArray::fromStdString(out.str());
         auto bytesWritten = file.write(data);
         if (bytesWritten != data.size()) {
             qCCritical(lcDspxFileExporter) << "Failed to write file:" << path << file.errorString();

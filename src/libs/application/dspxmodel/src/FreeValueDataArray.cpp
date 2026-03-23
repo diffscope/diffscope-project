@@ -49,13 +49,13 @@ namespace dspx {
         return d->pModel->strategy->rotateDataArray(handle(), leftIndex, middleIndex, rightIndex);
     }
 
-    QList<int> FreeValueDataArray::toQDspx() const {
+    std::vector<int> FreeValueDataArray::toOpenDspx() const {
         Q_D(const FreeValueDataArray);
-        return d->data;
+        return std::vector(d->data.cbegin(), d->data.cend());
     }
 
-    void FreeValueDataArray::fromQDspx(const QList<int> &values) {
-        splice(0, size(), values);
+    void FreeValueDataArray::fromOpenDspx(const std::vector<int> &values) {
+        splice(0, size(), QList(values.begin(), values.end()));
     }
 
     void FreeValueDataArray::handleSpliceDataArray(int index, int length, const QVariantList &values) {

@@ -67,22 +67,22 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_EditorName, editorName);
     }
 
-    QDspx::Global Global::toQDspx() const {
+    opendspx::Global Global::toOpenDspx() const {
         return {
-            .author = author(),
-            .name = name(),
+            .author = author().toStdString(),
+            .name = name().toStdString(),
             .centShift = centShift(),
-            .editorId = editorId(),
-            .editorName = editorName()
+            .editorId = editorId().toStdString(),
+            .editorName = editorName().toStdString()
         };
     }
 
-    void Global::fromQDspx(const QDspx::Global &global) {
-        setAuthor(global.author);
-        setName(global.name);
+    void Global::fromOpenDspx(const opendspx::Global &global) {
+        setAuthor(QString::fromStdString(global.author));
+        setName(QString::fromStdString(global.name));
         setCentShift(global.centShift);
-        setEditorId(global.editorId);
-        setEditorName(global.editorName);
+        setEditorId(QString::fromStdString(global.editorId));
+        setEditorName(QString::fromStdString(global.editorName));
     }
 
 }

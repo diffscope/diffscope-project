@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Label;
 }
 
@@ -38,8 +38,8 @@ namespace dspx {
         Label *previousItem() const;
         Label *nextItem() const;
 
-        QDspx::Label toQDspx() const;
-        void fromQDspx(const QDspx::Label &label);
+        opendspx::Label toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Label &label);
 
     Q_SIGNALS:
         void posChanged(int pos);

@@ -3,6 +3,8 @@
 
 #include <qqmlintegration.h>
 
+#include <nlohmann/json_fwd.hpp>
+
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
@@ -36,8 +38,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(KeySignature *item);
         Q_INVOKABLE bool removeItem(KeySignature *item);
 
-        QJsonArray toQDspx() const;
-        void fromQDspx(const QJsonArray &keySignatures);
+        nlohmann::json toOpenDspx() const;
+        void fromOpenDspx(const nlohmann::json &keySignatures);
 
         auto asRange() const {
             return impl::SequenceRange(this);

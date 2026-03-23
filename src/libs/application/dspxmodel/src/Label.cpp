@@ -82,16 +82,16 @@ namespace dspx {
         return d->nextItem;
     }
 
-    QDspx::Label Label::toQDspx() const {
+    opendspx::Label Label::toOpenDspx() const {
         return {
             .pos = pos(),
-            .text = text(),
+            .text = text().toStdString(),
         };
     }
 
-    void Label::fromQDspx(const QDspx::Label &label) {
+    void Label::fromOpenDspx(const opendspx::Label &label) {
         setPos(label.pos);
-        setText(label.text);
+        setText(QString::fromStdString(label.text));
     }
 
     void Label::handleSetEntityProperty(int property, const QVariant &value) {

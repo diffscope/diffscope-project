@@ -101,25 +101,25 @@ namespace dspx {
         return d->workspace;
     }
 
-    QDspx::ClipRef Clip::toQDspx() const {
+    opendspx::ClipRef Clip::toOpenDspx() const {
         Q_D(const Clip);
         switch (d->type) {
             case Audio:
-                return QSharedPointer<QDspx::AudioClip>::create(static_cast<const AudioClip *>(this)->toQDspx());
+                return std::make_shared<opendspx::AudioClip>(static_cast<const AudioClip *>(this)->toOpenDspx());
             case Singing:
-                return QSharedPointer<QDspx::SingingClip>::create(static_cast<const SingingClip *>(this)->toQDspx());
+                return std::make_shared<opendspx::SingingClip>(static_cast<const SingingClip *>(this)->toOpenDspx());
             default:
                 Q_UNREACHABLE();
         }
     }
 
-    void Clip::fromQDspx(const QDspx::ClipRef &clip) {
+    void Clip::fromOpenDspx(const opendspx::ClipRef &clip) {
         switch (clip->type) {
-            case QDspx::Clip::Audio:
-                static_cast<AudioClip *>(this)->fromQDspx(*clip.staticCast<QDspx::AudioClip>());
+            case opendspx::Clip::Type::Audio:
+                static_cast<AudioClip *>(this)->fromOpenDspx(*std::static_pointer_cast<opendspx::AudioClip>(clip));
                 break;
-            case QDspx::Clip::Singing:
-                static_cast<SingingClip *>(this)->fromQDspx(*clip.staticCast<QDspx::SingingClip>());
+            case opendspx::Clip::Type::Singing:
+                static_cast<SingingClip *>(this)->fromOpenDspx(*std::static_pointer_cast<opendspx::SingingClip>(clip));
                 break;
             default:
                 Q_UNREACHABLE();

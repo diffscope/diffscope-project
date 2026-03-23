@@ -111,7 +111,7 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_VibratoStart, start);
     }
 
-    QDspx::Vibrato Vibrato::toQDspx() const {
+    opendspx::Vibrato Vibrato::toOpenDspx() const {
         return {
             .start = start(),
             .end = end(),
@@ -119,18 +119,18 @@ namespace dspx {
             .freq = freq(),
             .phase = phase(),
             .offset = offset(),
-            .points = points()->toQDspx(),
+            .points = points()->toOpenDspx(),
         };
     }
 
-    void Vibrato::fromQDspx(const QDspx::Vibrato &vibrato) {
+    void Vibrato::fromOpenDspx(const opendspx::Vibrato &vibrato) {
         setStart(vibrato.start);
         setEnd(vibrato.end);
         setAmp(vibrato.amp);
         setFreq(vibrato.freq);
         setPhase(vibrato.phase);
         setOffset(vibrato.offset);
-        points()->fromQDspx(vibrato.points);
+        points()->fromOpenDspx(vibrato.points);
     }
 
     void Vibrato::handleProxySetEntityProperty(int property, const QVariant &value) {

@@ -99,7 +99,7 @@ namespace Core {
         auto selectionModel = document()->selectionModel();
         document()->transactionController()->beginScopedTransaction(tr("Adding track"), [=, &newTrack, &success] {
             newTrack = model->createTrack();
-            newTrack->fromQDspx(QDspx::Track{});
+            newTrack->fromOpenDspx(opendspx::Track{});
             newTrack->setName(tr("Unnamed track"));
             auto insertionIndex = trackList->size();
             assignInitialTrackColor(insertionIndex, newTrack);
@@ -157,7 +157,7 @@ namespace Core {
         document()->transactionController()->beginScopedTransaction(tr("Inserting track"), [=, &newTracks, &success] {
             for (int i = 0; i < insertionCount; ++i) {
                 auto track = model->createTrack();
-                track->fromQDspx(QDspx::Track{});
+                track->fromOpenDspx(opendspx::Track{});
                 track->setName(i == 0 ? trackName : QString("%1 (%L2)").arg(trackName).arg(i + 1));
                 assignInitialTrackColor(insertionIndex + i, track);
                 if (!trackList->insertItem(insertionIndex + i, track)) {

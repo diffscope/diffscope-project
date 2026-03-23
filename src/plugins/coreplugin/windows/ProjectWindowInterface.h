@@ -15,7 +15,7 @@ namespace QAK {
 class QAbstractItemModel;
 class QJSValue;
 
-namespace QDspx {
+namespace opendspx {
     class Model;
 }
 

@@ -5,6 +5,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include <nlohmann/json.hpp>
+
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/KeySignature.h>
 #include <dspxmodel/private/Model_p.h>
@@ -78,22 +80,24 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QJsonArray KeySignatureSequence::toQDspx() const {
+    nlohmann::json KeySignatureSequence::toOpenDspx() const {
         Q_D(const KeySignatureSequence);
-        QJsonArray ret;
+        nlohmann::json ret = nlohmann::json::array();
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void KeySignatureSequence::fromQDspx(const QJsonArray &keySignatures) {
+    void KeySignatureSequence::fromOpenDspx(const nlohmann::json &keySignatures) {
         while (size()) {
             removeItem(firstItem());
         }
+        if (!keySignatures.is_array())
+            return;
         for (const auto &value : keySignatures) {
             auto item = model()->createKeySignature();
-            item->fromQDspx(value.toObject());
+            item->fromOpenDspx(value);
             insertItem(item);
         }
     }

@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Note;
 }
 
@@ -77,8 +77,8 @@ namespace dspx {
 
         bool isOverlapped() const;
 
-        QDspx::Note toQDspx() const;
-        void fromQDspx(const QDspx::Note &note);
+        opendspx::Note toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Note &note);
 
     Q_SIGNALS:
         void centShiftChanged(int centShift);

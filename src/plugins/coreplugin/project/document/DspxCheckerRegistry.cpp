@@ -21,7 +21,7 @@ namespace Core {
         return d->checkers;
     }
 
-    QList<DspxCheckWarning> DspxCheckerRegistry::runCheck(const QDspx::Model &model, Level level, bool failFast) {
+    QList<DspxCheckWarning> DspxCheckerRegistry::runCheck(const opendspx::Model &model, Level level, bool failFast) {
         Q_D(DspxCheckerRegistry);
         for (auto checker : d->checkers) {
             auto warnings = checker->runCheck(model, level, failFast);

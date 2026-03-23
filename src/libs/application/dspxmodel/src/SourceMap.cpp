@@ -1,9 +1,10 @@
-#include "ModelStrategy.h"
 #include "SourceMap.h"
 
 #include <opendspx/sources.h>
 
+#include <dspxmodel/private/jsonutils_p.h>
 #include <dspxmodel/Source.h>
+#include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/private/Model_p.h>
 
@@ -60,23 +61,23 @@ namespace dspx {
         return d->contains(key);
     }
 
-    QDspx::Sources SourceMap::toQDspx() const {
+    opendspx::Sources SourceMap::toOpenDspx() const {
         Q_D(const SourceMap);
-        QDspx::Sources ret;
+        opendspx::Sources ret;
         for (const auto &[key, value] : d->itemMap.asKeyValueRange()) {
-            ret.insert(key, value->jsonObject());
+            ret.insert({key.toStdString(), JsonUtils::fromQJsonValue(value->jsonObject())});
         }
         return ret;
     }
 
-    void SourceMap::fromQDspx(const QDspx::Sources &sourceMap) {
+    void SourceMap::fromOpenDspx(const opendspx::Sources &sourceMap) {
         for (const auto &key : keys()) {
             removeItem(key);
         }
-        for (const auto &[key, value] : sourceMap.asKeyValueRange()) {
+        for (const auto &[key, value] : sourceMap) {
             auto source = model()->createSource();
-            source->setJsonObject(value);
-            insertItem(key, source);
+            source->setJsonObject(JsonUtils::toQJsonValue(value).toObject());
+            insertItem(QString::fromStdString(key), source);
         }
     }
 

@@ -144,33 +144,33 @@ namespace dspx {
         return d->pModel->strategy->moveToAnotherSequenceContainer(handle(), item->handle(), sequence->handle());
     }
 
-    QList<QDspx::ClipRef> ClipSequence::toQDspx() const {
+    std::vector<opendspx::ClipRef> ClipSequence::toOpenDspx() const {
         Q_D(const ClipSequence);
-        QList<QDspx::ClipRef> ret;
+        std::vector<opendspx::ClipRef> ret;
         ret.reserve(d->pointContainer.size());
         for (const auto &[_, item] : d->pointContainer.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void ClipSequence::fromQDspx(const QList<QDspx::ClipRef> &clips) {
+    void ClipSequence::fromOpenDspx(const std::vector<opendspx::ClipRef> &clips) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &clip : clips) {
             Clip *item = nullptr;
             switch (clip->type) {
-                case QDspx::Clip::Audio:
+                case opendspx::Clip::Type::Audio:
                     item = model()->createAudioClip();
                     break;
-                case QDspx::Clip::Singing:
+                case opendspx::Clip::Type::Singing:
                     item = model()->createSingingClip();
                     break;
                 default:
                     Q_UNREACHABLE();
             }
-            item->fromQDspx(clip);
+            item->fromOpenDspx(clip);
             insertItem(item);
         }
     }

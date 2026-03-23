@@ -4,6 +4,8 @@
 #include <QVariant>
 #include <QJsonObject>
 
+#include <nlohmann/json.hpp>
+
 #include <dspxmodel/Model.h>
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/KeySignatureSequence.h>
@@ -105,34 +107,38 @@ namespace dspx {
         return d->nextItem;
     }
 
-    QJsonObject KeySignature::toQDspx() const {
-        return {
+    nlohmann::json KeySignature::toOpenDspx() const {
+        return nlohmann::json::object({
             {"pos", pos()},
             {"mode", mode()},
             {"tonality", tonality()},
             {"accidentalType", accidentalType()}
-        };
+        });
     }
 
-    void KeySignature::fromQDspx(const QJsonObject &keySignature) {
-        auto pos = keySignature.value("pos").toInt();
-        pos = qMax(0, pos);
-        setPos(pos);
-        auto mode = keySignature.value("mode").toInt();
-        if (mode < 0 || mode > 4095) {
-            mode = 0;
+    void KeySignature::fromOpenDspx(const nlohmann::json &keySignature) {
+        try {
+            auto pos = keySignature.at("pos").get<int>();
+            pos = qMax(0, pos);
+            setPos(pos);
+            auto mode = keySignature.at("mode").get<int>();
+            if (mode < 0 || mode > 4095) {
+                mode = 0;
+            }
+            setMode(mode);
+            auto tonality = keySignature.at("tonality").get<int>();
+            if (tonality < 0 || tonality > 11) {
+                tonality = 0;
+            }
+            setTonality(tonality);
+            auto accidentalType = keySignature.at("accidentalType").get<int>();
+            if (accidentalType != Flat && accidentalType != Sharp) {
+                accidentalType = Flat;
+            }
+            setAccidentalType(static_cast<AccidentalType>(accidentalType));
+        } catch (const nlohmann::json::exception &) {
+            // ignore
         }
-        setMode(mode);
-        auto tonality = keySignature.value("tonality").toInt();
-        if (tonality < 0 || tonality > 11) {
-            tonality = 0;
-        }
-        setTonality(tonality);
-        auto accidentalType = keySignature.value("accidentalType").toInt();
-        if (accidentalType != Flat && accidentalType != Sharp) {
-            accidentalType = Flat;
-        }
-        setAccidentalType(static_cast<AccidentalType>(accidentalType));
     }
 
     void KeySignature::handleSetEntityProperty(int property, const QVariant &value) {

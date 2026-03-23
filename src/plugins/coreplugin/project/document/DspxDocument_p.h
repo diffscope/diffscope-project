@@ -8,7 +8,7 @@
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/DspxClipboardData.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Tempo;
     struct Label;
     struct Track;
@@ -33,10 +33,10 @@ namespace Core {
         std::optional<DspxClipboardData> buildTrackClipboardData() const;
 
         bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteTempos(const QList<QDspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteLabels(const QList<QDspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteKeySignatures(const QList<QJsonObject> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteTracks(const QList<QDspx::Track> &tracks, QList<QObject *> &pastedItems);
+        bool pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
 
         bool deleteSelection();
         int deleteTempos();

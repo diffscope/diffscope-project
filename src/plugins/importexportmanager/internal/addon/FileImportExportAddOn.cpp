@@ -140,7 +140,7 @@ namespace ImportExportManager::Internal {
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
         settings->endGroup();
-        QDspx::Model model;
+        opendspx::Model model;
         if (!converter->execImport(path, model, windowHandle()->window())) {
             qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
             return;
@@ -158,7 +158,7 @@ namespace ImportExportManager::Internal {
         }
         Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
         auto projectDocumentContext = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext();
-        auto model = projectDocumentContext->document()->model()->toQDspx();
+        auto model = projectDocumentContext->document()->model()->toOpenDspx();
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();

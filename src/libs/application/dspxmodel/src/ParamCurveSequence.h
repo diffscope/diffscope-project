@@ -6,9 +6,9 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ParamCurve;
-    using ParamCurveRef = QSharedPointer<ParamCurve>;
+    using ParamCurveRef = std::shared_ptr<ParamCurve>;
 }
 
 namespace dspx {
@@ -42,8 +42,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(ParamCurve *item);
         Q_INVOKABLE bool removeItem(ParamCurve *item);
 
-        QList<QDspx::ParamCurveRef> toQDspx() const;
-        void fromQDspx(const QList<QDspx::ParamCurveRef> &curves);
+        std::vector<opendspx::ParamCurveRef> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::ParamCurveRef> &curves);
 
         Param *param() const;
 

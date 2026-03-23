@@ -7,7 +7,7 @@
 
 class QWindow;
 
-namespace QDspx {
+namespace opendspx {
     struct Model;
 }
 
@@ -48,8 +48,8 @@ namespace ImportExportManager {
         QStringList heuristicFilters() const;
 
         virtual bool runPreExecCheck();
-        virtual bool execImport(const QString &path, QDspx::Model &model, QWindow *window);
-        virtual bool execExport(const QString &path, const QDspx::Model &model, QWindow *window);
+        virtual bool execImport(const QString &path, opendspx::Model &model, QWindow *window);
+        virtual bool execExport(const QString &path, const opendspx::Model &model, QWindow *window);
 
     protected:
         explicit FileConverter(QObject *parent = nullptr);

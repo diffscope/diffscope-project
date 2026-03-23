@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Tempo;
 }
 
@@ -38,8 +38,8 @@ namespace dspx {
         Tempo *previousItem() const;
         Tempo *nextItem() const;
 
-        QDspx::Tempo toQDspx() const;
-        void fromQDspx(const QDspx::Tempo &tempo);
+        opendspx::Tempo toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Tempo &tempo);
 
     Q_SIGNALS:
         void posChanged(int pos);

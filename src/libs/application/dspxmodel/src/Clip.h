@@ -5,9 +5,9 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Clip;
-    using ClipRef = QSharedPointer<Clip>;
+    using ClipRef = std::shared_ptr<Clip>;
 }
 
 namespace dspx {
@@ -53,8 +53,8 @@ namespace dspx {
 
         Workspace *workspace() const;
 
-        QDspx::ClipRef toQDspx() const;
-        void fromQDspx(const QDspx::ClipRef &clip);
+        opendspx::ClipRef toOpenDspx() const;
+        void fromOpenDspx(const opendspx::ClipRef &clip);
 
         ClipSequence *clipSequence() const;
 

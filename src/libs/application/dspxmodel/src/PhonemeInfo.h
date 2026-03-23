@@ -7,7 +7,7 @@
 
 #include <dspxmodel/Handle.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Phonemes;
 }
 
@@ -37,8 +37,8 @@ namespace dspx {
 
         Note *note() const;
 
-        QDspx::Phonemes toQDspx() const;
-        void fromQDspx(const QDspx::Phonemes &phonemeInfo);
+        opendspx::Phonemes toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Phonemes &phonemeInfo);
 
     Q_SIGNALS:
         void noteChanged();

@@ -6,7 +6,7 @@
 
 #include <coreplugin/coreglobal.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Model;
 }
 
@@ -25,7 +25,7 @@ namespace Core {
             Strong,
         };
 
-        virtual QList<DspxCheckWarning> runCheck(const QDspx::Model &model, Level level, bool failFast) = 0;
+        virtual QList<DspxCheckWarning> runCheck(const opendspx::Model &model, Level level, bool failFast) = 0;
     };
 
     struct DspxCheckWarning {

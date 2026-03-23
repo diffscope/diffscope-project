@@ -40,17 +40,17 @@ namespace dspx {
         return d->freq;
     }
 
-    QDspx::VibratoPoints VibratoPoints::toQDspx() const {
+    opendspx::VibratoPoints VibratoPoints::toOpenDspx() const {
         return {
-            .amp = amp()->toQDspx(),
-            .freq = freq()->toQDspx(),
+            .amp = amp()->toOpenDspx(),
+            .freq = freq()->toOpenDspx(),
         };
     }
 
-    void VibratoPoints::fromQDspx(const QDspx::VibratoPoints &vibratoPoints) {
+    void VibratoPoints::fromOpenDspx(const opendspx::VibratoPoints &vibratoPoints) {
         Q_D(VibratoPoints);
-        amp()->fromQDspx(vibratoPoints.amp);
-        freq()->fromQDspx(vibratoPoints.freq);
+        amp()->fromOpenDspx(vibratoPoints.amp);
+        freq()->fromOpenDspx(vibratoPoints.freq);
     }
 
 }

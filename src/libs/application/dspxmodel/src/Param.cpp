@@ -47,20 +47,20 @@ namespace dspx {
         return d->edited;
     }
 
-    QDspx::Param Param::toQDspx() const {
+    opendspx::Param Param::toOpenDspx() const {
         Q_D(const Param);
         return {
-            .original = d->original->toQDspx(),
-            .transform = d->transform->toQDspx(),
-            .edited = d->edited->toQDspx(),
+            .original = d->original->toOpenDspx(),
+            .transform = d->transform->toOpenDspx(),
+            .edited = d->edited->toOpenDspx(),
         };
     }
 
-    void Param::fromQDspx(const QDspx::Param &param) {
+    void Param::fromOpenDspx(const opendspx::Param &param) {
         Q_D(Param);
-        d->original->fromQDspx(param.original);
-        d->transform->fromQDspx(param.transform);
-        d->edited->fromQDspx(param.edited);
+        d->original->fromOpenDspx(param.original);
+        d->transform->fromOpenDspx(param.transform);
+        d->edited->fromOpenDspx(param.edited);
     }
 
     ParamMap *Param::paramMap() const {

@@ -28,8 +28,8 @@ namespace dspx {
         Q_INVOKABLE QList<int> slice(int index, int length) const;
         Q_INVOKABLE bool rotate(int leftIndex, int middleIndex, int rightIndex);
 
-        QList<int> toQDspx() const;
-        void fromQDspx(const QList<int> &values);
+        std::vector<int> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<int> &values);
 
         ParamCurveFree *paramCurveFree() const;
 

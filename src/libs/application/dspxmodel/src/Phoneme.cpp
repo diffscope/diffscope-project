@@ -93,18 +93,18 @@ namespace dspx {
         model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Onset, onset);
     }
 
-    QDspx::Phoneme Phoneme::toQDspx() const {
+    opendspx::Phoneme Phoneme::toOpenDspx() const {
         return {
-            .language = language(),
-            .token = token(),
+            .language = language().toStdString(),
+            .token = token().toStdString(),
             .start = start(),
             .onset = onset()
         };
     }
 
-    void Phoneme::fromQDspx(const QDspx::Phoneme &phoneme) {
-        setLanguage(phoneme.language);
-        setToken(phoneme.token);
+    void Phoneme::fromOpenDspx(const opendspx::Phoneme &phoneme) {
+        setLanguage(QString::fromStdString(phoneme.language));
+        setToken(QString::fromStdString(phoneme.token));
         setStart(phoneme.start);
         setOnset(phoneme.onset);
     }

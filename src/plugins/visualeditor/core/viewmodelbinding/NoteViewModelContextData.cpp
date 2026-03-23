@@ -64,7 +64,7 @@ namespace VisualEditor {
             }
 
             auto duplicated = model->createNote();
-            duplicated->fromQDspx(source->toQDspx());
+            duplicated->fromOpenDspx(source->toOpenDspx());
             return duplicated;
         }
     }

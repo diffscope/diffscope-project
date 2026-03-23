@@ -38,18 +38,18 @@ namespace dspx {
         return d->values;
     }
 
-    QDspx::ParamCurveFree ParamCurveFree::toQDspx() const {
+    opendspx::ParamCurveFree ParamCurveFree::toOpenDspx() const {
         Q_D(const ParamCurveFree);
         return {
             start(),
             5,
-            values()->toQDspx(),
+            values()->toOpenDspx(),
         };
     }
 
-    void ParamCurveFree::fromQDspx(const QDspx::ParamCurveFree &curve) {
+    void ParamCurveFree::fromOpenDspx(const opendspx::ParamCurveFree &curve) {
         setStart(curve.start);
-        values()->fromQDspx(curve.values);
+        values()->fromOpenDspx(curve.values);
     }
 
     void ParamCurveFree::handleSetEntityProperty(int property, const QVariant &value) {

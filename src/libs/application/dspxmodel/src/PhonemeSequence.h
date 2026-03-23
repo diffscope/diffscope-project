@@ -6,7 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Phoneme;
 }
 
@@ -42,8 +42,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(Phoneme *item);
         Q_INVOKABLE bool removeItem(Phoneme *item);
 
-        QList<QDspx::Phoneme> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Phoneme> &phonemeList);
+        std::vector<opendspx::Phoneme> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::Phoneme> &phonemeList);
 
         PhonemeInfo *phonemeInfo() const;
 

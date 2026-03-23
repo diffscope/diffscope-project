@@ -69,23 +69,23 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::TimeSignature> TimeSignatureSequence::toQDspx() const {
+    std::vector<opendspx::TimeSignature> TimeSignatureSequence::toOpenDspx() const {
         Q_D(const TimeSignatureSequence);
-        QList<QDspx::TimeSignature> ret;
+        std::vector<opendspx::TimeSignature> ret;
         ret.reserve(d->container.size());
         for (const auto &[_, item] : d->container.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void TimeSignatureSequence::fromQDspx(const QList<QDspx::TimeSignature> &timeSignatures) {
+    void TimeSignatureSequence::fromOpenDspx(const std::vector<opendspx::TimeSignature> &timeSignatures) {
         while (size()) {
             removeItem(firstItem());
         }
         for (const auto &timeSignature : timeSignatures) {
             auto item = model()->createTimeSignature();
-            item->fromQDspx(timeSignature);
+            item->fromOpenDspx(timeSignature);
             insertItem(item);
         }
     }

@@ -3,6 +3,7 @@
 
 #include <opendspx/workspace.h>
 
+#include <dspxmodel/private/jsonutils_p.h>
 #include <dspxmodel/WorkspaceInfo.h>
 #include <dspxmodel/private/MapData_p.h>
 #include <dspxmodel/private/Model_p.h>
@@ -60,23 +61,23 @@ namespace dspx {
         return d->contains(key);
     }
 
-    QDspx::Workspace Workspace::toQDspx() const {
+    opendspx::Workspace Workspace::toOpenDspx() const {
         Q_D(const Workspace);
-        QDspx::Workspace ret;
+        opendspx::Workspace ret;
         for (const auto &[key, value] : d->itemMap.asKeyValueRange()) {
-            ret.insert(key, value->jsonObject());
+            ret.insert({key.toStdString(), JsonUtils::fromQJsonValue(value->jsonObject())});
         }
         return ret;
     }
 
-    void Workspace::fromQDspx(const QDspx::Workspace &workspace) {
+    void Workspace::fromOpenDspx(const opendspx::Workspace &workspace) {
         for (const auto &key : keys()) {
             removeItem(key);
         }
-        for (const auto &[key, value] : workspace.asKeyValueRange()) {
+        for (const auto &[key, value] : workspace) {
             auto workspaceInfo = model()->createWorkspaceInfo();
-            workspaceInfo->setJsonObject(value);
-            insertItem(key, workspaceInfo);
+            workspaceInfo->setJsonObject(JsonUtils::toQJsonValue(value).toObject());
+            insertItem(QString::fromStdString(key), workspaceInfo);
         }
     }
 

@@ -62,15 +62,15 @@ namespace dspx {
         d->pModel->strategy->setEntityProperty(d->handle, ModelStrategy::P_MultiChannelOutput, multiChannelOutput);
     }
 
-    QDspx::Master Master::toQDspx() const {
+    opendspx::Master Master::toOpenDspx() const {
         return {
-            .control = control()->toQDspx(),
+            .control = control()->toOpenDspx(),
         };
     }
 
-    void Master::fromQDspx(const QDspx::Master &master) {
+    void Master::fromOpenDspx(const opendspx::Master &master) {
         Q_D(Master);
-        d->control->fromQDspx(master.control);
+        d->control->fromOpenDspx(master.control);
     }
 
 }

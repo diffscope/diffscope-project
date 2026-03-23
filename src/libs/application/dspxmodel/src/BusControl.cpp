@@ -9,7 +9,7 @@ namespace dspx {
 
     BusControl::~BusControl() = default;
 
-    QDspx::BusControl BusControl::toQDspx() const {
+    opendspx::BusControl BusControl::toOpenDspx() const {
         return {
             .gain = gain(),
             .pan = pan(),
@@ -17,7 +17,7 @@ namespace dspx {
         };
     }
 
-    void BusControl::fromQDspx(const QDspx::BusControl &control) {
+    void BusControl::fromOpenDspx(const opendspx::BusControl &control) {
         setGain(control.gain);
         setPan(control.pan);
         setMute(control.mute);

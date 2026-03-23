@@ -5,8 +5,8 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
-    using Workspace = QMap<QString, QJsonObject>;
+namespace opendspx {
+    class Workspace;
 }
 
 namespace dspx {
@@ -36,8 +36,8 @@ namespace dspx {
         Q_INVOKABLE WorkspaceInfo *item(const QString &key) const;
         Q_INVOKABLE bool contains(const QString &key) const;
 
-        QDspx::Workspace toQDspx() const;
-        void fromQDspx(const QDspx::Workspace &workspace);
+        opendspx::Workspace toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Workspace &workspace);
 
     Q_SIGNALS:
         void itemAboutToInsert(const QString &key, WorkspaceInfo *item);

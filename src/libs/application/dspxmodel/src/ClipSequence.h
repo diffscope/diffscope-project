@@ -6,9 +6,9 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Clip;
-    using ClipRef = QSharedPointer<Clip>;
+    using ClipRef = std::shared_ptr<Clip>;
 }
 
 namespace dspx {
@@ -43,8 +43,8 @@ namespace dspx {
         Q_INVOKABLE bool removeItem(Clip *item);
         Q_INVOKABLE bool moveToAnotherClipSequence(Clip *item, ClipSequence *sequence);
 
-        QList<QDspx::ClipRef> toQDspx() const;
-        void fromQDspx(const QList<QDspx::ClipRef> &clips);
+        std::vector<opendspx::ClipRef> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::ClipRef> &clips);
 
         Track *track() const;
 

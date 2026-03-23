@@ -7,7 +7,7 @@
 
 #include <dspxmodel/DspxModelGlobal.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Global;
 }
 
@@ -48,8 +48,8 @@ namespace dspx {
         QString editorName() const;
         void setEditorName(const QString &editorName);
 
-        QDspx::Global toQDspx() const;
-        void fromQDspx(const QDspx::Global &global);
+        opendspx::Global toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Global &global);
 
     Q_SIGNALS:
         void nameChanged(const QString &name);

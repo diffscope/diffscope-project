@@ -6,7 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Label;
 }
 
@@ -39,8 +39,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(Label *item);
         Q_INVOKABLE bool removeItem(Label *item);
 
-        QList<QDspx::Label> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Label> &labels);
+        std::vector<opendspx::Label> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::Label> &labels);
 
         auto asRange() const {
             return impl::SequenceRange(this);

@@ -5,9 +5,9 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ParamCurve;
-    using ParamCurveRef = QSharedPointer<ParamCurve>;
+    using ParamCurveRef = std::shared_ptr<ParamCurve>;
 }
 
 namespace dspx {
@@ -45,8 +45,8 @@ namespace dspx {
         ParamCurve *previousItem() const;
         ParamCurve *nextItem() const;
 
-        QDspx::ParamCurveRef toQDspx() const;
-        void fromQDspx(const QDspx::ParamCurveRef &curve);
+        opendspx::ParamCurveRef toOpenDspx() const;
+        void fromOpenDspx(const opendspx::ParamCurveRef &curve);
 
     Q_SIGNALS:
         void startChanged(int start);

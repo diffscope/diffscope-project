@@ -5,7 +5,7 @@
 
 #include <dspxmodel/ParamCurve.h>
 
-namespace QDspx {
+namespace opendspx {
     struct ParamCurveFree;
 }
 
@@ -28,8 +28,8 @@ namespace dspx {
         int step() const;
         FreeValueDataArray *values() const;
 
-        QDspx::ParamCurveFree toQDspx() const;
-        void fromQDspx(const QDspx::ParamCurveFree &curve);
+        opendspx::ParamCurveFree toOpenDspx() const;
+        void fromOpenDspx(const opendspx::ParamCurveFree &curve);
 
     protected:
         void handleSetEntityProperty(int property, const QVariant &value) override;

@@ -76,22 +76,22 @@ namespace dspx {
         return d->pModel->strategy->takeFromSequenceContainer(handle(), item->handle());
     }
 
-    QList<QDspx::Note> NoteSequence::toQDspx() const {
+    std::vector<opendspx::Note> NoteSequence::toOpenDspx() const {
         Q_D(const NoteSequence);
-        QList<QDspx::Note> ret;
+        std::vector<opendspx::Note> ret;
         for (const auto &[_, item] : d->pointContainer.m_items) {
-            ret.append(item->toQDspx());
+            ret.push_back(item->toOpenDspx());
         }
         return ret;
     }
 
-    void NoteSequence::fromQDspx(const QList<QDspx::Note> &notes) {
+    void NoteSequence::fromOpenDspx(const std::vector<opendspx::Note> &notes) {
         while (size() > 0) {
             removeItem(firstItem());
         }
         for (const auto &noteData : notes) {
             auto note = model()->createNote();
-            note->fromQDspx(noteData);
+            note->fromOpenDspx(noteData);
             insertItem(note);
         }
     }

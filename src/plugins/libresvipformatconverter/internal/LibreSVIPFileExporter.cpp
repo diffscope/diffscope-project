@@ -17,7 +17,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     LibreSVIPFileExporter::~LibreSVIPFileExporter() = default;
 
-    bool LibreSVIPFileExporter::execExport(const QString &path, const QDspx::Model &model, QWindow *window) {
+    bool LibreSVIPFileExporter::execExport(const QString &path, const opendspx::Model &model, QWindow *window) {
         // TODO
         return true;
     }

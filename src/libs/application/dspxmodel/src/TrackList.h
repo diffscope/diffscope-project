@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Track;
 }
 
@@ -34,8 +34,8 @@ namespace dspx {
         Q_INVOKABLE Track *item(int index) const;
         Q_INVOKABLE bool rotate(int leftIndex, int middleIndex, int rightIndex);
 
-        QList<QDspx::Track> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Track> &trackList);
+        std::vector<opendspx::Track> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::Track> &trackList);
 
     Q_SIGNALS:
         void itemAboutToInsert(int index, Track *item);

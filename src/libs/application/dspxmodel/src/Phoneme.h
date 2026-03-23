@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Phoneme;
 }
 
@@ -47,8 +47,8 @@ namespace dspx {
         Phoneme *previousItem() const;
         Phoneme *nextItem() const;
 
-        QDspx::Phoneme toQDspx() const;
-        void fromQDspx(const QDspx::Phoneme &phoneme);
+        opendspx::Phoneme toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Phoneme &phoneme);
 
     Q_SIGNALS:
         void languageChanged(const QString &language);

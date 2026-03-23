@@ -275,8 +275,8 @@ namespace Core {
     }
 
     ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
-        static QDspx::Model defaultModel{
-            .version = QDspx::Model::V1,
+        static opendspx::Model defaultModel{
+            .version = opendspx::Model::Version::V1,
             .content = {
                 .global = {},
                 .timeline = {
@@ -285,14 +285,14 @@ namespace Core {
                     .timeSignatures = {{0, 4, 4}}
                 },
                 .tracks = {
-                    QDspx::Track{
-                        .name = tr("Unnamed track"),
+                    opendspx::Track{
+                        .name = tr("Unnamed track").toStdString(),
                         .clips = {
-                            QDspx::SingingClipRef::create(
-                                tr("Unnamed clip"),
-                                QDspx::BusControl{},
-                                QDspx::ClipTime{
-                                    .start = 0,
+                            std::make_shared<opendspx::SingingClip>(
+                                tr("Unnamed clip").toStdString(),
+                                opendspx::BusControl{},
+                                opendspx::ClipTime{
+                                    .pos = 0,
                                     .length = 0,
                                     .clipStart = 0,
                                     .clipLen = 46080
@@ -302,16 +302,16 @@ namespace Core {
                     }
                 },
                 .workspace = {
-                    {"diffscope", QJsonObject{
-                        {"keySignatures", QJsonArray{
-                            QJsonObject{
+                    {"diffscope", nlohmann::json::object({
+                        {"keySignatures", nlohmann::json::array({
+                            nlohmann::json::object({
                                 {"pos", 0},
                                 {"mode", 2741},
                                 {"tonality", 0},
                                 {"accidentalType", 1}
-                            }
-                        }}
-                    }}
+                            })
+                        })}
+                    })}
                 }
             }
         };

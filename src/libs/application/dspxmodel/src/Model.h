@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Model;
 }
 
@@ -60,8 +60,8 @@ namespace dspx {
         TrackList *tracks() const;
         Workspace *workspace() const;
 
-        QDspx::Model toQDspx() const;
-        void fromQDspx(const QDspx::Model &model);
+        opendspx::Model toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Model &model);
 
         Q_INVOKABLE Label *createLabel();
         Q_INVOKABLE Note *createNote();

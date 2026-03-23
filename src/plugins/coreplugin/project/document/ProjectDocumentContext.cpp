@@ -1,6 +1,8 @@
 #include "ProjectDocumentContext.h"
 #include "ProjectDocumentContext_p.h"
 
+#include <sstream>
+
 #include <application_config.h>
 
 #include <QDir>
@@ -19,6 +21,7 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/DspxDocument.h>
+
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 
@@ -30,10 +33,10 @@ namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.core.projectdocumentcontext")
 
-    static void writeEditorInfo(QDspx::Model &model) {
+    static void writeEditorInfo(opendspx::Model &model) {
         model.content.global.editorId = CoreInterface::dspxEditorId();
-        model.content.global.editorName = QStringLiteral("DiffScope");
-        model.content.workspace["diffscope"].insert("editorVersion", QStringLiteral(APPLICATION_SEMVER));
+        model.content.global.editorName = QStringLiteral("DiffScope").toStdString();
+        model.content.workspace["diffscope"]["editorVersion"] = QStringLiteral(APPLICATION_SEMVER).toStdString();
     }
 
     static bool checkIsVersionCompatible(const QString &version) {
@@ -58,10 +61,12 @@ namespace Core {
     }
 
     QByteArray ProjectDocumentContextPrivate::serializeDocument(bool *hasError) const {
-        QDspx::SerializationErrorList errors;
-        auto model = document->model()->toQDspx();
+        opendspx::SerializationErrorList errors;
+        auto model = document->model()->toOpenDspx();
         writeEditorInfo(model);
-        auto data = QDspx::Serializer::serialize(model, errors, QDspx::Serializer::CheckError);
+        std::stringstream out(std::ios::out);
+        // TODO compress
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, false);
         if (errors.containsError()) {
             if (hasError) {
                 *hasError = true;
@@ -71,18 +76,26 @@ namespace Core {
                 *hasError = false;
             }
         }
-        return data;
+        return QByteArray::fromStdString(out.str());
     }
 
-    bool ProjectDocumentContextPrivate::initializeDocument(const QDspx::Model &model, bool doCheck) {
+    static QString getVersionStringFromModel(const opendspx::Model &model) {
+        try {
+            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").get<std::string>());
+        } catch (const nlohmann::json::exception &) {
+            return {};
+        }
+    }
+
+    bool ProjectDocumentContextPrivate::initializeDocument(const opendspx::Model &model, bool doCheck) {
         Q_Q(ProjectDocumentContext);
         document = new DspxDocument(q);
         if (doCheck) {
             if (model.content.global.editorId != CoreInterface::dspxEditorId()) {
-                if (!openSaveProjectFileScenario->confirmFileCreatedByAnotherApplication(model.content.global.editorName)) {
+                if (!openSaveProjectFileScenario->confirmFileCreatedByAnotherApplication(QString::fromStdString(model.content.global.editorName))) {
                     return false;
                 }
-            } else if (auto version = model.content.workspace.value("diffscope").value("editorVersion").toString(); !checkIsVersionCompatible(version)) {
+            } else if (auto version = getVersionStringFromModel(model); !checkIsVersionCompatible(version)) {
                 if (!openSaveProjectFileScenario->confirmFileCreatedByIncompatibleVersion(version)) {
                     return false;
                 }
@@ -96,13 +109,14 @@ namespace Core {
         }
         auto postProcessedModel = model;
         writeEditorInfo(postProcessedModel);
-        document->model()->fromQDspx(postProcessedModel);
+        document->model()->fromOpenDspx(postProcessedModel);
         return true;
     }
 
     bool ProjectDocumentContextPrivate::deserializeAndInitializeDocument(const QByteArray &data) {
-        QDspx::SerializationErrorList errors;
-        auto model = QDspx::Serializer::deserialize(data, errors);
+        opendspx::SerializationErrorList errors;
+        std::stringstream in(data.toStdString(), std::ios::in);
+        auto model = opendspx::Serializer::deserialize(in, errors);
         if (errors.containsFatal() || errors.containsError()) {
             return false;
         }
@@ -173,7 +187,7 @@ namespace Core {
         return true;
     }
 
-    bool ProjectDocumentContext::newFile(const QDspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument) {
+    bool ProjectDocumentContext::newFile(const opendspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument) {
         Q_D(ProjectDocumentContext);
         if (d->document) {
             qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";

@@ -79,25 +79,25 @@ namespace dspx {
         return d->nextItem;
     }
 
-    QDspx::ParamCurveRef ParamCurve::toQDspx() const {
+    opendspx::ParamCurveRef ParamCurve::toOpenDspx() const {
         Q_D(const ParamCurve);
         switch (d->type) {
             case Anchor:
-                return QSharedPointer<QDspx::ParamCurveAnchor>::create(static_cast<const ParamCurveAnchor *>(this)->toQDspx());
+                return std::make_shared<opendspx::ParamCurveAnchor>(static_cast<const ParamCurveAnchor *>(this)->toOpenDspx());
             case Free:
-                return QSharedPointer<QDspx::ParamCurveFree>::create(static_cast<const ParamCurveFree *>(this)->toQDspx());
+                return std::make_shared<opendspx::ParamCurveFree>(static_cast<const ParamCurveFree *>(this)->toOpenDspx());
             default:
                 Q_UNREACHABLE();
         }
     }
 
-    void ParamCurve::fromQDspx(const QDspx::ParamCurveRef &curve) {
+    void ParamCurve::fromOpenDspx(const opendspx::ParamCurveRef &curve) {
         switch (curve->type) {
-            case QDspx::ParamCurve::Anchor:
-                static_cast<ParamCurveAnchor *>(this)->fromQDspx(*curve.staticCast<QDspx::ParamCurveAnchor>());
+            case opendspx::ParamCurve::Anchor:
+                static_cast<ParamCurveAnchor *>(this)->fromOpenDspx(*std::static_pointer_cast<opendspx::ParamCurveAnchor>(curve));
                 break;
-            case QDspx::ParamCurve::Free:
-                static_cast<ParamCurveFree *>(this)->fromQDspx(*curve.staticCast<QDspx::ParamCurveFree>());
+            case opendspx::ParamCurve::Free:
+                static_cast<ParamCurveFree *>(this)->fromOpenDspx(*std::static_pointer_cast<opendspx::ParamCurveFree>(curve));
                 break;
             default:
                 Q_UNREACHABLE();

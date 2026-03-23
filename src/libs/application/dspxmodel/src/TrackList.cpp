@@ -56,22 +56,22 @@ namespace dspx {
         return d->pModel->strategy->rotateListContainer(handle(), leftIndex, middleIndex, rightIndex);
     }
 
-    QList<QDspx::Track> TrackList::toQDspx() const {
+    std::vector<opendspx::Track> TrackList::toOpenDspx() const {
         Q_D(const TrackList);
-        QList<QDspx::Track> ret;
+        std::vector<opendspx::Track> ret;
         for (const auto &track : d->itemList) {
-            ret.append(track->toQDspx());
+            ret.push_back(track->toOpenDspx());
         }
         return ret;
     }
 
-    void TrackList::fromQDspx(const QList<QDspx::Track> &trackList) {
+    void TrackList::fromOpenDspx(const std::vector<opendspx::Track> &trackList) {
         while (size() > 0) {
             removeItem(0);
         }
         for (const auto &trackData : trackList) {
             auto track = model()->createTrack();
-            track->fromQDspx(trackData);
+            track->fromOpenDspx(trackData);
             insertItem(size(), track);
         }
     }

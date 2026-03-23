@@ -79,16 +79,16 @@ namespace dspx {
         model()->strategy()->setEntityProperty(handle(), ModelStrategy::P_Value, y);
     }
 
-    QDspx::AnchorNode AnchorNode::toQDspx() const {
+    opendspx::AnchorNode AnchorNode::toOpenDspx() const {
         Q_D(const AnchorNode);
         return {
-            .interp = static_cast<QDspx::AnchorNode::Interpolation>(d->interp),
+            .interp = static_cast<opendspx::AnchorNode::Interpolation>(d->interp),
             .x = d->x,
             .y = d->y,
         };
     }
 
-    void AnchorNode::fromQDspx(const QDspx::AnchorNode &node) {
+    void AnchorNode::fromOpenDspx(const opendspx::AnchorNode &node) {
         Q_D(AnchorNode);
         setInterp(static_cast<InterpolationMode>(node.interp));
         setX(node.x);

@@ -17,7 +17,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     LibreSVIPFileImporter::~LibreSVIPFileImporter() = default;
 
-    bool LibreSVIPFileImporter::execImport(const QString &path, QDspx::Model &model, QWindow *window) {
+    bool LibreSVIPFileImporter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {
         // TODO
         return true;
     }

@@ -21,20 +21,20 @@ using namespace dspx;
 int main(int argc, char **argv) {
     QCoreApplication a(argc, argv);
 
-    QDspx::Model qDspxModel;
+    opendspx::Model opendspxModel;
     QFile f(":/tst_dspxmodel_dspx/test.dspx");
     f.open(QIODevice::ReadOnly);
     auto data = f.readAll();
-    QDspx::SerializationErrorList errors;
-    qDspxModel = QDspx::Serializer::deserialize(data, errors);
+    opendspx::SerializationErrorList errors;
+    opendspxModel = opendspx::Serializer::deserialize(data, errors);
     qDebug() << errors.size();
 
 
     BasicModelStrategy basicModelStrategy;
     Model model(&basicModelStrategy);
 
-    model.fromQDspx(qDspxModel);
-    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
+    model.fromOpenDspx(opendspxModel);
+    qDebug().noquote() << opendspx::Serializer::serialize(model.toOpenDspx(), errors);
 
     qDebug() << model.timeline()->labels()->firstItem()->text();
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     workspaceInfo->setJsonObject({{"test", "test c"}});
     model.workspace()->insertItem("c", workspaceInfo);
 
-    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
+    qDebug().noquote() << opendspx::Serializer::serialize(model.toOpenDspx(), errors);
 
     // Test TrackList functionality
     qDebug() << "=== Testing TrackList ===";
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     }
     
     qDebug() << "=== TrackList test complete ===";
-    qDebug().noquote() << QDspx::Serializer::serialize(model.toQDspx(), errors);
+    qDebug().noquote() << opendspx::Serializer::serialize(model.toOpenDspx(), errors);
 
     return 0;
 }

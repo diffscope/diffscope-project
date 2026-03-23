@@ -1,5 +1,7 @@
 #include "DspxFileImporter.h"
 
+#include <sstream>
+
 #include <QCheckBox>
 #include <QDialog>
 #include <QDir>
@@ -34,7 +36,7 @@ namespace ImportExportManager::Internal {
 
     DspxFileImporter::~DspxFileImporter() = default;
 
-    bool DspxFileImporter::execImport(const QString &path, QDspx::Model &model, QWindow *window) {
+    bool DspxFileImporter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {
         Core::OpenSaveProjectFileScenario scenario;
         scenario.setWindow(window);
         QFile file(path);
@@ -43,8 +45,9 @@ namespace ImportExportManager::Internal {
             scenario.showOpenFailMessageBox(path, file.errorString());
             return false;
         }
-        QDspx::SerializationErrorList errors;
-        model = QDspx::Serializer::deserialize(file.readAll(), errors);
+        opendspx::SerializationErrorList errors;
+        std::stringstream in(file.readAll().toStdString(), std::ios::in);
+        model = opendspx::Serializer::deserialize(in, errors);
         file.close();
         if (errors.containsFatal() || errors.containsError()) {
             qCCritical(lcDspxFileImporter) << "Failed to deserialize file:" << path;
@@ -80,10 +83,10 @@ namespace ImportExportManager::Internal {
                 track.workspace.clear();
                 for (auto &clip : track.clips) {
                     clip->workspace.clear();
-                    if (clip->type != QDspx::Clip::Singing) {
+                    if (clip->type != opendspx::Clip::Type::Singing) {
                         continue;
                     }
-                    auto singingClip = clip.staticCast<QDspx::SingingClip>();
+                    auto singingClip = std::static_pointer_cast<opendspx::SingingClip>(clip);
                     for (auto &note : singingClip->notes) {
                         note.workspace.clear();
                     }

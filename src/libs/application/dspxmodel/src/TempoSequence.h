@@ -6,7 +6,7 @@
 #include <dspxmodel/EntityObject.h>
 #include <dspxmodel/rangehelpers.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Tempo;
 }
 
@@ -39,8 +39,8 @@ namespace dspx {
         Q_INVOKABLE bool insertItem(Tempo *item);
         Q_INVOKABLE bool removeItem(Tempo *item);
 
-        QList<QDspx::Tempo> toQDspx() const;
-        void fromQDspx(const QList<QDspx::Tempo> &tempos);
+        std::vector<opendspx::Tempo> toOpenDspx() const;
+        void fromOpenDspx(const std::vector<opendspx::Tempo> &tempos);
 
         auto asRange() const {
             return impl::SequenceRange(this);

@@ -32,6 +32,7 @@
 #include <dspxmodel/Workspace.h>
 #include <dspxmodel/WorkspaceInfo.h>
 #include <dspxmodel/private/EntityObject_p.h>
+#include <dspxmodel/private/jsonutils_p.h>
 
 namespace dspx {
 
@@ -222,40 +223,41 @@ namespace dspx {
         return d->workspace;
     }
 
-    QDspx::Model Model::toQDspx() const {
-        QDspx::Model model = {
-            .version = QDspx::Model::V1,
+    opendspx::Model Model::toOpenDspx() const {
+        opendspx::Model model = {
+            .version = opendspx::Model::Version::V1,
             .content = {
-                .global = global()->toQDspx(),
-                .master = master()->toQDspx(),
-                .timeline = timeline()->toQDspx(),
-                .tracks = tracks()->toQDspx(),
-                .workspace = workspace()->toQDspx(),
+                .global = global()->toOpenDspx(),
+                .master = master()->toOpenDspx(),
+                .timeline = timeline()->toOpenDspx(),
+                .tracks = tracks()->toOpenDspx(),
+                .workspace = workspace()->toOpenDspx(),
             }
         };
-        model.content.workspace["diffscope"] = QJsonObject{
-            {"loop", QJsonObject{
+        model.content.workspace["diffscope"] = nlohmann::json::object({
+            {"loop", nlohmann::json{
                 {"enabled", timeline()->isLoopEnabled()},
                 {"start", timeline()->loopStart()},
                 {"length", timeline()->loopLength()},
             }},
-            {"master", QJsonObject{
+            {"master", nlohmann::json{
                 {"multiChannelOutput", master()->multiChannelOutput()}
             }},
-            {"keySignatures", timeline()->keySignatures()->toQDspx()}
-        };
+            {"keySignatures", timeline()->keySignatures()->toOpenDspx()}
+        });
         return model;
     }
 
-    void Model::fromQDspx(const QDspx::Model &model) {
+    void Model::fromOpenDspx(const opendspx::Model &model) {
         Q_D(Model);
-        d->global->fromQDspx(model.content.global);
-        d->master->fromQDspx(model.content.master);
-        d->timeline->fromQDspx(model.content.timeline);
-        d->tracks->fromQDspx(model.content.tracks);
-        d->workspace->fromQDspx(model.content.workspace);
+        d->global->fromOpenDspx(model.content.global);
+        d->master->fromOpenDspx(model.content.master);
+        d->timeline->fromOpenDspx(model.content.timeline);
+        d->tracks->fromOpenDspx(model.content.tracks);
+        d->workspace->fromOpenDspx(model.content.workspace);
+        auto diffscopeWorkspace = !model.content.workspace.contains("diffscope") ? QJsonObject() : JsonUtils::toQJsonValue(model.content.workspace.at("diffscope")).toObject();
         {
-            auto loop = model.content.workspace.value("diffscope").value("loop").toObject();
+            auto loop = diffscopeWorkspace.value("loop").toObject();
             auto enabled = loop.value("enabled").toBool();
             auto start = loop.value("start").toInt();
             auto length = loop.value("length").toInt();
@@ -270,12 +272,12 @@ namespace dspx {
             }
         }
         {
-            auto master = model.content.workspace.value("diffscope").value("master").toObject();
+            auto master = diffscopeWorkspace.value("master").toObject();
             d->master->setMultiChannelOutput(master.value("multiChannelOutput").toBool());
         }
         {
-            auto keySignatures = model.content.workspace.value("diffscope").value("keySignatures").toArray();
-            d->timeline->keySignatures()->fromQDspx(keySignatures);
+            auto keySignatures = diffscopeWorkspace.value("keySignatures").toArray();
+            d->timeline->keySignatures()->fromOpenDspx(JsonUtils::fromQJsonValue(keySignatures));
         }
     }
 

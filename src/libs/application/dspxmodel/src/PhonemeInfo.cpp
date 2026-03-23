@@ -42,17 +42,17 @@ namespace dspx {
         return d->original;
     }
 
-    QDspx::Phonemes PhonemeInfo::toQDspx() const {
+    opendspx::Phonemes PhonemeInfo::toOpenDspx() const {
         return {
-            original()->toQDspx(),
-            edited()->toQDspx()
+            original()->toOpenDspx(),
+            edited()->toOpenDspx()
         };
     }
 
-    void PhonemeInfo::fromQDspx(const QDspx::Phonemes &phonemeInfo) {
+    void PhonemeInfo::fromOpenDspx(const opendspx::Phonemes &phonemeInfo) {
         Q_D(PhonemeInfo);
-        original()->fromQDspx(phonemeInfo.original);
-        edited()->fromQDspx(phonemeInfo.edited);
+        original()->fromOpenDspx(phonemeInfo.original);
+        edited()->fromOpenDspx(phonemeInfo.edited);
     }
 
     Note *PhonemeInfo::note() const {

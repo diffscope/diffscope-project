@@ -5,7 +5,7 @@
 
 #include <dspxmodel/Clip.h>
 
-namespace QDspx {
+namespace opendspx {
     struct AudioClip;
 }
 
@@ -26,8 +26,8 @@ namespace dspx {
         QString path() const;
         void setPath(const QString &path);
 
-        QDspx::AudioClip toQDspx() const;
-        void fromQDspx(const QDspx::AudioClip &clip);
+        opendspx::AudioClip toOpenDspx() const;
+        void fromOpenDspx(const opendspx::AudioClip &clip);
 
     Q_SIGNALS:
         void pathChanged(const QString &path);

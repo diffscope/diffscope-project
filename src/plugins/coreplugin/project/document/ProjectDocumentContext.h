@@ -7,7 +7,7 @@
 
 class QWindow;
 
-namespace QDspx {
+namespace opendspx {
     struct Model;
 }
 
@@ -39,7 +39,7 @@ namespace Core {
         QString defaultDocumentName() const;
 
         bool openFile(const QString &filePath);
-        bool newFile(const QDspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument);
+        bool newFile(const opendspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument);
         bool newFile(const QString &templateFilePath, const QString &defaultDocumentName, bool isNonFileDocument);
         bool save();
         bool saveAs(const QString &filePath);

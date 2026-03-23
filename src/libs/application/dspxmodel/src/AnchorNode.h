@@ -5,7 +5,7 @@
 
 #include <dspxmodel/EntityObject.h>
 
-namespace QDspx {
+namespace opendspx {
     struct AnchorNode;
 }
 
@@ -48,8 +48,8 @@ namespace dspx {
         int y() const;
         void setY(int y);
 
-        QDspx::AnchorNode toQDspx() const;
-        void fromQDspx(const QDspx::AnchorNode &node);
+        opendspx::AnchorNode toOpenDspx() const;
+        void fromOpenDspx(const opendspx::AnchorNode &node);
 
         AnchorNodeSequence *anchorNodeSequence() const;
         AnchorNode *previousItem() const;

@@ -7,7 +7,7 @@
 
 #include <dspxmodel/Handle.h>
 
-namespace QDspx {
+namespace opendspx {
     struct Vibrato;
 }
 
@@ -55,8 +55,8 @@ namespace dspx {
         double start() const;
         void setStart(double start);
 
-        QDspx::Vibrato toQDspx() const;
-        void fromQDspx(const QDspx::Vibrato &vibrato);
+        opendspx::Vibrato toOpenDspx() const;
+        void fromOpenDspx(const opendspx::Vibrato &vibrato);
 
     Q_SIGNALS:
         void ampChanged(int amp);
