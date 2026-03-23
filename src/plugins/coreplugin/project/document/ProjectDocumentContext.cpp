@@ -65,8 +65,7 @@ namespace Core {
         auto model = document->model()->toOpenDspx();
         writeEditorInfo(model);
         std::stringstream out(std::ios::out);
-        // TODO compress
-        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, false);
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_Compress);
         if (errors.containsError()) {
             if (hasError) {
                 *hasError = true;

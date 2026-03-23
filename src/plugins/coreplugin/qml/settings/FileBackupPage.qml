@@ -66,6 +66,18 @@ ScrollView {
                             }
                         }
                     }
+                    CheckBox {
+                        text: qsTr("Compress project files")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.fileOption & BehaviorPreference.FO_Compress
+                        onClicked: () => {
+                            if (checked) {
+                                page.fileOption |= BehaviorPreference.FO_Compress
+                            } else {
+                                page.fileOption &= ~BehaviorPreference.FO_Compress
+                            }
+                        }
+                    }
                 }
             }
         }

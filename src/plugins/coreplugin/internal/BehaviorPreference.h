@@ -123,6 +123,7 @@ namespace Core::Internal {
         enum FileOptionFlag {
             FO_LockOpenedFiles = 0x01,
             FO_CheckForExternalChangedOnSave = 0x02,
+            FO_Compress = 0x04,
         };
         Q_ENUM(FileOptionFlag)
         Q_DECLARE_FLAGS(FileOption, FileOptionFlag)
