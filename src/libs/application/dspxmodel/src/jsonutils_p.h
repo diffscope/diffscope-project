@@ -62,6 +62,7 @@ namespace dspx {
                 for (auto it = v.begin(); it != v.end(); ++it) {
                     ret[it.key().c_str()] = toQJsonValue(it.value());
                 }
+                return ret;
             }
 
             return {};
