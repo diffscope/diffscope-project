@@ -61,8 +61,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
         m_widget->setProperty("trackListOnRight", EditorPreference::instance()->property("trackListOnRight"));
         qCDebug(lcEditorPage) << m_widget->property("trackListOnRight");
-        m_widget->setProperty("pianoKeyboardUseSimpleStyle", EditorPreference::instance()->property("pianoKeyboardUseSimpleStyle"));
-        qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardUseSimpleStyle");
+        m_widget->setProperty("pianoKeyboardBlackKeyLengthRatio", EditorPreference::instance()->property("pianoKeyboardBlackKeyLengthRatio"));
+        qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         m_widget->setProperty("pianoKeyboardLabelPolicy", EditorPreference::instance()->property("pianoKeyboardLabelPolicy"));
         qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardLabelPolicy");
         m_widget->setProperty("displayPronunciationBelowNote", EditorPreference::instance()->property("displayPronunciationBelowNote"));
@@ -93,8 +93,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
         qCDebug(lcEditorPage) << "trackListOnRight" << m_widget->property("trackListOnRight");
         EditorPreference::instance()->setProperty("trackListOnRight", m_widget->property("trackListOnRight"));
-        qCDebug(lcEditorPage) << "pianoKeyboardUseSimpleStyle" << m_widget->property("pianoKeyboardUseSimpleStyle");
-        EditorPreference::instance()->setProperty("pianoKeyboardUseSimpleStyle", m_widget->property("pianoKeyboardUseSimpleStyle"));
+        qCDebug(lcEditorPage) << "pianoKeyboardBlackKeyLengthRatio" << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
+        EditorPreference::instance()->setProperty("pianoKeyboardBlackKeyLengthRatio", m_widget->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << "pianoKeyboardLabelPolicy" << m_widget->property("pianoKeyboardLabelPolicy");
         EditorPreference::instance()->setProperty("pianoKeyboardLabelPolicy", m_widget->property("pianoKeyboardLabelPolicy"));
         qCDebug(lcEditorPage) << "displayPronunciationBelowNote" << m_widget->property("displayPronunciationBelowNote");

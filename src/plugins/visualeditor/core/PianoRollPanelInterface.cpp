@@ -240,11 +240,10 @@ namespace VisualEditor {
     void PianoRollPanelInterfacePrivate::bindClavierInteractionController() const {
         Q_Q(const PianoRollPanelInterface);
         auto applyStyle = [=, this] {
-            auto simple = Internal::EditorPreference::pianoKeyboardUseSimpleStyle();
-            clavierInteractionController->setDisplayStyle(simple ? sflow::ClavierInteractionController::Simple : sflow::ClavierInteractionController::Realistic);
+            clavierInteractionController->setBlackKeyLengthRatio(Internal::EditorPreference::pianoKeyboardBlackKeyLengthRatio());
         };
         applyStyle();
-        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardUseSimpleStyleChanged, clavierInteractionController, applyStyle);
+        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardBlackKeyLengthRatioChanged, clavierInteractionController, applyStyle);
 
         auto applyLabelStrategy = [=, this] {
             auto policy = Internal::EditorPreference::pianoKeyboardLabelPolicy();

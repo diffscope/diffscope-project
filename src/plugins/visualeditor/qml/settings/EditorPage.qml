@@ -21,7 +21,7 @@ ScrollView {
     property double autoDurationPositionAlignment: 32
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
-    property bool pianoKeyboardUseSimpleStyle: false
+    property double pianoKeyboardBlackKeyLengthRatio: 0.6
     property int pianoKeyboardLabelPolicy: 0
     property bool displayPronunciationBelowNote: false
     property int shortNoteThreshold: 30
@@ -35,7 +35,7 @@ ScrollView {
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
-    onPianoKeyboardUseSimpleStyleChanged: if (started) pageHandle.markDirty()
+    onPianoKeyboardBlackKeyLengthRatioChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
     onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
@@ -151,10 +151,12 @@ ScrollView {
                         }
                         Slider {
                             Layout.fillWidth: true
-                            from: 0
-                            to: 1
-                            value: Math.log10(page.autoDurationPositionAlignment) - 0.9
-                            onMoved: page.autoDurationPositionAlignment = Math.pow(10, value + 0.9)
+                            from: 0.9 - Math.log10(32)
+                            to: 1.9 - Math.log10(32)
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            value: Math.log10(page.autoDurationPositionAlignment) - Math.log10(32)
+                            onMoved: page.autoDurationPositionAlignment = Math.pow(10, value +  Math.log10(32))
+                            ThemedItem.onDoubleClickReset: moved()
                         }
                         Label {
                             text: qsTr("More spacious")
@@ -210,18 +212,19 @@ ScrollView {
                     columns: 3
 
                     Label {
-                        text: qsTr("Piano keyboard style")
+                        text: qsTr("Black key width")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
-                    Item {
+                    Slider {
                         Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        from: -0.1
+                        to: 0.4
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        value: page.pianoKeyboardBlackKeyLengthRatio - 0.6
+                        onMoved: page.pianoKeyboardBlackKeyLengthRatio = value + 0.6
+                        ThemedItem.onDoubleClickReset: moved()
                     }
-                    ComboBox {
-                        model: [qsTr("Realistic"), qsTr("Simple")]
-                        currentIndex: page.pianoKeyboardUseSimpleStyle ? 1 : 0
-                        onActivated: (index) => page.pianoKeyboardUseSimpleStyle = (index === 1)
-                    }
-
                     Label {
                         text: qsTr("Display piano key label on")
                         TextMatcherItem on text { matcher: page.matcher }

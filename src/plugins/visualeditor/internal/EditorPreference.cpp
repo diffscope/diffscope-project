@@ -2,6 +2,8 @@
 
 #include <QSettings>
 
+#include <QtGlobal>
+
 #include <CoreApi/runtimeinterface.h>
 
 namespace VisualEditor::Internal {
@@ -18,7 +20,7 @@ namespace VisualEditor::Internal {
         int autoDurationPositionAlignment{24};
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
-        bool pianoKeyboardUseSimpleStyle{};
+        double pianoKeyboardBlackKeyLengthRatio{0.6};
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
         bool displayPronunciationBelowNote{};
         int shortNoteThreshold{30};
@@ -60,8 +62,8 @@ namespace VisualEditor::Internal {
         emit enableTemporarySnapOffChanged();
         d->trackListOnRight = settings->value("trackListOnRight", false).toBool();
         emit trackListOnRightChanged();
-        d->pianoKeyboardUseSimpleStyle = settings->value("pianoKeyboardUseSimpleStyle", false).toBool();
-        emit pianoKeyboardUseSimpleStyleChanged();
+        d->pianoKeyboardBlackKeyLengthRatio = settings->value("pianoKeyboardBlackKeyLengthRatio", 0.6).toDouble();
+        emit pianoKeyboardBlackKeyLengthRatioChanged();
         d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
         emit pianoKeyboardLabelPolicyChanged();
         d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
@@ -85,7 +87,7 @@ namespace VisualEditor::Internal {
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->setValue("trackListOnRight", d->trackListOnRight);
-        settings->setValue("pianoKeyboardUseSimpleStyle", d->pianoKeyboardUseSimpleStyle);
+        settings->setValue("pianoKeyboardBlackKeyLengthRatio", d->pianoKeyboardBlackKeyLengthRatio);
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
         settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
@@ -201,17 +203,17 @@ namespace VisualEditor::Internal {
         emit m_instance->trackListOnRightChanged();
     }
 
-    bool EditorPreference::pianoKeyboardUseSimpleStyle() {
+    double EditorPreference::pianoKeyboardBlackKeyLengthRatio() {
         M_INSTANCE_D;
-        return d->pianoKeyboardUseSimpleStyle;
+        return d->pianoKeyboardBlackKeyLengthRatio;
     }
 
-    void EditorPreference::setPianoKeyboardUseSimpleStyle(bool pianoKeyboardUseSimpleStyle) {
+    void EditorPreference::setPianoKeyboardBlackKeyLengthRatio(double pianoKeyboardBlackKeyLengthRatio) {
         M_INSTANCE_D;
-        if (d->pianoKeyboardUseSimpleStyle == pianoKeyboardUseSimpleStyle)
+        if (qFuzzyCompare(d->pianoKeyboardBlackKeyLengthRatio, pianoKeyboardBlackKeyLengthRatio))
             return;
-        d->pianoKeyboardUseSimpleStyle = pianoKeyboardUseSimpleStyle;
-        emit m_instance->pianoKeyboardUseSimpleStyleChanged();
+        d->pianoKeyboardBlackKeyLengthRatio = pianoKeyboardBlackKeyLengthRatio;
+        emit m_instance->pianoKeyboardBlackKeyLengthRatioChanged();
     }
 
     EditorPreference::PianoKeyboardLabelPolicy EditorPreference::pianoKeyboardLabelPolicy() {

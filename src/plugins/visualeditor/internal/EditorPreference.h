@@ -27,7 +27,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
-        Q_PROPERTY(bool pianoKeyboardUseSimpleStyle READ pianoKeyboardUseSimpleStyle WRITE setPianoKeyboardUseSimpleStyle NOTIFY pianoKeyboardUseSimpleStyleChanged)
+        Q_PROPERTY(double pianoKeyboardBlackKeyLengthRatio READ pianoKeyboardBlackKeyLengthRatio WRITE setPianoKeyboardBlackKeyLengthRatio NOTIFY pianoKeyboardBlackKeyLengthRatioChanged)
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
         Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
@@ -83,8 +83,8 @@ namespace VisualEditor::Internal {
         static bool trackListOnRight();
         static void setTrackListOnRight(bool trackListOnRight);
 
-        static bool pianoKeyboardUseSimpleStyle();
-        static void setPianoKeyboardUseSimpleStyle(bool pianoKeyboardUseSimpleStyle);
+        static double pianoKeyboardBlackKeyLengthRatio();
+        static void setPianoKeyboardBlackKeyLengthRatio(double pianoKeyboardBlackKeyLengthRatio);
 
         static PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy();
         static void setPianoKeyboardLabelPolicy(PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy);
@@ -107,7 +107,7 @@ namespace VisualEditor::Internal {
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
         void trackListOnRightChanged();
-        void pianoKeyboardUseSimpleStyleChanged();
+        void pianoKeyboardBlackKeyLengthRatioChanged();
         void pianoKeyboardLabelPolicyChanged();
         void displayPronunciationBelowNoteChanged();
         void shortNoteThresholdChanged();
