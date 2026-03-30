@@ -15,6 +15,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 qm_configure_target(${PROJECT_NAME}
     SOURCES ${_src}
     LINKS opendspx::model
+    LINKS_PRIVATE svscraft::Core
     QT_LINKS Core Gui Qml
     QT_INCLUDE_PRIVATE Core Gui Qml
     INCLUDE_PRIVATE *

@@ -2,6 +2,8 @@
 
 #include <opendspx/trackcontrol.h>
 
+#include <SVSCraftCore/DecibelLinearizer.h>
+
 #include <dspxmodel/ModelStrategy.h>
 #include <dspxmodel/private/Model_p.h>
 
@@ -48,14 +50,14 @@ namespace dspx {
 
     opendspx::TrackControl TrackControl::toOpenDspx() const {
         return {
-            .gain = gain(),
+            .gain = SVS::DecibelLinearizer::gainToDecibels(gain()),
             .pan = pan(),
             .mute = mute(),
             .solo = solo()
         };
     }
     void TrackControl::fromOpenDspx(const opendspx::TrackControl &trackControl) {
-        setGain(trackControl.gain);
+        setGain(SVS::DecibelLinearizer::decibelsToGain(trackControl.gain));
         setPan(trackControl.pan);
         setMute(trackControl.mute);
         setSolo(trackControl.solo);

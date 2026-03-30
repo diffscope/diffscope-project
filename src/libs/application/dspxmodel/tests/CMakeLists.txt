@@ -1,1 +1,2 @@
-add_subdirectory(dspx)
+# TODO obsolete, update it
+# add_subdirectory(dspx)

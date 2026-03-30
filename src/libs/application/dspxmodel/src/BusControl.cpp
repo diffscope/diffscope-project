@@ -2,6 +2,8 @@
 
 #include <opendspx/buscontrol.h>
 
+#include <SVSCraftCore/DecibelLinearizer.h>
+
 namespace dspx {
 
     BusControl::BusControl(Handle handle, Model *model) : Control(handle, model) {
@@ -11,14 +13,14 @@ namespace dspx {
 
     opendspx::BusControl BusControl::toOpenDspx() const {
         return {
-            .gain = gain(),
+            .gain = SVS::DecibelLinearizer::gainToDecibels(gain()),
             .pan = pan(),
             .mute = mute()
         };
     }
 
     void BusControl::fromOpenDspx(const opendspx::BusControl &control) {
-        setGain(control.gain);
+        setGain(SVS::DecibelLinearizer::decibelsToGain(control.gain));
         setPan(control.pan);
         setMute(control.mute);
     }
