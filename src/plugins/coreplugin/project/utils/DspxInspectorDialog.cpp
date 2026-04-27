@@ -212,7 +212,7 @@ namespace Core {
                             {},
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             {
-                                {tr("Offset in file"), e->index()},
+                                {tr("Offset in file"), QVariant::fromValue(e->index())},
                                 {tr("Error code"), e->code()},
                                 {tr("Error text"), QString::fromStdString(e->message())},
                             },
