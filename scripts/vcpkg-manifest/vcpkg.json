@@ -28,7 +28,8 @@
             "platform": "linux"
         },
         "wolf-midi",
-        "nlohmann-json"
+        "nlohmann-json",
+        "zstd"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
