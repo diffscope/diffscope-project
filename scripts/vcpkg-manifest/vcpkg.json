@@ -27,7 +27,8 @@
             "name": "glib",
             "platform": "linux"
         },
-        "wolf-midi"
+        "wolf-midi",
+        "nlohmann-json"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
