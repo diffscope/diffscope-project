@@ -338,6 +338,7 @@ namespace MIDIFormatConverter::Internal {
     MIDITrackSelectorDialog::MIDITrackSelectorDialog(QWidget *parent)
         : QDialog(parent), d_ptr(new MIDITrackSelectorDialogPrivate(this)) {
         Q_D(MIDITrackSelectorDialog);
+        setWindowTitle(tr("Import MIDI File"));
         d->init();
     }
 
