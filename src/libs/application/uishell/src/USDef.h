@@ -35,6 +35,34 @@ namespace UIShell {
         };
         Q_ENUM_NS(AchievementRole)
 
+        enum PackageRole {
+            PR_IdRole = Qt::UserRole + 1,
+            PR_VersionRole,
+            PR_PathRole,
+            PR_InstallationTimeRole,
+            PR_NameRole,
+            PR_DescriptionRole,
+            PR_VendorRole,
+            PR_ReadmePathRole,
+            PR_LicensePathRole,
+            PR_UrlRole,
+            PR_ClassNameRole,
+            PR_AvatarPathRole,
+            PR_BackgroundPathRole,
+            PR_ImportInferenceIdRole,
+        };
+        Q_ENUM_NS(PackageRole)
+
+        enum PackageIndex {
+            PI_Dependencies = 0,
+            PI_Inferences = 1,
+            PI_Singers = 2,
+
+            PI_SingerImports = 0,
+            PI_SingerDemoAudioList = 1,
+        };
+        Q_ENUM_NS(PackageIndex)
+
     }
 
 }
