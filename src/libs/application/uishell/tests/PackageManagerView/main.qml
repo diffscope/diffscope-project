@@ -19,6 +19,7 @@ Window {
     PackageManagerView {
         anchors.fill: parent
         model: window.model
+        onRefreshRequested: refreshing = !refreshing
         singerExtraDelegate: Rectangle {
             id: singerExtra
             required property var modelData

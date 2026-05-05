@@ -19,6 +19,10 @@ Item {
     property var model: null
     property var currentIndex: packageListProxyModel.invalidIndex()
     property Component singerExtraDelegate: null
+    property bool refreshing: false
+
+    signal refreshRequested()
+    signal uninstallRequested(index: int)
 
     PackageListProxyModel {
         id: packageListProxyModel
@@ -33,6 +37,7 @@ Item {
         Accessible.role: Accessible.ListItem
         Layout.fillWidth: true
         height: 60
+        highlighted: packageListProxyModel.packageIndexForIndex(view.currentIndex) === index
         onClicked: () => {
             view.currentIndex = packageListProxyModel.entryIndex(packageListProxyModel.packageModelIndex(packageCard.index))
         }
@@ -41,7 +46,8 @@ Item {
             atTop: packageCard.index === 0
             atBottom: packageCard.index === packageCard.repeater.count - 1
             property color _baseColor: view.useSplitView ? Theme.backgroundTertiaryColor : Theme.backgroundColor(view.ThemedItem.backgroundLevel)
-            property color color: packageCard.pressed ? Theme.controlPressedColorChange.apply(_baseColor) : packageCard.hovered ? Theme.controlHoveredColorChange.apply(_baseColor) : _baseColor
+            property color _unactiveColor: packageCard.highlighted ? Theme.controlCheckedColorChange.apply(_baseColor) : _baseColor
+            property color color: packageCard.pressed ? Theme.controlPressedColorChange.apply(_unactiveColor) : packageCard.hovered ? Theme.controlHoveredColorChange.apply(_unactiveColor) : _unactiveColor
             Behavior on color {
                 ColorAnimation {
                     duration: Theme.colorAnimationDuration
@@ -157,6 +163,7 @@ Item {
                 Button {
                     text: qsTr("Uninstall")
                     icon.source: "image://fluent-system-icons/delete"
+                    onClicked: view.uninstallRequested(pane.index)
                 }
             }
             RowLayout {
@@ -662,7 +669,23 @@ Item {
                         }
                         Repeater {
                             id: dependencyRepeater
-                            // TODO
+                            model: DelegateModel {
+                                model: packageListProxyModel
+                                rootIndex: packageListProxyModel.dependencyRootIndexForIndex(pane.modelIndex)
+                                delegate: LinkLabel {
+                                    required property var modelData
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
+                                    href: "#"
+                                    linkText: {
+                                        let refText = `${modelData.id}@${modelData.version}`
+                                        if (modelData.name)
+                                            return qsTr("%1 (%2)").arg(modelData.name).arg(refText)
+                                        return refText
+                                    }
+                                    onLinkActivated: view.currentIndex = packageListProxyModel.entryIndex(packageListProxyModel.packageModelIndex(packageListProxyModel.findPackageIndex(modelData.id, modelData.version)))
+                                }
+                            }
                         }
                     }
                 }
@@ -678,14 +701,34 @@ Item {
                 spacing: 8
                 Layout.margins: 8
                 Layout.fillWidth: true
-                TextField {
-                    id: searchTextField
+                RowLayout {
                     Layout.fillWidth: true
-                    placeholderText: qsTr("Search")
-                    ThemedItem.icon.source: "image://fluent-system-icons/search"
+                    TextField {
+                        id: searchTextField
+                        Layout.fillWidth: true
+                        placeholderText: qsTr("Search")
+                        ThemedItem.icon.source: "image://fluent-system-icons/search"
+                        // TODO temporarily not to implement search, waiting for Qt 6.11 SortFilterProxyModel
+                    }
+                    ToolButton {
+                        id: refreshButton
+                        text: qsTr("Refresh")
+                        icon.source: "image://fluent-system-icons/arrow_sync"
+                        display: AbstractButton.IconOnly
+                        onClicked: view.refreshRequested()
+                        highlighted: view.refreshing
+                        RotationAnimator {
+                            target: refreshButton.contentItem
+                            from: 0
+                            to: 360
+                            duration: 2000
+                            loops: Animation.Infinite
+                            running: view.refreshing
+                            alwaysRunToEnd: true
+                        }
+                    }
                 }
             }
-
             ScrollView {
                 id: packagesScrollView
                 contentWidth: availableWidth
@@ -695,7 +738,7 @@ Item {
                     width: packagesScrollView.width
                     spacing: 0
                     Label {
-                        text: qsTr("No result found")
+                        text: qsTr("No package")
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         Layout.alignment: Qt.AlignHCenter
                         visible: packageCollectionLayout.visibleChildren.length === 1
@@ -740,8 +783,14 @@ Item {
         initialItem: PackageListView {
         }
         readonly property Item detailsItem: PackageDetailsView {
-            StackView.onRemoved: () => {
-                // TODO
+
+        }
+        readonly property bool hasDetailPage: packageListProxyModel.packageIndexForIndex(view.currentIndex) >= 0
+        onHasDetailPageChanged: () => {
+            if (hasDetailPage) {
+                push(detailsItem)
+            } else {
+                pop()
             }
         }
     }
