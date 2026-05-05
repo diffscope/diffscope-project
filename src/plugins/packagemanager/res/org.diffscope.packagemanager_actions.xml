@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.packagemanager</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
+        <translationContext
+            text="Application::ActionText"
+            class="Application::ActionClass"
+            description="Application::ActionDescription"
+        />
+    </configuration>
+
+    <items>
+        <action id="org.diffscope.packagemanager.packageManager" text="Package Manager" description="Open package manager" class="Preferences" icon="box" />
+    </items>
+
+    <insertions>
+        <insertion target="org.diffscope.core.preferenceActions" anchor="last">
+            <action id="org.diffscope.packagemanager.packageManager" />
+        </insertion>
+    </insertions>
+
+</actionExtension>

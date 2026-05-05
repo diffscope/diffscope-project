@@ -324,6 +324,7 @@ Item {
                                                     height: 64
                                                     anchors.centerIn: parent
                                                     source: singerButton.modelData.avatarPath ?? ""
+                                                    mipmap: true
                                                 }
                                             }
                                             Text {
@@ -397,6 +398,7 @@ Item {
                                                             height: 64
                                                             anchors.centerIn: parent
                                                             source: singerDetailView.modelData.avatarPath ?? ""
+                                                            mipmap: true
                                                         }
                                                     }
                                                     ColumnLayout {
@@ -423,7 +425,7 @@ Item {
                                                                     delegate: Button {
                                                                         required property var modelData
                                                                         icon.source: "image://fluent-system-icons/play_circle"
-                                                                        text: modelData.name
+                                                                        text: modelData.name || qsTr("Preview")
                                                                         // TODO play audio
                                                                     }
                                                                 }
@@ -448,10 +450,10 @@ Item {
                                                         if (item) {
                                                             item.destroy()
                                                         }
-                                                        item = delegate.createObject(this, {
+                                                        item = delegate?.createObject(this, {
                                                             modelData: singerDetailView.modelData,
                                                             index: singerDetailView.index
-                                                        })
+                                                        }) ?? null
                                                     }
                                                     data: [item]
                                                 }
@@ -523,6 +525,7 @@ Item {
                                                     anchors.margins: 8
                                                     source: singerDetailView.modelData.backgroundPath ?? ""
                                                     fillMode: Image.PreserveAspectFit
+                                                    mipmap: true
                                                 }
                                             }
                                         }
