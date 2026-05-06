@@ -51,6 +51,7 @@ jobs:
       INSTALL_DIR: ${{ github.workspace }}/build/install
       CCACHE_DIR: ${{ github.workspace }}/build/ccache
       MACOSX_DEPLOYMENT_TARGET: 13.0
+      DSPM_REF: 51b75ae77caef5227be14da9e8e00a0593fbd83a
 
     runs-on: ${{ matrix.os }}
 
@@ -64,6 +65,11 @@ jobs:
         uses: ./.github/actions/initialize-build-environment
         with:
           qt_version: ${{ env.QT_VERSION }}
+
+      - name: Initialize dspm
+        uses: ./.github/actions/initialize-dspm
+        with:
+          ref: ${{ env.DSPM_REF }}
 
       - name: Initialize Vcpkg
         uses: ./.github/actions/initialize-vcpkg
@@ -87,6 +93,7 @@ jobs:
             -BuildDir $env:BUILD_DIR `
             -InstallDir $env:INSTALL_DIR `
             -VersionIdentifier $env:VERSION_IDENTIFIER `
+            -dspmExecutablePath $env:DSPM_EXECUTABLE_PATH `
             ${{ github.event.inputs.use_ccache == 'true' && '-CCache' || '' }} 
           Write-Output ARTIFACT_NAME=$($output.ApplicationName)_$($output.Semver -replace '[\.\-\+]', '_')_${{ runner.os }}_${{ runner.arch }} >> $env:GITHUB_ENV
           Write-Output APPLICATION_SEMVER=$($output.Semver) >> $env:GITHUB_ENV

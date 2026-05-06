@@ -1,0 +1,67 @@
+name: Initialize dspm
+description: Initialize dspm
+
+inputs:
+  ref:
+    description: "The ref to checkout"
+    required: false
+    default: "main"
+  build-dir:
+    description: "The directory to build in"
+    required: false
+    default: ${{ runner.workspace }}/diffscope-package-manager
+
+runs:
+  using: "composite"
+  steps:
+    - name: Restore dspm executable cache
+      id: cache_dspm
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{inputs.build-dir}}/dist
+        key: ${{ runner.os }}-dspm-${{ inputs.ref }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-dspm-${{ inputs.ref }}-
+
+    - name: Checkout
+      if: steps.cache_dspm.outputs.cache-hit != 'true'
+      shell: pwsh
+      run: |
+        git clone https://github.com/diffscope/diffscope-package-manager.git ${{inputs.build-dir}}
+        cd ${{inputs.build-dir}}
+        git checkout ${{ inputs.ref }}
+
+    - name: Setup Go
+      uses: actions/setup-go@v6
+      if: steps.cache_dspm.outputs.cache-hit != 'true'
+      with:
+        go-version-file: ${{inputs.build-dir}}/go.mod
+        cache-dependency-path: ${{inputs.build-dir}}/go.sum
+
+    - name: Download dependencies
+      if: steps.cache_dspm.outputs.cache-hit != 'true'
+      working-directory: ${{ inputs.build-dir }}
+      shell: pwsh
+      run: go mod download
+
+    - name: Build
+      if: steps.cache_dspm.outputs.cache-hit != 'true'
+      working-directory: ${{ inputs.build-dir }}
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force dist | Out-Null
+        $ext = if ($env:RUNNER_OS -eq 'Windows') { '.exe' } else { '' }
+        go build -v -o "dist/dspm$ext" ./cmd/dspm
+
+    - name: Cache dspm executable
+      uses: actions/cache/save@v4
+      with:
+        path: ${{inputs.build-dir}}/dist
+        key: ${{ runner.os }}-dspm-${{ inputs.ref }}-${{ github.sha }}
+
+    - name: Output dspm path
+      working-directory: ${{ inputs.build-dir }}
+      shell: pwsh
+      run: |
+        $ext = if ($env:RUNNER_OS -eq 'Windows') { '.exe' } else { '' }
+        Write-Output DSPM_EXECUTABLE_PATH=$(Resolve-Path dist/dspm$ext) >> $env:GITHUB_ENV

@@ -15,6 +15,10 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$InstallDir,
 
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$dspmExecutablePath,
+
     [string]$VersionIdentifier = "0",
 
     [switch]$CCache = $false
@@ -97,6 +101,7 @@ cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     "-DAPPLICATION_NAME=$applicationName" `
     "-DAPPLICATION_DISPLAY_NAME=$applicationDisplayName" `
     "-DAPPLICATION_SEMVER=$semver" `
+    "-DDIFFSCOPE_PACKAGE_MANAGER_COMMAND_LINE_TOOL=$dspmExecutablePath" `
     "-DCMAKE_INSTALL_PREFIX=$(Resolve-Path $InstallDir)" | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Configure failed"
