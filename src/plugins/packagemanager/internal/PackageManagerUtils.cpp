@@ -4,10 +4,13 @@
 
 #include <QCoreApplication>
 #include <QEventLoop>
+#include <QFileInfo>
 #include <QLoggingCategory>
 #include <QProcess>
 #include <QTimer>
 #include <QtGlobal>
+
+#include <packagemanager/internal/PackageManagerSettings.h>
 
 namespace PackageManager {
 
@@ -22,9 +25,20 @@ namespace PackageManager {
 
     }
 
-    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds) {
+    CommandResult runCommandLineTool(const QString &executablePath_, const QStringList &arguments, int timeoutSeconds) {
         CommandResult result;
         QProcess process;
+
+        QString executablePath = executablePath_;
+        if (executablePath.isEmpty()) {
+            executablePath = PackageManagerSettings::defaultDspmPath();
+        }
+
+        if (!QFileInfo::exists(executablePath)) {
+            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command line tool does not exist:\n\n%1\n\nPlease install dspm and configure it in Settings > Package Manager.").arg(executablePath);
+            return result;
+        }
+
         process.setProgram(executablePath);
         process.setArguments(arguments);
 

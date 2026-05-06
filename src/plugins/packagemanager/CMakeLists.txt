@@ -25,3 +25,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     INCLUDE_PRIVATE
         internal/**
 )
+
+if(DEFINED DIFFSCOPE_PACKAGE_MANAGER_COMMAND_LINE_TOOL)
+    ck_add_attached_files(${PROJECT_NAME}
+        SRC ${DIFFSCOPE_PACKAGE_MANAGER_COMMAND_LINE_TOOL} DEST ./dspm
+    )
+endif()

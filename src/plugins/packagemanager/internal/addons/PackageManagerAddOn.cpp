@@ -60,6 +60,10 @@ namespace PackageManager {
             return QStringLiteral("--packages-dir");
         }
 
+        QString languageOptionName() {
+            return QStringLiteral("--language");
+        }
+
         QString jsonText(const QJsonValue &value) {
             if (value.isString()) {
                 return value.toString();
@@ -153,6 +157,8 @@ namespace PackageManager {
                 QStringLiteral("--json"),
                 packageDirOptionName(),
                 PackageManagerSettings::packageDir(),
+                languageOptionName(),
+                QLocale().name()
             };
         }
 

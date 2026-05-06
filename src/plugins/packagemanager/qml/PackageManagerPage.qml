@@ -60,16 +60,23 @@ ScrollView {
 
                 GridLayout {
                     anchors.fill: parent
-                    columns: 3
+                    columns: 4
 
                     Label {
-                        text: qsTr("Command")
+                        text: qsTr("Package manager tool")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     TextField {
                         Layout.fillWidth: true
                         readOnly: true
                         text: page.dspmPath
+                        placeholderText: qsTr("Bundled dspm")
+                    }
+                    ToolButton {
+                        text: qsTr("Reset to Bundled dspm")
+                        icon.source: "image://fluent-system-icons/arrow_reset"
+                        display: AbstractButton.IconOnly
+                        onClicked: page.dspmPath = ""
                     }
                     ToolButton {
                         text: qsTr("Browse")
@@ -84,6 +91,7 @@ ScrollView {
                     }
                     TextField {
                         Layout.fillWidth: true
+                        Layout.columnSpan: 2
                         text: page.packageDir
                         onTextEdited: page.packageDir = text
                     }
@@ -99,7 +107,7 @@ ScrollView {
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     RowLayout {
-                        Layout.columnSpan: 2
+                        Layout.columnSpan: 3
                         SpinBox {
                             from: 1
                             to: 300

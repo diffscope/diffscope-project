@@ -103,7 +103,7 @@ namespace PackageManager {
     void PackageManagerSettings::load() {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        m_dspmPath = settings->value("dspmPath", defaultDspmPath()).toString();
+        m_dspmPath = settings->value("dspmPath", QString()).toString();
         m_packageDir = settings->value("packageDir", defaultPackageDir()).toString();
         m_timeoutSeconds = std::max(1, settings->value("timeoutSeconds", 5).toInt());
         settings->endGroup();
