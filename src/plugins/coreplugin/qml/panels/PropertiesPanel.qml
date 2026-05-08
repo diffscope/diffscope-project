@@ -130,7 +130,7 @@ QtObject {
             readonly property QtObject anchorNodePropertyMapper: null
             readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: ![1, 2, 4].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
+                readonly property bool inactive: ![1, 2, 4].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 2 && !selectionModel?.selectedCount)
             }
             readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
@@ -146,7 +146,7 @@ QtObject {
             }
             readonly property QtObject trackPropertyMapper: TrackPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || !selectionModel?.selectedCount
+                readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 6 && !selectionModel?.selectedCount)
             }
             readonly property QtObject keySignaturePropertyMapper: KeySignaturePropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
