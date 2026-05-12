@@ -14,7 +14,7 @@ namespace dspx {
 
     class AudioClipPrivate;
 
-    struct AudioPathInfo {
+    struct DSPX_MODEL_EXPORT AudioPathInfo {
         Q_GADGET
         Q_PROPERTY(QString absoluteDir MEMBER absoluteDir)
         Q_PROPERTY(QString relativeDir MEMBER relativeDir)

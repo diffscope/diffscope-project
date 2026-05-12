@@ -1,19 +1,30 @@
 #include "ProjectAudioAddOn.h"
 
+#include <QDir>
+
 #include <TalcsCore/MixerAudioSource.h>
 #include <TalcsCore/PositionableMixerAudioSource.h>
+#include <TalcsDspx/DspxAudioClipContext.h>
 #include <TalcsDspx/DspxProjectContext.h>
+#include <TalcsFormat/AbstractAudioFormatIO.h>
+#include <TalcsFormat/FormatManager.h>
 
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
+#include <dspxmodel/AudioClip.h>
 #include <dspxmodel/BusControl.h>
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/ClipTime.h>
 #include <dspxmodel/Master.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/Track.h>
 #include <dspxmodel/TrackControl.h>
 #include <dspxmodel/TrackList.h>
 
+#include <audio/AudioClipAudioContext.h>
+#include <audio/private/AudioClipAudioContext_p.h>
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <audio/private/ProjectAudioContext_p.h>
@@ -35,9 +46,14 @@ namespace Audio::Internal {
             GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
             const auto tracks = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->tracks()->items();
             for (auto track : tracks) {
+                const auto clips = track->clips()->slice(0, track->clips()->size());
+                for (auto clip : clips) {
+                    removeClip(clip);
+                }
                 delete TrackAudioContext::of(track);
             }
         }
+        qDeleteAll(m_audioClipCache);
     }
 
     void ProjectAudioAddOn::initialize() {
@@ -82,17 +98,33 @@ namespace Audio::Internal {
         return windowHandle->getFirstObject<ProjectAudioAddOn>();
     }
 
+    void ProjectAudioAddOn::addAudioClipCache(dspx::AudioClip *clip, talcs::AbstractAudioFormatIO *io) {
+        delete m_audioClipCache.take(clip);
+        if (io) {
+            m_audioClipCache.insert(clip, io);
+        }
+    }
+
+    talcs::AbstractAudioFormatIO *ProjectAudioAddOn::takeAudioClipCache(dspx::AudioClip *clip) {
+        return m_audioClipCache.take(clip);
+    }
+
     void ProjectAudioAddOn::addTrack(int index, dspx::Track *track) {
         Q_ASSERT(TrackAudioContext::of(track) == nullptr);
         auto projectAudioContext = ProjectAudioContextPrivate::of(m_context)->projectContext.get();
         auto context = TrackAudioContextPrivate::create(windowHandle()->cast<Core::ProjectWindowInterface>(), track, projectAudioContext, index);
         syncTrackControl(track, context);
+        syncTrackClips(track, context);
     }
 
     void ProjectAudioAddOn::removeTrack(int index, dspx::Track *track) {
         Q_UNUSED(index)
         auto context = TrackAudioContext::of(track);
         Q_ASSERT(context);
+        const auto clips = track->clips()->slice(0, track->clips()->size());
+        for (auto clip : clips) {
+            removeClip(clip);
+        }
         delete context;
     }
 
@@ -139,6 +171,105 @@ namespace Audio::Internal {
         connect(control, &dspx::TrackControl::soloChanged, masterTrackMixer, [masterTrackMixer, controlMixer](bool solo) {
             masterTrackMixer->setSourceSolo(controlMixer, solo);
         });
+    }
+
+    void ProjectAudioAddOn::syncTrackClips(dspx::Track *track, TrackAudioContext *context) {
+        Q_UNUSED(context)
+        const auto clips = track->clips()->slice(0, track->clips()->size());
+        for (auto clip : clips) {
+            addClip(clip);
+        }
+        connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {
+            addClip(clip);
+        });
+        connect(track->clips(), &dspx::ClipSequence::itemRemoved, this, [this](dspx::Clip *clip) {
+            removeClip(clip);
+        });
+    }
+
+    void ProjectAudioAddOn::addClip(dspx::Clip *clip) {
+        if (!clip || clip->type() != dspx::Clip::Audio) {
+            return;
+        }
+        auto audioClip = static_cast<dspx::AudioClip *>(clip);
+        Q_ASSERT(AudioClipAudioContext::of(audioClip) == nullptr);
+        auto trackContext = TrackAudioContext::of(clip->clipSequence()->track());
+        Q_ASSERT(trackContext);
+        auto context = AudioClipAudioContextPrivate::create(windowHandle()->cast<Core::ProjectWindowInterface>(), audioClip, TrackAudioContextPrivate::of(trackContext)->trackContext);
+        syncAudioClip(audioClip, context);
+    }
+
+    void ProjectAudioAddOn::removeClip(dspx::Clip *clip) {
+        if (!clip || clip->type() != dspx::Clip::Audio) {
+            return;
+        }
+        auto context = AudioClipAudioContext::of(static_cast<dspx::AudioClip *>(clip));
+        if (context) {
+            delete context;
+        }
+    }
+
+    void ProjectAudioAddOn::syncAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
+        auto control = clip->control();
+        auto controlMixer = context->controlMixer();
+
+        controlMixer->setGain(static_cast<float>(control->gain()));
+        controlMixer->setPan(static_cast<float>(control->pan()));
+        controlMixer->setSilentFlags(control->mute() ? -1 : 0);
+
+        connect(control, &dspx::BusControl::gainChanged, controlMixer, &talcs::PositionableMixerAudioSource::setGain);
+        connect(control, &dspx::BusControl::panChanged, controlMixer, &talcs::PositionableMixerAudioSource::setPan);
+        connect(control, &dspx::BusControl::muteChanged, controlMixer, [controlMixer](bool mute) {
+            controlMixer->setSilentFlags(mute ? -1 : 0);
+        });
+
+        auto clipContext = AudioClipAudioContextPrivate::of(context)->clipContext;
+        auto time = clip->time();
+        clipContext->setStart(time->start());
+        clipContext->setClipStart(time->clipStart());
+        clipContext->setClipLen(time->clipLen());
+
+        connect(time, &dspx::ClipTime::startChanged, clipContext, &talcs::DspxAudioClipContext::setStart);
+        connect(time, &dspx::ClipTime::clipStartChanged, clipContext, &talcs::DspxAudioClipContext::setClipStart);
+        connect(time, &dspx::ClipTime::clipLenChanged, clipContext, &talcs::DspxAudioClipContext::setClipLen);
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::sampleRateChanged, clipContext, [clipContext] {
+            clipContext->updatePosition();
+        });
+        connect(windowHandle()->cast<Core::ProjectWindowInterface>()->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::tempiChanged, clipContext, [clipContext] {
+            clipContext->updatePosition();
+        });
+
+        loadAudioClip(clip, context);
+        clipContext->updatePosition();
+
+        connect(clip, &dspx::AudioClip::pathChanged, context, [this, clip, context] {
+            reloadAudioClip(clip, context);
+        });
+    }
+
+    void ProjectAudioAddOn::loadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
+        auto io = takeAudioClipCache(clip);
+        if (!io) {
+            const auto path = clip->path();
+            const auto filePath = QDir(path.absoluteDir).filePath(path.fileName);
+            io = GlobalAudioContext::formatManager()->getFormatLoad(filePath, path.userData, path.formatEntryClassName);
+        }
+
+        if (!io) {
+            // TODO: Report audio clip load failure.
+            return;
+        }
+
+        AudioClipAudioContextPrivate::of(context)->clipContext->loadAudio(io);
+    }
+
+    void ProjectAudioAddOn::reloadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
+        auto clipContext = AudioClipAudioContextPrivate::of(context)->clipContext;
+        if (context->contentSource()) {
+            delete clipContext->takeAudio();
+        }
+        loadAudioClip(clip, context);
+        clipContext->updatePosition();
     }
 
 }
