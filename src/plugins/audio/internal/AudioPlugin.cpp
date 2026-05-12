@@ -13,9 +13,12 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
+#include <audio/private/GlobalAudioContext_p.h>
 #include <audio/internal/AudioAndMidiPage.h>
 #include <audio/internal/AudioOutputPage.h>
+#include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/AudioSystem.h>
 #include <audio/internal/OutputSystem.h>
 
@@ -34,6 +37,7 @@ namespace Audio::Internal {
         initializeSettings();
         initializeAudioSystem();
         initializeHelpContents();
+        initializeWindows();
         qCInfo(lcAudioPlugin) << "Initialized";
         return true;
     }
@@ -48,6 +52,7 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeAudioSystem() {
         new AudioSystem(this);
+        GlobalAudioContextPrivate::create(this);
         auto outputSystemInitializationSuccess = AudioSystem::outputSystem()->initialize();
         if (!outputSystemInitializationSuccess) {
             SVS::MessageBox::warning(
@@ -72,5 +77,9 @@ namespace Audio::Internal {
             qFatal() << component->errorString();
         }
         Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+    }
+
+    void AudioPlugin::initializeWindows() {
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
     }
 }

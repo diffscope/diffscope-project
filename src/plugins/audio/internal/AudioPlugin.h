@@ -22,6 +22,7 @@ namespace Audio::Internal {
         void initializeAudioSystem();
         static void initializeSettings();
         void initializeHelpContents();
+        static void initializeWindows();
     };
 
 }

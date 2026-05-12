@@ -23,7 +23,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         coreplugin
         talcs::Core
         talcs::Device
+        talcs::Dspx
         talcs::Format
+        talcs::Widgets
     INCLUDE_PRIVATE
         internal/**
 )
