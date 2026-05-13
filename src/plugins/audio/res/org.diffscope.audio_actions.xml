@@ -21,6 +21,7 @@
         <action id="org.diffscope.audio.playback.toggle" text="Toggle Playback" shortcut="Space" />
         <action id="org.diffscope.audio.playback.playButton" diffscope:componentType="widget" />
         <action id="org.diffscope.audio.playback.pauseButton" diffscope:componentType="widget" />
+        <action id="org.diffscope.audio.insert.insertAudioClip^" icon="sound_wave_circle" />
     </items>
 
     <layouts>
@@ -40,6 +41,12 @@
             <action id="org.diffscope.audio.playback.playButton" />
             <action id="org.diffscope.audio.playback.pauseButton" />
             <action id="org.diffscope.audio.playback.stop" />
+        </insertion>
+        <insertion target="org.diffscope.core.insert" anchor="after" relativeTo="org.diffscope.core.insert.insertSingingClip">
+            <action id="org.diffscope.audio.insert.insertAudioClip" />
+        </insertion>
+        <insertion target="org.diffscope.core.clipSceneContextMenu" anchor="after" relativeTo="org.diffscope.core.insert.insertSingingClip">
+            <action id="org.diffscope.audio.insert.insertAudioClip" />
         </insertion>
     </insertions>
 </actionExtension>

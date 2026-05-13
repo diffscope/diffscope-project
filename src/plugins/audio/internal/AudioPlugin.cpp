@@ -21,6 +21,7 @@
 #include <audio/internal/AudioAndMidiPage.h>
 #include <audio/internal/AudioOutputPage.h>
 #include <audio/internal/AudioPreference.h>
+#include <audio/internal/InsertAudioClipAddOn.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/PlaybackPage.h>
@@ -98,6 +99,7 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<InsertAudioClipAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PlaybackAddOn>();
     }
 }
