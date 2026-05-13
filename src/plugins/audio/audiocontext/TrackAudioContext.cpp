@@ -27,9 +27,11 @@ namespace Audio {
     TrackAudioContext::~TrackAudioContext() {
         Q_D(TrackAudioContext);
         s_trackAudioContexts.remove(d->track);
-        const auto index = d->projectContext->tracks().indexOf(d->trackContext);
-        if (index >= 0) {
-            d->projectContext->removeTrack(index);
+        if (d->projectContext) {
+            const auto index = d->projectContext->tracks().indexOf(d->trackContext);
+            if (index >= 0) {
+                d->projectContext->removeTrack(index);
+            }
         }
     }
 

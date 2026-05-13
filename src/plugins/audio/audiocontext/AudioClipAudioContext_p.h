@@ -3,6 +3,8 @@
 
 #include <audio/AudioClipAudioContext.h>
 
+#include <QPointer>
+
 namespace talcs {
     class DspxAudioClipContext;
     class DspxTrackContext;
@@ -16,7 +18,7 @@ namespace Audio {
         AudioClipAudioContext *q_ptr{};
         Core::ProjectWindowInterface *windowHandle{};
         dspx::AudioClip *clip{};
-        talcs::DspxTrackContext *trackContext{};
+        QPointer<talcs::DspxTrackContext> trackContext{};
         talcs::DspxAudioClipContext *clipContext{};
         AudioClipAudioContext::Status status = AudioClipAudioContext::Unknown;
         QString realAudioPath;

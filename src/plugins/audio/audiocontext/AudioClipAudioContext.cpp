@@ -35,7 +35,9 @@ namespace Audio {
     AudioClipAudioContext::~AudioClipAudioContext() {
         Q_D(AudioClipAudioContext);
         s_audioClipAudioContexts.remove(d->clip);
-        d->trackContext->removeAudioClip(audioClipId(d->clip));
+        if (d->trackContext) {
+            d->trackContext->removeAudioClip(audioClipId(d->clip));
+        }
     }
 
     AudioClipAudioContext *AudioClipAudioContext::of(dspx::AudioClip *clip) {
