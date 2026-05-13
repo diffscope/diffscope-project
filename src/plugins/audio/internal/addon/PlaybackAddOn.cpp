@@ -119,8 +119,11 @@ namespace Audio::Internal {
     void PlaybackAddOn::togglePlayback() {
         if (m_context) {
             if (m_context->status() == ProjectAudioContext::Playing) {
-                // TODO use configuration to decide whether to stop or to pause
-                stop();
+                if (AudioPreference::playbackTogglingAction() == AudioPreference::PTA_PlayPause) {
+                    pause();
+                } else {
+                    stop();
+                }
             } else {
                 play();
             }

@@ -20,6 +20,7 @@ namespace Audio::Internal {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(AudioPreference)
         Q_PROPERTY(AudioPreference::PlayheadBehavior playbackBehavior READ playbackBehavior WRITE setPlaybackBehavior NOTIFY playbackBehaviorChanged)
+        Q_PROPERTY(AudioPreference::PlaybackTogglingAction playbackTogglingAction READ playbackTogglingAction WRITE setPlaybackTogglingAction NOTIFY playbackTogglingActionChanged)
 
     public:
         ~AudioPreference() override;
@@ -40,11 +41,20 @@ namespace Audio::Internal {
         };
         Q_ENUM(PlayheadBehavior)
 
+        enum PlaybackTogglingAction {
+            PTA_PlayStop,
+            PTA_PlayPause,
+        };
+        Q_ENUM(PlaybackTogglingAction)
+
         static PlayheadBehavior playbackBehavior();
         static void setPlaybackBehavior(PlayheadBehavior playbackBehavior);
+        static PlaybackTogglingAction playbackTogglingAction();
+        static void setPlaybackTogglingAction(PlaybackTogglingAction playbackTogglingAction);
 
     Q_SIGNALS:
         void playbackBehaviorChanged();
+        void playbackTogglingActionChanged();
 
     private:
         friend class AudioPlugin;

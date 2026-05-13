@@ -9,6 +9,7 @@ namespace Audio::Internal {
     class AudioPreferencePrivate {
     public:
         AudioPreference::PlayheadBehavior playbackBehavior{};
+        AudioPreference::PlaybackTogglingAction playbackTogglingAction{AudioPreference::PTA_PlayStop};
     };
 
     static AudioPreference *m_instance = nullptr;
@@ -31,7 +32,9 @@ namespace Audio::Internal {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         d->playbackBehavior = settings->value("playbackBehavior", QVariant::fromValue(PB_ReturnToStart)).value<PlayheadBehavior>();
+        d->playbackTogglingAction = settings->value("playbackTogglingAction", QVariant::fromValue(PTA_PlayStop)).value<PlaybackTogglingAction>();
         emit playbackBehaviorChanged();
+        emit playbackTogglingActionChanged();
         settings->endGroup();
     }
 
@@ -40,6 +43,7 @@ namespace Audio::Internal {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue("playbackBehavior", d->playbackBehavior);
+        settings->setValue("playbackTogglingAction", d->playbackTogglingAction);
         settings->endGroup();
     }
 
@@ -58,6 +62,19 @@ namespace Audio::Internal {
             return;
         d->playbackBehavior = playbackBehavior;
         emit m_instance->playbackBehaviorChanged();
+    }
+
+    AudioPreference::PlaybackTogglingAction AudioPreference::playbackTogglingAction() {
+        M_INSTANCE_D;
+        return d->playbackTogglingAction;
+    }
+
+    void AudioPreference::setPlaybackTogglingAction(PlaybackTogglingAction playbackTogglingAction) {
+        M_INSTANCE_D;
+        if (d->playbackTogglingAction == playbackTogglingAction)
+            return;
+        d->playbackTogglingAction = playbackTogglingAction;
+        emit m_instance->playbackTogglingActionChanged();
     }
 
 }

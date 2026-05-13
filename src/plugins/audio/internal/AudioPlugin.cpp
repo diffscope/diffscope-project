@@ -23,6 +23,7 @@
 #include <audio/internal/AudioPreference.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/PlaybackAddOn.h>
+#include <audio/internal/PlaybackPage.h>
 #include <audio/internal/AudioSystem.h>
 #include <audio/internal/OutputSystem.h>
 
@@ -83,6 +84,7 @@ namespace Audio::Internal {
         auto sc = Core::CoreInterface::settingCatalog();
         auto audioAndMidiPage = new AudioAndMidiPage;
         audioAndMidiPage->addPage(new AudioOutputPage);
+        audioAndMidiPage->addPage(new PlaybackPage);
         sc->addPage(audioAndMidiPage);
     }
 
