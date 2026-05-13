@@ -102,6 +102,8 @@ namespace VisualEditor {
 
         dspx::Track *targetTrack{};
         bool moveChanged{false};
+        bool gainChanged{false};
+        bool panChanged{false};
 
         void init();
         void initStateMachine();

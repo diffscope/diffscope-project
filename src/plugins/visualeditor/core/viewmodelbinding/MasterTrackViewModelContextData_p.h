@@ -66,6 +66,9 @@ namespace VisualEditor {
 
         bool syncingFromModel{false};
 
+        bool gainChanged{false};
+        bool panChanged{false};
+
         void init();
         void initStateMachine();
         void bindMasterTrackViewModel();

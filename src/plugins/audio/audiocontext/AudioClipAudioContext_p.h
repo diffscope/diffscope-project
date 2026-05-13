@@ -18,6 +18,11 @@ namespace Audio {
         dspx::AudioClip *clip{};
         talcs::DspxTrackContext *trackContext{};
         talcs::DspxAudioClipContext *clipContext{};
+        AudioClipAudioContext::Status status = AudioClipAudioContext::Unknown;
+        QString realAudioPath;
+
+        void setStatus(AudioClipAudioContext::Status status);
+        void setRealAudioPath(const QString &realAudioPath);
 
         static AudioClipAudioContext *create(Core::ProjectWindowInterface *windowHandle, dspx::AudioClip *clip, talcs::DspxTrackContext *trackContext);
         static AudioClipAudioContextPrivate *of(AudioClipAudioContext *q);

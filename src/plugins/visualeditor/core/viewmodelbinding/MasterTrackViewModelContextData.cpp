@@ -269,12 +269,16 @@ namespace VisualEditor {
                 masterTrackViewModel->setGain(toDecibel(control->gain()));
                 return;
             }
+            control->setGain(toLinear(masterTrackViewModel->gain()));
+            gainChanged = true;
         });
         connect(masterTrackViewModel, &sflow::TrackViewModel::panChanged, this, [=] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
                 masterTrackViewModel->setPan(control->pan());
                 return;
             }
+            control->setPan(masterTrackViewModel->pan());
+            panChanged = true;
         });
         connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [=] {
             if (syncingFromModel) {
@@ -373,7 +377,7 @@ namespace VisualEditor {
             return;
         }
         const double newLinear = toLinear(masterTrackViewModel->gain());
-        if (qFuzzyCompare(newLinear, master->control()->gain())) {
+        if (!gainChanged) {
             document->transactionController()->abortTransaction(gainTransactionId);
         } else {
             master->control()->setGain(newLinear);
@@ -401,7 +405,7 @@ namespace VisualEditor {
             return;
         }
         const double newPan = masterTrackViewModel->pan();
-        if (qFuzzyCompare(newPan, master->control()->pan())) {
+        if (!panChanged) {
             document->transactionController()->abortTransaction(panTransactionId);
         } else {
             master->control()->setPan(newPan);

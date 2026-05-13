@@ -19,6 +19,7 @@ namespace Audio::Internal {
         QObject *remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) override;
 
     private:
+        void initializeAudioPreference();
         void initializeAudioSystem();
         static void initializeSettings();
         void initializeHelpContents();

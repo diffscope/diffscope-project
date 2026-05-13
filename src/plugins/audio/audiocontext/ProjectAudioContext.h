@@ -25,6 +25,7 @@ namespace Audio {
         Q_OBJECT
         Q_DECLARE_PRIVATE(ProjectAudioContext)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
+        Q_PROPERTY(PlaybackStatus status READ status WRITE setStatus NOTIFY statusChanged)
 
     public:
         ~ProjectAudioContext() override;
@@ -33,11 +34,23 @@ namespace Audio {
 
         Core::ProjectWindowInterface *windowHandle() const;
 
+        enum PlaybackStatus {
+            Stopped,
+            Playing,
+            Paused,
+        };
+        Q_ENUM(PlaybackStatus)
+        PlaybackStatus status() const;
+        void setStatus(PlaybackStatus status);
+
         talcs::MixerAudioSource *preMixer() const;
         talcs::TransportAudioSource *transport() const;
         talcs::PositionableMixerAudioSource *postMixer() const;
         talcs::PositionableMixerAudioSource *masterControlMixer() const;
         talcs::PositionableMixerAudioSource *masterTrackMixer() const;
+
+    Q_SIGNALS:
+        void statusChanged(PlaybackStatus status);
 
     private:
         friend class ProjectAudioContextPrivate;

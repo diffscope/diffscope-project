@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
     <version>1.0</version>
-    <id>org.diffscope.core</id>
+    <id>org.diffscope.audio</id>
     <configuration>
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
@@ -13,4 +13,33 @@
             <var key="APP_NAME" value="DiffScope" />
         </vars>
     </configuration>
+
+    <items>
+        <action id="org.diffscope.audio.playback.&amp;play" icon="play" />
+        <action id="org.diffscope.audio.playback.p&amp;ause" icon="pause" />
+        <action id="org.diffscope.audio.playback.&amp;stop" icon="stop" />
+        <action id="org.diffscope.audio.playback.toggle" text="Toggle Playback" shortcut="Space" />
+        <action id="org.diffscope.audio.playback.playButton" diffscope:componentType="widget" />
+        <action id="org.diffscope.audio.playback.pauseButton" diffscope:componentType="widget" />
+    </items>
+
+    <layouts>
+        <group id="org.diffscope.audio.playbackActions">
+            <action id="org.diffscope.audio.playback.play" />
+            <action id="org.diffscope.audio.playback.pause" />
+            <action id="org.diffscope.audio.playback.stop" />
+            <action id="org.diffscope.audio.playback.toggle" />
+        </group>
+    </layouts>
+
+    <insertions>
+        <insertion target="org.diffscope.core.timeline" anchor="last">
+            <group id="org.diffscope.audio.playbackActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.toolBarTimelineNavigationActions" anchor="after" relativeTo="org.diffscope.core.widget.digitalClock">
+            <action id="org.diffscope.audio.playback.playButton" />
+            <action id="org.diffscope.audio.playback.pauseButton" />
+            <action id="org.diffscope.audio.playback.stop" />
+        </insertion>
+    </insertions>
 </actionExtension>

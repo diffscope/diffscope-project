@@ -2,6 +2,7 @@
 #define DIFFSCOPE_AUDIO_AUDIOCLIPAUDIOCONTEXT_H
 
 #include <QObject>
+#include <QString>
 
 namespace Core {
     class ProjectWindowInterface;
@@ -30,8 +31,20 @@ namespace Audio {
         Q_DECLARE_PRIVATE(AudioClipAudioContext)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
         Q_PROPERTY(dspx::AudioClip *clip READ clip CONSTANT)
+        Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+        Q_PROPERTY(QString realAudioPath READ realAudioPath NOTIFY realAudioPathChanged)
 
     public:
+        enum Status {
+            Unknown,
+            Ready,
+            FileNotFound,
+            FileLoadFailed,
+            FileMoved,
+            FileContentChanged,
+        };
+        Q_ENUM(Status)
+
         ~AudioClipAudioContext() override;
 
         static AudioClipAudioContext *of(dspx::AudioClip *clip);
@@ -39,9 +52,16 @@ namespace Audio {
         Core::ProjectWindowInterface *windowHandle() const;
         dspx::AudioClip *clip() const;
 
+        Status status() const;
+        QString realAudioPath() const;
+
         talcs::PositionableMixerAudioSource *controlMixer() const;
         talcs::PositionableMixerAudioSource *clipMixer() const;
         talcs::PositionableAudioSource *contentSource() const;
+
+    Q_SIGNALS:
+        void statusChanged(Status status);
+        void realAudioPathChanged(const QString &realAudioPath);
 
     private:
         friend class AudioClipAudioContextPrivate;

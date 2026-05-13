@@ -306,7 +306,7 @@ namespace dspx {
                 {P_Length, QMetaType::Int, validateIntGreaterOrEqualZero},
                 {P_ClipStart, QMetaType::Int, validateIntGreaterOrEqualZero},
                 {P_ClipLength, QMetaType::Int, validateIntGreaterOrEqualZero},
-                {P_Path, QMetaType::QString}
+                {P_Path, QMetaType::UnknownType}
             };
             case EI_Global: return {
                 {P_Name, QMetaType::QString},

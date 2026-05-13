@@ -26,6 +26,20 @@ namespace Audio {
         return d->windowHandle;
     }
 
+    ProjectAudioContext::PlaybackStatus ProjectAudioContext::status() const {
+        Q_D(const ProjectAudioContext);
+        return d->status;
+    }
+
+    void ProjectAudioContext::setStatus(PlaybackStatus status) {
+        Q_D(ProjectAudioContext);
+        if (d->status == status) {
+            return;
+        }
+        d->status = status;
+        Q_EMIT statusChanged(status);
+    }
+
     talcs::MixerAudioSource *ProjectAudioContext::preMixer() const {
         Q_D(const ProjectAudioContext);
         return d->projectContext->preMixer();

@@ -8,6 +8,8 @@
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/translationmanager.h>
 
+#include <QAKCore/actionregistry.h>
+
 #include <extensionsystem/pluginspec.h>
 
 #include <SVSCraftQuick/MessageBox.h>
@@ -18,9 +20,15 @@
 #include <audio/private/GlobalAudioContext_p.h>
 #include <audio/internal/AudioAndMidiPage.h>
 #include <audio/internal/AudioOutputPage.h>
+#include <audio/internal/AudioPreference.h>
 #include <audio/internal/ProjectAudioAddOn.h>
+#include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/AudioSystem.h>
 #include <audio/internal/OutputSystem.h>
+
+static auto getAudioActionExtension() {
+    return QAK_STATIC_ACTION_EXTENSION(audio);
+}
 
 namespace Audio::Internal {
 
@@ -32,8 +40,10 @@ namespace Audio::Internal {
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
+        Core::CoreInterface::actionRegistry()->addExtension(::getAudioActionExtension());
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
         qCInfo(lcAudioPlugin) << "Initializing";
+        initializeAudioPreference();
         initializeSettings();
         initializeAudioSystem();
         initializeHelpContents();
@@ -48,6 +58,11 @@ namespace Audio::Internal {
     }
     QObject *AudioPlugin::remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         return IPlugin::remoteCommand(options, workingDirectory, args);
+    }
+
+    void AudioPlugin::initializeAudioPreference() {
+        auto audioPreference = new AudioPreference(this);;
+        audioPreference->load();
     }
 
     void AudioPlugin::initializeAudioSystem() {
@@ -81,5 +96,6 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<PlaybackAddOn>();
     }
 }

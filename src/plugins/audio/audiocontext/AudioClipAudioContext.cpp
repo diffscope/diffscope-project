@@ -52,6 +52,16 @@ namespace Audio {
         return d->clip;
     }
 
+    AudioClipAudioContext::Status AudioClipAudioContext::status() const {
+        Q_D(const AudioClipAudioContext);
+        return d->status;
+    }
+
+    QString AudioClipAudioContext::realAudioPath() const {
+        Q_D(const AudioClipAudioContext);
+        return d->realAudioPath;
+    }
+
     talcs::PositionableMixerAudioSource *AudioClipAudioContext::controlMixer() const {
         Q_D(const AudioClipAudioContext);
         return d->clipContext->controlMixer();
@@ -73,6 +83,24 @@ namespace Audio {
 
     AudioClipAudioContextPrivate *AudioClipAudioContextPrivate::of(AudioClipAudioContext *q) {
         return q->d_func();
+    }
+
+    void AudioClipAudioContextPrivate::setStatus(AudioClipAudioContext::Status status_) {
+        Q_Q(AudioClipAudioContext);
+        if (status == status_) {
+            return;
+        }
+        status = status_;
+        Q_EMIT q->statusChanged(status);
+    }
+
+    void AudioClipAudioContextPrivate::setRealAudioPath(const QString &realAudioPath_) {
+        Q_Q(AudioClipAudioContext);
+        if (realAudioPath == realAudioPath_) {
+            return;
+        }
+        realAudioPath = realAudioPath_;
+        Q_EMIT q->realAudioPathChanged(realAudioPath);
     }
 
 }

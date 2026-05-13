@@ -27,6 +27,7 @@ namespace dspx {
         QString fileName;
         QString formatEntryClassName;
         QVariant userData;
+        QString sha512;
     };
 
     class DSPX_MODEL_EXPORT AudioClip : public Clip {

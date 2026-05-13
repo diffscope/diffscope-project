@@ -56,6 +56,7 @@ namespace Audio::Internal {
         void syncAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
         void loadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
         void reloadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
+        void notifyAudioClipStatus(dspx::AudioClip *clip, AudioClipAudioContext *context);
 
         ProjectAudioContext *m_context{};
         QHash<dspx::AudioClip *, talcs::AbstractAudioFormatIO *> m_audioClipCache;

@@ -16,6 +16,7 @@ namespace Audio {
     public:
         ProjectAudioContext *q_ptr{};
         Core::ProjectWindowInterface *windowHandle{};
+        ProjectAudioContext::PlaybackStatus status{ProjectAudioContext::Stopped};
         std::unique_ptr<talcs::DspxProjectContext> projectContext;
 
         static ProjectAudioContext *create(Core::ProjectWindowInterface *windowHandle);

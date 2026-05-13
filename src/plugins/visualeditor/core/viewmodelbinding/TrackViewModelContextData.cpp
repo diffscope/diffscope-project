@@ -553,12 +553,16 @@ namespace VisualEditor {
                 viewItem->setGain(toDecibel(control->gain()));
                 return;
             }
+            control->setGain(toLinear(viewItem->gain()));
+            gainChanged = true;
         });
         connect(viewItem, &sflow::TrackViewModel::panChanged, item, [=] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
                 viewItem->setPan(control->pan());
                 return;
             }
+            control->setPan(viewItem->pan());
+            panChanged = true;
         });
         connect(viewItem, &sflow::TrackViewModel::rowHeightChanged, item, [=] {
             if (!stateMachine->configuration().contains(heightEditingState)) {
@@ -862,13 +866,14 @@ namespace VisualEditor {
         auto viewItem = trackViewItemMap.value(targetTrack);
         Q_ASSERT(viewItem);
         const double newLinear = toLinear(viewItem->gain());
-        if (qFuzzyCompare(newLinear, targetTrack->control()->gain())) {
+        if (!gainChanged) {
             document->transactionController()->abortTransaction(gainTransactionId);
         } else {
             targetTrack->control()->setGain(newLinear);
             document->transactionController()->commitTransaction(gainTransactionId, tr("Adjusting track gain"));
         }
         gainTransactionId = {};
+        gainChanged = false;
         targetTrack = {};
     }
 
@@ -895,13 +900,14 @@ namespace VisualEditor {
         auto viewItem = trackViewItemMap.value(targetTrack);
         Q_ASSERT(viewItem);
         const double newPan = viewItem->pan();
-        if (qFuzzyCompare(newPan, targetTrack->control()->pan())) {
+        if (!panChanged) {
             document->transactionController()->abortTransaction(panTransactionId);
         } else {
             targetTrack->control()->setPan(newPan);
             document->transactionController()->commitTransaction(panTransactionId, tr("Adjusting track pan"));
         }
         panTransactionId = {};
+        panChanged = false;
         targetTrack = {};
     }
 

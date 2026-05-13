@@ -26,6 +26,7 @@ namespace dspx {
         Q_ASSERT(model->strategy()->getEntityType(handle) == ModelStrategy::EI_AudioClip);
         d->q_ptr = this;
         d->pModel = ModelPrivate::get(model);
+        d->path = d->pModel->strategy->getEntityProperty(handle, ModelStrategy::P_Path).value<AudioPathInfo>();
     }
 
     AudioClip::~AudioClip() = default;
@@ -69,7 +70,8 @@ namespace dspx {
             {"relativeDir", audioPathInfo.relativeDir.toStdString()},
             {"fileName", audioPathInfo.fileName.toStdString()},
             {"formatEntryClassName", audioPathInfo.formatEntryClassName.toStdString()},
-            {"userData", encodeUserData(audioPathInfo.userData)}
+            {"userData", encodeUserData(audioPathInfo.userData)},
+            {"sha512", audioPathInfo.sha512.toStdString()}
         });
         return clip;
     }
@@ -79,14 +81,16 @@ namespace dspx {
         control()->fromOpenDspx(clip.control);
         time()->fromOpenDspx(clip.time);
         workspace()->fromOpenDspx(clip.workspace);
-        auto diffscopeWorkspace = clip.workspace.contains("diffscope") ? QJsonObject() : JsonUtils::toQJsonValue(clip.workspace.at("diffscope")).toObject();
+        auto diffscopeWorkspace = clip.workspace.contains("diffscope") ? JsonUtils::toQJsonValue(clip.workspace.at("diffscope")).toObject() : QJsonObject();
         if (diffscopeWorkspace.contains("audio")) {
+            auto audio = diffscopeWorkspace["audio"].toObject();
             setPath({
-                .absoluteDir = diffscopeWorkspace["absoluteDir"].toString(),
-                .relativeDir = diffscopeWorkspace["relativeDir"].toString(),
-                .fileName = diffscopeWorkspace["fileName"].toString(),
-                .formatEntryClassName = diffscopeWorkspace["formatEntryClassName"].toString(),
-                .userData = decodeUserData(diffscopeWorkspace["userData"].toString().toUtf8())
+                .absoluteDir = audio["absoluteDir"].toString(),
+                .relativeDir = audio["relativeDir"].toString(),
+                .fileName = audio["fileName"].toString(),
+                .formatEntryClassName = audio["formatEntryClassName"].toString(),
+                .userData = decodeUserData(audio["userData"].toString().toUtf8()),
+                .sha512 = audio["sha512"].toString()
             });
         } else {
             auto fileInfo = QFileInfo(QString::fromStdString(clip.path));
@@ -95,7 +99,8 @@ namespace dspx {
                 .relativeDir = {},
                 .fileName = fileInfo.fileName(),
                 .formatEntryClassName = {},
-                .userData = {}
+                .userData = {},
+                .sha512 = {}
             });
         }
     }
