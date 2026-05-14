@@ -47,7 +47,6 @@
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/PropertyEditorManager.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/DefaultLyricManager.h>
 
@@ -64,7 +63,6 @@ namespace Core {
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
         DspxCheckerRegistry *dspxCheckerRegistry;
-        PropertyEditorManager *propertyEditorManager;
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
 
@@ -73,7 +71,6 @@ namespace Core {
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
-            propertyEditorManager = new PropertyEditorManager(q);
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
         }
@@ -98,11 +95,6 @@ namespace Core {
     DspxCheckerRegistry *CoreInterface::dspxCheckerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->dspxCheckerRegistry;
-    }
-
-    PropertyEditorManager *CoreInterface::propertyEditorManager() {
-        Q_ASSERT(instance());
-        return instance()->d_func()->propertyEditorManager;
     }
 
     TrackColorSchema *CoreInterface::trackColorSchema() {

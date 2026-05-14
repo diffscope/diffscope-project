@@ -37,7 +37,6 @@ namespace Core {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(CoreInterface)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
-        Q_PROPERTY(PropertyEditorManager *propertyEditorManager READ propertyEditorManager CONSTANT)
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
         Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
     public:
@@ -47,8 +46,6 @@ namespace Core {
         static QAK::ActionRegistry *actionRegistry();
 
         static DspxCheckerRegistry *dspxCheckerRegistry();
-
-        static PropertyEditorManager *propertyEditorManager();
 
         static TrackColorSchema *trackColorSchema();
 

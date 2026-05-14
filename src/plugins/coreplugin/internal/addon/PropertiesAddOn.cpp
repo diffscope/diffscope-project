@@ -33,6 +33,16 @@ namespace Core::Internal {
     bool PropertiesAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
+    QList<QQmlComponent *> PropertiesAddOn::getComponents(const QString &id) {
+        auto list = RuntimeInterface::instance()->getObjects("org.diffscope.core.propertyeditor." + id);
+        QList<QQmlComponent *> result;
+        for (auto obj : list) {
+            if (auto component = qobject_cast<QQmlComponent *>(obj)) {
+                result.append(component);
+            }
+        }
+        return result;
+    }
 }
 
 #include "moc_PropertiesAddOn.cpp"

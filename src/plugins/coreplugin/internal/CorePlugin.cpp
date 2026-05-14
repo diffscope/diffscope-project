@@ -63,7 +63,6 @@
 #include <coreplugin/internal/UndoAddOn.h>
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
-#include <coreplugin/PropertyEditorManager.h>
 
 static auto getCoreActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(coreplugin);
@@ -377,38 +376,38 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializePropertyEditors() {
-        const auto f = [=, this](const QString &typeName, void(PropertyEditorManager::*addMethod)(QQmlComponent *)) {
+        const auto f = [=, this](const QString &typeName, const QString &id) {
             auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", typeName, this);
             if (component->isError()) {
                 qFatal() << component->errorString();
             }
-            (CoreInterface::propertyEditorManager()->*addMethod)(component);
+            RuntimeInterface::instance()->addObject(id, component);
         };
-        f("MetadataPropertyEditor", &PropertyEditorManager::addNoneComponent);
-        f("MasterControlPropertyEditor", &PropertyEditorManager::addNoneComponent);
-        f("LoopPropertyEditor", &PropertyEditorManager::addNoneComponent);
+        f("MetadataPropertyEditor", "org.diffscope.core.propertyeditor.document");
+        f("MasterControlPropertyEditor", "org.diffscope.core.propertyeditor.document");
+        f("LoopPropertyEditor", "org.diffscope.core.propertyeditor.document");
 
-        f("ClipPropertyEditor", &PropertyEditorManager::addClipComponent);
-        f("AudioPropertyEditor", &PropertyEditorManager::addClipComponent);
-        f("VirtualSingerPropertyEditor", &PropertyEditorManager::addClipComponent);
-        f("ControlPropertyEditor", &PropertyEditorManager::addClipComponent);
-        f("ClipTimePropertyEditor", &PropertyEditorManager::addClipComponent);
+        f("ClipPropertyEditor", "org.diffscope.core.propertyeditor.clip");
+        f("AudioPropertyEditor", "org.diffscope.core.propertyeditor.clip");
+        f("VirtualSingerPropertyEditor", "org.diffscope.core.propertyeditor.clip");
+        f("ControlPropertyEditor", "org.diffscope.core.propertyeditor.clip");
+        f("ClipTimePropertyEditor", "org.diffscope.core.propertyeditor.clip");
 
-        f("LabelPropertyEditor", &PropertyEditorManager::addLabelComponent);
+        f("LabelPropertyEditor", "org.diffscope.core.propertyeditor.label");
 
-        f("NotePropertyEditor", &PropertyEditorManager::addNoteComponent);
-        f("NoteLyricPropertyEditor", &PropertyEditorManager::addNoteComponent);
-        f("NotePitchPropertyEditor", &PropertyEditorManager::addNoteComponent);
-        f("NoteTimePropertyEditor", &PropertyEditorManager::addNoteComponent);
-        f("NotePhonemePropertyEditor", &PropertyEditorManager::addNoteComponent);
+        f("NotePropertyEditor", "org.diffscope.core.propertyeditor.note");
+        f("NoteLyricPropertyEditor", "org.diffscope.core.propertyeditor.note");
+        f("NotePitchPropertyEditor", "org.diffscope.core.propertyeditor.note");
+        f("NoteTimePropertyEditor", "org.diffscope.core.propertyeditor.note");
+        f("NotePhonemePropertyEditor", "org.diffscope.core.propertyeditor.note");
 
-        f("TempoPropertyEditor", &PropertyEditorManager::addTempoComponent);
+        f("TempoPropertyEditor", "org.diffscope.core.propertyeditor.tempo");
 
-        f("TrackPropertyEditor", &PropertyEditorManager::addTrackComponent);
-        f("ControlPropertyEditor", &PropertyEditorManager::addTrackComponent);
-        f("TrackDisplayPropertyEditor", &PropertyEditorManager::addTrackComponent);
+        f("TrackPropertyEditor", "org.diffscope.core.propertyeditor.track");
+        f("ControlPropertyEditor", "org.diffscope.core.propertyeditor.track");
+        f("TrackDisplayPropertyEditor", "org.diffscope.core.propertyeditor.track");
 
-        f("KeySignaturePropertyEditor", &PropertyEditorManager::addKeySignatureComponent);
+        f("KeySignaturePropertyEditor", "org.diffscope.core.propertyeditor.keysignature");
 
     }
 

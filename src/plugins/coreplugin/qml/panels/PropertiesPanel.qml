@@ -22,49 +22,49 @@ QtObject {
             ListElement {
                 text: qsTr("Document")
                 iconSource: "image://fluent-system-icons/document"
-                componentsKey: "noneComponents"
+                componentsKey: "document"
                 propertyMapperKey: "nonePropertyMapper"
             }
             ListElement {
                 text: qsTr("Anchor Node")
                 iconSource: "image://fluent-system-icons/automation_3p"
-                componentsKey: "anchorNodeComponents"
+                componentsKey: "anchornode"
                 propertyMapperKey: "anchorNodePropertyMapper"
             }
             ListElement {
                 text: qsTr("Clip")
                 iconSource: "image://fluent-system-icons/gantt_chart"
-                componentsKey: "clipComponents"
+                componentsKey: "clip"
                 propertyMapperKey: "clipPropertyMapper"
             }
             ListElement {
                 text: qsTr("Label")
                 iconSource: "image://fluent-system-icons/tag"
-                componentsKey: "labelComponents"
+                componentsKey: "label"
                 propertyMapperKey: "labelPropertyMapper"
             }
             ListElement {
                 text: qsTr("Note")
                 iconSource: "image://fluent-system-icons/music_note_1"
-                componentsKey: "noteComponents"
+                componentsKey: "note"
                 propertyMapperKey: "notePropertyMapper"
             }
             ListElement {
                 text: qsTr("Tempo")
                 iconSource: "image://fluent-system-icons/metronome"
-                componentsKey: "tempoComponents"
+                componentsKey: "tempo"
                 propertyMapperKey: "tempoPropertyMapper"
             }
             ListElement {
                 text: qsTr("Track")
                 iconSource: "image://fluent-system-icons/list_bar"
-                componentsKey: "trackComponents"
+                componentsKey: "track"
                 propertyMapperKey: "trackPropertyMapper"
             }
             ListElement {
                 text: qsTr("Key Signature")
                 iconSource: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
-                componentsKey: "keySignatureComponents"
+                componentsKey: "keysignature"
                 propertyMapperKey: "keySignaturePropertyMapper"
             }
         }
@@ -220,7 +220,7 @@ QtObject {
                         width: propertyEditorScrollView.width - 24
                         x: 12
                         Repeater {
-                            model: CoreInterface.propertyEditorManager[propertyEditorScrollView.modelData.componentsKey]
+                            model: d.addOn?.getComponents(propertyEditorScrollView.modelData.componentsKey)
                             delegate: Item {
                                 required property var modelData
                                 Layout.fillWidth: true

@@ -3,6 +3,8 @@
 
 #include <CoreApi/windowinterface.h>
 
+class QQmlComponent;
+
 namespace Core::Internal {
 
     class PropertiesAddOn : public WindowInterfaceAddOn {
@@ -14,6 +16,8 @@ namespace Core::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        Q_INVOKABLE static QList<QQmlComponent *> getComponents(const QString &id) ;
 
     private:
     };
