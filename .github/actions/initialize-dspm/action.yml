@@ -19,9 +19,7 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: ${{inputs.build-dir}}/dist
-        key: ${{ runner.os }}-dspm-${{ inputs.ref }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-dspm-${{ inputs.ref }}-
+        key: ${{ runner.os }}-dspm-${{ inputs.ref }}
 
     - name: Checkout
       if: steps.cache_dspm.outputs.cache-hit != 'true'
@@ -55,9 +53,10 @@ runs:
 
     - name: Cache dspm executable
       uses: actions/cache/save@v4
+      if: steps.cache_dspm.outputs.cache-hit != 'true'
       with:
         path: ${{inputs.build-dir}}/dist
-        key: ${{ runner.os }}-dspm-${{ inputs.ref }}-${{ github.sha }}
+        key: ${{ runner.os }}-dspm-${{ inputs.ref }}
 
     - name: Output dspm path
       working-directory: ${{ inputs.build-dir }}
