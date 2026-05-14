@@ -1,5 +1,6 @@
 import QtQml
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.impl
 
@@ -12,11 +13,12 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.notificationErrorIndicator"
-        Row {
+        RowLayout {
             id: indicator
             spacing: 4
-            property bool activated: false
+            property bool activated: true
             Accessible.role: Accessible.StaticText
+            Layout.fillWidth: false
             Accessible.name: qsTr("%Ln error(s)", "", d.addOn?.notificationManager.criticalCount ?? 0) + " " + qsTr("%Ln warning(s)", "", d.addOn?.notificationManager.warningCount ?? 0)
             IconLabel {
                 icon.source: "image://fluent-system-icons/error_circle"

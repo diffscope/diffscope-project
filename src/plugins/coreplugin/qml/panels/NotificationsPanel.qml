@@ -17,7 +17,7 @@ QtObject {
         id: pane
         Component.onCompleted: () => {
             [...d.notificationManager.messages()].forEach((message, index) => {
-                notificationItemsModel.insert(index, bubbleNotificationComponent.createObject(this, {
+                notificationItemsModel.insert(notificationItemsModel.count - index, bubbleNotificationComponent.createObject(this, {
                     handle: message.handle
                 }))
             })

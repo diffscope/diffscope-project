@@ -1,6 +1,7 @@
 #ifndef DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_P_H
 #define DIFFSCOPE_DSPX_MODEL_CLIPSELECTIONMODEL_P_H
 
+#include <QHash>
 #include <QSet>
 
 #include <dspxmodel/ClipSelectionModel.h>
@@ -17,6 +18,9 @@ namespace dspx {
         ClipSelectionModel *q_ptr;
         SelectionModel *selectionModel;
         QSet<Clip *> selectedItems;
+        QHash<Clip *, Clip::ClipType> selectedClipTypes;
+        int selectedSingingClipCount = 0;
+        int selectedAudioClipCount = 0;
         Clip *currentItem = nullptr;
         QSet<Clip *> connectedItems;
 

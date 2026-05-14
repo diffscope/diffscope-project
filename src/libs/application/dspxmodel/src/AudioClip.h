@@ -21,6 +21,7 @@ namespace dspx {
         Q_PROPERTY(QString fileName MEMBER fileName)
         Q_PROPERTY(QString formatEntryClassName MEMBER formatEntryClassName)
         Q_PROPERTY(QVariant userData MEMBER userData)
+        Q_PROPERTY(QString sha512 MEMBER sha512)
     public:
         QString absoluteDir;
         QString relativeDir;

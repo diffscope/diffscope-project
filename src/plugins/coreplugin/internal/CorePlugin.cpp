@@ -388,7 +388,6 @@ namespace Core::Internal {
         f("LoopPropertyEditor", "org.diffscope.core.propertyeditor.document");
 
         f("ClipPropertyEditor", "org.diffscope.core.propertyeditor.clip");
-        f("AudioPropertyEditor", "org.diffscope.core.propertyeditor.clip");
         f("VirtualSingerPropertyEditor", "org.diffscope.core.propertyeditor.clip");
         f("ControlPropertyEditor", "org.diffscope.core.propertyeditor.clip");
         f("ClipTimePropertyEditor", "org.diffscope.core.propertyeditor.clip");

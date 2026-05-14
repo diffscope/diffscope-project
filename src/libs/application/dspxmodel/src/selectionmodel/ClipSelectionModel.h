@@ -21,6 +21,8 @@ namespace dspx {
         Q_PROPERTY(Clip *currentItem READ currentItem NOTIFY currentItemChanged)
         Q_PROPERTY(QList<Clip *> selectedItems READ selectedItems NOTIFY selectedItemsChanged)
         Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
+        Q_PROPERTY(int selectedSingingClipCount READ selectedSingingClipCount NOTIFY selectedSingingClipCountChanged)
+        Q_PROPERTY(int selectedAudioClipCount READ selectedAudioClipCount NOTIFY selectedAudioClipCountChanged)
         Q_PROPERTY(QList<ClipSequence *> clipSequencesWithSelectedItems READ clipSequencesWithSelectedItems NOTIFY clipSequencesWithSelectedItemsChanged)
 
     public:
@@ -29,6 +31,8 @@ namespace dspx {
         Clip *currentItem() const;
         QList<Clip *> selectedItems() const;
         int selectedCount() const;
+        int selectedSingingClipCount() const;
+        int selectedAudioClipCount() const;
         QList<ClipSequence *> clipSequencesWithSelectedItems() const;
 
         Q_INVOKABLE bool isItemSelected(Clip *item) const;
@@ -37,6 +41,8 @@ namespace dspx {
         void currentItemChanged();
         void selectedItemsChanged();
         void selectedCountChanged();
+        void selectedSingingClipCountChanged();
+        void selectedAudioClipCountChanged();
         void clipSequencesWithSelectedItemsChanged();
         void itemSelected(Clip *item, bool selected);
 

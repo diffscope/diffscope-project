@@ -361,6 +361,14 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     </message>
 </context>
 <context>
+    <name>AudioPropertyEditor</name>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="15"/>
+        <source>Audio</source>
+        <translation>音频</translation>
+    </message>
+</context>
+<context>
     <name>AudioOutputPage</name>
     <message>
         <location filename="../../qml/settings/AudioOutputPage.qml" line="30"/>

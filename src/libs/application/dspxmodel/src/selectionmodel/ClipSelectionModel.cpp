@@ -109,6 +109,16 @@ namespace dspx {
         }
         connectItem(item);
         selectedItems.insert(item);
+        const auto clipType = item->type();
+        selectedClipTypes[item] = clipType;
+        switch (clipType) {
+            case Clip::Singing:
+                ++selectedSingingClipCount;
+                break;
+            case Clip::Audio:
+                ++selectedAudioClipCount;
+                break;
+        }
         
         // Update clipToClipSequence
         auto clipSeq = item->clipSequence();
@@ -128,6 +138,18 @@ namespace dspx {
         if (!selectedItems.remove(item)) {
             return false;
         }
+        if (selectedClipTypes.contains(item)) {
+            const auto clipType = selectedClipTypes.value(item);
+            switch (clipType) {
+                case Clip::Singing:
+                    --selectedSingingClipCount;
+                    break;
+                case Clip::Audio:
+                    --selectedAudioClipCount;
+                    break;
+            }
+        }
+        selectedClipTypes.remove(item);
         
         // Update clipSequencesWithSelectedItems
         auto clipSeq = clipToClipSequence.value(item);
@@ -164,8 +186,12 @@ namespace dspx {
             return;
         }
         const int oldCount = selectedItems.size();
+        const int oldSingingClipCount = selectedSingingClipCount;
+        const int oldAudioClipCount = selectedAudioClipCount;
         bool selectionChanged = removeFromSelection(item);
         bool countChanged = selectionChanged && oldCount != selectedItems.size();
+        bool singingClipCountChanged = selectionChanged && oldSingingClipCount != selectedSingingClipCount;
+        bool audioClipCountChanged = selectionChanged && oldAudioClipCount != selectedAudioClipCount;
         bool currentChanged = false;
         bool clipSequencesChanged = selectionChanged;
         
@@ -180,6 +206,12 @@ namespace dspx {
             Q_EMIT q_ptr->selectedItemsChanged();
             if (countChanged) {
                 Q_EMIT q_ptr->selectedCountChanged();
+            }
+            if (singingClipCountChanged) {
+                Q_EMIT q_ptr->selectedSingingClipCountChanged();
+            }
+            if (audioClipCountChanged) {
+                Q_EMIT q_ptr->selectedAudioClipCountChanged();
             }
         }
         if (clipSequencesChanged) {
@@ -231,6 +263,16 @@ namespace dspx {
         return d->selectedItems.size();
     }
 
+    int ClipSelectionModel::selectedSingingClipCount() const {
+        Q_D(const ClipSelectionModel);
+        return d->selectedSingingClipCount;
+    }
+
+    int ClipSelectionModel::selectedAudioClipCount() const {
+        Q_D(const ClipSelectionModel);
+        return d->selectedAudioClipCount;
+    }
+
     QList<ClipSequence *> ClipSelectionModel::clipSequencesWithSelectedItems() const {
         Q_D(const ClipSelectionModel);
         return d->clipSequencesWithSelectedItems.keys();
@@ -243,6 +285,8 @@ namespace dspx {
 
     void ClipSelectionModelPrivate::select(Clip *item, SelectionModel::SelectionCommand command) {
         const int oldCount = selectedItems.size();
+        const int oldSingingClipCount = selectedSingingClipCount;
+        const int oldAudioClipCount = selectedAudioClipCount;
         bool selectionChanged = false;
         
         if (command & SelectionModel::ClearPreviousSelection) {
@@ -269,6 +313,12 @@ namespace dspx {
             Q_EMIT q_ptr->selectedItemsChanged();
             if (oldCount != selectedItems.size()) {
                 Q_EMIT q_ptr->selectedCountChanged();
+            }
+            if (oldSingingClipCount != selectedSingingClipCount) {
+                Q_EMIT q_ptr->selectedSingingClipCountChanged();
+            }
+            if (oldAudioClipCount != selectedAudioClipCount) {
+                Q_EMIT q_ptr->selectedAudioClipCountChanged();
             }
         }
         if (clipSequencesChanged) {

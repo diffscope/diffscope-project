@@ -265,7 +265,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.bounceToClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
             onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
         }
     }

@@ -1,4 +1,4 @@
-#include "InsertAudioClipAddOn.h"
+#include "AudioClipAddOn.h"
 
 #include <QDir>
 #include <QEventLoop>
@@ -47,7 +47,7 @@
 
 namespace Audio::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcInsertAudioClipAddOn, "diffscope.audio.insertaudioclipaddon")
+    Q_STATIC_LOGGING_CATEGORY(lcAudioClipAddOn, "diffscope.audio.audioclipaddon")
 
     static bool execDialog(QObject *dialog) {
         QEventLoop eventLoop;
@@ -98,16 +98,16 @@ namespace Audio::Internal {
         return relativePath == "." || (!relativePath.startsWith("..") && !QDir::isAbsolutePath(relativePath));
     }
 
-    InsertAudioClipAddOn::InsertAudioClipAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+    AudioClipAddOn::AudioClipAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 
-    InsertAudioClipAddOn::~InsertAudioClipAddOn() = default;
+    AudioClipAddOn::~AudioClipAddOn() = default;
 
-    void InsertAudioClipAddOn::initialize() {
+    void AudioClipAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->addObject(this);
 
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "InsertAudioClipAddOnActions");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioClipAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -118,18 +118,89 @@ namespace Audio::Internal {
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
 
-    void InsertAudioClipAddOn::extensionsInitialized() {
+    void AudioClipAddOn::extensionsInitialized() {
     }
 
-    bool InsertAudioClipAddOn::delayedInitialize() {
+    bool AudioClipAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
-    InsertAudioClipAddOn *InsertAudioClipAddOn::of(Core::ProjectWindowInterface *windowHandle) {
-        return windowHandle->getFirstObject<InsertAudioClipAddOn>();
+    AudioClipAddOn *AudioClipAddOn::of(Core::ProjectWindowInterface *windowHandle) {
+        return windowHandle->getFirstObject<AudioClipAddOn>();
     }
 
-    void InsertAudioClipAddOn::insertAudioClip() {
+    talcs::AbstractAudioFormatIO *AudioClipAddOn::openAudioFile(QString *fileName, QVariant *userData, QString *entryClassName) {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        if (!windowInterface)
+            return nullptr;
+
+        qCInfo(lcAudioClipAddOn) << "Opening audio file";
+        auto settings = Core::RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        const auto defaultDir = settings->value(QStringLiteral("defaultDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        settings->endGroup();
+        auto io = talcs::AudioFileDialog::getOpenAudioFileIO(
+            GlobalAudioContext::formatManager(),
+            *fileName,
+            *userData,
+            *entryClassName,
+            windowInterface->invisibleCentralWidget(),
+            tr("Open Audio File"),
+            defaultDir
+        );
+        qCDebug(lcAudioClipAddOn) << "Audio file dialog returned" << io << *fileName << *userData << *entryClassName;
+        if (!io) {
+            if (fileName->isEmpty()) {
+                return nullptr;
+            }
+            qCWarning(lcAudioClipAddOn) << "Failed to open audio file" << *fileName << *userData << *entryClassName;
+            SVS::MessageBox::critical(
+                Core::RuntimeInterface::qmlEngine(),
+                windowInterface->window(),
+                tr("Failed to open audio file"),
+                tr("Unable to open \"%1\" as an audio file.").arg(QDir::toNativeSeparators(*fileName))
+            );
+            return nullptr;
+        }
+
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue(QStringLiteral("defaultDir"), QFileInfo(*fileName).absolutePath());
+        settings->endGroup();
+        return io;
+    }
+
+    dspx::AudioPathInfo AudioClipAddOn::audioPathFromFile(const QString &filePath, const QVariant &userData, const QString &entryClassName) const {
+        dspx::AudioPathInfo path;
+        updateAudioPathLocation(&path, filePath);
+        path.formatEntryClassName = entryClassName;
+        path.userData = userData;
+        path.sha512 = HashHelper::sha512(QFileInfo(filePath).absoluteFilePath());
+        return path;
+    }
+
+    void AudioClipAddOn::updateAudioPathLocation(dspx::AudioPathInfo *path, const QString &filePath) const {
+        if (!path)
+            return;
+
+        const QFileInfo fileInfo(filePath);
+        path->absoluteDir = fileInfo.absolutePath();
+        path->relativeDir = {};
+        path->fileName = fileInfo.fileName();
+
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto projectDocumentContext = windowInterface ? windowInterface->projectDocumentContext() : nullptr;
+        auto fileLocker = projectDocumentContext ? projectDocumentContext->fileLocker() : nullptr;
+        const auto projectPath = fileLocker ? fileLocker->path() : QString();
+        if (!projectPath.isEmpty()) {
+            const QFileInfo projectFileInfo(projectPath);
+            const QDir projectDir(projectFileInfo.absolutePath());
+            if (isInDirectoryOrSubdirectory(fileInfo.absoluteFilePath(), projectDir)) {
+                path->relativeDir = projectDir.relativeFilePath(fileInfo.absolutePath());
+            }
+        }
+    }
+
+    void AudioClipAddOn::insertAudioClip() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         if (!windowInterface || !windowInterface->window() || !windowInterface->projectTimeline())
             return;
@@ -143,43 +214,15 @@ namespace Audio::Internal {
         if (!trackList || trackList->size() == 0)
             return;
 
-        qCInfo(lcInsertAudioClipAddOn) << "Opening audio file for insertion";
         QString fileName;
         QVariant userData;
         QString entryClassName;
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        const auto defaultDir = settings->value(QStringLiteral("defaultDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
-        auto io = talcs::AudioFileDialog::getOpenAudioFileIO(
-            GlobalAudioContext::formatManager(),
-            fileName,
-            userData,
-            entryClassName,
-            windowInterface->invisibleCentralWidget(),
-            tr("Open Audio File"),
-            defaultDir
-        );
-        qCDebug(lcInsertAudioClipAddOn) << "Audio file dialog returned" << io << fileName << userData << entryClassName;
+        auto io = openAudioFile(&fileName, &userData, &entryClassName);
         if (!io) {
-            if (fileName.isEmpty()) {
-                return;
-            }
-            qCWarning(lcInsertAudioClipAddOn) << "Failed to open audio file" << fileName << userData << entryClassName;
-            SVS::MessageBox::critical(
-                Core::RuntimeInterface::qmlEngine(),
-                windowInterface->window(),
-                tr("Failed to open audio file"),
-                tr("Unable to open \"%1\" as an audio file.").arg(QDir::toNativeSeparators(fileName))
-            );
             return;
         }
 
         const QFileInfo fileInfo(fileName);
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultDir"), fileInfo.absolutePath());
-        settings->endGroup();
-
         auto selectedTrack = currentTrack(document);
         if (!selectedTrack) {
             selectedTrack = trackList->items().first();
@@ -216,26 +259,10 @@ namespace Audio::Internal {
         const auto clipPositionMsec = timeline->create(0, 0, clipPosition).millisecond();
         const auto clipEndPosition = timeline->create(clipPositionMsec + durationMsec).totalTick();
         const auto clipLength = qMax(1, clipEndPosition - clipPosition);
+        const auto path = audioPathFromFile(fileName, userData, entryClassName);
 
-        dspx::AudioPathInfo path;
-        path.absoluteDir = fileInfo.absolutePath();
-        path.fileName = fileInfo.fileName();
-        path.formatEntryClassName = entryClassName;
-        path.userData = userData;
-        path.sha512 = HashHelper::sha512(fileInfo.absoluteFilePath());
-
-        auto fileLocker = windowInterface->projectDocumentContext()->fileLocker();
-        const auto projectPath = fileLocker ? fileLocker->path() : QString();
-        if (!projectPath.isEmpty()) {
-            const QFileInfo projectFileInfo(projectPath);
-            const QDir projectDir(projectFileInfo.absolutePath());
-            if (isInDirectoryOrSubdirectory(fileInfo.absoluteFilePath(), projectDir)) {
-                path.relativeDir = projectDir.relativeFilePath(fileInfo.absolutePath());
-            }
-        }
-
-        qCDebug(lcInsertAudioClipAddOn) << "Inserting audio clip" << fileName << "at" << clipPosition
-                                        << "length" << clipLength << "track" << selectedTrack;
+        qCDebug(lcAudioClipAddOn) << "Inserting audio clip" << fileName << "at" << clipPosition
+                                  << "length" << clipLength << "track" << selectedTrack;
 
         auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
         dspx::AudioClip *newClip = nullptr;
@@ -267,7 +294,7 @@ namespace Audio::Internal {
             success = true;
             return true;
         }, [] {
-            qCCritical(lcInsertAudioClipAddOn) << "Failed to insert audio clip in exclusive transaction";
+            qCCritical(lcAudioClipAddOn) << "Failed to insert audio clip in exclusive transaction";
         });
 
         if (!success) {
@@ -285,6 +312,91 @@ namespace Audio::Internal {
         }
     }
 
+    void AudioClipAddOn::updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath) {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        if (!windowInterface || !clip || filePath.isEmpty())
+            return;
+
+        auto documentContext = windowInterface->projectDocumentContext();
+        auto document = documentContext ? documentContext->document() : nullptr;
+        if (!document)
+            return;
+
+        auto path = clip->path();
+        updateAudioPathLocation(&path, filePath);
+        document->transactionController()->beginScopedTransaction(tr("Updating audio clip path"), [=] {
+            clip->setPath(path);
+            return true;
+        }, [] {
+            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip path in exclusive transaction";
+        });
+    }
+
+    void AudioClipAddOn::updateAudioClipDigest(dspx::AudioClip *clip) {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        if (!windowInterface || !clip)
+            return;
+
+        auto documentContext = windowInterface->projectDocumentContext();
+        auto document = documentContext ? documentContext->document() : nullptr;
+        if (!document)
+            return;
+
+        auto path = clip->path();
+        const auto filePath = QDir(path.absoluteDir).filePath(path.fileName);
+        const auto sha512 = HashHelper::sha512(filePath);
+        if (sha512.isEmpty()) {
+            qCWarning(lcAudioClipAddOn) << "Failed to update audio clip digest from absolute path" << clip << filePath;
+            return;
+        }
+
+        path.sha512 = sha512;
+        document->transactionController()->beginScopedTransaction(tr("Updating audio clip digest"), [=] {
+            clip->setPath(path);
+            return true;
+        }, [] {
+            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip digest in exclusive transaction";
+        });
+    }
+
+    void AudioClipAddOn::replaceAudioClip(dspx::AudioClip *clip) {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        if (!windowInterface || !clip)
+            return;
+
+        auto documentContext = windowInterface->projectDocumentContext();
+        auto document = documentContext ? documentContext->document() : nullptr;
+        if (!document)
+            return;
+
+        QString fileName;
+        QVariant userData;
+        QString entryClassName;
+        auto io = openAudioFile(&fileName, &userData, &entryClassName);
+        if (!io) {
+            return;
+        }
+
+        const auto path = audioPathFromFile(fileName, userData, entryClassName);
+        io->open(talcs::AbstractAudioFormatIO::Read);
+        auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
+        bool cacheTransferred = false;
+        document->transactionController()->beginScopedTransaction(tr("Replacing audio clip"), [=, &cacheTransferred] {
+            if (projectAudioAddOn) {
+                projectAudioAddOn->addAudioClipCache(clip, io);
+                cacheTransferred = true;
+            }
+            clip->setPath(path);
+            return true;
+        }, [] {
+            qCCritical(lcAudioClipAddOn) << "Failed to replace audio clip in exclusive transaction";
+        });
+
+        if (!cacheTransferred) {
+            delete io;
+        }
+    }
+
 }
 
-#include "moc_InsertAudioClipAddOn.cpp"
+#include "moc_AudioClipAddOn.cpp"

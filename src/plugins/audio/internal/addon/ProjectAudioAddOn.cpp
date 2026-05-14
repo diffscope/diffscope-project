@@ -334,9 +334,27 @@ namespace Audio::Internal {
     }
 
     void ProjectAudioAddOn::notifyAudioClipStatus(dspx::AudioClip *clip, AudioClipAudioContext *context) {
-        Q_UNUSED(clip)
-        Q_UNUSED(context)
-        // TODO: Notify user about audio clip loading errors or warnings.
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto path = QDir::toNativeSeparators(QDir(clip->path().absoluteDir).filePath(clip->path().fileName));
+        if (context->status() == AudioClipAudioContext::FileNotFound) {
+            qCWarning(lcProjectAudioAddOn) << "Audio clip file not found:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
+            if (clip->path().absoluteDir.isEmpty() || clip->path().fileName.isEmpty()) {
+                windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file not specified"), tr("Audio clip \"%1\" has no file specified").arg(clip->name()));
+            }
+            windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file not found"), tr("The file in audio clip \"%1\" is not found:\n%2").arg(clip->name(), path));
+        } else if (context->status() == AudioClipAudioContext::FileLoadFailed) {
+            qCWarning(lcProjectAudioAddOn) << "Audio clip file load failed:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
+            windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file failed to load"), tr("Failed to load audio file in audio clip \"%1\":\n%2").arg(clip->name(), path));
+        } else if (context->status() == AudioClipAudioContext::FileMoved) {
+            qCWarning(lcProjectAudioAddOn) << "Audio clip file moved:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName << "to" << context->realAudioPath();
+            windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file moved"), tr("The file in audio clip \"%1\" has been moved.\nFrom: %2\nTo: %3").arg(clip->name(), path, QDir::toNativeSeparators(context->realAudioPath())));
+        } else if (context->status() == AudioClipAudioContext::FileContentChanged) {
+            qCWarning(lcProjectAudioAddOn) << "Audio clip file content changed:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
+            if (!clip->path().sha512.isEmpty()) {
+                // Empty file digest suggests that the project file might be created by another editor. We do not explicitly notify user in this case.
+                windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file content changed"), tr("The file in audio clip \"%1\" has been changed:\n%2").arg(clip->name(), path));
+            }
+        }
     }
 
 }

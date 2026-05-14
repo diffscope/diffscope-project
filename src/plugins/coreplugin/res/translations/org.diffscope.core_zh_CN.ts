@@ -1578,14 +1578,6 @@
     </message>
 </context>
 <context>
-    <name>AudioPropertyEditor</name>
-    <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="15"/>
-        <source>Audio</source>
-        <translation>音频</translation>
-    </message>
-</context>
-<context>
     <name>ClipPropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="17"/>

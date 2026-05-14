@@ -2,7 +2,7 @@
 #define DIFFSCOPE_AUDIO_AUDIOCLIPAUDIOCONTEXT_H
 
 #include <QObject>
-#include <QString>
+#include <qqmlintegration.h>
 
 namespace Core {
     class ProjectWindowInterface;
@@ -28,6 +28,8 @@ namespace Audio {
 
     class AudioClipAudioContext : public QObject {
         Q_OBJECT
+        QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(AudioClipAudioContext)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
         Q_PROPERTY(dspx::AudioClip *clip READ clip CONSTANT)

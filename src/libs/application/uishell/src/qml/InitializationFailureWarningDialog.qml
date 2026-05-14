@@ -12,7 +12,7 @@ import SVSCraft.UIComponents.impl
 
 MessageBoxDialog {
     id: dialog
-    width: 400
+    width: 600
     icon: SVS.Warning
     hasContextHelp: true
     text: qsTr("%1 exited abnormally during the last initialization").arg(Application.displayName)
