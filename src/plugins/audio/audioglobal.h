@@ -1,0 +1,12 @@
+#ifndef DIFFSCOPE_AUDIO_AUDIOGLOBAL_H
+#define DIFFSCOPE_AUDIO_AUDIOGLOBAL_H
+
+#include <QtCore/QtGlobal>
+
+#if defined(AUDIO_LIBRARY)
+#    define AUDIO_EXPORT Q_DECL_EXPORT
+#else
+#    define AUDIO_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DIFFSCOPE_AUDIO_AUDIOGLOBAL_H

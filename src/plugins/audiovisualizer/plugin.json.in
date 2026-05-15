@@ -1,0 +1,23 @@
+{
+    "Name": "@PLUGIN_METADATA_NAME@",
+    "DisplayName": "@PLUGIN_METADATA_DISPLAY_NAME@",
+    "Version": "@PLUGIN_METADATA_VERSION@",
+    "CompatVersion": "@PLUGIN_METADATA_COMPAT_VERSION@",
+    "DisabledByDefault": false,
+    "HiddenByDefault": false,
+    "Vendor": "@PLUGIN_METADATA_VENDOR@",
+    "Copyright": "@PLUGIN_METADATA_COPYRIGHT@",
+    "License": [
+        "LGPL-3.0-or-later OR GPL-3.0-or-later"
+    ],
+    "Arguments" : [
+    ],
+    "Category": "Audio",
+    "Description": "The audio visualizer plugin for @APPLICATION_DISPLAY_NAME@.",
+    "Url": "@APPLICATION_URL@",
+    "Dependencies" : [
+        { "Name" : "org.diffscope.core", "Version" : "@PLUGIN_METADATA_VERSION@" },
+        { "Name" : "org.diffscope.audio", "Version" : "@PLUGIN_METADATA_VERSION@" },
+        { "Name" : "org.diffscope.visualeditor", "Version" : "@PLUGIN_METADATA_VERSION@" }
+    ]
+}

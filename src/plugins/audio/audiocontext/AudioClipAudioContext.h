@@ -4,6 +4,8 @@
 #include <QObject>
 #include <qqmlintegration.h>
 
+#include <audio/audioglobal.h>
+
 namespace Core {
     class ProjectWindowInterface;
 }
@@ -26,7 +28,7 @@ namespace Audio {
 
     class AudioClipAudioContextPrivate;
 
-    class AudioClipAudioContext : public QObject {
+    class AUDIO_EXPORT AudioClipAudioContext : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")

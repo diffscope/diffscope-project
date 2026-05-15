@@ -251,8 +251,10 @@ Item {
                         clipSequenceViewModel: view.projectViewModelContext?.clipSequenceViewModel ?? null
                         clipPaneInteractionController: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
                         thumbnailComponent: ArrangementViewThumbnail {
+                            arrangementPanelInterface: view.arrangementPanelInterface
                             pianoRollPanelInterface: view.addOn?.pianoRollPanelInterface ?? null
                             projectViewModelContext: view.projectViewModelContext
+                            audioThumbnailComponent: view.addOn?.audioThumbnailComponent ?? null
                         }
 
                         property ClipViewModel activeClip: null

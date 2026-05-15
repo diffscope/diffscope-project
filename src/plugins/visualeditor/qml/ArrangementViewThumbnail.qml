@@ -16,8 +16,43 @@ Item {
     id: d
     required property ClipViewModel clipViewModel
     required property bool visualVisible
+    required property ArrangementPanelInterface arrangementPanelInterface
     required property PianoRollPanelInterface pianoRollPanelInterface
     required property ProjectViewModelContext projectViewModelContext
+    required property Component audioThumbnailComponent
+
+    StackLayout {
+        id: audioThumbnailContainer
+        anchors.fill: parent
+        property Item item: null
+        Component.onCompleted: Qt.callLater(() => {
+            if (d.clipViewModel?.associatedNoteSequence)
+                return
+            if (!d.audioThumbnailComponent)
+                return
+            item = d.audioThumbnailComponent.createObject(this, {
+                clipViewModel: d.clipViewModel,
+                visualVisible: d.visualVisible,
+                projectViewModelContext: d.projectViewModelContext,
+                viewportOffset: d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position,
+                viewportLength: d.arrangementPanelInterface.arrangementView.width / d.width * d.clipViewModel.length,
+            })
+            if (item) {
+                item.visualVisible = Qt.binding(() => d.visualVisible)
+                item.viewportOffset = Qt.binding(() => {
+                    if (!d.clipViewModel || !d.arrangementPanelInterface?.timeViewModel)
+                        return 0
+                    return d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position
+                })
+                item.viewportLength = Qt.binding(() => {
+                    if (!d.clipViewModel || !d.arrangementPanelInterface?.arrangementView)
+                        return 0
+                    return d.arrangementPanelInterface.arrangementView.width / d.width * d.clipViewModel.length
+                })
+            }
+        })
+        data: [item]
+    }
 
     Item {
         id: noteThumbnailViewport

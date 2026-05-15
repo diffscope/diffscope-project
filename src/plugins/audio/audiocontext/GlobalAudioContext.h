@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <audio/audioglobal.h>
+
 namespace talcs {
     class AudioDevice;
     class AudioDriver;
@@ -16,7 +18,7 @@ namespace Audio {
 
     class GlobalAudioContextPrivate;
 
-    class GlobalAudioContext : public QObject {
+    class AUDIO_EXPORT GlobalAudioContext : public QObject {
         Q_OBJECT
         Q_DECLARE_PRIVATE(GlobalAudioContext)
         Q_PROPERTY(qint64 bufferSize READ bufferSize NOTIFY bufferSizeChanged)

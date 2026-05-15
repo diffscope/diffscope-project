@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <audio/audioglobal.h>
+
 namespace Core {
     class ProjectWindowInterface;
 }
@@ -21,7 +23,7 @@ namespace Audio {
 
     class ProjectAudioContextPrivate;
 
-    class ProjectAudioContext : public QObject {
+    class AUDIO_EXPORT ProjectAudioContext : public QObject {
         Q_OBJECT
         Q_DECLARE_PRIVATE(ProjectAudioContext)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)

@@ -72,6 +72,11 @@ namespace VisualEditor::Internal {
     bool ArrangementAddOn::altPressed() const {
         return m_altPressed;
     }
+
+    QQmlComponent *ArrangementAddOn::audioThumbnailComponent() {
+        return qobject_cast<QQmlComponent *>(Core::RuntimeInterface::instance()->getFirstObject("org.diffscope.visualeditor.audiothumbnailcomponent"));
+    }
+
     bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
         if (watched == windowHandle()->window()) {
             switch (event->type()) {
