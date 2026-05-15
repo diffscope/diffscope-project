@@ -24,7 +24,7 @@ If you are interested in contributing or collaborating, please feel free to reac
 - [x] Arrangement and piano roll editors
 - [x] Basic audio processing functionalities
 - [ ] Phoneme and parameter editors
-- [ ] Audio playback
+- [x] Audio playback
 - [ ] Integration of synthesis engine
 
 ## Build
@@ -50,6 +50,6 @@ You may refer to CI scripts for more details.
 
 DiffScope is licensed under the Apache License, Version 2.0.
 
-This license does not apply to plugins and other third-party dependencies.
+This license does not apply to third-party dependencies.
 
-Please refer to the plugin directories to view the licenses applicable to each individual plugin.
+Some built-in plugins are licensed under terms different from those of DiffScope itself. Please refer to the `plugins` directories for the license information applicable to each individual plugin. If a plugin does not explicitly include a separate license, it is licensed under the same terms as DiffScope.
