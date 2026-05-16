@@ -21,6 +21,8 @@ namespace Audio::Internal {
         Q_DECLARE_PRIVATE(AudioPreference)
         Q_PROPERTY(AudioPreference::PlayheadBehavior playbackBehavior READ playbackBehavior WRITE setPlaybackBehavior NOTIFY playbackBehaviorChanged)
         Q_PROPERTY(AudioPreference::PlaybackTogglingAction playbackTogglingAction READ playbackTogglingAction WRITE setPlaybackTogglingAction NOTIFY playbackTogglingActionChanged)
+        Q_PROPERTY(bool audioExporterClippingCheckEnabled READ audioExporterClippingCheckEnabled WRITE setAudioExporterClippingCheckEnabled NOTIFY audioExporterClippingCheckEnabledChanged)
+        Q_PROPERTY(bool audioExporterUseTemporaryFile READ audioExporterUseTemporaryFile WRITE setAudioExporterUseTemporaryFile NOTIFY audioExporterUseTemporaryFileChanged)
 
     public:
         ~AudioPreference() override;
@@ -51,10 +53,16 @@ namespace Audio::Internal {
         static void setPlaybackBehavior(PlayheadBehavior playbackBehavior);
         static PlaybackTogglingAction playbackTogglingAction();
         static void setPlaybackTogglingAction(PlaybackTogglingAction playbackTogglingAction);
+        static bool audioExporterClippingCheckEnabled();
+        static void setAudioExporterClippingCheckEnabled(bool enabled);
+        static bool audioExporterUseTemporaryFile();
+        static void setAudioExporterUseTemporaryFile(bool enabled);
 
     Q_SIGNALS:
         void playbackBehaviorChanged();
         void playbackTogglingActionChanged();
+        void audioExporterClippingCheckEnabledChanged();
+        void audioExporterUseTemporaryFileChanged();
 
     private:
         friend class AudioPlugin;

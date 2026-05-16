@@ -8,7 +8,7 @@
     "Vendor": "@PLUGIN_METADATA_VENDOR@",
     "Copyright": "@PLUGIN_METADATA_COPYRIGHT@",
     "License": [
-        "LGPL-3.0-or-later OR GPL-3.0-or-later"
+        "Apache-2.0"
     ],
     "Arguments" : [
     ],

@@ -19,9 +19,11 @@
 
 #include <audio/private/GlobalAudioContext_p.h>
 #include <audio/internal/AudioAndMidiPage.h>
+#include <audio/internal/AudioExporterPresets.h>
 #include <audio/internal/AudioOutputPage.h>
 #include <audio/internal/AudioPreference.h>
 #include <audio/internal/AudioClipAddOn.h>
+#include <audio/internal/ExportAudioAddOn.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/PlaybackPage.h>
@@ -46,6 +48,7 @@ namespace Audio::Internal {
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
         qCInfo(lcAudioPlugin) << "Initializing";
         initializeAudioPreference();
+        initializeAudioExporterPresets();
         initializeSettings();
         initializeAudioSystem();
         initializePropertyEditors();
@@ -66,6 +69,11 @@ namespace Audio::Internal {
     void AudioPlugin::initializeAudioPreference() {
         auto audioPreference = new AudioPreference(this);;
         audioPreference->load();
+    }
+
+    void AudioPlugin::initializeAudioExporterPresets() {
+        auto audioExporterPresets = new AudioExporterPresets(this);
+        audioExporterPresets->load();
     }
 
     void AudioPlugin::initializeAudioSystem() {
@@ -109,6 +117,7 @@ namespace Audio::Internal {
     void AudioPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioClipAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<ExportAudioAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PlaybackAddOn>();
     }
 }

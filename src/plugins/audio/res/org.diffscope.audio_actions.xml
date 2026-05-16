@@ -23,9 +23,13 @@
         <action id="org.diffscope.audio.playback.pauseButton" diffscope:componentType="widget" />
         <action id="org.diffscope.audio.insert.insertAudioClip^" icon="sound_wave_circle" />
         <action id="org.diffscope.audio.edit.replaceAudioClip^" icon="sound_wave_circle" />
+        <action id="org.diffscope.audio.export.exportAudio^" />
     </items>
 
     <layouts>
+        <group id="org.diffscope.audio.exportAudioActions">
+            <action id="org.diffscope.audio.export.exportAudio" />
+        </group>
         <group id="org.diffscope.audio.playbackActions">
             <action id="org.diffscope.audio.playback.play" />
             <action id="org.diffscope.audio.playback.pause" />
@@ -51,6 +55,9 @@
         </insertion>
         <insertion target="org.diffscope.core.edit.editCurrentClipActions" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClip">
             <action id="org.diffscope.audio.edit.replaceAudioClip" />
+        </insertion>
+        <insertion target="org.diffscope.core.file" anchor="before" relativeTo="org.diffscope.core.preferenceActions">
+            <group id="org.diffscope.audio.exportAudioActions" />
         </insertion>
     </insertions>
 </actionExtension>
