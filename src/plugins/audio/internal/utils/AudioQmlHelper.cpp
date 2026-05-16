@@ -31,7 +31,7 @@ namespace Audio::Internal {
         return AudioClipAudioContext::of(audioClip);
     }
 
-    QString AudioQmlHelper::getDisplayRealPath(const QString &path) {
+    QString AudioQmlHelper::getNativeSeparatorPath(const QString &path) {
         return QDir::toNativeSeparators(path);
     }
 

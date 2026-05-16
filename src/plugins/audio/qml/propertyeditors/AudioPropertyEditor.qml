@@ -79,7 +79,7 @@ PropertyEditorGroupBox {
             FormGroup {
                 id: actualPathFormGroup
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileMoved
-                readonly property string path: AudioQmlHelper.getDisplayRealPath(groupBox.audioClipAudioContext?.realAudioPath ?? "")
+                readonly property string path: AudioQmlHelper.getNativeSeparatorPath(groupBox.audioClipAudioContext?.realAudioPath ?? "")
                 Layout.fillWidth: true
                 label: qsTr("Actual path")
                 rowItem: ToolButton {

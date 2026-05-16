@@ -16,10 +16,12 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <audio/AudioExporterConfig.h>
-#include <audio/internal/AudioExporterPresets.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+
+#include <audio/AudioExporter.h>
+#include <audio/AudioExporterConfig.h>
+#include <audio/internal/AudioExporterPresets.h>
 
 namespace Audio::Internal {
     namespace {
@@ -37,6 +39,14 @@ namespace Audio::Internal {
                 }
             }
             return documentsDirectory();
+        }
+
+        void applyFileType(AudioExporterConfig &config, int index) {
+            const QFileInfo fileInfo(config.fileName());
+            config.setFileType(static_cast<AudioExporterConfig::FileType>(index));
+            config.setFormatOption(0);
+            config.setFileName(fileInfo.completeBaseName() + QStringLiteral(".") +
+                               AudioExporterConfig::extensionOfType(static_cast<AudioExporterConfig::FileType>(index)));
         }
     }
 
@@ -76,12 +86,20 @@ namespace Audio::Internal {
         if (!windowInterface || !windowInterface->window())
             return;
 
+        AudioExporter exporter(windowInterface, this);
+
+        connect(AudioExporterPresets::instance(), &AudioExporterPresets::currentConfigChanged, &exporter, [&exporter] {
+            exporter.setConfig(AudioExporterPresets::instance()->currentConfig());
+        });
+        exporter.setConfig(AudioExporterPresets::instance()->currentConfig());
+
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioExportDialog");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
         std::unique_ptr<QWindow> dialog(qobject_cast<QWindow *>(component.createWithInitialProperties({
-            {"addOn", QVariant::fromValue(this)}
+            {"addOn", QVariant::fromValue(this)},
+            {"exporter", QVariant::fromValue(&exporter)},
         })));
         if (!dialog) {
             qFatal() << component.errorString();
@@ -112,7 +130,7 @@ namespace Audio::Internal {
         const auto path = QFileDialog::getSaveFileName(
             nullptr,
             {},
-            QDir(projectDirectory(windowInterface)).absoluteFilePath(config.fileName()),
+            QDir(projectDirectory(windowInterface)).absoluteFilePath(config.fileDirectory()),
             filters.join(QStringLiteral(";;")),
             &selectedFilter
         );
@@ -126,7 +144,7 @@ namespace Audio::Internal {
             : QStringLiteral("_${trackIndex}_${trackName}.");
         config.setFileName(fileInfo.completeBaseName() + templateSuffix + fileInfo.suffix());
         config.setFileDirectory(fileInfo.dir().canonicalPath());
-        config.setFileType(static_cast<AudioExporterConfig::FileType>(filters.indexOf(selectedFilter)));
+        applyFileType(config, filters.indexOf(selectedFilter));
         presets->setCurrentConfig(config);
     }
 
@@ -150,6 +168,13 @@ namespace Audio::Internal {
             suffix = AudioExporterConfig::extensionOfType(config.fileType());
         }
         config.setFileName(basename + QStringLiteral(".") + suffix);
+        presets->setCurrentConfig(config);
+    }
+
+    void ExportAudioAddOn::setFileType(int index) {
+        auto presets = AudioExporterPresets::instance();
+        auto config = presets->currentConfig();
+        applyFileType(config, index);
         presets->setCurrentConfig(config);
     }
 

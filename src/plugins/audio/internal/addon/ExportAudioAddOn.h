@@ -29,6 +29,7 @@ namespace Audio::Internal {
         Q_INVOKABLE QStringList formatOptions(int fileType) const;
         Q_INVOKABLE void browseFile();
         Q_INVOKABLE void setMixingOption(int index);
+        Q_INVOKABLE void setFileType(int index);
     };
 
 }

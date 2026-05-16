@@ -149,6 +149,7 @@ namespace Audio {
 
         auto projectTimeline = windowHandle->projectTimeline();
         Q_ASSERT(projectTimeline);
+        // TODO change `rangeHint` to the real project length (类似ProjectWindowInterface::boundTimelineRangeHint，但是只考虑最远的剪辑)
         return {0, projectTimeline->rangeHint()};
     }
 

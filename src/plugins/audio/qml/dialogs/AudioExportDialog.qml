@@ -10,6 +10,7 @@ Window {
     id: dialog
 
     required property ExportAudioAddOn addOn
+    required property QtObject exporter
     readonly property QtObject trackList: addOn.windowHandle.projectDocumentContext.document.model.tracks
     readonly property var tracks: trackList.items
     readonly property QtObject trackSelectionModel: addOn.windowHandle.projectDocumentContext.document.selectionModel.trackSelectionModel
@@ -235,6 +236,7 @@ Window {
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.Wrap
+                            text: AudioQmlHelper.getNativeSeparatorPath(dialog.exporter.fileList[0] ?? "")
                         }
                     }
                 }
@@ -258,15 +260,14 @@ Window {
                                         qsTr("MP3"),
                                     ]
                                     currentIndex: AudioExporterPresets.currentConfig.fileType
-                                    onActivated: (index) => {
-                                        AudioExporterPresets.currentConfig.fileType = index
-                                        AudioExporterPresets.currentConfig.formatOption = 0
-                                    }
+                                    onActivated: (index) => dialog.addOn.setFileType(index)
                                 }
                                 Layout.fillWidth: true
                             }
                             FormGroup {
+                                id: optionFormGroup
                                 label: qsTr("Option")
+                                enabled: dialog.addOn.formatOptions(AudioExporterPresets.currentConfig.fileType).length > 0
                                 columnItem: ComboBox {
                                     model: dialog.addOn.formatOptions(AudioExporterPresets.currentConfig.fileType)
                                     currentIndex: AudioExporterPresets.currentConfig.formatOption
@@ -311,7 +312,9 @@ Window {
                                 Layout.fillWidth: true
                             }
                             FormGroup {
+                                id: qualityFormGroup
                                 label: qsTr("Quality")
+                                enabled: AudioExporterPresets.currentConfig.fileType !== 0 && AudioExporterPresets.currentConfig.fileType !== 1
                                 columnItem: RowLayout {
                                     Slider {
                                         Layout.fillWidth: true
