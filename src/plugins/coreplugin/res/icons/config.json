@@ -11256,6 +11256,10 @@
         {
           "id": "arrow_import_up",
           "icon": "arrow_import?rotate=3"
+        },
+        {
+          "id": "sound_wave_circle_arrow_right",
+          "icon": "sound_wave_circle_arrow_right"
         }
       ]
     }

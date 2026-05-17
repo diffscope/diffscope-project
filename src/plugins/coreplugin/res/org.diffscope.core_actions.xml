@@ -322,6 +322,7 @@
             <separator />
             <action id="org.diffscope.core.file.open" />
             <action id="org.diffscope.core.file.save" />
+            <group id="org.diffscope.core.edit.undoActions" />
         </menu>
 
         <menu id="org.diffscope.core.mainToolBarRight">
