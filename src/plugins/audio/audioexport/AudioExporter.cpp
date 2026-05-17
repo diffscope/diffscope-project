@@ -199,13 +199,9 @@ namespace Audio {
                 break;
             }
             case AudioExporterConfig::SO_Custom:
-                indexes = parameter.source();
-                for (const auto index : indexes) {
-                    if (index < 0 || index >= trackList.size()) {
-                        if (ok) {
-                            *ok = false;
-                        }
-                        return {};
+                for (const auto index : parameter.source()) {
+                    if (index >= 0 && index < trackList.size()) {
+                        indexes.append(index);
                     }
                 }
                 break;
@@ -319,21 +315,10 @@ namespace Audio {
             preflightWarnings |= AudioExporter::PW_LossyFormat;
         }
 
-        bool sourcesOk = true;
-        const auto indexes = sourceIndexes(&sourcesOk);
+        const auto indexes = sourceIndexes();
         const auto isMixed = config.mixingOption() == AudioExporterConfig::MO_Mixed;
-        if (!sourcesOk || (!isMixed && indexes.isEmpty())) {
+        if (!isMixed && indexes.isEmpty()) {
             preflightWarnings |= AudioExporter::PW_NoFile;
-        }
-
-        if (!sourcesOk || (!isMixed && indexes.isEmpty())) {
-            if (oldWarnings != preflightWarnings) {
-                Q_EMIT q->preflightWarningsChanged();
-            }
-            if (oldFileList != fileList) {
-                Q_EMIT q->fileListChanged();
-            }
-            return;
         }
 
         const auto directory = QDir(projectDirectory()).absoluteFilePath(config.fileDirectory());
@@ -384,9 +369,6 @@ namespace Audio {
             switch (newError) {
                 case AudioExporter::InvalidConfig:
                     newErrorString = AudioExporter::tr("Invalid audio export configuration.");
-                    break;
-                case AudioExporter::InvalidSource:
-                    newErrorString = AudioExporter::tr("Invalid audio export source.");
                     break;
                 case AudioExporter::CannotOpenFile:
                     newErrorString = AudioExporter::tr("Cannot open file for writing.");
@@ -561,13 +543,7 @@ namespace Audio {
             return R_Fail;
         }
 
-        bool sourcesOk = true;
-        const auto sourceIndexes = d->sourceIndexes(&sourcesOk);
-        if (!sourcesOk || d->fileList.isEmpty() ||
-            (d->config.mixingOption() != AudioExporterConfig::MO_Mixed && sourceIndexes.isEmpty())) {
-            d->setError(InvalidSource, tr("No file will be exported. Please check if any source is selected."));
-            return R_Fail;
-        }
+        const auto sourceIndexes = d->sourceIndexes();
 
         const auto projectContext = d->projectContext();
         QHash<QString, QString> temporaryFiles;
@@ -623,6 +599,7 @@ namespace Audio {
 
             const auto sourceTracks = d->sourceTrackContexts(sourceIndexes);
             if (d->config.mixingOption() == AudioExporterConfig::MO_Mixed) {
+                Q_ASSERT(!d->fileList.isEmpty());
                 exporter.setMixedTask(sourceTracks, &ioList[0]);
             } else {
                 Q_ASSERT(sourceTracks.size() == d->fileList.size());

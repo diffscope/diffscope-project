@@ -73,7 +73,6 @@ namespace Audio {
         enum Error {
             NoError,
             InvalidConfig,
-            InvalidSource,
             CannotOpenFile,
             UnsupportedFormat,
             CannotStartExport,
