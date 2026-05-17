@@ -184,7 +184,7 @@ Window {
             const msec = dialog.addOn.calculateDurationInMsec(dialog.exporter)
             const minutes = Math.floor(msec / 60000);
             const seconds = Math.floor((msec % 60000) / 1000);
-            const milliseconds = msec % 1000;
+            const milliseconds = Math.floor(msec % 1000);
             durationText = `${minutes}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
             if (AudioExporterPresets.currentConfig.fileType !== 0) {
                 sizeText = qsTr("N/A")
@@ -264,6 +264,24 @@ Window {
                                         icon.source: "image://fluent-system-icons/braces"
                                         text: qsTr("Templates")
                                         display: AbstractButton.IconOnly
+                                        action: MenuAction {
+                                            menu: Menu {
+                                                Action {
+                                                    text: qsTr("Project name")
+                                                    onTriggered: dialog.addOn.appendFileNameTemplate("${projectName}")
+                                                }
+                                                Action {
+                                                    text: qsTr("Track name")
+                                                    enabled: AudioExporterPresets.currentConfig.mixingOption !== 0
+                                                    onTriggered: dialog.addOn.appendFileNameTemplate("${trackName}")
+                                                }
+                                                Action {
+                                                    text: qsTr("Track number")
+                                                    enabled: AudioExporterPresets.currentConfig.mixingOption !== 0
+                                                    onTriggered: dialog.addOn.appendFileNameTemplate("${trackIndex}")
+                                                }
+                                            }
+                                        }
                                     }
                                     AssistantButton {
                                         id: fileNameAssistant

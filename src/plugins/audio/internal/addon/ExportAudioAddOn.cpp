@@ -194,7 +194,7 @@ namespace Audio::Internal {
         eventLoop.exec();
     }
 
-    QStringList ExportAudioAddOn::formatOptions(int fileType) const {
+    QStringList ExportAudioAddOn::formatOptions(int fileType) {
         return AudioExporterConfig::formatOptionsOfType(static_cast<AudioExporterConfig::FileType>(fileType));
     }
 
@@ -267,6 +267,13 @@ namespace Audio::Internal {
         auto musicTimeline = windowInterface->projectTimeline()->musicTimeline();
 
         return musicTimeline->create(0, 0, range.second).millisecond() - musicTimeline->create(0, 0, range.first).millisecond();
+    }
+
+    void ExportAudioAddOn::appendFileNameTemplate(const QString &templateString) {
+        auto config = AudioExporterPresets::instance()->currentConfig();
+        QFileInfo info(config.fileName());
+        config.setFileName(info.completeBaseName() + "_" + templateString + "." + info.suffix());
+        AudioExporterPresets::instance()->setCurrentConfig(config);
     }
 
     bool ExportAudioAddOn::runExport(AudioExporter *exporter) {

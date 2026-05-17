@@ -83,11 +83,13 @@ namespace Audio::Internal {
         void setCurrentParameter(const AudioExporterParameter &parameter);
 
         Q_INVOKABLE void exportAudio();
-        Q_INVOKABLE QStringList formatOptions(int fileType) const;
         Q_INVOKABLE void browseFile();
-        Q_INVOKABLE void setMixingOption(int index);
-        Q_INVOKABLE void setFileType(int index);
         Q_INVOKABLE bool runExport(AudioExporter *exporter);
+
+        Q_INVOKABLE static QStringList formatOptions(int fileType) ;
+        Q_INVOKABLE static void setMixingOption(int index);
+        Q_INVOKABLE static void setFileType(int index);
+        Q_INVOKABLE static void appendFileNameTemplate(const QString &templateString);
 
         Q_INVOKABLE double calculateDurationInMsec(AudioExporter *exporter) const;
 
