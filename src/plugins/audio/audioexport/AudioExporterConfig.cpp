@@ -1,10 +1,38 @@
 #include "AudioExporterConfig.h"
 #include "AudioExporterConfig_p.h"
 
-#include <QJsonArray>
 #include <QJsonValue>
 
 namespace Audio {
+
+    QList<int> AudioExporterParameter::source() const {
+        return m_source;
+    }
+
+    void AudioExporterParameter::setSource(const QList<int> &source) {
+        m_source = source;
+    }
+
+    int AudioExporterParameter::rangeStart() const {
+        return m_rangeStart;
+    }
+
+    void AudioExporterParameter::setRangeStart(int rangeStart) {
+        m_rangeStart = rangeStart;
+    }
+
+    int AudioExporterParameter::rangeLength() const {
+        return m_rangeLength;
+    }
+
+    void AudioExporterParameter::setRangeLength(int rangeLength) {
+        m_rangeLength = rangeLength;
+    }
+
+    bool AudioExporterParameter::operator==(const AudioExporterParameter &other) const {
+        return m_source == other.m_source && m_rangeStart == other.m_rangeStart &&
+               m_rangeLength == other.m_rangeLength;
+    }
 
     AudioExporterConfig::AudioExporterConfig() : d(new AudioExporterConfigData) {
     }
@@ -133,14 +161,6 @@ namespace Audio {
         d->sourceOption = sourceOption;
     }
 
-    QList<int> AudioExporterConfig::source() const {
-        return d->source;
-    }
-
-    void AudioExporterConfig::setSource(const QList<int> &source) {
-        d->source = source;
-    }
-
     AudioExporterConfig::TimeRange AudioExporterConfig::timeRange() const {
         return d->timeRange;
     }
@@ -150,11 +170,6 @@ namespace Audio {
     }
 
     QJsonObject AudioExporterConfig::toJsonObject() const {
-        QJsonArray sourceArray;
-        for (const auto sourceIndex : d->source) {
-            sourceArray.append(sourceIndex);
-        }
-
         return {
             {"fileName",          d->fileName                         },
             {"fileDirectory",     d->fileDirectory                    },
@@ -166,7 +181,6 @@ namespace Audio {
             {"mixingOption",      static_cast<int>(d->mixingOption)   },
             {"isMuteSoloEnabled", d->isMuteSoloEnabled                },
             {"sourceOption",      static_cast<int>(d->sourceOption)   },
-            {"source",            sourceArray                         },
             {"timeRange",         static_cast<int>(d->timeRange)      },
         };
     }
@@ -219,22 +233,6 @@ namespace Audio {
         assignInt(QStringLiteral("sourceOption"), sourceOption);
         config.d->sourceOption = static_cast<SourceOption>(sourceOption);
 
-        value = object.value(QStringLiteral("source"));
-        if (value.isArray()) {
-            QList<int> source;
-            bool ok = true;
-            for (const auto item : value.toArray()) {
-                if (!item.isDouble()) {
-                    ok = false;
-                    break;
-                }
-                source.append(item.toInt());
-            }
-            if (ok) {
-                config.d->source = source;
-            }
-        }
-
         int timeRange = config.d->timeRange;
         assignInt(QStringLiteral("timeRange"), timeRange);
         config.d->timeRange = static_cast<TimeRange>(timeRange);
@@ -242,7 +240,6 @@ namespace Audio {
     }
 
     bool AudioExporterConfig::operator==(const AudioExporterConfig &other) const {
-        // `source` is not compared
         return d->fileName == other.d->fileName && d->fileDirectory == other.d->fileDirectory &&
                d->fileType == other.d->fileType && d->formatMono == other.d->formatMono &&
                d->formatOption == other.d->formatOption && d->formatQuality == other.d->formatQuality &&

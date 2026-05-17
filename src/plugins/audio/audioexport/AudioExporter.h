@@ -32,6 +32,7 @@ namespace Audio {
         Q_DECLARE_PRIVATE(AudioExporter)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
         Q_PROPERTY(Audio::AudioExporterConfig config READ config WRITE setConfig NOTIFY configChanged)
+        Q_PROPERTY(Audio::AudioExporterParameter parameter READ parameter WRITE setParameter NOTIFY parameterChanged)
         Q_PROPERTY(PreflightWarnings preflightWarnings READ preflightWarnings NOTIFY preflightWarningsChanged)
         Q_PROPERTY(QStringList fileList READ fileList NOTIFY fileListChanged)
         Q_PROPERTY(Error error READ error NOTIFY errorChanged)
@@ -49,6 +50,9 @@ namespace Audio {
         AudioExporterConfig config() const;
         void setConfig(const AudioExporterConfig &config);
 
+        AudioExporterParameter parameter() const;
+        void setParameter(const AudioExporterParameter &parameter);
+
         enum PreflightWarningFlag {
             PW_NoFile = 0x0001,
             PW_DuplicatedFile = 0x0002,
@@ -61,7 +65,7 @@ namespace Audio {
         Q_FLAG(PreflightWarnings)
 
         PreflightWarnings preflightWarnings() const;
-        static QStringList preflightWarningTexts(PreflightWarnings warnings);
+        Q_INVOKABLE static QStringList preflightWarningTexts(PreflightWarnings warnings);
 
         QStringList fileList() const;
         QStringList dryRun() const;
@@ -99,6 +103,7 @@ namespace Audio {
 
     Q_SIGNALS:
         void configChanged();
+        void parameterChanged();
         void preflightWarningsChanged();
         void fileListChanged();
         void errorChanged();

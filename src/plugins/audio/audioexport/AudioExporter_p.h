@@ -24,6 +24,7 @@ namespace Audio {
         AudioExporter *q_ptr{};
         Core::ProjectWindowInterface *windowHandle{};
         AudioExporterConfig config;
+        AudioExporterParameter parameter;
         bool configInitialized{};
         AudioExporter::PreflightWarnings preflightWarnings{};
         QStringList fileList;
@@ -50,6 +51,8 @@ namespace Audio {
         void setError(AudioExporter::Error error, const QString &message = {});
         void clearError();
         void setRunning(bool running);
+
+        static AudioExporterPrivate *of(AudioExporter *q);
     };
 
 }

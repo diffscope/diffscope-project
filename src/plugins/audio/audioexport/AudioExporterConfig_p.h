@@ -19,7 +19,6 @@ namespace Audio {
         AudioExporterConfig::MixingOption mixingOption{};
         bool isMuteSoloEnabled{};
         AudioExporterConfig::SourceOption sourceOption{};
-        QList<int> source;
         AudioExporterConfig::TimeRange timeRange{};
     };
 

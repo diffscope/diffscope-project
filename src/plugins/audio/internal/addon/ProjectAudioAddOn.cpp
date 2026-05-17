@@ -86,7 +86,7 @@ namespace Audio::Internal {
             auto sampleRate = GlobalAudioContext::sampleRate();
             if (qFuzzyIsNull(sampleRate))
                 return 0;
-            return static_cast<qint64>(msec * sampleRate / 1000);
+            return static_cast<qint64>(std::round(msec * sampleRate / 1000));
         });
 
         syncMasterControl();

@@ -2,6 +2,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -11,6 +12,10 @@ Window {
 
     required property ExportAudioAddOn addOn
     required property QtObject exporter
+    required property int timeRangeAllEnd
+    required property int timeRangeLoopSectionStart
+    required property int timeRangeLoopSectionEnd
+
     readonly property QtObject trackList: addOn.windowHandle.projectDocumentContext.document.model.tracks
     readonly property var tracks: trackList.items
     readonly property QtObject trackSelectionModel: addOn.windowHandle.projectDocumentContext.document.selectionModel.trackSelectionModel
@@ -30,39 +35,15 @@ Window {
         return Number.fromLocaleString(Qt.locale(), text)
     }
 
-    function selectedTrackIndexesFromProject() {
-        return tracks.map((track, index) => trackSelectionModel.isItemSelected(track) ? index : -1).filter(index => index >= 0)
-    }
-
-    function effectiveSourceIndexes() {
-        if (AudioExporterPresets.currentConfig.sourceOption === 0)
-            return tracks.map((track, index) => index)
-        if (AudioExporterPresets.currentConfig.sourceOption === 1)
-            return selectedTrackIndexesFromProject()
-        return AudioExporterPresets.currentConfig.source
-    }
-
-    function isTrackChecked(trackIndex) {
-        trackSelectionRevision
-        return effectiveSourceIndexes().indexOf(trackIndex) >= 0
-    }
-
-    function setSourceOption(sourceOption) {
-        const source = sourceOption === 2 ? effectiveSourceIndexes() :
-                                           (sourceOption === 0 ? tracks.map((track, index) => index) : selectedTrackIndexesFromProject())
-        AudioExporterPresets.currentConfig.sourceOption = sourceOption
-        AudioExporterPresets.currentConfig.source = source
-    }
-
     function setTrackChecked(trackIndex, checked) {
-        let source = Array.from(AudioExporterPresets.currentConfig.source)
+        let source = Array.from(dialog.addOn.currentParameter.source)
         const index = source.indexOf(trackIndex)
         if (checked && index < 0)
             source.push(trackIndex)
         else if (!checked && index >= 0)
             source.splice(index, 1)
         source.sort((a, b) => a - b)
-        AudioExporterPresets.currentConfig.source = source
+        dialog.addOn.currentParameter.source = source
     }
 
     function presetData(role) {
@@ -88,24 +69,28 @@ Window {
         }
     }
 
-    Connections {
-        target: dialog.trackSelectionModel
-        function onSelectedItemsChanged() {
-            ++dialog.trackSelectionRevision
-            if (AudioExporterPresets.currentConfig.sourceOption === 1)
-                dialog.setSourceOption(1)
-        }
-    }
-
-    Connections {
-        target: dialog.trackList
-        function onItemsChanged() {
-            if (AudioExporterPresets.currentConfig.sourceOption !== 2)
-                dialog.setSourceOption(AudioExporterPresets.currentConfig.sourceOption)
-        }
-    }
-
     Component.onCompleted: sampleRateCombo.editText = AudioExporterPresets.currentConfig.formatSampleRate.toLocaleString()
+
+    component AssistantButton: IconImage {
+        id: assistantButton
+
+        source: "image://fluent-system-icons/question_circle?style=regular"
+        sourceSize.width: 16
+        sourceSize.height: 16
+        color: Theme.foregroundSecondaryColor
+
+        property string text: ""
+
+        ToolTip {
+            id: assistantToolTip
+            text: assistantButton.text
+            visible: hoverHandler.hovered
+        }
+
+        HoverHandler {
+            id: hoverHandler
+        }
+    }
 
     Dialog {
         id: saveAsDialog
@@ -147,10 +132,74 @@ Window {
                 }
             }
         }
-        onOpened: {
+        onAboutToShow: () => {
             presetNameTextField.text = dialog.currentPresetBuiltin() || dialog.currentPresetUnsaved() ? "" : dialog.currentPresetName()
             presetNameTextField.forceActiveFocus()
             presetNameTextField.selectAll()
+        }
+    }
+
+    Dialog {
+        id: dryRunDialog
+        anchors.centerIn: parent
+        title: qsTr("Dry Run")
+        width: 400
+        property string fileTypeName: ""
+        property string durationText: ""
+        property string sizeText: ""
+        property list<string> warningTextList: []
+        property list<string> fileList: []
+        ColumnLayout {
+            anchors.fill: parent
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: qsTr("%Ln %1 file(s)\nDuration: %2\nEstimated size of each file: %3", "", dryRunDialog.fileList.length).arg(dryRunDialog.fileTypeName).arg(dryRunDialog.durationText).arg(dryRunDialog.sizeText)
+            }
+            ColumnLayout {
+                Layout.fillWidth: true
+                Repeater {
+                    model: dryRunDialog.warningTextList
+                    Annotation {
+                        required property string modelData
+                        ThemedItem.controlType: SVS.CT_Warning
+                        Layout.fillWidth: true
+                        label: modelData
+                    }
+                }
+            }
+            GroupBox {
+                Layout.fillWidth: true
+                title: qsTr("File List")
+                Label {
+                    anchors.fill: parent
+                    text: dryRunDialog.fileList.map(v => AudioQmlHelper.getNativeSeparatorPath(v)).join("\n")
+                }
+            }
+        }
+        onAboutToShow: () => {
+            fileList = dialog.exporter.fileList
+            warningTextList = dialog.exporter.preflightWarningTexts(dialog.exporter.preflightWarnings)
+            fileTypeName = [qsTr("WAV"), qsTr("FLAC"), qsTr("Ogg Vorbis"), qsTr("MP3")][AudioExporterPresets.currentConfig.fileType]
+            const msec = dialog.addOn.calculateDurationInMsec(dialog.exporter)
+            const minutes = Math.floor(msec / 60000);
+            const seconds = Math.floor((msec % 60000) / 1000);
+            const milliseconds = msec % 1000;
+            durationText = `${minutes}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+            if (AudioExporterPresets.currentConfig.fileType !== 0) {
+                sizeText = qsTr("N/A")
+            } else {
+                const estimatedBytes = msec / 1000 * AudioExporterPresets.currentConfig.formatSampleRate * (AudioExporterPresets.currentConfig.formatMono ? 1 : 2) * (4 - AudioExporterPresets.currentConfig.formatOption)
+                const kib = estimatedBytes / 1024;
+                const mib = kib / 1024;
+                if (estimatedBytes < 1024) {
+                    sizeText = `${estimatedBytes} B`;
+                } else if (kib < 1024) {
+                    sizeText = `${kib.toFixed(2).replace(/\.?0+$/, "")} KiB`;
+                } else {
+                    sizeText = `${mib.toFixed(2).replace(/\.?0+$/, "")} MiB`;
+                }
+            }
         }
     }
 
@@ -216,10 +265,15 @@ Window {
                                         text: qsTr("Templates")
                                         display: AbstractButton.IconOnly
                                     }
+                                    AssistantButton {
+                                        id: fileNameAssistant
+                                        text: "<h3>Template tags</h3><br/><p><b>${projectName}</b>: the base name of the project file</p><br/><p>The following tags are available only for separate-track export:</p><br/><p><b>${trackName}</b>: track name<br/><b>${trackIndex}</b>: track number</p>"
+                                    }
                                 }
                                 columnItem: TextField {
                                     text: AudioExporterPresets.currentConfig.fileName
                                     onTextEdited: AudioExporterPresets.currentConfig.fileName = text
+                                    Accessible.description: fileNameAssistant.text
                                 }
                                 Layout.fillWidth: true
                             }
@@ -365,12 +419,12 @@ Window {
                                 label: qsTr("Source")
                                 columnItem: ComboBox {
                                     model: [
-                                        qsTr("All"),
+                                        qsTr("All tracks"),
                                         qsTr("Selected tracks"),
                                         qsTr("Custom"),
                                     ]
                                     currentIndex: AudioExporterPresets.currentConfig.sourceOption
-                                    onActivated: (index) => dialog.setSourceOption(index)
+                                    onActivated: (index) => AudioExporterPresets.currentConfig.sourceOption = index
                                 }
                                 Layout.fillWidth: true
                             }
@@ -400,10 +454,21 @@ Window {
                                 Repeater {
                                     model: dialog.tracks
                                     CheckBox {
+                                        required property var modelData
+                                        required property int index
                                         topPadding: 0
                                         bottomPadding: 0
                                         text: qsTr("%L1: %2").arg(index + 1).arg(modelData.name)
-                                        checked: dialog.isTrackChecked(index)
+                                        checked: {
+                                            let sourceOption = AudioExporterPresets.currentConfig.sourceOption
+                                            if (sourceOption === 0) {
+                                                return true
+                                            } else if (sourceOption === 1) {
+                                                return dialog.trackSelectionModel.isItemSelected(modelData)
+                                            } else {
+                                                return dialog.addOn.currentParameter.source.includes(index)
+                                            }
+                                        }
                                         onClicked: dialog.setTrackChecked(index, checked)
                                     }
                                 }
@@ -418,7 +483,7 @@ Window {
                     RowLayout {
                         spacing: 12
                         RadioButton {
-                            text: qsTr("All")
+                            text: qsTr("Whole project")
                             checked: AudioExporterPresets.currentConfig.timeRange === 0
                             onClicked: AudioExporterPresets.currentConfig.timeRange = 0
                         }
@@ -426,6 +491,45 @@ Window {
                             text: qsTr("Loop section")
                             checked: AudioExporterPresets.currentConfig.timeRange === 1
                             onClicked: AudioExporterPresets.currentConfig.timeRange = 1
+                        }
+                        RadioButton {
+                            text: qsTr("Custom")
+                            checked: AudioExporterPresets.currentConfig.timeRange === 2
+                            onClicked: AudioExporterPresets.currentConfig.timeRange = 2
+                        }
+                        MusicTimeSpinBox {
+                            id: startSpinBox
+                            Layout.fillWidth: true
+                            timeline: dialog.addOn.windowHandle.projectTimeline.musicTimeline
+                            enabled: AudioExporterPresets.currentConfig.timeRange === 2
+                            value: {
+                                if (AudioExporterPresets.currentConfig.timeRange === 0) {
+                                    return 0
+                                } else if (AudioExporterPresets.currentConfig.timeRange === 1) {
+                                    return dialog.timeRangeLoopSectionStart
+                                }
+                                return dialog.addOn.currentParameter.rangeStart
+                            }
+                            onValueModified: dialog.addOn.currentParameter.rangeStart = value
+                        }
+                        Label {
+                            text: "-"
+                        }
+                        MusicTimeSpinBox {
+                            id: endSpinBox
+                            Layout.fillWidth: true
+                            timeline: dialog.addOn.windowHandle.projectTimeline.musicTimeline
+                            enabled: AudioExporterPresets.currentConfig.timeRange === 2
+                            from: dialog.addOn.currentParameter.rangeStart + 1
+                            value: {
+                                if (AudioExporterPresets.currentConfig.timeRange === 0) {
+                                    return dialog.timeRangeAllEnd
+                                } else if (AudioExporterPresets.currentConfig.timeRange === 1) {
+                                    return dialog.timeRangeLoopSectionEnd
+                                }
+                                return dialog.addOn.currentParameter.rangeStart + dialog.addOn.currentParameter.rangeLength
+                            }
+                            onValueModified: dialog.addOn.currentParameter.rangeLength = value - dialog.addOn.currentParameter.rangeStart
                         }
                     }
                 }
@@ -447,14 +551,39 @@ Window {
                 Button {
                     id: dryRunButton
                     text: qsTr("Dry Run")
+                    onClicked: dryRunDialog.open()
+                }
+                CheckBox {
+                    id: keepOpenCheckBox
+                    text: qsTr("Keep this dialog open after successful export")
                 }
                 Item {
                     Layout.fillWidth: true
                 }
                 Button {
+                    id: warningButton
+                    flat: true
+                    icon.source: "image://fluent-system-icons/warning"
+                    icon.color: Theme.warningColor
+                    text: qsTr("Warnings")
+                    display: AbstractButton.IconOnly
+                    visible: dialog.exporter.preflightWarnings !== 0
+                    onClicked: dryRunDialog.open()
+                }
+                Button {
                     id: exportButton
                     text: qsTr("Export")
                     ThemedItem.controlType: SVS.CT_Accent
+                    onClicked: () => {
+                        for (const warningText of dialog.exporter.preflightWarningTexts(dialog.exporter.preflightWarnings)) {
+                            if (MessageBox.warning(qsTr("Warning"), warningText + "\n\n" + qsTr("Continue to export?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
+                                return
+                            }
+                        }
+                        if (dialog.addOn.runExport(dialog.exporter) && !keepOpenCheckBox.checked) {
+                            dialog.close()
+                        }
+                    }
                 }
                 Button {
                     id: cancelButton

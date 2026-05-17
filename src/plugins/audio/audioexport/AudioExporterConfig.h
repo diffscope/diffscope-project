@@ -14,6 +14,29 @@ namespace Audio {
 
     class AudioExporterConfigData;
 
+    class AUDIO_EXPORT AudioExporterParameter {
+        Q_GADGET
+        Q_PROPERTY(QList<int> source READ source WRITE setSource)
+        Q_PROPERTY(int rangeStart READ rangeStart WRITE setRangeStart)
+        Q_PROPERTY(int rangeLength READ rangeLength WRITE setRangeLength)
+    public:
+        QList<int> source() const;
+        void setSource(const QList<int> &source);
+
+        int rangeStart() const;
+        void setRangeStart(int rangeStart);
+
+        int rangeLength() const;
+        void setRangeLength(int rangeLength);
+
+        bool operator==(const AudioExporterParameter &other) const;
+
+    private:
+        QList<int> m_source;
+        int m_rangeStart{};
+        int m_rangeLength{};
+    };
+
     class AUDIO_EXPORT AudioExporterConfig {
         Q_GADGET
         Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
@@ -26,7 +49,6 @@ namespace Audio {
         Q_PROPERTY(MixingOption mixingOption READ mixingOption WRITE setMixingOption)
         Q_PROPERTY(bool muteSoloEnabled READ isMuteSoloEnabled WRITE setMuteSoloEnabled)
         Q_PROPERTY(SourceOption sourceOption READ sourceOption WRITE setSourceOption)
-        Q_PROPERTY(QList<int> source READ source WRITE setSource)
         Q_PROPERTY(TimeRange timeRange READ timeRange WRITE setTimeRange)
         Q_DECLARE_TR_FUNCTIONS(Audio::AudioExporterConfig)
     public:
@@ -89,12 +111,10 @@ namespace Audio {
         SourceOption sourceOption() const;
         void setSourceOption(SourceOption sourceOption);
 
-        QList<int> source() const;
-        void setSource(const QList<int> &source);
-
         enum TimeRange {
             TR_All,
             TR_LoopSection,
+            TR_Custom,
         };
         Q_ENUM(TimeRange)
         TimeRange timeRange() const;

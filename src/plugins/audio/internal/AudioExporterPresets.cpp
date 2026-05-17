@@ -316,7 +316,6 @@ namespace Audio::Internal {
             config.setMixingOption(mixingOption);
             config.setMuteSoloEnabled(true);
             config.setSourceOption(AudioExporterConfig::SO_All);
-            config.setSource({});
             config.setTimeRange(AudioExporterConfig::TR_All);
             return config;
         };

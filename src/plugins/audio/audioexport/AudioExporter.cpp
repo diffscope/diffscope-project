@@ -31,6 +31,9 @@
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <dspxmodel/Clip.h>
+#include <dspxmodel/ClipSequence.h>
+#include <dspxmodel/ClipTime.h>
 #include <dspxmodel/Model.h>
 #include <dspxmodel/SelectionModel.h>
 #include <dspxmodel/Timeline.h>
@@ -142,15 +145,25 @@ namespace Audio {
         const auto model = document->model();
         Q_ASSERT(model);
 
-        auto timeline = model->timeline();
-        if (config.timeRange() == AudioExporterConfig::TR_LoopSection && timeline->isLoopEnabled() && timeline->loopLength() > 0) {
-            return {timeline->loopStart(), timeline->loopLength()};
+        switch (config.timeRange()) {
+            case AudioExporterConfig::TR_All:
+                break;
+            case AudioExporterConfig::TR_LoopSection: {
+                auto timeline = model->timeline();
+                if (timeline->isLoopEnabled() && timeline->loopLength() > 0) {
+                    return {timeline->loopStart(), timeline->loopLength()};
+                }
+                break;
+            }
+            case AudioExporterConfig::TR_Custom:
+                return {parameter.rangeStart(), parameter.rangeLength()};
         }
 
-        auto projectTimeline = windowHandle->projectTimeline();
-        Q_ASSERT(projectTimeline);
-        // TODO change `rangeHint` to the real project length (类似ProjectWindowInterface::boundTimelineRangeHint，但是只考虑最远的剪辑)
-        return {0, projectTimeline->rangeHint()};
+        return {0, std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
+            return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
+                return clip->position() + clip->time()->clipLen();
+            }));
+        }))};
     }
 
     QList<int> AudioExporterPrivate::sourceIndexes(bool *ok) const {
@@ -186,7 +199,7 @@ namespace Audio {
                 break;
             }
             case AudioExporterConfig::SO_Custom:
-                indexes = config.source();
+                indexes = parameter.source();
                 for (const auto index : indexes) {
                     if (index < 0 || index >= trackList.size()) {
                         if (ok) {
@@ -308,11 +321,12 @@ namespace Audio {
 
         bool sourcesOk = true;
         const auto indexes = sourceIndexes(&sourcesOk);
-        if (!sourcesOk || indexes.isEmpty()) {
+        const auto isMixed = config.mixingOption() == AudioExporterConfig::MO_Mixed;
+        if (!sourcesOk || (!isMixed && indexes.isEmpty())) {
             preflightWarnings |= AudioExporter::PW_NoFile;
         }
 
-        if (indexes.isEmpty()) {
+        if (!sourcesOk || (!isMixed && indexes.isEmpty())) {
             if (oldWarnings != preflightWarnings) {
                 Q_EMIT q->preflightWarningsChanged();
             }
@@ -323,7 +337,7 @@ namespace Audio {
         }
 
         const auto directory = QDir(projectDirectory()).absoluteFilePath(config.fileDirectory());
-        if (config.mixingOption() == AudioExporterConfig::MO_Mixed) {
+        if (isMixed) {
             auto fileName = config.fileName();
             if (!resolveTemplate(fileName)) {
                 preflightWarnings |= AudioExporter::PW_UnrecognizedTemplate;
@@ -458,6 +472,21 @@ namespace Audio {
         d->refreshPreflight();
     }
 
+    AudioExporterParameter AudioExporter::parameter() const {
+        Q_D(const AudioExporter);
+        return d->parameter;
+    }
+
+    void AudioExporter::setParameter(const AudioExporterParameter &parameter) {
+        Q_D(AudioExporter);
+        if (d->parameter == parameter) {
+            return;
+        }
+        d->parameter = parameter;
+        Q_EMIT parameterChanged();
+        d->refreshPreflight();
+    }
+
     AudioExporter::PreflightWarnings AudioExporter::preflightWarnings() const {
         Q_D(const AudioExporter);
         return d->preflightWarnings;
@@ -534,7 +563,8 @@ namespace Audio {
 
         bool sourcesOk = true;
         const auto sourceIndexes = d->sourceIndexes(&sourcesOk);
-        if (!sourcesOk || sourceIndexes.isEmpty() || d->fileList.isEmpty()) {
+        if (!sourcesOk || d->fileList.isEmpty() ||
+            (d->config.mixingOption() != AudioExporterConfig::MO_Mixed && sourceIndexes.isEmpty())) {
             d->setError(InvalidSource, tr("No file will be exported. Please check if any source is selected."));
             return R_Fail;
         }
@@ -703,6 +733,10 @@ namespace Audio {
 
     void AudioExporter::addRuntimeWarning(const QString &message, int sourceIndex) {
         Q_EMIT runtimeWarningAdded(message, sourceIndex);
+    }
+
+    AudioExporterPrivate *AudioExporterPrivate::of(AudioExporter *q) {
+        return q->d_func();
     }
 
 }
