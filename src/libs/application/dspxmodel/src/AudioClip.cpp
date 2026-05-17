@@ -1,6 +1,7 @@
 #include "AudioClip.h"
 
 #include <QDir>
+#include <QFileInfo>
 
 #include <opendspx/audioclip.h>
 
@@ -66,9 +67,7 @@ namespace dspx {
             QDir(audioPathInfo.absoluteDir).filePath(audioPathInfo.fileName).toStdString(),
         };
         clip.workspace["diffscope"]["audio"] = nlohmann::json::object({
-            {"absoluteDir", audioPathInfo.absoluteDir.toStdString()},
             {"relativeDir", audioPathInfo.relativeDir.toStdString()},
-            {"fileName", audioPathInfo.fileName.toStdString()},
             {"formatEntryClassName", audioPathInfo.formatEntryClassName.toStdString()},
             {"userData", encodeUserData(audioPathInfo.userData)},
             {"sha512", audioPathInfo.sha512.toStdString()}
@@ -81,19 +80,19 @@ namespace dspx {
         control()->fromOpenDspx(clip.control);
         time()->fromOpenDspx(clip.time);
         workspace()->fromOpenDspx(clip.workspace);
+        auto fileInfo = QFileInfo(QString::fromStdString(clip.path));
         auto diffscopeWorkspace = clip.workspace.contains("diffscope") ? JsonUtils::toQJsonValue(clip.workspace.at("diffscope")).toObject() : QJsonObject();
         if (diffscopeWorkspace.contains("audio")) {
             auto audio = diffscopeWorkspace["audio"].toObject();
             setPath({
-                .absoluteDir = audio["absoluteDir"].toString(),
+                .absoluteDir = fileInfo.absolutePath(),
                 .relativeDir = audio["relativeDir"].toString(),
-                .fileName = audio["fileName"].toString(),
+                .fileName = fileInfo.fileName(),
                 .formatEntryClassName = audio["formatEntryClassName"].toString(),
                 .userData = decodeUserData(audio["userData"].toString().toUtf8()),
                 .sha512 = audio["sha512"].toString()
             });
         } else {
-            auto fileInfo = QFileInfo(QString::fromStdString(clip.path));
             setPath({
                 .absoluteDir = fileInfo.absolutePath(),
                 .relativeDir = {},
