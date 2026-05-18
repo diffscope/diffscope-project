@@ -69,6 +69,7 @@ namespace Audio::Internal {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(Audio::AudioExporterParameter currentParameter READ currentParameter WRITE setCurrentParameter NOTIFY currentParameterChanged)
+        Q_PROPERTY(Audio::AudioExporterConfig simpleConfig READ simpleConfig WRITE setSimpleConfig NOTIFY simpleConfigChanged)
     public:
         explicit ExportAudioAddOn(QObject *parent = nullptr);
         ~ExportAudioAddOn() override;
@@ -82,22 +83,32 @@ namespace Audio::Internal {
         AudioExporterParameter currentParameter() const;
         void setCurrentParameter(const AudioExporterParameter &parameter);
 
+        AudioExporterConfig simpleConfig() const;
+        void setSimpleConfig(const AudioExporterConfig &config);
+
         Q_INVOKABLE void exportAudio();
         Q_INVOKABLE void browseFile();
+        Q_INVOKABLE void browseFileSimple();
         Q_INVOKABLE bool runExport(AudioExporter *exporter);
 
         Q_INVOKABLE static QStringList formatOptions(int fileType) ;
         Q_INVOKABLE static void setMixingOption(int index);
         Q_INVOKABLE static void setFileType(int index);
+        Q_INVOKABLE void setMixingOptionSimple(int index);
+        Q_INVOKABLE void setFileTypeSimple(int index);
         Q_INVOKABLE static void appendFileNameTemplate(const QString &templateString);
 
         Q_INVOKABLE double calculateDurationInMsec(AudioExporter *exporter) const;
 
+        Q_INVOKABLE static QString calculateSimplePath(const AudioExporterConfig &config);
+
     Q_SIGNALS:
         void currentParameterChanged();
+        void simpleConfigChanged();
 
     private:
         AudioExporterParameter m_currentParameter;
+        AudioExporterConfig m_simpleConfig;
         Core::NotificationMessage *m_exportCompletedMessage{};
     };
 

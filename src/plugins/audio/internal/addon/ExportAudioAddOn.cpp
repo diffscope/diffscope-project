@@ -94,6 +94,8 @@ namespace Audio::Internal {
     }
 
     ExportAudioAddOn::ExportAudioAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+        m_simpleConfig.setFormatQuality(100);
+        m_simpleConfig.setFormatSampleRate(48000);
     }
 
     ExportAudioAddOn::~ExportAudioAddOn() = default;
@@ -141,6 +143,17 @@ namespace Audio::Internal {
         emit currentParameterChanged();
     }
 
+    AudioExporterConfig ExportAudioAddOn::simpleConfig() const {
+        return m_simpleConfig;
+    }
+
+    void ExportAudioAddOn::setSimpleConfig(const AudioExporterConfig &config) {
+        if (m_simpleConfig == config)
+            return;
+        m_simpleConfig = config;
+        emit simpleConfigChanged();
+    }
+
     void ExportAudioAddOn::exportAudio() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         if (!windowInterface || !windowInterface->window())
@@ -163,14 +176,15 @@ namespace Audio::Internal {
         m_currentParameter.setRangeStart(0);
         m_currentParameter.setRangeLength(timeRangeAllEnd);
 
-        connect(AudioExporterPresets::instance(), &AudioExporterPresets::currentConfigChanged, &exporter, [&exporter] {
-            exporter.setConfig(AudioExporterPresets::instance()->currentConfig());
-        });
         connect(this, &ExportAudioAddOn::currentParameterChanged, &exporter, [this, &exporter] {
             exporter.setParameter(currentParameter());
         });
-        exporter.setConfig(AudioExporterPresets::instance()->currentConfig());
         exporter.setParameter(currentParameter());
+
+        if (m_simpleConfig.fileName().isEmpty() || m_simpleConfig.fileDirectory().isEmpty()) {
+            m_simpleConfig.setFileDirectory(AudioExporterPrivate::of(&exporter)->projectDirectory());
+            m_simpleConfig.setFileName(AudioExporterPrivate::of(&exporter)->projectName() + ".wav");
+        }
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioExportDialog");
         if (component.isError()) {
@@ -230,6 +244,34 @@ namespace Audio::Internal {
         presets->setCurrentConfig(config);
     }
 
+    void ExportAudioAddOn::browseFileSimple() {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto config = m_simpleConfig;
+        const QStringList filters = {
+            tr("WAV (*.wav)"),
+            tr("Ogg Vorbis (*.ogg)"),
+        };
+        QString selectedFilter = filters.at(config.fileType() == AudioExporterConfig::FT_Wav ? 0 : 1);
+        const auto path = QFileDialog::getSaveFileName(
+            nullptr,
+            {},
+            calculateSimplePath(config),
+            filters.join(QStringLiteral(";;")),
+            &selectedFilter
+        );
+        if (path.isEmpty()) {
+            return;
+        }
+        const QFileInfo fileInfo(path);
+        const auto templateSuffix = config.mixingOption() == AudioExporterConfig::MO_Mixed
+            ? QStringLiteral(".")
+            : QStringLiteral("_${trackIndex}_${trackName}.");
+        config.setFileName(fileInfo.completeBaseName() + templateSuffix + fileInfo.suffix());
+        config.setFileDirectory(fileInfo.dir().canonicalPath());
+        applyFileType(config, filters.indexOf(selectedFilter) == 0 ? AudioExporterConfig::FT_Wav : AudioExporterConfig::FT_OggVorbis);
+        setSimpleConfig(config);
+    }
+
     void ExportAudioAddOn::setMixingOption(int index) {
         auto presets = AudioExporterPresets::instance();
         auto config = presets->currentConfig();
@@ -260,6 +302,34 @@ namespace Audio::Internal {
         presets->setCurrentConfig(config);
     }
 
+    void ExportAudioAddOn::setMixingOptionSimple(int index) {
+        auto config = m_simpleConfig;
+        config.setMixingOption(static_cast<AudioExporterConfig::MixingOption>(index));
+
+        const QFileInfo fileInfo(config.fileName());
+        auto basename = fileInfo.completeBaseName();
+        auto suffix = fileInfo.suffix();
+        if (index == AudioExporterConfig::MO_Mixed) {
+            if (basename.endsWith(QStringLiteral("_${trackIndex}_${trackName}"))) {
+                basename = basename.chopped(27);
+            }
+        } else if (!basename.contains(QStringLiteral("${trackIndex}")) &&
+                   !basename.contains(QStringLiteral("${trackName}"))) {
+            basename += QStringLiteral("_${trackIndex}_${trackName}");
+                   }
+        if (suffix.isEmpty()) {
+            suffix = AudioExporterConfig::extensionOfType(config.fileType());
+        }
+        config.setFileName(basename + QStringLiteral(".") + suffix);
+        setSimpleConfig(config);
+    }
+
+    void ExportAudioAddOn::setFileTypeSimple(int index) {
+        auto config = m_simpleConfig;
+        applyFileType(config, index);
+        setSimpleConfig(config);
+    }
+
     double ExportAudioAddOn::calculateDurationInMsec(AudioExporter *exporter) const {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
 
@@ -267,6 +337,19 @@ namespace Audio::Internal {
         auto musicTimeline = windowInterface->projectTimeline()->musicTimeline();
 
         return musicTimeline->create(0, 0, range.second).millisecond() - musicTimeline->create(0, 0, range.first).millisecond();
+    }
+
+    QString ExportAudioAddOn::calculateSimplePath(const AudioExporterConfig &config) {
+        auto fileName = config.fileName();
+        if (config.mixingOption() == AudioExporterConfig::MO_Mixed) {
+            return QDir::toNativeSeparators(QDir(config.fileDirectory()).absoluteFilePath(fileName));
+        } else {
+            QFileInfo info(fileName);
+            auto baseName = info.completeBaseName();
+            Q_ASSERT(baseName.endsWith(QStringLiteral("_${trackIndex}_${trackName}")));
+            baseName = baseName.chopped(27);
+            return QDir::toNativeSeparators(QDir(config.fileDirectory()).absoluteFilePath(baseName + QStringLiteral(".") + info.suffix()));
+        }
     }
 
     void ExportAudioAddOn::appendFileNameTemplate(const QString &templateString) {

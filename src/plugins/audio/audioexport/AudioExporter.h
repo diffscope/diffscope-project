@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_AUDIO_AUDIOEXPORTER_H
 #define DIFFSCOPE_AUDIO_AUDIOEXPORTER_H
 
+#include <qqmlintegration.h>
+
 #include <QObject>
 #include <QStringList>
 
@@ -29,6 +31,8 @@ namespace Audio {
 
     class AUDIO_EXPORT AudioExporter : public QObject {
         Q_OBJECT
+        QML_ELEMENT
+        QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(AudioExporter)
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle CONSTANT)
         Q_PROPERTY(Audio::AudioExporterConfig config READ config WRITE setConfig NOTIFY configChanged)

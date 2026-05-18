@@ -11,6 +11,7 @@ namespace Audio::Internal {
         AudioPreference::PlayheadBehavior playbackBehavior{};
         AudioPreference::PlaybackTogglingAction playbackTogglingAction{AudioPreference::PTA_PlayStop};
         bool audioExporterClippingCheckEnabled{true};
+        bool audioExporterEnableAdvancedOptions{false};
         bool audioExporterUseTemporaryFile{true};
     };
 
@@ -36,10 +37,12 @@ namespace Audio::Internal {
         d->playbackBehavior = settings->value("playbackBehavior", QVariant::fromValue(PB_ReturnToStart)).value<PlayheadBehavior>();
         d->playbackTogglingAction = settings->value("playbackTogglingAction", QVariant::fromValue(PTA_PlayStop)).value<PlaybackTogglingAction>();
         d->audioExporterClippingCheckEnabled = settings->value("audioExporterClippingCheckEnabled", true).toBool();
+        d->audioExporterEnableAdvancedOptions = settings->value("audioExporterEnableAdvancedOptions", true).toBool();
         d->audioExporterUseTemporaryFile = settings->value("audioExporterUseTemporaryFile", true).toBool();
         emit playbackBehaviorChanged();
         emit playbackTogglingActionChanged();
         emit audioExporterClippingCheckEnabledChanged();
+        emit audioExporterEnableAdvancedOptionsChanged();
         emit audioExporterUseTemporaryFileChanged();
         settings->endGroup();
     }
@@ -51,6 +54,7 @@ namespace Audio::Internal {
         settings->setValue("playbackBehavior", d->playbackBehavior);
         settings->setValue("playbackTogglingAction", d->playbackTogglingAction);
         settings->setValue("audioExporterClippingCheckEnabled", d->audioExporterClippingCheckEnabled);
+        settings->setValue("audioExporterEnableAdvancedOptions", d->audioExporterEnableAdvancedOptions);
         settings->setValue("audioExporterUseTemporaryFile", d->audioExporterUseTemporaryFile);
         settings->endGroup();
     }
@@ -96,6 +100,19 @@ namespace Audio::Internal {
             return;
         d->audioExporterClippingCheckEnabled = enabled;
         emit m_instance->audioExporterClippingCheckEnabledChanged();
+    }
+
+    bool AudioPreference::audioExporterEnableAdvancedOptions() {
+        M_INSTANCE_D;
+        return d->audioExporterEnableAdvancedOptions;
+    }
+
+    void AudioPreference::setAudioExporterEnableAdvancedOptions(bool enabled) {
+        M_INSTANCE_D;
+        if (d->audioExporterEnableAdvancedOptions == enabled)
+            return;
+        d->audioExporterEnableAdvancedOptions = enabled;
+        emit m_instance->audioExporterEnableAdvancedOptionsChanged();
     }
 
     bool AudioPreference::audioExporterUseTemporaryFile() {
