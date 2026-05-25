@@ -13,6 +13,7 @@ namespace Audio::Internal {
         bool audioExporterClippingCheckEnabled{true};
         bool audioExporterEnableAdvancedOptions{false};
         bool audioExporterUseTemporaryFile{true};
+        bool shouldPlayNotificationSoundWhenExportCompleted{true};
     };
 
     static AudioPreference *m_instance = nullptr;
@@ -39,11 +40,13 @@ namespace Audio::Internal {
         d->audioExporterClippingCheckEnabled = settings->value("audioExporterClippingCheckEnabled", true).toBool();
         d->audioExporterEnableAdvancedOptions = settings->value("audioExporterEnableAdvancedOptions", true).toBool();
         d->audioExporterUseTemporaryFile = settings->value("audioExporterUseTemporaryFile", true).toBool();
+        d->shouldPlayNotificationSoundWhenExportCompleted = settings->value("shouldPlayNotificationSoundWhenExportCompleted", true).toBool();
         emit playbackBehaviorChanged();
         emit playbackTogglingActionChanged();
         emit audioExporterClippingCheckEnabledChanged();
         emit audioExporterEnableAdvancedOptionsChanged();
         emit audioExporterUseTemporaryFileChanged();
+        emit shouldPlayNotificationSoundWhenExportCompletedChanged();
         settings->endGroup();
     }
 
@@ -56,6 +59,7 @@ namespace Audio::Internal {
         settings->setValue("audioExporterClippingCheckEnabled", d->audioExporterClippingCheckEnabled);
         settings->setValue("audioExporterEnableAdvancedOptions", d->audioExporterEnableAdvancedOptions);
         settings->setValue("audioExporterUseTemporaryFile", d->audioExporterUseTemporaryFile);
+        settings->setValue("shouldPlayNotificationSoundWhenExportCompleted", d->shouldPlayNotificationSoundWhenExportCompleted);
         settings->endGroup();
     }
 
@@ -126,6 +130,19 @@ namespace Audio::Internal {
             return;
         d->audioExporterUseTemporaryFile = enabled;
         emit m_instance->audioExporterUseTemporaryFileChanged();
+    }
+
+    bool AudioPreference::shouldPlayNotificationSoundWhenExportCompleted() {
+        M_INSTANCE_D;
+        return d->shouldPlayNotificationSoundWhenExportCompleted;
+    }
+
+    void AudioPreference::setShouldPlayNotificationSoundWhenExportCompleted(bool shouldPlay) {
+        M_INSTANCE_D;
+        if (d->shouldPlayNotificationSoundWhenExportCompleted == shouldPlay)
+            return;
+        d->shouldPlayNotificationSoundWhenExportCompleted = shouldPlay;
+        emit m_instance->shouldPlayNotificationSoundWhenExportCompletedChanged();
     }
 
 }

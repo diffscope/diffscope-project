@@ -24,6 +24,7 @@ namespace Audio::Internal {
         Q_PROPERTY(bool audioExporterClippingCheckEnabled READ audioExporterClippingCheckEnabled WRITE setAudioExporterClippingCheckEnabled NOTIFY audioExporterClippingCheckEnabledChanged)
         Q_PROPERTY(bool audioExporterEnableAdvancedOptions READ audioExporterEnableAdvancedOptions WRITE setAudioExporterEnableAdvancedOptions NOTIFY audioExporterEnableAdvancedOptionsChanged)
         Q_PROPERTY(bool audioExporterUseTemporaryFile READ audioExporterUseTemporaryFile WRITE setAudioExporterUseTemporaryFile NOTIFY audioExporterUseTemporaryFileChanged)
+        Q_PROPERTY(bool shouldPlayNotificationSoundWhenExportCompleted READ shouldPlayNotificationSoundWhenExportCompleted WRITE setShouldPlayNotificationSoundWhenExportCompleted NOTIFY shouldPlayNotificationSoundWhenExportCompletedChanged)
 
     public:
         ~AudioPreference() override;
@@ -60,6 +61,8 @@ namespace Audio::Internal {
         static void setAudioExporterEnableAdvancedOptions(bool enabled);
         static bool audioExporterUseTemporaryFile();
         static void setAudioExporterUseTemporaryFile(bool enabled);
+        static bool shouldPlayNotificationSoundWhenExportCompleted();
+        static void setShouldPlayNotificationSoundWhenExportCompleted(bool shouldPlay);
 
     Q_SIGNALS:
         void playbackBehaviorChanged();
@@ -67,6 +70,7 @@ namespace Audio::Internal {
         void audioExporterClippingCheckEnabledChanged();
         void audioExporterEnableAdvancedOptionsChanged();
         void audioExporterUseTemporaryFileChanged();
+        void shouldPlayNotificationSoundWhenExportCompletedChanged();
 
     private:
         friend class AudioPlugin;

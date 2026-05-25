@@ -29,3 +29,11 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     INCLUDE_PRIVATE
         internal/**
 )
+
+file(GLOB _res_icons res/soundfx/*)
+
+qt_add_resources(${PROJECT_NAME} soundfx
+    PREFIX /diffscope/audio/soundfx
+    BASE res/soundfx
+    FILES ${_res_icons}
+)

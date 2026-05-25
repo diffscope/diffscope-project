@@ -22,6 +22,9 @@
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
+#include <TalcsFormat/AbstractAudioFormatIO.h>
+#include <TalcsFormat/FormatManager.h>
+
 #include <QAKQuick/quickactioncontext.h>
 
 #include <dspxmodel/Clip.h>
@@ -40,7 +43,10 @@
 
 #include <audio/AudioExporter.h>
 #include <audio/AudioExporterConfig.h>
+#include <audio/GlobalAudioContext.h>
+#include <audio/PreviewSoundPlayer.h>
 #include <audio/internal/AudioExporterPresets.h>
+#include <audio/internal/AudioPreference.h>
 #include <audio/private/AudioExporter_p.h>
 
 namespace Audio::Internal {
@@ -108,6 +114,10 @@ namespace Audio::Internal {
         m_exportCompletedMessage->setIcon(SVS::SVSCraft::Success);
         m_exportCompletedMessage->setAllowDoNotShowAgain(true);
         m_exportCompletedMessage->setDoNotShowAgainIdentifier("org.diffscope.audio.exportaudioaddon.message");
+
+        auto io = GlobalAudioContext::formatManager()->getFormatLoad(":/diffscope/audio/soundfx/export_completed.ogg");
+        Q_ASSERT(io);
+        m_completedSound = new PreviewSoundPlayer(io, this);
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "ExportAudioAddOnActions");
         if (component.isError()) {
@@ -372,6 +382,9 @@ namespace Audio::Internal {
         const auto sendExportCompletedNotification = [this, windowInterface] {
             m_exportCompletedMessage->close();
             windowInterface->sendNotification(m_exportCompletedMessage, Core::ProjectWindowInterface::AutoHide);
+            if (AudioPreference::shouldPlayNotificationSoundWhenExportCompleted()) {
+                m_completedSound->play();
+            }
         };
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "AudioExportProgressDialog");
