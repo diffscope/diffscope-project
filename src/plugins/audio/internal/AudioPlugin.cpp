@@ -23,6 +23,7 @@
 #include <audio/internal/AudioOutputPage.h>
 #include <audio/internal/AudioPreference.h>
 #include <audio/internal/AudioClipAddOn.h>
+#include <audio/internal/ExportPage.h>
 #include <audio/internal/ExportAudioAddOn.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/PlaybackAddOn.h>
@@ -95,6 +96,7 @@ namespace Audio::Internal {
         auto audioAndMidiPage = new AudioAndMidiPage;
         audioAndMidiPage->addPage(new AudioOutputPage);
         audioAndMidiPage->addPage(new PlaybackPage);
+        audioAndMidiPage->addPage(new ExportPage);
         sc->addPage(audioAndMidiPage);
     }
 
