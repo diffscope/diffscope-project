@@ -59,6 +59,7 @@
         <action id="org.diffscope.core.edit.shiftDownByASemitone" shortcut="Alt+Down" />
         <action id="org.diffscope.core.edit.shiftUpByAnOctave" shortcut="Alt+Shift+Up" />
         <action id="org.diffscope.core.edit.shiftDownByAnOctave" shortcut="Alt+Shift+Down" />
+        <action id="org.diffscope.core.edit.fill&amp;Lyrics^" shortcut="Ctrl+L" />
         <action id="org.diffscope.core.edit.split" shortcut="Ctrl+K" />
         <action id="org.diffscope.core.edit.bounceToClip" shortcut="Ctrl+B" />
         <action id="org.diffscope.core.edit.editCurrentClip" icon="edit" shortcut="Ctrl+P" />
@@ -217,6 +218,9 @@
                     <action id="org.diffscope.core.edit.shiftDownByASemitone" />
                     <action id="org.diffscope.core.edit.shiftUpByAnOctave" />
                     <action id="org.diffscope.core.edit.shiftDownByAnOctave" />
+                </group>
+                <group id="org.diffscope.core.edit.fillLyricsActions">
+                    <action id="org.diffscope.core.edit.fillLyrics" />
                 </group>
                 <group id="org.diffscope.core.edit.bounceActions">
                     <action id="org.diffscope.core.edit.split" />
@@ -445,6 +449,7 @@
 
         <menu id="org.diffscope.core.noteItemContextMenu">
             <group id="org.diffscope.core.edit.noteShiftActions" />
+            <group id="org.diffscope.core.edit.fillLyricsActions" />
             <action id="org.diffscope.core.edit.split" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
