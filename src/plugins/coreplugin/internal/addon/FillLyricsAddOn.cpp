@@ -34,6 +34,9 @@ namespace Core::Internal {
 
         const QString kCharacterExpression = QStringLiteral(R"(\s+|(?<=\S)(?=\S))");
         const QString kWordExpression = QStringLiteral(R"(\s+)");
+        const QString kAutoExpression = QStringLiteral(
+            R"((?:\s+)|(?=(?:\p{Han}|\p{Hangul}|[+\-]|[あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゐゑゔアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴヰヱ]))|(?<=[+\-])(?=.))"
+        );
 
         bool execDialog(QObject *dialog) {
             QEventLoop eventLoop;
@@ -69,6 +72,20 @@ namespace Core::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
+    QString FillLyricsAddOn::regularExpressionForSplitMode(SplitMode splitMode) const {
+        switch (splitMode) {
+            case SplitMode_Auto:
+                return kAutoExpression;
+            case SplitMode_Character:
+                return kCharacterExpression;
+            case SplitMode_Word:
+                return kWordExpression;
+            case SplitMode_Regex:
+                return {};
+        }
+        return {};
+    }
+
     bool FillLyricsAddOn::isRegularExpressionValid(const QString &pattern) const {
         return QRegularExpression(pattern).isValid();
     }
@@ -86,17 +103,15 @@ namespace Core::Internal {
 
         auto *settings = RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        auto splitMode = static_cast<SplitMode>(settings->value(QStringLiteral("splitMode"), SplitMode_Character).toInt());
-        auto regularExpression = settings->value(QStringLiteral("regularExpression"), kCharacterExpression).toString();
+        auto splitMode = static_cast<SplitMode>(settings->value(QStringLiteral("splitMode"), SplitMode_Auto).toInt());
+        auto regularExpression = settings->value(QStringLiteral("regularExpression"), kAutoExpression).toString();
         settings->endGroup();
 
-        if (splitMode < SplitMode_Character || splitMode > SplitMode_Regex) {
-            splitMode = SplitMode_Character;
+        if (splitMode < SplitMode_Auto || splitMode > SplitMode_Regex) {
+            splitMode = SplitMode_Auto;
         }
-        if (splitMode == SplitMode_Character) {
-            regularExpression = kCharacterExpression;
-        } else if (splitMode == SplitMode_Word) {
-            regularExpression = kWordExpression;
+        if (splitMode != SplitMode_Regex) {
+            regularExpression = regularExpressionForSplitMode(splitMode);
         }
 
         auto notes = noteSelectionModel->selectedItems();

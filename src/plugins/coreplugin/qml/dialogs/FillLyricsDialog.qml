@@ -25,6 +25,12 @@ Dialog {
     modal: true
     closePolicy: Popup.CloseOnEscape
 
+    function selectSplitMode(mode) {
+        if (mode !== FillLyricsAddOn.SplitMode_Regex)
+            regularExpression = addOn.regularExpressionForSplitMode(mode)
+        splitMode = mode
+    }
+
     onAboutToShow: lyricsTextArea.forceActiveFocus()
 
     ColumnLayout {
@@ -56,25 +62,24 @@ Dialog {
                 currentIndex: dialog.splitMode
 
                 TabButton {
-                    icon.source: "image://fluent-system-icons/local_language"
+                    icon.source: "image://fluent-system-icons/local_language_zi"
+                    text: qsTr("Auto")
+                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Auto)
+                }
+                TabButton {
+                    icon.source: "image://fluent-system-icons/square_zi"
                     text: qsTr("Character")
-                    onClicked: {
-                        dialog.regularExpression = "\\s+|(?<=\\S)(?=\\S)"
-                        dialog.splitMode = FillLyricsAddOn.SplitMode_Character
-                    }
+                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Character)
                 }
                 TabButton {
                     icon.source: "image://fluent-system-icons/text_whole_word"
                     text: qsTr("Word")
-                    onClicked: {
-                        dialog.regularExpression = "\\s+"
-                        dialog.splitMode = FillLyricsAddOn.SplitMode_Word
-                    }
+                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Word)
                 }
                 TabButton {
                     icon.source: "image://fluent-system-icons/text_period_asterisk"
                     text: qsTr("Regex")
-                    onClicked: dialog.splitMode = FillLyricsAddOn.SplitMode_Regex
+                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Regex)
                 }
             }
 

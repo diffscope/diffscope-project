@@ -22,12 +22,14 @@ namespace Core::Internal {
         bool delayedInitialize() override;
 
         enum SplitMode {
+            SplitMode_Auto,
             SplitMode_Character,
             SplitMode_Word,
             SplitMode_Regex,
         };
         Q_ENUM(SplitMode)
 
+        Q_INVOKABLE QString regularExpressionForSplitMode(SplitMode splitMode) const;
         Q_INVOKABLE bool isRegularExpressionValid(const QString &pattern) const;
         Q_INVOKABLE void fillLyrics();
     };
