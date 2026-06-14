@@ -34,9 +34,13 @@ namespace Core::Internal {
 
         const QString kCharacterExpression = QStringLiteral(R"(\s+|(?<=\S)(?=\S))");
         const QString kWordExpression = QStringLiteral(R"(\s+)");
-        const QString kAutoExpression = QStringLiteral(
-            R"((?:\s+)|(?=(?:\p{Han}|\p{Hangul}|[+\-]|[あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゐゑゔアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴヰヱ]))|(?<=[+\-])(?=.))"
-        );
+        const QString kAutoExpression = [] {
+            const QString baseCJK = QStringLiteral(R"([+\-あいうえお-ぢつ-もやゆよ-ろわ-ゔゕゖアイウエオ-ヂツ-モヤユヨ-ロワ-ヺ\p{Script=Han}\p{Script=Hangul}])");
+            const QString smallKana = QStringLiteral(R"([ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮ])");
+            const QString western = QStringLiteral(R"([^\s+\-ぁ-ゖァ-ヺ\p{Script=Han}\p{Script=Hangul}])");
+            const QString reTemplate = QStringLiteral(R"((?:\s+)|(?=%1)|(?<=%1)(?!%2)(?=\S)|(?<!%1)(?<!%2)(?=%2)|(?<=%2)(?=%3))");
+            return reTemplate.arg(baseCJK, smallKana, western);
+        }();
 
         bool execDialog(QObject *dialog) {
             QEventLoop eventLoop;
@@ -72,7 +76,7 @@ namespace Core::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
-    QString FillLyricsAddOn::regularExpressionForSplitMode(SplitMode splitMode) const {
+    QString FillLyricsAddOn::regularExpressionForSplitMode(SplitMode splitMode) {
         switch (splitMode) {
             case SplitMode_Auto:
                 return kAutoExpression;
@@ -86,7 +90,7 @@ namespace Core::Internal {
         return {};
     }
 
-    bool FillLyricsAddOn::isRegularExpressionValid(const QString &pattern) const {
+    bool FillLyricsAddOn::isRegularExpressionValid(const QString &pattern) {
         return QRegularExpression(pattern).isValid();
     }
 
@@ -96,8 +100,7 @@ namespace Core::Internal {
         auto *document = windowInterface->projectDocumentContext()->document();
         auto *selectionModel = document->selectionModel();
         auto *noteSelectionModel = selectionModel->noteSelectionModel();
-        if (!window || selectionModel->selectionType() != dspx::SelectionModel::ST_Note
-            || noteSelectionModel->selectedCount() == 0) {
+        if (!window || selectionModel->selectionType() != dspx::SelectionModel::ST_Note || noteSelectionModel->selectedCount() == 0) {
             return;
         }
 
@@ -178,11 +181,7 @@ namespace Core::Internal {
         settings->setValue(QStringLiteral("regularExpression"), regularExpression);
         settings->endGroup();
 
-        const QRegularExpression expression(regularExpression);
-        auto lyricList = lyricsText.split(expression, Qt::SkipEmptyParts);
-        lyricList.removeIf([](const QString &lyric) {
-            return lyric.isEmpty();
-        });
+        auto lyricList = splitLyrics(lyricsText, regularExpression);
         if (lyricList.isEmpty()) {
             return;
         }
@@ -211,6 +210,10 @@ namespace Core::Internal {
             }
             return count > 0;
         });
+    }
+
+    QStringList FillLyricsAddOn::splitLyrics(const QString &lyrics, const QString &regularExpression) {
+        return lyrics.split(QRegularExpression(regularExpression), Qt::SkipEmptyParts);
     }
 
 }

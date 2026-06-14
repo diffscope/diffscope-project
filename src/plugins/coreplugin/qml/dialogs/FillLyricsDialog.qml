@@ -37,15 +37,83 @@ Dialog {
         anchors.fill: parent
         spacing: 12
 
-        ScrollView {
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 0
+            TabBar {
+                id: editModeTabBar
+                ThemedItem.flat: true
+                TabButton {
+                    text: qsTr("Edit")
+                    ThemedItem.tabIndicator: SVS.TI_Bottom
+                }
+                TabButton {
+                    text: qsTr("Preview")
+                    ThemedItem.tabIndicator: SVS.TI_Bottom
+                }
+            }
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: Theme.borderColor
+            }
+        }
+
+        StackLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            TextArea {
-                id: lyricsTextArea
-                text: dialog.lyricsText
-                wrapMode: TextEdit.Wrap
-                onTextChanged: dialog.lyricsText = text
+            currentIndex: editModeTabBar.currentIndex
+            ScrollView {
+                TextArea {
+                    id: lyricsTextArea
+                    text: dialog.lyricsText
+                    wrapMode: TextEdit.Wrap
+                    onTextChanged: dialog.lyricsText = text
+                }
+            }
+            ColumnLayout {
+                ScrollView {
+                    id: previewScrollView
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Flow {
+                        width: previewScrollView.width - 8
+                        spacing: 8
+                        Repeater {
+                            id: previewRepeater
+                            property string previewLyricsText
+                            property string previewRegularExpression
+                            property bool previewTruncateToSelection
+                            readonly property Binding binding: Binding {
+                                when: editModeTabBar.currentIndex === 1
+                                previewRepeater.previewLyricsText: dialog.lyricsText
+                                previewRepeater.previewRegularExpression: dialog.regularExpression
+                                previewRepeater.previewTruncateToSelection: dialog.truncateToSelection
+                            }
+                            readonly property list<string> lyrics: dialog.addOn.splitLyrics(previewLyricsText, previewRegularExpression)
+                            model: lyrics
+                            delegate: Frame {
+                                id: previewFrame
+                                required property int index
+                                required property string modelData
+                                padding: 4
+                                Label {
+                                    text: previewFrame.modelData
+                                }
+                                background: Rectangle {
+                                    color: Theme.textFieldColor
+                                    border.width: 1
+                                    border.color: (previewRepeater.previewTruncateToSelection && previewFrame.index >= dialog.addOn.windowHandle.projectDocumentContext.document.selectionModel.selectedCount) ? Theme.warningColor : Theme.borderColor
+                                }
+                            }
+                        }
+                    }
+                }
+                Label {
+                    Layout.alignment: Qt.AlignRight
+                    ThemedItem.foregroundLevel: SVS.FL_Secondary
+                    text: qsTr("%Ln word(s)", "", previewRepeater.lyrics.length)
+                }
             }
         }
 
@@ -102,7 +170,7 @@ Dialog {
                 Layout.columnSpan: 2
                 text: qsTr("Truncate to selection")
                 checked: dialog.truncateToSelection
-                onToggled: dialog.truncateToSelection = checked
+                onClicked: dialog.truncateToSelection = checked
             }
         }
     }

@@ -29,9 +29,10 @@ namespace Core::Internal {
         };
         Q_ENUM(SplitMode)
 
-        Q_INVOKABLE QString regularExpressionForSplitMode(SplitMode splitMode) const;
-        Q_INVOKABLE bool isRegularExpressionValid(const QString &pattern) const;
+        Q_INVOKABLE static QString regularExpressionForSplitMode(SplitMode splitMode) ;
+        Q_INVOKABLE static bool isRegularExpressionValid(const QString &pattern) ;
         Q_INVOKABLE void fillLyrics();
+        Q_INVOKABLE static QStringList splitLyrics(const QString &lyrics, const QString &regularExpression);
     };
 
 }
