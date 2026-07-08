@@ -1032,7 +1032,7 @@ namespace Core {
                     const auto selectedClips = d->selectionModel->clipSelectionModel()->selectedItems();
                     for (auto *clip : selectedClips) {
                         const int clipPos = clip->position();
-                        const int clipEnd = clipPos + clip->length();
+                        const int clipEnd = clipPos + clip->clipLength();
                         if (position <= clipPos || position >= clipEnd)
                             continue;
 
