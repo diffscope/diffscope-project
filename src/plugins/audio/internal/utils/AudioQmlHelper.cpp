@@ -2,7 +2,7 @@
 
 #include <QDir>
 
-#include <dspxmodel/AudioClip.h>
+#include <dspxmodelORM/AudioClip.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 

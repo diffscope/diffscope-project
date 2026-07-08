@@ -7,8 +7,13 @@
 #include <coreplugin/coreglobal.h>
 
 namespace dspx {
+    class Document;
     class Model;
     class SelectionModel;
+}
+
+namespace opendspx {
+    struct Model;
 }
 
 namespace Core {
@@ -49,6 +54,8 @@ namespace Core {
         Q_INVOKABLE void deselectAll();
         Q_INVOKABLE void splitItems(int position);
         Q_INVOKABLE void bounceToClip();
+
+        void loadModel(const opendspx::Model &model);
 
     Q_SIGNALS:
         void anyItemsSelectedChanged();

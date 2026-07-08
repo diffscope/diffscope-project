@@ -16,7 +16,7 @@ namespace sflow {
 }
 
 namespace dspx {
-    class Timeline;
+    class Model;
 }
 
 namespace Core {
@@ -33,7 +33,7 @@ namespace VisualEditor {
 
         Core::DspxDocument *document;
         Core::ProjectWindowInterface *windowHandle;
-        dspx::Timeline *timeline;
+        dspx::Model *model;
         sflow::PlaybackViewModel *playbackViewModel;
 
         QStateMachine *stateMachine;

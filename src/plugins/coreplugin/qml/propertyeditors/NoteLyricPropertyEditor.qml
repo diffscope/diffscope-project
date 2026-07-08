@@ -37,9 +37,9 @@ PropertyEditorGroupBox {
             Layout.fillWidth: true
             label: qsTr("Pronunciation (original)")
             columnItem: TextField {
-                text: groupBox.propertyMapper?.pronunciationOriginal === undefined
+                text: groupBox.propertyMapper?.originalPronunciation === undefined
                       ? qsTr("Multiple values")
-                      : groupBox.propertyMapper?.pronunciationOriginal ?? ""
+                      : groupBox.propertyMapper?.originalPronunciation ?? ""
                 readOnly: true
                 ThemedItem.flat: true
             }
@@ -48,7 +48,7 @@ PropertyEditorGroupBox {
         TextPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
-            key: "pronunciationEdited"
+            key: "editedPronunciation"
             label: qsTr("Pronunciation (edited)")
             transactionName: qsTr("Editing pronunciation (edited)")
         }

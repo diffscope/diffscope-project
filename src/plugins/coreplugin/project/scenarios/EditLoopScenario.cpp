@@ -13,8 +13,7 @@
 
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -52,10 +51,10 @@ namespace Core {
         if (!d->projectTimeline || !document() || !window())
             return;
 
-        auto timeline = document()->model()->timeline();
-        auto startPosition = timeline->loopStart();
-        auto endPosition = startPosition + timeline->loopLength();
-        auto loopEnabled = timeline->isLoopEnabled();
+        auto model = document()->model();
+        auto startPosition = model->loopStart();
+        auto endPosition = startPosition + model->loopLength();
+        auto loopEnabled = model->loopEnabled();
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditLoopDialog");
         auto dialog = createAndPositionDialog(&component, {
@@ -85,10 +84,10 @@ namespace Core {
         qCInfo(lcEditLoopScenario) << "Edit loop" << loopEnabled << startPosition << loopLength;
 
         document()->transactionController()->beginScopedTransaction(tr("Editing loop"), [=] {
-            auto dspxTimeline = document()->model()->timeline();
-            dspxTimeline->setLoopEnabled(loopEnabled);
-            dspxTimeline->setLoopStart(startPosition);
-            dspxTimeline->setLoopLength(loopLength);
+            auto dspxModel = document()->model();
+            dspxModel->setLoopEnabled(loopEnabled);
+            dspxModel->setLoopStart(startPosition);
+            dspxModel->setLoopLength(loopLength);
             return true;
         }, [] {
             qCCritical(lcEditLoopScenario) << "Failed to edit loop in exclusive transaction";

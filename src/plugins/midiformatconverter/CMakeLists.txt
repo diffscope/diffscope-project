@@ -30,8 +30,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         coreplugin
         importexportmanager
-        opendspx::model
-        opendspx::converter
+        opendspx::opendspxmodel
+        opendspx::opendspxconverter
         ${_links_icu}
     INCLUDE_PRIVATE
         internal/**

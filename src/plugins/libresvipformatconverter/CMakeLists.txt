@@ -21,7 +21,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         coreplugin
         importexportmanager
-        opendspx::model
+        opendspx::opendspxmodel
     INCLUDE_PRIVATE
         internal/**
 )

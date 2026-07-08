@@ -7,37 +7,37 @@
 #include <utility>
 
 #include <QLoggingCategory>
-#include <QUndoStack>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <dspxmodel/ClipSelectionModel.h>
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSelectionModel.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSelectionModel.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/UndoableModelStrategy.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSelectionModel.h>
-#include <dspxmodel/KeySignatureSequence.h>
+#include <dini/engine.h>
+#include <dini/transaction.h>
+
+#include <dspxmodelCore/Document.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelSelectionModel/LabelSelectionModel.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelSelectionModel/TempoSelectionModel.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/DspxClipboard.h>
 
@@ -90,26 +90,46 @@ namespace Core {
 
     class TransactionalModelStrategy : public TransactionalStrategy {
     public:
-        explicit TransactionalModelStrategy(dspx::UndoableModelStrategy *undoableModelStrategy, QObject *parent = nullptr)
-            : TransactionalStrategy(parent), m_strategy(undoableModelStrategy) {
+        explicit TransactionalModelStrategy(dspx::Document *document, QObject *parent = nullptr)
+            : TransactionalStrategy(parent), m_document(document) {
         }
 
         void beginTransaction() override {
-            m_strategy->undoStack()->beginMacro("");
+            if (!m_document || m_transaction)
+                return;
+            m_transaction.emplace(m_document->engine()->beginTransaction());
+            m_document->setTransaction(&*m_transaction);
         }
         void abortTransaction() override {
-            m_strategy->undoStack()->endMacro();
-            m_strategy->undoStack()->undo();
+            if (!m_document || !m_transaction)
+                return;
+            m_document->setTransaction(nullptr);
+            m_transaction->rollback();
+            m_transaction.reset();
         }
         void commitTransaction() override {
-            m_strategy->undoStack()->endMacro();
+            if (!m_document || !m_transaction)
+                return;
+            m_transaction->commit();
+            m_document->setTransaction(nullptr);
+            m_transaction.reset();
         }
         void moveCurrentStepBy(int count) override {
-            m_strategy->undoStack()->setIndex(m_strategy->undoStack()->index() + count);
+            if (!m_document)
+                return;
+            while (count < 0) {
+                m_document->engine()->undo();
+                ++count;
+            }
+            while (count > 0) {
+                m_document->engine()->redo();
+                --count;
+            }
         }
 
     private:
-        dspx::UndoableModelStrategy *m_strategy;
+        dspx::Document *m_document;
+        std::optional<dini::Transaction> m_transaction;
 
     };
 
@@ -224,7 +244,7 @@ namespace Core {
         QList<opendspx::Tempo> tempos;
         tempos.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            tempos.append(item->toOpenDspx());
+            tempos.append(item->toOpenDSPX());
         }
         if (tempos.isEmpty())
             return std::nullopt;
@@ -255,7 +275,7 @@ namespace Core {
         QList<opendspx::Label> labels;
         labels.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            labels.append(item->toOpenDspx());
+            labels.append(item->toOpenDSPX());
         }
         if (labels.isEmpty())
             return std::nullopt;
@@ -286,7 +306,7 @@ namespace Core {
         QList<nlohmann::json> keySignatures;
         keySignatures.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            keySignatures.append(item->toOpenDspx());
+            keySignatures.append(item->toOpenDSPX());
         }
         if (keySignatures.isEmpty())
             return std::nullopt;
@@ -323,7 +343,7 @@ namespace Core {
         QList<opendspx::Track> tracks;
         tracks.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
-            tracks.append(item->toOpenDspx());
+            tracks.append(item->toOpenDSPX());
         }
 
         if (tracks.isEmpty())
@@ -353,7 +373,7 @@ namespace Core {
     }
 
     bool DspxDocumentPrivate::pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || !model->timeline() || tempos.isEmpty())
+        if (!model || tempos.isEmpty())
             return false;
 
         enum class PasteMode {
@@ -395,10 +415,17 @@ namespace Core {
 
         bool inserted = false;
         int removedOverlaps = 0;
-        auto tempoSequence = model->timeline()->tempos();
+        auto tempoSequence = model->tempos();
         for (const auto &tempoData : adjusted) {
+            const auto overlappingItems = tempoSequence->slice(tempoData.pos, 1);
+            for (auto *overlappingItem : overlappingItems) {
+                tempoSequence->removeItem(overlappingItem);
+                model->destroyItem(overlappingItem);
+                ++removedOverlaps;
+            }
+
             auto *tempo = model->createTempo();
-            tempo->fromOpenDspx(tempoData);
+            tempo->fromOpenDSPX(tempoData);
             if (!tempoSequence->insertItem(tempo)) {
                 model->destroyItem(tempo);
                 continue;
@@ -406,14 +433,6 @@ namespace Core {
 
             inserted = true;
             pastedItems.append(tempo);
-            const auto overlappingItems = tempoSequence->slice(tempoData.pos, 1);
-            for (auto *overlappingItem : overlappingItems) {
-                if (overlappingItem == tempo)
-                    continue;
-                tempoSequence->removeItem(overlappingItem);
-                model->destroyItem(overlappingItem);
-                ++removedOverlaps;
-            }
         }
 
         if (inserted)
@@ -425,7 +444,7 @@ namespace Core {
     }
 
     bool DspxDocumentPrivate::pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || !model->timeline() || labels.isEmpty())
+        if (!model || labels.isEmpty())
             return false;
 
         enum class PasteMode {
@@ -466,10 +485,10 @@ namespace Core {
         });
 
         bool inserted = false;
-        auto labelSequence = model->timeline()->labels();
+        auto labelSequence = model->labels();
         for (const auto &labelData : adjusted) {
             auto *label = model->createLabel();
-            label->fromOpenDspx(labelData);
+            label->fromOpenDSPX(labelData);
             if (!labelSequence->insertItem(label)) {
                 model->destroyItem(label);
                 continue;
@@ -487,7 +506,7 @@ namespace Core {
     }
 
     bool DspxDocumentPrivate::pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || !model->timeline() || keySignatures.isEmpty())
+        if (!model || keySignatures.isEmpty())
             return false;
 
         enum class PasteMode {
@@ -531,10 +550,18 @@ namespace Core {
 
         bool inserted = false;
         int removedOverlaps = 0;
-        auto keySignatureSequence = model->timeline()->keySignatures();
+        auto keySignatureSequence = model->keySignatures();
         for (const auto &keySignatureData : adjusted) {
+            const auto pos = keySignatureData.at("pos").get<int>();
+            const auto overlappingItems = keySignatureSequence->slice(pos, 1);
+            for (auto *overlappingItem : overlappingItems) {
+                keySignatureSequence->removeItem(overlappingItem);
+                model->destroyItem(overlappingItem);
+                ++removedOverlaps;
+            }
+
             auto *keySignature = model->createKeySignature();
-            keySignature->fromOpenDspx(keySignatureData);
+            keySignature->fromOpenDSPX(keySignatureData);
             if (!keySignatureSequence->insertItem(keySignature)) {
                 model->destroyItem(keySignature);
                 continue;
@@ -542,15 +569,6 @@ namespace Core {
 
             inserted = true;
             pastedItems.append(keySignature);
-            const auto pos = keySignatureData.at("pos").get<int>();
-            const auto overlappingItems = keySignatureSequence->slice(pos, 1);
-            for (auto *overlappingItem : overlappingItems) {
-                if (overlappingItem == keySignature)
-                    continue;
-                keySignatureSequence->removeItem(overlappingItem);
-                model->destroyItem(overlappingItem);
-                ++removedOverlaps;
-            }
         }
 
         if (inserted)
@@ -581,7 +599,7 @@ namespace Core {
         } while (false);
         for (const auto &trackData : tracks) {
             auto *track = model->createTrack();
-            track->fromOpenDspx(trackData);
+            track->fromOpenDSPX(trackData);
             if (!trackList->insertItem(insertionIndex, track)) {
                 model->destroyItem(track);
                 continue;
@@ -640,11 +658,11 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteTempos() {
-        auto *tempoSequence = model->timeline()->tempos();
+        auto *tempoSequence = model->tempos();
         int removedCount = 0;
         for (auto *item : selectionModel->tempoSelectionModel()->selectedItems()) {
             // Protect the initial tempo at position 0 when it is the only one.
-            if (item->pos() == 0) {
+            if (item->position() == 0) {
                 const auto overlappingItems = tempoSequence->slice(0, 1);
                 if (overlappingItems.size() == 1)
                     continue;
@@ -659,7 +677,7 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteLabels() {
-        auto *labelSequence = model->timeline()->labels();
+        auto *labelSequence = model->labels();
         int removedCount = 0;
         for (auto *item : selectionModel->labelSelectionModel()->selectedItems()) {
             if (labelSequence->removeItem(item)) {
@@ -671,7 +689,7 @@ namespace Core {
     }
 
     int DspxDocumentPrivate::deleteKeySignatures() {
-        auto *keySignatureSequence = model->timeline()->keySignatures();
+        auto *keySignatureSequence = model->keySignatures();
         int removedCount = 0;
         for (auto *item : selectionModel->keySignatureSelectionModel()->selectedItems()) {
             // Note: KeySignature allows deletion at position 0, unlike Tempo
@@ -732,19 +750,19 @@ namespace Core {
     }
 
     void DspxDocumentPrivate::selectAllTempos() {
-        for (auto item : model->timeline()->tempos()->asRange()) {
+        for (auto item : model->tempos()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
         }
     }
 
     void DspxDocumentPrivate::selectAllLabels() {
-        for (auto item : model->timeline()->labels()->asRange()) {
+        for (auto item : model->labels()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
         }
     }
 
     void DspxDocumentPrivate::selectAllKeySignatures() {
-        for (auto item : model->timeline()->keySignatures()->asRange()) {
+        for (auto item : model->keySignatures()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
         }
     }
@@ -775,11 +793,10 @@ namespace Core {
     DspxDocument::DspxDocument(QObject *parent) : QObject(parent), d_ptr(new DspxDocumentPrivate) {
         Q_D(DspxDocument);
         d->q_ptr = this;
-        auto modelStrategy = new dspx::UndoableModelStrategy; // TODO use substate in future
-        d->model = new dspx::Model(modelStrategy, this);
-        modelStrategy->setParent(d->model);
+        d->dspxDocument = new dspx::Document(this);
+        d->model = new dspx::Model(d->dspxDocument, this);
         d->selectionModel = new dspx::SelectionModel(d->model, this);
-        auto transactionalStrategy = new TransactionalModelStrategy(modelStrategy);
+        auto transactionalStrategy = new TransactionalModelStrategy(d->dspxDocument);
         d->transactionController = new TransactionController(transactionalStrategy, this);
         transactionalStrategy->setParent(d->transactionController);
 
@@ -1019,9 +1036,9 @@ namespace Core {
                         if (position <= clipPos || position >= clipEnd)
                             continue;
 
-                        const auto data = clip->toOpenDspx();
+                        const auto data = clip->toOpenDSPX();
                         const int newClipLength = position - clipPos;
-                        clip->time()->setClipLen(newClipLength);
+                        clip->setClipLength(newClipLength);
                         data->time.clipLen -= newClipLength;
                         data->time.clipStart = position - (data->time.pos - data->time.clipStart);
                         data->time.pos = position;
@@ -1036,7 +1053,7 @@ namespace Core {
                                 break;
                         }
 
-                        newClip->fromOpenDspx(data);
+                        newClip->fromOpenDSPX(data);
                         auto *clipSequence = clip->clipSequence();
                         if (!clipSequence || !clipSequence->insertItem(newClip)) {
                             d->model->destroyItem(newClip);
@@ -1051,19 +1068,19 @@ namespace Core {
                 case dspx::SelectionModel::ST_Note: {
                     const auto selectedNotes = d->selectionModel->noteSelectionModel()->selectedItems();
                     for (auto *note : selectedNotes) {
-                        const int notePos = note->pos();
+                        const int notePos = note->position();
                         const int noteEnd = notePos + note->length();
                         if (position <= notePos || position >= noteEnd)
                             continue;
 
-                        auto data = note->toOpenDspx();
+                        auto data = note->toOpenDSPX();
                         const int newNoteLength = position - notePos;
                         note->setLength(newNoteLength);
                         data.length -= newNoteLength;
                         data.pos = position;
 
                         auto *newNote = d->model->createNote();
-                        newNote->fromOpenDspx(data);
+                        newNote->fromOpenDSPX(data);
                         newNote->setLyric("-");
                         auto *noteSequence = note->noteSequence();
                         if (!noteSequence || !noteSequence->insertItem(newNote)) {
@@ -1116,21 +1133,21 @@ namespace Core {
             };
             if (!info.pivotClip) {
                 info.pivotClip = singingClip;
-                info.bouncedClipTime = boundClipTime(singingClip->time()->toOpenDspx());
+                info.bouncedClipTime = boundClipTime(singingClip->toOpenDSPX().time);
             } else {
                 info.pivotClip = std::min(info.pivotClip, singingClip, [=](dspx::SingingClip *a, dspx::SingingClip *b) {
                     if (a->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
                         return true;
                     if (b->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
                         return false;
-                    auto ta = boundClipTime(a->time()->toOpenDspx());
-                    auto tb = boundClipTime(b->time()->toOpenDspx());
+                    auto ta = boundClipTime(a->toOpenDSPX().time);
+                    auto tb = boundClipTime(b->toOpenDSPX().time);
                     if (ta.pos ==  tb.pos) {
                         return ta.clipLen < tb.clipLen;
                     }
                     return ta.pos < tb.pos;
                 });
-                auto t = boundClipTime(singingClip->time()->toOpenDspx());
+                auto t = boundClipTime(singingClip->toOpenDSPX().time);
                 auto left = std::min(info.bouncedClipTime.pos, t.pos);
                 auto right = std::max(info.bouncedClipTime.pos + info.bouncedClipTime.clipLen, t.pos + t.clipLen);
                 info.bouncedClipTime.pos = left;
@@ -1148,21 +1165,21 @@ namespace Core {
                 QList<dspx::Note *> notes;
                 // Take all notes and reposition notes
                 for (auto clip : info.clips) {
-                    const auto deltaPosition = clip->time()->start() - info.bouncedClipTime.pos;
+                    const auto deltaPosition = clip->start() - info.bouncedClipTime.pos;
                     // It is needed to copy all notes to a new list, because notes will be removed while iterating
                     // asRange() returns an enable borrowed range so it's safe to get iterator from prvalue
                     for (auto note : QList(clip->notes()->asRange().cbegin(), clip->notes()->asRange().cend())) {
                         clip->notes()->removeItem(note);
-                        if (note->pos() + note->length() <= clip->time()->clipStart() || note->pos() >= clip->time()->clipStart() + clip->time()->clipLen()) {
+                        if (note->position() + note->length() <= clip->clipStart() || note->position() >= clip->clipStart() + clip->clipLength()) {
                             d->model->destroyItem(note);
                             continue;
-                        } else if (note->pos() < clip->time()->clipStart() || note->pos() + note->length() > clip->time()->clipStart() + clip->time()->clipLen()) {
-                            auto left = std::max(note->pos(), clip->time()->clipStart());
-                            auto right = std::min(note->pos() + note->length(), clip->time()->clipStart() + clip->time()->clipLen());
-                            note->setPos(left);
+                        } else if (note->position() < clip->clipStart() || note->position() + note->length() > clip->clipStart() + clip->clipLength()) {
+                            auto left = std::max(note->position(), clip->clipStart());
+                            auto right = std::min(note->position() + note->length(), clip->clipStart() + clip->clipLength());
+                            note->setPosition(left);
                             note->setLength(right - left);
                         }
-                        note->setPos(note->pos() + deltaPosition);
+                        note->setPosition(note->position() + deltaPosition);
                         notes.append(note);
                     }
                 }
@@ -1174,7 +1191,10 @@ namespace Core {
                 // Update time of pivot clip and delete non-pivot clips
                 for (auto clip : info.clips) {
                     if (clip == info.pivotClip) {
-                        clip->time()->fromOpenDspx(info.bouncedClipTime);
+                        clip->setPosition(info.bouncedClipTime.pos);
+                        clip->setLength(info.bouncedClipTime.length);
+                        clip->setClipStart(info.bouncedClipTime.clipStart);
+                        clip->setClipLength(info.bouncedClipTime.clipLen);
                     } else {
                         clip->clipSequence()->removeItem(clip);
                         d->model->destroyItem(clip);
@@ -1186,6 +1206,20 @@ namespace Core {
             qCCritical(lcDspxDocument) << "Failed to begin transaction";
         });
         qCInfo(lcDspxDocument) << "End bouncing to clip";
+    }
+
+    void DspxDocument::loadModel(const opendspx::Model &model) {
+        Q_D(DspxDocument);
+        auto transaction = d->dspxDocument->engine()->beginTransaction({.undoable = false});
+        d->dspxDocument->setTransaction(&transaction);
+        try {
+            d->model->fromOpenDspx(model);
+            transaction.commit();
+            d->dspxDocument->setTransaction(nullptr);
+        } catch (...) {
+            d->dspxDocument->setTransaction(nullptr);
+            throw;
+        }
     }
 
 }

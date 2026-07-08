@@ -20,7 +20,7 @@ PropertyEditorGroupBox {
         MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
-            key: "pos"
+            key: "position"
             label: qsTr("Onset position (relative to clip)")
             transactionName: qsTr("Editing onset position")
         }

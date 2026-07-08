@@ -11,7 +11,7 @@ class QStateMachine;
 class QQuickItem;
 
 namespace dspx {
-    class Master;
+    class Model;
 }
 
 namespace sflow {
@@ -33,7 +33,7 @@ namespace VisualEditor {
         ProjectViewModelContext *q_ptr{};
 
         Core::DspxDocument *document{};
-        dspx::Master *master{};
+        dspx::Model *model{};
 
         sflow::ListViewModel *masterTrackListViewModel{};
         sflow::TrackViewModel *masterTrackViewModel{};

@@ -16,7 +16,7 @@
 #include <SVSCraftCore/Semver.h>
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <dspxmodel/Model.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxCheckerRegistry.h>
@@ -62,7 +62,7 @@ namespace Core {
 
     QByteArray ProjectDocumentContextPrivate::serializeDocument(bool *hasError) const {
         opendspx::SerializationErrorList errors;
-        auto model = document->model()->toOpenDspx();
+        auto model = document->model()->toOpenDSPX();
         writeEditorInfo(model);
         std::stringstream out(std::ios::out);
         opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_Compress);
@@ -108,7 +108,7 @@ namespace Core {
         }
         auto postProcessedModel = model;
         writeEditorInfo(postProcessedModel);
-        document->model()->fromOpenDspx(postProcessedModel);
+        document->loadModel(postProcessedModel);
         return true;
     }
 

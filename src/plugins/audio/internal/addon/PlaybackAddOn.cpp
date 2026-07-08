@@ -13,8 +13,7 @@
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioSourcePlayback.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -51,8 +50,8 @@ namespace Audio::Internal {
         Q_ASSERT(m_context);
         m_projectTimeline = windowInterface->projectTimeline();
         Q_ASSERT(m_projectTimeline);
-        m_documentTimeline = windowInterface->projectDocumentContext()->document()->model()->timeline();
-        Q_ASSERT(m_documentTimeline);
+        m_documentModel = windowInterface->projectDocumentContext()->document()->model();
+        Q_ASSERT(m_documentModel);
 
         auto transport = m_context->transport();
         connect(transport, &talcs::TransportAudioSource::positionAboutToChange, this, [this](qint64 positionSample) {
@@ -78,9 +77,9 @@ namespace Audio::Internal {
             syncLoopingRange();
             handlePlaybackPositionChanged(m_projectTimeline->position());
         });
-        connect(m_documentTimeline, &dspx::Timeline::loopEnabledChanged, this, &PlaybackAddOn::syncLoopingRange);
-        connect(m_documentTimeline, &dspx::Timeline::loopStartChanged, this, &PlaybackAddOn::syncLoopingRange);
-        connect(m_documentTimeline, &dspx::Timeline::loopLengthChanged, this, &PlaybackAddOn::syncLoopingRange);
+        connect(m_documentModel, &dspx::Model::loopEnabledChanged, this, &PlaybackAddOn::syncLoopingRange);
+        connect(m_documentModel, &dspx::Model::loopStartChanged, this, &PlaybackAddOn::syncLoopingRange);
+        connect(m_documentModel, &dspx::Model::loopLengthChanged, this, &PlaybackAddOn::syncLoopingRange);
 
         syncLoopingRange();
         handlePlaybackPositionChanged(m_projectTimeline->position());
@@ -166,13 +165,13 @@ namespace Audio::Internal {
     }
 
     void PlaybackAddOn::syncLoopingRange() {
-        if (!m_documentTimeline->isLoopEnabled()) {
+        if (!m_documentModel->loopEnabled()) {
             m_context->transport()->setLoopingRange(-1, -1);
             return;
         }
 
-        const auto loopStart = m_documentTimeline->loopStart();
-        const auto loopLength = m_documentTimeline->loopLength();
+        const auto loopStart = m_documentModel->loopStart();
+        const auto loopLength = m_documentModel->loopLength();
         if (loopLength <= 0) {
             m_context->transport()->setLoopingRange(-1, -1);
             return;

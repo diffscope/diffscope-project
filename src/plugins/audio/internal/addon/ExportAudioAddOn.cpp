@@ -27,13 +27,11 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/NotificationMessage.h>
@@ -173,15 +171,14 @@ namespace Audio::Internal {
         auto model = windowInterface->projectDocumentContext()->document()->model();
         auto timeRangeAllEnd = std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
             return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
-                return clip->position() + clip->time()->clipLen();
+                return clip->position() + clip->clipLength();
             }));
         }));
-        auto timeline = model->timeline();
         auto timeRangeLoopSectionStart = 0;
         auto timeRangeLoopSectionEnd = timeRangeAllEnd;
-        if (timeline->isLoopEnabled() && timeline->loopLength() > 0) {
-            timeRangeLoopSectionStart = timeline->loopStart();
-            timeRangeLoopSectionEnd = timeRangeLoopSectionStart + timeline->loopLength();
+        if (model->loopEnabled() && model->loopLength() > 0) {
+            timeRangeLoopSectionStart = model->loopStart();
+            timeRangeLoopSectionEnd = timeRangeLoopSectionStart + model->loopLength();
         }
         m_currentParameter.setRangeStart(0);
         m_currentParameter.setRangeLength(timeRangeAllEnd);

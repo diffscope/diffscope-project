@@ -7,12 +7,11 @@
 
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectDocumentContext.h>

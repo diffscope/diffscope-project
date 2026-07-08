@@ -14,16 +14,12 @@
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/BusControl.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Master.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackControl.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <audio/AudioClipAudioContext.h>
 #include <audio/private/AudioClipAudioContext_p.h>
@@ -152,37 +148,35 @@ namespace Audio::Internal {
 
     void ProjectAudioAddOn::syncMasterControl() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
-        auto masterModel = windowInterface->projectDocumentContext()->document()->model()->master();
-        auto masterControlModel = masterModel->control();
+        auto masterModel = windowInterface->projectDocumentContext()->document()->model();
         auto masterControlMixer = m_context->masterControlMixer();
         masterControlMixer->setRouteChannels(masterModel->multiChannelOutput());
-        masterControlMixer->setGain(static_cast<float>(masterControlModel->gain()));
-        masterControlMixer->setPan(static_cast<float>(masterControlModel->pan()));
-        masterControlMixer->setSilentFlags(masterControlModel->mute() ? -1 : 0);
-        connect(masterModel, &dspx::Master::multiChannelOutputChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setRouteChannels);
-        connect(masterControlModel, &dspx::BusControl::gainChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setGain);
-        connect(masterControlModel, &dspx::BusControl::panChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setPan);
-        connect(masterControlModel, &dspx::BusControl::muteChanged, masterControlMixer, [masterControlMixer](bool mute) {
+        masterControlMixer->setGain(static_cast<float>(masterModel->gain()));
+        masterControlMixer->setPan(static_cast<float>(masterModel->pan()));
+        masterControlMixer->setSilentFlags(masterModel->mute() ? -1 : 0);
+        connect(masterModel, &dspx::Model::multiChannelOutputChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setRouteChannels);
+        connect(masterModel, &dspx::Model::gainChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setGain);
+        connect(masterModel, &dspx::Model::panChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setPan);
+        connect(masterModel, &dspx::Model::muteChanged, masterControlMixer, [masterControlMixer](bool mute) {
             masterControlMixer->setSilentFlags(mute ? -1 : 0);
         });
     }
 
     void ProjectAudioAddOn::syncTrackControl(dspx::Track *track, TrackAudioContext *context) {
-        auto control = track->control();
         auto controlMixer = context->controlMixer();
         auto masterTrackMixer = m_context->masterTrackMixer();
 
-        controlMixer->setGain(static_cast<float>(control->gain()));
-        controlMixer->setPan(static_cast<float>(control->pan()));
-        controlMixer->setSilentFlags(control->mute() ? -1 : 0);
-        masterTrackMixer->setSourceSolo(controlMixer, control->solo());
+        controlMixer->setGain(static_cast<float>(track->gain()));
+        controlMixer->setPan(static_cast<float>(track->pan()));
+        controlMixer->setSilentFlags(track->mute() ? -1 : 0);
+        masterTrackMixer->setSourceSolo(controlMixer, track->solo());
 
-        connect(control, &dspx::TrackControl::gainChanged, controlMixer, &talcs::PositionableMixerAudioSource::setGain);
-        connect(control, &dspx::TrackControl::panChanged, controlMixer, &talcs::PositionableMixerAudioSource::setPan);
-        connect(control, &dspx::TrackControl::muteChanged, controlMixer, [controlMixer](bool mute) {
+        connect(track, &dspx::Track::gainChanged, controlMixer, &talcs::PositionableMixerAudioSource::setGain);
+        connect(track, &dspx::Track::panChanged, controlMixer, &talcs::PositionableMixerAudioSource::setPan);
+        connect(track, &dspx::Track::muteChanged, controlMixer, [controlMixer](bool mute) {
             controlMixer->setSilentFlags(mute ? -1 : 0);
         });
-        connect(control, &dspx::TrackControl::soloChanged, masterTrackMixer, [masterTrackMixer, controlMixer](bool solo) {
+        connect(track, &dspx::Track::soloChanged, masterTrackMixer, [masterTrackMixer, controlMixer](bool solo) {
             masterTrackMixer->setSourceSolo(controlMixer, solo);
         });
     }
@@ -224,28 +218,26 @@ namespace Audio::Internal {
     }
 
     void ProjectAudioAddOn::syncAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
-        auto control = clip->control();
         auto controlMixer = context->controlMixer();
 
-        controlMixer->setGain(static_cast<float>(control->gain()));
-        controlMixer->setPan(static_cast<float>(control->pan()));
-        controlMixer->setSilentFlags(control->mute() ? -1 : 0);
+        controlMixer->setGain(static_cast<float>(clip->gain()));
+        controlMixer->setPan(static_cast<float>(clip->pan()));
+        controlMixer->setSilentFlags(clip->mute() ? -1 : 0);
 
-        connect(control, &dspx::BusControl::gainChanged, controlMixer, &talcs::PositionableMixerAudioSource::setGain);
-        connect(control, &dspx::BusControl::panChanged, controlMixer, &talcs::PositionableMixerAudioSource::setPan);
-        connect(control, &dspx::BusControl::muteChanged, controlMixer, [controlMixer](bool mute) {
+        connect(clip, &dspx::Clip::gainChanged, controlMixer, &talcs::PositionableMixerAudioSource::setGain);
+        connect(clip, &dspx::Clip::panChanged, controlMixer, &talcs::PositionableMixerAudioSource::setPan);
+        connect(clip, &dspx::Clip::muteChanged, controlMixer, [controlMixer](bool mute) {
             controlMixer->setSilentFlags(mute ? -1 : 0);
         });
 
         auto clipContext = AudioClipAudioContextPrivate::of(context)->clipContext;
-        auto time = clip->time();
-        clipContext->setStart(time->start());
-        clipContext->setClipStart(time->clipStart());
-        clipContext->setClipLen(time->clipLen());
+        clipContext->setStart(clip->start());
+        clipContext->setClipStart(clip->clipStart());
+        clipContext->setClipLen(clip->clipLength());
 
-        connect(time, &dspx::ClipTime::startChanged, clipContext, &talcs::DspxAudioClipContext::setStart);
-        connect(time, &dspx::ClipTime::clipStartChanged, clipContext, &talcs::DspxAudioClipContext::setClipStart);
-        connect(time, &dspx::ClipTime::clipLenChanged, clipContext, &talcs::DspxAudioClipContext::setClipLen);
+        connect(clip, &dspx::Clip::startChanged, clipContext, &talcs::DspxAudioClipContext::setStart);
+        connect(clip, &dspx::Clip::clipStartChanged, clipContext, &talcs::DspxAudioClipContext::setClipStart);
+        connect(clip, &dspx::Clip::clipLengthChanged, clipContext, &talcs::DspxAudioClipContext::setClipLen);
         connect(GlobalAudioContext::instance(), &GlobalAudioContext::sampleRateChanged, clipContext, [clipContext] {
             clipContext->updatePosition();
         });

@@ -8,12 +8,11 @@
 #include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/MusicTimeSignature.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/TimeSignatureSequence.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TimeSignature.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/TimeSignatureSequence.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TimeSignature.h>
 
 #include <coreplugin/DspxDocument.h>
 
@@ -35,14 +34,14 @@ namespace Core {
             QObject::connect(tempo, &dspx::Tempo::valueChanged, q, [=, this] {
                 handleTempoInsertedOrUpdated(tempo);
             });
-            QObject::connect(tempo, &dspx::Tempo::posChanged, q, [=, this] {
+            QObject::connect(tempo, &dspx::Tempo::positionChanged, q, [=, this] {
                 handleTempoInsertedOrUpdated(tempo);
             });
         }
-        tempoPosMap.insert(tempo, tempo->pos());
-        auto &tempoSet = tempoMap[tempo->pos()];
+        tempoPosMap.insert(tempo, tempo->position());
+        auto &tempoSet = tempoMap[tempo->position()];
         tempoSet.insert(tempo);
-        musicTimeline->setTempo(tempo->pos(), (*tempoSet.begin())->value());
+        musicTimeline->setTempo(tempo->position(), (*tempoSet.begin())->value());
     }
     void ProjectTimelinePrivate::handleTempoRemoved(dspx::Tempo *tempo) {
         Q_Q(ProjectTimeline);
@@ -126,8 +125,8 @@ namespace Core {
             d->musicTimeline = qobject_cast<SVS::MusicTimeline *>(musicTimeline);
             Q_ASSERT(d->musicTimeline);
         }
-        auto tempoSequence = document->model()->timeline()->tempos();
-        auto timeSignatureSequence = document->model()->timeline()->timeSignatures();
+        auto tempoSequence = document->model()->tempos();
+        auto timeSignatureSequence = document->model()->timeSignatures();
         for (auto item : tempoSequence->asRange()) {
             d->handleTempoInsertedOrUpdated(item);
         }

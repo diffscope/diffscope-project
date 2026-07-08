@@ -13,12 +13,11 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSelectionModel.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelSelectionModel/TempoSelectionModel.h>
+#include <dspxmodelORM/TempoSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/EditTempoTimeSignatureScenario.h>
@@ -103,7 +102,7 @@ namespace VisualEditor {
     void TempoViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         document = q->windowHandle()->projectDocumentContext()->document();
-        tempoSequence = document->model()->timeline()->tempos();
+        tempoSequence = document->model()->tempos();
         tempoSelectionModel = document->selectionModel()->tempoSelectionModel();
 
         tempoSequenceViewModel = new sflow::PointSequenceViewModel(q);
@@ -139,35 +138,36 @@ namespace VisualEditor {
         auto viewItem = new sflow::LabelViewModel(tempoSequenceViewModel);
         tempoViewItemMap.insert(item, viewItem);
         tempoDocumentItemMap.insert(viewItem, item);
-        qCDebug(lcTempoViewModelContextData) << "Tempo item inserted" << item << viewItem << item->pos() << item->value();
+        qCDebug(lcTempoViewModelContextData) << "Tempo item inserted" << item << viewItem << item->position() << item->value();
 
-        connect(item, &dspx::Tempo::posChanged, viewItem, [=] {
-            if (viewItem->position() == item->pos())
+        connect(item, &dspx::Tempo::positionChanged, viewItem, [=] {
+            if (viewItem->position() == item->position())
                 return;
-            qCDebug(lcTempoViewModelContextData) << "Tempo item pos updated" << item << item->pos();
-            viewItem->setPosition(item->pos());
+            qCDebug(lcTempoViewModelContextData) << "Tempo item pos updated" << item << item->position();
+            viewItem->setPosition(item->position());
         });
         connect(item, &dspx::Tempo::valueChanged, viewItem, [=] {
             qCDebug(lcTempoViewModelContextData) << "Tempo item value updated" << item << item->value();
             viewItem->setContent(QLocale().toString(item->value()));
         });
-        viewItem->setPosition(item->pos());
+        viewItem->setPosition(item->position());
         viewItem->setContent(QLocale().toString(item->value()));
 
         connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
-            if (viewItem->position() == item->pos()) {
+            if (viewItem->position() == item->position()) {
+                transactionalUpdatedTempos.remove(viewItem);
                 return;
             }
 
             // If the tempo is at the start of the timeline, restore the original position
-            if (item->pos() == 0) {
-                viewItem->setPosition(item->pos());
+            if (item->position() == 0) {
+                viewItem->setPosition(item->position());
                 return;
             }
 
             // If the tempo is not being moved, restore the original position
             if (!stateMachine->configuration().contains(moveProgressingState)) {
-                viewItem->setPosition(item->pos());
+                viewItem->setPosition(item->position());
                 return;
             }
 
@@ -239,7 +239,7 @@ namespace VisualEditor {
     void TempoViewModelContextData::onMovePendingStateEntered() {
         Q_Q(ProjectViewModelContext);
         for (auto item : tempoSelectionModel->selectedItems()) {
-            if (item->pos() == 0) {
+            if (item->position() == 0) {
                 // Not allowed to move tempo to position 0
                 Q_EMIT moveTransactionNotStarted();
                 return;
@@ -255,7 +255,13 @@ namespace VisualEditor {
 
     void TempoViewModelContextData::onMoveCommittingStateEntered() {
         Q_Q(ProjectViewModelContext);
+        struct MoveEntry {
+            dspx::Tempo *item;
+            int position;
+        };
+        QList<MoveEntry> entries;
         QSet<dspx::Tempo *> updatedItems;
+        QSet<int> targetPositions;
         if (transactionalUpdatedTempos.isEmpty()) {
             document->transactionController()->abortTransaction(moveTransactionId);
             moveTransactionId = {};
@@ -264,12 +270,32 @@ namespace VisualEditor {
         for (auto viewItem : transactionalUpdatedTempos) {
             auto item = tempoDocumentItemMap.value(viewItem);
             Q_ASSERT(item);
-            item->setPos(viewItem->position());
+            if (viewItem->position() == item->position()) {
+                continue;
+            }
+            if (viewItem->position() == 0 || targetPositions.contains(viewItem->position())) {
+                for (auto resetViewItem : transactionalUpdatedTempos) {
+                    if (auto resetItem = tempoDocumentItemMap.value(resetViewItem)) {
+                        resetViewItem->setPosition(resetItem->position());
+                    }
+                }
+                transactionalUpdatedTempos.clear();
+                document->transactionController()->abortTransaction(moveTransactionId);
+                moveTransactionId = {};
+                return;
+            }
+            targetPositions.insert(viewItem->position());
+            entries.append({item, viewItem->position()});
             updatedItems.insert(item);
         }
         transactionalUpdatedTempos.clear();
-        for (auto item : updatedItems) {
-            auto overlappingItems = tempoSequence->slice(item->pos(), 1);
+        if (entries.isEmpty()) {
+            document->transactionController()->abortTransaction(moveTransactionId);
+            moveTransactionId = {};
+            return;
+        }
+        for (const auto &entry : entries) {
+            auto overlappingItems = tempoSequence->slice(entry.position, 1);
             for (auto overlappingItem : overlappingItems) {
                 if (updatedItems.contains(overlappingItem))
                     continue;
@@ -277,11 +303,32 @@ namespace VisualEditor {
                 document->model()->destroyItem(overlappingItem);
             }
         }
+        for (const auto &entry : entries) {
+            tempoSequence->removeItem(entry.item);
+        }
+        for (const auto &entry : entries) {
+            entry.item->setPosition(entry.position);
+            tempoSequence->insertItem(entry.item);
+        }
+        bool first = true;
+        for (const auto &entry : entries) {
+            auto command = dspx::SelectionModel::SelectionCommand(dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem);
+            if (first) {
+                command |= dspx::SelectionModel::ClearPreviousSelection;
+            }
+            document->selectionModel()->select(entry.item, command, dspx::SelectionModel::ST_Tempo);
+            first = false;
+        }
         document->transactionController()->commitTransaction(moveTransactionId, tr("Moving tempo"));
         moveTransactionId = {};
     }
 
     void TempoViewModelContextData::onMoveAbortingStateEntered() {
+        for (auto viewItem : transactionalUpdatedTempos) {
+            if (auto item = tempoDocumentItemMap.value(viewItem)) {
+                viewItem->setPosition(item->position());
+            }
+        }
         transactionalUpdatedTempos.clear();
         document->transactionController()->abortTransaction(moveTransactionId);
         moveTransactionId = {};

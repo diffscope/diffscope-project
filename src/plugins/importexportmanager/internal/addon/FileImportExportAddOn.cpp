@@ -23,7 +23,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <dspxmodel/Model.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
@@ -158,7 +158,7 @@ namespace ImportExportManager::Internal {
         }
         Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
         auto projectDocumentContext = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext();
-        auto model = projectDocumentContext->document()->model()->toOpenDspx();
+        auto model = projectDocumentContext->document()->model()->toOpenDSPX();
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();

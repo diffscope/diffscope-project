@@ -7,13 +7,11 @@
 #include <cmath>
 #include <utility>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TempoSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -176,15 +174,14 @@ namespace AudioVisualizer::Internal {
             return;
         }
 
-        const auto time = m_audioClip->time();
-        if (!time || time->clipLen() <= 0) {
+        if (m_audioClip->clipLength() <= 0) {
             clearWaveformGeometry();
             return;
         }
 
         const double clipPosition = m_audioClip->position();
-        const double clipStart = time->clipStart();
-        const double clipLength = time->clipLen();
+        const double clipStart = m_audioClip->clipStart();
+        const double clipLength = m_audioClip->clipLength();
         const double clipEnd = clipPosition + clipLength;
         const double viewportStart = clipPosition + m_viewportOffset;
         const double viewportEnd = viewportStart + m_viewportLength;
@@ -202,7 +199,7 @@ namespace AudioVisualizer::Internal {
         auto projectDocumentContext = m_projectWindowInterface->projectDocumentContext();
         auto document = projectDocumentContext ? projectDocumentContext->document() : nullptr;
         auto model = document ? document->model() : nullptr;
-        auto tempoSequence = model && model->timeline() ? model->timeline()->tempos() : nullptr;
+        auto tempoSequence = model ? model->tempos() : nullptr;
         if (tempoSequence) {
             const auto sliceStart = qMax(0, static_cast<int>(std::floor(sectionStart)));
             const auto sliceLength = qMax(0, static_cast<int>(std::ceil(sectionEnd)) - sliceStart + 1);
@@ -211,7 +208,7 @@ namespace AudioVisualizer::Internal {
                 if (!tempo) {
                     continue;
                 }
-                const double tempoPosition = tempo->pos();
+                const double tempoPosition = tempo->position();
                 if (tempoPosition > sectionStart && tempoPosition < sectionEnd) {
                     sectionBoundaries.append(tempoPosition);
                 }

@@ -1,7 +1,7 @@
 #include "PhonemeListModel.h"
 
-#include <dspxmodel/Phoneme.h>
-#include <dspxmodel/PhonemeSequence.h>
+#include <dspxmodelORM/Phoneme.h>
+#include <dspxmodelORM/PhonemeSequence.h>
 
 namespace Core::Internal {
 

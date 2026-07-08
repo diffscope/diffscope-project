@@ -18,7 +18,7 @@ PropertyEditorGroupBox {
         MusicTimePropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
-            key: "pos"
+            key: "position"
             label: qsTr("Position")
             transactionName: qsTr("Moving label")
         }

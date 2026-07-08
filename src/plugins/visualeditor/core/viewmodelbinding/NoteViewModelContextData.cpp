@@ -15,16 +15,15 @@
 
 #include <opendspx/note.h>
 
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/Pronunciation.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -51,11 +50,11 @@ namespace VisualEditor {
             NoteViewModelContextData *m_context{};
         };
 
-        inline QString pronunciationAdditionalText(const dspx::Pronunciation *pronunciation) {
-            if (!pronunciation) {
+        inline QString pronunciationAdditionalText(const dspx::Note *note) {
+            if (!note) {
                 return {};
             }
-            return pronunciation->edited().isEmpty() ? pronunciation->original() : pronunciation->edited();
+            return note->editedPronunciation().isEmpty() ? note->originalPronunciation() : note->editedPronunciation();
         }
 
         inline dspx::Note *duplicateNote(dspx::Note *source, dspx::Model *model) {
@@ -64,7 +63,7 @@ namespace VisualEditor {
             }
 
             auto duplicated = model->createNote();
-            duplicated->fromOpenDspx(source->toOpenDspx());
+            duplicated->fromOpenDSPX(source->toOpenDSPX());
             return duplicated;
         }
     }
@@ -474,12 +473,12 @@ namespace VisualEditor {
             qCDebug(lcNoteViewModelContextData) << "Note lyric updated" << item << item->lyric();
             viewItem->setLyric(item->lyric());
         });
-        connect(item, &dspx::Note::posChanged, viewItem, [=] {
-            if (viewItem->position() == item->pos()) {
+        connect(item, &dspx::Note::positionChanged, viewItem, [=] {
+            if (viewItem->position() == item->position()) {
                 return;
             }
-            qCDebug(lcNoteViewModelContextData) << "Note position updated" << item << item->pos();
-            viewItem->setPosition(item->pos());
+            qCDebug(lcNoteViewModelContextData) << "Note position updated" << item << item->position();
+            viewItem->setPosition(item->position());
         });
         connect(item, &dspx::Note::lengthChanged, viewItem, [=] {
             if (viewItem->length() == item->length()) {
@@ -488,12 +487,12 @@ namespace VisualEditor {
             qCDebug(lcNoteViewModelContextData) << "Note length updated" << item << item->length();
             viewItem->setLength(item->length());
         });
-        connect(item, &dspx::Note::keyNumChanged, viewItem, [=] {
-            if (viewItem->key() == item->keyNum()) {
+        connect(item, &dspx::Note::keyNumberChanged, viewItem, [=] {
+            if (viewItem->key() == item->keyNumber()) {
                 return;
             }
-            qCDebug(lcNoteViewModelContextData) << "Note key updated" << item << item->keyNum();
-            viewItem->setKey(item->keyNum());
+            qCDebug(lcNoteViewModelContextData) << "Note key updated" << item << item->keyNumber();
+            viewItem->setKey(item->keyNumber());
         });
         connect(item, &dspx::Note::overlappedChanged, viewItem, [=](bool overlapped) {
             if (viewItem->isOverlapped() == overlapped) {
@@ -502,23 +501,22 @@ namespace VisualEditor {
             qCDebug(lcNoteViewModelContextData) << "Note overlapped updated" << item << overlapped;
             viewItem->setOverlapped(overlapped);
         });
-        auto pronunciation = item->pronunciation();
-        connect(pronunciation, &dspx::Pronunciation::originalChanged, viewItem, [=] {
-            const auto additional = pronunciationAdditionalText(pronunciation);
+        connect(item, &dspx::Note::originalPronunciationChanged, viewItem, [=] {
+            const auto additional = pronunciationAdditionalText(item);
             if (viewItem->additionalText() != additional) {
                 viewItem->setAdditionalText(additional);
             }
-            const bool highlighted = !pronunciation->edited().isEmpty();
+            const bool highlighted = !item->editedPronunciation().isEmpty();
             if (viewItem->isAdditionalTextHighlighted() != highlighted) {
                 viewItem->setAdditionalTextHighlighted(highlighted);
             }
         });
-        connect(pronunciation, &dspx::Pronunciation::editedChanged, viewItem, [=] {
-            const auto additional = pronunciationAdditionalText(pronunciation);
+        connect(item, &dspx::Note::editedPronunciationChanged, viewItem, [=] {
+            const auto additional = pronunciationAdditionalText(item);
             if (viewItem->additionalText() != additional) {
                 viewItem->setAdditionalText(additional);
             }
-            const bool highlighted = !pronunciation->edited().isEmpty();
+            const bool highlighted = !item->editedPronunciation().isEmpty();
             if (viewItem->isAdditionalTextHighlighted() != highlighted) {
                 viewItem->setAdditionalTextHighlighted(highlighted);
             }
@@ -531,41 +529,41 @@ namespace VisualEditor {
             qCDebug(lcNoteViewModelContextData) << "Note nextItem changed" << item << item->nextItem();
             // Disconnect previous nextItem's signals if any
             if (currentNextItem) {
-                disconnect(currentNextItem, &dspx::Note::posChanged, viewItem, nullptr);
-                disconnect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, nullptr);
+                disconnect(currentNextItem, &dspx::Note::positionChanged, viewItem, nullptr);
+                disconnect(currentNextItem, &dspx::Note::keyNumberChanged, viewItem, nullptr);
             }
             // Update current nextItem
             currentNextItem = item->nextItem();
             // Connect new nextItem's signals if exists
             if (currentNextItem) {
-                connect(currentNextItem, &dspx::Note::posChanged, viewItem, [=, this] {
-                    qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->pos();
-                    viewItem->setNextNotePosition(currentNextItem->pos());
+                connect(currentNextItem, &dspx::Note::positionChanged, viewItem, [=, this] {
+                    qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->position();
+                    viewItem->setNextNotePosition(currentNextItem->position());
                 });
-                connect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, [=, this] {
-                    qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNum();
-                    viewItem->setNextNoteKey(currentNextItem->keyNum());
+                connect(currentNextItem, &dspx::Note::keyNumberChanged, viewItem, [=, this] {
+                    qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNumber();
+                    viewItem->setNextNoteKey(currentNextItem->keyNumber());
                 });
             }
             // Update nextNotePosition and nextNoteKey
-            viewItem->setNextNotePosition(currentNextItem ? currentNextItem->pos() : 0);
-            viewItem->setNextNoteKey(currentNextItem ? currentNextItem->keyNum() : 0);
+            viewItem->setNextNotePosition(currentNextItem ? currentNextItem->position() : 0);
+            viewItem->setNextNoteKey(currentNextItem ? currentNextItem->keyNumber() : 0);
         });
         // Connect current nextItem's signals if exists
         if (currentNextItem) {
-            connect(currentNextItem, &dspx::Note::posChanged, viewItem, [=, this] {
-                qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->pos();
-                viewItem->setNextNotePosition(currentNextItem->pos());
+            connect(currentNextItem, &dspx::Note::positionChanged, viewItem, [=, this] {
+                qCDebug(lcNoteViewModelContextData) << "Note nextItem pos updated" << currentNextItem << currentNextItem->position();
+                viewItem->setNextNotePosition(currentNextItem->position());
             });
-            connect(currentNextItem, &dspx::Note::keyNumChanged, viewItem, [=, this] {
-                qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNum();
-                viewItem->setNextNoteKey(currentNextItem->keyNum());
+            connect(currentNextItem, &dspx::Note::keyNumberChanged, viewItem, [=, this] {
+                qCDebug(lcNoteViewModelContextData) << "Note nextItem key updated" << currentNextItem << currentNextItem->keyNumber();
+                viewItem->setNextNoteKey(currentNextItem->keyNumber());
             });
         }
 
         connect(viewItem, &sflow::NoteViewModel::positionChanged, item, [=, this] {
             if (!(stateMachine->configuration().contains(moveProcessingState) || stateMachine->configuration().contains(adjustProcessingState) || stateMachine->configuration().contains(drawProcessingState))) {
-                viewItem->setPosition(item->pos());
+                viewItem->setPosition(item->position());
                 return;
             }
             qCDebug(lcNoteViewModelContextData) << "Note view position updated" << viewItem << viewItem->position();
@@ -586,7 +584,7 @@ namespace VisualEditor {
                 }
             };
             duplicateSelectionIfNeeded();
-            item->setPos(viewItem->position());
+            item->setPosition(viewItem->position());
             if (stateMachine->configuration().contains(moveProcessingState)) {
                 moveChanged = true;
                 moveUpdatedNotes.insert(viewItem);
@@ -618,7 +616,7 @@ namespace VisualEditor {
         });
         connect(viewItem, &sflow::NoteViewModel::keyChanged, item, [=, this] {
             if (!(stateMachine->configuration().contains(moveProcessingState) || stateMachine->configuration().contains(drawProcessingState))) {
-                viewItem->setKey(item->keyNum());
+                viewItem->setKey(item->keyNumber());
                 return;
             }
             qCDebug(lcNoteViewModelContextData) << "Note view key updated" << viewItem << viewItem->key();
@@ -635,7 +633,7 @@ namespace VisualEditor {
                     }
                 }
             }
-            item->setKeyNum(viewItem->key());
+            item->setKeyNumber(viewItem->key());
             if (stateMachine->configuration().contains(moveProcessingState)) {
                 moveChanged = true;
                 moveUpdatedNotes.insert(viewItem);
@@ -655,9 +653,9 @@ namespace VisualEditor {
         });
         connect(viewItem, &sflow::NoteViewModel::additionalTextChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(additionalTextProgressingState)) {
-                const auto additional = pronunciationAdditionalText(item->pronunciation());
+                const auto additional = pronunciationAdditionalText(item);
                 viewItem->setAdditionalText(additional);
-                viewItem->setAdditionalTextHighlighted(!item->pronunciation()->edited().isEmpty());
+                viewItem->setAdditionalTextHighlighted(!item->editedPronunciation().isEmpty());
                 return;
             }
             additionalTextChanged = true;
@@ -665,15 +663,15 @@ namespace VisualEditor {
         });
 
         viewItem->setLyric(item->lyric());
-        viewItem->setPosition(item->pos());
+        viewItem->setPosition(item->position());
         viewItem->setLength(item->length());
-        viewItem->setKey(item->keyNum());
-        viewItem->setOverlapped(item->isOverlapped());
-        const auto additional = pronunciationAdditionalText(item->pronunciation());
+        viewItem->setKey(item->keyNumber());
+        viewItem->setOverlapped(item->overlapped());
+        const auto additional = pronunciationAdditionalText(item);
         viewItem->setAdditionalText(additional);
-        viewItem->setAdditionalTextHighlighted(!item->pronunciation()->edited().isEmpty());
-        viewItem->setNextNotePosition(item->nextItem() ? item->nextItem()->pos() : 0);
-        viewItem->setNextNoteKey(item->nextItem() ? item->nextItem()->keyNum() : 0);
+        viewItem->setAdditionalTextHighlighted(!item->editedPronunciation().isEmpty());
+        viewItem->setNextNotePosition(item->nextItem() ? item->nextItem()->position() : 0);
+        viewItem->setNextNoteKey(item->nextItem() ? item->nextItem()->keyNumber() : 0);
 
         noteSequenceViewModel->insertItem(viewItem);
     }
@@ -809,9 +807,9 @@ namespace VisualEditor {
                     auto sequence = targetNote->noteSequence();
                     dspx::Note *newTarget = nullptr;
                     if (operation == sflow::NoteEditLayerInteractionController::MovePrevious) {
-                        newTarget = sequence->previousItem(targetNote);
+                        newTarget = targetNote->previousItem();
                     } else if (operation == sflow::NoteEditLayerInteractionController::MoveNext) {
-                        newTarget = sequence->nextItem(targetNote);
+                        newTarget = targetNote->nextItem();
                     } else if (operation == sflow::NoteEditLayerInteractionController::MoveHome) {
                         newTarget = sequence->firstItem();
                     } else {
@@ -848,9 +846,9 @@ namespace VisualEditor {
                     auto sequence = targetNote->noteSequence();
                     dspx::Note *newTarget = nullptr;
                     if (operation == sflow::NoteEditLayerInteractionController::MovePrevious) {
-                        newTarget = sequence->previousItem(targetNote);
+                        newTarget = targetNote->previousItem();
                     } else if (operation == sflow::NoteEditLayerInteractionController::MoveNext) {
-                        newTarget = sequence->nextItem(targetNote);
+                        newTarget = targetNote->nextItem();
                     } else if (operation == sflow::NoteEditLayerInteractionController::MoveHome) {
                         newTarget = sequence->firstItem();
                     } else {
@@ -917,8 +915,8 @@ namespace VisualEditor {
             for (auto viewItem : lengthUpdatedNotes) {
                 auto documentItem = noteDocumentItemMap.value(viewItem);
                 documentItem->setLength(viewItem->length());
-                documentItem->setPos(viewItem->position());
-                documentItem->setKeyNum(viewItem->key());
+                documentItem->setPosition(viewItem->position());
+                documentItem->setKeyNumber(viewItem->key());
             }
             document->transactionController()->commitTransaction(adjustTransactionId, tr("Adjusting note length"));
         }
@@ -959,9 +957,9 @@ namespace VisualEditor {
 
         auto viewItem = noteViewItemMap.value(targetNote);
         if (viewItem) {
-            targetNote->setPos(viewItem->position());
+            targetNote->setPosition(viewItem->position());
             targetNote->setLength(viewItem->length());
-            targetNote->setKeyNum(viewItem->key());
+            targetNote->setKeyNumber(viewItem->key());
         }
 
         if (!drawChanged) {
@@ -1042,13 +1040,12 @@ namespace VisualEditor {
 
     void NoteViewModelContextData::onAdditionalTextCommittingStateEntered() {
         auto viewItem = noteViewItemMap.value(targetNote);
-        auto pronunciation = targetNote ? targetNote->pronunciation() : nullptr;
-        if (viewItem && pronunciation) {
-            const auto previous = pronunciationAdditionalText(pronunciation);
+        if (viewItem && targetNote) {
+            const auto previous = pronunciationAdditionalText(targetNote);
             if (previous == viewItem->additionalText()) {
                 document->transactionController()->abortTransaction(additionalTextTransactionId);
             } else {
-                pronunciation->setEdited(viewItem->additionalText());
+                targetNote->setEditedPronunciation(viewItem->additionalText());
                 document->transactionController()->commitTransaction(additionalTextTransactionId, tr("Editing pronunciation"));
             }
         } else {
@@ -1094,9 +1091,9 @@ namespace VisualEditor {
 
         document->transactionController()->beginScopedTransaction(QObject::tr("Inserting note"), [=, &newNote, &success] {
             newNote = document->model()->createNote();
-            newNote->setPos(position);
+            newNote->setPosition(position);
             newNote->setLength(implicitNoteLength);
-            newNote->setKeyNum(key);
+            newNote->setKeyNumber(key);
             newNote->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
             if (!singingClip->notes()->insertItem(newNote)) {
                 document->model()->destroyItem(newNote);
@@ -1108,7 +1105,7 @@ namespace VisualEditor {
         });
         
         if (success && newNote) {
-            qCInfo(lcNoteViewModelContextData) << "Note inserted successfully at position" << newNote->pos() << "key" << newNote->keyNum();
+            qCInfo(lcNoteViewModelContextData) << "Note inserted successfully at position" << newNote->position() << "key" << newNote->keyNumber();
             document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         } else {
             qCWarning(lcNoteViewModelContextData) << "Failed to insert note";
@@ -1125,28 +1122,28 @@ namespace VisualEditor {
         }
 
         auto nextItem = note->nextItem();
-        if (!nextItem || note->pos() + note->length() >= nextItem->pos()) {
+        if (!nextItem || note->position() + note->length() >= nextItem->position()) {
             qCInfo(lcNoteViewModelContextData) << "Ripple delete skipped: No next item or no gap to fill";
             return;
         }
 
-        const int gapSize = nextItem->pos() - (note->pos() + note->length());
+        const int gapSize = nextItem->position() - (note->position() + note->length());
         qCInfo(lcNoteViewModelContextData) << "Ripple delete requested for note" << note 
                                            << "option:" << option 
                                            << "gap size:" << gapSize;
 
         if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Previous) {
             document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
-                const int newLength = nextItem->pos() - note->pos();
+                const int newLength = nextItem->position() - note->position();
                 note->setLength(newLength);
                 qCDebug(lcNoteViewModelContextData) << "Extended current note length to" << newLength;
                 return true;
             });
         } else if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Next) {
             document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
-                const int newNextPos = note->pos() + note->length();
+                const int newNextPos = note->position() + note->length();
                 const int newNextLength = nextItem->length() + gapSize;
-                nextItem->setPos(newNextPos);
+                nextItem->setPosition(newNextPos);
                 nextItem->setLength(newNextLength);
                 qCDebug(lcNoteViewModelContextData) << "Moved next note to position" << newNextPos 
                                                    << "and extended length to" << newNextLength;
@@ -1168,9 +1165,9 @@ namespace VisualEditor {
         Q_EMIT m_context->drawTransactionWillStart();
 
         auto note = m_context->document->model()->createNote();
-        note->setPos(position);
+        note->setPosition(position);
         note->setLength(0);
-        note->setKeyNum(trackIndex);
+        note->setKeyNumber(trackIndex);
         note->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
         singingClip->notes()->insertItem(note);
 

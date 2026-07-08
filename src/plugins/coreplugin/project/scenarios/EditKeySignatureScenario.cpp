@@ -12,10 +12,9 @@
 
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -77,21 +76,22 @@ namespace Core {
         position = dialog->property("position").toInt();
         qCInfo(lcEditKeySignatureScenario) << "Edit key signature" << position << tonality << mode << accidentalType;
         if (!doInsertNew) {
-            auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-            auto nearestKeySignature = keySignatureSequence->itemAt(position);
+            auto keySignatureSequence = document()->model()->keySignatures();
+            auto a = keySignatureSequence->slice(position, 1);
+            auto nearestKeySignature = a.isEmpty() ? nullptr : a.first();
             if (nearestKeySignature) {
-                position = nearestKeySignature->pos();
+                position = nearestKeySignature->position();
                 qCInfo(lcEditKeySignatureScenario) << "modify existing key signature at" << position;
             }
         }
         document()->transactionController()->beginScopedTransaction(tr("Editing key signature"), [=] {
-            auto keySignatureSequence = document()->model()->timeline()->keySignatures();
+            auto keySignatureSequence = document()->model()->keySignatures();
             auto currentKeySignatures = keySignatureSequence->slice(position, 1);
             dspx::KeySignature *keySignatureItem;
             if (currentKeySignatures.isEmpty()) {
                 qCDebug(lcEditKeySignatureScenario) << "Current key signatures is empty";
                 keySignatureItem = document()->model()->createKeySignature();
-                keySignatureItem->setPos(position);
+                keySignatureItem->setPosition(position);
                 keySignatureItem->setTonality(tonality);
                 keySignatureItem->setMode(mode);
                 keySignatureItem->setAccidentalType(static_cast<dspx::KeySignature::AccidentalType>(accidentalType));
@@ -125,8 +125,9 @@ namespace Core {
         Q_D(const EditKeySignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-        auto currentKeySignature = keySignatureSequence->itemAt(position);
+        auto keySignatureSequence = document()->model()->keySignatures();
+        auto a = keySignatureSequence->slice(position, 1);
+        auto currentKeySignature = a.isEmpty() ? nullptr : a.first();
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;
@@ -142,8 +143,9 @@ namespace Core {
         Q_D(const EditKeySignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-        auto currentKeySignature = keySignatureSequence->itemAt(position);
+        auto keySignatureSequence = document()->model()->keySignatures();
+        auto a = keySignatureSequence->slice(position, 1);
+        auto currentKeySignature = a.isEmpty() ? nullptr : a.first();
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;

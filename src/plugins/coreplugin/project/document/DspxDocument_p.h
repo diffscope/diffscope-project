@@ -57,6 +57,7 @@ namespace Core {
         bool emitOnChange(bool value, bool &cache, Signal signal);
 
         DspxDocument *q_ptr = nullptr;
+        dspx::Document *dspxDocument = nullptr;
         dspx::Model *model = nullptr;
         dspx::SelectionModel *selectionModel = nullptr;
         TransactionController *transactionController = nullptr;

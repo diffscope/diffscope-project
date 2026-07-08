@@ -11,12 +11,12 @@
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/FormatManager.h>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <audio/AudioClipAudioContext.h>
 #include <audio/GlobalAudioContext.h>

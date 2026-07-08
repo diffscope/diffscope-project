@@ -85,9 +85,9 @@ EditTempoTimeSignatureScenario {
                     console.error(lcTimelineContextMenuHelper, "Failed to remove time signature in exclusive transaction")
                     return
                 }
-                let currentTimeSignatures = helper.document.model.timeline.timeSignatures.slice(measure, 1)
+                let currentTimeSignatures = helper.document.model.timeSignatures.slice(measure, 1)
                 for (let item of currentTimeSignatures) {
-                    helper.document.model.timeline.timeSignatures.removeItem(item)
+                    helper.document.model.timeSignatures.removeItem(item)
                     helper.document.model.destroyItem(item)
                 }
                 helper.document.transactionController.commitTransaction(transactionId, "Remove time signature")

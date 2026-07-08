@@ -13,7 +13,7 @@ namespace Core {
 }
 
 namespace dspx {
-    class Timeline;
+    class Model;
 }
 
 namespace Audio::Internal {
@@ -50,7 +50,7 @@ namespace Audio::Internal {
 
         ProjectAudioContext *m_context{};
         Core::ProjectTimeline *m_projectTimeline{};
-        dspx::Timeline *m_documentTimeline{};
+        dspx::Model *m_documentModel{};
         bool m_transportPositionFlag{true};
         Audio::ProjectAudioContext::PlaybackStatus m_lastStatus{};
     };

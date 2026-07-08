@@ -1,7 +1,7 @@
 #include "DefaultLyricManager.h"
 #include "DefaultLyricManager_p.h"
 
-#include <dspxmodel/SingingClip.h>
+#include <dspxmodelORM/SingingClip.h>
 
 namespace Core {
 

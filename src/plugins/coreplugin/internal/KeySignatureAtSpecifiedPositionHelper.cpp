@@ -1,7 +1,7 @@
 #include "KeySignatureAtSpecifiedPositionHelper.h"
 
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSequence.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 namespace Core::Internal {
 
@@ -60,7 +60,8 @@ namespace Core::Internal {
     void KeySignatureAtSpecifiedPositionHelper::updateKeySignature() {
         dspx::KeySignature *newKeySignature = nullptr;
         if (m_keySignatureSequence) {
-            newKeySignature = m_keySignatureSequence->itemAt(m_position);
+            auto a = m_keySignatureSequence->slice(m_position, 1);
+            newKeySignature = a.isEmpty() ? nullptr : a.first();
         }
 
         if (m_keySignature == newKeySignature)
@@ -83,7 +84,7 @@ namespace Core::Internal {
         // Disconnect all signals from the sequence
         disconnect(m_keySignatureSequence, nullptr, this, nullptr);
 
-        // Disconnect all posChanged signals from items in the sequence
+        // Disconnect all positionChanged signals from items in the sequence
         for (auto item : m_keySignatureSequence->asRange()) {
             disconnect(item, nullptr, this, nullptr);
         }
@@ -96,8 +97,8 @@ namespace Core::Internal {
         // Connect to sequence signals
         connect(m_keySignatureSequence, &dspx::KeySignatureSequence::itemInserted,
                 this, [this](dspx::KeySignature *item) {
-                    // Connect to the newly inserted item's posChanged signal
-                    connect(item, &dspx::KeySignature::posChanged,
+                    // Connect to the newly inserted item's positionChanged signal
+                    connect(item, &dspx::KeySignature::positionChanged,
                             this, &KeySignatureAtSpecifiedPositionHelper::updateKeySignature);
                     updateKeySignature();
                 });
@@ -109,9 +110,9 @@ namespace Core::Internal {
                     updateKeySignature();
                 });
 
-        // Connect to posChanged signal of all existing items
+        // Connect to positionChanged signal of all existing items
         for (auto item : m_keySignatureSequence->asRange()) {
-            connect(item, &dspx::KeySignature::posChanged,
+            connect(item, &dspx::KeySignature::positionChanged,
                     this, &KeySignatureAtSpecifiedPositionHelper::updateKeySignature);
         }
     }

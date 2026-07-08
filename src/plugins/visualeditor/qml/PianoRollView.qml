@@ -16,6 +16,7 @@ import dev.sjimo.ScopicFlow.Views
 
 import DiffScope.Core
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 Item {
     id: view
@@ -129,7 +130,7 @@ Item {
                                         if (!clip)
                                             return
                                         view.pianoRollPanelInterface.editingClip = clip
-                                        view.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, clip.notes);
+                                        view.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, clip.notes);
                                     }
                                 }
                                 Label {

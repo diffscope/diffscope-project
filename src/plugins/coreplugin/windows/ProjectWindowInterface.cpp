@@ -21,22 +21,20 @@
 #include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/StatusTextContext.h>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/TimeSignature.h>
-#include <dspxmodel/TimeSignatureSequence.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/TimeSignature.h>
+#include <dspxmodelORM/TimeSignatureSequence.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
@@ -204,17 +202,21 @@ namespace Core {
         Q_D(ProjectWindowInterface);
         auto model = d->projectDocumentContext->document()->model();
         d->projectTimeline->setRangeHint(1920 + std::max({
-            model->timeline()->loopStart() + model->timeline()->loopLength(),
-            model->timeline()->labels()->size() == 0 ? 0 : model->timeline()->labels()->lastItem()->pos(),
-            model->timeline()->tempos()->size() == 0 ? 0 : model->timeline()->tempos()->lastItem()->pos(),
-            model->timeline()->timeSignatures()->size() == 0 ? 0 : d->projectTimeline->musicTimeline()->create(model->timeline()->timeSignatures()->lastItem()->index(), 0, 0).totalTick(),
+            model->loopStart() + model->loopLength(),
+            model->labels()->size() == 0 ? 0 : model->labels()->lastItem()->position(),
+            model->tempos()->size() == 0 ? 0 : model->tempos()->lastItem()->position(),
+            model->timeSignatures()->size() == 0 ? 0 : d->projectTimeline->musicTimeline()->create(model->timeSignatures()->lastItem()->index(), 0, 0).totalTick(),
             model->tracks()->size() == 0 ? 0 : std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
                 return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
+                    const int clipRight = clip->position() + clip->clipLength();
+                    const int noteRight = clip->type() == dspx::Clip::Audio || static_cast<dspx::SingingClip *>(clip)->notes()->size() == 0
+                                              ? 0
+                                              : clip->start() + std::ranges::max(std::views::transform(static_cast<dspx::SingingClip *>(clip)->notes()->asRange(), [](dspx::Note *note) {
+                                                    return note->position() + note->length();
+                                                }));
                     return std::max({
-                        clip->time()->start() + clip->time()->clipStart() + clip->time()->clipLen(),
-                        clip->type() == dspx::Clip::Audio ? 0 : clip->time()->start() + static_cast<dspx::SingingClip *>(clip)->notes()->size() == 0 ? 0 : std::ranges::max(std::views::transform(static_cast<dspx::SingingClip *>(clip)->notes()->asRange(), [](dspx::Note *note) {
-                            return note->pos() + note->length();
-                        })),
+                        clipRight,
+                        noteRight,
                         // TODO param
                     });
                 }));

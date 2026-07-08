@@ -9,6 +9,7 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 PropertyEditorGroupBox {
     id: groupBox
@@ -58,13 +59,13 @@ PropertyEditorGroupBox {
                 onClicked: () => {
                     let selectionModel = groupBox.windowHandle.projectDocumentContext.document.selectionModel
                     let tracks
-                    if (selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip) {
+                    if (selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip) {
                         tracks = selectionModel.clipSelectionModel.clipSequencesWithSelectedItems.map(v => v.track)
                     } else {
                         tracks = groupBox.propertyMapper?.associatedTrack ? [groupBox.propertyMapper.associatedTrack] : []
                     }
                     for (let track of tracks) {
-                        selectionModel.select(track, DspxModel.SelectionModel.Select | DspxModel.SelectionModel.SetCurrentItem)
+                        selectionModel.select(track, DspxSelectionModel.SelectionModel.Select | DspxSelectionModel.SelectionModel.SetCurrentItem)
                     }
                 }
             }

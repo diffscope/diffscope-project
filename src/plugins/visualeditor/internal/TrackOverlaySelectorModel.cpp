@@ -3,8 +3,8 @@
 #include <QStandardItem>
 #include <QVariant>
 
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 namespace VisualEditor::Internal {
 

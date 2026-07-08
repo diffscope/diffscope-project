@@ -7,6 +7,7 @@ import QActionKit
 import DiffScope.Audio
 import DiffScope.Core
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 ActionCollection {
     id: d
@@ -24,7 +25,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.audio.edit.replaceAudioClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
                      && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Audio
             onTriggered: Qt.callLater(() => d.addOn.replaceAudioClip(d.windowHandle.projectDocumentContext.document.selectionModel.currentItem))
         }

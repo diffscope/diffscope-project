@@ -17,8 +17,7 @@
 #include <SVSCraftCore/MusicModeInfo.h>
 #include <SVSCraftCore/MusicMode.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
 
 #include <transactional/TransactionController.h>
 
@@ -70,7 +69,7 @@ namespace Core::Internal {
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         m_keySignatureAtSpecifiedPositionHelper->setPosition(windowInterface->projectTimeline()->position());
-        m_keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowInterface->projectDocumentContext()->document()->model()->timeline()->keySignatures());
+        m_keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowInterface->projectDocumentContext()->document()->model()->keySignatures());
         connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this](int position) {
             m_keySignatureAtSpecifiedPositionHelper->setPosition(position);
             Q_EMIT musicTimeTextChanged();
@@ -84,7 +83,7 @@ namespace Core::Internal {
             Q_EMIT tempoTextChanged();
             Q_EMIT timeSignatureTextChanged();
         });
-        connect(windowInterface->projectDocumentContext()->document()->model()->timeline(), &dspx::Timeline::loopEnabledChanged, this, &TimelineAddOn::loopEnabledChanged);
+        connect(windowInterface->projectDocumentContext()->document()->model(), &dspx::Model::loopEnabledChanged, this, &TimelineAddOn::loopEnabledChanged);
         connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::modeChanged, this, &TimelineAddOn::keySignatureTextChanged);
         connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::tonalityChanged, this, &TimelineAddOn::keySignatureTextChanged);
         connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, this, &TimelineAddOn::keySignatureTextChanged);
@@ -135,15 +134,15 @@ namespace Core::Internal {
 
     bool TimelineAddOn::isLoopEnabled() const {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        return windowInterface->projectDocumentContext()->document()->model()->timeline()->isLoopEnabled();
+        return windowInterface->projectDocumentContext()->document()->model()->loopEnabled();
     }
 
     void TimelineAddOn::setLoopEnabled(bool enabled) {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         qCInfo(lcTimelineAddOn) << "Toggle loop:" << enabled;
         windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(enabled ? tr("Enabling loop") : tr("Disabling loop"), [=] {
-            auto dspxTimeline = windowInterface->projectDocumentContext()->document()->model()->timeline();
-            dspxTimeline->setLoopEnabled(enabled);
+            auto dspxModel = windowInterface->projectDocumentContext()->document()->model();
+            dspxModel->setLoopEnabled(enabled);
             return true;
         }, [=, this] {
             qCCritical(lcTimelineAddOn()) << "Failed to edit loop in exclusive transaction";

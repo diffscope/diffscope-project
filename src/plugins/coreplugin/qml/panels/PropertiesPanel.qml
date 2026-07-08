@@ -11,6 +11,8 @@ import QActionKit
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
+import DiffScope.DspxModel.PropertyMapper
 
 QtObject {
     id: d
@@ -112,15 +114,15 @@ QtObject {
             if (!d.addOn?.windowHandle.projectDocumentContext.document.anyItemsSelected)
                 return null
             let selectionType = d.addOn?.windowHandle.projectDocumentContext.document.selectionModel.selectionType
-            if (selectionType === DspxModel.SelectionModel.ST_Clip)
+            if (selectionType === DspxSelectionModel.SelectionModel.ST_Clip)
                 return clipItemContextMenu
-            if (selectionType === DspxModel.SelectionModel.ST_Label)
+            if (selectionType === DspxSelectionModel.SelectionModel.ST_Label)
                 return labelItemContextMenu
-            if (selectionType === DspxModel.SelectionModel.ST_Tempo)
+            if (selectionType === DspxSelectionModel.SelectionModel.ST_Tempo)
                 return tempoItemContextMenu
-            if (selectionType === DspxModel.SelectionModel.ST_Track)
+            if (selectionType === DspxSelectionModel.SelectionModel.ST_Track)
                 return trackItemContextMenu
-            if (selectionType === DspxModel.SelectionModel.ST_Note)
+            if (selectionType === DspxSelectionModel.SelectionModel.ST_Note)
                 return noteItemContextMenu
             return null
         }

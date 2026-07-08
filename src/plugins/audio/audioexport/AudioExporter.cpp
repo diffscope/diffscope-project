@@ -31,15 +31,13 @@
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
 namespace Audio {
 
@@ -149,9 +147,8 @@ namespace Audio {
             case AudioExporterConfig::TR_All:
                 break;
             case AudioExporterConfig::TR_LoopSection: {
-                auto timeline = model->timeline();
-                if (timeline->isLoopEnabled() && timeline->loopLength() > 0) {
-                    return {timeline->loopStart(), timeline->loopLength()};
+                if (model->loopEnabled() && model->loopLength() > 0) {
+                    return {model->loopStart(), model->loopLength()};
                 }
                 break;
             }
@@ -161,7 +158,7 @@ namespace Audio {
 
         return {0, std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
             return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
-                return clip->position() + clip->time()->clipLen();
+                return clip->position() + clip->clipLength();
             }));
         }))};
     }

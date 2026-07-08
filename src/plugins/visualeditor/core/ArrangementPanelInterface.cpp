@@ -17,9 +17,9 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackListLayoutViewModel.h>
 
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/SelectionModel.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>

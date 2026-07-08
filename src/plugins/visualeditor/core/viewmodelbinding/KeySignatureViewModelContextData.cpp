@@ -19,12 +19,11 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSelectionModel.h>
-#include <dspxmodel/KeySignatureSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/EditKeySignatureScenario.h>
@@ -129,7 +128,7 @@ namespace VisualEditor {
     void KeySignatureViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         document = q->windowHandle()->projectDocumentContext()->document();
-        keySignatureSequence = document->model()->timeline()->keySignatures();
+        keySignatureSequence = document->model()->keySignatures();
         keySignatureSelectionModel = document->selectionModel()->keySignatureSelectionModel();
 
         keySignatureSequenceViewModel = new sflow::PointSequenceViewModel(q);
@@ -170,13 +169,13 @@ namespace VisualEditor {
         auto viewItem = new sflow::LabelViewModel(keySignatureSequenceViewModel);
         keySignatureViewItemMap.insert(item, viewItem);
         keySignatureDocumentItemMap.insert(viewItem, item);
-        qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item inserted" << item << viewItem << item->pos() << item->mode() << item->tonality();
+        qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item inserted" << item << viewItem << item->position() << item->mode() << item->tonality();
 
-        connect(item, &dspx::KeySignature::posChanged, viewItem, [=] {
-            if (viewItem->position() == item->pos())
+        connect(item, &dspx::KeySignature::positionChanged, viewItem, [=] {
+            if (viewItem->position() == item->position())
                 return;
-            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item pos updated" << item << item->pos();
-            viewItem->setPosition(item->pos());
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item pos updated" << item << item->position();
+            viewItem->setPosition(item->position());
         });
         connect(item, &dspx::KeySignature::modeChanged, viewItem, [=] {
             qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item mode updated" << item << item->mode();
@@ -190,24 +189,24 @@ namespace VisualEditor {
             qCDebug(lcKeySignatureViewModelContextData) << "KeySignature item accidental type updated" << item << item->accidentalType();
             viewItem->setContent(getLabelText(item->mode(), item->tonality(), item->accidentalType()));
         });
-        viewItem->setPosition(item->pos());
+        viewItem->setPosition(item->position());
         viewItem->setContent(getLabelText(item->mode(), item->tonality(), item->accidentalType()));
 
         connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
-            if (viewItem->position() == item->pos()) {
+            if (viewItem->position() == item->position()) {
+                transactionalUpdatedKeySignatures.remove(viewItem);
                 return;
             }
 
             // Unlike tempo, KeySignature at position 0 CAN be moved and deleted
             // If the key signature is not being moved, restore the original position
             if (!stateMachine->configuration().contains(moveProgressingState)) {
-                viewItem->setPosition(item->pos());
+                viewItem->setPosition(item->position());
                 return;
             }
 
             qCDebug(lcKeySignatureViewModelContextData) << "KeySignature view item pos updated" << viewItem << viewItem->position();
             transactionalUpdatedKeySignatures.insert(viewItem);
-            item->setPos(viewItem->position());
         });
 
         keySignatureSequenceViewModel->insertItem(viewItem);
@@ -284,7 +283,13 @@ namespace VisualEditor {
 
     void KeySignatureViewModelContextData::onMoveCommittingStateEntered() {
         Q_Q(ProjectViewModelContext);
+        struct MoveEntry {
+            dspx::KeySignature *item;
+            int position;
+        };
+        QList<MoveEntry> entries;
         QSet<dspx::KeySignature *> updatedItems;
+        QSet<int> targetPositions;
         if (transactionalUpdatedKeySignatures.isEmpty()) {
             document->transactionController()->abortTransaction(moveTransactionId);
             moveTransactionId = {};
@@ -293,12 +298,32 @@ namespace VisualEditor {
         for (auto viewItem : transactionalUpdatedKeySignatures) {
             auto item = keySignatureDocumentItemMap.value(viewItem);
             Q_ASSERT(item);
-            // Position is already synchronized immediately, no need to set it here
+            if (viewItem->position() == item->position()) {
+                continue;
+            }
+            if (targetPositions.contains(viewItem->position())) {
+                for (auto resetViewItem : transactionalUpdatedKeySignatures) {
+                    if (auto resetItem = keySignatureDocumentItemMap.value(resetViewItem)) {
+                        resetViewItem->setPosition(resetItem->position());
+                    }
+                }
+                transactionalUpdatedKeySignatures.clear();
+                document->transactionController()->abortTransaction(moveTransactionId);
+                moveTransactionId = {};
+                return;
+            }
+            targetPositions.insert(viewItem->position());
+            entries.append({item, viewItem->position()});
             updatedItems.insert(item);
         }
         transactionalUpdatedKeySignatures.clear();
-        for (auto item : updatedItems) {
-            auto overlappingItems = keySignatureSequence->slice(item->pos(), 1);
+        if (entries.isEmpty()) {
+            document->transactionController()->abortTransaction(moveTransactionId);
+            moveTransactionId = {};
+            return;
+        }
+        for (const auto &entry : entries) {
+            auto overlappingItems = keySignatureSequence->slice(entry.position, 1);
             for (auto overlappingItem : overlappingItems) {
                 if (updatedItems.contains(overlappingItem))
                     continue;
@@ -306,11 +331,32 @@ namespace VisualEditor {
                 document->model()->destroyItem(overlappingItem);
             }
         }
+        for (const auto &entry : entries) {
+            keySignatureSequence->removeItem(entry.item);
+        }
+        for (const auto &entry : entries) {
+            entry.item->setPosition(entry.position);
+            keySignatureSequence->insertItem(entry.item);
+        }
+        bool first = true;
+        for (const auto &entry : entries) {
+            auto command = dspx::SelectionModel::SelectionCommand(dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem);
+            if (first) {
+                command |= dspx::SelectionModel::ClearPreviousSelection;
+            }
+            document->selectionModel()->select(entry.item, command, dspx::SelectionModel::ST_KeySignature);
+            first = false;
+        }
         document->transactionController()->commitTransaction(moveTransactionId, tr("Moving key signature"));
         moveTransactionId = {};
     }
 
     void KeySignatureViewModelContextData::onMoveAbortingStateEntered() {
+        for (auto viewItem : transactionalUpdatedKeySignatures) {
+            if (auto item = keySignatureDocumentItemMap.value(viewItem)) {
+                viewItem->setPosition(item->position());
+            }
+        }
         transactionalUpdatedKeySignatures.clear();
         document->transactionController()->abortTransaction(moveTransactionId);
         moveTransactionId = {};
@@ -358,8 +404,8 @@ namespace VisualEditor {
         QPointer<dspx::KeySignature> currentNextItem = item->nextItem();
 
         // Connect pos signal
-        connect(item, &dspx::KeySignature::posChanged, viewItem, [=, this] {
-            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight pos updated" << item << item->pos();
+        connect(item, &dspx::KeySignature::positionChanged, viewItem, [=, this] {
+            qCDebug(lcKeySignatureViewModelContextData) << "KeySignature scale highlight pos updated" << item << item->position();
             updateScaleHighlightViewItem(item);
         });
 
@@ -369,7 +415,7 @@ namespace VisualEditor {
             
             // Disconnect previous nextItem's pos signal if any
             if (currentNextItem) {
-                disconnect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, nullptr);
+                disconnect(currentNextItem, &dspx::KeySignature::positionChanged, viewItem, nullptr);
             }
             
             // Update current nextItem
@@ -377,8 +423,8 @@ namespace VisualEditor {
             
             // Connect new nextItem's pos signal if exists
             if (currentNextItem) {
-                connect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, [=, this] {
-                    qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->pos();
+                connect(currentNextItem, &dspx::KeySignature::positionChanged, viewItem, [=, this] {
+                    qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->position();
                     updateScaleHighlightViewItem(item);
                 });
             }
@@ -399,8 +445,8 @@ namespace VisualEditor {
 
         // Connect current nextItem's pos signal if exists
         if (currentNextItem) {
-            connect(currentNextItem, &dspx::KeySignature::posChanged, viewItem, [=, this] {
-                qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->pos();
+            connect(currentNextItem, &dspx::KeySignature::positionChanged, viewItem, [=, this] {
+                qCDebug(lcKeySignatureViewModelContextData) << "KeySignature nextItem pos updated" << currentNextItem << currentNextItem->position();
                 updateScaleHighlightViewItem(item);
             });
         }
@@ -437,12 +483,12 @@ namespace VisualEditor {
         }
 
         // Calculate position
-        viewItem->setPosition(item->pos());
+        viewItem->setPosition(item->position());
 
         // Calculate length
         int length;
         if (auto nextItem = item->nextItem()) {
-            length = nextItem->pos() - item->pos();
+            length = nextItem->position() - item->position();
         } else {
             length = 1073741824; // Default length when no next item
         }

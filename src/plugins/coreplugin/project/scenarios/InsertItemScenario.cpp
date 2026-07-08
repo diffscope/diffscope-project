@@ -22,25 +22,21 @@
 
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/BusControl.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/PhonemeInfo.h>
-#include <dspxmodel/PhonemeSequence.h>
-#include <dspxmodel/Phoneme.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelORM/PhonemeSequence.h>
+#include <dspxmodelORM/Phoneme.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -99,7 +95,7 @@ namespace Core {
         auto selectionModel = document()->selectionModel();
         document()->transactionController()->beginScopedTransaction(tr("Adding track"), [=, &newTrack, &success] {
             newTrack = model->createTrack();
-            newTrack->fromOpenDspx(opendspx::Track{});
+            newTrack->fromOpenDSPX(opendspx::Track{});
             newTrack->setName(tr("Unnamed track"));
             auto insertionIndex = trackList->size();
             assignInitialTrackColor(insertionIndex, newTrack);
@@ -157,7 +153,7 @@ namespace Core {
         document()->transactionController()->beginScopedTransaction(tr("Inserting track"), [=, &newTracks, &success] {
             for (int i = 0; i < insertionCount; ++i) {
                 auto track = model->createTrack();
-                track->fromOpenDspx(opendspx::Track{});
+                track->fromOpenDSPX(opendspx::Track{});
                 track->setName(i == 0 ? trackName : QString("%1 (%L2)").arg(trackName).arg(i + 1));
                 assignInitialTrackColor(insertionIndex + i, track);
                 if (!trackList->insertItem(insertionIndex + i, track)) {
@@ -192,7 +188,7 @@ namespace Core {
             return;
         qCInfo(lcInsertItemScenario) << "Inserting label";
         auto model = document()->model();
-        auto labelSequence = model->timeline()->labels();
+        auto labelSequence = model->labels();
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertLabelDialog");
         QVariantMap properties;
         properties.insert("timeline", QVariant::fromValue(d->projectTimeline->musicTimeline()));
@@ -208,7 +204,7 @@ namespace Core {
         bool success = false;
         document()->transactionController()->beginScopedTransaction(tr("Inserting label"), [=, &newLabel, &success] {
             newLabel = model->createLabel();
-            newLabel->setPos(qMax(0, labelPos));
+            newLabel->setPosition(qMax(0, labelPos));
             newLabel->setText(labelText);
             if (!labelSequence->insertItem(newLabel)) {
                 model->destroyItem(newLabel);
@@ -293,11 +289,10 @@ namespace Core {
         document()->transactionController()->beginScopedTransaction(tr("Inserting singing clip"), [=, &newClip, &success] {
             newClip = model->createSingingClip();
             newClip->setName(clipName);
-            auto time = newClip->time();
-            time->setClipStart(0);
-            time->setClipLen(clipLength);
-            time->setStart(clipPosition);
-            newClip->control()->setGain(1);
+            newClip->setClipStart(0);
+            newClip->setClipLength(clipLength);
+            newClip->setPosition(clipPosition);
+            newClip->setGain(1);
             auto clipSequence = selectedTrack->clips();
             if (!clipSequence || !clipSequence->insertItem(newClip)) {
                 model->destroyItem(newClip);
@@ -364,9 +359,9 @@ namespace Core {
         bool success = false;
         document()->transactionController()->beginScopedTransaction(tr("Inserting note"), [=, &newNote, &success] {
             newNote = model->createNote();
-            newNote->setPos(notePosition);
+            newNote->setPosition(notePosition);
             newNote->setLength(noteLength);
-            newNote->setKeyNum(notePitch);
+            newNote->setKeyNumber(notePitch);
             newNote->setLyric(noteLyric);
             if (!noteSequence->insertItem(newNote)) {
                 model->destroyItem(newNote);
@@ -408,7 +403,7 @@ namespace Core {
 
         qCInfo(lcInsertItemScenario) << "Inserting phoneme";
 
-        auto phonemeSequence = note->phonemes()->edited();
+        auto phonemeSequence = note->editedPhonemes();
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "InsertPhonemeDialog");
         QVariantMap properties;

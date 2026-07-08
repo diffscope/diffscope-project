@@ -10,8 +10,7 @@
 #include <ScopicFlowCore/PlaybackViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -89,7 +88,7 @@ namespace VisualEditor {
     void PlaybackViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         document = q->windowHandle()->projectDocumentContext()->document();
-        timeline = document->model()->timeline();
+        model = document->model();
         windowHandle = q->windowHandle();
         playbackViewModel = new sflow::PlaybackViewModel(q);
 
@@ -98,7 +97,7 @@ namespace VisualEditor {
 
     void PlaybackViewModelContextData::bindPlaybackViewModel() {
         auto projectTimeline = windowHandle->projectTimeline();
-        auto documentTimeline = timeline;
+        auto documentModel = model;
         QObject::connect(projectTimeline, &Core::ProjectTimeline::positionChanged, playbackViewModel, [=] {
             if (playbackViewModel->primaryPosition() == projectTimeline->position())
                 return;
@@ -126,23 +125,23 @@ namespace VisualEditor {
         playbackViewModel->setPrimaryPosition(projectTimeline->position());
         playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
 
-        QObject::connect(documentTimeline, &dspx::Timeline::loopStartChanged, playbackViewModel, [=] {
-            const auto loopStart = documentTimeline->loopStart();
+        QObject::connect(documentModel, &dspx::Model::loopStartChanged, playbackViewModel, [=] {
+            const auto loopStart = documentModel->loopStart();
             if (playbackViewModel->loopStart() == loopStart)
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Document timeline loop start updated" << loopStart;
             playbackViewModel->setLoopStart(loopStart);
         });
-        QObject::connect(documentTimeline, &dspx::Timeline::loopLengthChanged, playbackViewModel, [=] {
-            const int loopLength = documentTimeline->loopLength();
-            const int targetLength = documentTimeline->isLoopEnabled() ? loopLength : -1;
+        QObject::connect(documentModel, &dspx::Model::loopLengthChanged, playbackViewModel, [=] {
+            const int loopLength = documentModel->loopLength();
+            const int targetLength = documentModel->loopEnabled() ? loopLength : -1;
             if (playbackViewModel->loopLength() == targetLength)
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Document timeline loop length updated" << targetLength;
             playbackViewModel->setLoopLength(targetLength);
         });
-        QObject::connect(documentTimeline, &dspx::Timeline::loopEnabledChanged, playbackViewModel, [=](bool enabled) {
-            const int targetLength = enabled ? documentTimeline->loopLength() : -1;
+        QObject::connect(documentModel, &dspx::Model::loopEnabledChanged, playbackViewModel, [=](bool enabled) {
+            const int targetLength = enabled ? documentModel->loopLength() : -1;
             if (playbackViewModel->loopLength() == targetLength)
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Document timeline loop enabled changed" << enabled << "-> length" << targetLength;
@@ -151,7 +150,7 @@ namespace VisualEditor {
 
         QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::loopStartChanged, this, [=, this] {
             if (!stateMachine->configuration().contains(loopRangeAdjustingState)) {
-                const int loopStart = documentTimeline->loopStart();
+                const int loopStart = documentModel->loopStart();
                 if (playbackViewModel->loopStart() != loopStart) {
                     playbackViewModel->setLoopStart(loopStart);
                 }
@@ -167,7 +166,7 @@ namespace VisualEditor {
 
         QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::loopLengthChanged, this, [=, this] {
             if (!stateMachine->configuration().contains(loopRangeAdjustingState)) {
-                const int loopLength = documentTimeline->isLoopEnabled() ? documentTimeline->loopLength() : -1;
+                const int loopLength = documentModel->loopEnabled() ? documentModel->loopLength() : -1;
                 if (playbackViewModel->loopLength() != loopLength) {
                     playbackViewModel->setLoopLength(loopLength);
                 }
@@ -181,8 +180,8 @@ namespace VisualEditor {
             pendingLoopLength = clampedLoopLength;
         });
 
-        playbackViewModel->setLoopStart(documentTimeline->loopStart());
-        playbackViewModel->setLoopLength(documentTimeline->isLoopEnabled() ? documentTimeline->loopLength() : -1);
+        playbackViewModel->setLoopStart(documentModel->loopStart());
+        playbackViewModel->setLoopLength(documentModel->loopEnabled() ? documentModel->loopLength() : -1);
     }
 
     sflow::TimelineInteractionController *PlaybackViewModelContextData::createController(QObject *parent) {
@@ -217,8 +216,8 @@ namespace VisualEditor {
     void PlaybackViewModelContextData::onLoopRangeAdjustPendingStateEntered() {
         loopRangeTransactionId = document->transactionController()->beginTransaction();
         if (loopRangeTransactionId != Core::TransactionController::TransactionId::Invalid) {
-            pendingLoopStart = timeline->loopStart();
-            pendingLoopLength = timeline->loopLength();
+            pendingLoopStart = model->loopStart();
+            pendingLoopLength = model->loopLength();
             Q_EMIT loopRangeTransactionStarted();
         } else {
             Q_EMIT loopRangeTransactionNotStarted();
@@ -238,10 +237,10 @@ namespace VisualEditor {
             return;
         }
 
-        const bool hasChange = pendingLoopStart != timeline->loopStart() || pendingLoopLength != timeline->loopLength();
+        const bool hasChange = pendingLoopStart != model->loopStart() || pendingLoopLength != model->loopLength();
         if (hasChange) {
-            timeline->setLoopStart(pendingLoopStart);
-            timeline->setLoopLength(pendingLoopLength);
+            model->setLoopStart(pendingLoopStart);
+            model->setLoopLength(pendingLoopLength);
             document->transactionController()->commitTransaction(loopRangeTransactionId, tr("Adjust loop range"));
         } else {
             document->transactionController()->abortTransaction(loopRangeTransactionId);

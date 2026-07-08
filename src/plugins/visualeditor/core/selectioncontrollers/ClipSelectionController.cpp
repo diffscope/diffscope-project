@@ -7,14 +7,13 @@
 
 #include <ScopicFlowCore/ClipViewModel.h>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSelectionModel.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
