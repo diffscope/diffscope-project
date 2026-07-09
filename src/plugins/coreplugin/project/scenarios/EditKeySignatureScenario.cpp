@@ -17,6 +17,7 @@
 #include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/private/DocumentEditScenario_p.h>
 
@@ -25,6 +26,17 @@
 namespace Core {
 
     Q_STATIC_LOGGING_CATEGORY(lcEditKeySignatureScenario, "diffscope.core.editkeysignaturescenario")
+
+    namespace {
+
+        dspx::KeySignature *keySignatureAt(dspx::KeySignatureSequence *sequence, int position) {
+            Internal::KeySignatureAtSpecifiedPositionHelper helper;
+            helper.setKeySignatureSequence(sequence);
+            helper.setPosition(position);
+            return helper.keySignature();
+        }
+
+    }
 
     EditKeySignatureScenario::EditKeySignatureScenario(QObject *parent)
         : DocumentEditScenario(parent), d_ptr(new EditKeySignatureScenarioPrivate) {
@@ -77,8 +89,7 @@ namespace Core {
         qCInfo(lcEditKeySignatureScenario) << "Edit key signature" << position << tonality << mode << accidentalType;
         if (!doInsertNew) {
             auto keySignatureSequence = document()->model()->keySignatures();
-            auto a = keySignatureSequence->slice(position, 1);
-            auto nearestKeySignature = a.isEmpty() ? nullptr : a.first();
+            auto nearestKeySignature = keySignatureAt(keySignatureSequence, position);
             if (nearestKeySignature) {
                 position = nearestKeySignature->position();
                 qCInfo(lcEditKeySignatureScenario) << "modify existing key signature at" << position;
@@ -126,8 +137,7 @@ namespace Core {
         if (!d->projectTimeline)
             return;
         auto keySignatureSequence = document()->model()->keySignatures();
-        auto a = keySignatureSequence->slice(position, 1);
-        auto currentKeySignature = a.isEmpty() ? nullptr : a.first();
+        auto currentKeySignature = keySignatureAt(keySignatureSequence, position);
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;
@@ -144,8 +154,7 @@ namespace Core {
         if (!d->projectTimeline)
             return;
         auto keySignatureSequence = document()->model()->keySignatures();
-        auto a = keySignatureSequence->slice(position, 1);
-        auto currentKeySignature = a.isEmpty() ? nullptr : a.first();
+        auto currentKeySignature = keySignatureAt(keySignatureSequence, position);
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;
