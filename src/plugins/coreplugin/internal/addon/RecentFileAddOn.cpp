@@ -1,5 +1,6 @@
 #include "RecentFileAddOn.h"
 
+#include <exception>
 #include <memory>
 
 #include <QDir>
@@ -19,6 +20,8 @@
 #include <opendspx/model.h>
 
 #include <QAKQuick/quickactioncontext.h>
+
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <uishell/USDef.h>
 
@@ -154,6 +157,76 @@ namespace Core::Internal {
         return QDir(recoveryRootPath()).filePath(QStringLiteral("latest_unsaved_project.dspx"));
     }
 
+    static void showRecoveryRestoreFailure() {
+        SVS::MessageBox::critical(
+            RuntimeInterface::qmlEngine(),
+            nullptr,
+            RecentFileAddOn::tr("Failed to restore recovery file"),
+            RecentFileAddOn::tr("Cannot restore the recovery file.")
+        );
+    }
+
+    static void showPartialRecoveryWarning() {
+        SVS::MessageBox::warning(
+            RuntimeInterface::qmlEngine(),
+            nullptr,
+            RecentFileAddOn::tr("Complete recovery failed"),
+            RecentFileAddOn::tr("Complete recovery failed. Partial recovery will be attempted."),
+            SVS::SVSCraft::Ok,
+            SVS::SVSCraft::Ok
+        );
+    }
+
+    static std::unique_ptr<dspx::Document> restoreRecoveryDocument(const QDir &recoveryDirectory,
+                                                                   dspx::Document::RestoreOptions options,
+                                                                   QString *errorMessage) {
+        QFile snapshotFile(recoveryDirectory.filePath(QStringLiteral("snapshot")));
+        if (!snapshotFile.open(QIODevice::ReadOnly)) {
+            if (errorMessage) {
+                *errorMessage = QStringLiteral("Failed to open recovery snapshot \"%1\": %2")
+                    .arg(snapshotFile.fileName(), snapshotFile.errorString());
+            }
+            return nullptr;
+        }
+
+        QFile logsFile(recoveryDirectory.filePath(QStringLiteral("logs")));
+        QIODevice *logsDevice = nullptr;
+        if (logsFile.exists()) {
+            if (!logsFile.open(QIODevice::ReadOnly)) {
+                if (errorMessage) {
+                    *errorMessage = QStringLiteral("Failed to open recovery log \"%1\": %2")
+                        .arg(logsFile.fileName(), logsFile.errorString());
+                }
+                return nullptr;
+            }
+            logsDevice = &logsFile;
+        }
+
+        try {
+            auto *document = dspx::Document::restore(&snapshotFile, logsDevice, options);
+            if (!document) {
+                if (errorMessage) {
+                    *errorMessage = QStringLiteral("Document::restore returned null for recovery directory \"%1\"")
+                        .arg(recoveryDirectory.absolutePath());
+                }
+                return nullptr;
+            }
+            return std::unique_ptr<dspx::Document>(document);
+        } catch (const std::exception &e) {
+            if (errorMessage) {
+                *errorMessage = QStringLiteral("Failed to restore document from recovery directory \"%1\": %2")
+                    .arg(recoveryDirectory.absolutePath(), QString::fromUtf8(e.what()));
+            }
+            return nullptr;
+        } catch (...) {
+            if (errorMessage) {
+                *errorMessage = QStringLiteral("Failed to restore document from recovery directory \"%1\": unknown exception")
+                    .arg(recoveryDirectory.absolutePath());
+            }
+            return nullptr;
+        }
+    }
+
     static bool recoveryDirectoryInUse(const QDir &directory) {
         QLockFile lock(directory.filePath(QStringLiteral("active.lock")));
         if (lock.tryLock(0)) {
@@ -262,32 +335,44 @@ namespace Core::Internal {
         }
 
         QDir recoveryDirectory(path);
-        QFile snapshotFile(recoveryDirectory.filePath(QStringLiteral("snapshot")));
-        if (!snapshotFile.open(QIODevice::ReadOnly)) {
-            qCWarning(lcRecentFileAddOn) << "Failed to open recovery snapshot:" << snapshotFile.fileName() << snapshotFile.errorString();
-            return;
-        }
+        QString completeRecoveryError;
+        auto restoredDocument = restoreRecoveryDocument(recoveryDirectory, {}, &completeRecoveryError);
+        if (!restoredDocument) {
+            qCCritical(lcRecentFileAddOn) << "Complete recovery failed:" << completeRecoveryError;
+            showPartialRecoveryWarning();
 
-        QFile logsFile(recoveryDirectory.filePath(QStringLiteral("logs")));
-        QIODevice *logsDevice = nullptr;
-        if (logsFile.exists()) {
-            if (!logsFile.open(QIODevice::ReadOnly)) {
-                qCWarning(lcRecentFileAddOn) << "Failed to open recovery log:" << logsFile.fileName() << logsFile.errorString();
+            QString partialRecoveryError;
+            restoredDocument = restoreRecoveryDocument(
+                recoveryDirectory,
+                dspx::Document::RO_DiscardInvalidCommitLogTail,
+                &partialRecoveryError
+            );
+            if (!restoredDocument) {
+                qCCritical(lcRecentFileAddOn) << "Partial recovery failed:" << partialRecoveryError;
+                showRecoveryRestoreFailure();
                 return;
             }
-            logsDevice = &logsFile;
+            qCWarning(lcRecentFileAddOn) << "Partial recovery succeeded after complete recovery failed:"
+                                         << recoveryDirectory.absolutePath();
         }
 
-        std::unique_ptr<dspx::Document> restoredDocument;
+        opendspx::Model openDspxModel;
         try {
-            restoredDocument.reset(dspx::Document::restore(&snapshotFile, logsDevice));
+            dspx::Model restoredModel(restoredDocument.get());
+            openDspxModel = restoredModel.toOpenDSPX();
+        } catch (const std::exception &e) {
+            qCCritical(lcRecentFileAddOn) << "Failed to convert restored recovery document to OpenDSPX:"
+                                          << recoveryDirectory.absolutePath()
+                                          << e.what();
+            showRecoveryRestoreFailure();
+            return;
         } catch (...) {
-            qCWarning(lcRecentFileAddOn) << "Failed to restore document log:" << recoveryDirectory.absolutePath();
+            qCCritical(lcRecentFileAddOn) << "Failed to convert restored recovery document to OpenDSPX:"
+                                          << recoveryDirectory.absolutePath()
+                                          << "Unknown exception";
+            showRecoveryRestoreFailure();
             return;
         }
-
-        dspx::Model restoredModel(restoredDocument.get());
-        auto openDspxModel = restoredModel.toOpenDSPX();
         auto defaultDocumentName = defaultDocumentNameFromRecoveryName(item->data(UIShell::USDef::RF_NameRole).toString());
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         if (!projectDocumentContext->newFile(openDspxModel, defaultDocumentName, false)) {

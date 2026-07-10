@@ -126,6 +126,16 @@ namespace Core {
                 return projectName;
             }
         }
+        if (fileLocker && !fileLocker->path().isEmpty()) {
+            auto baseName = QFileInfo(fileLocker->entryName()).completeBaseName();
+            if (!baseName.isEmpty()) {
+                return baseName;
+            }
+            auto fileName = QFileInfo(fileLocker->path()).fileName();
+            if (!fileName.isEmpty()) {
+                return fileName;
+            }
+        }
         if (!defaultDocumentName.isEmpty()) {
             auto baseName = QFileInfo(defaultDocumentName).completeBaseName();
             if (!baseName.isEmpty()) {
