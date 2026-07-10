@@ -56,8 +56,7 @@ namespace Audio::Internal {
             GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
             const auto tracks = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->tracks()->items();
             for (auto track : tracks) {
-                const auto clips = track->clips()->slice(0, track->clips()->size());
-                for (auto clip : clips) {
+                for (auto clip : track->clips()->asRange()) {
                     removeClip(clip);
                 }
                 delete TrackAudioContext::of(track);
@@ -131,8 +130,7 @@ namespace Audio::Internal {
         Q_UNUSED(index)
         auto context = TrackAudioContext::of(track);
         Q_ASSERT(context);
-        const auto clips = track->clips()->slice(0, track->clips()->size());
-        for (auto clip : clips) {
+        for (auto clip : track->clips()->asRange()) {
             removeClip(clip);
         }
         delete context;
@@ -183,8 +181,7 @@ namespace Audio::Internal {
 
     void ProjectAudioAddOn::syncTrackClips(dspx::Track *track, TrackAudioContext *context) {
         Q_UNUSED(context)
-        const auto clips = track->clips()->slice(0, track->clips()->size());
-        for (auto clip : clips) {
+        for (auto clip : track->clips()->asRange()) {
             addClip(clip);
         }
         connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {

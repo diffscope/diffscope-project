@@ -46,8 +46,7 @@ namespace AudioVisualizer::Internal {
         auto trackList = windowInterface->projectDocumentContext()->document()->model()->tracks();
         const auto tracks = trackList->items();
         for (auto track : tracks) {
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 addClip(clip);
             }
             connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {
@@ -59,8 +58,7 @@ namespace AudioVisualizer::Internal {
         }
         connect(trackList, &dspx::TrackList::itemInserted, this, [this](int index, dspx::Track *track) {
             Q_UNUSED(index)
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 addClip(clip);
             }
             connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {
@@ -72,8 +70,7 @@ namespace AudioVisualizer::Internal {
         });
         connect(trackList, &dspx::TrackList::itemRemoved, this, [this](int index, dspx::Track *track) {
             Q_UNUSED(index)
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 removeClip(clip);
             }
         });
