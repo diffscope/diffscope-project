@@ -6,11 +6,17 @@
 #include <application_config.h>
 
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QLockFile>
 #include <QLoggingCategory>
+#include <QUuid>
 
+#include <CoreApi/applicationinfo.h>
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
+#include <dspxmodelCore/Document.h>
 #include <opendspx/model.h>
 
 #include <SVSCraftCore/Semver.h>
@@ -109,7 +115,160 @@ namespace Core {
         auto postProcessedModel = model;
         writeEditorInfo(postProcessedModel);
         document->loadModel(postProcessedModel);
+        setupDocumentLog();
         return true;
+    }
+
+    QString ProjectDocumentContextPrivate::recoveryDisplayName() const {
+        if (document && document->model()) {
+            auto projectName = document->model()->projectName();
+            if (!projectName.isEmpty()) {
+                return projectName;
+            }
+        }
+        if (!defaultDocumentName.isEmpty()) {
+            auto baseName = QFileInfo(defaultDocumentName).completeBaseName();
+            if (!baseName.isEmpty()) {
+                return baseName;
+            }
+            return defaultDocumentName;
+        }
+        return CoreInterface::tr("Untitled");
+    }
+
+    bool ProjectDocumentContextPrivate::writeRecoveryNameFile() const {
+        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        if (!QDir().mkpath(recoveryDirPath)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to create recovery directory:" << recoveryDirPath;
+            return false;
+        }
+        QFile file(QDir(recoveryDirPath).filePath(QStringLiteral("name")));
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to write recovery name file:" << file.fileName() << file.errorString();
+            return false;
+        }
+        file.write(recoveryDisplayName().toUtf8());
+        return true;
+    }
+
+    bool ProjectDocumentContextPrivate::lockRecoveryDirectory() {
+        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        if (documentLogLock) {
+            return true;
+        }
+        if (!QDir().mkpath(recoveryDirPath)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to create recovery directory:" << recoveryDirPath;
+            return false;
+        }
+        auto *lock = new QLockFile(QDir(recoveryDirPath).filePath(QStringLiteral("active.lock")));
+        if (!lock->tryLock(0)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to lock recovery directory:" << recoveryDirPath << lock->error();
+            delete lock;
+            return false;
+        }
+        documentLogLock = lock;
+        return true;
+    }
+
+    void ProjectDocumentContextPrivate::unlockRecoveryDirectory() {
+        if (!documentLogLock) {
+            return;
+        }
+        documentLogLock->unlock();
+        delete documentLogLock;
+        documentLogLock = nullptr;
+    }
+
+    void ProjectDocumentContextPrivate::closeDocumentLogDevice() {
+        if (document && document->model() && document->model()->document()) {
+            document->model()->document()->setCommitLogDevice(nullptr);
+        }
+        if (!documentLogDevice) {
+            return;
+        }
+        documentLogDevice->close();
+        delete documentLogDevice;
+        documentLogDevice = nullptr;
+    }
+
+    bool ProjectDocumentContextPrivate::writeRecoverySnapshot() const {
+        if (!documentLogEnabled || !document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        if (!QDir().mkpath(recoveryDirPath)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to create recovery directory:" << recoveryDirPath;
+            return false;
+        }
+        QFile snapshotFile(QDir(recoveryDirPath).filePath(QStringLiteral("snapshot")));
+        if (!snapshotFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to write recovery snapshot:" << snapshotFile.fileName() << snapshotFile.errorString();
+            return false;
+        }
+        document->model()->document()->writeSnapshot(&snapshotFile);
+        return true;
+    }
+
+    bool ProjectDocumentContextPrivate::openDocumentLogDevice() {
+        if (!documentLogEnabled || !document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        auto *logFile = new QFile(QDir(recoveryDirPath).filePath(QStringLiteral("logs")));
+        if (!logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qCWarning(lcProjectDocumentContext) << "Failed to open recovery log file:" << logFile->fileName() << logFile->errorString();
+            delete logFile;
+            return false;
+        }
+        documentLogDevice = logFile;
+        document->model()->document()->setCommitLogDevice(documentLogDevice);
+        return true;
+    }
+
+    bool ProjectDocumentContextPrivate::resetDocumentLog() {
+        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        closeDocumentLogDevice();
+        QDir recoveryDir(recoveryDirPath);
+        for (const auto &logFileName : recoveryDir.entryList({QStringLiteral("logs*")}, QDir::Files)) {
+            if (!recoveryDir.remove(logFileName)) {
+                qCWarning(lcProjectDocumentContext) << "Failed to remove old recovery log:" << recoveryDir.filePath(logFileName);
+            }
+        }
+        const bool snapshotWritten = writeRecoverySnapshot();
+        const bool logOpened = openDocumentLogDevice();
+        return snapshotWritten && logOpened;
+    }
+
+    bool ProjectDocumentContextPrivate::setupDocumentLog() {
+        Q_Q(ProjectDocumentContext);
+        if (!documentLogEnabled || !document || recoveryDirPath.isEmpty()) {
+            return false;
+        }
+        if (!lockRecoveryDirectory()) {
+            return false;
+        }
+        QObject::connect(document->model(), &dspx::Model::projectNameChanged, q, [this](const QString &) {
+            writeRecoveryNameFile();
+        });
+        if (fileLocker) {
+            QObject::connect(fileLocker, &FileLocker::pathChanged, q, [this] {
+                writeRecoveryNameFile();
+            });
+        }
+        writeRecoveryNameFile();
+        return resetDocumentLog();
+    }
+
+    void ProjectDocumentContextPrivate::cleanupDocumentLog() {
+        closeDocumentLogDevice();
+        unlockRecoveryDirectory();
+        if (!recoveryDirPath.isEmpty()) {
+            QDir(recoveryDirPath).removeRecursively();
+        }
     }
 
     bool ProjectDocumentContextPrivate::deserializeAndInitializeDocument(const QByteArray &data) {
@@ -126,9 +285,18 @@ namespace Core {
         Q_D(ProjectDocumentContext);
         d->q_ptr = this;
         d->openSaveProjectFileScenario = new OpenSaveProjectFileScenario(this);
+        d->documentLogEnabled = Internal::BehaviorPreference::documentLogEnabled();
+        auto uuidBytes = QUuid::createUuid().toRfc4122();
+        auto base64 = uuidBytes.toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
+        d->uuidString = QString::fromLatin1(base64);
+        d->recoveryDirPath = QDir(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData))
+            .filePath(QStringLiteral("recovery/%1").arg(d->uuidString));
     }
 
-    ProjectDocumentContext::~ProjectDocumentContext() = default;
+    ProjectDocumentContext::~ProjectDocumentContext() {
+        Q_D(ProjectDocumentContext);
+        d->cleanupDocumentLog();
+    }
 
     FileLocker *ProjectDocumentContext::fileLocker() const {
         Q_D(const ProjectDocumentContext);
@@ -200,6 +368,7 @@ namespace Core {
         }
         d->defaultDocumentName = defaultDocumentName;
         Q_EMIT defaultDocumentNameChanged();
+        d->writeRecoveryNameFile();
         return true;
     }
 
@@ -232,6 +401,7 @@ namespace Core {
         }
         d->defaultDocumentName = defaultDocumentName;
         Q_EMIT defaultDocumentNameChanged();
+        d->writeRecoveryNameFile();
         return true;
     }
 
@@ -254,6 +424,7 @@ namespace Core {
             return false;
         }
         d->markSaved();
+        d->resetDocumentLog();
         return true;
     }
 
@@ -276,9 +447,11 @@ namespace Core {
             return false;
         }
         d->markSaved();
+        d->resetDocumentLog();
         if (!d->defaultDocumentName.isEmpty()) {
             d->defaultDocumentName.clear();
             Q_EMIT defaultDocumentNameChanged();
+            d->writeRecoveryNameFile();
         }
         return true;
     }

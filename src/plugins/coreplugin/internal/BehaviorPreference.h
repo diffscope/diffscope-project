@@ -33,6 +33,7 @@ namespace Core::Internal {
         Q_PROPERTY(QString proxyUsername READ proxyUsername WRITE setProxyUsername NOTIFY proxyUsernameChanged)
         Q_PROPERTY(QString proxyPassword READ proxyPassword WRITE setProxyPassword NOTIFY proxyPasswordChanged)
         Q_PROPERTY(BehaviorPreference::FileOption fileOption READ fileOption WRITE setFileOption NOTIFY fileOptionChanged)
+        Q_PROPERTY(bool documentLogEnabled READ documentLogEnabled WRITE setDocumentLogEnabled NOTIFY documentLogEnabledChanged)
         Q_PROPERTY(bool useCustomFont READ useCustomFont WRITE setUseCustomFont NOTIFY useCustomFontChanged)
         Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
         Q_PROPERTY(QString fontStyle READ fontStyle WRITE setFontStyle NOTIFY fontStyleChanged)
@@ -130,6 +131,9 @@ namespace Core::Internal {
         static FileOption fileOption();
         static void setFileOption(FileOption fileOption);
 
+        static bool documentLogEnabled();
+        static void setDocumentLogEnabled(bool documentLogEnabled);
+
         static bool useCustomFont();
         static void setUseCustomFont(bool useCustomFont);
 
@@ -217,6 +221,7 @@ namespace Core::Internal {
         void proxyUsernameChanged();
         void proxyPasswordChanged();
         void fileOptionChanged();
+        void documentLogEnabledChanged();
         void useCustomFontChanged();
         void fontFamilyChanged();
         void fontStyleChanged();

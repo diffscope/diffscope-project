@@ -67,7 +67,7 @@ namespace Core::Internal {
         }
         if (button == SVS::SVSCraft::No) {
             QDir runtimeDataDir(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData));
-            auto tempPath = runtimeDataDir.filePath(QStringLiteral("latest_unsaved_project.dspx"));
+            auto tempPath = runtimeDataDir.filePath(QStringLiteral("recovery/latest_unsaved_project.dspx"));
             return projectContext->saveCopy(tempPath);
         }
 
