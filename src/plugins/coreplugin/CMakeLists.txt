@@ -45,8 +45,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         dspxmodelORM
         dspxmodelSelectionModel
         dspxmodelPropertyMapper
-        opendspx::opendspxmodel
-        opendspx::opendspxserializer
+        opendspx::model
+        opendspx::serializer
         transactional
     INCLUDE_PRIVATE
         core

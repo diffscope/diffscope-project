@@ -38,8 +38,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         dspxmodelSelectionModel
         dspxmodelPropertyMapper
         coreplugin
-        opendspx::opendspxmodel
-        opendspx::opendspxserializer
+        opendspx::model
+        opendspx::serializer
         ScopicFlowCore
         ScopicFlowViews
     INCLUDE_PRIVATE
