@@ -29,3 +29,6 @@
 [submodule "opendspx"]
 	path = src/libs/3rdparty/opendspx
 	url = ../../diffscope/opendspx.git
+[submodule "src/libs/3rdparty/dspxmodel"]
+	path = src/libs/3rdparty/dspxmodel
+	url = git@github.com:diffscope/dspxmodel.git

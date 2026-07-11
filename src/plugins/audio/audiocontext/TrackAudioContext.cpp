@@ -7,7 +7,7 @@
 #include <TalcsDspx/DspxTrackContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <dspxmodel/Track.h>
+#include <dspxmodelORM/Track.h>
 
 namespace Audio {
 

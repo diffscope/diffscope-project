@@ -18,9 +18,9 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/SelectionModel.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <transactional/TransactionController.h>
 
@@ -119,7 +119,7 @@ namespace Core::Internal {
 
         auto notes = noteSelectionModel->selectedItems();
         std::sort(notes.begin(), notes.end(), [](const dspx::Note *lhs, const dspx::Note *rhs) {
-            return lhs->pos() < rhs->pos();
+            return lhs->position() < rhs->position();
         });
 
         QStringList initialLyrics;

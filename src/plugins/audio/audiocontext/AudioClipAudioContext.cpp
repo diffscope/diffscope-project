@@ -11,7 +11,7 @@
 
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <dspxmodel/AudioClip.h>
+#include <dspxmodelORM/AudioClip.h>
 
 namespace Audio {
 

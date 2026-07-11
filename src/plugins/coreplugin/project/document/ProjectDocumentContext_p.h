@@ -5,6 +5,9 @@
 
 #include <coreplugin/ProjectDocumentContext.h>
 
+class QFile;
+class QLockFile;
+
 namespace Core {
 
     class ProjectDocumentContextPrivate {
@@ -16,12 +19,27 @@ namespace Core {
         DspxDocument *document{};
         OpenSaveProjectFileScenario *openSaveProjectFileScenario;
         QString defaultDocumentName;
+        QString uuidString;
+        QString recoveryDirPath;
+        QFile *documentLogDevice{};
+        QLockFile *documentLogLock{};
+        bool documentLogEnabled{};
 
         void markSaved();
         QByteArray serializeDocument(bool *hasError = nullptr) const;
 
         bool deserializeAndInitializeDocument(const QByteArray &data);
         bool initializeDocument(const opendspx::Model &model, bool doCheck);
+        QString recoveryDisplayName() const;
+        bool writeRecoveryNameFile() const;
+        bool lockRecoveryDirectory();
+        void unlockRecoveryDirectory();
+        void closeDocumentLogDevice();
+        bool writeRecoverySnapshot() const;
+        bool openDocumentLogDevice();
+        bool resetDocumentLog();
+        bool setupDocumentLog();
+        void cleanupDocumentLog();
     };
 
 }

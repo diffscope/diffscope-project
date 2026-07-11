@@ -8,12 +8,12 @@
 #include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/ClipViewModel.h>
 
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/SelectionModel.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -75,12 +75,12 @@ namespace VisualEditor {
             return {};
         }
 
-        if (startDocumentItem->pos() > endDocumentItem->pos()) {
+        if (startDocumentItem->position() > endDocumentItem->position()) {
             std::swap(startDocumentItem, endDocumentItem);
         }
 
         QObjectList viewItems;
-        for (auto item = startDocumentItem; item; item = sequence->nextItem(item)) {
+        for (auto item = startDocumentItem; item; item = item->nextItem()) {
             auto viewItem = q->getNoteViewItemFromDocumentItem(item);
             Q_ASSERT(viewItem);
             viewItems.append(viewItem);

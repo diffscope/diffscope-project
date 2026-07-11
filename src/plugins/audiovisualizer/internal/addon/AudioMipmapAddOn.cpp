@@ -11,12 +11,12 @@
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/FormatManager.h>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <audio/AudioClipAudioContext.h>
 #include <audio/GlobalAudioContext.h>
@@ -46,8 +46,7 @@ namespace AudioVisualizer::Internal {
         auto trackList = windowInterface->projectDocumentContext()->document()->model()->tracks();
         const auto tracks = trackList->items();
         for (auto track : tracks) {
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 addClip(clip);
             }
             connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {
@@ -59,8 +58,7 @@ namespace AudioVisualizer::Internal {
         }
         connect(trackList, &dspx::TrackList::itemInserted, this, [this](int index, dspx::Track *track) {
             Q_UNUSED(index)
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 addClip(clip);
             }
             connect(track->clips(), &dspx::ClipSequence::itemInserted, this, [this](dspx::Clip *clip) {
@@ -72,8 +70,7 @@ namespace AudioVisualizer::Internal {
         });
         connect(trackList, &dspx::TrackList::itemRemoved, this, [this](int index, dspx::Track *track) {
             Q_UNUSED(index)
-            const auto clips = track->clips()->slice(0, track->clips()->size());
-            for (auto clip : clips) {
+            for (auto clip : track->clips()->asRange()) {
                 removeClip(clip);
             }
         });

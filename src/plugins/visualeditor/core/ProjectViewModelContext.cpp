@@ -17,13 +17,13 @@
 #include <ScopicFlowCore/ClipPaneInteractionController.h>
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/Label.h>
-#include <dspxmodel/Track.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelORM/Track.h>
 
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>

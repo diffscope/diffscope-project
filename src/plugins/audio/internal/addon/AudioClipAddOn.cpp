@@ -23,16 +23,14 @@
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsWidgets/AudioFileDialog.h>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/BusControl.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -272,11 +270,10 @@ namespace Audio::Internal {
             newClip = model->createAudioClip();
             newClip->setName(clipName);
             newClip->setPath(path);
-            auto time = newClip->time();
-            time->setClipStart(0);
-            time->setClipLen(clipLength);
-            time->setStart(clipPosition);
-            newClip->control()->setGain(1);
+            newClip->setClipStart(0);
+            newClip->setClipLength(clipLength);
+            newClip->setPosition(clipPosition);
+            newClip->setGain(1);
             if (projectAudioAddOn) {
                 projectAudioAddOn->addAudioClipCache(newClip, io);
                 cacheTransferred = true;

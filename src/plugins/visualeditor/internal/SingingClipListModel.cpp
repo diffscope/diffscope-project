@@ -2,8 +2,8 @@
 
 #include <QStandardItem>
 
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSequence.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
 
 namespace VisualEditor::Internal {
 

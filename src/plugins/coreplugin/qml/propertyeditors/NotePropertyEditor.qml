@@ -8,6 +8,7 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 PropertyEditorGroupBox {
     id: groupBox
@@ -32,7 +33,7 @@ PropertyEditorGroupBox {
                     let selectionModel = groupBox.windowHandle?.projectDocumentContext.document.selectionModel
                     if (!selectionModel)
                         return
-                    selectionModel.select(groupBox.propertyMapper.singingClip, DspxModel.SelectionModel.Select | DspxModel.SelectionModel.SetCurrentItem)
+                    selectionModel.select(groupBox.propertyMapper.singingClip, DspxSelectionModel.SelectionModel.Select | DspxSelectionModel.SelectionModel.SetCurrentItem)
                 }
             }
             columnItem: TextField {

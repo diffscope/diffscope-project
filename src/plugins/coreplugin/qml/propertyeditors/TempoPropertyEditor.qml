@@ -20,7 +20,7 @@ PropertyEditorGroupBox {
             Layout.fillWidth: true
             label: qsTr("Position")
             columnItem: TextField {
-                text: groupBox.propertyMapper?.pos !== undefined ? GlobalHelper.musicTimelineTextFromValue(groupBox.windowHandle?.projectTimeline.musicTimeline ?? null, groupBox.propertyMapper.pos, 1, 1, 3) : ""
+                text: groupBox.propertyMapper?.position !== undefined ? GlobalHelper.musicTimelineTextFromValue(groupBox.windowHandle?.projectTimeline.musicTimeline ?? null, groupBox.propertyMapper.position, 1, 1, 3) : ""
                 readOnly: true
                 ThemedItem.flat: true
             }

@@ -21,16 +21,14 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
-#include <dspxmodel/ClipSelectionModel.h>
-#include <dspxmodel/Global.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
@@ -263,7 +261,7 @@ namespace VisualEditor {
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardLabelPolicyChanged, clavierInteractionController, applyLabelStrategy);
 
         auto keySignatureAtSpecifiedPositionHelper = new Core::Internal::KeySignatureAtSpecifiedPositionHelper(const_cast<PianoRollPanelInterface *>(q));
-        keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowHandle->projectDocumentContext()->document()->model()->timeline()->keySignatures());
+        keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowHandle->projectDocumentContext()->document()->model()->keySignatures());
         keySignatureAtSpecifiedPositionHelper->setPosition(windowHandle->projectTimeline()->position());
         clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
         QObject::connect(windowHandle->projectTimeline(), &Core::ProjectTimeline::positionChanged, keySignatureAtSpecifiedPositionHelper, &Core::Internal::KeySignatureAtSpecifiedPositionHelper::setPosition);

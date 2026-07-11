@@ -1,9 +1,49 @@
 #include "KeySignatureAtSpecifiedPositionHelper.h"
 
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSequence.h>
+#include <cstdint>
+#include <utility>
+
+#include <dini/engine.h>
+#include <dini/query.h>
+#include <dini/value.h>
+#include <dspxmodelCore/Document.h>
+#include <dspxmodelCore/Schema.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
+#include <dspxmodelORM/Model.h>
 
 namespace Core::Internal {
+
+    namespace {
+
+        dspx::KeySignature *keySignatureAt(dspx::KeySignatureSequence *sequence, int position) {
+            if (!sequence || position < 0)
+                return nullptr;
+
+            auto *model = sequence->model();
+            auto *engine = model->document()->engine();
+            auto filter = dini::FilterExpression::all({
+                dini::FilterExpression(dini::Filter(dini::FieldRef::parent(dspx::Schema::keySignatureParent()),
+                                                     dini::ComparisonOperator::Equal,
+                                                     dini::Value(static_cast<std::uint64_t>(model->handle().d)))),
+                dini::FilterExpression(dini::Filter(dini::FieldRef::column(dspx::Schema::keySignaturePositionColumn()),
+                                                     dini::ComparisonOperator::LessOrEqual,
+                                                     dini::Value(static_cast<std::int64_t>(position)))),
+            });
+            const auto view = engine->query(dspx::Schema::keySignatureTable(), {
+                .filter = std::move(filter),
+                .sortKeys = {
+                    dini::SortKey {
+                        .field = dini::FieldRef::column(dspx::Schema::keySignaturePositionColumn()),
+                        .direction = dini::SortDirection::Descending,
+                    },
+                },
+            });
+            const auto snapshots = view.limit(1).toVector();
+            return snapshots.empty() ? nullptr : model->find<dspx::KeySignature>(dspx::Handle {static_cast<quint64>(snapshots.front().id)});
+        }
+
+    }
 
     KeySignatureAtSpecifiedPositionHelper::KeySignatureAtSpecifiedPositionHelper(QObject *parent)
         : QObject(parent) {
@@ -58,10 +98,7 @@ namespace Core::Internal {
     }
 
     void KeySignatureAtSpecifiedPositionHelper::updateKeySignature() {
-        dspx::KeySignature *newKeySignature = nullptr;
-        if (m_keySignatureSequence) {
-            newKeySignature = m_keySignatureSequence->itemAt(m_position);
-        }
+        auto *newKeySignature = keySignatureAt(m_keySignatureSequence, m_position);
 
         if (m_keySignature == newKeySignature)
             return;
@@ -83,7 +120,7 @@ namespace Core::Internal {
         // Disconnect all signals from the sequence
         disconnect(m_keySignatureSequence, nullptr, this, nullptr);
 
-        // Disconnect all posChanged signals from items in the sequence
+        // Disconnect all positionChanged signals from items in the sequence
         for (auto item : m_keySignatureSequence->asRange()) {
             disconnect(item, nullptr, this, nullptr);
         }
@@ -96,8 +133,8 @@ namespace Core::Internal {
         // Connect to sequence signals
         connect(m_keySignatureSequence, &dspx::KeySignatureSequence::itemInserted,
                 this, [this](dspx::KeySignature *item) {
-                    // Connect to the newly inserted item's posChanged signal
-                    connect(item, &dspx::KeySignature::posChanged,
+                    // Connect to the newly inserted item's positionChanged signal
+                    connect(item, &dspx::KeySignature::positionChanged,
                             this, &KeySignatureAtSpecifiedPositionHelper::updateKeySignature);
                     updateKeySignature();
                 });
@@ -109,9 +146,9 @@ namespace Core::Internal {
                     updateKeySignature();
                 });
 
-        // Connect to posChanged signal of all existing items
+        // Connect to positionChanged signal of all existing items
         for (auto item : m_keySignatureSequence->asRange()) {
-            connect(item, &dspx::KeySignature::posChanged,
+            connect(item, &dspx::KeySignature::positionChanged,
                     this, &KeySignatureAtSpecifiedPositionHelper::updateKeySignature);
         }
     }

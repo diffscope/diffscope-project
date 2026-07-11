@@ -12,15 +12,13 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackControl.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/Clip.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Clip.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
@@ -471,8 +469,6 @@ namespace VisualEditor {
         trackViewItemMap.insert(item, viewItem);
         trackDocumentItemMap.insert(viewItem, item);
 
-        auto control = item->control();
-
         connect(item, &dspx::Track::colorIdChanged, viewItem, [=, this](int colorId) {
             const QColor color = trackColorForId(colorId);
             if (viewItem->color() == color) {
@@ -492,32 +488,32 @@ namespace VisualEditor {
             }
             viewItem->setRowHeight(getClampedHeight(item));
         });
-        connect(control, &dspx::TrackControl::muteChanged, viewItem, [=](bool mute) {
+        connect(item, &dspx::Track::muteChanged, viewItem, [=](bool mute) {
             if (viewItem->isMute() == mute) {
                 return;
             }
             viewItem->setMute(mute);
         });
-        connect(control, &dspx::TrackControl::soloChanged, viewItem, [=](bool solo) {
+        connect(item, &dspx::Track::soloChanged, viewItem, [=](bool solo) {
             if (viewItem->isSolo() == solo) {
                 return;
             }
             viewItem->setSolo(solo);
         });
-        connect(control, &dspx::TrackControl::recordChanged, viewItem, [=](bool record) {
+        connect(item, &dspx::Track::recordChanged, viewItem, [=](bool record) {
             if (viewItem->isRecord() == record) {
                 return;
             }
             viewItem->setRecord(record);
         });
-        connect(control, &dspx::TrackControl::gainChanged, viewItem, [=](double gain) {
+        connect(item, &dspx::Track::gainChanged, viewItem, [=](double gain) {
             const double db = toDecibel(gain);
             if (viewItem->gain() == db) {
                 return;
             }
             viewItem->setGain(db);
         });
-        connect(control, &dspx::TrackControl::panChanged, viewItem, [=](double pan) {
+        connect(item, &dspx::Track::panChanged, viewItem, [=](double pan) {
             if (viewItem->pan() == pan) {
                 return;
             }
@@ -532,36 +528,36 @@ namespace VisualEditor {
         });
         connect(viewItem, &sflow::TrackViewModel::muteChanged, item, [=] {
             if (!stateMachine->configuration().contains(muteEditingState)) {
-                viewItem->setMute(control->mute());
+                viewItem->setMute(item->mute());
                 return;
             }
         });
         connect(viewItem, &sflow::TrackViewModel::soloChanged, item, [=] {
             if (!stateMachine->configuration().contains(soloEditingState)) {
-                viewItem->setSolo(control->solo());
+                viewItem->setSolo(item->solo());
                 return;
             }
         });
         connect(viewItem, &sflow::TrackViewModel::recordChanged, item, [=] {
             if (!stateMachine->configuration().contains(recordEditingState)) {
-                viewItem->setRecord(control->record());
+                viewItem->setRecord(item->record());
                 return;
             }
         });
         connect(viewItem, &sflow::TrackViewModel::gainChanged, item, [=] {
             if (!stateMachine->configuration().contains(gainProgressingState)) {
-                viewItem->setGain(toDecibel(control->gain()));
+                viewItem->setGain(toDecibel(item->gain()));
                 return;
             }
-            control->setGain(toLinear(viewItem->gain()));
+            item->setGain(toLinear(viewItem->gain()));
             gainChanged = true;
         });
         connect(viewItem, &sflow::TrackViewModel::panChanged, item, [=] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
-                viewItem->setPan(control->pan());
+                viewItem->setPan(item->pan());
                 return;
             }
-            control->setPan(viewItem->pan());
+            item->setPan(viewItem->pan());
             panChanged = true;
         });
         connect(viewItem, &sflow::TrackViewModel::rowHeightChanged, item, [=] {
@@ -573,11 +569,11 @@ namespace VisualEditor {
 
         viewItem->setName(item->name());
         viewItem->setRowHeight(getClampedHeight(item));
-        viewItem->setMute(control->mute());
-        viewItem->setSolo(control->solo());
-        viewItem->setRecord(control->record());
-        viewItem->setGain(toDecibel(control->gain()));
-        viewItem->setPan(control->pan());
+        viewItem->setMute(item->mute());
+        viewItem->setSolo(item->solo());
+        viewItem->setRecord(item->record());
+        viewItem->setGain(toDecibel(item->gain()));
+        viewItem->setPan(item->pan());
         viewItem->setColor(trackColorForId(item->colorId()));
 
         trackListViewModel->insertItem(index, viewItem);
@@ -753,10 +749,10 @@ namespace VisualEditor {
         auto viewItem = trackViewItemMap.value(targetTrack);
         Q_ASSERT(viewItem);
         const bool newValue = viewItem->isMute();
-        if (newValue == targetTrack->control()->mute()) {
+        if (newValue == targetTrack->mute()) {
             document->transactionController()->abortTransaction(muteTransactionId);
         } else {
-            targetTrack->control()->setMute(newValue);
+            targetTrack->setMute(newValue);
             document->transactionController()->commitTransaction(muteTransactionId, tr("Editing track mute"));
         }
         muteTransactionId = {};
@@ -780,10 +776,10 @@ namespace VisualEditor {
         auto viewItem = trackViewItemMap.value(targetTrack);
         Q_ASSERT(viewItem);
         const bool newValue = viewItem->isSolo();
-        if (newValue == targetTrack->control()->solo()) {
+        if (newValue == targetTrack->solo()) {
             document->transactionController()->abortTransaction(soloTransactionId);
         } else {
-            targetTrack->control()->setSolo(newValue);
+            targetTrack->setSolo(newValue);
             document->transactionController()->commitTransaction(soloTransactionId, tr("Editing track solo"));
         }
         soloTransactionId = {};
@@ -807,10 +803,10 @@ namespace VisualEditor {
         auto viewItem = trackViewItemMap.value(targetTrack);
         Q_ASSERT(viewItem);
         const bool newValue = viewItem->isRecord();
-        if (newValue == targetTrack->control()->record()) {
+        if (newValue == targetTrack->record()) {
             document->transactionController()->abortTransaction(recordTransactionId);
         } else {
-            targetTrack->control()->setRecord(newValue);
+            targetTrack->setRecord(newValue);
             document->transactionController()->commitTransaction(recordTransactionId, tr("Editing track record"));
         }
         recordTransactionId = {};
@@ -869,7 +865,7 @@ namespace VisualEditor {
         if (!gainChanged) {
             document->transactionController()->abortTransaction(gainTransactionId);
         } else {
-            targetTrack->control()->setGain(newLinear);
+            targetTrack->setGain(newLinear);
             document->transactionController()->commitTransaction(gainTransactionId, tr("Adjusting track gain"));
         }
         gainTransactionId = {};
@@ -903,7 +899,7 @@ namespace VisualEditor {
         if (!panChanged) {
             document->transactionController()->abortTransaction(panTransactionId);
         } else {
-            targetTrack->control()->setPan(newPan);
+            targetTrack->setPan(newPan);
             document->transactionController()->commitTransaction(panTransactionId, tr("Adjusting track pan"));
         }
         panTransactionId = {};

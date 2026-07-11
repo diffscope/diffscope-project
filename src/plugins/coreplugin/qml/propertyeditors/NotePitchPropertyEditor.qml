@@ -20,11 +20,11 @@ PropertyEditorGroupBox {
         MusicPitchPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
-            key: "keyNum"
+            key: "keyNumber"
             label: qsTr("Pitch")
             from: 0
             to: 127
-            positionHint: groupBox.propertyMapper?.pos === undefined ? -1 : (groupBox.propertyMapper.pos + (groupBox.windowHandle?.projectDocumentContext.document.selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.singingClip.time.start ?? 0))
+            positionHint: groupBox.propertyMapper?.position === undefined ? -1 : (groupBox.propertyMapper.position + (groupBox.windowHandle?.projectDocumentContext.document.selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.singingClip.start ?? 0))
             transactionName: qsTr("Editing pitch")
         }
 

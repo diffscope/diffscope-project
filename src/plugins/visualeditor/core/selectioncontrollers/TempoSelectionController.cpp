@@ -8,12 +8,11 @@
 
 #include <ScopicFlowCore/LabelViewModel.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSelectionModel.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelSelectionModel/TempoSelectionModel.h>
+#include <dspxmodelORM/TempoSequence.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/DspxDocument.h>
@@ -27,7 +26,7 @@ namespace VisualEditor {
 
     TempoSelectionController::TempoSelectionController(ProjectViewModelContext *parent)
         : SelectionController(parent), q(parent) {
-        tempoSequence = q->windowHandle()->projectDocumentContext()->document()->model()->timeline()->tempos();
+        tempoSequence = q->windowHandle()->projectDocumentContext()->document()->model()->tempos();
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         tempoSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->tempoSelectionModel();
         connect(tempoSelectionModel, &dspx::TempoSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
@@ -51,10 +50,10 @@ namespace VisualEditor {
         auto endDocumentItem = endItem ? q->getTempoDocumentItemFromViewItem(qobject_cast<sflow::LabelViewModel *>(endItem)) : tempoSequence->lastItem();
         Q_ASSERT(startDocumentItem && endDocumentItem);
         QObjectList viewItems;
-        if (startDocumentItem->pos() > endDocumentItem->pos()) {
+        if (startDocumentItem->position() > endDocumentItem->position()) {
             std::swap(startDocumentItem, endDocumentItem);
         }
-        for (auto item = startDocumentItem; item; item = tempoSequence->nextItem(item)) {
+        for (auto item = startDocumentItem; item; item = item->nextItem()) {
             auto viewItem = q->getTempoViewItemFromDocumentItem(item);
             Q_ASSERT(viewItem);
             viewItems.append(viewItem);

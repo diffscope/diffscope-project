@@ -35,30 +35,30 @@ PropertyEditorGroupBox {
         }
         TextPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
-            key: "name"
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
+            key: "projectName"
             label: qsTr("Title")
             transactionName: qsTr("Editing title")
         }
         TextPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
-            key: "author"
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
+            key: "projectAuthor"
             label: qsTr("Author")
             transactionName: qsTr("Editing author")
         }
         IntegerPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.global ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             useSlider: true
-            key: "centShift"
+            key: "globalCentShift"
             label: qsTr("Cent shift")
             from: -50
             to: 50
             transactionName: qsTr("Editing cent shift")
         }
         Label {
-            text: qsTr("The standard pitch for this cent shift: %L1 Hz").arg(440 * Math.pow(2, (groupBox.windowHandle?.projectDocumentContext.document.model.global.centShift ?? 0) / 1200))
+            text: qsTr("The standard pitch for this cent shift: %L1 Hz").arg(440 * Math.pow(2, (groupBox.windowHandle?.projectDocumentContext.document.model.globalCentShift ?? 0) / 1200))
             Layout.fillWidth: true
             wrapMode: Text.Wrap
         }

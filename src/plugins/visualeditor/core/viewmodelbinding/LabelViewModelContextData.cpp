@@ -15,12 +15,11 @@
 
 #include <opendspx/label.h>
 
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSelectionModel.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelSelectionModel/LabelSelectionModel.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -190,7 +189,7 @@ namespace VisualEditor {
     void LabelViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         document = q->windowHandle()->projectDocumentContext()->document();
-        labelSequence = document->model()->timeline()->labels();
+        labelSequence = document->model()->labels();
         labelSelectionModel = document->selectionModel()->labelSelectionModel();
 
         labelSequenceViewModel = new sflow::PointSequenceViewModel(q);
@@ -226,29 +225,29 @@ namespace VisualEditor {
         auto viewItem = new sflow::LabelViewModel(labelSequenceViewModel);
         labelViewItemMap.insert(item, viewItem);
         labelDocumentItemMap.insert(viewItem, item);
-        qCDebug(lcLabelViewModelContextData) << "Label item inserted" << item << viewItem << item->pos() << item->text();
+        qCDebug(lcLabelViewModelContextData) << "Label item inserted" << item << viewItem << item->position() << item->text();
 
-        connect(item, &dspx::Label::posChanged, viewItem, [=] {
-            if (viewItem->position() == item->pos()) {
+        connect(item, &dspx::Label::positionChanged, viewItem, [=] {
+            if (viewItem->position() == item->position()) {
                 return;
             }
-            qCDebug(lcLabelViewModelContextData) << "Label item pos updated" << item << item->pos();
-            viewItem->setPosition(item->pos());
+            qCDebug(lcLabelViewModelContextData) << "Label item pos updated" << item << item->position();
+            viewItem->setPosition(item->position());
         });
         connect(item, &dspx::Label::textChanged, viewItem, [=] {
             qCDebug(lcLabelViewModelContextData) << "Label item text updated" << item << item->text();
             viewItem->setContent(item->text());
         });
-        viewItem->setPosition(item->pos());
+        viewItem->setPosition(item->position());
         viewItem->setContent(item->text());
 
         connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
-            if (viewItem->position() == item->pos()) {
+            if (viewItem->position() == item->position()) {
                 return;
             }
 
             if (!stateMachine->configuration().contains(moveProgressingState)) {
-                viewItem->setPosition(item->pos());
+                viewItem->setPosition(item->position());
                 return;
             }
 
@@ -258,11 +257,11 @@ namespace VisualEditor {
                 shouldCopyBeforeMove = false;
                 for (auto selectedItem : labelSelectionModel->selectedItems()) {
                     auto duplicatedItem = document->model()->createLabel();
-                    duplicatedItem->fromOpenDspx(selectedItem->toOpenDspx());
+                    duplicatedItem->fromOpenDSPX(selectedItem->toOpenDSPX());
                     labelSequence->insertItem(duplicatedItem);
                 }
             }
-            item->setPos(viewItem->position());
+            item->setPosition(viewItem->position());
         });
 
         labelSequenceViewModel->insertItem(viewItem);
@@ -337,9 +336,9 @@ namespace VisualEditor {
                     auto item = labelDocumentItemMap.value(viewItem);
                     dspx::Label *newTargetDocumentItem;
                     if (type == sflow::LabelSequenceInteractionController::MovePrevious) {
-                        newTargetDocumentItem = labelSequence->previousItem(item);
+                        newTargetDocumentItem = item->previousItem();
                     } else if (type == sflow::LabelSequenceInteractionController::MoveNext) {
-                        newTargetDocumentItem = labelSequence->nextItem(item);
+                        newTargetDocumentItem = item->nextItem();
                     } else if (type == sflow::LabelSequenceInteractionController::MoveHome) {
                         newTargetDocumentItem = labelSequence->firstItem();
                     } else {
@@ -383,7 +382,7 @@ namespace VisualEditor {
         for (auto viewItem : transactionalUpdatedLabels) {
             auto item = labelDocumentItemMap.value(viewItem);
             Q_ASSERT(item);
-            item->setPos(viewItem->position());
+            item->setPosition(viewItem->position());
         }
         transactionalUpdatedLabels.clear();
         document->transactionController()->commitTransaction(moveTransactionId, tr("Moving label"));
@@ -434,7 +433,7 @@ namespace VisualEditor {
         insertTransactionId = document->transactionController()->beginTransaction();
         if (insertTransactionId != Core::TransactionController::TransactionId::Invalid) {
             targetDocumentItem = document->model()->createLabel();
-            targetDocumentItem->setPos(targetPosition);
+            targetDocumentItem->setPosition(targetPosition);
             labelSequence->insertItem(targetDocumentItem);
             auto viewItem = labelViewItemMap.value(targetDocumentItem);
             QMetaObject::invokeMethod(targetLabelSequenceItem, "editInPlace", viewItem);

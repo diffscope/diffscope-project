@@ -5,6 +5,8 @@ import QtQuick.Controls
 import QActionKit
 
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
+import DiffScope.DspxModel.PropertyMapper
 
 ActionCollection {
     id: d
@@ -129,12 +131,12 @@ ActionCollection {
                 if (!d.windowHandle?.projectDocumentContext.document.anyItemsSelected)
                     return false
                 let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
-                return selectionType === DspxModel.SelectionModel.ST_Clip || selectionType === DspxModel.SelectionModel.ST_Track
+                return selectionType === DspxSelectionModel.SelectionModel.ST_Clip || selectionType === DspxSelectionModel.SelectionModel.ST_Track
             }
             checkable: true
             checked: {
                 let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
-                if (selectionType === DspxModel.SelectionModel.ST_Track) {
+                if (selectionType === DspxSelectionModel.SelectionModel.ST_Track) {
                     return Boolean(trackPropertyMapper.mute)
                 } else {
                     return Boolean(clipPropertyMapper.mute)
@@ -143,7 +145,7 @@ ActionCollection {
             }
             onTriggered: () => {
                 let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
-                if (selectionType === DspxModel.SelectionModel.ST_Track) {
+                if (selectionType === DspxSelectionModel.SelectionModel.ST_Track) {
                     trackPropertyMapper.mute = checked
                 } else {
                     clipPropertyMapper.mute = checked
@@ -154,7 +156,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.solo"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
             checkable: true
             checked: Boolean(trackPropertyMapper.solo)
             onTriggered: () => {
@@ -165,7 +167,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.record"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
             checkable: true
             checked: Boolean(trackPropertyMapper.record)
             onTriggered: () => {
@@ -176,12 +178,12 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.selectAllClipsOnCurrentTrack"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Track
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
             onTriggered: () => {
                 let track = d.windowHandle.projectDocumentContext.document.selectionModel.currentItem;
-                d.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.ClearPreviousSelection)
+                d.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxSelectionModel.SelectionModel.ClearPreviousSelection)
                 for (let clip of track.clips.iterable) {
-                    d.windowHandle.projectDocumentContext.document.selectionModel.select(clip, DspxModel.SelectionModel.Select)
+                    d.windowHandle.projectDocumentContext.document.selectionModel.select(clip, DspxSelectionModel.SelectionModel.Select)
                 }
             }
         }
@@ -189,28 +191,28 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftUpByASemitone"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(1)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftDownByASemitone"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(-1)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftUpByAnOctave"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(12)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftDownByAnOctave"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(-12)
         }
     }
@@ -226,22 +228,22 @@ ActionCollection {
                     return ""
                 const getContainerText = () => {
                     switch (selectionModel.selectionType) {
-                    case DspxModel.SelectionModel.ST_None:
+                    case DspxSelectionModel.SelectionModel.ST_None:
                         return qsTr("No selection")
-                    case DspxModel.SelectionModel.ST_AnchorNode:
+                    case DspxSelectionModel.SelectionModel.ST_AnchorNode:
                         return "" // TODO
-                    case DspxModel.SelectionModel.ST_Clip:
+                    case DspxSelectionModel.SelectionModel.ST_Clip:
                         return qsTr("%Ln clip(s)", "", model.tracks.items.reduce((count, track) => count + track.clips.size, 0))
-                    case DspxModel.SelectionModel.ST_Label:
-                        return qsTr("%Ln label(s)", "", model.timeline.labels.size)
-                    case DspxModel.SelectionModel.ST_Note:
+                    case DspxSelectionModel.SelectionModel.ST_Label:
+                        return qsTr("%Ln label(s)", "", model.labels.size)
+                    case DspxSelectionModel.SelectionModel.ST_Note:
                         return qsTr("%Ln note(s)", "", selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.size ?? 0)
-                    case DspxModel.SelectionModel.ST_Tempo:
-                        return qsTr("%Ln tempo(s)", "", model.timeline.tempos.size)
-                    case DspxModel.SelectionModel.ST_Track:
+                    case DspxSelectionModel.SelectionModel.ST_Tempo:
+                        return qsTr("%Ln tempo(s)", "", model.tempos.size)
+                    case DspxSelectionModel.SelectionModel.ST_Track:
                         return qsTr("%Ln track(s)", "", model.tracks.size)
-                    case DspxModel.SelectionModel.ST_KeySignature:
-                        return qsTr("%Ln key signature(s)", "", model.timeline.keySignatures.size)
+                    case DspxSelectionModel.SelectionModel.ST_KeySignature:
+                        return qsTr("%Ln key signature(s)", "", model.keySignatures.size)
                     default:
                         return ""
                     }
@@ -258,14 +260,14 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.split"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Note)
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note)
             onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.bounceToClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
+            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
             onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
         }
     }
@@ -273,12 +275,12 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.editCurrentClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
             onTriggered: () => {
                 let selectionModel = d.windowHandle.projectDocumentContext.document.selectionModel
                 let clip = selectionModel.currentItem
                 if (clip.notes !== selectionModel.noteSelectionModel.noteSequenceWithSelectedItems) {
-                    selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, clip.notes)
+                    selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, clip.notes)
                 }
             }
         }

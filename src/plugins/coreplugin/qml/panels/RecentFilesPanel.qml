@@ -22,7 +22,7 @@ QtObject {
 
         ThemedItem.backgroundLevel: d.addOn?.isHomeWindow ? SVS.BL_Quaternary : SVS.BL_Primary
         badgeType: SVS.CT_Warning
-        badgeNumber: d.isRecovery ? (d.addOn?.recoveryFilesModel.rowCount() ?? 0) : 0
+        badgeNumber: d.isRecovery ? (d.addOn?.recoveryFileCount ?? 0) : 0
 
         function loadState(state) {
             recentFilesIsListView = state.recentFilesIsListView
@@ -46,8 +46,15 @@ QtObject {
                 implicitHeight: 24
             }
             RowLayout {
-                visible: !d.isRecovery
                 ToolButton {
+                    visible: d.isRecovery
+                    icon.source: "image://fluent-system-icons/arrow_sync"
+                    text: qsTr("Refresh")
+                    display: AbstractButton.IconOnly
+                    onClicked: d.addOn.refreshRecoveryFiles()
+                }
+                ToolButton {
+                    visible: !d.isRecovery
                     icon.source: "image://fluent-system-icons/grid"
                     checkable: true
                     autoExclusive: true
@@ -57,6 +64,7 @@ QtObject {
                     display: AbstractButton.IconOnly
                 }
                 ToolButton {
+                    visible: !d.isRecovery
                     icon.source: "image://fluent-system-icons/list"
                     checkable: true
                     autoExclusive: true
@@ -71,7 +79,7 @@ QtObject {
         menu: Menu {
             Action {
                 text: d.isRecovery ? qsTr("Clear Recovery Files") : qsTr("Clear Recent Files")
-                onTriggered: CoreInterface.recentFileCollection.clearRecentFile()
+                onTriggered: d.isRecovery ? d.addOn.clearRecoveryFiles() : CoreInterface.recentFileCollection.clearRecentFile()
             }
         }
 
@@ -92,8 +100,15 @@ QtObject {
                     ThemedItem.icon.source: "image://fluent-system-icons/search"
                 }
                 RowLayout {
-                    visible: !d.isRecovery
                     ToolButton {
+                        visible: d.isRecovery
+                        icon.source: "image://fluent-system-icons/arrow_sync"
+                        text: qsTr("Refresh")
+                        display: AbstractButton.IconOnly
+                        onClicked: d.addOn.refreshRecoveryFiles()
+                    }
+                    ToolButton {
+                        visible: !d.isRecovery
                         icon.source: "image://fluent-system-icons/grid"
                         checkable: true
                         autoExclusive: true
@@ -103,6 +118,7 @@ QtObject {
                         display: AbstractButton.IconOnly
                     }
                     ToolButton {
+                        visible: !d.isRecovery
                         icon.source: "image://fluent-system-icons/list"
                         checkable: true
                         autoExclusive: true
@@ -125,8 +141,7 @@ QtObject {
                 onNewFileRequested: d.windowHandle.triggerAction("org.diffscope.core.file.new", this)
                 onOpenFileRequested: (index) => {
                     if (d.isRecovery) {
-                        // TODO
-                        console.log("TODO: open recovery file ", index)
+                        d.addOn.openRecoveryFile(index)
                     } else {
                         d.addOn.openRecentFile(index)
                     }
@@ -146,8 +161,7 @@ QtObject {
                         icon.source: "image://fluent-system-icons/folder_open"
                         onTriggered: () => {
                             if (d.isRecovery) {
-                                // TODO
-                                console.log("TODO: open recovery file ", fileMenu.index)
+                                d.addOn.openRecoveryFile(fileMenu.index)
                             } else {
                                 d.addOn.openRecentFile(fileMenu.index)
                             }
@@ -166,8 +180,7 @@ QtObject {
                         icon.source: "image://fluent-system-icons/document_dismiss"
                         onTriggered: () => {
                             if (d.isRecovery) {
-                                // TODO
-                                console.log("TODO: remove recovery file ", fileMenu.index)
+                                d.addOn.removeRecoveryFile(fileMenu.index)
                             } else {
                                 d.addOn.removeRecentFile(fileMenu.index)
                             }

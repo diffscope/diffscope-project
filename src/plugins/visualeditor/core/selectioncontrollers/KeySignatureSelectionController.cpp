@@ -8,12 +8,11 @@
 
 #include <ScopicFlowCore/LabelViewModel.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSelectionModel.h>
-#include <dspxmodel/KeySignatureSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/DspxDocument.h>
@@ -27,7 +26,7 @@ namespace VisualEditor {
 
     KeySignatureSelectionController::KeySignatureSelectionController(ProjectViewModelContext *parent)
         : SelectionController(parent), q(parent) {
-        keySignatureSequence = q->windowHandle()->projectDocumentContext()->document()->model()->timeline()->keySignatures();
+        keySignatureSequence = q->windowHandle()->projectDocumentContext()->document()->model()->keySignatures();
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         keySignatureSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->keySignatureSelectionModel();
         connect(keySignatureSelectionModel, &dspx::KeySignatureSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
@@ -51,10 +50,10 @@ namespace VisualEditor {
         auto endDocumentItem = endItem ? q->getKeySignatureDocumentItemFromViewItem(qobject_cast<sflow::LabelViewModel *>(endItem)) : keySignatureSequence->lastItem();
         Q_ASSERT(startDocumentItem && endDocumentItem);
         QObjectList viewItems;
-        if (startDocumentItem->pos() > endDocumentItem->pos()) {
+        if (startDocumentItem->position() > endDocumentItem->position()) {
             std::swap(startDocumentItem, endDocumentItem);
         }
-        for (auto item = startDocumentItem; item; item = keySignatureSequence->nextItem(item)) {
+        for (auto item = startDocumentItem; item; item = item->nextItem()) {
             auto viewItem = q->getKeySignatureViewItemFromDocumentItem(item);
             Q_ASSERT(viewItem);
             viewItems.append(viewItem);

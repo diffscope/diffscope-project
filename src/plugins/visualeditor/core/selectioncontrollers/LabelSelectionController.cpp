@@ -8,12 +8,11 @@
 
 #include <ScopicFlowCore/LabelViewModel.h>
 
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSelectionModel.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelSelectionModel/LabelSelectionModel.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -27,7 +26,7 @@ namespace VisualEditor {
 
     LabelSelectionController::LabelSelectionController(ProjectViewModelContext *parent)
         : SelectionController(parent), q(parent) {
-        labelSequence = q->windowHandle()->projectDocumentContext()->document()->model()->timeline()->labels();
+        labelSequence = q->windowHandle()->projectDocumentContext()->document()->model()->labels();
         selectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel();
         labelSelectionModel = q->windowHandle()->projectDocumentContext()->document()->selectionModel()->labelSelectionModel();
         connect(labelSelectionModel, &dspx::LabelSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
@@ -51,10 +50,10 @@ namespace VisualEditor {
         auto endDocumentItem = endItem ? q->getLabelDocumentItemFromViewItem(qobject_cast<sflow::LabelViewModel *>(endItem)) : labelSequence->lastItem();
         Q_ASSERT(startDocumentItem && endDocumentItem);
         QObjectList viewItems;
-        if (startDocumentItem->pos() > endDocumentItem->pos()) {
+        if (startDocumentItem->position() > endDocumentItem->position()) {
             std::swap(startDocumentItem, endDocumentItem);
         }
-        for (auto item = startDocumentItem; item; item = labelSequence->nextItem(item)) {
+        for (auto item = startDocumentItem; item; item = item->nextItem()) {
             auto viewItem = q->getLabelViewItemFromDocumentItem(item);
             Q_ASSERT(viewItem);
             viewItems.append(viewItem);

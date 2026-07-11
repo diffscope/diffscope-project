@@ -7,7 +7,7 @@
 #include <opendspxserializer/serializer.h>
 #include <opendspxserializer/jsonconverterv1.h>
 
-#include <dspxmodel/private/jsonutils_p.h>
+#include <coreplugin/internal/jsonutils.h>
 
 namespace Core {
 
@@ -66,7 +66,7 @@ namespace Core {
         opendspx::SerializationErrorList errors;
         auto toJsonArray = [&]<Type t> {
             for (const auto &item : std::get<t>(m_data)) {
-                dataArray.append(dspx::JsonUtils::toQJsonValue(opendspx::JsonConverterV1::toJson(item, errors, {})));
+                dataArray.append(Internal::JsonUtils::toQJsonValue(opendspx::JsonConverterV1::toJson(item, errors, {})));
             }
         };
         switch (type()) {
@@ -122,7 +122,7 @@ namespace Core {
                     using T = std::variant_alternative_t<t, decltype(m_data)>;
                     T list;
                     for (const auto &item : dataArray) {
-                        list.append(opendspx::JsonConverterV1::fromJson<typename T::value_type>(dspx::JsonUtils::fromQJsonValue(item), errors));
+                        list.append(opendspx::JsonConverterV1::fromJson<typename T::value_type>(Internal::JsonUtils::fromQJsonValue(item), errors));
                     }
                     result.m_data = std::move(list);
                 };

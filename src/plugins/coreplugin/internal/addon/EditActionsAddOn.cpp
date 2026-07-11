@@ -9,23 +9,22 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <dspxmodel/Label.h>
-#include <dspxmodel/LabelSelectionModel.h>
-#include <dspxmodel/LabelSequence.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Note.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/NoteSequence.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSelectionModel.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/Timeline.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/TrackSelectionModel.h>
-#include <dspxmodel/NoteSelectionModel.h>
-#include <dspxmodel/Note.h>
+#include <dspxmodelORM/Label.h>
+#include <dspxmodelSelectionModel/LabelSelectionModel.h>
+#include <dspxmodelORM/LabelSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelSelectionModel/TempoSelectionModel.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelORM/Note.h>
 
 #include <transactional/TransactionController.h>
 
@@ -45,16 +44,16 @@ namespace Core::Internal {
 
     template<typename Sequence, typename Item>
     static Item *advanceInSequence(Sequence *sequence, Item *current, bool backward) {
-        return current ? (backward ? sequence->previousItem(current) : sequence->nextItem(current))
+        return current ? (backward ? current->previousItem() : current->nextItem())
                        : sequence->firstItem();
     }
 
     static dspx::Label *resolveLabelTarget(dspx::Model *model, dspx::Label *current, bool backward) {
-        return advanceInSequence(model->timeline()->labels(), current, backward);
+        return advanceInSequence(model->labels(), current, backward);
     }
 
     static dspx::Tempo *resolveTempoTarget(dspx::Model *model, dspx::Tempo *current, bool backward) {
-        return advanceInSequence(model->timeline()->tempos(), current, backward);
+        return advanceInSequence(model->tempos(), current, backward);
     }
 
     static dspx::Note *resolveNoteTarget(dspx::SelectionModel *selectionModel, dspx::Note *current, bool backward) {
@@ -167,13 +166,13 @@ namespace Core::Internal {
         auto notes = noteSelectionModel->selectedItems();
         windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(tr("Shifting note pitch"), [=] {
             for (auto *note : notes) {
-                auto p = note->keyNum() + semitone;
+                auto p = note->keyNumber() + semitone;
                 if (p < 0 || p > 127) {
                     m_pitchOutOfRangeNotification->close();
                     windowInterface->sendNotification(m_pitchOutOfRangeNotification, ProjectWindowInterface::AutoHide);
                     return false;
                 }
-                note->setKeyNum(p);
+                note->setKeyNumber(p);
             }
             return true;
         });

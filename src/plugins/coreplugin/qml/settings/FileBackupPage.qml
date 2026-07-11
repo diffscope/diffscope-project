@@ -14,8 +14,10 @@ ScrollView {
     required property QtObject pageHandle
     property bool started: false
     property int fileOption
+    property bool documentLogEnabled
 
     onFileOptionChanged: if (started) pageHandle.markDirty()
+    onDocumentLogEnabledChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -77,6 +79,12 @@ ScrollView {
                                 page.fileOption &= ~BehaviorPreference.FO_Compress
                             }
                         }
+                    }
+                    CheckBox {
+                        text: qsTr("Enable document log")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.documentLogEnabled
+                        onClicked: page.documentLogEnabled = checked
                     }
                 }
             }

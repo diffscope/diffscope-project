@@ -15,18 +15,15 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 
-#include <dspxmodel/AudioClip.h>
-#include <dspxmodel/BusControl.h>
-#include <dspxmodel/Clip.h>
-#include <dspxmodel/ClipSelectionModel.h>
-#include <dspxmodel/ClipSequence.h>
-#include <dspxmodel/ClipTime.h>
-#include <dspxmodel/Model.h>
-#include <dspxmodel/SelectionModel.h>
-#include <dspxmodel/SingingClip.h>
-#include <dspxmodel/Track.h>
-#include <dspxmodel/TrackList.h>
-#include <dspxmodel/Workspace.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -59,7 +56,7 @@ namespace VisualEditor {
         } else {
             result = document->model()->createSingingClip();
         }
-        result->fromOpenDspx(source->toOpenDspx());
+        result->fromOpenDSPX(source->toOpenDSPX());
         return result;
     }
 
@@ -334,9 +331,6 @@ namespace VisualEditor {
         clipViewItemMap.insert(item, viewItem);
         clipDocumentItemMap.insert(viewItem, item);
 
-        auto time = item->time();
-        auto control = item->control();
-
         connect(item, &dspx::Clip::nameChanged, viewItem, [=] {
             if (viewItem->name() == item->name()) {
                 return;
@@ -348,22 +342,22 @@ namespace VisualEditor {
             if (viewItem->position() == item->position()) {
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip item position (time.start + time.clipStart) updated" << item << item->position() << time->start() << time->clipStart();
+            qCDebug(lcClipViewModelContextData) << "Clip item position updated" << item << item->position();
             viewItem->setPosition(item->position());
         });
-        connect(item, &dspx::Clip::lengthChanged, viewItem, [=] {
-            if (viewItem->length() == time->clipLen()) {
+        connect(item, &dspx::Clip::clipLengthChanged, viewItem, [=] {
+            if (viewItem->length() == item->clipLength()) {
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip item length (time.clipLen) updated" << item << item->length();
-            viewItem->setLength(time->clipLen());
+            qCDebug(lcClipViewModelContextData) << "Clip item clipLength updated" << item << item->clipLength();
+            viewItem->setLength(item->clipLength());
         });
         connect(item, &dspx::Clip::overlappedChanged, viewItem, [=]() {
-            if (viewItem->isOverlapped() == item->isOverlapped()) {
+            if (viewItem->isOverlapped() == item->overlapped()) {
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip item overlapped updated" << item << item->isOverlapped();
-            viewItem->setOverlapped(item->isOverlapped());
+            qCDebug(lcClipViewModelContextData) << "Clip item overlapped updated" << item << item->overlapped();
+            viewItem->setOverlapped(item->overlapped());
         });
         connect(item, &dspx::Clip::clipSequenceChanged, viewItem, [=, this] {
             if (stateMachine->configuration().contains(moveProcessingState)) {
@@ -378,9 +372,9 @@ namespace VisualEditor {
                 viewItem->setTrackIndex(trackIndex);
             }
         });
-        connect(time, &dspx::ClipTime::clipStartChanged, viewItem, [=, this](int clipStart) {
+        connect(item, &dspx::Clip::clipStartChanged, viewItem, [=, this](int clipStart) {
             const int documentPosition = item->position();
-            qCDebug(lcClipViewModelContextData) << "Clip item time.clipStart updated" << item << time->clipStart();
+            qCDebug(lcClipViewModelContextData) << "Clip item clipStart updated" << item << item->clipStart();
             if (viewItem->clipStart() != clipStart) {
                 viewItem->setClipStart(clipStart);
             }
@@ -388,19 +382,19 @@ namespace VisualEditor {
                 viewItem->setPosition(documentPosition);
             }
         });
-        connect(time, &dspx::ClipTime::lengthChanged, viewItem, [=](int length) {
+        connect(item, &dspx::Clip::lengthChanged, viewItem, [=](int length) {
             const int maxLength = viewMaxLengthFromDocument(length);
             if (viewItem->maxLength() == maxLength) {
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip item time.length updated" << item << time->length();
+            qCDebug(lcClipViewModelContextData) << "Clip item length updated" << item << item->length();
             viewItem->setMaxLength(maxLength);
         });
-        connect(control, &dspx::Control::muteChanged, viewItem, [=](bool mute) {
+        connect(item, &dspx::Clip::muteChanged, viewItem, [=](bool mute) {
             if (viewItem->isMute() == mute) {
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip item control.mute updated" << item << control->mute();
+            qCDebug(lcClipViewModelContextData) << "Clip item mute updated" << item << item->mute();
             viewItem->setMute(mute);
         });
 
@@ -409,7 +403,7 @@ namespace VisualEditor {
                 viewItem->setPosition(item->position());
                 return;
             }
-            qCDebug(lcClipViewModelContextData) << "Clip view item position updated" << viewItem << viewItem->position() << "item time.clipStart" << time->clipStart();
+            qCDebug(lcClipViewModelContextData) << "Clip view item position updated" << viewItem << viewItem->position() << "item clipStart" << item->clipStart();
 
             auto duplicateSelectionIfNeeded = [=, this] {
                 if (!shouldCopyBeforeMove || !stateMachine->configuration().contains(moveProcessingState)) {
@@ -426,8 +420,7 @@ namespace VisualEditor {
             };
             duplicateSelectionIfNeeded();
 
-            const int newStart = viewItem->position() - time->clipStart();
-            time->setStart(newStart);
+            item->setPosition(viewItem->position());
             if (stateMachine->configuration().contains(moveProcessingState)) {
                 moveChanged = true;
                 moveUpdatedClips.insert(viewItem);
@@ -443,11 +436,11 @@ namespace VisualEditor {
         });
         connect(viewItem, &sflow::ClipViewModel::lengthChanged, item, [=, this] {
             if (!(stateMachine->configuration().contains(adjustProcessingState) || stateMachine->configuration().contains(drawProcessingState))) {
-                viewItem->setLength(time->clipLen());
+                viewItem->setLength(item->clipLength());
                 return;
             }
             qCDebug(lcClipViewModelContextData) << "Clip view item length updated" << viewItem << viewItem->length();
-            time->setClipLen(viewItem->length());
+            item->setClipLength(viewItem->length());
             if (stateMachine->configuration().contains(adjustProcessingState)) {
                 lengthChanged = true;
                 lengthUpdatedClips.insert(viewItem);
@@ -459,14 +452,13 @@ namespace VisualEditor {
         });
         connect(viewItem, &sflow::ClipViewModel::clipStartChanged, item, [=, this] {
             if (!(stateMachine->configuration().contains(adjustProcessingState) || stateMachine->configuration().contains(drawProcessingState))) {
-                viewItem->setClipStart(time->clipStart());
+                viewItem->setClipStart(item->clipStart());
                 viewItem->setPosition(item->position());
                 return;
             }
             qCDebug(lcClipViewModelContextData) << "Clip view item clipStart updated" << viewItem << viewItem->clipStart() << "item position" << item->position();
-            const int newStart = item->position() - viewItem->clipStart();
-            time->setStart(newStart);
-            time->setClipStart(viewItem->clipStart());
+            item->setPosition(viewItem->position());
+            item->setClipStart(viewItem->clipStart());
             if (stateMachine->configuration().contains(adjustProcessingState)) {
                 lengthChanged = true;
                 lengthUpdatedClips.insert(viewItem);
@@ -510,16 +502,16 @@ namespace VisualEditor {
             }
             moveChanged = true;
             moveUpdatedClips.insert(viewItem);
-            item->clipSequence()->moveToAnotherClipSequence(item, targetTrack->clips());
+            item->clipSequence()->moveItem(item, targetTrack->clips());
         });
 
         viewItem->setName(item->name());
         viewItem->setPosition(item->position());
-        viewItem->setClipStart(time->clipStart());
-        viewItem->setLength(time->clipLen());
-        viewItem->setMaxLength(viewMaxLengthFromDocument(time->length()));
-        viewItem->setOverlapped(item->isOverlapped());
-        viewItem->setMute(item->control()->mute());
+        viewItem->setClipStart(item->clipStart());
+        viewItem->setLength(item->clipLength());
+        viewItem->setMaxLength(viewMaxLengthFromDocument(item->length()));
+        viewItem->setOverlapped(item->overlapped());
+        viewItem->setMute(item->mute());
         const int trackIndex = trackList->items().indexOf(item->clipSequence()->track());
         if (trackIndex >= 0) {
             viewItem->setTrackIndex(trackIndex);
@@ -667,10 +659,9 @@ namespace VisualEditor {
                 if (!documentItem) {
                     continue;
                 }
-                auto time = documentItem->time();
-                time->setClipLen(viewItem->length());
-                time->setClipStart(viewItem->clipStart());
-                time->setStart(viewItem->position() - viewItem->clipStart());
+                documentItem->setPosition(viewItem->position());
+                documentItem->setClipLength(viewItem->length());
+                documentItem->setClipStart(viewItem->clipStart());
             }
             document->transactionController()->commitTransaction(adjustTransactionId, tr("Adjusting clip length"));
         }
@@ -711,10 +702,9 @@ namespace VisualEditor {
 
         auto viewItem = clipViewItemMap.value(targetClip);
         if (viewItem) {
-            auto time = targetClip->time();
-            time->setClipLen(viewItem->length());
-            time->setClipStart(viewItem->clipStart());
-            time->setStart(viewItem->position() - viewItem->clipStart());
+            targetClip->setPosition(viewItem->position());
+            targetClip->setClipLength(viewItem->length());
+            targetClip->setClipStart(viewItem->clipStart());
         }
 
         if (!drawChanged) {
@@ -771,11 +761,10 @@ namespace VisualEditor {
         document->transactionController()->beginScopedTransaction(QObject::tr("Inserting singing clip"), [=, &newClip, &success] {
             newClip = document->model()->createSingingClip();
             newClip->setName(tr("Unnamed clip"));
-            auto time = newClip->time();
-            time->setClipStart(0);
-            time->setClipLen(defaultClipLength);
-            time->setStart(position);
-            newClip->control()->setGain(1);
+            newClip->setClipStart(0);
+            newClip->setClipLength(defaultClipLength);
+            newClip->setPosition(position);
+            newClip->setGain(1);
             if (!track->clips()->insertItem(newClip)) {
                 document->model()->destroyItem(newClip);
                 newClip = nullptr;
@@ -808,11 +797,10 @@ namespace VisualEditor {
 
         auto clip = m_context->document->model()->createSingingClip();
         clip->setName(tr("Unnamed clip"));
-        auto time = clip->time();
-        time->setClipStart(0);
-        time->setClipLen(0);
-        time->setStart(position);
-        clip->control()->setGain(1);
+        clip->setClipStart(0);
+        clip->setClipLength(0);
+        clip->setPosition(position);
+        clip->setGain(1);
 
         track->clips()->insertItem(clip);
 
@@ -823,8 +811,8 @@ namespace VisualEditor {
         if (viewItem) {
             viewItem->setTrackIndex(trackIndex);
             viewItem->setPosition(position);
-            viewItem->setClipStart(time->clipStart());
-            viewItem->setLength(time->clipLen());
+            viewItem->setClipStart(clip->clipStart());
+            viewItem->setLength(clip->clipLength());
         }
 
         Q_UNUSED(clipSequenceViewModel)

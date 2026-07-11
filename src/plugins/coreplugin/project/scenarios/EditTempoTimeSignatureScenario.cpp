@@ -14,12 +14,11 @@
 #include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/MusicTime.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Tempo.h>
-#include <dspxmodel/TempoSequence.h>
-#include <dspxmodel/TimeSignature.h>
-#include <dspxmodel/TimeSignatureSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/TimeSignature.h>
+#include <dspxmodelORM/TimeSignatureSequence.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -80,13 +79,13 @@ namespace Core {
             qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing tempo at" << position;
         }
         document()->transactionController()->beginScopedTransaction(tr("Editing tempo"), [=] {
-            auto tempoSequence = document()->model()->timeline()->tempos();
+            auto tempoSequence = document()->model()->tempos();
             auto currentTempos = tempoSequence->slice(position, 1);
             dspx::Tempo *tempoItem;
             if (currentTempos.isEmpty()) {
                 qCDebug(lcEditTempoTimeSignatureScenario) << "Current tempos is empty";
                 tempoItem = document()->model()->createTempo();
-                tempoItem->setPos(position);
+                tempoItem->setPosition(position);
                 tempoItem->setValue(tempo);
                 tempoSequence->insertItem(tempoItem);
             } else if (currentTempos.size() == 1) {
@@ -153,7 +152,7 @@ namespace Core {
             qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing time signature at" << measure;
         }
         document()->transactionController()->beginScopedTransaction(tr("Editing time signature"), [=] {
-            auto timeSignatureSequence = document()->model()->timeline()->timeSignatures();
+            auto timeSignatureSequence = document()->model()->timeSignatures();
             auto currentTimeSignatures = timeSignatureSequence->slice(measure, 1);
             dspx::TimeSignature *timeSignatureItem;
             if (currentTimeSignatures.isEmpty()) {

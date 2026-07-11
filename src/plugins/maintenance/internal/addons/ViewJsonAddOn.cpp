@@ -20,7 +20,7 @@
 #include <opendspx/model.h>
 #include <opendspxserializer/serializer.h>
 
-#include <dspxmodel/Model.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -62,7 +62,7 @@ namespace Maintenance {
     }
 
     QByteArray ViewJsonAddOn::serializeJson() const {
-        auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toOpenDspx();
+        auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toOpenDSPX();
         opendspx::SerializationErrorList errors;
         std::stringstream out(std::ios::out);
         opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, false);

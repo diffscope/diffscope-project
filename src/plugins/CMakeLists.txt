@@ -4,7 +4,9 @@ qm_find_qt(LinguistTools)
 
 set(CURRENT_PLUGIN_DESC "${APPLICATION_NAME} Application Plugin")
 
-find_package(ExtensionSystem REQUIRED)
+find_package(ExtensionSystem CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(opendspx CONFIG REQUIRED)
 
 function(diffscope_add_builtin_plugin _target)
     set(options NO_TRANSLATION NO_QML_MODULE NO_ACTION MACOS_INCLUDE_OBJC_SRC)

@@ -29,7 +29,8 @@
         },
         "wolf-midi",
         "nlohmann-json",
-        "zstd"
+        "zstd",
+        "opendspx"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [

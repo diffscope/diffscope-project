@@ -33,7 +33,10 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         svscraft::QmlExtras
-        dspxmodel
+        dspxmodelCore
+        dspxmodelORM
+        dspxmodelSelectionModel
+        dspxmodelPropertyMapper
         coreplugin
         opendspx::model
         opendspx::serializer

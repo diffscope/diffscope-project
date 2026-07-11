@@ -6,7 +6,7 @@
 #include <qqmlintegration.h>
 
 #include <CoreApi/windowinterface.h>
-#include <dspxmodel/AudioClip.h>
+#include <dspxmodelORM/AudioClip.h>
 
 namespace talcs {
     class AbstractAudioFormatIO;

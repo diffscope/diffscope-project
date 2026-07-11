@@ -26,9 +26,9 @@ PropertyEditorGroupBox {
         MusicTimeOffsetPropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
-            key: "startingOffset"
+            key: "clipStart"
             label: qsTr("Starting offset")
-            to: ((groupBox.propertyMapper?.fullLength ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.fullLength) - (groupBox.propertyMapper?.clipLength ?? 0)
+            to: ((groupBox.propertyMapper?.length ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.length) - (groupBox.propertyMapper?.clipLength ?? 0)
             transactionName: qsTr("Editing clip starting offset")
         }
         MusicTimeOffsetPropertyEditorField {
@@ -37,13 +37,13 @@ PropertyEditorGroupBox {
             key: "clipLength"
             label: qsTr("Clip length")
             from: 1
-            to: ((groupBox.propertyMapper?.fullLength ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.fullLength) - (groupBox.propertyMapper?.startingOffset ?? 0)
+            to: ((groupBox.propertyMapper?.length ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.length) - (groupBox.propertyMapper?.clipStart ?? 0)
             transactionName: qsTr("Editing clip length")
         }
         FormGroup {
             label: qsTr("Full length")
             columnItem: TextField {
-                text: groupBox.propertyMapper?.fullLength === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.fullLength === undefined ? "" : groupBox.propertyMapper.fullLength
+                text: groupBox.propertyMapper?.length === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.length === undefined ? "" : groupBox.propertyMapper.length
                 readOnly: true
                 ThemedItem.flat: true
             }

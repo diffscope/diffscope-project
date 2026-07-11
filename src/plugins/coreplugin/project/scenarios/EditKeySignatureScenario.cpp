@@ -12,12 +12,12 @@
 
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/KeySignature.h>
-#include <dspxmodel/KeySignatureSequence.h>
-#include <dspxmodel/Timeline.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/private/DocumentEditScenario_p.h>
 
@@ -26,6 +26,17 @@
 namespace Core {
 
     Q_STATIC_LOGGING_CATEGORY(lcEditKeySignatureScenario, "diffscope.core.editkeysignaturescenario")
+
+    namespace {
+
+        dspx::KeySignature *keySignatureAt(dspx::KeySignatureSequence *sequence, int position) {
+            Internal::KeySignatureAtSpecifiedPositionHelper helper;
+            helper.setKeySignatureSequence(sequence);
+            helper.setPosition(position);
+            return helper.keySignature();
+        }
+
+    }
 
     EditKeySignatureScenario::EditKeySignatureScenario(QObject *parent)
         : DocumentEditScenario(parent), d_ptr(new EditKeySignatureScenarioPrivate) {
@@ -77,21 +88,21 @@ namespace Core {
         position = dialog->property("position").toInt();
         qCInfo(lcEditKeySignatureScenario) << "Edit key signature" << position << tonality << mode << accidentalType;
         if (!doInsertNew) {
-            auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-            auto nearestKeySignature = keySignatureSequence->itemAt(position);
+            auto keySignatureSequence = document()->model()->keySignatures();
+            auto nearestKeySignature = keySignatureAt(keySignatureSequence, position);
             if (nearestKeySignature) {
-                position = nearestKeySignature->pos();
+                position = nearestKeySignature->position();
                 qCInfo(lcEditKeySignatureScenario) << "modify existing key signature at" << position;
             }
         }
         document()->transactionController()->beginScopedTransaction(tr("Editing key signature"), [=] {
-            auto keySignatureSequence = document()->model()->timeline()->keySignatures();
+            auto keySignatureSequence = document()->model()->keySignatures();
             auto currentKeySignatures = keySignatureSequence->slice(position, 1);
             dspx::KeySignature *keySignatureItem;
             if (currentKeySignatures.isEmpty()) {
                 qCDebug(lcEditKeySignatureScenario) << "Current key signatures is empty";
                 keySignatureItem = document()->model()->createKeySignature();
-                keySignatureItem->setPos(position);
+                keySignatureItem->setPosition(position);
                 keySignatureItem->setTonality(tonality);
                 keySignatureItem->setMode(mode);
                 keySignatureItem->setAccidentalType(static_cast<dspx::KeySignature::AccidentalType>(accidentalType));
@@ -125,8 +136,8 @@ namespace Core {
         Q_D(const EditKeySignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-        auto currentKeySignature = keySignatureSequence->itemAt(position);
+        auto keySignatureSequence = document()->model()->keySignatures();
+        auto currentKeySignature = keySignatureAt(keySignatureSequence, position);
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;
@@ -142,8 +153,8 @@ namespace Core {
         Q_D(const EditKeySignatureScenario);
         if (!d->projectTimeline)
             return;
-        auto keySignatureSequence = document()->model()->timeline()->keySignatures();
-        auto currentKeySignature = keySignatureSequence->itemAt(position);
+        auto keySignatureSequence = document()->model()->keySignatures();
+        auto currentKeySignature = keySignatureAt(keySignatureSequence, position);
         int tonality = 0;
         int mode = 2741;
         int accidentalType = 0;

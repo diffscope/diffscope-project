@@ -17,22 +17,22 @@ PropertyEditorGroupBox {
         width: parent.width
         BooleanPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.timeline ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             key: "loopEnabled"
             label: qsTr("Enable loop")
             transactionName: qsTr("Toggling loop")
         }
         MusicTimePropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.timeline ?? null
-            enabled: groupBox.windowHandle?.projectDocumentContext.document.model.timeline.loopEnabled ?? false
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
+            enabled: groupBox.windowHandle?.projectDocumentContext.document.model.loopEnabled ?? false
             key: "loopStart"
             label: qsTr("Start position")
             to: {
-                let timeline = groupBox.windowHandle?.projectDocumentContext.document.model.timeline
-                if (!timeline)
+                let model = groupBox.windowHandle?.projectDocumentContext.document.model
+                if (!model)
                     return 2147483647
-                let loopEnd = timeline.loopStart + timeline.loopLength
+                let loopEnd = model.loopStart + model.loopLength
                 return loopEnd - 1
             }
             transactionName: qsTr("Editing loop start position")
@@ -42,18 +42,18 @@ PropertyEditorGroupBox {
             windowHandle: groupBox.windowHandle
             propertyMapper: QtObject {
                 readonly property int _loopEnd: {
-                    let timeline = groupBox.windowHandle?.projectDocumentContext.document.model.timeline
-                    if (!timeline)
+                    let model = groupBox.windowHandle?.projectDocumentContext.document.model
+                    if (!model)
                         return 0
-                    return timeline.loopStart + timeline.loopLength
+                    return model.loopStart + model.loopLength
                 }
                 property int loopEnd: 0
                 onLoopEndChanged: () => {
-                    let timeline = groupBox.windowHandle?.projectDocumentContext.document.model.timeline
-                    if (!timeline)
+                    let model = groupBox.windowHandle?.projectDocumentContext.document.model
+                    if (!model)
                         return
-                    if (timeline.loopLength !== loopEnd - timeline.loopStart) {
-                        timeline.loopLength = loopEnd - timeline.loopStart
+                    if (model.loopLength !== loopEnd - model.loopStart) {
+                        model.loopLength = loopEnd - model.loopStart
                     }
                 }
                 on_LoopEndChanged: () => {
@@ -62,14 +62,14 @@ PropertyEditorGroupBox {
                     }
                 }
             }
-            enabled: groupBox.windowHandle?.projectDocumentContext.document.model.timeline.loopEnabled ?? false
+            enabled: groupBox.windowHandle?.projectDocumentContext.document.model.loopEnabled ?? false
             key: "loopEnd"
             label: qsTr("End position")
             from: {
-                let timeline = groupBox.windowHandle?.projectDocumentContext.document.model.timeline
-                if (!timeline)
+                let model = groupBox.windowHandle?.projectDocumentContext.document.model
+                if (!model)
                     return 0
-                return timeline.loopStart + 1
+                return model.loopStart + 1
             }
             transactionName: qsTr("Editing loop end position")
         }

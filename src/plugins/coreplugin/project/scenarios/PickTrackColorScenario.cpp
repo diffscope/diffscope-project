@@ -9,8 +9,8 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <dspxmodel/Model.h>
-#include <dspxmodel/Track.h>
+#include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Track.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/private/DocumentEditScenario_p.h>

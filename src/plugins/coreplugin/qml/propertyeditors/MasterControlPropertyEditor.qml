@@ -18,21 +18,21 @@ PropertyEditorGroupBox {
         width: parent.width
         BooleanPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master.control ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             key: "mute"
             label: qsTr("Mute")
             transactionName: qsTr("Toggling mute")
         }
         BooleanPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             key: "multiChannelOutput"
             label: qsTr("Multi-channel output")
             transactionName: qsTr("Toggling multi-channel output")
         }
         IntegerPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master.control ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             key: "gain"
             label: qsTr("Gain (dB)")
             useSlider: true
@@ -52,7 +52,7 @@ PropertyEditorGroupBox {
         }
         IntegerPropertyEditorField {
             windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model.master.control ?? null
+            propertyMapper: groupBox.windowHandle?.projectDocumentContext.document.model ?? null
             key: "pan"
             label: qsTr("Pan (%)")
             useSlider: true

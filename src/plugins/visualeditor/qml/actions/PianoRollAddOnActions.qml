@@ -11,6 +11,7 @@ import SVSCraft.UIComponents.impl
 import QActionKit
 
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 ActionCollection {
     id: d
@@ -193,7 +194,7 @@ ActionCollection {
                         const value = valueAt(index)
                         if (value !== undefined) {
                             d.pianoRollPanelInterface.editingClip = value
-                            d.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxModel.SelectionModel.Select, DspxModel.SelectionModel.ST_Note, value.notes);
+                            d.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, value.notes);
                         }
                     }
                 }

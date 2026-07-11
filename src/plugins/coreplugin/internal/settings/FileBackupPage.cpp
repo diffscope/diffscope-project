@@ -47,7 +47,9 @@ namespace Core::Internal {
         qCInfo(lcFileBackupPage) << "Beginning setting";
         widget();
         m_widget->setProperty("fileOption", BehaviorPreference::instance()->property("fileOption"));
+        m_widget->setProperty("documentLogEnabled", BehaviorPreference::documentLogEnabled());
         qCDebug(lcFileBackupPage) << "fileOption" << m_widget->property("fileOption");
+        qCDebug(lcFileBackupPage) << "documentLogEnabled" << m_widget->property("documentLogEnabled");
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
@@ -55,7 +57,9 @@ namespace Core::Internal {
     bool FileBackupPage::accept() {
         qCInfo(lcFileBackupPage) << "Accepting";
         qCDebug(lcFileBackupPage) << "fileOption" << m_widget->property("fileOption");
+        qCDebug(lcFileBackupPage) << "documentLogEnabled" << m_widget->property("documentLogEnabled");
         BehaviorPreference::instance()->setProperty("fileOption", m_widget->property("fileOption"));
+        BehaviorPreference::setDocumentLogEnabled(m_widget->property("documentLogEnabled").toBool());
         BehaviorPreference::instance()->save();
         return ISettingPage::accept();
     }

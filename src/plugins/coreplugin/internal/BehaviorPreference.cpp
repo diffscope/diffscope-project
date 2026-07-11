@@ -25,6 +25,7 @@ namespace Core::Internal {
         QString proxyUsername{};
         QString proxyPassword{};
         BehaviorPreference::FileOption fileOption{};
+        bool documentLogEnabled{};
         bool useCustomFont{};
         QString fontFamily{};
         QString fontStyle{};
@@ -87,6 +88,8 @@ namespace Core::Internal {
         emit proxyPasswordChanged();
         d->fileOption = settings->value("fileOption", QVariant::fromValue(FO_LockOpenedFiles | FO_CheckForExternalChangedOnSave)).value<FileOption>();
         emit fileOptionChanged();
+        d->documentLogEnabled = settings->value("documentLogEnabled", true).toBool();
+        emit documentLogEnabledChanged();
         d->useCustomFont = settings->value("useCustomFont", false).toBool();
         emit useCustomFontChanged();
         d->fontFamily = settings->value("fontFamily", QApplication::font().family()).toString();
@@ -143,6 +146,7 @@ namespace Core::Internal {
         settings->setValue("proxyUsername", d->proxyUsername);
         settings->setValue("proxyPassword", d->proxyPassword);
         settings->setValue("fileOption", static_cast<int>(d->fileOption));
+        settings->setValue("documentLogEnabled", d->documentLogEnabled);
         settings->setValue("useCustomFont", d->useCustomFont);
         settings->setValue("fontFamily", d->fontFamily);
         settings->setValue("fontStyle", d->fontStyle);
@@ -319,6 +323,17 @@ namespace Core::Internal {
             return;
         d->fileOption = fileOption;
         emit m_instance->fileOptionChanged();
+    }
+    bool BehaviorPreference::documentLogEnabled() {
+        M_INSTANCE_D;
+        return d->documentLogEnabled;
+    }
+    void BehaviorPreference::setDocumentLogEnabled(bool documentLogEnabled) {
+        M_INSTANCE_D;
+        if (d->documentLogEnabled == documentLogEnabled)
+            return;
+        d->documentLogEnabled = documentLogEnabled;
+        emit m_instance->documentLogEnabledChanged();
     }
     bool BehaviorPreference::useCustomFont() {
         M_INSTANCE_D;

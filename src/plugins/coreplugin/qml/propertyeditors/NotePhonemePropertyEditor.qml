@@ -184,9 +184,9 @@ PropertyEditorGroupBox {
             Layout.fillWidth: true
             label: qsTr("Original")
             columnItem: PhonemeEditor {
-                enabled: groupBox.propertyMapper?.phonemes !== undefined
+                enabled: groupBox.propertyMapper?.originalPhonemes !== undefined
                 readOnly: true
-                phonemeSequence: groupBox.propertyMapper?.phonemes?.original ?? null
+                phonemeSequence: groupBox.propertyMapper?.originalPhonemes ?? null
             }
         }
 
@@ -200,15 +200,15 @@ PropertyEditorGroupBox {
                 document: groupBox.windowHandle?.projectDocumentContext.document ?? null
             }
             rowItem: ToolButton {
-                enabled: groupBox.propertyMapper?.phonemes !== undefined
+                enabled: groupBox.propertyMapper?.editedPhonemes !== undefined
                 text: qsTr("Insert")
                 icon.source: "image://fluent-system-icons/add_circle"
                 display: AbstractButton.IconOnly
                 onClicked: insertItemScenario.insertPhoneme()
             }
             columnItem: PhonemeEditor {
-                enabled: groupBox.propertyMapper?.phonemes !== undefined
-                phonemeSequence: groupBox.propertyMapper?.phonemes?.edited ?? null
+                enabled: groupBox.propertyMapper?.editedPhonemes !== undefined
+                phonemeSequence: groupBox.propertyMapper?.editedPhonemes ?? null
             }
         }
     }

@@ -12,10 +12,7 @@
 
 #include <SVSCraftCore/DecibelLinearizer.h>
 
-#include <dspxmodel/BusControl.h>
-#include <dspxmodel/Control.h>
-#include <dspxmodel/Master.h>
-#include <dspxmodel/Model.h>
+#include <dspxmodelORM/Model.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -219,7 +216,7 @@ namespace VisualEditor {
     void MasterTrackViewModelContextData::init() {
         Q_Q(ProjectViewModelContext);
         document = q->windowHandle()->projectDocumentContext()->document();
-        master = document->model()->master();
+        model = document->model();
 
         masterTrackListViewModel = new sflow::ListViewModel(q);
         masterTrackViewModel = new sflow::TrackViewModel(masterTrackListViewModel);
@@ -228,28 +225,26 @@ namespace VisualEditor {
     }
 
     void MasterTrackViewModelContextData::bindMasterTrackViewModel() {
-        auto control = master->control();
-
-        connect(control, &dspx::Control::muteChanged, masterTrackViewModel, [=](bool mute) {
+        connect(model, &dspx::Model::muteChanged, masterTrackViewModel, [=](bool mute) {
             if (masterTrackViewModel->isMute() == mute) {
                 return;
             }
             masterTrackViewModel->setMute(mute);
         });
-        connect(control, &dspx::Control::gainChanged, masterTrackViewModel, [=](double gain) {
+        connect(model, &dspx::Model::gainChanged, masterTrackViewModel, [=](double gain) {
             const double db = toDecibel(gain);
             if (qFuzzyCompare(masterTrackViewModel->gain(), db)) {
                 return;
             }
             masterTrackViewModel->setGain(db);
         });
-        connect(control, &dspx::Control::panChanged, masterTrackViewModel, [=](double pan) {
+        connect(model, &dspx::Model::panChanged, masterTrackViewModel, [=](double pan) {
             if (qFuzzyCompare(masterTrackViewModel->pan(), pan)) {
                 return;
             }
             masterTrackViewModel->setPan(pan);
         });
-        connect(master, &dspx::Master::multiChannelOutputChanged, this, [=](bool enabled) {
+        connect(model, &dspx::Model::multiChannelOutputChanged, this, [=](bool enabled) {
             if (masterTrackViewModel->multiChannelOutput() == enabled) {
                 return;
             }
@@ -260,24 +255,24 @@ namespace VisualEditor {
 
         connect(masterTrackViewModel, &sflow::TrackViewModel::muteChanged, this, [=] {
             if (!stateMachine->configuration().contains(muteEditingState)) {
-                masterTrackViewModel->setMute(control->mute());
+                masterTrackViewModel->setMute(model->mute());
                 return;
             }
         });
         connect(masterTrackViewModel, &sflow::TrackViewModel::gainChanged, this, [=] {
             if (!stateMachine->configuration().contains(gainProgressingState)) {
-                masterTrackViewModel->setGain(toDecibel(control->gain()));
+                masterTrackViewModel->setGain(toDecibel(model->gain()));
                 return;
             }
-            control->setGain(toLinear(masterTrackViewModel->gain()));
+            model->setGain(toLinear(masterTrackViewModel->gain()));
             gainChanged = true;
         });
         connect(masterTrackViewModel, &sflow::TrackViewModel::panChanged, this, [=] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
-                masterTrackViewModel->setPan(control->pan());
+                masterTrackViewModel->setPan(model->pan());
                 return;
             }
-            control->setPan(masterTrackViewModel->pan());
+            model->setPan(masterTrackViewModel->pan());
             panChanged = true;
         });
         connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [=] {
@@ -291,10 +286,10 @@ namespace VisualEditor {
         });
 
         masterTrackViewModel->setName(tr("Master"));
-        masterTrackViewModel->setMute(control->mute());
-        masterTrackViewModel->setGain(toDecibel(control->gain()));
-        masterTrackViewModel->setPan(control->pan());
-        masterTrackViewModel->setMultiChannelOutput(master->multiChannelOutput());
+        masterTrackViewModel->setMute(model->mute());
+        masterTrackViewModel->setGain(toDecibel(model->gain()));
+        masterTrackViewModel->setPan(model->pan());
+        masterTrackViewModel->setMultiChannelOutput(model->multiChannelOutput());
 
         masterTrackListViewModel->insertItem(0, masterTrackViewModel);
     }
@@ -354,10 +349,10 @@ namespace VisualEditor {
             return;
         }
         const bool newValue = masterTrackViewModel->isMute();
-        if (newValue == master->control()->mute()) {
+        if (newValue == model->mute()) {
             document->transactionController()->abortTransaction(muteTransactionId);
         } else {
-            master->control()->setMute(newValue);
+            model->setMute(newValue);
             document->transactionController()->commitTransaction(muteTransactionId, tr("Editing master mute"));
         }
         muteTransactionId = {};
@@ -380,7 +375,7 @@ namespace VisualEditor {
         if (!gainChanged) {
             document->transactionController()->abortTransaction(gainTransactionId);
         } else {
-            master->control()->setGain(newLinear);
+            model->setGain(newLinear);
             document->transactionController()->commitTransaction(gainTransactionId, tr("Adjusting master gain"));
         }
         gainTransactionId = {};
@@ -408,7 +403,7 @@ namespace VisualEditor {
         if (!panChanged) {
             document->transactionController()->abortTransaction(panTransactionId);
         } else {
-            master->control()->setPan(newPan);
+            model->setPan(newPan);
             document->transactionController()->commitTransaction(panTransactionId, tr("Adjusting master pan"));
         }
         panTransactionId = {};
@@ -425,7 +420,7 @@ namespace VisualEditor {
             Q_EMIT multiChannelTransactionStarted();
         } else {
             syncingFromModel = true;
-            masterTrackViewModel->setMultiChannelOutput(master->multiChannelOutput());
+            masterTrackViewModel->setMultiChannelOutput(model->multiChannelOutput());
             syncingFromModel = false;
             Q_EMIT multiChannelTransactionNotStarted();
         }
@@ -436,10 +431,10 @@ namespace VisualEditor {
             return;
         }
         const bool newValue = masterTrackViewModel->multiChannelOutput();
-        if (newValue == master->multiChannelOutput()) {
+        if (newValue == model->multiChannelOutput()) {
             document->transactionController()->abortTransaction(multiChannelTransactionId);
         } else {
-            master->setMultiChannelOutput(newValue);
+            model->setMultiChannelOutput(newValue);
             document->transactionController()->commitTransaction(multiChannelTransactionId, tr("Editing master multi-channel output"));
         }
         multiChannelTransactionId = {};
