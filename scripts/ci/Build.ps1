@@ -83,6 +83,7 @@ Write-Host "Semver: $semver"
 $installerFileBase = "${applicationName}_$($semver -replace '[\.\-\+]', '_')_installer"
 
 $depsDir = (Get-ChildItem -Path $(Join-Path $VcpkgRootDir installed) | Where-Object {$_.Name -ne "vcpkg"})[0].FullName
+$depsRuntimeDir = Join-Path $depsDir ($IsWindows ? "bin" : "lib")
 
 cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     -DCMAKE_BUILD_TYPE=RelWithDebInfo `
@@ -91,8 +92,9 @@ cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     "-DCMAKE_CXX_COMPILER_LAUNCHER=$($CCache ? 'ccache' : '')" `
     -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded `
     -DCK_ENABLE_CONSOLE:BOOL=FALSE `
+    -DCK_WIN_APPLOCAL_DEPS:BOOL=ON `
     -DQT_NO_PRIVATE_MODULE_WARNING:BOOL=ON `
-    "-DQMSETUP_APPLOCAL_DEPS_PATHS_RELWITHDEBINFO=$(Join-Path $depsDir lib)" `
+    "-DQMSETUP_APPLOCAL_DEPS_PATHS_RELWITHDEBINFO=$depsRuntimeDir" `
     -DAPPLICATION_INSTALL:BOOL=ON `
     -DAPPLICATION_CONFIGURE_INSTALLER:BOOL=ON `
     -DINNOSETUP_USE_UNOFFICIAL_LANGUAGE:BOOL=ON `
