@@ -44,7 +44,7 @@ jobs:
           - macos-15
     env:
       QT_VERSION: 6.10.1
-      VCPKG_REF: 74e6536215718009aae747d86d84b78376bf9e09
+      VCPKG_REF: f87344cac03158cbf1467264565f1fd36b382a24
       INNOSETUP_REF: is-6_5_4
       VERSION_IDENTIFIER: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
       BUILD_DIR: ${{ github.workspace }}/build/build
