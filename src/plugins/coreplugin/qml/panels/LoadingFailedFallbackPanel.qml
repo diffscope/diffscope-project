@@ -47,7 +47,7 @@ DockingPane {
             icon.height: 48
             icon.color: Theme.errorColor
             spacing: 12
-            Accessible.role: Accessible.staticText
+            Accessible.role: Accessible.StaticText
             Accessible.name: qsTr("Failed to load component")
         }
         Label {
