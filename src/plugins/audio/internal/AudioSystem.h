@@ -17,8 +17,11 @@ namespace Audio::Internal {
 
         static OutputSystem *outputSystem();
 
+        static bool isSingerRegistrationSuccessful();
+
     private:
         OutputSystem *m_outputSystem;
+        bool m_singerRegistrationSuccessful{};
     };
 
 }

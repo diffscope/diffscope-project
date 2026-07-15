@@ -49,6 +49,7 @@ namespace Core::Internal {
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.singers", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SingerPickerPanel", this));
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
         }
     }

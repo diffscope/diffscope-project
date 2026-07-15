@@ -30,10 +30,16 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         internal/**
 )
 
-file(GLOB _res_icons res/soundfx/*)
-
+file(GLOB _res_soundfx res/soundfx/*)
 qt_add_resources(${PROJECT_NAME} soundfx
     PREFIX /diffscope/audio/soundfx
     BASE res/soundfx
-    FILES ${_res_icons}
+    FILES ${_res_soundfx}
+)
+
+file(GLOB _res_singeravatar res/singeravatar/*)
+qt_add_resources(${PROJECT_NAME} singeravatar
+    PREFIX /diffscope/audio/singeravatar
+    BASE res/singeravatar
+    FILES ${_res_singeravatar}
 )

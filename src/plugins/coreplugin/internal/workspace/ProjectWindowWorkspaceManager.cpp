@@ -49,6 +49,7 @@ namespace Core::Internal {
                 {"org.diffscope.core.panel.recentFiles", true},
                 {"org.diffscope.core.panel.recoveryFiles", true},
                 {"org.diffscope.core.panel.plugins", true},
+                {"org.diffscope.core.panel.singers", true},
              },
              400,
              400,

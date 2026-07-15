@@ -49,6 +49,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/DefaultLyricManager.h>
+#include <coreplugin/SingerRegistry.h>
 
 namespace Core {
 
@@ -65,6 +66,7 @@ namespace Core {
         DspxCheckerRegistry *dspxCheckerRegistry;
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
+        SingerRegistry *singerRegistry;
 
         void init() {
             Q_Q(CoreInterface);
@@ -73,6 +75,7 @@ namespace Core {
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
+            singerRegistry = new SingerRegistry(q);
         }
     };
 
@@ -105,6 +108,11 @@ namespace Core {
     DefaultLyricManager *CoreInterface::defaultLyricManager() {
         Q_ASSERT(instance());
         return instance()->d_func()->defaultLyricManager;
+    }
+
+    SingerRegistry *CoreInterface::singerRegistry() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->singerRegistry;
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
