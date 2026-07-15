@@ -177,14 +177,16 @@ PropertyEditorGroupBox {
         }
     }
 
+    VirtualSingerPropertyEditorHelper {
+        id: virtualSingerPropertyEditorHelper
+    }
+
     T.Button {
         id: singerCardButton
 
         width: parent.width
         implicitHeight: 60
-        onClicked: () => {
-            // TODO: Open the virtual singer selector.
-        }
+        onClicked: virtualSingerPropertyEditorHelper.editVirtualSinger(groupBox.windowHandle)
 
         Card {
             id: singerCard
