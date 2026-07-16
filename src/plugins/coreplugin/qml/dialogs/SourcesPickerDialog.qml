@@ -22,7 +22,7 @@ Window {
     property bool resultSent: false
 
     readonly property bool needsInitialPicker: sourcesModel.architectureId === "" || sourcesModel.empty
-    readonly property bool addPickerSelected: !needsInitialPicker && currentRow === sourcesModel.count
+    readonly property bool addPickerSelected: needsInitialPicker || currentRow === sourcesModel.count
     readonly property var selectedModelIndex: {
         sourcesModel.revision
         return !needsInitialPicker
@@ -116,15 +116,12 @@ Window {
             currentRow = nextCurrentRow
     }
 
-    onSourcesModelChanged: {
-        if (sourcesModel)
-            sourcesModel.registry = CoreInterface.singerRegistry
-    }
     onVisibleChanged: {
         if (visible) {
             resultSent = false
-            sourcesModel.registry = CoreInterface.singerRegistry
-            currentRow = Math.min(Math.max(0, currentRow), sourcesModel.count)
+            currentRow = needsInitialPicker
+                         ? sourcesModel.count
+                         : Math.min(Math.max(0, currentRow), sourcesModel.count)
         }
     }
     onClosing: {
@@ -137,7 +134,9 @@ Window {
         target: dialog.sourcesModel
 
         function onCountChanged() {
-            dialog.currentRow = Math.min(Math.max(0, dialog.currentRow), dialog.sourcesModel.count)
+            dialog.currentRow = dialog.needsInitialPicker
+                                ? dialog.sourcesModel.count
+                                : Math.min(Math.max(0, dialog.currentRow), dialog.sourcesModel.count)
         }
 
         function onOperationRejected(message) {
@@ -163,7 +162,7 @@ Window {
                     id: sourceListView
                     anchors.fill: parent
                     anchors.margins: 8
-                    spacing: 8
+                    spacing: 0
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
                     model: dialog.sourcesModel
@@ -180,22 +179,23 @@ Window {
                         required property string effectiveMixGroup
                         required property var modelIndex
 
-                        property int dragIndex: index
+                        property int dragStartIndex: -1
+                        property int dragDestinationIndex: -1
 
                         width: sourceListView.width
-                        height: 98
-                        highlighted: dialog.currentRow === index
+                        height: topPadding + sourceButtonContent.implicitHeight + bottomPadding
+                        padding: 0
+                        topPadding: 8
+                        highlighted: !dialog.needsInitialPicker && dialog.currentRow === index
                         Accessible.role: Accessible.ListItem
                         Accessible.name: displayName
-                        Drag.active: sourceDragHandler.active
-                        Drag.source: sourceButton
-                        Drag.hotSpot.x: width / 2
-                        Drag.hotSpot.y: height / 2
                         z: sourceDragHandler.active ? 2 : 0
                         onClicked: dialog.currentRow = index
 
                         contentItem: ColumnLayout {
-                            spacing: 4
+                            id: sourceButtonContent
+
+                            spacing: 2
 
                             Rectangle {
                                 Layout.preferredWidth: 66
@@ -216,13 +216,13 @@ Window {
                                 IconLabel {
                                     anchors.left: parent.left
                                     anchors.bottom: parent.bottom
-                                    width: 18
-                                    height: 18
+                                    width: 24
+                                    height: 24
                                     visible: !sourceButton.singerValid
                                     icon.source: "image://fluent-system-icons/warning"
                                     icon.color: Theme.warningColor
-                                    icon.width: 18
-                                    icon.height: 18
+                                    icon.width: 24
+                                    icon.height: 24
                                     ToolTip.visible: warningHover.hovered
                                     ToolTip.text: sourceButton.warningText
 
@@ -234,9 +234,9 @@ Window {
                                 ToolButton {
                                     anchors.right: parent.right
                                     anchors.top: parent.top
-                                    anchors.margins: 2
-                                    width: 22
-                                    height: 22
+                                    anchors.margins: -8
+                                    width: 24
+                                    height: 24
                                     visible: sourceButton.hovered
                                     flat: false
                                     display: AbstractButton.IconOnly
@@ -263,14 +263,43 @@ Window {
 
                         DragHandler {
                             id: sourceDragHandler
-                            target: null
+                            target: sourceButton
+                            xAxis.enabled: false
+                            onTranslationChanged: {
+                                if (!active || sourceListView.count === 0)
+                                    return
+                                const centerY = sourceButton.y + sourceButton.height / 2
+                                sourceButton.dragDestinationIndex = Math.max(
+                                            0,
+                                            Math.min(sourceListView.count - 1,
+                                                     Math.floor((centerY - sourceListView.originY)
+                                                                / sourceButton.height)))
+                            }
+                            onActiveChanged: {
+                                if (active) {
+                                    sourceButton.dragStartIndex = sourceButton.index
+                                    sourceButton.dragDestinationIndex = sourceButton.index
+                                    sourceListView.interactive = false
+                                    return
+                                }
+                                sourceListView.interactive = true
+                                if (sourceButton.dragStartIndex >= 0
+                                        && sourceButton.dragDestinationIndex >= 0) {
+                                    dialog.moveRootSinger(sourceButton.modelIndex,
+                                                          sourceButton.dragStartIndex,
+                                                          sourceButton.dragDestinationIndex)
+                                }
+                                sourceButton.dragStartIndex = -1
+                                sourceButton.dragDestinationIndex = -1
+                                Qt.callLater(() => sourceListView.forceLayout())
+                            }
                         }
 
-                        DropArea {
-                            anchors.fill: parent
-                            onEntered: drag => {
-                                if (drag.source && drag.source !== sourceButton)
-                                    dialog.moveRootSinger(drag.source.modelIndex, drag.source.index, sourceButton.index)
+                        Behavior on y {
+                            enabled: !sourceDragHandler.active
+                            NumberAnimation {
+                                duration: Theme.visualEffectAnimationDuration
+                                easing.type: Easing.OutCubic
                             }
                         }
 
@@ -286,6 +315,27 @@ Window {
                             id: contextMenu
 
                             Action {
+                                enabled: sourceButton.index > 0
+                                text: qsTr("Move up")
+                                icon.source: "image://fluent-system-icons/arrow_up"
+                                onTriggered: dialog.moveRootSinger(sourceButton.modelIndex,
+                                                                   sourceButton.index,
+                                                                   sourceButton.index - 1)
+                            }
+
+                            Action {
+                                enabled: sourceButton.index + 1 < dialog.sourcesModel.count
+                                text: qsTr("Move down")
+                                icon.source: "image://fluent-system-icons/arrow_down"
+                                onTriggered: dialog.moveRootSinger(sourceButton.modelIndex,
+                                                                   sourceButton.index,
+                                                                   sourceButton.index + 1)
+                            }
+
+                            MenuSeparator {
+                            }
+
+                            Action {
                                 text: qsTr("Remove")
                                 onTriggered: {
                                     const oldRow = sourceButton.index
@@ -295,10 +345,10 @@ Window {
                             }
 
                             Action {
-                                enabled: sourceButton.singerValid && sourceButton.effectiveMixGroup !== ""
-                                text: enabled
-                                      ? qsTr("Create mixed singer")
-                                      : qsTr("Create mixed singer (mixing unavailable)")
+                                enabled: sourceButton.singerType === SourcesPickerModel.SingleSinger
+                                         && sourceButton.singerValid
+                                         && sourceButton.effectiveMixGroup !== ""
+                                text: qsTr("Create mixed singer")
                                 onTriggered: dialog.sourcesModel.wrapSingerInMixed(sourceButton.modelIndex)
                             }
                         }
@@ -307,15 +357,19 @@ Window {
                     footer: T.Button {
                         id: addButton
                         width: sourceListView.width
-                        height: 86
+                        height: topPadding + addButtonContent.implicitHeight + bottomPadding
+                        padding: 0
+                        topPadding: 8
                         highlighted: dialog.addPickerSelected
-                        enabled: dialog.sourcesModel.canAppend
+                        enabled: dialog.needsInitialPicker || dialog.sourcesModel.canAppend
                         Accessible.role: Accessible.ListItem
                         Accessible.name: qsTr("Add singer")
                         onClicked: dialog.currentRow = dialog.sourcesModel.count
 
                         contentItem: ColumnLayout {
-                            spacing: 4
+                            id: addButtonContent
+
+                            spacing: 2
 
                             Rectangle {
                                 Layout.preferredWidth: 66
@@ -351,7 +405,7 @@ Window {
                     displaced: Transition {
                         NumberAnimation {
                             properties: "y"
-                            duration: 120
+                            duration: Theme.visualEffectAnimationDuration
                             easing.type: Easing.OutCubic
                         }
                     }
@@ -371,7 +425,7 @@ Window {
                                         && dialog.sourcesModel.architectureExists
                                         ? dialog.sourcesModel.architectureId
                                         : ""
-                        mixGroup: dialog.addPickerSelected
+                        mixGroup: !dialog.needsInitialPicker && dialog.addPickerSelected
                                   ? dialog.sourcesModel.mixGroup
                                   : ""
                         onSingerSelected: (architectureId, singerId) => dialog.handlePickedSinger(architectureId, singerId)

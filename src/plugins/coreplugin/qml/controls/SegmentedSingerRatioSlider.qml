@@ -85,14 +85,25 @@ Item {
                 topRightRadius: index === control.values.length - 1 ? 6 : 0
                 bottomRightRadius: topRightRadius
 
-                Label {
+                Column {
                     anchors.centerIn: parent
                     width: Math.max(0, parent.width - 8)
-                    horizontalAlignment: Text.AlignHCenter
-                    elide: Text.ElideRight
-                    color: Theme.foregroundPrimaryColor
-                    text: qsTr("%1  %2%").arg(segment.displayName)
-                                             .arg(Number(control.percentageValues[segment.index] ?? 0))
+                    spacing: 0
+
+                    Label {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        elide: Text.ElideRight
+                        color: Theme.foregroundPrimaryColor
+                        text: segment.displayName
+                    }
+
+                    Label {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        color: Theme.foregroundPrimaryColor
+                        text: qsTr("%1%").arg(Number(control.percentageValues[segment.index] ?? 0))
+                    }
                 }
             }
         }

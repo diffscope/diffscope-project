@@ -16,6 +16,8 @@
 
 namespace Core {
 
+    class SingerRegistry;
+
     class SourcesPickerModelPrivate {
         Q_DECLARE_PUBLIC(SourcesPickerModel)
 
@@ -65,7 +67,6 @@ namespace Core {
         const opendspx::MixedSinger *mixedSinger(const Node *node) const;
         void syncMixedChildren(Node *node);
 
-        void disconnectRegistry();
         void connectRegistry();
         void refreshFromRegistry();
         void emitAllDataChanged(const NodeList &nodes);

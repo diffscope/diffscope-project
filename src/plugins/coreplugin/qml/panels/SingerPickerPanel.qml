@@ -15,6 +15,7 @@ ActionDockingPane {
 
     SingerPicker {
         anchors.fill: parent
+        draggable: true
         onSingerSelected: (architectureId, singerId) => {
             pane.singerSelected(architectureId, singerId)
         }

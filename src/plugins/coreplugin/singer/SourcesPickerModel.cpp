@@ -3,43 +3,31 @@
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <numeric>
 #include <utility>
 
-#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QVariantMap>
 
 #include <nlohmann/json.hpp>
 #include <opendspx/mixedsinger.h>
 #include <opendspx/singlesinger.h>
+#include <opendspxserializer/jsonconverterv1.h>
+#include <opendspxserializer/serializer.h>
 
+#include <dspxmodelORM/SingerList.h>
+#include <dspxmodelORM/Sources.h>
+
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/SingerInfo.h>
 #include <coreplugin/SingerRegistry.h>
+#include <coreplugin/internal/jsonutils.h>
 
 namespace Core {
 
     namespace {
-
-        nlohmann::json jsonFromQJsonValue(const QJsonValue &value) {
-            QJsonArray wrapper;
-            wrapper.append(value);
-            const auto bytes = QJsonDocument(wrapper).toJson(QJsonDocument::Compact);
-            const auto parsed = nlohmann::json::parse(bytes.constData(), bytes.constData() + bytes.size(), nullptr, false);
-            if (parsed.is_discarded() || !parsed.is_array() || parsed.empty())
-                return {};
-            return parsed.front();
-        }
-
-        QJsonValue qJsonValueFromJson(const nlohmann::json &value) {
-            const nlohmann::json wrapper = nlohmann::json::array({value});
-            const auto bytes = QByteArray::fromStdString(wrapper.dump());
-            QJsonParseError error;
-            const auto document = QJsonDocument::fromJson(bytes, &error);
-            if (error.error != QJsonParseError::NoError || !document.isArray() || document.array().isEmpty())
-                return {};
-            return document.array().first();
-        }
 
         QString workspaceNameFor(const opendspx::Singer &singer) {
             const auto scope = singer.workspace.find("diffscope");
@@ -73,6 +61,17 @@ namespace Core {
                     return false;
             }
             return true;
+        }
+
+        bool singerTreeSerializable(const opendspx::SingerRef &singer) {
+            if (!singer)
+                return false;
+            if (singer->type == opendspx::Singer::Type::Single)
+                return true;
+            if (singer->type != opendspx::Singer::Type::Mixed)
+                return false;
+            const auto &mixed = static_cast<const opendspx::MixedSinger &>(*singer);
+            return std::ranges::all_of(mixed.singers, singerTreeSerializable);
         }
 
     }
@@ -205,12 +204,6 @@ namespace Core {
             mixed->singers.push_back(child->singer);
     }
 
-    void SourcesPickerModelPrivate::disconnectRegistry() {
-        for (const auto &connection : registryConnections)
-            QObject::disconnect(connection);
-        registryConnections.clear();
-    }
-
     void SourcesPickerModelPrivate::connectRegistry() {
         Q_Q(SourcesPickerModel);
         if (!registry)
@@ -230,9 +223,7 @@ namespace Core {
         registryConnections.push_back(QObject::connect(registry, &SingerRegistry::singerUpdated, q, refreshSinger));
         registryConnections.push_back(QObject::connect(registry, &SingerRegistry::singerRemoved, q, refreshSinger));
         registryConnections.push_back(QObject::connect(registry, &QObject::destroyed, q, [this, q] {
-            registry = nullptr;
             registryConnections.clear();
-            emit q->registryChanged(nullptr);
             refreshFromRegistry();
         }));
     }
@@ -509,6 +500,8 @@ namespace Core {
         : QAbstractItemModel(parent), d_ptr(new SourcesPickerModelPrivate) {
         Q_D(SourcesPickerModel);
         d->q_ptr = this;
+        d->registry = CoreInterface::singerRegistry();
+        d->connectRegistry();
         d->rebuildValidation();
     }
 
@@ -525,22 +518,6 @@ namespace Core {
             return;
         d->architectureId = architectureId;
         emit architectureIdChanged(architectureId);
-        d->refreshFromRegistry();
-    }
-
-    SingerRegistry *SourcesPickerModel::registry() const {
-        Q_D(const SourcesPickerModel);
-        return d->registry;
-    }
-
-    void SourcesPickerModel::setRegistry(SingerRegistry *registry) {
-        Q_D(SourcesPickerModel);
-        if (d->registry == registry)
-            return;
-        d->disconnectRegistry();
-        d->registry = registry;
-        d->connectRegistry();
-        emit registryChanged(registry);
         d->refreshFromRegistry();
     }
 
@@ -575,6 +552,92 @@ namespace Core {
         d->rebuildNodeLookup();
         endResetModel();
         d->changed(oldCount != static_cast<int>(d->roots.size()));
+    }
+
+    void SourcesPickerModel::fromSources(dspx::Sources *sources) {
+        if (!sources) {
+            setArchitectureId({});
+            setSingers({});
+            return;
+        }
+
+        QList<opendspx::SingerRef> singers;
+        const auto sourceSingers = sources->singers()->toOpenDSPX();
+        singers.reserve(static_cast<qsizetype>(sourceSingers.size()));
+        for (const auto &singer : sourceSingers)
+            singers.append(singer);
+        setArchitectureId(sources->category());
+        setSingers(singers);
+    }
+
+    void SourcesPickerModel::fromDefaultSinger(const QString &singerId) {
+        Q_D(SourcesPickerModel);
+        QList<opendspx::SingerRef> defaultSingers;
+        if (d->registry && d->registry->containsSinger(d->architectureId, singerId)) {
+            const auto info = d->registry->singerInfo(d->architectureId, singerId);
+            defaultSingers.append(std::make_shared<opendspx::SingleSinger>(
+                singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(info.defaultExtra())));
+        }
+        setSingers(defaultSingers);
+    }
+
+    QByteArray SourcesPickerModel::serialize() const {
+        std::vector<opendspx::SingerRef> singerVector;
+        const auto currentSingers = singers();
+        singerVector.reserve(static_cast<std::size_t>(currentSingers.size()));
+        for (const auto &singer : currentSingers) {
+            if (!singerTreeSerializable(singer))
+                return {};
+            singerVector.push_back(singer);
+        }
+
+        try {
+            opendspx::SerializationErrorList errors;
+            const auto singersJson = opendspx::JsonConverterV1::toJson(singerVector, errors, {});
+            if (errors.containsFatal() || errors.containsError())
+                return {};
+
+            QJsonObject object;
+            object.insert(QStringLiteral("architectureId"), architectureId());
+            object.insert(QStringLiteral("singers"), Internal::JsonUtils::toQJsonValue(singersJson));
+            return QJsonDocument(object).toJson(QJsonDocument::Compact);
+        } catch (const std::exception &) {
+            return {};
+        }
+    }
+
+    bool SourcesPickerModel::deserialize(const QByteArray &data) {
+        QJsonParseError parseError;
+        const auto document = QJsonDocument::fromJson(data, &parseError);
+        if (parseError.error != QJsonParseError::NoError || !document.isObject())
+            return false;
+
+        const auto object = document.object();
+        const auto architectureIdValue = object.value(QStringLiteral("architectureId"));
+        const auto singersValue = object.value(QStringLiteral("singers"));
+        if (!architectureIdValue.isString() || !singersValue.isArray())
+            return false;
+
+        try {
+            opendspx::SerializationErrorList errors;
+            const auto singerVector = opendspx::JsonConverterV1::fromJson<std::vector<opendspx::SingerRef>>(
+                Internal::JsonUtils::fromQJsonValue(singersValue), errors, {});
+            if (errors.containsFatal() || errors.containsError()
+                || !std::ranges::all_of(singerVector, singerTreeSerializable)) {
+                return false;
+            }
+
+            QList<opendspx::SingerRef> deserializedSingers;
+            deserializedSingers.reserve(static_cast<qsizetype>(singerVector.size()));
+            for (const auto &singer : singerVector)
+                deserializedSingers.append(singer);
+
+            setArchitectureId(architectureIdValue.toString());
+            setSingers(deserializedSingers);
+            return true;
+        } catch (const std::exception &) {
+            return false;
+        }
     }
 
     int SourcesPickerModel::count() const {
@@ -664,7 +727,7 @@ namespace Core {
             case SingerIdRole:
                 return singerId(index);
             case ExtraRole:
-                return node->singer ? qJsonValueFromJson(node->singer->extra) : QJsonValue{};
+                return node->singer ? Internal::JsonUtils::toQJsonValue(node->singer->extra) : QJsonValue{};
             case SingerTreeRole: {
                 const QVariant tree = SourcesPickerModelPrivate::singerTree(node);
                 return node->singer && node->singer->type == opendspx::Singer::Type::Single
@@ -739,7 +802,7 @@ namespace Core {
     QJsonValue SourcesPickerModel::singerExtra(const QModelIndex &index) const {
         Q_D(const SourcesPickerModel);
         const auto *node = d->nodeForIndex(index);
-        return node && node->singer ? qJsonValueFromJson(node->singer->extra) : QJsonValue{};
+        return node && node->singer ? Internal::JsonUtils::toQJsonValue(node->singer->extra) : QJsonValue{};
     }
 
     QString SourcesPickerModel::workspaceName(const QModelIndex &index) const {
@@ -798,7 +861,8 @@ namespace Core {
         beginResetModel();
         d->architectureId = architecture;
         d->roots.clear();
-        auto singer = std::make_shared<opendspx::SingleSinger>(singerId.toStdString(), jsonFromQJsonValue(defaultExtra));
+        auto singer = std::make_shared<opendspx::SingleSinger>(
+            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         d->roots.push_back(d->buildNode(singer, nullptr));
         d->rebuildNodeLookup();
         endResetModel();
@@ -823,7 +887,8 @@ namespace Core {
 
         const int row = static_cast<int>(d->roots.size());
         beginInsertRows({}, row, row);
-        auto singer = std::make_shared<opendspx::SingleSinger>(singerId.toStdString(), jsonFromQJsonValue(defaultExtra));
+        auto singer = std::make_shared<opendspx::SingleSinger>(
+            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         d->roots.push_back(d->buildNode(singer, nullptr));
         d->rebuildNodeLookup();
         endInsertRows();
@@ -856,7 +921,8 @@ namespace Core {
         shares.append(1.0 / static_cast<double>(oldCount + 1));
 
         beginInsertRows(mixedSingerIndex, oldCount, oldCount);
-        auto singer = std::make_shared<opendspx::SingleSinger>(singerId.toStdString(), jsonFromQJsonValue(defaultExtra));
+        auto singer = std::make_shared<opendspx::SingleSinger>(
+            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         mixedNode->children.push_back(d->buildNode(singer, mixedNode));
         d->syncMixedChildren(mixedNode);
         d->writeRatios(mixedNode, shares);
@@ -882,7 +948,8 @@ namespace Core {
         if (requiredGroup.isEmpty() || mixGroup != requiredGroup)
             return d->reject(tr("The selected singer is not compatible with the current mix group."));
 
-        auto singer = std::make_shared<opendspx::SingleSinger>(singerId.toStdString(), jsonFromQJsonValue(defaultExtra));
+        auto singer = std::make_shared<opendspx::SingleSinger>(
+            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         if (singerEquals(node->singer, singer))
             return true;
         const int childCount = static_cast<int>(node->children.size());
@@ -969,22 +1036,32 @@ namespace Core {
         child->singer = originalSinger;
         child->parent = node;
         const bool wrappingLeaf = node->children.empty();
-        if (wrappingLeaf)
-            beginInsertRows(d->indexForNode(node), 0, 0);
-        else
-            beginResetModel();
-        child->children = std::move(node->children);
-        for (const auto &grandchild : child->children)
-            grandchild->parent = child.get();
-        node->singer = std::move(mixed);
-        node->children.push_back(std::move(child));
-        if (parentNode)
-            d->syncMixedChildren(parentNode);
-        d->rebuildNodeLookup();
-        if (wrappingLeaf)
+        const QModelIndex nodeIndex = d->indexForNode(node);
+        if (wrappingLeaf) {
+            beginInsertRows(nodeIndex, 0, 0);
+            node->singer = std::move(mixed);
+            node->children.push_back(std::move(child));
+            if (parentNode)
+                d->syncMixedChildren(parentNode);
+            d->rebuildNodeLookup();
             endInsertRows();
-        else
-            endResetModel();
+        } else {
+            const int oldChildCount = static_cast<int>(node->children.size());
+            beginRemoveRows(nodeIndex, 0, oldChildCount - 1);
+            child->children = std::move(node->children);
+            for (const auto &grandchild : child->children)
+                grandchild->parent = child.get();
+            d->rebuildNodeLookup();
+            endRemoveRows();
+
+            node->singer = std::move(mixed);
+            beginInsertRows(nodeIndex, 0, 0);
+            node->children.push_back(std::move(child));
+            if (parentNode)
+                d->syncMixedChildren(parentNode);
+            d->rebuildNodeLookup();
+            endInsertRows();
+        }
         d->changed();
         return true;
     }
@@ -994,7 +1071,7 @@ namespace Core {
         auto *node = d->nodeForIndex(index);
         if (!node || !node->singer)
             return false;
-        const auto converted = jsonFromQJsonValue(extra);
+        const auto converted = Internal::JsonUtils::fromQJsonValue(extra);
         if (node->singer->extra == converted)
             return true;
         node->singer->extra = converted;

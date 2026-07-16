@@ -2,6 +2,7 @@
 #define DIFFSCOPE_COREPLUGIN_SOURCESPICKERMODEL_H
 
 #include <QAbstractItemModel>
+#include <QByteArray>
 #include <QJsonValue>
 #include <QList>
 #include <QScopedPointer>
@@ -13,9 +14,12 @@
 
 #include <coreplugin/coreglobal.h>
 
+namespace dspx {
+    class Sources;
+}
+
 namespace Core {
 
-    class SingerRegistry;
     class SourcesPickerModelPrivate;
 
     class CORE_EXPORT SourcesPickerModel : public QAbstractItemModel {
@@ -23,7 +27,6 @@ namespace Core {
         QML_ELEMENT
         Q_DECLARE_PRIVATE(SourcesPickerModel)
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId NOTIFY architectureIdChanged)
-        Q_PROPERTY(SingerRegistry *registry READ registry WRITE setRegistry NOTIFY registryChanged)
         Q_PROPERTY(int count READ count NOTIFY countChanged)
         Q_PROPERTY(bool empty READ empty NOTIFY emptyChanged)
         Q_PROPERTY(bool valid READ valid NOTIFY validationChanged)
@@ -62,11 +65,12 @@ namespace Core {
         QString architectureId() const;
         void setArchitectureId(const QString &architectureId);
 
-        SingerRegistry *registry() const;
-        void setRegistry(SingerRegistry *registry);
-
         QList<opendspx::SingerRef> singers() const;
         void setSingers(const QList<opendspx::SingerRef> &singers);
+        Q_INVOKABLE void fromSources(dspx::Sources *sources);
+        Q_INVOKABLE void fromDefaultSinger(const QString &singerId);
+        Q_INVOKABLE QByteArray serialize() const;
+        Q_INVOKABLE bool deserialize(const QByteArray &data);
 
         int count() const;
         bool empty() const;
@@ -111,7 +115,6 @@ namespace Core {
 
     Q_SIGNALS:
         void architectureIdChanged(const QString &architectureId);
-        void registryChanged(SingerRegistry *registry);
         void singersChanged();
         void countChanged(int count);
         void emptyChanged(bool empty);

@@ -29,13 +29,13 @@ Item {
 
     ArchitectureInfoProvider {
         id: architectureInfoProvider
-        registry: control.sourcesModel.registry
+        registry: CoreInterface.singerRegistry
         architectureId: control.sourcesModel.architectureId
     }
 
     SingerInfoProvider {
         id: singerInfoProvider
-        registry: control.sourcesModel.registry
+        registry: CoreInterface.singerRegistry
         architectureId: control.sourcesModel.architectureId
         singerId: control.singerId
     }

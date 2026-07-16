@@ -16,6 +16,9 @@ Rectangle {
 
     property string architectureId
     property string mixGroup
+    property bool draggable: false
+
+    readonly property string sourcesPickerModelMimeType: "application/x.diffscope.sourcespickermodel"
 
     readonly property var filteredArchitectureIds: CoreInterface.singerRegistry.architectureIds.filter(
                                                            id => control.architectureId === ""
@@ -143,16 +146,56 @@ Rectangle {
                                     required property int index
                                     required property var modelData
                                     readonly property SingerInfoProvider singerInfoProvider: modelData
+                                    property bool dragPayloadReady: false
 
                                     Layout.fillWidth: true
                                     height: 60
                                     Accessible.role: Accessible.ListItem
                                     Accessible.name: singerInfoProvider.info.name
                                                      || singerInfoProvider.entrySingerId
+                                    Drag.keys: [control.sourcesPickerModelMimeType]
+                                    Drag.mimeData: ({})
+                                    Drag.supportedActions: Qt.CopyAction
+                                    Drag.proposedAction: Qt.CopyAction
+                                    Drag.dragType: Drag.Automatic
+                                    Drag.active: control.draggable
+                                                 && singerDragHandler.active
+                                                 && dragPayloadReady
+                                    Drag.hotSpot.x: width / 2
+                                    Drag.hotSpot.y: height / 2
                                     onClicked: control.singerSelected(
                                                    architectureGroupBox.architectureId,
                                                    singerInfoProvider.entrySingerId
                                                )
+
+                                    SourcesPickerModel {
+                                        id: dragSourcesModel
+
+                                        architectureId: architectureGroupBox.architectureId
+                                    }
+
+                                    DragHandler {
+                                        id: singerDragHandler
+
+                                        enabled: control.draggable
+                                        target: null
+                                        onActiveChanged: {
+                                            singerButton.dragPayloadReady = false
+                                            if (!active)
+                                                return
+
+                                            dragSourcesModel.fromDefaultSinger(
+                                                        singerButton.singerInfoProvider.entrySingerId)
+                                            if (dragSourcesModel.empty || !dragSourcesModel.valid)
+                                                return
+
+                                            const mimeData = {}
+                                            mimeData[control.sourcesPickerModelMimeType]
+                                                    = dragSourcesModel.serialize()
+                                            singerButton.Drag.mimeData = mimeData
+                                            singerButton.dragPayloadReady = true
+                                        }
+                                    }
 
                                     Card {
                                         anchors.fill: parent
@@ -177,7 +220,9 @@ Rectangle {
                                         onColorChanged: background.color = color
                                         title: singerButton.singerInfoProvider.info.name
                                                || singerButton.singerInfoProvider.entrySingerId
-                                        subtitle: architectureGroupBox.architectureName
+                                        subtitle: control.draggable && singerButton.hovered
+                                                  ? qsTr("Drag to set singer")
+                                                  : architectureGroupBox.architectureName
                                         image: SingerAvatar {
                                             architectureId: architectureGroupBox.architectureId
                                             singerTree: [singerButton.singerInfoProvider.entrySingerId]

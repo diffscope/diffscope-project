@@ -15,6 +15,8 @@ import DiffScope.Core
 PropertyEditorGroupBox {
     id: groupBox
 
+    readonly property string sourcesPickerModelMimeType: "application/x.diffscope.sourcespickermodel"
+
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
 
@@ -68,6 +70,14 @@ PropertyEditorGroupBox {
         )
     }
 
+    function selectedSingingClips() {
+        const selectedItems = selectionModel?.clipSelectionModel.selectedItems ?? []
+        const clips = []
+        for (let index = 0; index < selectedItems.length; ++index)
+            clips.push(selectedItems[index])
+        return clips
+    }
+
     ClipSingerIdProvider {
         id: clipSingerIdProvider
         sources: groupBox.hasSources ? groupBox.singingClip.sources : null
@@ -82,23 +92,50 @@ PropertyEditorGroupBox {
     QtObject {
         id: singerNameResolver
 
+        property int providerRevision: 0
+        property bool providerRefreshScheduled: false
+
         readonly property var singerEntries: flattenSingerTree(clipSingerIdProvider.singerTree, "")
         readonly property string displayName: formatRootSingerTree(clipSingerIdProvider.singerTree)
-        readonly property var missingSingerIds: findMissingSingerIds(singerEntries)
+        property var missingSingerIds: []
+        onSingerEntriesChanged: scheduleProviderRefresh()
+
         readonly property Instantiator singerNameInstantiator: Instantiator {
             model: groupBox.architectureMissing ? [] : singerNameResolver.singerEntries
+            onObjectAdded: singerNameResolver.scheduleProviderRefresh()
+            onObjectRemoved: singerNameResolver.scheduleProviderRefresh()
 
             delegate: SingerInfoProvider {
                 id: singerInfoProvider
 
                 required property var modelData
                 readonly property var entry: modelData
-                readonly property string resolvedName: info.name || entry.singerId
+                readonly property string resolvedName: info.name || singerId
 
                 registry: CoreInterface.singerRegistry
                 architectureId: clipSingerIdProvider.architectureId
-                singerId: entry.singerId
+                singerId: entry?.singerId ?? ""
+
+                Component.onCompleted: singerNameResolver.scheduleProviderRefresh()
+                onArchitectureIdChanged: singerNameResolver.scheduleProviderRefresh()
+                onSingerIdChanged: singerNameResolver.scheduleProviderRefresh()
+                onInfoChanged: singerNameResolver.scheduleProviderRefresh()
+                onExistsChanged: singerNameResolver.scheduleProviderRefresh()
             }
+        }
+
+        function scheduleProviderRefresh() {
+            if (providerRefreshScheduled)
+                return
+            providerRefreshScheduled = true
+            missingSingerIds = []
+            Qt.callLater(() => {
+                providerRefreshScheduled = false
+                ++providerRevision
+                const resolvedMissingSingerIds = findMissingSingerIds(singerEntries)
+                if (!providerRefreshScheduled)
+                    missingSingerIds = resolvedMissingSingerIds
+            })
         }
 
         function isSingerGroup(node) {
@@ -129,22 +166,36 @@ PropertyEditorGroupBox {
         }
 
         function resolvedSingerName(path, singerId) {
+            providerRevision
+            const provider = providerForEntry(path, singerId)
+            return provider ? provider.resolvedName : singerId
+        }
+
+        function providerForEntry(path, singerId) {
             for (let index = 0; index < singerNameInstantiator.count; ++index) {
                 const provider = singerNameInstantiator.objectAt(index)
-                if (provider && provider.entry.path === path)
-                    return provider.resolvedName
+                const entry = provider?.entry
+                if (entry
+                        && entry.path === path
+                        && entry.singerId === singerId
+                        && provider.singerId === singerId
+                        && provider.architectureId === clipSingerIdProvider.architectureId) {
+                    return provider
+                }
             }
-            return singerId
+            return null
         }
 
         function findMissingSingerIds(entries) {
-            entries.length
-            singerNameInstantiator.count
             let missingIds = []
-            for (let index = 0; index < singerNameInstantiator.count; ++index) {
-                const provider = singerNameInstantiator.objectAt(index)
-                if (provider && !provider.exists && !missingIds.includes(provider.entry.singerId))
-                    missingIds.push(provider.entry.singerId)
+            for (let index = 0; index < entries.length; ++index) {
+                const entry = entries[index]
+                const singerId = entry.singerId
+                if (singerId === "")
+                    continue
+                const provider = providerForEntry(entry.path, singerId)
+                if (provider && !provider.exists && !missingIds.includes(singerId))
+                    missingIds.push(singerId)
             }
             return missingIds
         }
@@ -177,8 +228,14 @@ PropertyEditorGroupBox {
         }
     }
 
-    VirtualSingerPropertyEditorHelper {
-        id: virtualSingerPropertyEditorHelper
+    EditSourcesScenario {
+        id: editSourcesScenario
+        window: groupBox.windowHandle?.window ?? null
+        document: groupBox.windowHandle?.projectDocumentContext.document ?? null
+    }
+
+    SourcesPickerModel {
+        id: sourcesPickerModel
     }
 
     T.Button {
@@ -186,12 +243,53 @@ PropertyEditorGroupBox {
 
         width: parent.width
         implicitHeight: 60
-        onClicked: virtualSingerPropertyEditorHelper.editVirtualSinger(groupBox.windowHandle)
+        onClicked: {
+            sourcesPickerModel.fromSources(groupBox.singingClip?.sources ?? null)
+            editSourcesScenario.editSources(
+                sourcesPickerModel,
+                groupBox.selectedSingingClips()
+            )
+        }
+
+        DropArea {
+            id: singerDropArea
+
+            anchors.fill: parent
+            z: 2
+            keys: [groupBox.sourcesPickerModelMimeType]
+            onDropped: drop => {
+                const clips = groupBox.selectedSingingClips()
+                if (clips.length === 0) {
+                    drop.accepted = false
+                    return
+                }
+                const data = drop.getDataAsArrayBuffer(groupBox.sourcesPickerModelMimeType)
+                if (!sourcesPickerModel.deserialize(data)) {
+                    drop.accepted = false
+                    return
+                }
+                editSourcesScenario.applySources(
+                    sourcesPickerModel,
+                    clips
+                )
+                drop.acceptProposedAction()
+            }
+        }
+
+        Label {
+            anchors.centerIn: parent
+            z: 1
+            visible: singerDropArea.containsDrag
+            text: qsTr("Drop to set singer")
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
 
         Card {
             id: singerCard
 
             anchors.fill: parent
+            visible: !singerDropArea.containsDrag
             property color _baseColor: Theme.backgroundColor(groupBox.ThemedItem.backgroundLevel)
             property color color: singerCardButton.pressed
                                   ? Theme.controlPressedColorChange.apply(_baseColor)

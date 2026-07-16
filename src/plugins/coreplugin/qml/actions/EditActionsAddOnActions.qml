@@ -7,12 +7,39 @@ import QActionKit
 import DiffScope.DspxModel as DspxModel
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 import DiffScope.DspxModel.PropertyMapper
+import DiffScope.Core
 
 ActionCollection {
     id: d
 
     required property QtObject addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property EditSourcesScenario editSourcesScenario: EditSourcesScenario {
+        window: d.windowHandle?.window ?? null
+        document: d.windowHandle?.projectDocumentContext.document ?? null
+    }
+    readonly property SourcesPickerModel sourcesPickerModel: SourcesPickerModel {
+    }
+
+    function selectedSingingClips() {
+        const selectedItems = d.windowHandle?.projectDocumentContext.document
+                               .selectionModel.clipSelectionModel.selectedItems ?? []
+        const clips = []
+        for (let index = 0; index < selectedItems.length; ++index) {
+            if (selectedItems[index].type !== DspxModel.Clip.Singing)
+                return []
+            clips.push(selectedItems[index])
+        }
+        return clips
+    }
+
+    function editSelectedSingers() {
+        const clips = selectedSingingClips()
+        if (clips.length === 0)
+            return
+        sourcesPickerModel.fromSources(clips[0].sources ?? null)
+        editSourcesScenario.editSources(sourcesPickerModel, clips)
+    }
 
     component EditAction: Action {
         required property int flag
@@ -283,6 +310,21 @@ ActionCollection {
                     selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, clip.notes)
                 }
             }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.edit.editSingers"
+        Action {
+            enabled: {
+                const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
+                if (!selectionModel || selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_Clip)
+                    return false
+                const clipSelectionModel = selectionModel.clipSelectionModel
+                return clipSelectionModel.selectedCount > 0
+                       && clipSelectionModel.selectedSingingClipCount === clipSelectionModel.selectedCount
+            }
+            onTriggered: Qt.callLater(() => d.editSelectedSingers())
         }
     }
 }

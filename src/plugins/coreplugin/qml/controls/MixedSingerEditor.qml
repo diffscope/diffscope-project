@@ -112,6 +112,7 @@ Item {
             ListView {
                 id: singerListView
                 anchors.fill: parent
+                anchors.margins: 1
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
                 model: DelegateModel {
@@ -131,16 +132,13 @@ Item {
                         required property string warningText
                         required property var modelIndex
 
-                        property int dragIndex: index
+                        property int dragStartIndex: -1
+                        property int dragDestinationIndex: -1
 
                         width: singerListView.width
                         height: 32
                         color: rowMouseArea.containsMouse ? Theme.controlHoveredColorChange.apply(Theme.backgroundSecondaryColor)
                                                            : Theme.backgroundSecondaryColor
-                        Drag.active: rowDragHandler.active
-                        Drag.source: singerRow
-                        Drag.hotSpot.x: width / 2
-                        Drag.hotSpot.y: height / 2
                         z: rowDragHandler.active ? 2 : 0
 
                         RowLayout {
@@ -222,6 +220,34 @@ Item {
                                 Layout.preferredHeight: 28
                                 flat: true
                                 display: AbstractButton.IconOnly
+                                text: qsTr("Move singer up")
+                                icon.source: "image://fluent-system-icons/arrow_up"
+                                enabled: singerRow.index > 0
+                                ToolTip.visible: hovered
+                                ToolTip.text: text
+                                onClicked: control.sourcesModel.moveSinger(singerRow.modelIndex,
+                                                                           singerRow.index - 1)
+                            }
+
+                            ToolButton {
+                                Layout.preferredWidth: 28
+                                Layout.preferredHeight: 28
+                                flat: true
+                                display: AbstractButton.IconOnly
+                                text: qsTr("Move singer down")
+                                icon.source: "image://fluent-system-icons/arrow_down"
+                                enabled: singerRow.index + 1 < singerListView.count
+                                ToolTip.visible: hovered
+                                ToolTip.text: text
+                                onClicked: control.sourcesModel.moveSinger(singerRow.modelIndex,
+                                                                           singerRow.index + 1)
+                            }
+
+                            ToolButton {
+                                Layout.preferredWidth: 28
+                                Layout.preferredHeight: 28
+                                flat: true
+                                display: AbstractButton.IconOnly
                                 text: qsTr("Remove singer")
                                 icon.source: "image://fluent-system-icons/delete"
                                 enabled: singerListView.count > 1
@@ -234,21 +260,49 @@ Item {
                         MouseArea {
                             id: rowMouseArea
                             anchors.fill: parent
-                            anchors.rightMargin: 90
+                            anchors.rightMargin: 166
                             hoverEnabled: true
                             acceptedButtons: Qt.NoButton
                         }
 
                         DragHandler {
                             id: rowDragHandler
-                            target: null
+                            target: singerRow
+                            xAxis.enabled: false
+                            onTranslationChanged: {
+                                if (!active || singerListView.count === 0)
+                                    return
+                                const centerY = singerRow.y + singerRow.height / 2
+                                singerRow.dragDestinationIndex = Math.max(
+                                            0,
+                                            Math.min(singerListView.count - 1,
+                                                     Math.floor((centerY - singerListView.originY)
+                                                                / singerRow.height)))
+                            }
+                            onActiveChanged: {
+                                if (active) {
+                                    singerRow.dragStartIndex = singerRow.index
+                                    singerRow.dragDestinationIndex = singerRow.index
+                                    singerListView.interactive = false
+                                    return
+                                }
+                                singerListView.interactive = true
+                                if (singerRow.dragStartIndex >= 0
+                                        && singerRow.dragDestinationIndex >= 0) {
+                                    control.sourcesModel.moveSinger(singerRow.modelIndex,
+                                                                    singerRow.dragDestinationIndex)
+                                }
+                                singerRow.dragStartIndex = -1
+                                singerRow.dragDestinationIndex = -1
+                                Qt.callLater(() => singerListView.forceLayout())
+                            }
                         }
 
-                        DropArea {
-                            anchors.fill: parent
-                            onEntered: drag => {
-                                if (drag.source && drag.source !== singerRow)
-                                    control.sourcesModel.moveSinger(drag.source.modelIndex, singerRow.index)
+                        Behavior on y {
+                            enabled: !rowDragHandler.active
+                            NumberAnimation {
+                                duration: Theme.visualEffectAnimationDuration
+                                easing.type: Easing.OutCubic
                             }
                         }
                     }
@@ -273,7 +327,7 @@ Item {
                 displaced: Transition {
                     NumberAnimation {
                         properties: "y"
-                        duration: 120
+                        duration: Theme.visualEffectAnimationDuration
                         easing.type: Easing.OutCubic
                     }
                 }

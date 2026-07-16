@@ -63,6 +63,7 @@
         <action id="org.diffscope.core.edit.split" shortcut="Ctrl+K" />
         <action id="org.diffscope.core.edit.bounceToClip" shortcut="Ctrl+B" />
         <action id="org.diffscope.core.edit.editCurrentClip" icon="edit" shortcut="Ctrl+P" />
+        <action id="org.diffscope.core.edit.editSingers^" icon="mic" />
 
         <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" description="Show music time (measure:beat:tick) on the time indicator" />
         <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" description="Show absolute time (minute:second.millisecond) on the time indicator" />
@@ -229,6 +230,7 @@
                 </group>
                 <group id="org.diffscope.core.edit.editCurrentClipActions">
                     <action id="org.diffscope.core.edit.editCurrentClip" />
+                    <action id="org.diffscope.core.edit.editSingers" />
                 </group>
             </menu>
             <menu id="org.diffscope.core.&amp;timeline">
