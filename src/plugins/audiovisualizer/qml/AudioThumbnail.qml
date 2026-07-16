@@ -34,7 +34,7 @@ Item {
 
     Rectangle {
         color: Theme.backgroundQuaternaryColor
-        x: Math.min(d.viewportOffset * d.width / (d.clipViewModel?.length ?? 0) + 8, d.width - width - 8)
+        x: Math.min(Math.max(8, d.viewportOffset * d.width / (d.clipViewModel?.length ?? 0) + 8), d.width - width - 8)
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 4
         width: label.implicitWidth + 8

@@ -74,6 +74,7 @@ namespace VisualEditor::Internal {
     }
 
     QQmlComponent *ArrangementAddOn::audioThumbnailComponent() {
+        // TODO multiple thumbnail components
         return qobject_cast<QQmlComponent *>(Core::RuntimeInterface::instance()->getFirstObject("org.diffscope.visualeditor.audiothumbnailcomponent"));
     }
 

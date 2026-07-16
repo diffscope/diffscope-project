@@ -110,4 +110,14 @@ Item {
             anchors.fill: parent
         }
     }
+
+    ClipSingerLayer {
+        anchors.fill: parent
+        clipViewModel: d.clipViewModel
+        visualVisible: d.visualVisible
+        projectViewModelContext: d.projectViewModelContext
+        viewportOffset: d.arrangementPanelInterface?.timeViewModel
+                        ? d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position
+                        : 0
+    }
 }
