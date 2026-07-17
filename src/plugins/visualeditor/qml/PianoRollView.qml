@@ -318,7 +318,6 @@ Item {
                                             required property var modelData
                                             readonly property bool isEditingTrack:view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === modelData.display.track
                                             anchors.fill: parent
-                                            scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
                                             selectionController: view.projectViewModelContext?.noteSelectionController ?? null
                                             timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                                             timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
