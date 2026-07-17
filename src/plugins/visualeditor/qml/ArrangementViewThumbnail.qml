@@ -116,8 +116,6 @@ Item {
         clipViewModel: d.clipViewModel
         visualVisible: d.visualVisible
         projectViewModelContext: d.projectViewModelContext
-        viewportOffset: d.arrangementPanelInterface?.timeViewModel
-                        ? d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position
-                        : 0
+        viewportOffset: (d.arrangementPanelInterface?.timeViewModel.start ?? 0) - (d.clipViewModel?.position ?? 0)
     }
 }
