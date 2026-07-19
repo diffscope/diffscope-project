@@ -432,9 +432,10 @@ Item {
                                             color: Theme.foregroundPrimaryColor
                                             font: Theme.font
                                         }
-                                        Item {
+                                        StackLayout {
                                             Layout.fillWidth: true
                                             Layout.fillHeight: true
+                                            data: [layout.item?.toolBar ?? null]
                                         }
                                         ToolButton {
                                             implicitWidth: 20

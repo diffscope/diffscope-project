@@ -23,6 +23,10 @@ QtObject {
     readonly property Component parameterTrackComponent: Item {
         id: control
         required property QtObject contextObject
+        readonly property Item toolBar: Rectangle {
+            // TODO
+            color: "red"
+        }
         implicitHeight: 40
         Layout.fillWidth: true
         Layout.fillHeight: true
