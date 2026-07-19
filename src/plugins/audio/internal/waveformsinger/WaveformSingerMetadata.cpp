@@ -12,10 +12,27 @@ namespace Audio::Internal {
         Core::ArchitectureInfo info;
         info.setName(tr("Waveform"));
 
-        Core::ArchitectureInfo::Parameter directParameter;
         Core::ArchitectureInfo::ParameterMap parameters;
-        parameters.insert(QStringLiteral("pitch"), directParameter);
-        parameters.insert(QStringLiteral("energy"), directParameter);
+        parameters.insert(QStringLiteral("energy"), {
+            .displayName = tr("Energy"),
+            .bottomValue = -96000,
+            .topValue = 0,
+            .defaultValue = 0,
+            .fillMode = Core::ParameterInfo::FillMode::BottomFill,
+            .valueType = Core::ParameterInfo::ValueType::Relative,
+            .divisionValue = 12000,
+            .showDefaultValue = false,
+            .showDivision = true,
+            .normalize = [](const Core::ParameterInfo &self, int value) {
+                return 1.0 - std::pow((self.topValue - value) / (self.topValue - self.bottomValue), 1.25);
+            },
+            .denormalize = [](const Core::ParameterInfo &self, double value) {
+                return static_cast<int>(self.topValue - std::pow(1.0 - value, 0.8) * (self.topValue - self.bottomValue));
+            },
+            .toDisplayString = [](const Core::ParameterInfo &self, int value) {
+                return QLocale().toString(value / 1000.0, 'f', 3) + QStringLiteral(" dB");
+            }
+        });
         info.setParameters(parameters);
         return info;
     }

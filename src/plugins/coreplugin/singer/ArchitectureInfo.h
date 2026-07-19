@@ -14,6 +14,77 @@ namespace Core {
 
     class ArchitectureInfoData;
 
+    struct ParameterInfo {
+        Q_GADGET
+        Q_PROPERTY(QString displayName MEMBER displayName)
+        Q_PROPERTY(int bottomValue MEMBER bottomValue)
+        Q_PROPERTY(int topValue MEMBER topValue)
+        Q_PROPERTY(int defaultValue MEMBER defaultValue)
+        Q_PROPERTY(FillMode fillMode MEMBER fillMode)
+        Q_PROPERTY(ValueType valueType MEMBER valueType)
+        Q_PROPERTY(int divisionValue MEMBER divisionValue)
+        Q_PROPERTY(bool showDefaultValue MEMBER showDefaultValue)
+        Q_PROPERTY(bool showDivision MEMBER showDivision)
+    public:
+        enum FillMode {
+            NoFill,
+            TopFill,
+            BottomFill,
+            BaselineFill,
+        };
+        Q_ENUM(FillMode);
+
+        enum ValueType {
+            Absolute,
+            Relative,
+        };
+        Q_ENUM(ValueType)
+
+        QString displayName;
+        int bottomValue{0};
+        int topValue{1000};
+        int defaultValue{0};
+        FillMode fillMode{NoFill};
+        ValueType valueType{Absolute};
+        int divisionValue{200};
+        bool showDefaultValue{false};
+        bool showDivision{true};
+        double (*normalize)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
+            return static_cast<double>(value - self.bottomValue) / static_cast<double>(self.topValue - self.bottomValue);
+        }};
+        int (*denormalize)(const ParameterInfo &, double){[](const ParameterInfo &self, double value) {
+            return static_cast<int>(value * static_cast<double>(self.topValue - self.bottomValue) + self.bottomValue);
+        }};
+        double (*toDisplayValue)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
+            return static_cast<double>(value);
+        }};
+        int (*fromDisplayValue)(const ParameterInfo &, double){[](const ParameterInfo &self, double value) {
+            return static_cast<int>(value);
+        }};
+        QString (*toDisplayString)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
+            return QString::number(value);
+        }};
+
+        Q_INVOKABLE double invokeNormalize(int value) const {
+            return normalize(*this, value);
+        }
+        Q_INVOKABLE int invokeDenormalize(double value) const {
+            return denormalize(*this, value);
+        }
+        Q_INVOKABLE double invokeToDisplayValue(int value) const {
+            return toDisplayValue(*this, value);
+        }
+        Q_INVOKABLE int invokeFromDisplayValue(double value) const {
+            return fromDisplayValue(*this, value);
+        }
+        Q_INVOKABLE QString invokeToDisplayString(int value) const {
+            return toDisplayString(*this, value);
+        }
+
+        bool operator==(const ParameterInfo &) const = default;
+        bool operator!=(const ParameterInfo &) const = default;
+    };
+
     class CORE_EXPORT ArchitectureInfo {
         Q_GADGET
         Q_PROPERTY(QString name READ name WRITE setName)
@@ -21,14 +92,8 @@ namespace Core {
         Q_PROPERTY(QJsonValue defaultExtra READ defaultExtra WRITE setDefaultExtra)
         Q_PROPERTY(QQmlComponent *controlPanelComponent READ controlPanelComponent WRITE setControlPanelComponent)
     public:
-        struct Parameter {
-            // TODO
 
-            bool operator==(const Parameter &) const = default;
-            bool operator!=(const Parameter &) const = default;
-        };
-
-        using ParameterMap = QMap<QString, Parameter>;
+        using ParameterMap = QMap<QString, ParameterInfo>;
 
         ArchitectureInfo();
         ArchitectureInfo(const ArchitectureInfo &other);
@@ -58,7 +123,7 @@ namespace Core {
 
 }
 
-Q_DECLARE_METATYPE(Core::ArchitectureInfo::Parameter)
+Q_DECLARE_METATYPE(Core::ParameterInfo)
 Q_DECLARE_METATYPE(Core::ArchitectureInfo::ParameterMap)
 Q_DECLARE_METATYPE(Core::ArchitectureInfo)
 
