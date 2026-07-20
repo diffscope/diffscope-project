@@ -129,7 +129,10 @@ QtObject {
         QtObject {
             id: propertyMappers
             readonly property QtObject nonePropertyMapper: null
-            readonly property QtObject anchorNodePropertyMapper: null
+            readonly property QtObject anchorNodePropertyMapper: AnchorNodePropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                readonly property bool inactive: selectionModel?.selectionType !== 1 || !selectionModel?.selectedCount
+            }
             readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: ![1, 2, 4].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 2 && !selectionModel?.selectedCount)

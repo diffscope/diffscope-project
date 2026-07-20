@@ -13,6 +13,7 @@ import QActionKit
 
 import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
+import dev.sjimo.ScopicFlow.Internal as ScopicFlowInternal
 
 import DiffScope.Core
 import DiffScope.DspxModel as DspxModel
@@ -310,6 +311,8 @@ Item {
                             Item {
                                 id: noteEditLayerSequenceStack
                                 anchors.fill: parent
+                                enabled: !(view.pianoRollPanelInterface?.pitchToolActive ?? false)
+                                opacity: (view.pianoRollPanelInterface?.pitchToolActive ?? false) ? 0.5 : 1.0
                                 Repeater {
                                     model: DelegateModel {
                                         model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
@@ -332,6 +335,50 @@ Item {
                                             bottomExpansion: view.bottomExpansion
                                         }
                                     }
+                                }
+                            }
+                            ScopicFlowInternal.ClipMappedProxyTimeViewModel {
+                                id: pitchProxyTimeViewModel
+                                timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
+                                clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(
+                                    view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                            }
+                            Item {
+                                id: pitchEditorViewport
+                                width: parent.width
+                                height: pianoRollViewContainerSplitViewport.height
+                                z: 2
+                                clip: true
+
+                                ParameterEditor {
+                                    id: pitchEditor
+                                    readonly property ParameterViewModelBinding binding:
+                                        view.projectViewModelContext?.parameterEditorContext.pitchBinding ?? null
+                                    readonly property real keyHeight:
+                                        view.pianoRollPanelInterface?.clavierViewModel?.pixelDensity ?? 0
+                                    readonly property real clavierStart:
+                                        view.pianoRollPanelInterface?.clavierViewModel?.start ?? 0
+                                    readonly property real key128CenterY:
+                                        (clavierStart - 128.5) * keyHeight
+                                    readonly property real key0CenterY:
+                                        (clavierStart - 0.5) * keyHeight
+                                    x: 0
+                                    width: parent.width
+                                    y: key128CenterY
+                                    height: key0CenterY - key128CenterY
+                                    visible: binding?.available ?? false
+                                    enabled: view.pianoRollPanelInterface?.pitchToolActive ?? false
+                                    opacity: enabled ? 1.0 : 0.5
+                                    freeParameterViewModel: binding?.freeEdited ?? null
+                                    anchorParameterViewModel: binding?.anchorEdited ?? null
+                                    originalParameterViewModel: binding?.original ?? null
+                                    freeTransformParameterViewModel: binding?.freeTransform ?? null
+                                    anchorTransformParameterViewModel: binding?.anchorTransform ?? null
+                                    freeParameterSelectionViewModel: binding?.freeSelection ?? null
+                                    anchorSelectionController: binding?.anchorSelectionController ?? null
+                                    interactionController: binding?.interactionController ?? null
+                                    timeViewModel: pitchProxyTimeViewModel
+                                    timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                                 }
                             }
                             Rectangle {

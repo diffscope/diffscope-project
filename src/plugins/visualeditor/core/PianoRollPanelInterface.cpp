@@ -15,6 +15,7 @@
 #include <ScopicFlowCore/ClavierViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
+#include <ScopicFlowCore/ParameterEditorInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeManipulator.h>
@@ -33,6 +34,7 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -41,6 +43,7 @@
 #include <transactional/TransactionController.h>
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
+#include <visualeditor/ParameterEditorContext.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/PianoRollAddOn.h>
@@ -86,6 +89,11 @@ namespace VisualEditor {
             return sflow::ScrollBehaviorViewModel::Wheel | sflow::ScrollBehaviorViewModel::Pinch | sflow::ScrollBehaviorViewModel::MiddleButton | sflow::ScrollBehaviorViewModel::LeftButton;
         }
         return sflow::ScrollBehaviorViewModel::Wheel | sflow::ScrollBehaviorViewModel::Pinch | sflow::ScrollBehaviorViewModel::MiddleButton;
+    }
+
+    static bool isPitchTool(PianoRollPanelInterface::Tool tool) {
+        return tool >= PianoRollPanelInterface::PitchPencilTool &&
+               tool <= PianoRollPanelInterface::PitchAnchorSelectTool;
     }
 
     void PianoRollPanelInterfacePrivate::bindScrollBehaviorViewModel() const {
@@ -140,6 +148,82 @@ namespace VisualEditor {
     void PianoRollPanelInterfacePrivate::bindControllersInteraction() const {
         Q_Q(const PianoRollPanelInterface);
         QObject::connect(q, &PianoRollPanelInterface::toolChanged, q, [=, this] {
+            auto *pitchController = ProjectViewModelContext::of(windowHandle)
+                ->parameterEditorContext()->pitchBinding()->interactionController();
+            pitchController->setPrimaryItemInteraction(sflow::ParameterEditorInteractionController::None);
+            pitchController->setSecondaryItemInteraction(sflow::ParameterEditorInteractionController::None);
+            pitchController->setPrimarySceneInteraction(sflow::ParameterEditorInteractionController::None);
+            pitchController->setSecondarySceneInteraction(sflow::ParameterEditorInteractionController::None);
+            pitchController->setPrimarySelectInteraction(sflow::ParameterEditorInteractionController::None);
+            pitchController->setSecondarySelectInteraction(sflow::ParameterEditorInteractionController::None);
+
+            if (isPitchTool(tool)) {
+                noteEditLayerInteractionController->setPrimaryItemInteraction(sflow::NoteEditLayerInteractionController::None);
+                noteEditLayerInteractionController->setSecondaryItemInteraction(sflow::NoteEditLayerInteractionController::None);
+                noteEditLayerInteractionController->setPrimarySceneInteraction(sflow::NoteEditLayerInteractionController::None);
+                noteEditLayerInteractionController->setSecondarySceneInteraction(sflow::NoteEditLayerInteractionController::None);
+
+                const auto interaction = [this] {
+                    switch (tool) {
+                        case PianoRollPanelInterface::PitchPencilTool:
+                            return sflow::ParameterEditorInteractionController::Pencil;
+                        case PianoRollPanelInterface::PitchEraserTool:
+                            return sflow::ParameterEditorInteractionController::Eraser;
+                        case PianoRollPanelInterface::PitchRangeSelectTool:
+                            return sflow::ParameterEditorInteractionController::FreeRangeSelect;
+                        case PianoRollPanelInterface::PitchPointerTool:
+                            return sflow::ParameterEditorInteractionController::Pointer;
+                        case PianoRollPanelInterface::PitchPenTool:
+                            return sflow::ParameterEditorInteractionController::Pen;
+                        case PianoRollPanelInterface::PitchConvertTool:
+                            return sflow::ParameterEditorInteractionController::ConvertAnchor;
+                        case PianoRollPanelInterface::PitchAnchorSelectTool:
+                            return sflow::ParameterEditorInteractionController::AnchorRubberBandSelect;
+                        default:
+                            return sflow::ParameterEditorInteractionController::None;
+                    }
+                }();
+                switch (interaction) {
+                    case sflow::ParameterEditorInteractionController::Pencil:
+                    case sflow::ParameterEditorInteractionController::Eraser:
+                    case sflow::ParameterEditorInteractionController::FreeRangeSelect:
+                    case sflow::ParameterEditorInteractionController::Pen:
+                        if (interaction == sflow::ParameterEditorInteractionController::Pen)
+                            ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
+                                ->pitchBinding()->focusAnchorLayer();
+                        else
+                            ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
+                                ->pitchBinding()->focusFreeLayer();
+                        pitchController->setPrimaryItemInteraction(interaction);
+                        pitchController->setPrimarySceneInteraction(interaction);
+                        break;
+                    case sflow::ParameterEditorInteractionController::Pointer:
+                    case sflow::ParameterEditorInteractionController::AnchorRubberBandSelect:
+                        ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
+                            ->pitchBinding()->focusAnchorLayer();
+                        pitchController->setPrimaryItemInteraction(interaction);
+                        pitchController->setPrimarySceneInteraction(interaction);
+                        pitchController->setPrimarySelectInteraction(interaction);
+                        break;
+                    case sflow::ParameterEditorInteractionController::ConvertAnchor:
+                        ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
+                            ->pitchBinding()->focusAnchorLayer();
+                        pitchController->setPrimaryItemInteraction(interaction);
+                        break;
+                    default:
+                        break;
+                }
+                return;
+            }
+            windowHandle->projectDocumentContext()->document()->freeParameterSelectionModel()->clearContext();
+            auto *selectionModel = windowHandle->projectDocumentContext()->document()->selectionModel();
+            if (editingClip &&
+                (selectionModel->selectionType() != dspx::SelectionModel::ST_Note ||
+                 selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems() != editingClip->notes())) {
+                selectionModel->select(
+                    nullptr, dspx::SelectionModel::ClearPreviousSelection,
+                    dspx::SelectionModel::ST_Note, editingClip->notes());
+            }
             switch (tool) {
                 case PianoRollPanelInterface::PointerTool: {
                     labelSequenceInteractionControllerOfLabel->setPrimaryItemInteraction(sflow::LabelSequenceInteractionController::Move);
@@ -230,6 +314,8 @@ namespace VisualEditor {
                     break;
                 }
                 case PianoRollPanelInterface::HandTool:
+                    break;
+                default:
                     break;
             }
         });
@@ -345,12 +431,24 @@ namespace VisualEditor {
 
         auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
 
-        connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, &PianoRollPanelInterface::editingClipChanged);
         connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, [=, this] {
             auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
-            auto clipSequence = noteSequence ? noteSequence->singingClip()->clipSequence() : nullptr;
-            d->singingClipListModel->setClipSequence(clipSequence);
+            if (!noteSequence)
+                return;
+            auto *clip = noteSequence->singingClip();
+            if (d->editingClip != clip) {
+                d->editingClip = clip;
+                ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
+                Q_EMIT editingClipChanged();
+            }
+            d->singingClipListModel->setClipSequence(clip->clipSequence());
         });
+
+        if (auto *noteSequence = noteSelectionModel->noteSequenceWithSelectedItems()) {
+            d->editingClip = noteSequence->singingClip();
+            ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(d->editingClip);
+            d->singingClipListModel->setClipSequence(d->editingClip->clipSequence());
+        }
 
         connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, [=, this] {
             disconnect(d->currentNoteConnection);
@@ -371,6 +469,7 @@ namespace VisualEditor {
         d->bindScrollBehaviorViewModel();
         d->bindPositionAlignmentManipulator();
         d->bindControllersInteraction();
+        Q_EMIT toolChanged();
         d->bindClavierInteractionController();
         d->bindNoteEditLayerInteractionController();
 
@@ -478,6 +577,11 @@ namespace VisualEditor {
         }
     }
 
+    bool PianoRollPanelInterface::isPitchToolActive() const {
+        Q_D(const PianoRollPanelInterface);
+        return isPitchTool(d->tool);
+    }
+
     bool PianoRollPanelInterface::isSnapTemporarilyDisabled() const {
         Q_D(const PianoRollPanelInterface);
         return d->isSnapTemporarilyDisabled;
@@ -519,16 +623,16 @@ namespace VisualEditor {
 
     dspx::SingingClip *PianoRollPanelInterface::editingClip() const {
         Q_D(const PianoRollPanelInterface);
-        auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
-        auto noteSequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
-        if (noteSequence) {
-            return noteSequence->singingClip();
-        }
-        return nullptr;
+        return d->editingClip;
     }
 
     void PianoRollPanelInterface::setEditingClip(dspx::SingingClip *clip) {
         Q_D(PianoRollPanelInterface);
+        if (!clip || d->editingClip == clip)
+            return;
+        d->editingClip = clip;
+        ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
+        Q_EMIT editingClipChanged();
         auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
         if (selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems() != clip->notes()) {
             qCInfo(lcPianoRollPanelInterface) << "Set editing clip to" << clip;

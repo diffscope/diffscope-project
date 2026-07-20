@@ -251,14 +251,22 @@ ActionCollection {
             text: {
                 const model = d.windowHandle?.projectDocumentContext.document.model
                 const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
+                const freeSelection = d.windowHandle?.projectDocumentContext.document.freeParameterSelectionModel
                 if (!model || !selectionModel)
                     return ""
+                if (freeSelection?.active) {
+                    if (!freeSelection.hasSelection)
+                        return freeSelection.displayName
+                    return qsTr("%1 [%2, %3)").arg(freeSelection.displayName)
+                        .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.start, 1, 1, 3))
+                        .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.end, 1, 1, 3))
+                }
                 const getContainerText = () => {
                     switch (selectionModel.selectionType) {
                     case DspxSelectionModel.SelectionModel.ST_None:
                         return qsTr("No selection")
                     case DspxSelectionModel.SelectionModel.ST_AnchorNode:
-                        return "" // TODO
+                        return qsTr("%Ln anchor(s)", "", selectionModel.anchorNodeSelectionModel.anchorNodeSequenceWithSelectedItems?.size ?? 0)
                     case DspxSelectionModel.SelectionModel.ST_Clip:
                         return qsTr("%Ln clip(s)", "", model.tracks.items.reduce((count, track) => count + track.clips.size, 0))
                     case DspxSelectionModel.SelectionModel.ST_Label:

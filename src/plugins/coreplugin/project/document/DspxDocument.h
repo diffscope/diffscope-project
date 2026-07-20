@@ -18,6 +18,7 @@ namespace opendspx {
 
 namespace Core {
 
+    class FreeParameterSelectionModel;
     class TransactionController;
 
     struct DspxClipboardData;
@@ -30,6 +31,7 @@ namespace Core {
         Q_DECLARE_PRIVATE(DspxDocument)
         Q_PROPERTY(dspx::Model *model READ model CONSTANT)
         Q_PROPERTY(dspx::SelectionModel *selectionModel READ selectionModel CONSTANT)
+        Q_PROPERTY(Core::FreeParameterSelectionModel *freeParameterSelectionModel READ freeParameterSelectionModel CONSTANT)
         Q_PROPERTY(TransactionController *transactionController READ transactionController CONSTANT)
         Q_PROPERTY(bool anyItemsSelected READ anyItemsSelected NOTIFY anyItemsSelectedChanged)
         Q_PROPERTY(bool editScopeFocused READ isEditScopeFocused NOTIFY editScopeFocusedChanged)
@@ -40,6 +42,7 @@ namespace Core {
 
         dspx::Model *model() const;
         dspx::SelectionModel *selectionModel() const;
+        FreeParameterSelectionModel *freeParameterSelectionModel() const;
         TransactionController *transactionController() const;
 
         bool anyItemsSelected();

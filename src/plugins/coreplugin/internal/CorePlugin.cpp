@@ -28,6 +28,7 @@
 
 #include <QAKCore/actionregistry.h>
 
+#include <SVSCraftFluentSystemIcons/FluentSystemIcons.h>
 #include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/Theme.h>
 
@@ -250,8 +251,11 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeActions() {
-        CoreInterface::actionRegistry()->addExtension(::getCoreActionExtension());
-        CoreInterface::actionRegistry()->addIconManifest(":/diffscope/coreplugin/icons/config.json");
+        auto actionRegistry = CoreInterface::actionRegistry();
+        actionRegistry->addExtension(::getCoreActionExtension());
+        for (const auto &iconName : SVS::FluentSystemIcons::getAllIconNames()) {
+            actionRegistry->addIcon({}, iconName, QUrl(QStringLiteral("image://fluent-system-icons/") + iconName));
+        }
     }
 
     void CorePlugin::initializeSettings() {
@@ -409,6 +413,8 @@ namespace Core::Internal {
         f("TrackDisplayPropertyEditor", "org.diffscope.core.propertyeditor.track");
 
         f("KeySignaturePropertyEditor", "org.diffscope.core.propertyeditor.keysignature");
+
+        f("AnchorNodeParameterPropertyEditor", "org.diffscope.core.propertyeditor.anchornode");
 
     }
 

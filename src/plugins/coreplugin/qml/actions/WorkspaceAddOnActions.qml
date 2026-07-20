@@ -69,6 +69,8 @@ ActionCollection {
             }
             onCustomLayoutsChanged: () => {
                 while (count) {
+                    if (!itemAt(0))
+                        takeItem(0)
                     removeItem(itemAt(0))
                 }
                 if (customLayouts.length === 0) {
@@ -108,6 +110,8 @@ ActionCollection {
             }
             onAllPanesChanged: () => {
                 while (count) {
+                    if (!itemAt(0))
+                        takeItem(0)
                     removeItem(itemAt(0))
                 }
                 if (allPanes.length === 0) {
@@ -225,6 +229,8 @@ ActionCollection {
             }
             onFloatingPanesChanged: () => {
                 while (count) {
+                    if (!itemAt(0))
+                        takeItem(0)
                     removeItem(itemAt(0))
                 }
                 if (floatingPanes.length === 0) {
@@ -272,6 +278,8 @@ ActionCollection {
             readonly property Component menuSeparatorComponent: MenuSeparator {}
             onPanelEntriesChanged: () => {
                 while (count) {
+                    if (!itemAt(0))
+                        takeItem(0)
                     removeItem(itemAt(0))
                 }
                 for (let entry of panelEntries) {

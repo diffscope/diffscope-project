@@ -14,7 +14,7 @@ namespace Core {
 
     class ArchitectureInfoData;
 
-    struct ParameterInfo {
+    struct CORE_EXPORT ParameterInfo {
         Q_GADGET
         Q_PROPERTY(QString displayName MEMBER displayName)
         Q_PROPERTY(int bottomValue MEMBER bottomValue)
@@ -84,6 +84,9 @@ namespace Core {
         bool operator==(const ParameterInfo &) const = default;
         bool operator!=(const ParameterInfo &) const = default;
     };
+
+    CORE_EXPORT ParameterInfo pitchParameterInfo();
+    CORE_EXPORT ParameterInfo transformParameterInfo();
 
     class CORE_EXPORT ArchitectureInfo {
         Q_GADGET

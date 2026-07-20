@@ -16,30 +16,37 @@
 #include <dini/transaction.h>
 
 #include <dspxmodelCore/Document.h>
-#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/AudioClip.h>
+#include <dspxmodelORM/AnchorNode.h>
+#include <dspxmodelORM/AnchorNodeSequence.h>
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/FreeValueDataArray.h>
+#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelORM/KeySignatureSequence.h>
 #include <dspxmodelORM/Label.h>
-#include <dspxmodelSelectionModel/LabelSelectionModel.h>
 #include <dspxmodelORM/LabelSequence.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
 #include <dspxmodelORM/NoteSequence.h>
-#include <dspxmodelSelectionModel/NoteSelectionModel.h>
-#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/Parameter.h>
+#include <dspxmodelORM/ParameterMap.h>
+#include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Tempo.h>
-#include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelORM/TempoSequence.h>
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
-#include <dspxmodelSelectionModel/TrackSelectionModel.h>
-#include <dspxmodelORM/Clip.h>
-#include <dspxmodelORM/ClipSequence.h>
-#include <dspxmodelORM/AudioClip.h>
-#include <dspxmodelORM/SingingClip.h>
-#include <dspxmodelORM/KeySignature.h>
+#include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
 #include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
-#include <dspxmodelORM/KeySignatureSequence.h>
+#include <dspxmodelSelectionModel/LabelSelectionModel.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelSelectionModel/TempoSelectionModel.h>
+#include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
 #include <coreplugin/DspxClipboard.h>
+#include <coreplugin/FreeParameterSelectionModel.h>
 
 #include <transactional/TransactionController.h>
 #include <transactional/TransactionalStrategy.h>
@@ -154,6 +161,15 @@ namespace Core {
             updateEditScopeFocused();
             updatePasteAvailable();
         });
+        QObject::connect(freeParameterSelectionModel, &FreeParameterSelectionModel::hasSelectionChanged,
+                         q_ptr, [this] {
+            updateAnyItemsSelected();
+        });
+        QObject::connect(freeParameterSelectionModel, &FreeParameterSelectionModel::activeChanged,
+                         q_ptr, [this] {
+            updateEditScopeFocused();
+            updatePasteAvailable();
+        });
 
         if (auto *clipboard = DspxClipboard::instance()) {
             QObject::connect(clipboard, &DspxClipboard::changed, q_ptr, [this] {
@@ -163,16 +179,22 @@ namespace Core {
     }
 
     bool DspxDocumentPrivate::updateAnyItemsSelected() {
-        const bool value = selectionModel && selectionModel->selectedCount() > 0;
+        const bool value = (selectionModel && selectionModel->selectedCount() > 0) ||
+                           (freeParameterSelectionModel && freeParameterSelectionModel->hasSelection());
         return emitOnChange(value, anyItemsSelected, &DspxDocument::anyItemsSelectedChanged);
     }
 
     bool DspxDocumentPrivate::updateEditScopeFocused() {
-        const bool value = selectionModel && selectionModel->selectionType() != dspx::SelectionModel::ST_None;
+        const bool value = (selectionModel && selectionModel->selectionType() != dspx::SelectionModel::ST_None) ||
+                           (freeParameterSelectionModel && freeParameterSelectionModel->isActive());
         return emitOnChange(value, editScopeFocused, &DspxDocument::editScopeFocusedChanged);
     }
 
     std::optional<DspxClipboardData::Type> DspxDocumentPrivate::currentClipboardType() const {
+        if (freeParameterSelectionModel && freeParameterSelectionModel->isActive()) {
+            // TODO(parameter clipboard format): return the free-parameter clipboard type.
+            return std::nullopt;
+        }
         if (!selectionModel)
             return std::nullopt;
 
@@ -190,7 +212,7 @@ namespace Core {
             case dspx::SelectionModel::ST_Note:
                 return DspxClipboardData::Note;
             case dspx::SelectionModel::ST_AnchorNode:
-                // TODO support anchor node clipboard mapping
+                // TODO(parameter clipboard format): return the anchor-node clipboard type.
                 return std::nullopt;
             case dspx::SelectionModel::ST_None:
             default:
@@ -210,6 +232,10 @@ namespace Core {
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildClipboardData(int playheadPosition) const {
+        if (freeParameterSelectionModel && freeParameterSelectionModel->isActive()) {
+            copyFreeParameterSelection(playheadPosition);
+            return std::nullopt;
+        }
         if (!selectionModel)
             return std::nullopt;
 
@@ -224,13 +250,35 @@ namespace Core {
                 return buildTrackClipboardData();
             case dspx::SelectionModel::ST_Clip:
             case dspx::SelectionModel::ST_Note:
+                // TODO support clipboard build for clips and notes.
+                return std::nullopt;
             case dspx::SelectionModel::ST_AnchorNode:
-                // TODO support clipboard build for additional selection types
+                copyAnchorNodeSelection(playheadPosition);
                 return std::nullopt;
             case dspx::SelectionModel::ST_None:
             default:
                 return std::nullopt;
         }
+    }
+
+    bool DspxDocumentPrivate::copyAnchorNodeSelection(int) const {
+        // TODO(parameter clipboard format): serialize the selected anchor nodes.
+        return false;
+    }
+
+    bool DspxDocumentPrivate::copyFreeParameterSelection(int) const {
+        // TODO(parameter clipboard format): serialize the selected free-parameter range.
+        return false;
+    }
+
+    bool DspxDocumentPrivate::pasteAnchorNodeSelection(int) {
+        // TODO(parameter clipboard format): paste anchor nodes into the active parameter.
+        return false;
+    }
+
+    bool DspxDocumentPrivate::pasteFreeParameterSelection(int) {
+        // TODO(parameter clipboard format): paste free values into the active parameter range.
+        return false;
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildTempoClipboardData(int playheadPosition) const {
@@ -618,6 +666,8 @@ namespace Core {
     }
 
     bool DspxDocumentPrivate::deleteSelection() {
+        if (freeParameterSelectionModel && freeParameterSelectionModel->hasSelection())
+            return deleteFreeParameterSelection();
         if (!selectionModel || selectionModel->selectedCount() <= 0)
             return false;
 
@@ -642,7 +692,7 @@ namespace Core {
                 removedCount = deleteNotes();
                 break;
             case dspx::SelectionModel::ST_AnchorNode:
-                // TODO delete support for additional selection types
+                removedCount = deleteAnchorNodes();
                 break;
             case dspx::SelectionModel::ST_None:
             default:
@@ -749,6 +799,53 @@ namespace Core {
         return removedCount;
     }
 
+    int DspxDocumentPrivate::deleteAnchorNodes() {
+        auto *anchorSelectionModel = selectionModel->anchorNodeSelectionModel();
+        auto *anchorSequence = anchorSelectionModel->anchorNodeSequenceWithSelectedItems();
+        if (!anchorSequence)
+            return 0;
+
+        int removedCount = 0;
+        for (auto *item : anchorSelectionModel->selectedItems()) {
+            if (anchorSequence->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
+    bool DspxDocumentPrivate::deleteFreeParameterSelection() {
+        if (!freeParameterSelectionModel || !freeParameterSelectionModel->hasSelection())
+            return false;
+        auto *clip = freeParameterSelectionModel->singingClip();
+        if (!clip)
+            return false;
+        auto *parameter = clip->parameters()->item(freeParameterSelectionModel->parameterId());
+        if (!parameter)
+            return false;
+
+        auto *values = freeParameterSelectionModel->layer() == FreeParameterSelectionModel::TransformLayer
+            ? parameter->freeTransform() : parameter->freeEdited();
+        const int step = dspx::FreeValueDataArray::step();
+        const int firstIndex = (freeParameterSelectionModel->start() + step - 1) / step;
+        const int endIndex = (freeParameterSelectionModel->end() + step - 1) / step;
+        const int boundedFirstIndex = std::clamp(firstIndex, 0, values->size());
+        const int boundedEndIndex = std::clamp(endIndex, boundedFirstIndex, values->size());
+        const int count = boundedEndIndex - boundedFirstIndex;
+        if (count <= 0)
+            return false;
+
+        const auto currentValues = values->slice(boundedFirstIndex, count);
+        if (std::none_of(currentValues.cbegin(), currentValues.cend(), [](const QVariant &value) {
+                return value.isValid();
+            })) {
+            return false;
+        }
+
+        return values->splice(boundedFirstIndex, count, QList<QVariant>(count));
+    }
+
     void DspxDocumentPrivate::selectAllTempos() {
         for (auto item : model->tempos()->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
@@ -790,12 +887,32 @@ namespace Core {
         }
     }
 
+    void DspxDocumentPrivate::selectAllAnchorNodes() {
+        auto *anchorSelectionModel = selectionModel->anchorNodeSelectionModel();
+        auto *anchorSequence = anchorSelectionModel->anchorNodeSequenceWithSelectedItems();
+        if (!anchorSequence)
+            return;
+        for (auto *item : anchorSequence->asRange()) {
+            selectionModel->select(item, dspx::SelectionModel::Select);
+        }
+    }
+
+    void DspxDocumentPrivate::selectAllFreeParameter() {
+        if (!freeParameterSelectionModel || !freeParameterSelectionModel->isActive())
+            return;
+        auto *clip = freeParameterSelectionModel->singingClip();
+        if (!clip)
+            return;
+        freeParameterSelectionModel->setRange(clip->clipStart(), clip->clipStart() + clip->clipLength());
+    }
+
     DspxDocument::DspxDocument(QObject *parent) : QObject(parent), d_ptr(new DspxDocumentPrivate) {
         Q_D(DspxDocument);
         d->q_ptr = this;
         d->dspxDocument = new dspx::Document(this);
         d->model = new dspx::Model(d->dspxDocument, this);
         d->selectionModel = new dspx::SelectionModel(d->model, this);
+        d->freeParameterSelectionModel = new FreeParameterSelectionModel(d->selectionModel, this);
         auto transactionalStrategy = new TransactionalModelStrategy(d->dspxDocument);
         d->transactionController = new TransactionController(transactionalStrategy, this);
         transactionalStrategy->setParent(d->transactionController);
@@ -813,6 +930,11 @@ namespace Core {
     dspx::SelectionModel *DspxDocument::selectionModel() const {
         Q_D(const DspxDocument);
         return d->selectionModel;
+    }
+
+    FreeParameterSelectionModel *DspxDocument::freeParameterSelectionModel() const {
+        Q_D(const DspxDocument);
+        return d->freeParameterSelectionModel;
     }
 
     TransactionController *DspxDocument::transactionController() const {
@@ -838,6 +960,13 @@ namespace Core {
     void DspxDocument::cutSelection(int playheadPosition) {
         if (!anyItemsSelected())
             return;
+        Q_D(DspxDocument);
+        if ((d->freeParameterSelectionModel && d->freeParameterSelectionModel->isActive()) ||
+            (d->selectionModel && d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode)) {
+            // Clipboard serialization is deliberately deferred. Never delete when copying did not succeed.
+            copySelection(playheadPosition);
+            return;
+        }
         copySelection(playheadPosition);
         deleteSelection();
     }
@@ -881,6 +1010,14 @@ namespace Core {
 
     void DspxDocument::paste(int playheadPosition) {
         Q_D(DspxDocument);
+        if (d->freeParameterSelectionModel && d->freeParameterSelectionModel->isActive()) {
+            d->pasteFreeParameterSelection(playheadPosition);
+            return;
+        }
+        if (d->selectionModel && d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode) {
+            d->pasteAnchorNodeSelection(playheadPosition);
+            return;
+        }
         if (!pasteAvailable())
             return;
         const auto type = d->currentClipboardType();
@@ -944,8 +1081,11 @@ namespace Core {
         Q_D(DspxDocument);
         if (!anyItemsSelected())
             return;
+        const bool deletingFreeParameter = d->freeParameterSelectionModel && d->freeParameterSelectionModel->hasSelection();
         const auto selectionType = d->selectionModel ? d->selectionModel->selectionType() : dspx::SelectionModel::ST_None;
-        const QString transactionName = [selectionType, this] {
+        const QString transactionName = [selectionType, deletingFreeParameter, this] {
+            if (deletingFreeParameter)
+                return tr("Deleting parameter data");
             switch (selectionType) {
                 case dspx::SelectionModel::ST_Tempo:
                     return tr("Deleting tempo");
@@ -972,11 +1112,18 @@ namespace Core {
         transactionController()->beginScopedTransaction(transactionName, [=, &deleted] {
             deleted = d->deleteSelection();
             return deleted; }, [] { qCCritical(lcDspxDocument) << "Failed to delete selection in scoped transaction"; });
+        if (deletingFreeParameter)
+            d->freeParameterSelectionModel->clear();
     }
 
     void DspxDocument::selectAll() {
         Q_D(DspxDocument);
         if (!isEditScopeFocused()) {
+            return;
+        }
+        if (d->freeParameterSelectionModel && d->freeParameterSelectionModel->isActive()) {
+            qCInfo(lcDspxDocument) << "Select all free parameter data";
+            d->selectAllFreeParameter();
             return;
         }
         qCInfo(lcDspxDocument) << "Select all" << selectionTypeName(d->selectionModel->selectionType());
@@ -1000,7 +1147,7 @@ namespace Core {
                 d->selectAllNotes();
                 break;
             case dspx::SelectionModel::ST_AnchorNode:
-                // TODO select all support for additional selection types
+                d->selectAllAnchorNodes();
                 break;
             case dspx::SelectionModel::ST_None:
             default:
@@ -1011,6 +1158,11 @@ namespace Core {
     void DspxDocument::deselectAll() {
         Q_D(DspxDocument);
         if (!anyItemsSelected()) {
+            return;
+        }
+        if (d->freeParameterSelectionModel && d->freeParameterSelectionModel->hasSelection()) {
+            qCInfo(lcDspxDocument) << "Deselect free parameter range";
+            d->freeParameterSelectionModel->clear();
             return;
         }
         qCInfo(lcDspxDocument) << "Deselect all" << selectionTypeName(d->selectionModel->selectionType());

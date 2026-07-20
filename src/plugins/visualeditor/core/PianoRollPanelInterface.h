@@ -62,6 +62,7 @@ namespace VisualEditor {
         Q_PROPERTY(QAbstractItemModel *trackOverlaySelectorModel READ trackOverlaySelectorModel CONSTANT)
         Q_PROPERTY(QAbstractItemModel *editingClipSelectorModel READ editingClipSelectorModel CONSTANT)
         Q_PROPERTY(Tool tool READ tool WRITE setTool NOTIFY toolChanged)
+        Q_PROPERTY(bool pitchToolActive READ isPitchToolActive NOTIFY toolChanged)
         Q_PROPERTY(bool snapTemporarilyDisabled READ isSnapTemporarilyDisabled WRITE setSnapTemporarilyDisabled NOTIFY snapTemporarilyDisabledChanged)
         Q_PROPERTY(bool mouseTrackingDisabled READ isMouseTrackingDisabled WRITE setMouseTrackingDisabled NOTIFY mouseTrackingDisabledChanged)
         Q_PROPERTY(bool scaleHighlightEnabled READ isScaleHighlightEnabled WRITE setScaleHighlightEnabled NOTIFY scaleHighlightEnabledChanged)
@@ -98,10 +99,18 @@ namespace VisualEditor {
             ScissorTool,
             SelectTool,
             HandTool,
+            PitchPencilTool,
+            PitchEraserTool,
+            PitchRangeSelectTool,
+            PitchPointerTool,
+            PitchPenTool,
+            PitchConvertTool,
+            PitchAnchorSelectTool,
         };
         Q_ENUM(Tool)
         Tool tool() const;
         void setTool(Tool tool);
+        bool isPitchToolActive() const;
 
         bool isSnapTemporarilyDisabled() const;
         void setSnapTemporarilyDisabled(bool disabled);

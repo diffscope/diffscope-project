@@ -4,6 +4,8 @@
 #include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/PositionAlignmentManipulator.h>
 
+#include <QPointer>
+
 namespace dspx {
     class SelectionModel;
 }
@@ -44,6 +46,7 @@ namespace VisualEditor {
         Internal::TrackOverlaySelectorModel *trackOverlaySelectorModel;
         Internal::SingingClipListModel *singingClipListModel;
         QSortFilterProxyModel *editingClipSelectorModel;
+        QPointer<dspx::SingingClip> editingClip;
 
         PianoRollPanelInterface::Tool tool{PianoRollPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};

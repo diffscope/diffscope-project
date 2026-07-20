@@ -24,13 +24,33 @@ namespace Audio::Internal {
             .showDefaultValue = false,
             .showDivision = true,
             .normalize = [](const Core::ParameterInfo &self, int value) {
-                return 1.0 - std::pow((self.topValue - value) / (self.topValue - self.bottomValue), 1.25);
+                return 1.0 - std::pow(1.0 * (self.topValue - value) / (self.topValue - self.bottomValue), 1.25);
             },
             .denormalize = [](const Core::ParameterInfo &self, double value) {
                 return static_cast<int>(self.topValue - std::pow(1.0 - value, 0.8) * (self.topValue - self.bottomValue));
             },
-            .toDisplayString = [](const Core::ParameterInfo &self, int value) {
-                return QLocale().toString(value / 1000.0, 'f', 3) + QStringLiteral(" dB");
+            .toDisplayValue = [](const Core::ParameterInfo &, int value) {
+                return value / 1000.0;
+            },
+            .fromDisplayValue = [](const Core::ParameterInfo &, double value) {
+                return static_cast<int>(value * 1000.0);
+            },
+            .toDisplayString = [](const Core::ParameterInfo &, int value) {
+                return QLocale().toString(value / 1000.0, 'f', 3) + tr(" dB");
+            }
+        });
+        parameters.insert(QStringLiteral("tone_shift"), {
+            .displayName = tr("Tone shift"),
+            .bottomValue = -1200,
+            .topValue = 1200,
+            .defaultValue = 0,
+            .fillMode = Core::ParameterInfo::FillMode::BaselineFill,
+            .valueType = Core::ParameterInfo::ValueType::Relative,
+            .divisionValue = 0,
+            .showDefaultValue = true,
+            .showDivision = false,
+            .toDisplayString = [](const Core::ParameterInfo &, int value) {
+                return tr("%Ln cent(s)", nullptr, value);
             }
         });
         info.setParameters(parameters);

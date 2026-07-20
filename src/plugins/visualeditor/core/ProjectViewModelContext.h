@@ -44,6 +44,7 @@ namespace VisualEditor {
     }
 
     class ProjectViewModelContextAttachedType;
+    class ParameterEditorContext;
     class ProjectViewModelContextPrivate;
 
     class VISUAL_EDITOR_EXPORT ProjectViewModelContext : public QObject {
@@ -67,6 +68,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::ListViewModel *trackListViewModel READ trackListViewModel CONSTANT)
         Q_PROPERTY(sflow::SelectionController *trackSelectionController READ trackSelectionController CONSTANT)
         Q_PROPERTY(sflow::ListViewModel *masterTrackListViewModel READ masterTrackListViewModel CONSTANT)
+        Q_PROPERTY(ParameterEditorContext *parameterEditorContext READ parameterEditorContext CONSTANT)
 
     public:
         ~ProjectViewModelContext() override;
@@ -92,6 +94,7 @@ namespace VisualEditor {
         sflow::SelectionController *clipSelectionController() const;
         sflow::SelectionController *noteSelectionController() const;
         sflow::SelectionController *trackSelectionController() const;
+        ParameterEditorContext *parameterEditorContext() const;
 
         Q_INVOKABLE sflow::TimelineInteractionController *createAndBindTimelineInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfTempo(QObject *parent = nullptr);

@@ -31,6 +31,10 @@ namespace Core {
         std::optional<DspxClipboardData> buildLabelClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildKeySignatureClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTrackClipboardData() const;
+        bool copyAnchorNodeSelection(int playheadPosition) const;
+        bool copyFreeParameterSelection(int playheadPosition) const;
+        bool pasteAnchorNodeSelection(int playheadPosition);
+        bool pasteFreeParameterSelection(int playheadPosition);
 
         bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
@@ -45,6 +49,8 @@ namespace Core {
         int deleteTracks();
         int deleteClips();
         int deleteNotes();
+        int deleteAnchorNodes();
+        bool deleteFreeParameterSelection();
 
         void selectAllTempos();
         void selectAllLabels();
@@ -52,6 +58,8 @@ namespace Core {
         void selectAllTracks();
         void selectAllClips();
         void selectAllNotes();
+        void selectAllAnchorNodes();
+        void selectAllFreeParameter();
 
         template<typename Signal>
         bool emitOnChange(bool value, bool &cache, Signal signal);
@@ -60,6 +68,7 @@ namespace Core {
         dspx::Document *dspxDocument = nullptr;
         dspx::Model *model = nullptr;
         dspx::SelectionModel *selectionModel = nullptr;
+        FreeParameterSelectionModel *freeParameterSelectionModel = nullptr;
         TransactionController *transactionController = nullptr;
         bool anyItemsSelected{false};
         bool editScopeFocused{false};

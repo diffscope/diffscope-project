@@ -48,6 +48,13 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" icon="cut" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" icon="rectangle_landscape_dash" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" icon="hand_left" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" icon="pitch_pencil" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" icon="pitch_erase" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" icon="pitch_cursor" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" icon="more_vertical" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" text="Bottom Panels" icon="layout_row_two_focus_bottom" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
@@ -137,6 +144,14 @@
                 <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" />
+                <separator />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" />
             </group>
             <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.snapActions">
                 <action id="org.diffscope.visualeditor.pianoRollPanel.snap" />

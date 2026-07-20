@@ -42,6 +42,7 @@
 #include <visualeditor/private/MasterTrackViewModelContextData_p.h>
 #include <visualeditor/private/NoteViewModelContextData_p.h>
 #include <visualeditor/private/NoteSelectionController_p.h>
+#include <visualeditor/ParameterEditorContext.h>
 
 namespace VisualEditor {
 
@@ -94,6 +95,8 @@ namespace VisualEditor {
         d->noteData->q_ptr = this;
         d->noteData->init();
         d->noteData->bindTrackSequences();
+
+        d->parameterEditorContext = new ParameterEditorContext(this);
 
         d->trackData = std::make_unique<TrackViewModelContextData>();
         d->trackData->q_ptr = this;
@@ -189,6 +192,11 @@ namespace VisualEditor {
     sflow::SelectionController *ProjectViewModelContext::trackSelectionController() const {
         Q_D(const ProjectViewModelContext);
         return d->trackData->trackSelectionController;
+    }
+
+    ParameterEditorContext *ProjectViewModelContext::parameterEditorContext() const {
+        Q_D(const ProjectViewModelContext);
+        return d->parameterEditorContext;
     }
 
     sflow::TimelineInteractionController *ProjectViewModelContext::createAndBindTimelineInteractionController(QObject *parent) {
