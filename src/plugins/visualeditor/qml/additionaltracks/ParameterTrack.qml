@@ -78,6 +78,22 @@ QtObject {
             controller.secondarySelectInteraction = ParameterEditorInteractionController.None
         }
 
+        function alternateTool(tool: int): int {
+            switch (tool) {
+            case ParameterEditorInteractionController.Pencil:
+                return ParameterEditorInteractionController.Eraser
+            case ParameterEditorInteractionController.Eraser:
+                return ParameterEditorInteractionController.Pencil
+            case ParameterEditorInteractionController.Pointer:
+            case ParameterEditorInteractionController.Pen:
+                return ParameterEditorInteractionController.ConvertAnchor
+            case ParameterEditorInteractionController.AnchorRubberBandSelect:
+                return ParameterEditorInteractionController.AnchorTimeRangeSelect
+            default:
+                return tool
+            }
+        }
+
         function setTool(tool: int) {
             currentTool = tool
             resetController(editingBinding?.interactionController)
@@ -87,6 +103,7 @@ QtObject {
                 : editingBinding?.interactionController
             if (!controller)
                 return
+            const alternate = alternateTool(tool)
             switch (tool) {
             case ParameterEditorInteractionController.Pencil:
             case ParameterEditorInteractionController.Eraser:
@@ -107,6 +124,8 @@ QtObject {
                 }
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
+                controller.secondaryItemInteraction = alternate
+                controller.secondarySceneInteraction = alternate
                 break
             case ParameterEditorInteractionController.Pointer:
             case ParameterEditorInteractionController.AnchorRubberBandSelect:
@@ -117,6 +136,9 @@ QtObject {
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
                 controller.primarySelectInteraction = tool
+                controller.secondaryItemInteraction = alternate
+                controller.secondarySceneInteraction = alternate
+                controller.secondarySelectInteraction = alternate
                 break
             case ParameterEditorInteractionController.ConvertAnchor:
                 if (transformEditing)
@@ -124,6 +146,7 @@ QtObject {
                 else
                     editingBinding.focusAnchorLayer()
                 controller.primaryItemInteraction = tool
+                controller.secondaryItemInteraction = alternate
                 break
             }
         }
@@ -167,6 +190,9 @@ QtObject {
                     required property int index
                     width: combo.width
                     height: combo.implicitHeight
+                    padding: 2
+                    leftPadding: 8
+                    rightPadding: 8
                     highlighted: combo.highlightedIndex === index
                     hoverEnabled: combo.hoverEnabled
                     text: displayName
@@ -256,7 +282,9 @@ QtObject {
             ToolButton {
                 implicitHeight: 22
                 padding: 3
+                icon.source: "image://fluent-system-icons/adr"
                 text: qsTr("Transform")
+                ThemedItem.controlType: SVS.CT_Accent
                 checkable: true
                 checked: control.transformEditing
                 enabled: control.editingBinding?.available ?? false
@@ -273,11 +301,11 @@ QtObject {
                 model: [
                     { text: qsTr("Pencil"), icon: "edit", tool: ParameterEditorInteractionController.Pencil },
                     { text: qsTr("Eraser"), icon: "eraser", tool: ParameterEditorInteractionController.Eraser },
-                    { text: qsTr("Range"), icon: "rectangle_landscape_dash", tool: ParameterEditorInteractionController.FreeRangeSelect },
+                    { text: qsTr("Range Select"), icon: "cursor_text", tool: ParameterEditorInteractionController.FreeRangeSelect },
                     { text: qsTr("Pointer"), icon: "cursor", tool: ParameterEditorInteractionController.Pointer },
                     { text: qsTr("Pen"), icon: "calligraphy_pen", tool: ParameterEditorInteractionController.Pen },
-                    { text: qsTr("Convert"), icon: "", tool: ParameterEditorInteractionController.ConvertAnchor },
-                    { text: qsTr("Anchors"), icon: "", tool: ParameterEditorInteractionController.AnchorRubberBandSelect }
+                    { text: qsTr("Convert"), icon: "arrow_bidirectional_left_right", tool: ParameterEditorInteractionController.ConvertAnchor },
+                    { text: qsTr("Anchors Select"), icon: "rectangle_landscape_dash", tool: ParameterEditorInteractionController.AnchorRubberBandSelect }
                 ]
                 delegate: ToolButton {
                     required property var modelData

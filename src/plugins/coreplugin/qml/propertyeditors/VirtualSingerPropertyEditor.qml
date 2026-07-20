@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 PropertyEditorGroupBox {
     id: groupBox
@@ -21,8 +22,23 @@ PropertyEditorGroupBox {
     required property QtObject propertyMapper
 
     readonly property QtObject selectionModel: windowHandle?.projectDocumentContext.document.selectionModel ?? null
-    readonly property bool multipleClips: (selectionModel?.selectedCount ?? 0) > 1
-    readonly property QtObject singingClip: selectionModel?.clipSelectionModel.selectedItems[0] ?? null
+    readonly property bool multipleClips: selectionModel?.selectionType
+                                          === DspxSelectionModel.SelectionModel.ST_Clip
+                                          && (selectionModel?.selectedCount ?? 0) > 1
+    readonly property QtObject singingClip: {
+        switch (selectionModel?.selectionType) {
+        case DspxSelectionModel.SelectionModel.ST_Clip:
+            return selectionModel.clipSelectionModel.selectedItems[0] ?? null
+        case DspxSelectionModel.SelectionModel.ST_Note:
+            return selectionModel.noteSelectionModel.noteSequenceWithSelectedItems?.singingClip ?? null
+        case DspxSelectionModel.SelectionModel.ST_AnchorNode: {
+            const sequence = selectionModel.anchorNodeSelectionModel.anchorNodeSequenceWithSelectedItems
+            return sequence?.parameter?.parameterMap?.singingClip ?? null
+        }
+        default:
+            return null
+        }
+    }
     readonly property bool hasSources: !multipleClips && Boolean(singingClip?.sources)
     readonly property bool architectureMissing: hasSources
                                                 && Boolean(clipSingerIdProvider.architectureId)
@@ -71,7 +87,13 @@ PropertyEditorGroupBox {
     }
 
     function selectedSingingClips() {
-        const selectedItems = selectionModel?.clipSelectionModel.selectedItems ?? []
+        if (!selectionModel)
+            return []
+
+        if (selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_Clip)
+            return singingClip ? [singingClip] : []
+
+        const selectedItems = selectionModel.clipSelectionModel.selectedItems
         const clips = []
         for (let index = 0; index < selectedItems.length; ++index)
             clips.push(selectedItems[index])

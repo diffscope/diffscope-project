@@ -183,6 +183,21 @@ namespace VisualEditor {
                             return sflow::ParameterEditorInteractionController::None;
                     }
                 }();
+                const auto alternateInteraction = [interaction] {
+                    switch (interaction) {
+                        case sflow::ParameterEditorInteractionController::Pencil:
+                            return sflow::ParameterEditorInteractionController::Eraser;
+                        case sflow::ParameterEditorInteractionController::Eraser:
+                            return sflow::ParameterEditorInteractionController::Pencil;
+                        case sflow::ParameterEditorInteractionController::Pointer:
+                        case sflow::ParameterEditorInteractionController::Pen:
+                            return sflow::ParameterEditorInteractionController::ConvertAnchor;
+                        case sflow::ParameterEditorInteractionController::AnchorRubberBandSelect:
+                            return sflow::ParameterEditorInteractionController::AnchorTimeRangeSelect;
+                        default:
+                            return interaction;
+                    }
+                }();
                 switch (interaction) {
                     case sflow::ParameterEditorInteractionController::Pencil:
                     case sflow::ParameterEditorInteractionController::Eraser:
@@ -196,6 +211,8 @@ namespace VisualEditor {
                                 ->pitchBinding()->focusFreeLayer();
                         pitchController->setPrimaryItemInteraction(interaction);
                         pitchController->setPrimarySceneInteraction(interaction);
+                        pitchController->setSecondaryItemInteraction(alternateInteraction);
+                        pitchController->setSecondarySceneInteraction(alternateInteraction);
                         break;
                     case sflow::ParameterEditorInteractionController::Pointer:
                     case sflow::ParameterEditorInteractionController::AnchorRubberBandSelect:
@@ -204,11 +221,15 @@ namespace VisualEditor {
                         pitchController->setPrimaryItemInteraction(interaction);
                         pitchController->setPrimarySceneInteraction(interaction);
                         pitchController->setPrimarySelectInteraction(interaction);
+                        pitchController->setSecondaryItemInteraction(alternateInteraction);
+                        pitchController->setSecondarySceneInteraction(alternateInteraction);
+                        pitchController->setSecondarySelectInteraction(alternateInteraction);
                         break;
                     case sflow::ParameterEditorInteractionController::ConvertAnchor:
                         ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
                             ->pitchBinding()->focusAnchorLayer();
                         pitchController->setPrimaryItemInteraction(interaction);
+                        pitchController->setSecondaryItemInteraction(alternateInteraction);
                         break;
                     default:
                         break;
