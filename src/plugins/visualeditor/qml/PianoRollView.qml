@@ -35,6 +35,234 @@ Item {
 
     readonly property double bottomExpansion: pianoRollViewContainer.height - pianoRollViewContainerSplitViewport.height
 
+    property NoteViewModel noteBeingEdited: null
+    property Item noteEditLayerBeingEdited: null
+    property bool noteDrawing: false
+    property ParameterAnchorViewModel pitchAnchorBeingEdited: null
+    property int pitchFreeEditPosition: 0
+    property double pitchFreeEditValue: 0.0
+    property double pitchClavierCursorPosition: -1.0
+    property var cursorPositionSelectionOwners: []
+
+    readonly property bool cursorPositionsHiddenBySelection:
+        cursorPositionSelectionOwners.length > 0
+    readonly property bool timeCursorBoundByEdit:
+        noteStartCursorBinding.when || noteEndCursorBinding.when
+        || pitchAnchorCursorBinding.when || pitchFreeEditCursorBinding.when
+
+    function mapClipPositionToTimeline(position: int, clipViewModel): int {
+        return position + (clipViewModel?.position ?? 0)
+            - (clipViewModel?.clipStart ?? 0)
+    }
+
+    function pitchPositionFromNormalizedValue(value: double): double {
+        const normalizedValue = Math.max(0.0, Math.min(1.0, value))
+        const parameterInfo = view.projectViewModelContext?.parameterEditorContext?.pitchBinding?.parameterInfo
+        const centValue = parameterInfo?.invokeDenormalize(normalizedValue)
+            ?? normalizedValue * 12800.0
+        return centValue / 100.0
+    }
+
+    function updatePitchClavierCursorPosition(point) {
+        if (view.cursorPositionsHiddenBySelection
+                || !pitchEditor.visible || pitchEditor.height <= 0
+                || !view.itemContainsPoint(pianoRollViewContainerSplitViewport, point)) {
+            view.pitchClavierCursorPosition = -1.0
+            return
+        }
+        const pitchPoint = pitchEditor.mapFromItem(noteArea, point)
+        const normalizedValue = 1.0 - pitchPoint.y / pitchEditor.height
+        view.pitchClavierCursorPosition =
+            view.pitchPositionFromNormalizedValue(normalizedValue)
+    }
+
+    function itemContainsPoint(item, point): bool {
+        if (!item?.visible)
+            return false
+        const localPoint = item.mapFromItem(noteArea, point)
+        return localPoint.x >= 0 && localPoint.x < item.width
+            && localPoint.y >= 0 && localPoint.y < item.height
+    }
+
+    function isParameterEditingAt(point): bool {
+        if ((view.pianoRollPanelInterface?.pitchToolActive ?? false)
+                && view.itemContainsPoint(pianoRollViewContainerSplitViewport, point))
+            return true
+
+        const loader = view.addOn?.bottomAdditionalTrackLoader
+        const parameterTrackId =
+            "org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter"
+        const index = loader?.loadedComponents.indexOf(parameterTrackId) ?? -1
+        if (index < 0)
+            return false
+
+        const parameterTrack = loader.loadedItems[index]
+        return view.itemContainsPoint(parameterTrack, point)
+    }
+
+    function hideCursorPositionsForSelection() {
+        if (view.pianoRollPanelInterface?.timeLayoutViewModel)
+            view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+        view.pitchClavierCursorPosition = -1.0
+        if (!(view.pianoRollPanelInterface?.pitchToolActive ?? false)
+                && view.pianoRollPanelInterface?.clavierViewModel) {
+            view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
+        }
+    }
+
+    function clearHoverCursorPositions() {
+        if (!view.timeCursorBoundByEdit
+                && view.pianoRollPanelInterface?.timeLayoutViewModel) {
+            view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+        }
+        if (view.pianoRollPanelInterface?.pitchToolActive ?? false) {
+            if (!pitchAnchorCursorBinding.when && !pitchFreeEditCursorBinding.when)
+                view.pitchClavierCursorPosition = -1.0
+        } else if (!noteClavierCursorBinding.when
+                && view.pianoRollPanelInterface?.clavierViewModel) {
+            view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
+        }
+    }
+
+    function updateCursorPositionsFromHover(point) {
+        if (view.cursorPositionsHiddenBySelection) {
+            view.hideCursorPositionsForSelection()
+            return
+        }
+
+        const p = noteArea.mapToItem(pianoRollViewContainer, point)
+        if (!view.timeCursorBoundByEdit) {
+            if (p.x < 0) {
+                view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
+            } else {
+                const position = cursorTimeManipulator.mapToPosition(p.x)
+                view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition =
+                    view.isParameterEditingAt(point)
+                        ? position
+                        : cursorTimeManipulator.alignPosition(
+                              position, ScopicFlow.AO_Visible)
+            }
+        }
+
+        if (view.pianoRollPanelInterface?.pitchToolActive ?? false) {
+            view.updatePitchClavierCursorPosition(point)
+        } else if (!noteClavierCursorBinding.when) {
+            if (p.y < 0) {
+                view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
+            } else {
+                let key = Math.floor(cursorClavierManipulator.mapToPosition(p.y))
+                if (key >= 128)
+                    key = -1
+                view.pianoRollPanelInterface.clavierViewModel.cursorPosition = key
+            }
+        }
+    }
+
+    function refreshCursorPositions() {
+        if (view.cursorPositionsHiddenBySelection) {
+            view.hideCursorPositionsForSelection()
+        } else if (pianoRollHoverHandler.enabled && pianoRollHoverHandler.hovered) {
+            view.updateCursorPositionsFromHover(pianoRollHoverHandler.point.position)
+        } else {
+            view.clearHoverCursorPositions()
+        }
+    }
+
+    function beginCursorPositionHidingSelection(owner) {
+        if (!owner || view.cursorPositionSelectionOwners.indexOf(owner) >= 0)
+            return
+        const owners = view.cursorPositionSelectionOwners.slice()
+        owners.push(owner)
+        view.cursorPositionSelectionOwners = owners
+        view.hideCursorPositionsForSelection()
+    }
+
+    function endCursorPositionHidingSelection(owner) {
+        const index = view.cursorPositionSelectionOwners.indexOf(owner)
+        if (index < 0)
+            return
+        const owners = view.cursorPositionSelectionOwners.slice()
+        owners.splice(index, 1)
+        view.cursorPositionSelectionOwners = owners
+        view.refreshCursorPositions()
+    }
+
+    function endNoteEditing(noteEditLayer) {
+        if (noteEditLayer !== view.noteEditLayerBeingEdited)
+            return
+        view.noteDrawing = false
+        noteStartCursorBinding.when = false
+        noteEndCursorBinding.when = false
+        noteClavierCursorBinding.when = false
+        view.noteBeingEdited = null
+        view.noteEditLayerBeingEdited = null
+        view.refreshCursorPositions()
+    }
+
+    Binding {
+        id: noteStartCursorBinding
+        target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.mapClipPositionToTimeline(
+            view.noteBeingEdited?.position ?? 0,
+            view.noteEditLayerBeingEdited?.clipViewModel ?? null)
+        when: false
+    }
+
+    Binding {
+        id: noteEndCursorBinding
+        target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.mapClipPositionToTimeline(
+            (view.noteBeingEdited?.position ?? 0)
+                + (view.noteBeingEdited?.length ?? 0),
+            view.noteEditLayerBeingEdited?.clipViewModel ?? null)
+        when: false
+    }
+
+    Binding {
+        id: noteClavierCursorBinding
+        target: view.pianoRollPanelInterface?.clavierViewModel ?? null
+        property: "cursorPosition"
+        value: view.noteBeingEdited?.key ?? -1
+        when: false
+    }
+
+    Binding {
+        id: pitchAnchorCursorBinding
+        target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.mapClipPositionToTimeline(
+            view.pitchAnchorBeingEdited?.position ?? 0,
+            pitchProxyTimeViewModel?.clipViewModel ?? null)
+        when: false
+    }
+
+    Binding {
+        id: pitchFreeEditCursorBinding
+        target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.mapClipPositionToTimeline(
+            view.pitchFreeEditPosition,
+            pitchProxyTimeViewModel?.clipViewModel ?? null)
+        when: false
+    }
+
+    Binding {
+        target: view.pianoRollPanelInterface?.clavierViewModel ?? null
+        property: "cursorPosition"
+        value: view.cursorPositionsHiddenBySelection
+            ? -1.0
+            : pitchAnchorCursorBinding.when
+                ? view.pitchPositionFromNormalizedValue(
+                      view.pitchAnchorBeingEdited?.value ?? 0.0)
+                : pitchFreeEditCursorBinding.when
+                    ? view.pitchPositionFromNormalizedValue(
+                          view.pitchFreeEditValue)
+                    : view.pitchClavierCursorPosition
+        when: view.pianoRollPanelInterface?.pitchToolActive ?? false
+    }
+
     TimelineContextMenuHelper {
         timeline: view.timeline
         window: view.Window.window
@@ -62,12 +290,180 @@ Item {
 
     Connections {
         target: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
+
+        function onMovingStarted(noteEditLayer, item) {
+            view.noteDrawing = false
+            view.noteEditLayerBeingEdited = noteEditLayer
+            view.noteBeingEdited = item
+            noteStartCursorBinding.when = true
+            noteClavierCursorBinding.when = true
+        }
+
+        function onMovingCommitted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onMovingAborted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onAdjustLengthStarted(noteEditLayer, item, edge) {
+            view.noteDrawing = false
+            view.noteEditLayerBeingEdited = noteEditLayer
+            view.noteBeingEdited = item
+            noteClavierCursorBinding.when = true
+            if (edge === NoteEditLayerInteractionController.LeftEdge)
+                noteStartCursorBinding.when = true
+            else
+                noteEndCursorBinding.when = true
+        }
+
+        function onAdjustLengthCommitted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onAdjustLengthAborted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onDrawingStarted(noteEditLayer) {
+            view.noteDrawing = true
+            view.noteEditLayerBeingEdited = noteEditLayer
+            view.noteBeingEdited = null
+        }
+
+        function onDrawingCommitted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onDrawingAborted(noteEditLayer) {
+            view.endNoteEditing(noteEditLayer)
+        }
+
+        function onRubberBandDraggingStarted(noteEditLayer) {
+            view.beginCursorPositionHidingSelection(noteEditLayer)
+        }
+
+        function onRubberBandDraggingCommitted(noteEditLayer) {
+            view.endCursorPositionHidingSelection(noteEditLayer)
+        }
+
+        function onRubberBandDraggingAborted(noteEditLayer) {
+            view.endCursorPositionHidingSelection(noteEditLayer)
+        }
+
         function onContextMenuRequested() {
             noteSceneContextMenu.popup()
         }
 
         function onItemContextMenuRequested() {
             noteItemContextMenu.popup()
+        }
+    }
+
+    Connections {
+        target: view.noteEditLayerBeingEdited?.noteSequenceViewModel ?? null
+        enabled: view.noteDrawing
+
+        function onItemInserted(item) {
+            if (!view.noteDrawing || view.noteBeingEdited)
+                return
+            view.noteBeingEdited = item
+            noteEndCursorBinding.when = true
+            noteClavierCursorBinding.when = true
+        }
+    }
+
+    Connections {
+        target: view.projectViewModelContext?.parameterEditorContext?.pitchBinding?.interactionController ?? null
+
+        function onFreeEditingStarted(editor, operation, position, value) {
+            if (editor !== pitchEditor)
+                return
+            view.pitchFreeEditPosition = position
+            view.pitchFreeEditValue = value
+            pitchFreeEditCursorBinding.when = true
+        }
+
+        function onFreeEditingUpdated(editor, operation, position, value) {
+            if (editor !== pitchEditor)
+                return
+            view.pitchFreeEditPosition = position
+            view.pitchFreeEditValue = value
+        }
+
+        function onFreeEditingCommitted(editor) {
+            if (editor !== pitchEditor)
+                return
+            pitchFreeEditCursorBinding.when = false
+            view.refreshCursorPositions()
+        }
+
+        function onFreeEditingAborted(editor) {
+            if (editor !== pitchEditor)
+                return
+            pitchFreeEditCursorBinding.when = false
+            view.refreshCursorPositions()
+        }
+
+        function onFreeRangeSelectingStarted(editor) {
+            if (editor === pitchEditor)
+                view.beginCursorPositionHidingSelection(editor)
+        }
+
+        function onFreeRangeSelectingCommitted(editor) {
+            if (editor === pitchEditor)
+                view.endCursorPositionHidingSelection(editor)
+        }
+
+        function onFreeRangeSelectingAborted(editor) {
+            if (editor === pitchEditor)
+                view.endCursorPositionHidingSelection(editor)
+        }
+
+        function onAnchorRubberBandDraggingStarted(editor) {
+            if (editor === pitchEditor)
+                view.beginCursorPositionHidingSelection(editor)
+        }
+
+        function onAnchorRubberBandDraggingCommitted(editor) {
+            if (editor === pitchEditor)
+                view.endCursorPositionHidingSelection(editor)
+        }
+
+        function onAnchorRubberBandDraggingAborted(editor) {
+            if (editor === pitchEditor)
+                view.endCursorPositionHidingSelection(editor)
+        }
+
+        function onAnchorMovingStarted(editor, item) {
+            if (editor !== pitchEditor)
+                return
+            view.pitchAnchorBeingEdited = item
+            pitchAnchorCursorBinding.when = true
+        }
+
+        function onAnchorMovingCommitted(editor) {
+            if (editor !== pitchEditor)
+                return
+            pitchAnchorCursorBinding.when = false
+            view.pitchAnchorBeingEdited = null
+            view.refreshCursorPositions()
+        }
+
+        function onAnchorMovingAborted(editor) {
+            if (editor !== pitchEditor)
+                return
+            pitchAnchorCursorBinding.when = false
+            view.pitchAnchorBeingEdited = null
+            view.refreshCursorPositions()
+        }
+    }
+
+    Connections {
+        target: view.pianoRollPanelInterface
+        function onToolChanged() {
+            view.refreshCursorPositions()
         }
     }
 
@@ -187,19 +583,26 @@ Item {
                     clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                     clavierInteractionController: view.pianoRollPanelInterface?.clavierInteractionController ?? null
                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
+                    showCentText: view.pianoRollPanelInterface?.pitchToolActive ?? false
 
                     bottomExpansion: view.bottomExpansion
 
                     Connections {
                         target: clavier.clavierInteractionController
                         function onHoverEntered(clavier_, key) {
-                            if (clavier_ === clavier) {
+                            if (clavier_ === clavier
+                                    && !(view.pianoRollPanelInterface?.pitchToolActive ?? false)
+                                    && !view.cursorPositionsHiddenBySelection) {
                                 clavier.clavierViewModel.cursorPosition = key
+                            } else if (clavier_ === clavier
+                                    && view.cursorPositionsHiddenBySelection) {
+                                view.hideCursorPositionsForSelection()
                             }
                         }
 
                         function onHoverExited(clavier_, key) {
-                            if (clavier_ === clavier) {
+                            if (clavier_ === clavier
+                                    && !(view.pianoRollPanelInterface?.pitchToolActive ?? false)) {
                                 clavier.clavierViewModel.cursorPosition = -1
                             }
                         }
@@ -268,8 +671,19 @@ Item {
                             }
                         }
 
-                        function onRubberBandDraggingStarted() {
-                            timeline.timeLayoutViewModel.cursorPosition = -1
+                        function onRubberBandDraggingStarted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.beginCursorPositionHidingSelection(timeline)
+                        }
+
+                        function onRubberBandDraggingCommitted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.endCursorPositionHidingSelection(timeline)
+                        }
+
+                        function onRubberBandDraggingAborted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.endCursorPositionHidingSelection(timeline)
                         }
 
                         function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
@@ -541,46 +955,29 @@ Item {
                 timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
             }
             HoverHandler {
+                id: pianoRollHoverHandler
                 enabled: !(view.pianoRollPanelInterface?.mouseTrackingDisabled)
                 cursorShape: undefined
                 readonly property TimeManipulator timeManipulator: TimeManipulator {
-                    id: timeManipulator
+                    id: cursorTimeManipulator
                     target: parent
                     timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                     timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                 }
                 readonly property ClavierManipulator clavierManipulator: ClavierManipulator {
-                    id: clavierManipulator
+                    id: cursorClavierManipulator
                     target: parent
                     clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                 }
                 onHoveredChanged: () => {
-                    if (!hovered) {
-                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
-                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
-                    }
+                    if (!hovered)
+                        view.clearHoverCursorPositions()
                 }
-                onPointChanged: () => {
-                    let p = noteArea.mapToItem(pianoRollViewContainer, point.position)
-                    if (p.x < 0) {
-                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
-                    } else {
-                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(p.x), ScopicFlow.AO_Visible)
-                    }
-                    if (p.y < 0) {
-                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
-                    } else {
-                        let i = Math.floor(clavierManipulator.mapToPosition(p.y))
-                        if (i >= 128) i = -1
-                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = i
-                    }
-
-                }
+                onPointChanged: () =>
+                    view.updateCursorPositionsFromHover(point.position)
                 onEnabledChanged: {
-                    if (!enabled) {
-                        view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
-                        view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
-                    }
+                    if (!enabled)
+                        view.clearHoverCursorPositions()
                 }
             }
         }

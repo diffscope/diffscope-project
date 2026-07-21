@@ -13,6 +13,8 @@ import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
 import dev.sjimo.ScopicFlow.Internal as ScopicFlowInternal
 
+import DiffScope.Core
+
 QtObject {
     id: d
     required property QtObject addOn
@@ -31,6 +33,11 @@ QtObject {
         readonly property ParameterViewModelBinding referenceBinding:
             parameterContext?.referenceDataBinding ?? null
         property int currentTool: ParameterEditorInteractionController.Pencil
+        property ParameterAnchorViewModel anchorBeingEdited: null
+        property int freeEditPosition: 0
+        property double freeEditValue: 0.0
+        property bool parameterHovered: false
+        property double hoveredParameterValue: 0.0
         readonly property bool transformEditing: parameterContext?.transformEditing ?? false
         readonly property var editingTrackViewModel:
             d.projectViewModelContext?.getTrackViewItemFromDocumentItem(
@@ -76,6 +83,74 @@ QtObject {
             controller.secondarySceneInteraction = ParameterEditorInteractionController.None
             controller.primarySelectInteraction = ParameterEditorInteractionController.None
             controller.secondarySelectInteraction = ParameterEditorInteractionController.None
+        }
+
+        function beginAnchorMove(editor, item) {
+            if (editor !== editingEditor && editor !== transformEditor)
+                return
+            anchorBeingEdited = item
+            anchorCursorBinding.when = true
+        }
+
+        function endAnchorMove(editor) {
+            if (editor !== editingEditor && editor !== transformEditor)
+                return
+            anchorCursorBinding.when = false
+            anchorBeingEdited = null
+        }
+
+        function beginFreeEdit(editor, position, value) {
+            if (editor !== editingEditor && editor !== transformEditor)
+                return
+            freeEditPosition = position
+            freeEditValue = value
+            freeEditCursorBinding.when = true
+        }
+
+        function updateFreeEdit(editor, position, value) {
+            if (editor !== editingEditor && editor !== transformEditor)
+                return
+            freeEditPosition = position
+            freeEditValue = value
+        }
+
+        function endFreeEdit(editor) {
+            if (editor !== editingEditor && editor !== transformEditor)
+                return
+            freeEditCursorBinding.when = false
+        }
+
+        function beginCursorPositionHidingSelection(editor) {
+            const pianoRollView = contextObject?.pianoRollView
+            if (pianoRollView) {
+                pianoRollView.beginCursorPositionHidingSelection(editor)
+            } else {
+                if (contextObject?.timeLayoutViewModel)
+                    contextObject.timeLayoutViewModel.cursorPosition = -1
+                if (contextObject?.clavierViewModel)
+                    contextObject.clavierViewModel.cursorPosition = -1
+            }
+        }
+
+        function endCursorPositionHidingSelection(editor) {
+            contextObject?.pianoRollView?.endCursorPositionHidingSelection(editor)
+        }
+
+        function isActiveParameterEditor(editor): bool {
+            return transformEditing ? editor === transformEditor
+                                    : editor === editingEditor
+        }
+
+        function updateParameterHover(editor, value) {
+            if (!isActiveParameterEditor(editor))
+                return
+            hoveredParameterValue = value
+            parameterHovered = true
+        }
+
+        function endParameterHover(editor) {
+            if (isActiveParameterEditor(editor))
+                parameterHovered = false
         }
 
         function alternateTool(tool: int): int {
@@ -346,6 +421,35 @@ QtObject {
                 control.contextObject?.editingClip ?? null) ?? null
         }
 
+        ParameterInfoProvider {
+            id: parameterInfoProvider
+            registry: CoreInterface.singerRegistry
+            architectureId:
+                control.parameterContext?.singingClip?.sources?.category ?? ""
+            parameterId: control.editingBinding?.parameterId ?? ""
+            transform: control.transformEditing
+        }
+
+        Binding {
+            id: anchorCursorBinding
+            target: control.contextObject?.timeLayoutViewModel ?? null
+            property: "cursorPosition"
+            value: (control.anchorBeingEdited?.position ?? 0)
+                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
+                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
+            when: false
+        }
+
+        Binding {
+            id: freeEditCursorBinding
+            target: control.contextObject?.timeLayoutViewModel ?? null
+            property: "cursorPosition"
+            value: control.freeEditPosition
+                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
+                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
+            when: false
+        }
+
         ScopicFlowInternal.ParameterEditorContent {
             id: referenceLayer
             anchors.fill: parent
@@ -512,9 +616,38 @@ QtObject {
             height: parent.height
             z: 3
             visible: control.editingBinding?.available ?? false
-            readonly property var activeParameterInfo: control.transformEditing
-                ? control.editingBinding?.transformParameterInfo
-                : control.editingBinding?.parameterInfo
+            readonly property var activeParameterInfo: parameterInfoProvider.info
+            readonly property bool valueIndicatorEditing:
+                anchorCursorBinding.when || freeEditCursorBinding.when
+            readonly property double valueIndicatorSource: anchorCursorBinding.when
+                ? (control.anchorBeingEdited?.value ?? 0.0)
+                : freeEditCursorBinding.when
+                    ? control.freeEditValue
+                    : control.hoveredParameterValue
+            readonly property double valueIndicatorPosition: {
+                if (!Number.isFinite(valueIndicatorSource))
+                    return 0.0
+                return Math.max(0.0, Math.min(1.0, valueIndicatorSource))
+            }
+            readonly property var valueIndicatorRawValue: {
+                const info = parameterInfoProvider.info
+                if (!parameterInfoProvider.exists
+                        || info === undefined || info === null
+                        || !Number.isFinite(valueIndicatorSource)) {
+                    return undefined
+                }
+                return info.invokeDenormalize(valueIndicatorPosition)
+            }
+            readonly property string valueIndicatorDisplayString: {
+                const info = parameterInfoProvider.info
+                if (!parameterInfoProvider.exists
+                        || info === undefined || info === null
+                        || valueIndicatorRawValue === undefined
+                        || valueIndicatorRawValue === null) {
+                    return ""
+                }
+                return parameterInfoProvider.displayString(valueIndicatorRawValue)
+            }
 
             Loader {
                 anchors.top: parent.top
@@ -523,9 +656,7 @@ QtObject {
                 width: 8
                 active: control.editingBinding?.available ?? false
                 sourceComponent: ParameterDivisionItem {
-                    parameterInfo: control.transformEditing
-                        ? control.editingBinding.transformParameterInfo
-                        : control.editingBinding.parameterInfo
+                    parameterInfo: scale.activeParameterInfo
                     color: Theme.foregroundPrimaryColor
                     lineLength: 8
                 }
@@ -551,16 +682,159 @@ QtObject {
                 anchors.left: parent.left
                 color: Theme.foregroundPrimaryColor
             }
+            Rectangle {
+                id: valueIndicator
+                x: 3
+                y: (1.0 - scale.valueIndicatorPosition) * scale.height
+                    - height / 2.0
+                width: valueIndicatorLabel.implicitWidth + 8
+                height: valueIndicatorLabel.implicitHeight + 4
+                radius: 2
+                visible: parameterInfoProvider.exists
+                    && (scale.valueIndicatorEditing || control.parameterHovered)
+                    && scale.valueIndicatorDisplayString.length > 0
+                color: Qt.rgba(
+                    Theme.backgroundPrimaryColor.r,
+                    Theme.backgroundPrimaryColor.g,
+                    Theme.backgroundPrimaryColor.b,
+                    Theme.backgroundPrimaryColor.a * 0.5)
+
+                Label {
+                    id: valueIndicatorLabel
+                    anchors.centerIn: parent
+                    text: scale.valueIndicatorDisplayString
+                }
+            }
         }
 
         Component.onCompleted: setTool(currentTool)
         Connections {
             target: control.editingBinding
-            function onTargetChanged() { control.setTool(control.currentTool) }
+            function onTargetChanged() {
+                control.parameterHovered = false
+                control.setTool(control.currentTool)
+            }
+        }
+        Connections {
+            target: control.editingBinding?.interactionController ?? null
+            function onFreeEditingStarted(editor, operation, position, value) {
+                control.beginFreeEdit(editor, position, value)
+            }
+            function onFreeEditingUpdated(editor, operation, position, value) {
+                control.updateFreeEdit(editor, position, value)
+            }
+            function onFreeEditingCommitted(editor) {
+                control.endFreeEdit(editor)
+            }
+            function onFreeEditingAborted(editor) {
+                control.endFreeEdit(editor)
+            }
+            function onFreeRangeSelectingStarted(editor) {
+                if (editor === editingEditor)
+                    control.beginCursorPositionHidingSelection(editor)
+            }
+            function onFreeRangeSelectingCommitted(editor) {
+                if (editor === editingEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onFreeRangeSelectingAborted(editor) {
+                if (editor === editingEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingStarted(editor) {
+                if (editor === editingEditor)
+                    control.beginCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingCommitted(editor) {
+                if (editor === editingEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingAborted(editor) {
+                if (editor === editingEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorMovingStarted(editor, item) {
+                control.beginAnchorMove(editor, item)
+            }
+            function onAnchorMovingCommitted(editor) {
+                control.endAnchorMove(editor)
+            }
+            function onAnchorMovingAborted(editor) {
+                control.endAnchorMove(editor)
+            }
+            function onHoverEntered(editor, position, value) {
+                control.updateParameterHover(editor, value)
+            }
+            function onHoverMoved(editor, position, value) {
+                control.updateParameterHover(editor, value)
+            }
+            function onHoverExited(editor) {
+                control.endParameterHover(editor)
+            }
+        }
+        Connections {
+            target: control.editingBinding?.transformInteractionController ?? null
+            function onFreeEditingStarted(editor, operation, position, value) {
+                control.beginFreeEdit(editor, position, value)
+            }
+            function onFreeEditingUpdated(editor, operation, position, value) {
+                control.updateFreeEdit(editor, position, value)
+            }
+            function onFreeEditingCommitted(editor) {
+                control.endFreeEdit(editor)
+            }
+            function onFreeEditingAborted(editor) {
+                control.endFreeEdit(editor)
+            }
+            function onFreeRangeSelectingStarted(editor) {
+                if (editor === transformEditor)
+                    control.beginCursorPositionHidingSelection(editor)
+            }
+            function onFreeRangeSelectingCommitted(editor) {
+                if (editor === transformEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onFreeRangeSelectingAborted(editor) {
+                if (editor === transformEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingStarted(editor) {
+                if (editor === transformEditor)
+                    control.beginCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingCommitted(editor) {
+                if (editor === transformEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorRubberBandDraggingAborted(editor) {
+                if (editor === transformEditor)
+                    control.endCursorPositionHidingSelection(editor)
+            }
+            function onAnchorMovingStarted(editor, item) {
+                control.beginAnchorMove(editor, item)
+            }
+            function onAnchorMovingCommitted(editor) {
+                control.endAnchorMove(editor)
+            }
+            function onAnchorMovingAborted(editor) {
+                control.endAnchorMove(editor)
+            }
+            function onHoverEntered(editor, position, value) {
+                control.updateParameterHover(editor, value)
+            }
+            function onHoverMoved(editor, position, value) {
+                control.updateParameterHover(editor, value)
+            }
+            function onHoverExited(editor) {
+                control.endParameterHover(editor)
+            }
         }
         Connections {
             target: control.parameterContext
-            function onTransformEditingChanged() { control.setTool(control.currentTool) }
+            function onTransformEditingChanged() {
+                control.parameterHovered = false
+                control.setTool(control.currentTool)
+            }
         }
     }
 }

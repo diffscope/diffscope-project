@@ -258,6 +258,7 @@ Item {
                         }
 
                         property ClipViewModel activeClip: null
+                        property bool drawingClip: false
 
                         Binding {
                             id: clipStartBinding
@@ -269,6 +270,18 @@ Item {
                             id: clipEndBinding
                             when: false
                             clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position + clipPane.activeClip.length
+                        }
+
+                        Connections {
+                            target: clipPane.clipSequenceViewModel
+                            enabled: clipPane.drawingClip
+
+                            function onItemInserted(item) {
+                                if (!clipPane.drawingClip || clipPane.activeClip)
+                                    return
+                                clipPane.activeClip = item
+                                clipEndBinding.when = true
+                            }
                         }
 
                         Connections {
@@ -316,6 +329,26 @@ Item {
                             function onSplitStarted(clipPane_, position) {
                                 if (clipPane_ === clipPane) {
                                     clipPane.timeLayoutViewModel.cursorPosition = position
+                                }
+                            }
+                            function onDrawingStarted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.drawingClip = true
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onDrawingCommitted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.drawingClip = false
+                                    clipEndBinding.when = false
+                                    clipPane.activeClip = null
+                                }
+                            }
+                            function onDrawingAborted(clipPane_) {
+                                if (clipPane_ === clipPane) {
+                                    clipPane.drawingClip = false
+                                    clipEndBinding.when = false
+                                    clipPane.activeClip = null
                                 }
                             }
                             function onRubberBandDraggingStarted(clipPane_) {

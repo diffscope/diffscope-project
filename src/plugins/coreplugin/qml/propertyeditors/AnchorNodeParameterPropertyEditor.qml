@@ -96,20 +96,38 @@ PropertyEditorGroupBox {
                 id: valueSpinBox
                 readonly property int decimals: 3
                 readonly property int decimalFactor: Math.pow(10, decimals)
-                readonly property var displayValue:
-                    parameterInfoProvider.displayValue(groupBox.propertyMapper?.value)
-                readonly property var bottomDisplayValue:
-                    parameterInfoProvider.displayValue(parameterInfoProvider.info.bottomValue)
-                readonly property var topDisplayValue:
-                    parameterInfoProvider.displayValue(parameterInfoProvider.info.topValue)
+                readonly property var displayValue: {
+                    const info = parameterInfoProvider.info
+                    if (!parameterInfoProvider.exists || info === undefined || info === null)
+                        return undefined
+                    return parameterInfoProvider.displayValue(groupBox.propertyMapper?.value)
+                }
+                readonly property var bottomDisplayValue: {
+                    const info = parameterInfoProvider.info
+                    if (!parameterInfoProvider.exists)
+                        return undefined
+                    return parameterInfoProvider.displayValue(info.bottomValue)
+                }
+                readonly property var topDisplayValue: {
+                    const info = parameterInfoProvider.info
+                    if (!parameterInfoProvider.exists)
+                        return undefined
+                    return parameterInfoProvider.displayValue(info.topValue)
+                }
 
                 enabled: parameterInfoProvider.exists
                 from: Math.round(Math.min(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
                                  * decimalFactor)
                 to: Math.round(Math.max(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
                                * decimalFactor)
-                value: displayValue === undefined || displayValue === null
-                    ? 0 : Math.round(displayValue * decimalFactor)
+                value: {
+                    if (displayValue === undefined || displayValue === null)
+                        return 0
+                    const lowerBound = Math.min(from, to)
+                    const upperBound = Math.max(from, to)
+                    return Math.max(lowerBound, Math.min(
+                        upperBound, Math.round(displayValue * decimalFactor)))
+                }
                 stepSize: 1
                 contentItem.visible: displayValue !== undefined && displayValue !== null
                 validator: DoubleValidator {

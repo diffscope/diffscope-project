@@ -34,6 +34,21 @@ QtObject {
 
         property LabelViewModel itemBeingDragged: null
 
+        function beginCursorPositionHidingSelection() {
+            const pianoRollView = contextObject?.pianoRollView
+            if (pianoRollView) {
+                pianoRollView.beginCursorPositionHidingSelection(control)
+            } else {
+                timeLayoutViewModel.cursorPosition = -1
+                if (contextObject?.clavierViewModel)
+                    contextObject.clavierViewModel.cursorPosition = -1
+            }
+        }
+
+        function endCursorPositionHidingSelection() {
+            contextObject?.pianoRollView?.endCursorPositionHidingSelection(control)
+        }
+
         // TODO move this to C++ code
         Connections {
             target: control.itemBeingDragged
@@ -61,8 +76,19 @@ QtObject {
                 }
             }
 
-            function onRubberBandDraggingStarted() {
-                control.timeLayoutViewModel.cursorPosition = -1
+            function onRubberBandDraggingStarted(labelSequence) {
+                if (labelSequence === control)
+                    control.beginCursorPositionHidingSelection()
+            }
+
+            function onRubberBandDraggingCommitted(labelSequence) {
+                if (labelSequence === control)
+                    control.endCursorPositionHidingSelection()
+            }
+
+            function onRubberBandDraggingAborted(labelSequence) {
+                if (labelSequence === control)
+                    control.endCursorPositionHidingSelection()
             }
 
         }
