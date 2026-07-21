@@ -416,6 +416,8 @@ namespace Core::Internal {
 
         f("AnchorNodeParameterPropertyEditor", "org.diffscope.core.propertyeditor.anchornode");
 
+        f("DynamicMixingAnchorPropertyEditor", "org.diffscope.core.propertyeditor.dynamicmixinganchor");
+
     }
 
     void CorePlugin::checkLastRun() {

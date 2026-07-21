@@ -44,6 +44,7 @@ namespace VisualEditor {
         std::unique_ptr<TrackViewModelContextData> trackData;
         std::unique_ptr<MasterTrackViewModelContextData> masterTrackData;
         ParameterEditorContext *parameterEditorContext{};
+        DynamicMixingEditorContext *dynamicMixingEditorContext{};
     };
 }
 

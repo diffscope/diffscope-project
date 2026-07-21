@@ -266,7 +266,7 @@ ActionCollection {
                     case DspxSelectionModel.SelectionModel.ST_None:
                         return qsTr("No selection")
                     case DspxSelectionModel.SelectionModel.ST_AnchorNode:
-                        return qsTr("%Ln anchor(s)", "", selectionModel.anchorNodeSelectionModel.anchorNodeSequenceWithSelectedItems?.size ?? 0)
+                        return qsTr("%Ln parameter anchor(s)", "", selectionModel.anchorNodeSelectionModel.anchorNodeSequenceWithSelectedItems?.size ?? 0)
                     case DspxSelectionModel.SelectionModel.ST_Clip:
                         return qsTr("%Ln clip(s)", "", model.tracks.items.reduce((count, track) => count + track.clips.size, 0))
                     case DspxSelectionModel.SelectionModel.ST_Label:
@@ -279,6 +279,10 @@ ActionCollection {
                         return qsTr("%Ln track(s)", "", model.tracks.size)
                     case DspxSelectionModel.SelectionModel.ST_KeySignature:
                         return qsTr("%Ln key signature(s)", "", model.keySignatures.size)
+                    case DspxSelectionModel.SelectionModel.ST_DynamicMixingAnchor:
+                        return qsTr("%Ln voice blending anchor(s)", "",
+                                    selectionModel.dynamicMixingAnchorSelectionModel
+                                        .dynamicMixingAnchorSequenceWithSelectedItems?.size ?? 0)
                     default:
                         return ""
                     }

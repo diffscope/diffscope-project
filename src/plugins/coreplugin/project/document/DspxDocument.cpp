@@ -21,6 +21,8 @@
 #include <dspxmodelORM/AnchorNodeSequence.h>
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/DynamicMixingAnchor.h>
+#include <dspxmodelORM/DynamicMixingAnchorSequence.h>
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/KeySignature.h>
 #include <dspxmodelORM/KeySignatureSequence.h>
@@ -32,12 +34,15 @@
 #include <dspxmodelORM/Parameter.h>
 #include <dspxmodelORM/ParameterMap.h>
 #include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/SingerList.h>
+#include <dspxmodelORM/Sources.h>
 #include <dspxmodelORM/Tempo.h>
 #include <dspxmodelORM/TempoSequence.h>
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
 #include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelSelectionModel/DynamicMixingAnchorSelectionModel.h>
 #include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
 #include <dspxmodelSelectionModel/LabelSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
@@ -69,6 +74,8 @@ namespace Core {
                 return "Clip";
             case DspxClipboardData::Note:
                 return "Note";
+            case DspxClipboardData::DynamicMixingAnchor:
+                return "DynamicMixingAnchor";
         }
         return "Unknown";
     }
@@ -91,6 +98,8 @@ namespace Core {
                 return "Track";
             case dspx::SelectionModel::ST_KeySignature:
                 return "KeySignature";
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                return "DynamicMixingAnchor";
         }
         return "Unknown";
     }
@@ -161,6 +170,11 @@ namespace Core {
             updateEditScopeFocused();
             updatePasteAvailable();
         });
+        QObject::connect(selectionModel->dynamicMixingAnchorSelectionModel(),
+                         &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged,
+                         q_ptr, [this] {
+            updatePasteAvailable();
+        });
         QObject::connect(freeParameterSelectionModel, &FreeParameterSelectionModel::hasSelectionChanged,
                          q_ptr, [this] {
             updateAnyItemsSelected();
@@ -214,6 +228,11 @@ namespace Core {
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO(parameter clipboard format): return the anchor-node clipboard type.
                 return std::nullopt;
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                return selectionModel->dynamicMixingAnchorSelectionModel()
+                               ->dynamicMixingAnchorSequenceWithSelectedItems()
+                           ? std::optional(DspxClipboardData::DynamicMixingAnchor)
+                           : std::nullopt;
             case dspx::SelectionModel::ST_None:
             default:
                 return std::nullopt;
@@ -255,6 +274,8 @@ namespace Core {
             case dspx::SelectionModel::ST_AnchorNode:
                 copyAnchorNodeSelection(playheadPosition);
                 return std::nullopt;
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                return buildDynamicMixingAnchorClipboardData(playheadPosition);
             case dspx::SelectionModel::ST_None:
             default:
                 return std::nullopt;
@@ -343,6 +364,44 @@ namespace Core {
         return data;
     }
 
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildDynamicMixingAnchorClipboardData(
+        int playheadPosition) const {
+        if (!model || !selectionModel)
+            return std::nullopt;
+
+        auto *dynamicSelection = selectionModel->dynamicMixingAnchorSelectionModel();
+        auto *sequence = dynamicSelection->dynamicMixingAnchorSequenceWithSelectedItems();
+        const auto selectedItems = dynamicSelection->selectedItems();
+        if (!sequence || selectedItems.isEmpty())
+            return std::nullopt;
+
+        QList<opendspx::DynamicMixingAnchor> anchors;
+        anchors.reserve(selectedItems.size());
+        for (const auto *item : selectedItems) {
+            if (item->dynamicMixingAnchorSequence() == sequence)
+                anchors.append(item->toOpenDSPX());
+        }
+        if (anchors.isEmpty())
+            return std::nullopt;
+
+        std::sort(anchors.begin(), anchors.end(), [](const auto &left, const auto &right) {
+            return left.pos < right.pos;
+        });
+        const int absolute = anchors.first().pos;
+        for (auto &anchor : anchors)
+            anchor.pos -= absolute;
+
+        auto *clip = sequence->sources()->singingClip();
+        const int localPlayhead = clip
+                                      ? playheadPosition - clip->position() + clip->clipStart()
+                                      : playheadPosition;
+        DspxClipboardData data;
+        data.setDynamicMixingAnchors(anchors);
+        data.setAbsolute(absolute);
+        data.setPlayhead(localPlayhead - absolute);
+        return data;
+    }
+
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildKeySignatureClipboardData(int playheadPosition) const {
         if (!model || !selectionModel)
             return std::nullopt;
@@ -412,6 +471,9 @@ namespace Core {
                 return pasteKeySignatures(data.keySignatures(), data, playheadPosition, pastedItems);
             case DspxClipboardData::Track:
                 return pasteTracks(data.tracks(), pastedItems);
+            case DspxClipboardData::DynamicMixingAnchor:
+                return pasteDynamicMixingAnchors(data.dynamicMixingAnchors(), data,
+                                                 playheadPosition, pastedItems);
             case DspxClipboardData::Clip:
             case DspxClipboardData::Note:
                 // TODO paste support for clips and notes
@@ -550,6 +612,74 @@ namespace Core {
         else
             qCDebug(lcDspxDocument) << "No label pasted";
 
+        return inserted;
+    }
+
+    bool DspxDocumentPrivate::pasteDynamicMixingAnchors(
+        const QList<opendspx::DynamicMixingAnchor> &anchors, const DspxClipboardData &data,
+        int playheadPosition, QList<QObject *> &pastedItems) {
+        Q_UNUSED(data)
+        if (!model || !selectionModel || anchors.isEmpty())
+            return false;
+
+        auto *sequence = selectionModel->dynamicMixingAnchorSelectionModel()
+                             ->dynamicMixingAnchorSequenceWithSelectedItems();
+        if (!sequence || !sequence->sources() || !sequence->sources()->singingClip())
+            return false;
+        const int singerCount = sequence->sources()->singers()->size();
+        if (singerCount <= 0)
+            return false;
+
+        auto *clip = sequence->sources()->singingClip();
+        const int localPlayhead = playheadPosition - clip->position() + clip->clipStart();
+        QList<opendspx::DynamicMixingAnchor> adjusted = anchors;
+        int minimumPosition = std::numeric_limits<int>::max();
+        for (auto &anchor : adjusted) {
+            anchor.pos += localPlayhead;
+            minimumPosition = std::min(minimumPosition, anchor.pos);
+            anchor.ratio.resize(static_cast<std::size_t>(std::max(0, singerCount - 1)), 0.0);
+        }
+        if (minimumPosition < 0) {
+            for (auto &anchor : adjusted)
+                anchor.pos -= minimumPosition;
+        }
+        std::sort(adjusted.begin(), adjusted.end(), [](const auto &left, const auto &right) {
+            return left.pos < right.pos;
+        });
+
+        QList<opendspx::DynamicMixingAnchor> uniqueAnchors;
+        uniqueAnchors.reserve(adjusted.size());
+        for (const auto &anchor : std::as_const(adjusted)) {
+            if (!uniqueAnchors.isEmpty() && uniqueAnchors.last().pos == anchor.pos)
+                uniqueAnchors.last() = anchor;
+            else
+                uniqueAnchors.append(anchor);
+        }
+
+        bool inserted = false;
+        int removedOverlaps = 0;
+        for (const auto &anchorData : std::as_const(uniqueAnchors)) {
+            for (auto *overlap : sequence->slice(anchorData.pos, 1)) {
+                sequence->removeItem(overlap);
+                model->destroyItem(overlap);
+                ++removedOverlaps;
+            }
+            auto *anchor = model->createDynamicMixingAnchor();
+            anchor->fromOpenDSPX(anchorData);
+            if (!sequence->insertItem(anchor)) {
+                model->destroyItem(anchor);
+                continue;
+            }
+            inserted = true;
+            pastedItems.append(anchor);
+        }
+
+        if (inserted) {
+            qCInfo(lcDspxDocument) << "Pasted voice blending anchors" << uniqueAnchors.size()
+                                   << "removed overlaps" << removedOverlaps;
+        } else {
+            qCDebug(lcDspxDocument) << "No voice blending anchor pasted";
+        }
         return inserted;
     }
 
@@ -694,6 +824,9 @@ namespace Core {
             case dspx::SelectionModel::ST_AnchorNode:
                 removedCount = deleteAnchorNodes();
                 break;
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                removedCount = deleteDynamicMixingAnchors();
+                break;
             case dspx::SelectionModel::ST_None:
             default:
                 break;
@@ -815,6 +948,22 @@ namespace Core {
         return removedCount;
     }
 
+    int DspxDocumentPrivate::deleteDynamicMixingAnchors() {
+        auto *dynamicSelection = selectionModel->dynamicMixingAnchorSelectionModel();
+        auto *sequence = dynamicSelection->dynamicMixingAnchorSequenceWithSelectedItems();
+        if (!sequence)
+            return 0;
+
+        int removedCount = 0;
+        for (auto *item : dynamicSelection->selectedItems()) {
+            if (sequence->removeItem(item)) {
+                model->destroyItem(item);
+                ++removedCount;
+            }
+        }
+        return removedCount;
+    }
+
     bool DspxDocumentPrivate::deleteFreeParameterSelection() {
         if (!freeParameterSelectionModel || !freeParameterSelectionModel->hasSelection())
             return false;
@@ -895,6 +1044,15 @@ namespace Core {
         for (auto *item : anchorSequence->asRange()) {
             selectionModel->select(item, dspx::SelectionModel::Select);
         }
+    }
+
+    void DspxDocumentPrivate::selectAllDynamicMixingAnchors() {
+        auto *dynamicSelection = selectionModel->dynamicMixingAnchorSelectionModel();
+        auto *sequence = dynamicSelection->dynamicMixingAnchorSequenceWithSelectedItems();
+        if (!sequence)
+            return;
+        for (auto *item : sequence->asRange())
+            selectionModel->select(item, dspx::SelectionModel::Select);
     }
 
     void DspxDocumentPrivate::selectAllFreeParameter() {
@@ -1002,6 +1160,9 @@ namespace Core {
             case DspxClipboardData::Note:
                 copiedCount = 0;
                 break;
+            case DspxClipboardData::DynamicMixingAnchor:
+                copiedCount = clipboardData->dynamicMixingAnchors().size();
+                break;
         }
         qCInfo(lcDspxDocument) << "Copied selection" << clipboardTypeName(copiedType) << "count" << copiedCount;
 
@@ -1048,6 +1209,8 @@ namespace Core {
                     return tr("Pasting clip");
                 case DspxClipboardData::Note:
                     return tr("Pasting note");
+                case DspxClipboardData::DynamicMixingAnchor:
+                    return tr("Pasting voice blending anchor");
             }
             return tr("Pasting selection");
         }();
@@ -1101,6 +1264,8 @@ namespace Core {
                     return tr("Deleting note");
                 case dspx::SelectionModel::ST_AnchorNode:
                     return tr("Deleting anchor node");
+                case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                    return tr("Deleting voice blending anchor");
                 case dspx::SelectionModel::ST_None:
                 default:
                     return tr("Deleting selection");
@@ -1148,6 +1313,9 @@ namespace Core {
                 break;
             case dspx::SelectionModel::ST_AnchorNode:
                 d->selectAllAnchorNodes();
+                break;
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                d->selectAllDynamicMixingAnchors();
                 break;
             case dspx::SelectionModel::ST_None:
             default:

@@ -28,7 +28,7 @@ QtObject {
                 propertyMapperKey: "nonePropertyMapper"
             }
             ListElement {
-                text: qsTr("Anchor Node")
+                text: qsTr("Parameter")
                 iconSource: "image://fluent-system-icons/automation_3p"
                 componentsKey: "anchornode"
                 propertyMapperKey: "anchorNodePropertyMapper"
@@ -68,6 +68,12 @@ QtObject {
                 iconSource: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
                 componentsKey: "keysignature"
                 propertyMapperKey: "keySignaturePropertyMapper"
+            }
+            ListElement {
+                text: qsTr("Blending")
+                iconSource: "image://fluent-system-icons/circle_hint_half_vertical"
+                componentsKey: "dynamicmixinganchor"
+                propertyMapperKey: "dynamicMixingAnchorPropertyMapper"
             }
         }
         Menu {
@@ -135,7 +141,7 @@ QtObject {
             }
             readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: ![1, 2, 4].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 2 && !selectionModel?.selectedCount)
+                readonly property bool inactive: ![1, 2, 4, 8].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 2 && !selectionModel?.selectedCount)
             }
             readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
@@ -151,11 +157,15 @@ QtObject {
             }
             readonly property QtObject trackPropertyMapper: TrackPropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
-                readonly property bool inactive: ![1, 2, 4, 6].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 6 && !selectionModel?.selectedCount)
+                readonly property bool inactive: ![1, 2, 4, 6, 8].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 6 && !selectionModel?.selectedCount)
             }
             readonly property QtObject keySignaturePropertyMapper: KeySignaturePropertyMapper {
                 selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 7 || !selectionModel?.selectedCount
+            }
+            readonly property QtObject dynamicMixingAnchorPropertyMapper: DynamicMixingAnchorPropertyMapper {
+                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                readonly property bool inactive: selectionModel?.selectionType !== 8 || !selectionModel?.selectedCount
             }
         }
         StackLayout {
@@ -172,7 +182,7 @@ QtObject {
                 if (selectionModel.selectedCount !== 0) {
                     return t
                 } else {
-                    return [0, 2, 0, 0, 2, 0, 0, 0][t]
+                    return [0, 2, 0, 0, 2, 0, 0, 0, 2][t]
                 }
             }
             onCurrentIndexChanged: () => {
@@ -187,7 +197,7 @@ QtObject {
             Component.onCompleted: propertyEditorStackLayout.currentIndex = 0
             Repeater {
                 model: [
-                    [0], [1, 2, 6, 0], [2, 6, 0], [3, 0], [4, 2, 6, 0], [5, 0], [6, 0], [7, 0]
+                    [0], [1, 2, 6, 0], [2, 6, 0], [3, 0], [4, 2, 6, 0], [5, 0], [6, 0], [7, 0], [8, 2, 6, 0]
                 ]
                 delegate: TabBar {
                     id: tabBar

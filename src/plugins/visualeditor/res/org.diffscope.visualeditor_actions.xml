@@ -87,6 +87,7 @@
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.clip" catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" icon="" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.phoneme" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" icon="" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" icon="parameter_view" diffscope:componentType="custom" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.dynamicMixing" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" text="Voice blending" icon="circle_hint_half_vertical" diffscope:componentType="custom" />
 
     </items>
 

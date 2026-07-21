@@ -25,6 +25,8 @@ namespace Core {
                 return "application/x.diffscope.clipboard.clip+json";
             case Note:
                 return "application/x.diffscope.clipboard.note+json";
+            case DynamicMixingAnchor:
+                return "application/x.diffscope.clipboard.dynamicmixinganchor+json";
             default:
                 return {};
         }
@@ -50,6 +52,9 @@ namespace Core {
         }
         if (mimeType == "application/x.diffscope.clipboard.note+json") {
             return Note;
+        }
+        if (mimeType == "application/x.diffscope.clipboard.dynamicmixinganchor+json") {
+            return DynamicMixingAnchor;
         }
         if (ok)
             *ok = false;
@@ -87,6 +92,9 @@ namespace Core {
                 break;
             case Note:
                 toJsonArray.operator()<Note>();
+                break;
+            case DynamicMixingAnchor:
+                toJsonArray.operator()<DynamicMixingAnchor>();
                 break;
         }
         json.insert("data", dataArray);
@@ -144,6 +152,9 @@ namespace Core {
                         break;
                     case Note:
                         fromJsonArrayV1.operator()<Note>();
+                        break;
+                    case DynamicMixingAnchor:
+                        fromJsonArrayV1.operator()<DynamicMixingAnchor>();
                         break;
                 }
                 break;

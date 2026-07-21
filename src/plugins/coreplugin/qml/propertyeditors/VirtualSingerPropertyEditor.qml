@@ -35,6 +35,9 @@ PropertyEditorGroupBox {
             const sequence = selectionModel.anchorNodeSelectionModel.anchorNodeSequenceWithSelectedItems
             return sequence?.parameter?.parameterMap?.singingClip ?? null
         }
+        case DspxSelectionModel.SelectionModel.ST_DynamicMixingAnchor:
+            return selectionModel.dynamicMixingAnchorSelectionModel
+                .dynamicMixingAnchorSequenceWithSelectedItems?.sources?.singingClip ?? null
         default:
             return null
         }

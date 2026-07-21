@@ -20,6 +20,7 @@ namespace Core {
             Track,
             Clip,
             Note,
+            DynamicMixingAnchor,
             // TODO param
         };
 
@@ -75,6 +76,14 @@ namespace Core {
             return std::get<Note>(m_data);
         }
 
+        void setDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors) {
+            m_data = anchors;
+        }
+
+        QList<opendspx::DynamicMixingAnchor> dynamicMixingAnchors() const {
+            return std::get<DynamicMixingAnchor>(m_data);
+        }
+
         int playhead() const {
             return m_playhead;
         }
@@ -111,7 +120,8 @@ namespace Core {
             QList<nlohmann::json>,
             QList<opendspx::Track>,
             QList<std::vector<opendspx::ClipRef>>,
-            QList<opendspx::Note>
+            QList<opendspx::Note>,
+            QList<opendspx::DynamicMixingAnchor>
         > m_data;
         int m_playhead{};
         int m_absolute{};

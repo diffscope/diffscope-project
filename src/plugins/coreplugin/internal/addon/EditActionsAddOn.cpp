@@ -127,6 +127,8 @@ namespace Core::Internal {
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO support anchor node cursor shifting
                 break;
+            case dspx::SelectionModel::ST_DynamicMixingAnchor:
+                break;
             case dspx::SelectionModel::ST_Clip:
                 // TODO support clip cursor shifting
                 break;

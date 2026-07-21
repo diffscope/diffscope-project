@@ -20,7 +20,8 @@ namespace Core {
             DspxClipboardData::KeySignature,
             DspxClipboardData::Track,
             DspxClipboardData::Clip,
-            DspxClipboardData::Note
+            DspxClipboardData::Note,
+            DspxClipboardData::DynamicMixingAnchor
         };
         return types;
     }

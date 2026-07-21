@@ -42,8 +42,9 @@
 
 #include <transactional/TransactionController.h>
 #include <visualeditor/AutoPageScrollingManipulator.h>
-#include <visualeditor/PositionAlignmentManipulator.h>
+#include <visualeditor/DynamicMixingEditorContext.h>
 #include <visualeditor/ParameterEditorContext.h>
+#include <visualeditor/PositionAlignmentManipulator.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/PianoRollAddOn.h>
@@ -460,6 +461,7 @@ namespace VisualEditor {
             if (d->editingClip != clip) {
                 d->editingClip = clip;
                 ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
+                ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(clip);
                 Q_EMIT editingClipChanged();
             }
             d->singingClipListModel->setClipSequence(clip->clipSequence());
@@ -468,6 +470,7 @@ namespace VisualEditor {
         if (auto *noteSequence = noteSelectionModel->noteSequenceWithSelectedItems()) {
             d->editingClip = noteSequence->singingClip();
             ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(d->editingClip);
+            ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(d->editingClip);
             d->singingClipListModel->setClipSequence(d->editingClip->clipSequence());
         }
 
@@ -653,6 +656,7 @@ namespace VisualEditor {
             return;
         d->editingClip = clip;
         ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
+        ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(clip);
         Q_EMIT editingClipChanged();
         auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
         if (selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems() != clip->notes()) {

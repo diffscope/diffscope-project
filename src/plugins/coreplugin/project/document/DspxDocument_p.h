@@ -9,6 +9,7 @@
 #include <coreplugin/DspxClipboardData.h>
 
 namespace opendspx {
+    struct DynamicMixingAnchor;
     struct Tempo;
     struct Label;
     struct Track;
@@ -31,6 +32,7 @@ namespace Core {
         std::optional<DspxClipboardData> buildLabelClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildKeySignatureClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTrackClipboardData() const;
+        std::optional<DspxClipboardData> buildDynamicMixingAnchorClipboardData(int playheadPosition) const;
         bool copyAnchorNodeSelection(int playheadPosition) const;
         bool copyFreeParameterSelection(int playheadPosition) const;
         bool pasteAnchorNodeSelection(int playheadPosition);
@@ -41,6 +43,9 @@ namespace Core {
         bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
+        bool pasteDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors,
+                                       const DspxClipboardData &data, int playheadPosition,
+                                       QList<QObject *> &pastedItems);
 
         bool deleteSelection();
         int deleteTempos();
@@ -50,6 +55,7 @@ namespace Core {
         int deleteClips();
         int deleteNotes();
         int deleteAnchorNodes();
+        int deleteDynamicMixingAnchors();
         bool deleteFreeParameterSelection();
 
         void selectAllTempos();
@@ -59,6 +65,7 @@ namespace Core {
         void selectAllClips();
         void selectAllNotes();
         void selectAllAnchorNodes();
+        void selectAllDynamicMixingAnchors();
         void selectAllFreeParameter();
 
         template<typename Signal>
