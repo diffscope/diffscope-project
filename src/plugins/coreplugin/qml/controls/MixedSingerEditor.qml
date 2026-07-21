@@ -32,26 +32,33 @@ Item {
         sourcesModel.revision
         return modelIndexValid ? sourcesModel.displayName(modelIndex) : ""
     }
-
-    function percentageAt(row) {
+    readonly property var percentageValues: {
         sourcesModel.revision
         if (!modelIndexValid)
-            return 0
+            return []
         const values = sourcesModel.ratios(modelIndex)
         let result = []
         let order = []
         let used = 0
         for (let i = 0; i < values.length; ++i) {
-            const exact = Number(values[i]) * 100
+            const exact = Number(values[i]) * 1000
             const base = Math.floor(exact)
             result.push(base)
             used += base
             order.push({ index: i, fraction: exact - base })
         }
         order.sort((a, b) => b.fraction - a.fraction || a.index - b.index)
-        for (let i = 0; i < 100 - used && i < order.length; ++i)
+        for (let i = 0; i < 1000 - used && i < order.length; ++i)
             result[order[i].index] += 1
-        return Number(result[row] ?? 0)
+        return result
+    }
+
+    function maximumPercentageValueAt(row) {
+        if (percentageValues.length < 2)
+            return Number(percentageValues[row] ?? 0)
+        const adjacentRow = row + 1 < percentageValues.length ? row + 1 : row - 1
+        return Number(percentageValues[row] ?? 0)
+                + Number(percentageValues[adjacentRow] ?? 0)
     }
 
     ColumnLayout {
@@ -176,10 +183,30 @@ Item {
                                 }
                             }
 
-                            Label {
-                                Layout.preferredWidth: 48
-                                horizontalAlignment: Text.AlignRight
-                                text: qsTr("%1%").arg(control.percentageAt(singerRow.index))
+                            SpinBox {
+                                id: ratioSpinBox
+
+                                Layout.preferredWidth: 76
+                                Layout.preferredHeight: 28
+                                from: 0
+                                to: control.maximumPercentageValueAt(singerRow.index)
+                                stepSize: 1
+                                value: Number(control.percentageValues[singerRow.index] ?? 0)
+                                editable: singerListView.count > 1
+
+                                textFromValue: function(value, locale) {
+                                    return qsTr("%1%").arg(
+                                                Number(value / 10).toLocaleString(locale, "f", 1))
+                                }
+                                valueFromText: function(text, locale) {
+                                    const numberText = String(text).replace(/%/g, "").trim()
+                                    const parsedValue = Number.fromLocaleString(locale, numberText)
+                                    return isNaN(parsedValue) ? 0 : Math.round(parsedValue * 10)
+                                }
+                                onValueModified: control.sourcesModel.setSingerRatio(
+                                                     control.modelIndex,
+                                                     singerRow.index,
+                                                     value / 1000)
                             }
 
                             ToolButton {

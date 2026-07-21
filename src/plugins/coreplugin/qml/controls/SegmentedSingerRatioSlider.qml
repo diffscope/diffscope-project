@@ -35,15 +35,17 @@ Item {
         let order = []
         let used = 0
         for (let i = 0; i < values.length; ++i) {
-            const exact = Number(values[i]) * 100
+            const exact = Number(values[i]) * 1000
             const base = Math.floor(exact)
             result.push(base)
             used += base
             order.push({ index: i, fraction: exact - base })
         }
         order.sort((a, b) => b.fraction - a.fraction || a.index - b.index)
-        for (let i = 0; i < 100 - used && i < order.length; ++i)
+        for (let i = 0; i < 1000 - used && i < order.length; ++i)
             result[order[i].index] += 1
+        for (let i = 0; i < result.length; ++i)
+            result[i] /= 10
         return result
     }
 
@@ -102,7 +104,12 @@ Item {
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         color: Theme.foregroundPrimaryColor
-                        text: qsTr("%1%").arg(Number(control.percentageValues[segment.index] ?? 0))
+                        text: {
+                            const percentage = Number(
+                                                 control.percentageValues[segment.index] ?? 0)
+                            return qsTr("%1%").arg(
+                                        percentage.toLocaleString(Qt.locale(), "f", 1))
+                        }
                     }
                 }
             }

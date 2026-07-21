@@ -1097,6 +1097,21 @@ namespace Core {
         return true;
     }
 
+    bool SourcesPickerModel::setSingerRatio(const QModelIndex &mixedSingerIndex, int row, double ratio) {
+        Q_D(SourcesPickerModel);
+        auto *node = d->nodeForIndex(mixedSingerIndex);
+        const int childCount = node ? static_cast<int>(node->children.size()) : 0;
+        if (!d->mixedSinger(node) || childCount < 2 || row < 0 || row >= childCount || !std::isfinite(ratio))
+            return false;
+
+        if (row + 1 < childCount)
+            return setAdjacentRatios(mixedSingerIndex, row, ratio);
+
+        const auto shares = d->displayRatios(node);
+        const double pairSum = shares[row - 1] + shares[row];
+        return setAdjacentRatios(mixedSingerIndex, row - 1, pairSum - ratio);
+    }
+
     bool SourcesPickerModel::setAdjacentRatios(const QModelIndex &mixedSingerIndex, int leftRow, double leftRatio) {
         Q_D(SourcesPickerModel);
         auto *node = d->nodeForIndex(mixedSingerIndex);

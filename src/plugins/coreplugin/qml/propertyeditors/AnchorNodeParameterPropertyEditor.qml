@@ -50,16 +50,6 @@ PropertyEditorGroupBox {
         transactionId = 0
     }
 
-    function updateValueText() {
-        if (valueField.activeFocus) {
-            const value = parameterInfoProvider.displayValue(propertyMapper?.value)
-            valueField.text = value === undefined || value === null
-                ? "" : Number(value).toLocaleString()
-        } else {
-            valueField.text = parameterInfoProvider.displayString(propertyMapper?.value)
-        }
-    }
-
     ParameterInfoProvider {
         id: parameterInfoProvider
         registry: CoreInterface.singerRegistry
@@ -102,36 +92,62 @@ PropertyEditorGroupBox {
         FormGroup {
             Layout.fillWidth: true
             label: qsTr("Value")
-            columnItem: TextField {
-                id: valueField
+            columnItem: SpinBox {
+                id: valueSpinBox
+                readonly property int decimals: 3
+                readonly property int decimalFactor: Math.pow(10, decimals)
+                readonly property var displayValue:
+                    parameterInfoProvider.displayValue(groupBox.propertyMapper?.value)
+                readonly property var bottomDisplayValue:
+                    parameterInfoProvider.displayValue(parameterInfoProvider.info.bottomValue)
+                readonly property var topDisplayValue:
+                    parameterInfoProvider.displayValue(parameterInfoProvider.info.topValue)
+
                 enabled: parameterInfoProvider.exists
+                from: Math.round(Math.min(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
+                                 * decimalFactor)
+                to: Math.round(Math.max(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
+                               * decimalFactor)
+                value: displayValue === undefined || displayValue === null
+                    ? 0 : Math.round(displayValue * decimalFactor)
+                stepSize: 1
+                contentItem.visible: displayValue !== undefined && displayValue !== null
                 validator: DoubleValidator {
+                    locale: valueSpinBox.locale.name
+                    bottom: Math.min(valueSpinBox.bottomDisplayValue ?? 0,
+                                     valueSpinBox.topDisplayValue ?? 0)
+                    top: Math.max(valueSpinBox.bottomDisplayValue ?? 0,
+                                  valueSpinBox.topDisplayValue ?? 0)
+                    decimals: valueSpinBox.decimals
                     notation: DoubleValidator.StandardNotation
                 }
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        groupBox.updateValueText()
+
+                textFromValue: function(value, locale) {
+                    return Number(value / decimalFactor).toLocaleString(
+                        locale, "f", decimals)
                 }
-                onEditingFinished: {
-                    const displayValue = Number.fromLocaleString(Qt.locale(), text)
-                    const rawValue = parameterInfoProvider.rawValue(displayValue)
-                    if (rawValue === undefined || rawValue === null || !groupBox.beginTransaction()) {
-                        groupBox.updateValueText()
+                valueFromText: function(text, locale) {
+                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
+                }
+
+                onValueModified: {
+                    const rawValue = parameterInfoProvider.rawValue(value / decimalFactor)
+                    if (rawValue === undefined || rawValue === null)
                         return
-                    }
+                    if (!spinBoxHelper.buttonPressed)
+                        groupBox.beginTransaction()
+                    if (!groupBox.transactionId)
+                        return
                     groupBox.propertyMapper.value = rawValue
-                    groupBox.commitTransaction()
-                    groupBox.updateValueText()
+                    if (!spinBoxHelper.buttonPressed)
+                        groupBox.commitTransaction()
                 }
-                Component.onCompleted: groupBox.updateValueText()
-                Connections {
-                    target: groupBox.propertyMapper
-                    function onValueChanged() { groupBox.updateValueText() }
-                }
-                Connections {
-                    target: parameterInfoProvider
-                    function onInfoChanged() { groupBox.updateValueText() }
-                    function onExistsChanged() { groupBox.updateValueText() }
+
+                SpinBoxPressedHelper {
+                    id: spinBoxHelper
+                    spinBox: valueSpinBox
+                    onPressed: groupBox.beginTransaction()
+                    onReleased: groupBox.commitTransaction()
                 }
             }
         }

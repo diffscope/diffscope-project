@@ -111,6 +111,7 @@ namespace Core {
         Q_INVOKABLE bool wrapSingerInMixed(const QModelIndex &index);
         Q_INVOKABLE bool setSingerExtra(const QModelIndex &index, const QJsonValue &extra);
         Q_INVOKABLE bool setMixedName(const QModelIndex &index, const QString &name);
+        Q_INVOKABLE bool setSingerRatio(const QModelIndex &mixedSingerIndex, int row, double ratio);
         Q_INVOKABLE bool setAdjacentRatios(const QModelIndex &mixedSingerIndex, int leftRow, double leftRatio);
 
     Q_SIGNALS:
