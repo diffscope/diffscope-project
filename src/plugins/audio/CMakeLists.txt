@@ -21,6 +21,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         coreplugin
+        dspxmodelORM
+        opendspx::interpolator
+        opendspx::model
         talcs::Core
         talcs::Device
         talcs::Dspx

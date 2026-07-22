@@ -30,6 +30,7 @@
 #include <audio/internal/PlaybackPage.h>
 #include <audio/internal/AudioSystem.h>
 #include <audio/internal/OutputSystem.h>
+#include <audio/internal/WaveformSingerAddOn.h>
 
 static auto getAudioActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(audio);
@@ -118,6 +119,9 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
+        if (AudioSystem::isSingerRegistrationSuccessful()) {
+            Core::ProjectWindowInterfaceRegistry::instance()->attach<WaveformSingerAddOn>();
+        }
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioClipAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ExportAudioAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PlaybackAddOn>();

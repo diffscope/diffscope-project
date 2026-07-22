@@ -78,7 +78,10 @@ namespace Audio::Internal {
         dspxProjectContext->setTimeConverter([=](int tick) -> qint64 {
             auto timeline = windowInterface->projectTimeline()->musicTimeline();
             auto msec = timeline->create(0, 0, tick).millisecond();
-            auto sampleRate = GlobalAudioContext::sampleRate();
+            const auto activeSampleRate = dspxProjectContext->preMixer()->sampleRate();
+            const auto sampleRate = qFuzzyIsNull(activeSampleRate)
+                ? GlobalAudioContext::sampleRate()
+                : activeSampleRate;
             if (qFuzzyIsNull(sampleRate))
                 return 0;
             return static_cast<qint64>(std::round(msec * sampleRate / 1000));

@@ -1,5 +1,12 @@
 #include "WaveformSingerMetadata.h"
 
+#include <QJsonObject>
+#include <QQmlComponent>
+
+#include <CoreApi/runtimeinterface.h>
+
+#include <audio/internal/WaveformSingerTypeCatalog.h>
+
 #include <coreplugin/SingerRegistry.h>
 
 namespace Audio::Internal {
@@ -57,36 +64,38 @@ namespace Audio::Internal {
         return info;
     }
 
-    QList<WaveformSingerMetadata::SingerEntry> WaveformSingerMetadata::singers() {
-        const auto createSinger = [](const QString &name, const QUrl &avatar) {
-            Core::SingerInfo info;
-            info.setName(name);
-            info.setMixGroup(QStringLiteral("waveform"));
-            info.setAvatarUrl(avatar);
-            return info;
-        };
-
-        return {
-            {QStringLiteral("piano"), createSinger(tr("Electric Piano"), QUrl("qrc:/diffscope/audio/singeravatar/piano.png"))},
-            {QStringLiteral("sinewave"), createSinger(tr("Sine Wave"), QUrl("qrc:/diffscope/audio/singeravatar/sinewave.png"))},
-            {QStringLiteral("choir"), createSinger(tr("Choir"), QUrl("qrc:/diffscope/audio/singeravatar/choir.png"))},
-        };
+    Core::SingerInfo WaveformSingerMetadata::singerInfo() {
+        Core::SingerInfo info;
+        info.setName(tr("Waveform Synthesizer"));
+        info.setMixGroup(QStringLiteral("waveform"));
+        info.setAvatarUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform.svg")));
+        info.setDefaultExtra(QJsonObject{
+            {QStringLiteral("type"), WaveformSingerTypeCatalog::fallbackType()},
+        });
+        return info;
     }
 
     bool WaveformSingerMetadata::registerAll(Core::SingerRegistry *registry) {
         if (!registry)
             return false;
 
+        auto controlPanelComponent = new QQmlComponent(
+            Core::RuntimeInterface::qmlEngine(),
+            QStringLiteral("DiffScope.Audio"),
+            QStringLiteral("WaveformSingerControlPanel"),
+            registry
+        );
+        if (controlPanelComponent->isError()) {
+            qFatal() << controlPanelComponent->errorString();
+        }
+
         const auto id = architectureId();
-        if (!registry->registerArchitecture(id, architectureInfo()))
+        auto architecture = architectureInfo();
+        architecture.setControlPanelComponent(controlPanelComponent);
+        if (!registry->registerArchitecture(id, architecture))
             return false;
 
-        bool success = true;
-        for (const auto &singer : singers()) {
-            const bool singerRegistered = registry->registerSinger(id, singer.id, singer.info);
-            success = singerRegistered && success;
-        }
-        return success;
+        return registry->registerSinger(id, QStringLiteral("waveform"), singerInfo());
     }
 
 }

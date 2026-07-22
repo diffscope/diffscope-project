@@ -2,7 +2,6 @@
 #define DIFFSCOPE_AUDIO_WAVEFORMSINGERMETADATA_H
 
 #include <QCoreApplication>
-#include <QList>
 #include <QString>
 
 #include <coreplugin/ArchitectureInfo.h>
@@ -18,14 +17,9 @@ namespace Audio::Internal {
         Q_DECLARE_TR_FUNCTIONS(Audio::Internal::WaveformSingerMetadata)
 
     public:
-        struct SingerEntry {
-            QString id;
-            Core::SingerInfo info;
-        };
-
         static QString architectureId();
         static Core::ArchitectureInfo architectureInfo();
-        static QList<SingerEntry> singers();
+        static Core::SingerInfo singerInfo();
 
         static bool registerAll(Core::SingerRegistry *registry);
     };
