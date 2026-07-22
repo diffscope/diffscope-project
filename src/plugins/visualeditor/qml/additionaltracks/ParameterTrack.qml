@@ -691,7 +691,9 @@ QtObject {
                 height: valueIndicatorLabel.implicitHeight + 4
                 radius: 2
                 visible: parameterInfoProvider.exists
-                    && (scale.valueIndicatorEditing || control.parameterHovered)
+                    && (scale.valueIndicatorEditing
+                        || (!(control.contextObject?.mouseTrackingDisabled ?? true)
+                            && control.parameterHovered))
                     && scale.valueIndicatorDisplayString.length > 0
                 color: Qt.rgba(
                     Theme.backgroundPrimaryColor.r,

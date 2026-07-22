@@ -262,6 +262,11 @@ namespace VisualEditor {
         d->windowHandle = windowHandle;
         d->addon = addOn;
 
+        const auto syncMouseTrackingDisabled = [this] {
+            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
+        };
+        syncMouseTrackingDisabled();
+
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->timeLayoutViewModel->setPixelDensity(0.04);
@@ -307,9 +312,7 @@ namespace VisualEditor {
         d->bindPositionAlignmentManipulator();
         d->bindControllersInteraction();
 
-        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
-            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
-        });
+        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, syncMouseTrackingDisabled);
     }
 
     ArrangementPanelInterface::~ArrangementPanelInterface() = default;

@@ -1086,8 +1086,9 @@ namespace VisualEditor {
         timeManipulator.setTarget(noteArea);
         timeManipulator.setTimeViewModel(noteArea->property("timeViewModel").value<sflow::TimeViewModel *>());
         timeManipulator.setTimeLayoutViewModel(noteArea->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
-        position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
-        auto implicitNoteLength = PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength();
+        auto start = clipViewModel->position() - clipViewModel->clipStart();
+        position = qMax(0, timeManipulator.alignPosition(position + start, sflow::ScopicFlow::AO_Visible) - start);
+        auto implicitNoteLength = qMax(1, qMax(PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength(), timeManipulator.timeLayoutViewModel()->positionAlignment()));
 
         document->transactionController()->beginScopedTransaction(QObject::tr("Inserting note"), [=, &newNote, &success] {
             newNote = document->model()->createNote();

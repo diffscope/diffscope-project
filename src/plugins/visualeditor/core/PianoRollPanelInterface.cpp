@@ -403,6 +403,11 @@ namespace VisualEditor {
         d->windowHandle = windowHandle;
         d->addon = addOn;
 
+        const auto syncMouseTrackingDisabled = [this] {
+            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
+        };
+        syncMouseTrackingDisabled();
+
         d->timeViewModel = new sflow::TimeViewModel(this);
         d->timeLayoutViewModel = new sflow::TimeLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
@@ -497,9 +502,7 @@ namespace VisualEditor {
         d->bindClavierInteractionController();
         d->bindNoteEditLayerInteractionController();
 
-        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, [=, this] {
-            setMouseTrackingDisabled(!Internal::EditorPreference::trackCursorPosition());
-        });
+        connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::trackCursorPositionChanged, this, syncMouseTrackingDisabled);
     }
 
     PianoRollPanelInterface::~PianoRollPanelInterface() = default;
