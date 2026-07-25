@@ -69,6 +69,7 @@ namespace Audio::Internal {
         info.setName(tr("Waveform Synthesizer"));
         info.setMixGroup(QStringLiteral("waveform"));
         info.setAvatarUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform.svg")));
+        info.setBackgroundUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform_portrait.svg")));
         info.setDefaultExtra(QJsonObject{
             {QStringLiteral("type"), WaveformSingerTypeCatalog::fallbackType()},
         });

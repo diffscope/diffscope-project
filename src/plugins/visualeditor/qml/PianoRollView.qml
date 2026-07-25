@@ -50,6 +50,33 @@ Item {
         noteStartCursorBinding.when || noteEndCursorBinding.when
         || pitchAnchorCursorBinding.when || pitchFreeEditCursorBinding.when
 
+    readonly property var singerBackgroundIds:
+        flattenUniqueSingerIds(singerBackgroundIdProvider.singerTree)
+
+    function flattenUniqueSingerIds(singerTree) {
+        const singerIds = []
+
+        function appendSingerIds(node) {
+            if (typeof node === "string") {
+                if (node !== "" && !singerIds.includes(node))
+                    singerIds.push(node)
+                return
+            }
+            if (!node || typeof node.length !== "number")
+                return
+            for (let index = 0; index < node.length; ++index)
+                appendSingerIds(node[index])
+        }
+
+        appendSingerIds(singerTree)
+        return singerIds
+    }
+
+    ClipSingerIdProvider {
+        id: singerBackgroundIdProvider
+        sources: view.pianoRollPanelInterface?.editingClip?.sources ?? null
+    }
+
     function mapClipPositionToTimeline(position: int, clipViewModel): int {
         return position + (clipViewModel?.position ?? 0)
             - (clipViewModel?.clipStart ?? 0)
@@ -721,6 +748,54 @@ Item {
                                 timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
                                 clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                                 scaleHighlightSequenceViewModel: view.pianoRollPanelInterface?.scaleHighlightEnabled ? (view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null) : null
+                            }
+                            RowLayout {
+                                id: singerBackgroundRow
+
+                                anchors.top: parent.top
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.margins: 32
+                                spacing: 16
+                                visible: EditorPreference.showSingerBackground
+                                opacity: EditorPreference.singerBackgroundOpacity
+
+                                Repeater {
+                                    model: view.singerBackgroundIds
+
+                                    delegate: Image {
+                                        id: singerBackgroundImage
+
+                                        required property string modelData
+
+                                        readonly property url backgroundUrl:
+                                            singerInfoProvider.info.backgroundUrl
+                                        readonly property bool hasBackground:
+                                            singerInfoProvider.exists
+                                            && String(backgroundUrl).length > 0
+
+                                        Layout.fillHeight: true
+                                        Layout.preferredWidth: hasBackground
+                                                               && sourceSize.height > 0
+                                                               ? singerBackgroundRow.height
+                                                                 * sourceSize.width
+                                                                 / sourceSize.height
+                                                               : 0
+
+                                        visible: hasBackground
+                                        source: hasBackground ? backgroundUrl : ""
+                                        fillMode: Image.PreserveAspectFit
+                                        asynchronous: true
+                                        mipmap: true
+
+                                        SingerInfoProvider {
+                                            id: singerInfoProvider
+                                            registry: CoreInterface.singerRegistry
+                                            architectureId: singerBackgroundIdProvider.architectureId
+                                            singerId: singerBackgroundImage.modelData
+                                        }
+                                    }
+                                }
                             }
                             Item {
                                 id: noteEditLayerSequenceStack

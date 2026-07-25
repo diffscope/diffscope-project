@@ -25,6 +25,8 @@ namespace VisualEditor::Internal {
         bool displayPronunciationBelowNote{};
         int shortNoteThreshold{30};
         bool trackCursorPosition{true};
+        bool showSingerBackground{true};
+        double singerBackgroundOpacity{0.25};
     };
 
     static EditorPreference *m_instance = nullptr;
@@ -72,6 +74,11 @@ namespace VisualEditor::Internal {
         emit shortNoteThresholdChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
         emit trackCursorPositionChanged();
+        d->showSingerBackground = settings->value("showSingerBackground", true).toBool();
+        emit showSingerBackgroundChanged();
+        d->singerBackgroundOpacity = qBound(
+            0.0, settings->value("singerBackgroundOpacity", 0.25).toDouble(), 1.0);
+        emit singerBackgroundOpacityChanged();
         settings->endGroup();
     }
 
@@ -92,6 +99,8 @@ namespace VisualEditor::Internal {
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
         settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
+        settings->setValue("showSingerBackground", d->showSingerBackground);
+        settings->setValue("singerBackgroundOpacity", d->singerBackgroundOpacity);
         settings->endGroup();
     }
 
@@ -265,6 +274,33 @@ namespace VisualEditor::Internal {
             return;
         d->trackCursorPosition = trackCursorPosition;
         emit m_instance->trackCursorPositionChanged();
+    }
+
+    bool EditorPreference::showSingerBackground() {
+        M_INSTANCE_D;
+        return d->showSingerBackground;
+    }
+
+    void EditorPreference::setShowSingerBackground(bool showSingerBackground) {
+        M_INSTANCE_D;
+        if (d->showSingerBackground == showSingerBackground)
+            return;
+        d->showSingerBackground = showSingerBackground;
+        emit m_instance->showSingerBackgroundChanged();
+    }
+
+    double EditorPreference::singerBackgroundOpacity() {
+        M_INSTANCE_D;
+        return d->singerBackgroundOpacity;
+    }
+
+    void EditorPreference::setSingerBackgroundOpacity(double singerBackgroundOpacity) {
+        M_INSTANCE_D;
+        singerBackgroundOpacity = qBound(0.0, singerBackgroundOpacity, 1.0);
+        if (qFuzzyCompare(d->singerBackgroundOpacity, singerBackgroundOpacity))
+            return;
+        d->singerBackgroundOpacity = singerBackgroundOpacity;
+        emit m_instance->singerBackgroundOpacityChanged();
     }
 
 }

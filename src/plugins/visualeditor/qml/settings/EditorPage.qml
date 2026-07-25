@@ -26,6 +26,8 @@ ScrollView {
     property bool displayPronunciationBelowNote: false
     property int shortNoteThreshold: 30
     property bool trackCursorPosition: false
+    property bool showSingerBackground: true
+    property double singerBackgroundOpacity: 0.25
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
     onZoomModifierChanged: if (started) pageHandle.markDirty()
@@ -40,6 +42,8 @@ ScrollView {
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
     onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
+    onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundOpacityChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -263,6 +267,43 @@ ScrollView {
                         to: 60
                         value: page.shortNoteThreshold
                         onValueModified: page.shortNoteThreshold = value
+                    }
+
+                    CheckBox {
+                        text: qsTr("Show singer background")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.showSingerBackground
+                        onClicked: page.showSingerBackground = checked
+                    }
+
+                    Label {
+                        text: qsTr("Singer background opacity")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        enabled: page.showSingerBackground
+                    }
+                    Slider {
+                        Layout.fillWidth: true
+                        from: 0
+                        to: 1
+                        value: page.singerBackgroundOpacity
+                        enabled: page.showSingerBackground
+                        onMoved: page.singerBackgroundOpacity = value
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
+                    }
+                    SpinBox {
+                        from: 0
+                        to: 100
+                        value: Math.round(page.singerBackgroundOpacity * 100)
+                        enabled: page.showSingerBackground
+                        onValueModified: page.singerBackgroundOpacity = value / 100.0
+                        textFromValue: function(value, locale) {
+                            return value + "%"
+                        }
+                        valueFromText: function(text, locale) {
+                            return parseInt(text.replace("%", ""))
+                        }
                     }
                 }
             }

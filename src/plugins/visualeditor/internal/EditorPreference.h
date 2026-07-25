@@ -32,6 +32,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
         Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
+        Q_PROPERTY(bool showSingerBackground READ showSingerBackground WRITE setShowSingerBackground NOTIFY showSingerBackgroundChanged)
+        Q_PROPERTY(double singerBackgroundOpacity READ singerBackgroundOpacity WRITE setSingerBackgroundOpacity NOTIFY singerBackgroundOpacityChanged)
 
     public:
         ~EditorPreference() override;
@@ -98,6 +100,12 @@ namespace VisualEditor::Internal {
         static bool trackCursorPosition();
         static void setTrackCursorPosition(bool trackCursorPosition);
 
+        static bool showSingerBackground();
+        static void setShowSingerBackground(bool showSingerBackground);
+
+        static double singerBackgroundOpacity();
+        static void setSingerBackgroundOpacity(double singerBackgroundOpacity);
+
     Q_SIGNALS:
         void alternateAxisModifierChanged();
         void zoomModifierChanged();
@@ -112,6 +120,8 @@ namespace VisualEditor::Internal {
         void displayPronunciationBelowNoteChanged();
         void shortNoteThresholdChanged();
         void trackCursorPositionChanged();
+        void showSingerBackgroundChanged();
+        void singerBackgroundOpacityChanged();
 
     private:
         friend class VisualEditorPlugin;

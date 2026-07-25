@@ -71,6 +71,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("shortNoteThreshold");
         m_widget->setProperty("trackCursorPosition", EditorPreference::instance()->property("trackCursorPosition"));
         qCDebug(lcEditorPage) << m_widget->property("trackCursorPosition");
+        m_widget->setProperty("showSingerBackground", EditorPreference::instance()->property("showSingerBackground"));
+        qCDebug(lcEditorPage) << m_widget->property("showSingerBackground");
+        m_widget->setProperty("singerBackgroundOpacity", EditorPreference::instance()->property("singerBackgroundOpacity"));
+        qCDebug(lcEditorPage) << m_widget->property("singerBackgroundOpacity");
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
     }
@@ -103,6 +107,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("shortNoteThreshold", m_widget->property("shortNoteThreshold"));
         qCDebug(lcEditorPage) << "trackCursorPosition" << m_widget->property("trackCursorPosition");
         EditorPreference::instance()->setProperty("trackCursorPosition", m_widget->property("trackCursorPosition"));
+        qCDebug(lcEditorPage) << "showSingerBackground" << m_widget->property("showSingerBackground");
+        EditorPreference::instance()->setProperty("showSingerBackground", m_widget->property("showSingerBackground"));
+        qCDebug(lcEditorPage) << "singerBackgroundOpacity" << m_widget->property("singerBackgroundOpacity");
+        EditorPreference::instance()->setProperty("singerBackgroundOpacity", m_widget->property("singerBackgroundOpacity"));
         EditorPreference::instance()->save();
         return Core::ISettingPage::accept();
     }
