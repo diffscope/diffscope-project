@@ -11,6 +11,7 @@
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftCore/MusicPitch.h>
+#include <SVSCraftCore/MusicMode.h>
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <opendspx/model.h>
@@ -47,6 +48,46 @@ namespace MIDIFormatConverter::Internal {
             result.append(info);
         }
         return result;
+    }
+
+    static void postprocessImportedModel(opendspx::Model &model) {
+        for (auto &track : model.content.tracks) {
+            for (const auto &clip : track.clips) {
+                if (!clip || clip->type != opendspx::Clip::Type::Singing || !clip->name.empty())
+                    continue;
+
+                const auto singingClip = std::static_pointer_cast<opendspx::SingingClip>(clip);
+                const auto lyricCount = std::min<std::size_t>(8, singingClip->notes.size());
+                for (std::size_t i = 0; i < lyricCount; ++i) {
+                    if (i != 0)
+                        clip->name.push_back(' ');
+                    clip->name.append(singingClip->notes[i].lyric);
+                }
+            }
+
+            if (track.name.empty() && !track.clips.empty() && track.clips.front()) {
+                track.name = track.clips.front()->name;
+            }
+        }
+    }
+
+    static void addDetectedKeySignature(opendspx::Model &model, int mode, int accidentalType, const QList<SVS::MusicPitch> &notes) {
+        if (notes.isEmpty())
+            return;
+
+        const auto tonality = SVS::MusicMode(mode).detectTonality(notes);
+        auto &diffscopeWorkspace = model.content.workspace["diffscope"];
+        if (!diffscopeWorkspace.is_object())
+            diffscopeWorkspace = nlohmann::json::object();
+        auto &keySignatures = diffscopeWorkspace["keySignatures"];
+        if (!keySignatures.is_array())
+            keySignatures = nlohmann::json::array();
+        keySignatures.push_back({
+            {"pos", 0},
+            {"mode", mode},
+            {"tonality", static_cast<int>(tonality)},
+            {"accidentalType", accidentalType},
+        });
     }
 
     bool MIDIFileImporter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {
@@ -87,10 +128,22 @@ namespace MIDIFormatConverter::Internal {
         }
         auto codec = dlg.codec();
         auto selectedIndexes = dlg.selectedIndexes();
+        const bool autoDetectKeySignature = dlg.autoDetectKeySignature();
+        const int musicMode = dlg.musicMode();
+        const int accidentalType = dlg.accidentalType();
         bool ok;
+        auto sourceTracks = intermediateData.tracks();
         std::vector<opendspx::MidiIntermediateData::Track> selectedTracks;
+        QList<SVS::MusicPitch> selectedNotes;
         for (auto index : selectedIndexes) {
-            selectedTracks.push_back(std::move(intermediateData.tracks().at(index)));
+            auto &track = sourceTracks.at(index);
+            if (autoDetectKeySignature) {
+                selectedNotes.reserve(selectedNotes.size() + static_cast<qsizetype>(track.notes.size()));
+                for (const auto &note : track.notes) {
+                    selectedNotes.append(SVS::MusicPitch(static_cast<qint8>(note.key)));
+                }
+            }
+            selectedTracks.push_back(std::move(track));
         }
         intermediateData = {
             intermediateData.resolution(),
@@ -106,6 +159,10 @@ namespace MIDIFormatConverter::Internal {
             qCCritical(lcMIDIFileImporter) << "Failed to convert MIDI data:" << path;
             SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), window, tr("Failed to convert MIDI data"), tr("Some meta events in this MIDI document cannot be converted to DSPX. Please try disabling import tempo/time signature."));
             return false;
+        }
+        postprocessImportedModel(model);
+        if (autoDetectKeySignature) {
+            addDetectedKeySignature(model, musicMode, accidentalType, selectedNotes);
         }
         return true;
     }

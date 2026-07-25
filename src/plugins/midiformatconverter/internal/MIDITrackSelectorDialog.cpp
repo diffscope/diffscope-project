@@ -17,6 +17,8 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
+#include <SVSCraftCore/MusicModeInfo.h>
+
 #include <midiformatconverter/internal/MIDITextCodecConverter.h>
 
 namespace MIDIFormatConverter::Internal {
@@ -91,6 +93,27 @@ namespace MIDIFormatConverter::Internal {
         importTimeSignatureCheckBox->setChecked(importTimeSignature);
         optionsLayout->addWidget(importTimeSignatureCheckBox);
 
+        auto *keySignatureLayout = new QHBoxLayout;
+        autoDetectKeySignatureCheckBox = new QCheckBox(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Automatically detect key signature"), optionsGroup);
+        autoDetectKeySignatureCheckBox->setChecked(autoDetectKeySignature);
+        keySignatureLayout->addWidget(autoDetectKeySignatureCheckBox);
+
+        musicModeComboBox = new QComboBox(optionsGroup);
+        for (const auto &[mode, name] : SVS::MusicModeInfo::getBuiltInMusicModeInfoList()) {
+            musicModeComboBox->addItem(name, mode.mask());
+        }
+        musicModeComboBox->setCurrentIndex(musicModeComboBox->findData(musicMode));
+        musicModeComboBox->setEnabled(autoDetectKeySignature);
+        keySignatureLayout->addWidget(musicModeComboBox, 1);
+
+        accidentalTypeComboBox = new QComboBox(optionsGroup);
+        accidentalTypeComboBox->addItem(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Flat"), 0);
+        accidentalTypeComboBox->addItem(MIDIFormatConverter::Internal::MIDITrackSelectorDialog::tr("Sharp"), 1);
+        accidentalTypeComboBox->setCurrentIndex(accidentalTypeComboBox->findData(accidentalType));
+        accidentalTypeComboBox->setEnabled(autoDetectKeySignature);
+        keySignatureLayout->addWidget(accidentalTypeComboBox);
+        optionsLayout->addLayout(keySignatureLayout);
+
         mainLayout->addWidget(optionsGroup);
 
         auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, q);
@@ -131,6 +154,25 @@ namespace MIDIFormatConverter::Internal {
         QObject::connect(importTimeSignatureCheckBox, &QCheckBox::toggled, q, [this](bool checked) {
             Q_Q(MIDITrackSelectorDialog);
             q->setImportTimeSignature(checked);
+        });
+
+        QObject::connect(autoDetectKeySignatureCheckBox, &QCheckBox::toggled, q, [this](bool checked) {
+            Q_Q(MIDITrackSelectorDialog);
+            q->setAutoDetectKeySignature(checked);
+        });
+
+        QObject::connect(musicModeComboBox, &QComboBox::currentIndexChanged, q, [this](int index) {
+            if (index < 0)
+                return;
+            Q_Q(MIDITrackSelectorDialog);
+            q->setMusicMode(musicModeComboBox->itemData(index).toInt());
+        });
+
+        QObject::connect(accidentalTypeComboBox, &QComboBox::currentIndexChanged, q, [this](int index) {
+            if (index < 0)
+                return;
+            Q_Q(MIDITrackSelectorDialog);
+            q->setAccidentalType(accidentalTypeComboBox->itemData(index).toInt());
         });
         q->resize(640, 480);
     }
@@ -429,6 +471,61 @@ namespace MIDIFormatConverter::Internal {
             d->importTimeSignatureCheckBox->setChecked(enabled);
         }
         emit importTimeSignatureChanged(enabled);
+    }
+
+    bool MIDITrackSelectorDialog::autoDetectKeySignature() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->autoDetectKeySignature;
+    }
+
+    void MIDITrackSelectorDialog::setAutoDetectKeySignature(bool enabled) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->autoDetectKeySignature == enabled)
+            return;
+        d->autoDetectKeySignature = enabled;
+        if (d->autoDetectKeySignatureCheckBox) {
+            QSignalBlocker blocker(d->autoDetectKeySignatureCheckBox);
+            d->autoDetectKeySignatureCheckBox->setChecked(enabled);
+        }
+        if (d->musicModeComboBox)
+            d->musicModeComboBox->setEnabled(enabled);
+        if (d->accidentalTypeComboBox)
+            d->accidentalTypeComboBox->setEnabled(enabled);
+        emit autoDetectKeySignatureChanged(enabled);
+    }
+
+    int MIDITrackSelectorDialog::musicMode() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->musicMode;
+    }
+
+    void MIDITrackSelectorDialog::setMusicMode(int mode) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->musicMode == mode)
+            return;
+        d->musicMode = mode;
+        if (d->musicModeComboBox) {
+            QSignalBlocker blocker(d->musicModeComboBox);
+            d->musicModeComboBox->setCurrentIndex(d->musicModeComboBox->findData(mode));
+        }
+        emit musicModeChanged(mode);
+    }
+
+    int MIDITrackSelectorDialog::accidentalType() const {
+        Q_D(const MIDITrackSelectorDialog);
+        return d->accidentalType;
+    }
+
+    void MIDITrackSelectorDialog::setAccidentalType(int accidentalType) {
+        Q_D(MIDITrackSelectorDialog);
+        if (d->accidentalType == accidentalType)
+            return;
+        d->accidentalType = accidentalType;
+        if (d->accidentalTypeComboBox) {
+            QSignalBlocker blocker(d->accidentalTypeComboBox);
+            d->accidentalTypeComboBox->setCurrentIndex(d->accidentalTypeComboBox->findData(accidentalType));
+        }
+        emit accidentalTypeChanged(accidentalType);
     }
 
     void MIDITrackSelectorDialog::detectCodec() {

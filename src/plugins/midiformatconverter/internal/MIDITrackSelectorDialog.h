@@ -20,6 +20,9 @@ namespace MIDIFormatConverter::Internal {
         Q_PROPERTY(bool separateMidiChannels READ separateMidiChannels WRITE setseparateMidiChannels NOTIFY separateMidiChannelsChanged)
         Q_PROPERTY(bool importTempo READ importTempo WRITE setImportTempo NOTIFY importTempoChanged)
         Q_PROPERTY(bool importTimeSignature READ importTimeSignature WRITE setImportTimeSignature NOTIFY importTimeSignatureChanged)
+        Q_PROPERTY(bool autoDetectKeySignature READ autoDetectKeySignature WRITE setAutoDetectKeySignature NOTIFY autoDetectKeySignatureChanged)
+        Q_PROPERTY(int musicMode READ musicMode WRITE setMusicMode NOTIFY musicModeChanged)
+        Q_PROPERTY(int accidentalType READ accidentalType WRITE setAccidentalType NOTIFY accidentalTypeChanged)
 
     public:
         struct TrackInfo {
@@ -51,6 +54,15 @@ namespace MIDIFormatConverter::Internal {
         bool importTimeSignature() const;
         void setImportTimeSignature(bool enabled);
 
+        bool autoDetectKeySignature() const;
+        void setAutoDetectKeySignature(bool enabled);
+
+        int musicMode() const;
+        void setMusicMode(int mode);
+
+        int accidentalType() const;
+        void setAccidentalType(int accidentalType);
+
         Q_INVOKABLE void detectCodec();
 
     Q_SIGNALS:
@@ -59,6 +71,9 @@ namespace MIDIFormatConverter::Internal {
         void separateMidiChannelsChanged(bool enabled);
         void importTempoChanged(bool enabled);
         void importTimeSignatureChanged(bool enabled);
+        void autoDetectKeySignatureChanged(bool enabled);
+        void musicModeChanged(int mode);
+        void accidentalTypeChanged(int accidentalType);
 
     private:
         QScopedPointer<MIDITrackSelectorDialogPrivate> d_ptr;

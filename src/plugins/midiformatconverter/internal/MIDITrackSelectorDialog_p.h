@@ -59,6 +59,9 @@ namespace MIDIFormatConverter::Internal {
         bool separateMidiChannels = true;
         bool importTempo = true;
         bool importTimeSignature = true;
+        bool autoDetectKeySignature = false;
+        int musicMode = 2741;
+        int accidentalType = 0;
 
         QComboBox *codecComboBox = nullptr;
         QTreeView *trackView = nullptr;
@@ -68,6 +71,9 @@ namespace MIDIFormatConverter::Internal {
         QCheckBox *separateMidiChannelsCheckBox = nullptr;
         QCheckBox *importTempoCheckBox = nullptr;
         QCheckBox *importTimeSignatureCheckBox = nullptr;
+        QCheckBox *autoDetectKeySignatureCheckBox = nullptr;
+        QComboBox *musicModeComboBox = nullptr;
+        QComboBox *accidentalTypeComboBox = nullptr;
     };
 
 }

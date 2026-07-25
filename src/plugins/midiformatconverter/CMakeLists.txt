@@ -30,6 +30,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         coreplugin
         importexportmanager
+        SVSCraftCore
         opendspx::model
         opendspx::converter
         ${_links_icu}
