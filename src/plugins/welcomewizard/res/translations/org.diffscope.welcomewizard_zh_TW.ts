@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="124"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="124"/>
         <source>Main Menu</source>
         <translation type="unfinished">Main Menu</translation>
     </message>
@@ -29,7 +29,7 @@
         <translation type="obsolete">Welcome Wizard</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
         <source>Welcomewizard</source>
         <translation type="unfinished">Welcomewizard</translation>
     </message>
@@ -41,7 +41,7 @@
         <translation type="obsolete">Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="125"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="125"/>
         <source>Welcome Wizard</source>
         <translation type="unfinished">Welcome Wizard</translation>
     </message>

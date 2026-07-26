@@ -1,0 +1,5 @@
+interface:
+  display_name: "Manage Qt TS Translations"
+  short_description: "Safely audit and edit Qt Linguist TS translations"
+  default_prompt: "Use $manage-qt-ts-translations to audit or complete existing Qt Linguist TS translation files without changing review states."
+

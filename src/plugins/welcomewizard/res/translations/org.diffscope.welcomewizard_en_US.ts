@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="124"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="124"/>
         <source>Main Menu</source>
         <translation type="unfinished">Main Menu</translation>
     </message>
@@ -14,12 +14,12 @@
     <message>
         <location filename="../../../../app/main.cpp" line="93"/>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Version %1</translation>
     </message>
     <message>
         <location filename="../../../../app/main.cpp" line="94"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
 </context>
 <context>
@@ -29,9 +29,9 @@
         <translation type="vanished">Welcome Wizard</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
         <source>Welcomewizard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Welcomewizard</translation>
     </message>
 </context>
 <context>
@@ -41,7 +41,7 @@
         <translation type="vanished">Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-debug/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="125"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="125"/>
         <source>Welcome Wizard</source>
         <translation>Welcome Wizard</translation>
     </message>

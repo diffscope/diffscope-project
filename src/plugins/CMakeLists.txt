@@ -89,22 +89,61 @@ function(diffscope_add_builtin_plugin _target)
     endif()
 
     if(NOT FUNC_NO_TRANSLATION)
+        set(_translation_locales en_US zh_CN zh_TW ja_JP)
+        set(_translation_qm_dir ${CMAKE_CURRENT_BINARY_DIR}/res/translations)
+
         qm_add_translation(${_target}_translations
             PREFIX
                 ${_plugin_name}
             TARGETS
                 ${CK_APPLICATION_TARGET} ${_target}
             LOCALES
-                en_US zh_CN zh_TW ja_JP
+                ${_translation_locales}
             TS_DIR
                 ${CMAKE_CURRENT_SOURCE_DIR}/res/translations
             QM_DIR
-                ${CMAKE_CURRENT_BINARY_DIR}/res/translations
+                ${_translation_qm_dir}
             TS_DEPENDS ChorusKit_UpdateTranslations
             QM_DEPENDS ChorusKit_ReleaseTranslations
         )
+
+        set(_translation_output_dir $<TARGET_FILE_DIR:${_target}>/translations)
+        set(_translation_deploy_stamp_dir
+            ${CMAKE_CURRENT_BINARY_DIR}/deploy-translations/$<CONFIG>
+        )
+        set(_translation_deploy_stamps)
+        foreach(_locale IN LISTS _translation_locales)
+            set(_translation_qm_file ${_translation_qm_dir}/${_plugin_name}_${_locale}.qm)
+            set(_deployed_translation_qm_file
+                ${_translation_output_dir}/${_plugin_name}_${_locale}.qm
+            )
+            set(_translation_deploy_stamp
+                ${_translation_deploy_stamp_dir}/${_plugin_name}_${_locale}.stamp
+            )
+
+            add_custom_command(
+                OUTPUT ${_translation_deploy_stamp}
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${_translation_output_dir}
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${_translation_deploy_stamp_dir}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    ${_translation_qm_file}
+                    ${_deployed_translation_qm_file}
+                COMMAND ${CMAKE_COMMAND} -E touch ${_translation_deploy_stamp}
+                DEPENDS ${_translation_qm_file}
+                COMMENT "Deploying ${_plugin_name}_${_locale}.qm"
+                VERBATIM
+            )
+            list(APPEND _translation_deploy_stamps ${_translation_deploy_stamp})
+        endforeach()
+
+        add_custom_target(${_target}_deploy_translations ALL
+            DEPENDS ${_translation_deploy_stamps}
+        )
+        add_dependencies(${CK_APPLICATION_TARGET} ${_target}_deploy_translations)
+
         ck_add_attached_files(${_target}
-            SRC ${CMAKE_CURRENT_BINARY_DIR}/res/translations DEST .
+            SKIP_BUILD
+            SRC ${_translation_qm_dir} DEST .
         )
     endif()
 

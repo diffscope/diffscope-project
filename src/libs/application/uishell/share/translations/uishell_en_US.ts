@@ -230,6 +230,180 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
     </message>
 </context>
 <context>
+    <name>PackageManagerView</name>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="143"/>
+        <source>Back</source>
+        <translation type="unfinished">Back</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="153"/>
+        <source>Package name</source>
+        <translation type="unfinished">Package name</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="164"/>
+        <source>Uninstall</source>
+        <translation type="unfinished">Uninstall</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="174"/>
+        <source>Vendor</source>
+        <translation type="unfinished">Vendor</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="188"/>
+        <source>Version</source>
+        <translation type="unfinished">Version</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="204"/>
+        <source>Visit package homepage</source>
+        <translation type="unfinished">Visit package homepage</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="212"/>
+        <source>Description</source>
+        <translation type="unfinished">Description</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="238"/>
+        <source>Singers (%L1)</source>
+        <translation type="unfinished">Singers (%L1)</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="244"/>
+        <source>Inferences (%L1)</source>
+        <translation type="unfinished">Inferences (%L1)</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="250"/>
+        <source>Details</source>
+        <translation type="unfinished">Details</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="256"/>
+        <source>Dependencies</source>
+        <translation type="unfinished">Dependencies</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="277"/>
+        <source>This package does not contain any singers.</source>
+        <translation type="unfinished">This package does not contain any singers.</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="411"/>
+        <source>Singer name</source>
+        <translation type="unfinished">Singer name</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="428"/>
+        <source>Preview</source>
+        <translation type="unfinished">Preview</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="437"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="602"/>
+        <source>Identifier</source>
+        <translation type="unfinished">Identifier</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="441"/>
+        <source>Singer class</source>
+        <translation type="unfinished">Singer class</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="462"/>
+        <source>Advanced</source>
+        <translation type="unfinished">Advanced</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="468"/>
+        <source>Configuration file</source>
+        <translation type="unfinished">Configuration file</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="474"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="577"/>
+        <source>Reveal in %1</source>
+        <translation type="unfinished">Reveal in %1</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="488"/>
+        <source>Imported inference model</source>
+        <translation type="unfinished">Imported inference model</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="492"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="569"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="686"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="499"/>
+        <source>Jump to details</source>
+        <translation type="unfinished">Jump to details</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="518"/>
+        <source>Portrait</source>
+        <translation type="unfinished">Portrait</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="543"/>
+        <source>This package does not contain any inference modules.</source>
+        <translation type="unfinished">This package does not contain any inference modules.</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="606"/>
+        <source>Readme file</source>
+        <translation type="unfinished">Readme file</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="613"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="628"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="646"/>
+        <source>Open in %1</source>
+        <translation type="unfinished">Open in %1</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="621"/>
+        <source>License file</source>
+        <translation type="unfinished">License file</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="636"/>
+        <source>Installation time</source>
+        <translation type="unfinished">Installation time</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="640"/>
+        <source>Installation location</source>
+        <translation type="unfinished">Installation location</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="670"/>
+        <source>This package does not depend on any other packages.</source>
+        <translation type="unfinished">This package does not depend on any other packages.</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="712"/>
+        <source>Search</source>
+        <translation type="unfinished">Search</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="718"/>
+        <source>Refresh</source>
+        <translation type="unfinished">Refresh</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="744"/>
+        <source>No package</source>
+        <translation type="unfinished">No package</translation>
+    </message>
+</context>
+<context>
     <name>PluginView</name>
     <message>
         <location filename="../../src/qml/PluginView.qml" line="36"/>
@@ -452,7 +626,7 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
     <message>
         <location filename="../../src/qml/ProjectWindow.qml" line="258"/>
         <source>&amp;Main Menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Main Menu</translation>
     </message>
     <message>
         <location filename="../../src/qml/ProjectWindow.qml" line="419"/>
@@ -534,17 +708,17 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
     <message>
         <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="46"/>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tempo</translation>
     </message>
     <message>
         <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="52"/>
         <source>Time Signature</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Time Signature</translation>
     </message>
     <message>
         <location filename="../../src/qml/TempoTimeSignatureIndicator.qml" line="57"/>
         <source>Key Signature</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Key Signature</translation>
     </message>
 </context>
 <context>
