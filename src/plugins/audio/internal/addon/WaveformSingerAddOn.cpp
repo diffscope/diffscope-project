@@ -655,6 +655,9 @@ namespace Audio::Internal {
         syncTempo();
 
         const auto trackList = window->projectDocumentContext()->document()->model()->tracks();
+        const auto documentModel = window->projectDocumentContext()->document()->model();
+        connect(documentModel, &dspx::Model::globalCentShiftChanged,
+                this, &WaveformSingerAddOn::syncGlobalCentShift);
         const auto tracks = trackList->items();
         for (int index = 0; index < tracks.size(); ++index) {
             addTrack(index, tracks.at(index));
@@ -723,6 +726,9 @@ namespace Audio::Internal {
         auto snapshot = std::make_shared<WaveformSingerTempoSnapshot>();
         snapshot->revision = ++m_revision;
         snapshot->ticksPerQuarter = timeline->ticksPerQuarterNote();
+        snapshot->globalCentShift =
+            windowHandle()->cast<Core::ProjectWindowInterface>()
+                ->projectDocumentContext()->document()->model()->globalCentShift();
         double previousTick = 0.0;
         double previousSeconds = 0.0;
         double previousTempo = tempi.value(0, 120.0);
@@ -746,6 +752,17 @@ namespace Audio::Internal {
             clip->tempoChanged();
         }
         refreshRanges();
+    }
+
+    void WaveformSingerAddOn::syncGlobalCentShift(int globalCentShift) {
+        const auto current = m_tempoModel->snapshot();
+        if (!current || current->globalCentShift == globalCentShift) {
+            return;
+        }
+        auto snapshot = std::make_shared<WaveformSingerTempoSnapshot>(*current);
+        snapshot->revision = ++m_revision;
+        snapshot->globalCentShift = globalCentShift;
+        m_tempoModel->publish(std::move(snapshot));
     }
 
     void WaveformSingerAddOn::refreshRanges() {

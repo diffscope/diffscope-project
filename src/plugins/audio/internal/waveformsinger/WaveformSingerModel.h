@@ -26,6 +26,7 @@ namespace Audio::Internal {
     struct WaveformSingerTempoSnapshot {
         std::uint64_t revision{};
         int ticksPerQuarter{480};
+        int globalCentShift{};
         std::vector<WaveformSingerTempoSegment> segments;
 
         double tickToSeconds(double tick) const;

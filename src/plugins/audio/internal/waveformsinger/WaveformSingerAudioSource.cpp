@@ -193,7 +193,8 @@ namespace Audio::Internal {
             ? std::clamp(result.noteTime / evaluation.noteDuration, 0.0, 1.0)
             : 0.0;
         const double vibrato = note.vibrato ? note.vibrato->evaluate(normalizedNoteTime) : 0.0;
-        const double basePitch = pitchValue.value_or(note.keyNumber * 100.0 + note.centShift);
+        const double basePitch = pitchValue.value_or(
+            note.keyNumber * 100.0 + note.centShift + tempo.globalCentShift);
         result.frequency = frequencyFromCents(basePitch + toneShiftValue.value_or(0.0) + vibrato);
         result.energyGain = std::pow(10.0, energyValue.value_or(0.0) / 20000.0);
         if (clip.voices) {

@@ -42,6 +42,7 @@ namespace Audio::Internal {
         void addClip(dspx::Clip *clip, TrackBinding *trackBinding);
         void removeClip(dspx::Clip *clip);
         void syncTempo();
+        void syncGlobalCentShift(int globalCentShift);
         void refreshRanges();
         double activeSampleRate() const;
 
