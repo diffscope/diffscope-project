@@ -34,6 +34,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
         Q_PROPERTY(bool showSingerBackground READ showSingerBackground WRITE setShowSingerBackground NOTIFY showSingerBackgroundChanged)
         Q_PROPERTY(double singerBackgroundOpacity READ singerBackgroundOpacity WRITE setSingerBackgroundOpacity NOTIFY singerBackgroundOpacityChanged)
+        Q_PROPERTY(double bottomPanelOpacity READ bottomPanelOpacity WRITE setBottomPanelOpacity NOTIFY bottomPanelOpacityChanged)
 
     public:
         ~EditorPreference() override;
@@ -106,6 +107,9 @@ namespace VisualEditor::Internal {
         static double singerBackgroundOpacity();
         static void setSingerBackgroundOpacity(double singerBackgroundOpacity);
 
+        static double bottomPanelOpacity();
+        static void setBottomPanelOpacity(double bottomPanelOpacity);
+
     Q_SIGNALS:
         void alternateAxisModifierChanged();
         void zoomModifierChanged();
@@ -122,6 +126,7 @@ namespace VisualEditor::Internal {
         void trackCursorPositionChanged();
         void showSingerBackgroundChanged();
         void singerBackgroundOpacityChanged();
+        void bottomPanelOpacityChanged();
 
     private:
         friend class VisualEditorPlugin;

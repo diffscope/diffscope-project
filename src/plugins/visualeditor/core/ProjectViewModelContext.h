@@ -12,6 +12,7 @@ namespace sflow {
     class ClipViewModel;
     class NoteEditLayerInteractionController;
     class NoteViewModel;
+    class PhonemeSequenceInteractionController;
     class RangeSequenceViewModel;
     class PointSequenceViewModel;
     class LabelSequenceInteractionController;
@@ -105,6 +106,7 @@ namespace VisualEditor {
         Q_INVOKABLE sflow::LabelSequenceInteractionController *createAndBindLabelSequenceInteractionControllerOfLabel(QObject *parent = nullptr);
         Q_INVOKABLE sflow::ClipPaneInteractionController *createAndBindClipPaneInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::NoteEditLayerInteractionController *createAndBindNoteEditLayerInteractionController(QObject *parent = nullptr);
+        Q_INVOKABLE sflow::PhonemeSequenceInteractionController *createAndBindPhonemeSequenceInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionController(QObject *parent = nullptr);
         Q_INVOKABLE sflow::TrackListInteractionController *createAndBindTrackListInteractionControllerOfMaster(QObject *parent = nullptr);
 
@@ -123,6 +125,7 @@ namespace VisualEditor {
 
         Q_INVOKABLE sflow::RangeSequenceViewModel *getSingingClipPerTrackSequenceViewModel(dspx::Track *track) const;
         Q_INVOKABLE sflow::RangeSequenceViewModel *getNoteSequenceViewModel(dspx::SingingClip *clip) const;
+        Q_INVOKABLE sflow::PointSequenceViewModel *getPhonemeSequenceViewModel(dspx::SingingClip *clip) const;
 
 
     private:

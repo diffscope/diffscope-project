@@ -41,14 +41,19 @@ Item {
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
     property int pitchFreeEditPosition: 0
     property double pitchFreeEditValue: 0.0
+    property bool pitchHovered: false
+    property int pitchHoverPosition: 0
     property double pitchClavierCursorPosition: -1.0
     property var cursorPositionSelectionOwners: []
+    property var timeCursorOverrideOwners: []
 
     readonly property bool cursorPositionsHiddenBySelection:
         cursorPositionSelectionOwners.length > 0
     readonly property bool timeCursorBoundByEdit:
         noteStartCursorBinding.when || noteEndCursorBinding.when
         || pitchAnchorCursorBinding.when || pitchFreeEditCursorBinding.when
+        || pitchHoverCursorBinding.when
+        || timeCursorOverrideOwners.length > 0
 
     readonly property var singerBackgroundIds:
         flattenUniqueSingerIds(singerBackgroundIdProvider.singerTree)
@@ -111,22 +116,6 @@ Item {
             && localPoint.y >= 0 && localPoint.y < item.height
     }
 
-    function isParameterEditingAt(point): bool {
-        if ((view.pianoRollPanelInterface?.pitchToolActive ?? false)
-                && view.itemContainsPoint(pianoRollViewContainerSplitViewport, point))
-            return true
-
-        const loader = view.addOn?.bottomAdditionalTrackLoader
-        const parameterTrackId =
-            "org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter"
-        const index = loader?.loadedComponents.indexOf(parameterTrackId) ?? -1
-        if (index < 0)
-            return false
-
-        const parameterTrack = loader.loadedItems[index]
-        return view.itemContainsPoint(parameterTrack, point)
-    }
-
     function hideCursorPositionsForSelection() {
         if (view.pianoRollPanelInterface?.timeLayoutViewModel)
             view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
@@ -164,10 +153,8 @@ Item {
             } else {
                 const position = cursorTimeManipulator.mapToPosition(p.x)
                 view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition =
-                    view.isParameterEditingAt(point)
-                        ? position
-                        : cursorTimeManipulator.alignPosition(
-                              position, ScopicFlow.AO_Visible)
+                    cursorTimeManipulator.alignPosition(
+                        position, ScopicFlow.AO_Visible)
             }
         }
 
@@ -211,6 +198,24 @@ Item {
         const owners = view.cursorPositionSelectionOwners.slice()
         owners.splice(index, 1)
         view.cursorPositionSelectionOwners = owners
+        view.refreshCursorPositions()
+    }
+
+    function beginTimeCursorOverride(owner) {
+        if (!owner || view.timeCursorOverrideOwners.indexOf(owner) >= 0)
+            return
+        const owners = view.timeCursorOverrideOwners.slice()
+        owners.push(owner)
+        view.timeCursorOverrideOwners = owners
+    }
+
+    function endTimeCursorOverride(owner) {
+        const index = view.timeCursorOverrideOwners.indexOf(owner)
+        if (index < 0)
+            return
+        const owners = view.timeCursorOverrideOwners.slice()
+        owners.splice(index, 1)
+        view.timeCursorOverrideOwners = owners
         view.refreshCursorPositions()
     }
 
@@ -273,6 +278,19 @@ Item {
             view.pitchFreeEditPosition,
             pitchProxyTimeViewModel?.clipViewModel ?? null)
         when: false
+    }
+
+    Binding {
+        id: pitchHoverCursorBinding
+        target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.mapClipPositionToTimeline(
+            view.pitchHoverPosition,
+            pitchProxyTimeViewModel?.clipViewModel ?? null)
+        when: view.pitchHovered
+            && !view.cursorPositionsHiddenBySelection
+            && !pitchAnchorCursorBinding.when
+            && !pitchFreeEditCursorBinding.when
     }
 
     Binding {
@@ -434,8 +452,10 @@ Item {
         }
 
         function onFreeRangeSelectingStarted(editor) {
-            if (editor === pitchEditor)
+            if (editor === pitchEditor) {
+                view.pitchHovered = false
                 view.beginCursorPositionHidingSelection(editor)
+            }
         }
 
         function onFreeRangeSelectingCommitted(editor) {
@@ -449,8 +469,10 @@ Item {
         }
 
         function onAnchorRubberBandDraggingStarted(editor) {
-            if (editor === pitchEditor)
+            if (editor === pitchEditor) {
+                view.pitchHovered = false
                 view.beginCursorPositionHidingSelection(editor)
+            }
         }
 
         function onAnchorRubberBandDraggingCommitted(editor) {
@@ -485,11 +507,41 @@ Item {
             view.pitchAnchorBeingEdited = null
             view.refreshCursorPositions()
         }
+
+        function onHoverEntered(editor, position, value) {
+            if (editor !== pitchEditor
+                    || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
+                return
+            view.pitchHoverPosition = position
+            view.pitchHovered = true
+        }
+
+        function onHoverMoved(editor, position, value) {
+            if (editor !== pitchEditor
+                    || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
+                return
+            view.pitchHoverPosition = position
+            view.pitchHovered = true
+        }
+
+        function onHoverExited(editor) {
+            if (editor !== pitchEditor)
+                return
+            view.pitchHovered = false
+            view.refreshCursorPositions()
+        }
     }
 
     Connections {
         target: view.pianoRollPanelInterface
         function onToolChanged() {
+            if (!(view.pianoRollPanelInterface?.pitchToolActive ?? false))
+                view.pitchHovered = false
+            view.refreshCursorPositions()
+        }
+        function onMouseTrackingDisabledChanged() {
+            if (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
+                view.pitchHovered = false
             view.refreshCursorPositions()
         }
     }
@@ -940,7 +992,7 @@ Item {
                             Rectangle {
                                 anchors.fill: parent
                                 color: Theme.backgroundPrimaryColor
-                                opacity: 0.5
+                                opacity: EditorPreference.bottomPanelOpacity
                             }
                             ColumnLayout {
                                 id: layout

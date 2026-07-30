@@ -208,6 +208,11 @@ QtObject {
             when: false
         }
 
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.rightButton
+        }
+
         DynamicMixingEditor {
             id: dynamicMixingEditor
             anchors.fill: parent

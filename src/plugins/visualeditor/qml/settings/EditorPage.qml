@@ -28,6 +28,7 @@ ScrollView {
     property bool trackCursorPosition: false
     property bool showSingerBackground: true
     property double singerBackgroundOpacity: 0.25
+    property double bottomPanelOpacity: 0.5
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
     onZoomModifierChanged: if (started) pageHandle.markDirty()
@@ -44,6 +45,7 @@ ScrollView {
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
     onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
     onSingerBackgroundOpacityChanged: if (started) pageHandle.markDirty()
+    onBottomPanelOpacityChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -243,7 +245,7 @@ ScrollView {
                     }
 
                     Label {
-                        text: qsTr("Pronunciation position")
+                        text: qsTr("Pronunciation display position")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     Item {
@@ -298,6 +300,32 @@ ScrollView {
                         value: Math.round(page.singerBackgroundOpacity * 100)
                         enabled: page.showSingerBackground
                         onValueModified: page.singerBackgroundOpacity = value / 100.0
+                        textFromValue: function(value, locale) {
+                            return value + "%"
+                        }
+                        valueFromText: function(text, locale) {
+                            return parseInt(text.replace("%", ""))
+                        }
+                    }
+
+                    Label {
+                        text: qsTr("Bottom panel opacity")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        Layout.fillWidth: true
+                        from: 0
+                        to: 1
+                        value: page.bottomPanelOpacity
+                        onMoved: page.bottomPanelOpacity = value
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.bottomPanelOpacity = 0.5
+                    }
+                    SpinBox {
+                        from: 0
+                        to: 100
+                        value: Math.round(page.bottomPanelOpacity * 100)
+                        onValueModified: page.bottomPanelOpacity = value / 100.0
                         textFromValue: function(value, locale) {
                             return value + "%"
                         }

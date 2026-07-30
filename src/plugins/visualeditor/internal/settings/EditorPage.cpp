@@ -75,6 +75,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("showSingerBackground");
         m_widget->setProperty("singerBackgroundOpacity", EditorPreference::instance()->property("singerBackgroundOpacity"));
         qCDebug(lcEditorPage) << m_widget->property("singerBackgroundOpacity");
+        m_widget->setProperty("bottomPanelOpacity", EditorPreference::instance()->property("bottomPanelOpacity"));
+        qCDebug(lcEditorPage) << m_widget->property("bottomPanelOpacity");
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
     }
@@ -111,6 +113,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("showSingerBackground", m_widget->property("showSingerBackground"));
         qCDebug(lcEditorPage) << "singerBackgroundOpacity" << m_widget->property("singerBackgroundOpacity");
         EditorPreference::instance()->setProperty("singerBackgroundOpacity", m_widget->property("singerBackgroundOpacity"));
+        qCDebug(lcEditorPage) << "bottomPanelOpacity" << m_widget->property("bottomPanelOpacity");
+        EditorPreference::instance()->setProperty("bottomPanelOpacity", m_widget->property("bottomPanelOpacity"));
         EditorPreference::instance()->save();
         return Core::ISettingPage::accept();
     }

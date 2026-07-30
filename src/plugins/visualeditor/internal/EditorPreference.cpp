@@ -27,6 +27,7 @@ namespace VisualEditor::Internal {
         bool trackCursorPosition{true};
         bool showSingerBackground{true};
         double singerBackgroundOpacity{0.25};
+        double bottomPanelOpacity{0.5};
     };
 
     static EditorPreference *m_instance = nullptr;
@@ -79,6 +80,9 @@ namespace VisualEditor::Internal {
         d->singerBackgroundOpacity = qBound(
             0.0, settings->value("singerBackgroundOpacity", 0.25).toDouble(), 1.0);
         emit singerBackgroundOpacityChanged();
+        d->bottomPanelOpacity = qBound(
+            0.0, settings->value("bottomPanelOpacity", 0.5).toDouble(), 1.0);
+        emit bottomPanelOpacityChanged();
         settings->endGroup();
     }
 
@@ -101,6 +105,7 @@ namespace VisualEditor::Internal {
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->setValue("showSingerBackground", d->showSingerBackground);
         settings->setValue("singerBackgroundOpacity", d->singerBackgroundOpacity);
+        settings->setValue("bottomPanelOpacity", d->bottomPanelOpacity);
         settings->endGroup();
     }
 
@@ -301,6 +306,20 @@ namespace VisualEditor::Internal {
             return;
         d->singerBackgroundOpacity = singerBackgroundOpacity;
         emit m_instance->singerBackgroundOpacityChanged();
+    }
+
+    double EditorPreference::bottomPanelOpacity() {
+        M_INSTANCE_D;
+        return d->bottomPanelOpacity;
+    }
+
+    void EditorPreference::setBottomPanelOpacity(double bottomPanelOpacity) {
+        M_INSTANCE_D;
+        bottomPanelOpacity = qBound(0.0, bottomPanelOpacity, 1.0);
+        if (qFuzzyCompare(d->bottomPanelOpacity, bottomPanelOpacity))
+            return;
+        d->bottomPanelOpacity = bottomPanelOpacity;
+        emit m_instance->bottomPanelOpacityChanged();
     }
 
 }

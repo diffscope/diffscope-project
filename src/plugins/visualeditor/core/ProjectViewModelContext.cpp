@@ -7,6 +7,7 @@
 #include <ScopicFlowCore/PlaybackViewModel.h>
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/NoteViewModel.h>
+#include <ScopicFlowCore/PhonemeSequenceInteractionController.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
@@ -41,6 +42,7 @@
 #include <visualeditor/private/TrackViewModelContextData_p.h>
 #include <visualeditor/private/MasterTrackViewModelContextData_p.h>
 #include <visualeditor/private/NoteViewModelContextData_p.h>
+#include <visualeditor/private/PhonemeViewModelContextData_p.h>
 #include <visualeditor/private/NoteSelectionController_p.h>
 #include <visualeditor/DynamicMixingEditorContext.h>
 #include <visualeditor/ParameterEditorContext.h>
@@ -96,6 +98,11 @@ namespace VisualEditor {
         d->noteData->q_ptr = this;
         d->noteData->init();
         d->noteData->bindTrackSequences();
+
+        d->phonemeData = std::make_unique<PhonemeViewModelContextData>();
+        d->phonemeData->q_ptr = this;
+        d->phonemeData->init();
+        d->phonemeData->bindTrackSequences();
 
         d->parameterEditorContext = new ParameterEditorContext(this);
         d->dynamicMixingEditorContext = new DynamicMixingEditorContext(this);
@@ -236,6 +243,11 @@ namespace VisualEditor {
         return d->noteData->createController(parent);
     }
 
+    sflow::PhonemeSequenceInteractionController *ProjectViewModelContext::createAndBindPhonemeSequenceInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->phonemeData->createController(parent);
+    }
+
     sflow::TrackListInteractionController *ProjectViewModelContext::createAndBindTrackListInteractionController(QObject *parent) {
         Q_D(ProjectViewModelContext);
         return d->trackData->createController(parent);
@@ -314,6 +326,11 @@ namespace VisualEditor {
     sflow::RangeSequenceViewModel *ProjectViewModelContext::getNoteSequenceViewModel(dspx::SingingClip *clip) const {
         Q_D(const ProjectViewModelContext);
         return d->noteData->noteSequenceViewModelMap.value(clip);
+    }
+
+    sflow::PointSequenceViewModel *ProjectViewModelContext::getPhonemeSequenceViewModel(dspx::SingingClip *clip) const {
+        Q_D(const ProjectViewModelContext);
+        return d->phonemeData->phonemeSequenceViewModelMap.value(clip);
     }
 
 }
