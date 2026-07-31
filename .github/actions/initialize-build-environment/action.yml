@@ -18,7 +18,7 @@ runs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        choco install ccache
+        choco install ccache protoc
 
     - name: Install build tools (Ubuntu)
       if: runner.os == 'Linux'
@@ -29,7 +29,8 @@ runs:
           ninja-build `
           libasound2-dev libatopology-dev  `
           libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
-          libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev
+          libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev `
+          protobuf-compiler
 
     - name: Install build tools (macOS)
       if: runner.os == 'macOS'
@@ -39,11 +40,11 @@ runs:
         HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         brew update
-        brew install ninja ccache imagemagick create-dmg
+        brew install ninja ccache imagemagick create-dmg protobuf
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ inputs.qt_version }}
-        modules: qt5compat qtscxml qtshadertools
+        modules: qt5compat qtscxml qtshadertools qtgrpc
         cache: true

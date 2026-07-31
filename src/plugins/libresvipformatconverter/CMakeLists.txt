@@ -3,6 +3,9 @@ project(libresvipformatconverter
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+qm_find_qt(Network Protobuf Grpc)
+find_package(LibArchive REQUIRED)
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.libresvipformatconverter
     DISPLAY_NAME "LibreSVIP Format Converter"
@@ -15,6 +18,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         Widgets
         Qml
         Quick
+        Network
+        Protobuf
+        Grpc
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
@@ -22,6 +28,30 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         coreplugin
         importexportmanager
         opendspx::model
+        opendspx::serializer
+        svscraft::Quick
+        svscraft::Network
+        LibArchive::LibArchive
     INCLUDE_PRIVATE
         internal/**
+)
+
+qt_add_protobuf(${PROJECT_NAME}
+    PROTO_FILES
+        proto/libresvip.proto
+)
+
+qt_add_grpc(${PROJECT_NAME} CLIENT
+    PROTO_FILES
+        proto/libresvip.proto
+)
+
+qt_add_resources(${PROJECT_NAME} libresvipformatconverter_resources
+    PREFIX "/libresvipformatconverter"
+    FILES
+        res/libresvip/libresvip.ico
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    DIFFSCOPE_LIBRESVIP_URL="${DIFFSCOPE_LIBRESVIP_URL}"
 )

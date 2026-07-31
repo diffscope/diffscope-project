@@ -11,7 +11,11 @@ namespace LibreSVIPFormatConverter::Internal {
         explicit LibreSVIPFileImporter(QObject *parent = nullptr);
         ~LibreSVIPFileImporter() override;
 
+        bool runPreExecCheck() override;
         bool execImport(const QString &path, opendspx::Model &model, QWindow *window) override;
+
+    private:
+        void refreshFormats();
     };
 
 }

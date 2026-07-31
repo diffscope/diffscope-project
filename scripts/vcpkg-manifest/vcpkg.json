@@ -30,7 +30,11 @@
         "wolf-midi",
         "nlohmann-json",
         "zstd",
-        "opendspx"
+        "opendspx",
+        {
+            "name": "libarchive",
+            "default-features": false
+        }
     ],
     "vcpkg-configuration": {
         "overlay-ports": [

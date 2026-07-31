@@ -20,6 +20,8 @@ option(APPLICATION_CONFIGURE_INSTALLER "Configure installer" OFF)
 # ----------------------------------
 option(APPLICATION_ENABLE_BREAKPAD "Enable google breakpad" ON)
 
+set(DIFFSCOPE_LIBRESVIP_URL "" CACHE STRING "URL of the LibreSVIP command-line archive")
+
 # ----------------------------------
 # CMake Settings
 # ----------------------------------
