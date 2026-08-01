@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_LIBRESVIP_FORMAT_CONVERTER_LIBRESVIPSETTINGSPAGE_H
 #define DIFFSCOPE_LIBRESVIP_FORMAT_CONVERTER_LIBRESVIPSETTINGSPAGE_H
 
+#include <QUrl>
+
 #include <CoreApi/isettingpage.h>
 
 class QWindow;
@@ -11,12 +13,14 @@ namespace LibreSVIPFormatConverter::Internal {
         Q_OBJECT
         Q_PROPERTY(QString executablePath READ executablePath NOTIFY executablePathChanged)
         Q_PROPERTY(bool downloadedInstallationExists READ downloadedInstallationExists NOTIFY downloadedInstallationExistsChanged)
+        Q_PROPERTY(QUrl homepageUrl READ homepageUrl CONSTANT)
     public:
         explicit LibreSVIPSettingsPage(QObject *parent = nullptr);
         ~LibreSVIPSettingsPage() override;
 
         QString executablePath() const;
         bool downloadedInstallationExists() const;
+        QUrl homepageUrl() const;
 
         QString sortKeyword() const override;
         bool matches(const QString &word) override;
@@ -24,6 +28,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
         Q_INVOKABLE void browse();
         Q_INVOKABLE void download();
+        Q_INVOKABLE void clearExecutablePath();
         Q_INVOKABLE void removeDownloadedInstallation();
 
     Q_SIGNALS:

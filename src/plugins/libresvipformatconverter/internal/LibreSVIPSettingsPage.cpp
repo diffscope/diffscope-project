@@ -13,7 +13,7 @@ namespace LibreSVIPFormatConverter::Internal {
     LibreSVIPSettingsPage::LibreSVIPSettingsPage(QObject *parent)
         : ISettingPage(QString::fromLatin1(LibreSVIPManager::settingsPageId()), parent) {
         setTitle(tr("LibreSVIP Format Conversion"));
-        setDescription(tr("Configure and manage the LibreSVIP command-line format converter"));
+        setDescription(tr("Manage the LibreSVIP command-line tool"));
         auto manager = LibreSVIPManager::instance();
         connect(manager, &LibreSVIPManager::configurationChanged, this, [this] {
             Q_EMIT executablePathChanged();
@@ -31,6 +31,10 @@ namespace LibreSVIPFormatConverter::Internal {
 
     bool LibreSVIPSettingsPage::downloadedInstallationExists() const {
         return LibreSVIPManager::instance()->downloadedInstallationExists();
+    }
+
+    QUrl LibreSVIPSettingsPage::homepageUrl() const {
+        return QUrl(QString::fromUtf8(DIFFSCOPE_LIBRESVIP_HOMEPAGE_URL));
     }
 
     QString LibreSVIPSettingsPage::sortKeyword() const {
@@ -62,6 +66,10 @@ namespace LibreSVIPFormatConverter::Internal {
 
     void LibreSVIPSettingsPage::download() {
         LibreSVIPManager::instance()->downloadAndConfigure(pageWindow());
+    }
+
+    void LibreSVIPSettingsPage::clearExecutablePath() {
+        LibreSVIPManager::instance()->clearExecutablePath(pageWindow());
     }
 
     void LibreSVIPSettingsPage::removeDownloadedInstallation() {

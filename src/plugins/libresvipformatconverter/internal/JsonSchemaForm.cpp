@@ -304,6 +304,78 @@ namespace LibreSVIPFormatConverter::Internal {
             return container;
         }
 
+        bool enumOptionTexts(const QJsonObject &schema, QStringList *optionTexts) const {
+            if (!schema.value(QStringLiteral("enum")).isArray())
+                return false;
+
+            const QJsonArray values = schema.value(QStringLiteral("enum")).toArray();
+            optionTexts->clear();
+            if (!schema.contains(QStringLiteral("oneOf"))) {
+                for (const auto &value : values)
+                    optionTexts->append(value.isString() ? value.toString() : jsonValueText(value));
+                return true;
+            }
+
+            if (!schema.value(QStringLiteral("oneOf")).isArray())
+                return false;
+            const QJsonArray alternatives = schema.value(QStringLiteral("oneOf")).toArray();
+            if (alternatives.size() != values.size())
+                return false;
+
+            QList<bool> usedAlternatives(alternatives.size(), false);
+            for (const auto &value : values) {
+                int matchingIndex = -1;
+                QJsonObject matchingAlternative;
+                for (int i = 0; i < alternatives.size(); ++i) {
+                    if (usedAlternatives.at(i) || !alternatives.at(i).isObject())
+                        continue;
+                    const QJsonObject alternative = resolveSchema(alternatives.at(i).toObject());
+                    if (alternative.contains(QStringLiteral("const")) &&
+                        alternative.value(QStringLiteral("const")) == value) {
+                        matchingIndex = i;
+                        matchingAlternative = alternative;
+                        break;
+                    }
+                }
+                if (matchingIndex < 0) {
+                    optionTexts->clear();
+                    return false;
+                }
+                usedAlternatives[matchingIndex] = true;
+                const QString alternativeTitle = matchingAlternative.value(QStringLiteral("title")).toString();
+                optionTexts->append(alternativeTitle.isEmpty()
+                                        ? (value.isString() ? value.toString() : jsonValueText(value))
+                                        : alternativeTitle);
+            }
+            return true;
+        }
+
+        SchemaFieldPtr buildJsonEditor(const QJsonValue &initial, const QString &type,
+                                       const QString &title) const {
+            auto editor = new QPlainTextEdit(q);
+            editor->setMinimumHeight(120);
+            QJsonValue fallbackInitial = initial;
+            if (fallbackInitial.isUndefined())
+                fallbackInitial = type == QStringLiteral("array") ? QJsonValue(QJsonArray{}) : QJsonValue(QJsonObject{});
+            editor->setPlainText(jsonValueText(fallbackInitial));
+            return std::make_shared<SchemaField>(SchemaField{
+                editor, false,
+                [editor] {
+                    bool ok = false;
+                    const auto value = parseJsonValue(editor->toPlainText(), &ok);
+                    return ok ? value : QJsonValue();
+                },
+                [editor](const QJsonValue &value) { editor->setPlainText(jsonValueText(value)); },
+                [editor, title](QString *error) {
+                    bool ok = false;
+                    parseJsonValue(editor->toPlainText(), &ok);
+                    if (!ok && error)
+                        *error = tr("%1 must contain valid JSON.").arg(title);
+                    return ok;
+                }
+            });
+        }
+
         SchemaFieldPtr buildField(const QJsonObject &rawSchema, const QJsonValue &providedInitial,
                                   const QString &propertyName, bool root = false) {
             const QJsonObject schema = resolveSchema(rawSchema);
@@ -326,11 +398,12 @@ namespace LibreSVIPFormatConverter::Internal {
                 });
             }
 
-            if (schema.value(QStringLiteral("enum")).isArray()) {
+            QStringList enumTexts;
+            if (enumOptionTexts(schema, &enumTexts)) {
                 auto combo = new QComboBox(q);
                 const auto values = schema.value(QStringLiteral("enum")).toArray();
-                for (const auto &item : values)
-                    combo->addItem(item.isString() ? item.toString() : jsonValueText(item), item.toVariant());
+                for (int i = 0; i < values.size(); ++i)
+                    combo->addItem(enumTexts.at(i), values.at(i).toVariant());
                 const QJsonValue defaultValue = initial.isUndefined() && !values.isEmpty() ? values.first() : initial;
                 for (int i = 0; i < combo->count(); ++i) {
                     if (QJsonValue::fromVariant(combo->itemData(i)) == defaultValue) {
@@ -357,6 +430,9 @@ namespace LibreSVIPFormatConverter::Internal {
                     }
                 });
             }
+
+            if (schema.contains(QStringLiteral("enum")) || schema.contains(QStringLiteral("oneOf")))
+                return buildJsonEditor(initial, type, title);
 
             if (type == QStringLiteral("string")) {
                 auto editor = new QLineEdit(q);
@@ -557,9 +633,15 @@ namespace LibreSVIPFormatConverter::Internal {
             if (type == QStringLiteral("array")) {
                 const auto itemSchema = resolveSchema(schema.value(QStringLiteral("items")).toObject());
                 const QString itemType = itemSchema.value(QStringLiteral("type")).toString();
-                const bool simple = itemSchema.contains(QStringLiteral("const")) || itemSchema.value(QStringLiteral("enum")).isArray() ||
-                                    itemType == QStringLiteral("string") || itemType == QStringLiteral("boolean") ||
-                                    itemType == QStringLiteral("integer") || itemType == QStringLiteral("number") || itemType == QStringLiteral("null");
+                QStringList itemEnumTexts;
+                const bool simpleEnum = enumOptionTexts(itemSchema, &itemEnumTexts);
+                const bool hasAlternatives = itemSchema.contains(QStringLiteral("enum")) ||
+                                             itemSchema.contains(QStringLiteral("oneOf"));
+                const bool simple = itemSchema.contains(QStringLiteral("const")) || simpleEnum ||
+                                    (!hasAlternatives &&
+                                     (itemType == QStringLiteral("string") || itemType == QStringLiteral("boolean") ||
+                                      itemType == QStringLiteral("integer") || itemType == QStringLiteral("number") ||
+                                      itemType == QStringLiteral("null")));
                 if (simple) {
                     auto editor = new PrimitiveArrayEditor(
                         [this, itemSchema](const QJsonValue &value) { return buildField(itemSchema, value, QString()); },
@@ -581,28 +663,7 @@ namespace LibreSVIPFormatConverter::Internal {
                 }
             }
 
-            auto editor = new QPlainTextEdit(q);
-            editor->setMinimumHeight(120);
-            QJsonValue fallbackInitial = initial;
-            if (fallbackInitial.isUndefined())
-                fallbackInitial = type == QStringLiteral("array") ? QJsonValue(QJsonArray{}) : QJsonValue(QJsonObject{});
-            editor->setPlainText(jsonValueText(fallbackInitial));
-            return std::make_shared<SchemaField>(SchemaField{
-                editor, false,
-                [editor] {
-                    bool ok = false;
-                    const auto value = parseJsonValue(editor->toPlainText(), &ok);
-                    return ok ? value : QJsonValue();
-                },
-                [editor](const QJsonValue &value) { editor->setPlainText(jsonValueText(value)); },
-                [editor, title](QString *error) {
-                    bool ok = false;
-                    parseJsonValue(editor->toPlainText(), &ok);
-                    if (!ok && error)
-                        *error = tr("%1 must contain valid JSON.").arg(title);
-                    return ok;
-                }
-            });
+            return buildJsonEditor(initial, type, title);
         }
 
         JsonSchemaForm *q;

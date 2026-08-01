@@ -47,6 +47,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     struct LibreSVIPValidationResult {
         bool success{};
+        bool cancelled{};
         QByteArray sha512;
         LibreSVIPPluginCatalog catalog;
         QString errorMessage;

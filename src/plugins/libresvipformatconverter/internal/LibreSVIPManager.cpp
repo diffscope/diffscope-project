@@ -6,6 +6,7 @@
 #include <optional>
 #include <utility>
 
+#include <QBuffer>
 #include <QCoreApplication>
 #include <QCryptographicHash>
 #include <QDir>
@@ -16,6 +17,7 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QLoggingCategory>
 #include <QLocale>
 #include <QNetworkReply>
@@ -29,6 +31,7 @@
 #include <QTemporaryFile>
 #include <QThread>
 #include <QTimer>
+#include <QSysInfo>
 #include <QUuid>
 #include <QVariant>
 
@@ -44,6 +47,7 @@
 #include <CoreApi/windowsystem.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftCore/Semver.h>
 #include <SVSCraftNetwork/DownloadSession.h>
 
 #ifdef MessageBox
@@ -61,10 +65,6 @@
 #  undef MessageBox
 #endif
 
-#ifndef DIFFSCOPE_LIBRESVIP_URL
-#  define DIFFSCOPE_LIBRESVIP_URL ""
-#endif
-
 using namespace std::chrono_literals;
 
 namespace LibreSVIPFormatConverter::Internal {
@@ -77,19 +77,66 @@ namespace LibreSVIPFormatConverter::Internal {
     static constexpr int kConversionTimeoutMs = 10 * 60 * 1000;
     static constexpr int kCacheVersion = 1;
     static constexpr auto kSettingsGroup = "LibreSVIPFormatConverter::Internal::LibreSVIPManager";
+    static constexpr auto kDownloadedVersionFileName = ".diffscope-version";
     static const QUrl kGrpcEndpoint(QStringLiteral("http://127.0.0.1:15150"));
+    using CancellationCheck = std::function<bool()>;
+
+    struct LibreSVIPDownloadArtifact {
+        SVS::Semver version;
+        QString versionText;
+        QUrl url;
+    };
+
+    static QString currentArtifactKey() {
+#if defined(Q_OS_WIN)
+        const QString platform = QStringLiteral("windows");
+#elif defined(Q_OS_MACOS)
+        const QString platform = QStringLiteral("macos");
+#elif defined(Q_OS_LINUX)
+        const QString platform = QStringLiteral("linux");
+#else
+        return {};
+#endif
+
+        const QString architecture = QSysInfo::currentCpuArchitecture().toLower();
+        if (architecture == QStringLiteral("x86_64") || architecture == QStringLiteral("amd64") ||
+            architecture == QStringLiteral("x64"))
+            return platform + QStringLiteral("_amd64");
+        if (architecture == QStringLiteral("arm64") || architecture == QStringLiteral("aarch64"))
+            return platform + QStringLiteral("_arm64");
+        return {};
+    }
 
     static QString compactJson(const QJsonObject &object) {
         return QString::fromUtf8(QJsonDocument(object).toJson(QJsonDocument::Compact));
     }
 
-    static QByteArray sha512ForFile(const QString &path) {
+    static bool cancellationRequested(const CancellationCheck &isCancelled) {
+        return isCancelled && isCancelled();
+    }
+
+    static QByteArray sha512ForFile(const QString &path, const CancellationCheck &isCancelled = {},
+                                    bool *cancelled = nullptr) {
+        if (cancelled)
+            *cancelled = false;
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly))
             return {};
         QCryptographicHash hash(QCryptographicHash::Sha512);
-        if (!hash.addData(&file))
-            return {};
+        while (!file.atEnd()) {
+            if (isCancelled) {
+                QCoreApplication::processEvents();
+                if (cancellationRequested(isCancelled)) {
+                    if (cancelled)
+                        *cancelled = true;
+                    return {};
+                }
+            }
+            const QByteArray block = file.read(1024 * 1024);
+            if (block.isEmpty() && file.error() != QFileDevice::NoError)
+                return {};
+            hash.addData(block);
+        }
         return hash.result();
     }
 
@@ -146,11 +193,55 @@ namespace LibreSVIPFormatConverter::Internal {
             QMetaObject::invokeMethod(dialog, "finish", Q_ARG(QVariant, result));
     }
 
+    static void yieldQuickDialog(QObject *dialog, const QVariant &result) {
+        if (dialog)
+            QMetaObject::invokeMethod(dialog, "yieldResult", Q_ARG(QVariant, result));
+    }
+
+    static bool quickDialogWasCancelled(const QObject *dialog) {
+        return dialog && dialog->property("finalResult").toString() == QStringLiteral("cancelled");
+    }
+
+    static bool waitForProcessStarted(QProcess *process, int timeoutMs, const CancellationCheck &isCancelled,
+                                      bool *cancelled = nullptr) {
+        if (cancelled)
+            *cancelled = false;
+        QElapsedTimer timer;
+        timer.start();
+        while (process->state() == QProcess::Starting && timer.elapsed() < timeoutMs) {
+            QCoreApplication::processEvents();
+            if (cancellationRequested(isCancelled)) {
+                if (cancelled)
+                    *cancelled = true;
+                return false;
+            }
+            process->waitForStarted(50);
+        }
+        QCoreApplication::processEvents();
+        if (cancellationRequested(isCancelled)) {
+            if (cancelled)
+                *cancelled = true;
+            return false;
+        }
+        return process->state() == QProcess::Running;
+    }
+
     static bool waitForReply(std::unique_ptr<QGrpcCallReply> &reply, QProtobufMessage *response,
-                             QString *errorMessage, int hardTimeoutMs) {
+                             QString *errorMessage, int hardTimeoutMs, const CancellationCheck &isCancelled = {},
+                             bool *cancelled = nullptr) {
+        if (cancelled)
+            *cancelled = false;
+        if (cancellationRequested(isCancelled)) {
+            if (cancelled)
+                *cancelled = true;
+            reply->cancel();
+            return false;
+        }
         QEventLoop loop;
         QTimer timer;
+        QTimer cancellationTimer;
         timer.setSingleShot(true);
+        cancellationTimer.setInterval(50);
         bool succeeded = false;
         QObject::connect(reply.get(), &QGrpcCallReply::finished, &loop, [&](const QGrpcStatus &status) {
             if (status.isOk()) {
@@ -168,6 +259,17 @@ namespace LibreSVIPFormatConverter::Internal {
             reply->cancel();
             loop.quit();
         });
+        if (isCancelled) {
+            QObject::connect(&cancellationTimer, &QTimer::timeout, &loop, [&] {
+                if (!cancellationRequested(isCancelled))
+                    return;
+                if (cancelled)
+                    *cancelled = true;
+                reply->cancel();
+                loop.quit();
+            });
+            cancellationTimer.start();
+        }
         timer.start(hardTimeoutMs);
         loop.exec();
         return succeeded;
@@ -196,7 +298,8 @@ namespace LibreSVIPFormatConverter::Internal {
     static bool queryPluginInfos(LibreSVIP::Conversion::Client &client,
                                  LibreSVIP::PluginCategoryGadget::PluginCategory category,
                                  QList<LibreSVIPPluginInfo> *plugins, QString *errorMessage,
-                                 int timeoutMs) {
+                                 int timeoutMs, const CancellationCheck &isCancelled = {},
+                                 bool *cancelled = nullptr) {
         LibreSVIP::PluginInfosRequest request;
         request.setCategory(category);
         request.setLanguage(QLocale().name());
@@ -204,7 +307,7 @@ namespace LibreSVIPFormatConverter::Internal {
         options.setDeadlineTimeout(std::chrono::milliseconds(timeoutMs));
         auto reply = client.PluginInfos(request, options);
         LibreSVIP::PluginInfosResponse response;
-        if (!waitForReply(reply, &response, errorMessage, timeoutMs + 250))
+        if (!waitForReply(reply, &response, errorMessage, timeoutMs + 250, isCancelled, cancelled))
             return false;
         plugins->clear();
         for (const auto &value : response.values())
@@ -212,7 +315,10 @@ namespace LibreSVIPFormatConverter::Internal {
         return true;
     }
 
-    static bool extractArchive(const QString &archivePath, const QString &destination, QString *errorMessage) {
+    static bool extractArchive(const QString &archivePath, const QString &destination, QString *errorMessage,
+                               const CancellationCheck &isCancelled = {}, bool *cancelled = nullptr) {
+        if (cancelled)
+            *cancelled = false;
         std::unique_ptr<archive, decltype(&archive_read_free)> reader(archive_read_new(), archive_read_free);
         if (!reader) {
             *errorMessage = QCoreApplication::translate("LibreSVIPManager", "Failed to initialize the archive reader.");
@@ -233,6 +339,12 @@ namespace LibreSVIPFormatConverter::Internal {
         archive_entry *entry{};
         int archiveStatus = ARCHIVE_OK;
         while ((archiveStatus = archive_read_next_header(reader.get(), &entry)) == ARCHIVE_OK) {
+            QCoreApplication::processEvents();
+            if (cancellationRequested(isCancelled)) {
+                if (cancelled)
+                    *cancelled = true;
+                return false;
+            }
             const char *rawName = archive_entry_pathname_utf8(entry);
             if (!rawName)
                 rawName = archive_entry_pathname(entry);
@@ -278,11 +390,16 @@ namespace LibreSVIPFormatConverter::Internal {
                 char buffer[64 * 1024];
                 la_ssize_t count;
                 while ((count = archive_read_data(reader.get(), buffer, sizeof(buffer))) > 0) {
+                    QCoreApplication::processEvents();
+                    if (cancellationRequested(isCancelled)) {
+                        if (cancelled)
+                            *cancelled = true;
+                        return false;
+                    }
                     if (output.write(buffer, count) != count) {
                         *errorMessage = output.errorString();
                         return false;
                     }
-                    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
                 }
                 if (count < 0 || !output.commit()) {
                     *errorMessage = count < 0 ? QString::fromLocal8Bit(archive_error_string(reader.get())) : output.errorString();
@@ -440,21 +557,33 @@ namespace LibreSVIPFormatConverter::Internal {
         if (showProgress) {
             progress.reset(createQuickObject("LibreSVIPProgressDialog", {
                 {QStringLiteral("text"), tr("Validating LibreSVIP command-line tool...")},
-                {QStringLiteral("cancellable"), false},
+                {QStringLiteral("cancellable"), true},
                 {QStringLiteral("indeterminate"), true},
                 {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
             }));
-            if (progress)
-                QMetaObject::invokeMethod(progress.get(), "show");
+            if (!progress) {
+                LibreSVIPValidationResult result;
+                result.errorMessage = tr("Failed to create the LibreSVIP progress dialog.");
+                return result;
+            }
+            QMetaObject::invokeMethod(progress.get(), "show");
         }
-        const auto result = validateExecutableInternal(path);
+        const auto result = validateExecutableInternal(path, [dialog = progress.get()] {
+            return quickDialogWasCancelled(dialog);
+        });
         if (progress)
-            finishQuickDialog(progress.get(), QStringLiteral("completed"));
+            finishQuickDialog(progress.get(), result.cancelled ? QStringLiteral("cancelled")
+                                                               : QStringLiteral("completed"));
         return result;
     }
 
-    LibreSVIPValidationResult LibreSVIPManager::validateExecutableInternal(const QString &path) {
+    LibreSVIPValidationResult LibreSVIPManager::validateExecutableInternal(const QString &path,
+                                                                            const CancellationCheck &isCancelled) {
         LibreSVIPValidationResult result;
+        if (cancellationRequested(isCancelled)) {
+            result.cancelled = true;
+            return result;
+        }
         const QFileInfo info(QDir::fromNativeSeparators(path));
         if (!info.exists()) {
             result.errorMessage = tr("The selected LibreSVIP executable does not exist.");
@@ -474,7 +603,12 @@ namespace LibreSVIPFormatConverter::Internal {
             return result;
         }
         const QFileInfo canonicalInfo(canonicalPath);
-        result.sha512 = sha512ForFile(canonicalPath);
+        bool digestCancelled = false;
+        result.sha512 = sha512ForFile(canonicalPath, isCancelled, &digestCancelled);
+        if (digestCancelled) {
+            result.cancelled = true;
+            return result;
+        }
         if (result.sha512.isEmpty()) {
             result.errorMessage = tr("Failed to calculate the SHA512 digest of the LibreSVIP executable.");
             return result;
@@ -485,7 +619,13 @@ namespace LibreSVIPFormatConverter::Internal {
         m_process->setProcessChannelMode(QProcess::MergedChannels);
         m_process->setWorkingDirectory(canonicalInfo.absolutePath());
         m_process->start(canonicalPath, {QStringLiteral("rpc"), QStringLiteral("server")});
-        if (!m_process->waitForStarted(5000)) {
+        bool startCancelled = false;
+        if (!waitForProcessStarted(m_process, 5000, isCancelled, &startCancelled)) {
+            if (startCancelled) {
+                result.cancelled = true;
+                stopProcess(true);
+                return result;
+            }
             result.errorMessage = tr("Failed to start LibreSVIP: %1").arg(m_process->errorString());
             stopProcess(true);
             return result;
@@ -502,15 +642,26 @@ namespace LibreSVIPFormatConverter::Internal {
         startupTimer.start();
         QString rpcError;
         while (startupTimer.elapsed() < kCatalogTimeoutMs) {
+            if (cancellationRequested(isCancelled)) {
+                result.cancelled = true;
+                stopProcess(true);
+                return result;
+            }
             if (m_process->state() == QProcess::NotRunning) {
                 result.errorMessage = tr("LibreSVIP exited before its RPC server became ready: %1")
                                           .arg(QString::fromLocal8Bit(m_process->readAll()).trimmed());
                 stopProcess(true);
                 return result;
             }
+            bool rpcCancelled = false;
             if (queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::INPUT,
-                                 &result.catalog.inputs, &rpcError, 1000))
+                                 &result.catalog.inputs, &rpcError, 1000, isCancelled, &rpcCancelled))
                 break;
+            if (rpcCancelled) {
+                result.cancelled = true;
+                stopProcess(true);
+                return result;
+            }
             QCoreApplication::processEvents();
             QThread::msleep(100);
         }
@@ -530,16 +681,28 @@ namespace LibreSVIPFormatConverter::Internal {
             stopProcess(true);
             return result;
         }
+        bool rpcCancelled = false;
         if (!queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::OUTPUT,
-                              &result.catalog.outputs, &rpcError, remaining)) {
+                              &result.catalog.outputs, &rpcError, remaining, isCancelled, &rpcCancelled)) {
+            if (rpcCancelled) {
+                result.cancelled = true;
+                stopProcess(true);
+                return result;
+            }
             result.errorMessage = tr("Failed to query LibreSVIP plugins: %1").arg(rpcError);
             stopProcess(true);
             return result;
         }
         remaining = kCatalogTimeoutMs - static_cast<int>(startupTimer.elapsed());
+        rpcCancelled = false;
         if (remaining <= 0 ||
             !queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::MIDDLEWARE,
-                              &result.catalog.middlewares, &rpcError, remaining)) {
+                              &result.catalog.middlewares, &rpcError, remaining, isCancelled, &rpcCancelled)) {
+            if (rpcCancelled) {
+                result.cancelled = true;
+                stopProcess(true);
+                return result;
+            }
             result.errorMessage = remaining <= 0
                                       ? tr("Timed out while querying LibreSVIP plugins.")
                                       : tr("Failed to query LibreSVIP plugins: %1").arg(rpcError);
@@ -601,6 +764,10 @@ namespace LibreSVIPFormatConverter::Internal {
             return false;
         }
         const auto result = validateExecutable(path, parent, true);
+        if (result.cancelled) {
+            m_busy = false;
+            return false;
+        }
         if (!result.success) {
             showError(parent, tr("Invalid LibreSVIP command-line tool"), result.errorMessage);
             m_busy = false;
@@ -630,11 +797,15 @@ namespace LibreSVIPFormatConverter::Internal {
 #endif
     }
 
+    QString LibreSVIPManager::downloadedVersion() const {
+        QFile file(QDir(downloadedRoot()).filePath(QString::fromLatin1(kDownloadedVersionFileName)));
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return {};
+        const QString version = QString::fromUtf8(file.readAll()).trimmed();
+        return SVS::Semver(version).isValid() ? version : QString{};
+    }
+
     bool LibreSVIPManager::downloadAndConfigure(QWindow *parent, bool notifyRetry) {
-        const QString url = QString::fromUtf8(DIFFSCOPE_LIBRESVIP_URL).trimmed();
-        if (url.isEmpty()) {
-            qFatal("No LibreSVIP download URL is specified in this build. It should be specified in the publicly released artifacts.\n\nNote for developers: Please specify DIFFSCOPE_LIBRESVIP_URL in CMake to enable automatic download of LibreSVIP.");
-        }
         if (m_busy) {
             SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), parent, tr("LibreSVIP is busy"),
                                      tr("Another LibreSVIP operation is already running."));
@@ -642,80 +813,235 @@ namespace LibreSVIPFormatConverter::Internal {
         }
         m_busy = true;
 
-        const QString tempRoot = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData);
-        QDir().mkpath(tempRoot);
-        QTemporaryFile archiveFile(tempRoot + QStringLiteral("/libresvip-download-XXXXXX"));
-        if (!archiveFile.open()) {
-            showError(parent, tr("Download failed"), archiveFile.errorString());
+        const bool hasDownloadedInstallation = downloadedInstallationExists();
+        const QString installedVersion = downloadedVersion();
+        std::unique_ptr<QObject> dialog(createQuickObject("LibreSVIPDownloadDialog", {
+            {QStringLiteral("phase"), QStringLiteral("catalog")},
+            {QStringLiteral("hasDownloadedInstallation"), hasDownloadedInstallation},
+            {QStringLiteral("indeterminate"), true},
+            {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
+        }));
+        if (!dialog) {
+            qCCritical(lcLibreSVIPManager) << "Failed to create the LibreSVIP download dialog.";
+            showError(parent, tr("Download failed"), tr("Failed to create the LibreSVIP download dialog."));
             m_busy = false;
             return false;
         }
 
-        SVS::DownloadSession session(QUrl(url), &archiveFile);
-        session.setUserAgent(QStringLiteral("DiffScope/%1").arg(QCoreApplication::applicationVersion()));
-        QString downloadError;
-        std::unique_ptr<QObject> progress(createQuickObject("LibreSVIPProgressDialog", {
-            {QStringLiteral("text"), tr("Downloading LibreSVIP...")},
-            {QStringLiteral("cancellable"), true},
-            {QStringLiteral("indeterminate"), true},
-            {QStringLiteral("showSizes"), true},
-            {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
-        }));
-        if (!progress) {
-            m_busy = false;
-            return false;
-        }
-        connect(&session, &SVS::DownloadSession::progressChanged, progress.get(), [dialog = progress.get()](qint64 received, qint64 total) {
+        const auto setDialogProgress = [dialog = dialog.get()](qint64 received, qint64 total) {
             dialog->setProperty("bytesReceived", received);
             dialog->setProperty("bytesTotal", total);
             dialog->setProperty("indeterminate", total <= 0);
-            if (total > 0)
-                dialog->setProperty("progress", static_cast<double>(received) / static_cast<double>(total));
-        });
-        connect(&session, &SVS::DownloadSession::networkErrorOccurred, progress.get(), [&downloadError](QNetworkReply::NetworkError, const QString &description) {
-            downloadError = description;
-        });
-        connect(&session, &SVS::DownloadSession::writeErrorOccurred, progress.get(), [&downloadError](const QString &description) {
-            downloadError = description;
-        });
-        connect(&session, &SVS::DownloadSession::finished, progress.get(), [&session, dialog = progress.get()] {
-            const QString result = session.status() == SVS::DownloadSession::Status::Completed
-                                       ? QStringLiteral("completed")
-                                       : session.status() == SVS::DownloadSession::Status::Cancelled
-                                             ? QStringLiteral("cancelled")
-                                             : QStringLiteral("error");
-            finishQuickDialog(dialog, result);
-        });
-        QTimer::singleShot(0, &session, &SVS::DownloadSession::start);
-        const auto progressResult = SVS::MessageBox::customExec(progress.get()).toString();
-        if (progressResult == QStringLiteral("cancelled"))
-            session.cancel();
-        if (session.status() != SVS::DownloadSession::Status::Completed) {
-            if (progressResult != QStringLiteral("cancelled"))
-                showError(parent, tr("Download failed"), downloadError.isEmpty() ? tr("LibreSVIP could not be downloaded.") : downloadError);
+            dialog->setProperty("progress", total > 0
+                                                ? static_cast<double>(received) / static_cast<double>(total)
+                                                : 0.0);
+        };
+        QString pendingErrorTitle;
+        QString pendingErrorMessage;
+        const auto queueDialogError = [dialog = dialog.get(), &pendingErrorTitle, &pendingErrorMessage]
+                                      (const QString &title, const QString &message) {
+            pendingErrorTitle = title;
+            pendingErrorMessage = message;
+            finishQuickDialog(dialog, QStringLiteral("error"));
+        };
+        const auto showPendingError = [this, parent, &pendingErrorTitle, &pendingErrorMessage] {
+            const QString title = pendingErrorTitle.isEmpty() ? tr("LibreSVIP error") : pendingErrorTitle;
+            const QString message = pendingErrorMessage.isEmpty() ? tr("The LibreSVIP operation failed.")
+                                                                   : pendingErrorMessage;
+            qCWarning(lcLibreSVIPManager).noquote() << title << ':' << message;
+            showError(parent, title, message);
+        };
+        const auto reportError = [this, parent, dialogObject = dialog.get()]
+                                 (const QString &title, const QString &message) {
+            qCWarning(lcLibreSVIPManager).noquote() << title << ':' << message;
+            finishQuickDialog(dialogObject, QStringLiteral("error"));
+            showError(parent, title, message);
+        };
+
+        QList<LibreSVIPDownloadArtifact> artifacts;
+        QBuffer catalogData;
+        catalogData.open(QIODevice::WriteOnly);
+        SVS::DownloadSession catalogSession(QUrl(QString::fromUtf8(DIFFSCOPE_LIBRESVIP_CATALOG_URL)), &catalogData);
+        catalogSession.setUserAgent(QStringLiteral("DiffScope/%1").arg(QCoreApplication::applicationVersion()));
+        QString catalogDownloadError;
+        connect(&catalogSession, &SVS::DownloadSession::progressChanged, dialog.get(), setDialogProgress);
+        connect(&catalogSession, &SVS::DownloadSession::networkErrorOccurred, dialog.get(),
+                [this, &catalogDownloadError, queueDialogError]
+                (QNetworkReply::NetworkError, const QString &description) {
+                    catalogDownloadError = description;
+                    queueDialogError(tr("Download failed"), description);
+                });
+        connect(&catalogSession, &SVS::DownloadSession::writeErrorOccurred, dialog.get(),
+                [this, &catalogDownloadError, queueDialogError](const QString &description) {
+                    catalogDownloadError = description;
+                    queueDialogError(tr("Download failed"), description);
+                });
+        connect(&catalogSession, &SVS::DownloadSession::finished, dialog.get(),
+                [this, &catalogSession, &catalogData, &catalogDownloadError, &artifacts, installedVersion,
+                 queueDialogError, dialogObject = dialog.get()] {
+                    if (catalogSession.status() == SVS::DownloadSession::Status::Cancelled) {
+                        finishQuickDialog(dialogObject, QStringLiteral("cancelled"));
+                        return;
+                    }
+                    if (catalogSession.status() != SVS::DownloadSession::Status::Completed) {
+                        queueDialogError(tr("Download failed"),
+                                         catalogDownloadError.isEmpty()
+                                             ? tr("The LibreSVIP download catalog could not be retrieved.")
+                                             : catalogDownloadError);
+                        return;
+                    }
+
+                    QJsonParseError parseError;
+                    const auto document = QJsonDocument::fromJson(catalogData.data(), &parseError);
+                    if (parseError.error != QJsonParseError::NoError || !document.isArray()) {
+                        queueDialogError(tr("Download failed"),
+                                         tr("The LibreSVIP download catalog is invalid: %1")
+                                             .arg(parseError.error != QJsonParseError::NoError
+                                                      ? parseError.errorString()
+                                                      : tr("The root value is not an array.")));
+                        return;
+                    }
+
+                    const QString artifactKey = currentArtifactKey();
+                    for (const auto &value : document.array()) {
+                        if (!value.isObject())
+                            continue;
+                        const auto object = value.toObject();
+                        const QString versionText = object.value(QStringLiteral("version")).toString();
+                        const SVS::Semver version(versionText);
+                        const QString artifactUrl = object.value(QStringLiteral("artifacts"))
+                                                        .toObject()
+                                                        .value(artifactKey)
+                                                        .toString();
+                        const QUrl url(artifactUrl);
+                        if (version.isValid() && !artifactUrl.isEmpty() && url.isValid())
+                            artifacts.append({version, versionText, url});
+                    }
+                    std::sort(artifacts.begin(), artifacts.end(), [](const auto &left, const auto &right) {
+                        return left.version > right.version;
+                    });
+                    if (artifacts.isEmpty()) {
+                        queueDialogError(tr("Download failed"),
+                                         tr("No LibreSVIP downloads are available for this system architecture."));
+                        return;
+                    }
+
+                    QStringList versionItems;
+                    versionItems.reserve(artifacts.size());
+                    for (const auto &artifact : std::as_const(artifacts)) {
+                        const QString display = artifact.versionText == installedVersion
+                                                    ? tr("%1 (Downloaded)").arg(artifact.versionText)
+                                                    : artifact.versionText;
+                        versionItems.append(display);
+                    }
+                    dialogObject->setProperty("versionItems", versionItems);
+                    dialogObject->setProperty("selectedIndex", 0);
+                    dialogObject->setProperty("phase", QStringLiteral("selection"));
+                });
+        QTimer::singleShot(0, &catalogSession, &SVS::DownloadSession::start);
+
+        const QVariant selectionResult = SVS::MessageBox::customExec(dialog.get());
+        if (selectionResult.toString() == QStringLiteral("error")) {
+            showPendingError();
             m_busy = false;
             return false;
         }
-        archiveFile.flush();
+        if (selectionResult.toString() == QStringLiteral("cancelled")) {
+            catalogSession.cancel();
+            m_busy = false;
+            return false;
+        }
+        if (selectionResult.toString() != QStringLiteral("download")) {
+            m_busy = false;
+            return false;
+        }
+        const int selectedIndex = dialog->property("selectedIndex").toInt();
+        if (selectedIndex < 0 || selectedIndex >= artifacts.size()) {
+            reportError(tr("Download failed"), tr("The selected LibreSVIP version is not available."));
+            m_busy = false;
+            return false;
+        }
+        const LibreSVIPDownloadArtifact selectedArtifact = artifacts.at(selectedIndex);
+
+        const QString tempRoot = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData);
+        QDir().mkpath(tempRoot);
+        QTemporaryFile archiveFile(tempRoot + QStringLiteral("/libresvip-download-XXXXXX"));
+        if (!archiveFile.open()) {
+            reportError(tr("Download failed"), archiveFile.errorString());
+            m_busy = false;
+            return false;
+        }
+
+        dialog->setProperty("phase", QStringLiteral("download"));
+        setDialogProgress(0, -1);
+        SVS::DownloadSession session(selectedArtifact.url, &archiveFile);
+        session.setUserAgent(QStringLiteral("DiffScope/%1").arg(QCoreApplication::applicationVersion()));
+        QString downloadError;
+        connect(&session, &SVS::DownloadSession::progressChanged, dialog.get(), setDialogProgress);
+        connect(&session, &SVS::DownloadSession::networkErrorOccurred, dialog.get(),
+                [this, &downloadError, queueDialogError]
+                (QNetworkReply::NetworkError, const QString &description) {
+                    downloadError = description;
+                    queueDialogError(tr("Download failed"), description);
+                });
+        connect(&session, &SVS::DownloadSession::writeErrorOccurred, dialog.get(),
+                [this, &downloadError, queueDialogError](const QString &description) {
+                    downloadError = description;
+                    queueDialogError(tr("Download failed"), description);
+                });
+        connect(&session, &SVS::DownloadSession::finished, dialog.get(),
+                [this, &session, &downloadError, queueDialogError, dialogObject = dialog.get()] {
+                    if (session.status() == SVS::DownloadSession::Status::Completed) {
+                        yieldQuickDialog(dialogObject, QStringLiteral("downloaded"));
+                    } else if (session.status() == SVS::DownloadSession::Status::Cancelled) {
+                        finishQuickDialog(dialogObject, QStringLiteral("cancelled"));
+                    } else {
+                        queueDialogError(tr("Download failed"),
+                                         downloadError.isEmpty()
+                                             ? tr("LibreSVIP could not be downloaded.")
+                                             : downloadError);
+                    }
+                });
+        QTimer::singleShot(0, &session, &SVS::DownloadSession::start);
+        const QString downloadResult = SVS::MessageBox::customExec(dialog.get()).toString();
+        if (downloadResult == QStringLiteral("error")) {
+            showPendingError();
+            m_busy = false;
+            return false;
+        }
+        if (downloadResult == QStringLiteral("cancelled")) {
+            session.cancel();
+            m_busy = false;
+            return false;
+        }
+        if (downloadResult != QStringLiteral("downloaded") ||
+            session.status() != SVS::DownloadSession::Status::Completed) {
+            m_busy = false;
+            return false;
+        }
+        if (!archiveFile.flush()) {
+            reportError(tr("Download failed"), archiveFile.errorString());
+            m_busy = false;
+            return false;
+        }
         archiveFile.close();
 
         const QString dataRoot = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
         QDir().mkpath(dataRoot);
         const QString stageRoot = dataRoot + QStringLiteral("/libresvip.stage-") + QUuid::createUuid().toString(QUuid::WithoutBraces);
         QString extractionError;
-        std::unique_ptr<QObject> installProgress(createQuickObject("LibreSVIPProgressDialog", {
-            {QStringLiteral("text"), tr("Installing LibreSVIP...")},
-            {QStringLiteral("cancellable"), false},
-            {QStringLiteral("indeterminate"), true},
-            {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
-        }));
-        if (installProgress)
-            QMetaObject::invokeMethod(installProgress.get(), "show");
-        if (!extractArchive(archiveFile.fileName(), stageRoot, &extractionError)) {
-            if (installProgress)
-                finishQuickDialog(installProgress.get(), QStringLiteral("error"));
+        dialog->setProperty("phase", QStringLiteral("install"));
+        dialog->setProperty("statusText", tr("Installing LibreSVIP..."));
+        dialog->setProperty("indeterminate", true);
+        const CancellationCheck installCancelled = [dialog = dialog.get()] {
+            return quickDialogWasCancelled(dialog);
+        };
+        bool extractionCancelled = false;
+        if (!extractArchive(archiveFile.fileName(), stageRoot, &extractionError,
+                            installCancelled, &extractionCancelled)) {
             QDir(stageRoot).removeRecursively();
-            showError(parent, tr("Installation failed"), extractionError);
+            if (!extractionCancelled)
+                reportError(tr("Installation failed"), extractionError);
             m_busy = false;
             return false;
         }
@@ -724,12 +1050,34 @@ namespace LibreSVIPFormatConverter::Internal {
 #else
         const QString stagedExecutable = stageRoot + QStringLiteral("/libresvip-cli/libresvip-cli");
 #endif
-        auto validation = validateExecutableInternal(stagedExecutable);
-        if (!validation.success) {
-            if (installProgress)
-                finishQuickDialog(installProgress.get(), QStringLiteral("error"));
+        dialog->setProperty("statusText", tr("Validating LibreSVIP command-line tool..."));
+        auto validation = validateExecutableInternal(stagedExecutable, installCancelled);
+        if (validation.cancelled) {
             QDir(stageRoot).removeRecursively();
-            showError(parent, tr("Installation failed"), validation.errorMessage);
+            m_busy = false;
+            return false;
+        }
+        if (!validation.success) {
+            QDir(stageRoot).removeRecursively();
+            reportError(tr("Installation failed"), validation.errorMessage);
+            m_busy = false;
+            return false;
+        }
+
+        QSaveFile versionFile(QDir(stageRoot).filePath(QString::fromLatin1(kDownloadedVersionFileName)));
+        const QByteArray versionData = selectedArtifact.versionText.toUtf8() + '\n';
+        if (!versionFile.open(QIODevice::WriteOnly) || versionFile.write(versionData) != versionData.size() ||
+            !versionFile.commit()) {
+            const QString error = versionFile.errorString();
+            QDir(stageRoot).removeRecursively();
+            reportError(tr("Installation failed"),
+                        tr("Failed to record the downloaded LibreSVIP version: %1").arg(error));
+            m_busy = false;
+            return false;
+        }
+        QCoreApplication::processEvents();
+        if (cancellationRequested(installCancelled)) {
+            QDir(stageRoot).removeRecursively();
             m_busy = false;
             return false;
         }
@@ -738,38 +1086,50 @@ namespace LibreSVIPFormatConverter::Internal {
         const QString backupRoot = dataRoot + QStringLiteral("/libresvip.backup-") + QUuid::createUuid().toString(QUuid::WithoutBraces);
         bool hadExisting = QDir(finalRoot).exists();
         if (hadExisting && !QDir().rename(finalRoot, backupRoot)) {
-            if (installProgress)
-                finishQuickDialog(installProgress.get(), QStringLiteral("error"));
             QDir(stageRoot).removeRecursively();
-            showError(parent, tr("Installation failed"), tr("Failed to replace the existing LibreSVIP installation."));
+            reportError(tr("Installation failed"), tr("Failed to replace the existing LibreSVIP installation."));
             m_busy = false;
             return false;
         }
         if (!QDir().rename(stageRoot, finalRoot)) {
             if (hadExisting)
                 QDir().rename(backupRoot, finalRoot);
-            if (installProgress)
-                finishQuickDialog(installProgress.get(), QStringLiteral("error"));
             QDir(stageRoot).removeRecursively();
-            showError(parent, tr("Installation failed"), tr("Failed to move LibreSVIP into the application data directory."));
+            reportError(tr("Installation failed"),
+                        tr("Failed to move LibreSVIP into the application data directory."));
+            m_busy = false;
+            return false;
+        }
+        if (!saveConfiguration(downloadedExecutable(), validation)) {
+            const bool movedFailedInstallation = QDir().rename(finalRoot, stageRoot);
+            const bool restoredExisting = !hadExisting || QDir().rename(backupRoot, finalRoot);
+            if (movedFailedInstallation)
+                QDir(stageRoot).removeRecursively();
+            reportError(tr("Installation failed"),
+                        restoredExisting
+                            ? tr("Failed to resolve the canonical path of the LibreSVIP executable.")
+                            : tr("Failed to restore the previous LibreSVIP installation."));
             m_busy = false;
             return false;
         }
         if (hadExisting)
             QDir(backupRoot).removeRecursively();
-        if (!saveConfiguration(downloadedExecutable(), validation)) {
-            if (installProgress)
-                finishQuickDialog(installProgress.get(), QStringLiteral("error"));
-            showError(parent, tr("Installation failed"),
-                      tr("Failed to resolve the canonical path of the LibreSVIP executable."));
-            m_busy = false;
-            return false;
-        }
-        if (installProgress)
-            finishQuickDialog(installProgress.get(), QStringLiteral("completed"));
+        finishQuickDialog(dialog.get(), QStringLiteral("completed"));
         m_busy = false;
         if (notifyRetry)
             showRetryMessage(parent);
+        return true;
+    }
+
+    bool LibreSVIPManager::clearExecutablePath(QWindow *parent) {
+        if (m_busy) {
+            SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), parent, tr("LibreSVIP is busy"),
+                                     tr("Another LibreSVIP operation is already running."));
+            return false;
+        }
+        if (m_executablePath.isEmpty())
+            return true;
+        clearConfiguration();
         return true;
     }
 
@@ -833,6 +1193,8 @@ namespace LibreSVIPFormatConverter::Internal {
         m_busy = true;
         const auto validation = validateExecutable(m_executablePath, parent, true);
         m_busy = false;
+        if (validation.cancelled)
+            return false;
         if (validation.success) {
             if (!saveConfiguration(m_executablePath, validation)) {
                 showError(parent, tr("LibreSVIP command-line tool is unavailable"),
@@ -891,7 +1253,17 @@ namespace LibreSVIPFormatConverter::Internal {
         m_process->setProcessChannelMode(QProcess::MergedChannels);
         m_process->setWorkingDirectory(QFileInfo(m_executablePath).absolutePath());
         m_process->start(m_executablePath, {QStringLiteral("rpc"), QStringLiteral("server")});
-        if (!m_process->waitForStarted(5000)) {
+        const CancellationCheck conversionCancelled = [dialog = progress.get()] {
+            return quickDialogWasCancelled(dialog);
+        };
+        bool startCancelled = false;
+        if (!waitForProcessStarted(m_process, 5000, conversionCancelled, &startCancelled)) {
+            if (startCancelled) {
+                stopProcess(true);
+                result.cancelled = true;
+                m_busy = false;
+                return result;
+            }
             result.errorMessage = tr("Failed to start LibreSVIP: %1").arg(m_process->errorString());
             stopProcess(true);
             m_busy = false;
@@ -910,10 +1282,18 @@ namespace LibreSVIPFormatConverter::Internal {
         QList<LibreSVIPPluginInfo> ignored;
         QString rpcError;
         while (startupTimer.elapsed() < kCatalogTimeoutMs && m_process->state() != QProcess::NotRunning) {
-            if (queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::INPUT, &ignored, &rpcError, 1000))
+            bool rpcCancelled = false;
+            if (queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::INPUT,
+                                 &ignored, &rpcError, 1000, conversionCancelled, &rpcCancelled))
                 break;
+            if (rpcCancelled) {
+                stopProcess(true);
+                result.cancelled = true;
+                m_busy = false;
+                return result;
+            }
             QCoreApplication::processEvents();
-            if (progress->property("finalResult").toString() == QStringLiteral("cancelled")) {
+            if (quickDialogWasCancelled(progress.get())) {
                 stopProcess(true);
                 result.cancelled = true;
                 m_busy = false;
@@ -921,7 +1301,7 @@ namespace LibreSVIPFormatConverter::Internal {
             }
             QThread::msleep(100);
         }
-        if (progress->property("finalResult").toString() == QStringLiteral("cancelled")) {
+        if (quickDialogWasCancelled(progress.get())) {
             stopProcess(true);
             result.cancelled = true;
             m_busy = false;

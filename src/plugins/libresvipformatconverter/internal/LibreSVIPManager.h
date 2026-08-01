@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_LIBRESVIP_FORMAT_CONVERTER_LIBRESVIPMANAGER_H
 #define DIFFSCOPE_LIBRESVIP_FORMAT_CONVERTER_LIBRESVIPMANAGER_H
 
+#include <functional>
+
 #include <QObject>
 
 #include <libresvipformatconverter/internal/LibreSVIPTypes.h>
@@ -32,6 +34,7 @@ namespace LibreSVIPFormatConverter::Internal {
         bool runPreExecCheck();
         bool browseAndConfigure(QWindow *parent, bool notifyRetry = false);
         bool downloadAndConfigure(QWindow *parent, bool notifyRetry = false);
+        bool clearExecutablePath(QWindow *parent);
         bool removeDownloadedInstallation(QWindow *parent);
 
         LibreSVIPConversionResult convert(const LibreSVIPConversionRequestData &request, QWindow *parent);
@@ -42,7 +45,8 @@ namespace LibreSVIPFormatConverter::Internal {
 
     private:
         LibreSVIPValidationResult validateExecutable(const QString &path, QWindow *parent, bool showProgress);
-        LibreSVIPValidationResult validateExecutableInternal(const QString &path);
+        LibreSVIPValidationResult validateExecutableInternal(const QString &path,
+                                                              const std::function<bool()> &isCancelled = {});
         bool cacheIsCurrent() const;
         bool saveConfiguration(const QString &path, const LibreSVIPValidationResult &result);
         void clearConfiguration();
@@ -51,6 +55,7 @@ namespace LibreSVIPFormatConverter::Internal {
         QString pickExecutable(QWindow *parent) const;
         QString downloadedRoot() const;
         QString downloadedExecutable() const;
+        QString downloadedVersion() const;
         QWindow *defaultParentWindow() const;
 
         void stopProcess(bool force = false);
