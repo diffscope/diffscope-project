@@ -187,7 +187,7 @@ Window {
             const config = dialog.exporter.config
             fileList = dialog.exporter.fileList
             warningTextList = dialog.exporter.preflightWarningTexts(dialog.exporter.preflightWarnings)
-            fileTypeName = [qsTr("WAV"), qsTr("FLAC"), qsTr("Ogg Vorbis"), qsTr("MP3")][config.fileType]
+            fileTypeName = [qsTr("WAV"), qsTr("FLAC"), qsTr("Ogg Container"), qsTr("MP3")][config.fileType]
             const msec = dialog.addOn.calculateDurationInMsec(dialog.exporter)
             const minutes = Math.floor(msec / 60000);
             const seconds = Math.floor((msec % 60000) / 1000);
@@ -412,7 +412,7 @@ Window {
                                         model: [
                                             qsTr("WAV"),
                                             qsTr("FLAC"),
-                                            qsTr("Ogg Vorbis"),
+                                            qsTr("Ogg Container"),
                                             qsTr("MP3"),
                                         ]
                                         currentIndex: AudioExporterPresets.currentConfig.fileType

@@ -68,7 +68,7 @@ namespace Audio {
         enum FileType {
             FT_Wav,
             FT_Flac,
-            FT_OggVorbis,
+            FT_OggContainer,
             FT_Mp3,
         };
         Q_ENUM(FileType)

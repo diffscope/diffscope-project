@@ -94,6 +94,11 @@ namespace Audio {
                     tr("16-bit PCM"),
                     tr("8-bit PCM"),
                 };
+            case FT_OggContainer:
+                return {
+                    tr("Vorbis"),
+                    tr("Opus"),
+                };
             default:
                 return {};
         }
@@ -105,7 +110,7 @@ namespace Audio {
                 return QStringLiteral("wav");
             case FT_Flac:
                 return QStringLiteral("flac");
-            case FT_OggVorbis:
+            case FT_OggContainer:
                 return QStringLiteral("ogg");
             case FT_Mp3:
                 return QStringLiteral("mp3");

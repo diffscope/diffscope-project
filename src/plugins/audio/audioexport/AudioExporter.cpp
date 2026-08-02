@@ -289,9 +289,17 @@ namespace Audio {
                         return format;
                 }
                 break;
-            case AudioExporterConfig::FT_OggVorbis:
-                format |= static_cast<int>(talcs::AudioFormatIO::OGG) | static_cast<int>(talcs::AudioFormatIO::VORBIS);
-                return format;
+            case AudioExporterConfig::FT_OggContainer:
+                format |= talcs::AudioFormatIO::OGG;
+                switch (config.formatOption()) {
+                    case 0:
+                        format |= talcs::AudioFormatIO::VORBIS;
+                        return format;
+                    case 1:
+                        format |= talcs::AudioFormatIO::OPUS;
+                        return format;
+                }
+                break;
             case AudioExporterConfig::FT_Mp3:
                 format |= static_cast<int>(talcs::AudioFormatIO::MPEG) | static_cast<int>(talcs::AudioFormatIO::MPEG_LAYER_III);
                 return format;
@@ -308,7 +316,7 @@ namespace Audio {
         preflightWarnings = {};
         fileList.clear();
 
-        if (config.fileType() == AudioExporterConfig::FT_Mp3 || config.fileType() == AudioExporterConfig::FT_OggVorbis) {
+        if (config.fileType() == AudioExporterConfig::FT_Mp3 || config.fileType() == AudioExporterConfig::FT_OggContainer) {
             preflightWarnings |= AudioExporter::PW_LossyFormat;
         }
 

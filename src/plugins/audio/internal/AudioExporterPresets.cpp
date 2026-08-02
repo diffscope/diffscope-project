@@ -324,16 +324,16 @@ namespace Audio::Internal {
         const auto wavSep = makePreset(QStringLiteral("${projectName}_${trackIndex}_${trackName}.wav"), AudioExporterConfig::FT_Wav, AudioExporterConfig::MO_SeparatedThruMaster);
         const auto flacMix = makePreset(QStringLiteral("${projectName}.flac"), AudioExporterConfig::FT_Flac, AudioExporterConfig::MO_Mixed);
         const auto flacSep = makePreset(QStringLiteral("${projectName}_${trackIndex}_${trackName}.flac"), AudioExporterConfig::FT_Flac, AudioExporterConfig::MO_SeparatedThruMaster);
-        const auto oggMix = makePreset(QStringLiteral("${projectName}.ogg"), AudioExporterConfig::FT_OggVorbis, AudioExporterConfig::MO_Mixed);
-        const auto oggSep = makePreset(QStringLiteral("${projectName}_${trackIndex}_${trackName}.ogg"), AudioExporterConfig::FT_OggVorbis, AudioExporterConfig::MO_SeparatedThruMaster);
+        const auto oggMix = makePreset(QStringLiteral("${projectName}.ogg"), AudioExporterConfig::FT_OggContainer, AudioExporterConfig::MO_Mixed);
+        const auto oggSep = makePreset(QStringLiteral("${projectName}_${trackIndex}_${trackName}.ogg"), AudioExporterConfig::FT_OggContainer, AudioExporterConfig::MO_SeparatedThruMaster);
 
         m_builtinPresets = {
-            {tr("WAV (Mixed)"),            wavMix },
-            {tr("WAV (Separated)"),        wavSep },
-            {tr("FLAC (Mixed)"),           flacMix},
-            {tr("FLAC (Separated)"),       flacSep},
-            {tr("Ogg Vorbis (Mixed)"),     oggMix },
-            {tr("Ogg Vorbis (Separated)"), oggSep },
+            {tr("WAV (Mixed)"),               wavMix },
+            {tr("WAV (Separated)"),           wavSep },
+            {tr("FLAC (Mixed)"),              flacMix},
+            {tr("FLAC (Separated)"),          flacSep},
+            {tr("Ogg Container (Mixed)"),     oggMix },
+            {tr("Ogg Container (Separated)"), oggSep },
         };
     }
 

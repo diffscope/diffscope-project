@@ -98,6 +98,7 @@ namespace Audio::Internal {
     }
 
     ExportAudioAddOn::ExportAudioAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+        m_simpleConfig.setFormatOption(0);
         m_simpleConfig.setFormatQuality(100);
         m_simpleConfig.setFormatSampleRate(48000);
     }
@@ -156,9 +157,13 @@ namespace Audio::Internal {
     }
 
     void ExportAudioAddOn::setSimpleConfig(const AudioExporterConfig &config) {
-        if (m_simpleConfig == config)
+        auto simpleConfig = config;
+        if (simpleConfig.fileType() == AudioExporterConfig::FT_OggContainer) {
+            simpleConfig.setFormatOption(0);
+        }
+        if (m_simpleConfig == simpleConfig)
             return;
-        m_simpleConfig = config;
+        m_simpleConfig = simpleConfig;
         emit simpleConfigChanged();
     }
 
@@ -226,7 +231,7 @@ namespace Audio::Internal {
         const QStringList filters = {
             tr("WAV (*.wav)"),
             tr("FLAC (*.flac)"),
-            tr("Ogg Vorbis (*.ogg)"),
+            tr("Ogg Container (*.ogg)"),
             tr("MP3 (*.mp3)"),
         };
         QString selectedFilter = filters.at(config.fileType());
@@ -275,7 +280,7 @@ namespace Audio::Internal {
             : QStringLiteral("_${trackIndex}_${trackName}.");
         config.setFileName(fileInfo.completeBaseName() + templateSuffix + fileInfo.suffix());
         config.setFileDirectory(fileInfo.dir().canonicalPath());
-        applyFileType(config, filters.indexOf(selectedFilter) == 0 ? AudioExporterConfig::FT_Wav : AudioExporterConfig::FT_OggVorbis);
+        applyFileType(config, filters.indexOf(selectedFilter) == 0 ? AudioExporterConfig::FT_Wav : AudioExporterConfig::FT_OggContainer);
         setSimpleConfig(config);
     }
 
