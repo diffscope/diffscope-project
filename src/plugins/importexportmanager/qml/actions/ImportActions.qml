@@ -23,8 +23,8 @@ ActionCollection {
                     model: d.addOn?.importConverters ?? []
                     delegate: Action {
                         required property QtObject modelData
-                        text: modelData.name
-                        DescriptiveAction.statusTip: modelData.description
+                        text: modelData?.name ?? ""
+                        DescriptiveAction.statusTip: modelData?.description ?? ""
                         onTriggered: Qt.callLater(() => d.addOn.execImport(modelData))
                     }
                 }

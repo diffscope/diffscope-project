@@ -48,7 +48,7 @@ QtObject {
                                 padding: 8
                                 rightPadding: 24
                                 font.pixelSize: 16
-                                text: modelData.name
+                                text: modelData?.name ?? ""
                                 onClicked: d.addOn.execImport(modelData)
                                 background: ButtonRectangle {
                                     control: control
@@ -73,7 +73,7 @@ QtObject {
                                     Text {
                                         Layout.fillWidth: true
                                         font: Theme.font
-                                        text: modelData.description
+                                        text: modelData?.description ?? ""
                                         wrapMode: Text.Wrap
                                         color: Theme.foregroundSecondaryColor
                                     }
