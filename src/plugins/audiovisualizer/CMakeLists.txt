@@ -18,10 +18,12 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         coreplugin
         audio
+        talcs::Core
         talcs::Format
         svscraft::Core
         svscraft::Quick
         visualeditor
+        ScopicFlowCore
     INCLUDE_PRIVATE
         internal/**
 )

@@ -1,6 +1,7 @@
 #include "AudioVisualizerPlugin.h"
 
 #include "addon/AudioMipmapAddOn.h"
+#include "addon/LevelMeterAddOn.h"
 
 #include <QQmlComponent>
 
@@ -34,6 +35,7 @@ namespace AudioVisualizer::Internal {
         }
         Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.audiothumbnailcomponent", audioThumbnailComponent);
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioMipmapAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<LevelMeterAddOn>();
 
         return true;
     }
