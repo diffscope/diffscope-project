@@ -79,7 +79,7 @@ namespace Audio {
         void setFormatMono(bool formatMono);
 
         static QStringList formatOptionsOfType(FileType type);
-        static QString extensionOfType(FileType type);
+        static QString extensionOfType(FileType type, int formatOption);
 
         int formatOption() const;
         void setFormatOption(int formatOption);

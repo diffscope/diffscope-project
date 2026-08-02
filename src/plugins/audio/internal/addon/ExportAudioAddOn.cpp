@@ -65,12 +65,19 @@ namespace Audio::Internal {
             return documentsDirectory();
         }
 
-        void applyFileType(AudioExporterConfig &config, int index) {
+        void applyFileType(AudioExporterConfig &config, int index, int formatOption = 0) {
             const QFileInfo fileInfo(config.fileName());
             config.setFileType(static_cast<AudioExporterConfig::FileType>(index));
-            config.setFormatOption(0);
+            config.setFormatOption(formatOption);
             config.setFileName(fileInfo.completeBaseName() + QStringLiteral(".") +
-                               AudioExporterConfig::extensionOfType(static_cast<AudioExporterConfig::FileType>(index)));
+                               AudioExporterConfig::extensionOfType(config.fileType(), config.formatOption()));
+        }
+
+        void applyFormatOption(AudioExporterConfig &config, int index) {
+            const QFileInfo fileInfo(config.fileName());
+            config.setFormatOption(index);
+            config.setFileName(fileInfo.completeBaseName() + QStringLiteral(".") +
+                               AudioExporterConfig::extensionOfType(config.fileType(), config.formatOption()));
         }
     }
 
@@ -231,7 +238,7 @@ namespace Audio::Internal {
         const QStringList filters = {
             tr("WAV (*.wav)"),
             tr("FLAC (*.flac)"),
-            tr("Ogg Container (*.ogg)"),
+            tr("Ogg Container (*.ogg *.opus)"),
             tr("MP3 (*.mp3)"),
         };
         QString selectedFilter = filters.at(config.fileType());
@@ -252,7 +259,9 @@ namespace Audio::Internal {
             : QStringLiteral("_${trackIndex}_${trackName}.");
         config.setFileName(fileInfo.completeBaseName() + templateSuffix + fileInfo.suffix());
         config.setFileDirectory(fileInfo.dir().canonicalPath());
-        applyFileType(config, filters.indexOf(selectedFilter));
+        const auto fileType = filters.indexOf(selectedFilter);
+        const auto formatOption = fileType == config.fileType() ? config.formatOption() : 0;
+        applyFileType(config, fileType, formatOption);
         presets->setCurrentConfig(config);
     }
 
@@ -301,7 +310,7 @@ namespace Audio::Internal {
             basename += QStringLiteral("_${trackIndex}_${trackName}");
         }
         if (suffix.isEmpty()) {
-            suffix = AudioExporterConfig::extensionOfType(config.fileType());
+            suffix = AudioExporterConfig::extensionOfType(config.fileType(), config.formatOption());
         }
         config.setFileName(basename + QStringLiteral(".") + suffix);
         presets->setCurrentConfig(config);
@@ -311,6 +320,13 @@ namespace Audio::Internal {
         auto presets = AudioExporterPresets::instance();
         auto config = presets->currentConfig();
         applyFileType(config, index);
+        presets->setCurrentConfig(config);
+    }
+
+    void ExportAudioAddOn::setFormatOption(int index) {
+        auto presets = AudioExporterPresets::instance();
+        auto config = presets->currentConfig();
+        applyFormatOption(config, index);
         presets->setCurrentConfig(config);
     }
 
@@ -330,7 +346,7 @@ namespace Audio::Internal {
             basename += QStringLiteral("_${trackIndex}_${trackName}");
                    }
         if (suffix.isEmpty()) {
-            suffix = AudioExporterConfig::extensionOfType(config.fileType());
+            suffix = AudioExporterConfig::extensionOfType(config.fileType(), config.formatOption());
         }
         config.setFileName(basename + QStringLiteral(".") + suffix);
         setSimpleConfig(config);

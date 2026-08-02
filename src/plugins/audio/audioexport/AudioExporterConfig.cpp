@@ -104,14 +104,20 @@ namespace Audio {
         }
     }
 
-    QString AudioExporterConfig::extensionOfType(FileType type) {
+    QString AudioExporterConfig::extensionOfType(FileType type, int formatOption) {
         switch (type) {
             case FT_Wav:
                 return QStringLiteral("wav");
             case FT_Flac:
                 return QStringLiteral("flac");
             case FT_OggContainer:
-                return QStringLiteral("ogg");
+                switch (formatOption) {
+                    case 0:
+                        return QStringLiteral("ogg");
+                    case 1:
+                        return QStringLiteral("opus");
+                }
+                break;
             case FT_Mp3:
                 return QStringLiteral("mp3");
         }

@@ -427,7 +427,7 @@ Window {
                                     columnItem: ComboBox {
                                         model: dialog.addOn.formatOptions(AudioExporterPresets.currentConfig.fileType)
                                         currentIndex: AudioExporterPresets.currentConfig.formatOption
-                                        onActivated: (index) => AudioExporterPresets.currentConfig.formatOption = index
+                                        onActivated: (index) => dialog.addOn.setFormatOption(index)
                                     }
                                     Layout.fillWidth: true
                                 }

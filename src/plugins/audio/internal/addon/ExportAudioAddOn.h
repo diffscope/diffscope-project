@@ -95,6 +95,7 @@ namespace Audio::Internal {
         Q_INVOKABLE static QStringList formatOptions(int fileType) ;
         Q_INVOKABLE static void setMixingOption(int index);
         Q_INVOKABLE static void setFileType(int index);
+        Q_INVOKABLE static void setFormatOption(int index);
         Q_INVOKABLE void setMixingOptionSimple(int index);
         Q_INVOKABLE void setFileTypeSimple(int index);
         Q_INVOKABLE static void appendFileNameTemplate(const QString &templateString);
