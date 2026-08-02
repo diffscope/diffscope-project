@@ -44,8 +44,6 @@ namespace Audio::Internal {
 
         qint64 m_adoptedBufferSize{};
         double m_adoptedSampleRate{};
-        double m_deviceGain{};
-        double m_devicePan{};
         talcs::OutputContext::HotPlugNotificationMode m_hotPlugNotificationMode{};
         QString m_driverName;
         QString m_deviceName;

@@ -43,6 +43,15 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.audio.playback.metronome"
+        Action {
+            checkable: true
+            checked: d.addOn?.metronomeEnabled ?? false
+            onTriggered: d.addOn.metronomeEnabled = checked
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.audio.playback.playButton"
         ToolButton {
             action: d.addOn?.getPlayAction() ?? null

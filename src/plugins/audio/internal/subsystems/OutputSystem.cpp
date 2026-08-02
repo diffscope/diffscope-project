@@ -27,8 +27,6 @@ namespace Audio::Internal {
         load();
         m_outputContext->setAdoptedBufferSize(m_adoptedBufferSize);
         m_outputContext->setAdoptedSampleRate(m_adoptedSampleRate);
-        m_outputContext->controlMixer()->setGain(static_cast<float>(m_deviceGain));
-        m_outputContext->controlMixer()->setPan(static_cast<float>(m_devicePan));
         m_outputContext->setHotPlugNotificationMode(m_hotPlugNotificationMode);
         // setFileBufferingReadAheadSize(AudioSettings::fileBufferingReadAheadSize());
 
@@ -122,8 +120,6 @@ namespace Audio::Internal {
         settings->beginGroup(staticMetaObject.className());
         m_adoptedBufferSize = settings->value("adoptedBufferSize").value<qint64>();
         m_adoptedSampleRate = settings->value("adoptedSampleRate").value<double>();
-        m_deviceGain = settings->value("deviceGain", 1.0).toDouble();
-        m_devicePan = settings->value("devicePan").toDouble();
         m_hotPlugNotificationMode = static_cast<talcs::OutputContext::HotPlugNotificationMode>(settings->value("hotPlugNotificationMode", talcs::OutputContext::HotPlugNotificationMode::Omni).toInt());
         m_driverName = settings->value("driverName").toString();
         m_deviceName = settings->value("deviceName").toString();
@@ -135,8 +131,6 @@ namespace Audio::Internal {
         settings->beginGroup(staticMetaObject.className());
         settings->setValue("adoptedBufferSize", m_adoptedBufferSize);
         settings->setValue("adoptedSampleRate", m_adoptedSampleRate);
-        settings->setValue("deviceGain", m_deviceGain);
-        settings->setValue("devicePan", m_devicePan);
         settings->setValue("hotPlugNotificationMode", m_hotPlugNotificationMode);
         settings->setValue("driverName", m_driverName);
         settings->setValue("deviceName", m_deviceName);

@@ -7,6 +7,9 @@ namespace Audio::Internal {
 
     class PlaybackPage : public Core::ISettingPage {
         Q_OBJECT
+        Q_PROPERTY(bool metronomeEnabled READ metronomeEnabled WRITE setMetronomeEnabled NOTIFY metronomeEnabledChanged)
+        Q_PROPERTY(double metronomeGain READ metronomeGain WRITE setMetronomeGain NOTIFY metronomeGainChanged)
+        Q_PROPERTY(double metronomePan READ metronomePan WRITE setMetronomePan NOTIFY metronomePanChanged)
     public:
         explicit PlaybackPage(QObject *parent = nullptr);
         ~PlaybackPage() override;
@@ -18,9 +21,23 @@ namespace Audio::Internal {
         bool accept() override;
         void endSetting() override;
 
+        bool metronomeEnabled() const;
+        void setMetronomeEnabled(bool enabled);
+        double metronomeGain() const;
+        void setMetronomeGain(double gain);
+        double metronomePan() const;
+        void setMetronomePan(double pan);
+
+    Q_SIGNALS:
+        void metronomeEnabledChanged(bool enabled);
+        void metronomeGainChanged(double gain);
+        void metronomePanChanged(double pan);
+
     private:
+        void initializeMetronomeProperties();
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
+        bool m_metronomePropertiesInitialized{};
     };
 
 }

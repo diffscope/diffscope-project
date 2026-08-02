@@ -1,6 +1,7 @@
 #include "ProjectAudioContext.h"
 #include "ProjectAudioContext_p.h"
 
+#include <TalcsCore/MixerAudioSource.h>
 #include <TalcsDspx/DspxProjectContext.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
@@ -13,6 +14,8 @@ namespace Audio {
         d->q_ptr = this;
         d->windowHandle = windowHandle;
         d->projectContext = std::make_unique<talcs::DspxProjectContext>(this);
+        d->metronomeControlMixer = new talcs::MixerAudioSource;
+        d->projectContext->preMixer()->prependSource(d->metronomeControlMixer, true);
     }
 
     ProjectAudioContext::~ProjectAudioContext() = default;
@@ -43,6 +46,11 @@ namespace Audio {
     talcs::MixerAudioSource *ProjectAudioContext::preMixer() const {
         Q_D(const ProjectAudioContext);
         return d->projectContext->preMixer();
+    }
+
+    talcs::MixerAudioSource *ProjectAudioContext::metronomeControlMixer() const {
+        Q_D(const ProjectAudioContext);
+        return d->metronomeControlMixer;
     }
 
     talcs::TransportAudioSource *ProjectAudioContext::transport() const {

@@ -68,6 +68,8 @@ namespace Audio::Internal {
         });
 
         connect(m_context, &ProjectAudioContext::statusChanged, this, &PlaybackAddOn::handlePlaybackStatusChanged);
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::metronomeEnabledChanged,
+                this, &PlaybackAddOn::metronomeEnabledChanged);
         connect(m_projectTimeline, &Core::ProjectTimeline::positionChanged, this, &PlaybackAddOn::handlePlaybackPositionChanged);
         connect(m_projectTimeline->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
             syncLoopingRange();
@@ -144,6 +146,14 @@ namespace Audio::Internal {
 
     QObject *PlaybackAddOn::getPauseAction() const {
         return createActionObject(windowHandle()->cast<Core::ProjectWindowInterface>()->actionContext(), "org.diffscope.audio.playback.pause");
+    }
+
+    bool PlaybackAddOn::metronomeEnabled() const {
+        return GlobalAudioContext::metronomeEnabled();
+    }
+
+    void PlaybackAddOn::setMetronomeEnabled(bool enabled) {
+        GlobalAudioContext::setMetronomeEnabled(enabled);
     }
 
     qint64 PlaybackAddOn::tickToSample(int tick) const {

@@ -38,9 +38,9 @@ Item {
 
         Mixer {
             id: masterMixer
-            // TODO There might be more bus tracks in the future
             SplitView.minimumWidth: 128
-            SplitView.maximumWidth: 128
+            SplitView.maximumWidth: contentWidth - 80
+            SplitView.preferredWidth: contentWidth - 80
             trackListViewModel: view.projectViewModelContext?.masterTrackListViewModel ?? null
             trackListLayoutViewModel: view.mixerPanelInterface?.masterTrackListLayoutViewModel ?? null
             scrollBehaviorViewModel: view.mixerPanelInterface?.scrollBehaviorViewModel ?? null

@@ -3,6 +3,8 @@
 
 #include <audio/GlobalAudioContext.h>
 
+#include <QMutex>
+
 #include <memory>
 
 namespace Audio {
@@ -13,6 +15,12 @@ namespace Audio {
         GlobalAudioContext *q_ptr{};
 
         std::unique_ptr<talcs::FormatManager> formatManager;
+        mutable QMutex propertiesMutex;
+        bool metronomeEnabled{};
+        double metronomeGain{1.0};
+        double metronomePan{};
+        double deviceGain{1.0};
+        double devicePan{};
 
         static GlobalAudioContext *create(QObject *parent = nullptr);
     };

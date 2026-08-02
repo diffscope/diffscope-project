@@ -5,12 +5,12 @@
 #include <QLocale>
 #include <QSignalBlocker>
 
-#include <TalcsCore/MixerAudioSource.h>
 #include <TalcsDevice/AbstractOutputContext.h>
 #include <TalcsDevice/AudioDevice.h>
 #include <TalcsDevice/AudioDriver.h>
 #include <TalcsDevice/AudioDriverManager.h>
 
+#include <audio/GlobalAudioContext.h>
 #include <audio/internal/AudioSystem.h>
 #include <audio/internal/OutputSystem.h>
 
@@ -54,6 +54,10 @@ namespace Audio::Internal {
         connect(outputContext, &talcs::AbstractOutputContext::deviceChanged, this, &AudioOutputSettingsHelper::onDeviceChanged);
         connect(outputContext, &talcs::AbstractOutputContext::bufferSizeChanged, this, &AudioOutputSettingsHelper::onBufferSizeChanged);
         connect(outputContext, &talcs::AbstractOutputContext::sampleRateChanged, this, &AudioOutputSettingsHelper::onSampleRateChanged);
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::deviceGainChanged,
+                this, [this] { Q_EMIT deviceGainChanged(); });
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::devicePanChanged,
+                this, [this] { Q_EMIT devicePanChanged(); });
 
         // Initialize all lists and current indices
         updateDriverList();
@@ -566,47 +570,19 @@ namespace Audio::Internal {
     }
 
     double AudioOutputSettingsHelper::deviceGain() const {
-        auto outputContext = m_outputSystem->outputContext();
-        if (!outputContext || !outputContext->controlMixer()) {
-            return 1.0;
-        }
-        return static_cast<double>(outputContext->controlMixer()->gain());
+        return GlobalAudioContext::deviceGain();
     }
 
     void AudioOutputSettingsHelper::setDeviceGain(double gain) {
-        auto outputContext = m_outputSystem->outputContext();
-        if (!outputContext || !outputContext->controlMixer()) {
-            return;
-        }
-        
-        if (qFuzzyCompare(outputContext->controlMixer()->gain(), static_cast<float>(gain))) {
-            return;
-        }
-        
-        outputContext->controlMixer()->setGain(static_cast<float>(gain));
-        emit deviceGainChanged();
+        GlobalAudioContext::setDeviceGain(gain);
     }
 
     double AudioOutputSettingsHelper::devicePan() const {
-        auto outputContext = m_outputSystem->outputContext();
-        if (!outputContext || !outputContext->controlMixer()) {
-            return 0.0;
-        }
-        return static_cast<double>(outputContext->controlMixer()->pan());
+        return GlobalAudioContext::devicePan();
     }
 
     void AudioOutputSettingsHelper::setDevicePan(double pan) {
-        auto outputContext = m_outputSystem->outputContext();
-        if (!outputContext || !outputContext->controlMixer()) {
-            return;
-        }
-        
-        if (qFuzzyCompare(outputContext->controlMixer()->pan(), static_cast<float>(pan))) {
-            return;
-        }
-        
-        outputContext->controlMixer()->setPan(static_cast<float>(pan));
-        emit devicePanChanged();
+        GlobalAudioContext::setDevicePan(pan);
     }
 
     // Helper method: Find driver index by name

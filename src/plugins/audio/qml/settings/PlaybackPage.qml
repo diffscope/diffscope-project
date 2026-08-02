@@ -82,6 +82,96 @@ ScrollView {
                     }
                 }
             }
+            GroupBox {
+                title: qsTr("Metronome")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+                GridLayout {
+                    columns: 2
+                    anchors.fill: parent
+                    CheckBox {
+                        Layout.columnSpan: 2
+                        text: qsTr("Enable metronome")
+                        checked: page.pageHandle.metronomeEnabled
+                        onToggled: page.pageHandle.metronomeEnabled = checked
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    Label {
+                        text: qsTr("Metronome gain (dB)")
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Slider {
+                            Layout.fillWidth: true
+                            from: SVS.decibelToLinearValue(-96)
+                            to: SVS.decibelToLinearValue(6)
+                            value: SVS.decibelToLinearValue(SVS.gainToDecibels(page.pageHandle.metronomeGain))
+                            onMoved: page.pageHandle.metronomeGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
+                            ThemedItem.onDoubleClickReset: moved()
+                        }
+                        SpinBox {
+                            id: metronomeGainSpinBox
+                            property int decimals: 1
+                            property real realValue: value / decimalFactor
+                            readonly property int decimalFactor: Math.pow(10, decimals)
+
+                            function decimalToInt(decimal) {
+                                return decimal * decimalFactor
+                            }
+
+                            validator: DoubleValidator {
+                                bottom: Math.min(metronomeGainSpinBox.from, metronomeGainSpinBox.to)
+                                top: Math.max(metronomeGainSpinBox.from, metronomeGainSpinBox.to)
+                                decimals: metronomeGainSpinBox.decimals
+                                notation: DoubleValidator.StandardNotation
+                            }
+
+                            textFromValue: function(value, locale) {
+                                return Number(value / decimalFactor).toLocaleString(locale, 'f', decimals)
+                            }
+
+                            valueFromText: function(text, locale) {
+                                return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
+                            }
+
+                            from: decimalToInt(-96)
+                            to: decimalToInt(6)
+                            value: decimalToInt(SVS.gainToDecibels(page.pageHandle.metronomeGain))
+                            onValueModified: page.pageHandle.metronomeGain = SVS.decibelsToGain(realValue)
+                        }
+                    }
+                    Label {
+                        text: qsTr("Metronome pan (%)")
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Slider {
+                            Layout.fillWidth: true
+                            from: -1
+                            to: 1
+                            value: page.pageHandle.metronomePan
+                            onMoved: page.pageHandle.metronomePan = value
+                            ThemedItem.onDoubleClickReset: moved()
+                        }
+                        SpinBox {
+                            from: -100
+                            to: 100
+                            value: Math.round(page.pageHandle.metronomePan * 100)
+                            onValueModified: page.pageHandle.metronomePan = value / 100
+                        }
+                    }
+                }
+            }
         }
     }
 }

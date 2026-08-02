@@ -23,6 +23,7 @@ namespace Audio::Internal {
         QML_ELEMENT
         QML_UNCREATABLE("")
         Q_PROPERTY(ProjectAudioContext *projectAudioContext MEMBER m_context CONSTANT)
+        Q_PROPERTY(bool metronomeEnabled READ metronomeEnabled WRITE setMetronomeEnabled NOTIFY metronomeEnabledChanged)
     public:
         explicit PlaybackAddOn(QObject *parent = nullptr);
         ~PlaybackAddOn() override;
@@ -39,6 +40,12 @@ namespace Audio::Internal {
         Q_INVOKABLE void togglePlayback();
         Q_INVOKABLE QObject *getPlayAction() const;
         Q_INVOKABLE QObject *getPauseAction() const;
+
+        bool metronomeEnabled() const;
+        void setMetronomeEnabled(bool enabled);
+
+    Q_SIGNALS:
+        void metronomeEnabledChanged(bool enabled);
 
     private:
         qint64 tickToSample(int tick) const;

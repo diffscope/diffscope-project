@@ -303,7 +303,7 @@ namespace VisualEditor {
         controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::None);
         controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::None);
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::None);
-        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::EditMultiChannelOutput);
+        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan);
 
         connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=](QQuickItem *, int) {
             Q_EMIT muteTransactionWillStart();

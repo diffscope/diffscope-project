@@ -41,12 +41,16 @@ namespace AudioVisualizer::Internal {
         struct MeterState;
 
         void bindMasterTrack();
+        void bindMetronomeTrack();
+        void bindDeviceOutputTrack();
         void startLevelMeterTimer();
 
         Audio::ProjectAudioContext *m_audioContext{};
         VisualEditor::ProjectViewModelContext *m_viewModelContext{};
         QHash<dspx::Track *, MeterState *> m_trackMeters;
         MeterState *m_masterMeter{};
+        MeterState *m_metronomeMeter{};
+        MeterState *m_deviceOutputMeter{};
         QTimer *m_levelMeterTimer{};
         QElapsedTimer m_levelMeterTickTime;
         bool m_levelMeterActive{};

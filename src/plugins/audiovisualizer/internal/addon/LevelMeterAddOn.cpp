@@ -13,6 +13,7 @@
 
 #include <SVSCraftCore/DecibelLinearizer.h>
 
+#include <TalcsCore/MixerAudioSource.h>
 #include <TalcsCore/PositionableMixerAudioSource.h>
 #include <TalcsCore/SmoothedFloat.h>
 
@@ -20,6 +21,7 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
+#include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <audio/TrackAudioContext.h>
 
@@ -30,6 +32,8 @@
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/ArrangementPanelInterface.h>
 #include <visualeditor/MixerPanelInterface.h>
+
+#include <audiovisualizer/internal/MasterTrackAddOn.h>
 
 namespace AudioVisualizer::Internal {
 
@@ -73,16 +77,19 @@ namespace AudioVisualizer::Internal {
     }
 
     struct LevelMeterAddOn::MeterState {
-        MeterState(talcs::PositionableMixerAudioSource *source, sflow::TrackViewModel *viewModel)
-            : source(source), viewModel(viewModel), left(LevelFloor), right(LevelFloor) {
+        MeterState(QObject *source, sflow::TrackViewModel *viewModel,
+                   bool resetWhenProjectStopped = true)
+            : source(source), viewModel(viewModel), left(LevelFloor), right(LevelFloor),
+              resetWhenProjectStopped(resetWhenProjectStopped) {
             left.setRampLength(LevelMeterRampLength);
             right.setRampLength(LevelMeterRampLength);
         }
 
-        QPointer<talcs::PositionableMixerAudioSource> source;
+        QPointer<QObject> source;
         QPointer<sflow::TrackViewModel> viewModel;
         talcs::SmoothedFloat left;
         talcs::SmoothedFloat right;
+        bool resetWhenProjectStopped;
     };
 
     LevelMeterAddOn::LevelMeterAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -94,6 +101,8 @@ namespace AudioVisualizer::Internal {
     LevelMeterAddOn::~LevelMeterAddOn() {
         qDeleteAll(m_trackMeters);
         delete m_masterMeter;
+        delete m_metronomeMeter;
+        delete m_deviceOutputMeter;
     }
 
     void LevelMeterAddOn::initialize() {
@@ -107,6 +116,8 @@ namespace AudioVisualizer::Internal {
         }
 
         bindMasterTrack();
+        bindMetronomeTrack();
+        bindDeviceOutputTrack();
 
         auto trackList = windowInterface->projectDocumentContext()->document()->model()->tracks();
         const auto tracks = trackList->items();
@@ -174,7 +185,7 @@ namespace AudioVisualizer::Internal {
         connect(source, &talcs::PositionableMixerAudioSource::levelMetered, this,
                 [this, track, source](const QVector<float> &values) {
                     auto state = m_trackMeters.value(track);
-                    if (!state || state->source != source) {
+                    if (!state || state->source.data() != source) {
                         return;
                     }
 
@@ -190,6 +201,66 @@ namespace AudioVisualizer::Internal {
                     if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
                         startLevelMeterTimer();
                     }
+                });
+    }
+
+    void LevelMeterAddOn::bindMetronomeTrack() {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto masterTrackAddOn = MasterTrackAddOn::of(windowInterface);
+        auto viewModel = masterTrackAddOn ? masterTrackAddOn->metronomeTrackViewModel() : nullptr;
+        auto source = m_audioContext->metronomeControlMixer();
+        Q_ASSERT(viewModel);
+        Q_ASSERT(source);
+        if (!viewModel || !source) {
+            return;
+        }
+
+        m_metronomeMeter = new MeterState(source, viewModel);
+        viewModel->setLeftLevel(LevelFloor);
+        viewModel->setRightLevel(LevelFloor);
+        viewModel->setPeakLevel(LevelFloor);
+        source->setLevelMeterChannelCount(2);
+        connect(source, &talcs::MixerAudioSource::levelMetered, this,
+                [this](const QVector<float> &values) {
+                    if (!m_metronomeMeter) {
+                        return;
+                    }
+                    updateSmoothedValue(m_metronomeMeter->left,
+                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
+                    updateSmoothedValue(m_metronomeMeter->right,
+                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
+                    if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
+                        startLevelMeterTimer();
+                    }
+                });
+    }
+
+    void LevelMeterAddOn::bindDeviceOutputTrack() {
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto masterTrackAddOn = MasterTrackAddOn::of(windowInterface);
+        auto viewModel = masterTrackAddOn ? masterTrackAddOn->deviceOutputTrackViewModel() : nullptr;
+        auto source = Audio::GlobalAudioContext::controlMixer();
+        Q_ASSERT(viewModel);
+        Q_ASSERT(source);
+        if (!viewModel || !source) {
+            return;
+        }
+
+        m_deviceOutputMeter = new MeterState(source, viewModel, false);
+        viewModel->setLeftLevel(LevelFloor);
+        viewModel->setRightLevel(LevelFloor);
+        viewModel->setPeakLevel(LevelFloor);
+        source->setLevelMeterChannelCount(2);
+        connect(source, &talcs::MixerAudioSource::levelMetered, this,
+                [this](const QVector<float> &values) {
+                    if (!m_deviceOutputMeter) {
+                        return;
+                    }
+                    updateSmoothedValue(m_deviceOutputMeter->left,
+                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
+                    updateSmoothedValue(m_deviceOutputMeter->right,
+                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
+                    startLevelMeterTimer();
                 });
     }
 
@@ -245,7 +316,7 @@ namespace AudioVisualizer::Internal {
             if (!state) {
                 return;
             }
-            if (notPlaying) {
+            if (notPlaying && state->resetWhenProjectStopped) {
                 if (state->left.targetValue() > LevelFloor) {
                     state->left.setTargetValue(LevelFloor);
                 }
@@ -282,6 +353,8 @@ namespace AudioVisualizer::Internal {
             updateViewModel(state);
         }
         updateViewModel(m_masterMeter);
+        updateViewModel(m_metronomeMeter);
+        updateViewModel(m_deviceOutputMeter);
 
         if (notPlaying && allAtFloor) {
             m_levelMeterActive = false;

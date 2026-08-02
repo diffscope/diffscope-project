@@ -5,6 +5,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <audio/GlobalAudioContext.h>
 #include <audio/internal/AudioPreference.h>
 
 namespace Audio::Internal {
@@ -29,6 +30,7 @@ namespace Audio::Internal {
     }
 
     QObject *PlaybackPage::widget() {
+        initializeMetronomeProperties();
         if (m_widget)
             return m_widget;
         qCDebug(lcPlaybackPage) << "Creating widget";
@@ -66,6 +68,48 @@ namespace Audio::Internal {
         qCInfo(lcPlaybackPage) << "Ending setting";
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
+    }
+
+    bool PlaybackPage::metronomeEnabled() const {
+        return GlobalAudioContext::metronomeEnabled();
+    }
+
+    void PlaybackPage::setMetronomeEnabled(bool enabled) {
+        GlobalAudioContext::setMetronomeEnabled(enabled);
+    }
+
+    double PlaybackPage::metronomeGain() const {
+        return GlobalAudioContext::metronomeGain();
+    }
+
+    void PlaybackPage::setMetronomeGain(double gain) {
+        GlobalAudioContext::setMetronomeGain(gain);
+    }
+
+    double PlaybackPage::metronomePan() const {
+        return GlobalAudioContext::metronomePan();
+    }
+
+    void PlaybackPage::setMetronomePan(double pan) {
+        GlobalAudioContext::setMetronomePan(pan);
+    }
+
+    void PlaybackPage::initializeMetronomeProperties() {
+        if (m_metronomePropertiesInitialized) {
+            return;
+        }
+        auto context = GlobalAudioContext::instance();
+        if (!context) {
+            return;
+        }
+
+        connect(context, &GlobalAudioContext::metronomeEnabledChanged,
+                this, &PlaybackPage::metronomeEnabledChanged);
+        connect(context, &GlobalAudioContext::metronomeGainChanged,
+                this, &PlaybackPage::metronomeGainChanged);
+        connect(context, &GlobalAudioContext::metronomePanChanged,
+                this, &PlaybackPage::metronomePanChanged);
+        m_metronomePropertiesInitialized = true;
     }
 
     bool PlaybackPage::widgetMatches(const QString &word) {

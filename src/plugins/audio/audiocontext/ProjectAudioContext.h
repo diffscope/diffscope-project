@@ -46,6 +46,7 @@ namespace Audio {
         void setStatus(PlaybackStatus status);
 
         talcs::MixerAudioSource *preMixer() const;
+        talcs::MixerAudioSource *metronomeControlMixer() const;
         talcs::TransportAudioSource *transport() const;
         talcs::PositionableMixerAudioSource *postMixer() const;
         talcs::PositionableMixerAudioSource *masterControlMixer() const;

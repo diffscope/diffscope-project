@@ -4,8 +4,10 @@
 #include <QFileInfo>
 #include <QLoggingCategory>
 
+#include <TalcsCore/MetronomeAudioSource.h>
 #include <TalcsCore/MixerAudioSource.h>
 #include <TalcsCore/PositionableMixerAudioSource.h>
+#include <TalcsCore/TransportAudioSource.h>
 #include <TalcsDspx/DspxAudioClipContext.h>
 #include <TalcsDspx/DspxProjectContext.h>
 #include <TalcsFormat/AbstractAudioFormatIO.h>
@@ -13,11 +15,16 @@
 
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
+#include <SVSCraftCore/MusicTimeSignature.h>
 
 #include <dspxmodelORM/AudioClip.h>
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/TimeSignature.h>
+#include <dspxmodelORM/TimeSignatureSequence.h>
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
@@ -48,12 +55,16 @@ namespace Audio::Internal {
         return !expected.isEmpty() && HashHelper::sha512(filePath).compare(expected, Qt::CaseInsensitive) == 0;
     }
 
-    ProjectAudioAddOn::ProjectAudioAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
+    ProjectAudioAddOn::ProjectAudioAddOn(QObject *parent)
+        : WindowInterfaceAddOn(parent), m_musicTimeline(std::make_unique<SVS::MusicTimeline>()) {
     }
 
     ProjectAudioAddOn::~ProjectAudioAddOn() {
         if (m_context) {
             GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
+            if (m_metronomeAudioSource) {
+                m_metronomeAudioSource->setDetector(nullptr);
+            }
             const auto tracks = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->tracks()->items();
             for (auto track : tracks) {
                 for (auto clip : track->clips()->asRange()) {
@@ -87,9 +98,60 @@ namespace Audio::Internal {
             return static_cast<qint64>(std::round(msec * sampleRate / 1000));
         });
 
+        auto model = windowInterface->projectDocumentContext()->document()->model();
+        auto tempoSequence = model->tempos();
+        auto timeSignatureSequence = model->timeSignatures();
+        for (auto tempo : tempoSequence->asRange()) {
+            handleTempoInsertedOrUpdated(tempo);
+        }
+        for (auto timeSignature : timeSignatureSequence->asRange()) {
+            handleTimeSignatureInsertedOrUpdated(timeSignature);
+        }
+        connect(tempoSequence, &dspx::TempoSequence::itemInserted,
+                this, &ProjectAudioAddOn::handleTempoInsertedOrUpdated);
+        connect(tempoSequence, &dspx::TempoSequence::itemRemoved,
+                this, &ProjectAudioAddOn::handleTempoRemoved);
+        connect(timeSignatureSequence, &dspx::TimeSignatureSequence::itemInserted,
+                this, &ProjectAudioAddOn::handleTimeSignatureInsertedOrUpdated);
+        connect(timeSignatureSequence, &dspx::TimeSignatureSequence::itemRemoved,
+                this, &ProjectAudioAddOn::handleTimeSignatureRemoved);
+
+        auto transport = m_context->transport();
+        {
+            QMutexLocker locker(&m_transportPositionMutex);
+            m_transportPosition = transport->position();
+        }
+        connect(transport, &talcs::TransportAudioSource::positionAboutToChange, this,
+                [this](qint64 position) {
+                    QMutexLocker locker(&m_transportPositionMutex);
+                    m_transportPosition = position;
+                }, Qt::DirectConnection);
+
+        auto metronomeControlMixer = m_context->metronomeControlMixer();
+        metronomeControlMixer->setSilentFlags(GlobalAudioContext::metronomeEnabled() ? 0 : -1);
+        metronomeControlMixer->setGain(static_cast<float>(GlobalAudioContext::metronomeGain()));
+        metronomeControlMixer->setPan(static_cast<float>(GlobalAudioContext::metronomePan()));
+        m_metronomeAudioSource = new talcs::MetronomeAudioSource;
+        m_metronomeAudioSource->setMajorBeatSource(talcs::MetronomeAudioSource::builtInMajorBeatSource(), true);
+        m_metronomeAudioSource->setMinorBeatSource(talcs::MetronomeAudioSource::builtInMinorBeatSource(), true);
+        m_metronomeAudioSource->setDetector(this);
+        metronomeControlMixer->addSource(m_metronomeAudioSource, true);
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::metronomeEnabledChanged, this,
+                [metronomeControlMixer](bool enabled) {
+                    metronomeControlMixer->setSilentFlags(enabled ? 0 : -1);
+                });
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::metronomeGainChanged, this,
+                [metronomeControlMixer](double gain) {
+                    metronomeControlMixer->setGain(static_cast<float>(gain));
+                });
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::metronomePanChanged, this,
+                [metronomeControlMixer](double pan) {
+                    metronomeControlMixer->setPan(static_cast<float>(pan));
+                });
+
         syncMasterControl();
 
-        auto trackList = windowInterface->projectDocumentContext()->document()->model()->tracks();
+        auto trackList = model->tracks();
         const auto tracks = trackList->items();
         for (int i = 0; i < tracks.size(); ++i) {
             addTrack(i, tracks.at(i));
@@ -119,6 +181,186 @@ namespace Audio::Internal {
 
     talcs::AbstractAudioFormatIO *ProjectAudioAddOn::takeAudioClipCache(dspx::AudioClip *clip) {
         return m_audioClipCache.take(clip);
+    }
+
+    void ProjectAudioAddOn::handleTempoInsertedOrUpdated(dspx::Tempo *tempo) {
+        const bool isNewTempo = !m_tempoPosMap.contains(tempo);
+        if (isNewTempo) {
+            connect(tempo, &dspx::Tempo::valueChanged, this, [this, tempo] {
+                handleTempoInsertedOrUpdated(tempo);
+            });
+            connect(tempo, &dspx::Tempo::positionChanged, this, [this, tempo] {
+                handleTempoInsertedOrUpdated(tempo);
+            });
+        }
+
+        QMutexLocker locker(&m_musicTimelineMutex);
+        if (!isNewTempo) {
+            const int previousPosition = m_tempoPosMap.value(tempo);
+            auto &tempoSet = m_tempoMap[previousPosition];
+            tempoSet.remove(tempo);
+            if (tempoSet.isEmpty()) {
+                if (previousPosition != 0) {
+                    m_musicTimeline->removeTempo(previousPosition);
+                }
+            } else {
+                m_musicTimeline->setTempo(previousPosition, (*tempoSet.begin())->value());
+            }
+        }
+
+        m_tempoPosMap.insert(tempo, tempo->position());
+        auto &tempoSet = m_tempoMap[tempo->position()];
+        tempoSet.insert(tempo);
+        m_musicTimeline->setTempo(tempo->position(), (*tempoSet.begin())->value());
+    }
+
+    void ProjectAudioAddOn::handleTempoRemoved(dspx::Tempo *tempo) {
+        if (!m_tempoPosMap.contains(tempo)) {
+            return;
+        }
+
+        {
+            QMutexLocker locker(&m_musicTimelineMutex);
+            const int position = m_tempoPosMap.value(tempo);
+            auto &tempoSet = m_tempoMap[position];
+            tempoSet.remove(tempo);
+            if (tempoSet.isEmpty()) {
+                if (position != 0) {
+                    m_musicTimeline->removeTempo(position);
+                }
+            } else {
+                m_musicTimeline->setTempo(position, (*tempoSet.begin())->value());
+            }
+            m_tempoPosMap.remove(tempo);
+        }
+        disconnect(tempo, nullptr, this, nullptr);
+    }
+
+    void ProjectAudioAddOn::handleTimeSignatureInsertedOrUpdated(dspx::TimeSignature *timeSignature) {
+        const bool isNewTimeSignature = !m_timeSignatureMeasureMap.contains(timeSignature);
+        if (isNewTimeSignature) {
+            connect(timeSignature, &dspx::TimeSignature::numeratorChanged, this, [this, timeSignature] {
+                handleTimeSignatureInsertedOrUpdated(timeSignature);
+            });
+            connect(timeSignature, &dspx::TimeSignature::denominatorChanged, this, [this, timeSignature] {
+                handleTimeSignatureInsertedOrUpdated(timeSignature);
+            });
+            connect(timeSignature, &dspx::TimeSignature::indexChanged, this, [this, timeSignature] {
+                handleTimeSignatureInsertedOrUpdated(timeSignature);
+            });
+        }
+
+        QMutexLocker locker(&m_musicTimelineMutex);
+        if (!isNewTimeSignature) {
+            const int previousMeasure = m_timeSignatureMeasureMap.value(timeSignature);
+            auto &timeSignatureSet = m_timeSignatureMap[previousMeasure];
+            timeSignatureSet.remove(timeSignature);
+            if (timeSignatureSet.isEmpty()) {
+                if (previousMeasure != 0) {
+                    m_musicTimeline->removeTimeSignature(previousMeasure);
+                }
+            } else {
+                auto item = *timeSignatureSet.begin();
+                m_musicTimeline->setTimeSignature(previousMeasure, {item->numerator(), item->denominator()});
+            }
+        }
+
+        m_timeSignatureMeasureMap.insert(timeSignature, timeSignature->index());
+        auto &timeSignatureSet = m_timeSignatureMap[timeSignature->index()];
+        timeSignatureSet.insert(timeSignature);
+        auto item = *timeSignatureSet.begin();
+        m_musicTimeline->setTimeSignature(timeSignature->index(), {item->numerator(), item->denominator()});
+    }
+
+    void ProjectAudioAddOn::handleTimeSignatureRemoved(dspx::TimeSignature *timeSignature) {
+        if (!m_timeSignatureMeasureMap.contains(timeSignature)) {
+            return;
+        }
+
+        {
+            QMutexLocker locker(&m_musicTimelineMutex);
+            const int measure = m_timeSignatureMeasureMap.value(timeSignature);
+            auto &timeSignatureSet = m_timeSignatureMap[measure];
+            timeSignatureSet.remove(timeSignature);
+            if (timeSignatureSet.isEmpty()) {
+                if (measure != 0) {
+                    m_musicTimeline->removeTimeSignature(measure);
+                }
+            } else {
+                auto item = *timeSignatureSet.begin();
+                m_musicTimeline->setTimeSignature(measure, {item->numerator(), item->denominator()});
+            }
+            m_timeSignatureMeasureMap.remove(timeSignature);
+        }
+        disconnect(timeSignature, nullptr, this, nullptr);
+    }
+
+    void ProjectAudioAddOn::detectInterval(qint64 intervalLength) {
+        m_metronomeMessages.clear();
+        m_nextMetronomeMessageIndex = 0;
+
+        if (!GlobalAudioContext::metronomeEnabled() || intervalLength <= 0) {
+            return;
+        }
+
+        auto transport = m_context->transport();
+        if (transport->playbackStatus() == talcs::TransportAudioSource::Paused ||
+            transport->bufferingCounter() != 0) {
+            return;
+        }
+
+        const double sampleRate = m_metronomeAudioSource->sampleRate();
+        if (qFuzzyIsNull(sampleRate)) {
+            return;
+        }
+
+        qint64 intervalStart;
+        {
+            QMutexLocker locker(&m_transportPositionMutex);
+            intervalStart = m_transportPosition;
+        }
+        if (intervalStart < 0) {
+            return;
+        }
+
+        const double intervalStartMsec = static_cast<double>(intervalStart) * 1000.0 / sampleRate;
+        const double intervalEndMsec = static_cast<double>(intervalStart + intervalLength) * 1000.0 / sampleRate;
+        QVector<talcs::MetronomeAudioSourceDetectorMessage> messages;
+
+        {
+            QMutexLocker locker(&m_musicTimelineMutex);
+            auto beat = m_musicTimeline->create(intervalStartMsec).ceilBeat();
+            while (beat.isValid()) {
+                const double beatMsec = beat.millisecond();
+                if (beatMsec >= intervalEndMsec) {
+                    break;
+                }
+
+                const qint64 relativePosition = qRound64(beatMsec * sampleRate / 1000.0) - intervalStart;
+                if (relativePosition >= intervalLength) {
+                    break;
+                }
+                if (relativePosition >= 0) {
+                    messages.append({relativePosition, beat.beat() == 0});
+                }
+
+                auto nextBeat = beat.nextBeat();
+                if (!nextBeat.isValid() || nextBeat.totalTick() <= beat.totalTick()) {
+                    break;
+                }
+                beat = std::move(nextBeat);
+            }
+        }
+
+        m_metronomeMessages = std::move(messages);
+    }
+
+    talcs::MetronomeAudioSourceDetectorMessage ProjectAudioAddOn::nextMessage() {
+        if (!GlobalAudioContext::metronomeEnabled() ||
+            m_nextMetronomeMessageIndex >= m_metronomeMessages.size()) {
+            return {-1, false};
+        }
+        return m_metronomeMessages.at(m_nextMetronomeMessageIndex++);
     }
 
     void ProjectAudioAddOn::addTrack(int index, dspx::Track *track) {

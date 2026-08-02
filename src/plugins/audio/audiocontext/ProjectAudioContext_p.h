@@ -18,6 +18,7 @@ namespace Audio {
         Core::ProjectWindowInterface *windowHandle{};
         ProjectAudioContext::PlaybackStatus status{ProjectAudioContext::Stopped};
         std::unique_ptr<talcs::DspxProjectContext> projectContext;
+        talcs::MixerAudioSource *metronomeControlMixer{};
 
         static ProjectAudioContext *create(Core::ProjectWindowInterface *windowHandle);
         static ProjectAudioContextPrivate *of(ProjectAudioContext *q);
