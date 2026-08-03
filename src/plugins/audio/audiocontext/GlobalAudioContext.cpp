@@ -12,6 +12,7 @@
 #include <TalcsDevice/OutputContext.h>
 #include <TalcsFormat/FormatManager.h>
 #include <TalcsWidgets/StandardFormatEntry.h>
+#include <TalcsWidgets/AACFormatEntry.h>
 #include <TalcsWidgets/WavpackFormatEntry.h>
 
 namespace Audio {
@@ -31,6 +32,9 @@ namespace Audio {
         d->q_ptr = this;
         d->formatManager = std::make_unique<talcs::FormatManager>();
         d->formatManager->addEntry(new talcs::StandardFormatEntry);
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+        d->formatManager->addEntry(new talcs::AACFormatEntry);
+#endif
         d->formatManager->addEntry(new talcs::WavpackFormatEntry);
 
         auto settings = Core::RuntimeInterface::settings();

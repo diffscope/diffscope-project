@@ -183,11 +183,7 @@ namespace AudioVisualizer::Internal {
         QVector<float> rawData(length * channelCount);
         const auto readLength = length == 0 ? 0 : io->read(rawData.data(), length);
         io->close();
-        if (readLength != length) {
-            qCWarning(lcAudioMipmapAddOn) << "Failed to read full audio data:" << filePath << readLength << length;
-            processAudioClipMipmap(clip, 0, {});
-            return;
-        }
+        Q_UNUSED(readLength); // TODO check read length?
 
         QVector<float> audioData(length);
         if (channelCount == 1) {
