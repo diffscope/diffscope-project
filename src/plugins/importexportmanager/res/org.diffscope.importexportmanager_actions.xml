@@ -17,7 +17,7 @@
     <items>
         <action id="org.diffscope.importexportmanager.file.&amp;import" icon="document_arrow_right" diffscope:componentType="menu" />
         <action id="org.diffscope.importexportmanager.file.&amp;export" icon="document_arrow_left" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.project.importAsTracks^" />
+        <action id="org.diffscope.importexportmanager.project.importAsTracks" text="Import Tracks from File" icon="document_arrow_right" diffscope:componentType="menu" />
         <action id="org.diffscope.importexportmanager.edit.copySpecial^" shortcut="Ctrl+Alt+C" />
         <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
 
@@ -31,6 +31,9 @@
         </group>
         <group id="org.diffscope.importexportmanager.importActions">
             <action id="org.diffscope.importexportmanager.file.import" />
+        </group>
+        <group id="org.diffscope.importexportmanager.importTracksActions">
+            <action id="org.diffscope.importexportmanager.project.importAsTracks" />
         </group>
     </layouts>
 
@@ -49,6 +52,12 @@
         </insertion>
         <insertion target="org.diffscope.core.homePanels" anchor="last">
             <action id="org.diffscope.importexportmanager.panel.import" />
+        </insertion>
+        <insertion target="org.diffscope.core.insert" anchor="last">
+            <group id="org.diffscope.importexportmanager.importTracksActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.trackSceneContextMenu" anchor="last">
+            <group id="org.diffscope.importexportmanager.importTracksActions" />
         </insertion>
     </insertions>
 

@@ -1,4 +1,5 @@
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 
@@ -38,9 +39,24 @@ ActionCollection {
     }
     ActionItem {
         actionId: "org.diffscope.importexportmanager.project.importAsTracks"
-        Action {
-            onTriggered: () => {
-
+        Menu {
+            id: importTracksMenu
+            Instantiator {
+                model: DelegateModel {
+                    model: d.addOn?.importConverters ?? []
+                    delegate: Action {
+                        required property QtObject modelData
+                        text: modelData?.name ?? ""
+                        DescriptiveAction.statusTip: modelData?.description ?? ""
+                        onTriggered: Qt.callLater(() => d.addOn.execImportTracks(modelData))
+                    }
+                }
+                onObjectAdded: (index, object) => {
+                    importTracksMenu.insertAction(index, object)
+                }
+                onObjectRemoved: (index, object) => {
+                    importTracksMenu.removeAction(object)
+                }
             }
         }
     }

@@ -24,6 +24,10 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/TempoSequence.h>
+#include <dspxmodelORM/TimeSignatureSequence.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
@@ -33,6 +37,8 @@
 
 #include <importexportmanager/ConverterCollection.h>
 #include <importexportmanager/FileConverter.h>
+
+#include <transactional/TransactionController.h>
 
 namespace ImportExportManager::Internal {
 
@@ -124,30 +130,81 @@ namespace ImportExportManager::Internal {
 
     void FileImportExportAddOn::execImport(FileConverter *converter) const {
         qCInfo(lcFileImportExportAddOn) << "Exec import" << converter << converter->name();
-        if (!converter->runPreExecCheck()) {
-            qCInfo(lcFileImportExportAddOn) << "Import pre-exec check failed";
-            return;
-        }
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
-        auto path = QFileDialog::getOpenFileName(nullptr, tr("Import File"), defaultDir, converter->fileDialogFilters().join(";;"));
-        if (path.isEmpty()) {
-            qCInfo(lcFileImportExportAddOn) << "Import canceled: file not selected";
-            return;
-        }
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
         opendspx::Model model;
-        if (!converter->execImport(path, model, windowHandle()->window())) {
-            qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
+        QString path;
+        if (!execImportToModel(converter, model, path)) {
             return;
         }
         auto projectDocumentContext = std::make_unique<Core::ProjectDocumentContext>();
         projectDocumentContext->newFile(model, QFileInfo(path).baseName() + ".dspx", false);
         Core::CoreInterface::createProjectWindow(projectDocumentContext.release());
+    }
+
+    void FileImportExportAddOn::execImportTracks(FileConverter *converter) const {
+        qCInfo(lcFileImportExportAddOn) << "Exec import tracks" << converter << converter->name();
+        opendspx::Model importedModel;
+        QString path;
+        if (!execImportToModel(converter, importedModel, path)) {
+            return;
+        }
+
+        Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
+        auto projectWindow = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto document = projectWindow->projectDocumentContext()->document();
+        auto model = document->model();
+        auto trackList = model->tracks();
+        const bool replaceTimeline = SVS::MessageBox::question(
+                                         Core::RuntimeInterface::qmlEngine(),
+                                         windowHandle()->window(),
+                                         tr("Replace tempo and time signature"),
+                                         tr("Do you want to replace the current tempo and time signature with those from the imported file?")
+                                     ) == SVS::SVSCraft::Yes;
+
+        document->transactionController()->beginScopedTransaction(tr("Importing tracks"), [=, &importedModel] {
+            if (replaceTimeline) {
+                model->tempos()->fromOpenDSPX(importedModel.content.timeline.tempos);
+                model->timeSignatures()->fromOpenDSPX(importedModel.content.timeline.timeSignatures);
+            }
+
+            const int insertionIndex = trackList->size();
+            int offset = 0;
+            for (const auto &trackData : importedModel.content.tracks) {
+                auto track = model->createTrack();
+                track->fromOpenDSPX(trackData);
+                if (!trackList->insertItem(insertionIndex + offset, track)) {
+                    model->destroyItem(track);
+                    return false;
+                }
+                ++offset;
+            }
+            return true;
+        }, [] {
+            qCCritical(lcFileImportExportAddOn) << "Failed to import tracks in exclusive transaction";
+        });
+    }
+
+    bool FileImportExportAddOn::execImportToModel(FileConverter *converter, opendspx::Model &model, QString &path) const {
+        if (!converter->runPreExecCheck()) {
+            qCInfo(lcFileImportExportAddOn) << "Import pre-exec check failed";
+            return false;
+        }
+        auto settings = Core::RuntimeInterface::settings();
+        settings->beginGroup(staticMetaObject.className());
+        auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        settings->endGroup();
+        path = QFileDialog::getOpenFileName(nullptr, tr("Import File"), defaultDir, converter->fileDialogFilters().join(";;"));
+        if (path.isEmpty()) {
+            qCInfo(lcFileImportExportAddOn) << "Import canceled: file not selected";
+            return false;
+        }
+        settings->beginGroup(staticMetaObject.className());
+        settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
+        settings->endGroup();
+        if (!converter->execImport(path, model, windowHandle()->window())) {
+            qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
+            return false;
+        }
+        return true;
     }
 
     void FileImportExportAddOn::execExport(FileConverter *converter) const {

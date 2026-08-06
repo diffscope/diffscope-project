@@ -7,6 +7,10 @@ namespace ImportExportManager {
     class FileConverter;
 }
 
+namespace opendspx {
+    struct Model;
+}
+
 namespace ImportExportManager::Internal {
 
     class FileImportExportAddOn : public Core::WindowInterfaceAddOn {
@@ -25,9 +29,13 @@ namespace ImportExportManager::Internal {
         static QList<FileConverter *> importConverters(const QString &path = {});
         static QList<FileConverter *> exportConverters();
         Q_INVOKABLE void execImport(FileConverter *converter) const;
+        Q_INVOKABLE void execImportTracks(FileConverter *converter) const;
         Q_INVOKABLE void execExport(FileConverter *converter) const;
 
         bool isHomeWindow() const;
+
+    private:
+        bool execImportToModel(FileConverter *converter, opendspx::Model &model, QString &path) const;
     };
 
 }
