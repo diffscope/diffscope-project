@@ -40,12 +40,29 @@ PropertyEditorGroupBox {
             to: ((groupBox.propertyMapper?.length ?? 0) === 0 ? 2147483647 : groupBox.propertyMapper.length) - (groupBox.propertyMapper?.clipStart ?? 0)
             transactionName: qsTr("Editing clip length")
         }
-        FormGroup {
-            label: qsTr("Full length")
-            columnItem: TextField {
-                text: groupBox.propertyMapper?.length === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.length === undefined ? "" : groupBox.propertyMapper.length
-                readOnly: true
-                ThemedItem.flat: true
+        AbstractPropertyEditorField {
+            id: lengthFixedField
+            windowHandle: groupBox.windowHandle
+            propertyMapper: groupBox.propertyMapper
+            key: "lengthFixed"
+            transactionName: qsTr("Editing clip length")
+            FormGroup {
+                Layout.fillWidth: true
+                label: qsTr("Maximum length")
+                rowItem: CheckBox {
+                    text: "Fix maximum length"
+                    tristate: true
+                    checkState: lengthFixedField.propertyMapper?.inactive ? Qt.Unchecked : lengthFixedField.value === undefined ? Qt.PartiallyChecked : lengthFixedField.value ? Qt.Checked : Qt.Unchecked
+                    nextCheckState: function() {
+                        return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
+                    }
+                    onClicked: lengthFixedField.setValue(checkState === Qt.Checked)
+                }
+                columnItem: TextField {
+                    text: groupBox.propertyMapper?.length === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.length === undefined ? "" : groupBox.propertyMapper.length
+                    readOnly: true
+                    ThemedItem.flat: true
+                }
             }
         }
     }
