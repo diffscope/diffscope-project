@@ -10,6 +10,8 @@ namespace Core::Internal {
     class GeneralPage : public ISettingPage {
         Q_OBJECT
         Q_PROPERTY(QVariantList languages READ languages CONSTANT)
+        Q_PROPERTY(QString currentLocaleName READ currentLocaleName CONSTANT)
+        Q_PROPERTY(QString systemLocaleName READ systemLocaleName CONSTANT)
     public:
         explicit GeneralPage(QObject *parent = nullptr);
         ~GeneralPage() override;
@@ -22,6 +24,8 @@ namespace Core::Internal {
         void endSetting() override;
 
         static QVariantList languages();
+        static QString currentLocaleName();
+        static QString systemLocaleName();
 
     private:
         friend class CorePlugin;

@@ -27,6 +27,12 @@ ScrollView {
     property string proxyUsername
     property string proxyPassword
     property bool shouldStoreGeometry
+    readonly property string selectedLocaleName: useSystemLanguage ? pageHandle.systemLocaleName : localeName
+
+    function languageDisplayName(localeName) {
+        let locale = Qt.locale(localeName)
+        return `${locale.nativeLanguageName} (${locale.nativeTerritoryName})`
+    }
 
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
@@ -131,19 +137,14 @@ ScrollView {
                         checked: page.useSystemLanguage
                         onClicked: () => {
                             page.useSystemLanguage = checked
-                            if (checked) {
-                                page.localeName = Qt.locale().name
-                            } else {
-                                if (languageComboBox.currentIndex === -1) {
-                                    languageComboBox.incrementCurrentIndex()
-                                    languageComboBox.activated(0)
-                                }
+                            if (!checked && languageComboBox.indexOfValue(page.localeName) === -1
+                                    && languageComboBox.count > 0) {
+                                page.localeName = languageComboBox.valueAt(0)
                             }
                         }
                     }
                     RowLayout {
                         Layout.fillWidth: true
-                        enabled: !page.useSystemLanguage
                         Label {
                             text: qsTr("Language")
                             property string languageText: "Language"
@@ -156,15 +157,15 @@ ScrollView {
                             model: page.pageHandle.languages
                             textRole: "text"
                             valueRole: "value"
+                            enabled: !page.useSystemLanguage
                             Component.onCompleted: () => {
-                                currentIndex = Qt.binding(() => indexOfValue(page.localeName))
+                                currentIndex = Qt.binding(() => indexOfValue(page.selectedLocaleName))
                                 displayText = Qt.binding(() => {
-                                    let index = indexOfValue(page.localeName)
+                                    let index = indexOfValue(page.selectedLocaleName)
                                     if (index === -1) {
-                                        let locale = Qt.locale(page.localeName)
-                                        return `${locale.nativeLanguageName} (${locale.nativeTerritoryName})`
+                                        return page.languageDisplayName(page.selectedLocaleName)
                                     } else {
-                                        return undefined
+                                        return currentText
                                     }
                                 })
                             }
@@ -173,6 +174,7 @@ ScrollView {
                         Label {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
                             text: qsTr("(Restart required)")
+                            visible: page.selectedLocaleName !== page.pageHandle.currentLocaleName
                         }
                     }
                 }

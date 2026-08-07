@@ -82,7 +82,10 @@ namespace Core::Internal {
 
     bool GeneralPage::accept() {
         qCInfo(lcGeneralPage) << "Accepting";
-        bool promptRestartForLanguage = (m_widget->property("localeName").toString() != QLocale().name());
+        const auto useSystemLanguage = m_widget->property("useSystemLanguage").toBool();
+        const auto localeName = m_widget->property("localeName").toString();
+        const auto appliedLocaleName = (useSystemLanguage ? QLocale::system() : QLocale(localeName)).name();
+        const bool promptRestartForLanguage = appliedLocaleName != QLocale().name();
         qCDebug(lcGeneralPage) << "startupBehavior" << m_widget->property("startupBehavior");
         BehaviorPreference::instance()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
         qCDebug(lcGeneralPage) << "useSystemLanguage" << m_widget->property("useSystemLanguage");
@@ -113,8 +116,8 @@ namespace Core::Internal {
         CoreInterface::windowSystem()->setShouldStoreGeometry(m_widget->property("shouldStoreGeometry").toBool());
         BehaviorPreference::instance()->save();
         if (promptRestartForLanguage) {
-            qCInfo(lcGeneralPage) << "Language changed" << m_widget->property("localeName").toString() << QLocale().name();
-            auto [title, text] = getRestartMessageInNewLanguage(m_widget->property("localeName").toString());
+            qCInfo(lcGeneralPage) << "Language changed" << appliedLocaleName << QLocale().name();
+            auto [title, text] = getRestartMessageInNewLanguage(appliedLocaleName);
             if (SVS::MessageBox::question(
                     RuntimeInterface::qmlEngine(),
                     static_cast<QQuickItem *>(m_widget)->window(),
@@ -146,6 +149,14 @@ namespace Core::Internal {
         return ret;
     }
 
+    QString GeneralPage::currentLocaleName() {
+        return QLocale().name();
+    }
+
+    QString GeneralPage::systemLocaleName() {
+        return QLocale::system().name();
+    }
+
     bool GeneralPage::widgetMatches(const QString &word) {
         widget();
         auto matcher = m_widget->property("matcher").value<QObject *>();
@@ -157,7 +168,7 @@ namespace Core::Internal {
     static QString m_translationsDirPath;
 
     QPair<QString, QString> GeneralPage::getRestartMessageInNewLanguage(const QString &localeName) {
-        auto filePath = m_translationsDirPath + "/Core_" + localeName + ".qm";
+        auto filePath = m_translationsDirPath + "/org.diffscope.core_" + localeName + ".qm";
         QTranslator translator;
         if (!translator.load(filePath)) {
             return {tr("Restart %1"), tr("Restart %1 to apply language changes?")};
