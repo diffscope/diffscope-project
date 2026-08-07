@@ -23,7 +23,7 @@ If you are interested in contributing or collaborating, please feel free to reac
 - [x] Application GUI shell
 - [x] Arrangement and piano roll editors
 - [x] Basic audio processing functionalities
-- [ ] Phoneme and parameter editors
+- [x] Phoneme and parameter editors
 - [x] Audio playback
 - [ ] Integration of synthesis engine
 
