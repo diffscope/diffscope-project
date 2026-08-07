@@ -19,6 +19,10 @@ namespace LibreSVIPFormatConverter::Internal {
             Q_EMIT executablePathChanged();
             Q_EMIT downloadedInstallationExistsChanged();
         });
+        connect(manager, &LibreSVIPManager::autoCheckForUpdatesChanged, this, [this](bool enabled) {
+            if (m_widget)
+                m_widget->setProperty("autoCheckForUpdates", enabled);
+        });
     }
 
     LibreSVIPSettingsPage::~LibreSVIPSettingsPage() {
@@ -58,6 +62,23 @@ namespace LibreSVIPFormatConverter::Internal {
             qFatal() << component.errorString();
         m_widget->setParent(this);
         return m_widget;
+    }
+
+    void LibreSVIPSettingsPage::beginSetting() {
+        widget();
+        m_widget->setProperty("autoCheckForUpdates", LibreSVIPManager::instance()->autoCheckForUpdates());
+        m_widget->setProperty("started", true);
+        ISettingPage::beginSetting();
+    }
+
+    bool LibreSVIPSettingsPage::accept() {
+        LibreSVIPManager::instance()->setAutoCheckForUpdates(m_widget->property("autoCheckForUpdates").toBool());
+        return ISettingPage::accept();
+    }
+
+    void LibreSVIPSettingsPage::endSetting() {
+        m_widget->setProperty("started", false);
+        ISettingPage::endSetting();
     }
 
     void LibreSVIPSettingsPage::browse() {

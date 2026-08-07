@@ -25,6 +25,9 @@ namespace LibreSVIPFormatConverter::Internal {
         QString sortKeyword() const override;
         bool matches(const QString &word) override;
         QObject *widget() override;
+        void beginSetting() override;
+        bool accept() override;
+        void endSetting() override;
 
         Q_INVOKABLE void browse();
         Q_INVOKABLE void download();

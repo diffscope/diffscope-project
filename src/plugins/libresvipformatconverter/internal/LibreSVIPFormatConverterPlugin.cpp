@@ -51,6 +51,7 @@ namespace LibreSVIPFormatConverter::Internal {
     }
 
     bool LibreSVIPFormatConverterPlugin::delayedInitialize() {
+        LibreSVIPManager::instance()->checkForUpdates();
         return IPlugin::delayedInitialize();
     }
 

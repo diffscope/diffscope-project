@@ -19,6 +19,7 @@ Window {
     property double bytesTotal: -1
     property bool completed: false
     property var finalResult
+    property var escapeButton: SVS.Cancel
 
     signal done(var result)
 
@@ -48,6 +49,7 @@ Window {
 
     title: qsTr("LibreSVIP")
     flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowSystemMenuHint
+           | (escapeButton === SVS.Cancel ? Qt.WindowCloseButtonHint : 0)
     modality: Qt.ApplicationModal
     width: 480
     minimumHeight: layout.implicitHeight
@@ -56,10 +58,14 @@ Window {
 
     onClosing: (event) => {
         if (!completed) {
-            completed = true
-            finalResult = "cancelled"
-            done("cancelled")
-            event.accepted = true
+            if (escapeButton === SVS.Cancel) {
+                completed = true
+                finalResult = "cancelled"
+                done("cancelled")
+                event.accepted = true
+            } else {
+                event.accepted = false
+            }
         }
     }
 
@@ -98,7 +104,7 @@ Window {
                         case "catalog":
                             return qsTr("Retrieving available LibreSVIP versions...")
                         case "selection":
-                            return qsTr("Select the LibreSVIP version to download.")
+                            return qsTr("Select the LibreSVIP version to download:")
                         case "download":
                             return qsTr("Downloading LibreSVIP...")
                         case "install":
@@ -167,11 +173,6 @@ Window {
                 Item { Layout.fillWidth: true }
 
                 Button {
-                    text: qsTranslate("QPlatformTheme", "Cancel")
-                    onClicked: dialog.finish("cancelled")
-                }
-
-                Button {
                     visible: dialog.phase === "selection"
                     enabled: versionComboBox.currentIndex >= 0
                     highlighted: true
@@ -180,6 +181,12 @@ Window {
                         dialog.selectedIndex = versionComboBox.currentIndex
                         dialog.done("download")
                     }
+                }
+
+                Button {
+                    visible: dialog.escapeButton === SVS.Cancel
+                    text: qsTranslate("QPlatformTheme", "Cancel")
+                    onClicked: dialog.finish("cancelled")
                 }
 
             }

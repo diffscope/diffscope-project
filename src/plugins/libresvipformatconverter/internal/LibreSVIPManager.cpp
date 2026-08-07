@@ -57,6 +57,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/NotificationMessage.h>
 
 #include "libresvip.qpb.h"
 #include "libresvip_client.grpc.qpb.h"
@@ -87,6 +88,11 @@ namespace LibreSVIPFormatConverter::Internal {
         QUrl url;
     };
 
+    struct LibreSVIPDownloadCatalogResult {
+        QList<LibreSVIPDownloadArtifact> artifacts;
+        QString errorMessage;
+    };
+
     static QString currentArtifactKey() {
 #if defined(Q_OS_WIN)
         const QString platform = QStringLiteral("windows");
@@ -105,6 +111,46 @@ namespace LibreSVIPFormatConverter::Internal {
         if (architecture == QStringLiteral("arm64") || architecture == QStringLiteral("aarch64"))
             return platform + QStringLiteral("_arm64");
         return {};
+    }
+
+    static LibreSVIPDownloadCatalogResult parseDownloadCatalog(const QByteArray &data) {
+        LibreSVIPDownloadCatalogResult result;
+        QJsonParseError parseError;
+        const auto document = QJsonDocument::fromJson(data, &parseError);
+        if (parseError.error != QJsonParseError::NoError || !document.isArray()) {
+            const QString detail = parseError.error != QJsonParseError::NoError
+                                       ? parseError.errorString()
+                                       : QCoreApplication::translate(
+                                             "LibreSVIPManager", "The root value is not an array.");
+            result.errorMessage = QCoreApplication::translate(
+                                      "LibreSVIPManager", "The LibreSVIP download catalog is invalid: %1")
+                                      .arg(detail);
+            return result;
+        }
+
+        const QString artifactKey = currentArtifactKey();
+        for (const auto &value : document.array()) {
+            if (!value.isObject())
+                continue;
+            const auto object = value.toObject();
+            const QString versionText = object.value(QStringLiteral("version")).toString();
+            const SVS::Semver version(versionText);
+            const QString artifactUrl = object.value(QStringLiteral("artifacts"))
+                                            .toObject()
+                                            .value(artifactKey)
+                                            .toString();
+            const QUrl url(artifactUrl);
+            if (version.isValid() && !artifactUrl.isEmpty() && url.isValid())
+                result.artifacts.append({version, versionText, url});
+        }
+        std::sort(result.artifacts.begin(), result.artifacts.end(), [](const auto &left, const auto &right) {
+            return left.version > right.version;
+        });
+        if (result.artifacts.isEmpty()) {
+            result.errorMessage = QCoreApplication::translate(
+                "LibreSVIPManager", "No LibreSVIP downloads are available for this system architecture.");
+        }
+        return result;
     }
 
     static QString compactJson(const QJsonObject &object) {
@@ -454,6 +500,8 @@ namespace LibreSVIPFormatConverter::Internal {
     }
 
     LibreSVIPManager::~LibreSVIPManager() {
+        cancelUpdateCheck();
+        dismissUpdateNotification();
         stopProcess(true);
         s_instance = nullptr;
     }
@@ -478,9 +526,30 @@ namespace LibreSVIPFormatConverter::Internal {
         return QDir(downloadedRoot()).exists();
     }
 
+    bool LibreSVIPManager::autoCheckForUpdates() const {
+        return m_autoCheckForUpdates;
+    }
+
+    void LibreSVIPManager::setAutoCheckForUpdates(bool enabled) {
+        if (m_autoCheckForUpdates == enabled)
+            return;
+        m_autoCheckForUpdates = enabled;
+        auto settings = Core::RuntimeInterface::settings();
+        settings->beginGroup(QString::fromLatin1(kSettingsGroup));
+        settings->setValue(QStringLiteral("autoCheckForUpdates"), enabled);
+        settings->endGroup();
+        settings->sync();
+        if (!enabled) {
+            cancelUpdateCheck();
+            dismissUpdateNotification();
+        }
+        Q_EMIT autoCheckForUpdatesChanged(enabled);
+    }
+
     void LibreSVIPManager::loadConfiguration() {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QString::fromLatin1(kSettingsGroup));
+        m_autoCheckForUpdates = settings->value(QStringLiteral("autoCheckForUpdates"), true).toBool();
         bool configurationUpdated = false;
         QJsonParseError error;
         const auto document = QJsonDocument::fromJson(settings->value(QStringLiteral("configuration")).toByteArray(), &error);
@@ -498,6 +567,7 @@ namespace LibreSVIPFormatConverter::Internal {
             }
             if (configuration.value(QStringLiteral("cacheVersion")).toInt() == kCacheVersion) {
                 m_cachedSha512 = QByteArray::fromHex(configuration.value(QStringLiteral("sha512")).toString().toLatin1());
+                m_cachedLocaleName = configuration.value(QStringLiteral("localeName")).toString();
                 m_catalog = LibreSVIPPluginCatalog::fromJson(configuration.value(QStringLiteral("pluginCatalog")).toObject());
             }
         }
@@ -514,6 +584,7 @@ namespace LibreSVIPFormatConverter::Internal {
         }
         m_executablePath = canonicalPath;
         m_cachedSha512 = result.sha512;
+        m_cachedLocaleName = QLocale().name();
         m_catalog = result.catalog;
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QString::fromLatin1(kSettingsGroup));
@@ -521,6 +592,7 @@ namespace LibreSVIPFormatConverter::Internal {
             {QStringLiteral("cacheVersion"), kCacheVersion},
             {QStringLiteral("executablePath"), m_executablePath},
             {QStringLiteral("sha512"), QString::fromLatin1(m_cachedSha512.toHex())},
+            {QStringLiteral("localeName"), m_cachedLocaleName},
             {QStringLiteral("pluginCatalog"), m_catalog.toJson()},
         };
         settings->setValue(QStringLiteral("configuration"), QJsonDocument(configuration).toJson(QJsonDocument::Compact));
@@ -534,10 +606,11 @@ namespace LibreSVIPFormatConverter::Internal {
     void LibreSVIPManager::clearConfiguration() {
         m_executablePath.clear();
         m_cachedSha512.clear();
+        m_cachedLocaleName.clear();
         m_catalog = {};
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QString::fromLatin1(kSettingsGroup));
-        settings->remove(QString());
+        settings->remove(QStringLiteral("configuration"));
         settings->endGroup();
         settings->sync();
         Q_EMIT configurationChanged();
@@ -547,9 +620,10 @@ namespace LibreSVIPFormatConverter::Internal {
     bool LibreSVIPManager::cacheIsCurrent() const {
         const QFileInfo info(m_executablePath);
         if (m_executablePath.isEmpty() || !info.exists() || !info.isFile() || !info.isExecutable() ||
-            m_cachedSha512.isEmpty() || !m_catalog.isComplete())
+            m_cachedSha512.isEmpty() || m_cachedLocaleName.isEmpty() || !m_catalog.isComplete())
             return false;
-        return sha512ForFile(m_executablePath) == m_cachedSha512;
+        return sha512ForFile(m_executablePath) == m_cachedSha512 &&
+               m_cachedLocaleName == QLocale().name();
     }
 
     LibreSVIPValidationResult LibreSVIPManager::validateExecutable(const QString &path, QWindow *parent, bool showProgress) {
@@ -805,7 +879,84 @@ namespace LibreSVIPFormatConverter::Internal {
         return SVS::Semver(version).isValid() ? version : QString{};
     }
 
+    void LibreSVIPManager::checkForUpdates() {
+        if (!m_autoCheckForUpdates || !downloadedInstallationExists() || m_updateCheckSession ||
+            m_updateNotification)
+            return;
+
+        const QString installedVersionText = downloadedVersion();
+        if (!SVS::Semver(installedVersionText).isValid()) {
+            qCWarning(lcLibreSVIPManager) << "Skipping the LibreSVIP update check because the installed version is unavailable.";
+            return;
+        }
+
+        m_updateCatalogData = new QBuffer(this);
+        if (!m_updateCatalogData->open(QIODevice::WriteOnly)) {
+            qCWarning(lcLibreSVIPManager) << "Failed to open the buffer for the LibreSVIP update catalog.";
+            m_updateCatalogData->deleteLater();
+            m_updateCatalogData = nullptr;
+            return;
+        }
+
+        m_updateCheckSession = new SVS::DownloadSession(
+            QUrl(QString::fromUtf8(DIFFSCOPE_LIBRESVIP_CATALOG_URL)), m_updateCatalogData, this);
+        m_updateCheckSession->setUserAgent(QStringLiteral("DiffScope/%1").arg(QCoreApplication::applicationVersion()));
+        auto *session = m_updateCheckSession;
+        auto *catalogData = m_updateCatalogData;
+        connect(session, &SVS::DownloadSession::networkErrorOccurred, this,
+                [](QNetworkReply::NetworkError, const QString &description) {
+                    qCWarning(lcLibreSVIPManager).noquote()
+                        << "The background LibreSVIP update check encountered a network error:" << description;
+                });
+        connect(session, &SVS::DownloadSession::writeErrorOccurred, this,
+                [](const QString &description) {
+                    qCWarning(lcLibreSVIPManager).noquote()
+                        << "The background LibreSVIP update check encountered a write error:" << description;
+                });
+        connect(session, &SVS::DownloadSession::finished, this, [this, session, catalogData] {
+            if (session != m_updateCheckSession)
+                return;
+
+            const auto status = session->status();
+            const QByteArray data = catalogData->data();
+            m_updateCheckSession = nullptr;
+            m_updateCatalogData = nullptr;
+            session->deleteLater();
+            catalogData->deleteLater();
+
+            if (status == SVS::DownloadSession::Status::Cancelled) {
+                qCDebug(lcLibreSVIPManager) << "The background LibreSVIP update check was cancelled.";
+                return;
+            }
+            if (status != SVS::DownloadSession::Status::Completed)
+                return;
+
+            auto catalogResult = parseDownloadCatalog(data);
+            if (!catalogResult.errorMessage.isEmpty()) {
+                qCWarning(lcLibreSVIPManager).noquote()
+                    << "The LibreSVIP update catalog could not be used:" << catalogResult.errorMessage;
+                return;
+            }
+            if (!m_autoCheckForUpdates || !downloadedInstallationExists())
+                return;
+
+            const QString currentInstalledVersionText = downloadedVersion();
+            const SVS::Semver currentInstalledVersion(currentInstalledVersionText);
+            if (!currentInstalledVersion.isValid()) {
+                qCWarning(lcLibreSVIPManager)
+                    << "Skipping the LibreSVIP update notification because the installed version is unavailable.";
+                return;
+            }
+            const auto &latest = catalogResult.artifacts.constFirst();
+            if (latest.version > currentInstalledVersion)
+                showUpdateNotification(latest.versionText, currentInstalledVersionText);
+        });
+        QTimer::singleShot(0, session, &SVS::DownloadSession::start);
+    }
+
     bool LibreSVIPManager::downloadAndConfigure(QWindow *parent, bool notifyRetry) {
+        cancelUpdateCheck();
+        dismissUpdateNotification();
         if (m_busy) {
             SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), parent, tr("LibreSVIP is busy"),
                                      tr("Another LibreSVIP operation is already running."));
@@ -891,40 +1042,12 @@ namespace LibreSVIPFormatConverter::Internal {
                         return;
                     }
 
-                    QJsonParseError parseError;
-                    const auto document = QJsonDocument::fromJson(catalogData.data(), &parseError);
-                    if (parseError.error != QJsonParseError::NoError || !document.isArray()) {
-                        queueDialogError(tr("Download failed"),
-                                         tr("The LibreSVIP download catalog is invalid: %1")
-                                             .arg(parseError.error != QJsonParseError::NoError
-                                                      ? parseError.errorString()
-                                                      : tr("The root value is not an array.")));
+                    auto catalogResult = parseDownloadCatalog(catalogData.data());
+                    if (!catalogResult.errorMessage.isEmpty()) {
+                        queueDialogError(tr("Download failed"), catalogResult.errorMessage);
                         return;
                     }
-
-                    const QString artifactKey = currentArtifactKey();
-                    for (const auto &value : document.array()) {
-                        if (!value.isObject())
-                            continue;
-                        const auto object = value.toObject();
-                        const QString versionText = object.value(QStringLiteral("version")).toString();
-                        const SVS::Semver version(versionText);
-                        const QString artifactUrl = object.value(QStringLiteral("artifacts"))
-                                                        .toObject()
-                                                        .value(artifactKey)
-                                                        .toString();
-                        const QUrl url(artifactUrl);
-                        if (version.isValid() && !artifactUrl.isEmpty() && url.isValid())
-                            artifacts.append({version, versionText, url});
-                    }
-                    std::sort(artifacts.begin(), artifacts.end(), [](const auto &left, const auto &right) {
-                        return left.version > right.version;
-                    });
-                    if (artifacts.isEmpty()) {
-                        queueDialogError(tr("Download failed"),
-                                         tr("No LibreSVIP downloads are available for this system architecture."));
-                        return;
-                    }
+                    artifacts = std::move(catalogResult.artifacts);
 
                     QStringList versionItems;
                     versionItems.reserve(artifacts.size());
@@ -1415,6 +1538,58 @@ namespace LibreSVIPFormatConverter::Internal {
         if (auto windowInterface = Core::CoreInterface::windowSystem()->firstWindow())
             return windowInterface->window();
         return nullptr;
+    }
+
+    void LibreSVIPManager::cancelUpdateCheck() {
+        auto *session = std::exchange(m_updateCheckSession, nullptr);
+        auto *catalogData = std::exchange(m_updateCatalogData, nullptr);
+        if (session) {
+            disconnect(session, nullptr, this, nullptr);
+            session->cancel();
+            session->deleteLater();
+        }
+        if (catalogData)
+            catalogData->deleteLater();
+    }
+
+    void LibreSVIPManager::dismissUpdateNotification() {
+        auto *message = std::exchange(m_updateNotification, nullptr);
+        if (message)
+            message->close();
+    }
+
+    void LibreSVIPManager::showUpdateNotification(const QString &latestVersion, const QString &installedVersion) {
+        Q_UNUSED(installedVersion);
+        dismissUpdateNotification();
+        auto *message = new Core::NotificationMessage(this);
+        m_updateNotification = message;
+        message->setIcon(SVS::SVSCraft::Information);
+        message->setTitle(tr("LibreSVIP update available"));
+        message->setText(tr("LibreSVIP %1 is available.").arg(latestVersion));
+        message->setButtons({tr("Update")});
+        message->setPrimaryButton(0);
+        message->setClosable(true);
+        message->setAllowDoNotShowAgain(true);
+        connect(message, &Core::NotificationMessage::buttonClicked, this, [this, message](int index) {
+            if (index != 0)
+                return;
+            if (m_updateNotification == message)
+                dismissUpdateNotification();
+            else
+                message->close();
+            QTimer::singleShot(0, this, [this] { downloadAndConfigure(defaultParentWindow()); });
+        });
+        connect(message, &Core::NotificationMessage::doNotShowAgainRequested, this, [this, message] {
+            setAutoCheckForUpdates(false);
+            if (m_updateNotification == message)
+                dismissUpdateNotification();
+        });
+        connect(message, &Core::NotificationMessage::closed, this, [this, message] {
+            if (m_updateNotification == message)
+                m_updateNotification = nullptr;
+            message->deleteLater();
+        });
+        Core::CoreInterface::sendNotification(message, Core::CoreInterface::AutoHide);
     }
 
     void LibreSVIPManager::showRetryMessage(QWindow *parent) const {

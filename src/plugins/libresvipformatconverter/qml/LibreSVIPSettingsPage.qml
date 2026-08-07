@@ -10,7 +10,11 @@ ScrollView {
     id: page
 
     required property QtObject pageHandle
+    property bool started: false
+    property bool autoCheckForUpdates: true
     readonly property TextMatcher matcher: TextMatcher {}
+
+    onAutoCheckForUpdatesChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -109,6 +113,13 @@ ScrollView {
                         }
 
                         Item { Layout.fillWidth: true }
+                    }
+
+                    CheckBox {
+                        text: qsTr("Automatically check for LibreSVIP updates")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        checked: page.autoCheckForUpdates
+                        onClicked: page.autoCheckForUpdates = checked
                     }
                 }
             }
