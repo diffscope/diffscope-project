@@ -74,6 +74,16 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.core.notificationList"
+        Action {
+            onTriggered: () => {
+                let w = d.windowHandle.window
+                Qt.callLater(() => CoreInterface.execNotificationListDialog(w))
+            }
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.core.showHomeWindow"
         Action {
             onTriggered: () => {

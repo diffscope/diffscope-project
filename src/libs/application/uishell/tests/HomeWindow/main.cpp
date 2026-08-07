@@ -1,5 +1,5 @@
 #include <QQmlApplicationEngine>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QSurfaceFormat>
 #include <QQuickStyle>
 #include <QStandardItemModel>
@@ -9,7 +9,7 @@
 using namespace UIShell;
 
 int main(int argc, char *argv[]) {
-    QGuiApplication a(argc, argv);
+    QApplication a(argc, argv);
 
     auto sf = QSurfaceFormat::defaultFormat();
     sf.setSamples(8);

@@ -19,26 +19,9 @@ QtObject {
     readonly property Window window: addOn.windowHandle.window
     readonly property QtObject notificationManager: addOn.notificationManager
 
-    Component.onCompleted: () => {
-        [...notificationManager.bubbleMessages()].forEach((message, index) => {
-            d.bubbleNotificationsModel.insert(index, message.handle)
-        })
-        window.bubbleNotificationsModel = bubbleNotificationsModel
+    readonly property NotificationBubbleModel bubbleNotificationModel: NotificationBubbleModel {
+        notificationModel: d.notificationManager
     }
 
-    readonly property ObjectModel bubbleNotificationsModel: ObjectModel {
-
-    }
-
-
-    readonly property Connections notificationManagerConnections: Connections {
-        target: notificationManager
-        function onMessageAddedToBubbles(index, message) {
-            d.bubbleNotificationsModel.insert(index, message.handle)
-        }
-        function onMessageRemovedFromBubbles(index, message) {
-            d.bubbleNotificationsModel.remove(index)
-        }
-    }
-
+    Component.onCompleted: window.bubbleNotificationsModel = bubbleNotificationModel.model
 }

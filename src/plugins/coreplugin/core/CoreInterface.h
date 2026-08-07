@@ -6,6 +6,8 @@
 
 #include <CoreApi/coreinterfacebase.h>
 
+#include <SVSCraftCore/SVSCraftNamespace.h>
+
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
@@ -23,6 +25,7 @@ namespace Core {
     }
 
     class ProjectWindowInterface;
+    class NotificationMessage;
     class DspxCheckerRegistry;
     class ProjectDocumentContext;
     class PropertyEditorManager;
@@ -59,8 +62,19 @@ namespace Core {
             return "org.diffscope.diffscope";
         }
 
+        enum NotificationBubbleMode {
+            NormalBubble,
+            DoNotShowBubble,
+            AutoHide,
+        };
+        Q_ENUM(NotificationBubbleMode)
+
+        Q_INVOKABLE static void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
+        Q_INVOKABLE static void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
+
         Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);
         Q_INVOKABLE static void execPluginsDialog(QWindow *parent);
+        Q_INVOKABLE static void execNotificationListDialog(QWindow *parent);
         Q_INVOKABLE static void execAboutAppDialog(QWindow *parent);
         Q_INVOKABLE static void execAboutQtDialog(QWindow *parent);
         Q_INVOKABLE static void showHome();

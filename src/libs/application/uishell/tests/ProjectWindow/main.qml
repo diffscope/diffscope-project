@@ -28,7 +28,7 @@ ProjectWindow {
             Action { text: "bbb" }
         }
     }
-    toolButtonsModel: ObjectModel {
+    leftToolButtonsModel: ObjectModel {
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
@@ -63,7 +63,7 @@ ProjectWindow {
         id: leftHelper
         DockingPane {
             title: "Test 1"
-            iconSource: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
         DockingStretch {
         }
@@ -83,7 +83,7 @@ ProjectWindow {
         id: rightHelper
         DockingPane {
             title: "Test 2"
-            iconSource: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
         DockingStretch {
         }
@@ -94,7 +94,7 @@ ProjectWindow {
         id: topHelper
         DockingPane {
             title: "Test 3"
-            iconSource: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
         DockingStretch {
         }
@@ -105,7 +105,7 @@ ProjectWindow {
         id: bottomHelper
         DockingPane {
             title: "Test 4"
-            iconSource: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
         DockingStretch {
         }

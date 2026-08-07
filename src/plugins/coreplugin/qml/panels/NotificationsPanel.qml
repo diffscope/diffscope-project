@@ -15,13 +15,6 @@ QtObject {
 
     readonly property Component notificationsPanelComponent: ActionDockingPane {
         id: pane
-        Component.onCompleted: () => {
-            [...d.notificationManager.messages()].forEach((message, index) => {
-                notificationItemsModel.insert(notificationItemsModel.count - index, bubbleNotificationComponent.createObject(this, {
-                    handle: message.handle
-                }))
-            })
-        }
         Connections {
             target: d.addOn
             function on_Diffscope_statusTipTriggered() {
@@ -38,7 +31,7 @@ QtObject {
         header: Item {
             anchors.fill: parent
             ToolButton {
-                enabled: notificationItemsModel.count !== 0
+                enabled: notificationListView.count !== 0
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 icon.source: "image://fluent-system-icons/dismiss_square_multiple"
@@ -51,61 +44,10 @@ QtObject {
                 }
             }
         }
-        Component {
-            id: bubbleNotificationComponent
-            BubbleNotification {
-                width: parent?.width ?? 0
-            }
-        }
-        Connections {
-            target: d.notificationManager
-            function onMessageAdded(index, message) {
-                let i = notificationItemsModel.count - index
-                notificationItemsModel.insert(i, bubbleNotificationComponent.createObject(pane, {
-                    handle: message.handle
-                }))
-            }
-            function onMessageRemoved(index, message) {
-                let i = notificationItemsModel.count - index - 1
-                let o = notificationItemsModel.get(i)
-                notificationItemsModel.remove(i)
-                o.destroy()
-            }
-        }
-        ObjectModel {
-            id: notificationItemsModel
-        }
-        ScrollView {
-            id: scrollView
+        NotificationListView {
+            id: notificationListView
             anchors.fill: parent
-            ColumnLayout {
-                width: scrollView.width
-                Label {
-                    Layout.fillWidth: true
-                    Layout.margins: 8
-                    visible: notificationItemsModel.count === 0
-                    ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.Wrap
-                    text: qsTr("No notification")
-                }
-                Column {
-                    id: column
-                    Layout.fillWidth: true
-                    Layout.margins: 12
-                    spacing: 12
-                    move: Transition {
-                        NumberAnimation {
-                            properties: "x,y"
-                            easing.type: Easing.OutCubic
-                            duration: Theme.visualEffectAnimationDuration
-                        }
-                    }
-                    Repeater {
-                        model: notificationItemsModel
-                    }
-                }
-            }
+            notificationModel: d.notificationManager
         }
     }
 }

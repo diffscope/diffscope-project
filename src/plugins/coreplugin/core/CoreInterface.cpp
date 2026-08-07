@@ -42,7 +42,10 @@
 
 #include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/NotificationMessage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/internal/NotificationCenter.h>
+#include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -67,6 +70,7 @@ namespace Core {
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
         SingerRegistry *singerRegistry;
+        Internal::NotificationCenter *notificationCenter;
 
         void init() {
             Q_Q(CoreInterface);
@@ -76,6 +80,9 @@ namespace Core {
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
             singerRegistry = new SingerRegistry(q);
+            notificationCenter = new Internal::NotificationCenter(q);
+            QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
+                             notificationCenter, &Internal::NotificationCenter::clearHiddenMessageIdentifiers);
         }
     };
 
@@ -113,6 +120,25 @@ namespace Core {
     SingerRegistry *CoreInterface::singerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->singerRegistry;
+    }
+
+    static Internal::NotificationManager::NotificationBubbleMode toInternalNotificationBubbleMode(CoreInterface::NotificationBubbleMode mode) {
+        return static_cast<Internal::NotificationManager::NotificationBubbleMode>(mode);
+    }
+
+    void CoreInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
+        Q_ASSERT(instance());
+        Q_ASSERT(message);
+        instance()->d_func()->notificationCenter->globalNotificationManager()->addMessage(message, toInternalNotificationBubbleMode(mode));
+    }
+
+    void CoreInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
+        auto message = new NotificationMessage(instance());
+        message->setIcon(icon);
+        message->setTitle(title);
+        message->setText(text);
+        connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
+        sendNotification(message, mode);
     }
 
     int CoreInterface::execSettingsDialog(const QString &id, QWindow *parent) {
@@ -165,6 +191,23 @@ namespace Core {
             qFatal() << component.errorString();
         }
         std::unique_ptr<QWindow> dlg(qobject_cast<QWindow *>(component.create()));
+        Q_ASSERT(dlg);
+        dlg->setTransientParent(parent);
+        dlg->show();
+        QEventLoop eventLoop;
+        connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        eventLoop.exec();
+    }
+
+    void CoreInterface::execNotificationListDialog(QWindow *parent) {
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationListDialog");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        auto notificationModel = instance()->d_func()->notificationCenter->globalNotificationManager();
+        std::unique_ptr<QWindow> dlg(qobject_cast<QWindow *>(component.createWithInitialProperties({
+            {"notificationModel", QVariant::fromValue(notificationModel)},
+        })));
         Q_ASSERT(dlg);
         dlg->setTransientParent(parent);
         dlg->show();

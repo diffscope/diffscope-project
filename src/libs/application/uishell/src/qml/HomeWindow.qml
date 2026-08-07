@@ -24,6 +24,8 @@ Window {
     property var navigationActionsModel: null
     property var toolActionsModel: null
     property var menusModel: null
+    property ObjectModel bubbleNotificationsModel: null
+    property bool notificationEnablesAnimation: false
     property int currentNavIndex: 0
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
@@ -350,5 +352,16 @@ Window {
                 }
             }
         }
+    }
+
+    BubbleNotificationLayer {
+        anchors.fill: parent
+        z: 1000
+        model: window.bubbleNotificationsModel
+        enablesAnimation: window.notificationEnablesAnimation
+        topMargin: 16
+        bottomMargin: 16
+        leftMargin: 16
+        rightMargin: 16
     }
 }

@@ -2,54 +2,55 @@
 
 #include <QApplication>
 #include <QLoggingCategory>
-#include <QSettings>
 #include <QTimer>
 
-#include <CoreApi/runtimeinterface.h>
+#include <memory>
+
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
 #include <uishell/BubbleNotificationHandle.h>
 
-#include <coreplugin/CoreInterface.h>
 #include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/internal/NotificationCenter.h>
 #include <coreplugin/NotificationMessage.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
 namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcNotificationManager, "diffscope.core.notificationmanager")
 
-    NotificationManager::NotificationManager(ProjectWindowInterface *parent) : QObject(parent) {
-        parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
-        loadHiddenMessageIdentifiers();
+    NotificationManager::NotificationManager(NotificationCenter *notificationCenter, QObject *parent)
+        : QObject(parent), m_notificationCenter(notificationCenter) {
+        Q_ASSERT(m_notificationCenter);
+    }
 
-        // Listen to reset all do not show again requests
-        connect(CoreInterface::instance(), &CoreInterface::resetAllDoNotShowAgainRequested, this, [this] {
-            clearHiddenMessageIdentifiers();
-        });
+    NotificationManager::NotificationManager(ProjectWindowInterface *parent)
+        : NotificationManager(NotificationCenter::instance(), parent) {
+        parent->setProperty(staticMetaObject.className(), QVariant::fromValue(this));
     }
     NotificationManager::~NotificationManager() = default;
     NotificationManager *NotificationManager::of(ProjectWindowInterface *windowHandle) {
         return windowHandle->property(staticMetaObject.className()).value<NotificationManager *>();
     }
 
-    void NotificationManager::addMessage(NotificationMessage *message, ProjectWindowInterface::NotificationBubbleMode mode) {
+    void NotificationManager::addMessage(NotificationMessage *message, NotificationBubbleMode mode) {
         qCInfo(lcNotificationManager) << "Adding message:" << message << message->title() << message->text() << mode;
+
+        m_notificationCenter->registerMessage(message);
 
         // Check if this message should be hidden based on its identifier
         QString identifier = message->doNotShowAgainIdentifier();
-        if (!identifier.isEmpty() && isMessageHidden(identifier)) {
+        if (!identifier.isEmpty() && m_notificationCenter->isMessageHidden(identifier)) {
             qCInfo(lcNotificationManager) << "Message identifier" << identifier << "is hidden, using DoNotShowBubble mode";
-            mode = ProjectWindowInterface::DoNotShowBubble;
+            mode = DoNotShowBubble;
             message->setAllowDoNotShowAgain(false);
         }
 
         // Listen to doNotShowAgainRequested signal
         connect(message, &NotificationMessage::doNotShowAgainRequested, this, [this, message] {
             QString identifier = message->doNotShowAgainIdentifier();
-            if (!identifier.isEmpty() && !m_hiddenMessageIdentifiers.contains(identifier)) {
-                qCInfo(lcNotificationManager) << "Adding message identifier to hidden list:" << identifier;
-                m_hiddenMessageIdentifiers.append(identifier);
-                saveHiddenMessageIdentifiers();
+            if (!identifier.isEmpty()) {
+                m_notificationCenter->hideMessageIdentifier(identifier);
                 message->setAllowDoNotShowAgain(false);
             }
         });
@@ -87,12 +88,21 @@ namespace Core::Internal {
 
         auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
 
-        if (mode == ProjectWindowInterface::AutoHide) {
+        if (mode == AutoHide) {
             auto timer = new QTimer(handle);
             timer->setInterval(autoHideTimeout);
             timer->setSingleShot(true);
-            connect(handle, &UIShell::BubbleNotificationHandle::hoverEntered, timer, &QTimer::stop);
-            connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer, [=] { timer->start(); });
+            auto hoveredBubbleCount = std::make_shared<int>(0);
+            connect(handle, &UIShell::BubbleNotificationHandle::hoverEntered, timer, [timer, hoveredBubbleCount] {
+                ++*hoveredBubbleCount;
+                timer->stop();
+            });
+            connect(handle, &UIShell::BubbleNotificationHandle::hoverExited, timer, [timer, hoveredBubbleCount] {
+                *hoveredBubbleCount = qMax(0, *hoveredBubbleCount - 1);
+                if (*hoveredBubbleCount == 0) {
+                    timer->start();
+                }
+            });
             connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, timer, &QObject::deleteLater);
             connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, timer, &QObject::deleteLater);
             connect(timer, &QTimer::timeout, message, [=] {
@@ -128,7 +138,7 @@ namespace Core::Internal {
                 m_warningCount--;
                 emit warningCountChanged(m_warningCount);
             }
-            disconnectMessageSignals(message);
+            disconnectMessageSignals(message, handle);
 
             bool wasLast = (index == m_messages.size() - 1);
             m_messages.removeAt(index);
@@ -144,10 +154,11 @@ namespace Core::Internal {
         connect(handle, &UIShell::BubbleNotificationHandle::hideClicked, this, removeMessageFromBubbles);
         connect(handle, &UIShell::BubbleNotificationHandle::closeClicked, this, removeMessage);
         connect(handle, &QObject::destroyed, this, removeMessage);
+        connect(message, &QObject::destroyed, this, removeMessage);
 
         handle->setTime(QDateTime::currentDateTime());
 
-        if (mode != ProjectWindowInterface::DoNotShowBubble) {
+        if (mode != DoNotShowBubble) {
             m_bubbleMessages.append(message);
         }
         m_messages.append(message);
@@ -157,7 +168,7 @@ namespace Core::Internal {
         }
 
         emit messageAdded(m_messages.size() - 1, message);
-        if (mode != ProjectWindowInterface::DoNotShowBubble) {
+        if (mode != DoNotShowBubble) {
             emit messageAddedToBubbles(m_bubbleMessages.size() - 1, message);
         }
 
@@ -170,6 +181,9 @@ namespace Core::Internal {
     }
     QList<NotificationMessage *> NotificationManager::bubbleMessages() const {
         return m_bubbleMessages;
+    }
+    quint64 NotificationManager::messageSequence(NotificationMessage *message) const {
+        return m_notificationCenter->messageSequence(message);
     }
     QString NotificationManager::topMessageTitle() const {
         if (m_messages.isEmpty()) {
@@ -202,39 +216,6 @@ namespace Core::Internal {
         }
     }
 
-    void NotificationManager::loadHiddenMessageIdentifiers() {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        m_hiddenMessageIdentifiers = settings->value("hiddenMessageIdentifiers", QStringList()).toStringList();
-        settings->endGroup();
-        qCInfo(lcNotificationManager) << "Loaded hidden message identifiers:" << m_hiddenMessageIdentifiers;
-    }
-
-    void NotificationManager::saveHiddenMessageIdentifiers() {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue("hiddenMessageIdentifiers", m_hiddenMessageIdentifiers);
-        settings->endGroup();
-        qCInfo(lcNotificationManager) << "Saved hidden message identifiers:" << m_hiddenMessageIdentifiers;
-    }
-
-    bool NotificationManager::isMessageHidden(const QString &identifier) const {
-        return m_hiddenMessageIdentifiers.contains(identifier);
-    }
-
-    void NotificationManager::clearHiddenMessageIdentifiers() {
-        qCInfo(lcNotificationManager) << "Clearing hidden message identifiers";
-        m_hiddenMessageIdentifiers.clear();
-        saveHiddenMessageIdentifiers();
-
-        // Reset allowDoNotShowAgain for all messages with non-empty doNotShowAgainIdentifier
-        for (auto *message : m_messages) {
-            if (!message->doNotShowAgainIdentifier().isEmpty()) {
-                message->setAllowDoNotShowAgain(true);
-            }
-        }
-    }
-
     void NotificationManager::updateIconCount(SVS::SVSCraft::MessageBoxIcon oldIcon, SVS::SVSCraft::MessageBoxIcon newIcon) {
         // Decrement old icon count
         if (oldIcon == SVS::SVSCraft::Critical) {
@@ -255,12 +236,11 @@ namespace Core::Internal {
         }
     }
 
-    void NotificationManager::disconnectMessageSignals(NotificationMessage *message) {
+    void NotificationManager::disconnectMessageSignals(NotificationMessage *message, UIShell::BubbleNotificationHandle *handle) {
         // Disconnect all signal connections from message to this
         disconnect(message, nullptr, this, nullptr);
         
         // Disconnect all signal connections from handle to this
-        auto handle = message->property("handle").value<UIShell::BubbleNotificationHandle *>();
         if (handle) {
             disconnect(handle, nullptr, this, nullptr);
         }

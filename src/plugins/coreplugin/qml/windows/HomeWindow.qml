@@ -16,6 +16,7 @@ import DiffScope.Core
 HomeWindow {
     id: homeWindow
     required property HomeWindowInterface windowHandle
+    required property QtObject notificationViewModel
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     readonly property color lightBannerColor: "#dadada"
     readonly property color darkBannerColor: "#252525"
@@ -30,6 +31,13 @@ HomeWindow {
 
     WindowSystem.windowSystem: CoreInterface.windowSystem
     WindowSystem.id: "org.diffscope.core.homewindow"
+
+    NotificationBubbleModel {
+        id: notificationBubbleModel
+        notificationModel: homeWindow.notificationViewModel
+    }
+    bubbleNotificationsModel: notificationBubbleModel.model
+    notificationEnablesAnimation: true
 
     onNewFileRequested: () => {
         windowHandle.triggerAction("org.diffscope.core.file.new", homeWindow.contentItem)

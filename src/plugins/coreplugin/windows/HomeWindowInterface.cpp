@@ -8,6 +8,8 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/internal/ActionHelper.h>
+#include <coreplugin/internal/NotificationCenter.h>
+#include <coreplugin/internal/NotificationViewModel.h>
 
 namespace Core {
 
@@ -17,9 +19,11 @@ namespace Core {
         Q_DECLARE_PUBLIC(HomeWindowInterface)
     public:
         HomeWindowInterface *q_ptr;
+        Internal::NotificationViewModel *notificationViewModel{};
         void init() {
             Q_Q(HomeWindowInterface);
             initActionContext();
+            notificationViewModel = new Internal::NotificationViewModel({Internal::NotificationCenter::instance()->globalNotificationManager()}, q);
         }
         void initActionContext() {
             Q_Q(HomeWindowInterface);
@@ -58,7 +62,10 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}}));
+        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({
+            {"windowHandle", QVariant::fromValue(this)},
+            {"notificationViewModel", QVariant::fromValue(d->notificationViewModel)},
+        }));
         Q_ASSERT(win);
         return win;
     }

@@ -2,13 +2,21 @@
 #define DIFFSCOPE_COREPLUGIN_NOTIFICATIONMANAGER_H
 
 #include <QObject>
+#include <QHash>
 
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/ProjectWindowInterface.h>
 
-class QAbstractItemModel;
+namespace UIShell {
+    class BubbleNotificationHandle;
+}
+
+namespace Core {
+    class ProjectWindowInterface;
+}
 
 namespace Core::Internal {
+
+    class NotificationCenter;
 
     class NotificationManager : public QObject {
         Q_OBJECT
@@ -16,15 +24,24 @@ namespace Core::Internal {
         Q_PROPERTY(int criticalCount READ criticalCount NOTIFY criticalCountChanged)
         Q_PROPERTY(int warningCount READ warningCount NOTIFY warningCountChanged)
     public:
-        explicit NotificationManager(ProjectWindowInterface *parent = nullptr);
+        enum NotificationBubbleMode {
+            NormalBubble,
+            DoNotShowBubble,
+            AutoHide,
+        };
+
+        explicit NotificationManager(NotificationCenter *notificationCenter, QObject *parent = nullptr);
+        explicit NotificationManager(ProjectWindowInterface *parent);
         ~NotificationManager() override;
 
         static NotificationManager *of(ProjectWindowInterface *windowHandle);
 
-        void addMessage(NotificationMessage *message, ProjectWindowInterface::NotificationBubbleMode mode);
+        void addMessage(NotificationMessage *message, NotificationBubbleMode mode);
 
         Q_INVOKABLE QList<NotificationMessage *> messages() const;
         Q_INVOKABLE QList<NotificationMessage *> bubbleMessages() const;
+
+        quint64 messageSequence(NotificationMessage *message) const;
 
         QString topMessageTitle() const;
         int criticalCount() const;
@@ -46,16 +63,12 @@ namespace Core::Internal {
     private:
         void updateTopMessageTitleConnection();
         void updateIconCount(SVS::SVSCraft::MessageBoxIcon oldIcon, SVS::SVSCraft::MessageBoxIcon newIcon);
-        void disconnectMessageSignals(NotificationMessage *message);
-        void loadHiddenMessageIdentifiers();
-        void saveHiddenMessageIdentifiers();
-        bool isMessageHidden(const QString &identifier) const;
-        void clearHiddenMessageIdentifiers();
+        void disconnectMessageSignals(NotificationMessage *message, UIShell::BubbleNotificationHandle *handle);
 
+        NotificationCenter *m_notificationCenter{};
         QList<NotificationMessage *> m_messages;
         QList<NotificationMessage *> m_bubbleMessages;
         QMetaObject::Connection m_topMessageTitleConnection;
-        QStringList m_hiddenMessageIdentifiers;
         int m_criticalCount = 0;
         int m_warningCount = 0;
         QHash<NotificationMessage *, SVS::SVSCraft::MessageBoxIcon> m_messageIcons;

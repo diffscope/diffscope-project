@@ -145,7 +145,7 @@ namespace Core {
 
     void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
         Q_D(ProjectWindowInterface);
-        d->notificationManager->addMessage(message, mode);
+        d->notificationManager->addMessage(message, static_cast<Internal::NotificationManager::NotificationBubbleMode>(mode));
     }
     void ProjectWindowInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
         auto message = new NotificationMessage(this);

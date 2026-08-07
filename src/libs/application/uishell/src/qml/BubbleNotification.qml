@@ -14,6 +14,7 @@ Item {
     id: dialog
     required property QtObject handle
     property bool popupLike: false
+    property bool hoverReported: false
     readonly property bool hasProgress: handle?.hasProgress ?? false
     implicitWidth: 360
     implicitHeight: bubbleLayout.implicitHeight + 24
@@ -163,13 +164,22 @@ Item {
         }
     }
     HoverHandler {
+        id: hoverHandler
         target: dialog
         onHoveredChanged: () => {
-            if (!hovered) {
-                dialog.handle.hoverExited()
-            } else {
-                dialog.handle.hoverEntered()
+            if (hovered && !dialog.hoverReported) {
+                dialog.hoverReported = true
+                dialog.handle?.hoverEntered()
+            } else if (!hovered && dialog.hoverReported) {
+                dialog.hoverReported = false
+                dialog.handle?.hoverExited()
             }
+        }
+    }
+    Component.onDestruction: () => {
+        if (hoverReported) {
+            hoverReported = false
+            handle?.hoverExited()
         }
     }
 }

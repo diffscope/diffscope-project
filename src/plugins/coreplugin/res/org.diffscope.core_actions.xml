@@ -119,6 +119,7 @@
         <action id="org.diffscope.core.window.pro&amp;jectWindows" diffscope:componentType="menu" />
 
         <action id="org.diffscope.core.documentations" text="&amp;Help" description="Show help contents" class="Help" icon="question_circle" shortcut="F1" />
+        <action id="org.diffscope.core.notificationList" text="&amp;Notification List..." description="Show global notifications" class="Help" icon="alert" />
         <action id="org.diffscope.core.&amp;findActions^" class="Help" description="Find and trigger action by name" icon="search" shortcut="Ctrl+Shift+P" />
         <action id="org.diffscope.core.aboutApp" text="&amp;About ${APP_NAME}" description="Show information about ${APP_NAME}" class="Help"/>
         <action id="org.diffscope.core.about&amp;Qt" description="Show information about Qt" class="Help"/>
@@ -311,6 +312,9 @@
             </menu>
             <menu id="org.diffscope.core.help">
                 <action id="org.diffscope.core.documentations" />
+                <group id="org.diffscope.core.notificationActions">
+                    <action id="org.diffscope.core.notificationList" />
+                </group>
                 <separator />
                 <action id="org.diffscope.core.findActions" />
                 <separator />

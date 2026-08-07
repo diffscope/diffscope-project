@@ -535,71 +535,13 @@ Window {
             }
         }
     }
-    Flow {
-        id: bubbleNotificationProxyItemFlow
+    BubbleNotificationLayer {
         anchors.fill: parent
-        anchors.topMargin: 104
-        anchors.bottomMargin: 64
-        anchors.leftMargin: 40
-        anchors.rightMargin: 40
-        spacing: 12
-        flow: Flow.TopToBottom
-        add: Transition {
-            NumberAnimation {
-                property: "x"
-                from: (bubbleNotificationProxyItemFlow.effectiveLayoutDirection === Qt.LeftToRight ? -360 : bubbleNotificationProxyItemFlow.width + 360)
-                easing.type: Easing.OutCubic
-                duration: window.notificationEnablesAnimation ? Theme.visualEffectAnimationDuration : 0
-            }
-        }
-        move: Transition {
-            NumberAnimation {
-                properties: "x,y"
-                easing.type: Easing.OutCubic
-                duration: window.notificationEnablesAnimation ? Theme.visualEffectAnimationDuration : 0
-            }
-        }
-        Repeater {
-            model: ObjectModel {
-                id: bubbleNotificationsProxyItemModel
-            }
-        }
-    }
-    Item {
-        anchors.fill: parent
-        anchors.topMargin: 104
-        anchors.bottomMargin: 64
-        anchors.leftMargin: 40
-        anchors.rightMargin: 40
-        Repeater {
-            model: ObjectModel {
-                id: bubbleNotificationsItemModel
-            }
-        }
-    }
-    Instantiator {
         model: window.bubbleNotificationsModel
-        readonly property Component bubbleNotification: BubbleNotification {
-            id: bubbleNotification
-            popupLike: true
-            property Item proxyItem: Item {
-                readonly property BubbleNotification sourceItem: bubbleNotification
-                width: sourceItem.width
-                height: sourceItem.height
-            }
-            x: parent ? parent.width - width - proxyItem.x : 0
-            y: parent ? parent.height - height - proxyItem.y : 0
-        }
-        onObjectAdded: (index, object) => {
-            const o = bubbleNotification.createObject(null, {handle: object})
-            bubbleNotificationsItemModel.insert(index, o)
-            bubbleNotificationsProxyItemModel.insert(index, o.proxyItem)
-        }
-        onObjectRemoved: (index, object) => {
-            const o = bubbleNotificationsItemModel.get(index)
-            bubbleNotificationsItemModel.remove(index)
-            bubbleNotificationsProxyItemModel.remove(index)
-            o.destroy()
-        }
+        enablesAnimation: window.notificationEnablesAnimation
+        topMargin: 104
+        bottomMargin: 64
+        leftMargin: 40
+        rightMargin: 40
     }
 }

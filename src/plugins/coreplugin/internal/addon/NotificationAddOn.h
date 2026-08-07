@@ -5,11 +5,11 @@
 
 namespace Core::Internal {
 
-    class NotificationManager;
+    class NotificationViewModel;
 
     class NotificationAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
-        Q_PROPERTY(NotificationManager *notificationManager READ notificationManager CONSTANT)
+        Q_PROPERTY(NotificationViewModel *notificationManager READ notificationManager CONSTANT)
     public:
         explicit NotificationAddOn(QObject *parent = nullptr);
         ~NotificationAddOn() override;
@@ -18,7 +18,7 @@ namespace Core::Internal {
         void extensionsInitialized() override;
         bool delayedInitialize() override;
 
-        NotificationManager *notificationManager() const;
+        NotificationViewModel *notificationManager() const;
 
     signals:
         void _diffscope_statusTipTriggered();
@@ -26,7 +26,7 @@ namespace Core::Internal {
         void showPanelRequested();
 
     private:
-        NotificationManager *m_notificationManager{};
+        NotificationViewModel *m_notificationViewModel{};
 
     };
 

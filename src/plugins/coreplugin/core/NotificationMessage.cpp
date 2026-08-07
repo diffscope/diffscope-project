@@ -5,7 +5,7 @@ namespace Core {
     NotificationMessage::NotificationMessage(QObject *parent) : QObject(parent), d_ptr(new NotificationMessagePrivate) {
         Q_D(NotificationMessage);
         d->q_ptr = this;
-        d->handle = new UIShell::BubbleNotificationHandle;
+        d->handle = new UIShell::BubbleNotificationHandle(this);
         d->handle->setClosable(true);
         connect(d->handle, &UIShell::BubbleNotificationHandle::titleChanged, this, [=] {
             Q_EMIT titleChanged(d->handle->title());
@@ -50,7 +50,7 @@ namespace Core {
     NotificationMessage::~NotificationMessage() {
         Q_D(NotificationMessage);
         if (d->handle) {
-            d->handle->deleteLater();
+            disconnect(d->handle, nullptr, this, nullptr);
         }
     }
     QString NotificationMessage::title() const {
