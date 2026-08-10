@@ -7,6 +7,7 @@
 #include <QQmlComponent>
 #include <QSharedDataPointer>
 #include <QString>
+#include <QVariant>
 
 #include <coreplugin/coreglobal.h>
 
@@ -49,6 +50,7 @@ namespace Core {
         int divisionValue{200};
         bool showDefaultValue{false};
         bool showDivision{true};
+        QVariant userData;
         double (*normalize)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
             return static_cast<double>(value - self.bottomValue) / static_cast<double>(self.topValue - self.bottomValue);
         }};
