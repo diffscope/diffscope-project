@@ -164,6 +164,7 @@ endfunction()
 
 add_subdirectory(coreplugin)
 add_subdirectory(audio)
+add_subdirectory(synth)
 add_subdirectory(welcomewizard)
 add_subdirectory(maintenance)
 add_subdirectory(packagemanager)

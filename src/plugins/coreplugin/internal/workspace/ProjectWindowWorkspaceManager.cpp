@@ -46,10 +46,10 @@ namespace Core::Internal {
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::LeftTop,
             {{
+                {"org.diffscope.core.panel.singers", true},
                 {"org.diffscope.core.panel.recentFiles", true},
                 {"org.diffscope.core.panel.recoveryFiles", true},
                 {"org.diffscope.core.panel.plugins", true},
-                {"org.diffscope.core.panel.singers", true},
              },
              400,
              400,
@@ -92,6 +92,7 @@ namespace Core::Internal {
             ProjectWindowWorkspaceLayout::RightTop,
             {{
                 {"org.diffscope.core.panel.properties", true},
+                {"org.diffscope.synth.panel.services", true},
                 {"org.diffscope.core.panel.notifications", true},
              },
              400,
@@ -101,8 +102,7 @@ namespace Core::Internal {
         );
         layout.setViewSpec(
             ProjectWindowWorkspaceLayout::RightBottom,
-            {{{"org.diffscope.core.panel.tips", true},
-             },
+            {{},
              400,
              150,
              0
