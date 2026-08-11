@@ -1,13 +1,15 @@
 #ifndef DIFFSCOPE_SYNTH_INTERNAL_METADATACONVERTER_H
 #define DIFFSCOPE_SYNTH_INTERNAL_METADATACONVERTER_H
 
+#include <QUuid>
+
 #include <synth/ServiceTypes.h>
 #include <synth/internal/Dtos.h>
 
 namespace Synth::Internal::MetadataConverter {
 
     ArchitectureMetadata architecture(const Api::V1::ArchitectureMetadata &source);
-    SingerMetadata singer(const Api::V1::SingerInfo &source);
+    SingerMetadata singer(const Api::V1::SingerInfo &source, const QUuid &serviceId);
     QJsonArray demos(const Api::V1::SingerDemoAudioList &source);
 
 }

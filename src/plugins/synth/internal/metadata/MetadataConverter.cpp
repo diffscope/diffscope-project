@@ -44,12 +44,17 @@ namespace Synth::Internal::MetadataConverter {
         return target;
     }
 
-    SingerMetadata singer(const Api::V1::SingerInfo &source) {
+    SingerMetadata singer(const Api::V1::SingerInfo &source, const QUuid &serviceId) {
         SingerMetadata target;
         target.setId(source.id);
         target.setArchitectureId(source.arch);
         target.setName(source.name);
-        target.setMixGroup(source.mixGroup);
+        QString mixGroup;
+        if (!source.mixGroup.isEmpty()) {
+            mixGroup = QStringLiteral("org.diffscope.synth:%1:%2")
+                           .arg(serviceId.toString(QUuid::WithoutBraces), source.mixGroup);
+        }
+        target.setMixGroup(mixGroup);
         target.setLanguages(source.languages);
         target.setDefaultLanguage(source.defaultLanguage);
         target.setArchitectureSpecificInfo(source.archSpecificInfo);

@@ -447,7 +447,7 @@ namespace Synth::Internal {
 
             state->refreshedSingers.clear();
             for (const auto &item : state->singersResult->value().items) {
-                auto converted = MetadataConverter::singer(item);
+                auto converted = MetadataConverter::singer(item, state->configuration.id());
                 const auto previous = previousSingers.constFind(singerKey(item.arch, item.id));
                 if (previous != previousSingers.cend()) {
                     converted.setAvatarUrl(previous->avatarUrl());
