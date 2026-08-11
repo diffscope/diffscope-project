@@ -16,6 +16,7 @@ namespace Synth {
         class SynthService;
     }
 
+    class SynthesisTaskManager;
     class SynthInterfacePrivate;
 
     class SYNTH_EXPORT SynthInterface : public QObject {
@@ -38,10 +39,10 @@ namespace Synth {
         QList<ServiceInstanceConfiguration> serviceInstances() const;
         ServiceInstanceDetails serviceInstanceDetails(const QUuid &id) const;
         bool containsServiceInstance(const QUuid &id) const;
+        SynthesisTaskManager *taskManager() const;
 
         BuiltinParameterRegistrationResult
-            registerBuiltinParameterConfiguration(const ParameterConfiguration &configuration,
-                                                  QString *errorMessage = nullptr);
+        registerBuiltinParameterConfiguration(const ParameterConfiguration &configuration, QString *errorMessage = nullptr);
         QList<ParameterConfiguration> builtinParameterConfigurations() const;
 
     signals:
@@ -57,6 +58,7 @@ namespace Synth {
         void setServiceInstanceDetails(const ServiceInstanceDetails &details);
         void removeServiceInstanceDetails(const QUuid &id);
         void clearParameterRuntime();
+        void setTaskManager(SynthesisTaskManager *taskManager);
 
         QScopedPointer<SynthInterfacePrivate> d_ptr;
     };

@@ -17,6 +17,7 @@
 #include <coreplugin/CoreInterface.h>
 
 #include <synth/SynthInterface.h>
+#include <synth/SynthesisTaskManager.h>
 #include <synth/internal/ApiClient.h>
 #include <synth/internal/CoreMetadataRegistry.h>
 #include <synth/internal/MetadataRefreshController.h>
@@ -33,7 +34,7 @@ namespace Synth::Internal {
         constexpr auto parameterFormat = "org.diffscope.synth.parameter-config";
         constexpr int schemaVersion = 1;
 
-        template<typename T>
+        template <typename T>
         void sortParameterConfigurations(QList<T> &configurations) {
             std::sort(configurations.begin(), configurations.end(), [](const auto &left, const auto &right) {
                 if (left.architectureId() != right.architectureId())
@@ -57,39 +58,37 @@ namespace Synth::Internal {
     SynthService::SynthService(QObject *parent)
         : QObject(parent),
           m_interface(new SynthInterface(this)),
+          m_taskManager(new SynthesisTaskManager(this)),
           m_apiClient(new Api::ApiClient(this)),
           m_metadataController(new MetadataRefreshController(m_apiClient, this)),
           m_coreRegistry(std::make_unique<CoreMetadataRegistry>(this)) {
         Q_ASSERT(!s_instance);
         s_instance = this;
+        m_interface->setTaskManager(m_taskManager);
 
-        connect(m_metadataController, &MetadataRefreshController::serviceDetailsChanged,
-                this, [this](const QUuid &serviceId) {
+        connect(m_metadataController, &MetadataRefreshController::serviceDetailsChanged, this, [this](const QUuid &serviceId) {
             const auto details = m_metadataController->serviceDetails(serviceId);
             if (details)
                 m_interface->setServiceInstanceDetails(*details);
             Q_EMIT serviceDetailsChanged(serviceId);
         });
-        connect(m_metadataController, &MetadataRefreshController::metadataChanged,
-                this, &SynthService::reconcileCoreMetadata);
-        connect(m_metadataController, &MetadataRefreshController::refreshingChanged,
-                this, &SynthService::refreshingChanged);
-        connect(m_metadataController, &MetadataRefreshController::serviceBecameUnhealthy,
-                this, [](const QString &serviceName, const QString &message) {
+        connect(m_metadataController, &MetadataRefreshController::metadataChanged, this, &SynthService::reconcileCoreMetadata);
+        connect(m_metadataController, &MetadataRefreshController::refreshingChanged, this, &SynthService::refreshingChanged);
+        connect(m_metadataController, &MetadataRefreshController::serviceBecameUnhealthy, this, [](const QString &serviceName, const QString &message) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
                 SynthService::tr("Synthesis service unavailable"),
-                SynthService::tr("%1: %2").arg(serviceName, message));
+                SynthService::tr("%1: %2").arg(serviceName, message)
+            );
         });
-        connect(m_metadataController, &MetadataRefreshController::metadataRefreshFailed,
-                this, [](const QString &serviceName, const QString &message) {
+        connect(m_metadataController, &MetadataRefreshController::metadataRefreshFailed, this, [](const QString &serviceName, const QString &message) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
                 SynthService::tr("Could not refresh singer metadata"),
-                SynthService::tr("%1: %2").arg(serviceName, message));
+                SynthService::tr("%1: %2").arg(serviceName, message)
+            );
         });
-        connect(m_interface, &SynthInterface::builtinParameterConfigurationsChanged,
-                this, [this] {
+        connect(m_interface, &SynthInterface::builtinParameterConfigurationsChanged, this, [this] {
             QSet<QString> builtinIds;
             for (const auto &configuration : m_interface->builtinParameterConfigurations())
                 builtinIds.insert(configuration.id());
@@ -131,18 +130,18 @@ namespace Synth::Internal {
         m_metadataController->setServices(m_services);
         m_initialized = true;
         qCInfo(lcSynthService) << "Initialized with" << m_services.size()
-                              << "DSSP service instance(s),"
-                              << m_interface->builtinParameterConfigurations().size()
-                              << "built-in parameter configuration(s), and"
-                              << m_userParameters.size() << "user parameter configuration(s)";
+                               << "DSSP service instance(s),"
+                               << m_interface->builtinParameterConfigurations().size()
+                               << "built-in parameter configuration(s), and"
+                               << m_userParameters.size() << "user parameter configuration(s)";
         return true;
     }
 
     void SynthService::startDelayedInitialization() {
         if (!m_initialized || m_shutdown) {
             qCDebug(lcSynthService) << "Delayed initialization skipped"
-                                   << "initialized=" << m_initialized
-                                   << "shutdown=" << m_shutdown;
+                                    << "initialized=" << m_initialized
+                                    << "shutdown=" << m_shutdown;
             return;
         }
         qCInfo(lcSynthService) << "Starting DSSP health and metadata refresh services";
@@ -155,6 +154,7 @@ namespace Synth::Internal {
         qCInfo(lcSynthService) << "Stopping DSSP requests and unregistering synthesis metadata";
         m_shutdown = true;
         m_metadataController->stop();
+        m_taskManager->shutdown();
         m_apiClient->shutdown();
         m_coreRegistry->clear();
         m_interface->clearParameterRuntime();
@@ -171,7 +171,8 @@ namespace Synth::Internal {
     }
 
     bool SynthService::replaceServiceConfigurations(
-        const QList<ServiceInstanceConfiguration> &configurations, QString *errorMessage) {
+        const QList<ServiceInstanceConfiguration> &configurations, QString *errorMessage
+    ) {
         QSet<QUuid> ids;
         for (qsizetype index = 0; index < configurations.size(); ++index) {
             QStringList errors;
@@ -192,7 +193,7 @@ namespace Synth::Internal {
             return true;
         }
         qCInfo(lcSynthService) << "Applying" << configurations.size()
-                              << "DSSP service configuration(s)";
+                               << "DSSP service configuration(s)";
         m_services = configurations;
         saveServices();
         m_interface->setServiceInstances(m_services);
@@ -223,7 +224,8 @@ namespace Synth::Internal {
     }
 
     bool SynthService::replaceUserParameterConfigurations(
-        const QList<ParameterConfiguration> &configurations, QString *errorMessage) {
+        const QList<ParameterConfiguration> &configurations, QString *errorMessage
+    ) {
         QSet<QString> builtinIds;
         for (const auto &configuration : m_interface->builtinParameterConfigurations())
             builtinIds.insert(configuration.id());
@@ -257,8 +259,7 @@ namespace Synth::Internal {
         return true;
     }
 
-    bool SynthService::importParameterConfigurations(const QJsonDocument &document,
-                                                     QString *errorMessage, QStringList *summary) {
+    bool SynthService::importParameterConfigurations(const QJsonDocument &document, QString *errorMessage, QStringList *summary) {
         if (!document.isObject()) {
             if (errorMessage)
                 *errorMessage = tr("The parameter configuration file must contain a JSON object.");
@@ -362,7 +363,7 @@ namespace Synth::Internal {
         if (servicesValid) {
             const auto root = servicesDocument.object();
             servicesValid = root.value(QStringLiteral("version")).toInt(-1) == schemaVersion &&
-                root.value(QStringLiteral("services")).isArray();
+                            root.value(QStringLiteral("services")).isArray();
             QSet<QUuid> ids;
             QList<ServiceInstanceConfiguration> loaded;
             if (servicesValid) {
@@ -423,8 +424,8 @@ namespace Synth::Internal {
         if (persistDefaultService)
             saveServices();
         qCInfo(lcSynthService) << "Loaded" << m_services.size()
-                              << "service configuration(s) and" << m_userParameters.size()
-                              << "user parameter configuration(s) from settings";
+                               << "service configuration(s) and" << m_userParameters.size()
+                               << "user parameter configuration(s) from settings";
     }
 
     void SynthService::saveServices() const {
@@ -460,10 +461,9 @@ namespace Synth::Internal {
         if (!m_initialized || m_shutdown)
             return;
         qCDebug(lcSynthService) << "Reconciling Core singer metadata from"
-                               << m_metadataController->serviceDetails().size()
-                               << "service cache(s)";
-        m_coreRegistry->reconcile(m_services, m_metadataController->serviceDetails(),
-                                  allParameterConfigurations());
+                                << m_metadataController->serviceDetails().size()
+                                << "service cache(s)";
+        m_coreRegistry->reconcile(m_services, m_metadataController->serviceDetails(), allParameterConfigurations());
     }
 
 }

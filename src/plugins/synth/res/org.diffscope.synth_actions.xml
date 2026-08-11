@@ -19,5 +19,20 @@
                 diffscope:uniquePanel="true"
                 diffscope:componentType="custom"
         />
+        <action
+                id="org.diffscope.synth.status"
+                text="Synthesis Status"
+                diffscope:componentType="widget"
+        />
     </items>
+
+    <insertions>
+        <insertion
+                target="org.diffscope.core.mainStatusBar"
+                anchor="before"
+                relativeTo="org.diffscope.core.selectionIndicator"
+        >
+            <action id="org.diffscope.synth.status" />
+        </insertion>
+    </insertions>
 </actionExtension>

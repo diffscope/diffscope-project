@@ -25,6 +25,14 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         coreplugin
         audio
+        dspxmodelCore
+        dspxmodelORM
+        dspxmodelPiece
+        dini::dini
+        opendspx::interpolator
+        opendspx::model
+        talcs::Core
+        talcs::Format
         svscraft::Core
         svscraft::Quick
         svscraft::QmlExtras

@@ -1,13 +1,14 @@
 #include "SynthInterface.h"
-#include "SynthInterface_p.h"
 
 #include <algorithm>
 #include <utility>
 
 #include <QSet>
 
+#include <synth/SynthesisTaskManager.h>
 #include <synth/internal/BuiltinParameterConfigurations.h>
 #include <synth/internal/ParameterRuntimeRegistry.h>
+#include <synth/private/SynthInterface_p.h>
 
 namespace Synth {
 
@@ -51,33 +52,38 @@ namespace Synth {
         ServiceInstanceDetails result;
         if (configuration != d->serviceInstances.cend()) {
             result.setConfiguration(*configuration);
-            result.setHealthStatus(configuration->isEnabled() ? ServiceInstanceDetails::Unknown
-                                                               : ServiceInstanceDetails::Disabled);
+            result.setHealthStatus(configuration->isEnabled() ? ServiceInstanceDetails::Unknown : ServiceInstanceDetails::Disabled);
         }
         return result;
     }
 
     bool SynthInterface::containsServiceInstance(const QUuid &id) const {
         Q_D(const SynthInterface);
-        return std::any_of(d->serviceInstances.cbegin(), d->serviceInstances.cend(),
-                           [&id](const auto &configuration) { return configuration.id() == id; });
+        return std::any_of(d->serviceInstances.cbegin(), d->serviceInstances.cend(), [&id](const auto &configuration) { return configuration.id() == id; });
+    }
+
+    SynthesisTaskManager *SynthInterface::taskManager() const {
+        Q_D(const SynthInterface);
+        return d->taskManager;
     }
 
     SynthInterface::BuiltinParameterRegistrationResult
-        SynthInterface::registerBuiltinParameterConfiguration(const ParameterConfiguration &configuration,
-                                                              QString *errorMessage) {
+    SynthInterface::registerBuiltinParameterConfiguration(const ParameterConfiguration &configuration, QString *errorMessage) {
         Q_D(SynthInterface);
         if (configuration.id() == QStringLiteral("pitch")) {
-            if (errorMessage) *errorMessage = tr("pitch is reserved and cannot be configured");
+            if (errorMessage)
+                *errorMessage = tr("pitch is reserved and cannot be configured");
             return ReservedPitch;
         }
         QStringList errors;
         if (!configuration.validate(&errors)) {
-            if (errorMessage) *errorMessage = errors.join(u'\n');
+            if (errorMessage)
+                *errorMessage = errors.join(u'\n');
             return Invalid;
         }
         if (d->builtinParameters.contains(configuration.id())) {
-            if (errorMessage) *errorMessage = tr("A built-in parameter with this id is already registered");
+            if (errorMessage)
+                *errorMessage = tr("A built-in parameter with this id is already registered");
             return AlreadyRegistered;
         }
         d->builtinParameters.insert(configuration.id(), configuration);
@@ -145,6 +151,11 @@ namespace Synth {
 
     void SynthInterface::clearParameterRuntime() {
         Internal::ParameterRuntimeRegistry::instance().clear();
+    }
+
+    void SynthInterface::setTaskManager(SynthesisTaskManager *taskManager) {
+        Q_D(SynthInterface);
+        d->taskManager = taskManager;
     }
 
 }

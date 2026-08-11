@@ -18,6 +18,7 @@ namespace Synth {
         QList<ServiceInstanceConfiguration> serviceInstances;
         QHash<QUuid, ServiceInstanceDetails> serviceDetails;
         QMap<QString, ParameterConfiguration> builtinParameters;
+        SynthesisTaskManager *taskManager{};
     };
 
 }

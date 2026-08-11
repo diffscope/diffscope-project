@@ -10,6 +10,14 @@ namespace Synth::Internal {
 
     class SynthService;
 
+}
+
+namespace Synth {
+    class SynthesisTaskManager;
+}
+
+namespace Synth::Internal {
+
     class ServiceStatusModel final : public QAbstractListModel {
         Q_OBJECT
     public:
@@ -22,6 +30,9 @@ namespace Synth::Internal {
             HealthIconRole,
             ErrorMessageRole,
             LastHealthCheckRole,
+            RunningTaskCountRole,
+            QueuedTaskCountRole,
+            TasksRole,
         };
         Q_ENUM(Role)
 
@@ -34,10 +45,12 @@ namespace Synth::Internal {
     private Q_SLOTS:
         void rebuild();
         void updateService(const QUuid &serviceId);
+        void updateServiceTasks(const QUuid &serviceId);
 
     private:
         SynthService *m_service{};
         QList<ServiceInstanceConfiguration> m_configurations;
+        SynthesisTaskManager *m_taskManager{};
     };
 
 }

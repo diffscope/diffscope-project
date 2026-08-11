@@ -11,6 +11,7 @@
 
 namespace Synth {
     class SynthInterface;
+    class SynthesisTaskManager;
 }
 
 namespace Synth::Internal {
@@ -36,15 +37,12 @@ namespace Synth::Internal {
 
         QList<ServiceInstanceConfiguration> serviceConfigurations() const;
         ServiceInstanceDetails serviceInstanceDetails(const QUuid &serviceId) const;
-        bool replaceServiceConfigurations(const QList<ServiceInstanceConfiguration> &configurations,
-                                          QString *errorMessage = nullptr);
+        bool replaceServiceConfigurations(const QList<ServiceInstanceConfiguration> &configurations, QString *errorMessage = nullptr);
 
         QList<ParameterConfiguration> allParameterConfigurations() const;
         QList<ParameterConfiguration> userParameterConfigurations() const;
-        bool replaceUserParameterConfigurations(const QList<ParameterConfiguration> &configurations,
-                                                QString *errorMessage = nullptr);
-        bool importParameterConfigurations(const QJsonDocument &document, QString *errorMessage = nullptr,
-                                           QStringList *summary = nullptr);
+        bool replaceUserParameterConfigurations(const QList<ParameterConfiguration> &configurations, QString *errorMessage = nullptr);
+        bool importParameterConfigurations(const QJsonDocument &document, QString *errorMessage = nullptr, QStringList *summary = nullptr);
         QJsonDocument exportParameterConfigurations() const;
 
         bool refreshing() const;
@@ -66,6 +64,7 @@ namespace Synth::Internal {
 
         static SynthService *s_instance;
         SynthInterface *m_interface{};
+        SynthesisTaskManager *m_taskManager{};
         Api::ApiClient *m_apiClient{};
         MetadataRefreshController *m_metadataController{};
         std::unique_ptr<CoreMetadataRegistry> m_coreRegistry;

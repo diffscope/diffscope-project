@@ -8,16 +8,19 @@
 #include <QUrl>
 
 #include <synth/ServiceTypes.h>
+#include <synth/SynthInterface.h>
+#include <synth/SynthesisTask.h>
+#include <synth/SynthesisTaskManager.h>
 #include <synth/internal/SynthService.h>
 
 namespace Synth::Internal {
 
     ServiceStatusModel::ServiceStatusModel(SynthService *service, QObject *parent)
-        : QAbstractListModel(parent), m_service(service) {
-        connect(m_service, &SynthService::serviceConfigurationsChanged,
-                this, &ServiceStatusModel::rebuild);
-        connect(m_service, &SynthService::serviceDetailsChanged,
-                this, &ServiceStatusModel::updateService);
+        : QAbstractListModel(parent), m_service(service),
+          m_taskManager(SynthInterface::instance()->taskManager()) {
+        connect(m_service, &SynthService::serviceConfigurationsChanged, this, &ServiceStatusModel::rebuild);
+        connect(m_service, &SynthService::serviceDetailsChanged, this, &ServiceStatusModel::updateService);
+        connect(m_taskManager, &SynthesisTaskManager::serviceTaskCountsChanged, this, &ServiceStatusModel::updateServiceTasks);
         rebuild();
     }
 
@@ -73,6 +76,24 @@ namespace Synth::Internal {
                 return details.lastHealthCheck().isValid()
                            ? QLocale().toString(details.lastHealthCheck().toLocalTime(), QLocale::ShortFormat)
                            : QString{};
+            case RunningTaskCountRole:
+                return static_cast<int>(std::ranges::count_if(
+                    m_taskManager->tasksForService(configuration.id()), [](SynthesisTask *task) {
+                        return task->state() == SynthesisTask::Running;
+                    }
+                ));
+            case QueuedTaskCountRole:
+                return static_cast<int>(std::ranges::count_if(
+                    m_taskManager->tasksForService(configuration.id()), [](SynthesisTask *task) {
+                        return task->state() == SynthesisTask::Queued;
+                    }
+                ));
+            case TasksRole: {
+                QVariantList result;
+                for (auto task : m_taskManager->tasksForService(configuration.id()))
+                    result.append(QVariant::fromValue(task));
+                return result;
+            }
             default:
                 return {};
         }
@@ -88,6 +109,9 @@ namespace Synth::Internal {
             {HealthIconRole, "healthIcon"},
             {ErrorMessageRole, "errorMessage"},
             {LastHealthCheckRole, "lastHealthCheck"},
+            {RunningTaskCountRole, "runningTaskCount"},
+            {QueuedTaskCountRole, "queuedTaskCount"},
+            {TasksRole, "tasks"},
         };
     }
 
@@ -106,14 +130,25 @@ namespace Synth::Internal {
         const int row = static_cast<int>(std::distance(m_configurations.begin(), found));
         const auto index = createIndex(row, 0);
         Q_EMIT dataChanged(index, index, {
-            NameRole,
-            BaseUrlRole,
-            HealthStatusRole,
-            HealthTextRole,
-            HealthIconRole,
-            ErrorMessageRole,
-            LastHealthCheckRole,
+                                             NameRole,
+                                             BaseUrlRole,
+                                             HealthStatusRole,
+                                             HealthTextRole,
+                                             HealthIconRole,
+                                             ErrorMessageRole,
+                                             LastHealthCheckRole,
+                                         });
+    }
+
+    void ServiceStatusModel::updateServiceTasks(const QUuid &serviceId) {
+        const auto found = std::ranges::find_if(m_configurations, [&serviceId](const auto &configuration) {
+            return configuration.id() == serviceId;
         });
+        if (found == m_configurations.cend())
+            return;
+        const int row = static_cast<int>(std::distance(m_configurations.begin(), found));
+        const auto item = createIndex(row, 0);
+        Q_EMIT dataChanged(item, item, {RunningTaskCountRole, QueuedTaskCountRole, TasksRole});
     }
 
 }
