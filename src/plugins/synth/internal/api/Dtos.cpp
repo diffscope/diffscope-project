@@ -380,9 +380,26 @@ bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata
 QJsonValue ArchitectureMetadataList::toJson() const { return dtoListToJson(items); }
 
 bool ArchitectureMetadataList::fromJson(const QJsonValue &json, ArchitectureMetadataList &value,
-                                        QString *errorMessage) {
+                                         QString *errorMessage) {
     ArchitectureMetadataList result;
     if (!readDtoListValue(json, result.items, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SingerLanguageInfo::toJson() const {
+    return QJsonObject{{QStringLiteral("name"), name},
+                       {QStringLiteral("default_lyric"), defaultLyric}};
+}
+
+bool SingerLanguageInfo::fromJson(const QJsonValue &json, SingerLanguageInfo &value,
+                                  QString *errorMessage) {
+    QJsonObject object;
+    SingerLanguageInfo result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "name", result.name, errorMessage)
+        || !readString(object, "default_lyric", result.defaultLyric, errorMessage))
         return false;
     value = std::move(result);
     return true;
@@ -393,7 +410,7 @@ QJsonValue SingerInfo::toJson() const {
                        {QStringLiteral("name"), name},
                        {QStringLiteral("arch"), arch},
                        {QStringLiteral("mix_group"), mixGroup},
-                       {QStringLiteral("languages"), stringListToJson(languages)},
+                       {QStringLiteral("languages"), dtoMapToJson(languages)},
                        {QStringLiteral("default_language"), defaultLanguage},
                        {QStringLiteral("arch_specific_info"), archSpecificInfo},
                        {QStringLiteral("default_extra"), defaultExtra}};
@@ -406,7 +423,7 @@ bool SingerInfo::fromJson(const QJsonValue &json, SingerInfo &value, QString *er
         || !readString(object, "name", result.name, errorMessage)
         || !readString(object, "arch", result.arch, errorMessage)
         || !readString(object, "mix_group", result.mixGroup, errorMessage)
-        || !readStringList(object, "languages", result.languages, errorMessage)
+        || !readDtoMap(object, "languages", result.languages, errorMessage)
         || !readString(object, "default_language", result.defaultLanguage, errorMessage)
         || !readAny(object, "arch_specific_info", result.archSpecificInfo, errorMessage)
         || !readAny(object, "default_extra", result.defaultExtra, errorMessage))

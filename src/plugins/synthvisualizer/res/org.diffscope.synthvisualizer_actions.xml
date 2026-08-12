@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.synthvisualizer</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
+        <translationContext
+                text="Application::ActionText"
+                class="Application::ActionClass"
+                description="Application::ActionDescription"
+        />
+        <vars>
+            <var key="APP_NAME" value="DiffScope" />
+        </vars>
+    </configuration>
+
+    <items>
+        <action
+                id="org.diffscope.synthvisualizer.pianoRollPanel.additionalTracks.synthesisPieces"
+                catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets"
+                text="Synthesis Pieces"
+                icon=""
+                diffscope:componentType="custom"
+        />
+    </items>
+
+    <layouts>
+    </layouts>
+
+    <insertions>
+    </insertions>
+</actionExtension>

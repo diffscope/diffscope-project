@@ -14,10 +14,10 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <synth/internal/ArchitecturePage.h>
 #include <synth/internal/ParametersPage.h>
 #include <synth/internal/ServicesPage.h>
 #include <synth/internal/SynthService.h>
-#include <synth/internal/SynthesisOptionsPage.h>
 #include <synth/internal/SynthesisPage.h>
 #include <synth/internal/SynthesisProjectAddOn.h>
 #include <synth/internal/SynthesisServicePanelAddOn.h>
@@ -49,7 +49,7 @@ namespace Synth::Internal {
         }
 
         auto rootPage = new SynthesisPage;
-        rootPage->addPage(new SynthesisOptionsPage);
+        rootPage->addPage(new ArchitecturePage);
         rootPage->addPage(new ServicesPage(m_service));
         rootPage->addPage(new ParametersPage(m_service));
         Core::CoreInterface::settingCatalog()->addPage(rootPage);

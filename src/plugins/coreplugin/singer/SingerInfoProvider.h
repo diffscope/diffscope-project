@@ -2,6 +2,7 @@
 #define DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_H
 
 #include <QObject>
+#include <QVariantList>
 #include <qqmlintegration.h>
 
 #include <coreplugin/coreglobal.h>
@@ -20,6 +21,7 @@ namespace Core {
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId NOTIFY architectureIdChanged)
         Q_PROPERTY(QString singerId READ singerId WRITE setSingerId NOTIFY singerIdChanged)
         Q_PROPERTY(SingerInfo info READ info NOTIFY infoChanged)
+        Q_PROPERTY(QVariantList languageOptions READ languageOptions NOTIFY languageOptionsChanged)
         Q_PROPERTY(bool exists READ exists NOTIFY existsChanged)
 
     public:
@@ -36,6 +38,7 @@ namespace Core {
         void setSingerId(const QString &singerId);
 
         SingerInfo info() const;
+        QVariantList languageOptions() const;
         bool exists() const;
 
     Q_SIGNALS:
@@ -43,6 +46,7 @@ namespace Core {
         void architectureIdChanged(const QString &architectureId);
         void singerIdChanged(const QString &singerId);
         void infoChanged(const SingerInfo &info);
+        void languageOptionsChanged();
         void existsChanged(bool exists);
 
     private:

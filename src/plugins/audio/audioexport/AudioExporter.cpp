@@ -628,6 +628,16 @@ namespace Audio {
                 }
             });
 
+            for (const auto listener : s_listeners) {
+                if (!listener->willStartCallback(this)) {
+                    if (d->error == NoError) {
+                        d->setError(ExporterFailed, tr("Audio export was rejected by a listener."));
+                    }
+                    return R_Fail;
+                }
+                listenerToCallFinishList.prepend(listener);
+            }
+
             const auto currentBufferSize = projectContext->preMixer()->bufferSize();
             const auto currentSampleRate = projectContext->preMixer()->sampleRate();
             const auto reopenMixerGuard = makeScopeGuard([&] {
@@ -639,16 +649,6 @@ namespace Audio {
             if (!projectContext->preMixer()->open(1024, d->config.formatSampleRate())) {
                 d->setError(CannotStartExport);
                 return R_Fail;
-            }
-
-            for (const auto listener : s_listeners) {
-                if (!listener->willStartCallback(this)) {
-                    if (d->error == NoError) {
-                        d->setError(ExporterFailed, tr("Audio export was rejected by a listener."));
-                    }
-                    return R_Fail;
-                }
-                listenerToCallFinishList.prepend(listener);
             }
 
             connect(&exporter, &talcs::DspxProjectAudioExporter::progressChanged, this, [sourceIndexMap, this](double progressRatio, talcs::DspxTrackContext *track) {

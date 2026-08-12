@@ -45,6 +45,7 @@ namespace Synth::Internal {
         bool importParameterConfigurations(const QJsonDocument &document, QString *errorMessage = nullptr, QStringList *summary = nullptr);
         QJsonDocument exportParameterConfigurations() const;
 
+        bool managesArchitecture(const QString &architectureId) const;
         bool refreshing() const;
 
     public Q_SLOTS:
@@ -54,6 +55,7 @@ namespace Synth::Internal {
         void serviceConfigurationsChanged();
         void parameterConfigurationsChanged();
         void serviceDetailsChanged(const QUuid &serviceId);
+        void managedArchitecturesChanged();
         void refreshingChanged();
 
     private:

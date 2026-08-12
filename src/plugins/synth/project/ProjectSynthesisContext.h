@@ -39,8 +39,17 @@ namespace Synth {
         static ProjectSynthesisContext *of(Core::ProjectWindowInterface *windowHandle);
 
         Core::ProjectWindowInterface *windowHandle() const;
+        /**
+         * Returns all document pieces known to the synthesis scheduler.
+         *
+         * This includes pieces outside their clips' current clipStart/clipLength
+         * ranges. Such pieces remain available for inspection but are not sent
+         * to synthesis tasks until they intersect the current clip range.
+         */
         QList<SynthesisPiece *> pieces() const;
+        /** Returns every ordered piece of a clip, including pieces outside its current clip range. */
         QList<SynthesisPiece *> piecesForClip(dspx::SingingClip *clip) const;
+        /** Returns pieces intersecting a clip-content-relative range. */
         QList<SynthesisPiece *> piecesInRange(dspx::SingingClip *clip, double position, double length) const;
         int synthesizingPieceCount() const;
         int queuedPieceCount() const;

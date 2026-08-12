@@ -184,6 +184,22 @@ namespace Synth {
         QSharedDataPointer<ArchitectureMetadataData> d;
     };
 
+    struct SYNTH_EXPORT SingerLanguageMetadata {
+        Q_GADGET
+        Q_PROPERTY(QString name MEMBER name)
+        Q_PROPERTY(QString defaultLyric MEMBER defaultLyric)
+
+    public:
+        QString name;
+        QString defaultLyric;
+
+        QJsonObject toJson() const;
+        static bool fromJson(const QJsonObject &object, SingerLanguageMetadata *result,
+                             QString *errorMessage = nullptr);
+        bool operator==(const SingerLanguageMetadata &) const = default;
+        bool operator!=(const SingerLanguageMetadata &) const = default;
+    };
+
     class SingerMetadataData;
 
     class SYNTH_EXPORT SingerMetadata {
@@ -192,7 +208,7 @@ namespace Synth {
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId)
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QString mixGroup READ mixGroup WRITE setMixGroup)
-        Q_PROPERTY(QStringList languages READ languages WRITE setLanguages)
+        Q_PROPERTY(LanguageMap languages READ languages WRITE setLanguages)
         Q_PROPERTY(QString defaultLanguage READ defaultLanguage WRITE setDefaultLanguage)
         Q_PROPERTY(QJsonValue architectureSpecificInfo READ architectureSpecificInfo WRITE setArchitectureSpecificInfo)
         Q_PROPERTY(QJsonValue defaultExtra READ defaultExtra WRITE setDefaultExtra)
@@ -202,6 +218,8 @@ namespace Synth {
         Q_PROPERTY(QJsonObject extra READ extra WRITE setExtra)
 
     public:
+        using LanguageMap = QMap<QString, SingerLanguageMetadata>;
+
         SingerMetadata();
         SingerMetadata(const SingerMetadata &other);
         SingerMetadata(SingerMetadata &&other) noexcept;
@@ -217,8 +235,8 @@ namespace Synth {
         void setName(const QString &name);
         QString mixGroup() const;
         void setMixGroup(const QString &mixGroup);
-        QStringList languages() const;
-        void setLanguages(const QStringList &languages);
+        LanguageMap languages() const;
+        void setLanguages(const LanguageMap &languages);
         QString defaultLanguage() const;
         void setDefaultLanguage(const QString &language);
         QJsonValue architectureSpecificInfo() const;
@@ -339,6 +357,8 @@ namespace Synth {
 Q_DECLARE_METATYPE(Synth::ServiceInstanceConfiguration)
 Q_DECLARE_METATYPE(Synth::ParameterMetadata)
 Q_DECLARE_METATYPE(Synth::ArchitectureMetadata)
+Q_DECLARE_METATYPE(Synth::SingerLanguageMetadata)
+Q_DECLARE_METATYPE(Synth::SingerMetadata::LanguageMap)
 Q_DECLARE_METATYPE(Synth::SingerMetadata)
 Q_DECLARE_METATYPE(Synth::ServiceMetadata)
 Q_DECLARE_METATYPE(Synth::ServiceInstanceDetails)

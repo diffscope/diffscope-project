@@ -2,10 +2,10 @@
 #define DIFFSCOPE_COREPLUGIN_SINGERINFO_H
 
 #include <QJsonValue>
+#include <QMap>
 #include <QMetaType>
 #include <QSharedDataPointer>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
 #include <QVariant>
 
@@ -15,18 +15,33 @@ namespace Core {
 
     class SingerInfoData;
 
+    struct CORE_EXPORT SingerLanguageInfo {
+        Q_GADGET
+        Q_PROPERTY(QString name MEMBER name)
+        Q_PROPERTY(QString defaultLyric MEMBER defaultLyric)
+
+    public:
+        QString name;
+        QString defaultLyric;
+
+        bool operator==(const SingerLanguageInfo &) const = default;
+        bool operator!=(const SingerLanguageInfo &) const = default;
+    };
+
     class CORE_EXPORT SingerInfo {
         Q_GADGET
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
         Q_PROPERTY(QUrl backgroundUrl READ backgroundUrl WRITE setBackgroundUrl)
         Q_PROPERTY(QString defaultLanguage READ defaultLanguage WRITE setDefaultLanguage)
-        Q_PROPERTY(QStringList languages READ languages WRITE setLanguages)
+        Q_PROPERTY(LanguageMap languages READ languages WRITE setLanguages)
         Q_PROPERTY(QString mixGroup READ mixGroup WRITE setMixGroup)
         Q_PROPERTY(QVariant userData READ userData WRITE setUserData)
         Q_PROPERTY(QJsonValue defaultExtra READ defaultExtra WRITE setDefaultExtra)
 
     public:
+        using LanguageMap = QMap<QString, SingerLanguageInfo>;
+
         SingerInfo();
         SingerInfo(const SingerInfo &other);
         SingerInfo(SingerInfo &&other) noexcept;
@@ -46,8 +61,8 @@ namespace Core {
         QString defaultLanguage() const;
         void setDefaultLanguage(const QString &defaultLanguage);
 
-        QStringList languages() const;
-        void setLanguages(const QStringList &languages);
+        LanguageMap languages() const;
+        void setLanguages(const LanguageMap &languages);
 
         QString mixGroup() const;
         void setMixGroup(const QString &mixGroup);
@@ -67,6 +82,8 @@ namespace Core {
 
 }
 
+Q_DECLARE_METATYPE(Core::SingerLanguageInfo)
+Q_DECLARE_METATYPE(Core::SingerInfo::LanguageMap)
 Q_DECLARE_METATYPE(Core::SingerInfo)
 
 #endif // DIFFSCOPE_COREPLUGIN_SINGERINFO_H

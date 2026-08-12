@@ -13,7 +13,7 @@ namespace Core {
         QUrl avatarUrl;
         QUrl backgroundUrl;
         QString defaultLanguage;
-        QStringList languages;
+        SingerInfo::LanguageMap languages;
         QString mixGroup;
         QVariant userData;
         QJsonValue defaultExtra;

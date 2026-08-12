@@ -83,6 +83,15 @@ namespace Synth::Internal::Api::V1 {
         SYNTH_DSSP_JSON_MEMBERS(ArchitectureMetadataList);
     };
 
+    struct SingerLanguageInfo {
+        Q_GADGET
+    public:
+        QString name;
+        QString defaultLyric;
+
+        SYNTH_DSSP_JSON_MEMBERS(SingerLanguageInfo);
+    };
+
     struct SingerInfo {
         Q_GADGET
     public:
@@ -90,7 +99,7 @@ namespace Synth::Internal::Api::V1 {
         QString name;
         QString arch;
         QString mixGroup;
-        QStringList languages;
+        QMap<QString, SingerLanguageInfo> languages;
         QString defaultLanguage;
         QJsonValue archSpecificInfo;
         QJsonValue defaultExtra;

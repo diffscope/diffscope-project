@@ -1,5 +1,6 @@
 #include "SingerInfo.h"
-#include "SingerInfo_p.h"
+
+#include <coreplugin/private/SingerInfo_p.h>
 
 namespace Core {
 
@@ -48,11 +49,11 @@ namespace Core {
         d->defaultLanguage = defaultLanguage;
     }
 
-    QStringList SingerInfo::languages() const {
+    SingerInfo::LanguageMap SingerInfo::languages() const {
         return d->languages;
     }
 
-    void SingerInfo::setLanguages(const QStringList &languages) {
+    void SingerInfo::setLanguages(const LanguageMap &languages) {
         d->languages = languages;
     }
 

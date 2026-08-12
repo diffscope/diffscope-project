@@ -55,7 +55,14 @@ namespace Synth::Internal::MetadataConverter {
                            .arg(serviceId.toString(QUuid::WithoutBraces), source.mixGroup);
         }
         target.setMixGroup(mixGroup);
-        target.setLanguages(source.languages);
+        SingerMetadata::LanguageMap languages;
+        for (auto it = source.languages.cbegin(); it != source.languages.cend(); ++it) {
+            SingerLanguageMetadata language;
+            language.name = it->name;
+            language.defaultLyric = it->defaultLyric;
+            languages.insert(it.key(), language);
+        }
+        target.setLanguages(languages);
         target.setDefaultLanguage(source.defaultLanguage);
         target.setArchitectureSpecificInfo(source.archSpecificInfo);
         target.setDefaultExtra(source.defaultExtra);

@@ -54,7 +54,7 @@ namespace Synth::Internal {
     }
 
     QString ParametersPage::sortKeyword() const {
-        return QStringLiteral("02Parameters");
+        return QStringLiteral("03Parameters");
     }
 
     bool ParametersPage::matches(const QString &word) {

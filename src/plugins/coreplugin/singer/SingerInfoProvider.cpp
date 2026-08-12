@@ -1,9 +1,11 @@
 #include "SingerInfoProvider.h"
-#include "SingerInfoProvider_p.h"
 
 #include <utility>
 
+#include <QVariantMap>
+
 #include <coreplugin/SingerRegistry.h>
+#include <coreplugin/private/SingerInfoProvider_p.h>
 
 namespace Core {
 
@@ -13,7 +15,8 @@ namespace Core {
         const SingerInfo newInfo = newExists ? registry->singerInfo(architectureId, singerId) : SingerInfo{};
         if (info != newInfo) {
             info = newInfo;
-            emit q->infoChanged(info);
+            Q_EMIT q->infoChanged(info);
+            Q_EMIT q->languageOptionsChanged();
         }
         if (exists != newExists) {
             exists = newExists;
@@ -102,6 +105,31 @@ namespace Core {
     SingerInfo SingerInfoProvider::info() const {
         Q_D(const SingerInfoProvider);
         return d->info;
+    }
+
+    QVariantList SingerInfoProvider::languageOptions() const {
+        Q_D(const SingerInfoProvider);
+        const auto languages = d->info.languages();
+        QVariantList result;
+        result.reserve(languages.size());
+
+        const auto appendOption = [&result](auto it) {
+            result.append(QVariantMap{
+                {QStringLiteral("text"), it->name.isEmpty() ? it.key() : it->name},
+                {QStringLiteral("value"), it.key()},
+            });
+        };
+
+        const auto defaultIt = d->info.defaultLanguage().isEmpty()
+                                   ? languages.cend()
+                                   : languages.constFind(d->info.defaultLanguage());
+        if (defaultIt != languages.cend())
+            appendOption(defaultIt);
+        for (auto it = languages.cbegin(); it != languages.cend(); ++it) {
+            if (it != defaultIt)
+                appendOption(it);
+        }
+        return result;
     }
 
     bool SingerInfoProvider::exists() const {

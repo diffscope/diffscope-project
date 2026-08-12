@@ -54,7 +54,7 @@ namespace Synth {
         QString architectureId;
         QString name;
         QString mixGroup;
-        QStringList languages;
+        SingerMetadata::LanguageMap languages;
         QString defaultLanguage;
         QJsonValue architectureSpecificInfo;
         QJsonValue defaultExtra;

@@ -28,7 +28,7 @@ namespace Synth::Internal {
     }
 
     QString ServicesPage::sortKeyword() const {
-        return QStringLiteral("01Services");
+        return QStringLiteral("02Services");
     }
 
     bool ServicesPage::matches(const QString &word) {

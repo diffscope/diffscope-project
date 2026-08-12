@@ -65,6 +65,8 @@ namespace Synth::Internal {
         Q_ASSERT(!s_instance);
         s_instance = this;
         m_interface->setTaskManager(m_taskManager);
+        connect(m_coreRegistry.get(), &CoreMetadataRegistry::managedArchitecturesChanged,
+                this, &SynthService::managedArchitecturesChanged);
 
         connect(m_metadataController, &MetadataRefreshController::serviceDetailsChanged, this, [this](const QUuid &serviceId) {
             const auto details = m_metadataController->serviceDetails(serviceId);
@@ -221,6 +223,10 @@ namespace Synth::Internal {
 
     QList<ParameterConfiguration> SynthService::userParameterConfigurations() const {
         return m_userParameters;
+    }
+
+    bool SynthService::managesArchitecture(const QString &architectureId) const {
+        return m_coreRegistry && m_coreRegistry->managesArchitecture(architectureId);
     }
 
     bool SynthService::replaceUserParameterConfigurations(

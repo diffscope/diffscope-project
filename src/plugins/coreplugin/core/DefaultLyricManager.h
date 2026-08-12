@@ -25,6 +25,7 @@ namespace Core {
         ~DefaultLyricManager() override;
 
         Q_INVOKABLE QString getDefaultLyricForSingingClip(dspx::SingingClip *targetSingingClip) const;
+        Q_INVOKABLE QString getDefaultLanguageForSingingClip(dspx::SingingClip *targetSingingClip) const;
 
     private:
         QScopedPointer<DefaultLyricManagerPrivate> d_ptr;

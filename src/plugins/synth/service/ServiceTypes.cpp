@@ -427,6 +427,27 @@ namespace Synth {
     bool ArchitectureMetadata::operator==(const ArchitectureMetadata &other) const { return d.constData() == other.d.constData() || toJson() == other.toJson(); }
     bool ArchitectureMetadata::operator!=(const ArchitectureMetadata &other) const { return !(*this == other); }
 
+    QJsonObject SingerLanguageMetadata::toJson() const {
+        return {
+            {QStringLiteral("name"), name},
+            {QStringLiteral("defaultLyric"), defaultLyric},
+        };
+    }
+
+    bool SingerLanguageMetadata::fromJson(const QJsonObject &object,
+                                          SingerLanguageMetadata *result,
+                                          QString *errorMessage) {
+        if (!result)
+            return false;
+        SingerLanguageMetadata value;
+        if (!readRequiredString(object, QStringLiteral("name"), &value.name, errorMessage) ||
+            !readRequiredString(object, QStringLiteral("defaultLyric"), &value.defaultLyric, errorMessage)) {
+            return false;
+        }
+        *result = std::move(value);
+        return true;
+    }
+
     SingerMetadata::SingerMetadata() : d(new SingerMetadataData) {}
     SingerMetadata::SingerMetadata(const SingerMetadata &other) = default;
     SingerMetadata::SingerMetadata(SingerMetadata &&other) noexcept = default;
@@ -441,8 +462,8 @@ namespace Synth {
     void SingerMetadata::setName(const QString &name) { d->name = name; }
     QString SingerMetadata::mixGroup() const { return d->mixGroup; }
     void SingerMetadata::setMixGroup(const QString &group) { d->mixGroup = group; }
-    QStringList SingerMetadata::languages() const { return d->languages; }
-    void SingerMetadata::setLanguages(const QStringList &languages) { d->languages = languages; }
+    SingerMetadata::LanguageMap SingerMetadata::languages() const { return d->languages; }
+    void SingerMetadata::setLanguages(const LanguageMap &languages) { d->languages = languages; }
     QString SingerMetadata::defaultLanguage() const { return d->defaultLanguage; }
     void SingerMetadata::setDefaultLanguage(const QString &language) { d->defaultLanguage = language; }
     QJsonValue SingerMetadata::architectureSpecificInfo() const { return d->architectureSpecificInfo; }
@@ -458,9 +479,12 @@ namespace Synth {
     QJsonObject SingerMetadata::extra() const { return d->extra; }
     void SingerMetadata::setExtra(const QJsonObject &extra) { d->extra = extra; }
     QJsonObject SingerMetadata::toJson() const {
+        QJsonObject languages;
+        for (auto it = d->languages.cbegin(); it != d->languages.cend(); ++it)
+            languages.insert(it.key(), it->toJson());
         return {{QStringLiteral("id"), d->id}, {QStringLiteral("architectureId"), d->architectureId},
                 {QStringLiteral("name"), d->name}, {QStringLiteral("mixGroup"), d->mixGroup},
-                {QStringLiteral("languages"), stringListToJson(d->languages)},
+                {QStringLiteral("languages"), languages},
                 {QStringLiteral("defaultLanguage"), d->defaultLanguage},
                 {QStringLiteral("architectureSpecificInfo"), serializableJsonValue(d->architectureSpecificInfo)},
                 {QStringLiteral("defaultExtra"), serializableJsonValue(d->defaultExtra)},
@@ -480,12 +504,26 @@ namespace Synth {
             !readRequiredString(object, QStringLiteral("defaultLanguage"), &value.d->defaultLanguage, errorMessage) ||
             !readRequiredString(object, QStringLiteral("avatarUrl"), &avatar, errorMessage) ||
             !readRequiredString(object, QStringLiteral("backgroundUrl"), &background, errorMessage) ||
-            !object.value(QStringLiteral("demos")).isArray() || !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, QStringLiteral("Invalid singer metadata")); return false;
+            !object.value(QStringLiteral("languages")).isObject() ||
+            !object.value(QStringLiteral("demos")).isArray() ||
+            !object.value(QStringLiteral("extra")).isObject()) {
+            setError(errorMessage, QStringLiteral("Invalid singer metadata"));
+            return false;
         }
-        bool ok{};
-        value.d->languages = stringListFromJson(object.value(QStringLiteral("languages")), &ok);
-        if (!ok) return false;
+        const auto languages = object.value(QStringLiteral("languages")).toObject();
+        for (auto it = languages.constBegin(); it != languages.constEnd(); ++it) {
+            if (!it->isObject()) {
+                setError(errorMessage, QStringLiteral("Singer language '%1' must be an object").arg(it.key()));
+                return false;
+            }
+            SingerLanguageMetadata language;
+            QString languageError;
+            if (!SingerLanguageMetadata::fromJson(it->toObject(), &language, &languageError)) {
+                setError(errorMessage, QStringLiteral("Singer language '%1': %2").arg(it.key(), languageError));
+                return false;
+            }
+            value.d->languages.insert(it.key(), language);
+        }
         value.d->architectureSpecificInfo = object.value(QStringLiteral("architectureSpecificInfo"));
         value.d->defaultExtra = object.value(QStringLiteral("defaultExtra"));
         value.d->avatarUrl = QUrl(avatar);

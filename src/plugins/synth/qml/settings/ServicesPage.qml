@@ -203,26 +203,17 @@ Item {
                         width: parent.width
                         spacing: 12
 
-                        ColumnLayout {
+                        GroupBox {
                             Layout.fillWidth: true
                             Layout.leftMargin: 12
                             Layout.rightMargin: 12
-                            spacing: 8
-
-                            Label {
-                                Layout.fillWidth: true
-                                text: qsTr("Connection")
-                                font.weight: Font.DemiBold
-                            }
-
-                            Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: 1
-                                color: Theme.borderColor
+                            title: qsTr("Connection")
+                            TextMatcherItem on title {
+                                matcher: page.matcher
                             }
 
                             GridLayout {
-                                Layout.fillWidth: true
+                                anchors.fill: parent
                                 columns: 2
                                 columnSpacing: 12
                                 rowSpacing: 8
@@ -285,26 +276,17 @@ Item {
                             }
                         }
 
-                        ColumnLayout {
+                        GroupBox {
                             Layout.fillWidth: true
                             Layout.leftMargin: 12
                             Layout.rightMargin: 12
-                            spacing: 8
-
-                            Label {
-                                Layout.fillWidth: true
-                                text: qsTr("Authentication")
-                                font.weight: Font.DemiBold
-                            }
-
-                            Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: 1
-                                color: Theme.borderColor
+                            title: qsTr("Authentication")
+                            TextMatcherItem on title {
+                                matcher: page.matcher
                             }
 
                             GridLayout {
-                                Layout.fillWidth: true
+                                anchors.fill: parent
                                 columns: 2
                                 columnSpacing: 12
                                 rowSpacing: 8
@@ -342,106 +324,114 @@ Item {
                             onClicked: page.advancedVisible = !page.advancedVisible
                         }
 
-                        GridLayout {
+                        GroupBox {
                             visible: page.advancedVisible
                             Layout.fillWidth: true
                             Layout.leftMargin: 12
                             Layout.rightMargin: 12
-                            columns: 2
-                            columnSpacing: 12
-                            rowSpacing: 8
+                            title: qsTr("Advanced Options")
+                            TextMatcherItem on title {
+                                matcher: page.matcher
+                            }
 
-                            Label {
-                                text: qsTr("Request timeout")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            RowLayout {
-                                Layout.fillWidth: true
+                            GridLayout {
+                                anchors.fill: parent
+                                columns: 2
+                                columnSpacing: 12
+                                rowSpacing: 8
+
+                                Label {
+                                    text: qsTr("Request timeout")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    SpinBox {
+                                        Layout.fillWidth: true
+                                        from: 1
+                                        to: 86400
+                                        value: page.currentService?.requestTimeoutSeconds ?? 30
+                                        editable: true
+                                        onValueModified: page.currentService.requestTimeoutSeconds = value
+                                    }
+                                    Label { text: qsTr("seconds") }
+                                }
+                                Label {
+                                    text: qsTr("Automatic retries")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
+                                SpinBox {
+                                    Layout.fillWidth: true
+                                    from: 0
+                                    to: 100
+                                    value: page.currentService?.retryCount ?? 5
+                                    editable: true
+                                    onValueModified: page.currentService.retryCount = value
+                                }
+                                Label {
+                                    text: qsTr("Task concurrency")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
                                 SpinBox {
                                     Layout.fillWidth: true
                                     from: 1
-                                    to: 86400
-                                    value: page.currentService?.requestTimeoutSeconds ?? 30
+                                    to: 65535
+                                    value: page.currentService?.taskConcurrency ?? 4
                                     editable: true
-                                    onValueModified: page.currentService.requestTimeoutSeconds = value
+                                    onValueModified: page.currentService.taskConcurrency = value
                                 }
-                                Label { text: qsTr("seconds") }
-                            }
-                            Label {
-                                text: qsTr("Automatic retries")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            SpinBox {
-                                Layout.fillWidth: true
-                                from: 0
-                                to: 100
-                                value: page.currentService?.retryCount ?? 5
-                                editable: true
-                                onValueModified: page.currentService.retryCount = value
-                            }
-                            Label {
-                                text: qsTr("Task concurrency")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            SpinBox {
-                                Layout.fillWidth: true
-                                from: 1
-                                to: 65535
-                                value: page.currentService?.taskConcurrency ?? 4
-                                editable: true
-                                onValueModified: page.currentService.taskConcurrency = value
-                            }
-                            Label {
-                                text: qsTr("Global concurrency")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            SpinBox {
-                                Layout.fillWidth: true
-                                from: 1
-                                to: 65535
-                                value: page.currentService?.globalConcurrency ?? 64
-                                editable: true
-                                onValueModified: page.currentService.globalConcurrency = value
-                            }
-                            Label {
-                                text: qsTr("Health check interval")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            RowLayout {
-                                Layout.fillWidth: true
+                                Label {
+                                    text: qsTr("Global concurrency")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
                                 SpinBox {
                                     Layout.fillWidth: true
                                     from: 1
-                                    to: 86400
-                                    value: page.currentService?.healthCheckIntervalSeconds ?? 60
+                                    to: 65535
+                                    value: page.currentService?.globalConcurrency ?? 64
                                     editable: true
-                                    onValueModified: page.currentService.healthCheckIntervalSeconds = value
+                                    onValueModified: page.currentService.globalConcurrency = value
                                 }
-                                Label { text: qsTr("seconds") }
-                            }
-                            CheckBox {
-                                Layout.columnSpan: 2
-                                text: qsTr("Verify SSL certificate")
-                                checked: page.currentService?.verifySslCertificate ?? true
-                                enabled: page.currentService?.useSsl ?? false
-                                onClicked: page.currentService.verifySslCertificate = checked
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            Label {
-                                Layout.columnSpan: 2
-                                text: qsTr("Custom request headers")
-                                TextMatcherItem on text { matcher: page.matcher }
-                            }
-                            ScrollView {
-                                Layout.columnSpan: 2
-                                Layout.fillWidth: true
-                                implicitHeight: 120
-                                TextArea {
-                                    text: page.currentService?.customHeaders ?? ""
-                                    placeholderText: qsTr("One header per line, for example:\nX-Custom-Header-1: foo\nX-Custom-Header-2: bar")
-                                    wrapMode: TextEdit.NoWrap
-                                    onTextChanged: if (activeFocus)
-                                        page.currentService.customHeaders = text
+                                Label {
+                                    text: qsTr("Health check interval")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    SpinBox {
+                                        Layout.fillWidth: true
+                                        from: 1
+                                        to: 86400
+                                        value: page.currentService?.healthCheckIntervalSeconds ?? 60
+                                        editable: true
+                                        onValueModified: page.currentService.healthCheckIntervalSeconds = value
+                                    }
+                                    Label { text: qsTr("seconds") }
+                                }
+                                CheckBox {
+                                    Layout.columnSpan: 2
+                                    text: qsTr("Verify SSL certificate")
+                                    checked: page.currentService?.verifySslCertificate ?? true
+                                    enabled: page.currentService?.useSsl ?? false
+                                    onClicked: page.currentService.verifySslCertificate = checked
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
+                                Label {
+                                    Layout.columnSpan: 2
+                                    text: qsTr("Custom request headers")
+                                    TextMatcherItem on text { matcher: page.matcher }
+                                }
+                                ScrollView {
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+                                    implicitHeight: 120
+                                    TextArea {
+                                        text: page.currentService?.customHeaders ?? ""
+                                        placeholderText: qsTr("One header per line, for example:\nX-Custom-Header-1: foo\nX-Custom-Header-2: bar")
+                                        wrapMode: TextEdit.NoWrap
+                                        onTextChanged: if (activeFocus)
+                                            page.currentService.customHeaders = text
+                                    }
                                 }
                             }
                         }

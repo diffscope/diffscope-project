@@ -14,6 +14,8 @@ namespace Core::Internal {
         BehaviorPreference::StartupBehavior startupBehavior{};
         bool useSystemLanguage{};
         QString localeName{};
+        QString fallbackLyricLanguageCode{};
+        QString fallbackLyricText{};
         bool hasNotificationSoundAlert{};
         int notificationAutoHideTimeout{};
         int commandPaletteHistoryCount{};
@@ -66,6 +68,10 @@ namespace Core::Internal {
         emit useSystemLanguageChanged();
         d->localeName = settings->value("localeName", QLocale().name()).toString();
         emit localeNameChanged();
+        d->fallbackLyricLanguageCode = settings->value("fallbackLyricLanguageCode", QStringLiteral("und")).toString();
+        Q_EMIT fallbackLyricLanguageCodeChanged();
+        d->fallbackLyricText = settings->value("fallbackLyricText", QStringLiteral("a")).toString();
+        Q_EMIT fallbackLyricTextChanged();
         d->hasNotificationSoundAlert = settings->value("hasNotificationSoundAlert", false).toBool();
         emit hasNotificationSoundAlertChanged();
         d->notificationAutoHideTimeout = settings->value("notificationAutoHideTimeout", 5000).toInt();
@@ -135,6 +141,8 @@ namespace Core::Internal {
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);
+        settings->setValue("fallbackLyricLanguageCode", d->fallbackLyricLanguageCode);
+        settings->setValue("fallbackLyricText", d->fallbackLyricText);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
         settings->setValue("notificationAutoHideTimeout", d->notificationAutoHideTimeout);
         settings->setValue("commandPaletteHistoryCount", d->commandPaletteHistoryCount);
@@ -200,6 +208,28 @@ namespace Core::Internal {
             return;
         d->localeName = localeName;
         emit m_instance->localeNameChanged();
+    }
+    QString BehaviorPreference::fallbackLyricLanguageCode() {
+        M_INSTANCE_D;
+        return d->fallbackLyricLanguageCode;
+    }
+    void BehaviorPreference::setFallbackLyricLanguageCode(const QString &fallbackLyricLanguageCode) {
+        M_INSTANCE_D;
+        if (d->fallbackLyricLanguageCode == fallbackLyricLanguageCode)
+            return;
+        d->fallbackLyricLanguageCode = fallbackLyricLanguageCode;
+        Q_EMIT m_instance->fallbackLyricLanguageCodeChanged();
+    }
+    QString BehaviorPreference::fallbackLyricText() {
+        M_INSTANCE_D;
+        return d->fallbackLyricText;
+    }
+    void BehaviorPreference::setFallbackLyricText(const QString &fallbackLyricText) {
+        M_INSTANCE_D;
+        if (d->fallbackLyricText == fallbackLyricText)
+            return;
+        d->fallbackLyricText = fallbackLyricText;
+        Q_EMIT m_instance->fallbackLyricTextChanged();
     }
     bool BehaviorPreference::hasNotificationSoundAlert() {
         M_INSTANCE_D;

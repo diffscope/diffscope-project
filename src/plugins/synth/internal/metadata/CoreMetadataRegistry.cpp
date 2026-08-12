@@ -101,7 +101,15 @@ namespace Synth::Internal {
             info.setAvatarUrl(source.avatarUrl());
             info.setBackgroundUrl(source.backgroundUrl());
             info.setDefaultLanguage(source.defaultLanguage());
-            info.setLanguages(source.languages());
+            Core::SingerInfo::LanguageMap languages;
+            const auto sourceLanguages = source.languages();
+            for (auto it = sourceLanguages.cbegin(); it != sourceLanguages.cend(); ++it) {
+                Core::SingerLanguageInfo language;
+                language.name = it->name;
+                language.defaultLyric = it->defaultLyric;
+                languages.insert(it.key(), language);
+            }
+            info.setLanguages(languages);
             info.setMixGroup(source.mixGroup());
             info.setDefaultExtra(source.defaultExtra());
             return info;
@@ -120,6 +128,8 @@ namespace Synth::Internal {
                 return;
             m_ownedArchitectures.remove(architectureId);
             m_ownedSingers.remove(architectureId);
+            if (m_managedArchitectures.remove(architectureId))
+                Q_EMIT managedArchitecturesChanged();
         });
         connect(registry, &Core::SingerRegistry::architectureUpdated, this,
                 [this](const QString &architectureId) {
@@ -129,6 +139,8 @@ namespace Synth::Internal {
             // must never subsequently be overwritten or removed by synth.
             m_ownedArchitectures.remove(architectureId);
             m_ownedSingers.remove(architectureId);
+            if (m_managedArchitectures.remove(architectureId))
+                Q_EMIT managedArchitecturesChanged();
         });
         connect(registry, &Core::SingerRegistry::singerRemoved, this,
                 [this](const QString &architectureId, const QString &singerId) {
@@ -156,13 +168,26 @@ namespace Synth::Internal {
 
     CoreMetadataRegistry::~CoreMetadataRegistry() = default;
 
+    bool CoreMetadataRegistry::managesArchitecture(const QString &architectureId) const {
+        return m_managedArchitectures.contains(architectureId);
+    }
+
     void CoreMetadataRegistry::reconcile(
         const QList<ServiceInstanceConfiguration> &serviceOrder,
         const QList<ServiceInstanceDetails> &details,
         const QList<ParameterConfiguration> &parameterConfigurations) {
         auto registry = Core::CoreInterface::singerRegistry();
-        if (!registry)
+        if (!registry) {
+            const bool managementChanged = !m_managedArchitectures.isEmpty();
+            m_ownedArchitectures.clear();
+            m_managedArchitectures.clear();
+            m_ownedSingers.clear();
+            if (managementChanged)
+                Q_EMIT managedArchitecturesChanged();
             return;
+        }
+        const auto previousManagedArchitectures = m_managedArchitectures;
+        m_managedArchitectures.clear();
         const auto mutateRegistry = [this](auto &&operation) {
             QScopedValueRollback guard(m_registryMutation, true);
             return operation();
@@ -208,8 +233,12 @@ namespace Synth::Internal {
                     m_ownedArchitectures.remove(id);
                     m_ownedSingers.remove(id);
                 } else {
-                    mutateRegistry([&] { return registry->updateArchitecture(id, info); });
-                    continue;
+                    if (mutateRegistry([&] { return registry->updateArchitecture(id, info); })) {
+                        m_managedArchitectures.insert(id);
+                        continue;
+                    }
+                    m_ownedArchitectures.remove(id);
+                    m_ownedSingers.remove(id);
                 }
             }
             if (registry->containsArchitecture(id)) {
@@ -218,8 +247,10 @@ namespace Synth::Internal {
                 blockedArchitectures.insert(id);
                 continue;
             }
-            if (mutateRegistry([&] { return registry->registerArchitecture(id, info); }))
+            if (mutateRegistry([&] { return registry->registerArchitecture(id, info); })) {
                 m_ownedArchitectures.insert(id);
+                m_managedArchitectures.insert(id);
+            }
         }
 
         for (auto architectureIt = desired.singers.cbegin();
@@ -285,15 +316,25 @@ namespace Synth::Internal {
             singerCount += singers.size();
         qCInfo(lcCoreMetadataRegistry)
             << "Reconciled synthesis metadata with Core"
-            << "architectures=" << m_ownedArchitectures.size()
+            << "registeredArchitectures=" << m_ownedArchitectures.size()
+            << "managedArchitectures=" << m_managedArchitectures.size()
             << "singers=" << singerCount
             << "blockedArchitectures=" << blockedArchitectures.size();
+        if (m_managedArchitectures != previousManagedArchitectures)
+            Q_EMIT managedArchitecturesChanged();
     }
 
     void CoreMetadataRegistry::clear() {
+        const bool hadManagedArchitectures = !m_managedArchitectures.isEmpty();
         auto registry = Core::CoreInterface::singerRegistry();
-        if (!registry)
+        if (!registry) {
+            m_ownedSingers.clear();
+            m_ownedArchitectures.clear();
+            m_managedArchitectures.clear();
+            if (hadManagedArchitectures)
+                Q_EMIT managedArchitecturesChanged();
             return;
+        }
         const auto mutateRegistry = [this](auto &&operation) {
             QScopedValueRollback guard(m_registryMutation, true);
             return operation();
@@ -323,6 +364,9 @@ namespace Synth::Internal {
             }
         }
         m_ownedArchitectures.clear();
+        m_managedArchitectures.clear();
+        if (hadManagedArchitectures)
+            Q_EMIT managedArchitecturesChanged();
     }
 
 }

@@ -23,6 +23,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         uishell
+        transactional
         coreplugin
         audio
         dspxmodelCore

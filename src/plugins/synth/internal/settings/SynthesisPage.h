@@ -7,12 +7,66 @@ namespace Synth::Internal {
 
     class SynthesisPage final : public Core::ISettingPage {
         Q_OBJECT
+        Q_PROPERTY(double paddingBase READ paddingBase WRITE setPaddingBase NOTIFY valuesChanged)
+        Q_PROPERTY(double paddingAdditional READ paddingAdditional WRITE setPaddingAdditional NOTIFY valuesChanged)
+        Q_PROPERTY(double paddingGap READ paddingGap WRITE setPaddingGap NOTIFY valuesChanged)
+        Q_PROPERTY(QString restLyrics READ restLyrics WRITE setRestLyrics NOTIFY valuesChanged)
+        Q_PROPERTY(int parameterSampleRate READ parameterSampleRate WRITE setParameterSampleRate NOTIFY valuesChanged)
+        Q_PROPERTY(int mixSampleRate READ mixSampleRate WRITE setMixSampleRate NOTIFY valuesChanged)
+        Q_PROPERTY(int cacheMaximumGiB READ cacheMaximumGiB WRITE setCacheMaximumGiB NOTIFY valuesChanged)
+        Q_PROPERTY(int cacheExpiryDays READ cacheExpiryDays WRITE setCacheExpiryDays NOTIFY valuesChanged)
+        Q_PROPERTY(int audioDownloadMaximumMiB READ audioDownloadMaximumMiB WRITE setAudioDownloadMaximumMiB NOTIFY valuesChanged)
+        Q_PROPERTY(int environmentTagTtlSeconds READ environmentTagTtlSeconds WRITE setEnvironmentTagTtlSeconds NOTIFY valuesChanged)
+
     public:
         explicit SynthesisPage(QObject *parent = nullptr);
         ~SynthesisPage() override;
 
         QString sortKeyword() const override;
+        bool matches(const QString &word) override;
         QObject *widget() override;
+        void beginSetting() override;
+        bool accept() override;
+
+        double paddingBase() const;
+        void setPaddingBase(double value);
+        double paddingAdditional() const;
+        void setPaddingAdditional(double value);
+        double paddingGap() const;
+        void setPaddingGap(double value);
+        QString restLyrics() const;
+        void setRestLyrics(const QString &value);
+        int parameterSampleRate() const;
+        void setParameterSampleRate(int value);
+        int mixSampleRate() const;
+        void setMixSampleRate(int value);
+        int cacheMaximumGiB() const;
+        void setCacheMaximumGiB(int value);
+        int cacheExpiryDays() const;
+        void setCacheExpiryDays(int value);
+        int audioDownloadMaximumMiB() const;
+        void setAudioDownloadMaximumMiB(int value);
+        int environmentTagTtlSeconds() const;
+        void setEnvironmentTagTtlSeconds(int value);
+
+        Q_INVOKABLE void clearCache();
+
+    Q_SIGNALS:
+        void valuesChanged();
+
+    private:
+        QObject *m_widget{};
+        double m_paddingBase{100.0};
+        double m_paddingAdditional{100.0};
+        double m_paddingGap{200.0};
+        QString m_restLyrics{QStringLiteral("AP, SP")};
+        int m_parameterSampleRate{100};
+        int m_mixSampleRate{100};
+        int m_cacheMaximumGiB{10};
+        int m_cacheExpiryDays{30};
+        int m_audioDownloadMaximumMiB{512};
+        int m_environmentTagTtlSeconds{60};
+        bool m_loading{};
     };
 
 }

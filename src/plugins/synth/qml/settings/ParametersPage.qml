@@ -205,140 +205,139 @@ Item {
                     width: parent.width
                     spacing: 12
 
-                    GridLayout {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 12
-                        Layout.rightMargin: 12
-                        columns: 2
-                        columnSpacing: 12
-                        rowSpacing: 8
-                        enabled: Boolean(page.currentParameter && !page.currentParameter.builtin)
-
-                        Label { text: qsTr("Architecture ID") }
-                        TextField {
-                            Layout.fillWidth: true
-                            text: page.currentParameter?.architectureId ?? ""
-                            onTextEdited: page.currentParameter.architectureId = text
-                        }
-                        Label { text: qsTr("Parameter ID") }
-                        TextField {
-                            Layout.fillWidth: true
-                            text: page.currentParameter?.parameterId ?? ""
-                            onTextEdited: page.currentParameter.parameterId = text
-                        }
-                        Label { text: qsTr("Display name") }
-                        TextField {
-                            Layout.fillWidth: true
-                            text: page.currentParameter?.displayName ?? ""
-                            onTextEdited: page.currentParameter.displayName = text
-                        }
-                        Label { text: qsTr("Minimum value") }
-                        SpinBox {
-                            Layout.fillWidth: true
-                            from: -2147483647
-                            to: 2147483647
-                            editable: true
-                            value: page.currentParameter?.minimumValue ?? 0
-                            onValueModified: page.currentParameter.minimumValue = value
-                        }
-                        Label { text: qsTr("Maximum value") }
-                        SpinBox {
-                            Layout.fillWidth: true
-                            from: -2147483647
-                            to: 2147483647
-                            editable: true
-                            value: page.currentParameter?.maximumValue ?? 1000
-                            onValueModified: page.currentParameter.maximumValue = value
-                        }
-                        CheckBox {
-                            Layout.columnSpan: 2
-                            text: qsTr("Has default value")
-                            checked: page.currentParameter?.showDefaultValue ?? false
-                            onClicked: page.currentParameter.showDefaultValue = checked
-                        }
-                        Label {
-                            text: qsTr("Default value")
-                            enabled: page.currentParameter?.showDefaultValue ?? false
-                        }
-                        SpinBox {
-                            Layout.fillWidth: true
-                            enabled: page.currentParameter?.showDefaultValue ?? false
-                            from: -2147483647
-                            to: 2147483647
-                            editable: true
-                            value: page.currentParameter?.defaultValue ?? 0
-                            onValueModified: page.currentParameter.defaultValue = value
-                        }
-                        Label { text: qsTr("Fill mode") }
-                        ComboBox {
-                            id: fillModeComboBox
-                            Layout.fillWidth: true
-                            textRole: "text"
-                            valueRole: "value"
-                            model: [
-                                { text: qsTr("No fill"), value: 0 },
-                                { text: qsTr("Top fill"), value: 1 },
-                                { text: qsTr("Bottom fill"), value: 2 },
-                                { text: qsTr("Baseline fill"), value: 3 }
-                            ]
-                            currentIndex: page.currentParameter ? indexOfValue(page.currentParameter.fillMode) : -1
-                            onActivated: page.currentParameter.fillMode = currentValue
-                        }
-                        Label { text: qsTr("Value type") }
-                        ComboBox {
-                            id: valueTypeComboBox
-                            Layout.fillWidth: true
-                            textRole: "text"
-                            valueRole: "value"
-                            model: [
-                                { text: qsTr("Absolute"), value: 0 },
-                                { text: qsTr("Relative"), value: 1 }
-                            ]
-                            currentIndex: page.currentParameter ? indexOfValue(page.currentParameter.valueType) : -1
-                            onActivated: page.currentParameter.valueType = currentValue
-                        }
-                        CheckBox {
-                            Layout.columnSpan: 2
-                            text: qsTr("Show divisions")
-                            checked: page.currentParameter?.showDivision ?? false
-                            onClicked: page.currentParameter.showDivision = checked
-                        }
-                        Label {
-                            text: qsTr("Division interval")
-                            enabled: page.currentParameter?.showDivision ?? false
-                        }
-                        SpinBox {
-                            Layout.fillWidth: true
-                            enabled: page.currentParameter?.showDivision ?? false
-                            from: 1
-                            to: 2147483647
-                            editable: true
-                            value: page.currentParameter?.divisionValue ?? 1
-                            onValueModified: page.currentParameter.divisionValue = value
-                        }
-                    }
-
-                    ColumnLayout {
+                    GroupBox {
                         Layout.fillWidth: true
                         Layout.leftMargin: 12
                         Layout.rightMargin: 12
                         enabled: Boolean(page.currentParameter && !page.currentParameter.builtin)
-                        spacing: 8
-
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Value Mapping Expressions")
-                            font.weight: Font.DemiBold
-                        }
-
-                        Rectangle {
-                            Layout.fillWidth: true
-                            implicitHeight: 1
-                            color: Theme.borderColor
+                        title: qsTr("Parameter Configuration")
+                        TextMatcherItem on title {
+                            matcher: page.matcher
                         }
 
                         GridLayout {
-                            Layout.fillWidth: true
+                            anchors.fill: parent
+                            columns: 2
+                            columnSpacing: 12
+                            rowSpacing: 8
+
+                            Label { text: qsTr("Architecture ID") }
+                            TextField {
+                                Layout.fillWidth: true
+                                text: page.currentParameter?.architectureId ?? ""
+                                onTextEdited: page.currentParameter.architectureId = text
+                            }
+                            Label { text: qsTr("Parameter ID") }
+                            TextField {
+                                Layout.fillWidth: true
+                                text: page.currentParameter?.parameterId ?? ""
+                                onTextEdited: page.currentParameter.parameterId = text
+                            }
+                            Label { text: qsTr("Display name") }
+                            TextField {
+                                Layout.fillWidth: true
+                                text: page.currentParameter?.displayName ?? ""
+                                onTextEdited: page.currentParameter.displayName = text
+                            }
+                            Label { text: qsTr("Minimum value") }
+                            SpinBox {
+                                Layout.fillWidth: true
+                                from: -2147483647
+                                to: 2147483647
+                                editable: true
+                                value: page.currentParameter?.minimumValue ?? 0
+                                onValueModified: page.currentParameter.minimumValue = value
+                            }
+                            Label { text: qsTr("Maximum value") }
+                            SpinBox {
+                                Layout.fillWidth: true
+                                from: -2147483647
+                                to: 2147483647
+                                editable: true
+                                value: page.currentParameter?.maximumValue ?? 1000
+                                onValueModified: page.currentParameter.maximumValue = value
+                            }
+                            CheckBox {
+                                Layout.columnSpan: 2
+                                text: qsTr("Has default value")
+                                checked: page.currentParameter?.showDefaultValue ?? false
+                                onClicked: page.currentParameter.showDefaultValue = checked
+                            }
+                            Label {
+                                text: qsTr("Default value")
+                                enabled: page.currentParameter?.showDefaultValue ?? false
+                            }
+                            SpinBox {
+                                Layout.fillWidth: true
+                                enabled: page.currentParameter?.showDefaultValue ?? false
+                                from: -2147483647
+                                to: 2147483647
+                                editable: true
+                                value: page.currentParameter?.defaultValue ?? 0
+                                onValueModified: page.currentParameter.defaultValue = value
+                            }
+                            Label { text: qsTr("Fill mode") }
+                            ComboBox {
+                                id: fillModeComboBox
+                                Layout.fillWidth: true
+                                textRole: "text"
+                                valueRole: "value"
+                                model: [
+                                    { text: qsTr("No fill"), value: 0 },
+                                    { text: qsTr("Top fill"), value: 1 },
+                                    { text: qsTr("Bottom fill"), value: 2 },
+                                    { text: qsTr("Baseline fill"), value: 3 }
+                                ]
+                                currentIndex: page.currentParameter ? indexOfValue(page.currentParameter.fillMode) : -1
+                                onActivated: page.currentParameter.fillMode = currentValue
+                            }
+                            Label { text: qsTr("Value type") }
+                            ComboBox {
+                                id: valueTypeComboBox
+                                Layout.fillWidth: true
+                                textRole: "text"
+                                valueRole: "value"
+                                model: [
+                                    { text: qsTr("Absolute"), value: 0 },
+                                    { text: qsTr("Relative"), value: 1 }
+                                ]
+                                currentIndex: page.currentParameter ? indexOfValue(page.currentParameter.valueType) : -1
+                                onActivated: page.currentParameter.valueType = currentValue
+                            }
+                            CheckBox {
+                                Layout.columnSpan: 2
+                                text: qsTr("Show divisions")
+                                checked: page.currentParameter?.showDivision ?? false
+                                onClicked: page.currentParameter.showDivision = checked
+                            }
+                            Label {
+                                text: qsTr("Division interval")
+                                enabled: page.currentParameter?.showDivision ?? false
+                            }
+                            SpinBox {
+                                Layout.fillWidth: true
+                                enabled: page.currentParameter?.showDivision ?? false
+                                from: 1
+                                to: 2147483647
+                                editable: true
+                                value: page.currentParameter?.divisionValue ?? 1
+                                onValueModified: page.currentParameter.divisionValue = value
+                            }
+                        }
+                    }
+
+                    GroupBox {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 12
+                        Layout.rightMargin: 12
+                        enabled: Boolean(page.currentParameter && !page.currentParameter.builtin)
+                        title: qsTr("Value Mapping Expressions")
+                        TextMatcherItem on title {
+                            matcher: page.matcher
+                        }
+
+                        GridLayout {
+                            anchors.fill: parent
                             columns: 2
                             columnSpacing: 12
                             rowSpacing: 8
