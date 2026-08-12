@@ -581,7 +581,7 @@ namespace Synth::Internal {
                 const double noteStart = tickSeconds(timeline, clip->start() + note->position());
                 const double noteEnd = tickSeconds(timeline, clip->start() + note->position() + note->length());
                 if (noteStart + 1e-9 < previousEnd) {
-                    result.error = SynthesisProjectAddOn::tr("Overlapping notes cannot be represented by the selected DSSP score model.");
+                    result.error = SynthesisProjectAddOn::tr("Some notes overlap. Move or resize the overlapping notes before synthesizing.");
                     return result;
                 }
                 SynthesisScoreNote converted;

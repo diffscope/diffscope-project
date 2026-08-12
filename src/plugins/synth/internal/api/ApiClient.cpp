@@ -113,6 +113,20 @@ namespace {
         return value;
     }
 
+    QString problemDetailsText(const QJsonValue &json) {
+        if (!json.isObject())
+            return {};
+
+        const auto object = json.toObject();
+        const auto title = object.value(QStringLiteral("title")).toString().trimmed();
+        const auto detail = object.value(QStringLiteral("detail")).toString().trimmed();
+        if (title.isEmpty())
+            return detail;
+        if (detail.isEmpty() || detail == title)
+            return title;
+        return title + u'\n' + detail;
+    }
+
     bool isRetryableHttpStatus(int status) {
         switch (status) {
         case 408:
@@ -408,6 +422,9 @@ namespace {
             const auto networkErrorString = timedOut ? tr("The request timed out.") : reply->errorString();
             const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
             const int status = statusAttribute.isValid() ? statusAttribute.toInt() : 0;
+            const auto reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute)
+                                    .toString()
+                                    .trimmed();
             const auto retryAfter = reply->rawHeader(QByteArrayLiteral("Retry-After"));
             const auto body = reply->readAll();
             const auto rawJson = parseJsonBestEffort(body);
@@ -430,7 +447,18 @@ namespace {
                 error.kind = ApiError::ResponseError;
                 error.httpStatusCode = status;
                 error.networkErrorCode = static_cast<int>(networkError);
-                error.message = tr("The server returned HTTP status %1.").arg(status);
+                error.message = reason.isEmpty()
+                                    ? tr("The server returned HTTP status %1.").arg(status)
+                                    : tr("The server returned HTTP status %1: %2.")
+                                          .arg(status)
+                                          .arg(reason);
+                const auto problem = problemDetailsText(rawJson);
+                if (!problem.isEmpty()) {
+                    error.message += u'\n' + problem;
+                } else if (networkError != QNetworkReply::NoError &&
+                           !networkErrorString.isEmpty()) {
+                    error.message += u'\n' + networkErrorString;
+                }
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
@@ -449,7 +477,7 @@ namespace {
                 error.kind = ApiError::NetworkError;
                 error.networkErrorCode = static_cast<int>(networkError);
                 error.httpStatusCode = status;
-                error.message = networkErrorString;
+                error.message = tr("The network request failed: %1").arg(networkErrorString);
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);

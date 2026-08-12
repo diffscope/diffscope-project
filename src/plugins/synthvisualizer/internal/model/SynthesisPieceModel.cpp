@@ -178,9 +178,7 @@ namespace SynthVisualizer::Internal {
             case Synth::SynthesisPiece::Ready:
                 return tr("Ready");
             case Synth::SynthesisPiece::Failed:
-                return piece->errorMessage().isEmpty()
-                           ? tr("Failed")
-                           : tr("Failed: %1").arg(piece->errorMessage());
+                return tr("Failed");
         }
         return {};
     }

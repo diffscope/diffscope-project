@@ -306,6 +306,50 @@ namespace Synth {
             return SynthesisTaskManager::tr("The synthesis service request failed.");
         }
 
+        QString problemDetailsText(const QByteArray &body) {
+            QJsonParseError parseError;
+            const auto document = QJsonDocument::fromJson(body, &parseError);
+            if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
+                return {};
+            }
+            const auto object = document.object();
+            const auto title = object.value(QStringLiteral("title")).toString().trimmed();
+            const auto detail = object.value(QStringLiteral("detail")).toString().trimmed();
+            if (title.isEmpty()) {
+                return detail;
+            }
+            if (detail.isEmpty() || detail == title) {
+                return title;
+            }
+            return title + u'\n' + detail;
+        }
+
+        QString audioDownloadErrorText(QNetworkReply *reply, const QByteArray &body) {
+            const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+            if (!statusAttribute.isValid()) {
+                return SynthesisTaskManager::tr("The audio download failed: %1")
+                    .arg(reply->errorString());
+            }
+
+            const int status = statusAttribute.toInt();
+            const auto reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute)
+                                    .toString()
+                                    .trimmed();
+            auto message = reason.isEmpty()
+                               ? SynthesisTaskManager::tr("The audio server returned HTTP status %1.")
+                                     .arg(status)
+                               : SynthesisTaskManager::tr("The audio server returned HTTP status %1: %2.")
+                                     .arg(status)
+                                     .arg(reason);
+            const auto problem = problemDetailsText(body);
+            if (!problem.isEmpty()) {
+                message += u'\n' + problem;
+            } else if (!reply->errorString().isEmpty()) {
+                message += u'\n' + reply->errorString();
+            }
+            return message;
+        }
+
         class CacheStore {
         public:
             CacheStore() { reload(); }
@@ -1108,6 +1152,7 @@ namespace Synth {
             QObject::connect(reply, &QNetworkReply::downloadProgress, q_ptr, [this, task, reply](qint64 received, qint64 total) {
                 if (received > cache.maximumDownloadBytes || total > cache.maximumDownloadBytes) {
                     cancelFunctions.remove(task);
+                    reply->setProperty("synthDownloadTooLarge", true);
                     reply->abort();
                 }
             });
@@ -1125,7 +1170,10 @@ namespace Synth {
                     return;
                 }
                 if (reply->error() != QNetworkReply::NoError) {
-                    const auto message = reply->errorString();
+                    const auto body = reply->readAll();
+                    const auto message = reply->property("synthDownloadTooLarge").toBool()
+                                             ? SynthesisTaskManager::tr("The synthesized audio exceeds the configured download size limit.")
+                                             : audioDownloadErrorText(reply, body);
                     reply->deleteLater();
                     fail(task, message);
                     return;
