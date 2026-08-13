@@ -13,7 +13,7 @@
     <items>
         <action
                 id="org.diffscope.synth.panel.services"
-                text="Synthesis Service"
+                text="Synthesis Services"
                 icon="music_note_2_pulse"
                 catalog="org.diffscope.core.workspacePanelWidgets"
                 diffscope:uniquePanel="true"

@@ -829,13 +829,13 @@ namespace Synth::Internal {
                         case SynthesisPiece::Ready: {
                             if (!m_audioController->hasBinding(piece) || piece->audioFilePath().isEmpty()) {
                                 if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because clip \"%1\" has no completed synthesized audio.").arg(clip->name());
+                                    *errorMessage = tr("Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio.").arg(clip->name());
                                 }
                                 return false;
                             }
                             if (m_audioController->isCanceled(piece)) {
                                 if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because synthesized audio for clip \"%1\" was canceled.").arg(clip->name());
+                                    *errorMessage = tr("Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\".").arg(clip->name());
                                 }
                                 return false;
                             }
@@ -849,7 +849,7 @@ namespace Synth::Internal {
                                 const auto detail = piece->errorMessage().isEmpty()
                                                         ? tr("Unknown synthesis error.")
                                                         : piece->errorMessage();
-                                *errorMessage = tr("Audio export was stopped because synthesis failed for clip \"%1\": %2")
+                                *errorMessage = tr("Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2")
                                                     .arg(clip->name(), detail);
                             }
                             return false;
@@ -1047,7 +1047,7 @@ namespace Synth::Internal {
         const auto architecture = architectureFor(*context);
         if (architecture.id().isEmpty()) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("No healthy service provides the clip architecture."));
+                notifyFailure(piece, tr("No healthy service supports the architecture used by this clip."));
             return;
         }
         QList<ClipRuntime::LanguageContinuation> preservedContinuations;
@@ -1205,7 +1205,7 @@ namespace Synth::Internal {
         const auto context = buildSynthesisContext(runtime->clip);
         const auto architecture = context ? architectureFor(*context) : ArchitectureMetadata{};
         if (!context || architecture.id().isEmpty()) {
-            notifyFailure(piece, tr("No healthy service can synthesize this piece."));
+            notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece."));
             return;
         }
         const auto executableType = executableStage(architecture, type);
@@ -1542,7 +1542,7 @@ namespace Synth::Internal {
             } else if (writeback->type == SynthesisTaskType::Phoneme && result.phonemes.size() != expected) {
                 writeback->responseShapeError = tr("The phoneme result does not match the requested score.");
             } else if (writeback->type == SynthesisTaskType::Duration && result.phonemes.size() != expected) {
-                writeback->responseShapeError = tr("The duration result does not match the requested piece score.");
+                writeback->responseShapeError = tr("The duration result does not match the score for the requested synthesis piece.");
             }
         }
         m_pendingTaskWritebacks.append(writeback);

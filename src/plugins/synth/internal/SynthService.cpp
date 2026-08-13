@@ -65,8 +65,7 @@ namespace Synth::Internal {
         Q_ASSERT(!s_instance);
         s_instance = this;
         m_interface->setTaskManager(m_taskManager);
-        connect(m_coreRegistry.get(), &CoreMetadataRegistry::managedArchitecturesChanged,
-                this, &SynthService::managedArchitecturesChanged);
+        connect(m_coreRegistry.get(), &CoreMetadataRegistry::managedArchitecturesChanged, this, &SynthService::managedArchitecturesChanged);
 
         connect(m_metadataController, &MetadataRefreshController::serviceDetailsChanged, this, [this](const QUuid &serviceId) {
             const auto details = m_metadataController->serviceDetails(serviceId);
@@ -180,7 +179,7 @@ namespace Synth::Internal {
             QStringList errors;
             if (!configurations.at(index).validate(&errors)) {
                 if (errorMessage)
-                    *errorMessage = tr("Service %1: %2").arg(index + 1).arg(errors.join(QStringLiteral("; ")));
+                    *errorMessage = tr("Service %L1: %2").arg(index + 1).arg(errors.join(QStringLiteral("; ")));
                 return false;
             }
             if (ids.contains(configurations.at(index).id())) {
@@ -295,7 +294,7 @@ namespace Synth::Internal {
             const auto idValue = item.toObject().value(QStringLiteral("id"));
             if (!idValue.isString()) {
                 if (errorMessage)
-                    *errorMessage = tr("Every parameter entry must contain a string id.");
+                    *errorMessage = tr("Every parameter entry must contain a string 'id' field.");
                 return false;
             }
             const auto id = idValue.toString();
@@ -325,11 +324,11 @@ namespace Synth::Internal {
         if (!replaceUserParameterConfigurations(merged.values(), errorMessage))
             return false;
         if (summary) {
-            summary->append(tr("Imported %1 parameter configuration(s).").arg(imported.size()));
+            summary->append(tr("Imported %Ln parameter configuration(s).", nullptr, imported.size()));
             if (ignoredBuiltin)
-                summary->append(tr("Ignored %1 built-in parameter configuration(s).").arg(ignoredBuiltin));
+                summary->append(tr("Ignored %Ln built-in parameter configuration(s).", nullptr, ignoredBuiltin));
             if (ignoredReserved)
-                summary->append(tr("Ignored %1 reserved pitch configuration(s).").arg(ignoredReserved));
+                summary->append(tr("Ignored %Ln reserved pitch configuration(s).", nullptr, ignoredReserved));
         }
         return true;
     }

@@ -113,7 +113,7 @@ Item {
                         spacing: 2
 
                         ToolButton {
-                            text: qsTr("Add Architecture")
+                            text: qsTr("Add Architecture Configuration")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/add"
                             onClicked: architectureList.currentIndex = page.configurationModel.addEntry()
@@ -171,7 +171,7 @@ Item {
                                     onTextEdited: page.currentArchitecture.architectureId = text
                                 }
                                 Label {
-                                    text: qsTr("Configuration")
+                                    text: qsTr("Configuration JSON")
                                     TextMatcherItem on text {
                                         matcher: page.matcher
                                     }
@@ -197,7 +197,7 @@ Item {
                 Label {
                     anchors.centerIn: parent
                     visible: !page.currentArchitecture
-                    text: qsTr("Select an architecture to edit it.")
+                    text: qsTr("Select an architecture configuration to edit.")
                     ThemedItem.foregroundLevel: SVS.FL_Secondary
                 }
             }

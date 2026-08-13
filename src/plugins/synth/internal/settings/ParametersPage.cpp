@@ -82,8 +82,7 @@ namespace Synth::Internal {
         qCInfo(lcParametersPage) << "Beginning setting";
         widget();
         setMessages({}, {});
-        m_model->setConfigurations(m_service->allParameterConfigurations(),
-                                   m_service->userParameterConfigurations());
+        m_model->setConfigurations(m_service->allParameterConfigurations(), m_service->userParameterConfigurations());
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
     }
@@ -155,9 +154,7 @@ namespace Synth::Internal {
         }
 
         const auto root = document.object();
-        if (root.value(QStringLiteral("format")).toString() != QLatin1String(ParameterConfigurationFormat)
-            || root.value(QStringLiteral("version")).toInt(-1) != ParameterConfigurationFormatVersion
-            || !root.value(QStringLiteral("parameters")).isArray()) {
+        if (root.value(QStringLiteral("format")).toString() != QLatin1String(ParameterConfigurationFormat) || root.value(QStringLiteral("version")).toInt(-1) != ParameterConfigurationFormatVersion || !root.value(QStringLiteral("parameters")).isArray()) {
             setMessages(tr("This is not a supported synthesis parameter configuration file."));
             return false;
         }
@@ -168,7 +165,7 @@ namespace Synth::Internal {
         const auto array = root.value(QStringLiteral("parameters")).toArray();
         for (qsizetype i = 0; i < array.size(); ++i) {
             if (!array.at(i).isObject()) {
-                setMessages(tr("Parameter entry %1 is not an object.").arg(i + 1));
+                setMessages(tr("Parameter entry %L1 is not an object.").arg(i + 1));
                 return false;
             }
             const auto object = array.at(i).toObject();
@@ -181,7 +178,7 @@ namespace Synth::Internal {
             ParameterConfiguration configuration;
             QString errorMessage;
             if (!ParameterConfiguration::fromJson(object, &configuration, &errorMessage)) {
-                setMessages(tr("Parameter entry %1: %2").arg(i + 1).arg(errorMessage));
+                setMessages(tr("Parameter entry %L1: %2").arg(i + 1).arg(errorMessage));
                 return false;
             }
             QStringList validationErrors;
@@ -196,9 +193,8 @@ namespace Synth::Internal {
         m_model->mergeImported(importedById.values(), &ignoredIds);
         ignoredIds.removeDuplicates();
         const QString status = ignoredIds.isEmpty()
-                                   ? tr("Imported %1 parameter configuration(s).").arg(importedById.size())
-                                   : tr("Imported %1 parameter configuration(s); ignored reserved or built-in IDs: %2.")
-                                         .arg(importedById.size())
+                                   ? tr("Imported %Ln parameter configuration(s).", nullptr, importedById.size())
+                                   : tr("Imported %Ln parameter configuration(s); ignored reserved or built-in IDs: %1.", nullptr, importedById.size())
                                          .arg(ignoredIds.join(QStringLiteral(", ")));
         setMessages({}, status);
         return true;
@@ -224,7 +220,7 @@ namespace Synth::Internal {
             setMessages(tr("Could not write the parameter configuration file."));
             return false;
         }
-        setMessages({}, tr("Exported %1 parameter configuration(s).").arg(array.size()));
+        setMessages({}, tr("Exported %Ln parameter configuration(s).", nullptr, array.size()));
         return true;
     }
 

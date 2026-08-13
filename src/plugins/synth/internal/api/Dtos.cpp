@@ -3,10 +3,15 @@
 #include <cmath>
 #include <limits>
 
+#include <QCoreApplication>
 #include <QJsonDocument>
 
 namespace Synth::Internal::Api::V1 {
 namespace {
+
+    QString translateError(const char *sourceText, const char *disambiguation = nullptr, int n = -1) {
+        return QCoreApplication::translate("Synth::Internal::Api::Dtos", sourceText, disambiguation, n);
+    }
 
     bool fail(QString *errorMessage, const QString &message) {
         if (errorMessage)
@@ -16,7 +21,7 @@ namespace {
 
     bool readObject(const QJsonValue &json, QJsonObject &object, QString *errorMessage) {
         if (!json.isObject())
-            return fail(errorMessage, QStringLiteral("Expected a JSON object."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected a JSON object.")));
         object = json.toObject();
         return true;
     }
@@ -26,7 +31,7 @@ namespace {
         const QLatin1StringView keyView(key);
         const auto it = object.constFind(keyView);
         if (it == object.constEnd())
-            return fail(errorMessage, QStringLiteral("Missing required field '%1'.").arg(keyView));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Missing required field '%1'.")).arg(keyView));
         value = *it;
         return true;
     }
@@ -38,7 +43,7 @@ namespace {
             return false;
         if (!json.isString())
             return fail(errorMessage,
-                        QStringLiteral("Field '%1' must be a string.").arg(QLatin1StringView(key)));
+                        translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be a string.")).arg(QLatin1StringView(key)));
         value = json.toString();
         return true;
     }
@@ -50,7 +55,7 @@ namespace {
             return false;
         if (!json.isBool())
             return fail(errorMessage,
-                        QStringLiteral("Field '%1' must be a boolean.").arg(QLatin1StringView(key)));
+                        translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be a boolean.")).arg(QLatin1StringView(key)));
         value = json.toBool();
         return true;
     }
@@ -62,7 +67,7 @@ namespace {
             return false;
         if (!json.isDouble() || !std::isfinite(json.toDouble()))
             return fail(errorMessage,
-                        QStringLiteral("Field '%1' must be a finite number.")
+                        translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be a finite number."))
                             .arg(QLatin1StringView(key)));
         value = json.toDouble();
         return true;
@@ -76,7 +81,7 @@ namespace {
         if (std::trunc(number) != number || number < std::numeric_limits<int>::min()
             || number > std::numeric_limits<int>::max()) {
             return fail(errorMessage,
-                        QStringLiteral("Field '%1' must be an integer.").arg(QLatin1StringView(key)));
+                        translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be an integer.")).arg(QLatin1StringView(key)));
         }
         value = static_cast<int>(number);
         return true;
@@ -89,13 +94,13 @@ namespace {
 
     bool readStringListValue(const QJsonValue &json, QStringList &values, QString *errorMessage) {
         if (!json.isArray())
-            return fail(errorMessage, QStringLiteral("Expected an array of strings."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected an array of strings.")));
         QStringList result;
         const auto array = json.toArray();
         result.reserve(array.size());
         for (const auto &item : array) {
             if (!item.isString())
-                return fail(errorMessage, QStringLiteral("Array item must be a string."));
+                return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Array item must be a string.")));
             result.append(item.toString());
         }
         values = std::move(result);
@@ -111,13 +116,13 @@ namespace {
 
     bool readDoubleListValue(const QJsonValue &json, QList<double> &values, QString *errorMessage) {
         if (!json.isArray())
-            return fail(errorMessage, QStringLiteral("Expected an array of numbers."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected an array of numbers.")));
         QList<double> result;
         const auto array = json.toArray();
         result.reserve(array.size());
         for (const auto &item : array) {
             if (!item.isDouble() || !std::isfinite(item.toDouble()))
-                return fail(errorMessage, QStringLiteral("Array item must be a finite number."));
+                return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Array item must be a finite number.")));
             result.append(item.toDouble());
         }
         values = std::move(result);
@@ -140,7 +145,7 @@ namespace {
     template<typename T>
     bool readDtoListValue(const QJsonValue &json, QList<T> &values, QString *errorMessage) {
         if (!json.isArray())
-            return fail(errorMessage, QStringLiteral("Expected a JSON array."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected a JSON array.")));
         QList<T> result;
         const auto array = json.toArray();
         result.reserve(array.size());
@@ -148,7 +153,7 @@ namespace {
             T item;
             QString nestedError;
             if (!T::fromJson(array.at(i), item, &nestedError))
-                return fail(errorMessage, QStringLiteral("Invalid array item %1: %2").arg(i).arg(nestedError));
+                return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid array item %L1: %2")).arg(i + 1).arg(nestedError));
             result.append(std::move(item));
         }
         values = std::move(result);
@@ -166,7 +171,7 @@ namespace {
     template<typename T>
     bool readDtoMapValue(const QJsonValue &json, QMap<QString, T> &values, QString *errorMessage) {
         if (!json.isObject())
-            return fail(errorMessage, QStringLiteral("Expected an open JSON object map."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected an open JSON object map.")));
         QMap<QString, T> result;
         const auto object = json.toObject();
         for (auto it = object.constBegin(); it != object.constEnd(); ++it) {
@@ -174,7 +179,7 @@ namespace {
             QString nestedError;
             if (!T::fromJson(*it, item, &nestedError)) {
                 return fail(errorMessage,
-                            QStringLiteral("Invalid map value '%1': %2").arg(it.key(), nestedError));
+                            translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid map value '%1': %2")).arg(it.key(), nestedError));
             }
             result.insert(it.key(), std::move(item));
         }
@@ -225,7 +230,7 @@ namespace {
         if (!readString(object, "state", state, errorMessage))
             return false;
         if (state != QStringLiteral("COMPLETE"))
-            return fail(errorMessage, QStringLiteral("Field 'state' must be 'COMPLETE'."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'state' must be 'COMPLETE'.")));
         return true;
     }
 
@@ -234,7 +239,7 @@ namespace {
         if (it == object.constEnd())
             return true;
         if (!it->isBool() || it->toBool())
-            return fail(errorMessage, QStringLiteral("Only non-streaming requests are supported."));
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Only non-streaming requests are supported.")));
         return true;
     }
 
@@ -245,17 +250,16 @@ namespace {
             const auto &row = mix.rows.at(rowIndex);
             if (row.size() != expectedColumns) {
                 return fail(errorMessage,
-                            QStringLiteral("Mix row %1 must contain exactly %2 value(s).")
-                                .arg(rowIndex)
-                                .arg(expectedColumns));
+                            translateError(QT_TRANSLATE_N_NOOP("Synth::Internal::Api::Dtos", "Mix row %L1 must contain exactly %Ln value(s)."), nullptr, static_cast<int>(expectedColumns))
+                                .arg(rowIndex + 1));
             }
             double sum{};
             for (double value : row)
                 sum += value;
             if (sum > 1.0 + 1e-12) {
                 return fail(errorMessage,
-                            QStringLiteral("Mix row %1 must have a sum no greater than 1.")
-                                .arg(rowIndex));
+                            translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Mix row %L1 must have a sum no greater than 1."))
+                                .arg(rowIndex + 1));
             }
         }
         return true;
@@ -314,7 +318,7 @@ bool ArchitectureParameterMetadata::fromJson(const QJsonValue &json,
         if (!readStringList(object, "depends_on", result.dependsOn, errorMessage))
             return false;
     } else {
-        return fail(errorMessage, QStringLiteral("Unknown architecture parameter type '%1'.").arg(typeValue));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown architecture parameter type '%1'.")).arg(typeValue));
     }
     value = std::move(result);
     return true;
@@ -362,7 +366,7 @@ bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata
     else if (pronunciation == QStringLiteral("SKIP"))
         result.pronunciationMode = SkipPronunciation;
     else
-        return fail(errorMessage, QStringLiteral("Unknown pronunciation_mode '%1'.").arg(pronunciation));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown 'pronunciation_mode' value '%1'.")).arg(pronunciation));
 
     if (phoneme == QStringLiteral("FULL"))
         result.phonemeMode = FullPhoneme;
@@ -371,7 +375,7 @@ bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata
     else if (phoneme == QStringLiteral("SKIP"))
         result.phonemeMode = SkipPhoneme;
     else
-        return fail(errorMessage, QStringLiteral("Unknown phoneme_mode '%1'.").arg(phoneme));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown 'phoneme_mode' value '%1'.")).arg(phoneme));
 
     value = std::move(result);
     return true;
@@ -534,7 +538,7 @@ bool MultiSingerContext::fromJson(const QJsonValue &json, MultiSingerContext &va
         || !readDtoList(object, "singers", result.singers, errorMessage))
         return false;
     if (result.singers.isEmpty())
-        return fail(errorMessage, QStringLiteral("Field 'singers' must contain at least one item."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'singers' must contain at least one item.")));
     value = std::move(result);
     return true;
 }
@@ -655,7 +659,7 @@ bool NotePosition::fromJson(const QJsonValue &json, NotePosition &value, QString
         || !readNumber(object, "duration", result.duration, errorMessage))
         return false;
     if (result.gap < 0 || result.duration < 0)
-        return fail(errorMessage, QStringLiteral("Note position values must be non-negative."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Note position values must be non-negative.")));
     value = result;
     return true;
 }
@@ -697,7 +701,7 @@ bool DurationNote::fromJson(const QJsonValue &json, DurationNote &value, QString
         || !readDtoList(object, "phonemes", result.phonemes, errorMessage))
         return false;
     if (result.cent < 0 || result.cent > 12800)
-        return fail(errorMessage, QStringLiteral("Field 'cent' must be in [0, 12800]."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'cent' must be in [0, 12800].")));
     value = std::move(result);
     return true;
 }
@@ -711,7 +715,7 @@ QJsonValue Mix::toJson() const {
 
 bool Mix::fromJson(const QJsonValue &json, Mix &value, QString *errorMessage) {
     if (!json.isArray())
-        return fail(errorMessage, QStringLiteral("Mix must be an array of arrays."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Mix must be an array of arrays.")));
     Mix result;
     for (const auto &rowValue : json.toArray()) {
         QList<double> row;
@@ -719,7 +723,7 @@ bool Mix::fromJson(const QJsonValue &json, Mix &value, QString *errorMessage) {
             return false;
         for (double item : row) {
             if (item < 0 || item > 1)
-                return fail(errorMessage, QStringLiteral("Mix values must be in [0, 1]."));
+                return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Mix values must be in [0, 1].")));
         }
         result.rows.append(std::move(row));
     }
@@ -744,7 +748,7 @@ bool DurationInput::fromJson(const QJsonValue &json, DurationInput &value, QStri
         || !readNumber(object, "mix_sample_rate", result.mixSampleRate, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Duration and sample-rate constraints were violated."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Duration and sample-rate constraints were violated.")));
     value = std::move(result);
     return true;
 }
@@ -807,7 +811,7 @@ bool ParameterNote::fromJson(const QJsonValue &json, ParameterNote &value,
         || !readDtoList(object, "phonemes", result.phonemes, errorMessage))
         return false;
     if (result.cent < 0 || result.cent > 12800)
-        return fail(errorMessage, QStringLiteral("Field 'cent' must be in [0, 12800]."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'cent' must be in [0, 12800].")));
     value = std::move(result);
     return true;
 }
@@ -825,7 +829,7 @@ bool ParameterRetake::fromJson(const QJsonValue &json, ParameterRetake &value,
         || !readInteger(object, "length", result.length, errorMessage))
         return false;
     if (result.position < 0 || result.length < 0)
-        return fail(errorMessage, QStringLiteral("Retake position and length must be non-negative."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Retake position and length must be non-negative.")));
     value = result;
     return true;
 }
@@ -845,7 +849,7 @@ bool Parameter::fromJson(const QJsonValue &json, Parameter &value, QString *erro
         || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Field 'sample_rate' must be positive."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive.")));
     if (const auto it = object.constFind(QStringLiteral("retake")); it != object.constEnd()) {
         ParameterRetake parsed;
         if (!ParameterRetake::fromJson(*it, parsed, errorMessage))
@@ -871,7 +875,7 @@ bool AudioParameter::fromJson(const QJsonValue &json, AudioParameter &value,
         || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Field 'sample_rate' must be positive."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive.")));
     if (const auto it = object.constFind(QStringLiteral("values")); it != object.constEnd()) {
         QList<double> parsed;
         if (!readDoubleListValue(*it, parsed, errorMessage))
@@ -923,7 +927,7 @@ bool ParameterInput::fromJson(const QJsonValue &json, ParameterInput &value,
         || !readDto(object, "parameters", result.parameters, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Parameter input constraints were violated."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Parameter input constraints were violated.")));
     value = std::move(result);
     return true;
 }
@@ -965,7 +969,7 @@ bool AudioInput::fromJson(const QJsonValue &json, AudioInput &value, QString *er
         || !readDto(object, "parameters", result.parameters, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Audio input constraints were violated."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Audio input constraints were violated.")));
     value = std::move(result);
     return true;
 }
@@ -1166,7 +1170,7 @@ bool ParameterOutputParameter::fromJson(const QJsonValue &json, ParameterOutputP
         || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, QStringLiteral("Field 'sample_rate' must be positive."));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive.")));
     value = std::move(result);
     return true;
 }

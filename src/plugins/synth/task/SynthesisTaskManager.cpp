@@ -229,7 +229,7 @@ namespace Synth {
             }
             if (resolution.availability == ServiceAvailability::Unavailable || !resolution.service) {
                 queue.removeAt(index);
-                setState(task, SynthesisTask::Failed, SynthesisTaskManager::tr("No healthy synthesis service provides the selected architecture and every singer."));
+                setState(task, SynthesisTask::Failed, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers."));
                 continue;
             }
             if (!canStart(*resolution.service, task->type())) {
@@ -305,7 +305,7 @@ namespace Synth {
                 return error.message;
             }
             if (error.httpStatusCode) {
-                return SynthesisTaskManager::tr("The synthesis service returned HTTP %1.")
+                return SynthesisTaskManager::tr("The synthesis service returned HTTP status %1.")
                     .arg(error.httpStatusCode);
             }
             return SynthesisTaskManager::tr("The synthesis service request failed.");
@@ -365,7 +365,7 @@ namespace Synth {
                 const auto resolution = resolveService(task->request().context);
                 if (resolution.availability == ServiceAvailability::Unavailable) {
                     cancelFunctions.remove(task);
-                    fail(task, SynthesisTaskManager::tr("No healthy synthesis service provides the selected architecture and every singer."));
+                    fail(task, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers."));
                     continue;
                 }
                 if (resolution.availability == ServiceAvailability::Waiting || !resolution.service ||
@@ -671,7 +671,7 @@ namespace Synth {
         QString audioDownloadErrorText(QNetworkReply *reply, const QByteArray &body) {
             const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
             if (!statusAttribute.isValid()) {
-                return SynthesisTaskManager::tr("The audio download failed: %1")
+                return SynthesisTaskManager::tr("The synthesis service request failed: %1.")
                     .arg(reply->errorString());
             }
 
@@ -680,9 +680,9 @@ namespace Synth {
                                     .toString()
                                     .trimmed();
             auto message = reason.isEmpty()
-                               ? SynthesisTaskManager::tr("The audio server returned HTTP status %1.")
+                               ? SynthesisTaskManager::tr("The synthesis service returned HTTP status %1.")
                                      .arg(status)
-                               : SynthesisTaskManager::tr("The audio server returned HTTP status %1: %2.")
+                               : SynthesisTaskManager::tr("The synthesis service returned HTTP status %1: %2.")
                                      .arg(status)
                                      .arg(reason);
             const auto problem = problemDetailsText(body);

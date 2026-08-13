@@ -66,7 +66,7 @@ namespace Synth::Internal {
         for (qsizetype i = 0; i < configurations.size(); ++i) {
             QStringList errors;
             if (!configurations.at(i).validate(&errors)) {
-                setErrorMessage(tr("Service %1: %2")
+                setErrorMessage(tr("Service %L1: %2")
                                     .arg(i + 1)
                                     .arg(errors.join(QStringLiteral("; "))));
                 return false;

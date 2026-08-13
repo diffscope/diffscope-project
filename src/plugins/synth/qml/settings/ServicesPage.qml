@@ -141,7 +141,7 @@ Item {
                         Label {
                             anchors.centerIn: parent
                             visible: serviceList.count === 0
-                            text: qsTr("No DSSP services")
+                            text: qsTr("No DSSP services configured")
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
                         }
                     }
@@ -226,7 +226,7 @@ Item {
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 Label {
-                                    text: qsTr("Instance name")
+                                    text: qsTr("Service name")
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 TextField {
@@ -257,7 +257,12 @@ Item {
                                     onValueModified: page.currentService.port = value
                                 }
                                 Label {
-                                    text: qsTr("Endpoint prefix")
+                                    id: endpointPathPrefixLabel
+                                    readonly property string description: qsTr("Optional path prepended to every DSSP API endpoint.")
+                                    text: qsTr("Endpoint path prefix")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: endpointPathPrefixHoverHandler.hovered
+                                    HoverHandler { id: endpointPathPrefixHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 TextField {
@@ -265,10 +270,11 @@ Item {
                                     text: page.currentService?.endpointPrefix ?? ""
                                     placeholderText: qsTr("Optional")
                                     onTextEdited: page.currentService.endpointPrefix = text
+                                    Accessible.description: endpointPathPrefixLabel.description
                                 }
                                 CheckBox {
                                     Layout.columnSpan: 2
-                                    text: qsTr("Use SSL")
+                                    text: qsTr("Use HTTPS")
                                     checked: page.currentService?.useSsl ?? false
                                     onClicked: page.currentService.useSsl = checked
                                     TextMatcherItem on text { matcher: page.matcher }
@@ -341,7 +347,12 @@ Item {
                                 rowSpacing: 8
 
                                 Label {
+                                    id: requestTimeoutLabel
+                                    readonly property string description: qsTr("Maximum time to wait for a service request.")
                                     text: qsTr("Request timeout")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: requestTimeoutHoverHandler.hovered
+                                    HoverHandler { id: requestTimeoutHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 RowLayout {
@@ -353,11 +364,17 @@ Item {
                                         value: page.currentService?.requestTimeoutSeconds ?? 30
                                         editable: true
                                         onValueModified: page.currentService.requestTimeoutSeconds = value
+                                        Accessible.description: requestTimeoutLabel.description
                                     }
                                     Label { text: qsTr("seconds") }
                                 }
                                 Label {
-                                    text: qsTr("Automatic retries")
+                                    id: maximumRetriesLabel
+                                    readonly property string description: qsTr("Number of times to retry a failed request after the initial attempt.")
+                                    text: qsTr("Maximum retries")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: maximumRetriesHoverHandler.hovered
+                                    HoverHandler { id: maximumRetriesHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 SpinBox {
@@ -367,9 +384,15 @@ Item {
                                     value: page.currentService?.retryCount ?? 5
                                     editable: true
                                     onValueModified: page.currentService.retryCount = value
+                                    Accessible.description: maximumRetriesLabel.description
                                 }
                                 Label {
-                                    text: qsTr("Task concurrency")
+                                    id: concurrentTasksPerTypeLabel
+                                    readonly property string description: qsTr("Maximum number of concurrent tasks of the same synthesis type for this service.")
+                                    text: qsTr("Concurrent tasks per type")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: concurrentTasksPerTypeHoverHandler.hovered
+                                    HoverHandler { id: concurrentTasksPerTypeHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 SpinBox {
@@ -379,9 +402,15 @@ Item {
                                     value: page.currentService?.taskConcurrency ?? 4
                                     editable: true
                                     onValueModified: page.currentService.taskConcurrency = value
+                                    Accessible.description: concurrentTasksPerTypeLabel.description
                                 }
                                 Label {
-                                    text: qsTr("Global concurrency")
+                                    id: totalConcurrentTasksLabel
+                                    readonly property string description: qsTr("Maximum number of concurrent synthesis tasks for this service.")
+                                    text: qsTr("Total concurrent tasks")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: totalConcurrentTasksHoverHandler.hovered
+                                    HoverHandler { id: totalConcurrentTasksHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 SpinBox {
@@ -391,9 +420,15 @@ Item {
                                     value: page.currentService?.globalConcurrency ?? 64
                                     editable: true
                                     onValueModified: page.currentService.globalConcurrency = value
+                                    Accessible.description: totalConcurrentTasksLabel.description
                                 }
                                 Label {
+                                    id: healthCheckIntervalLabel
+                                    readonly property string description: qsTr("How often to check whether this service is available.")
                                     text: qsTr("Health check interval")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: healthCheckIntervalHoverHandler.hovered
+                                    HoverHandler { id: healthCheckIntervalHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 RowLayout {
@@ -405,20 +440,30 @@ Item {
                                         value: page.currentService?.healthCheckIntervalSeconds ?? 60
                                         editable: true
                                         onValueModified: page.currentService.healthCheckIntervalSeconds = value
+                                        Accessible.description: healthCheckIntervalLabel.description
                                     }
                                     Label { text: qsTr("seconds") }
                                 }
                                 CheckBox {
                                     Layout.columnSpan: 2
-                                    text: qsTr("Verify SSL certificate")
+                                    readonly property string description: qsTr("Reject HTTPS connections with invalid or untrusted certificates.")
+                                    text: qsTr("Verify TLS certificate")
                                     checked: page.currentService?.verifySslCertificate ?? true
                                     enabled: page.currentService?.useSsl ?? false
                                     onClicked: page.currentService.verifySslCertificate = checked
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: hovered
+                                    Accessible.description: description
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 Label {
+                                    id: customRequestHeadersLabel
+                                    readonly property string description: qsTr("Headers sent with every request to this service.")
                                     Layout.columnSpan: 2
                                     text: qsTr("Custom request headers")
+                                    DescriptiveText.toolTip: description
+                                    DescriptiveText.activated: customRequestHeadersHoverHandler.hovered
+                                    HoverHandler { id: customRequestHeadersHoverHandler }
                                     TextMatcherItem on text { matcher: page.matcher }
                                 }
                                 ScrollView {
@@ -431,6 +476,7 @@ Item {
                                         wrapMode: TextEdit.NoWrap
                                         onTextChanged: if (activeFocus)
                                             page.currentService.customHeaders = text
+                                        Accessible.description: customRequestHeadersLabel.description
                                     }
                                 }
                             }
@@ -443,7 +489,7 @@ Item {
                 Label {
                     anchors.centerIn: parent
                     visible: !page.currentService
-                    text: qsTr("Select a service to edit it.")
+                    text: qsTr("Select a service to edit.")
                     ThemedItem.foregroundLevel: SVS.FL_Secondary
                 }
             }

@@ -138,7 +138,12 @@ ScrollView {
                     rowSpacing: 8
 
                     Label {
+                        id: basePiecePaddingLabel
+                        readonly property string description: qsTr("Padding added before and after each synthesis piece.")
                         text: qsTr("Base piece padding (ms)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: basePiecePaddingHoverHandler.hovered
+                        HoverHandler { id: basePiecePaddingHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -149,9 +154,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.paddingBase
                         onValueModified: page.pageHandle.paddingBase = value
+                        Accessible.description: basePiecePaddingLabel.description
                     }
                     Label {
+                        id: additionalOnsetPaddingLabel
+                        readonly property string description: qsTr("Additional leading padding added for each phoneme before a note onset.")
                         text: qsTr("Additional onset padding (ms)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: additionalOnsetPaddingHoverHandler.hovered
+                        HoverHandler { id: additionalOnsetPaddingHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -162,9 +173,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.paddingAdditional
                         onValueModified: page.pageHandle.paddingAdditional = value
+                        Accessible.description: additionalOnsetPaddingLabel.description
                     }
                     Label {
+                        id: pieceGapThresholdLabel
+                        readonly property string description: qsTr("Minimum gap used to separate note groups into synthesis pieces and limit leading padding.")
                         text: qsTr("Piece gap threshold (ms)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: pieceGapThresholdHoverHandler.hovered
+                        HoverHandler { id: pieceGapThresholdHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -175,9 +192,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.paddingGap
                         onValueModified: page.pageHandle.paddingGap = value
+                        Accessible.description: pieceGapThresholdLabel.description
                     }
                     Label {
+                        id: restLyricsLabel
+                        readonly property string description: qsTr("Comma-separated lyrics treated as rests when dividing a clip into synthesis pieces.")
                         text: qsTr("Rest lyrics")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: restLyricsHoverHandler.hovered
+                        HoverHandler { id: restLyricsHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -187,9 +210,15 @@ ScrollView {
                         text: page.pageHandle.restLyrics
                         placeholderText: qsTr("Comma-separated, for example AP, SP")
                         onTextEdited: page.pageHandle.restLyrics = text
+                        Accessible.description: restLyricsLabel.description
                     }
                     Label {
+                        id: parameterSampleRateLabel
+                        readonly property string description: qsTr("Number of parameter samples generated per second.")
                         text: qsTr("Parameter sample rate (Hz)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: parameterSampleRateHoverHandler.hovered
+                        HoverHandler { id: parameterSampleRateHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -200,9 +229,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.parameterSampleRate
                         onValueModified: page.pageHandle.parameterSampleRate = value
+                        Accessible.description: parameterSampleRateLabel.description
                     }
                     Label {
+                        id: singerMixSampleRateLabel
+                        readonly property string description: qsTr("Number of singer-mix samples generated per second.")
                         text: qsTr("Singer mix sample rate (Hz)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: singerMixSampleRateHoverHandler.hovered
+                        HoverHandler { id: singerMixSampleRateHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -213,6 +248,7 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.mixSampleRate
                         onValueModified: page.pageHandle.mixSampleRate = value
+                        Accessible.description: singerMixSampleRateLabel.description
                     }
                 }
             }
@@ -231,7 +267,12 @@ ScrollView {
                     rowSpacing: 8
 
                     Label {
+                        id: maximumCacheSizeLabel
+                        readonly property string description: qsTr("Maximum disk space used by synthesis task caches.")
                         text: qsTr("Maximum cache size (GiB)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: maximumCacheSizeHoverHandler.hovered
+                        HoverHandler { id: maximumCacheSizeHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -242,9 +283,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.cacheMaximumGiB
                         onValueModified: page.pageHandle.cacheMaximumGiB = value
+                        Accessible.description: maximumCacheSizeLabel.description
                     }
                     Label {
+                        id: cacheExpiryLabel
+                        readonly property string description: qsTr("Number of days before an unused cache entry expires. Use 0 to disable expiry.")
                         text: qsTr("Cache expiry (days)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: cacheExpiryHoverHandler.hovered
+                        HoverHandler { id: cacheExpiryHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -255,9 +302,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.cacheExpiryDays
                         onValueModified: page.pageHandle.cacheExpiryDays = value
+                        Accessible.description: cacheExpiryLabel.description
                     }
                     Label {
-                        text: qsTr("Maximum audio download (MiB)")
+                        id: maximumAudioDownloadSizeLabel
+                        readonly property string description: qsTr("Maximum size of a synthesized audio file downloaded from a service.")
+                        text: qsTr("Maximum audio download size (MiB)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: maximumAudioDownloadSizeHoverHandler.hovered
+                        HoverHandler { id: maximumAudioDownloadSizeHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -268,9 +321,15 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.audioDownloadMaximumMiB
                         onValueModified: page.pageHandle.audioDownloadMaximumMiB = value
+                        Accessible.description: maximumAudioDownloadSizeLabel.description
                     }
                     Label {
-                        text: qsTr("Environment lifetime (seconds)")
+                        id: environmentTagLifetimeLabel
+                        readonly property string description: qsTr("How long to reuse a service-provided synthesis environment tag before requesting a new one.")
+                        text: qsTr("Environment tag lifetime (seconds)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: environmentTagLifetimeHoverHandler.hovered
+                        HoverHandler { id: environmentTagLifetimeHoverHandler }
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -281,6 +340,7 @@ ScrollView {
                         editable: true
                         value: page.pageHandle.environmentTagTtlSeconds
                         onValueModified: page.pageHandle.environmentTagTtlSeconds = value
+                        Accessible.description: environmentTagLifetimeLabel.description
                     }
                     Button {
                         Layout.columnSpan: 2

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <mutex>
 
+#include <QCoreApplication>
 #include <QCryptographicHash>
 #include <QJsonDocument>
 #include <QLocale>
@@ -15,6 +16,10 @@
 namespace Synth::Internal {
 
     namespace {
+
+        QString translateError(const char *sourceText) {
+            return QCoreApplication::translate("Synth::Internal::ParameterRuntimeRegistry", sourceText);
+        }
 
         struct CompiledExpression {
             double variable{};
@@ -34,7 +39,8 @@ namespace Synth::Internal {
                 if (expression)
                     return true;
                 if (errorMessage)
-                    *errorMessage = QStringLiteral("Invalid tinyexpr expression at position %1").arg(position);
+                    *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "The parameter expression is invalid at position %L1."))
+                                        .arg(position);
                 return false;
             }
 
@@ -121,7 +127,7 @@ namespace Synth::Internal {
                                                  Core::ParameterInfo *result,
                                                  QString *errorMessage) {
         if (!result) {
-            if (errorMessage) *errorMessage = QStringLiteral("Result pointer must not be null");
+            if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "Result pointer must not be null."));
             return false;
         }
         QStringList validationErrors;

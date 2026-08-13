@@ -125,6 +125,8 @@ cmake --build build --target <plugin>_translations_lupdate
 cmake --build build --target <plugin>_translations_lrelease
 ```
 
+Write user-facing window, dialog, and page titles, button text, and menu text in Title Case. Use sentence case for all other general user-facing text. Format numbers for the user's locale unless they are special identifiers such as HTTP status codes or require a defined representation such as timecodes. Use localized placeholders such as `%L1` and `%Ln`, `QLocale::toString()` in C++, or `toLocaleString()` in JavaScript/QML instead of inserting locale-neutral numeric strings. Describe concepts, actions, and results from the user's business perspective; do not over-explain internal implementation details in user-facing copy.
+
 Use `RuntimeInterface::settings()` for user preferences and `RuntimeInterface::globalSettings()` only for machine-wide state. Group C++ keys by `staticMetaObject.className()` (or an equally stable module name), use descriptive `lowerCamelCase` keys, supply defaults, and balance every `beginGroup()` with `endGroup()`. In QML, use `SVSCraft.Extras.Settings` with a stable module-qualified category.
 
 Every interactive control must be keyboard reachable. Give icon-only controls meaningful `text`, tooltips, and `Accessible` metadata; preserve logical focus order. Use `control.mirrored`, layouts, and left/right padding correctly for RTL interfaces. Test long translations and never encode meaning by color alone.
@@ -138,6 +140,8 @@ View-model bindings maintain explicit document-to-view and view-to-document maps
 ## Configure, Build, and Run
 
 Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. During vcpkg installation, expose the Qt CMake directory through `QT_DIR`/`Qt6_DIR` and retain those variables for overlay ports.
+
+Do not perform any build, test, run, or automatic formatting operations unless explicitly requested by the user.
 
 ```sh
 git submodule update --init --recursive

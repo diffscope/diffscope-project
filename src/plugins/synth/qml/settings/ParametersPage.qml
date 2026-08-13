@@ -256,7 +256,7 @@ Item {
                             }
                             CheckBox {
                                 Layout.columnSpan: 2
-                                text: qsTr("Has default value")
+                                text: qsTr("Show default value")
                                 checked: page.currentParameter?.showDefaultValue ?? false
                                 onClicked: page.currentParameter.showDefaultValue = checked
                             }
@@ -338,36 +338,76 @@ Item {
                             columns: 2
                             columnSpacing: 12
                             rowSpacing: 8
-                            Label { text: qsTr("Normalization") }
+                            Label {
+                                id: normalizationLabel
+                                readonly property string description: qsTr("Maps a raw parameter value to its normalized value.")
+                                text: qsTr("Normalization")
+                                DescriptiveText.toolTip: description
+                                DescriptiveText.activated: normalizationHoverHandler.hovered
+                                HoverHandler { id: normalizationHoverHandler }
+                            }
                             TextField {
                                 Layout.fillWidth: true
                                 text: page.currentParameter?.normalizationExpression ?? ""
                                 onTextEdited: page.currentParameter.normalizationExpression = text
+                                Accessible.description: normalizationLabel.description
                             }
-                            Label { text: qsTr("Inverse normalization") }
+                            Label {
+                                id: inverseNormalizationLabel
+                                readonly property string description: qsTr("Maps a normalized parameter value back to its raw value.")
+                                text: qsTr("Inverse normalization")
+                                DescriptiveText.toolTip: description
+                                DescriptiveText.activated: inverseNormalizationHoverHandler.hovered
+                                HoverHandler { id: inverseNormalizationHoverHandler }
+                            }
                             TextField {
                                 Layout.fillWidth: true
                                 text: page.currentParameter?.denormalizationExpression ?? ""
                                 onTextEdited: page.currentParameter.denormalizationExpression = text
+                                Accessible.description: inverseNormalizationLabel.description
                             }
-                            Label { text: qsTr("Display value mapping") }
+                            Label {
+                                id: displayValueMappingLabel
+                                readonly property string description: qsTr("Maps a raw parameter value to its displayed value.")
+                                text: qsTr("Display value mapping")
+                                DescriptiveText.toolTip: description
+                                DescriptiveText.activated: displayValueMappingHoverHandler.hovered
+                                HoverHandler { id: displayValueMappingHoverHandler }
+                            }
                             TextField {
                                 Layout.fillWidth: true
                                 text: page.currentParameter?.displayValueExpression ?? ""
                                 onTextEdited: page.currentParameter.displayValueExpression = text
+                                Accessible.description: displayValueMappingLabel.description
                             }
-                            Label { text: qsTr("Inverse display value mapping") }
+                            Label {
+                                id: inverseDisplayValueMappingLabel
+                                readonly property string description: qsTr("Maps a displayed parameter value back to its raw value.")
+                                text: qsTr("Inverse display value mapping")
+                                DescriptiveText.toolTip: description
+                                DescriptiveText.activated: inverseDisplayValueMappingHoverHandler.hovered
+                                HoverHandler { id: inverseDisplayValueMappingHoverHandler }
+                            }
                             TextField {
                                 Layout.fillWidth: true
                                 text: page.currentParameter?.displayValueInverseExpression ?? ""
                                 onTextEdited: page.currentParameter.displayValueInverseExpression = text
+                                Accessible.description: inverseDisplayValueMappingLabel.description
                             }
-                            Label { text: qsTr("Display text template") }
+                            Label {
+                                id: displayTextTemplateLabel
+                                readonly property string description: qsTr("Formats the displayed parameter value. Use %d for a rounded integer, %.Nf for a fixed-point value with N decimal places, and %% for a literal percent sign.")
+                                text: qsTr("Display text template")
+                                DescriptiveText.toolTip: description
+                                DescriptiveText.activated: displayTextTemplateHoverHandler.hovered
+                                HoverHandler { id: displayTextTemplateHoverHandler }
+                            }
                             TextField {
                                 Layout.fillWidth: true
                                 text: page.currentParameter?.displayTextTemplate ?? ""
-                                placeholderText: qsTr("%d, %.2f, %.3f and %% are supported")
+                                placeholderText: qsTr("Use %d for integers, %.Nf for N decimal places, and %% for a percent sign")
                                 onTextEdited: page.currentParameter.displayTextTemplate = text
+                                Accessible.description: displayTextTemplateLabel.description
                             }
                         }
                     }
@@ -377,7 +417,7 @@ Item {
                         Layout.margins: 12
                         visible: !page.currentParameter
                         horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("Select a parameter to edit it.")
+                        text: qsTr("Select a parameter to edit.")
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                     }
                     Item { Layout.fillHeight: true }

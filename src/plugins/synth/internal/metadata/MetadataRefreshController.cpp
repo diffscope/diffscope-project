@@ -28,8 +28,8 @@ namespace Synth::Internal {
             if (!error.message.isEmpty())
                 return error.message;
             if (error.isResponseError())
-                return MetadataRefreshController::tr("HTTP response error %1").arg(error.httpStatusCode);
-            return MetadataRefreshController::tr("Network error %1").arg(error.networkErrorCode);
+            return MetadataRefreshController::tr("The synthesis service returned HTTP status %1.").arg(error.httpStatusCode);
+        return MetadataRefreshController::tr("The synthesis service request failed: network error %1.").arg(error.networkErrorCode);
         }
 
         QString singerKey(const QString &architectureId, const QString &singerId) {

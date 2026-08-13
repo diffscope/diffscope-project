@@ -123,7 +123,7 @@ namespace Synth::Internal {
                 delete series;
                 series = nullptr;
                 if (errorMessage) {
-                    *errorMessage = SynthesisProjectAddOn::tr("The synthesis buffer could not be inserted into the track mixer.");
+                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be added to the track.");
                 }
                 return false;
             }
@@ -133,7 +133,7 @@ namespace Synth::Internal {
         const auto range = audioClipRange(window, currentTrackContext, clip, piece);
         if (!range.isValid()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesized piece is outside the visible clip range.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip.");
             }
             return false;
         }
@@ -162,7 +162,7 @@ namespace Synth::Internal {
             delete futureSource;
             promise->finish();
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis buffer overlaps another piece in the same clip.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece overlaps another synthesis piece in the same clip.");
             }
             return false;
         }
@@ -185,7 +185,7 @@ namespace Synth::Internal {
         auto binding = m_bindings.value(piece);
         if (!binding || !binding->futureSource || !binding->promise || binding->futureSource->source()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis buffer is no longer pending.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer waiting for synthesized audio.");
             }
             return false;
         }
@@ -203,7 +203,7 @@ namespace Synth::Internal {
             delete mixer;
             delete source;
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesized audio source could not be prepared.");
+                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be prepared.");
             }
             return false;
         }

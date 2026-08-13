@@ -232,7 +232,7 @@ QtObject {
 
                                             Label {
                                                 visible: taskDelegate.modelData.state === 1 && Boolean(taskDelegate.modelData.startedAt)
-                                                text: qsTr("%1 s").arg(Math.max(0, Math.floor((root.now - taskDelegate.modelData.startedAt.getTime()) / 1000)))
+                                                text: qsTr("%L1 s").arg(Math.max(0, Math.floor((root.now - taskDelegate.modelData.startedAt.getTime()) / 1000)))
                                                 ThemedItem.foregroundLevel: SVS.FL_Secondary
                                             }
                                         }
