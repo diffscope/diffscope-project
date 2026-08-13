@@ -2,7 +2,6 @@ import QtQml
 import QtQml.Models
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.impl
 import QtQuick.Layouts
 
 import SVSCraft

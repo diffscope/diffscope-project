@@ -1,7 +1,6 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.impl
 import QtQuick.Layouts
 import QtQuick.Templates as T
 
@@ -383,9 +382,6 @@ Window {
                                 IconLabel {
                                     anchors.centerIn: parent
                                     icon.source: "image://fluent-system-icons/add"
-                                    icon.color: addButton.enabled
-                                                ? Theme.foregroundPrimaryColor
-                                                : Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor)
                                     icon.width: 30
                                     icon.height: 30
                                 }

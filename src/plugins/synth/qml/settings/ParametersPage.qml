@@ -1,7 +1,6 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.impl
 import QtQuick.Dialogs
 import QtQuick.Layouts
 
@@ -135,8 +134,6 @@ Item {
                                 IconLabel {
                                     visible: parameterDelegate.model.builtin
                                     icon.source: "image://fluent-system-icons/lock_closed"
-                                    icon.width: 16
-                                    icon.height: 16
                                     icon.color: Theme.foregroundSecondaryColor
                                 }
                             }

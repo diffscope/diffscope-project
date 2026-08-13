@@ -2,7 +2,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Controls.impl
+import QtQuick.Controls.impl as Impl
 import QtQuick.Layouts
 import QtQml.Models
 
@@ -311,7 +311,7 @@ Item {
                                                 color: Theme.backgroundTertiaryColor
                                                 border.width: 1
                                                 border.color: singerButton.highlighted ? Theme.accentColor : Theme.borderColor
-                                                IconImage {
+                                                Impl.IconImage {
                                                     anchors.centerIn: parent
                                                     source: "image://fluent-system-icons/mic?size=48&style=regular"
                                                     color: Theme.foregroundSecondaryColor
@@ -385,7 +385,7 @@ Item {
                                                         color: Theme.backgroundTertiaryColor
                                                         border.width: 1
                                                         border.color: Theme.borderColor
-                                                        IconImage {
+                                                        Impl.IconImage {
                                                             anchors.centerIn: parent
                                                             source: "image://fluent-system-icons/mic?size=48&style=regular"
                                                             color: Theme.foregroundSecondaryColor

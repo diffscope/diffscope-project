@@ -3,7 +3,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml.Models
-import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -330,9 +329,6 @@ QtObject {
                         anchors.fill: parent
                         icon.source: newActionPopup.actionObject?.ActionInstantiator.icon.source ?? ""
                         icon.color: newActionPopup.actionObject?.ActionInstantiator.icon.color.valid ? newActionPopup.actionObject.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
-                        icon.width: 16
-                        icon.height: 16
-                        font: Theme.font
                         display: AbstractButton.IconOnly
                     }
                     DragIconLabel {

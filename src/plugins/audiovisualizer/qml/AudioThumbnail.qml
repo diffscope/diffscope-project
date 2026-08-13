@@ -1,6 +1,6 @@
 import QtQml
 import QtQuick
-import QtQuick.Controls.impl
+import QtQuick.Controls
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -52,10 +52,6 @@ Item {
         IconLabel {
             id: label
             anchors.centerIn: parent
-            icon.width: 16
-            icon.height: 16
-            spacing: 4
-            font: Theme.font
             color: {
                 switch (d.audioClipAudioContext?.status) {
                     case AudioClipAudioContext.FileNotFound:

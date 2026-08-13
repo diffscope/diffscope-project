@@ -2,7 +2,6 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Controls.impl
 import QtQuick.Layouts
 import QtQml.Models
 
@@ -124,8 +123,6 @@ Item {
                 IconLabel {
                     icon.source: `image://fluent-system-icons/${pluginCard.modelData.hasError ? "dismiss_circle" : !pluginCard.modelData.running ? "subtract_circle" : pluginCard.modelData.required ? "checkmark_lock" : "checkmark_circle"}`
                     icon.color: pluginCard.modelData.hasError ? Theme.errorColor : !pluginCard.modelData.running ? Theme.foregroundSecondaryColor : Theme.accentColor
-                    icon.width: 16
-                    icon.height: 16
                 }
                 Switch {
                     enabled: !pluginCard.modelData.required
@@ -291,14 +288,9 @@ Item {
                     onClicked: view.handlePluginToggle(d.pluginSpec, this)
                 }
                 IconLabel {
-                    spacing: 4
-                    font: Theme.font
                     icon.source: `image://fluent-system-icons/${d.pluginSpec?.hasError ? "dismiss_circle" : !d.pluginSpec?.running ? "subtract_circle" : d.pluginSpec?.required ? "checkmark_lock" : "checkmark_circle"}`
                     icon.color: d.pluginSpec?.hasError ? Theme.errorColor : !d.pluginSpec?.running ? Theme.foregroundSecondaryColor : Theme.accentColor
-                    icon.width: 16
-                    icon.height: 16
                     text: d.pluginSpec?.hasError ? qsTr("Plugin status: Error") : !d.pluginSpec?.running ? qsTr("Plugin status: Not loaded") : qsTr("Plugin status: Loaded")
-                    color: Theme.foregroundPrimaryColor
                 }
                 Button {
                     implicitHeight: 24

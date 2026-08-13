@@ -2,7 +2,6 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -76,8 +75,6 @@ ColumnLayout {
                             icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
                             icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                             text: d.additionalTrackLoader?.componentName(layout.modelData) ?? ""
-                            color: Theme.foregroundPrimaryColor
-                            font.family: Theme.font.family
                             font.pixelSize: layout.itemSize * 0.75
                         }
                         Item {

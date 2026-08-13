@@ -3,7 +3,6 @@ import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.impl
 import QtQuick.Templates as T
 
 import SVSCraft
@@ -1011,14 +1010,10 @@ Item {
                                         anchors.rightMargin: 4
                                         IconLabel {
                                             Layout.fillHeight: true
-                                            icon.height: 16
-                                            icon.width: 16
                                             spacing: 2
                                             icon.source: layout.item?.ActionInstantiator.icon.source ?? ""
                                             icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                                             text: view.addOn?.additionalTrackLoader.componentName(bottomAdditionalTrackPanel.modelData) ?? ""
-                                            color: Theme.foregroundPrimaryColor
-                                            font: Theme.font
                                         }
                                         StackLayout {
                                             Layout.fillWidth: true

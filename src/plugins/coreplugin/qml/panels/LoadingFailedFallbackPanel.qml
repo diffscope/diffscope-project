@@ -2,7 +2,6 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -40,15 +39,12 @@ DockingPane {
         spacing: 12
         IconLabel {
             text: qsTr("Failed to load component")
-            color: Theme.foregroundPrimaryColor
             font.pixelSize: 16
             icon.source: "image://fluent-system-icons/error_circle"
             icon.width: 48
             icon.height: 48
             icon.color: Theme.errorColor
             spacing: 12
-            Accessible.role: Accessible.StaticText
-            Accessible.name: qsTr("Failed to load component")
         }
         Label {
             visible: !panel.componentRegistered

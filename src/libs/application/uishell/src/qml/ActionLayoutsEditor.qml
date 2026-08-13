@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml.Models
 import QtQuick.Templates as T
-import QtQuick.Controls.impl
+import QtQuick.Controls.impl as Impl
 
 import SVSCraft
 import SVSCraft.UIComponents
@@ -68,7 +68,7 @@ TreeView {
             y: (control.height - height) / 2
             implicitWidth: 16
             implicitHeight: 24
-            ColorImage {
+            Impl.ColorImage {
                 id: arrow
                 x: (parent.width - width) / 2
                 y: (parent.height - height) / 2
@@ -118,13 +118,13 @@ TreeView {
 
         contentItem: RowLayout {
             spacing: control.spacing
-            IconLabel {
+            Impl.IconLabel {
                 id: iconLabel
                 icon: control.icon
                 color: label.color
                 visible: width !== 0 && control.info.type !== ActionLayoutsEditorHelper.Separator && control.info.type !== ActionLayoutsEditorHelper.Stretch
             }
-            IconLabel {
+            Impl.IconLabel {
                 id: separatorIcon
                 visible: control.info.type === ActionLayoutsEditorHelper.Separator || control.info.type === ActionLayoutsEditorHelper.Stretch
                 icon.source: control.info.type === ActionLayoutsEditorHelper.Separator ? "image://fluent-system-icons/line_horizontal_1_dashes" : "image://fluent-system-icons/auto_fit_width"

@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.impl
+import QtQuick.Controls.impl as Impl
 import QtQuick.Layouts
 
 import SVSCraft
@@ -297,7 +297,7 @@ QtObject {
                     contentItem: RowLayout {
                         spacing: 4
 
-                        IconImage {
+                        Impl.IconImage {
                             Layout.preferredWidth: 14
                             Layout.preferredHeight: 14
                             visible: delegateItem.warning
@@ -327,7 +327,7 @@ QtObject {
                         anchors.leftMargin: 8
                         spacing: 3
 
-                        IconImage {
+                        Impl.IconImage {
                             visible: combo.selectedWarning
                             source: "image://fluent-system-icons/warning"
                             sourceSize: Qt.size(14, 14)
@@ -646,10 +646,6 @@ QtObject {
                 && !(control.editingBinding?.registered ?? false)
             text: qsTr("The selected parameter is unavailable.")
             icon.source: "image://fluent-system-icons/warning"
-            icon.width: 16
-            icon.height: 16
-            icon.color: Theme.foregroundPrimaryColor
-            color: Theme.foregroundPrimaryColor
         }
 
         Item {

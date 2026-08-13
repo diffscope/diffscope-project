@@ -1,7 +1,6 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.impl
 import QtQuick.Layouts
 
 import SVSCraft
@@ -110,8 +109,6 @@ QtObject {
                                 IconLabel {
                                     icon.source: `image://fluent-system-icons/${serviceDelegate.model.healthIcon}`
                                     icon.color: healthStatus.indicatorColor
-                                    icon.width: 16
-                                    icon.height: 16
                                 }
                                 Label {
                                     text: serviceDelegate.model.healthText
@@ -155,8 +152,6 @@ QtObject {
                                     spacing: 8
                                     IconLabel {
                                         icon.source: modelData.state === 1 ? "image://fluent-system-icons/play_circle" : "image://fluent-system-icons/clock"
-                                        icon.width: 16
-                                        icon.height: 16
                                     }
                                     Label {
                                         text: root.taskTypeText(modelData.type)

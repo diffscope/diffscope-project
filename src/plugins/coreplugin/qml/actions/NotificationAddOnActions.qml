@@ -2,7 +2,6 @@ import QtQml
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.impl
 
 import QActionKit
 
@@ -28,7 +27,6 @@ ActionCollection {
                 icon.color: indicator.activated ? Theme.errorColor : Theme.foregroundPrimaryColor
                 text: (d.addOn?.notificationManager.criticalCount ?? 0).toLocaleString()
                 color: indicator.activated ? Theme.errorColor : Theme.foregroundPrimaryColor
-                font: Theme.font
                 spacing: 2
                 visible: (d.addOn?.notificationManager.criticalCount ?? 0) > 0
             }
@@ -40,7 +38,6 @@ ActionCollection {
                 icon.color: indicator.activated ? Theme.warningColor : Theme.foregroundPrimaryColor
                 text: (d.addOn?.notificationManager.warningCount ?? 0).toLocaleString()
                 color: indicator.activated ? Theme.warningColor : Theme.foregroundPrimaryColor
-                font: Theme.font
                 spacing: 2
                 visible: (d.addOn?.notificationManager.warningCount ?? 0) > 0
             }
