@@ -13,6 +13,39 @@ namespace {
         return static_cast<double>((value > 0.0) - (value < 0.0));
     }
 
+    bool parseFixedPointSpecifier(const QString &displayTemplate, qsizetype index,
+                                  qsizetype *specifierLength, int *precision = nullptr) {
+        if (index + 2 >= displayTemplate.size() || displayTemplate.at(index) != u'%'
+            || displayTemplate.at(index + 1) != u'.') {
+            return false;
+        }
+
+        auto cursor = index + 2;
+        int parsedPrecision{};
+        bool hasDigit{};
+        while (cursor < displayTemplate.size()) {
+            const auto character = displayTemplate.at(cursor);
+            if (character < u'0' || character > u'9')
+                break;
+
+            const auto digit = character.unicode() - u'0';
+            if (parsedPrecision > (std::numeric_limits<int>::max() - digit) / 10)
+                return false;
+            parsedPrecision = parsedPrecision * 10 + digit;
+            hasDigit = true;
+            ++cursor;
+        }
+
+        if (!hasDigit || cursor >= displayTemplate.size() || displayTemplate.at(cursor) != u'f')
+            return false;
+
+        if (specifierLength)
+            *specifierLength = cursor - index + 1;
+        if (precision)
+            *precision = parsedPrecision;
+        return true;
+    }
+
 }
 
 namespace Synth::Internal::ParameterExpressionUtils {
@@ -62,10 +95,9 @@ namespace Synth::Internal::ParameterExpressionUtils {
                 index += 2;
                 continue;
             }
-            if (index + 3 < displayTemplate.size()
-                && (displayTemplate.mid(index, 4) == QStringLiteral("%.2f")
-                    || displayTemplate.mid(index, 4) == QStringLiteral("%.3f"))) {
-                index += 4;
+            qsizetype specifierLength{};
+            if (parseFixedPointSpecifier(displayTemplate, index, &specifierLength)) {
+                index += specifierLength;
                 continue;
             }
             if (errorPosition)
@@ -99,13 +131,15 @@ namespace Synth::Internal::ParameterExpressionUtils {
                     integerValue = static_cast<qint64>(std::round(value));
                 result.append(locale.toString(integerValue));
                 index += 2;
-            } else if (index + 3 < displayTemplate.size()
-                       && (displayTemplate.mid(index, 4) == QStringLiteral("%.2f")
-                           || displayTemplate.mid(index, 4) == QStringLiteral("%.3f"))) {
-                const int precision = displayTemplate.at(index + 2).digitValue();
-                result.append(locale.toString(value, 'f', precision));
-                index += 4;
             } else {
+                qsizetype specifierLength{};
+                int precision{};
+                if (parseFixedPointSpecifier(displayTemplate, index, &specifierLength, &precision)) {
+                    result.append(locale.toString(value, 'f', precision));
+                    index += specifierLength;
+                    continue;
+                }
+
                 // Configurations are validated before reaching runtime. Keeping an inert literal
                 // fallback here prevents an untrusted template from becoming a format string.
                 result.append(u'%');
