@@ -48,8 +48,14 @@ You may refer to CI scripts for more details.
 
 ## License
 
-DiffScope is licensed under the Apache License, Version 2.0.
+This repository uses multiple licenses.
 
-This license does not apply to third-party dependencies.
+The DiffScope Project (the combined work comprising the DiffScope Application, its built-in plugins, and its third-party libraries) is licensed under the [GNU General Public License, Version 3](LICENSES/GPL-3.0-only.txt).
 
-Some built-in plugins are licensed under terms different from those of DiffScope itself. Please refer to the `plugins` directories for the license information applicable to each individual plugin. If a plugin does not explicitly include a separate license, it is licensed under the same terms as DiffScope.
+The DiffScope Application itself and the Core Plugin are licensed under the [Apache License, Version 2.0](LICENSES/Apache-2.0.txt).
+
+Each built-in plugin is subject to its respective license terms.
+
+Third-party software is subject to its respective license terms.
+
+See [LICENSE](LICENSE) for the component license index and the [LICENSES](LICENSES) directory for the complete license texts.

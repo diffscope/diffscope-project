@@ -61,8 +61,9 @@ configure_file(config.json.in ${_config_file} @ONLY)
 # Deploy install phase files
 ck_add_shared_files(
     SKIP_BUILD
-    SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../LICENSE DEST ${CK_BUILD_DOC_DIR}  # doc
-    SRC conf/${CK_PLATFORM_LOWER}/qt.conf DEST ${CK_BUILD_QT_CONF_DIR}      # qt.conf
+    SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../LICENSE DEST ${CK_BUILD_DOC_DIR}                    # license index
+    SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../LICENSES/ DEST ${CK_BUILD_DOC_DIR}/LICENSES          # license texts
+    SRC conf/${CK_PLATFORM_LOWER}/qt.conf DEST ${CK_BUILD_QT_CONF_DIR}                         # qt.conf
 )
 
 # Deploy build & install phase files
