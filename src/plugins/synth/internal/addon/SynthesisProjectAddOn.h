@@ -22,6 +22,7 @@ namespace Core {
 }
 
 namespace dspx {
+    class Note;
     class Piece;
     class SingingClip;
 }
@@ -36,6 +37,7 @@ namespace Synth {
     namespace Internal {
 
         class SynthesisExportListener;
+        class SynthesisAudioController;
 
         class SynthesisProjectAddOn final : public Core::WindowInterfaceAddOn {
             Q_OBJECT
@@ -64,7 +66,6 @@ namespace Synth {
 
         private:
             struct ClipRuntime;
-            struct AudioBinding;
             struct TaskWriteback;
             struct ManualRequest;
 
@@ -92,6 +93,11 @@ namespace Synth {
             bool hasUnprocessedWriteback(SynthesisTask *task) const;
             bool validateTaskWriteback(const TaskWriteback *writeback) const;
             void processTaskWriteback(TaskWriteback *writeback);
+            void processPronunciationWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const QList<dspx::Note *> &notes, const SynthesisTaskResult &result);
+            void processPhonemeWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const QList<dspx::Note *> &notes, const SynthesisTaskResult &result);
+            void processDurationWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const QList<dspx::Note *> &notes, const SynthesisTaskResult &result);
+            void processParameterWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result);
+            void processAudioWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result);
             void processManualRequest(ManualRequest *request);
             void processCommittedChanges();
             void finalizeLanguageWave(ClipRuntime *runtime);
@@ -102,9 +108,9 @@ namespace Synth {
             void bindPieceTask(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTask *task, quint64 revision, const SynthesisTaskOptions &options);
             void updatePriorities();
             void updateCounts();
+            void publishPieceState(SynthesisPiece *piece);
             bool ensureParameterNodes(ClipRuntime *runtime, const QStringList &parameterIds);
             bool prepareAudio(ClipRuntime *runtime, SynthesisPiece *piece, QString *errorMessage = nullptr);
-            void destroyAudioBinding(AudioBinding *binding);
             void removeAudio(SynthesisPiece *piece);
             void detachAudioSeries(ClipRuntime *runtime);
             bool installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage);
@@ -113,10 +119,10 @@ namespace Synth {
 
             ProjectSynthesisContext *m_context{};
             SynthesisTaskManager *m_taskManager{};
+            SynthesisAudioController *m_audioController{};
             QPointer<Core::TransactionController> m_transactionController;
             QHash<dspx::Handle, ClipRuntime *> m_clips;
             QHash<SynthesisPiece *, SynthesisTask *> m_pieceTasks;
-            QHash<SynthesisPiece *, AudioBinding *> m_audioBindings;
             QList<ClipRuntime *> m_retiredClips;
             QSet<TaskWriteback *> m_taskWritebacks;
             QList<TaskWriteback *> m_pendingTaskWritebacks;
@@ -128,6 +134,7 @@ namespace Synth {
             bool m_documentSyncPending{};
             bool m_rollbackPending{};
             bool m_architectureSyncPending{};
+            bool m_globalCentShiftPending{};
             bool m_pendingWorkScheduled{};
             bool m_processingPendingWork{};
             QHash<QString, QDateTime> m_lastNotifications;

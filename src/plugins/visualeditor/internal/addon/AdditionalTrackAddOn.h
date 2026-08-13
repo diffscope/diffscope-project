@@ -3,10 +3,14 @@
 
 #include <CoreApi/windowinterface.h>
 
+class QQmlComponent;
+
 namespace VisualEditor::Internal {
 
     class AdditionalTrackAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
+        Q_PROPERTY(QQmlComponent *phonemePanelBackgroundComponent READ phonemePanelBackgroundComponent CONSTANT)
+
     public:
         explicit AdditionalTrackAddOn(QObject *parent = nullptr);
         ~AdditionalTrackAddOn() override;
@@ -14,6 +18,8 @@ namespace VisualEditor::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        static QQmlComponent *phonemePanelBackgroundComponent();
     };
 
 }

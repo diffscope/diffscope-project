@@ -5,29 +5,53 @@
 
 #include <dspxmodelORM/SingingClip.h>
 
+#include <coreplugin/ProjectWindowInterface.h>
+
 #include <synth/ProjectSynthesisContext.h>
 #include <synth/SynthesisPiece.h>
 
 namespace SynthVisualizer::Internal {
 
+    SynthesisPieceModel::SynthesisPieceModel(QObject *parent)
+        : QAbstractListModel(parent) {
+    }
+
     SynthesisPieceModel::SynthesisPieceModel(Synth::ProjectSynthesisContext *context, QObject *parent)
-        : QAbstractListModel(parent), m_context(context) {
-        if (!m_context) {
-            return;
-        }
-        connect(m_context, &Synth::ProjectSynthesisContext::piecesChanged,
-                this, &SynthesisPieceModel::rebuild);
-        connect(m_context, &Synth::ProjectSynthesisContext::pieceChanged,
-                this, &SynthesisPieceModel::updatePiece);
-        connect(m_context, &QObject::destroyed, this, [this] {
-            m_context = nullptr;
-            rebuild();
-        });
+        : SynthesisPieceModel(parent) {
+        setSynthesisContext(context);
     }
 
     SynthesisPieceModel::~SynthesisPieceModel() {
         disconnectPieceSignals();
         disconnectClipSignals();
+        disconnect(m_windowHandleConnection);
+        for (const auto &connection : std::as_const(m_contextConnections)) {
+            disconnect(connection);
+        }
+    }
+
+    Core::ProjectWindowInterface *SynthesisPieceModel::windowHandle() const {
+        return m_windowHandle;
+    }
+
+    void SynthesisPieceModel::setWindowHandle(Core::ProjectWindowInterface *windowHandle) {
+        if (m_windowHandle == windowHandle) {
+            return;
+        }
+        disconnect(m_windowHandleConnection);
+        m_windowHandle = windowHandle;
+        if (m_windowHandle) {
+            m_windowHandleConnection = connect(m_windowHandle, &QObject::destroyed, this, [this] {
+                m_windowHandle = nullptr;
+                m_windowHandleConnection = {};
+                setSynthesisContext(nullptr);
+                Q_EMIT windowHandleChanged();
+            });
+        } else {
+            m_windowHandleConnection = {};
+        }
+        setSynthesisContext(Synth::ProjectSynthesisContext::of(windowHandle));
+        Q_EMIT windowHandleChanged();
     }
 
     dspx::SingingClip *SynthesisPieceModel::singingClip() const {
@@ -82,6 +106,8 @@ namespace SynthVisualizer::Internal {
                 return piece->state() == Synth::SynthesisPiece::Ready;
             case FailedRole:
                 return piece->state() == Synth::SynthesisPiece::Failed;
+            case AudioFilePathRole:
+                return piece->audioFilePath();
             default:
                 return {};
         }
@@ -96,7 +122,35 @@ namespace SynthVisualizer::Internal {
             {ActiveRole, QByteArrayLiteral("active")},
             {ReadyRole, QByteArrayLiteral("ready")},
             {FailedRole, QByteArrayLiteral("failed")},
+            {AudioFilePathRole, QByteArrayLiteral("audioFilePath")},
         };
+    }
+
+    void SynthesisPieceModel::setSynthesisContext(Synth::ProjectSynthesisContext *context) {
+        if (m_context == context) {
+            return;
+        }
+        for (const auto &connection : std::as_const(m_contextConnections)) {
+            disconnect(connection);
+        }
+        m_contextConnections.clear();
+        m_context = context;
+        if (m_context) {
+            m_contextConnections.append(connect(
+                m_context, &Synth::ProjectSynthesisContext::piecesChanged,
+                this, &SynthesisPieceModel::rebuild
+            ));
+            m_contextConnections.append(connect(
+                m_context, &Synth::ProjectSynthesisContext::pieceChanged,
+                this, &SynthesisPieceModel::updatePiece
+            ));
+            m_contextConnections.append(connect(m_context, &QObject::destroyed, this, [this] {
+                m_context = nullptr;
+                m_contextConnections.clear();
+                rebuild();
+            }));
+        }
+        rebuild();
     }
 
     void SynthesisPieceModel::rebuild() {
@@ -131,6 +185,8 @@ namespace SynthVisualizer::Internal {
                                               this, [this, piece] { updatePiece(piece); }));
             m_pieceConnections.append(connect(piece, &Synth::SynthesisPiece::stateChanged,
                                               this, [this, piece] { updatePiece(piece); }));
+            m_pieceConnections.append(connect(piece, &Synth::SynthesisPiece::audioFileChanged,
+                                              this, [this, piece] { updatePiece(piece); }));
         }
     }
 
@@ -151,6 +207,7 @@ namespace SynthVisualizer::Internal {
                 ActiveRole,
                 ReadyRole,
                 FailedRole,
+                AudioFilePathRole,
             });
             return;
         }

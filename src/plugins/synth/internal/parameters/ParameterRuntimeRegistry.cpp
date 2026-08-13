@@ -131,7 +131,7 @@ namespace Synth::Internal {
         }
 
         const auto normalizedJson = QJsonDocument(configuration.toJson()).toJson(QJsonDocument::Compact);
-        auto handle = QCryptographicHash::hash(normalizedJson, QCryptographicHash::Sha256);
+        auto handle = QCryptographicHash::hash(normalizedJson, QCryptographicHash::Sha512);
         std::shared_ptr<Context> runtime;
         {
             std::lock_guard lock(m_mutex);
@@ -151,7 +151,7 @@ namespace Synth::Internal {
                 }
                 ++collisionIndex;
                 handle = QCryptographicHash::hash(
-                    normalizedJson + QByteArray::number(collisionIndex), QCryptographicHash::Sha256
+                    normalizedJson + QByteArray::number(collisionIndex), QCryptographicHash::Sha512
                 );
             }
         }

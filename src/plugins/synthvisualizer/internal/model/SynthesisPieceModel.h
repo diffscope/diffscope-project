@@ -7,6 +7,11 @@
 #include <QMetaObject>
 #include <QPair>
 #include <QPointer>
+#include <qqmlintegration.h>
+
+namespace Core {
+    class ProjectWindowInterface;
+}
 
 namespace dspx {
     class SingingClip;
@@ -22,6 +27,8 @@ namespace SynthVisualizer::Internal {
 
     class SynthesisPieceModel : public QAbstractListModel {
         Q_OBJECT
+        QML_ELEMENT
+        Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
         Q_PROPERTY(dspx::SingingClip *singingClip READ singingClip WRITE setSingingClip NOTIFY singingClipChanged)
 
     public:
@@ -33,10 +40,15 @@ namespace SynthVisualizer::Internal {
             ActiveRole,
             ReadyRole,
             FailedRole,
+            AudioFilePathRole,
         };
 
+        explicit SynthesisPieceModel(QObject *parent = nullptr);
         explicit SynthesisPieceModel(Synth::ProjectSynthesisContext *context, QObject *parent = nullptr);
         ~SynthesisPieceModel() override;
+
+        Core::ProjectWindowInterface *windowHandle() const;
+        void setWindowHandle(Core::ProjectWindowInterface *windowHandle);
 
         dspx::SingingClip *singingClip() const;
         void setSingingClip(dspx::SingingClip *clip);
@@ -46,9 +58,11 @@ namespace SynthVisualizer::Internal {
         QHash<int, QByteArray> roleNames() const override;
 
     Q_SIGNALS:
+        void windowHandleChanged();
         void singingClipChanged();
 
     private:
+        void setSynthesisContext(Synth::ProjectSynthesisContext *context);
         void rebuild();
         void updatePiece(Synth::SynthesisPiece *piece);
         void updateClipPosition();
@@ -58,9 +72,12 @@ namespace SynthVisualizer::Internal {
         void disconnectPieceSignals();
         void disconnectClipSignals();
 
+        QPointer<Core::ProjectWindowInterface> m_windowHandle;
         QPointer<Synth::ProjectSynthesisContext> m_context;
         QPointer<dspx::SingingClip> m_singingClip;
         QList<QPointer<Synth::SynthesisPiece>> m_pieces;
+        QMetaObject::Connection m_windowHandleConnection;
+        QList<QMetaObject::Connection> m_contextConnections;
         QList<QMetaObject::Connection> m_pieceConnections;
         QList<QMetaObject::Connection> m_clipConnections;
     };

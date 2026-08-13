@@ -17,10 +17,13 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ChorusKit::AppCore
         QAKCore
         QAKQuick
+        svscraft::Core
         svscraft::Quick
+        talcs::Format
         dspxmodelORM
         uishell
         coreplugin
+        audio
         synth
         visualeditor
         ScopicFlowCore

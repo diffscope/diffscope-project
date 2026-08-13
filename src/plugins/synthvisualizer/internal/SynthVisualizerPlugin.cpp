@@ -1,5 +1,7 @@
 #include "SynthVisualizerPlugin.h"
 
+#include <QQmlComponent>
+
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
 
@@ -26,6 +28,17 @@ namespace SynthVisualizer::Internal {
             pluginSpec()->location() + QStringLiteral("/translations")
         );
         Core::CoreInterface::actionRegistry()->addExtension(::synthVisualizerActionExtension());
+        auto phonemePanelBackgroundComponent = new QQmlComponent(
+            Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.SynthVisualizer"),
+            QStringLiteral("SynthesisWaveformBackground"), this
+        );
+        if (phonemePanelBackgroundComponent->isError()) {
+            qFatal() << phonemePanelBackgroundComponent->errorString();
+        }
+        Core::RuntimeInterface::instance()->addObject(
+            QStringLiteral("org.diffscope.visualeditor.phonemepanelbackgroundcomponent"),
+            phonemePanelBackgroundComponent
+        );
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisPieceTrackAddOn>();
         return true;
     }
