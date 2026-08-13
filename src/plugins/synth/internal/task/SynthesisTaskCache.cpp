@@ -1,5 +1,6 @@
 #include "SynthesisTaskCache.h"
 
+#include <algorithm>
 #include <utility>
 
 #include <QDateTime>
@@ -10,8 +11,8 @@
 #include <QJsonObject>
 #include <QSaveFile>
 #include <QSettings>
-#include <QStandardPaths>
 
+#include <CoreApi/applicationinfo.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <synth/internal/SynthesisTaskCodec.h>
@@ -19,6 +20,21 @@
 namespace Synth::Internal {
 
     using namespace TaskCodec;
+
+    namespace {
+
+        const QList<SynthesisTaskType> &cacheTaskTypes() {
+            static const QList types{
+                SynthesisTaskType::Pronunciation,
+                SynthesisTaskType::Phoneme,
+                SynthesisTaskType::Duration,
+                SynthesisTaskType::Parameter,
+                SynthesisTaskType::Audio,
+            };
+            return types;
+        }
+
+    }
 
     SynthesisTaskCache::SynthesisTaskCache() {
         reload();
@@ -32,17 +48,16 @@ namespace Synth::Internal {
         m_maximumDownloadBytes = settings->value(QStringLiteral("audioDownloadMaximumBytes"), qint64(512) * 1024 * 1024).toLongLong();
         m_environmentTagTtlSeconds = settings->value(QStringLiteral("environmentTagTtlSeconds"), 60).toInt();
         settings->endGroup();
-        QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-        if (cacheLocation.isEmpty()) {
-            cacheLocation = QDir(QDir::tempPath()).filePath(QStringLiteral("DiffScope-cache"));
+        const auto runtimeData = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
+        m_root = QDir(runtimeData).filePath(QStringLiteral("synth/cache-v1"));
+        for (const auto type : cacheTaskTypes()) {
+            QDir().mkpath(typeDirectory(type));
         }
-        m_root = QDir(cacheLocation).filePath(QStringLiteral("synth/v1"));
-        QDir().mkpath(m_root);
         trim();
     }
 
-    bool SynthesisTaskCache::read(const QByteArray &key, SynthesisTaskResult *result) const {
-        const QFileInfo info(entryPath(key));
+    bool SynthesisTaskCache::read(SynthesisTaskType type, const QByteArray &key, SynthesisTaskResult *result) const {
+        const QFileInfo info(entryPath(type, key));
         if (!info.exists()) {
             return false;
         }
@@ -58,8 +73,14 @@ namespace Synth::Internal {
         if (error.error != QJsonParseError::NoError || !document.isObject()) {
             return false;
         }
+        const auto object = document.object();
+        if (object.value(QStringLiteral("version")).toInt() != 1 ||
+            object.value(QStringLiteral("taskType")).toString() != typeName(type) ||
+            object.value(QStringLiteral("key")).toString().toLatin1() != key) {
+            return false;
+        }
         SynthesisTaskResult parsed;
-        if (!resultFromJson(document.object().value(QStringLiteral("result")).toObject(), &parsed)) {
+        if (!resultFromJson(object.value(QStringLiteral("result")).toObject(), &parsed)) {
             return false;
         }
         if (!parsed.audioFilePath.isEmpty() && !QFileInfo::exists(parsed.audioFilePath)) {
@@ -77,13 +98,15 @@ namespace Synth::Internal {
         return true;
     }
 
-    bool SynthesisTaskCache::write(const QByteArray &key, const SynthesisTaskResult &result) {
-        QSaveFile file(entryPath(key));
+    bool SynthesisTaskCache::write(SynthesisTaskType type, const QByteArray &key, const SynthesisTaskResult &result) {
+        QSaveFile file(entryPath(type, key));
         if (!file.open(QIODevice::WriteOnly)) {
             return false;
         }
         file.write(QJsonDocument(QJsonObject{
                                      {QStringLiteral("version"), 1},
+                                     {QStringLiteral("taskType"), typeName(type)},
+                                     {QStringLiteral("key"), QString::fromLatin1(key)},
                                      {QStringLiteral("result"), resultToJson(result)},
                                  })
                        .toJson(QJsonDocument::Compact));
@@ -94,10 +117,10 @@ namespace Synth::Internal {
         return committed;
     }
 
-    QString SynthesisTaskCache::audioPath(const QByteArray &key, const QString &suffix, bool persistent) const {
+    QString SynthesisTaskCache::audioPath(SynthesisTaskType type, const QByteArray &key, const QString &suffix, bool persistent) const {
         const QString safeSuffix = suffix.isEmpty() ? QStringLiteral(".audio") : suffix;
         if (persistent) {
-            return QDir(m_root).filePath(QString::fromLatin1(key) + safeSuffix);
+            return QDir(typeDirectory(type)).filePath(QString::fromLatin1(key) + safeSuffix);
         }
         if (!m_temporaryDir.isValid()) {
             return {};
@@ -118,7 +141,15 @@ namespace Synth::Internal {
 
     qint64 SynthesisTaskCache::size() const {
         qint64 total{};
-        const auto files = QDir(m_root).entryInfoList(QDir::Files);
+        for (const auto type : cacheTaskTypes()) {
+            total += size(type);
+        }
+        return total;
+    }
+
+    qint64 SynthesisTaskCache::size(SynthesisTaskType type) const {
+        qint64 total{};
+        const auto files = QDir(typeDirectory(type)).entryInfoList(QDir::Files);
         for (const auto &file : files) {
             total += file.size();
         }
@@ -126,14 +157,26 @@ namespace Synth::Internal {
     }
 
     void SynthesisTaskCache::clear() {
-        const auto files = QDir(m_root).entryInfoList(QDir::Files);
-        for (const auto &file : files) {
-            QFile::remove(file.absoluteFilePath());
+        clear(cacheTaskTypes());
+    }
+
+    void SynthesisTaskCache::clear(const QList<SynthesisTaskType> &types) {
+        for (const auto type : types) {
+            const auto files = QDir(typeDirectory(type)).entryInfoList(QDir::Files);
+            for (const auto &file : files) {
+                QFile::remove(file.absoluteFilePath());
+            }
         }
     }
 
     void SynthesisTaskCache::trim() const {
-        auto files = QDir(m_root).entryInfoList(QDir::Files, QDir::Time | QDir::Reversed);
+        QFileInfoList files;
+        for (const auto type : cacheTaskTypes()) {
+            files.append(QDir(typeDirectory(type)).entryInfoList(QDir::Files));
+        }
+        std::ranges::sort(files, [](const QFileInfo &left, const QFileInfo &right) {
+            return left.lastModified() < right.lastModified();
+        });
         qint64 total{};
         const auto now = QDateTime::currentDateTime();
         for (const auto &file : files) {
@@ -146,7 +189,6 @@ namespace Synth::Internal {
         if (m_maximumBytes <= 0 || total <= m_maximumBytes) {
             return;
         }
-        files = QDir(m_root).entryInfoList(QDir::Files, QDir::Time | QDir::Reversed);
         for (const auto &file : files) {
             if (total <= m_maximumBytes) {
                 break;
@@ -166,8 +208,12 @@ namespace Synth::Internal {
         return m_environmentTagTtlSeconds;
     }
 
-    QString SynthesisTaskCache::entryPath(const QByteArray &key) const {
-        return QDir(m_root).filePath(QString::fromLatin1(key) + QStringLiteral(".json"));
+    QString SynthesisTaskCache::typeDirectory(SynthesisTaskType type) const {
+        return QDir(m_root).filePath(typeName(type));
+    }
+
+    QString SynthesisTaskCache::entryPath(SynthesisTaskType type, const QByteArray &key) const {
+        return QDir(typeDirectory(type)).filePath(QString::fromLatin1(key) + QStringLiteral(".json"));
     }
 
 }

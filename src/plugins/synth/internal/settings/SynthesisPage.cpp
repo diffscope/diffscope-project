@@ -207,9 +207,51 @@ namespace Synth::Internal {
         }
     }
 
-    void SynthesisPage::clearCache() {
-        if (auto interface = SynthInterface::instance(); interface && interface->taskManager())
-            interface->taskManager()->clearCache();
+    QVariantMap SynthesisPage::cacheSizes() const {
+        QVariantMap sizes{
+            {QStringLiteral("pronunciation"), 0},
+            {QStringLiteral("phoneme"), 0},
+            {QStringLiteral("duration"), 0},
+            {QStringLiteral("parameter"), 0},
+            {QStringLiteral("audio"), 0},
+        };
+        auto interface = SynthInterface::instance();
+        if (!interface || !interface->taskManager()) {
+            return sizes;
+        }
+        auto manager = interface->taskManager();
+        sizes.insert(QStringLiteral("pronunciation"), manager->cacheSize(SynthesisTaskType::Pronunciation));
+        sizes.insert(QStringLiteral("phoneme"), manager->cacheSize(SynthesisTaskType::Phoneme));
+        sizes.insert(QStringLiteral("duration"), manager->cacheSize(SynthesisTaskType::Duration));
+        sizes.insert(QStringLiteral("parameter"), manager->cacheSize(SynthesisTaskType::Parameter));
+        sizes.insert(QStringLiteral("audio"), manager->cacheSize(SynthesisTaskType::Audio));
+        return sizes;
+    }
+
+    void SynthesisPage::clearCache(const QStringList &taskTypes) {
+        auto interface = SynthInterface::instance();
+        if (!interface || !interface->taskManager()) {
+            return;
+        }
+        QList<SynthesisTaskType> types;
+        if (taskTypes.contains(QStringLiteral("pronunciation"))) {
+            types.append(SynthesisTaskType::Pronunciation);
+        }
+        if (taskTypes.contains(QStringLiteral("phoneme"))) {
+            types.append(SynthesisTaskType::Phoneme);
+        }
+        if (taskTypes.contains(QStringLiteral("duration"))) {
+            types.append(SynthesisTaskType::Duration);
+        }
+        if (taskTypes.contains(QStringLiteral("parameter"))) {
+            types.append(SynthesisTaskType::Parameter);
+        }
+        if (taskTypes.contains(QStringLiteral("audio"))) {
+            types.append(SynthesisTaskType::Audio);
+        }
+        if (!types.isEmpty()) {
+            interface->taskManager()->clearCache(types);
+        }
     }
 
 }

@@ -33,11 +33,13 @@ namespace Synth {
         int runningTaskCount() const;
         int queuedTaskCount() const;
         qint64 cacheSize() const;
+        qint64 cacheSize(SynthesisTaskType type) const;
 
         bool setPriority(SynthesisTask *task, int priority);
         bool cancel(SynthesisTask *task);
         void clearFinishedTasks();
         void clearCache();
+        void clearCache(const QList<SynthesisTaskType> &types);
         void reloadSettings();
         void shutdown();
 

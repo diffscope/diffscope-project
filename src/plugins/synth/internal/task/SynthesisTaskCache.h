@@ -2,6 +2,7 @@
 #define DIFFSCOPE_SYNTH_SYNTHESISTASKCACHE_H
 
 #include <QByteArray>
+#include <QList>
 #include <QString>
 #include <QTemporaryDir>
 
@@ -15,20 +16,23 @@ namespace Synth::Internal {
 
         void reload();
 
-        bool read(const QByteArray &key, SynthesisTaskResult *result) const;
-        bool write(const QByteArray &key, const SynthesisTaskResult &result);
-        QString audioPath(const QByteArray &key, const QString &suffix, bool persistent) const;
+        bool read(SynthesisTaskType type, const QByteArray &key, SynthesisTaskResult *result) const;
+        bool write(SynthesisTaskType type, const QByteArray &key, const SynthesisTaskResult &result);
+        QString audioPath(SynthesisTaskType type, const QByteArray &key, const QString &suffix, bool persistent) const;
         bool writeBytes(const QString &path, const QByteArray &bytes) const;
 
         qint64 size() const;
+        qint64 size(SynthesisTaskType type) const;
         void clear();
+        void clear(const QList<SynthesisTaskType> &types);
         void trim() const;
 
         qint64 maximumDownloadBytes() const;
         int environmentTagTtlSeconds() const;
 
     private:
-        QString entryPath(const QByteArray &key) const;
+        QString typeDirectory(SynthesisTaskType type) const;
+        QString entryPath(SynthesisTaskType type, const QByteArray &key) const;
 
         QString m_root;
         qint64 m_maximumBytes{};

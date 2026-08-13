@@ -124,7 +124,8 @@ namespace Synth {
     QJsonObject SynthesisTaskManagerPrivate::cacheEnvelope(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const {
         const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
         return {
-            {QStringLiteral("schema"), 2},
+            {QStringLiteral("cacheFormatVersion"), 1},
+            {QStringLiteral("taskType"), typeName(request.type)},
             {QStringLiteral("serviceId"), service.id().toString(QUuid::WithoutBraces)},
             {QStringLiteral("serviceUrl"), service.baseUrl().toString(QUrl::FullyEncoded)},
             {QStringLiteral("apiVersion"), details.selectedApiVersion()},
@@ -135,7 +136,7 @@ namespace Synth {
     }
 
     QByteArray SynthesisTaskManagerPrivate::taskCacheKey(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const {
-        return digest(cacheEnvelope(service, request, environmentTag));
+        return typeName(request.type).toLatin1() + '-' + digest(cacheEnvelope(service, request, environmentTag));
     }
 
     QByteArray SynthesisTaskManagerPrivate::parameterCacheKey(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag, const QString &target, const QMap<QString, SynthesisParameter> &parameters, const QSet<QString> &unavailableParameters) const {
@@ -166,7 +167,7 @@ namespace Synth {
         requestJson.insert(QStringLiteral("score"), score);
         requestJson.insert(QStringLiteral("type"), QStringLiteral("parameter-node"));
         envelope.insert(QStringLiteral("request"), requestJson);
-        return digest(envelope);
+        return typeName(SynthesisTaskType::Parameter).toLatin1() + '-' + digest(envelope);
     }
 
     void SynthesisTaskManagerPrivate::setService(SynthesisTask *task, const ServiceInstanceConfiguration &service) {
@@ -432,7 +433,7 @@ namespace Synth {
         }
         const auto key = taskCacheKey(service, task->request(), environmentTag);
         SynthesisTaskResult cached;
-        if (task->options().readCache && cache.read(key, &cached)) {
+        if (task->options().readCache && cache.read(task->type(), key, &cached)) {
             complete(task, std::move(cached));
             return;
         }
@@ -456,7 +457,7 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::maybeWriteAndComplete(SynthesisTask *task, const QByteArray &key, SynthesisTaskResult result) {
         if (task->options().writeCache) {
-            cache.write(key, result);
+            cache.write(task->type(), key, result);
         }
         complete(task, std::move(result));
     }
@@ -555,7 +556,7 @@ namespace Synth {
             for (const auto &target : pending) {
                 const auto key = parameterCacheKey(service, requestModel, environmentTag, target, requestModel.score.parameters, unavailableParameters);
                 SynthesisTaskResult cached;
-                if (!key.isEmpty() && task->options().readCache && cache.read(key, &cached) && cached.parameters.contains(target)) {
+                if (!key.isEmpty() && task->options().readCache && cache.read(SynthesisTaskType::Parameter, key, &cached) && cached.parameters.contains(target)) {
                     const auto parameter = cached.parameters.value(target);
                     requestModel.score.parameters.insert(target, parameter);
                     combined.parameters.insert(target, parameter);
@@ -617,7 +618,7 @@ namespace Synth {
                     if (!key.isEmpty()) {
                         SynthesisTaskResult node;
                         node.parameters.insert(it.key(), it.value());
-                        cache.write(key, node);
+                        cache.write(SynthesisTaskType::Parameter, key, node);
                     }
                 }
             }
@@ -705,7 +706,7 @@ namespace Synth {
             fail(task, SynthesisTaskManager::tr("The synthesized audio response is empty or exceeds the configured size limit."));
             return;
         }
-        const auto path = cache.audioPath(key, suffix, task->options().writeCache);
+        const auto path = cache.audioPath(task->type(), key, suffix, task->options().writeCache);
         if (!cache.writeBytes(path, bytes)) {
             fail(task, SynthesisTaskManager::tr("Could not store synthesized audio locally."));
             return;
@@ -881,6 +882,11 @@ namespace Synth {
         return d->cache.size();
     }
 
+    qint64 SynthesisTaskManager::cacheSize(SynthesisTaskType type) const {
+        Q_D(const SynthesisTaskManager);
+        return d->cache.size(type);
+    }
+
     bool SynthesisTaskManager::setPriority(SynthesisTask *task, int priority) {
         Q_D(SynthesisTaskManager);
         if (!task || task->parent() != this || task->state() != SynthesisTask::Queued) {
@@ -932,6 +938,11 @@ namespace Synth {
     void SynthesisTaskManager::clearCache() {
         Q_D(SynthesisTaskManager);
         d->cache.clear();
+    }
+
+    void SynthesisTaskManager::clearCache(const QList<SynthesisTaskType> &types) {
+        Q_D(SynthesisTaskManager);
+        d->cache.clear(types);
     }
 
     void SynthesisTaskManager::reloadSettings() {

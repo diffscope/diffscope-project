@@ -15,6 +15,107 @@ ScrollView {
     anchors.fill: parent
     contentWidth: availableWidth
 
+    function formatCacheSize(bytes) {
+        const value = Number(bytes)
+        if (value < 1024)
+            return qsTr("%1 B").arg(Math.round(value).toLocaleString(Qt.locale()))
+        if (value < 1024 * 1024)
+            return qsTr("%1 KiB").arg((value / 1024).toLocaleString(Qt.locale(), "f", 1))
+        if (value < 1024 * 1024 * 1024)
+            return qsTr("%1 MiB").arg((value / (1024 * 1024)).toLocaleString(Qt.locale(), "f", 1))
+        return qsTr("%1 GiB").arg((value / (1024 * 1024 * 1024)).toLocaleString(Qt.locale(), "f", 2))
+    }
+
+    Dialog {
+        id: clearCacheDialog
+
+        property var sizes: ({})
+
+        function updateClearButton() {
+            const button = standardButton(DialogButtonBox.Ok)
+            if (button)
+                button.enabled = pronunciationCheckBox.checked || phonemeCheckBox.checked || durationCheckBox.checked || parameterCheckBox.checked || audioCheckBox.checked
+        }
+
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: Math.min(480, parent ? parent.width - 48 : 0)
+        modal: true
+        title: qsTr("Clear Synthesis Cache")
+        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+
+        onAboutToShow: {
+            sizes = page.pageHandle.cacheSizes()
+            pronunciationCheckBox.checked = true
+            phonemeCheckBox.checked = true
+            durationCheckBox.checked = true
+            parameterCheckBox.checked = true
+            audioCheckBox.checked = true
+        }
+        onOpened: {
+            const button = standardButton(DialogButtonBox.Ok)
+            if (button)
+                button.text = qsTr("Clear Selected")
+            updateClearButton()
+            pronunciationCheckBox.forceActiveFocus()
+        }
+        onAccepted: {
+            const taskTypes = []
+            if (pronunciationCheckBox.checked)
+                taskTypes.push("pronunciation")
+            if (phonemeCheckBox.checked)
+                taskTypes.push("phoneme")
+            if (durationCheckBox.checked)
+                taskTypes.push("duration")
+            if (parameterCheckBox.checked)
+                taskTypes.push("parameter")
+            if (audioCheckBox.checked)
+                taskTypes.push("audio")
+            page.pageHandle.clearCache(taskTypes)
+        }
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 8
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Select the synthesis task caches to delete.")
+                wrapMode: Text.Wrap
+            }
+            CheckBox {
+                id: pronunciationCheckBox
+                Layout.fillWidth: true
+                text: qsTr("Pronunciation (%1)").arg(page.formatCacheSize(clearCacheDialog.sizes["pronunciation"] || 0))
+                onToggled: clearCacheDialog.updateClearButton()
+            }
+            CheckBox {
+                id: phonemeCheckBox
+                Layout.fillWidth: true
+                text: qsTr("Phoneme (%1)").arg(page.formatCacheSize(clearCacheDialog.sizes["phoneme"] || 0))
+                onToggled: clearCacheDialog.updateClearButton()
+            }
+            CheckBox {
+                id: durationCheckBox
+                Layout.fillWidth: true
+                text: qsTr("Duration (%1)").arg(page.formatCacheSize(clearCacheDialog.sizes["duration"] || 0))
+                onToggled: clearCacheDialog.updateClearButton()
+            }
+            CheckBox {
+                id: parameterCheckBox
+                Layout.fillWidth: true
+                text: qsTr("Parameter (%1)").arg(page.formatCacheSize(clearCacheDialog.sizes["parameter"] || 0))
+                onToggled: clearCacheDialog.updateClearButton()
+            }
+            CheckBox {
+                id: audioCheckBox
+                Layout.fillWidth: true
+                text: qsTr("Audio (%1)").arg(page.formatCacheSize(clearCacheDialog.sizes["audio"] || 0))
+                onToggled: clearCacheDialog.updateClearButton()
+            }
+        }
+    }
+
     ColumnLayout {
         width: page.width
 
@@ -185,7 +286,7 @@ ScrollView {
                         Layout.columnSpan: 2
                         text: qsTr("Clear Synthesis Cache")
                         icon.source: "image://fluent-system-icons/delete"
-                        onClicked: page.pageHandle.clearCache()
+                        onClicked: clearCacheDialog.open()
                     }
                 }
             }

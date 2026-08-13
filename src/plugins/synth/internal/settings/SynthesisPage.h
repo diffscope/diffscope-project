@@ -1,6 +1,9 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISPAGE_H
 #define DIFFSCOPE_SYNTH_SYNTHESISPAGE_H
 
+#include <QStringList>
+#include <QVariant>
+
 #include <CoreApi/isettingpage.h>
 
 namespace Synth::Internal {
@@ -49,7 +52,8 @@ namespace Synth::Internal {
         int environmentTagTtlSeconds() const;
         void setEnvironmentTagTtlSeconds(int value);
 
-        Q_INVOKABLE void clearCache();
+        Q_INVOKABLE QVariantMap cacheSizes() const;
+        Q_INVOKABLE void clearCache(const QStringList &taskTypes);
 
     Q_SIGNALS:
         void valuesChanged();
