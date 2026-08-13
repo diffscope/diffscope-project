@@ -9,6 +9,8 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/Label.h>
 #include <dspxmodelSelectionModel/LabelSelectionModel.h>
 #include <dspxmodelORM/LabelSequence.h>
@@ -17,6 +19,7 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
+#include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Tempo.h>
 #include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelORM/TempoSequence.h>
@@ -108,6 +111,24 @@ namespace Core::Internal {
     }
 
     bool EditActionsAddOn::delayedInitialize() {
+        auto *document = windowHandle()->cast<ProjectWindowInterface>()->projectDocumentContext()->document();
+        const auto tracks = document->model()->tracks()->items();
+        dspx::SingingClip *firstSingingClip = nullptr;
+        for (auto *track : tracks) {
+            for (auto *clip : track->clips()->asRange()) {
+                if (clip->type() != dspx::Clip::Singing) {
+                    continue;
+                }
+                firstSingingClip = static_cast<dspx::SingingClip *>(clip);
+                break;
+            }
+            if (firstSingingClip) {
+                break;
+            }
+        }
+        if (firstSingingClip) {
+            document->selectionModel()->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, firstSingingClip->notes());
+        }
         return WindowInterfaceAddOn::delayedInitialize();
     }
 

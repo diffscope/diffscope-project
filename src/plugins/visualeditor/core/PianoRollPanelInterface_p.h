@@ -48,6 +48,7 @@ namespace VisualEditor {
         Internal::SingingClipListModel *singingClipListModel;
         QSortFilterProxyModel *editingClipSelectorModel;
         QPointer<dspx::SingingClip> editingClip;
+        QMetaObject::Connection editingClipConnection;
 
         PianoRollPanelInterface::Tool tool{PianoRollPanelInterface::PointerTool};
         bool isSnapTemporarilyDisabled{false};

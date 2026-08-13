@@ -23,6 +23,7 @@
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
 
+#include <dspxmodelORM/Clip.h>
 #include <dspxmodelSelectionModel/ClipSelectionModel.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
@@ -464,21 +465,11 @@ namespace VisualEditor {
             auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
             if (!noteSequence)
                 return;
-            auto *clip = noteSequence->singingClip();
-            if (d->editingClip != clip) {
-                d->editingClip = clip;
-                ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
-                ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(clip);
-                Q_EMIT editingClipChanged();
-            }
-            d->singingClipListModel->setClipSequence(clip->clipSequence());
+            setEditingClip(noteSequence->singingClip());
         });
 
         if (auto *noteSequence = noteSelectionModel->noteSequenceWithSelectedItems()) {
-            d->editingClip = noteSequence->singingClip();
-            ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(d->editingClip);
-            ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(d->editingClip);
-            d->singingClipListModel->setClipSequence(d->editingClip->clipSequence());
+            setEditingClip(noteSequence->singingClip());
         }
 
         connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, [=, this] {
@@ -491,8 +482,6 @@ namespace VisualEditor {
                 });
             }
         });
-
-        Q_EMIT editingClipChanged();
 
         d->bindTimeViewModel();
         d->bindTimeLayoutViewModel();
@@ -662,12 +651,27 @@ namespace VisualEditor {
 
     void PianoRollPanelInterface::setEditingClip(dspx::SingingClip *clip) {
         Q_D(PianoRollPanelInterface);
-        if (!clip || d->editingClip == clip)
+        if (d->editingClip == clip)
             return;
+        disconnect(d->editingClipConnection);
+        d->editingClipConnection = {};
         d->editingClip = clip;
         ProjectViewModelContext::of(d->windowHandle)->parameterEditorContext()->setSingingClip(clip);
         ProjectViewModelContext::of(d->windowHandle)->dynamicMixingEditorContext()->setSingingClip(clip);
+        d->singingClipListModel->setClipSequence(clip ? clip->clipSequence() : nullptr);
+        if (clip) {
+            d->editingClipConnection = connect(clip, &dspx::Clip::clipSequenceChanged, this, [this](dspx::ClipSequence *clipSequence) {
+                if (!clipSequence) {
+                    setEditingClip(nullptr);
+                    return;
+                }
+                Q_D(PianoRollPanelInterface);
+                d->singingClipListModel->setClipSequence(clipSequence);
+            });
+        }
         Q_EMIT editingClipChanged();
+        if (!clip)
+            return;
         auto selectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel();
         if (selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems() != clip->notes()) {
             qCInfo(lcPianoRollPanelInterface) << "Set editing clip to" << clip;
