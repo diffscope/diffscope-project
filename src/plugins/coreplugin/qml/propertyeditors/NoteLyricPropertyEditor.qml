@@ -113,12 +113,15 @@ PropertyEditorGroupBox {
                     }
                     displayText: {
                         groupBox.languageOptions
-                        if (groupBox.useGlobalLanguageFallback)
-                            return BehaviorPreference.fallbackLyricLanguageCode
-
-                        const language = groupBox.propertyMapper?.language
+                        const language = languageField.value
                         if (typeof language !== "string")
                             return qsTr("Multiple values")
+
+                        if (groupBox.useGlobalLanguageFallback) {
+                            return language === BehaviorPreference.fallbackLyricLanguageCode
+                                    ? BehaviorPreference.fallbackLyricLanguageCode
+                                    : qsTr("Custom (%1)").arg(language)
+                        }
 
                         const index = indexOfValue(language)
                         return index === -1 ? qsTr("Custom (%1)").arg(language) : textAt(index)
