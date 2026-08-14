@@ -7,7 +7,7 @@ namespace Audio::Internal {
 
     class HashHelper {
     public:
-        static QString sha512(const QString &filePath);
+        static QString digest(const QString &filePath);
     };
 
 }

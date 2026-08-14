@@ -172,7 +172,7 @@ namespace Audio::Internal {
         updateAudioPathLocation(&path, filePath);
         path.formatEntryClassName = entryClassName;
         path.userData = userData;
-        path.sha512 = HashHelper::sha512(QFileInfo(filePath).absoluteFilePath());
+        path.digest = HashHelper::digest(QFileInfo(filePath).absoluteFilePath());
         return path;
     }
 
@@ -341,13 +341,13 @@ namespace Audio::Internal {
 
         auto path = clip->path();
         const auto filePath = QDir(path.absoluteDir).filePath(path.fileName);
-        const auto sha512 = HashHelper::sha512(filePath);
+        const auto sha512 = HashHelper::digest(filePath);
         if (sha512.isEmpty()) {
             qCWarning(lcAudioClipAddOn) << "Failed to update audio clip digest from absolute path" << clip << filePath;
             return;
         }
 
-        path.sha512 = sha512;
+        path.digest = sha512;
         document->transactionController()->beginScopedTransaction(tr("Updating audio clip digest"), [=] {
             clip->setPath(path);
             return true;

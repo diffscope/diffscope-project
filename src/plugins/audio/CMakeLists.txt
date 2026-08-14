@@ -3,6 +3,8 @@ project(audio
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+find_package(xxHash CONFIG REQUIRED)
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.audio
     DISPLAY_NAME Audio
@@ -29,6 +31,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         talcs::Dspx
         talcs::Format
         talcs::Widgets
+        xxHash::xxhash
     INCLUDE_PRIVATE
         internal/**
 )

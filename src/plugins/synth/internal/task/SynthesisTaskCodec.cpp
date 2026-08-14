@@ -2,7 +2,8 @@
 
 #include <utility>
 
-#include <QCryptographicHash>
+#include <xxhash.h>
+
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -218,11 +219,9 @@ namespace Synth::Internal::TaskCodec {
     }
 
     QByteArray digest(const QJsonObject &object) {
-        return QCryptographicHash::hash(
-                   QJsonDocument(object).toJson(QJsonDocument::Compact),
-                   QCryptographicHash::Sha512
-        )
-            .toHex();
+        const auto data = QJsonDocument(object).toJson(QJsonDocument::Compact);
+        const auto result = XXH3_128bits(data.data(), data.size());
+        return QByteArray(reinterpret_cast<const char *>(&result), sizeof(result)).toBase64(QByteArray::Base64UrlEncoding);
     }
 
     Api::V1::MultiSingerContext multiContext(const SynthesisContext &context) {

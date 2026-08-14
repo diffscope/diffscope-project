@@ -52,7 +52,7 @@ namespace Audio::Internal {
     }
 
     static bool sha512Matches(const QString &filePath, const QString &expected) {
-        return !expected.isEmpty() && HashHelper::sha512(filePath).compare(expected, Qt::CaseInsensitive) == 0;
+        return !expected.isEmpty() && HashHelper::digest(filePath).compare(expected, Qt::CaseInsensitive) == 0;
     }
 
     ProjectAudioAddOn::ProjectAudioAddOn(QObject *parent)
@@ -507,7 +507,7 @@ namespace Audio::Internal {
 
             if (QFileInfo(absoluteFilePath).isFile()) {
                 filePath = absoluteFilePath;
-                if (!sha512Matches(filePath, path.sha512)) {
+                if (!sha512Matches(filePath, path.digest)) {
                     status = AudioClipAudioContext::FileContentChanged;
                 }
             } else {
@@ -517,11 +517,11 @@ namespace Audio::Internal {
                 if (!projectFilePath.isEmpty()) {
                     const auto projectDir = QFileInfo(projectFilePath).absoluteDir();
                     const auto relativeFilePath = normalizedAbsolutePath(projectDir.filePath(QDir(path.relativeDir).filePath(path.fileName)));
-                    if (QFileInfo(relativeFilePath).isFile() && sha512Matches(relativeFilePath, path.sha512)) {
+                    if (QFileInfo(relativeFilePath).isFile() && sha512Matches(relativeFilePath, path.digest)) {
                         filePath = relativeFilePath;
                     } else {
                         const auto siblingFilePath = normalizedAbsolutePath(projectDir.filePath(path.fileName));
-                        if (QFileInfo(siblingFilePath).isFile() && sha512Matches(siblingFilePath, path.sha512)) {
+                        if (QFileInfo(siblingFilePath).isFile() && sha512Matches(siblingFilePath, path.digest)) {
                             filePath = siblingFilePath;
                         }
                     }
@@ -584,7 +584,7 @@ namespace Audio::Internal {
             windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file moved"), tr("The file in audio clip \"%1\" has been moved.\nFrom: %2\nTo: %3").arg(clip->name(), path, QDir::toNativeSeparators(context->realAudioPath())));
         } else if (context->status() == AudioClipAudioContext::FileContentChanged) {
             qCWarning(lcProjectAudioAddOn) << "Audio clip file content changed:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
-            if (!clip->path().sha512.isEmpty()) {
+            if (!clip->path().digest.isEmpty()) {
                 // Empty file digest suggests that the project file might be created by another editor. We do not explicitly notify user in this case.
                 windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file content changed"), tr("The file in audio clip \"%1\" has been changed:\n%2").arg(clip->name(), path));
             }

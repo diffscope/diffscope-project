@@ -3,6 +3,8 @@ project(synth
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+find_package(xxHash CONFIG REQUIRED)
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.synth
     DISPLAY_NAME Synthesis
@@ -38,6 +40,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Quick
         svscraft::QmlExtras
         SVSCraft3rdParty_tinyexpr
+        xxHash::xxhash
     INCLUDE_PRIVATE
         internal/**
 )

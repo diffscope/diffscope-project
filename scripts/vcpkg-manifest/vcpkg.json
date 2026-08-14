@@ -34,7 +34,8 @@
         {
             "name": "libarchive",
             "default-features": false
-        }
+        },
+        "xxhash"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [

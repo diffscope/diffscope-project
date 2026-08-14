@@ -2,12 +2,13 @@
 
 #include <tinyexpr.h>
 
+#include <xxhash.h>
+
 #include <algorithm>
 #include <cmath>
 #include <mutex>
 
 #include <QCoreApplication>
-#include <QCryptographicHash>
 #include <QJsonDocument>
 #include <QLocale>
 
@@ -86,8 +87,8 @@ namespace Synth::Internal {
     }
 
     struct ParameterRuntimeRegistry::Context {
-        explicit Context(const ParameterConfiguration &source, const QByteArray &json)
-            : configuration(source), normalizedJson(json) {
+        explicit Context(const ParameterConfiguration &source)
+            : configuration(source) {
         }
 
         bool compile(QString *errorMessage) {
@@ -109,7 +110,6 @@ namespace Synth::Internal {
         }
 
         ParameterConfiguration configuration;
-        QByteArray normalizedJson;
         CompiledExpression normalization;
         CompiledExpression denormalization;
         CompiledExpression display;
@@ -137,28 +137,17 @@ namespace Synth::Internal {
         }
 
         const auto normalizedJson = QJsonDocument(configuration.toJson()).toJson(QJsonDocument::Compact);
-        auto handle = QCryptographicHash::hash(normalizedJson, QCryptographicHash::Sha512);
+        const auto hashResult = XXH3_128bits(normalizedJson.data(), normalizedJson.size());
+        const auto handle = QByteArray(reinterpret_cast<const char *>(&hashResult), sizeof(hashResult));
         std::shared_ptr<Context> runtime;
         {
             std::lock_guard lock(m_mutex);
-            quint32 collisionIndex{};
-            while (true) {
-                const auto existing = m_contexts.value(handle);
-                if (!existing) {
-                    runtime = std::make_shared<Context>(configuration, normalizedJson);
-                    if (!runtime->compile(errorMessage))
-                        return false;
-                    m_contexts.insert(handle, runtime);
-                    break;
-                }
-                if (existing->normalizedJson == normalizedJson) {
-                    runtime = existing;
-                    break;
-                }
-                ++collisionIndex;
-                handle = QCryptographicHash::hash(
-                    normalizedJson + QByteArray::number(collisionIndex), QCryptographicHash::Sha512
-                );
+            runtime = m_contexts.value(handle);
+            if (!runtime) {
+                runtime = std::make_shared<Context>(configuration);
+                if (!runtime->compile(errorMessage))
+                    return false;
+                m_contexts.insert(handle, runtime);
             }
         }
 

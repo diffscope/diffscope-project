@@ -102,7 +102,7 @@ PropertyEditorGroupBox {
                 ThemedItem.controlType: SVS.CT_Warning
                 label: qsTr("Audio file content changed")
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileContentChanged
-                         && Boolean(groupBox.audioClip?.path.sha512)
+                         && Boolean(groupBox.audioClip?.path.digest)
                 display: AbstractButton.TextBesideIcon
                 action: Action {
                     text: qsTr("Confirm the Change")
@@ -116,7 +116,7 @@ PropertyEditorGroupBox {
                 ThemedItem.controlType: SVS.CT_Warning
                 label: qsTr("Audio file content consistency unknown")
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileContentChanged
-                         && !groupBox.audioClip?.path.sha512
+                         && !groupBox.audioClip?.path.digest
                 display: AbstractButton.TextBesideIcon
                 action: Action {
                     text: qsTr("Confirm Current File")
