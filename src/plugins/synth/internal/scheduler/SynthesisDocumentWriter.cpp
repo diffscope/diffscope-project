@@ -17,10 +17,8 @@
 #include <dspxmodelORM/Phoneme.h>
 #include <dspxmodelORM/PhonemeSequence.h>
 #include <dspxmodelORM/SingingClip.h>
-#include <dspxmodelORM/Sources.h>
 #include <synth/SynthesisPiece.h>
 #include <synth/internal/SynthesisProjectInput.h>
-#include <synth/internal/private/ParameterExpressionUtils_p.h>
 
 namespace Synth::Internal::DocumentWriter {
 
@@ -54,20 +52,12 @@ namespace Synth::Internal::DocumentWriter {
             if (!modelParameter || it->values.isEmpty() || it->sampleRate <= 0.0) {
                 continue;
             }
-            const auto configuration = ProjectInput::parameterConfiguration(clip->sources()->category(), it.key());
             QList<QVariant> values;
             for (int index = firstIndex; index < lastIndex; ++index) {
                 const int tick = index * dspx::FreeValueDataArray::step();
                 const double offset = ProjectInput::tickSeconds(timeline, clip->start() + tick) - pieceStartSeconds;
                 const int sample = std::clamp(static_cast<int>(std::round(offset * it->sampleRate)), 0, static_cast<int>(it->values.size()) - 1);
-                double value = it->values.at(sample);
-                if (!configuration.id().isEmpty()) {
-                    double denormalized{};
-                    if (ParameterExpressionUtils::evaluate(configuration.denormalizationExpression(), value, &denormalized)) {
-                        value = denormalized;
-                    }
-                }
-                values.append(static_cast<int>(std::round(value)));
+                values.append(static_cast<int>(std::round(it->values.at(sample))));
             }
             auto original = modelParameter->original();
             if (original->size() < firstIndex) {

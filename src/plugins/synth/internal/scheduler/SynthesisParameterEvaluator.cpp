@@ -15,7 +15,6 @@
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Parameter.h>
 #include <opendspxinterpolator/parameterinterpolator.h>
-#include <synth/internal/private/ParameterExpressionUtils_p.h>
 
 namespace Synth::Internal {
 
@@ -176,15 +175,6 @@ namespace Synth::Internal {
             transform = freeValue(m_data->values(m_data->transformArray, m_data->transformValues), tick);
         }
         return *base * (transform ? *transform / 1000.0 : 1.0);
-    }
-
-    double SynthesisParameterEvaluator::normalize(const ParameterConfiguration &configuration, double value) {
-        double normalized = value;
-        if (!configuration.id().isEmpty() &&
-            !ParameterExpressionUtils::evaluate(configuration.normalizationExpression(), value, &normalized)) {
-            normalized = value;
-        }
-        return normalized;
     }
 
 }

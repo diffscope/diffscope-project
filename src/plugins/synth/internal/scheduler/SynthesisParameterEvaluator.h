@@ -3,8 +3,6 @@
 
 #include <memory>
 
-#include <synth/ParameterConfiguration.h>
-
 namespace dspx {
     class Parameter;
 }
@@ -17,7 +15,6 @@ namespace Synth::Internal {
         ~SynthesisParameterEvaluator();
 
         double evaluate(double tick, double fallback) const;
-        static double normalize(const ParameterConfiguration &configuration, double value);
 
     private:
         struct Data;
