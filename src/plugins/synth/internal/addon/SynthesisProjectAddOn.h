@@ -114,6 +114,7 @@ namespace Synth {
             void removeAudio(SynthesisPiece *piece);
             void detachAudioSeries(ClipRuntime *runtime);
             bool installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage);
+            bool refreshAudioRanges(double sampleRate, QString *errorMessage = nullptr);
             bool waitForAudioSynthesis(QString *errorMessage);
             void notifyFailure(SynthesisPiece *piece, const QString &message);
 

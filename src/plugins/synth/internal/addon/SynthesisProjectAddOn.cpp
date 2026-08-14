@@ -22,12 +22,15 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
+#include <TalcsCore/MixerAudioSource.h>
+
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/AudioExporter.h>
+#include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <dini/engine.h>
 #include <dini/transaction.h>
@@ -86,10 +89,30 @@ namespace Synth::Internal {
         }
 
         bool willStartCallback(Audio::AudioExporter *exporter) override {
-            return waitForSynthesis(exporter);
+            if (!waitForSynthesis(exporter)) {
+                return false;
+            }
+            QString errorMessage;
+            if (!refreshAudioRanges(exporter, exporter->config().formatSampleRate(), &errorMessage)) {
+                exporter->cancel(
+                    true,
+                    errorMessage.isEmpty()
+                        ? SynthesisProjectAddOn::tr("Synthesized audio could not be prepared for the export sample rate.")
+                        : errorMessage
+                );
+                return false;
+            }
+            return true;
         }
 
-        void willFinishCallback(Audio::AudioExporter *) override {
+        void willFinishCallback(Audio::AudioExporter *exporter) override {
+            const auto projectAudioContext = exporter
+                                                 ? Audio::ProjectAudioContext::of(exporter->windowHandle())
+                                                 : nullptr;
+            const auto sampleRate = projectAudioContext
+                                        ? projectAudioContext->preMixer()->sampleRate()
+                                        : 0.0;
+            refreshAudioRanges(exporter, sampleRate);
         }
 
     private:
@@ -97,12 +120,35 @@ namespace Synth::Internal {
             Audio::AudioExporter::registerListener(this);
         }
 
-        bool waitForSynthesis(Audio::AudioExporter *exporter) {
-            QPointer<SynthesisProjectAddOn> addOn;
-            {
-                QMutexLocker locker(&m_mutex);
-                addOn = m_addOns.value(exporter ? exporter->windowHandle() : nullptr);
+        QPointer<SynthesisProjectAddOn> addOnFor(Audio::AudioExporter *exporter) {
+            QMutexLocker locker(&m_mutex);
+            return m_addOns.value(exporter ? exporter->windowHandle() : nullptr);
+        }
+
+        bool refreshAudioRanges(Audio::AudioExporter *exporter, double sampleRate, QString *errorMessage = nullptr) {
+            const auto addOn = addOnFor(exporter);
+            if (!addOn || qFuzzyIsNull(sampleRate)) {
+                return true;
             }
+            bool succeeded{};
+            const auto refresh = [addOn, sampleRate, errorMessage, &succeeded] {
+                if (addOn) {
+                    succeeded = addOn->refreshAudioRanges(sampleRate, errorMessage);
+                }
+            };
+            if (QThread::currentThread() == addOn->thread()) {
+                refresh();
+            } else if (!QMetaObject::invokeMethod(addOn, refresh, Qt::BlockingQueuedConnection)) {
+                if (errorMessage) {
+                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio positions could not be updated before export.");
+                }
+                return false;
+            }
+            return succeeded;
+        }
+
+        bool waitForSynthesis(Audio::AudioExporter *exporter) {
+            const auto addOn = addOnFor(exporter);
             if (!addOn) {
                 return true;
             }
@@ -154,6 +200,8 @@ namespace Synth::Internal {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         m_taskManager = SynthInterface::instance()->taskManager();
         m_audioController = new SynthesisAudioController(this);
+        connect(Audio::GlobalAudioContext::instance(), &Audio::GlobalAudioContext::sampleRateChanged,
+                this, [this](double sampleRate) { refreshAudioRanges(sampleRate); });
         connect(m_audioController, &SynthesisAudioController::statusChanged, this, [this](SynthesisPiece *piece) {
             if (!piece) {
                 return;
@@ -766,6 +814,36 @@ namespace Synth::Internal {
             windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip,
             piece, runtime->audioTrackContext, runtime->audioSeries, filePath, errorMessage
         );
+    }
+
+    bool SynthesisProjectAddOn::refreshAudioRanges(double sampleRate, QString *errorMessage) {
+        if (qFuzzyIsNull(sampleRate)) {
+            return true;
+        }
+        bool succeeded = true;
+        for (auto runtime : std::as_const(m_clips)) {
+            if (!runtime || !runtime->clip) {
+                continue;
+            }
+            const auto pieces = runtime->pieces.values();
+            for (auto piece : pieces) {
+                if (!piece || !m_audioController->hasBinding(piece)) {
+                    continue;
+                }
+                QString pieceError;
+                if (!m_audioController->refreshRange(
+                        windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip,
+                        piece, runtime->audioTrackContext, runtime->audioSeries,
+                        sampleRate, &pieceError)) {
+                    if (errorMessage && errorMessage->isEmpty()) {
+                        *errorMessage = pieceError;
+                    }
+                    notifyFailure(piece, pieceError);
+                    succeeded = false;
+                }
+            }
+        }
+        return succeeded;
     }
 
     bool SynthesisProjectAddOn::waitForAudioSynthesis(QString *errorMessage) {

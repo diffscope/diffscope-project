@@ -37,6 +37,7 @@ namespace Synth::Internal {
 
         bool prepare(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, QString *errorMessage = nullptr);
         bool install(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, const QString &filePath, QString *errorMessage = nullptr);
+        bool refreshRange(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, double sampleRate, QString *errorMessage = nullptr);
         void remove(SynthesisPiece *piece);
         void discard(SynthesisPiece *piece);
         void detachSeries(QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series);

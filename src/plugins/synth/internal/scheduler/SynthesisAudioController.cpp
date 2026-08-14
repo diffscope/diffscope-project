@@ -43,7 +43,7 @@ namespace Synth::Internal {
             }
         };
 
-        AudioClipRange audioClipRange(Core::ProjectWindowInterface *window, Audio::TrackAudioContext *trackContext, dspx::SingingClip *clip, SynthesisPiece *piece) {
+        AudioClipRange audioClipRange(Core::ProjectWindowInterface *window, Audio::TrackAudioContext *trackContext, dspx::SingingClip *clip, SynthesisPiece *piece, double sampleRate) {
             if (!window || !trackContext || !clip || !piece) {
                 return {};
             }
@@ -57,17 +57,25 @@ namespace Synth::Internal {
             if (endTick <= startTick) {
                 return {};
             }
-            double sampleRate = trackContext->trackMixer()->sampleRate();
             if (qFuzzyIsNull(sampleRate)) {
-                sampleRate = Audio::GlobalAudioContext::sampleRate();
+                sampleRate = trackContext->trackMixer()->sampleRate();
+                if (qFuzzyIsNull(sampleRate)) {
+                    sampleRate = Audio::GlobalAudioContext::sampleRate();
+                }
+            }
+            if (qFuzzyIsNull(sampleRate)) {
+                return {};
             }
             const double pieceStartSeconds = ProjectInput::tickSeconds(timeline, pieceStartTick);
             const double startSeconds = ProjectInput::tickSeconds(timeline, startTick);
             const double endSeconds = ProjectInput::tickSeconds(timeline, endTick);
+            const auto pieceStartSample = static_cast<qint64>(std::llround(pieceStartSeconds * sampleRate));
+            const auto startSample = static_cast<qint64>(std::llround(startSeconds * sampleRate));
+            const auto endSample = static_cast<qint64>(std::llround(endSeconds * sampleRate));
             return {
-                static_cast<qint64>(std::llround(startSeconds * sampleRate)),
-                static_cast<qint64>(std::llround((startSeconds - pieceStartSeconds) * sampleRate)),
-                std::max<qint64>(1, static_cast<qint64>(std::llround((endSeconds - startSeconds) * sampleRate))),
+                startSample,
+                startSample - pieceStartSample,
+                std::max<qint64>(1, endSample - startSample),
             };
         }
 
@@ -130,7 +138,7 @@ namespace Synth::Internal {
             trackContext = currentTrackContext;
         }
 
-        const auto range = audioClipRange(window, currentTrackContext, clip, piece);
+        const auto range = audioClipRange(window, currentTrackContext, clip, piece, 0.0);
         if (!range.isValid()) {
             if (errorMessage) {
                 *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip.");
@@ -224,6 +232,45 @@ namespace Synth::Internal {
         binding->promise->setProgressValue(binding->promise->future().progressMaximum());
         binding->promise->addResult(mixer);
         binding->promise->finish();
+        return true;
+    }
+
+    bool SynthesisAudioController::refreshRange(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, double sampleRate, QString *errorMessage) {
+        const auto binding = m_bindings.value(piece);
+        if (!binding) {
+            return true;
+        }
+        if (!clip || !piece || piece->singingClip() != clip || !trackContext || !series || binding->series != series) {
+            if (errorMessage) {
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer available.");
+            }
+            return false;
+        }
+        const auto range = audioClipRange(window, trackContext, clip, piece, sampleRate);
+        if (!range.isValid()) {
+            if (errorMessage) {
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip.");
+            }
+            return false;
+        }
+        if (binding->range.position == range.position &&
+            binding->range.sourceStart == range.sourceStart &&
+            binding->range.length == range.length) {
+            return true;
+        }
+        if (!series->setClipRange(binding->clip, range.position, range.length)) {
+            if (errorMessage) {
+                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be repositioned.");
+            }
+            return false;
+        }
+        series->setClipStartPos(binding->clip, range.sourceStart);
+        if (binding->promise && !binding->promise->future().isFinished()) {
+            const qint64 contentLength = std::max<qint64>(1, range.sourceStart + range.length);
+            const int progressMaximum = static_cast<int>(std::min<qint64>(contentLength, std::numeric_limits<int>::max()));
+            binding->promise->setProgressRange(0, progressMaximum);
+        }
+        binding->range = range;
         return true;
     }
 
