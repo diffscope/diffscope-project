@@ -1,6 +1,8 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISSERVICEPANELADDON_H
 #define DIFFSCOPE_SYNTH_SYNTHESISSERVICEPANELADDON_H
 
+#include <QUrl>
+
 #include <CoreApi/windowinterface.h>
 
 class QAbstractItemModel;
@@ -10,10 +12,21 @@ namespace Synth::Internal {
     class ServiceStatusModel;
     class SynthService;
 
+}
+
+namespace Synth {
+
+    class SynthesisTaskManager;
+
+}
+
+namespace Synth::Internal {
+
     class SynthesisServicePanelAddOn final : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *serviceModel READ serviceModel CONSTANT)
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
+        Q_PROPERTY(QUrl diagnosticsDirectoryUrl READ diagnosticsDirectoryUrl CONSTANT)
     public:
         explicit SynthesisServicePanelAddOn(QObject *parent = nullptr);
         ~SynthesisServicePanelAddOn() override;
@@ -24,14 +37,20 @@ namespace Synth::Internal {
 
         QAbstractItemModel *serviceModel() const;
         bool refreshing() const;
+        QUrl diagnosticsDirectoryUrl() const;
 
         Q_INVOKABLE void refreshAll();
+        Q_INVOKABLE bool copyDiagnosticRequest(QObject *taskObject, int exchangeIndex);
+        Q_INVOKABLE bool copyDiagnosticResponse(QObject *taskObject, int exchangeIndex);
+        Q_INVOKABLE bool exportDiagnostics(QObject *taskObject, const QUrl &fileUrl);
+        Q_INVOKABLE void clearDiagnostics();
 
     Q_SIGNALS:
         void refreshingChanged();
 
     private:
         SynthService *m_service{};
+        SynthesisTaskManager *m_taskManager{};
         ServiceStatusModel *m_model{};
     };
 

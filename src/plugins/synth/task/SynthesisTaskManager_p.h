@@ -74,6 +74,12 @@ namespace Synth {
         void fail(SynthesisTask *task, const QString &message);
         void finishCanceled(SynthesisTask *task);
         void requeue(SynthesisTask *task, const std::optional<ServiceInstanceConfiguration> &service = std::nullopt);
+        void appendExchanges(SynthesisTask *task, const QList<Internal::Api::ApiExchange> &exchanges);
+        void appendExchange(SynthesisTask *task, const Internal::Api::ApiExchange &exchange);
+        void publishDiagnostics(SynthesisTask *task);
+        QJsonObject diagnosticDocument(SynthesisTask *task, const QString &message) const;
+        void persistDiagnostics(SynthesisTask *task, const QString &message);
+        void trimDiagnostics();
 
         template <typename T, typename Callback>
         void watch(SynthesisTask *task, QFuture<Internal::Api::ApiResult<T>> future, Callback callback) {
@@ -88,6 +94,7 @@ namespace Synth {
                 }
                 const auto result = watcher->result();
                 watcher->deleteLater();
+                appendExchanges(task, result.exchanges());
                 callback(std::move(result));
             });
             watcher->setFuture(future);
@@ -122,6 +129,8 @@ namespace Synth {
         QHash<SynthesisTask *, std::function<void()>> cancelFunctions;
         QHash<QByteArray, EnvironmentTagEntry> environmentTags;
         QHash<QByteArray, PendingEnvironmentTag> pendingEnvironmentTags;
+        QHash<SynthesisTask *, QList<Internal::Api::ApiExchange>> diagnosticExchanges;
+        QString diagnosticsRoot;
         bool shuttingDown{};
     };
 

@@ -25,6 +25,8 @@ namespace Synth {
         QDateTime startedAt;
         QDateTime finishedAt;
         QString errorMessage;
+        QVariantList diagnostics;
+        QString diagnosticFilePath;
     };
 
 }

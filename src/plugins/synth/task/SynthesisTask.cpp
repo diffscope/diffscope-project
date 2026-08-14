@@ -57,6 +57,14 @@ namespace Synth {
         Q_D(const SynthesisTask);
         return d->errorMessage;
     }
+    QVariantList SynthesisTask::diagnostics() const {
+        Q_D(const SynthesisTask);
+        return d->diagnostics;
+    }
+    QString SynthesisTask::diagnosticFilePath() const {
+        Q_D(const SynthesisTask);
+        return d->diagnosticFilePath;
+    }
     SynthesisTaskRequest SynthesisTask::request() const {
         Q_D(const SynthesisTask);
         return d->request;

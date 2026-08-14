@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QScopedPointer>
 #include <QUuid>
+#include <QVariantList>
 
 #include <synth/SynthesisModel.h>
 #include <synth/synthglobal.h>
@@ -28,6 +29,8 @@ namespace Synth {
         Q_PROPERTY(QDateTime startedAt READ startedAt NOTIFY stateChanged)
         Q_PROPERTY(QDateTime finishedAt READ finishedAt NOTIFY stateChanged)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY stateChanged)
+        Q_PROPERTY(QVariantList diagnostics READ diagnostics NOTIFY diagnosticsChanged)
+        Q_PROPERTY(QString diagnosticFilePath READ diagnosticFilePath NOTIFY diagnosticsChanged)
 
     public:
         enum State {
@@ -52,6 +55,8 @@ namespace Synth {
         QDateTime startedAt() const;
         QDateTime finishedAt() const;
         QString errorMessage() const;
+        QVariantList diagnostics() const;
+        QString diagnosticFilePath() const;
         SynthesisTaskRequest request() const;
         SynthesisTaskOptions options() const;
         SynthesisTaskResult result() const;
@@ -61,6 +66,7 @@ namespace Synth {
         void stateChanged();
         void serviceChanged();
         void priorityChanged();
+        void diagnosticsChanged();
         void finished();
 
     private:

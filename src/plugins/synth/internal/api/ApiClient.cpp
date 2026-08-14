@@ -75,6 +75,7 @@ namespace {
         QByteArray rawResponse;
         QJsonValue json{QJsonValue::Undefined};
         std::optional<ApiError> error;
+        QList<ApiExchange> exchanges;
     };
 
     struct RequestTask {
@@ -87,6 +88,7 @@ namespace {
         SynthesisCategory category{SynthesisCategory::None};
         ApiVersion apiVersion{ApiVersion::V1};
         int attempt{};
+        QList<ApiExchange> exchanges;
         std::function<bool()> isCanceled;
         std::function<void()> reportStarted;
         std::function<void(const RawResponse &)> reportResponse;
@@ -239,6 +241,7 @@ namespace {
             QPointer<QNetworkReply> reply;
             QPointer<QTimer> timeoutTimer;
             QPointer<QTimer> retryTimer;
+            QDateTime attemptStartedAt;
             bool timedOut{};
         };
 
@@ -364,6 +367,7 @@ namespace {
             }
 
             active.timedOut = false;
+            active.attemptStartedAt = QDateTime::currentDateTimeUtc();
             auto request = networkRequest(*task);
             qCDebug(lcDsspApiClient) << "Sending DSSP API request"
                                      << "requestId=" << task->id
@@ -426,6 +430,7 @@ namespace {
                                     .toString()
                                     .trimmed();
             const auto retryAfter = reply->rawHeader(QByteArrayLiteral("Retry-After"));
+            const auto url = reply->url();
             const auto body = reply->readAll();
             const auto rawJson = parseJsonBestEffort(body);
             reply->deleteLater();
@@ -503,6 +508,23 @@ namespace {
                     response.json = json;
                 }
             }
+
+            ApiExchange exchange;
+            exchange.requestId = task->id;
+            exchange.serviceInstanceId = task->service.id;
+            exchange.method = task->method;
+            exchange.url = url;
+            exchange.attempt = task->attempt + 1;
+            exchange.httpStatusCode = status;
+            exchange.networkErrorCode = static_cast<int>(networkError);
+            exchange.startedAt = active.attemptStartedAt;
+            exchange.finishedAt = QDateTime::currentDateTimeUtc();
+            exchange.requestBody = task->body;
+            exchange.responseBody = body;
+            if (response.error)
+                exchange.errorMessage = response.error->message;
+            task->exchanges.append(std::move(exchange));
+            response.exchanges = task->exchanges;
 
             const bool retryable = response.error
                 && ((response.error->isNetworkError()
@@ -701,7 +723,7 @@ public:
 
             ApiResult<T> result;
             if (response.error) {
-                result = ApiResult<T>::failure(*response.error);
+                result = ApiResult<T>::failure(*response.error, response.exchanges);
             } else {
                 T value;
                 QString parseError;
@@ -709,13 +731,16 @@ public:
                     ApiError error;
                     error.kind = ApiError::ResponseError;
                     error.httpStatusCode = response.httpStatusCode;
-                error.message = QObject::tr("The synthesis service returned data that does not match the DSSP schema: %1.")
+                    error.message = QObject::tr("The synthesis service returned data that does not match the DSSP schema: %1.")
                                         .arg(parseError);
                     error.rawResponse = response.rawResponse;
                     error.rawJsonResponse = response.json;
-                    result = ApiResult<T>::failure(std::move(error));
+                    auto exchanges = response.exchanges;
+                    if (!exchanges.isEmpty())
+                        exchanges.last().errorMessage = error.message;
+                    result = ApiResult<T>::failure(std::move(error), std::move(exchanges));
                 } else {
-                    result = ApiResult<T>::success(std::move(value));
+                    result = ApiResult<T>::success(std::move(value), response.exchanges);
                 }
             }
             futureInterface->reportResult(std::move(result));

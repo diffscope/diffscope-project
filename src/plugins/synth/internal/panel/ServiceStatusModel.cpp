@@ -21,6 +21,9 @@ namespace Synth::Internal {
         connect(m_service, &SynthService::serviceConfigurationsChanged, this, &ServiceStatusModel::rebuild);
         connect(m_service, &SynthService::serviceDetailsChanged, this, &ServiceStatusModel::updateService);
         connect(m_taskManager, &SynthesisTaskManager::serviceTaskCountsChanged, this, &ServiceStatusModel::updateServiceTasks);
+        connect(m_taskManager, &SynthesisTaskManager::taskRemoved, this, [this](SynthesisTask *task) {
+            updateServiceTasks(task->serviceInstanceId());
+        });
         rebuild();
     }
 
@@ -90,8 +93,16 @@ namespace Synth::Internal {
                 ));
             case TasksRole: {
                 QVariantList result;
-                for (auto task : m_taskManager->tasksForService(configuration.id()))
-                    result.append(QVariant::fromValue(task));
+                for (auto task : m_taskManager->tasks()) {
+                    if (task->serviceInstanceId() != configuration.id()) {
+                        continue;
+                    }
+                    if (task->state() == SynthesisTask::Queued ||
+                        task->state() == SynthesisTask::Running ||
+                        task->state() == SynthesisTask::Failed) {
+                        result.append(QVariant::fromValue(task));
+                    }
+                }
                 return result;
             }
             default:

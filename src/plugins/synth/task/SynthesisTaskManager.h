@@ -4,6 +4,7 @@
 #include <QList>
 #include <QObject>
 #include <QScopedPointer>
+#include <QString>
 #include <QUuid>
 
 #include <synth/SynthesisModel.h>
@@ -34,12 +35,14 @@ namespace Synth {
         int queuedTaskCount() const;
         qint64 cacheSize() const;
         qint64 cacheSize(SynthesisTaskType type) const;
+        QString diagnosticsDirectory() const;
 
         bool setPriority(SynthesisTask *task, int priority);
         bool cancel(SynthesisTask *task);
         void clearFinishedTasks();
         void clearCache();
         void clearCache(const QList<SynthesisTaskType> &types);
+        void clearDiagnostics();
         void reloadSettings();
         void shutdown();
 

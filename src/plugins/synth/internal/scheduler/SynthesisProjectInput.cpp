@@ -493,7 +493,7 @@ namespace Synth::Internal::ProjectInput {
                 if (id == QStringLiteral("pitch")) {
                     value = std::clamp(value + documentCentShift, 0.0, 12800.0);
                 }
-                parameter.values.append(SynthesisParameterEvaluator::normalize(configuration, value));
+                parameter.values.append(value);
             }
             result.score.parameters.insert(id, parameter);
         }

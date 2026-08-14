@@ -6,19 +6,26 @@
 #include <ranges>
 #include <utility>
 
+#include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QFutureWatcher>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLoggingCategory>
 #include <QMimeDatabase>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QSaveFile>
 #include <QSslConfiguration>
 #include <QSslSocket>
 #include <QTimer>
 #include <QUrl>
+#include <QVariantMap>
+
+#include <CoreApi/applicationinfo.h>
 
 #include <synth/ServiceTypes.h>
 #include <synth/SynthInterface.h>
@@ -29,12 +36,25 @@
 
 namespace Synth {
 
+    Q_STATIC_LOGGING_CATEGORY(lcSynthesisTaskManager, "diffscope.synth.taskmanager")
+
     using namespace Internal::TaskCodec;
+
+    namespace {
+
+        constexpr qint64 MaximumDiagnosticsBytes = qint64(256) * 1024 * 1024;
+        constexpr int DiagnosticsExpiryDays = 7;
+
+    }
 
     SynthesisTaskManagerPrivate::SynthesisTaskManagerPrivate(SynthesisTaskManager *q)
         : q_ptr(q),
           apiClient(new Internal::Api::ApiClient(q)),
           networkManager(new QNetworkAccessManager(q)) {
+        const auto runtimeData = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
+        diagnosticsRoot = QDir(runtimeData).filePath(QStringLiteral("synth/diagnostics-v1"));
+        QDir().mkpath(diagnosticsRoot);
+        trimDiagnostics();
         if (auto interface = SynthInterface::instance()) {
             QObject::connect(interface, &SynthInterface::serviceInstancesChanged, q, [this] { pump(); });
             QObject::connect(interface, &SynthInterface::serviceInstanceDetailsChanged, q, [this](const QUuid &) { pump(); });
@@ -242,6 +262,13 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::start(SynthesisTask *task, const ServiceInstanceConfiguration &service) {
+        diagnosticExchanges.remove(task);
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        if (!taskPrivate->diagnostics.isEmpty() || !taskPrivate->diagnosticFilePath.isEmpty()) {
+            taskPrivate->diagnostics.clear();
+            taskPrivate->diagnosticFilePath.clear();
+            Q_EMIT task->diagnosticsChanged();
+        }
         setState(task, SynthesisTask::Running);
         ++activeByService[service.id()];
         ++activeByServiceAndType[counterKey(service.id(), task->type())];
@@ -263,7 +290,13 @@ namespace Synth {
         if (task->state() != SynthesisTask::Running) {
             return;
         }
-        SynthesisTaskPrivate::get(task)->result = std::move(result);
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        taskPrivate->result = std::move(result);
+        diagnosticExchanges.remove(task);
+        if (!taskPrivate->diagnostics.isEmpty()) {
+            taskPrivate->diagnostics.clear();
+            Q_EMIT task->diagnosticsChanged();
+        }
         setState(task, SynthesisTask::Succeeded);
         releaseSlot(task);
     }
@@ -272,6 +305,8 @@ namespace Synth {
         if (task->state() != SynthesisTask::Running) {
             return;
         }
+        publishDiagnostics(task);
+        persistDiagnostics(task, message);
         setState(task, SynthesisTask::Failed, message);
         releaseSlot(task);
     }
@@ -279,6 +314,12 @@ namespace Synth {
     void SynthesisTaskManagerPrivate::finishCanceled(SynthesisTask *task) {
         if (task->state() != SynthesisTask::Running) {
             return;
+        }
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        diagnosticExchanges.remove(task);
+        if (!taskPrivate->diagnostics.isEmpty()) {
+            taskPrivate->diagnostics.clear();
+            Q_EMIT task->diagnosticsChanged();
         }
         setState(task, SynthesisTask::Canceled);
         releaseSlot(task);
@@ -289,10 +330,128 @@ namespace Synth {
             return;
         }
         queue.append(task);
+        diagnosticExchanges.remove(task);
         setState(task, SynthesisTask::Queued);
         releaseSlot(task);
         if (service) {
             setService(task, *service);
+        }
+    }
+
+    void SynthesisTaskManagerPrivate::appendExchanges(SynthesisTask *task, const QList<Internal::Api::ApiExchange> &exchanges) {
+        if (!task || task->state() != SynthesisTask::Running || exchanges.isEmpty()) {
+            return;
+        }
+        diagnosticExchanges[task] += exchanges;
+    }
+
+    void SynthesisTaskManagerPrivate::appendExchange(SynthesisTask *task, const Internal::Api::ApiExchange &exchange) {
+        if (!task || task->state() != SynthesisTask::Running) {
+            return;
+        }
+        diagnosticExchanges[task].append(exchange);
+    }
+
+    void SynthesisTaskManagerPrivate::publishDiagnostics(SynthesisTask *task) {
+        const auto exchanges = diagnosticExchanges.take(task);
+        if (exchanges.isEmpty()) {
+            return;
+        }
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        for (const auto &exchange : exchanges) {
+            taskPrivate->diagnostics.append(QVariantMap{
+                {QStringLiteral("requestId"), QString::number(exchange.requestId)},
+                {QStringLiteral("serviceInstanceId"), exchange.serviceInstanceId.toString(QUuid::WithoutBraces)},
+                {QStringLiteral("method"), QString::fromLatin1(exchange.method)},
+                {QStringLiteral("url"), exchange.url.toString(QUrl::FullyEncoded)},
+                {QStringLiteral("attempt"), exchange.attempt},
+                {QStringLiteral("statusCode"), exchange.httpStatusCode},
+                {QStringLiteral("networkErrorCode"), exchange.networkErrorCode},
+                {QStringLiteral("startedAt"), exchange.startedAt.toString(Qt::ISODateWithMs)},
+                {QStringLiteral("finishedAt"), exchange.finishedAt.toString(Qt::ISODateWithMs)},
+                {QStringLiteral("requestBody"), QString::fromUtf8(exchange.requestBody)},
+                {QStringLiteral("responseBody"), QString::fromUtf8(exchange.responseBody)},
+                {QStringLiteral("errorMessage"), exchange.errorMessage},
+            });
+        }
+        Q_EMIT task->diagnosticsChanged();
+    }
+
+    QJsonObject SynthesisTaskManagerPrivate::diagnosticDocument(SynthesisTask *task, const QString &message) const {
+        const auto taskPrivate = SynthesisTaskPrivate::get(task);
+        return {
+            {QStringLiteral("version"), 1},
+            {QStringLiteral("taskId"), task->id().toString(QUuid::WithoutBraces)},
+            {QStringLiteral("taskType"), typeName(task->type())},
+            {QStringLiteral("taskName"), task->displayName()},
+            {QStringLiteral("serviceInstanceId"), task->serviceInstanceId().toString(QUuid::WithoutBraces)},
+            {QStringLiteral("failedAt"), QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)},
+            {QStringLiteral("errorMessage"), message},
+            {QStringLiteral("exchanges"), QJsonArray::fromVariantList(taskPrivate->diagnostics)},
+        };
+    }
+
+    void SynthesisTaskManagerPrivate::persistDiagnostics(SynthesisTask *task, const QString &message) {
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        if (taskPrivate->diagnostics.isEmpty()) {
+            return;
+        }
+        if (!QDir().mkpath(diagnosticsRoot)) {
+            qCWarning(lcSynthesisTaskManager) << "Could not create synthesis diagnostics directory" << diagnosticsRoot;
+            return;
+        }
+        const auto fileName = QStringLiteral("%1-%2.json")
+                                  .arg(QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyyMMdd-HHmmss-zzz")))
+                                  .arg(task->id().toString(QUuid::WithoutBraces));
+        const auto path = QDir(diagnosticsRoot).filePath(fileName);
+        QSaveFile file(path);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qCWarning(lcSynthesisTaskManager) << "Could not open synthesis diagnostics file" << path;
+            return;
+        }
+        const auto bytes = QJsonDocument(diagnosticDocument(task, message)).toJson(QJsonDocument::Indented);
+        if (file.write(bytes) != bytes.size() || !file.commit()) {
+            qCWarning(lcSynthesisTaskManager) << "Could not write synthesis diagnostics file" << path;
+            return;
+        }
+        trimDiagnostics();
+        if (QFileInfo::exists(path)) {
+            taskPrivate->diagnosticFilePath = path;
+            Q_EMIT task->diagnosticsChanged();
+        }
+    }
+
+    void SynthesisTaskManagerPrivate::trimDiagnostics() {
+        auto files = QDir(diagnosticsRoot).entryInfoList({QStringLiteral("*.json")}, QDir::Files, QDir::Time | QDir::Reversed);
+        const auto now = QDateTime::currentDateTimeUtc();
+        qint64 total{};
+        for (auto it = files.begin(); it != files.end();) {
+            if (it->lastModified().toUTC().daysTo(now) > DiagnosticsExpiryDays) {
+                QFile::remove(it->absoluteFilePath());
+                it = files.erase(it);
+            } else {
+                total += it->size();
+                ++it;
+            }
+        }
+        qsizetype remaining = files.size();
+        for (const auto &file : files) {
+            if (total <= MaximumDiagnosticsBytes || remaining <= 1) {
+                break;
+            }
+            const auto size = file.size();
+            if (QFile::remove(file.absoluteFilePath())) {
+                total -= size;
+                --remaining;
+            }
+        }
+        for (auto task : tasks) {
+            auto taskPrivate = SynthesisTaskPrivate::get(task);
+            if (!taskPrivate->diagnosticFilePath.isEmpty() &&
+                !QFileInfo::exists(taskPrivate->diagnosticFilePath)) {
+                taskPrivate->diagnosticFilePath.clear();
+                Q_EMIT task->diagnosticsChanged();
+            }
         }
     }
 
@@ -388,6 +547,11 @@ namespace Synth {
 
             const auto result = watcher->result();
             watcher->deleteLater();
+            for (const auto &task : validTasks) {
+                if (task) {
+                    appendExchanges(task, result.exchanges());
+                }
+            }
             if (!result) {
                 for (const auto &task : validTasks) {
                     if (task) {
@@ -789,7 +953,8 @@ namespace Synth {
                 reply->abort();
             }
         });
-        QObject::connect(reply, &QNetworkReply::finished, q_ptr, [this, task, service, key, redirectCount, reply] {
+        const auto startedAt = QDateTime::currentDateTimeUtc();
+        QObject::connect(reply, &QNetworkReply::finished, q_ptr, [this, task, service, key, redirectCount, reply, startedAt] {
             cancelFunctions.remove(task);
             if (task->state() == SynthesisTask::Canceled) {
                 reply->deleteLater();
@@ -807,6 +972,18 @@ namespace Synth {
                 const auto message = reply->property("synthDownloadTooLarge").toBool()
                                          ? SynthesisTaskManager::tr("The synthesized audio exceeds the configured download size limit.")
                                          : audioDownloadErrorText(reply, body);
+                Internal::Api::ApiExchange exchange;
+                exchange.serviceInstanceId = service.id();
+                exchange.method = QByteArrayLiteral("GET");
+                exchange.url = reply->url();
+                exchange.attempt = redirectCount + 1;
+                exchange.httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+                exchange.networkErrorCode = static_cast<int>(reply->error());
+                exchange.startedAt = startedAt;
+                exchange.finishedAt = QDateTime::currentDateTimeUtc();
+                exchange.responseBody = body;
+                exchange.errorMessage = message;
+                appendExchange(task, exchange);
                 reply->deleteLater();
                 fail(task, message);
                 return;
@@ -887,6 +1064,11 @@ namespace Synth {
         return d->cache.size(type);
     }
 
+    QString SynthesisTaskManager::diagnosticsDirectory() const {
+        Q_D(const SynthesisTaskManager);
+        return d->diagnosticsRoot;
+    }
+
     bool SynthesisTaskManager::setPriority(SynthesisTask *task, int priority) {
         Q_D(SynthesisTaskManager);
         if (!task || task->parent() != this || task->state() != SynthesisTask::Queued) {
@@ -910,11 +1092,13 @@ namespace Synth {
         }
         if (task->state() == SynthesisTask::Queued) {
             d->queue.removeAll(task);
+            d->diagnosticExchanges.remove(task);
             d->setState(task, SynthesisTask::Canceled);
             return true;
         }
         const auto cancel = d->cancelFunctions.value(task);
         if (cancel) {
+            d->diagnosticExchanges.remove(task);
             d->setState(task, SynthesisTask::Canceled);
             d->releaseSlot(task);
             cancel();
@@ -945,9 +1129,26 @@ namespace Synth {
         d->cache.clear(types);
     }
 
+    void SynthesisTaskManager::clearDiagnostics() {
+        Q_D(SynthesisTaskManager);
+        const auto files = QDir(d->diagnosticsRoot).entryInfoList({QStringLiteral("*.json")}, QDir::Files);
+        for (const auto &file : files) {
+            QFile::remove(file.absoluteFilePath());
+        }
+        for (auto task : d->tasks) {
+            auto taskPrivate = SynthesisTaskPrivate::get(task);
+            if (taskPrivate->diagnosticFilePath.isEmpty()) {
+                continue;
+            }
+            taskPrivate->diagnosticFilePath.clear();
+            Q_EMIT task->diagnosticsChanged();
+        }
+    }
+
     void SynthesisTaskManager::reloadSettings() {
         Q_D(SynthesisTaskManager);
         d->cache.reload();
+        d->trimDiagnostics();
     }
 
     void SynthesisTaskManager::shutdown() {
@@ -964,6 +1165,7 @@ namespace Synth {
             it.value()();
         }
         d->cancelFunctions.clear();
+        d->diagnosticExchanges.clear();
         d->apiClient->shutdown();
     }
 
