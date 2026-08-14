@@ -1,10 +1,13 @@
 #include "ArrangementPanelInterface.h"
 #include "ArrangementPanelInterface_p.h"
 
+#include <algorithm>
 #include <cmath>
 
+#include <QCursor>
 #include <QQmlComponent>
 #include <QQuickItem>
+#include <QQuickWindow>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -35,6 +38,13 @@
 
 namespace VisualEditor {
 
+    static double boundedTimeViewStart(const dspx::SingingClip *clip, double desiredStart, double viewLength) {
+        const double clipStart = clip->position();
+        const double clipEnd = clipStart + clip->clipLength();
+        const double latestStart = std::max(clipStart, clipEnd - viewLength);
+        return std::clamp(desiredStart, clipStart, latestStart);
+    }
+
     void ArrangementPanelInterfacePrivate::bindTimeViewModel() const {
         auto projectTimeline = windowHandle->projectTimeline();
         timeViewModel->setTimeline(projectTimeline->musicTimeline());
@@ -52,7 +62,7 @@ namespace VisualEditor {
     }
     void ArrangementPanelInterfacePrivate::bindClipPaneInteractionController() const {
         Q_Q(const ArrangementPanelInterface);
-        QObject::connect(clipPaneInteractionController, &sflow::ClipPaneInteractionController::itemDoubleClicked, q, [=, this](QQuickItem *, sflow::ClipViewModel *clipViewModel) {
+        QObject::connect(clipPaneInteractionController, &sflow::ClipPaneInteractionController::itemDoubleClicked, q, [=, this](QQuickItem *clipPane, sflow::ClipViewModel *clipViewModel) {
             auto item = ProjectViewModelContext::of(windowHandle)->getClipDocumentItemFromViewItem(clipViewModel);
             if (!item)
                 return;
@@ -61,7 +71,26 @@ namespace VisualEditor {
                 auto singingClip = static_cast<dspx::SingingClip *>(item);
                 selectionModel->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, singingClip->notes());
                 selectionModel->select(singingClip, dspx::SelectionModel::Select);
-                PianoRollPanelInterface::of(windowHandle)->setEditingClip(singingClip);
+                auto pianoRollPanelInterface = PianoRollPanelInterface::of(windowHandle);
+                pianoRollPanelInterface->setEditingClip(singingClip);
+
+                if (!Internal::EditorPreference::centerPianoRollOnClipDoubleClick() || !clipPane || !clipPane->window())
+                    return;
+                auto editArea = pianoRollPanelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+                const auto arrangementPixelDensity = timeLayoutViewModel->pixelDensity();
+                const auto pianoRollPixelDensity = pianoRollPanelInterface->timeLayoutViewModel()->pixelDensity();
+                if (!editArea || editArea->width() <= 0 || arrangementPixelDensity <= 0 || pianoRollPixelDensity <= 0)
+                    return;
+
+                const auto scenePosition = clipPane->window()->mapFromGlobal(QCursor::pos());
+                const auto clickX = clipPane->mapFromScene(scenePosition).x();
+                const double clickPosition = timeViewModel->start() + clickX / arrangementPixelDensity;
+                const double clipStart = singingClip->position();
+                const double clipEnd = clipStart + singingClip->clipLength();
+                const double boundedClickPosition = std::clamp(clickPosition, clipStart, clipEnd);
+                const double viewLength = editArea->width() / pianoRollPixelDensity;
+                pianoRollPanelInterface->timeViewModel()->setStart(
+                    boundedTimeViewStart(singingClip, boundedClickPosition - viewLength / 2.0, viewLength));
             } else {
                 // TODO
             }

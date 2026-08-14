@@ -27,6 +27,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
+        Q_PROPERTY(bool centerPianoRollOnClipDoubleClick READ centerPianoRollOnClipDoubleClick WRITE setCenterPianoRollOnClipDoubleClick NOTIFY centerPianoRollOnClipDoubleClickChanged)
         Q_PROPERTY(double pianoKeyboardBlackKeyLengthRatio READ pianoKeyboardBlackKeyLengthRatio WRITE setPianoKeyboardBlackKeyLengthRatio NOTIFY pianoKeyboardBlackKeyLengthRatioChanged)
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
@@ -86,6 +87,9 @@ namespace VisualEditor::Internal {
         static bool trackListOnRight();
         static void setTrackListOnRight(bool trackListOnRight);
 
+        static bool centerPianoRollOnClipDoubleClick();
+        static void setCenterPianoRollOnClipDoubleClick(bool centerPianoRollOnClipDoubleClick);
+
         static double pianoKeyboardBlackKeyLengthRatio();
         static void setPianoKeyboardBlackKeyLengthRatio(double pianoKeyboardBlackKeyLengthRatio);
 
@@ -119,6 +123,7 @@ namespace VisualEditor::Internal {
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
         void trackListOnRightChanged();
+        void centerPianoRollOnClipDoubleClickChanged();
         void pianoKeyboardBlackKeyLengthRatioChanged();
         void pianoKeyboardLabelPolicyChanged();
         void displayPronunciationBelowNoteChanged();

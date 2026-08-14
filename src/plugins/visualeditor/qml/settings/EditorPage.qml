@@ -21,6 +21,7 @@ ScrollView {
     property double autoDurationPositionAlignment: 32
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
+    property bool centerPianoRollOnClipDoubleClick: true
     property double pianoKeyboardBlackKeyLengthRatio: 0.6
     property int pianoKeyboardLabelPolicy: 0
     property bool displayPronunciationBelowNote: false
@@ -38,6 +39,7 @@ ScrollView {
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
+    onCenterPianoRollOnClipDoubleClickChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardBlackKeyLengthRatioChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
@@ -202,6 +204,14 @@ ScrollView {
                         model: [qsTr("Left"), qsTr("Right")]
                         currentIndex: page.trackListOnRight ? 1 : 0
                         onActivated: (index) => page.trackListOnRight = (index === 1)
+                    }
+
+                    CheckBox {
+                        text: qsTr("Center piano roll when double-clicking a singing clip")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.centerPianoRollOnClipDoubleClick
+                        onClicked: page.centerPianoRollOnClipDoubleClick = checked
                     }
                 }
             }

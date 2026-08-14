@@ -61,6 +61,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
         m_widget->setProperty("trackListOnRight", EditorPreference::instance()->property("trackListOnRight"));
         qCDebug(lcEditorPage) << m_widget->property("trackListOnRight");
+        m_widget->setProperty("centerPianoRollOnClipDoubleClick", EditorPreference::instance()->property("centerPianoRollOnClipDoubleClick"));
+        qCDebug(lcEditorPage) << m_widget->property("centerPianoRollOnClipDoubleClick");
         m_widget->setProperty("pianoKeyboardBlackKeyLengthRatio", EditorPreference::instance()->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         m_widget->setProperty("pianoKeyboardLabelPolicy", EditorPreference::instance()->property("pianoKeyboardLabelPolicy"));
@@ -99,6 +101,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
         qCDebug(lcEditorPage) << "trackListOnRight" << m_widget->property("trackListOnRight");
         EditorPreference::instance()->setProperty("trackListOnRight", m_widget->property("trackListOnRight"));
+        qCDebug(lcEditorPage) << "centerPianoRollOnClipDoubleClick" << m_widget->property("centerPianoRollOnClipDoubleClick");
+        EditorPreference::instance()->setProperty("centerPianoRollOnClipDoubleClick", m_widget->property("centerPianoRollOnClipDoubleClick"));
         qCDebug(lcEditorPage) << "pianoKeyboardBlackKeyLengthRatio" << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         EditorPreference::instance()->setProperty("pianoKeyboardBlackKeyLengthRatio", m_widget->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << "pianoKeyboardLabelPolicy" << m_widget->property("pianoKeyboardLabelPolicy");

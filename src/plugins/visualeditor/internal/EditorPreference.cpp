@@ -20,6 +20,7 @@ namespace VisualEditor::Internal {
         int autoDurationPositionAlignment{24};
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
+        bool centerPianoRollOnClipDoubleClick{true};
         double pianoKeyboardBlackKeyLengthRatio{0.6};
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
         bool displayPronunciationBelowNote{};
@@ -65,6 +66,8 @@ namespace VisualEditor::Internal {
         emit enableTemporarySnapOffChanged();
         d->trackListOnRight = settings->value("trackListOnRight", false).toBool();
         emit trackListOnRightChanged();
+        d->centerPianoRollOnClipDoubleClick = settings->value("centerPianoRollOnClipDoubleClick", true).toBool();
+        emit centerPianoRollOnClipDoubleClickChanged();
         d->pianoKeyboardBlackKeyLengthRatio = settings->value("pianoKeyboardBlackKeyLengthRatio", 0.6).toDouble();
         emit pianoKeyboardBlackKeyLengthRatioChanged();
         d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
@@ -98,6 +101,7 @@ namespace VisualEditor::Internal {
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->setValue("trackListOnRight", d->trackListOnRight);
+        settings->setValue("centerPianoRollOnClipDoubleClick", d->centerPianoRollOnClipDoubleClick);
         settings->setValue("pianoKeyboardBlackKeyLengthRatio", d->pianoKeyboardBlackKeyLengthRatio);
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
@@ -215,6 +219,19 @@ namespace VisualEditor::Internal {
             return;
         d->trackListOnRight = trackListOnRight;
         emit m_instance->trackListOnRightChanged();
+    }
+
+    bool EditorPreference::centerPianoRollOnClipDoubleClick() {
+        M_INSTANCE_D;
+        return d->centerPianoRollOnClipDoubleClick;
+    }
+
+    void EditorPreference::setCenterPianoRollOnClipDoubleClick(bool centerPianoRollOnClipDoubleClick) {
+        M_INSTANCE_D;
+        if (d->centerPianoRollOnClipDoubleClick == centerPianoRollOnClipDoubleClick)
+            return;
+        d->centerPianoRollOnClipDoubleClick = centerPianoRollOnClipDoubleClick;
+        emit m_instance->centerPianoRollOnClipDoubleClickChanged();
     }
 
     double EditorPreference::pianoKeyboardBlackKeyLengthRatio() {

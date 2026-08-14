@@ -1,21 +1,39 @@
 #include "PianoRollAddOn.h"
 
+#include <algorithm>
+
 #include <QKeyEvent>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QTimer>
 #include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <ScopicFlowCore/ClavierViewModel.h>
+#include <ScopicFlowCore/TimeLayoutViewModel.h>
+#include <ScopicFlowCore/TimeViewModel.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelORM/SingingClip.h>
 #include <visualeditor/PianoRollPanelInterface.h>
-#include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/AdditionalTrackLoader.h>
+#include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/ScrollAddOn.h>
 
 namespace VisualEditor::Internal {
+
+    static double boundedTimeViewStart(const dspx::SingingClip *clip, double desiredStart, double viewLength) {
+        const double clipStart = clip->position();
+        const double clipEnd = clipStart + clip->clipLength();
+        const double latestStart = std::max(clipStart, clipEnd - viewLength);
+        return std::clamp(desiredStart, clipStart, latestStart);
+    }
 
     PianoRollAddOn::PianoRollAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
@@ -64,6 +82,40 @@ namespace VisualEditor::Internal {
     }
 
     bool PianoRollAddOn::delayedInitialize() {
+        QTimer::singleShot(0, this, [this] {
+            auto panelInterface = pianoRollPanelInterface();
+            auto clip = panelInterface->editingClip();
+            auto firstNote = clip ? clip->notes()->firstItem() : nullptr;
+            auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+            if (!firstNote || !editArea || editArea->width() <= 0 || editArea->height() <= 0)
+                return;
+
+            static constexpr int noteCount = 8;
+            auto timeLayoutViewModel = panelInterface->timeLayoutViewModel();
+            auto timeViewModel = panelInterface->timeViewModel();
+            auto note = firstNote;
+            auto i = 0;
+            double keyNumber = 0;
+            for (; note && i < noteCount; note = note->nextItem(), ++i) {
+                if (timeLayoutViewModel->pixelDensity() > 0 && note->position() - firstNote->position() > editArea->width() / timeLayoutViewModel->pixelDensity()) {
+                    break;
+                }
+                keyNumber += note->keyNumber();
+            }
+            keyNumber /= i;
+            if (timeLayoutViewModel->pixelDensity() > 0) {
+                const double viewLength = editArea->width() / timeLayoutViewModel->pixelDensity();
+                const double firstNotePosition = clip->position() + firstNote->position() - clip->clipStart();
+                timeViewModel->setStart(boundedTimeViewStart(clip, firstNotePosition - viewLength / 3.0, viewLength));
+            }
+
+            auto clavierViewModel = panelInterface->clavierViewModel();
+            if (clavierViewModel->pixelDensity() > 0) {
+                const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
+                const double minimumStart = std::min(viewKeyCount, 128.0);
+                clavierViewModel->setStart(std::clamp(keyNumber + 0.5 + viewKeyCount / 2.0, minimumStart, 128.0));
+            }
+        });
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
