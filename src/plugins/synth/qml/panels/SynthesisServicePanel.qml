@@ -12,13 +12,6 @@ import DiffScope.UIShell
 QtObject {
     id: root
     required property QtObject addOn
-    property double now: Date.now()
-    property Timer elapsedTimer: Timer {
-        interval: 1000
-        repeat: true
-        running: true
-        onTriggered: root.now = Date.now()
-    }
 
     function taskTypeText(type) {
         return [qsTr("Pronunciation"), qsTr("Phoneme"), qsTr("Duration"), qsTr("Parameter"), qsTr("Audio")][type] ?? qsTr("Unknown");
@@ -52,6 +45,18 @@ QtObject {
 
     readonly property Component panelComponent: ActionDockingPane {
         id: pane
+        property double now: Date.now()
+        onVisibleChanged: {
+            if (visible)
+                now = Date.now();
+        }
+
+        Timer {
+            interval: 1000
+            repeat: true
+            running: pane.visible
+            onTriggered: pane.now = Date.now()
+        }
 
         function showTaskDiagnostics(task) {
             diagnosticDialog.task = task;
@@ -304,7 +309,7 @@ QtObject {
                         required property var model
                         required property int index
                         property bool expanded: false
-                        readonly property int taskCount: model.tasks.length
+                        readonly property int taskCount: model.taskCount
                         readonly property bool hasTasks: taskCount > 0
                         readonly property color statusColor: model.healthStatus === 4 ? Theme.errorColor : model.healthStatus === 3 ? Theme.accentColor : model.healthStatus === 2 ? Theme.warningColor : Theme.foregroundSecondaryColor
                         readonly property string statusDetails: {
@@ -446,21 +451,21 @@ QtObject {
                                 spacing: 4
 
                                 Repeater {
-                                    model: serviceDelegate.model.tasks
+                                    model: serviceDelegate.expanded ? serviceDelegate.model.tasks : null
 
                                     delegate: Rectangle {
                                         id: taskDelegate
-                                        required property var modelData
+                                        required property var task
 
                                         Layout.fillWidth: true
                                         Layout.preferredHeight: taskLayout.implicitHeight + 8
                                         color: Theme.backgroundTertiaryColor
                                         radius: 3
                                         Accessible.role: Accessible.ListItem
-                                        Accessible.name: "%1, %2".arg(root.taskTypeText(modelData.type)).arg(root.taskStateText(modelData.state))
+                                        Accessible.name: "%1, %2".arg(root.taskTypeText(task.type)).arg(root.taskStateText(task.state))
 
-                                        ToolTip.visible: taskHoverHandler.hovered && modelData.state === 3 && Boolean(modelData.errorMessage)
-                                        ToolTip.text: modelData.errorMessage
+                                        ToolTip.visible: taskHoverHandler.hovered && task.state === 3 && Boolean(task.errorMessage)
+                                        ToolTip.text: task.errorMessage
 
                                         HoverHandler {
                                             id: taskHoverHandler
@@ -474,35 +479,35 @@ QtObject {
                                             spacing: 8
 
                                             IconLabel {
-                                                icon.source: `image://fluent-system-icons/${root.taskStateIcon(taskDelegate.modelData.state)}`
-                                                icon.color: root.taskStateColor(taskDelegate.modelData.state)
+                                                icon.source: `image://fluent-system-icons/${root.taskStateIcon(taskDelegate.task.state)}`
+                                                icon.color: root.taskStateColor(taskDelegate.task.state)
                                             }
 
                                             Label {
                                                 Layout.fillWidth: true
-                                                text: root.taskTypeText(taskDelegate.modelData.type)
+                                                text: root.taskTypeText(taskDelegate.task.type)
                                                 elide: Text.ElideRight
                                             }
 
                                             Label {
-                                                text: root.taskStateText(taskDelegate.modelData.state)
-                                                color: root.taskStateColor(taskDelegate.modelData.state)
+                                                text: root.taskStateText(taskDelegate.task.state)
+                                                color: root.taskStateColor(taskDelegate.task.state)
                                             }
 
                                             Label {
-                                                visible: taskDelegate.modelData.state === 1 && Boolean(taskDelegate.modelData.startedAt)
-                                                text: qsTr("%L1 s").arg(Math.max(0, Math.floor((root.now - taskDelegate.modelData.startedAt.getTime()) / 1000)))
+                                                visible: taskDelegate.task.state === 1 && Boolean(taskDelegate.task.startedAt)
+                                                text: qsTr("%L1 s").arg(Math.max(0, Math.floor((pane.now - taskDelegate.task.startedAt.getTime()) / 1000)))
                                                 ThemedItem.foregroundLevel: SVS.FL_Secondary
                                             }
 
                                             ToolButton {
-                                                visible: taskDelegate.modelData.state === 3 && taskDelegate.modelData.diagnostics.length > 0
+                                                visible: taskDelegate.task.state === 3 && taskDelegate.task.diagnostics.length > 0
                                                 text: qsTr("View Diagnostics")
                                                 display: AbstractButton.IconOnly
                                                 icon.source: "image://fluent-system-icons/document_search"
                                                 ToolTip.visible: hovered
                                                 ToolTip.text: text
-                                                onClicked: pane.showTaskDiagnostics(taskDelegate.modelData)
+                                                onClicked: pane.showTaskDiagnostics(taskDelegate.task)
                                             }
                                         }
                                     }

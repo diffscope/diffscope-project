@@ -2,12 +2,14 @@
 #define DIFFSCOPE_SYNTH_SERVICESTATUSMODEL_H
 
 #include <QAbstractListModel>
+#include <QHash>
 #include <QUuid>
 
 #include <synth/ServiceTypes.h>
 
 namespace Synth::Internal {
 
+    class ServiceTaskModel;
     class SynthService;
 
 }
@@ -32,6 +34,7 @@ namespace Synth::Internal {
             LastHealthCheckRole,
             RunningTaskCountRole,
             QueuedTaskCountRole,
+            TaskCountRole,
             TasksRole,
         };
         Q_ENUM(Role)
@@ -45,12 +48,18 @@ namespace Synth::Internal {
     private Q_SLOTS:
         void rebuild();
         void updateService(const QUuid &serviceId);
-        void updateServiceTasks(const QUuid &serviceId);
+        void scheduleTaskUpdate();
 
     private:
+        void synchronizeTasks(bool notify = true);
+
         SynthService *m_service{};
         QList<ServiceInstanceConfiguration> m_configurations;
         SynthesisTaskManager *m_taskManager{};
+        QHash<QUuid, ServiceTaskModel *> m_taskModels;
+        QHash<QUuid, int> m_runningTaskCounts;
+        QHash<QUuid, int> m_queuedTaskCounts;
+        bool m_taskUpdatePending{};
     };
 
 }

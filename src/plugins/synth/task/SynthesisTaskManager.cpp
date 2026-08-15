@@ -124,23 +124,6 @@ namespace Synth {
         return {};
     }
 
-    QJsonObject SynthesisTaskManagerPrivate::metadataJson(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const {
-        const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
-        QJsonArray singers;
-        for (const auto &requested : context.singers) {
-            for (const auto &singer : details.metadata().singers()) {
-                if (singer.id() == requested.id && singer.architectureId() == context.architectureId) {
-                    singers.append(singer.toJson());
-                    break;
-                }
-            }
-        }
-        return {
-            {QStringLiteral("architecture"), architectureMetadata(service, context.architectureId).toJson()},
-            {QStringLiteral("singers"), singers},
-        };
-    }
-
     QJsonObject SynthesisTaskManagerPrivate::cacheEnvelope(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const {
         const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
         return {
@@ -150,7 +133,6 @@ namespace Synth {
             {QStringLiteral("serviceUrl"), service.baseUrl().toString(QUrl::FullyEncoded)},
             {QStringLiteral("apiVersion"), details.selectedApiVersion()},
             {QStringLiteral("environmentTag"), environmentTag},
-            {QStringLiteral("metadata"), metadataJson(service, request.context)},
             {QStringLiteral("request"), requestToJson(request)},
         };
     }
@@ -195,10 +177,17 @@ namespace Synth {
         if (d->serviceId == service.id() && d->serviceName == service.name()) {
             return;
         }
+        const auto previousServiceId = d->serviceId;
         d->serviceId = service.id();
         d->serviceName = service.name();
         Q_EMIT task->serviceChanged();
         Q_EMIT q_ptr->taskChanged(task);
+        if (!previousServiceId.isNull()) {
+            Q_EMIT q_ptr->serviceTaskCountsChanged(previousServiceId);
+        }
+        if (!d->serviceId.isNull() && d->serviceId != previousServiceId) {
+            Q_EMIT q_ptr->serviceTaskCountsChanged(d->serviceId);
+        }
     }
 
     void SynthesisTaskManagerPrivate::setState(SynthesisTask *task, SynthesisTask::State state, const QString &error) {
@@ -272,7 +261,6 @@ namespace Synth {
         setState(task, SynthesisTask::Running);
         ++activeByService[service.id()];
         ++activeByServiceAndType[counterKey(service.id(), task->type())];
-        Q_EMIT q_ptr->serviceTaskCountsChanged(service.id());
         obtainEnvironmentTag(task, service);
     }
 
@@ -282,7 +270,6 @@ namespace Synth {
         const auto key = counterKey(serviceId, task->type());
         activeByServiceAndType[key] = std::max(0, activeByServiceAndType.value(key) - 1);
         cancelFunctions.remove(task);
-        Q_EMIT q_ptr->serviceTaskCountsChanged(serviceId);
         QTimer::singleShot(0, q_ptr, [this] { pump(); });
     }
 
@@ -475,9 +462,9 @@ namespace Synth {
     QByteArray SynthesisTaskManagerPrivate::environmentKey(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const {
         const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
         return digest({
-            {QStringLiteral("service"), service.toJson()},
+            {QStringLiteral("serviceId"), service.id().toString(QUuid::WithoutBraces)},
+            {QStringLiteral("serviceUrl"), service.baseUrl().toString(QUrl::FullyEncoded)},
             {QStringLiteral("apiVersion"), details.selectedApiVersion()},
-            {QStringLiteral("metadata"), metadataJson(service, context)},
             {QStringLiteral("context"), contextToJson(context)},
         });
     }
@@ -1019,9 +1006,6 @@ namespace Synth {
         }
         Q_EMIT taskAdded(task);
         Q_EMIT taskCountsChanged();
-        if (!task->serviceInstanceId().isNull()) {
-            Q_EMIT serviceTaskCountsChanged(task->serviceInstanceId());
-        }
         QTimer::singleShot(0, this, [d] { d->pump(); });
         return task;
     }

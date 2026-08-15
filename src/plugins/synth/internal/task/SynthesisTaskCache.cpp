@@ -110,11 +110,7 @@ namespace Synth::Internal {
                                      {QStringLiteral("result"), resultToJson(result)},
                                  })
                        .toJson(QJsonDocument::Compact));
-        const bool committed = file.commit();
-        if (committed) {
-            trim();
-        }
-        return committed;
+        return file.commit();
     }
 
     QString SynthesisTaskCache::audioPath(SynthesisTaskType type, const QByteArray &key, const QString &suffix, bool persistent) const {

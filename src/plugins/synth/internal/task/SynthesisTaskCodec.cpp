@@ -1,9 +1,10 @@
 #include "SynthesisTaskCodec.h"
 
-#include <utility>
-
 #include <xxhash.h>
 
+#include <utility>
+
+#include <QCborValue>
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -219,7 +220,7 @@ namespace Synth::Internal::TaskCodec {
     }
 
     QByteArray digest(const QJsonObject &object) {
-        const auto data = QJsonDocument(object).toJson(QJsonDocument::Compact);
+        const auto data = QCborValue::fromJsonValue(object).toCbor();
         const auto result = XXH3_128bits(data.data(), data.size());
         return QByteArray(reinterpret_cast<const char *>(&result), sizeof(result)).toBase64(QByteArray::Base64UrlEncoding);
     }

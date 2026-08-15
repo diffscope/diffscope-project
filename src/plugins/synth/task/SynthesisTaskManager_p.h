@@ -58,7 +58,6 @@ namespace Synth {
         ServiceResolution resolveService(const SynthesisContext &context) const;
         static bool providesContext(const ServiceInstanceDetails &details, const SynthesisContext &context);
         ArchitectureMetadata architectureMetadata(const ServiceInstanceConfiguration &service, const QString &architectureId) const;
-        QJsonObject metadataJson(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const;
 
         QJsonObject cacheEnvelope(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const;
         QByteArray taskCacheKey(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const;
