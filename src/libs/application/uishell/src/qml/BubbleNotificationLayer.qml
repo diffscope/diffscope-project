@@ -16,6 +16,18 @@ Item {
     property real leftMargin: 0
     property real rightMargin: 0
 
+    function removeNotification(handle) {
+        for (let index = 0; index < notificationItemModel.count; ++index) {
+            const notification = notificationItemModel.get(index)
+            if (notification.handle !== handle)
+                continue
+            notificationItemModel.remove(index)
+            proxyItemModel.remove(index)
+            notification.destroy()
+            return
+        }
+    }
+
     Flow {
         id: proxyItemFlow
         anchors.fill: parent
@@ -62,6 +74,7 @@ Item {
     }
 
     Instantiator {
+        id: notificationInstantiator
         model: layer.model
         readonly property Component bubbleNotificationComponent: BubbleNotification {
             id: bubbleNotification
@@ -79,11 +92,11 @@ Item {
             notificationItemModel.insert(index, notification)
             proxyItemModel.insert(index, notification.proxyItem)
         }
-        onObjectRemoved: (index, object) => {
-            const notification = notificationItemModel.get(index)
-            notificationItemModel.remove(index)
-            proxyItemModel.remove(index)
-            notification.destroy()
-        }
+        onObjectRemoved: (index, object) => layer.removeNotification(object)
+    }
+
+    Component.onDestruction: () => {
+        // Clear delegates while the sibling ObjectModels are still alive.
+        notificationInstantiator.active = false
     }
 }
