@@ -275,7 +275,6 @@ ActionCollection {
                     d.helper.promptAddAction(o)
                 }
             }
-            readonly property Component menuSeparatorComponent: MenuSeparator {}
             onPanelEntriesChanged: () => {
                 while (count) {
                     if (!itemAt(0))
@@ -285,9 +284,6 @@ ActionCollection {
                 for (let entry of panelEntries) {
                     let action = panelEntryActionComponent.createObject(this, {panelEntry: entry})
                     addAction(action)
-                }
-                if (panelEntries.length !== 0) {
-                    addItem(menuSeparatorComponent.createObject(null))
                 }
                 addAction(addActionActionComponent.createObject(this))
             }

@@ -290,9 +290,10 @@ namespace Core::Internal {
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
             auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.icon());
+            auto translatedText = info.text(true);
             return QVariantMap{
                 {"id", id},
-                {"text", info.text()},
+                {"text", !translatedText.isEmpty() ? translatedText : info.text()},
                 {"iconSource", actionIcon.url()},
                 {"iconColor", QColor::fromString(actionIcon.currentColor())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}

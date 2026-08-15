@@ -36,6 +36,7 @@
 #include <audio/TrackAudioContext.h>
 #include <audio/private/TrackAudioContext_p.h>
 #include <audio/internal/HashHelper.h>
+#include <audio/internal/AudioSystem.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -60,7 +61,7 @@ namespace Audio::Internal {
     }
 
     ProjectAudioAddOn::~ProjectAudioAddOn() {
-        if (m_context) {
+        if (m_context && AudioSystem::outputSystem()) {
             GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
             if (m_metronomeAudioSource) {
                 m_metronomeAudioSource->setDetector(nullptr);
