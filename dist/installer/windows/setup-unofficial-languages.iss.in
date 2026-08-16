@@ -1,5 +1,2 @@
-; SPDX-FileCopyrightText: Team OpenVPI
-; SPDX-License-Identifier: Apache-2.0
-
 Name: "chinesesimplified"; MessagesFile: "{#GetEnv('INNOSETUP_MESSAGE_FILES_DIR')}\ChineseSimplified.isl"
 Name: "chinesetraditional"; MessagesFile: "{#GetEnv('INNOSETUP_MESSAGE_FILES_DIR')}\ChineseTraditional.isl"

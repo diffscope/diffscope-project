@@ -1,0 +1,6 @@
+version = 1
+
+[[annotations]]
+path = ["setup.iss.in", "setup-unofficial-languages.iss.in", "uninstall.iss.in", "uninstall-unofficial-languages.iss.in"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0"

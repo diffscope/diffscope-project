@@ -1,6 +1,3 @@
-; SPDX-FileCopyrightText: Team OpenVPI
-; SPDX-License-Identifier: Apache-2.0
-
 chinesesimplified.ButtonUninstall=卸载
 chinesesimplified.WizardSelectTasks=选择附加任务
 chinesesimplified.SelectTasksDesc=您想要卸载程序执行哪些附加任务？

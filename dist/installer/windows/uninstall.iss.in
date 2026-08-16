@@ -1,6 +1,3 @@
-; SPDX-FileCopyrightText: Team OpenVPI
-; SPDX-License-Identifier: Apache-2.0
-
 [CustomMessages]
 english.ButtonUninstall=Uninstall
 english.WizardSelectTasks=Select Additional Tasks
