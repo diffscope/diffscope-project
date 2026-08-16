@@ -23,7 +23,7 @@
 
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 
-#include <opendspxserializer/serializer.h>
+#include <opendspx/serializer/serializer.h>
 
 namespace ImportExportManager::Internal {
 

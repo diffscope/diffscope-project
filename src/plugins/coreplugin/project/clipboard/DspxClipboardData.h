@@ -8,6 +8,8 @@
 
 #include <QList>
 
+#include <stdcorelib/support/json.h>
+
 #include <opendspx/model.h>
 
 #include <coreplugin/coreglobal.h>
@@ -47,11 +49,11 @@ namespace Core {
             return std::get<Label>(m_data);
         }
 
-        void setKeySignatures(const QList<nlohmann::json> &keySignatures) {
+        void setKeySignatures(const QList<stdc::JsonValue> &keySignatures) {
             m_data = keySignatures;
         }
 
-        QList<nlohmann::json> keySignatures() const {
+        QList<stdc::JsonValue> keySignatures() const {
             return std::get<KeySignature>(m_data);
         }
 
@@ -120,7 +122,7 @@ namespace Core {
         std::variant<
             QList<opendspx::Tempo>,
             QList<opendspx::Label>,
-            QList<nlohmann::json>,
+            QList<stdc::JsonValue>,
             QList<opendspx::Track>,
             QList<std::vector<opendspx::ClipRef>>,
             QList<opendspx::Note>,

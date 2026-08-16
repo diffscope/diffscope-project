@@ -15,7 +15,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <opendspx/model.h>
-#include <opendspxserializer/serializer.h>
+#include <opendspx/serializer/serializer.h>
 
 #include <libresvipformatconverter/internal/LibreSVIPConversionWizard.h>
 #include <libresvipformatconverter/internal/LibreSVIPManager.h>

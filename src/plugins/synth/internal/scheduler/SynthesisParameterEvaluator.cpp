@@ -17,7 +17,7 @@
 #include <dspxmodelORM/AnchorNodeSequence.h>
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Parameter.h>
-#include <opendspxinterpolator/parameterinterpolator.h>
+#include <opendspx/interpolator/parameterinterpolator.h>
 
 namespace Synth::Internal {
 

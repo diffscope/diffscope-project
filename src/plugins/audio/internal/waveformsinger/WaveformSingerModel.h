@@ -13,8 +13,8 @@
 
 #include <opendspx/anchornode.h>
 #include <opendspx/vibrato.h>
-#include <opendspxinterpolator/parameterinterpolator.h>
-#include <opendspxinterpolator/vibratocurve.h>
+#include <opendspx/interpolator/parameterinterpolator.h>
+#include <opendspx/interpolator/vibratocurve.h>
 
 namespace Audio::Internal {
 

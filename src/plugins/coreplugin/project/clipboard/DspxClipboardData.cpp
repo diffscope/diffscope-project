@@ -7,8 +7,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include <opendspxserializer/serializer.h>
-#include <opendspxserializer/jsonconverterv1.h>
+#include <opendspx/serializer/serializer.h>
+#include <opendspx/serializer/jsonconverterv1.h>
 
 #include <coreplugin/internal/jsonutils.h>
 

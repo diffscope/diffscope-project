@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <utility>
 
 #include <QLoggingCategory>
 #include <QFile>
@@ -13,13 +14,15 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <stdcorelib/support/json.h>
+
 #include <SVSCraftCore/MusicPitch.h>
 #include <SVSCraftCore/MusicMode.h>
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <opendspx/model.h>
-#include <opendspxconverter/midi/midiconverter.h>
-#include <opendspxconverter/midi/midiintermediatedata.h>
+#include <opendspx/converter/midi/midiconverter.h>
+#include <opendspx/converter/midi/midiintermediatedata.h>
 
 #include <midiformatconverter/internal/MIDITrackSelectorDialog.h>
 #include <midiformatconverter/internal/MIDITextCodecConverter.h>
@@ -79,18 +82,16 @@ namespace MIDIFormatConverter::Internal {
             return;
 
         const auto tonality = SVS::MusicMode(mode).detectTonality(notes);
-        auto &diffscopeWorkspace = model.content.workspace["diffscope"];
-        if (!diffscopeWorkspace.is_object())
-            diffscopeWorkspace = nlohmann::json::object();
-        auto &keySignatures = diffscopeWorkspace["keySignatures"];
-        if (!keySignatures.is_array())
-            keySignatures = nlohmann::json::array();
-        keySignatures.push_back({
-            {"pos", 0},
-            {"mode", mode},
-            {"tonality", static_cast<int>(tonality)},
-            {"accidentalType", accidentalType},
-        });
+        stdc::JsonObject keySignature;
+        keySignature["pos"] = 0;
+        keySignature["mode"] = mode;
+        keySignature["tonality"] = static_cast<int>(tonality);
+        keySignature["accidentalType"] = accidentalType;
+
+        auto &keySignatures = model.content.workspace["diffscope"]["keySignatures"];
+        stdc::JsonArray keySignatureArray = keySignatures.isArray() ? keySignatures.toArray() : stdc::JsonArray{};
+        keySignatureArray.push_back(std::move(keySignature));
+        keySignatures = std::move(keySignatureArray);
     }
 
     bool MIDIFileImporter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {

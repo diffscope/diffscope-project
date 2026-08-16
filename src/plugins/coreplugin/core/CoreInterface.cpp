@@ -38,6 +38,8 @@
 
 #include <extensionsystem/pluginmanager.h>
 
+#include <stdcorelib/support/json.h>
+
 #include <opendspx/model.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
@@ -348,14 +350,14 @@ namespace Core {
                     }
                 },
                 .workspace = {
-                    {"diffscope", nlohmann::json::object({
-                        {"keySignatures", nlohmann::json::array({
-                            nlohmann::json::object({
+                    {"diffscope", stdc::JsonObject({
+                        {"keySignatures", stdc::JsonArray({
+                            stdc::JsonValue(stdc::JsonObject({
                                 {"pos", 0},
                                 {"mode", 2741},
                                 {"tonality", 0},
                                 {"accidentalType", 1}
-                            })
+                            }))
                         })}
                     })}
                 }

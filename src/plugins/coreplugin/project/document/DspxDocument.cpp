@@ -413,7 +413,7 @@ namespace Core {
         if (selectedItems.isEmpty())
             return std::nullopt;
 
-        QList<nlohmann::json> keySignatures;
+        QList<stdc::JsonValue> keySignatures;
         keySignatures.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
             keySignatures.append(item->toOpenDSPX());
@@ -421,13 +421,15 @@ namespace Core {
         if (keySignatures.isEmpty())
             return std::nullopt;
 
-        std::sort(keySignatures.begin(), keySignatures.end(), [](const nlohmann::json &lhs, const nlohmann::json &rhs) {
-            return lhs.at("pos").get<int>() < rhs.at("pos").get<int>();
+        std::sort(keySignatures.begin(), keySignatures.end(), [](const stdc::JsonValue &lhs, const stdc::JsonValue &rhs) {
+            return lhs["pos"].toInt() < rhs["pos"].toInt();
         });
 
-        const int absolute = keySignatures.first().at("pos").get<int>();
+        const int absolute = static_cast<int>(keySignatures.first()["pos"].toInt());
         for (auto &keySignature : keySignatures) {
-            keySignature["pos"] = keySignature.at("pos").get<int>() - absolute;
+            stdc::JsonObject object = keySignature.toObject();
+            object["pos"] = static_cast<int>(object["pos"].toInt()) - absolute;
+            keySignature = std::move(object);
         }
 
         DspxClipboardData data;
@@ -686,7 +688,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteKeySignatures(const QList<stdc::JsonValue> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || keySignatures.isEmpty())
             return false;
 
@@ -711,29 +713,33 @@ namespace Core {
             return playheadPosition;
         }();
 
-        QList<nlohmann::json> adjusted = keySignatures;
+        QList<stdc::JsonValue> adjusted = keySignatures;
         int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
         for (auto &keySignature : adjusted) {
-            const int pos = keySignature.is_object() && keySignature.contains("pos") && keySignature.at("pos").is_number() ? keySignature.at("pos").get<int>() + baseOffset : baseOffset;
-            keySignature["pos"] = pos;
+            stdc::JsonObject object = keySignature.toObject();
+            const int pos = keySignature.isObject() && keySignature["pos"].isNumber() ? static_cast<int>(keySignature["pos"].toInt()) + baseOffset : baseOffset;
+            object["pos"] = pos;
+            keySignature = std::move(object);
             minPos = std::min(minPos, pos);
         }
         if (minPos < 0) {
             const int shift = -minPos;
             for (auto &keySignature : adjusted) {
-                keySignature["pos"] = keySignature.at("pos").get<int>() + shift;
+                stdc::JsonObject object = keySignature.toObject();
+                object["pos"] = static_cast<int>(object["pos"].toInt()) + shift;
+                keySignature = std::move(object);
             }
         }
 
-        std::sort(adjusted.begin(), adjusted.end(), [](const nlohmann::json &lhs, const nlohmann::json &rhs) {
-            return lhs.at("pos").get<int>() < rhs.at("pos").get<int>();
+        std::sort(adjusted.begin(), adjusted.end(), [](const stdc::JsonValue &lhs, const stdc::JsonValue &rhs) {
+            return lhs["pos"].toInt() < rhs["pos"].toInt();
         });
 
         bool inserted = false;
         int removedOverlaps = 0;
         auto keySignatureSequence = model->keySignatures();
         for (const auto &keySignatureData : adjusted) {
-            const auto pos = keySignatureData.at("pos").get<int>();
+            const auto pos = static_cast<int>(keySignatureData["pos"].toInt());
             const auto overlappingItems = keySignatureSequence->slice(pos, 1);
             for (auto *overlappingItem : overlappingItems) {
                 keySignatureSequence->removeItem(overlappingItem);

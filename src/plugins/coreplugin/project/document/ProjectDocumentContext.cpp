@@ -5,6 +5,7 @@
 #include "ProjectDocumentContext_p.h"
 
 #include <sstream>
+#include <stdexcept>
 
 #include <application_config.h>
 
@@ -18,6 +19,8 @@
 #include <CoreApi/applicationinfo.h>
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
+
+#include <stdcorelib/support/json.h>
 
 #include <dspxmodelCore/Document.h>
 #include <opendspx/model.h>
@@ -34,7 +37,7 @@
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 
-#include <opendspxserializer/serializer.h>
+#include <opendspx/serializer/serializer.h>
 
 #include <transactional/TransactionController.h>
 
@@ -89,8 +92,8 @@ namespace Core {
 
     static QString getVersionStringFromModel(const opendspx::Model &model) {
         try {
-            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").get<std::string>());
-        } catch (const nlohmann::json::exception &) {
+            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").toString());
+        } catch (const std::out_of_range &) {
             return {};
         }
     }

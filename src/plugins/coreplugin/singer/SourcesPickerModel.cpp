@@ -14,11 +14,12 @@
 #include <QJsonObject>
 #include <QVariantMap>
 
-#include <nlohmann/json.hpp>
+#include <stdcorelib/support/json.h>
+
 #include <opendspx/mixedsinger.h>
 #include <opendspx/singlesinger.h>
-#include <opendspxserializer/jsonconverterv1.h>
-#include <opendspxserializer/serializer.h>
+#include <opendspx/serializer/jsonconverterv1.h>
+#include <opendspx/serializer/serializer.h>
 
 #include <dspxmodelORM/SingerList.h>
 #include <dspxmodelORM/Sources.h>
@@ -34,12 +35,12 @@ namespace Core {
 
         QString workspaceNameFor(const opendspx::Singer &singer) {
             const auto scope = singer.workspace.find("diffscope");
-            if (scope == singer.workspace.end() || !scope->second.is_object())
+            if (scope == singer.workspace.end())
                 return {};
             const auto name = scope->second.find("name");
-            if (name == scope->second.end() || !name->is_string())
+            if (name == scope->second.end() || !name->second.isString())
                 return {};
-            return QString::fromStdString(name->get<std::string>());
+            return QString::fromStdString(name->second.toString());
         }
 
         QString joinedWarnings(const QStringList &warnings) {
@@ -1092,8 +1093,6 @@ namespace Core {
         if (workspaceNameFor(*mixed) == name)
             return true;
         auto &scope = mixed->workspace["diffscope"];
-        if (!scope.is_object())
-            scope = nlohmann::json::object();
         scope["name"] = name.toStdString();
         emit dataChanged(index, index, {WorkspaceNameRole, DisplayNameRole});
         d->changed();

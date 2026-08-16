@@ -8,6 +8,8 @@
 
 #include <QList>
 
+#include <stdcorelib/support/json.h>
+
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/DspxClipboardData.h>
 
@@ -44,7 +46,7 @@ namespace Core {
         bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteKeySignatures(const QList<nlohmann::json> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteKeySignatures(const QList<stdc::JsonValue> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
         bool pasteDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors,
                                        const DspxClipboardData &data, int playheadPosition,

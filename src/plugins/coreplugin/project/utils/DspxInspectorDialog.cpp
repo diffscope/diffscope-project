@@ -5,6 +5,7 @@
 #include "DspxInspectorDialog_p.h"
 
 #include <sstream>
+#include <stdexcept>
 
 #include <application_config.h>
 
@@ -20,8 +21,10 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <stdcorelib/support/json.h>
+
 #include <opendspx/model.h>
-#include <opendspxserializer/serializer.h>
+#include <opendspx/serializer/serializer.h>
 
 #include <SVSCraftCore/Semver.h>
 #include <SVSCraftQuick/MessageBox.h>
@@ -34,8 +37,8 @@ namespace Core {
 
     static QString getVersionStringFromModel(const opendspx::Model &model) {
         try {
-            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").get<std::string>());
-        } catch (const nlohmann::json::exception &) {
+            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").toString());
+        } catch (const std::out_of_range &) {
             return {};
         }
     }
@@ -215,7 +218,7 @@ namespace Core {
                             {},
                             style()->standardIcon(QStyle::SP_MessageBoxCritical),
                             {
-                                {tr("Offset in file"), QVariant::fromValue(e->index())},
+                                {tr("Offset in file"), QVariant::fromValue(e->offset())},
                                 {tr("Error code"), e->code()},
                                 {tr("Error text"), QString::fromStdString(e->message())},
                             },
