@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 cmake_minimum_required(VERSION 3.19)
 cmake_policy(SET CMP0141 NEW)
 

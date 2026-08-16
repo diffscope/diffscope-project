@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #include "EditTempoTimeSignatureScenario.h"
 #include "EditTempoTimeSignatureScenario_p.h"
 

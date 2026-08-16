@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 qm_import(Translate)
 qm_find_qt(LinguistTools)
 

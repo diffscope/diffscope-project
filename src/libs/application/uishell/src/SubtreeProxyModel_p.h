@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef UISHELL_SUBTREEPROXYMODEL_P_H
 #define UISHELL_SUBTREEPROXYMODEL_P_H
 

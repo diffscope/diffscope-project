@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISTASKCODEC_H
 #define DIFFSCOPE_SYNTH_SYNTHESISTASKCODEC_H
 

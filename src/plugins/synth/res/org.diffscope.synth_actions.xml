@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: GFDL-1.3-or-later
+-->
 <actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
     <version>1.0</version>
     <id>org.diffscope.synth</id>

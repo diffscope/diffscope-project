@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 project(uishell VERSION 0.0.1.0)
 
 qm_import(Qml)

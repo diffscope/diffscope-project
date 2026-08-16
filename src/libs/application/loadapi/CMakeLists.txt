@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 project(loadapi VERSION 0.0.1.0)
 
 # Add target

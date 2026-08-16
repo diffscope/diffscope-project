@@ -1,7 +1,13 @@
 DiffScope Licensing Index
 =========================
 
-This repository contains components made available under multiple licenses. This file is an index only. Complete license texts are stored in the LICENSES directory, and component-specific notices remain authoritative for their respective components.
+This repository contains components made available under multiple licenses.
+
+This file is an informational index only. The licensing scopes listed below are provided for reference and convenience and do not constitute legal statements or authoritative determinations of the license applicable to any particular file.
+
+The license applicable to each file is determined by the licensing information declared for that file in accordance with REUSE Specification - Version 3.2, including applicable SPDX license identifiers and other REUSE-compliant licensing metadata.
+
+Complete license texts are stored in the LICENSES directory. Copyright and licensing notices associated with individual files or components remain applicable as declared.
 
 Licensing scope
 ---------------

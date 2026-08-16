@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 #include "TrackViewModelContextData_p.h"
 
 #include <QLoggingCategory>

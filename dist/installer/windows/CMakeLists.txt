@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 string(REPLACE "/" "\\" CMAKE_INSTALL_PREFIX_WIN "${CMAKE_INSTALL_PREFIX}")
 
 if(INNOSETUP_USE_UNOFFICIAL_LANGUAGE)

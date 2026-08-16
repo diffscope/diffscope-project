@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: GPL-3.0-only
+
 project(libresvipformatconverter
     VERSION ${APPLICATION_VERSION}
     DESCRIPTION ${CURRENT_PLUGIN_DESC}

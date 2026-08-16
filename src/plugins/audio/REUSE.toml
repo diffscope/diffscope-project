@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = ["res/singeravatar/**"]
+SPDX-FileCopyrightText = ["notKlaatu <https://openclipart.org/artist/notKlaatu>", "mi_brami <https://openclipart.org/artist/mi_brami>", "Team OpenVPI"]
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["res/soundfx/**"]
+SPDX-FileCopyrightText = "Tuudurt <https://freesound.org/people/Tuudurt>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["res/translations/**", "plugin.json.in"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "LGPL-3.0-or-later"

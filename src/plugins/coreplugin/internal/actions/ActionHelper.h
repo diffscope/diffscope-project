@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef DIFFSCOPE_UTILS_ACTIONHELPER_H
 #define DIFFSCOPE_UTILS_ACTIONHELPER_H
 

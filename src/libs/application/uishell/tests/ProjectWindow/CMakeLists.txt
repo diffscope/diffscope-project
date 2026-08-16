@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 project(tst_uishell_ProjectWindow)
 
 set(CMAKE_AUTORCC ON)

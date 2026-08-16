@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 #include "ServiceTypes.h"
 #include "ServiceTypes_p.h"
 

@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = ["res/icons/accidental_flat.svg", "res/icons/accidental_sharp.svg"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["res/logos/**"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0 OR CC-BY-4.0"
+
+[[annotations]]
+path = ["res/translations/**", "plugin.json.in"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0"

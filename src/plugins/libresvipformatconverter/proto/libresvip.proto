@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: SoulMelody
+// SPDX-License-Identifier: MIT
+
 syntax = "proto3";
 
 package LibreSVIP;

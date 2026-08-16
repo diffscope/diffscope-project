@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: LGPL-3.0-or-later
+
 project(audio
     VERSION ${APPLICATION_VERSION}
     DESCRIPTION ${CURRENT_PLUGIN_DESC}

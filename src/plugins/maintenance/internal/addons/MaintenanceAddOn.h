@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef DIFFSCOPE_MAINTENANCE_MAINTENANCEADDON_H
 #define DIFFSCOPE_MAINTENANCE_MAINTENANCEADDON_H
 

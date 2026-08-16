@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef DIFFSCOPE_IMPORT_EXPORT_MANAGER_COREGLOBAL_H
 #define DIFFSCOPE_IMPORT_EXPORT_MANAGER_COREGLOBAL_H
 

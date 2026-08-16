@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 # Icon generation for DiffScope
 # Automatically generates platform-specific icon files from PNG sources at configure time
 

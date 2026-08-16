@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #include "DigitalClockLabel_p.h"
 
 #include <QtQuick/private/qquicktext_p_p.h>

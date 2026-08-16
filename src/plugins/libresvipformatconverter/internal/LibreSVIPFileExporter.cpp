@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: GPL-3.0-only
+
 #include "LibreSVIPFileExporter.h"
 
 #include <sstream>

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 # Install data files
 install(DIRECTORY ${CK_BUILD_MAIN_DIR}/share/
     DESTINATION ${CK_INSTALL_SHARE_DIR}

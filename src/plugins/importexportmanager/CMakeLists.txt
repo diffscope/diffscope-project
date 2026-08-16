@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 project(importexportmanager
     VERSION ${APPLICATION_VERSION}
     DESCRIPTION ${CURRENT_PLUGIN_DESC}

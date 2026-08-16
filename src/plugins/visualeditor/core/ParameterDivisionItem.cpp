@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 #include "ParameterDivisionItem.h"
 #include "ParameterDivisionItem_p.h"
 

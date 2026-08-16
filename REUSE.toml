@@ -1,0 +1,6 @@
+version = 1
+
+[[annotations]]
+path = [".agents/skills/**", ".gitignore", ".gitmodules"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0"

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 #include "MasterTrackAddOn.h"
 
 #include <ScopicFlowCore/ListViewModel.h>

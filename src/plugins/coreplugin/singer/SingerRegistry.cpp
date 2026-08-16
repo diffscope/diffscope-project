@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #include "SingerRegistry.h"
 #include "SingerRegistry_p.h"
 

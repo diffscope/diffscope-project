@@ -1,0 +1,6 @@
+version = 1
+
+[[annotations]]
+path = ["res/translations/**", "plugin.json.in"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0"

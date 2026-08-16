@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: GFDL-1.3-or-later
+-->
+
 # Repository Guidelines
 
 ## Project Architecture and Layout

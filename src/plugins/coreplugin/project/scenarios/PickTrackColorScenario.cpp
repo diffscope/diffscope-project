@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #include "PickTrackColorScenario.h"
 #include "PickTrackColorScenario_p.h"
 

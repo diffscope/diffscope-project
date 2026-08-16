@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef DIFFSCOPE_LOADAPI_INITROUTINE_H
 #define DIFFSCOPE_LOADAPI_INITROUTINE_H
 

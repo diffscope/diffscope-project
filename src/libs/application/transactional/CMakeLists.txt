@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 project(transactional VERSION ${APPLICATION_VERSION})
 
 file(GLOB_RECURSE _src *.h *.cpp)

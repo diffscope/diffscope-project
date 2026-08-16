@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 files:
   - source: '/**/translations/*_en_US.ts'
     translation: '/%original_path%/%file_name%_%locale_with_underscore%.ts'

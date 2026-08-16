@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: GFDL-1.3-or-later
+-->
+
 # DiffScope
 
 A free, professional singing-voice-synthesis editor powered by [DiffSinger](https://github.com/openvpi/DiffSinger)
@@ -48,14 +53,4 @@ You may refer to CI scripts for more details.
 
 ## License
 
-This repository uses multiple licenses.
-
-The DiffScope Project (the combined work comprising the DiffScope Application, its built-in plugins, and its third-party libraries) is licensed under the [GNU General Public License, Version 3](LICENSES/GPL-3.0-only.txt).
-
-The DiffScope Application itself and the Core Plugin are licensed under the [Apache License, Version 2.0](LICENSES/Apache-2.0.txt).
-
-Each built-in plugin is subject to its respective license terms.
-
-Third-party software is subject to its respective license terms.
-
-See [LICENSE](LICENSE) for the component license index and the [LICENSES](LICENSES) directory for the complete license texts.
+This repository uses multiple licenses. See [LICENSE](LICENSE) for the component license index and the [LICENSES](LICENSES) directory for the complete license texts.

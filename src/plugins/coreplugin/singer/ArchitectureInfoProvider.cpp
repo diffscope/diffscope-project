@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: Apache-2.0
+
 #include "ArchitectureInfoProvider.h"
 #include "ArchitectureInfoProvider_p.h"
 

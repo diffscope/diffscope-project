@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
 if(APPLICATION_INSTALL AND APPLICATION_ENABLE_DEVEL)
     set(CHORUSKIT_INSTALL ON)
     set(SVSCRAFT_INSTALL ON)
