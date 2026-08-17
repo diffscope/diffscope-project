@@ -13,6 +13,7 @@ set(_plugins
     iconengines/qsvgicon
     imageformats/q*
     networkinformation/qnetworklistmanager
+    tls/q*
 )
 
 if(WIN32)
