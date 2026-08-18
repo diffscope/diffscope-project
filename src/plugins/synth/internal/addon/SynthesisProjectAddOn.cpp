@@ -100,7 +100,7 @@ namespace Synth::Internal {
                 exporter->cancel(
                     true,
                     errorMessage.isEmpty()
-                        ? SynthesisProjectAddOn::tr("Synthesized audio could not be prepared for the export sample rate.")
+                        ? SynthesisProjectAddOn::tr("Synthesized audio could not be prepared for the export sample rate")
                         : errorMessage
                 );
                 return false;
@@ -143,7 +143,7 @@ namespace Synth::Internal {
                 refresh();
             } else if (!QMetaObject::invokeMethod(addOn, refresh, Qt::BlockingQueuedConnection)) {
                 if (errorMessage) {
-                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio positions could not be updated before export.");
+                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio positions could not be updated before export");
                 }
                 return false;
             }
@@ -165,11 +165,11 @@ namespace Synth::Internal {
             if (QThread::currentThread() == addOn->thread()) {
                 wait();
             } else if (!QMetaObject::invokeMethod(addOn, wait, Qt::BlockingQueuedConnection)) {
-                errorMessage = SynthesisProjectAddOn::tr("The synthesis state could not be checked before audio export.");
+                errorMessage = SynthesisProjectAddOn::tr("The synthesis state could not be checked before audio export");
                 accepted = false;
             }
             if (!accepted && exporter) {
-                exporter->cancel(true, errorMessage.isEmpty() ? SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully.") : errorMessage);
+                exporter->cancel(true, errorMessage.isEmpty() ? SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully") : errorMessage);
             }
             return accepted;
         }
@@ -786,7 +786,7 @@ namespace Synth::Internal {
     bool SynthesisProjectAddOn::prepareAudio(ClipRuntime *runtime, SynthesisPiece *piece, QString *errorMessage) {
         if (!runtime) {
             if (errorMessage) {
-                *errorMessage = tr("The synthesis piece is no longer available.");
+                *errorMessage = tr("The synthesis piece is no longer available");
             }
             return false;
         }
@@ -809,7 +809,7 @@ namespace Synth::Internal {
     bool SynthesisProjectAddOn::installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage) {
         if (!runtime) {
             if (errorMessage) {
-                *errorMessage = tr("The synthesis piece is no longer available.");
+                *errorMessage = tr("The synthesis piece is no longer available");
             }
             return false;
         }
@@ -852,14 +852,14 @@ namespace Synth::Internal {
     bool SynthesisProjectAddOn::waitForAudioSynthesis(QString *errorMessage) {
         if (documentTransactionActive()) {
             if (errorMessage) {
-                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again.");
+                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again");
             }
             return false;
         }
         processPendingWork();
         if (documentTransactionActive()) {
             if (errorMessage) {
-                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again.");
+                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again");
             }
             return false;
         }
@@ -877,7 +877,7 @@ namespace Synth::Internal {
         while (true) {
             if (documentTransactionActive()) {
                 if (errorMessage) {
-                    *errorMessage = tr("Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again.");
+                    *errorMessage = tr("Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again");
                 }
                 return false;
             }
@@ -897,7 +897,7 @@ namespace Synth::Internal {
                         case SynthesisPiece::Stale:
                             if (requestedClips.contains(runtime->clipHandle)) {
                                 if (errorMessage) {
-                                    *errorMessage = tr("Audio synthesis could not be started for clip \"%1\".").arg(clip->name());
+                                    *errorMessage = tr("Audio synthesis could not be started for clip \"%1\"").arg(clip->name());
                                 }
                                 return false;
                             }
@@ -910,13 +910,13 @@ namespace Synth::Internal {
                         case SynthesisPiece::Ready: {
                             if (!m_audioController->hasBinding(piece) || piece->audioFilePath().isEmpty()) {
                                 if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio.").arg(clip->name());
+                                    *errorMessage = tr("Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio").arg(clip->name());
                                 }
                                 return false;
                             }
                             if (m_audioController->isCanceled(piece)) {
                                 if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\".").arg(clip->name());
+                                    *errorMessage = tr("Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\"").arg(clip->name());
                                 }
                                 return false;
                             }
@@ -928,7 +928,7 @@ namespace Synth::Internal {
                         case SynthesisPiece::Failed:
                             if (errorMessage) {
                                 const auto detail = piece->errorMessage().isEmpty()
-                                                        ? tr("Unknown synthesis error.")
+                                                        ? tr("Unknown synthesis error")
                                                         : piece->errorMessage();
                                 *errorMessage = tr("Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2")
                                                     .arg(clip->name(), detail);
@@ -1122,13 +1122,13 @@ namespace Synth::Internal {
         const auto context = buildSynthesisContext(runtime->clip);
         if (!context) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("The clip has no valid singer source."));
+                notifyFailure(piece, tr("The clip has no valid singer source"));
             return;
         }
         const auto architecture = architectureFor(*context);
         if (architecture.id().isEmpty()) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("No healthy service supports the architecture used by this clip."));
+                notifyFailure(piece, tr("No healthy service supports the architecture used by this clip"));
             return;
         }
         QList<ClipRuntime::LanguageContinuation> preservedContinuations;
@@ -1191,7 +1191,7 @@ namespace Synth::Internal {
         const auto built = buildLanguageRequest(runtime->clip, position, length, fromType, *context);
         if (built.noteHandles.isEmpty()) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("The synthesis task could not be queued."));
+                notifyFailure(piece, tr("The synthesis task could not be queued"));
             return;
         }
         for (auto piece : affectedPieces) {
@@ -1211,7 +1211,7 @@ namespace Synth::Internal {
         auto task = m_taskManager->enqueue(built.request, options);
         if (!task) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("The synthesis task could not be queued."));
+                notifyFailure(piece, tr("The synthesis task could not be queued"));
             return;
         }
         for (auto piece : affectedPieces) {
@@ -1286,7 +1286,7 @@ namespace Synth::Internal {
         const auto context = buildSynthesisContext(runtime->clip);
         const auto architecture = context ? architectureFor(*context) : ArchitectureMetadata{};
         if (!context || architecture.id().isEmpty()) {
-            notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece."));
+            notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece"));
             return;
         }
         const auto executableType = executableStage(architecture, type);
@@ -1312,7 +1312,7 @@ namespace Synth::Internal {
         const quint64 revision = SynthesisPiecePrivate::get(piece)->revision;
         auto task = m_taskManager->enqueue(request, options);
         if (!task) {
-            notifyFailure(piece, tr("The synthesis task could not be queued."));
+            notifyFailure(piece, tr("The synthesis task could not be queued"));
             return;
         }
         m_pieceTasks.insert(piece, task);
@@ -1619,11 +1619,11 @@ namespace Synth::Internal {
             const auto result = writeback->task->result();
             if (writeback->type == SynthesisTaskType::Pronunciation &&
                 result.pronunciations.size() != expected) {
-                writeback->responseShapeError = tr("The pronunciation result does not match the requested score.");
+                writeback->responseShapeError = tr("The pronunciation result does not match the requested score");
             } else if (writeback->type == SynthesisTaskType::Phoneme && result.phonemes.size() != expected) {
-                writeback->responseShapeError = tr("The phoneme result does not match the requested score.");
+                writeback->responseShapeError = tr("The phoneme result does not match the requested score");
             } else if (writeback->type == SynthesisTaskType::Duration && result.phonemes.size() != expected) {
-                writeback->responseShapeError = tr("The duration result does not match the score for the requested synthesis piece.");
+                writeback->responseShapeError = tr("The duration result does not match the score for the requested synthesis piece");
             }
         }
         m_pendingTaskWritebacks.append(writeback);
@@ -1818,7 +1818,7 @@ namespace Synth::Internal {
             notifyFailure(piece, message);
         };
         if (task->state() != SynthesisTask::Succeeded) {
-            fail(task->errorMessage().isEmpty() ? tr("Synthesis was canceled.") : task->errorMessage());
+            fail(task->errorMessage().isEmpty() ? tr("Synthesis was canceled") : task->errorMessage());
             return;
         }
         if (!writeback->responseShapeError.isEmpty()) {

@@ -31,8 +31,8 @@ namespace Synth::Internal {
             if (!error.message.isEmpty())
                 return error.message;
             if (error.isResponseError())
-            return MetadataRefreshController::tr("The synthesis service returned HTTP status %1.").arg(error.httpStatusCode);
-        return MetadataRefreshController::tr("The synthesis service request failed: network error %1.").arg(error.networkErrorCode);
+                return MetadataRefreshController::tr("The synthesis service returned HTTP status %1").arg(error.httpStatusCode);
+            return MetadataRefreshController::tr("The synthesis service request failed: network error %1").arg(error.networkErrorCode);
         }
 
         QString singerKey(const QString &architectureId, const QString &singerId) {
@@ -323,11 +323,13 @@ namespace Synth::Internal {
                     ? Api::negotiateApiVersion(result->value().dssp.apiVersion)
                     : std::nullopt;
                 if (!result || result->hasError() || !negotiatedVersion) {
-                    const QString message = !result
-                        ? MetadataRefreshController::tr("The health check was canceled.")
-                        : result->hasError()
-                            ? apiErrorText(result->error())
-                            : MetadataRefreshController::tr("The service does not support DSSP API version 1.");
+                    QString message;
+                    if (!result)
+                        message = MetadataRefreshController::tr("The health check was canceled");
+                    else if (result->hasError())
+                        message = apiErrorText(result->error());
+                    else
+                        message = MetadataRefreshController::tr("The service does not support DSSP API version 1");
                     state->details.setHealthStatus(ServiceInstanceDetails::Error);
                     state->details.setMaximumApiVersion(0);
                     state->details.setSelectedApiVersion(0);
@@ -420,12 +422,12 @@ namespace Synth::Internal {
             if (!state->architecturesResult || state->architecturesResult->hasError()) {
                 errors.append(state->architecturesResult
                                   ? apiErrorText(state->architecturesResult->error())
-                                  : MetadataRefreshController::tr("The architecture request was canceled."));
+                                  : MetadataRefreshController::tr("The architecture request was canceled"));
             }
             if (!state->singersResult || state->singersResult->hasError()) {
                 errors.append(state->singersResult
                                   ? apiErrorText(state->singersResult->error())
-                                  : MetadataRefreshController::tr("The singer request was canceled."));
+                                  : MetadataRefreshController::tr("The singer request was canceled"));
             }
             if (!errors.isEmpty()) {
                 if (!failMetadata(state, generation, errors.join(QStringLiteral("; "))))
@@ -481,7 +483,7 @@ namespace Synth::Internal {
                         singer.setAvatarUrl(QUrl(result->value().avatarUrl));
                         state->refreshedSingers[index] = singer;
                     } else if (!stopping && generation == state->generation) {
-                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh a singer avatar."));
+                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh a singer avatar"));
                     }
                     finishAsset(state, generation);
                 });
@@ -496,7 +498,7 @@ namespace Synth::Internal {
                         singer.setBackgroundUrl(QUrl(result->value().backgroundUrl));
                         state->refreshedSingers[index] = singer;
                     } else if (!stopping && generation == state->generation) {
-                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh a singer background."));
+                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh a singer background"));
                     }
                     finishAsset(state, generation);
                 });
@@ -511,7 +513,7 @@ namespace Synth::Internal {
                         singer.setDemos(MetadataConverter::demos(result->value()));
                         state->refreshedSingers[index] = singer;
                     } else if (!stopping && generation == state->generation) {
-                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh singer demo audio."));
+                        state->assetErrors.append(MetadataRefreshController::tr("Could not refresh singer demo audio"));
                     }
                     finishAsset(state, generation);
                 });

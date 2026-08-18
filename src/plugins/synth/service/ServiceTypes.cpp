@@ -30,7 +30,7 @@ namespace Synth {
                                 QString *errorMessage) {
             const auto json = object.value(key);
             if (!json.isString()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a string.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a string")).arg(key));
                 return false;
             }
             *value = json.toString();
@@ -166,46 +166,46 @@ namespace Synth {
     bool ServiceInstanceConfiguration::validate(QStringList *errors) const {
         QStringList localErrors;
         if (d->id.isNull())
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service ID must not be null.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service ID must not be null")));
         if (d->name.trimmed().isEmpty() || hasControlCharacter(d->name))
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service name must not be empty or contain control characters.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service name must not be empty or contain control characters")));
         if (d->host.trimmed().isEmpty() || d->host.contains(u'/') || d->host.contains(u'?') ||
             d->host.contains(u'#') || hasControlCharacter(d->host)) {
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Host is invalid.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Host is invalid")));
         }
         const auto candidateUrl = baseUrl();
         if (!candidateUrl.isValid() || candidateUrl.host().isEmpty())
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Host does not form a valid service URL.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Host does not form a valid service URL")));
         if (d->port < 1 || d->port > 65535)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Port must be between 1 and 65535.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Port must be between 1 and 65535")));
         if (d->authenticationEnabled && d->apiKey.trimmed().isEmpty())
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "An API key is required when authentication is enabled.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "An API key is required when authentication is enabled")));
         if (d->authenticationEnabled && std::any_of(d->apiKey.cbegin(), d->apiKey.cend(),
                                                      [](QChar character) { return character.isSpace(); })) {
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "API key must not contain whitespace.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "API key must not contain whitespace")));
         }
         if (hasControlCharacter(d->apiKey))
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "API key must not contain control characters.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "API key must not contain control characters")));
         if (d->requestTimeoutSeconds <= 0)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Request timeout must be positive.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Request timeout must be positive")));
         if (d->retryCount < 0)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Maximum retries must not be negative.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Maximum retries must not be negative")));
         if (d->taskConcurrency <= 0 || d->globalConcurrency <= 0)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Concurrency limits must be positive.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Concurrency limits must be positive")));
         else if (d->taskConcurrency > d->globalConcurrency)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Concurrent tasks per type must not exceed total concurrent tasks.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Concurrent tasks per type must not exceed total concurrent tasks")));
         if (d->healthCheckIntervalSeconds <= 0)
-            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Health check interval must be positive.")));
+            localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Health check interval must be positive")));
 
         const auto prefix = d->endpointPrefix.trimmed();
         if (!prefix.isEmpty()) {
             if (!prefix.startsWith(u'/') || prefix.contains(u'?') || prefix.contains(u'#') ||
                 prefix.contains(u'\\') || hasControlCharacter(prefix)) {
-                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Endpoint path prefix must be an absolute URL path.")));
+                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Endpoint path prefix must be an absolute URL path")));
             }
             const auto segments = prefix.split(u'/', Qt::SkipEmptyParts);
             if (segments.contains(QStringLiteral("..")) || segments.contains(QStringLiteral(".")))
-                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Endpoint path prefix must not contain dot segments.")));
+                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Endpoint path prefix must not contain dot segments")));
         }
 
         static const QRegularExpression headerNamePattern(
@@ -228,7 +228,7 @@ namespace Synth {
                 }
             );
             if (!headerNamePattern.match(headerName).hasMatch() || invalidValue) {
-                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Custom header on line %L1 is invalid.")).arg(index + 1));
+                localErrors.append(translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Custom header on line %L1 is invalid")).arg(index + 1));
             }
         }
 
@@ -262,13 +262,13 @@ namespace Synth {
                                                 ServiceInstanceConfiguration *result,
                                                 QString *errorMessage) {
         if (!result) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Result pointer must not be null.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Result pointer must not be null")));
             return false;
         }
         ServiceInstanceConfiguration value;
         const auto idValue = object.value(QStringLiteral("id"));
         if (!idValue.isString()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'id' must be a string.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'id' must be a string")));
             return false;
         }
         value.d->id = QUuid(idValue.toString());
@@ -276,7 +276,7 @@ namespace Synth {
         const auto readBool = [&](const QString &key, bool *target) {
             const auto json = object.value(key);
             if (!json.isBool()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a boolean.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a boolean")).arg(key));
                 return false;
             }
             *target = json.toBool();
@@ -285,7 +285,7 @@ namespace Synth {
         const auto readInt = [&](const QString &key, int *target) {
             const auto json = object.value(key);
             if (!json.isDouble()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an integer.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an integer")).arg(key));
                 return false;
             }
             *target = json.toInt();
@@ -307,7 +307,7 @@ namespace Synth {
             !readInt(QStringLiteral("healthCheckIntervalSeconds"), &value.d->healthCheckIntervalSeconds) ||
             !readRequiredString(object, QStringLiteral("customHeaders"), &value.d->customHeaders, errorMessage)) {
             if (errorMessage && errorMessage->isEmpty())
-                *errorMessage = translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service configuration contains a value of the wrong type."));
+                *errorMessage = translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Service configuration contains a value of the wrong type"));
             return false;
         }
         QStringList errors;
@@ -363,11 +363,11 @@ namespace Synth {
             !readRequiredString(object, QStringLiteral("kind"), &kind, errorMessage)) return false;
         if (kind == QStringLiteral("direct")) value.d->kind = Direct;
         else if (kind == QStringLiteral("indirect")) value.d->kind = Indirect;
-        else { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Unknown parameter kind."))); return false; }
+        else { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Unknown parameter kind"))); return false; }
         bool ok{};
         value.d->dependsOn = stringListFromJson(object.value(QStringLiteral("dependsOn")), &ok);
         if (!ok || !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid parameter metadata.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid parameter metadata")));
             return false;
         }
         value.d->extra = object.value(QStringLiteral("extra")).toObject();
@@ -416,7 +416,7 @@ namespace Synth {
             !readRequiredString(object, QStringLiteral("phonemeMode"), &value.d->phonemeMode, errorMessage) ||
             !object.value(QStringLiteral("parameters")).isArray() ||
             !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid architecture metadata.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid architecture metadata")));
             return false;
         }
         for (const auto &item : object.value(QStringLiteral("parameters")).toArray()) {
@@ -427,7 +427,7 @@ namespace Synth {
         }
         bool ok{};
         value.d->audioDependencies = stringListFromJson(object.value(QStringLiteral("audioDependencies")), &ok);
-        if (!ok) { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'audioDependencies' must be an array of strings."))); return false; }
+        if (!ok) { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'audioDependencies' must be an array of strings"))); return false; }
         value.d->extra = object.value(QStringLiteral("extra")).toObject();
         *result = std::move(value);
         return true;
@@ -515,13 +515,13 @@ namespace Synth {
             !object.value(QStringLiteral("languages")).isObject() ||
             !object.value(QStringLiteral("demos")).isArray() ||
             !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid singer metadata.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid singer metadata")));
             return false;
         }
         const auto languages = object.value(QStringLiteral("languages")).toObject();
         for (auto it = languages.constBegin(); it != languages.constEnd(); ++it) {
             if (!it->isObject()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Singer language '%1' must be an object.")).arg(it.key()));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Singer language '%1' must be an object")).arg(it.key()));
                 return false;
             }
             SingerLanguageMetadata language;
@@ -621,15 +621,15 @@ namespace Synth {
     bool ServiceInstanceDetails::fromJson(const QJsonObject &object, ServiceInstanceDetails *result,
                                           QString *errorMessage) {
         if (!result) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Result pointer must not be null.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Result pointer must not be null")));
             return false;
         }
         if (!object.value(QStringLiteral("configuration")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'configuration' must be an object.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'configuration' must be an object")));
             return false;
         }
         if (!object.value(QStringLiteral("metadata")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadata' must be an object.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadata' must be an object")));
             return false;
         }
 
@@ -639,14 +639,14 @@ namespace Synth {
                 object.value(QStringLiteral("configuration")).toObject(),
                 &value.d->configuration, &nestedError)) {
             setError(errorMessage, nestedError.isEmpty()
-                                       ? translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'configuration' is invalid."))
+                                       ? translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'configuration' is invalid"))
                                        : nestedError);
             return false;
         }
         nestedError.clear();
         if (!ServiceMetadata::fromJson(object.value(QStringLiteral("metadata")).toObject(),
                                        &value.d->metadata, &nestedError)) {
-            setError(errorMessage, nestedError.isEmpty() ? translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadata' is invalid."))
+            setError(errorMessage, nestedError.isEmpty() ? translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadata' is invalid"))
                                                          : nestedError);
             return false;
         }
@@ -655,13 +655,13 @@ namespace Synth {
                                                          int maximum, int *target) {
             const auto json = object.value(key);
             if (!json.isDouble()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an integer.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an integer")).arg(key));
                 return false;
             }
             const double number = json.toDouble();
             if (!std::isfinite(number) || std::trunc(number) != number || number < minimum ||
                 number > maximum) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' is outside its valid range.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' is outside its valid range")).arg(key));
                 return false;
             }
             *target = static_cast<int>(number);
@@ -670,7 +670,7 @@ namespace Synth {
         const auto readDateTime = [&object, errorMessage](const QString &key, QDateTime *target) {
             const auto json = object.value(key);
             if (!json.isString()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a string.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be a string")).arg(key));
                 return false;
             }
             const auto text = json.toString();
@@ -680,7 +680,7 @@ namespace Synth {
             }
             const auto dateTime = QDateTime::fromString(text, Qt::ISODateWithMs);
             if (!dateTime.isValid()) {
-                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an ISO 8601 date and time.")).arg(key));
+                setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' must be an ISO 8601 date and time")).arg(key));
                 return false;
             }
             *target = dateTime;
@@ -699,7 +699,7 @@ namespace Synth {
         }
         if (value.d->selectedApiVersion > value.d->maximumApiVersion) {
             setError(errorMessage,
-                     translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'selectedApiVersion' must not exceed 'maximumApiVersion'.")));
+                     translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'selectedApiVersion' must not exceed 'maximumApiVersion'")));
             return false;
         }
         if (!readDateTime(QStringLiteral("lastHealthCheck"), &value.d->lastHealthCheck) ||
@@ -713,7 +713,7 @@ namespace Synth {
         }
         const auto stale = object.value(QStringLiteral("metadataStale"));
         if (!stale.isBool()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadataStale' must be a boolean.")));
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'metadataStale' must be a boolean")));
             return false;
         }
         value.d->metadataStale = stale.toBool();

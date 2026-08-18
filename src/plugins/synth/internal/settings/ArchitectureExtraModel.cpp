@@ -101,12 +101,12 @@ namespace Synth::Internal {
             const auto id = m_entries.at(index).architectureId.trimmed();
             if (id.isEmpty()) {
                 if (errorMessage)
-                    *errorMessage = tr("Architecture entry %L1 has no ID.").arg(index + 1);
+                    *errorMessage = tr("Architecture entry %L1 has no ID").arg(index + 1);
                 return false;
             }
             if (ids.contains(id)) {
                 if (errorMessage)
-                    *errorMessage = tr("Architecture ID '%1' is configured more than once.").arg(id);
+                    *errorMessage = tr("Architecture ID '%1' is configured more than once").arg(id);
                 return false;
             }
             QJsonParseError error;

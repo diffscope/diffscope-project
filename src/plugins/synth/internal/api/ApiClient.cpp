@@ -426,7 +426,7 @@ namespace {
 
             const bool timedOut = active.timedOut;
             const auto networkError = timedOut ? QNetworkReply::TimeoutError : reply->error();
-            const auto networkErrorString = timedOut ? tr("The request timed out.") : reply->errorString();
+            const auto networkErrorString = timedOut ? tr("The request timed out") : reply->errorString();
             const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
             const int status = statusAttribute.isValid() ? statusAttribute.toInt() : 0;
             const auto reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute)
@@ -456,8 +456,8 @@ namespace {
                 error.httpStatusCode = status;
                 error.networkErrorCode = static_cast<int>(networkError);
                 error.message = reason.isEmpty()
-                                ? tr("The synthesis service returned HTTP status %1.").arg(status)
-                                : tr("The synthesis service returned HTTP status %1: %2.")
+                                    ? tr("The synthesis service returned HTTP status %1").arg(status)
+                                    : tr("The synthesis service returned HTTP status %1: %2")
                                           .arg(status)
                                           .arg(reason);
                 const auto problem = problemDetailsText(rawJson);
@@ -475,7 +475,7 @@ namespace {
                 error.kind = ApiError::ResponseError;
                 error.httpStatusCode = status;
                 error.networkErrorCode = static_cast<int>(networkError);
-            error.message = tr("The synthesis service returned an incomplete HTTP response: %1.")
+                error.message = tr("The synthesis service returned an incomplete HTTP response: %1")
                                     .arg(networkErrorString);
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
@@ -485,14 +485,14 @@ namespace {
                 error.kind = ApiError::NetworkError;
                 error.networkErrorCode = static_cast<int>(networkError);
                 error.httpStatusCode = status;
-            error.message = tr("The synthesis service request failed: %1.").arg(networkErrorString);
+                error.message = tr("The synthesis service request failed: %1").arg(networkErrorString);
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
             } else if (!statusAttribute.isValid()) {
                 ApiError error;
                 error.kind = ApiError::ResponseError;
-            error.message = tr("The synthesis service response did not contain an HTTP status code.");
+                error.message = tr("The synthesis service response did not contain an HTTP status code");
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
@@ -503,7 +503,8 @@ namespace {
                     ApiError error;
                     error.kind = ApiError::ResponseError;
                     error.httpStatusCode = status;
-                error.message = tr("The synthesis service returned invalid JSON: %1.").arg(parseError.errorString());
+                    error.message = tr("The synthesis service returned invalid JSON: %1")
+                                        .arg(parseError.errorString());
                     error.rawResponse = body;
                     error.rawJsonResponse = rawJson;
                     response.error = std::move(error);
@@ -734,7 +735,7 @@ public:
                     ApiError error;
                     error.kind = ApiError::ResponseError;
                     error.httpStatusCode = response.httpStatusCode;
-                    error.message = QObject::tr("The synthesis service returned data that does not match the DSSP schema: %1.")
+                    error.message = QObject::tr("The synthesis service returned data that does not match the DSSP schema: %1")
                                         .arg(parseError);
                     error.rawResponse = response.rawResponse;
                     error.rawJsonResponse = response.json;

@@ -241,7 +241,7 @@ namespace Synth {
             }
             if (resolution.availability == ServiceAvailability::Unavailable || !resolution.service) {
                 queue.removeAt(index);
-                setState(task, SynthesisTask::Failed, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers."));
+                setState(task, SynthesisTask::Failed, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers"));
                 continue;
             }
             if (!canStart(*resolution.service, task->type())) {
@@ -383,9 +383,6 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::persistDiagnostics(SynthesisTask *task, const QString &message) {
         auto taskPrivate = SynthesisTaskPrivate::get(task);
-        if (taskPrivate->diagnostics.isEmpty()) {
-            return;
-        }
         if (!QDir().mkpath(diagnosticsRoot)) {
             qCWarning(lcSynthesisTaskManager) << "Could not create synthesis diagnostics directory" << diagnosticsRoot;
             return;
@@ -454,10 +451,10 @@ namespace Synth {
                 return error.message;
             }
             if (error.httpStatusCode) {
-                return SynthesisTaskManager::tr("The synthesis service returned HTTP status %1.")
+                return SynthesisTaskManager::tr("The synthesis service returned HTTP status %1")
                     .arg(error.httpStatusCode);
             }
-            return SynthesisTaskManager::tr("The synthesis service request failed.");
+            return SynthesisTaskManager::tr("The synthesis service request failed");
         }
 
     }
@@ -514,7 +511,7 @@ namespace Synth {
                 const auto resolution = resolveService(task->request().context);
                 if (resolution.availability == ServiceAvailability::Unavailable) {
                     cancelFunctions.remove(task);
-                    fail(task, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers."));
+                    fail(task, SynthesisTaskManager::tr("No healthy synthesis service supports the selected architecture and all required singers"));
                     continue;
                 }
                 if (resolution.availability == ServiceAvailability::Waiting || !resolution.service ||
@@ -825,7 +822,7 @@ namespace Synth {
         QString audioDownloadErrorText(QNetworkReply *reply, const QByteArray &body) {
             const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
             if (!statusAttribute.isValid()) {
-                return SynthesisTaskManager::tr("The synthesis service request failed: %1.")
+                return SynthesisTaskManager::tr("The synthesis service request failed: %1")
                     .arg(reply->errorString());
             }
 
@@ -834,9 +831,9 @@ namespace Synth {
                                     .toString()
                                     .trimmed();
             auto message = reason.isEmpty()
-                               ? SynthesisTaskManager::tr("The synthesis service returned HTTP status %1.")
+                               ? SynthesisTaskManager::tr("The synthesis service returned HTTP status %1")
                                      .arg(status)
-                               : SynthesisTaskManager::tr("The synthesis service returned HTTP status %1: %2.")
+                               : SynthesisTaskManager::tr("The synthesis service returned HTTP status %1: %2")
                                      .arg(status)
                                      .arg(reason);
             const auto problem = problemDetailsText(body);
@@ -857,12 +854,12 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::finishAudioBytes(SynthesisTask *task, const QByteArray &key, const QByteArray &bytes, const QString &suffix) {
         if (bytes.isEmpty() || bytes.size() > cache.maximumDownloadBytes()) {
-            fail(task, SynthesisTaskManager::tr("The synthesized audio response is empty or exceeds the configured size limit."));
+            fail(task, SynthesisTaskManager::tr("The synthesized audio response is empty or exceeds the configured size limit"));
             return;
         }
         const auto path = cache.audioPath(task->type(), key, suffix, task->options().writeCache);
         if (!cache.writeBytes(path, bytes)) {
-            fail(task, SynthesisTaskManager::tr("Could not store synthesized audio locally."));
+            fail(task, SynthesisTaskManager::tr("Could not store synthesized audio locally"));
             return;
         }
         SynthesisTaskResult result;
@@ -874,7 +871,7 @@ namespace Synth {
         if (location.startsWith(QStringLiteral("data:"), Qt::CaseInsensitive)) {
             const auto comma = location.indexOf(u',');
             if (comma <= 5) {
-                fail(task, SynthesisTaskManager::tr("The synthesis service returned an invalid audio data URL."));
+                fail(task, SynthesisTaskManager::tr("The synthesis service returned an invalid audio data URL"));
                 return;
             }
             const auto metadata = location.mid(5, comma - 5);
@@ -889,7 +886,7 @@ namespace Synth {
         }
         const QUrl url(location);
         if (!url.isValid() || (url.scheme() != QStringLiteral("http") && url.scheme() != QStringLiteral("https"))) {
-            fail(task, SynthesisTaskManager::tr("The synthesis service returned an unsupported audio URL."));
+            fail(task, SynthesisTaskManager::tr("The synthesis service returned an unsupported audio URL"));
             return;
         }
         downloadAudio(task, service, key, url, 0);
@@ -907,7 +904,7 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::downloadAudio(SynthesisTask *task, const ServiceInstanceConfiguration &service, const QByteArray &key, const QUrl &url, int redirectCount) {
         if (redirectCount > 5) {
-            fail(task, SynthesisTaskManager::tr("The synthesized audio URL redirected too many times."));
+            fail(task, SynthesisTaskManager::tr("The synthesized audio URL redirected too many times"));
             return;
         }
         QNetworkRequest request(url);
@@ -960,7 +957,7 @@ namespace Synth {
             if (reply->error() != QNetworkReply::NoError) {
                 const auto body = reply->readAll();
                 const auto message = reply->property("synthDownloadTooLarge").toBool()
-                                         ? SynthesisTaskManager::tr("The synthesized audio exceeds the configured download size limit.")
+                                         ? SynthesisTaskManager::tr("The synthesized audio exceeds the configured download size limit")
                                          : audioDownloadErrorText(reply, body);
                 Internal::Api::ApiExchange exchange;
                 exchange.serviceInstanceId = service.id();
@@ -1093,6 +1090,23 @@ namespace Synth {
         return true;
     }
 
+    bool SynthesisTaskManager::removeFinishedTask(SynthesisTask *task) {
+        Q_D(SynthesisTaskManager);
+        if (!task || task->parent() != this || !task->isFinished()) {
+            return false;
+        }
+        const auto index = d->tasks.indexOf(task);
+        if (index < 0) {
+            return false;
+        }
+        d->diagnosticExchanges.remove(task);
+        d->cancelFunctions.remove(task);
+        d->tasks.removeAt(index);
+        Q_EMIT taskRemoved(task);
+        task->deleteLater();
+        return true;
+    }
+
     void SynthesisTaskManager::clearFinishedTasks() {
         Q_D(SynthesisTaskManager);
         for (qsizetype index = d->tasks.size() - 1; index >= 0; --index) {
@@ -1100,9 +1114,7 @@ namespace Synth {
             if (!task->isFinished()) {
                 continue;
             }
-            d->tasks.removeAt(index);
-            Q_EMIT taskRemoved(task);
-            task->deleteLater();
+            removeFinishedTask(task);
         }
     }
 

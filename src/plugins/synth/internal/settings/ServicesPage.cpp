@@ -78,7 +78,7 @@ namespace Synth::Internal {
 
         QString errorMessage;
         if (!m_service->replaceServiceConfigurations(configurations, &errorMessage)) {
-            setErrorMessage(errorMessage.isEmpty() ? tr("Could not save service configurations.") : errorMessage);
+            setErrorMessage(errorMessage.isEmpty() ? tr("Could not save service configurations") : errorMessage);
             return false;
         }
         setErrorMessage({});

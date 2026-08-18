@@ -96,12 +96,12 @@ namespace Synth::Internal {
         QSet<QString> ids;
         for (const auto &configuration : configurations) {
             if (builtinIds.contains(configuration.id())) {
-                setMessages(tr("Parameter ID '%1' is provided by a read-only built-in configuration.")
+                setMessages(tr("Parameter ID '%1' is provided by a read-only built-in configuration")
                                 .arg(configuration.id()));
                 return false;
             }
             if (ids.contains(configuration.id())) {
-                setMessages(tr("Parameter ID '%1' is duplicated.").arg(configuration.id()));
+                setMessages(tr("Parameter ID '%1' is duplicated").arg(configuration.id()));
                 return false;
             }
             ids.insert(configuration.id());
@@ -115,7 +115,7 @@ namespace Synth::Internal {
 
         QString errorMessage;
         if (!m_service->replaceUserParameterConfigurations(configurations, &errorMessage)) {
-            setMessages(errorMessage.isEmpty() ? tr("Could not save parameter configurations.") : errorMessage);
+            setMessages(errorMessage.isEmpty() ? tr("Could not save parameter configurations") : errorMessage);
             return false;
         }
         setMessages({}, {});
@@ -145,7 +145,7 @@ namespace Synth::Internal {
         const QString path = localFilePath(fileUrl);
         QFile file(path);
         if (path.isEmpty() || !file.open(QIODevice::ReadOnly)) {
-            setMessages(tr("Could not open the parameter configuration file."));
+            setMessages(tr("Could not open the parameter configuration file"));
             return false;
         }
 
@@ -158,7 +158,7 @@ namespace Synth::Internal {
 
         const auto root = document.object();
         if (root.value(QStringLiteral("format")).toString() != QLatin1String(ParameterConfigurationFormat) || root.value(QStringLiteral("version")).toInt(-1) != ParameterConfigurationFormatVersion || !root.value(QStringLiteral("parameters")).isArray()) {
-            setMessages(tr("This is not a supported synthesis parameter configuration file."));
+            setMessages(tr("This is not a supported synthesis parameter configuration file"));
             return false;
         }
 
@@ -168,7 +168,7 @@ namespace Synth::Internal {
         const auto array = root.value(QStringLiteral("parameters")).toArray();
         for (qsizetype i = 0; i < array.size(); ++i) {
             if (!array.at(i).isObject()) {
-                setMessages(tr("Parameter entry %L1 is not an object.").arg(i + 1));
+                setMessages(tr("Parameter entry %L1 is not an object").arg(i + 1));
                 return false;
             }
             const auto object = array.at(i).toObject();
@@ -207,7 +207,7 @@ namespace Synth::Internal {
         const QString path = localFilePath(fileUrl);
         QFile file(path);
         if (path.isEmpty() || !file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-            setMessages(tr("Could not create the parameter configuration file."));
+            setMessages(tr("Could not create the parameter configuration file"));
             return false;
         }
 
@@ -220,7 +220,7 @@ namespace Synth::Internal {
             {QStringLiteral("parameters"), array},
         };
         if (file.write(QJsonDocument(root).toJson(QJsonDocument::Indented)) < 0) {
-            setMessages(tr("Could not write the parameter configuration file."));
+            setMessages(tr("Could not write the parameter configuration file"));
             return false;
         }
         setMessages({}, tr("Exported %Ln parameter configuration(s).", nullptr, array.size()));

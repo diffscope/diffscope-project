@@ -4,11 +4,7 @@
 #include "SynthesisServicePanelAddOn.h"
 
 #include <QAbstractItemModel>
-#include <QClipboard>
-#include <QFile>
-#include <QGuiApplication>
 #include <QQmlComponent>
-#include <QSaveFile>
 #include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
@@ -69,49 +65,14 @@ namespace Synth::Internal {
         return m_service->refreshing();
     }
 
-    QUrl SynthesisServicePanelAddOn::diagnosticsDirectoryUrl() const {
-        return QUrl::fromLocalFile(m_taskManager->diagnosticsDirectory());
-    }
-
     void SynthesisServicePanelAddOn::refreshAll() {
         m_service->refreshAll();
     }
 
-    bool SynthesisServicePanelAddOn::copyDiagnosticRequest(QObject *taskObject, int exchangeIndex) {
+    bool SynthesisServicePanelAddOn::removeFailedTask(QObject *taskObject) {
         auto task = qobject_cast<SynthesisTask *>(taskObject);
-        if (!task || exchangeIndex < 0 || exchangeIndex >= task->diagnostics().size()) {
-            return false;
-        }
-        const auto diagnostics = task->diagnostics();
-        QGuiApplication::clipboard()->setText(diagnostics.at(exchangeIndex).toMap().value(QStringLiteral("requestBody")).toString());
-        return true;
-    }
-
-    bool SynthesisServicePanelAddOn::copyDiagnosticResponse(QObject *taskObject, int exchangeIndex) {
-        auto task = qobject_cast<SynthesisTask *>(taskObject);
-        if (!task || exchangeIndex < 0 || exchangeIndex >= task->diagnostics().size()) {
-            return false;
-        }
-        const auto diagnostics = task->diagnostics();
-        QGuiApplication::clipboard()->setText(diagnostics.at(exchangeIndex).toMap().value(QStringLiteral("responseBody")).toString());
-        return true;
-    }
-
-    bool SynthesisServicePanelAddOn::exportDiagnostics(QObject *taskObject, const QUrl &fileUrl) {
-        auto task = qobject_cast<SynthesisTask *>(taskObject);
-        if (!task || task->diagnosticFilePath().isEmpty() || !fileUrl.isLocalFile()) {
-            return false;
-        }
-        QFile source(task->diagnosticFilePath());
-        if (!source.open(QIODevice::ReadOnly)) {
-            return false;
-        }
-        QSaveFile destination(fileUrl.toLocalFile());
-        if (!destination.open(QIODevice::WriteOnly)) {
-            return false;
-        }
-        const auto bytes = source.readAll();
-        return destination.write(bytes) == bytes.size() && destination.commit();
+        return task && task->state() == SynthesisTask::Failed &&
+               m_taskManager->removeFinishedTask(task);
     }
 
     void SynthesisServicePanelAddOn::clearDiagnostics() {

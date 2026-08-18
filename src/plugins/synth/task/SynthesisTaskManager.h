@@ -42,6 +42,7 @@ namespace Synth {
 
         bool setPriority(SynthesisTask *task, int priority);
         bool cancel(SynthesisTask *task);
+        bool removeFinishedTask(SynthesisTask *task);
         void clearFinishedTasks();
         void clearCache();
         void clearCache(const QList<SynthesisTaskType> &types);

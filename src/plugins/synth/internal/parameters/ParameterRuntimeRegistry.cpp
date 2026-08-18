@@ -43,7 +43,7 @@ namespace Synth::Internal {
                 if (expression)
                     return true;
                 if (errorMessage)
-                    *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "The parameter expression is invalid at position %L1."))
+                    *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "The parameter expression is invalid at position %L1"))
                                         .arg(position);
                 return false;
             }
@@ -130,7 +130,7 @@ namespace Synth::Internal {
                                                  Core::ParameterInfo *result,
                                                  QString *errorMessage) {
         if (!result) {
-            if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "Result pointer must not be null."));
+            if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::Internal::ParameterRuntimeRegistry", "Result pointer must not be null"));
             return false;
         }
         QStringList validationErrors;

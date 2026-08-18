@@ -4,7 +4,6 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
 import QtQuick.Layouts
 
 import SVSCraft
@@ -36,16 +35,6 @@ QtObject {
         return Theme.foregroundSecondaryColor;
     }
 
-    function formattedJson(text) {
-        if (!text)
-            return "";
-        try {
-            return JSON.stringify(JSON.parse(text), null, 2);
-        } catch (error) {
-            return text;
-        }
-    }
-
     readonly property Component panelComponent: ActionDockingPane {
         id: pane
         property double now: Date.now()
@@ -61,221 +50,9 @@ QtObject {
             onTriggered: pane.now = Date.now()
         }
 
-        function showTaskDiagnostics(task) {
-            diagnosticDialog.task = task;
-            diagnosticDialog.exchangeIndex = Math.max(0, task.diagnostics.length - 1);
-            diagnosticDialog.open();
-        }
-
-        FileDialog {
-            id: exportDialog
-            property var task: null
-            title: qsTr("Export Synthesis Diagnostics")
-            fileMode: FileDialog.SaveFile
-            defaultSuffix: "json"
-            nameFilters: [qsTr("JSON files (*.json)"), qsTr("All files (*)")]
-            onAccepted: {
-                if (!root.addOn.exportDiagnostics(task, selectedFile))
-                    pane.MessageBox.critical(qsTr("Export Failed"), qsTr("The synthesis diagnostics could not be exported."));
-            }
-        }
-
-        Dialog {
-            id: diagnosticDialog
-            property var task: null
-            property int exchangeIndex: 0
-            readonly property var exchanges: task?.diagnostics ?? []
-            readonly property var exchange: exchanges.length > 0 ? exchanges[Math.min(exchangeIndex, exchanges.length - 1)] : null
-
-            parent: Overlay.overlay
-            width: Math.min(900, parent ? parent.width - 48 : 0)
-            height: Math.min(720, parent ? parent.height - 48 : 0)
-            anchors.centerIn: parent
-            modal: true
-            title: qsTr("Synthesis Request Diagnostics")
-            standardButtons: Dialog.Close
-            onClosed: task = null
-
-            contentItem: ColumnLayout {
-                spacing: 8
-
-                Label {
-                    Layout.fillWidth: true
-                    text: diagnosticDialog.task?.errorMessage ?? ""
-                    color: Theme.errorColor
-                    wrapMode: Text.Wrap
-                }
-
-                GridLayout {
-                    Layout.fillWidth: true
-                    columns: 2
-                    columnSpacing: 12
-                    rowSpacing: 4
-
-                    Label {
-                        text: qsTr("Service Instance ID")
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: diagnosticDialog.exchange?.serviceInstanceId ?? ""
-                        elide: Text.ElideMiddle
-                    }
-                    Label {
-                        text: qsTr("Request ID")
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: diagnosticDialog.exchange?.requestId ?? ""
-                    }
-                    Label {
-                        text: qsTr("Request URL")
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    }
-                    TextField {
-                        Layout.fillWidth: true
-                        readOnly: true
-                        selectByMouse: true
-                        text: diagnosticDialog.exchange?.url ?? ""
-                    }
-                    Label {
-                        text: qsTr("Status")
-                        ThemedItem.foregroundLevel: SVS.FL_Secondary
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: diagnosticDialog.exchange?.statusCode > 0
-                              ? qsTr("HTTP %1").arg(diagnosticDialog.exchange.statusCode)
-                              : qsTr("No HTTP response")
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    visible: diagnosticDialog.exchanges.length > 1
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Request")
-                    }
-                    SpinBox {
-                        from: 1
-                        to: Math.max(1, diagnosticDialog.exchanges.length)
-                        value: diagnosticDialog.exchangeIndex + 1
-                        editable: false
-                        onValueModified: diagnosticDialog.exchangeIndex = value - 1
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    spacing: 8
-
-                    GroupBox {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        title: qsTr("Request")
-
-                        ColumnLayout {
-                            anchors.fill: parent
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: diagnosticDialog.exchange
-                                          ? "%1 · %2".arg(diagnosticDialog.exchange.method).arg(qsTr("Attempt %L1").arg(diagnosticDialog.exchange.attempt))
-                                          : ""
-                                    ThemedItem.foregroundLevel: SVS.FL_Secondary
-                                }
-                                Button {
-                                    text: qsTr("Copy Request")
-                                    enabled: Boolean(diagnosticDialog.exchange?.requestBody)
-                                    onClicked: root.addOn.copyDiagnosticRequest(diagnosticDialog.task, diagnosticDialog.exchangeIndex)
-                                }
-                            }
-                            ScrollView {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                TextArea {
-                                    readOnly: true
-                                    selectByMouse: true
-                                    wrapMode: TextEdit.NoWrap
-                                    text: root.formattedJson(diagnosticDialog.exchange?.requestBody ?? "")
-                                    placeholderText: qsTr("This request has no body.")
-                                }
-                            }
-                        }
-                    }
-
-                    GroupBox {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        title: qsTr("Response")
-
-                        ColumnLayout {
-                            anchors.fill: parent
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: diagnosticDialog.exchange?.errorMessage ?? ""
-                                    color: Theme.errorColor
-                                    elide: Text.ElideRight
-                                    ToolTip.visible: responseErrorHoverHandler.hovered && truncated
-                                    ToolTip.text: text
-                                    HoverHandler { id: responseErrorHoverHandler }
-                                }
-                                Button {
-                                    text: qsTr("Copy Response")
-                                    enabled: Boolean(diagnosticDialog.exchange?.responseBody)
-                                    onClicked: root.addOn.copyDiagnosticResponse(diagnosticDialog.task, diagnosticDialog.exchangeIndex)
-                                }
-                            }
-                            ScrollView {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                TextArea {
-                                    readOnly: true
-                                    selectByMouse: true
-                                    wrapMode: TextEdit.NoWrap
-                                    text: root.formattedJson(diagnosticDialog.exchange?.responseBody ?? "")
-                                    placeholderText: qsTr("The service returned no response body.")
-                                }
-                            }
-                        }
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    Item { Layout.fillWidth: true }
-                    Button {
-                        text: qsTr("Export Diagnostics")
-                        enabled: Boolean(diagnosticDialog.task?.diagnosticFilePath)
-                        onClicked: {
-                            exportDialog.task = diagnosticDialog.task;
-                            exportDialog.open();
-                        }
-                    }
-                }
-            }
-        }
-
         header: ToolBarContainer {
             anchors.fill: parent
             ToolBarContainerStretch {}
-            ToolButton {
-                text: qsTr("Open Diagnostics Folder")
-                display: AbstractButton.IconOnly
-                icon.source: "image://fluent-system-icons/folder_open"
-                ToolTip.visible: hovered
-                ToolTip.text: text
-                onClicked: Qt.openUrlExternally(root.addOn.diagnosticsDirectoryUrl)
-            }
             ToolButton {
                 text: qsTr("Clear Diagnostics")
                 display: AbstractButton.IconOnly
@@ -467,7 +244,7 @@ QtObject {
                                         Accessible.role: Accessible.ListItem
                                         Accessible.name: "%1, %2".arg(root.taskTypeText(task.type)).arg(root.taskStateText(task.state))
 
-                                        ToolTip.visible: taskHoverHandler.hovered && task.state === 3 && Boolean(task.errorMessage)
+                                        ToolTip.visible: taskHoverHandler.hovered && !diagnosticsButton.hovered && !removeButton.hovered && task.state === 3 && Boolean(task.errorMessage)
                                         ToolTip.text: task.errorMessage
 
                                         HoverHandler {
@@ -504,13 +281,21 @@ QtObject {
                                             }
 
                                             ToolButton {
-                                                visible: taskDelegate.task.state === 3 && taskDelegate.task.diagnostics.length > 0
+                                                id: diagnosticsButton
+                                                visible: taskDelegate.task.state === 3 && Boolean(taskDelegate.task.diagnosticFilePath)
                                                 text: qsTr("View Diagnostics")
                                                 display: AbstractButton.IconOnly
                                                 icon.source: "image://fluent-system-icons/document_search"
-                                                ToolTip.visible: hovered
-                                                ToolTip.text: text
-                                                onClicked: pane.showTaskDiagnostics(taskDelegate.task)
+                                                onClicked: DesktopServices.reveal(taskDelegate.task.diagnosticFilePath)
+                                            }
+
+                                            ToolButton {
+                                                id: removeButton
+                                                visible: taskDelegate.task.state === 3
+                                                text: qsTr("Remove Task")
+                                                display: AbstractButton.IconOnly
+                                                icon.source: "image://fluent-system-icons/dismiss"
+                                                onClicked: root.addOn.removeFailedTask(taskDelegate.task)
                                             }
                                         }
                                     }

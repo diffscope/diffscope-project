@@ -108,7 +108,7 @@ namespace Synth::Internal {
     bool SynthesisAudioController::prepare(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, QString *errorMessage) {
         if (!clip || !piece || piece->singingClip() != clip) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer available.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer available");
             }
             return false;
         }
@@ -118,7 +118,7 @@ namespace Synth::Internal {
         auto projectAudioContext = Audio::ProjectAudioContext::of(window);
         if (!currentTrackContext || !projectAudioContext || !projectAudioContext->transport()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The project audio context is not available.");
+                *errorMessage = SynthesisProjectAddOn::tr("The project audio context is not available");
             }
             return false;
         }
@@ -134,7 +134,7 @@ namespace Synth::Internal {
                 delete series;
                 series = nullptr;
                 if (errorMessage) {
-                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be added to the track.");
+                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be added to the track");
                 }
                 return false;
             }
@@ -144,7 +144,7 @@ namespace Synth::Internal {
         const auto range = audioClipRange(window, currentTrackContext, clip, piece, 0.0);
         if (!range.isValid()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip");
             }
             return false;
         }
@@ -173,7 +173,7 @@ namespace Synth::Internal {
             delete futureSource;
             promise->finish();
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece overlaps another synthesis piece in the same clip.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece overlaps another synthesis piece in the same clip");
             }
             return false;
         }
@@ -196,14 +196,14 @@ namespace Synth::Internal {
         auto binding = m_bindings.value(piece);
         if (!binding || !binding->futureSource || !binding->promise || binding->futureSource->source()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer waiting for synthesized audio.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer waiting for synthesized audio");
             }
             return false;
         }
         auto io = Audio::GlobalAudioContext::formatManager()->getFormatLoad(filePath);
         if (!io) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesized audio file could not be opened.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesized audio file could not be opened");
             }
             return false;
         }
@@ -214,7 +214,7 @@ namespace Synth::Internal {
             delete mixer;
             delete source;
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be prepared.");
+                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be prepared");
             }
             return false;
         }
@@ -245,14 +245,14 @@ namespace Synth::Internal {
         }
         if (!clip || !piece || piece->singingClip() != clip || !trackContext || !series || binding->series != series) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer available.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is no longer available");
             }
             return false;
         }
         const auto range = audioClipRange(window, trackContext, clip, piece, sampleRate);
         if (!range.isValid()) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip.");
+                *errorMessage = SynthesisProjectAddOn::tr("The synthesis piece is outside the visible range of its clip");
             }
             return false;
         }
@@ -263,7 +263,7 @@ namespace Synth::Internal {
         }
         if (!series->setClipRange(binding->clip, range.position, range.length)) {
             if (errorMessage) {
-                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be repositioned.");
+                *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be repositioned");
             }
             return false;
         }

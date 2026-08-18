@@ -127,32 +127,32 @@ namespace Synth {
     bool ParameterConfiguration::validate(QStringList *errors) const {
         QStringList localErrors;
         if (d->id.trimmed().isEmpty() || containsControlCharacter(d->id))
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Parameter ID must not be empty or contain control characters.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Parameter ID must not be empty or contain control characters")));
         if (d->id == QStringLiteral("pitch"))
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "The parameter ID 'pitch' is reserved and cannot be configured.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "The parameter ID 'pitch' is reserved and cannot be configured")));
         if (d->architectureId.trimmed().isEmpty() || containsControlCharacter(d->architectureId))
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Architecture ID must not be empty or contain control characters.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Architecture ID must not be empty or contain control characters")));
         if (d->displayName.trimmed().isEmpty() || containsControlCharacter(d->displayName))
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display name must not be empty or contain control characters.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display name must not be empty or contain control characters")));
         if (d->minimumValue >= d->maximumValue)
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Minimum value must be less than maximum value.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Minimum value must be less than maximum value")));
         if (d->showDefaultValue &&
             (d->defaultValue < d->minimumValue || d->defaultValue > d->maximumValue)) {
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Default value must be within the configured range.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Default value must be within the configured range")));
         }
         if (d->showDivision && d->divisionValue <= 0)
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Division value must be positive when divisions are shown.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Division value must be positive when divisions are shown")));
         if (d->fillMode < NoFill || d->fillMode > BaselineFill)
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Fill mode is invalid.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Fill mode is invalid")));
         if (d->valueType < Absolute || d->valueType > Relative)
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Value type is invalid.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Value type is invalid")));
         if (d->normalizationExpression.trimmed().isEmpty() !=
             d->denormalizationExpression.trimmed().isEmpty()) {
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization and inverse normalization expressions must be configured together.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization and inverse normalization expressions must be configured together")));
         }
         if (d->displayValueExpression.trimmed().isEmpty() !=
             d->displayValueInverseExpression.trimmed().isEmpty()) {
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display value mapping and inverse display value mapping expressions must be configured together.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display value mapping and inverse display value mapping expressions must be configured together")));
         }
         const auto expressions = {
             d->normalizationExpression,
@@ -161,7 +161,7 @@ namespace Synth {
             d->displayValueInverseExpression,
         };
         if (std::any_of(expressions.begin(), expressions.end(), containsControlCharacter))
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Expressions must not contain control characters.")));
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Expressions must not contain control characters")));
 
         if (d->minimumValue < d->maximumValue) {
             double previous = -std::numeric_limits<double>::infinity();
@@ -172,19 +172,19 @@ namespace Synth {
                 int errorPosition{};
                 if (!evaluateOrLinear(d->normalizationExpression, raw, d->minimumValue,
                                       d->maximumValue, false, &normalized, &errorPosition)) {
-                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expression is invalid at position %L1."))
+                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expression is invalid at position %L1"))
                                            .arg(errorPosition));
                     break;
                 }
                 if (normalized < -1e-9 || normalized > 1.0 + 1e-9 || normalized + 1e-9 < previous) {
-                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expression must be finite, increasing, and map into [0, 1].")));
+                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expression must be finite, increasing, and map into [0, 1]")));
                     break;
                 }
                 double roundTrip{};
                 if (!evaluateOrLinear(d->denormalizationExpression, normalized, d->minimumValue,
                                       d->maximumValue, true, &roundTrip, &errorPosition) ||
                     std::abs(roundTrip - raw) > 1.0) {
-                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expressions do not round-trip within one raw unit.")));
+                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Normalization expressions do not round-trip within one raw unit")));
                     break;
                 }
                 double display{};
@@ -193,7 +193,7 @@ namespace Synth {
                     !evaluateOrIdentity(d->displayValueInverseExpression, display,
                                         &displayRoundTrip, &errorPosition) ||
                     std::abs(displayRoundTrip - raw) > 1.0) {
-                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display value expressions are invalid or do not round-trip within one raw unit.")));
+                    localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display value expressions are invalid or do not round-trip within one raw unit")));
                     break;
                 }
                 previous = normalized;
@@ -203,7 +203,7 @@ namespace Synth {
         int templateError{};
         if (!Internal::ParameterExpressionUtils::validateDisplayTemplate(d->displayTextTemplate,
                                                                         &templateError)) {
-            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display text template contains an invalid placeholder at position %L1."))
+            localErrors.append(translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Display text template contains an invalid placeholder at position %L1"))
                                    .arg(templateError));
         }
 
@@ -236,14 +236,14 @@ namespace Synth {
     bool ParameterConfiguration::fromJson(const QJsonObject &object, ParameterConfiguration *result,
                                           QString *errorMessage) {
         if (!result) {
-            if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Result pointer must not be null."));
+            if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Result pointer must not be null"));
             return false;
         }
         ParameterConfiguration value;
         const auto readString = [&](const QString &key, QString *target) {
             const auto item = object.value(key);
             if (!item.isString()) {
-                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be a string.")).arg(key);
+                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be a string")).arg(key);
                 return false;
             }
             *target = item.toString();
@@ -252,12 +252,12 @@ namespace Synth {
         const auto readInt = [&](const QString &key, int *target) {
             const auto item = object.value(key);
             if (!item.isDouble()) {
-                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be an integer.")).arg(key);
+                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be an integer")).arg(key);
                 return false;
             }
             *target = item.toInt();
             if (item.toDouble() != static_cast<double>(*target)) {
-                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be an integer.")).arg(key);
+                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be an integer")).arg(key);
                 return false;
             }
             return true;
@@ -265,7 +265,7 @@ namespace Synth {
         const auto readBool = [&](const QString &key, bool *target) {
             const auto item = object.value(key);
             if (!item.isBool()) {
-                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be a boolean.")).arg(key);
+                if (errorMessage) *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Field '%1' must be a boolean")).arg(key);
                 return false;
             }
             *target = item.toBool();
@@ -290,7 +290,7 @@ namespace Synth {
             !readString(QStringLiteral("displayTextTemplate"), &value.d->displayTextTemplate) ||
             !parseFillMode(fillMode, &value.d->fillMode) || !parseValueType(valueType, &value.d->valueType)) {
             if (errorMessage && errorMessage->isEmpty())
-                *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Parameter configuration contains an invalid enum value."));
+                *errorMessage = translateError(QT_TRANSLATE_NOOP("Synth::ParameterConfiguration", "Parameter configuration contains an invalid enum value"));
             return false;
         }
         QStringList errors;

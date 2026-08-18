@@ -86,7 +86,7 @@ namespace Synth {
         }
         if (d->builtinParameters.contains(configuration.id())) {
             if (errorMessage)
-                *errorMessage = tr("A built-in parameter with this ID is already registered.");
+                *errorMessage = tr("A built-in parameter with this ID is already registered");
             return AlreadyRegistered;
         }
         d->builtinParameters.insert(configuration.id(), configuration);

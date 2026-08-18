@@ -125,7 +125,7 @@ namespace Synth::Internal {
         qCInfo(lcSynthService) << "Initializing synthesis service state";
         if (!Core::RuntimeInterface::settings()) {
             if (errorMessage)
-                *errorMessage = tr("The application settings service is not available.");
+                *errorMessage = tr("The application settings service is not available");
             qCCritical(lcSynthService) << "Initialization failed: application settings are unavailable";
             return false;
         }
@@ -187,7 +187,7 @@ namespace Synth::Internal {
             }
             if (ids.contains(configurations.at(index).id())) {
                 if (errorMessage)
-                    *errorMessage = tr("Service identifiers must be unique.");
+                    *errorMessage = tr("Service identifiers must be unique");
                 return false;
             }
             ids.insert(configurations.at(index).id());
@@ -251,7 +251,7 @@ namespace Synth::Internal {
             }
             if (ids.contains(configuration.id())) {
                 if (errorMessage)
-                    *errorMessage = tr("Parameter identifiers must be unique.");
+                    *errorMessage = tr("Parameter identifiers must be unique");
                 return false;
             }
             ids.insert(configuration.id());
@@ -270,7 +270,7 @@ namespace Synth::Internal {
     bool SynthService::importParameterConfigurations(const QJsonDocument &document, QString *errorMessage, QStringList *summary) {
         if (!document.isObject()) {
             if (errorMessage)
-                *errorMessage = tr("The parameter configuration file must contain a JSON object.");
+                *errorMessage = tr("The parameter configuration file must contain a JSON object");
             return false;
         }
         const auto root = document.object();
@@ -278,7 +278,7 @@ namespace Synth::Internal {
             root.value(QStringLiteral("version")).toInt(-1) != schemaVersion ||
             !root.value(QStringLiteral("parameters")).isArray()) {
             if (errorMessage)
-                *errorMessage = tr("The parameter configuration file has an unsupported format or version.");
+                *errorMessage = tr("The parameter configuration file has an unsupported format or version");
             return false;
         }
 
@@ -291,13 +291,13 @@ namespace Synth::Internal {
         for (const auto &item : root.value(QStringLiteral("parameters")).toArray()) {
             if (!item.isObject()) {
                 if (errorMessage)
-                    *errorMessage = tr("Every parameter entry must be a JSON object.");
+                    *errorMessage = tr("Every parameter entry must be a JSON object");
                 return false;
             }
             const auto idValue = item.toObject().value(QStringLiteral("id"));
             if (!idValue.isString()) {
                 if (errorMessage)
-                    *errorMessage = tr("Every parameter entry must contain a string 'id' field.");
+                    *errorMessage = tr("Every parameter entry must contain a string 'id' field");
                 return false;
             }
             const auto id = idValue.toString();
