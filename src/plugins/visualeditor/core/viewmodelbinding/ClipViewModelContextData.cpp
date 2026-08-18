@@ -298,16 +298,18 @@ namespace VisualEditor {
         }
         auto sequence = track->clips();
         connect(sequence, &dspx::ClipSequence::itemInserted, this, [=, this](dspx::Clip *item) {
-            bindClipDocumentItem(item);
+            bindClipDocumentItem(item, track);
         });
         connect(sequence, &dspx::ClipSequence::itemRemoved, this, [=, this](dspx::Clip *item, dspx::ClipSequence *clipSequenceToWhichMoved) {
-            if (!clipSequenceToWhichMoved || !trackList->items().contains(clipSequenceToWhichMoved->track())) {
-                unbindClipDocumentItem(item);
+            if (clipSequenceToWhichMoved && trackList->items().contains(clipSequenceToWhichMoved->track())) {
+                clipTrackMap.insert(item, clipSequenceToWhichMoved->track());
+                return;
             }
+            unbindClipDocumentItem(item);
         });
 
         for (auto item : sequence->asRange()) {
-            bindClipDocumentItem(item);
+            bindClipDocumentItem(item, track);
         }
     }
 
@@ -317,16 +319,18 @@ namespace VisualEditor {
         }
         auto sequence = track->clips();
         disconnect(sequence, nullptr, this, nullptr);
-        const auto items = clipViewItemMap.keys();
+        const auto items = clipTrackMap.keys(track);
         for (auto documentItem : items) {
-            if (documentItem->clipSequence() && documentItem->clipSequence()->track() == track) {
-                unbindClipDocumentItem(documentItem);
-            }
+            unbindClipDocumentItem(documentItem);
         }
     }
 
-    void ClipViewModelContextData::bindClipDocumentItem(dspx::Clip *item) {
-        if (!item || clipViewItemMap.contains(item)) {
+    void ClipViewModelContextData::bindClipDocumentItem(dspx::Clip *item, dspx::Track *track) {
+        if (!item) {
+            return;
+        }
+        clipTrackMap.insert(item, track);
+        if (clipViewItemMap.contains(item)) {
             return;
         }
         auto viewItem = new sflow::ClipViewModel(clipSequenceViewModel);
@@ -529,6 +533,7 @@ namespace VisualEditor {
         }
         auto viewItem = clipViewItemMap.take(item);
         clipDocumentItemMap.remove(viewItem);
+        clipTrackMap.remove(item);
 
         disconnect(item, nullptr, viewItem, nullptr);
         disconnect(viewItem, nullptr, item, nullptr);

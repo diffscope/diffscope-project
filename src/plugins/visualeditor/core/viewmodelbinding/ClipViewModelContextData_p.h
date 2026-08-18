@@ -52,6 +52,7 @@ namespace VisualEditor {
 
         QHash<dspx::Clip *, sflow::ClipViewModel *> clipViewItemMap;
         QHash<sflow::ClipViewModel *, dspx::Clip *> clipDocumentItemMap;
+        QHash<dspx::Clip *, dspx::Track *> clipTrackMap;
         QSet<sflow::ClipViewModel *> moveUpdatedClips;
         QSet<sflow::ClipViewModel *> lengthUpdatedClips;
 
@@ -92,7 +93,7 @@ namespace VisualEditor {
         void bindClipSequences();
         void bindTrack(dspx::Track *track);
         void unbindTrack(dspx::Track *track);
-        void bindClipDocumentItem(dspx::Clip *item);
+        void bindClipDocumentItem(dspx::Clip *item, dspx::Track *track);
         void unbindClipDocumentItem(dspx::Clip *item);
         sflow::ClipPaneInteractionController *createController(QObject *parent);
 
