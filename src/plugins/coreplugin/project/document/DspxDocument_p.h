@@ -31,12 +31,15 @@ namespace Core {
         bool updatePasteAvailable();
 
         std::optional<DspxClipboardData::Type> currentClipboardType() const;
+        int currentTrackIndex() const;
 
         std::optional<DspxClipboardData> buildClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTempoClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildLabelClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildKeySignatureClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildTrackClipboardData() const;
+        std::optional<DspxClipboardData> buildClipClipboardData(int playheadPosition) const;
+        std::optional<DspxClipboardData> buildNoteClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildDynamicMixingAnchorClipboardData(int playheadPosition) const;
         bool copyAnchorNodeSelection(int playheadPosition) const;
         bool copyFreeParameterSelection(int playheadPosition) const;
@@ -48,6 +51,10 @@ namespace Core {
         bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteKeySignatures(const QList<stdc::JsonValue> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
+        bool pasteClips(const QList<std::vector<opendspx::ClipRef>> &clips, const DspxClipboardData &data,
+                        int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteNotes(const QList<opendspx::Note> &notes, const DspxClipboardData &data,
+                        int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors,
                                        const DspxClipboardData &data, int playheadPosition,
                                        QList<QObject *> &pastedItems);
