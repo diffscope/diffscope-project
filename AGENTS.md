@@ -36,6 +36,10 @@ Do not build parallel service, action, theming, document, or audio frameworks.
 - **Core plugin:** use `CoreInterface` for application commands and registries; `HomeWindowInterface`/`ProjectWindowInterface` for window-scoped behavior; `ProjectDocumentContext` for open/save; `DspxDocument` for model, selection, clipboard, and `TransactionController`; `ProjectTimeline` for playhead/time mapping; and existing scenarios, notifications, singer registries, default-lyric services, and property-editor hooks.
 - **Domain libraries:** use `dspxmodel*` for the live document/selection model, OpenDSPX for serialization/interchange, ScopicFlow for editor view models and interaction controllers, and TALCS/audio-plugin contexts for audio. Keep UI coordinates, document ticks, and audio samples in their owning layers and convert at boundaries.
 
+## Data Compatibility and Versioning
+
+Unless explicitly requested, do not account for compatibility with existing persisted data or interchange data formats. When changing such data or formats, do not update their header metadata or version numbers.
+
 ## Header Publication and Include Paths
 
 CMake's `ck_sync_include` publishes headers into the build include tree and deliberately hides most source-directory nesting. Include the published path, never `src/...` or a relative path across directories:
