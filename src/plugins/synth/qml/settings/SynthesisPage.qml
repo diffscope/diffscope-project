@@ -119,6 +119,37 @@ ScrollView {
         }
     }
 
+    Dialog {
+        id: clearDiagnosticsDialog
+
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: Math.min(480, parent ? parent.width - 48 : 0)
+        modal: true
+        title: qsTr("Clear Synthesis Diagnostics")
+        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+
+        onOpened: {
+            const button = standardButton(DialogButtonBox.Ok)
+            if (button) {
+                button.text = qsTr("Clear")
+                button.forceActiveFocus()
+            }
+        }
+        onAccepted: page.pageHandle.clearDiagnostics()
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 8
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Delete all saved synthesis diagnostics from the disk?")
+                wrapMode: Text.Wrap
+            }
+        }
+    }
+
     ColumnLayout {
         width: page.width
 
@@ -350,6 +381,66 @@ ScrollView {
                         text: qsTr("Clear Synthesis Cache")
                         icon.source: "image://fluent-system-icons/delete"
                         onClicked: clearCacheDialog.open()
+                    }
+                }
+            }
+
+            GroupBox {
+                Layout.fillWidth: true
+                title: qsTr("Diagnostics")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 2
+                    columnSpacing: 12
+                    rowSpacing: 8
+
+                    Label {
+                        id: maximumDiagnosticsSizeLabel
+                        readonly property string description: qsTr("Maximum disk space used by synthesis diagnostics.")
+                        text: qsTr("Maximum diagnostics size (MiB)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: maximumDiagnosticsSizeHoverHandler.hovered
+                        HoverHandler { id: maximumDiagnosticsSizeHoverHandler }
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    SpinBox {
+                        from: 1
+                        to: 1048576
+                        editable: true
+                        value: page.pageHandle.diagnosticsMaximumMiB
+                        onValueModified: page.pageHandle.diagnosticsMaximumMiB = value
+                        Accessible.description: maximumDiagnosticsSizeLabel.description
+                    }
+                    Label {
+                        id: diagnosticsExpiryLabel
+                        readonly property string description: qsTr("Number of days before a diagnostics file expires. Use 0 to disable expiry.")
+                        text: qsTr("Diagnostics expiry (days)")
+                        DescriptiveText.toolTip: description
+                        DescriptiveText.activated: diagnosticsExpiryHoverHandler.hovered
+                        HoverHandler { id: diagnosticsExpiryHoverHandler }
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    SpinBox {
+                        from: 0
+                        to: 3650
+                        editable: true
+                        value: page.pageHandle.diagnosticsExpiryDays
+                        onValueModified: page.pageHandle.diagnosticsExpiryDays = value
+                        Accessible.description: diagnosticsExpiryLabel.description
+                    }
+                    Button {
+                        Layout.columnSpan: 2
+                        text: qsTr("Clear Synthesis Diagnostics")
+                        icon.source: "image://fluent-system-icons/delete"
+                        onClicked: clearDiagnosticsDialog.open()
                     }
                 }
             }

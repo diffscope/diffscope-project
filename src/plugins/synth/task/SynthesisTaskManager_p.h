@@ -82,6 +82,7 @@ namespace Synth {
         QJsonObject diagnosticDocument(SynthesisTask *task, const QString &message) const;
         void persistDiagnostics(SynthesisTask *task, const QString &message);
         void trimDiagnostics();
+        void reloadDiagnosticsSettings();
 
         template <typename T, typename Callback>
         void watch(SynthesisTask *task, QFuture<Internal::Api::ApiResult<T>> future, Callback callback) {
@@ -133,6 +134,8 @@ namespace Synth {
         QHash<QByteArray, PendingEnvironmentTag> pendingEnvironmentTags;
         QHash<SynthesisTask *, QList<Internal::Api::ApiExchange>> diagnosticExchanges;
         QString diagnosticsRoot;
+        qint64 diagnosticsMaximumBytes{qint64(256) * 1024 * 1024};
+        int diagnosticsExpiryDays{7};
         bool shuttingDown{};
     };
 

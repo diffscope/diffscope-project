@@ -22,6 +22,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSaveFile>
+#include <QSettings>
 #include <QSslConfiguration>
 #include <QSslSocket>
 #include <QTimer>
@@ -29,6 +30,7 @@
 #include <QVariantMap>
 
 #include <CoreApi/applicationinfo.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <synth/ServiceTypes.h>
 #include <synth/SynthInterface.h>
@@ -43,13 +45,6 @@ namespace Synth {
 
     using namespace Internal::TaskCodec;
 
-    namespace {
-
-        constexpr qint64 MaximumDiagnosticsBytes = qint64(256) * 1024 * 1024;
-        constexpr int DiagnosticsExpiryDays = 7;
-
-    }
-
     SynthesisTaskManagerPrivate::SynthesisTaskManagerPrivate(SynthesisTaskManager *q)
         : q_ptr(q),
           apiClient(new Internal::Api::ApiClient(q)),
@@ -57,6 +52,7 @@ namespace Synth {
         const auto runtimeData = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
         diagnosticsRoot = QDir(runtimeData).filePath(QStringLiteral("synth/diagnostics-v1"));
         QDir().mkpath(diagnosticsRoot);
+        reloadDiagnosticsSettings();
         trimDiagnostics();
         if (auto interface = SynthInterface::instance()) {
             QObject::connect(interface, &SynthInterface::serviceInstancesChanged, q, [this] { pump(); });
@@ -413,7 +409,7 @@ namespace Synth {
         const auto now = QDateTime::currentDateTimeUtc();
         qint64 total{};
         for (auto it = files.begin(); it != files.end();) {
-            if (it->lastModified().toUTC().daysTo(now) > DiagnosticsExpiryDays) {
+            if (diagnosticsExpiryDays > 0 && it->lastModified().toUTC().daysTo(now) > diagnosticsExpiryDays) {
                 QFile::remove(it->absoluteFilePath());
                 it = files.erase(it);
             } else {
@@ -423,7 +419,7 @@ namespace Synth {
         }
         qsizetype remaining = files.size();
         for (const auto &file : files) {
-            if (total <= MaximumDiagnosticsBytes || remaining <= 1) {
+            if (diagnosticsMaximumBytes <= 0 || total <= diagnosticsMaximumBytes || remaining <= 1) {
                 break;
             }
             const auto size = file.size();
@@ -440,6 +436,14 @@ namespace Synth {
                 Q_EMIT task->diagnosticsChanged();
             }
         }
+    }
+
+    void SynthesisTaskManagerPrivate::reloadDiagnosticsSettings() {
+        auto settings = Core::RuntimeInterface::settings();
+        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        diagnosticsMaximumBytes = settings->value(QStringLiteral("diagnosticsMaximumBytes"), qint64(256) * 1024 * 1024).toLongLong();
+        diagnosticsExpiryDays = settings->value(QStringLiteral("diagnosticsExpiryDays"), 7).toInt();
+        settings->endGroup();
     }
 
     using namespace Internal::Api;
@@ -1118,6 +1122,17 @@ namespace Synth {
         }
     }
 
+    void SynthesisTaskManager::clearFailedTasks() {
+        Q_D(SynthesisTaskManager);
+        for (qsizetype index = d->tasks.size() - 1; index >= 0; --index) {
+            auto task = d->tasks.at(index);
+            if (task->state() != SynthesisTask::Failed) {
+                continue;
+            }
+            removeFinishedTask(task);
+        }
+    }
+
     void SynthesisTaskManager::clearCache() {
         Q_D(SynthesisTaskManager);
         d->cache.clear();
@@ -1147,6 +1162,7 @@ namespace Synth {
     void SynthesisTaskManager::reloadSettings() {
         Q_D(SynthesisTaskManager);
         d->cache.reload();
+        d->reloadDiagnosticsSettings();
         d->trimDiagnostics();
     }
 

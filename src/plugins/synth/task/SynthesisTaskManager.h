@@ -44,6 +44,7 @@ namespace Synth {
         bool cancel(SynthesisTask *task);
         bool removeFinishedTask(SynthesisTask *task);
         void clearFinishedTasks();
+        void clearFailedTasks();
         void clearCache();
         void clearCache(const QList<SynthesisTaskType> &types);
         void clearDiagnostics();

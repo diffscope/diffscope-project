@@ -70,6 +70,8 @@ namespace Synth::Internal {
         m_mixSampleRate = settings->value(QStringLiteral("mixSampleRate"), 100).toInt();
         m_cacheMaximumGiB = static_cast<int>(settings->value(QStringLiteral("cacheMaximumBytes"), qint64(10) * 1024 * 1024 * 1024).toLongLong() / (qint64(1024) * 1024 * 1024));
         m_cacheExpiryDays = settings->value(QStringLiteral("cacheExpiryDays"), 30).toInt();
+        m_diagnosticsMaximumMiB = static_cast<int>(settings->value(QStringLiteral("diagnosticsMaximumBytes"), qint64(256) * 1024 * 1024).toLongLong() / (qint64(1024) * 1024));
+        m_diagnosticsExpiryDays = settings->value(QStringLiteral("diagnosticsExpiryDays"), 7).toInt();
         m_audioDownloadMaximumMiB = static_cast<int>(settings->value(QStringLiteral("audioDownloadMaximumBytes"), qint64(512) * 1024 * 1024).toLongLong() / (qint64(1024) * 1024));
         m_environmentTagTtlSeconds = settings->value(QStringLiteral("environmentTagTtlSeconds"), 60).toInt();
         settings->endGroup();
@@ -92,6 +94,8 @@ namespace Synth::Internal {
         settings->setValue(QStringLiteral("mixSampleRate"), m_mixSampleRate);
         settings->setValue(QStringLiteral("cacheMaximumBytes"), qint64(m_cacheMaximumGiB) * 1024 * 1024 * 1024);
         settings->setValue(QStringLiteral("cacheExpiryDays"), m_cacheExpiryDays);
+        settings->setValue(QStringLiteral("diagnosticsMaximumBytes"), qint64(m_diagnosticsMaximumMiB) * 1024 * 1024);
+        settings->setValue(QStringLiteral("diagnosticsExpiryDays"), m_diagnosticsExpiryDays);
         settings->setValue(QStringLiteral("audioDownloadMaximumBytes"), qint64(m_audioDownloadMaximumMiB) * 1024 * 1024);
         settings->setValue(QStringLiteral("environmentTagTtlSeconds"), m_environmentTagTtlSeconds);
         settings->endGroup();
@@ -188,6 +192,28 @@ namespace Synth::Internal {
         }
     }
 
+    int SynthesisPage::diagnosticsMaximumMiB() const {
+        return m_diagnosticsMaximumMiB;
+    }
+
+    void SynthesisPage::setDiagnosticsMaximumMiB(int value) {
+        if (m_diagnosticsMaximumMiB != value) {
+            m_diagnosticsMaximumMiB = value;
+            Q_EMIT valuesChanged();
+        }
+    }
+
+    int SynthesisPage::diagnosticsExpiryDays() const {
+        return m_diagnosticsExpiryDays;
+    }
+
+    void SynthesisPage::setDiagnosticsExpiryDays(int value) {
+        if (m_diagnosticsExpiryDays != value) {
+            m_diagnosticsExpiryDays = value;
+            Q_EMIT valuesChanged();
+        }
+    }
+
     int SynthesisPage::audioDownloadMaximumMiB() const {
         return m_audioDownloadMaximumMiB;
     }
@@ -255,6 +281,14 @@ namespace Synth::Internal {
         if (!types.isEmpty()) {
             interface->taskManager()->clearCache(types);
         }
+    }
+
+    void SynthesisPage::clearDiagnostics() {
+        auto interface = SynthInterface::instance();
+        if (!interface || !interface->taskManager()) {
+            return;
+        }
+        interface->taskManager()->clearDiagnostics();
     }
 
 }

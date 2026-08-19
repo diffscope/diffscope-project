@@ -80,8 +80,8 @@ namespace Synth::Internal {
         return task && !task->isFinished() && m_taskManager->cancel(task);
     }
 
-    void SynthesisServicePanelAddOn::clearDiagnostics() {
-        m_taskManager->clearDiagnostics();
+    void SynthesisServicePanelAddOn::clearFailedTasks() {
+        m_taskManager->clearFailedTasks();
     }
 
 }

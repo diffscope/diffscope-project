@@ -41,7 +41,7 @@ namespace Synth::Internal {
         Q_INVOKABLE void refreshAll();
         Q_INVOKABLE bool removeFailedTask(QObject *taskObject);
         Q_INVOKABLE bool cancelTask(QObject *taskObject);
-        Q_INVOKABLE void clearDiagnostics();
+        Q_INVOKABLE void clearFailedTasks();
 
     Q_SIGNALS:
         void refreshingChanged();

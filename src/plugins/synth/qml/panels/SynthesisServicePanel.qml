@@ -54,15 +54,12 @@ QtObject {
             anchors.fill: parent
             ToolBarContainerStretch {}
             ToolButton {
-                text: qsTr("Clear Diagnostics")
+                text: qsTr("Clear Failed Tasks")
                 display: AbstractButton.IconOnly
                 icon.source: "image://fluent-system-icons/delete"
                 ToolTip.visible: hovered
                 ToolTip.text: text
-                onClicked: {
-                    if (pane.MessageBox.question(qsTr("Clear Diagnostics"), qsTr("Delete all saved synthesis diagnostics?")) === SVS.Yes)
-                        root.addOn.clearDiagnostics();
-                }
+                onClicked: root.addOn.clearFailedTasks()
             }
             ToolButton {
                 text: root.addOn?.refreshing ? qsTr("Refreshing...") : qsTr("Refresh")
