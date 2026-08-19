@@ -61,6 +61,7 @@ namespace Synth {
             int synthesizingPieceCount() const;
             int queuedPieceCount() const;
 
+            Q_INVOKABLE void resynthesizeSelectedItems();
             void resynthesizeProject(SynthesisTaskType fromType, const SynthesisTaskOptions &options);
             void resynthesizeClip(dspx::SingingClip *clip, SynthesisTaskType fromType, const SynthesisTaskOptions &options);
             void resynthesizePiece(SynthesisPiece *piece, SynthesisTaskType fromType, const SynthesisTaskOptions &options);

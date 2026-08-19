@@ -13,10 +13,31 @@ import QActionKit
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
+
 ActionCollection {
     id: root
 
     required property QtObject addOn
+
+    ActionItem {
+        actionId: "org.diffscope.synth.resynthesize"
+        Action {
+            enabled: {
+                let document = root.addOn?.windowHandle?.projectDocumentContext?.document
+                if (!document?.anyItemsSelected)
+                    return false
+                let selectionModel = document.selectionModel
+                let selectionType = selectionModel.selectionType
+                if (selectionType === DspxSelectionModel.SelectionModel.ST_Clip)
+                    return selectionModel.clipSelectionModel.selectedCount > 0
+                           && selectionModel.clipSelectionModel.selectedAudioClipCount === 0
+                return selectionType === DspxSelectionModel.SelectionModel.ST_Note
+                       && selectionModel.noteSelectionModel.selectedCount > 0
+            }
+            onTriggered: Qt.callLater(() => root.addOn.resynthesizeSelectedItems())
+        }
+    }
 
     ActionItem {
         actionId: "org.diffscope.synth.status"

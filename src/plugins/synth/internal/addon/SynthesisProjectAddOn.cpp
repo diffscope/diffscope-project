@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <ranges>
 #include <utility>
@@ -14,6 +15,8 @@
 #include <QMutex>
 #include <QPointer>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QQuickWindow>
 #include <QSet>
 #include <QThread>
 #include <QTimer>
@@ -24,6 +27,7 @@
 #include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <TalcsCore/MixerAudioSource.h>
 
@@ -52,6 +56,9 @@
 #include <dspxmodelPiece/ClipWatcher.h>
 #include <dspxmodelPiece/Piece.h>
 #include <dspxmodelPiece/PieceDivider.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 #include <synth/ProjectSynthesisContext.h>
 #include <synth/SynthInterface.h>
 #include <synth/SynthesisPiece.h>
@@ -1450,6 +1457,130 @@ namespace Synth::Internal {
             return;
         invalidate(runtime, fromType, {piece}, options);
         updatePriorities();
+    }
+
+    void SynthesisProjectAddOn::resynthesizeSelectedItems() {
+        auto *windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto *window = qobject_cast<QQuickWindow *>(windowInterface ? windowInterface->window() : nullptr);
+        auto *document = windowInterface ? windowInterface->projectDocumentContext()->document() : nullptr;
+        auto *selectionModel = document ? document->selectionModel() : nullptr;
+        if (!window || !selectionModel)
+            return;
+        const auto selectionType = selectionModel->selectionType();
+        if (selectionType != dspx::SelectionModel::ST_Clip && selectionType != dspx::SelectionModel::ST_Note)
+            return;
+
+        QList<dspx::SingingClip *> clips;
+        QList<dspx::Note *> notes;
+        dspx::NoteSequence *noteSequence{};
+        if (selectionType == dspx::SelectionModel::ST_Clip) {
+            const auto selectedClips = selectionModel->clipSelectionModel()->selectedItems();
+            clips.reserve(selectedClips.size());
+            for (auto *item : selectedClips) {
+                if (auto *singingClip = qobject_cast<dspx::SingingClip *>(item)) {
+                    clips.append(singingClip);
+                }
+            }
+        } else {
+            auto *noteSelectionModel = selectionModel->noteSelectionModel();
+            noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+            if (!noteSequence)
+                return;
+            if (auto *singingClip = noteSequence->singingClip()) {
+                clips.append(singingClip);
+            }
+            notes = noteSelectionModel->selectedItems();
+            if (notes.isEmpty())
+                return;
+        }
+        if (clips.isEmpty())
+            return;
+
+        QStringList unmanagedNames;
+        for (auto *clip : clips) {
+            if (!isManagedClip(clip)) {
+                unmanagedNames.append(clip->name());
+            }
+        }
+        if (!unmanagedNames.isEmpty()) {
+            SVS::MessageBox::warning(
+                Core::RuntimeInterface::qmlEngine(),
+                window,
+                tr("Resynthesize"),
+                tr("The following clips cannot be resynthesized because their sources are not managed by a synthesis service:\n%1").arg(unmanagedNames.join(", "))
+            );
+            return;
+        }
+
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("ResynthesizeDialog"));
+        if (component.isError()) {
+            qWarning() << component.errorString();
+            return;
+        }
+        std::unique_ptr<QObject> dialog(component.createWithInitialProperties({
+            {QStringLiteral("parent"), QVariant::fromValue(window->contentItem())},
+            {QStringLiteral("resynthesizeFrom"), 0},
+            {QStringLiteral("disableCache"), false},
+        }));
+        if (!dialog) {
+            qWarning() << component.errorString();
+            return;
+        }
+        dialog->setProperty("x", window->width() / 2.0 - dialog->property("width").toDouble() / 2.0);
+        if (const auto topMargin = window->property("popupTopMarginHint"); topMargin.isValid()) {
+            dialog->setProperty("y", topMargin);
+        } else {
+            dialog->setProperty("y", window->height() / 2.0 - dialog->property("height").toDouble() / 2.0);
+        }
+        QEventLoop eventLoop;
+        QObject::connect(dialog.get(), SIGNAL(accepted()), &eventLoop, SLOT(quit()));
+        QObject::connect(dialog.get(), SIGNAL(rejected()), &eventLoop, SLOT(quit()));
+        QMetaObject::invokeMethod(dialog.get(), "open");
+        eventLoop.exec();
+        if (dialog->property("result").toInt() != 1)
+            return;
+
+        const auto fromType = static_cast<SynthesisTaskType>(std::clamp(dialog->property("resynthesizeFrom").toInt(), 0, static_cast<int>(SynthesisTaskType::Audio)));
+        const SynthesisTaskOptions options{!dialog->property("disableCache").toBool(), true, 0};
+
+        if (selectionType == dspx::SelectionModel::ST_Clip) {
+            for (auto *clip : clips) {
+                resynthesizeClip(clip, fromType, options);
+            }
+            return;
+        }
+
+        std::sort(notes.begin(), notes.end(), [](const dspx::Note *lhs, const dspx::Note *rhs) {
+            return lhs->position() < rhs->position();
+        });
+        QSet<SynthesisPiece *> pieces;
+        const auto collect = [&](double position, double length) {
+            const auto found = piecesInRange(noteSequence->singingClip(), position, length);
+            for (auto *piece : found) {
+                pieces.insert(piece);
+            }
+        };
+        int intervalStart = -1;
+        int intervalEnd = -1;
+        for (const auto *note : std::as_const(notes)) {
+            const int start = note->position();
+            const int end = note->position() + note->length();
+            if (intervalStart < 0 || start > intervalEnd) {
+                if (intervalStart >= 0) {
+                    collect(intervalStart, intervalEnd - intervalStart);
+                }
+                intervalStart = start;
+                intervalEnd = end;
+            } else if (end > intervalEnd) {
+                intervalEnd = end;
+            }
+        }
+        if (intervalStart >= 0) {
+            collect(intervalStart, intervalEnd - intervalStart);
+        }
+        for (auto *piece : pieces) {
+            resynthesizePiece(piece, fromType, options);
+        }
     }
 
     bool SynthesisProjectAddOn::cancelPiece(SynthesisPiece *piece) {

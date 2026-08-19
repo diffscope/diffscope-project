@@ -28,7 +28,18 @@ SPDX-License-Identifier: GFDL-1.3-or-later
                 text="Synthesis Status"
                 diffscope:componentType="widget"
         />
+        <action
+                id="org.diffscope.synth.resynthesize"
+                text="&amp;Resynthesize..."
+                icon="arrow_sync"
+        />
     </items>
+
+    <layouts>
+        <group id="org.diffscope.synth.synthesisActions">
+            <action id="org.diffscope.synth.resynthesize" />
+        </group>
+    </layouts>
 
     <insertions>
         <insertion
@@ -37,6 +48,27 @@ SPDX-License-Identifier: GFDL-1.3-or-later
                 relativeTo="org.diffscope.core.selectionIndicator"
         >
             <action id="org.diffscope.synth.status" />
+        </insertion>
+        <insertion
+                target="org.diffscope.core.edit"
+                anchor="after"
+                relativeTo="org.diffscope.core.edit.editCurrentClipActions"
+        >
+            <group id="org.diffscope.synth.synthesisActions" />
+        </insertion>
+        <insertion
+                target="org.diffscope.core.clipItemContextMenu"
+                anchor="before"
+                relativeTo="org.diffscope.core.genericItemContextMenuActions"
+        >
+            <group id="org.diffscope.synth.synthesisActions" />
+        </insertion>
+        <insertion
+                target="org.diffscope.core.noteItemContextMenu"
+                anchor="before"
+                relativeTo="org.diffscope.core.genericItemContextMenuActions"
+        >
+            <group id="org.diffscope.synth.synthesisActions" />
         </insertion>
     </insertions>
 </actionExtension>
