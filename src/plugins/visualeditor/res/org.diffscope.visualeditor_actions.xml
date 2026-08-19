@@ -53,12 +53,14 @@ SPDX-License-Identifier: GFDL-1.3-or-later
         <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" icon="rectangle_landscape_dash" shortcut="F8" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" icon="hand_left" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" icon="pitch_pencil" shortcut="1" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" icon="pitch_erase" shortcut="2" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" icon="pitch_cursor_text" shortcut="3" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" icon="pitch_cursor" shortcut="4" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" icon="calligraphy_pen" shortcut="5" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" icon="arrow_bidirectional_left_right" shortcut="6" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" icon="pitch_rectangle_landscape_dash" shortcut="7" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" icon="line" shortcut="2" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" icon="paint_brush_arrow_down" shortcut="3" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" icon="pitch_erase" shortcut="4" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" icon="pitch_cursor_text" shortcut="5" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" icon="pitch_cursor" shortcut="6" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" icon="calligraphy_pen" shortcut="7" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" icon="arrow_bidirectional_left_right" shortcut="8" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" icon="pitch_rectangle_landscape_dash" shortcut="9" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" icon="more_vertical" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" text="Bottom Panels" icon="layout_row_two_focus_bottom" diffscope:componentType="menu" />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" diffscope:componentType="widget" />
@@ -149,6 +151,8 @@ SPDX-License-Identifier: GFDL-1.3-or-later
                 <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" />

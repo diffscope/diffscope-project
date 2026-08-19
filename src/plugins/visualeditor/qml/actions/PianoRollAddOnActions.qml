@@ -97,6 +97,26 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchLineTool"
+        Action {
+            checkable: true
+            ActionGroup.group: d.toolActionGroup
+            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchLineTool
+            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchLineTool
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool"
+        Action {
+            checkable: true
+            ActionGroup.group: d.toolActionGroup
+            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchBrushTool
+            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchBrushTool
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool"
         Action {
             checkable: true

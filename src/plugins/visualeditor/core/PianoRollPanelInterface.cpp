@@ -173,6 +173,10 @@ namespace VisualEditor {
                     switch (tool) {
                         case PianoRollPanelInterface::PitchPencilTool:
                             return sflow::ParameterEditorInteractionController::Pencil;
+                        case PianoRollPanelInterface::PitchLineTool:
+                            return sflow::ParameterEditorInteractionController::Line;
+                        case PianoRollPanelInterface::PitchBrushTool:
+                            return sflow::ParameterEditorInteractionController::Brush;
                         case PianoRollPanelInterface::PitchEraserTool:
                             return sflow::ParameterEditorInteractionController::Eraser;
                         case PianoRollPanelInterface::PitchRangeSelectTool:
@@ -193,6 +197,9 @@ namespace VisualEditor {
                     switch (interaction) {
                         case sflow::ParameterEditorInteractionController::Pencil:
                             return sflow::ParameterEditorInteractionController::Eraser;
+                        case sflow::ParameterEditorInteractionController::Line:
+                        case sflow::ParameterEditorInteractionController::Brush:
+                            return sflow::ParameterEditorInteractionController::Eraser;
                         case sflow::ParameterEditorInteractionController::Eraser:
                             return sflow::ParameterEditorInteractionController::Pencil;
                         case sflow::ParameterEditorInteractionController::Pointer:
@@ -206,6 +213,8 @@ namespace VisualEditor {
                 }();
                 switch (interaction) {
                     case sflow::ParameterEditorInteractionController::Pencil:
+                    case sflow::ParameterEditorInteractionController::Line:
+                    case sflow::ParameterEditorInteractionController::Brush:
                     case sflow::ParameterEditorInteractionController::Eraser:
                     case sflow::ParameterEditorInteractionController::FreeRangeSelect:
                     case sflow::ParameterEditorInteractionController::Pen:

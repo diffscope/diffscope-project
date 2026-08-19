@@ -182,6 +182,9 @@ QtObject {
             switch (tool) {
             case ParameterEditorInteractionController.Pencil:
                 return ParameterEditorInteractionController.Eraser
+            case ParameterEditorInteractionController.Line:
+            case ParameterEditorInteractionController.Brush:
+                return ParameterEditorInteractionController.Eraser
             case ParameterEditorInteractionController.Eraser:
                 return ParameterEditorInteractionController.Pencil
             case ParameterEditorInteractionController.Pointer:
@@ -206,10 +209,14 @@ QtObject {
             const alternate = alternateTool(tool)
             switch (tool) {
             case ParameterEditorInteractionController.Pencil:
+            case ParameterEditorInteractionController.Line:
+            case ParameterEditorInteractionController.Brush:
             case ParameterEditorInteractionController.Eraser:
             case ParameterEditorInteractionController.FreeRangeSelect:
             case ParameterEditorInteractionController.Pen:
                 if (tool === ParameterEditorInteractionController.Pencil
+                        || tool === ParameterEditorInteractionController.Line
+                        || tool === ParameterEditorInteractionController.Brush
                         || tool === ParameterEditorInteractionController.Eraser
                         || tool === ParameterEditorInteractionController.FreeRangeSelect) {
                     if (transformEditing)
@@ -400,6 +407,8 @@ QtObject {
             Repeater {
                 model: [
                     { text: qsTr("Pencil"), icon: "edit", tool: ParameterEditorInteractionController.Pencil },
+                    { text: qsTr("Line"), icon: "line", tool: ParameterEditorInteractionController.Line },
+                    { text: qsTr("Fixing"), icon: "paint_brush_arrow_down", tool: ParameterEditorInteractionController.Brush },
                     { text: qsTr("Eraser"), icon: "eraser", tool: ParameterEditorInteractionController.Eraser },
                     { text: qsTr("Range Select"), icon: "cursor_text", tool: ParameterEditorInteractionController.FreeRangeSelect },
                     { text: qsTr("Pointer"), icon: "cursor", tool: ParameterEditorInteractionController.Pointer },

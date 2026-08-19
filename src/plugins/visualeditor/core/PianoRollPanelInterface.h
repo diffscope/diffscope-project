@@ -106,6 +106,8 @@ namespace VisualEditor {
             SelectTool,
             HandTool,
             PitchPencilTool,
+            PitchLineTool,
+            PitchBrushTool,
             PitchEraserTool,
             PitchRangeSelectTool,
             PitchPointerTool,
