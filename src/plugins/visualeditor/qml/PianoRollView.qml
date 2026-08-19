@@ -855,7 +855,6 @@ Item {
                                 id: noteEditLayerSequenceStack
                                 anchors.fill: parent
                                 enabled: !(view.pianoRollPanelInterface?.pitchToolActive ?? false)
-                                opacity: (view.pianoRollPanelInterface?.pitchToolActive ?? false) ? 0.5 : 1.0
                                 Repeater {
                                     model: DelegateModel {
                                         model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
@@ -875,6 +874,7 @@ Item {
                                             editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
                                             z: isEditingTrack ? 1 : 0
                                             active: modelData.display.overlayVisible || isEditingTrack
+                                            transparentDisplay: view.pianoRollPanelInterface?.pitchToolActive ?? false
                                             bottomExpansion: view.bottomExpansion
                                         }
                                     }
@@ -883,8 +883,7 @@ Item {
                             ScopicFlowInternal.ClipMappedProxyTimeViewModel {
                                 id: pitchProxyTimeViewModel
                                 timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                                clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(
-                                    view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                                clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
                             }
                             Item {
                                 id: pitchEditorViewport
@@ -922,9 +921,29 @@ Item {
                                     interactionController: binding?.interactionController ?? null
                                     timeViewModel: pitchProxyTimeViewModel
                                     timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+                                    Theme.accentColor: Theme.foregroundPrimaryColor
+                                }
+                            }
+                            Item {
+                                id: clipOutsideLayer
+                                anchors.fill: parent
+                                visible: Boolean(view.pianoRollPanelInterface?.editingClip)
+                                readonly property ClipViewModel clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
+                                Rectangle {
+                                    x: 0
+                                    width: Math.min(parent.width, ((clipOutsideLayer.clipViewModel?.position ?? 0) - (view.pianoRollPanelInterface?.timeViewModel?.start ?? 0)) * (view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0))
+                                    height: parent.height
+                                    color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
+                                }
+                                Rectangle {
+                                    x: parent.width - width
+                                    width: Math.min(parent.width, parent.width - ((clipOutsideLayer.clipViewModel?.position ?? 0) + (clipOutsideLayer.clipViewModel?.length ?? 0) - (view.pianoRollPanelInterface?.timeViewModel?.start ?? 0)) * (view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0))
+                                    height: parent.height
+                                    color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
                                 }
                             }
                             Rectangle {
+                                id: noClipMessageLayer
                                 anchors.fill: parent
                                 color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
                                 visible: !view.pianoRollPanelInterface?.editingClip
