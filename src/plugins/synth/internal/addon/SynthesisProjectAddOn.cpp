@@ -227,6 +227,7 @@ namespace Synth::Internal {
                 auto d = SynthesisPiecePrivate::get(piece);
                 d->state = SynthesisPiece::Ready;
                 d->errorMessage.clear();
+                d->diagnosticFilePath.clear();
                 publishPieceState(piece);
                 updateCounts();
             });
@@ -629,6 +630,7 @@ namespace Synth::Internal {
         }
         removeAudio(piece);
         d->errorMessage.clear();
+        d->diagnosticFilePath.clear();
         if (running) {
             connect(task, &SynthesisTask::finished, this, [this, piece = QPointer<SynthesisPiece>(piece), revision] {
                 queueFinalizer([this, piece, revision] {
@@ -961,13 +963,14 @@ namespace Synth::Internal {
         }
     }
 
-    void SynthesisProjectAddOn::notifyFailure(SynthesisPiece *piece, const QString &message) {
+    void SynthesisProjectAddOn::notifyFailure(SynthesisPiece *piece, const QString &message, const QString &diagnosticFilePath) {
         if (!piece)
             return;
         removeAudio(piece);
         auto d = SynthesisPiecePrivate::get(piece);
         d->state = SynthesisPiece::Failed;
         d->errorMessage = message;
+        d->diagnosticFilePath = diagnosticFilePath;
         publishPieceState(piece);
         const auto now = QDateTime::currentDateTimeUtc();
         const auto previous = m_lastNotifications.value(message);
@@ -996,6 +999,7 @@ namespace Synth::Internal {
             }
             auto d = SynthesisPiecePrivate::get(piece);
             d->errorMessage.clear();
+            d->diagnosticFilePath.clear();
             if (fromType <= SynthesisTaskType::Audio) {
                 removeAudio(piece);
                 QString audioError;
@@ -1056,6 +1060,7 @@ namespace Synth::Internal {
                 removeAudio(piece);
                 d->state = SynthesisPiece::Stale;
                 d->errorMessage.clear();
+                d->diagnosticFilePath.clear();
                 publishPieceState(piece);
                 continue;
             }
@@ -1227,6 +1232,7 @@ namespace Synth::Internal {
             d->state = SynthesisPiece::Queued;
             d->currentTaskType = fromType;
             d->errorMessage.clear();
+            d->diagnosticFilePath.clear();
             m_pieceTasks.insert(piece, task);
             publishPieceState(piece);
         }
@@ -1352,6 +1358,7 @@ namespace Synth::Internal {
         d->state = SynthesisPiece::Queued;
         d->currentTaskType = task->type();
         d->errorMessage.clear();
+        d->diagnosticFilePath.clear();
         publishPieceState(piece);
         connect(task, &SynthesisTask::stateChanged, this, [this, runtime, piece = QPointer<SynthesisPiece>(piece), task, revision] {
             if (task->state() != SynthesisTask::Running)
@@ -1651,6 +1658,7 @@ namespace Synth::Internal {
             ++d->revision;
             d->state = SynthesisPiece::Stale;
             d->errorMessage.clear();
+            d->diagnosticFilePath.clear();
             removeAudio(affected);
             if (tasks.contains(m_pieceTasks.value(affected)))
                 m_pieceTasks.remove(affected);
@@ -1667,6 +1675,15 @@ namespace Synth::Internal {
         finalizeLanguageWave(runtime);
         updateCounts();
         return canceled;
+    }
+
+    bool SynthesisProjectAddOn::cancelPieceTask(SynthesisPiece *piece) {
+        if (!piece)
+            return false;
+        auto task = m_pieceTasks.value(piece);
+        if (!task || task->isFinished())
+            return false;
+        return m_taskManager->cancel(task);
     }
 
     void SynthesisProjectAddOn::cancelAll() {
@@ -1890,6 +1907,7 @@ namespace Synth::Internal {
                                    : SynthesisPiece::Queued;
                     d->currentTaskType = coverage->type;
                     d->errorMessage.clear();
+                    d->diagnosticFilePath.clear();
                     m_pieceTasks.insert(piece, coverage->task);
                     publishPieceState(piece);
                 } else {
@@ -1904,7 +1922,8 @@ namespace Synth::Internal {
         auto runtime = m_clips.value(writeback->clipHandle);
         auto task = writeback->task.data();
         auto piece = writeback->piece.data();
-        const auto fail = [this, runtime, piece, writeback](const QString &message) {
+        const auto fail = [this, runtime, piece, writeback, task](const QString &message) {
+            const auto diagnosticFilePath = task ? task->diagnosticFilePath() : QString();
             if (writeback->scope == TaskWriteback::Language) {
                 runtime->languageContinuations.append({
                     writeback->piecePosition,
@@ -1942,11 +1961,11 @@ namespace Synth::Internal {
                         if (candidate->task && candidate->task->state() == SynthesisTask::Queued)
                             m_taskManager->cancel(candidate->task);
                     }
-                    notifyFailure(affected, message);
+                    notifyFailure(affected, message, diagnosticFilePath);
                 }
                 return;
             }
-            notifyFailure(piece, message);
+            notifyFailure(piece, message, diagnosticFilePath);
         };
         if (task->state() != SynthesisTask::Succeeded) {
             fail(task->errorMessage().isEmpty() ? tr("Synthesis was canceled") : task->errorMessage());
@@ -2015,6 +2034,7 @@ namespace Synth::Internal {
             d->state = SynthesisPiece::Queued;
             d->currentTaskType = next;
             d->errorMessage.clear();
+            d->diagnosticFilePath.clear();
             if (m_pieceTasks.value(affected) == writeback->task) {
                 m_pieceTasks.remove(affected);
             }
@@ -2278,6 +2298,7 @@ namespace Synth::Internal {
                     ++d->revision;
                     d->state = SynthesisPiece::Stale;
                     d->errorMessage.clear();
+                    d->diagnosticFilePath.clear();
                     removeAudio(piece);
                     publishPieceState(piece);
                 } else {
@@ -2293,6 +2314,7 @@ namespace Synth::Internal {
                 ++d->revision;
                 d->state = SynthesisPiece::Stale;
                 d->errorMessage.clear();
+                d->diagnosticFilePath.clear();
                 removeAudio(piece);
             }
             const auto next = nextStage(successful->architecture, SynthesisTaskType::Phoneme);

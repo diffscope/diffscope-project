@@ -48,6 +48,10 @@ namespace Synth {
         Q_D(const SynthesisPiece);
         return d->errorMessage;
     }
+    QString SynthesisPiece::diagnosticFilePath() const {
+        Q_D(const SynthesisPiece);
+        return d->diagnosticFilePath;
+    }
 
 }
 

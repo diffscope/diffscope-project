@@ -44,6 +44,8 @@ namespace SynthVisualizer::Internal {
             ReadyRole,
             FailedRole,
             AudioFilePathRole,
+            PieceRole,
+            DiagnosticFilePathRole,
         };
 
         explicit SynthesisPieceModel(QObject *parent = nullptr);
@@ -59,6 +61,9 @@ namespace SynthVisualizer::Internal {
         int rowCount(const QModelIndex &parent = {}) const override;
         QVariant data(const QModelIndex &index, int role) const override;
         QHash<int, QByteArray> roleNames() const override;
+
+        Q_INVOKABLE bool cancelPieceTask(QObject *piece);
+        Q_INVOKABLE void resynthesizePiece(QObject *piece, int fromType, bool readCache, bool writeCache);
 
     Q_SIGNALS:
         void windowHandleChanged();

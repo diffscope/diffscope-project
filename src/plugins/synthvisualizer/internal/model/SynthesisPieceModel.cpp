@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <utility>
 
+#include <QFileInfo>
+#include <QVariant>
+
 #include <dspxmodelORM/SingingClip.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
@@ -111,6 +114,12 @@ namespace SynthVisualizer::Internal {
                 return piece->state() == Synth::SynthesisPiece::Failed;
             case AudioFilePathRole:
                 return piece->audioFilePath();
+            case PieceRole:
+                return QVariant::fromValue(static_cast<QObject *>(piece));
+            case DiagnosticFilePathRole: {
+                const auto path = piece->diagnosticFilePath();
+                return path.isEmpty() || !QFileInfo::exists(path) ? QString() : path;
+            }
             default:
                 return {};
         }
@@ -126,7 +135,28 @@ namespace SynthVisualizer::Internal {
             {ReadyRole, QByteArrayLiteral("ready")},
             {FailedRole, QByteArrayLiteral("failed")},
             {AudioFilePathRole, QByteArrayLiteral("audioFilePath")},
+            {PieceRole, QByteArrayLiteral("piece")},
+            {DiagnosticFilePathRole, QByteArrayLiteral("diagnosticFilePath")},
         };
+    }
+
+    bool SynthesisPieceModel::cancelPieceTask(QObject *pieceObject) {
+        auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
+        if (!piece || !m_context)
+            return false;
+        return m_context->cancelPieceTask(piece);
+    }
+
+    void SynthesisPieceModel::resynthesizePiece(QObject *pieceObject, int fromType, bool readCache, bool writeCache) {
+        auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
+        if (!piece || !m_context)
+            return;
+        if (fromType < static_cast<int>(Synth::SynthesisTaskType::Pronunciation) ||
+            fromType > static_cast<int>(Synth::SynthesisTaskType::Audio))
+            return;
+        m_context->resynthesizePiece(
+            piece, static_cast<Synth::SynthesisTaskType>(fromType), readCache, writeCache
+        );
     }
 
     void SynthesisPieceModel::setSynthesisContext(Synth::ProjectSynthesisContext *context) {
@@ -211,6 +241,8 @@ namespace SynthVisualizer::Internal {
                 ReadyRole,
                 FailedRole,
                 AudioFilePathRole,
+                PieceRole,
+                DiagnosticFilePathRole,
             });
             return;
         }

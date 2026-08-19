@@ -61,6 +61,7 @@ namespace Synth {
         Q_INVOKABLE void resynthesizeClip(dspx::SingingClip *clip, Synth::SynthesisTaskType fromType, bool readCache = true, bool writeCache = true);
         Q_INVOKABLE void resynthesizePiece(Synth::SynthesisPiece *piece, Synth::SynthesisTaskType fromType, bool readCache = true, bool writeCache = true);
         Q_INVOKABLE bool cancelPiece(Synth::SynthesisPiece *piece);
+        Q_INVOKABLE bool cancelPieceTask(Synth::SynthesisPiece *piece);
         Q_INVOKABLE void cancelAll();
 
     Q_SIGNALS:

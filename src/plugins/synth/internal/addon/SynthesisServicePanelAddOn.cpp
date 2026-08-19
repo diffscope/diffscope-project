@@ -75,6 +75,11 @@ namespace Synth::Internal {
                m_taskManager->removeFinishedTask(task);
     }
 
+    bool SynthesisServicePanelAddOn::cancelTask(QObject *taskObject) {
+        auto task = qobject_cast<SynthesisTask *>(taskObject);
+        return task && !task->isFinished() && m_taskManager->cancel(task);
+    }
+
     void SynthesisServicePanelAddOn::clearDiagnostics() {
         m_taskManager->clearDiagnostics();
     }

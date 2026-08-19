@@ -281,6 +281,16 @@ QtObject {
                                             }
 
                                             ToolButton {
+                                                id: terminateButton
+                                                visible: taskDelegate.task.state === 0 || taskDelegate.task.state === 1
+                                                text: qsTr("Terminate Task")
+                                                display: AbstractButton.IconOnly
+                                                icon.source: "image://fluent-system-icons/stop"
+                                                icon.color: Theme.errorColor
+                                                onClicked: root.addOn.cancelTask(taskDelegate.task)
+                                            }
+
+                                            ToolButton {
                                                 id: diagnosticsButton
                                                 visible: taskDelegate.task.state === 3 && Boolean(taskDelegate.task.diagnosticFilePath)
                                                 text: qsTr("View Diagnostics")

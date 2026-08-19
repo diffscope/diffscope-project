@@ -76,6 +76,11 @@ namespace Synth {
         return d->controller && d->controller->cancelPiece(piece);
     }
 
+    bool ProjectSynthesisContext::cancelPieceTask(SynthesisPiece *piece) {
+        Q_D(ProjectSynthesisContext);
+        return d->controller && d->controller->cancelPieceTask(piece);
+    }
+
     void ProjectSynthesisContext::cancelAll() {
         Q_D(ProjectSynthesisContext);
         if (d->controller)

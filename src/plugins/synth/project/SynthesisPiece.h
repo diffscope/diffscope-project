@@ -34,6 +34,7 @@ namespace Synth {
         Q_PROPERTY(Synth::SynthesisTaskType currentTaskType READ currentTaskType NOTIFY stateChanged)
         Q_PROPERTY(QString audioFilePath READ audioFilePath NOTIFY audioFileChanged)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY stateChanged)
+        Q_PROPERTY(QString diagnosticFilePath READ diagnosticFilePath NOTIFY stateChanged)
 
     public:
         enum State {
@@ -56,6 +57,7 @@ namespace Synth {
         SynthesisTaskType currentTaskType() const;
         QString audioFilePath() const;
         QString errorMessage() const;
+        QString diagnosticFilePath() const;
 
     Q_SIGNALS:
         void rangeChanged();

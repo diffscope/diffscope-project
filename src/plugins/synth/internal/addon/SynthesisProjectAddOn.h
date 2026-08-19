@@ -66,6 +66,7 @@ namespace Synth {
             void resynthesizeClip(dspx::SingingClip *clip, SynthesisTaskType fromType, const SynthesisTaskOptions &options);
             void resynthesizePiece(SynthesisPiece *piece, SynthesisTaskType fromType, const SynthesisTaskOptions &options);
             bool cancelPiece(SynthesisPiece *piece);
+            bool cancelPieceTask(SynthesisPiece *piece);
             void cancelAll();
 
         private:
@@ -120,7 +121,7 @@ namespace Synth {
             bool installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage);
             bool refreshAudioRanges(double sampleRate, QString *errorMessage = nullptr);
             bool waitForAudioSynthesis(QString *errorMessage);
-            void notifyFailure(SynthesisPiece *piece, const QString &message);
+            void notifyFailure(SynthesisPiece *piece, const QString &message, const QString &diagnosticFilePath = {});
 
             ProjectSynthesisContext *m_context{};
             SynthesisTaskManager *m_taskManager{};

@@ -26,6 +26,11 @@ Item {
     readonly property DspxModel.SingingClip singingClip:
         projectViewModelContext?.getClipDocumentItemFromViewItem(
             clipViewModel) ?? null
+    readonly property var editingTrackViewModel:
+        projectViewModelContext?.getTrackViewItemFromDocumentItem(
+            singingClip?.clipSequence?.track ?? null) ?? null
+    readonly property color trackColor:
+        editingTrackViewModel?.color ?? Theme.accentColor
 
     clip: true
 
@@ -61,7 +66,7 @@ Item {
             sourceFilePath: audioFilePath
             startTick: absolutePosition
             durationTicks: duration
-            color: Theme.accentColor
+            color: control.trackColor
             opacity: 0.25
         }
     }

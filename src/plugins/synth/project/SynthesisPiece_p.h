@@ -26,6 +26,7 @@ namespace Synth {
         SynthesisTaskType currentTaskType{SynthesisTaskType::Pronunciation};
         QString audioFilePath;
         QString errorMessage;
+        QString diagnosticFilePath;
         quint64 revision{};
     };
 
