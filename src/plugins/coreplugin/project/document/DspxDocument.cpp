@@ -272,7 +272,6 @@ namespace Core {
         }
 
         struct ParameterPointOccupancy {
-            QHash<QString, QSet<int>> original;
             QHash<QString, QSet<int>> freeTransform;
             QHash<QString, QSet<int>> freeEdited;
             QHash<QString, QSet<int>> anchorTransform;
@@ -355,7 +354,6 @@ namespace Core {
         };
 
         struct MergedParameterData {
-            QMap<int, int> original;
             QMap<int, int> freeTransform;
             QMap<int, int> freeEdited;
             QMap<int, AnchorPointData> anchorTransform;
@@ -443,7 +441,6 @@ namespace Core {
                     if (!parameter)
                         continue;
                     auto &target = result[parameterId];
-                    mergeFreeValues(parameter->original(), clipStart, clipEnd, deltaPosition, target.original);
                     mergeFreeValues(parameter->freeTransform(), clipStart, clipEnd, deltaPosition, target.freeTransform);
                     mergeFreeValues(parameter->freeEdited(), clipStart, clipEnd, deltaPosition, target.freeEdited);
                     mergeAnchorNodes(parameter->anchorTransform(), clipStart, clipEnd, deltaPosition, target.anchorTransform);
@@ -451,6 +448,15 @@ namespace Core {
                 }
             }
             return result;
+        }
+
+        void clearOriginalParameters(const BounceInfo &info) {
+            for (auto *clip : info.clips) {
+                for (const auto &parameterId : clip->parameters()->keys()) {
+                    if (auto *parameter = clip->parameters()->item(parameterId))
+                        parameter->original()->splice(0, parameter->original()->size(), {});
+                }
+            }
         }
 
         QMap<int, QList<double>> mergeDynamicMixingData(const BounceInfo &info) {
@@ -516,10 +522,8 @@ namespace Core {
                     }
                 }
                 const auto &source = it.value();
-                const auto original = freeValuesFromMergedPoints(source.original);
                 const auto freeTransform = freeValuesFromMergedPoints(source.freeTransform);
                 const auto freeEdited = freeValuesFromMergedPoints(source.freeEdited);
-                parameter->original()->splice(0, parameter->original()->size(), original);
                 parameter->freeTransform()->splice(0, parameter->freeTransform()->size(), freeTransform);
                 parameter->freeEdited()->splice(0, parameter->freeEdited()->size(), freeEdited);
                 applyMergedAnchorNodes(parameter->anchorTransform(), source.anchorTransform, model);
@@ -2264,10 +2268,7 @@ namespace Core {
                     auto *parameter = clip->parameters()->item(parameterId);
                     if (!parameter)
                         continue;
-                    if (!freeValuesCanSafelyBounce(parameter->original(), parameterId,
-                                                   clipStart, clipEnd, deltaPosition,
-                                                   occupiedParameters.original) ||
-                        !freeValuesCanSafelyBounce(parameter->freeTransform(), parameterId,
+                    if (!freeValuesCanSafelyBounce(parameter->freeTransform(), parameterId,
                                                    clipStart, clipEnd, deltaPosition,
                                                    occupiedParameters.freeTransform) ||
                         !freeValuesCanSafelyBounce(parameter->freeEdited(), parameterId,
@@ -2305,6 +2306,7 @@ namespace Core {
         d->transactionController->beginScopedTransaction(tr("Bouncing to clip"), [&] {
             qCDebug(lcDspxDocument) << "Merging and rebounding clips";
             for (const auto &info : trackBounceInfoMap) {
+                clearOriginalParameters(info);
                 const auto mergedParameters = mergeParameterData(info);
                 const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
                 const auto mergedDynamicMixing = singerLayoutIdentical
