@@ -59,6 +59,8 @@ namespace Core {
         Q_INVOKABLE void selectAll();
         Q_INVOKABLE void deselectAll();
         Q_INVOKABLE void splitItems(int position);
+        Q_INVOKABLE bool isClipSingerLayoutIdentical() const;
+        Q_INVOKABLE bool canSafelyBounce() const;
         Q_INVOKABLE void bounceToClip();
 
         void loadModel(const opendspx::Model &model);

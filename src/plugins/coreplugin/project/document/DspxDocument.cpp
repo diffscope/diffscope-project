@@ -5,15 +5,24 @@
 #include "DspxDocument_p.h"
 
 #include <algorithm>
+#include <cmath>
+#include <functional>
 #include <limits>
 #include <optional>
 #include <utility>
+#include <vector>
 
+#include <QHash>
 #include <QLoggingCategory>
+#include <QMap>
+#include <QSet>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <opendspx/clip.h>
+#include <opendspx/mixedsinger.h>
+#include <opendspx/singlesinger.h>
+#include <opendspx/sources.h>
 #include <opendspx/track.h>
 
 #include <SVSCraftQuick/MessageBox.h>
@@ -108,6 +117,445 @@ namespace Core {
                 return "DynamicMixingAnchor";
         }
         return "Unknown";
+    }
+
+    namespace {
+
+        struct BounceInfo {
+            dspx::SingingClip *pivotClip{};
+            QList<dspx::SingingClip *> clips;
+            opendspx::ClipTime bouncedClipTime;
+        };
+
+        using TrackBounceInfoMap = QHash<dspx::Track *, BounceInfo>;
+
+        opendspx::ClipTime boundedClipTime(const dspx::SingingClip *clip) {
+            return {
+                .pos = clip->position(),
+                .length = 0,
+                .clipStart = 0,
+                .clipLen = clip->clipLength(),
+            };
+        }
+
+        bool clipPrecedes(const dspx::SingingClip *left, const dspx::SingingClip *right) {
+            if (left->position() != right->position())
+                return left->position() < right->position();
+            if (left->clipLength() != right->clipLength())
+                return left->clipLength() < right->clipLength();
+            return std::less<const dspx::SingingClip *>()(left, right);
+        }
+
+        bool clipPreferredAsPivot(const dspx::SingingClip *candidate,
+                                  const dspx::SingingClip *current,
+                                  const dspx::NoteSequence *preferredNoteSequence) {
+            const bool candidatePreferred = candidate->notes() == preferredNoteSequence;
+            const bool currentPreferred = current->notes() == preferredNoteSequence;
+            if (candidatePreferred != currentPreferred)
+                return candidatePreferred;
+            return clipPrecedes(candidate, current);
+        }
+
+        TrackBounceInfoMap buildTrackBounceInfoMap(const dspx::SelectionModel *selectionModel) {
+            TrackBounceInfoMap result;
+            if (!selectionModel || selectionModel->selectionType() != dspx::SelectionModel::ST_Clip)
+                return result;
+
+            const auto *preferredNoteSequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+            for (auto *clip : selectionModel->clipSelectionModel()->selectedItems()) {
+                auto *singingClip = qobject_cast<dspx::SingingClip *>(clip);
+                if (!singingClip || !singingClip->clipSequence())
+                    continue;
+
+                auto *track = singingClip->clipSequence()->track();
+                auto &info = result[track];
+                const auto clipTime = boundedClipTime(singingClip);
+                if (!info.pivotClip) {
+                    info.pivotClip = singingClip;
+                    info.bouncedClipTime = clipTime;
+                } else {
+                    if (clipPreferredAsPivot(singingClip, info.pivotClip, preferredNoteSequence))
+                        info.pivotClip = singingClip;
+                    const int left = std::min(info.bouncedClipTime.pos, clipTime.pos);
+                    const int right = std::max(info.bouncedClipTime.pos + info.bouncedClipTime.clipLen,
+                                               clipTime.pos + clipTime.clipLen);
+                    info.bouncedClipTime.pos = left;
+                    info.bouncedClipTime.clipLen = right - left;
+                }
+                info.clips.append(singingClip);
+            }
+
+            for (auto it = result.begin(); it != result.end(); ++it)
+                std::sort(it->clips.begin(), it->clips.end(), clipPrecedes);
+            return result;
+        }
+
+        bool singersIdentical(const std::vector<opendspx::SingerRef> &left,
+                              const std::vector<opendspx::SingerRef> &right);
+
+        bool workspacesIdentical(const opendspx::Workspace &left, const opendspx::Workspace &right) {
+            if (left.size() != right.size())
+                return false;
+            auto leftIt = left.cbegin();
+            auto rightIt = right.cbegin();
+            for (; leftIt != left.cend(); ++leftIt, ++rightIt) {
+                if (leftIt->first != rightIt->first || leftIt->second != rightIt->second)
+                    return false;
+            }
+            return true;
+        }
+
+        bool singerIdentical(const opendspx::SingerRef &left, const opendspx::SingerRef &right) {
+            if (!left || !right)
+                return left == right;
+            if (left->type != right->type || left->extra != right->extra ||
+                !workspacesIdentical(left->workspace, right->workspace)) {
+                return false;
+            }
+
+            switch (left->type) {
+                case opendspx::Singer::Type::Single: {
+                    const auto &leftSingle = static_cast<const opendspx::SingleSinger &>(*left);
+                    const auto &rightSingle = static_cast<const opendspx::SingleSinger &>(*right);
+                    return leftSingle.id == rightSingle.id;
+                }
+                case opendspx::Singer::Type::Mixed: {
+                    const auto &leftMixed = static_cast<const opendspx::MixedSinger &>(*left);
+                    const auto &rightMixed = static_cast<const opendspx::MixedSinger &>(*right);
+                    return leftMixed.ratio.size() == rightMixed.ratio.size() &&
+                           std::equal(leftMixed.ratio.cbegin(), leftMixed.ratio.cend(),
+                                      rightMixed.ratio.cbegin()) &&
+                           singersIdentical(leftMixed.singers, rightMixed.singers);
+                }
+            }
+            return false;
+        }
+
+        bool singersIdentical(const std::vector<opendspx::SingerRef> &left,
+                              const std::vector<opendspx::SingerRef> &right) {
+            if (left.size() != right.size())
+                return false;
+            for (std::size_t i = 0; i < left.size(); ++i) {
+                if (!singerIdentical(left[i], right[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        std::vector<opendspx::SingerRef> clipSingers(const dspx::SingingClip *clip) {
+            auto *sources = clip ? clip->sources() : nullptr;
+            return sources ? sources->singers()->toOpenDSPX() : std::vector<opendspx::SingerRef> {};
+        }
+
+        bool bounceInfoSingerLayoutIdentical(const BounceInfo &info) {
+            if (!info.pivotClip || info.clips.isEmpty())
+                return false;
+            const auto pivotSingers = clipSingers(info.pivotClip);
+            return std::all_of(info.clips.cbegin(), info.clips.cend(), [&](const dspx::SingingClip *clip) {
+                return singersIdentical(pivotSingers, clipSingers(clip));
+            });
+        }
+
+        bool segmentIsClipped(int left, int right, int clipStart, int clipEnd) {
+            if (clipEnd <= clipStart)
+                return false;
+            return (left < clipStart && right > clipStart) ||
+                   (left < clipEnd && right >= clipEnd);
+        }
+
+        bool occupyPoint(QHash<QString, QSet<int>> &occupied, const QString &parameterId, int position) {
+            auto &positions = occupied[parameterId];
+            if (positions.contains(position))
+                return false;
+            positions.insert(position);
+            return true;
+        }
+
+        struct ParameterPointOccupancy {
+            QHash<QString, QSet<int>> original;
+            QHash<QString, QSet<int>> freeTransform;
+            QHash<QString, QSet<int>> freeEdited;
+            QHash<QString, QSet<int>> anchorTransform;
+            QHash<QString, QSet<int>> anchorEdited;
+        };
+
+        bool anchorSequenceCanSafelyBounce(const dspx::AnchorNodeSequence *sequence,
+                                           const QString &parameterId,
+                                           int clipStart,
+                                           int clipEnd,
+                                           int deltaPosition,
+                                           QHash<QString, QSet<int>> &occupied) {
+            const dspx::AnchorNode *previous = nullptr;
+            for (auto *node : sequence->sliceEffective(clipStart, clipEnd - clipStart)) {
+                if (previous && previous->interpolationMode() != dspx::AnchorNode::None &&
+                    segmentIsClipped(previous->x(), node->x(), clipStart, clipEnd)) {
+                    return false;
+                }
+                if (node->x() >= clipStart && node->x() < clipEnd &&
+                    !occupyPoint(occupied, parameterId, node->x() + deltaPosition)) {
+                    return false;
+                }
+                previous = node;
+            }
+            return true;
+        }
+
+        bool freeValuesCanSafelyBounce(const dspx::FreeValueDataArray *array,
+                                       const QString &parameterId,
+                                       int clipStart,
+                                       int clipEnd,
+                                       int deltaPosition,
+                                       QHash<QString, QSet<int>> &occupied) {
+            const int step = dspx::FreeValueDataArray::step();
+            const int firstIndex = clipStart / step;
+            const int lastSegmentIndex = (clipEnd + step - 1) / step - 1;
+            const auto values = array->slice(firstIndex, lastSegmentIndex - firstIndex + 2);
+            for (int offset = 0; offset < values.size(); ++offset) {
+                const int index = firstIndex + offset;
+                const int position = index * step;
+                if (offset + 1 < values.size() && values.at(offset).isValid() &&
+                    values.at(offset + 1).isValid() &&
+                    segmentIsClipped(position, position + step, clipStart, clipEnd)) {
+                    return false;
+                }
+                if (!values.at(offset).isValid() || position < clipStart || position >= clipEnd)
+                    continue;
+                const int targetPosition = position + deltaPosition;
+                if (targetPosition % step != 0 ||
+                    !occupyPoint(occupied, parameterId, targetPosition)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        bool dynamicMixingCanSafelyBounce(const dspx::DynamicMixingAnchorSequence *sequence,
+                                          int clipStart,
+                                          int clipEnd,
+                                          int deltaPosition,
+                                          QSet<int> &occupied) {
+            const dspx::DynamicMixingAnchor *previous = nullptr;
+            for (auto *anchor : sequence->sliceEffective(clipStart, clipEnd - clipStart)) {
+                if (previous && segmentIsClipped(previous->position(), anchor->position(), clipStart, clipEnd))
+                    return false;
+                if (anchor->position() >= clipStart && anchor->position() < clipEnd) {
+                    const int targetPosition = anchor->position() + deltaPosition;
+                    if (occupied.contains(targetPosition))
+                        return false;
+                    occupied.insert(targetPosition);
+                }
+                previous = anchor;
+            }
+            return true;
+        }
+
+        struct AnchorPointData {
+            dspx::AnchorNode::InterpolationMode interpolationMode{dspx::AnchorNode::None};
+            int value{};
+        };
+
+        struct MergedParameterData {
+            QMap<int, int> original;
+            QMap<int, int> freeTransform;
+            QMap<int, int> freeEdited;
+            QMap<int, AnchorPointData> anchorTransform;
+            QMap<int, AnchorPointData> anchorEdited;
+        };
+
+        using MergedParameterMap = QHash<QString, MergedParameterData>;
+
+        int ceilToFreeValueIndex(int position) {
+            const int step = dspx::FreeValueDataArray::step();
+            return (position + step - 1) / step;
+        }
+
+        std::optional<int> interpolatedFreeValue(const QList<QVariant> &values, int position) {
+            const int step = dspx::FreeValueDataArray::step();
+            const int leftIndex = position / step;
+            if (leftIndex < 0 || leftIndex >= values.size())
+                return std::nullopt;
+            const auto &leftValue = values.at(leftIndex);
+            if (!leftValue.isValid())
+                return std::nullopt;
+            if (position % step == 0)
+                return leftValue.toInt();
+
+            const int rightIndex = leftIndex + 1;
+            if (rightIndex >= values.size() || !values.at(rightIndex).isValid())
+                return std::nullopt;
+            const double fraction = static_cast<double>(position - leftIndex * step) / step;
+            const double value = leftValue.toDouble() +
+                                 (values.at(rightIndex).toDouble() - leftValue.toDouble()) * fraction;
+            return static_cast<int>(std::lround(value));
+        }
+
+        void mergeFreeValues(const dspx::FreeValueDataArray *array,
+                             int clipStart,
+                             int clipEnd,
+                             int deltaPosition,
+                             QMap<int, int> &target) {
+            const int step = dspx::FreeValueDataArray::step();
+            const auto values = array->items();
+            if (deltaPosition % step == 0) {
+                const int firstIndex = ceilToFreeValueIndex(clipStart);
+                const int endIndex = ceilToFreeValueIndex(clipEnd);
+                for (int index = firstIndex; index < endIndex && index < values.size(); ++index) {
+                    if (values.at(index).isValid())
+                        target.insert(index + deltaPosition / step, values.at(index).toInt());
+                }
+                return;
+            }
+
+            const int targetStart = clipStart + deltaPosition;
+            const int targetEnd = clipEnd + deltaPosition;
+            const int firstTargetIndex = ceilToFreeValueIndex(targetStart);
+            const int endTargetIndex = ceilToFreeValueIndex(targetEnd);
+            for (int targetIndex = firstTargetIndex; targetIndex < endTargetIndex; ++targetIndex) {
+                const int sourcePosition = targetIndex * step - deltaPosition;
+                if (const auto value = interpolatedFreeValue(values, sourcePosition))
+                    target.insert(targetIndex, *value);
+            }
+        }
+
+        void mergeAnchorNodes(const dspx::AnchorNodeSequence *sequence,
+                              int clipStart,
+                              int clipEnd,
+                              int deltaPosition,
+                              QMap<int, AnchorPointData> &target) {
+            for (auto *node : sequence->asRange()) {
+                if (node->x() < clipStart || node->x() >= clipEnd)
+                    continue;
+                target.insert(node->x() + deltaPosition, {
+                    .interpolationMode = node->interpolationMode(),
+                    .value = node->y(),
+                });
+            }
+        }
+
+        MergedParameterMap mergeParameterData(const BounceInfo &info) {
+            MergedParameterMap result;
+            for (auto *clip : info.clips) {
+                const int clipStart = clip->clipStart();
+                const int clipEnd = clipStart + clip->clipLength();
+                const int deltaPosition = clip->start() - info.bouncedClipTime.pos;
+                for (const auto &parameterId : clip->parameters()->keys()) {
+                    auto *parameter = clip->parameters()->item(parameterId);
+                    if (!parameter)
+                        continue;
+                    auto &target = result[parameterId];
+                    mergeFreeValues(parameter->original(), clipStart, clipEnd, deltaPosition, target.original);
+                    mergeFreeValues(parameter->freeTransform(), clipStart, clipEnd, deltaPosition, target.freeTransform);
+                    mergeFreeValues(parameter->freeEdited(), clipStart, clipEnd, deltaPosition, target.freeEdited);
+                    mergeAnchorNodes(parameter->anchorTransform(), clipStart, clipEnd, deltaPosition, target.anchorTransform);
+                    mergeAnchorNodes(parameter->anchorEdited(), clipStart, clipEnd, deltaPosition, target.anchorEdited);
+                }
+            }
+            return result;
+        }
+
+        QMap<int, QList<double>> mergeDynamicMixingData(const BounceInfo &info) {
+            QMap<int, QList<double>> result;
+            for (auto *clip : info.clips) {
+                auto *sources = clip->sources();
+                if (!sources)
+                    continue;
+                const int clipStart = clip->clipStart();
+                const int clipEnd = clipStart + clip->clipLength();
+                const int deltaPosition = clip->start() - info.bouncedClipTime.pos;
+                for (auto *anchor : sources->dynamicMixingAnchors()->asRange()) {
+                    if (anchor->position() >= clipStart && anchor->position() < clipEnd)
+                        result.insert(anchor->position() + deltaPosition, anchor->ratio());
+                }
+            }
+            return result;
+        }
+
+        QList<QVariant> freeValuesFromMergedPoints(const QMap<int, int> &points) {
+            if (points.isEmpty())
+                return {};
+            QList<QVariant> result;
+            result.resize(points.lastKey() + 1);
+            for (auto it = points.cbegin(); it != points.cend(); ++it)
+                result[it.key()] = it.value();
+            return result;
+        }
+
+        void clearAnchorSequence(dspx::AnchorNodeSequence *sequence, dspx::Model *model) {
+            while (auto *node = sequence->firstItem()) {
+                sequence->removeItem(node);
+                model->destroyItem(node);
+            }
+        }
+
+        void applyMergedAnchorNodes(dspx::AnchorNodeSequence *sequence,
+                                    const QMap<int, AnchorPointData> &points,
+                                    dspx::Model *model) {
+            clearAnchorSequence(sequence, model);
+            for (auto it = points.cbegin(); it != points.cend(); ++it) {
+                const auto &point = it.value();
+                auto *node = model->createAnchorNode();
+                node->setX(it.key());
+                node->setY(point.value);
+                node->setInterpolationMode(point.interpolationMode);
+                if (!sequence->insertItem(node))
+                    model->destroyItem(node);
+            }
+        }
+
+        void applyMergedParameters(dspx::SingingClip *pivotClip,
+                                   const MergedParameterMap &parameters,
+                                   dspx::Model *model) {
+            auto *targetMap = pivotClip->parameters();
+            for (auto it = parameters.cbegin(); it != parameters.cend(); ++it) {
+                auto *parameter = targetMap->item(it.key());
+                if (!parameter) {
+                    parameter = model->createParameter();
+                    if (!targetMap->insertItem(it.key(), parameter)) {
+                        model->destroyItem(parameter);
+                        continue;
+                    }
+                }
+                const auto &source = it.value();
+                const auto original = freeValuesFromMergedPoints(source.original);
+                const auto freeTransform = freeValuesFromMergedPoints(source.freeTransform);
+                const auto freeEdited = freeValuesFromMergedPoints(source.freeEdited);
+                parameter->original()->splice(0, parameter->original()->size(), original);
+                parameter->freeTransform()->splice(0, parameter->freeTransform()->size(), freeTransform);
+                parameter->freeEdited()->splice(0, parameter->freeEdited()->size(), freeEdited);
+                applyMergedAnchorNodes(parameter->anchorTransform(), source.anchorTransform, model);
+                applyMergedAnchorNodes(parameter->anchorEdited(), source.anchorEdited, model);
+            }
+        }
+
+        void clearDynamicMixingAnchors(dspx::DynamicMixingAnchorSequence *sequence, dspx::Model *model) {
+            while (auto *anchor = sequence->firstItem()) {
+                sequence->removeItem(anchor);
+                model->destroyItem(anchor);
+            }
+        }
+
+        void applyMergedDynamicMixing(dspx::SingingClip *pivotClip,
+                                      const QMap<int, QList<double>> &anchors,
+                                      dspx::Model *model) {
+            auto *sources = pivotClip->sources();
+            if (!sources && !anchors.isEmpty()) {
+                sources = model->createSources();
+                pivotClip->setSources(sources);
+            }
+            if (!sources)
+                return;
+
+            auto *sequence = sources->dynamicMixingAnchors();
+            clearDynamicMixingAnchors(sequence, model);
+            for (auto it = anchors.cbegin(); it != anchors.cend(); ++it) {
+                auto *anchor = model->createDynamicMixingAnchor();
+                anchor->setPosition(it.key());
+                anchor->setRatio(it.value());
+                if (!sequence->insertItem(anchor))
+                    model->destroyItem(anchor);
+            }
+        }
+
     }
 
     class TransactionalModelStrategy : public TransactionalStrategy {
@@ -1777,57 +2225,79 @@ namespace Core {
         });
     }
 
+    bool DspxDocument::isClipSingerLayoutIdentical() const {
+        Q_D(const DspxDocument);
+        const auto trackBounceInfoMap = buildTrackBounceInfoMap(d->selectionModel);
+        if (trackBounceInfoMap.isEmpty())
+            return false;
+        return std::all_of(trackBounceInfoMap.cbegin(), trackBounceInfoMap.cend(), [](const BounceInfo &info) {
+            return bounceInfoSingerLayoutIdentical(info);
+        });
+    }
+
+    bool DspxDocument::canSafelyBounce() const {
+        Q_D(const DspxDocument);
+        const auto trackBounceInfoMap = buildTrackBounceInfoMap(d->selectionModel);
+        if (trackBounceInfoMap.isEmpty())
+            return false;
+
+        for (const auto &info : trackBounceInfoMap) {
+            ParameterPointOccupancy occupiedParameters;
+            QSet<int> occupiedDynamicMixingAnchors;
+            const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
+            for (auto *clip : info.clips) {
+                const int clipStart = clip->clipStart();
+                const int clipEnd = clipStart + clip->clipLength();
+                const int deltaPosition = clip->start() - info.bouncedClipTime.pos;
+
+                const int noteSliceLength = std::max(1, clip->clipLength());
+                for (auto *note : clip->notes()->slice(clipStart, noteSliceLength)) {
+                    const int noteStart = note->position();
+                    const int noteEnd = noteStart + note->length();
+                    if (noteEnd <= clipStart || noteStart >= clipEnd)
+                        continue;
+                    if (noteStart < clipStart || noteEnd > clipEnd)
+                        return false;
+                }
+
+                for (const auto &parameterId : clip->parameters()->keys()) {
+                    auto *parameter = clip->parameters()->item(parameterId);
+                    if (!parameter)
+                        continue;
+                    if (!freeValuesCanSafelyBounce(parameter->original(), parameterId,
+                                                   clipStart, clipEnd, deltaPosition,
+                                                   occupiedParameters.original) ||
+                        !freeValuesCanSafelyBounce(parameter->freeTransform(), parameterId,
+                                                   clipStart, clipEnd, deltaPosition,
+                                                   occupiedParameters.freeTransform) ||
+                        !freeValuesCanSafelyBounce(parameter->freeEdited(), parameterId,
+                                                   clipStart, clipEnd, deltaPosition,
+                                                   occupiedParameters.freeEdited) ||
+                        !anchorSequenceCanSafelyBounce(parameter->anchorTransform(), parameterId,
+                                                       clipStart, clipEnd, deltaPosition,
+                                                       occupiedParameters.anchorTransform) ||
+                        !anchorSequenceCanSafelyBounce(parameter->anchorEdited(), parameterId,
+                                                       clipStart, clipEnd, deltaPosition,
+                                                       occupiedParameters.anchorEdited)) {
+                        return false;
+                    }
+                }
+
+                if (singerLayoutIdentical && clip->sources() &&
+                    !dynamicMixingCanSafelyBounce(clip->sources()->dynamicMixingAnchors(),
+                                                  clipStart, clipEnd, deltaPosition,
+                                                  occupiedDynamicMixingAnchors)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     void DspxDocument::bounceToClip() {
         Q_D(DspxDocument);
-        auto selectionType = d->selectionModel->selectionType();
-        if (selectionType != dspx::SelectionModel::ST_Clip)
-            return;
         qCInfo(lcDspxDocument) << "Bouncing to clip";
-        struct BounceInfo {
-            dspx::SingingClip *pivotClip{};
-            QList<dspx::SingingClip *> clips;
-            opendspx::ClipTime bouncedClipTime;
-        };
-        QHash<dspx::Track *, BounceInfo> trackBounceInfoMap;
-        for (auto clip : d->selectionModel->clipSelectionModel()->selectedItems()) {
-            auto singingClip = qobject_cast<dspx::SingingClip *>(clip);
-            if (!singingClip)
-                continue;
-            Q_ASSERT(singingClip->clipSequence());
-            auto track = singingClip->clipSequence()->track();
-            auto &info = trackBounceInfoMap[track];
-            constexpr auto boundClipTime = [](const opendspx::ClipTime &clipTime) {
-                return opendspx::ClipTime {
-                    .pos = clipTime.pos,
-                    .length = 0,
-                    .clipStart = 0,
-                    .clipLen = clipTime.clipLen
-                };
-            };
-            if (!info.pivotClip) {
-                info.pivotClip = singingClip;
-                info.bouncedClipTime = boundClipTime(singingClip->toOpenDSPX().time);
-            } else {
-                info.pivotClip = std::min(info.pivotClip, singingClip, [=](dspx::SingingClip *a, dspx::SingingClip *b) {
-                    if (a->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
-                        return true;
-                    if (b->notes() == d->selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems())
-                        return false;
-                    auto ta = boundClipTime(a->toOpenDSPX().time);
-                    auto tb = boundClipTime(b->toOpenDSPX().time);
-                    if (ta.pos ==  tb.pos) {
-                        return ta.clipLen < tb.clipLen;
-                    }
-                    return ta.pos < tb.pos;
-                });
-                auto t = boundClipTime(singingClip->toOpenDSPX().time);
-                auto left = std::min(info.bouncedClipTime.pos, t.pos);
-                auto right = std::max(info.bouncedClipTime.pos + info.bouncedClipTime.clipLen, t.pos + t.clipLen);
-                info.bouncedClipTime.pos = left;
-                info.bouncedClipTime.clipLen = right - left;
-            }
-            info.clips.append(singingClip);
-        }
+        const auto trackBounceInfoMap = buildTrackBounceInfoMap(d->selectionModel);
         if (trackBounceInfoMap.isEmpty()) {
             qCDebug(lcDspxDocument) << "No singing-clips selected, ignoring this operation";
             return;
@@ -1835,13 +2305,18 @@ namespace Core {
         d->transactionController->beginScopedTransaction(tr("Bouncing to clip"), [&] {
             qCDebug(lcDspxDocument) << "Merging and rebounding clips";
             for (const auto &info : trackBounceInfoMap) {
+                const auto mergedParameters = mergeParameterData(info);
+                const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
+                const auto mergedDynamicMixing = singerLayoutIdentical
+                                                     ? mergeDynamicMixingData(info)
+                                                     : QMap<int, QList<double>> {};
                 QList<dspx::Note *> notes;
                 // Take all notes and reposition notes
-                for (auto clip : info.clips) {
+                for (auto *clip : info.clips) {
                     const auto deltaPosition = clip->start() - info.bouncedClipTime.pos;
                     // It is needed to copy all notes to a new list, because notes will be removed while iterating
                     // asRange() returns an enable borrowed range so it's safe to get iterator from prvalue
-                    for (auto note : QList(clip->notes()->asRange().cbegin(), clip->notes()->asRange().cend())) {
+                    for (auto *note : QList(clip->notes()->asRange().cbegin(), clip->notes()->asRange().cend())) {
                         clip->notes()->removeItem(note);
                         if (note->position() + note->length() <= clip->clipStart() || note->position() >= clip->clipStart() + clip->clipLength()) {
                             d->model->destroyItem(note);
@@ -1860,9 +2335,14 @@ namespace Core {
                 for (auto note : notes) {
                     info.pivotClip->notes()->insertItem(note);
                 }
-                // TODO param
+                applyMergedParameters(info.pivotClip, mergedParameters, d->model);
+                if (singerLayoutIdentical) {
+                    applyMergedDynamicMixing(info.pivotClip, mergedDynamicMixing, d->model);
+                } else if (auto *sources = info.pivotClip->sources()) {
+                    clearDynamicMixingAnchors(sources->dynamicMixingAnchors(), d->model);
+                }
                 // Update time of pivot clip and delete non-pivot clips
-                for (auto clip : info.clips) {
+                for (auto *clip : info.clips) {
                     if (clip == info.pivotClip) {
                         clip->setPosition(info.bouncedClipTime.pos);
                         clip->setLength(info.bouncedClipTime.length);

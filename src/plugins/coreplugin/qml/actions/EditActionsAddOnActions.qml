@@ -5,6 +5,9 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 
+import SVSCraft
+import SVSCraft.UIComponents
+
 import QActionKit
 
 import DiffScope.DspxModel as DspxModel
@@ -310,7 +313,19 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.bounceToClip"
         Action {
             enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
-            onTriggered: d.windowHandle.projectDocumentContext.document.bounceToClip()
+            onTriggered: Qt.callLater(() => {
+                if (!d.windowHandle.projectDocumentContext.document.isClipSingerLayoutIdentical()) {
+                    if (d.windowHandle.window.contentItem.MessageBox.warning(qsTr("Warning"), qsTr("The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.\n\nContinue to bounce?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
+                        return
+                    }
+                }
+                if (!d.windowHandle.projectDocumentContext.document.canSafelyBounce()) {
+                    if (d.windowHandle.window.contentItem.MessageBox.warning(qsTr("Warning"), qsTr("Some notes or curves cross clip boundaries, free parameters require resampling, or data points overlap after merging. Bouncing may trim, resample, or overwrite this data.\n\nContinue to bounce?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
+                        return
+                    }
+                }
+                d.windowHandle.projectDocumentContext.document.bounceToClip()
+            })
         }
     }
 
