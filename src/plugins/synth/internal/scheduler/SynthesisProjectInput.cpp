@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <ranges>
 #include <vector>
 
@@ -51,6 +52,16 @@ namespace Synth::Internal::ProjectInput {
             SynthesisSinger singer;
             int rootIndex{};
             double nestedWeight{};
+        };
+
+        struct RootMixAnchor {
+            int position{};
+            std::vector<double> weights;
+        };
+
+        struct RootMixCurve {
+            int rootCount{};
+            std::vector<RootMixAnchor> anchors;
         };
 
         double configuredSampleRate(const QString &key, double fallback) {
@@ -146,39 +157,56 @@ namespace Synth::Internal::ProjectInput {
             return note->editedPhonemes()->size() > 0 ? note->editedPhonemes() : note->originalPhonemes();
         }
 
-        std::vector<double> rootWeightsAt(dspx::Sources *sources, double position) {
-            const int rootCount = sources->singers()->size();
-            const auto anchors = sources->dynamicMixingAnchors();
-            if (anchors->size() == 0) {
-                return logicalWeights({}, rootCount);
+        RootMixCurve buildRootMixCurve(dspx::Sources *sources, int minimumTick, int maximumTick) {
+            RootMixCurve result;
+            if (!sources) {
+                return result;
             }
-            auto items = anchors->asRange();
-            dspx::DynamicMixingAnchor *left = nullptr;
-            dspx::DynamicMixingAnchor *right = nullptr;
-            for (auto anchor : items) {
-                if (anchor->position() <= position) {
-                    left = anchor;
+            result.rootCount = sources->singers()->size();
+            if (maximumTick < minimumTick) {
+                return result;
+            }
+            const int slicePosition = std::max(0, minimumTick);
+            const qint64 sliceEnd = std::max(static_cast<qint64>(slicePosition) + 1,
+                                             static_cast<qint64>(maximumTick) + 1);
+            const int sliceLength = static_cast<int>(std::min(
+                sliceEnd - slicePosition,
+                static_cast<qint64>(std::numeric_limits<int>::max())));
+            const auto anchors = sources->dynamicMixingAnchors()->sliceEffective(slicePosition,
+                                                                                 sliceLength);
+            result.anchors.reserve(static_cast<std::size_t>(anchors.size()));
+            for (const auto anchor : anchors) {
+                result.anchors.push_back({
+                    anchor->position(),
+                    logicalWeights(anchor->ratio(), result.rootCount),
+                });
+            }
+            return result;
+        }
+
+        std::vector<double> rootWeightsAt(const RootMixCurve &curve, double position) {
+            if (curve.anchors.empty()) {
+                return logicalWeights({}, curve.rootCount);
+            }
+            const auto right = std::lower_bound(
+                curve.anchors.cbegin(), curve.anchors.cend(), position,
+                [](const RootMixAnchor &anchor, double value) {
+                    return anchor.position < value;
                 }
-                if (anchor->position() >= position) {
-                    right = anchor;
-                    break;
-                }
+            );
+            if (right == curve.anchors.cbegin()) {
+                return right->weights;
             }
-            if (!left) {
-                left = anchors->firstItem();
+            if (right == curve.anchors.cend()) {
+                return curve.anchors.back().weights;
             }
-            if (!right) {
-                right = anchors->lastItem();
-            }
-            const auto leftWeights = logicalWeights(left->ratio(), rootCount);
-            if (left == right || right->position() == left->position()) {
-                return leftWeights;
-            }
-            const auto rightWeights = logicalWeights(right->ratio(), rootCount);
-            const double ratio = std::clamp((position - left->position()) / (right->position() - left->position()), 0.0, 1.0);
-            auto result = leftWeights;
+            const auto left = right - 1;
+            const double ratio = std::clamp((position - left->position) /
+                                                (right->position - left->position),
+                                            0.0, 1.0);
+            auto result = left->weights;
             for (std::size_t index = 0; index < result.size(); ++index) {
-                result[index] += (rightWeights[index] - result[index]) * ratio;
+                result[index] += (right->weights[index] - result[index]) * ratio;
             }
             return result;
         }
@@ -424,10 +452,18 @@ namespace Synth::Internal::ProjectInput {
         QList<FlattenedSinger> leaves;
         buildContext(clip, &leaves);
         const int mixFrames = std::max(1, static_cast<int>(std::ceil(result.score.pieceDuration * result.score.mixSampleRate)));
+        std::vector<double> mixTicks;
+        mixTicks.reserve(static_cast<std::size_t>(mixFrames));
         for (int frame = 0; frame < mixFrames; ++frame) {
             const double seconds = pieceStartSeconds + frame / result.score.mixSampleRate;
-            const double tick = timeline->create(seconds * 1000.0).totalTick() - clip->start();
-            const auto rootWeights = rootWeightsAt(clip->sources(), tick);
+            mixTicks.push_back(timeline->create(seconds * 1000.0).totalTick() - clip->start());
+        }
+        const auto [minimumMixTick, maximumMixTick] = std::minmax_element(mixTicks.cbegin(), mixTicks.cend());
+        const auto rootMixCurve = buildRootMixCurve(clip->sources(),
+                                                    static_cast<int>(std::floor(*minimumMixTick)),
+                                                    static_cast<int>(std::floor(*maximumMixTick)));
+        for (const double tick : mixTicks) {
+            const auto rootWeights = rootWeightsAt(rootMixCurve, tick);
             QList<double> weights;
             double sum{};
             for (const auto &leaf : leaves) {

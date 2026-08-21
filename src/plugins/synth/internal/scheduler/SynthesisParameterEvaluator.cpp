@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <optional>
 #include <vector>
 
@@ -34,11 +35,18 @@ namespace Synth::Internal {
             QList<QVariant> values;
         };
 
-        std::vector<AnchorCurveSegment> buildAnchorCurve(const dspx::AnchorNodeSequence *sequence) {
+        std::vector<AnchorCurveSegment> buildAnchorCurve(const dspx::AnchorNodeSequence *sequence,
+                                                         int minimumTick, int maximumTick) {
             std::vector<AnchorCurveSegment> result;
-            if (!sequence) {
+            if (!sequence || maximumTick < minimumTick) {
                 return result;
             }
+            const int slicePosition = std::max(0, minimumTick);
+            const qint64 sliceEnd = std::max(static_cast<qint64>(slicePosition) + 1,
+                                             static_cast<qint64>(maximumTick) + 1);
+            const int sliceLength = static_cast<int>(std::min(
+                sliceEnd - slicePosition,
+                static_cast<qint64>(std::numeric_limits<int>::max())));
             std::vector<opendspx::AnchorNode> current;
             const auto appendSegment = [&result, &current] {
                 if (current.empty()) {
@@ -53,7 +61,7 @@ namespace Synth::Internal {
                 });
                 current.clear();
             };
-            for (const auto node : sequence->asRange()) {
+            for (const auto node : sequence->sliceEffective(slicePosition, sliceLength)) {
                 current.push_back({
                     static_cast<opendspx::AnchorNode::Interpolation>(node->interpolationMode()),
                     node->x(),
@@ -150,8 +158,10 @@ namespace Synth::Internal {
         m_data->parameter = parameter;
         m_data->minimumTick = minimumTick;
         m_data->maximumTick = maximumTick;
-        m_data->editedAnchors = buildAnchorCurve(parameter ? parameter->anchorEdited() : nullptr);
-        m_data->transformAnchors = buildAnchorCurve(parameter ? parameter->anchorTransform() : nullptr);
+        m_data->editedAnchors = buildAnchorCurve(parameter ? parameter->anchorEdited() : nullptr,
+                                                 minimumTick, maximumTick);
+        m_data->transformAnchors = buildAnchorCurve(parameter ? parameter->anchorTransform() : nullptr,
+                                                    minimumTick, maximumTick);
         m_data->editedArray = parameter ? parameter->freeEdited() : nullptr;
         m_data->originalArray = parameter ? parameter->original() : nullptr;
         m_data->transformArray = parameter ? parameter->freeTransform() : nullptr;
