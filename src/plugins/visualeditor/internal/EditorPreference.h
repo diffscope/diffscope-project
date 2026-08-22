@@ -50,7 +50,7 @@ namespace VisualEditor::Internal {
         }
 
         void load();
-        void save() const;
+        Q_INVOKABLE void save() const;
 
         enum PianoKeyboardLabelPolicy {
             LP_All,

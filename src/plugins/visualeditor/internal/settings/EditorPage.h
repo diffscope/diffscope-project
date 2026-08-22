@@ -10,8 +10,6 @@ namespace VisualEditor::Internal {
 
     class EditorPage : public Core::ISettingPage {
         Q_OBJECT
-        Q_PROPERTY(QStringList scrollModifierTexts READ scrollModifierTexts CONSTANT)
-        Q_PROPERTY(QString shiftText READ shiftText CONSTANT)
     public:
         explicit EditorPage(QObject *parent = nullptr);
         ~EditorPage() override;
@@ -22,9 +20,6 @@ namespace VisualEditor::Internal {
         void beginSetting() override;
         bool accept() override;
         void endSetting() override;
-
-        static QStringList scrollModifierTexts();
-        static QString shiftText();
 
     private:
         bool widgetMatches(const QString &word);

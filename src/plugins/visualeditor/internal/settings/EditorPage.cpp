@@ -3,7 +3,6 @@
 
 #include "EditorPage.h"
 
-#include <QApplication>
 #include <QLoggingCategory>
 #include <QQmlComponent>
 
@@ -130,18 +129,6 @@ namespace VisualEditor::Internal {
         qCInfo(lcEditorPage) << "Ending setting";
         m_widget->setProperty("started", false);
         Core::ISettingPage::endSetting();
-    }
-
-    QStringList EditorPage::scrollModifierTexts() {
-        return {
-            QKeySequence(Qt::ControlModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
-            QKeySequence(Qt::AltModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
-            QKeySequence(Qt::ShiftModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
-        };
-    }
-
-    QString EditorPage::shiftText() {
-        return QKeySequence(Qt::Key_Shift).toString(QKeySequence::NativeText);
     }
 
     bool EditorPage::widgetMatches(const QString &word) {

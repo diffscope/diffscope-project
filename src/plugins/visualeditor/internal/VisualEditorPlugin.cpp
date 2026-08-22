@@ -3,6 +3,7 @@
 
 #include "VisualEditorPlugin.h"
 
+#include <QQmlComponent>
 #include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
@@ -47,6 +48,7 @@ namespace VisualEditor::Internal {
         initializeEditorPreference();
         initializeSettings();
         initializeWindows();
+        initializeHelpContents();
 
         return true;
     }
@@ -80,5 +82,13 @@ namespace VisualEditor::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ArrangementAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MixerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AdditionalTrackAddOn>();
+    }
+
+    void VisualEditorPlugin::initializeHelpContents() {
+        auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "MoveAndZoomWelcomeWizardPage", this);
+        if (component->isError()) {
+            qFatal() << component->errorString();
+        }
+        Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
     }
 }

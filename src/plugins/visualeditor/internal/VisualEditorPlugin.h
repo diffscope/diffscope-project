@@ -24,6 +24,7 @@ namespace VisualEditor::Internal {
         void initializeEditorPreference();
         void initializeSettings();
         void initializeWindows();
+        void initializeHelpContents();
     };
 
 }

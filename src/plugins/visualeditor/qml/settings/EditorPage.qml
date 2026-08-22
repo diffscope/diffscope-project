@@ -81,7 +81,7 @@ ScrollView {
                         Layout.fillWidth: true
                     }
                     ComboBox {
-                        model: page.pageHandle.scrollModifierTexts
+                        model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.alternateAxisModifier
                         onActivated: (index) => page.alternateAxisModifier = index
                     }
@@ -94,7 +94,7 @@ ScrollView {
                         Layout.fillWidth: true
                     }
                     ComboBox {
-                        model: page.pageHandle.scrollModifierTexts
+                        model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.zoomModifier
                         onActivated: (index) => page.zoomModifier = index
                     }
@@ -117,7 +117,7 @@ ScrollView {
                         Layout.fillWidth: true
                     }
                     ComboBox {
-                        model: page.pageHandle.scrollModifierTexts
+                        model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.pageModifier
                         onActivated: (index) => page.pageModifier = index
                     }
@@ -176,7 +176,7 @@ ScrollView {
                     }
 
                     CheckBox {
-                        text: qsTr("Temporarily disable snap when pressing %1").arg(page.pageHandle.shiftText)
+                        text: qsTr("Temporarily disable snap when pressing %1").arg(EditorInteractionHelper.shiftText)
                         Layout.columnSpan: 2
                         checked: page.enableTemporarySnapOff
                         onClicked: page.enableTemporarySnapOff = checked
