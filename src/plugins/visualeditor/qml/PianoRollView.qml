@@ -600,7 +600,7 @@ Item {
                                     padding: 2
                                     icon.source: "image://fluent-system-icons/edit"
                                     highlighted: view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === trackRow.modelData.display.track
-                                    enabled: (trackRow.modelData.display.track?.clips.size ?? 0) > 0
+                                    enabled: (trackRow.modelData.display.track?.clips.singingClipCount ?? 0) > 0
                                     onClicked: () => {
                                         // TODO consider playback position
                                         let clip = trackRow.modelData.display.track.clips.firstItem
