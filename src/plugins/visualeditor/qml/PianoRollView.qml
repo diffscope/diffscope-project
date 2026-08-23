@@ -892,8 +892,15 @@ Item {
                                 z: 2
                                 clip: true
 
+                                ClavierManipulator {
+                                    id: pitchClavierManipulator
+                                    clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
+                                    target: pitchEditorViewport
+                                }
                                 ParameterEditor {
                                     id: pitchEditor
+                                    verticalManipulator: pitchClavierManipulator
+                                    verticalViewport: pitchEditorViewport
                                     readonly property ParameterViewModelBinding binding:
                                         view.projectViewModelContext?.parameterEditorContext.pitchBinding ?? null
                                     readonly property real keyHeight:
