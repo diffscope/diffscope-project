@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: LGPL-3.0-or-later
+-->
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.effectsunitmanager</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
+        <translationContext
+                text="Application::ActionText"
+                class="Application::ActionClass"
+                description="Application::ActionDescription"
+        />
+    </configuration>
+
+    <items>
+        <action
+                id="org.diffscope.effectsunitmanager.panel.effects"
+                text="Effects (Experimental)"
+                icon="math_formula"
+                catalog="org.diffscope.core.workspacePanelWidgets"
+                diffscope:uniquePanel="true"
+                diffscope:componentType="custom"
+        />
+    </items>
+
+    <layouts>
+    </layouts>
+
+    <insertions>
+    </insertions>
+</actionExtension>
