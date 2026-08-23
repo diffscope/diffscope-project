@@ -22,12 +22,16 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(QStringList scrollModifierTexts READ scrollModifierTexts CONSTANT)
         Q_PROPERTY(QString shiftText READ shiftText CONSTANT)
     public:
-        static EditorInteractionHelper *create(QQmlEngine *, QJSEngine *);
+        explicit EditorInteractionHelper(QObject *parent = nullptr);
+        ~EditorInteractionHelper() override;
 
-        QStringList scrollModifierTexts() const;
-        QString shiftText() const;
+        static inline EditorInteractionHelper *create(QQmlEngine *, QJSEngine *) {
+            return new EditorInteractionHelper;
+        }
 
-        Q_INVOKABLE QVariantList scrollBehaviorHints(int alternateAxisModifier, int zoomModifier, int pageModifier, bool usePageModifierAsAlternateAxisZoom, bool middleButtonAutoScroll) const;
+        static QStringList scrollModifierTexts();
+        static QString shiftText();
+        Q_INVOKABLE static QVariantList scrollBehaviorHints(int alternateAxisModifier, int zoomModifier, int pageModifier, bool usePageModifierAsAlternateAxisZoom, bool middleButtonAutoScroll);
     };
 
 }

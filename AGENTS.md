@@ -40,6 +40,10 @@ Do not build parallel service, action, theming, document, or audio frameworks.
 
 Unless explicitly requested, do not account for compatibility with existing persisted data or interchange data formats. When changing such data or formats, do not update their header metadata or version numbers.
 
+## Feature Replacement Hygiene
+
+When asked to modify a feature, treat the requested result as the only current behavior. Unless the user explicitly requests otherwise, do not leave any remnants of the old behavior in code, comments, or documentation. Remove obsolete implementations, branches, APIs, settings, names, examples, compatibility paths, migration notes, comparisons, historical context, and explanations of why the feature was changed.
+
 ## Header Publication and Include Paths
 
 CMake's `ck_sync_include` publishes headers into the build include tree and deliberately hides most source-directory nesting. Include the published path, never `src/...` or a relative path across directories:

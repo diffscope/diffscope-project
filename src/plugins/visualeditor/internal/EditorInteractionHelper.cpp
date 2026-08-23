@@ -10,11 +10,13 @@
 
 namespace VisualEditor::Internal {
 
-    EditorInteractionHelper *EditorInteractionHelper::create(QQmlEngine *, QJSEngine *) {
-        return new EditorInteractionHelper;
+    EditorInteractionHelper::EditorInteractionHelper(QObject *parent) : QObject(parent) {
     }
 
-    QStringList EditorInteractionHelper::scrollModifierTexts() const {
+    EditorInteractionHelper::~EditorInteractionHelper() {
+    }
+
+    QStringList EditorInteractionHelper::scrollModifierTexts() {
         return {
             QKeySequence(Qt::ControlModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
             QKeySequence(Qt::AltModifier).toString(QKeySequence::NativeText) + tr("Scroll"),
@@ -22,11 +24,11 @@ namespace VisualEditor::Internal {
         };
     }
 
-    QString EditorInteractionHelper::shiftText() const {
+    QString EditorInteractionHelper::shiftText() {
         return QKeySequence(Qt::Key_Shift).toString(QKeySequence::NativeText);
     }
 
-    QVariantList EditorInteractionHelper::scrollBehaviorHints(int alternateAxisModifier, int zoomModifier, int pageModifier, bool usePageModifierAsAlternateAxisZoom, bool middleButtonAutoScroll) const {
+    QVariantList EditorInteractionHelper::scrollBehaviorHints(int alternateAxisModifier, int zoomModifier, int pageModifier, bool usePageModifierAsAlternateAxisZoom, bool middleButtonAutoScroll) {
         static const Qt::KeyboardModifier scrollModifierValues[] = {Qt::ControlModifier, Qt::AltModifier, Qt::ShiftModifier};
         auto modifierValue = [](int scrollModifier) {
             return scrollModifierValues[qBound(0, scrollModifier, 2)];
