@@ -3,6 +3,8 @@
 
 #include "AudioClipAddOn.h"
 
+#include <memory>
+
 #include <QDir>
 #include <QEventLoop>
 #include <QFileInfo>
@@ -43,6 +45,7 @@
 #include <transactional/TransactionController.h>
 
 #include <audio/GlobalAudioContext.h>
+#include <audio/PreviewSoundPlayer.h>
 #include <audio/internal/HashHelper.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 
@@ -218,7 +221,7 @@ namespace Audio::Internal {
         QString fileName;
         QVariant userData;
         QString entryClassName;
-        auto io = openAudioFile(&fileName, &userData, &entryClassName);
+        std::unique_ptr<talcs::AbstractAudioFormatIO> io(openAudioFile(&fileName, &userData, &entryClassName));
         if (!io) {
             return;
         }
@@ -230,20 +233,20 @@ namespace Audio::Internal {
         }
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "InsertAudioClipDialog");
+        QScopedPointer<PreviewSoundPlayer, QScopedPointerDeleteLater> player(new PreviewSoundPlayer(io.get(), false, nullptr));
         QVariantMap properties;
         properties.insert("trackList", QVariant::fromValue(trackList));
         properties.insert("selectedTrack", QVariant::fromValue(selectedTrack));
         properties.insert("timeline", QVariant::fromValue(windowInterface->projectTimeline()->musicTimeline()));
         properties.insert("clipPosition", windowInterface->projectTimeline()->position());
         properties.insert("clipName", fileInfo.completeBaseName());
+        properties.insert("player", QVariant::fromValue(player.get()));
         auto quickWindow = qobject_cast<QQuickWindow *>(windowInterface->window());
         if (!quickWindow) {
-            delete io;
             return;
         }
         auto dialog = createAndPositionDialog(quickWindow, &component, properties);
         if (!execDialog(dialog)) {
-            delete io;
             return;
         }
 
@@ -253,6 +256,8 @@ namespace Audio::Internal {
         }
         const auto clipPosition = qMax(0, dialog->property("clipPosition").toInt());
         const auto clipName = dialog->property("clipName").toString();
+
+        player.reset();
 
         auto timeline = windowInterface->projectTimeline()->musicTimeline();
         io->open(talcs::AbstractAudioFormatIO::Read);
@@ -267,9 +272,8 @@ namespace Audio::Internal {
 
         auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
         dspx::AudioClip *newClip = nullptr;
-        bool success = false;
         bool cacheTransferred = false;
-        document->transactionController()->beginScopedTransaction(tr("Inserting audio clip"), [=, &newClip, &success, &cacheTransferred] {
+        document->transactionController()->beginScopedTransaction(tr("Inserting audio clip"), [=, &io, &newClip, &cacheTransferred] {
             newClip = model->createAudioClip();
             newClip->setName(clipName);
             newClip->setPath(path);
@@ -278,34 +282,23 @@ namespace Audio::Internal {
             newClip->setPosition(clipPosition);
             newClip->setGain(1);
             if (projectAudioAddOn) {
-                projectAudioAddOn->addAudioClipCache(newClip, io);
+                projectAudioAddOn->addAudioClipCache(newClip, io.release());
                 cacheTransferred = true;
             }
             auto clipSequence = selectedTrack->clips();
             if (!clipSequence || !clipSequence->insertItem(newClip)) {
                 if (projectAudioAddOn && cacheTransferred) {
-                    delete projectAudioAddOn->takeAudioClipCache(newClip);
+                    io.reset(projectAudioAddOn->takeAudioClipCache(newClip));
                     cacheTransferred = false;
                 }
                 model->destroyItem(newClip);
                 newClip = nullptr;
                 return false;
             }
-            success = true;
             return true;
         }, [] {
             qCCritical(lcAudioClipAddOn) << "Failed to insert audio clip in exclusive transaction";
         });
-
-        if (!success) {
-            if (!cacheTransferred) {
-                delete io;
-            }
-            return;
-        }
-        if (!cacheTransferred) {
-            delete io;
-        }
 
         if (newClip) {
             document->selectionModel()->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
@@ -372,7 +365,7 @@ namespace Audio::Internal {
         QString fileName;
         QVariant userData;
         QString entryClassName;
-        auto io = openAudioFile(&fileName, &userData, &entryClassName);
+        std::unique_ptr<talcs::AbstractAudioFormatIO> io(openAudioFile(&fileName, &userData, &entryClassName));
         if (!io) {
             return;
         }
@@ -380,21 +373,15 @@ namespace Audio::Internal {
         const auto path = audioPathFromFile(fileName, userData, entryClassName);
         io->open(talcs::AbstractAudioFormatIO::Read);
         auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
-        bool cacheTransferred = false;
-        document->transactionController()->beginScopedTransaction(tr("Replacing audio clip"), [=, &cacheTransferred] {
+        document->transactionController()->beginScopedTransaction(tr("Replacing audio clip"), [=, &io] {
             if (projectAudioAddOn) {
-                projectAudioAddOn->addAudioClipCache(clip, io);
-                cacheTransferred = true;
+                projectAudioAddOn->addAudioClipCache(clip, io.release());
             }
             clip->setPath(path);
             return true;
         }, [] {
             qCCritical(lcAudioClipAddOn) << "Failed to replace audio clip in exclusive transaction";
         });
-
-        if (!cacheTransferred) {
-            delete io;
-        }
     }
 
 }

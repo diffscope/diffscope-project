@@ -21,6 +21,17 @@ Dialog {
     property MusicTimeline timeline
     property int clipPosition
     property string clipName
+    property QtObject player
+
+    readonly property string currentTimeText: player ? formatTime(player.positionSecond) : "0:00"
+    readonly property string totalTimeText: player ? formatTime(player.lengthSecond) : "0:00"
+
+    function formatTime(seconds) {
+        const totalSeconds = Math.max(0, Math.floor(seconds))
+        const minutes = Math.floor(totalSeconds / 60)
+        const secs = totalSeconds % 60
+        return `${minutes}:${String(secs).padStart(2, '0')}`
+    }
 
     title: qsTr("Insert Audio Clip")
 
@@ -76,6 +87,36 @@ Dialog {
             Layout.fillWidth: true
             text: dialog.clipName
             onTextEdited: dialog.clipName = text
+        }
+
+        RowLayout {
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            spacing: 8
+            enabled: dialog.player
+
+            ToolButton {
+                id: playButton
+                checkable: true
+                checked: dialog.player?.playing ?? false
+                onClicked: if (dialog.player) dialog.player.playing = checked
+                text: playButton.checked ? qsTr("Pause") : qsTr("Play")
+                Accessible.name: text
+                icon.source: playButton.checked ? "image://fluent-system-icons/pause" : "image://fluent-system-icons/play"
+                display: AbstractButton.IconOnly
+            }
+
+            Slider {
+                Layout.fillWidth: true
+                from: 0
+                to: Math.max(1, dialog.player?.lengthSecond ?? 1)
+                value: dialog.player?.positionSecond ?? 0
+                onMoved: if (dialog.player) dialog.player.positionSecond = value
+            }
+
+            Label {
+                text: qsTr("%1 / %2").arg(dialog.currentTimeText).arg(dialog.totalTimeText)
+            }
         }
     }
 

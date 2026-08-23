@@ -20,7 +20,7 @@ namespace Core {
 
 namespace Audio {
     class AudioExporter;
-    class PreviewSoundPlayer;
+    class SimplePreviewSoundPlayer;
 }
 
 namespace Audio::Internal {
@@ -115,7 +115,7 @@ namespace Audio::Internal {
         AudioExporterParameter m_currentParameter;
         AudioExporterConfig m_simpleConfig;
         Core::NotificationMessage *m_exportCompletedMessage{};
-        PreviewSoundPlayer *m_completedSound{};
+        SimplePreviewSoundPlayer *m_completedSound{};
     };
 
 }

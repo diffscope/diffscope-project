@@ -45,7 +45,7 @@
 #include <audio/AudioExporter.h>
 #include <audio/AudioExporterConfig.h>
 #include <audio/GlobalAudioContext.h>
-#include <audio/PreviewSoundPlayer.h>
+#include <audio/SimplePreviewSoundPlayer.h>
 #include <audio/internal/AudioExporterPresets.h>
 #include <audio/internal/AudioPreference.h>
 #include <audio/private/AudioExporter_p.h>
@@ -126,7 +126,7 @@ namespace Audio::Internal {
 
         auto io = GlobalAudioContext::formatManager()->getFormatLoad(":/diffscope/audio/soundfx/export_completed.ogg");
         Q_ASSERT(io);
-        m_completedSound = new PreviewSoundPlayer(io, this);
+        m_completedSound = new SimplePreviewSoundPlayer(io, true, this);
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "ExportAudioAddOnActions");
         if (component.isError()) {

@@ -8,28 +8,34 @@
 
 #include <memory>
 
-namespace talcs {
-    class AudioFormatInputSource;
-}
+#include <TalcsCore/TakeOwnershipPointer.h>
+
+class QTimer;
 
 namespace Audio {
 
-    class PreviewSoundFinishedFilter;
+    class PreviewSoundEndFilter;
+    class PreviewSoundSource;
 
     class PreviewSoundPlayerPrivate {
         Q_DECLARE_PUBLIC(PreviewSoundPlayer)
     public:
-        explicit PreviewSoundPlayerPrivate(talcs::AbstractAudioFormatIO *audioFormatIo);
-        ~PreviewSoundPlayerPrivate();
+        explicit PreviewSoundPlayerPrivate(talcs::AbstractAudioFormatIO *audioFormatIo, bool takeOwnership);
 
-        void destroySource(talcs::AudioFormatInputSource *expectedSource = nullptr);
-        void finish(talcs::AudioFormatInputSource *source, quint64 serial);
+        void start();
+        void pause();
+        void handleFinished(quint64 serial);
+        void syncPositionFromSource();
 
         PreviewSoundPlayer *q_ptr{};
-        std::unique_ptr<talcs::AbstractAudioFormatIO> audioFormatIo;
-        std::unique_ptr<PreviewSoundFinishedFilter> finishedFilter;
-        std::unique_ptr<talcs::AudioFormatInputSource> source;
+        talcs::TakeOwnershipPointer<talcs::AbstractAudioFormatIO> audioFormatIo;
+        std::unique_ptr<PreviewSoundSource> source;
+        std::unique_ptr<PreviewSoundEndFilter> endFilter;
+        QTimer *positionTimer{};
         quint64 serial{};
+        bool playing{};
+        double positionSecond{};
+        double lengthSecond{};
     };
 
 }
