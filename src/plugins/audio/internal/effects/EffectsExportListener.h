@@ -22,12 +22,17 @@ namespace Audio::Internal {
         void willFinishCallback(AudioExporter *exporter) override;
 
     private:
+        struct ExportState {
+            QPointer<EffectsAddOn> addOn;
+            bool bypassed{};
+        };
+
         EffectsExportListener();
 
-        static bool setBypassActive(const QPointer<EffectsAddOn> &addOn, bool active);
+        static bool updateEffectsForExport(const QPointer<EffectsAddOn> &addOn, bool starting, bool bypassed);
 
         QMutex m_mutex;
-        QHash<AudioExporter *, QPointer<EffectsAddOn>> m_bypassedAddOns;
+        QHash<AudioExporter *, ExportState> m_exportStates;
     };
 
 }

@@ -22,44 +22,47 @@ namespace Audio::Internal {
     }
 
     bool EffectsExportListener::willStartCallback(AudioExporter *exporter) {
-        if (!exporter || exporter->config().isEffectsEnabled()) {
+        if (!exporter) {
             return true;
         }
         QPointer<EffectsAddOn> addOn = EffectsAddOn::of(exporter->windowHandle());
         if (!addOn) {
             return true;
         }
-        if (!setBypassActive(addOn, true)) {
+        const bool bypassed = !exporter->config().isEffectsEnabled();
+        if (!updateEffectsForExport(addOn, true, bypassed)) {
             return false;
         }
         QMutexLocker locker(&m_mutex);
-        m_bypassedAddOns.insert(exporter, addOn);
+        m_exportStates.insert(exporter, {addOn, bypassed});
         return true;
     }
 
     void EffectsExportListener::willFinishCallback(AudioExporter *exporter) {
-        QPointer<EffectsAddOn> addOn;
+        ExportState state;
         {
             QMutexLocker locker(&m_mutex);
-            addOn = m_bypassedAddOns.take(exporter);
+            state = m_exportStates.take(exporter);
         }
-        if (addOn) {
-            setBypassActive(addOn, false);
+        if (state.addOn) {
+            updateEffectsForExport(state.addOn, false, state.bypassed);
         }
     }
 
-    bool EffectsExportListener::setBypassActive(const QPointer<EffectsAddOn> &addOn, bool active) {
+    bool EffectsExportListener::updateEffectsForExport(const QPointer<EffectsAddOn> &addOn, bool starting, bool bypassed) {
         if (!addOn) {
             return false;
         }
-        const auto apply = [addOn, active] {
+        const auto apply = [addOn, starting, bypassed] {
             if (!addOn) {
                 return;
             }
-            if (active) {
-                addOn->beginEffectsBypass();
-            } else {
+            if (!starting && bypassed) {
                 addOn->endEffectsBypass();
+            }
+            addOn->refreshAllEffects();
+            if (starting && bypassed) {
+                addOn->beginEffectsBypass();
             }
         };
         if (QThread::currentThread() == addOn->thread()) {
