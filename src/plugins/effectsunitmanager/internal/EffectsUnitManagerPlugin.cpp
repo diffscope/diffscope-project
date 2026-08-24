@@ -10,6 +10,7 @@
 
 #include <effectsunitmanager/EffectsUnitCollection.h>
 #include <effectsunitmanager/internal/EffectsPanelAddOn.h>
+#include <effectsunitmanager/internal/EffectsPresets.h>
 
 static auto effectsUnitManagerActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(effectsunitmanager);
@@ -23,6 +24,8 @@ namespace EffectsUnitManager::Internal {
 
     bool EffectsUnitManagerPlugin::initialize(const QStringList &, QString *) {
         new EffectsUnitCollection(this);
+        auto presets = new EffectsPresets(this);
+        presets->load();
         Core::CoreInterface::actionRegistry()->addExtension(::effectsUnitManagerActionExtension());
         Core::ProjectWindowInterfaceRegistry::instance()->attach<EffectsPanelAddOn>();
         return true;

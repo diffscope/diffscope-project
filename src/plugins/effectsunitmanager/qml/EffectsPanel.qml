@@ -49,6 +49,13 @@ QtObject {
                 enabled: (root.addOn?.hasEffectsContext ?? false) && (root.addOn?.availableEffects.length ?? 0) > 0
                 action: addAction
             }
+            ToolButton {
+                id: presetButton
+                text: qsTr("Effect Presets")
+                display: AbstractButton.IconOnly
+                icon.source: "image://fluent-system-icons/panel_left_text"
+                onClicked: root.addOn.openPresetDialog()
+            }
         }
 
         TabBar {
@@ -139,13 +146,24 @@ QtObject {
                 bottomMargin: 8
                 model: root.addOn?.effectsModel ?? null
 
-                Button {
+                RowLayout {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.margins: 8
                     visible: effectsList.count === 0
-                    action: addAction
+                    spacing: 8
+
+                    Button {
+                        Layout.fillWidth: true
+                        action: addAction
+                    }
+                    Button {
+                        Layout.fillWidth: true
+                        text: qsTr("Effect Presets")
+                        icon.source: "image://fluent-system-icons/panel_left_text"
+                        onClicked: root.addOn.openPresetDialog()
+                    }
                 }
 
                 delegate: Item {

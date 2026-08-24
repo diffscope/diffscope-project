@@ -195,6 +195,10 @@ namespace EffectsUnitManager::Internal {
         return m_readingFilterConflict;
     }
 
+    dspx::AudioDSPList *EffectsContext::audioDSPList() const {
+        return m_audioDSPList;
+    }
+
     int EffectsContext::rowCount(const QModelIndex &parent) const {
         return parent.isValid() ? 0 : static_cast<int>(m_entries.size());
     }

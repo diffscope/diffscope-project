@@ -52,6 +52,7 @@ namespace EffectsUnitManager::Internal {
         ~EffectsContext() override;
 
         bool readingFilterConflict() const;
+        dspx::AudioDSPList *audioDSPList() const;
 
         int rowCount(const QModelIndex &parent = {}) const override;
         QVariant data(const QModelIndex &index, int role) const override;

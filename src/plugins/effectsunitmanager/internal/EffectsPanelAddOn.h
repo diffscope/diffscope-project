@@ -7,6 +7,7 @@
 #include <QHash>
 #include <QMetaObject>
 #include <QPointer>
+#include <QStringList>
 #include <QVariantList>
 
 #include <CoreApi/windowinterface.h>
@@ -33,6 +34,7 @@ namespace EffectsUnitManager::Internal {
         Q_PROPERTY(bool readingFilterConflict READ readingFilterConflict NOTIFY selectionContextChanged)
         Q_PROPERTY(QString readingFilterConflictMessage READ readingFilterConflictMessage NOTIFY selectionContextChanged)
         Q_PROPERTY(QVariantList availableEffects READ availableEffects NOTIFY availableEffectsChanged)
+        Q_PROPERTY(QStringList presetNames READ presetNames NOTIFY presetsChanged)
 
     public:
         enum Tab {
@@ -65,10 +67,18 @@ namespace EffectsUnitManager::Internal {
         Q_INVOKABLE bool moveEffect(int row, int offset);
         Q_INVOKABLE bool resetEffect(int row);
         Q_INVOKABLE void setExpanded(int row, bool expanded);
+        QStringList presetNames() const;
+        Q_INVOKABLE bool savePreset(const QString &name);
+        Q_INVOKABLE bool applyPreset(const QString &name);
+        Q_INVOKABLE bool deletePreset(const QString &name);
+        Q_INVOKABLE bool hasPreset(const QString &name);
+        Q_INVOKABLE int presetIndex(const QString &name);
+        Q_INVOKABLE void openPresetDialog();
 
     Q_SIGNALS:
         void selectionContextChanged();
         void availableEffectsChanged();
+        void presetsChanged();
 
     private:
         EffectsContext *activeContext() const;

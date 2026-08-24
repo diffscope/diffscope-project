@@ -10,6 +10,8 @@
 #include <QCollator>
 #include <QLoggingCategory>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QQuickWindow>
 #include <QSet>
 #include <QVariant>
 
@@ -19,6 +21,8 @@
 
 #include <dspxmodelORM/AnchorNode.h>
 #include <dspxmodelORM/AnchorNodeSequence.h>
+#include <dspxmodelORM/AudioDSP.h>
+#include <dspxmodelORM/AudioDSPList.h>
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/DynamicMixingAnchor.h>
@@ -39,6 +43,8 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
+#include <transactional/TransactionController.h>
+
 #include <audio/ProjectAudioContext.h>
 #include <audio/TrackAudioContext.h>
 
@@ -49,6 +55,7 @@
 #include <effectsunitmanager/EffectsUnitClass.h>
 #include <effectsunitmanager/EffectsUnitCollection.h>
 #include <effectsunitmanager/internal/EffectsContext.h>
+#include <effectsunitmanager/internal/EffectsPresets.h>
 
 namespace EffectsUnitManager::Internal {
 
@@ -130,6 +137,10 @@ namespace EffectsUnitManager::Internal {
         connect(collection, &EffectsUnitCollection::effectsUnitIdsChanged,
                 this, &EffectsPanelAddOn::refreshAvailableEffects);
         refreshAvailableEffects();
+
+        connect(EffectsPresets::instance(), &EffectsPresets::presetsChanged,
+                this, &EffectsPanelAddOn::presetsChanged);
+
         refreshSelection();
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(),
@@ -235,6 +246,80 @@ namespace EffectsUnitManager::Internal {
         if (auto context = activeContext()) {
             context->setExpanded(row, expanded);
         }
+    }
+
+    QStringList EffectsPanelAddOn::presetNames() const {
+        return EffectsPresets::instance()->presetNames();
+    }
+
+    bool EffectsPanelAddOn::savePreset(const QString &name) {
+        auto context = activeContext();
+        if (!context) {
+            return false;
+        }
+        return EffectsPresets::instance()->savePreset(name, context->audioDSPList()->toOpenDSPX());
+    }
+
+    bool EffectsPanelAddOn::applyPreset(const QString &name) {
+        auto context = activeContext();
+        if (!context) {
+            return false;
+        }
+        const auto array = EffectsPresets::instance()->presetAudioDSPs(name);
+        auto document = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document();
+        bool applied = false;
+        const bool transactionStarted = document->transactionController()->beginScopedTransaction(
+            tr("Applying effect preset"), [context, array, &applied] {
+                const auto oldItems = context->audioDSPList()->items();
+                context->audioDSPList()->fromOpenDSPX(array);
+                for (auto *oldItem : oldItems) {
+                    oldItem->model()->destroyItem(oldItem);
+                }
+                applied = true;
+                return true;
+            });
+        return transactionStarted && applied;
+    }
+
+    bool EffectsPanelAddOn::deletePreset(const QString &name) {
+        return EffectsPresets::instance()->removePreset(name);
+    }
+
+    bool EffectsPanelAddOn::hasPreset(const QString &name) {
+        return EffectsPresets::instance()->hasPreset(name);
+    }
+
+    int EffectsPanelAddOn::presetIndex(const QString &name) {
+        return EffectsPresets::instance()->presetNames().indexOf(name);
+    }
+
+    void EffectsPanelAddOn::openPresetDialog() {
+        auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto quickWindow = qobject_cast<QQuickWindow *>(window->window());
+        if (!quickWindow) {
+            return;
+        }
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(),
+                                QStringLiteral("DiffScope.EffectsUnitManager"),
+                                QStringLiteral("EffectsPresetDialog"), this);
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        QVariantMap properties{{QStringLiteral("addOn"), QVariant::fromValue(this)}};
+        properties.insert(QStringLiteral("parent"), QVariant::fromValue(quickWindow->contentItem()));
+        auto object = component.createWithInitialProperties(properties);
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        const auto width = object->property("width").toDouble();
+        const auto height = object->property("height").toDouble();
+        object->setProperty("x", quickWindow->width() / 2.0 - width / 2);
+        if (auto popupTopMarginHint = quickWindow->property("popupTopMarginHint"); popupTopMarginHint.isValid()) {
+            object->setProperty("y", popupTopMarginHint);
+        } else {
+            object->setProperty("y", quickWindow->height() / 2.0 - height / 2);
+        }
+        QMetaObject::invokeMethod(object, "open");
     }
 
     EffectsContext *EffectsPanelAddOn::activeContext() const {
