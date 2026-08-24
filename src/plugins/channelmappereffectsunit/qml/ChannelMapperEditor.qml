@@ -9,6 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.ChannelMapperEffectsUnit
+import DiffScope.EffectsUnitManager
 
 ColumnLayout {
     id: editor
@@ -17,237 +18,125 @@ ColumnLayout {
 
     spacing: 8
 
-    GroupBox {
-        id: leftGroupBox
-        title: qsTr("Left")
+    function linearPosition(value, minimum, maximum) {
+        return (value - minimum) / (maximum - minimum)
+    }
+
+    function linearValue(position, minimum, maximum) {
+        return minimum + position * (maximum - minimum)
+    }
+
+    RowLayout {
         Layout.fillWidth: true
-        GridLayout {
-            anchors.fill: parent
-            columns: 4
-            columnSpacing: 8
-            rowSpacing: 8
+        spacing: 8
 
-            Label {
-                id: leftFromLeftLabel
-                text: qsTr("Left")
-            }
-            Slider {
-                id: leftFromLeftSlider
-                Layout.fillWidth: true
-                from: -100
-                to: 100
-                value: editor.effectsUnit?.leftLeftMixPercent ?? 0
-                ThemedItem.doubleClickResetValue: 100
-                Accessible.labelledBy: leftFromLeftLabel
-                onMoved: {
-                    editor.effectsUnit.previewLeftLeftMixPercent(value)
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                onPressedChanged: {
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                ThemedItem.onDoubleClickReset: {
-                    editor.effectsUnit.previewLeftLeftMixPercent(100)
-                    editor.effectsUnit.commitPreview()
-                }
-            }
-            SpinBox {
-                id: leftFromLeftSpinBox
-                property int decimals: 1
-                readonly property int decimalFactor: 10
-                from: -100 * decimalFactor
-                to: 100 * decimalFactor
-                value: Math.round((editor.effectsUnit?.leftLeftMixPercent ?? 0) * decimalFactor)
-                editable: true
-                Accessible.labelledBy: leftFromLeftLabel
-                validator: DoubleValidator {
-                    bottom: -100
-                    top: 100
-                    decimals: leftFromLeftSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: editor.effectsUnit.setLeftLeftMixPercent(value / decimalFactor)
-            }
-            Label {
-                text: qsTr("%")
-            }
-
-            Label {
-                id: leftFromRightLabel
-                text: qsTr("Right")
-            }
-            Slider {
-                id: leftFromRightSlider
-                Layout.fillWidth: true
-                from: -100
-                to: 100
-                value: editor.effectsUnit?.leftRightMixPercent ?? 0
-                Accessible.labelledBy: leftFromRightLabel
-                onMoved: {
-                    editor.effectsUnit.previewLeftRightMixPercent(value)
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                onPressedChanged: {
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                ThemedItem.onDoubleClickReset: {
-                    editor.effectsUnit.previewLeftRightMixPercent(0)
-                    editor.effectsUnit.commitPreview()
-                }
-            }
-            SpinBox {
-                id: leftFromRightSpinBox
-                property int decimals: 1
-                readonly property int decimalFactor: 10
-                from: -100 * decimalFactor
-                to: 100 * decimalFactor
-                value: Math.round((editor.effectsUnit?.leftRightMixPercent ?? 0) * decimalFactor)
-                editable: true
-                Accessible.labelledBy: leftFromRightLabel
-                validator: DoubleValidator {
-                    bottom: -100
-                    top: 100
-                    decimals: leftFromRightSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: editor.effectsUnit.setLeftRightMixPercent(value / decimalFactor)
-            }
-            Label {
-                text: qsTr("%")
-            }
+        ChannelHeader {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            Layout.preferredWidth: 1
+            label: qsTr("Left")
+        }
+        ChannelHeader {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            Layout.preferredWidth: 1
+            label: qsTr("Right")
         }
     }
 
-    GroupBox {
-        id: rightGroupBox
-        title: qsTr("Right")
+    GridLayout {
         Layout.fillWidth: true
-        GridLayout {
-            anchors.fill: parent
-            columns: 4
-            columnSpacing: 8
-            rowSpacing: 8
+        columns: 4
+        columnSpacing: 8
 
-            Label {
-                id: rightFromLeftLabel
-                text: qsTr("Left")
-            }
-            Slider {
-                id: rightFromLeftSlider
-                Layout.fillWidth: true
-                from: -100
-                to: 100
-                value: editor.effectsUnit?.rightLeftMixPercent ?? 0
-                Accessible.labelledBy: rightFromLeftLabel
-                onMoved: {
-                    editor.effectsUnit.previewRightLeftMixPercent(value)
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                onPressedChanged: {
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                ThemedItem.onDoubleClickReset: {
-                    editor.effectsUnit.previewRightLeftMixPercent(0)
-                    editor.effectsUnit.commitPreview()
-                }
-            }
-            SpinBox {
-                id: rightFromLeftSpinBox
-                property int decimals: 2
-                readonly property int decimalFactor: 10
-                from: -100 * decimalFactor
-                to: 100 * decimalFactor
-                value: Math.round((editor.effectsUnit?.rightLeftMixPercent ?? 0) * decimalFactor)
-                editable: true
-                Accessible.labelledBy: rightFromLeftLabel
-                validator: DoubleValidator {
-                    bottom: -100
-                    top: 100
-                    decimals: rightFromLeftSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: editor.effectsUnit.setRightLeftMixPercent(value / decimalFactor)
-            }
-            Label {
-                text: qsTr("%")
-            }
+        EffectsParameterCell {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            label: qsTr("Left")
+            unit: qsTr("%")
+            parameterValue: editor.effectsUnit?.leftLeftMixPercent ?? 100
+            minimum: -100
+            maximum: 100
+            defaultValue: 100
+            decimals: 1
+            positionFromValue: value => editor.linearPosition(value, minimum, maximum)
+            valueFromPosition: position => editor.linearValue(position, minimum, maximum)
+            previewValue: value => editor.effectsUnit.previewLeftLeftMixPercent(value)
+            setValue: value => editor.effectsUnit.setLeftLeftMixPercent(value)
+            commitValue: () => editor.effectsUnit.commitPreview()
+        }
+        EffectsParameterCell {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            label: qsTr("Right")
+            unit: qsTr("%")
+            parameterValue: editor.effectsUnit?.leftRightMixPercent ?? 0
+            minimum: -100
+            maximum: 100
+            defaultValue: 0
+            decimals: 1
+            positionFromValue: value => editor.linearPosition(value, minimum, maximum)
+            valueFromPosition: position => editor.linearValue(position, minimum, maximum)
+            previewValue: value => editor.effectsUnit.previewLeftRightMixPercent(value)
+            setValue: value => editor.effectsUnit.setLeftRightMixPercent(value)
+            commitValue: () => editor.effectsUnit.commitPreview()
+        }
+        EffectsParameterCell {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            label: qsTr("Left")
+            unit: qsTr("%")
+            parameterValue: editor.effectsUnit?.rightLeftMixPercent ?? 0
+            minimum: -100
+            maximum: 100
+            defaultValue: 0
+            decimals: 1
+            positionFromValue: value => editor.linearPosition(value, minimum, maximum)
+            valueFromPosition: position => editor.linearValue(position, minimum, maximum)
+            previewValue: value => editor.effectsUnit.previewRightLeftMixPercent(value)
+            setValue: value => editor.effectsUnit.setRightLeftMixPercent(value)
+            commitValue: () => editor.effectsUnit.commitPreview()
+        }
+        EffectsParameterCell {
+            Layout.fillWidth: true
+            Layout.horizontalStretchFactor: 1
+            label: qsTr("Right")
+            unit: qsTr("%")
+            parameterValue: editor.effectsUnit?.rightRightMixPercent ?? 100
+            minimum: -100
+            maximum: 100
+            defaultValue: 100
+            decimals: 1
+            positionFromValue: value => editor.linearPosition(value, minimum, maximum)
+            valueFromPosition: position => editor.linearValue(position, minimum, maximum)
+            previewValue: value => editor.effectsUnit.previewRightRightMixPercent(value)
+            setValue: value => editor.effectsUnit.setRightRightMixPercent(value)
+            commitValue: () => editor.effectsUnit.commitPreview()
+        }
+    }
 
-            Label {
-                id: rightFromRightLabel
-                text: qsTr("Right")
-            }
-            Slider {
-                id: rightFromRightSlider
-                Layout.fillWidth: true
-                from: -100
-                to: 100
-                value: editor.effectsUnit?.rightRightMixPercent ?? 0
-                ThemedItem.doubleClickResetValue: 100
-                Accessible.labelledBy: rightFromRightLabel
-                onMoved: {
-                    editor.effectsUnit.previewRightRightMixPercent(value)
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                onPressedChanged: {
-                    if (!pressed)
-                        editor.effectsUnit.commitPreview()
-                }
-                ThemedItem.onDoubleClickReset: {
-                    editor.effectsUnit.previewRightRightMixPercent(100)
-                    editor.effectsUnit.commitPreview()
-                }
-            }
-            SpinBox {
-                id: rightFromRightSpinBox
-                property int decimals: 2
-                readonly property int decimalFactor: 10
-                from: -100 * decimalFactor
-                to: 100 * decimalFactor
-                value: Math.round((editor.effectsUnit?.rightRightMixPercent ?? 0) * decimalFactor)
-                editable: true
-                Accessible.labelledBy: rightFromRightLabel
-                validator: DoubleValidator {
-                    bottom: -100
-                    top: 100
-                    decimals: rightFromRightSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: editor.effectsUnit.setRightRightMixPercent(value / decimalFactor)
-            }
-            Label {
-                text: qsTr("%")
-            }
+    component ChannelHeader: RowLayout {
+        id: header
+
+        required property string label
+
+        spacing: 2
+
+        Rectangle {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Theme.foregroundSecondaryColor
+        }
+        Label {
+            Layout.alignment: Qt.AlignHCenter
+            text: header.label
+        }
+        Rectangle {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Theme.foregroundSecondaryColor
         }
     }
 }

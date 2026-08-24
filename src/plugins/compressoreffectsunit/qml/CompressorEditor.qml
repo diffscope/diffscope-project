@@ -166,37 +166,62 @@ ColumnLayout {
             }
         }
 
-        RowLayout {
-            Layout.fillHeight: true
-            LayoutMirroring.enabled: false
-            LayoutMirroring.childrenInherit: true
-            spacing: 2
+        Item {
+            id: levelMeterArea
 
-            CompressorLevelMeter {
-                Layout.fillHeight: true
-                Accessible.name: qsTr("Left Output")
-                value: editor.effectsUnit?.leftOutputLevelDb ?? -96
+            readonly property double maximumDb: 0
+            readonly property double minimumDb: -48
+            readonly property double normalizedThreshold: Math.min(Math.max(
+                ((editor.effectsUnit?.thresholdDb ?? -12) - minimumDb)
+                    / (maximumDb - minimumDb), 0), 1)
+
+            Layout.fillHeight: true
+            implicitWidth: levelMeterLayout.implicitWidth
+
+            RowLayout {
+                id: levelMeterLayout
+
+                anchors.fill: parent
+                LayoutMirroring.enabled: false
+                LayoutMirroring.childrenInherit: true
+                spacing: 2
+
+                CompressorLevelMeter {
+                    Layout.fillHeight: true
+                    Accessible.name: qsTr("Left Output")
+                    value: editor.effectsUnit?.leftOutputLevelDb ?? -96
+                }
+                CompressorLevelMeter {
+                    Layout.fillHeight: true
+                    Accessible.name: qsTr("Left Gain Reduction")
+                    from: 0
+                    reversed: true
+                    to: 48
+                    value: editor.effectsUnit?.leftGainReductionDb ?? 0
+                }
+                CompressorLevelMeter {
+                    Layout.fillHeight: true
+                    Accessible.name: qsTr("Right Gain Reduction")
+                    from: 0
+                    reversed: true
+                    to: 48
+                    value: editor.effectsUnit?.rightGainReductionDb ?? 0
+                }
+                CompressorLevelMeter {
+                    Layout.fillHeight: true
+                    Accessible.name: qsTr("Right Output")
+                    value: editor.effectsUnit?.rightOutputLevelDb ?? -96
+                }
             }
-            CompressorLevelMeter {
-                Layout.fillHeight: true
-                Accessible.name: qsTr("Left Gain Reduction")
-                from: 0
-                reversed: true
-                to: 48
-                value: editor.effectsUnit?.leftGainReductionDb ?? 0
-            }
-            CompressorLevelMeter {
-                Layout.fillHeight: true
-                Accessible.name: qsTr("Right Gain Reduction")
-                from: 0
-                reversed: true
-                to: 48
-                value: editor.effectsUnit?.rightGainReductionDb ?? 0
-            }
-            CompressorLevelMeter {
-                Layout.fillHeight: true
-                Accessible.name: qsTr("Right Output")
-                value: editor.effectsUnit?.rightOutputLevelDb ?? -96
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Theme.foregroundPrimaryColor
+                height: 1
+                y: Math.round((1 - levelMeterArea.normalizedThreshold)
+                              * (levelMeterArea.height - height))
+                z: 1
             }
         }
     }
