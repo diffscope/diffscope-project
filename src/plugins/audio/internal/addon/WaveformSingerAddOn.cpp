@@ -218,7 +218,7 @@ namespace Audio::Internal {
 
     }
 
-    class WaveformSingerAddOn::TrackBinding final : public QObject {
+    class WaveformSingerAddOn::TrackBinding : public QObject {
     public:
         TrackBinding(WaveformSingerAddOn *addOn, dspx::Track *track)
             : QObject(addOn), m_addOn(addOn), m_track(track),
@@ -255,9 +255,9 @@ namespace Audio::Internal {
         std::unique_ptr<WaveformSingerTrackAudioSource> m_series;
     };
 
-    class WaveformSingerAddOn::ClipBinding final : public QObject {
+    class WaveformSingerAddOn::ClipBinding : public QObject {
     public:
-        class NoteBinding final : public QObject {
+        class NoteBinding : public QObject {
         public:
             NoteBinding(ClipBinding *clipBinding, dspx::Note *note)
                 : QObject(clipBinding), m_clipBinding(clipBinding), m_note(note),

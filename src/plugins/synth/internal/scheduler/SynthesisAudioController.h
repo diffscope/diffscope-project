@@ -31,7 +31,7 @@ namespace Synth {
 
 namespace Synth::Internal {
 
-    class SynthesisAudioController final : public QObject {
+    class SynthesisAudioController : public QObject {
         Q_OBJECT
 
     public:

@@ -9,7 +9,7 @@
 
 namespace Synth::Internal {
 
-    class ArchitectureExtraModel final : public QAbstractListModel {
+    class ArchitectureExtraModel : public QAbstractListModel {
         Q_OBJECT
 
     public:

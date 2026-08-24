@@ -17,7 +17,7 @@ namespace Synth::Internal::Api {
 
 namespace Synth::Internal {
 
-    class MetadataRefreshController final : public QObject {
+    class MetadataRefreshController : public QObject {
         Q_OBJECT
         Q_PROPERTY(bool refreshing READ isRefreshing NOTIFY refreshingChanged)
     public:

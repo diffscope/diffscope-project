@@ -23,7 +23,7 @@ namespace Synth {
 
 namespace Synth::Internal {
 
-    class SynthesisServicePanelAddOn final : public Core::WindowInterfaceAddOn {
+    class SynthesisServicePanelAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *serviceModel READ serviceModel CONSTANT)
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)

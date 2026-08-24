@@ -188,7 +188,7 @@ namespace {
         return std::min(MaximumDelay, 250 * (1 << exponent));
     }
 
-    class NetworkWorker final : public QObject {
+    class NetworkWorker : public QObject {
     public:
         explicit NetworkWorker(QObject *parent = nullptr) : QObject(parent) {}
 

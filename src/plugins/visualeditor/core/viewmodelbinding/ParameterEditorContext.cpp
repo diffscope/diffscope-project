@@ -76,7 +76,7 @@ namespace VisualEditor {
 
     }
 
-    class AnchorParameterSelectionController final : public sflow::SelectionController {
+    class AnchorParameterSelectionController : public sflow::SelectionController {
     public:
         explicit AnchorParameterSelectionController(ParameterViewModelBindingPrivate *binding,
                                                     bool transform,

@@ -16,7 +16,7 @@
 
 namespace Audio::Internal {
 
-    class WaveformSingerNoteAudioSource final : public talcs::PositionableAudioSource {
+    class WaveformSingerNoteAudioSource : public talcs::PositionableAudioSource {
     public:
         WaveformSingerNoteAudioSource(std::shared_ptr<WaveformSingerTempoModel> tempoModel,
                                       std::shared_ptr<WaveformSingerClipModel> clipModel,
@@ -85,7 +85,7 @@ namespace Audio::Internal {
         std::size_t m_tempoSegment{};
     };
 
-    class WaveformSingerClipAudioSource final {
+    class WaveformSingerClipAudioSource {
     public:
         WaveformSingerClipAudioSource(std::shared_ptr<WaveformSingerTempoModel> tempoModel,
                                       std::shared_ptr<WaveformSingerClipModel> clipModel);
@@ -116,7 +116,7 @@ namespace Audio::Internal {
         friend class WaveformSingerTrackAudioSource;
     };
 
-    class WaveformSingerTrackAudioSource final : public talcs::AudioSourceClipSeries {
+    class WaveformSingerTrackAudioSource : public talcs::AudioSourceClipSeries {
     public:
         explicit WaveformSingerTrackAudioSource(std::shared_ptr<WaveformSingerTempoModel> tempoModel);
         ~WaveformSingerTrackAudioSource() override;

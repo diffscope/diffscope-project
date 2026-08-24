@@ -26,7 +26,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     class JsonSchemaForm;
 
-    class LibreSVIPConversionWizard final : public QDialog {
+    class LibreSVIPConversionWizard : public QDialog {
         Q_OBJECT
     public:
         enum Operation {

@@ -105,7 +105,7 @@ namespace VisualEditor {
         void operationFinished();
     };
 
-    class DynamicMixingSelectionController final : public sflow::SelectionController {
+    class DynamicMixingSelectionController : public sflow::SelectionController {
         Q_OBJECT
     public:
         explicit DynamicMixingSelectionController(DynamicMixingEditorContext *context);

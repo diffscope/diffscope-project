@@ -22,7 +22,7 @@ namespace EffectsUnitManager::Internal {
 
     class EffectsContext;
 
-    class EffectsPanelAddOn final : public Core::WindowInterfaceAddOn {
+    class EffectsPanelAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *effectsModel READ effectsModel NOTIFY selectionContextChanged)
         Q_PROPERTY(QString selectionMessage READ selectionMessage NOTIFY selectionContextChanged)

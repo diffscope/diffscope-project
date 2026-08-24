@@ -30,7 +30,7 @@ namespace EffectsUnitManager::Internal {
 
     class EffectsChainFilter;
 
-    class EffectsContext final : public QAbstractListModel {
+    class EffectsContext : public QAbstractListModel {
         Q_OBJECT
         Q_PROPERTY(bool readingFilterConflict READ readingFilterConflict CONSTANT)
 

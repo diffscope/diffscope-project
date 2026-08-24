@@ -43,7 +43,7 @@ namespace GainEffectsUnit::Internal {
 
     }
 
-    class GainProcessor final : public talcs::AudioSource {
+    class GainProcessor : public talcs::AudioSource {
     public:
         void setGains(double leftGainDb, double rightGainDb) {
             m_leftGain.store(gainFromDecibels(leftGainDb), std::memory_order_relaxed);

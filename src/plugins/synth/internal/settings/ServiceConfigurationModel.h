@@ -10,7 +10,7 @@
 
 namespace Synth::Internal {
 
-    class ServiceConfigurationModel final : public QAbstractListModel {
+    class ServiceConfigurationModel : public QAbstractListModel {
         Q_OBJECT
     public:
         enum Role {

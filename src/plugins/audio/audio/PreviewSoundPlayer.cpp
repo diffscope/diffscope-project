@@ -82,7 +82,7 @@ namespace Audio {
         double m_pendingPositionSecond{-1};
     };
 
-    class PreviewSoundEndFilter final : public talcs::AudioSource {
+    class PreviewSoundEndFilter : public talcs::AudioSource {
     public:
         PreviewSoundEndFilter(PreviewSoundPlayer *player, PreviewSoundPlayerPrivate *playerPrivate,
                           PreviewSoundSource *source, quint64 serial)

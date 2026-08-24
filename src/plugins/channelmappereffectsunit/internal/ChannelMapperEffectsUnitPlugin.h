@@ -8,7 +8,7 @@
 
 namespace ChannelMapperEffectsUnit::Internal {
 
-    class ChannelMapperEffectsUnitPlugin final : public ExtensionSystem::IPlugin {
+    class ChannelMapperEffectsUnitPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID "org.OpenVPI.DiffScope.Plugin" FILE "plugin.json")
 

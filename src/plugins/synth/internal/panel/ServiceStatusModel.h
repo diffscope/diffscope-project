@@ -23,7 +23,7 @@ namespace Synth {
 
 namespace Synth::Internal {
 
-    class ServiceStatusModel final : public QAbstractListModel {
+    class ServiceStatusModel : public QAbstractListModel {
         Q_OBJECT
     public:
         enum Role {

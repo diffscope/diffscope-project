@@ -8,7 +8,7 @@
 
 namespace GainEffectsUnit::Internal {
 
-    class GainEffectsUnitPlugin final : public ExtensionSystem::IPlugin {
+    class GainEffectsUnitPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID "org.OpenVPI.DiffScope.Plugin" FILE "plugin.json")
 

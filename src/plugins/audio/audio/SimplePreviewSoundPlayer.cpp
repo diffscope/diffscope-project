@@ -18,7 +18,7 @@
 
 namespace Audio {
 
-    class PreviewSoundFinishedFilter final : public talcs::AudioSource {
+    class PreviewSoundFinishedFilter : public talcs::AudioSource {
     public:
         PreviewSoundFinishedFilter(SimplePreviewSoundPlayer *player, SimplePreviewSoundPlayerPrivate *playerPrivate,
                                    talcs::AudioFormatInputSource *source, quint64 serial)

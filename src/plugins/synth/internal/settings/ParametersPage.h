@@ -15,7 +15,7 @@ namespace Synth::Internal {
     class ParameterConfigurationModel;
     class SynthService;
 
-    class ParametersPage final : public Core::ISettingPage {
+    class ParametersPage : public Core::ISettingPage {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *configurationModel READ configurationModel CONSTANT)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY messageChanged)

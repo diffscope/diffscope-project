@@ -25,7 +25,7 @@ namespace Synth::Internal {
     class CoreMetadataRegistry;
     class MetadataRefreshController;
 
-    class SynthService final : public QObject {
+    class SynthService : public QObject {
         Q_OBJECT
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
     public:

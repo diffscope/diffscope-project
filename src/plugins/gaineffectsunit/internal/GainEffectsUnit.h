@@ -17,7 +17,7 @@ namespace GainEffectsUnit::Internal {
 
     class GainProcessor;
 
-    class GainEffectsUnit final : public EffectsUnitManager::EffectsUnit {
+    class GainEffectsUnit : public EffectsUnitManager::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -60,7 +60,7 @@ namespace GainEffectsUnit::Internal {
         bool m_channelsLinked{true};
     };
 
-    class GainEffectsUnitClass final : public EffectsUnitManager::EffectsUnitClass {
+    class GainEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
         Q_OBJECT
 
     public:

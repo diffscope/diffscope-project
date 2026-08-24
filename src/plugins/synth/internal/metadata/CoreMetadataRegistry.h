@@ -13,7 +13,7 @@
 
 namespace Synth::Internal {
 
-    class CoreMetadataRegistry final : public QObject {
+    class CoreMetadataRegistry : public QObject {
         Q_OBJECT
 
     public:

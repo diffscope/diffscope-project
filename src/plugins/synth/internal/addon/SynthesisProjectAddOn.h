@@ -42,7 +42,7 @@ namespace Synth {
         class SynthesisExportListener;
         class SynthesisAudioController;
 
-        class SynthesisProjectAddOn final : public Core::WindowInterfaceAddOn {
+        class SynthesisProjectAddOn : public Core::WindowInterfaceAddOn {
             Q_OBJECT
             Q_PROPERTY(Synth::ProjectSynthesisContext *synthesisContext READ synthesisContext CONSTANT)
 

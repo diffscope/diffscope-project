@@ -68,7 +68,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     using SchemaFieldPtr = std::shared_ptr<SchemaField>;
 
-    class DescriptionLabel final : public QLabel {
+    class DescriptionLabel : public QLabel {
     public:
         explicit DescriptionLabel(const QString &text, QWidget *parent = nullptr) : QLabel(text, parent) {
             setContentsMargins(0, 0, 0, 1);

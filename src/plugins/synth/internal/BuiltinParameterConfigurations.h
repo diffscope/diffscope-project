@@ -10,7 +10,7 @@
 
 namespace Synth::Internal {
 
-    class BuiltinParameterConfigurations final : public QObject {
+    class BuiltinParameterConfigurations : public QObject {
         Q_OBJECT
     public:
         static QList<ParameterConfiguration> all();

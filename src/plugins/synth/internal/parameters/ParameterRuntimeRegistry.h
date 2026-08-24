@@ -17,7 +17,7 @@
 
 namespace Synth::Internal {
 
-    class ParameterRuntimeRegistry final {
+    class ParameterRuntimeRegistry {
     public:
         static ParameterRuntimeRegistry &instance();
 

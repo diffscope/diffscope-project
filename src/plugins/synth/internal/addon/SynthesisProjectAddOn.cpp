@@ -79,7 +79,7 @@ namespace Synth::Internal {
 
     using namespace ProjectInput;
 
-    class SynthesisExportListener final : public Audio::AudioExporterListener {
+    class SynthesisExportListener : public Audio::AudioExporterListener {
     public:
         static SynthesisExportListener &instance() {
             static SynthesisExportListener listener;

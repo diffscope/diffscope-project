@@ -11,7 +11,7 @@
 
 namespace Synth::Internal {
 
-    class SynthesisPage final : public Core::ISettingPage {
+    class SynthesisPage : public Core::ISettingPage {
         Q_OBJECT
         Q_PROPERTY(double paddingBase READ paddingBase WRITE setPaddingBase NOTIFY valuesChanged)
         Q_PROPERTY(double paddingAdditional READ paddingAdditional WRITE setPaddingAdditional NOTIFY valuesChanged)

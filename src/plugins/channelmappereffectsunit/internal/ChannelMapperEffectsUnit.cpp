@@ -41,7 +41,7 @@ namespace ChannelMapperEffectsUnit::Internal {
 
     }
 
-    class ChannelMapperProcessor final : public talcs::AudioSource {
+    class ChannelMapperProcessor : public talcs::AudioSource {
     public:
         void setMixCoefficients(
             double leftLeftPercent,

@@ -10,7 +10,7 @@ namespace Synth::Internal {
 
     class SynthService;
 
-    class SynthPlugin final : public ExtensionSystem::IPlugin {
+    class SynthPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID "org.OpenVPI.DiffScope.Plugin" FILE "plugin.json")
     public:

@@ -34,7 +34,7 @@ namespace EffectsUnitManager::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcEffectsContext, "diffscope.effectsunitmanager.effectscontext")
 
-    class EffectsChainFilter final : public talcs::AudioSource {
+    class EffectsChainFilter : public talcs::AudioSource {
     public:
         struct Slot {
             talcs::AudioSource *processor{};

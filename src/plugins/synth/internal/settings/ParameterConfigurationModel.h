@@ -10,7 +10,7 @@
 
 namespace Synth::Internal {
 
-    class ParameterConfigurationModel final : public QAbstractListModel {
+    class ParameterConfigurationModel : public QAbstractListModel {
         Q_OBJECT
     public:
         enum Role {

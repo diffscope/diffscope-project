@@ -13,7 +13,7 @@ namespace Synth::Internal {
     class ServiceConfigurationModel;
     class SynthService;
 
-    class ServicesPage final : public Core::ISettingPage {
+    class ServicesPage : public Core::ISettingPage {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *configurationModel READ configurationModel CONSTANT)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)

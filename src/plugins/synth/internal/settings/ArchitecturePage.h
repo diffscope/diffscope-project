@@ -12,7 +12,7 @@ namespace Synth::Internal {
 
     class ArchitectureExtraModel;
 
-    class ArchitecturePage final : public Core::ISettingPage {
+    class ArchitecturePage : public Core::ISettingPage {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *configurationModel READ configurationModel CONSTANT)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)

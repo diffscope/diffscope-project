@@ -8,7 +8,7 @@
 
 namespace EffectsUnitManager::Internal {
 
-    class EffectsUnitManagerPlugin final : public ExtensionSystem::IPlugin {
+    class EffectsUnitManagerPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT
         Q_PLUGIN_METADATA(IID "org.OpenVPI.DiffScope.Plugin" FILE "plugin.json")
 

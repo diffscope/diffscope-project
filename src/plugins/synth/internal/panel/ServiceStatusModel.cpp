@@ -21,7 +21,7 @@
 
 namespace Synth::Internal {
 
-    class ServiceTaskModel final : public QAbstractListModel {
+    class ServiceTaskModel : public QAbstractListModel {
     public:
         enum Role {
             TaskRole = Qt::UserRole + 1,

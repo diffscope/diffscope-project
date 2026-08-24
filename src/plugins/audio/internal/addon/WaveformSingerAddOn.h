@@ -25,7 +25,7 @@ namespace Audio {
 
 namespace Audio::Internal {
 
-    class WaveformSingerAddOn final : public Core::WindowInterfaceAddOn {
+    class WaveformSingerAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
 
     public:

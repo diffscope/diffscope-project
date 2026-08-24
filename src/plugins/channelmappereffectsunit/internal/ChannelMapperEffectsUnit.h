@@ -17,7 +17,7 @@ namespace ChannelMapperEffectsUnit::Internal {
 
     class ChannelMapperProcessor;
 
-    class ChannelMapperEffectsUnit final : public EffectsUnitManager::EffectsUnit {
+    class ChannelMapperEffectsUnit : public EffectsUnitManager::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -69,7 +69,7 @@ namespace ChannelMapperEffectsUnit::Internal {
         double m_rightRightMixPercent{100.0};
     };
 
-    class ChannelMapperEffectsUnitClass final : public EffectsUnitManager::EffectsUnitClass {
+    class ChannelMapperEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
         Q_OBJECT
 
     public:
