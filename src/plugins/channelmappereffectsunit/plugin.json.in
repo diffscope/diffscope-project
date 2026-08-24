@@ -15,6 +15,6 @@
     "Description": "Provides a channel mapping effect for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies": [
-        { "Name": "org.diffscope.effectsunitmanager", "Version": "@PLUGIN_METADATA_VERSION@" }
+        { "Name": "org.diffscope.audio", "Version": "@PLUGIN_METADATA_VERSION@" }
     ]
 }

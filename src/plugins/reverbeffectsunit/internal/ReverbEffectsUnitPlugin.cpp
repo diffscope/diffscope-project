@@ -3,7 +3,7 @@
 
 #include "ReverbEffectsUnitPlugin.h"
 
-#include <effectsunitmanager/EffectsUnitCollection.h>
+#include <audio/EffectsUnitCollection.h>
 
 #include <reverbeffectsunit/internal/ReverbEffectsUnit.h>
 
@@ -14,7 +14,7 @@ namespace ReverbEffectsUnit::Internal {
     ReverbEffectsUnitPlugin::~ReverbEffectsUnitPlugin() = default;
 
     bool ReverbEffectsUnitPlugin::initialize(const QStringList &, QString *errorMessage) {
-        auto collection = EffectsUnitManager::EffectsUnitCollection::instance();
+        auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new ReverbEffectsUnitClass(this);
         if (!collection || !collection->registerEffectsUnitClass(

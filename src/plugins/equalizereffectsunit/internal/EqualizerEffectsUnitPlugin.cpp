@@ -3,7 +3,7 @@
 
 #include "EqualizerEffectsUnitPlugin.h"
 
-#include <effectsunitmanager/EffectsUnitCollection.h>
+#include <audio/EffectsUnitCollection.h>
 
 #include <equalizereffectsunit/internal/EqualizerEffectsUnit.h>
 
@@ -15,7 +15,7 @@ namespace EqualizerEffectsUnit::Internal {
 
     bool EqualizerEffectsUnitPlugin::initialize(const QStringList &,
                                                 QString *errorMessage) {
-        auto collection = EffectsUnitManager::EffectsUnitCollection::instance();
+        auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new EqualizerEffectsUnitClass(this);
         if (!collection || !collection->registerEffectsUnitClass(

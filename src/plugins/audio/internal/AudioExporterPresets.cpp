@@ -318,6 +318,7 @@ namespace Audio::Internal {
             config.setFormatSampleRate(48000);
             config.setMixingOption(mixingOption);
             config.setMuteSoloEnabled(true);
+            config.setEffectsEnabled(true);
             config.setSourceOption(AudioExporterConfig::SO_All);
             config.setTimeRange(AudioExporterConfig::TR_All);
             return config;

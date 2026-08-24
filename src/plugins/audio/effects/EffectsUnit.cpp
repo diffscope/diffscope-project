@@ -9,9 +9,9 @@
 
 #include <TalcsCore/AudioSource.h>
 
-#include <effectsunitmanager/private/EffectsUnit_p.h>
+#include <audio/private/EffectsUnit_p.h>
 
-namespace EffectsUnitManager {
+namespace Audio {
 
     EffectsUnit::EffectsUnit(QObject *parent)
         : QObject(parent), d_ptr(new EffectsUnitPrivate) {
@@ -29,6 +29,9 @@ namespace EffectsUnitManager {
     talcs::AudioSource *EffectsUnit::processor() const {
         Q_D(const EffectsUnit);
         return d->processor.get();
+    }
+
+    void EffectsUnit::refresh() {
     }
 
     void EffectsUnit::setEditor(QQuickItem *editor) {

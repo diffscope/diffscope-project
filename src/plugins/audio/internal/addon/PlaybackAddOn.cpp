@@ -26,6 +26,7 @@
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <audio/internal/AudioPreference.h>
+#include <audio/internal/EffectsAddOn.h>
 
 namespace Audio::Internal {
 
@@ -232,6 +233,9 @@ namespace Audio::Internal {
 
     void PlaybackAddOn::handlePlaybackPositionChanged(int positionTick) {
         if (m_transportPositionFlag) {
+            if (auto effectsAddOn = EffectsAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>())) {
+                effectsAddOn->refreshAllEffects();
+            }
             m_context->transport()->setPosition(tickToSample(positionTick));
         }
     }

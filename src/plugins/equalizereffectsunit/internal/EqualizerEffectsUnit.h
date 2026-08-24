@@ -12,8 +12,8 @@
 
 #include <TalcsCore/SmoothedFloat.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
 
 #include <equalizereffectsunit/internal/EqualizerParameters.h>
 
@@ -26,7 +26,7 @@ namespace EqualizerEffectsUnit::Internal {
     class EqualizerBandModel;
     class EqualizerProcessor;
 
-    class EqualizerEffectsUnit : public EffectsUnitManager::EffectsUnit {
+    class EqualizerEffectsUnit : public Audio::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -64,6 +64,7 @@ namespace EqualizerEffectsUnit::Internal {
 
         QJsonValue getState() const override;
         void setState(const QJsonValue &state) override;
+        void refresh() override;
 
         Q_INVOKABLE void selectBand(int index);
         Q_INVOKABLE void selectPreviousBand();
@@ -125,14 +126,14 @@ namespace EqualizerEffectsUnit::Internal {
         bool m_spectrumDecayStarted{};
     };
 
-    class EqualizerEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
+    class EqualizerEffectsUnitClass : public Audio::EffectsUnitClass {
         Q_OBJECT
 
     public:
         explicit EqualizerEffectsUnitClass(QObject *parent = nullptr);
         ~EqualizerEffectsUnitClass() override;
 
-        EffectsUnitManager::EffectsUnit *create(QObject *parent = nullptr) const override;
+        Audio::EffectsUnit *create(QObject *parent = nullptr) const override;
 
     private:
         QQmlComponent *m_editorComponent{};

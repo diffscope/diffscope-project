@@ -10,8 +10,8 @@
 
 #include <TalcsCore/SmoothedFloat.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
 
 class QQmlComponent;
 class QTimer;
@@ -20,7 +20,7 @@ namespace CompressorEffectsUnit::Internal {
 
     class CompressorProcessor;
 
-    class CompressorEffectsUnit : public EffectsUnitManager::EffectsUnit {
+    class CompressorEffectsUnit : public Audio::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -51,6 +51,7 @@ namespace CompressorEffectsUnit::Internal {
 
         QJsonValue getState() const override;
         void setState(const QJsonValue &state) override;
+        void refresh() override;
 
         Q_INVOKABLE void previewThresholdDb(double value);
         Q_INVOKABLE void previewRatio(double value);
@@ -99,14 +100,14 @@ namespace CompressorEffectsUnit::Internal {
         bool m_meterDecayStarted{};
     };
 
-    class CompressorEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
+    class CompressorEffectsUnitClass : public Audio::EffectsUnitClass {
         Q_OBJECT
 
     public:
         explicit CompressorEffectsUnitClass(QObject *parent = nullptr);
         ~CompressorEffectsUnitClass() override;
 
-        EffectsUnitManager::EffectsUnit *create(QObject *parent = nullptr) const override;
+        Audio::EffectsUnit *create(QObject *parent = nullptr) const override;
 
     private:
         QQmlComponent *m_editorComponent{};

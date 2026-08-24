@@ -3,7 +3,7 @@
 
 #include "GainEffectsUnitPlugin.h"
 
-#include <effectsunitmanager/EffectsUnitCollection.h>
+#include <audio/EffectsUnitCollection.h>
 
 #include <gaineffectsunit/internal/GainEffectsUnit.h>
 
@@ -14,7 +14,7 @@ namespace GainEffectsUnit::Internal {
     GainEffectsUnitPlugin::~GainEffectsUnitPlugin() = default;
 
     bool GainEffectsUnitPlugin::initialize(const QStringList &, QString *errorMessage) {
-        auto collection = EffectsUnitManager::EffectsUnitCollection::instance();
+        auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new GainEffectsUnitClass(this);
         if (!collection || !collection->registerEffectsUnitClass(

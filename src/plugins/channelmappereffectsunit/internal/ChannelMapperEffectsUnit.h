@@ -8,8 +8,8 @@
 #include <QPointer>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
 
 class QQmlComponent;
 
@@ -17,7 +17,7 @@ namespace ChannelMapperEffectsUnit::Internal {
 
     class ChannelMapperProcessor;
 
-    class ChannelMapperEffectsUnit : public EffectsUnitManager::EffectsUnit {
+    class ChannelMapperEffectsUnit : public Audio::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -69,14 +69,14 @@ namespace ChannelMapperEffectsUnit::Internal {
         double m_rightRightMixPercent{100.0};
     };
 
-    class ChannelMapperEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
+    class ChannelMapperEffectsUnitClass : public Audio::EffectsUnitClass {
         Q_OBJECT
 
     public:
         explicit ChannelMapperEffectsUnitClass(QObject *parent = nullptr);
         ~ChannelMapperEffectsUnitClass() override;
 
-        EffectsUnitManager::EffectsUnit *create(QObject *parent = nullptr) const override;
+        Audio::EffectsUnit *create(QObject *parent = nullptr) const override;
 
     private:
         QQmlComponent *m_editorComponent{};

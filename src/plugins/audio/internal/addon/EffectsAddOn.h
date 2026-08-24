@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPANELADDON_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPANELADDON_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSADDON_H
+#define DIFFSCOPE_AUDIO_EFFECTSADDON_H
 
 #include <QHash>
 #include <QMetaObject>
@@ -14,16 +14,20 @@
 
 class QAbstractItemModel;
 
+namespace Core {
+    class ProjectWindowInterface;
+}
+
 namespace dspx {
     class SelectionModel;
     class Track;
 }
 
-namespace EffectsUnitManager::Internal {
+namespace Audio::Internal {
 
     class EffectsContext;
 
-    class EffectsPanelAddOn : public Core::WindowInterfaceAddOn {
+    class EffectsAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *effectsModel READ effectsModel NOTIFY selectionContextChanged)
         Q_PROPERTY(QString selectionMessage READ selectionMessage NOTIFY selectionContextChanged)
@@ -43,12 +47,18 @@ namespace EffectsUnitManager::Internal {
         };
         Q_ENUM(Tab)
 
-        explicit EffectsPanelAddOn(QObject *parent = nullptr);
-        ~EffectsPanelAddOn() override;
+        explicit EffectsAddOn(QObject *parent = nullptr);
+        ~EffectsAddOn() override;
 
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+        static EffectsAddOn *of(Core::ProjectWindowInterface *windowHandle);
+
+        void refreshAllEffects();
+        void beginEffectsBypass();
+        void endEffectsBypass();
 
         QAbstractItemModel *effectsModel() const;
         QString selectionMessage() const;
@@ -103,8 +113,9 @@ namespace EffectsUnitManager::Internal {
         QList<QMetaObject::Connection> m_associationConnections;
         bool m_trackTabVisible{};
         int m_activeTab{MasterTab};
+        int m_effectsBypassDepth{};
     };
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPANELADDON_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSADDON_H

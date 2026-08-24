@@ -3,9 +3,9 @@
 
 #include "EffectsUnitClass.h"
 
-#include <effectsunitmanager/private/EffectsUnitClass_p.h>
+#include <audio/private/EffectsUnitClass_p.h>
 
-namespace EffectsUnitManager {
+namespace Audio {
 
     EffectsUnitClass::EffectsUnitClass(const QString &name, QObject *parent)
         : QObject(parent), d_ptr(new EffectsUnitClassPrivate) {

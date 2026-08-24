@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include "EffectsPanelAddOn.h"
+#include "EffectsAddOn.h"
 
 #include <algorithm>
 #include <utility>
@@ -45,21 +45,20 @@
 
 #include <transactional/TransactionController.h>
 
-#include <audio/ProjectAudioContext.h>
-#include <audio/TrackAudioContext.h>
-
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <effectsunitmanager/EffectsUnitClass.h>
-#include <effectsunitmanager/EffectsUnitCollection.h>
-#include <effectsunitmanager/internal/EffectsContext.h>
-#include <effectsunitmanager/internal/EffectsPresets.h>
+#include <audio/EffectsUnitClass.h>
+#include <audio/EffectsUnitCollection.h>
+#include <audio/ProjectAudioContext.h>
+#include <audio/TrackAudioContext.h>
+#include <audio/internal/EffectsContext.h>
+#include <audio/internal/EffectsPresets.h>
 
-namespace EffectsUnitManager::Internal {
+namespace Audio::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcEffectsPanelAddOn, "diffscope.effectsunitmanager.effectspaneladdon")
+    Q_STATIC_LOGGING_CATEGORY(lcEffectsAddOn, "diffscope.audio.effectsaddon")
 
     namespace {
 
@@ -96,15 +95,15 @@ namespace EffectsUnitManager::Internal {
 
     }
 
-    EffectsPanelAddOn::EffectsPanelAddOn(QObject *parent)
+    EffectsAddOn::EffectsAddOn(QObject *parent)
         : WindowInterfaceAddOn(parent) {
     }
 
-    EffectsPanelAddOn::~EffectsPanelAddOn() {
+    EffectsAddOn::~EffectsAddOn() {
         clearAssociationConnections();
     }
 
-    void EffectsPanelAddOn::initialize() {
+    void EffectsAddOn::initialize() {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         window->addObject(this);
         auto document = window->projectDocumentContext()->document();
@@ -125,9 +124,9 @@ namespace EffectsUnitManager::Internal {
 
         m_selectionModel = document->selectionModel();
         connect(m_selectionModel, &dspx::SelectionModel::selectionTypeChanged,
-                this, &EffectsPanelAddOn::refreshSelection);
+                this, &EffectsAddOn::refreshSelection);
         connect(m_selectionModel, &dspx::SelectionModel::selectedCountChanged,
-                this, &EffectsPanelAddOn::refreshSelection);
+                this, &EffectsAddOn::refreshSelection);
         connect(m_selectionModel, &dspx::SelectionModel::itemSelected,
                 this, [this](QObject *, bool) {
                     refreshSelection();
@@ -135,16 +134,16 @@ namespace EffectsUnitManager::Internal {
 
         auto collection = EffectsUnitCollection::instance();
         connect(collection, &EffectsUnitCollection::effectsUnitIdsChanged,
-                this, &EffectsPanelAddOn::refreshAvailableEffects);
+                this, &EffectsAddOn::refreshAvailableEffects);
         refreshAvailableEffects();
 
         connect(EffectsPresets::instance(), &EffectsPresets::presetsChanged,
-                this, &EffectsPanelAddOn::presetsChanged);
+                this, &EffectsAddOn::presetsChanged);
 
         refreshSelection();
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(),
-                                QStringLiteral("DiffScope.EffectsUnitManager"),
+                                QStringLiteral("DiffScope.Audio"),
                                 QStringLiteral("EffectsPanel"), this);
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -157,42 +156,90 @@ namespace EffectsUnitManager::Internal {
         }
         object->setParent(this);
         window->actionContext()->addAction(
-            QStringLiteral("org.diffscope.effectsunitmanager.panel.effects"),
+            QStringLiteral("org.diffscope.audio.panel.effects"),
             object->property("panelComponent").value<QQmlComponent *>());
     }
 
-    void EffectsPanelAddOn::extensionsInitialized() {
+    void EffectsAddOn::extensionsInitialized() {
     }
 
-    bool EffectsPanelAddOn::delayedInitialize() {
+    bool EffectsAddOn::delayedInitialize() {
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
-    QAbstractItemModel *EffectsPanelAddOn::effectsModel() const {
+    EffectsAddOn *EffectsAddOn::of(Core::ProjectWindowInterface *windowHandle) {
+        return windowHandle->getFirstObject<EffectsAddOn>();
+    }
+
+    void EffectsAddOn::refreshAllEffects() {
+        if (m_masterContext) {
+            m_masterContext->refreshEffects();
+        }
+        for (const auto &context : std::as_const(m_trackContexts)) {
+            if (context) {
+                context->refreshEffects();
+            }
+        }
+    }
+
+    void EffectsAddOn::beginEffectsBypass() {
+        ++m_effectsBypassDepth;
+        if (m_effectsBypassDepth != 1) {
+            return;
+        }
+        if (m_masterContext) {
+            m_masterContext->setEffectsBypassed(true);
+        }
+        for (const auto &context : std::as_const(m_trackContexts)) {
+            if (context) {
+                context->setEffectsBypassed(true);
+            }
+        }
+    }
+
+    void EffectsAddOn::endEffectsBypass() {
+        if (m_effectsBypassDepth == 0) {
+            return;
+        }
+        --m_effectsBypassDepth;
+        if (m_effectsBypassDepth != 0) {
+            return;
+        }
+        if (m_masterContext) {
+            m_masterContext->setEffectsBypassed(false);
+        }
+        for (const auto &context : std::as_const(m_trackContexts)) {
+            if (context) {
+                context->setEffectsBypassed(false);
+            }
+        }
+    }
+
+    QAbstractItemModel *EffectsAddOn::effectsModel() const {
         return activeContext();
     }
 
-    QString EffectsPanelAddOn::selectionMessage() const {
+    QString EffectsAddOn::selectionMessage() const {
         return m_activeTab == TrackTab ? m_trackSelectionMessage : m_masterSelectionMessage;
     }
 
-    bool EffectsPanelAddOn::hasEffectsContext() const {
+    bool EffectsAddOn::hasEffectsContext() const {
         return activeContext() != nullptr;
     }
 
-    bool EffectsPanelAddOn::trackTabVisible() const {
+    bool EffectsAddOn::trackTabVisible() const {
         return m_trackTabVisible;
     }
 
-    QString EffectsPanelAddOn::trackTabText() const {
+    QString EffectsAddOn::trackTabText() const {
         return m_selectedTrack ? tr("Track: %1").arg(m_selectedTrack->name()) : tr("Track");
     }
 
-    int EffectsPanelAddOn::activeTab() const {
+    int EffectsAddOn::activeTab() const {
         return m_activeTab;
     }
 
-    void EffectsPanelAddOn::setActiveTab(int activeTab) {
+    void EffectsAddOn::setActiveTab(int activeTab) {
         if ((activeTab != TrackTab && activeTab != MasterTab) ||
             (activeTab == TrackTab && !m_trackTabVisible) ||
             m_activeTab == activeTab) {
@@ -202,57 +249,57 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT selectionContextChanged();
     }
 
-    bool EffectsPanelAddOn::readingFilterConflict() const {
+    bool EffectsAddOn::readingFilterConflict() const {
         auto context = activeContext();
         return context && context->readingFilterConflict();
     }
 
-    QString EffectsPanelAddOn::readingFilterConflictMessage() const {
+    QString EffectsAddOn::readingFilterConflictMessage() const {
         return m_activeTab == TrackTab
             ? tr("Another audio reading filter is already attached to this track. Effects cannot process audio on this track.")
             : tr("Another audio reading filter is already attached to the master track. Effects cannot process master audio.");
     }
 
-    QVariantList EffectsPanelAddOn::availableEffects() const {
+    QVariantList EffectsAddOn::availableEffects() const {
         return m_availableEffects;
     }
 
-    bool EffectsPanelAddOn::addEffect(const QString &id) {
+    bool EffectsAddOn::addEffect(const QString &id) {
         auto context = activeContext();
         return context && context->addEffect(id);
     }
 
-    bool EffectsPanelAddOn::removeEffect(int row) {
+    bool EffectsAddOn::removeEffect(int row) {
         auto context = activeContext();
         return context && context->removeEffect(row);
     }
 
-    bool EffectsPanelAddOn::setEffectEnabled(int row, bool enabled) {
+    bool EffectsAddOn::setEffectEnabled(int row, bool enabled) {
         auto context = activeContext();
         return context && context->setEffectEnabled(row, enabled);
     }
 
-    bool EffectsPanelAddOn::moveEffect(int row, int offset) {
+    bool EffectsAddOn::moveEffect(int row, int offset) {
         auto context = activeContext();
         return context && context->moveEffect(row, offset);
     }
 
-    bool EffectsPanelAddOn::resetEffect(int row) {
+    bool EffectsAddOn::resetEffect(int row) {
         auto context = activeContext();
         return context && context->resetEffect(row);
     }
 
-    void EffectsPanelAddOn::setExpanded(int row, bool expanded) {
+    void EffectsAddOn::setExpanded(int row, bool expanded) {
         if (auto context = activeContext()) {
             context->setExpanded(row, expanded);
         }
     }
 
-    QStringList EffectsPanelAddOn::presetNames() const {
+    QStringList EffectsAddOn::presetNames() const {
         return EffectsPresets::instance()->presetNames();
     }
 
-    bool EffectsPanelAddOn::savePreset(const QString &name) {
+    bool EffectsAddOn::savePreset(const QString &name) {
         auto context = activeContext();
         if (!context) {
             return false;
@@ -260,7 +307,7 @@ namespace EffectsUnitManager::Internal {
         return EffectsPresets::instance()->savePreset(name, context->audioDSPList()->toOpenDSPX());
     }
 
-    bool EffectsPanelAddOn::applyPreset(const QString &name) {
+    bool EffectsAddOn::applyPreset(const QString &name) {
         auto context = activeContext();
         if (!context) {
             return false;
@@ -281,26 +328,26 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && applied;
     }
 
-    bool EffectsPanelAddOn::deletePreset(const QString &name) {
+    bool EffectsAddOn::deletePreset(const QString &name) {
         return EffectsPresets::instance()->removePreset(name);
     }
 
-    bool EffectsPanelAddOn::hasPreset(const QString &name) {
+    bool EffectsAddOn::hasPreset(const QString &name) {
         return EffectsPresets::instance()->hasPreset(name);
     }
 
-    int EffectsPanelAddOn::presetIndex(const QString &name) {
+    int EffectsAddOn::presetIndex(const QString &name) {
         return EffectsPresets::instance()->presetNames().indexOf(name);
     }
 
-    void EffectsPanelAddOn::openPresetDialog() {
+    void EffectsAddOn::openPresetDialog() {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto quickWindow = qobject_cast<QQuickWindow *>(window->window());
         if (!quickWindow) {
             return;
         }
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(),
-                                QStringLiteral("DiffScope.EffectsUnitManager"),
+                                QStringLiteral("DiffScope.Audio"),
                                 QStringLiteral("EffectsPresetDialog"), this);
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -322,16 +369,16 @@ namespace EffectsUnitManager::Internal {
         QMetaObject::invokeMethod(object, "open");
     }
 
-    EffectsContext *EffectsPanelAddOn::activeContext() const {
+    EffectsContext *EffectsAddOn::activeContext() const {
         return m_activeTab == TrackTab ? m_trackContext.data() : m_masterContext.data();
     }
 
-    void EffectsPanelAddOn::createMasterContext() {
+    void EffectsAddOn::createMasterContext() {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto audioContext = Audio::ProjectAudioContext::of(window);
         if (!audioContext) {
             m_masterSelectionMessage = tr("Effects are unavailable for the master track.");
-            qCWarning(lcEffectsPanelAddOn) << "Project audio context is unavailable";
+            qCWarning(lcEffectsAddOn) << "Project audio context is unavailable";
             return;
         }
         auto document = window->projectDocumentContext()->document();
@@ -339,6 +386,7 @@ namespace EffectsUnitManager::Internal {
                                              document->model()->audioDSPs(),
                                              audioContext->masterTrackMixer(),
                                              audioContext);
+        m_masterContext->setEffectsBypassed(m_effectsBypassDepth != 0);
         connect(m_masterContext, &QObject::destroyed, this, [this] {
             m_masterContext = nullptr;
             m_masterSelectionMessage = tr("Effects are unavailable for the master track.");
@@ -346,19 +394,20 @@ namespace EffectsUnitManager::Internal {
         });
     }
 
-    void EffectsPanelAddOn::createTrackContext(dspx::Track *track) {
+    void EffectsAddOn::createTrackContext(dspx::Track *track) {
         if (!track || m_trackContexts.contains(track)) {
             return;
         }
         auto audioContext = Audio::TrackAudioContext::of(track);
         if (!audioContext) {
-            qCWarning(lcEffectsPanelAddOn) << "Track audio context is unavailable" << track;
+            qCWarning(lcEffectsAddOn) << "Track audio context is unavailable" << track;
             return;
         }
         auto context = new EffectsContext(audioContext->windowHandle(),
                                           track->audioDSPs(),
                                           audioContext->trackMixer(),
                                           audioContext);
+        context->setEffectsBypassed(m_effectsBypassDepth != 0);
         m_trackContexts.insert(track, context);
         connect(context, &QObject::destroyed, this, [this, track] {
             m_trackContexts.remove(track);
@@ -370,7 +419,7 @@ namespace EffectsUnitManager::Internal {
         });
     }
 
-    void EffectsPanelAddOn::refreshSelection() {
+    void EffectsAddOn::refreshSelection() {
         clearAssociationConnections();
         if (!m_selectionModel || m_selectionModel->selectedCount() == 0) {
             setTrackSelection(false, nullptr, nullptr, {});
@@ -460,7 +509,7 @@ namespace EffectsUnitManager::Internal {
         setTrackSelection(true, track, context, {});
     }
 
-    void EffectsPanelAddOn::refreshAvailableEffects() {
+    void EffectsAddOn::refreshAvailableEffects() {
         struct Item {
             QString id;
             QString name;
@@ -495,7 +544,7 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT availableEffectsChanged();
     }
 
-    void EffectsPanelAddOn::setTrackSelection(bool tabVisible,
+    void EffectsAddOn::setTrackSelection(bool tabVisible,
                                               dspx::Track *track,
                                               EffectsContext *context,
                                               const QString &message) {
@@ -514,7 +563,7 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT selectionContextChanged();
     }
 
-    void EffectsPanelAddOn::clearAssociationConnections() {
+    void EffectsAddOn::clearAssociationConnections() {
         for (const auto &connection : std::as_const(m_associationConnections)) {
             disconnect(connection);
         }
@@ -523,4 +572,4 @@ namespace EffectsUnitManager::Internal {
 
 }
 
-#include "moc_EffectsPanelAddOn.cpp"
+#include "moc_EffectsAddOn.cpp"

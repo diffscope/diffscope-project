@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNIT_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNIT_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSUNIT_H
+#define DIFFSCOPE_AUDIO_EFFECTSUNIT_H
 
 #include <memory>
 
@@ -11,7 +11,7 @@
 #include <QScopedPointer>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/effectsunitmanagerglobal.h>
+#include <audio/audioglobal.h>
 
 class QQuickItem;
 
@@ -19,11 +19,11 @@ namespace talcs {
     class AudioSource;
 }
 
-namespace EffectsUnitManager {
+namespace Audio {
 
     class EffectsUnitPrivate;
 
-    class EFFECTS_UNIT_MANAGER_EXPORT EffectsUnit : public QObject {
+    class AUDIO_EXPORT EffectsUnit : public QObject {
         Q_OBJECT
         QML_ANONYMOUS
         Q_DECLARE_PRIVATE(EffectsUnit)
@@ -34,6 +34,11 @@ namespace EffectsUnitManager {
 
         QQuickItem *editor() const;
         talcs::AudioSource *processor() const;
+
+        /**
+         * Clears internal processing state. This method is called on the main thread.
+         */
+        virtual void refresh();
 
         virtual QJsonValue getState() const = 0;
 
@@ -57,4 +62,4 @@ namespace EffectsUnitManager {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNIT_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSUNIT_H

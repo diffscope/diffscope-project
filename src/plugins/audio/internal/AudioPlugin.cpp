@@ -20,20 +20,24 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <audio/private/GlobalAudioContext_p.h>
+#include <audio/EffectsUnitCollection.h>
 #include <audio/internal/AudioAndMidiPage.h>
+#include <audio/internal/AudioClipAddOn.h>
 #include <audio/internal/AudioExporterPresets.h>
 #include <audio/internal/AudioOutputPage.h>
 #include <audio/internal/AudioPreference.h>
-#include <audio/internal/AudioClipAddOn.h>
-#include <audio/internal/ExportPage.h>
+#include <audio/internal/AudioSystem.h>
+#include <audio/internal/EffectsAddOn.h>
+#include <audio/internal/EffectsExportListener.h>
+#include <audio/internal/EffectsPresets.h>
 #include <audio/internal/ExportAudioAddOn.h>
-#include <audio/internal/ProjectAudioAddOn.h>
+#include <audio/internal/ExportPage.h>
+#include <audio/internal/OutputSystem.h>
 #include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/PlaybackPage.h>
-#include <audio/internal/AudioSystem.h>
-#include <audio/internal/OutputSystem.h>
+#include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/WaveformSingerAddOn.h>
+#include <audio/private/GlobalAudioContext_p.h>
 
 static auto getAudioActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(audio);
@@ -54,6 +58,7 @@ namespace Audio::Internal {
         qCInfo(lcAudioPlugin) << "Initializing";
         initializeAudioPreference();
         initializeAudioExporterPresets();
+        initializeEffects();
         initializeSettings();
         initializeAudioSystem();
         initializePropertyEditors();
@@ -79,6 +84,13 @@ namespace Audio::Internal {
     void AudioPlugin::initializeAudioExporterPresets() {
         auto audioExporterPresets = new AudioExporterPresets(this);
         audioExporterPresets->load();
+    }
+
+    void AudioPlugin::initializeEffects() {
+        new EffectsUnitCollection(this);
+        auto presets = new EffectsPresets(this);
+        presets->load();
+        EffectsExportListener::instance();
     }
 
     void AudioPlugin::initializeAudioSystem() {
@@ -122,6 +134,7 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeWindows() {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ProjectAudioAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<EffectsAddOn>();
         if (AudioSystem::isSingerRegistrationSuccessful()) {
             Core::ProjectWindowInterfaceRegistry::instance()->attach<WaveformSingerAddOn>();
         }

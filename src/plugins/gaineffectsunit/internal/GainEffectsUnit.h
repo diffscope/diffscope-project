@@ -8,8 +8,8 @@
 #include <QPointer>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
 
 class QQmlComponent;
 
@@ -17,7 +17,7 @@ namespace GainEffectsUnit::Internal {
 
     class GainProcessor;
 
-    class GainEffectsUnit : public EffectsUnitManager::EffectsUnit {
+    class GainEffectsUnit : public Audio::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -60,14 +60,14 @@ namespace GainEffectsUnit::Internal {
         bool m_channelsLinked{true};
     };
 
-    class GainEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
+    class GainEffectsUnitClass : public Audio::EffectsUnitClass {
         Q_OBJECT
 
     public:
         explicit GainEffectsUnitClass(QObject *parent = nullptr);
         ~GainEffectsUnitClass() override;
 
-        EffectsUnitManager::EffectsUnit *create(QObject *parent = nullptr) const override;
+        Audio::EffectsUnit *create(QObject *parent = nullptr) const override;
 
     private:
         QQmlComponent *m_editorComponent{};

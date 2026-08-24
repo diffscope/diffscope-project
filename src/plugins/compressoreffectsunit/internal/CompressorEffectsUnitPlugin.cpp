@@ -3,7 +3,7 @@
 
 #include "CompressorEffectsUnitPlugin.h"
 
-#include <effectsunitmanager/EffectsUnitCollection.h>
+#include <audio/EffectsUnitCollection.h>
 
 #include <compressoreffectsunit/internal/CompressorEffectsUnit.h>
 
@@ -14,7 +14,7 @@ namespace CompressorEffectsUnit::Internal {
     CompressorEffectsUnitPlugin::~CompressorEffectsUnitPlugin() = default;
 
     bool CompressorEffectsUnitPlugin::initialize(const QStringList &, QString *errorMessage) {
-        auto collection = EffectsUnitManager::EffectsUnitCollection::instance();
+        auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new CompressorEffectsUnitClass(this);
         if (!collection || !collection->registerEffectsUnitClass(

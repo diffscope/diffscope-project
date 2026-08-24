@@ -20,19 +20,19 @@
 #include <dspxmodelORM/AudioDSPList.h>
 #include <dspxmodelORM/Model.h>
 
+#include <transactional/TransactionController.h>
+
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
-#include <effectsunitmanager/EffectsUnitCollection.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
+#include <audio/EffectsUnitCollection.h>
 
-#include <transactional/TransactionController.h>
+namespace Audio::Internal {
 
-namespace EffectsUnitManager::Internal {
-
-    Q_STATIC_LOGGING_CATEGORY(lcEffectsContext, "diffscope.effectsunitmanager.effectscontext")
+    Q_STATIC_LOGGING_CATEGORY(lcEffectsContext, "diffscope.audio.effectscontext")
 
     class EffectsChainFilter : public talcs::AudioSource {
     public:
@@ -354,6 +354,22 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT dataChanged(modelIndex, modelIndex, {ExpandedRole});
     }
 
+    void EffectsContext::refreshEffects() {
+        for (const auto &entry : m_entries) {
+            if (entry->unit) {
+                entry->unit->refresh();
+            }
+        }
+    }
+
+    void EffectsContext::setEffectsBypassed(bool bypassed) {
+        if (m_effectsBypassed == bypassed) {
+            return;
+        }
+        m_effectsBypassed = bypassed;
+        updateAudioChain();
+    }
+
     EffectsContext::Entry *EffectsContext::entryAt(int row) const {
         if (row < 0 || row >= static_cast<int>(m_entries.size())) {
             return nullptr;
@@ -449,7 +465,7 @@ namespace EffectsUnitManager::Internal {
         processors.reserve(static_cast<qsizetype>(m_entries.size()));
         for (const auto &entry : m_entries) {
             if (entry->unit) {
-                processors.append({entry->unit->processor(), entry->item->enabled()});
+                processors.append({entry->unit->processor(), entry->item->enabled() && !m_effectsBypassed});
             }
         }
         m_filter->setProcessors(processors);

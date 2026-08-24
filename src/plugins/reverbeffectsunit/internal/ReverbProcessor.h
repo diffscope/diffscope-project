@@ -20,6 +20,7 @@ namespace ReverbEffectsUnit::Internal {
         void setParameters(double sizeMilliseconds, double decaySeconds,
                            double dampingPercent, double preDelayMilliseconds,
                            double mixPercent);
+        void refresh();
 
         bool open(qint64 bufferSize, double sampleRate) override;
         void close() override;
@@ -47,6 +48,7 @@ namespace ReverbEffectsUnit::Internal {
         std::atomic<std::uint32_t> m_preDelayMillisecondsBits{};
         std::atomic<std::uint32_t> m_mixPercentBits{};
         std::atomic<std::uint64_t> m_parameterRevision{};
+        std::atomic<bool> m_refreshRequested{};
         std::unique_ptr<ReverbEngine> m_engine;
         std::uint64_t m_appliedRevision{};
     };

@@ -14,7 +14,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-namespace EffectsUnitManager::Internal {
+namespace Audio::Internal {
 
     namespace {
 

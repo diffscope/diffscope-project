@@ -29,6 +29,14 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.audio.insert.insertAudioClip^" icon="sound_wave_circle" />
         <action id="org.diffscope.audio.edit.replaceAudioClip^" icon="sound_wave_circle" />
         <action id="org.diffscope.audio.export.exportAudio^" icon="sound_wave_circle_arrow_right" />
+        <action
+                id="org.diffscope.audio.panel.effects"
+                text="Effects (Experimental)"
+                icon="math_formula"
+                catalog="org.diffscope.core.workspacePanelWidgets"
+                diffscope:uniquePanel="true"
+                diffscope:componentType="custom"
+        />
     </items>
 
     <layouts>

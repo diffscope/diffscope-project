@@ -545,6 +545,18 @@ Window {
                                     }
                                     Layout.fillWidth: true
                                 }
+                                FormGroup {
+                                    label: qsTr("Effects")
+                                    columnItem: ComboBox {
+                                        model: [
+                                            qsTr("Enable"),
+                                            qsTr("Bypass")
+                                        ]
+                                        currentIndex: AudioExporterPresets.currentConfig.effectsEnabled ? 0 : 1
+                                        onActivated: (index) => AudioExporterPresets.currentConfig.effectsEnabled = index === 0
+                                    }
+                                    Layout.fillWidth: true
+                                }
                             }
                             Frame {
                                 Layout.fillWidth: true

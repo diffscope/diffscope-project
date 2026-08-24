@@ -27,6 +27,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKQuick
         coreplugin
         dspxmodelORM
+        dspxmodelSelectionModel
         opendspx::interpolator
         opendspx::model
         talcs::Core
@@ -34,6 +35,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         talcs::Dspx
         talcs::Format
         talcs::Widgets
+        transactional
+        svscraft::Core
+        svscraft::Quick
         xxHash::xxhash
     INCLUDE_PRIVATE
         internal/**

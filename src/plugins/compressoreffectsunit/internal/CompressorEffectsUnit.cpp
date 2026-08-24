@@ -197,6 +197,16 @@ namespace CompressorEffectsUnit::Internal {
         }
     }
 
+    void CompressorEffectsUnit::refresh() {
+        m_processor->refresh();
+        m_processor->discardMeterValues();
+        resetMeterDisplays();
+        m_meterDecayStarted = false;
+        if (m_meterActive) {
+            m_lastMeterValueTime.restart();
+        }
+    }
+
     void CompressorEffectsUnit::previewThresholdDb(double value) {
         if (previewValue(m_thresholdDb, value, minimumThresholdDb, maximumThresholdDb)) {
             Q_EMIT thresholdDbChanged();
@@ -372,7 +382,7 @@ namespace CompressorEffectsUnit::Internal {
 
     CompressorEffectsUnitClass::~CompressorEffectsUnitClass() = default;
 
-    EffectsUnitManager::EffectsUnit *CompressorEffectsUnitClass::create(QObject *parent) const {
+    Audio::EffectsUnit *CompressorEffectsUnitClass::create(QObject *parent) const {
         return new CompressorEffectsUnit(m_editorComponent, parent);
     }
 

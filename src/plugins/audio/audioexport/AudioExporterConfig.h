@@ -51,6 +51,7 @@ namespace Audio {
         Q_PROPERTY(double formatSampleRate READ formatSampleRate WRITE setFormatSampleRate)
         Q_PROPERTY(MixingOption mixingOption READ mixingOption WRITE setMixingOption)
         Q_PROPERTY(bool muteSoloEnabled READ isMuteSoloEnabled WRITE setMuteSoloEnabled)
+        Q_PROPERTY(bool effectsEnabled READ isEffectsEnabled WRITE setEffectsEnabled)
         Q_PROPERTY(SourceOption sourceOption READ sourceOption WRITE setSourceOption)
         Q_PROPERTY(TimeRange timeRange READ timeRange WRITE setTimeRange)
         Q_DECLARE_TR_FUNCTIONS(Audio::AudioExporterConfig)
@@ -104,6 +105,9 @@ namespace Audio {
 
         bool isMuteSoloEnabled() const;
         void setMuteSoloEnabled(bool enabled);
+
+        bool isEffectsEnabled() const;
+        void setEffectsEnabled(bool enabled);
 
         enum SourceOption {
             SO_All,

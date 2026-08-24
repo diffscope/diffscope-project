@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSCONTEXT_H
+#define DIFFSCOPE_AUDIO_EFFECTSCONTEXT_H
 
 #include <memory>
 #include <vector>
@@ -22,11 +22,11 @@ namespace talcs {
     class PositionableMixerAudioSource;
 }
 
-namespace EffectsUnitManager {
+namespace Audio {
     class EffectsUnit;
 }
 
-namespace EffectsUnitManager::Internal {
+namespace Audio::Internal {
 
     class EffectsChainFilter;
 
@@ -65,6 +65,9 @@ namespace EffectsUnitManager::Internal {
         bool resetEffect(int row);
         void setExpanded(int row, bool expanded);
 
+        void refreshEffects();
+        void setEffectsBypassed(bool bypassed);
+
     private:
         struct Entry;
 
@@ -82,6 +85,7 @@ namespace EffectsUnitManager::Internal {
         dspx::AudioDSPList *m_audioDSPList{};
         talcs::PositionableMixerAudioSource *m_mixer{};
         bool m_readingFilterConflict{};
+        bool m_effectsBypassed{};
         std::unique_ptr<EffectsChainFilter> m_filter;
         std::vector<std::unique_ptr<Entry>> m_entries;
         dspx::AudioDSP *m_pendingItem{};
@@ -90,4 +94,4 @@ namespace EffectsUnitManager::Internal {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSCONTEXT_H

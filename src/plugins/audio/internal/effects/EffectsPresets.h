@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPRESETS_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPRESETS_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSPRESETS_H
+#define DIFFSCOPE_AUDIO_EFFECTSPRESETS_H
 
 #include <QByteArray>
 #include <QList>
@@ -11,7 +11,7 @@
 
 #include <stdcorelib/support/json.h>
 
-namespace EffectsUnitManager::Internal {
+namespace Audio::Internal {
 
     class EffectsPresets : public QObject {
         Q_OBJECT
@@ -48,4 +48,4 @@ namespace EffectsUnitManager::Internal {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPRESETS_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSPRESETS_H

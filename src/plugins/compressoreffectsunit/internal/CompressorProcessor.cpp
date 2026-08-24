@@ -39,6 +39,10 @@ namespace CompressorEffectsUnit::Internal {
             std::memory_order_relaxed);
     }
 
+    void CompressorProcessor::refresh() {
+        m_refreshRequested.store(true, std::memory_order_release);
+    }
+
     bool CompressorProcessor::takeMeterValues(MeterValues &values) {
         const auto readIndex = m_meterReadIndex.load(std::memory_order_relaxed);
         const auto writeIndex = m_meterWriteIndex.load(std::memory_order_acquire);
@@ -61,15 +65,20 @@ namespace CompressorEffectsUnit::Internal {
         }
         m_sampleRate = sampleRate;
         m_envelope = 0.0f;
+        m_refreshRequested.store(false, std::memory_order_relaxed);
         return true;
     }
 
     void CompressorProcessor::close() {
         m_envelope = 0.0f;
+        m_refreshRequested.store(false, std::memory_order_relaxed);
         AudioSource::close();
     }
 
     qint64 CompressorProcessor::processReading(const talcs::AudioSourceReadData &readData) {
+        if (m_refreshRequested.exchange(false, std::memory_order_acq_rel)) {
+            m_envelope = 0.0f;
+        }
         const int channelCount = std::min(2, readData.buffer->channelCount());
         if (channelCount == 0 || readData.length <= 0) {
             return readData.length;

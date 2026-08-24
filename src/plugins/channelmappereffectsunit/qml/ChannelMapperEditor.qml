@@ -9,7 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.ChannelMapperEffectsUnit
-import DiffScope.EffectsUnitManager
+import DiffScope.Audio
 
 ColumnLayout {
     id: editor

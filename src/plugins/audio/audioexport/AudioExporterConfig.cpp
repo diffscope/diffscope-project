@@ -167,6 +167,14 @@ namespace Audio {
         d->isMuteSoloEnabled = enabled;
     }
 
+    bool AudioExporterConfig::isEffectsEnabled() const {
+        return d->isEffectsEnabled;
+    }
+
+    void AudioExporterConfig::setEffectsEnabled(bool enabled) {
+        d->isEffectsEnabled = enabled;
+    }
+
     AudioExporterConfig::SourceOption AudioExporterConfig::sourceOption() const {
         return d->sourceOption;
     }
@@ -194,6 +202,7 @@ namespace Audio {
             {"formatSampleRate",  d->formatSampleRate                 },
             {"mixingOption",      static_cast<int>(d->mixingOption)   },
             {"isMuteSoloEnabled", d->isMuteSoloEnabled                },
+            {"isEffectsEnabled",  d->isEffectsEnabled                 },
             {"sourceOption",      static_cast<int>(d->sourceOption)   },
             {"timeRange",         static_cast<int>(d->timeRange)      },
         };

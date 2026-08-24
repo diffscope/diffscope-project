@@ -237,7 +237,7 @@ namespace GainEffectsUnit::Internal {
 
     GainEffectsUnitClass::~GainEffectsUnitClass() = default;
 
-    EffectsUnitManager::EffectsUnit *GainEffectsUnitClass::create(QObject *parent) const {
+    Audio::EffectsUnit *GainEffectsUnitClass::create(QObject *parent) const {
         return new GainEffectsUnit(m_editorComponent, parent);
     }
 

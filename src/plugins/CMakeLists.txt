@@ -166,7 +166,6 @@ endfunction()
 
 add_subdirectory(coreplugin)
 add_subdirectory(audio)
-add_subdirectory(effectsunitmanager)
 add_subdirectory(gaineffectsunit)
 add_subdirectory(channelmappereffectsunit)
 add_subdirectory(compressoreffectsunit)

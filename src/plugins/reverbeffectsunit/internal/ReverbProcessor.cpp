@@ -327,7 +327,7 @@ namespace ReverbEffectsUnit::Internal {
             });
         }
 
-        void close() {
+        void refresh() {
             for (auto &delay : m_preDelayLines) {
                 delay.reset();
             }
@@ -342,6 +342,10 @@ namespace ReverbEffectsUnit::Internal {
                     filter.reset();
                 }
             }
+        }
+
+        void close() {
+            refresh();
             m_dampingTransitionRemaining = 0;
             m_configured = false;
         }
@@ -603,6 +607,10 @@ namespace ReverbEffectsUnit::Internal {
         m_parameterRevision.fetch_add(1, std::memory_order_release);
     }
 
+    void ReverbProcessor::refresh() {
+        m_refreshRequested.store(true, std::memory_order_release);
+    }
+
     bool ReverbProcessor::open(qint64 bufferSize, double sampleRate) {
         if (!AudioSource::open(bufferSize, sampleRate)) {
             return false;
@@ -622,17 +630,22 @@ namespace ReverbEffectsUnit::Internal {
             m_appliedRevision = 0;
         }
         m_engine->configure(sampleRate, snapshot);
+        m_refreshRequested.store(false, std::memory_order_relaxed);
         return true;
     }
 
     void ReverbProcessor::close() {
         m_engine->close();
         m_appliedRevision = 0;
+        m_refreshRequested.store(false, std::memory_order_relaxed);
         AudioSource::close();
     }
 
     qint64 ReverbProcessor::processReading(
         const talcs::AudioSourceReadData &readData) {
+        if (m_refreshRequested.exchange(false, std::memory_order_acq_rel)) {
+            m_engine->refresh();
+        }
         ParameterSnapshot snapshot;
         std::uint64_t revision{};
         if (tryReadParameterSnapshot(snapshot, revision)

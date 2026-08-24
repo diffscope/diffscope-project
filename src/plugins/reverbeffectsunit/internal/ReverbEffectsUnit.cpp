@@ -168,6 +168,10 @@ namespace ReverbEffectsUnit::Internal {
         }
     }
 
+    void ReverbEffectsUnit::refresh() {
+        m_processor->refresh();
+    }
+
     void ReverbEffectsUnit::previewSizeMilliseconds(double value) {
         if (previewValue(m_sizeMilliseconds, value,
                          minimumSizeMilliseconds, maximumSizeMilliseconds)) {
@@ -279,7 +283,7 @@ namespace ReverbEffectsUnit::Internal {
 
     ReverbEffectsUnitClass::~ReverbEffectsUnitClass() = default;
 
-    EffectsUnitManager::EffectsUnit *ReverbEffectsUnitClass::create(
+    Audio::EffectsUnit *ReverbEffectsUnitClass::create(
         QObject *parent) const {
         return new ReverbEffectsUnit(m_editorComponent, parent);
     }

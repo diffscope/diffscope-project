@@ -21,6 +21,7 @@ namespace Audio {
         double formatSampleRate{};
         AudioExporterConfig::MixingOption mixingOption{};
         bool isMuteSoloEnabled{};
+        bool isEffectsEnabled{};
         AudioExporterConfig::SourceOption sourceOption{};
         AudioExporterConfig::TimeRange timeRange{};
     };

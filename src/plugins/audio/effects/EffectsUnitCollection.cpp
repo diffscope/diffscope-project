@@ -3,10 +3,10 @@
 
 #include "EffectsUnitCollection.h"
 
-#include <effectsunitmanager/EffectsUnitClass.h>
-#include <effectsunitmanager/private/EffectsUnitCollection_p.h>
+#include <audio/EffectsUnitClass.h>
+#include <audio/private/EffectsUnitCollection_p.h>
 
-namespace EffectsUnitManager {
+namespace Audio {
 
     static EffectsUnitCollection *s_instance{};
 

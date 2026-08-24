@@ -7,8 +7,8 @@
 #include <QJsonValue>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/EffectsUnit.h>
-#include <effectsunitmanager/EffectsUnitClass.h>
+#include <audio/EffectsUnit.h>
+#include <audio/EffectsUnitClass.h>
 
 class QQmlComponent;
 
@@ -16,7 +16,7 @@ namespace ReverbEffectsUnit::Internal {
 
     class ReverbProcessor;
 
-    class ReverbEffectsUnit : public EffectsUnitManager::EffectsUnit {
+    class ReverbEffectsUnit : public Audio::EffectsUnit {
         Q_OBJECT
         QML_ELEMENT
         QML_UNCREATABLE("")
@@ -39,6 +39,7 @@ namespace ReverbEffectsUnit::Internal {
 
         QJsonValue getState() const override;
         void setState(const QJsonValue &state) override;
+        void refresh() override;
 
         Q_INVOKABLE void previewSizeMilliseconds(double value);
         Q_INVOKABLE void previewDecaySeconds(double value);
@@ -77,14 +78,14 @@ namespace ReverbEffectsUnit::Internal {
         double m_mixPercent;
     };
 
-    class ReverbEffectsUnitClass : public EffectsUnitManager::EffectsUnitClass {
+    class ReverbEffectsUnitClass : public Audio::EffectsUnitClass {
         Q_OBJECT
 
     public:
         explicit ReverbEffectsUnitClass(QObject *parent = nullptr);
         ~ReverbEffectsUnitClass() override;
 
-        EffectsUnitManager::EffectsUnit *create(QObject *parent = nullptr) const override;
+        Audio::EffectsUnit *create(QObject *parent = nullptr) const override;
 
     private:
         QQmlComponent *m_editorComponent{};

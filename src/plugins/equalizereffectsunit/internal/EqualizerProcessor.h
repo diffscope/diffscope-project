@@ -31,6 +31,7 @@ namespace EqualizerEffectsUnit::Internal {
         ~EqualizerProcessor() override;
 
         void setBands(const EqualizerBandList &bands);
+        void refresh();
         void setSpectrumEnabled(bool enabled);
         bool takeSpectrumFrame(SpectrumFrame &frame);
         void discardSpectrumFrames();
@@ -69,6 +70,7 @@ namespace EqualizerEffectsUnit::Internal {
         bool tryReadParameterSnapshot(ParameterSnapshot &snapshot,
                                       std::uint64_t &revision) const;
         void prepareParameterTransition();
+        void resetProcessingState();
         void configureBank(FilterBank &bank, const ParameterSnapshot &snapshot,
                            bool resetStates);
         static void configureFilter(signalsmith::filters::BiquadStatic<float> &filter,
@@ -86,6 +88,7 @@ namespace EqualizerEffectsUnit::Internal {
         std::atomic<std::uint32_t> m_atomicBandCount{};
         std::atomic<std::uint64_t> m_parameterRevision{};
         std::atomic<std::uint64_t> m_sampleRateBits{};
+        std::atomic<bool> m_refreshRequested{};
         std::array<FilterBank, 2> m_filterBanks;
         ParameterSnapshot m_appliedSnapshot;
         ParameterSnapshot m_transitionSnapshot;

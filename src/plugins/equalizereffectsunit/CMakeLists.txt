@@ -27,7 +27,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ChorusKit::AppCore
         QAKCore
         coreplugin
-        effectsunitmanager
+        audio
         talcs::Core
         svscraft::Core
         svscraft::Quick

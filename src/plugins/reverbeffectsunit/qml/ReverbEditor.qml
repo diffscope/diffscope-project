@@ -8,7 +8,7 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
-import DiffScope.EffectsUnitManager
+import DiffScope.Audio
 import DiffScope.ReverbEffectsUnit
 
 ColumnLayout {

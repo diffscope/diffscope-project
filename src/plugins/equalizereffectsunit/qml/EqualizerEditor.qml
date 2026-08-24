@@ -9,7 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
-import DiffScope.EffectsUnitManager
+import DiffScope.Audio
 import DiffScope.EqualizerEffectsUnit
 
 ColumnLayout {

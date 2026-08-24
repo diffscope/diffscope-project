@@ -1,22 +1,22 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCLASS_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCLASS_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSUNITCLASS_H
+#define DIFFSCOPE_AUDIO_EFFECTSUNITCLASS_H
 
 #include <QObject>
 #include <QScopedPointer>
 #include <QString>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/effectsunitmanagerglobal.h>
+#include <audio/audioglobal.h>
 
-namespace EffectsUnitManager {
+namespace Audio {
 
     class EffectsUnit;
     class EffectsUnitClassPrivate;
 
-    class EFFECTS_UNIT_MANAGER_EXPORT EffectsUnitClass : public QObject {
+    class AUDIO_EXPORT EffectsUnitClass : public QObject {
         Q_OBJECT
         QML_ANONYMOUS
         Q_DECLARE_PRIVATE(EffectsUnitClass)
@@ -37,4 +37,4 @@ namespace EffectsUnitManager {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCLASS_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSUNITCLASS_H

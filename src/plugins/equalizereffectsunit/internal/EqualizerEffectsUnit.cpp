@@ -280,6 +280,16 @@ namespace EqualizerEffectsUnit::Internal {
         }
     }
 
+    void EqualizerEffectsUnit::refresh() {
+        m_processor->refresh();
+        m_processor->discardSpectrumFrames();
+        resetSpectrumDisplay();
+        m_spectrumDecayStarted = false;
+        if (m_spectrumActive) {
+            m_lastSpectrumFrameTime.restart();
+        }
+    }
+
     void EqualizerEffectsUnit::selectBand(int index) {
         if (index < 0 || index >= bandCount()) {
             return;
@@ -665,7 +675,7 @@ namespace EqualizerEffectsUnit::Internal {
 
     EqualizerEffectsUnitClass::~EqualizerEffectsUnitClass() = default;
 
-    EffectsUnitManager::EffectsUnit *EqualizerEffectsUnitClass::create(QObject *parent) const {
+    Audio::EffectsUnit *EqualizerEffectsUnitClass::create(QObject *parent) const {
         return new EqualizerEffectsUnit(m_editorComponent, parent);
     }
 

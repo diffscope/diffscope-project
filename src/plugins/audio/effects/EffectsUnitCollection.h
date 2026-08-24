@@ -1,29 +1,28 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCOLLECTION_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCOLLECTION_H
+#ifndef DIFFSCOPE_AUDIO_EFFECTSUNITCOLLECTION_H
+#define DIFFSCOPE_AUDIO_EFFECTSUNITCOLLECTION_H
 
 #include <QObject>
 #include <QScopedPointer>
 #include <QStringList>
 #include <qqmlintegration.h>
 
-#include <effectsunitmanager/effectsunitmanagerglobal.h>
+#include <audio/audioglobal.h>
 
 class QJSEngine;
 class QQmlEngine;
 
-namespace EffectsUnitManager {
-
+namespace Audio {
     namespace Internal {
-        class EffectsUnitManagerPlugin;
+        class AudioPlugin;
     }
 
     class EffectsUnitClass;
     class EffectsUnitCollectionPrivate;
 
-    class EFFECTS_UNIT_MANAGER_EXPORT EffectsUnitCollection : public QObject {
+    class AUDIO_EXPORT EffectsUnitCollection : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_SINGLETON
@@ -45,7 +44,7 @@ namespace EffectsUnitManager {
         void effectsUnitIdsChanged();
 
     private:
-        friend class Internal::EffectsUnitManagerPlugin;
+        friend class Internal::AudioPlugin;
         explicit EffectsUnitCollection(QObject *parent = nullptr);
 
         QScopedPointer<EffectsUnitCollectionPrivate> d_ptr;
@@ -53,4 +52,4 @@ namespace EffectsUnitManager {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSUNITCOLLECTION_H
+#endif // DIFFSCOPE_AUDIO_EFFECTSUNITCOLLECTION_H

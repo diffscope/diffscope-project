@@ -11,7 +11,7 @@ import SVSCraft.UIComponents
 import dev.sjimo.ScopicFlow
 
 import DiffScope.CompressorEffectsUnit
-import DiffScope.EffectsUnitManager
+import DiffScope.Audio
 
 ColumnLayout {
     id: editor

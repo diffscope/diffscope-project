@@ -261,7 +261,7 @@ namespace ChannelMapperEffectsUnit::Internal {
 
     ChannelMapperEffectsUnitClass::~ChannelMapperEffectsUnitClass() = default;
 
-    EffectsUnitManager::EffectsUnit *ChannelMapperEffectsUnitClass::create(QObject *parent) const {
+    Audio::EffectsUnit *ChannelMapperEffectsUnitClass::create(QObject *parent) const {
         return new ChannelMapperEffectsUnit(m_editorComponent, parent);
     }
 

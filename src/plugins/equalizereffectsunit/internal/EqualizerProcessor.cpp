@@ -48,6 +48,10 @@ namespace EqualizerEffectsUnit::Internal {
         m_parameterRevision.fetch_add(1, std::memory_order_release);
     }
 
+    void EqualizerProcessor::refresh() {
+        m_refreshRequested.store(true, std::memory_order_release);
+    }
+
     void EqualizerProcessor::setSpectrumEnabled(bool enabled) {
         m_spectrumEnabled.store(enabled, std::memory_order_relaxed);
     }
@@ -90,31 +94,23 @@ namespace EqualizerEffectsUnit::Internal {
             ? static_cast<float>(2.0 / coherentGain)
             : 1.0f;
 
-        for (auto &bank : m_filterBanks) {
-            bank.count = 0;
-            for (auto &channel : bank.filters) {
-                for (auto &filter : channel) {
-                    filter.reset();
-                }
-            }
-        }
-        m_activeBankIndex = 0;
-        m_transitionBankIndex = 1;
-        m_transitionSamplesRemaining = 0;
-        m_hasAppliedSnapshot = false;
-        prepareParameterTransition();
-        resetSpectrumAnalysis();
+        m_refreshRequested.store(false, std::memory_order_relaxed);
+        resetProcessingState();
         return true;
     }
 
     void EqualizerProcessor::close() {
         m_transitionSamplesRemaining = 0;
         m_hasAppliedSnapshot = false;
+        m_refreshRequested.store(false, std::memory_order_relaxed);
         resetSpectrumAnalysis();
         AudioSource::close();
     }
 
     qint64 EqualizerProcessor::processReading(const talcs::AudioSourceReadData &readData) {
+        if (m_refreshRequested.exchange(false, std::memory_order_acq_rel)) {
+            resetProcessingState();
+        }
         const int channelCount = std::min(2, readData.buffer->channelCount());
         if (channelCount == 0 || readData.length <= 0) {
             return readData.length;
@@ -233,6 +229,23 @@ namespace EqualizerEffectsUnit::Internal {
         m_transitionRevision = revision;
         m_transitionSamplesTotal = std::max(1, static_cast<int>(m_sampleRate * 0.005));
         m_transitionSamplesRemaining = m_transitionSamplesTotal;
+    }
+
+    void EqualizerProcessor::resetProcessingState() {
+        for (auto &bank : m_filterBanks) {
+            bank.count = 0;
+            for (auto &channel : bank.filters) {
+                for (auto &filter : channel) {
+                    filter.reset();
+                }
+            }
+        }
+        m_activeBankIndex = 0;
+        m_transitionBankIndex = 1;
+        m_transitionSamplesRemaining = 0;
+        m_hasAppliedSnapshot = false;
+        prepareParameterTransition();
+        resetSpectrumAnalysis();
     }
 
     void EqualizerProcessor::configureBank(FilterBank &bank,

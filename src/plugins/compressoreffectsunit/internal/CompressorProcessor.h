@@ -26,6 +26,7 @@ namespace CompressorEffectsUnit::Internal {
 
         void setParameters(double thresholdDb, double ratio,
                            double attackMilliseconds, double releaseMilliseconds);
+        void refresh();
         bool takeMeterValues(MeterValues &values);
         void discardMeterValues();
 
@@ -49,6 +50,7 @@ namespace CompressorEffectsUnit::Internal {
         std::array<MeterValues, meterQueueCapacity> m_meterQueue;
         std::atomic<std::uint64_t> m_meterWriteIndex{};
         std::atomic<std::uint64_t> m_meterReadIndex{};
+        std::atomic<bool> m_refreshRequested{};
         double m_sampleRate{44100.0};
         float m_envelope{};
     };
