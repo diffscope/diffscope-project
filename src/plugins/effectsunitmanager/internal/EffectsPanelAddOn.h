@@ -4,6 +4,7 @@
 #ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPANELADDON_H
 #define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSPANELADDON_H
 
+#include <QHash>
 #include <QMetaObject>
 #include <QPointer>
 #include <QVariantList>
@@ -19,17 +20,27 @@ namespace dspx {
 
 namespace EffectsUnitManager::Internal {
 
-    class TrackEffectsContext;
+    class EffectsContext;
 
     class EffectsPanelAddOn final : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         Q_PROPERTY(QAbstractItemModel *effectsModel READ effectsModel NOTIFY selectionContextChanged)
         Q_PROPERTY(QString selectionMessage READ selectionMessage NOTIFY selectionContextChanged)
-        Q_PROPERTY(bool hasTrack READ hasTrack NOTIFY selectionContextChanged)
+        Q_PROPERTY(bool hasEffectsContext READ hasEffectsContext NOTIFY selectionContextChanged)
+        Q_PROPERTY(bool trackTabVisible READ trackTabVisible NOTIFY selectionContextChanged)
+        Q_PROPERTY(QString trackTabText READ trackTabText NOTIFY selectionContextChanged)
+        Q_PROPERTY(int activeTab READ activeTab WRITE setActiveTab NOTIFY selectionContextChanged)
         Q_PROPERTY(bool readingFilterConflict READ readingFilterConflict NOTIFY selectionContextChanged)
+        Q_PROPERTY(QString readingFilterConflictMessage READ readingFilterConflictMessage NOTIFY selectionContextChanged)
         Q_PROPERTY(QVariantList availableEffects READ availableEffects NOTIFY availableEffectsChanged)
 
     public:
+        enum Tab {
+            TrackTab,
+            MasterTab,
+        };
+        Q_ENUM(Tab)
+
         explicit EffectsPanelAddOn(QObject *parent = nullptr);
         ~EffectsPanelAddOn() override;
 
@@ -39,8 +50,13 @@ namespace EffectsUnitManager::Internal {
 
         QAbstractItemModel *effectsModel() const;
         QString selectionMessage() const;
-        bool hasTrack() const;
+        bool hasEffectsContext() const;
+        bool trackTabVisible() const;
+        QString trackTabText() const;
+        int activeTab() const;
+        void setActiveTab(int activeTab);
         bool readingFilterConflict() const;
+        QString readingFilterConflictMessage() const;
         QVariantList availableEffects() const;
 
         Q_INVOKABLE bool addEffect(const QString &id);
@@ -54,18 +70,28 @@ namespace EffectsUnitManager::Internal {
         void availableEffectsChanged();
 
     private:
+        EffectsContext *activeContext() const;
+        void createMasterContext();
         void createTrackContext(dspx::Track *track);
         void refreshSelection();
         void refreshAvailableEffects();
-        void setCurrentContext(TrackEffectsContext *context, const QString &message);
+        void setTrackSelection(bool tabVisible,
+                               dspx::Track *track,
+                               EffectsContext *context,
+                               const QString &message);
         void clearAssociationConnections();
 
         dspx::SelectionModel *m_selectionModel{};
-        QPointer<TrackEffectsContext> m_currentContext;
-        QString m_selectionMessage;
+        QHash<dspx::Track *, QPointer<EffectsContext>> m_trackContexts;
+        QPointer<EffectsContext> m_masterContext;
+        QPointer<EffectsContext> m_trackContext;
+        QPointer<dspx::Track> m_selectedTrack;
+        QString m_trackSelectionMessage;
+        QString m_masterSelectionMessage;
         QVariantList m_availableEffects;
         QList<QMetaObject::Connection> m_associationConnections;
-        QMetaObject::Connection m_contextDestroyedConnection;
+        bool m_trackTabVisible{};
+        int m_activeTab{MasterTab};
     };
 
 }

@@ -1,22 +1,25 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_TRACKEFFECTSCONTEXT_H
-#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_TRACKEFFECTSCONTEXT_H
+#ifndef DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H
+#define DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H
 
 #include <memory>
 #include <vector>
 
 #include <QAbstractListModel>
 
-namespace Audio {
-    class TrackAudioContext;
+namespace Core {
+    class ProjectWindowInterface;
 }
 
 namespace dspx {
     class AudioDSP;
     class AudioDSPList;
-    class Track;
+}
+
+namespace talcs {
+    class PositionableMixerAudioSource;
 }
 
 namespace EffectsUnitManager {
@@ -27,9 +30,8 @@ namespace EffectsUnitManager::Internal {
 
     class EffectsChainFilter;
 
-    class TrackEffectsContext final : public QAbstractListModel {
+    class EffectsContext final : public QAbstractListModel {
         Q_OBJECT
-        Q_PROPERTY(dspx::Track *track READ track CONSTANT)
         Q_PROPERTY(bool readingFilterConflict READ readingFilterConflict CONSTANT)
 
     public:
@@ -43,12 +45,12 @@ namespace EffectsUnitManager::Internal {
             ErrorRole,
         };
 
-        explicit TrackEffectsContext(Audio::TrackAudioContext *trackAudioContext);
-        ~TrackEffectsContext() override;
+        explicit EffectsContext(Core::ProjectWindowInterface *windowHandle,
+                                dspx::AudioDSPList *audioDSPList,
+                                talcs::PositionableMixerAudioSource *mixer,
+                                QObject *parent = nullptr);
+        ~EffectsContext() override;
 
-        static TrackEffectsContext *of(dspx::Track *track);
-
-        dspx::Track *track() const;
         bool readingFilterConflict() const;
 
         int rowCount(const QModelIndex &parent = {}) const override;
@@ -74,9 +76,9 @@ namespace EffectsUnitManager::Internal {
         void handleUnitUpdated(dspx::AudioDSP *item);
         void restoreUnitState(Entry &entry);
 
-        Audio::TrackAudioContext *m_trackAudioContext{};
-        dspx::Track *m_track{};
+        Core::ProjectWindowInterface *m_windowHandle{};
         dspx::AudioDSPList *m_audioDSPList{};
+        talcs::PositionableMixerAudioSource *m_mixer{};
         bool m_readingFilterConflict{};
         std::unique_ptr<EffectsChainFilter> m_filter;
         std::vector<std::unique_ptr<Entry>> m_entries;
@@ -86,4 +88,4 @@ namespace EffectsUnitManager::Internal {
 
 }
 
-#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_TRACKEFFECTSCONTEXT_H
+#endif // DIFFSCOPE_EFFECTS_UNIT_MANAGER_EFFECTSCONTEXT_H

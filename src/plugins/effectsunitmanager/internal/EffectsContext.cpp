@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include "TrackEffectsContext.h"
+#include "EffectsContext.h"
 
 #include <algorithm>
 #include <iterator>
@@ -19,9 +19,6 @@
 #include <dspxmodelORM/AudioDSP.h>
 #include <dspxmodelORM/AudioDSPList.h>
 #include <dspxmodelORM/Model.h>
-#include <dspxmodelORM/Track.h>
-
-#include <audio/TrackAudioContext.h>
 
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -35,7 +32,7 @@
 
 namespace EffectsUnitManager::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcTrackEffectsContext, "diffscope.effectsunitmanager.trackeffectscontext")
+    Q_STATIC_LOGGING_CATEGORY(lcEffectsContext, "diffscope.effectsunitmanager.effectscontext")
 
     class EffectsChainFilter final : public talcs::AudioSource {
     public:
@@ -53,7 +50,7 @@ namespace EffectsUnitManager::Internal {
             for (auto &slot : m_slots) {
                 slot.opened = slot.processor->open(bufferSize, sampleRate);
                 if (!slot.opened) {
-                    qCWarning(lcTrackEffectsContext) << "Failed to open effect processor" << slot.processor;
+                    qCWarning(lcEffectsContext) << "Failed to open effect processor" << slot.processor;
                 }
             }
             return true;
@@ -82,7 +79,7 @@ namespace EffectsUnitManager::Internal {
                 if (isOpen() && old == m_slots.end()) {
                     opened = processor->open(bufferSize(), sampleRate());
                     if (!opened) {
-                        qCWarning(lcTrackEffectsContext) << "Failed to open effect processor" << processor;
+                        qCWarning(lcEffectsContext) << "Failed to open effect processor" << processor;
                     }
                 }
                 newSlots.append({processor, enabled, opened});
@@ -114,31 +111,31 @@ namespace EffectsUnitManager::Internal {
         QList<Slot> m_slots;
     };
 
-    struct TrackEffectsContext::Entry {
+    struct EffectsContext::Entry {
         dspx::AudioDSP *item{};
         EffectsUnit *unit{};
         bool expanded{true};
         bool applyingState{};
     };
 
-    static QHash<dspx::Track *, TrackEffectsContext *> s_contexts;
-
-    TrackEffectsContext::TrackEffectsContext(Audio::TrackAudioContext *trackAudioContext)
-        : QAbstractListModel(trackAudioContext),
-          m_trackAudioContext(trackAudioContext),
-          m_track(trackAudioContext->track()),
-          m_audioDSPList(m_track->audioDSPs()),
+    EffectsContext::EffectsContext(Core::ProjectWindowInterface *windowHandle,
+                                   dspx::AudioDSPList *audioDSPList,
+                                   talcs::PositionableMixerAudioSource *mixer,
+                                   QObject *parent)
+        : QAbstractListModel(parent),
+          m_windowHandle(windowHandle),
+          m_audioDSPList(audioDSPList),
+          m_mixer(mixer),
           m_filter(std::make_unique<EffectsChainFilter>()) {
-        Q_ASSERT(m_track);
-        Q_ASSERT(!s_contexts.contains(m_track));
-        s_contexts.insert(m_track, this);
+        Q_ASSERT(m_windowHandle);
+        Q_ASSERT(m_audioDSPList);
+        Q_ASSERT(m_mixer);
 
-        auto trackMixer = m_trackAudioContext->trackMixer();
-        if (trackMixer->readingFilter()) {
+        if (m_mixer->readingFilter()) {
             m_readingFilterConflict = true;
-            qCWarning(lcTrackEffectsContext) << "Track mixer already has a reading filter" << m_track;
+            qCWarning(lcEffectsContext) << "Effects mixer already has a reading filter" << m_mixer;
         } else {
-            trackMixer->setReadingFilter(m_filter.get());
+            m_mixer->setReadingFilter(m_filter.get());
         }
 
         for (int index = 0; index < m_audioDSPList->size(); ++index) {
@@ -190,28 +187,19 @@ namespace EffectsUnitManager::Internal {
                 });
     }
 
-    TrackEffectsContext::~TrackEffectsContext() {
+    EffectsContext::~EffectsContext() {
         m_filter->setProcessors({});
-        s_contexts.remove(m_track);
     }
 
-    TrackEffectsContext *TrackEffectsContext::of(dspx::Track *track) {
-        return s_contexts.value(track);
-    }
-
-    dspx::Track *TrackEffectsContext::track() const {
-        return m_track;
-    }
-
-    bool TrackEffectsContext::readingFilterConflict() const {
+    bool EffectsContext::readingFilterConflict() const {
         return m_readingFilterConflict;
     }
 
-    int TrackEffectsContext::rowCount(const QModelIndex &parent) const {
+    int EffectsContext::rowCount(const QModelIndex &parent) const {
         return parent.isValid() ? 0 : static_cast<int>(m_entries.size());
     }
 
-    QVariant TrackEffectsContext::data(const QModelIndex &index, int role) const {
+    QVariant EffectsContext::data(const QModelIndex &index, int role) const {
         const auto entry = entryAt(index.row());
         if (!entry || index.column() != 0) {
             return {};
@@ -238,7 +226,7 @@ namespace EffectsUnitManager::Internal {
         }
     }
 
-    QHash<int, QByteArray> TrackEffectsContext::roleNames() const {
+    QHash<int, QByteArray> EffectsContext::roleNames() const {
         return {
             {IdRole, "effectId"},
             {NameRole, "name"},
@@ -250,13 +238,12 @@ namespace EffectsUnitManager::Internal {
         };
     }
 
-    bool TrackEffectsContext::addEffect(const QString &id) {
+    bool EffectsContext::addEffect(const QString &id) {
         auto effectsUnitClass = EffectsUnitCollection::instance()->effectsUnitClass(id);
         if (!effectsUnitClass) {
             return false;
         }
-        auto window = m_trackAudioContext->windowHandle();
-        auto document = window->projectDocumentContext()->document();
+        auto document = m_windowHandle->projectDocumentContext()->document();
         bool inserted = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             tr("Adding effect"), [this, document, effectsUnitClass, &inserted, &id] {
@@ -287,11 +274,11 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && inserted;
     }
 
-    bool TrackEffectsContext::removeEffect(int row) {
+    bool EffectsContext::removeEffect(int row) {
         if (!entryAt(row)) {
             return false;
         }
-        auto document = m_trackAudioContext->windowHandle()->projectDocumentContext()->document();
+        auto document = m_windowHandle->projectDocumentContext()->document();
         bool removed = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             tr("Removing effect"), [this, document, row, &removed] {
@@ -306,12 +293,12 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && removed;
     }
 
-    bool TrackEffectsContext::setEffectEnabled(int row, bool enabled) {
+    bool EffectsContext::setEffectEnabled(int row, bool enabled) {
         auto entry = entryAt(row);
         if (!entry || entry->item->enabled() == enabled) {
             return false;
         }
-        auto document = m_trackAudioContext->windowHandle()->projectDocumentContext()->document();
+        auto document = m_windowHandle->projectDocumentContext()->document();
         bool changed = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             enabled ? tr("Enabling effect") : tr("Disabling effect"),
@@ -323,7 +310,7 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && changed;
     }
 
-    bool TrackEffectsContext::moveEffect(int row, int offset) {
+    bool EffectsContext::moveEffect(int row, int offset) {
         if (!entryAt(row) || (offset != -1 && offset != 1)) {
             return false;
         }
@@ -331,7 +318,7 @@ namespace EffectsUnitManager::Internal {
         if (target < 0 || target >= rowCount()) {
             return false;
         }
-        auto document = m_trackAudioContext->windowHandle()->projectDocumentContext()->document();
+        auto document = m_windowHandle->projectDocumentContext()->document();
         bool moved = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             tr("Moving effect"), [this, row, offset, &moved] {
@@ -343,7 +330,7 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && moved;
     }
 
-    void TrackEffectsContext::setExpanded(int row, bool expanded) {
+    void EffectsContext::setExpanded(int row, bool expanded) {
         auto entry = entryAt(row);
         if (!entry || entry->expanded == expanded) {
             return;
@@ -353,21 +340,21 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT dataChanged(modelIndex, modelIndex, {ExpandedRole});
     }
 
-    TrackEffectsContext::Entry *TrackEffectsContext::entryAt(int row) const {
+    EffectsContext::Entry *EffectsContext::entryAt(int row) const {
         if (row < 0 || row >= static_cast<int>(m_entries.size())) {
             return nullptr;
         }
         return m_entries.at(row).get();
     }
 
-    int TrackEffectsContext::indexOf(dspx::AudioDSP *item) const {
+    int EffectsContext::indexOf(dspx::AudioDSP *item) const {
         const auto it = std::ranges::find_if(m_entries, [item](const auto &entry) {
             return entry->item == item;
         });
         return it == m_entries.end() ? -1 : static_cast<int>(std::distance(m_entries.begin(), it));
     }
 
-    void TrackEffectsContext::insertEntry(int index, dspx::AudioDSP *item) {
+    void EffectsContext::insertEntry(int index, dspx::AudioDSP *item) {
         auto entry = std::make_unique<Entry>();
         entry->item = item;
         auto existingUnit = item == m_pendingItem ? std::exchange(m_pendingUnit, nullptr) : nullptr;
@@ -399,7 +386,7 @@ namespace EffectsUnitManager::Internal {
         });
     }
 
-    void TrackEffectsContext::removeEntry(int index) {
+    void EffectsContext::removeEntry(int index) {
         if (index < 0 || index >= static_cast<int>(m_entries.size())) {
             return;
         }
@@ -412,7 +399,7 @@ namespace EffectsUnitManager::Internal {
         delete unit;
     }
 
-    void TrackEffectsContext::recreateUnit(Entry &entry) {
+    void EffectsContext::recreateUnit(Entry &entry) {
         auto oldUnit = entry.unit;
         entry.unit = nullptr;
         updateAudioChain();
@@ -421,7 +408,7 @@ namespace EffectsUnitManager::Internal {
         updateAudioChain();
     }
 
-    void TrackEffectsContext::createUnit(Entry &entry, EffectsUnit *existingUnit) {
+    void EffectsContext::createUnit(Entry &entry, EffectsUnit *existingUnit) {
         auto effectsUnitClass = EffectsUnitCollection::instance()->effectsUnitClass(entry.item->id());
         if (!effectsUnitClass) {
             Q_ASSERT(!existingUnit);
@@ -443,7 +430,7 @@ namespace EffectsUnitManager::Internal {
         restoreUnitState(entry);
     }
 
-    void TrackEffectsContext::updateAudioChain() {
+    void EffectsContext::updateAudioChain() {
         QList<QPair<talcs::AudioSource *, bool>> processors;
         processors.reserve(static_cast<qsizetype>(m_entries.size()));
         for (const auto &entry : m_entries) {
@@ -454,7 +441,7 @@ namespace EffectsUnitManager::Internal {
         m_filter->setProcessors(processors);
     }
 
-    void TrackEffectsContext::handleUnitUpdated(dspx::AudioDSP *item) {
+    void EffectsContext::handleUnitUpdated(dspx::AudioDSP *item) {
         auto entry = entryAt(indexOf(item));
         if (!entry || !entry->unit || entry->applyingState) {
             return;
@@ -463,7 +450,7 @@ namespace EffectsUnitManager::Internal {
         if (state == item->data()) {
             return;
         }
-        auto document = m_trackAudioContext->windowHandle()->projectDocumentContext()->document();
+        auto document = m_windowHandle->projectDocumentContext()->document();
         bool changed = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             tr("Editing effect"), [this, item, state, &changed] {
@@ -482,7 +469,7 @@ namespace EffectsUnitManager::Internal {
         }
     }
 
-    void TrackEffectsContext::restoreUnitState(Entry &entry) {
+    void EffectsContext::restoreUnitState(Entry &entry) {
         if (!entry.unit) {
             return;
         }
@@ -493,4 +480,4 @@ namespace EffectsUnitManager::Internal {
 
 }
 
-#include "moc_TrackEffectsContext.cpp"
+#include "moc_EffectsContext.cpp"

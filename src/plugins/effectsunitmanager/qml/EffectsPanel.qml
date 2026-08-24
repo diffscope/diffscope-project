@@ -20,6 +20,25 @@ QtObject {
     readonly property Component panelComponent: ActionDockingPane {
         id: pane
 
+        MenuAction {
+            id: addAction
+            menu: Menu {
+                id: addMenu
+                title: qsTr("Add Effect")
+                icon.source: "image://fluent-system-icons/add_circle"
+                Instantiator {
+                    model: root.addOn?.availableEffects ?? []
+                    delegate: MenuItem {
+                        required property var modelData
+                        text: modelData.name
+                        onTriggered: root.addOn.addEffect(modelData.id)
+                    }
+                    onObjectAdded: (index, object) => addMenu.insertItem(index, object)
+                    onObjectRemoved: (index, object) => addMenu.removeItem(object)
+                }
+            }
+        }
+
         header: ToolBarContainer {
             anchors.fill: parent
             ToolBarContainerStretch {}
@@ -27,40 +46,72 @@ QtObject {
                 id: addButton
                 text: qsTr("Add Effect")
                 display: AbstractButton.IconOnly
-                icon.source: "image://fluent-system-icons/add"
-                enabled: (root.addOn?.hasTrack ?? false) && (root.addOn?.availableEffects.length ?? 0) > 0
-                action: MenuAction {
-                    menu: Menu {
-                        id: addMenu
-                        Instantiator {
-                            model: root.addOn?.availableEffects ?? []
-                            delegate: MenuItem {
-                                required property var modelData
-                                text: modelData.name
-                                onTriggered: root.addOn.addEffect(modelData.id)
-                            }
-                            onObjectAdded: (index, object) => addMenu.insertItem(index, object)
-                            onObjectRemoved: (index, object) => addMenu.removeItem(object)
-                        }
-                    }
+                enabled: (root.addOn?.hasEffectsContext ?? false) && (root.addOn?.availableEffects.length ?? 0) > 0
+                action: addAction
+            }
+        }
+
+        TabBar {
+            id: effectsTabBar
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: 12
+            anchors.leftMargin: 12
+            anchors.rightMargin: 12
+            height: 30
+            ThemedItem.flat: true
+            onCurrentIndexChanged: {
+                if (root.addOn)
+                    root.addOn.activeTab = currentIndex
+            }
+            Component.onCompleted: currentIndex = root.addOn?.activeTab ?? 1
+
+            Connections {
+                target: root.addOn
+                function onSelectionContextChanged() {
+                    if (effectsTabBar.currentIndex !== root.addOn.activeTab)
+                        effectsTabBar.currentIndex = root.addOn.activeTab
                 }
+            }
+
+            TabButton {
+                text: root.addOn?.trackTabText ?? qsTr("Track")
+                visible: root.addOn?.trackTabVisible ?? false
+                width: visible ? implicitWidth : 0
+                ThemedItem.tabIndicator: SVS.TI_Bottom
+            }
+            TabButton {
+                text: qsTr("Master")
+                width: implicitWidth
+                ThemedItem.tabIndicator: SVS.TI_Bottom
             }
         }
 
         Label {
-            anchors.centerIn: parent
-            width: Math.max(0, parent.width - 32)
+            anchors.top: effectsTabBar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 12
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignTop
             wrapMode: Text.Wrap
             text: root.addOn?.selectionMessage ?? ""
-            visible: !root.addOn?.hasTrack
+            visible: !root.addOn?.hasEffectsContext
             color: Theme.foregroundSecondaryColor
         }
 
         ColumnLayout {
-            anchors.fill: parent
+            anchors.top: effectsTabBar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 4
             spacing: 0
-            visible: root.addOn?.hasTrack ?? false
+            visible: root.addOn?.hasEffectsContext ?? false
 
             Frame {
                 Layout.fillWidth: true
@@ -72,7 +123,7 @@ QtObject {
                 Label {
                     id: conflictLabel
                     anchors.fill: parent
-                    text: qsTr("Another audio reading filter is already attached to this track. Effects cannot process audio on this track.")
+                    text: root.addOn?.readingFilterConflictMessage ?? ""
                     wrapMode: Text.Wrap
                     color: Theme.errorColor
                 }
@@ -88,14 +139,13 @@ QtObject {
                 bottomMargin: 8
                 model: root.addOn?.effectsModel ?? null
 
-                Label {
-                    anchors.centerIn: parent
-                    width: Math.max(0, parent.width - 32)
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.Wrap
-                    text: qsTr("No effects. Use Add Effect to add one.")
+                Button {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 8
                     visible: effectsList.count === 0
-                    color: Theme.foregroundSecondaryColor
+                    action: addAction
                 }
 
                 delegate: Item {

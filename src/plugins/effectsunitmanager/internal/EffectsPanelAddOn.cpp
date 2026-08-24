@@ -39,6 +39,7 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
+#include <audio/ProjectAudioContext.h>
 #include <audio/TrackAudioContext.h>
 
 #include <coreplugin/DspxDocument.h>
@@ -47,7 +48,7 @@
 
 #include <effectsunitmanager/EffectsUnitClass.h>
 #include <effectsunitmanager/EffectsUnitCollection.h>
-#include <effectsunitmanager/internal/TrackEffectsContext.h>
+#include <effectsunitmanager/internal/EffectsContext.h>
 
 namespace EffectsUnitManager::Internal {
 
@@ -100,6 +101,7 @@ namespace EffectsUnitManager::Internal {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         window->addObject(this);
         auto document = window->projectDocumentContext()->document();
+        createMasterContext();
         auto trackList = document->model()->tracks();
         for (auto track : trackList->items()) {
             createTrackContext(track);
@@ -156,19 +158,48 @@ namespace EffectsUnitManager::Internal {
     }
 
     QAbstractItemModel *EffectsPanelAddOn::effectsModel() const {
-        return m_currentContext;
+        return activeContext();
     }
 
     QString EffectsPanelAddOn::selectionMessage() const {
-        return m_selectionMessage;
+        return m_activeTab == TrackTab ? m_trackSelectionMessage : m_masterSelectionMessage;
     }
 
-    bool EffectsPanelAddOn::hasTrack() const {
-        return !m_currentContext.isNull();
+    bool EffectsPanelAddOn::hasEffectsContext() const {
+        return activeContext() != nullptr;
+    }
+
+    bool EffectsPanelAddOn::trackTabVisible() const {
+        return m_trackTabVisible;
+    }
+
+    QString EffectsPanelAddOn::trackTabText() const {
+        return m_selectedTrack ? tr("Track: %1").arg(m_selectedTrack->name()) : tr("Track");
+    }
+
+    int EffectsPanelAddOn::activeTab() const {
+        return m_activeTab;
+    }
+
+    void EffectsPanelAddOn::setActiveTab(int activeTab) {
+        if ((activeTab != TrackTab && activeTab != MasterTab) ||
+            (activeTab == TrackTab && !m_trackTabVisible) ||
+            m_activeTab == activeTab) {
+            return;
+        }
+        m_activeTab = activeTab;
+        Q_EMIT selectionContextChanged();
     }
 
     bool EffectsPanelAddOn::readingFilterConflict() const {
-        return m_currentContext && m_currentContext->readingFilterConflict();
+        auto context = activeContext();
+        return context && context->readingFilterConflict();
+    }
+
+    QString EffectsPanelAddOn::readingFilterConflictMessage() const {
+        return m_activeTab == TrackTab
+            ? tr("Another audio reading filter is already attached to this track. Effects cannot process audio on this track.")
+            : tr("Another audio reading filter is already attached to the master track. Effects cannot process master audio.");
     }
 
     QVariantList EffectsPanelAddOn::availableEffects() const {
@@ -176,29 +207,57 @@ namespace EffectsUnitManager::Internal {
     }
 
     bool EffectsPanelAddOn::addEffect(const QString &id) {
-        return m_currentContext && m_currentContext->addEffect(id);
+        auto context = activeContext();
+        return context && context->addEffect(id);
     }
 
     bool EffectsPanelAddOn::removeEffect(int row) {
-        return m_currentContext && m_currentContext->removeEffect(row);
+        auto context = activeContext();
+        return context && context->removeEffect(row);
     }
 
     bool EffectsPanelAddOn::setEffectEnabled(int row, bool enabled) {
-        return m_currentContext && m_currentContext->setEffectEnabled(row, enabled);
+        auto context = activeContext();
+        return context && context->setEffectEnabled(row, enabled);
     }
 
     bool EffectsPanelAddOn::moveEffect(int row, int offset) {
-        return m_currentContext && m_currentContext->moveEffect(row, offset);
+        auto context = activeContext();
+        return context && context->moveEffect(row, offset);
     }
 
     void EffectsPanelAddOn::setExpanded(int row, bool expanded) {
-        if (m_currentContext) {
-            m_currentContext->setExpanded(row, expanded);
+        if (auto context = activeContext()) {
+            context->setExpanded(row, expanded);
         }
     }
 
+    EffectsContext *EffectsPanelAddOn::activeContext() const {
+        return m_activeTab == TrackTab ? m_trackContext.data() : m_masterContext.data();
+    }
+
+    void EffectsPanelAddOn::createMasterContext() {
+        auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto audioContext = Audio::ProjectAudioContext::of(window);
+        if (!audioContext) {
+            m_masterSelectionMessage = tr("Effects are unavailable for the master track.");
+            qCWarning(lcEffectsPanelAddOn) << "Project audio context is unavailable";
+            return;
+        }
+        auto document = window->projectDocumentContext()->document();
+        m_masterContext = new EffectsContext(window,
+                                             document->model()->audioDSPs(),
+                                             audioContext->masterTrackMixer(),
+                                             audioContext);
+        connect(m_masterContext, &QObject::destroyed, this, [this] {
+            m_masterContext = nullptr;
+            m_masterSelectionMessage = tr("Effects are unavailable for the master track.");
+            Q_EMIT selectionContextChanged();
+        });
+    }
+
     void EffectsPanelAddOn::createTrackContext(dspx::Track *track) {
-        if (!track || TrackEffectsContext::of(track)) {
+        if (!track || m_trackContexts.contains(track)) {
             return;
         }
         auto audioContext = Audio::TrackAudioContext::of(track);
@@ -206,13 +265,25 @@ namespace EffectsUnitManager::Internal {
             qCWarning(lcEffectsPanelAddOn) << "Track audio context is unavailable" << track;
             return;
         }
-        new TrackEffectsContext(audioContext);
+        auto context = new EffectsContext(audioContext->windowHandle(),
+                                          track->audioDSPs(),
+                                          audioContext->trackMixer(),
+                                          audioContext);
+        m_trackContexts.insert(track, context);
+        connect(context, &QObject::destroyed, this, [this, track] {
+            m_trackContexts.remove(track);
+            if (m_selectedTrack == track) {
+                m_trackContext = nullptr;
+                m_trackSelectionMessage = tr("Effects are unavailable for this track.");
+                Q_EMIT selectionContextChanged();
+            }
+        });
     }
 
     void EffectsPanelAddOn::refreshSelection() {
         clearAssociationConnections();
         if (!m_selectionModel || m_selectionModel->selectedCount() == 0) {
-            setCurrentContext(nullptr, tr("Select a track or an item on a track to edit effects."));
+            setTrackSelection(false, nullptr, nullptr, {});
             return;
         }
 
@@ -278,24 +349,25 @@ namespace EffectsUnitManager::Internal {
                 }
                 break;
             default:
-                setCurrentContext(nullptr, tr("The current selection cannot be associated with a track."));
+                setTrackSelection(false, nullptr, nullptr, {});
                 return;
         }
 
         if (tracks.size() > 1) {
-            setCurrentContext(nullptr, tr("Effects cannot be edited for multiple tracks."));
+            setTrackSelection(true, nullptr, nullptr, tr("Effects cannot be edited for multiple tracks."));
             return;
         }
         if (mappingFailed || tracks.isEmpty()) {
-            setCurrentContext(nullptr, tr("The current selection cannot be associated with a track."));
+            setTrackSelection(false, nullptr, nullptr, {});
             return;
         }
-        auto context = TrackEffectsContext::of(*tracks.constBegin());
+        auto track = *tracks.constBegin();
+        auto context = m_trackContexts.value(track);
         if (!context) {
-            setCurrentContext(nullptr, tr("Effects are unavailable for this track."));
+            setTrackSelection(true, track, nullptr, tr("Effects are unavailable for this track."));
             return;
         }
-        setCurrentContext(context, {});
+        setTrackSelection(true, track, context, {});
     }
 
     void EffectsPanelAddOn::refreshAvailableEffects() {
@@ -333,22 +405,21 @@ namespace EffectsUnitManager::Internal {
         Q_EMIT availableEffectsChanged();
     }
 
-    void EffectsPanelAddOn::setCurrentContext(TrackEffectsContext *context, const QString &message) {
-        if (m_currentContext == context && m_selectionMessage == message) {
-            return;
-        }
-        if (m_contextDestroyedConnection) {
-            disconnect(m_contextDestroyedConnection);
-            m_contextDestroyedConnection = {};
-        }
-        m_currentContext = context;
-        m_selectionMessage = message;
-        if (context) {
-            m_contextDestroyedConnection = connect(context, &QObject::destroyed, this, [this] {
-                m_currentContext = nullptr;
-                m_selectionMessage = tr("Effects are unavailable for this track.");
-                Q_EMIT selectionContextChanged();
-            });
+    void EffectsPanelAddOn::setTrackSelection(bool tabVisible,
+                                              dspx::Track *track,
+                                              EffectsContext *context,
+                                              const QString &message) {
+        m_trackTabVisible = tabVisible;
+        m_selectedTrack = track;
+        m_trackContext = context;
+        m_trackSelectionMessage = message;
+        m_activeTab = tabVisible ? TrackTab : MasterTab;
+        if (track) {
+            m_associationConnections.append(connect(track, &dspx::Track::nameChanged, this, [this, track] {
+                if (m_selectedTrack == track) {
+                    Q_EMIT selectionContextChanged();
+                }
+            }));
         }
         Q_EMIT selectionContextChanged();
     }
