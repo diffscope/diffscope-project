@@ -215,6 +215,13 @@ QtObject {
                                     onClicked: root.addOn.moveEffect(effectDelegate.index, 1)
                                 }
                                 ToolButton {
+                                    text: qsTr("Reset Effect")
+                                    display: AbstractButton.IconOnly
+                                    icon.source: "image://fluent-system-icons/arrow_reset"
+                                    enabled: effectDelegate.model.known
+                                    onClicked: root.addOn.resetEffect(effectDelegate.index)
+                                }
+                                ToolButton {
                                     text: qsTr("Delete Effect")
                                     display: AbstractButton.IconOnly
                                     icon.source: "image://fluent-system-icons/delete"

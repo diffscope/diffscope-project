@@ -63,6 +63,7 @@ namespace EffectsUnitManager::Internal {
         Q_INVOKABLE bool removeEffect(int row);
         Q_INVOKABLE bool setEffectEnabled(int row, bool enabled);
         Q_INVOKABLE bool moveEffect(int row, int offset);
+        Q_INVOKABLE bool resetEffect(int row);
         Q_INVOKABLE void setExpanded(int row, bool expanded);
 
     Q_SIGNALS:

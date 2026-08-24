@@ -226,6 +226,11 @@ namespace EffectsUnitManager::Internal {
         return context && context->moveEffect(row, offset);
     }
 
+    bool EffectsPanelAddOn::resetEffect(int row) {
+        auto context = activeContext();
+        return context && context->resetEffect(row);
+    }
+
     void EffectsPanelAddOn::setExpanded(int row, bool expanded) {
         if (auto context = activeContext()) {
             context->setExpanded(row, expanded);

@@ -36,6 +36,10 @@ namespace EffectsUnitManager {
         talcs::AudioSource *processor() const;
 
         virtual QJsonValue getState() const = 0;
+
+        /**
+         * Sets the effect state. A null value resets the effect to its default state.
+         */
         virtual void setState(const QJsonValue &state) = 0;
 
     Q_SIGNALS:

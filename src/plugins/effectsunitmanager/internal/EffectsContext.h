@@ -61,6 +61,7 @@ namespace EffectsUnitManager::Internal {
         bool removeEffect(int row);
         bool setEffectEnabled(int row, bool enabled);
         bool moveEffect(int row, int offset);
+        bool resetEffect(int row);
         void setExpanded(int row, bool expanded);
 
     private:

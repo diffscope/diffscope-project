@@ -330,6 +330,16 @@ namespace EffectsUnitManager::Internal {
         return transactionStarted && moved;
     }
 
+    bool EffectsContext::resetEffect(int row) {
+        auto entry = entryAt(row);
+        if (!entry || !entry->unit) {
+            return false;
+        }
+        const auto previousState = entry->unit->getState();
+        entry->unit->setState(QJsonValue());
+        return entry->unit->getState() != previousState;
+    }
+
     void EffectsContext::setExpanded(int row, bool expanded) {
         auto entry = entryAt(row);
         if (!entry || entry->expanded == expanded) {
