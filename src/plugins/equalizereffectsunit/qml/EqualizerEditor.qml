@@ -9,6 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.EffectsUnitManager
 import DiffScope.EqualizerEffectsUnit
 
 ColumnLayout {
@@ -352,7 +353,7 @@ ColumnLayout {
         columns: 3
         columnSpacing: 8
 
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
@@ -362,7 +363,6 @@ ColumnLayout {
             minimum: editor.minimumFrequencyHz
             maximum: editor.maximumFrequencyHz
             defaultValue: 1000
-            decimalFactor: 10
             decimals: 1
             positionFromValue: value => editor.logarithmicPosition(value, minimum, maximum)
             valueFromPosition: position => editor.logarithmicValue(position, minimum, maximum)
@@ -370,7 +370,7 @@ ColumnLayout {
             setValue: value => editor.effectsUnit.setCurrentFrequencyHz(value)
             commitValue: () => editor.effectsUnit.commitPreview()
         }
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
@@ -380,7 +380,6 @@ ColumnLayout {
             minimum: editor.minimumGainDb
             maximum: editor.maximumGainDb
             defaultValue: 0
-            decimalFactor: 10
             decimals: 1
             positionFromValue: value => editor.linearPosition(value, minimum, maximum)
             valueFromPosition: position => editor.linearValue(position, minimum, maximum)
@@ -388,7 +387,7 @@ ColumnLayout {
             setValue: value => editor.effectsUnit.setCurrentGainDb(value)
             commitValue: () => editor.effectsUnit.commitPreview()
         }
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
@@ -398,100 +397,12 @@ ColumnLayout {
             minimum: 0.1
             maximum: 24
             defaultValue: 1
-            decimalFactor: 100
             decimals: 2
             positionFromValue: value => editor.logarithmicPosition(value, minimum, maximum)
             valueFromPosition: position => editor.logarithmicValue(position, minimum, maximum)
             previewValue: value => editor.effectsUnit.previewCurrentQ(value)
             setValue: value => editor.effectsUnit.setCurrentQ(value)
             commitValue: () => editor.effectsUnit.commitPreview()
-        }
-    }
-
-    component ParameterCell: ColumnLayout {
-        id: cell
-
-        required property var commitValue
-        required property int decimalFactor
-        required property int decimals
-        required property double defaultValue
-        required property string label
-        required property double maximum
-        required property double minimum
-        required property double parameterValue
-        required property var positionFromValue
-        required property var previewValue
-        required property var setValue
-        required property string unit
-        required property var valueFromPosition
-
-        spacing: 2
-
-        Label {
-            id: parameterLabel
-
-            Layout.alignment: Qt.AlignHCenter
-            text: cell.label
-            elide: Text.ElideRight
-        }
-
-        Dial {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredHeight: 42
-            Layout.preferredWidth: 42
-            Accessible.labelledBy: parameterLabel
-            from: 0
-            to: 1
-            stepSize: 0.001
-            value: cell.positionFromValue(cell.parameterValue)
-            onMoved: {
-                cell.previewValue(cell.valueFromPosition(value))
-                if (!pressed)
-                    cell.commitValue()
-            }
-            onPressedChanged: {
-                if (!pressed)
-                    cell.commitValue()
-            }
-            ThemedItem.onDoubleClickReset: {
-                cell.previewValue(cell.defaultValue)
-                cell.commitValue()
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 2
-
-            SpinBox {
-                Layout.fillWidth: true
-                Layout.minimumWidth: 58
-                Accessible.labelledBy: parameterLabel
-                editable: true
-                from: Math.round(cell.minimum * cell.decimalFactor)
-                to: Math.round(cell.maximum * cell.decimalFactor)
-                value: Math.round(cell.parameterValue * cell.decimalFactor)
-                validator: DoubleValidator {
-                    bottom: cell.minimum
-                    top: cell.maximum
-                    decimals: cell.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / cell.decimalFactor).toLocaleString(
-                        locale, "f", cell.decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text)
-                                      * cell.decimalFactor)
-                }
-                onValueModified: cell.setValue(value / cell.decimalFactor)
-            }
-            Label {
-                visible: cell.unit.length > 0
-                text: cell.unit
-                color: Theme.foregroundSecondaryColor
-            }
         }
     }
 }

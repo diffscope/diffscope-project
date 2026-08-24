@@ -37,6 +37,7 @@ ColumnLayout {
                 from: -100
                 to: 100
                 value: editor.effectsUnit?.leftLeftMixPercent ?? 0
+                ThemedItem.doubleClickResetValue: 100
                 Accessible.labelledBy: leftFromLeftLabel
                 onMoved: {
                     editor.effectsUnit.previewLeftLeftMixPercent(value)
@@ -205,6 +206,7 @@ ColumnLayout {
                 from: -100
                 to: 100
                 value: editor.effectsUnit?.rightRightMixPercent ?? 0
+                ThemedItem.doubleClickResetValue: 100
                 Accessible.labelledBy: rightFromRightLabel
                 onMoved: {
                     editor.effectsUnit.previewRightRightMixPercent(value)

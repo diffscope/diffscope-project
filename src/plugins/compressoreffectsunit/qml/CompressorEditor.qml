@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 import dev.sjimo.ScopicFlow
 
 import DiffScope.CompressorEffectsUnit
+import DiffScope.EffectsUnitManager
 
 ColumnLayout {
     id: editor
@@ -205,7 +206,7 @@ ColumnLayout {
         columns: 4
         columnSpacing: 8
 
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             label: qsTr("Threshold")
@@ -214,7 +215,6 @@ ColumnLayout {
             minimum: -96
             maximum: 0
             defaultValue: -12
-            decimalFactor: 10
             decimals: 1
             positionFromValue: value => editor.linearPosition(value, minimum, maximum)
             valueFromPosition: position => editor.linearValue(position, minimum, maximum)
@@ -222,7 +222,7 @@ ColumnLayout {
             setValue: value => editor.effectsUnit.setThresholdDb(value)
             commitValue: () => editor.effectsUnit.commitPreview()
         }
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             label: qsTr("Ratio")
@@ -231,7 +231,6 @@ ColumnLayout {
             minimum: 1
             maximum: 100
             defaultValue: 4
-            decimalFactor: 10
             decimals: 1
             positionFromValue: value => editor.logarithmicPosition(value, minimum, maximum)
             valueFromPosition: position => editor.logarithmicValue(position, minimum, maximum)
@@ -239,7 +238,7 @@ ColumnLayout {
             setValue: value => editor.effectsUnit.setRatio(value)
             commitValue: () => editor.effectsUnit.commitPreview()
         }
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             label: qsTr("Attack")
@@ -248,7 +247,6 @@ ColumnLayout {
             minimum: 0.01
             maximum: 1000
             defaultValue: 10
-            decimalFactor: 100
             decimals: 2
             positionFromValue: value => editor.logarithmicPosition(value, minimum, maximum)
             valueFromPosition: position => editor.logarithmicValue(position, minimum, maximum)
@@ -256,7 +254,7 @@ ColumnLayout {
             setValue: value => editor.effectsUnit.setAttackMilliseconds(value)
             commitValue: () => editor.effectsUnit.commitPreview()
         }
-        ParameterCell {
+        EffectsParameterCell {
             Layout.fillWidth: true
             Layout.horizontalStretchFactor: 1
             label: qsTr("Release")
@@ -265,103 +263,12 @@ ColumnLayout {
             minimum: 10
             maximum: 10000
             defaultValue: 100
-            decimalFactor: 10
             decimals: 1
             positionFromValue: value => editor.logarithmicPosition(value, minimum, maximum)
             valueFromPosition: position => editor.logarithmicValue(position, minimum, maximum)
             previewValue: value => editor.effectsUnit.previewReleaseMilliseconds(value)
             setValue: value => editor.effectsUnit.setReleaseMilliseconds(value)
             commitValue: () => editor.effectsUnit.commitPreview()
-        }
-    }
-
-    component ParameterCell: ColumnLayout {
-        id: cell
-
-        required property var commitValue
-        required property int decimalFactor
-        required property int decimals
-        required property double defaultValue
-        required property string label
-        required property double maximum
-        required property double minimum
-        required property double parameterValue
-        required property var positionFromValue
-        required property var previewValue
-        required property var setValue
-        required property string unit
-        required property var valueFromPosition
-
-        spacing: 4
-
-        Label {
-            id: parameterLabel
-
-            Layout.alignment: Qt.AlignHCenter
-            text: cell.label
-            elide: Text.ElideRight
-        }
-
-        Dial {
-            id: parameterDial
-
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredHeight: 44
-            Layout.preferredWidth: 44
-            Accessible.labelledBy: parameterLabel
-            from: 0
-            to: 1
-            stepSize: 0.001
-            value: cell.positionFromValue(cell.parameterValue)
-            onMoved: {
-                cell.previewValue(cell.valueFromPosition(value))
-                if (!pressed)
-                    cell.commitValue()
-            }
-            onPressedChanged: {
-                if (!pressed)
-                    cell.commitValue()
-            }
-            ThemedItem.onDoubleClickReset: {
-                cell.previewValue(cell.defaultValue)
-                cell.commitValue()
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 2
-
-            SpinBox {
-                id: parameterSpinBox
-
-                Layout.fillWidth: true
-                Layout.minimumWidth: 52
-                Accessible.labelledBy: parameterLabel
-                editable: true
-                from: Math.round(cell.minimum * cell.decimalFactor)
-                to: Math.round(cell.maximum * cell.decimalFactor)
-                value: Math.round(cell.parameterValue * cell.decimalFactor)
-                validator: DoubleValidator {
-                    bottom: cell.minimum
-                    top: cell.maximum
-                    decimals: cell.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / cell.decimalFactor).toLocaleString(
-                        locale, "f", cell.decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text)
-                                      * cell.decimalFactor)
-                }
-                onValueModified: cell.setValue(value / cell.decimalFactor)
-            }
-            Label {
-                text: cell.unit
-                color: Theme.foregroundSecondaryColor
-            }
         }
     }
 }
