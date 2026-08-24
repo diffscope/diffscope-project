@@ -34,7 +34,8 @@
             "name": "libarchive",
             "default-features": false
         },
-        "xxhash"
+        "xxhash",
+        "signalsmith-dsp"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
