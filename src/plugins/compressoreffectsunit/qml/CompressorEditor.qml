@@ -39,8 +39,8 @@ ColumnLayout {
 
     RowLayout {
         Layout.fillWidth: true
-        Layout.minimumHeight: 180
-        Layout.preferredHeight: 180
+        Layout.minimumHeight: 120
+        Layout.preferredHeight: 120
         spacing: 8
 
         Rectangle {

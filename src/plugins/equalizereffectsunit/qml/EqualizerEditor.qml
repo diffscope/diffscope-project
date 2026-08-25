@@ -67,8 +67,8 @@ ColumnLayout {
         id: graphFrame
 
         Layout.fillWidth: true
-        Layout.minimumHeight: 150
-        Layout.preferredHeight: 150
+        Layout.minimumHeight: 120
+        Layout.preferredHeight: 120
         border.color: Theme.borderColor
         border.width: 1
         clip: true

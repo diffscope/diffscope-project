@@ -46,7 +46,7 @@ namespace EqualizerEffectsUnit::Internal {
                   spectrumLine(createGeometryNode(equalizerSpectrumBinCount,
                                                   QSGGeometry::DrawLineStrip)),
                   responseLine(createGeometryNode(equalizerResponsePointCount,
-                                                  QSGGeometry::DrawLineStrip, 2.0f)) {
+                                                  QSGGeometry::DrawLineStrip)) {
                 appendChildNode(guides);
                 appendChildNode(spectrumFill);
                 appendChildNode(spectrumLine);
