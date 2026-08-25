@@ -100,9 +100,9 @@ namespace Core {
 
         void updateRecentFile() const {
             Q_Q(const ProjectWindowInterface);
-            auto win = q->window();
-            auto pixmap = win->screen()->grabWindow(win->winId());
-            CoreInterface::recentFileCollection()->addRecentFile(projectDocumentContext->fileLocker()->path(), pixmap);
+            auto win = qobject_cast<QQuickWindow *>(q->window());
+            auto image = win->grabWindow().scaled(400, 400, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            CoreInterface::recentFileCollection()->addRecentFile(projectDocumentContext->fileLocker()->path(), image);
         }
 
         enum ExternalChangeOperation {
