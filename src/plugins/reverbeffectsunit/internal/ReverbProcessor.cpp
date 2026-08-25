@@ -213,16 +213,18 @@ namespace ReverbEffectsUnit::Internal {
 
             InternalArray process(const InternalArray &input,
                                   float sizeSamplesFrom, float sizeSamplesTo,
-                                  float transitionAlpha) {
+                                  float transitionAlpha, bool transitioning) {
                 InternalArray delayed;
                 for (int channel = 0; channel < internalChannelCount; ++channel) {
                     auto &delay = delays.at(static_cast<std::size_t>(channel));
                     delay.write(input.at(static_cast<std::size_t>(channel)));
                     const float ratio = delayRatios.at(static_cast<std::size_t>(channel));
                     const float fromValue = delay.read(sizeSamplesFrom * ratio);
-                    const float toValue = delay.read(sizeSamplesTo * ratio);
-                    delayed.at(static_cast<std::size_t>(channel)) =
-                        std::lerp(fromValue, toValue, transitionAlpha);
+                    delayed.at(static_cast<std::size_t>(channel)) = transitioning
+                        ? std::lerp(fromValue,
+                                    delay.read(sizeSamplesTo * ratio),
+                                    transitionAlpha)
+                        : fromValue;
                 }
                 InternalArray shuffled;
                 for (int channel = 0; channel < internalChannelCount; ++channel) {
@@ -360,6 +362,7 @@ namespace ReverbEffectsUnit::Internal {
                 return;
             }
 
+            const float wetScale = StereoMixer::scalingFactor2();
             for (qint64 position = startPosition;
                  position < startPosition + length; ++position) {
                 StereoArray dryInput;
@@ -368,28 +371,43 @@ namespace ReverbEffectsUnit::Internal {
                     ? buffer.sample(1, position)
                     : dryInput[0];
 
-                const float preDelayAlpha = m_preDelayTransition.alpha();
+                const bool preDelayTransitioning = m_preDelayTransition.active();
+                const float preDelaySamplesFrom = m_preDelayTransition.from();
+                const float preDelaySamplesTo = preDelayTransitioning
+                    ? m_preDelayTransition.to()
+                    : preDelaySamplesFrom;
+                const float preDelayAlpha = preDelayTransitioning
+                    ? m_preDelayTransition.alpha()
+                    : 0.0f;
                 StereoArray wetInput;
                 for (int channel = 0; channel < 2; ++channel) {
                     auto &delay = m_preDelayLines.at(static_cast<std::size_t>(channel));
                     delay.write(dryInput.at(static_cast<std::size_t>(channel)));
-                    const float fromValue = delay.read(m_preDelayTransition.from());
-                    const float toValue = delay.read(m_preDelayTransition.to());
-                    wetInput.at(static_cast<std::size_t>(channel)) =
-                        std::lerp(fromValue, toValue, preDelayAlpha);
+                    const float fromValue = delay.read(preDelaySamplesFrom);
+                    wetInput.at(static_cast<std::size_t>(channel)) = preDelayTransitioning
+                        ? std::lerp(fromValue,
+                                    delay.read(preDelaySamplesTo),
+                                    preDelayAlpha)
+                        : fromValue;
                 }
 
                 InternalArray diffuseInput;
                 m_stereoMixer.stereoToMulti(wetInput, diffuseInput);
 
-                const float sizeAlpha = m_sizeTransition.alpha();
+                const bool sizeTransitioning = m_sizeTransition.active();
                 const float sizeSamplesFrom = m_sizeTransition.from();
-                const float sizeSamplesTo = m_sizeTransition.to();
+                const float sizeSamplesTo = sizeTransitioning
+                    ? m_sizeTransition.to()
+                    : sizeSamplesFrom;
+                const float sizeAlpha = sizeTransitioning
+                    ? m_sizeTransition.alpha()
+                    : 0.0f;
                 for (auto &step : m_diffusionSteps) {
                     diffuseInput = step.process(diffuseInput,
                                                 sizeSamplesFrom,
                                                 sizeSamplesTo,
-                                                sizeAlpha);
+                                                sizeAlpha,
+                                                sizeTransitioning);
                 }
 
                 InternalArray feedbackOutput;
@@ -398,9 +416,11 @@ namespace ReverbEffectsUnit::Internal {
                         static_cast<std::size_t>(channel));
                     auto &delay = m_feedbackDelays.at(static_cast<std::size_t>(channel));
                     const float fromValue = delay.read(sizeSamplesFrom * ratio);
-                    const float toValue = delay.read(sizeSamplesTo * ratio);
-                    feedbackOutput.at(static_cast<std::size_t>(channel)) =
-                        std::lerp(fromValue, toValue, sizeAlpha);
+                    feedbackOutput.at(static_cast<std::size_t>(channel)) = sizeTransitioning
+                        ? std::lerp(fromValue,
+                                    delay.read(sizeSamplesTo * ratio),
+                                    sizeAlpha)
+                        : fromValue;
                 }
 
                 InternalArray mixedFeedback = feedbackOutput;
@@ -418,7 +438,6 @@ namespace ReverbEffectsUnit::Internal {
 
                 StereoArray wetOutput;
                 m_stereoMixer.multiToStereo(feedbackOutput, wetOutput);
-                const float wetScale = StereoMixer::scalingFactor2();
                 const float mix = m_mixRamp.next();
                 const float dry = 1.0f - mix;
                 buffer.setSample(0, position,

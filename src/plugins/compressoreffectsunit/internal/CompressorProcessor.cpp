@@ -43,6 +43,10 @@ namespace CompressorEffectsUnit::Internal {
         m_refreshRequested.store(true, std::memory_order_release);
     }
 
+    void CompressorProcessor::setMeterEnabled(bool enabled) {
+        m_meterEnabled.store(enabled, std::memory_order_relaxed);
+    }
+
     bool CompressorProcessor::takeMeterValues(MeterValues &values) {
         const auto readIndex = m_meterReadIndex.load(std::memory_order_relaxed);
         const auto writeIndex = m_meterWriteIndex.load(std::memory_order_acquire);
@@ -92,9 +96,10 @@ namespace CompressorEffectsUnit::Internal {
         const float releaseCoefficient = coefficient(
             m_sampleRate, m_releaseMilliseconds.load(std::memory_order_relaxed));
 
+        const bool meterEnabled = m_meterEnabled.load(std::memory_order_relaxed);
         float inputPeak = 0.0f;
         std::array<float, 2> outputPeaks{};
-        float maximumGainReduction = 0.0f;
+        float minimumGain = 1.0f;
 
         for (qint64 position = readData.startPos;
              position < readData.startPos + readData.length; ++position) {
@@ -105,7 +110,9 @@ namespace CompressorEffectsUnit::Internal {
             const float detectorInput = channelCount > 1
                 ? std::max(std::abs(leftInput), std::abs(rightInput))
                 : std::abs(leftInput);
-            inputPeak = std::max(inputPeak, detectorInput);
+            if (meterEnabled) {
+                inputPeak = std::max(inputPeak, detectorInput);
+            }
 
             const float envelopeCoefficient = detectorInput > m_envelope
                 ? attackCoefficient
@@ -118,28 +125,36 @@ namespace CompressorEffectsUnit::Internal {
             const float gain = m_envelope < threshold
                 ? 1.0f
                 : std::pow(m_envelope / threshold, ratioInverse - 1.0f);
-            const float gainReduction = gain >= 1.0f
-                ? 0.0f
-                : -20.0f * std::log10(std::max(gain, 1.0e-30f));
-            maximumGainReduction = std::max(maximumGainReduction, gainReduction);
+            if (meterEnabled) {
+                minimumGain = std::min(minimumGain, gain);
+            }
 
             const float leftOutput = leftInput * gain;
             readData.buffer->setSample(0, position, leftOutput);
-            outputPeaks[0] = std::max(outputPeaks[0], std::abs(leftOutput));
+            if (meterEnabled) {
+                outputPeaks[0] = std::max(outputPeaks[0], std::abs(leftOutput));
+            }
             if (channelCount > 1) {
                 const float rightOutput = rightInput * gain;
                 readData.buffer->setSample(1, position, rightOutput);
-                outputPeaks[1] = std::max(outputPeaks[1], std::abs(rightOutput));
+                if (meterEnabled) {
+                    outputPeaks[1] = std::max(outputPeaks[1], std::abs(rightOutput));
+                }
             }
         }
 
-        MeterValues meterValues;
-        meterValues.inputLevelDb = decibelsFromGain(inputPeak);
-        for (int channel = 0; channel < 2; ++channel) {
-            meterValues.outputLevelDb[channel] = decibelsFromGain(outputPeaks[channel]);
-            meterValues.gainReductionDb[channel] = maximumGainReduction;
+        if (meterEnabled) {
+            const float maximumGainReduction = minimumGain >= 1.0f
+                ? 0.0f
+                : -20.0f * std::log10(std::max(minimumGain, 1.0e-30f));
+            MeterValues meterValues;
+            meterValues.inputLevelDb = decibelsFromGain(inputPeak);
+            for (int channel = 0; channel < 2; ++channel) {
+                meterValues.outputLevelDb[channel] = decibelsFromGain(outputPeaks[channel]);
+                meterValues.gainReductionDb[channel] = maximumGainReduction;
+            }
+            publishMeterValues(meterValues);
         }
-        publishMeterValues(meterValues);
         return readData.length;
     }
 

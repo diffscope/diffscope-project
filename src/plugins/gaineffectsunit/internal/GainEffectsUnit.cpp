@@ -57,11 +57,9 @@ namespace GainEffectsUnit::Internal {
                 const float gain = channel == 0
                     ? m_leftGain.load(std::memory_order_relaxed)
                     : m_rightGain.load(std::memory_order_relaxed);
-                for (qint64 position = readData.startPos;
-                     position < readData.startPos + readData.length; ++position) {
-                    readData.buffer->setSample(
-                        channel, position,
-                        readData.buffer->sample(channel, position) * gain);
+                if (gain != 1.0f) {
+                    readData.buffer->gainSampleRange(
+                        channel, readData.startPos, readData.length, gain);
                 }
             }
             return readData.length;

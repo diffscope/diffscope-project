@@ -65,16 +65,41 @@ namespace ChannelMapperEffectsUnit::Internal {
             const float rightLeft = m_rightLeft.load(std::memory_order_relaxed);
             const float rightRight = m_rightRight.load(std::memory_order_relaxed);
             const bool hasRightInput = channelCount > 1;
+            if (!hasRightInput) {
+                if (leftLeft != 1.0f) {
+                    readData.buffer->gainSampleRange(
+                        0, readData.startPos, readData.length, leftLeft);
+                }
+                return readData.length;
+            }
+            if (leftRight == 0.0f && rightLeft == 0.0f) {
+                if (leftLeft != 1.0f) {
+                    readData.buffer->gainSampleRange(
+                        0, readData.startPos, readData.length, leftLeft);
+                }
+                if (rightRight != 1.0f) {
+                    readData.buffer->gainSampleRange(
+                        1, readData.startPos, readData.length, rightRight);
+                }
+                return readData.length;
+            }
+            if (readData.buffer->isContinuous()) {
+                float * __restrict left = readData.buffer->writePointerTo(0, readData.startPos);
+                float * __restrict right = readData.buffer->writePointerTo(1, readData.startPos);
+                for (qint64 offset = 0; offset < readData.length; ++offset) {
+                    const float leftInput = left[offset];
+                    const float rightInput = right[offset];
+                    left[offset] = leftInput * leftLeft + rightInput * leftRight;
+                    right[offset] = leftInput * rightLeft + rightInput * rightRight;
+                }
+                return readData.length;
+            }
             for (qint64 position = readData.startPos;
                  position < readData.startPos + readData.length; ++position) {
                 const float leftInput = readData.buffer->sample(0, position);
-                const float rightInput = hasRightInput
-                    ? readData.buffer->sample(1, position)
-                    : 0.0f;
+                const float rightInput = readData.buffer->sample(1, position);
                 readData.buffer->setSample(0, position, leftInput * leftLeft + rightInput * leftRight);
-                if (hasRightInput) {
-                    readData.buffer->setSample(1, position, leftInput * rightLeft + rightInput * rightRight);
-                }
+                readData.buffer->setSample(1, position, leftInput * rightLeft + rightInput * rightRight);
             }
             return readData.length;
         }

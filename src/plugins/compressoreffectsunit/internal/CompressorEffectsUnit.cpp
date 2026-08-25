@@ -300,6 +300,7 @@ namespace CompressorEffectsUnit::Internal {
             return;
         }
         m_processor->discardMeterValues();
+        m_processor->setMeterEnabled(true);
         resetMeterDisplays();
         m_meterActive = true;
         m_meterDecayStarted = false;
@@ -309,6 +310,7 @@ namespace CompressorEffectsUnit::Internal {
     }
 
     void CompressorEffectsUnit::stopMeterTimer() {
+        m_processor->setMeterEnabled(false);
         if (!m_meterActive) {
             return;
         }
