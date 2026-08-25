@@ -10,6 +10,7 @@ Item {
 
     property double from: -48
     property bool reversed: false
+    property bool segmented: true
     property double to: 0
     property double value: from
 
@@ -27,19 +28,27 @@ Item {
             gradient: Gradient {
                 orientation: Gradient.Vertical
                 GradientStop {
-                    color: meter.reversed ? SFPalette.levelLowColor : SFPalette.levelHighColor
+                    color: meter.segmented
+                        ? (meter.reversed ? SFPalette.levelLowColor : SFPalette.levelHighColor)
+                        : SFPalette.levelHighColor
                     position: 0
                 }
                 GradientStop {
-                    color: meter.reversed ? SFPalette.levelLowColor : SFPalette.levelMediumColor
+                    color: meter.segmented
+                        ? (meter.reversed ? SFPalette.levelLowColor : SFPalette.levelMediumColor)
+                        : SFPalette.levelHighColor
                     position: 0.35
                 }
                 GradientStop {
-                    color: meter.reversed ? SFPalette.levelMediumColor : SFPalette.levelLowColor
+                    color: meter.segmented
+                        ? (meter.reversed ? SFPalette.levelMediumColor : SFPalette.levelLowColor)
+                        : SFPalette.levelHighColor
                     position: 0.65
                 }
                 GradientStop {
-                    color: meter.reversed ? SFPalette.levelHighColor : SFPalette.levelLowColor
+                    color: meter.segmented
+                        ? (meter.reversed ? SFPalette.levelHighColor : SFPalette.levelLowColor)
+                        : SFPalette.levelHighColor
                     position: 1
                 }
             }

@@ -196,6 +196,7 @@ ColumnLayout {
                     Accessible.name: qsTr("Left Gain Reduction")
                     from: 0
                     reversed: true
+                    segmented: false
                     to: 48
                     value: editor.effectsUnit?.leftGainReductionDb ?? 0
                 }
@@ -204,6 +205,7 @@ ColumnLayout {
                     Accessible.name: qsTr("Right Gain Reduction")
                     from: 0
                     reversed: true
+                    segmented: false
                     to: 48
                     value: editor.effectsUnit?.rightGainReductionDb ?? 0
                 }
