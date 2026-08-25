@@ -34,6 +34,8 @@ namespace EqualizerEffectsUnit::Internal {
         double frequencyHz{1000.0};
         double gainDb{};
         double q{defaultQ};
+        bool enabled{true};
+        bool solo{};
     };
 
     using EqualizerBandList = QList<EqualizerBand>;

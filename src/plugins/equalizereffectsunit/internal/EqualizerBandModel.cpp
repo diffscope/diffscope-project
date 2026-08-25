@@ -17,7 +17,9 @@ namespace EqualizerEffectsUnit::Internal {
             return left.type == right.type
                 && valuesEqual(left.frequencyHz, right.frequencyHz)
                 && valuesEqual(left.gainDb, right.gainDb)
-                && valuesEqual(left.q, right.q);
+                && valuesEqual(left.q, right.q)
+                && left.enabled == right.enabled
+                && left.solo == right.solo;
         }
 
     }
@@ -49,6 +51,10 @@ namespace EqualizerEffectsUnit::Internal {
                 return band->q;
             case TypeRole:
                 return static_cast<int>(band->type);
+            case EnabledRole:
+                return band->enabled;
+            case SoloRole:
+                return band->solo;
             default:
                 return {};
         }
@@ -60,6 +66,8 @@ namespace EqualizerEffectsUnit::Internal {
             {GainDbRole, "gainDb"},
             {QRole, "q"},
             {TypeRole, "type"},
+            {EnabledRole, "enabled"},
+            {SoloRole, "solo"},
         };
     }
 
@@ -103,6 +111,8 @@ namespace EqualizerEffectsUnit::Internal {
         const bool gainChanged = !valuesEqual(current.gainDb, band.gainDb);
         const bool qChanged = !valuesEqual(current.q, band.q);
         const bool typeChanged = current.type != band.type;
+        const bool enabledChanged = current.enabled != band.enabled;
+        const bool soloChanged = current.solo != band.solo;
         current = band;
 
         QList<int> roles;
@@ -117,6 +127,12 @@ namespace EqualizerEffectsUnit::Internal {
         }
         if (typeChanged) {
             roles.append(TypeRole);
+        }
+        if (enabledChanged) {
+            roles.append(EnabledRole);
+        }
+        if (soloChanged) {
+            roles.append(SoloRole);
         }
         const auto modelIndex = this->index(index);
         Q_EMIT dataChanged(modelIndex, modelIndex, roles);

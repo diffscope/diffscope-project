@@ -39,6 +39,8 @@ namespace EqualizerEffectsUnit::Internal {
         Q_PROPERTY(double currentGainDb READ currentGainDb NOTIFY currentBandChanged)
         Q_PROPERTY(double currentQ READ currentQ NOTIFY currentBandChanged)
         Q_PROPERTY(BandType currentType READ currentType NOTIFY currentBandChanged)
+        Q_PROPERTY(bool currentEnabled READ currentEnabled NOTIFY currentBandChanged)
+        Q_PROPERTY(bool currentSolo READ currentSolo NOTIFY currentBandChanged)
 
     public:
         enum BandType {
@@ -61,6 +63,8 @@ namespace EqualizerEffectsUnit::Internal {
         double currentGainDb() const;
         double currentQ() const;
         BandType currentType() const;
+        bool currentEnabled() const;
+        bool currentSolo() const;
 
         QJsonValue getState() const override;
         void setState(const QJsonValue &state) override;
@@ -84,6 +88,8 @@ namespace EqualizerEffectsUnit::Internal {
         Q_INVOKABLE void setCurrentGainDb(double value);
         Q_INVOKABLE void setCurrentQ(double value);
         Q_INVOKABLE void setCurrentType(BandType type);
+        Q_INVOKABLE void setCurrentEnabled(bool enabled);
+        Q_INVOKABLE void setCurrentSolo(bool solo);
 
         const std::array<float, equalizerResponsePointCount> &responseCurveDb() const;
         const std::array<float, equalizerSpectrumBinCount> &spectrumCurveDb() const;
@@ -101,6 +107,9 @@ namespace EqualizerEffectsUnit::Internal {
         QList<int> frequencyOrderedIndices() const;
         int medianFrequencyBandIndex() const;
         double largestFrequencyGapMidpoint() const;
+        bool hasSoloBands() const;
+        EqualizerBandList processingBands(bool soloMode) const;
+        EqualizerBandList responseBands(bool soloMode) const;
         bool previewBand(int index, const EqualizerBand &band);
         void updateProcessor();
         void rebuildResponseCurve();

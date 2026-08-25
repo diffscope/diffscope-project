@@ -19,6 +19,8 @@ namespace EqualizerEffectsUnit::Internal {
             GainDbRole,
             QRole,
             TypeRole,
+            EnabledRole,
+            SoloRole,
         };
 
         explicit EqualizerBandModel(QObject *parent = nullptr);

@@ -39,7 +39,9 @@ namespace EqualizerEffectsUnit::Internal {
             return left.type == right.type
                 && valuesEqual(left.frequencyHz, right.frequencyHz)
                 && valuesEqual(left.gainDb, right.gainDb)
-                && valuesEqual(left.q, right.q);
+                && valuesEqual(left.q, right.q)
+                && left.enabled == right.enabled
+                && left.solo == right.solo;
         }
 
         bool bandListsEqual(const EqualizerBandList &left,
@@ -61,6 +63,10 @@ namespace EqualizerEffectsUnit::Internal {
                 return fallback;
             }
             return std::clamp(value.toDouble(), minimum, maximum);
+        }
+
+        bool normalizedBoolean(const QJsonValue &value, bool fallback) {
+            return value.isBool() ? value.toBool() : fallback;
         }
 
         EqualizerBandType bandTypeFromString(const QString &value) {
@@ -114,6 +120,10 @@ namespace EqualizerEffectsUnit::Internal {
                     minimumGainDb, maximumGainDb);
                 band.q = normalizedValue(object.value(QStringLiteral("q")), defaultQ,
                                          minimumQ, maximumQ);
+                band.enabled = normalizedBoolean(
+                    object.value(QStringLiteral("enabled")), true);
+                band.solo = normalizedBoolean(
+                    object.value(QStringLiteral("solo")), false);
                 bands.append(band);
             }
             return bands;
@@ -231,6 +241,16 @@ namespace EqualizerEffectsUnit::Internal {
                                           : static_cast<int>(EqualizerBandType::Bell));
     }
 
+    bool EqualizerEffectsUnit::currentEnabled() const {
+        const auto band = currentBand();
+        return band && band->enabled;
+    }
+
+    bool EqualizerEffectsUnit::currentSolo() const {
+        const auto band = currentBand();
+        return band && band->solo;
+    }
+
     QJsonValue EqualizerEffectsUnit::getState() const {
         QJsonArray bands;
         for (const auto &band : m_committedBands) {
@@ -239,6 +259,8 @@ namespace EqualizerEffectsUnit::Internal {
                 {QStringLiteral("frequencyHz"), band.frequencyHz},
                 {QStringLiteral("gainDb"), band.gainDb},
                 {QStringLiteral("q"), band.q},
+                {QStringLiteral("enabled"), band.enabled},
+                {QStringLiteral("solo"), band.solo},
             });
         }
         return QJsonObject{{QStringLiteral("bands"), bands}};
@@ -453,6 +475,30 @@ namespace EqualizerEffectsUnit::Internal {
         }
     }
 
+    void EqualizerEffectsUnit::setCurrentEnabled(bool enabled) {
+        const auto current = currentBand();
+        if (!current) {
+            return;
+        }
+        auto band = *current;
+        band.enabled = enabled;
+        if (previewBand(m_currentIndex, band)) {
+            commitPreview();
+        }
+    }
+
+    void EqualizerEffectsUnit::setCurrentSolo(bool solo) {
+        const auto current = currentBand();
+        if (!current) {
+            return;
+        }
+        auto band = *current;
+        band.solo = solo;
+        if (previewBand(m_currentIndex, band)) {
+            commitPreview();
+        }
+    }
+
     const std::array<float, equalizerResponsePointCount> &
         EqualizerEffectsUnit::responseCurveDb() const {
         return m_responseCurve;
@@ -524,6 +570,37 @@ namespace EqualizerEffectsUnit::Internal {
         return std::sqrt(bestLower * bestUpper);
     }
 
+    bool EqualizerEffectsUnit::hasSoloBands() const {
+        const auto &bands = m_bandModel->bands();
+        return std::ranges::any_of(bands, [](const auto &band) {
+            return band.solo;
+        });
+    }
+
+    EqualizerBandList EqualizerEffectsUnit::processingBands(bool soloMode) const {
+        const auto &bands = m_bandModel->bands();
+        EqualizerBandList result;
+        result.reserve(bands.size());
+        for (const auto &band : bands) {
+            if (soloMode ? band.solo : band.enabled) {
+                result.append(band);
+            }
+        }
+        return result;
+    }
+
+    EqualizerBandList EqualizerEffectsUnit::responseBands(bool soloMode) const {
+        const auto &bands = m_bandModel->bands();
+        EqualizerBandList result;
+        result.reserve(bands.size());
+        for (const auto &band : bands) {
+            if (band.enabled && (!soloMode || band.solo)) {
+                result.append(band);
+            }
+        }
+        return result;
+    }
+
     bool EqualizerEffectsUnit::previewBand(int index, const EqualizerBand &band) {
         if (!m_bandModel->updateBand(index, band)) {
             return false;
@@ -537,16 +614,19 @@ namespace EqualizerEffectsUnit::Internal {
     }
 
     void EqualizerEffectsUnit::updateProcessor() {
-        m_processor->setBands(m_bandModel->bands());
+        const bool soloMode = hasSoloBands();
+        m_processor->setBands(processingBands(soloMode), soloMode);
     }
 
     void EqualizerEffectsUnit::rebuildResponseCurve() {
         m_responseSampleRate = std::max(1.0, m_processor->currentSampleRate());
         std::array<signalsmith::filters::BiquadStatic<double>, maximumBandCount> filters;
-        const int count = bandCount();
+        const bool soloMode = hasSoloBands();
+        const auto bands = responseBands(soloMode);
+        const int count = bands.size();
         for (int index = 0; index < count; ++index) {
             configureResponseFilter(filters.at(static_cast<std::size_t>(index)),
-                                    m_bandModel->bands().at(index),
+                                    bands.at(index),
                                     m_responseSampleRate);
         }
 

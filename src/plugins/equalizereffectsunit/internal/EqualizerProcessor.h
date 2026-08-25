@@ -30,7 +30,7 @@ namespace EqualizerEffectsUnit::Internal {
         EqualizerProcessor();
         ~EqualizerProcessor() override;
 
-        void setBands(const EqualizerBandList &bands);
+        void setBands(const EqualizerBandList &bands, bool soloMode);
         void refresh();
         void setSpectrumEnabled(bool enabled);
         bool takeSpectrumFrame(SpectrumFrame &frame);
@@ -60,11 +60,13 @@ namespace EqualizerEffectsUnit::Internal {
         struct ParameterSnapshot {
             std::array<EqualizerBand, maximumBandCount> bands{};
             int count{};
+            bool soloMode{};
         };
 
         struct FilterBank {
             std::array<std::array<signalsmith::filters::BiquadStatic<float>, maximumBandCount>, 2> filters;
             int count{};
+            bool soloMode{};
         };
 
         bool tryReadParameterSnapshot(ParameterSnapshot &snapshot,
@@ -74,7 +76,8 @@ namespace EqualizerEffectsUnit::Internal {
         void configureBank(FilterBank &bank, const ParameterSnapshot &snapshot,
                            bool resetStates);
         static void configureFilter(signalsmith::filters::BiquadStatic<float> &filter,
-                                    const EqualizerBand &band, double sampleRate);
+                                    const EqualizerBand &band, double sampleRate,
+                                    bool soloMode);
         static float processBankSample(FilterBank &bank, int channel, float input);
         static bool snapshotsStructurallyEqual(const ParameterSnapshot &left,
                                                const ParameterSnapshot &right);
@@ -86,6 +89,7 @@ namespace EqualizerEffectsUnit::Internal {
 
         std::array<AtomicBand, maximumBandCount> m_atomicBands;
         std::atomic<std::uint32_t> m_atomicBandCount{};
+        std::atomic<bool> m_atomicSoloMode{};
         std::atomic<std::uint64_t> m_parameterRevision{};
         std::atomic<std::uint64_t> m_sampleRateBits{};
         std::atomic<bool> m_refreshRequested{};

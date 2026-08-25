@@ -28,7 +28,8 @@ namespace EqualizerEffectsUnit::Internal {
 
     EqualizerProcessor::~EqualizerProcessor() = default;
 
-    void EqualizerProcessor::setBands(const EqualizerBandList &bands) {
+    void EqualizerProcessor::setBands(const EqualizerBandList &bands,
+                                      bool soloMode) {
         m_parameterRevision.fetch_add(1, std::memory_order_acq_rel);
         const int count = std::min(static_cast<int>(bands.size()), maximumBandCount);
         for (int index = 0; index < count; ++index) {
@@ -45,6 +46,7 @@ namespace EqualizerEffectsUnit::Internal {
         }
         m_atomicBandCount.store(static_cast<std::uint32_t>(count),
                                 std::memory_order_relaxed);
+        m_atomicSoloMode.store(soloMode, std::memory_order_relaxed);
         m_parameterRevision.fetch_add(1, std::memory_order_release);
     }
 
@@ -181,6 +183,7 @@ namespace EqualizerEffectsUnit::Internal {
             static_cast<int>(m_atomicBandCount.load(std::memory_order_relaxed)),
             maximumBandCount);
         snapshot.count = count;
+        snapshot.soloMode = m_atomicSoloMode.load(std::memory_order_relaxed);
         for (int index = 0; index < count; ++index) {
             const auto &atomicBand = m_atomicBands.at(static_cast<std::size_t>(index));
             auto &band = snapshot.bands.at(static_cast<std::size_t>(index));
@@ -234,6 +237,7 @@ namespace EqualizerEffectsUnit::Internal {
     void EqualizerProcessor::resetProcessingState() {
         for (auto &bank : m_filterBanks) {
             bank.count = 0;
+            bank.soloMode = false;
             for (auto &channel : bank.filters) {
                 for (auto &filter : channel) {
                     filter.reset();
@@ -259,22 +263,41 @@ namespace EqualizerEffectsUnit::Internal {
             }
         }
         bank.count = snapshot.count;
+        bank.soloMode = snapshot.soloMode;
         for (int channel = 0; channel < 2; ++channel) {
             for (int index = 0; index < snapshot.count; ++index) {
                 configureFilter(bank.filters.at(static_cast<std::size_t>(channel))
                                     .at(static_cast<std::size_t>(index)),
                                 snapshot.bands.at(static_cast<std::size_t>(index)),
-                                m_sampleRate);
+                                m_sampleRate, snapshot.soloMode);
             }
         }
     }
 
     void EqualizerProcessor::configureFilter(
         signalsmith::filters::BiquadStatic<float> &filter,
-        const EqualizerBand &band, double sampleRate) {
+        const EqualizerBand &band, double sampleRate, bool soloMode) {
         const double scaledFrequency = std::clamp(
             band.frequencyHz / sampleRate, 1.0e-6, 0.499);
         using signalsmith::filters::BiquadDesign;
+        if (soloMode) {
+            switch (band.type) {
+                case EqualizerBandType::LowShelf:
+                    filter.lowpassQ(scaledFrequency, band.q,
+                                    BiquadDesign::bilinear);
+                    break;
+                case EqualizerBandType::HighShelf:
+                    filter.highpassQ(scaledFrequency, band.q,
+                                     BiquadDesign::bilinear);
+                    break;
+                case EqualizerBandType::Bell:
+                default:
+                    filter.bandpassQ(scaledFrequency, band.q,
+                                     BiquadDesign::oneSided);
+                    break;
+            }
+            return;
+        }
         switch (band.type) {
             case EqualizerBandType::LowShelf:
                 filter.lowShelfDbQ(scaledFrequency, band.gainDb, band.q,
@@ -294,8 +317,16 @@ namespace EqualizerEffectsUnit::Internal {
 
     float EqualizerProcessor::processBankSample(FilterBank &bank, int channel,
                                                 float input) {
-        float output = input;
         auto &filters = bank.filters.at(static_cast<std::size_t>(channel));
+        if (bank.soloMode) {
+            float output = 0.0f;
+            for (int index = 0; index < bank.count; ++index) {
+                output += filters.at(static_cast<std::size_t>(index))(input);
+            }
+            return output;
+        }
+
+        float output = input;
         for (int index = 0; index < bank.count; ++index) {
             output = filters.at(static_cast<std::size_t>(index))(output);
         }
@@ -304,7 +335,7 @@ namespace EqualizerEffectsUnit::Internal {
 
     bool EqualizerProcessor::snapshotsStructurallyEqual(
         const ParameterSnapshot &left, const ParameterSnapshot &right) {
-        if (left.count != right.count) {
+        if (left.count != right.count || left.soloMode != right.soloMode) {
             return false;
         }
         for (int index = 0; index < left.count; ++index) {

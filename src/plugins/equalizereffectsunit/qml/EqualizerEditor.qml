@@ -134,7 +134,7 @@ ColumnLayout {
                     height: 20
                     activeFocusOnTab: true
                     Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("EQ Control Point %1").arg(
+                    Accessible.name: qsTr("Band %1").arg(
                         Number(index + 1).toLocaleString(Qt.locale(), "f", 0))
                     Accessible.description: qsTr("Frequency %1 Hz, gain %2 dB, Q %3")
                         .arg(Number(frequencyHz).toLocaleString(Qt.locale(), "f", 1))
@@ -261,7 +261,7 @@ ColumnLayout {
         spacing: 2
 
         ToolButton {
-            text: qsTr("Previous Control Point")
+            text: qsTr("Previous")
             display: AbstractButton.IconOnly
             icon.source: "image://fluent-system-icons/chevron_left"
             enabled: editor.effectsUnit?.bandCount > 0
@@ -270,7 +270,7 @@ ColumnLayout {
             ToolTip.text: text
         }
         ToolButton {
-            text: qsTr("Next Control Point")
+            text: qsTr("Next")
             display: AbstractButton.IconOnly
             icon.source: "image://fluent-system-icons/chevron_right"
             enabled: editor.effectsUnit?.bandCount > 0
@@ -279,7 +279,7 @@ ColumnLayout {
             ToolTip.text: text
         }
         ToolButton {
-            text: qsTr("Add Control Point")
+            text: qsTr("Add")
             display: AbstractButton.IconOnly
             icon.source: "image://fluent-system-icons/add"
             enabled: editor.effectsUnit?.canAddBand ?? false
@@ -288,11 +288,41 @@ ColumnLayout {
             ToolTip.text: text
         }
         ToolButton {
-            text: qsTr("Delete Control Point")
+            text: qsTr("Delete")
             display: AbstractButton.IconOnly
             icon.source: "image://fluent-system-icons/delete"
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
             onClicked: editor.effectsUnit.removeCurrentBand()
+            ToolTip.visible: hovered
+            ToolTip.text: text
+        }
+
+        ToolBarContainerSeparator {
+        }
+
+        ToolButton {
+            text: (editor.effectsUnit?.currentEnabled ?? false)
+                ? qsTr("Disable")
+                : qsTr("Enable")
+            display: AbstractButton.IconOnly
+            icon.source: "image://fluent-system-icons/power"
+            checkable: true
+            checked: editor.effectsUnit?.currentEnabled ?? false
+            enabled: editor.effectsUnit?.hasCurrentBand ?? false
+            ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
+            onToggled: editor.effectsUnit.setCurrentEnabled(checked)
+            ToolTip.visible: hovered
+            ToolTip.text: text
+        }
+        ToolButton {
+            text: qsTr("Solo")
+            display: AbstractButton.IconOnly
+            icon.source: "image://fluent-system-icons/solo"
+            checkable: true
+            checked: editor.effectsUnit?.currentSolo ?? false
+            enabled: editor.effectsUnit?.hasCurrentBand ?? false
+            ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
+            onToggled: editor.effectsUnit.setCurrentSolo(checked)
             ToolTip.visible: hovered
             ToolTip.text: text
         }
