@@ -338,8 +338,8 @@ ScrollView {
                                 textRole: "text"
                                 valueRole: "value"
                                 model: [
-                                    { text: qsTr("SOCK5"), value: BehaviorPreference.PT_SOCKS5 },
-                                    { text: qsTr("HTTP"), value: BehaviorPreference.PT_HTTP },
+                                    { text: qsTr("SOCK5"), value: BehaviorPreference.PT_Socks5 },
+                                    { text: qsTr("HTTP"), value: BehaviorPreference.PT_Http },
                                 ]
                                 currentIndex: page.proxyType
                                 onCurrentValueChanged: page.proxyType = currentValue

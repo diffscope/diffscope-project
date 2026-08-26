@@ -12,6 +12,8 @@
 #include <QImageReader>
 #include <QLoggingCategory>
 #include <QMainWindow>
+#include <QNetworkProxy>
+#include <QNetworkProxyFactory>
 #include <QPushButton>
 #include <QQmlComponent>
 #include <QQuickImageProvider>
@@ -347,6 +349,35 @@ namespace Core::Internal {
         };
         QObject::connect(behaviorPreference, &BehaviorPreference::animationEnabledChanged, updateAnimation);
         QObject::connect(behaviorPreference, &BehaviorPreference::animationSpeedRatioChanged, updateAnimation);
+        const auto updateProxy = [] {
+            switch (BehaviorPreference::proxyOption()) {
+            case BehaviorPreference::PO_None:
+                QNetworkProxyFactory::setUseSystemConfiguration(false);
+                QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
+                break;
+            case BehaviorPreference::PO_System:
+                QNetworkProxy::setApplicationProxy(QNetworkProxy::DefaultProxy);
+                QNetworkProxyFactory::setUseSystemConfiguration(true);
+                break;
+            case BehaviorPreference::PO_Manual:
+                QNetworkProxyFactory::setUseSystemConfiguration(false);
+                QNetworkProxy::setApplicationProxy({
+                    BehaviorPreference::proxyType() == BehaviorPreference::PT_Socks5 ? QNetworkProxy::Socks5Proxy : QNetworkProxy::HttpProxy,
+                    BehaviorPreference::proxyHostname(),
+                    BehaviorPreference::proxyPort(),
+                    BehaviorPreference::proxyHasAuthentication() ? BehaviorPreference::proxyUsername() : QString(),
+                    BehaviorPreference::proxyHasAuthentication() ? BehaviorPreference::proxyPassword() : QString(),
+                });
+                break;
+            }
+        };
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyOptionChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyTypeChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyHostnameChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyPortChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyHasAuthenticationChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyUsernameChanged, updateProxy);
+        QObject::connect(behaviorPreference, &BehaviorPreference::proxyPasswordChanged, updateProxy);
         QObject::connect(behaviorPreference, &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
             auto settings = RuntimeInterface::settings();
             settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
@@ -354,6 +385,7 @@ namespace Core::Internal {
             settings->endGroup();
         });
         behaviorPreference->load();
+        updateProxy();
         if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
             QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
         }
