@@ -116,6 +116,7 @@ namespace Audio::Internal {
         AudioExporterConfig m_simpleConfig;
         Core::NotificationMessage *m_exportCompletedMessage{};
         SimplePreviewSoundPlayer *m_completedSound{};
+        QString m_exportedFilePath;
     };
 
 }

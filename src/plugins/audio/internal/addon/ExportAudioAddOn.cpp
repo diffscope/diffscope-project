@@ -24,6 +24,7 @@
 
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
+#include <SVSCraftGui/DesktopServices.h>
 
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/FormatManager.h>
@@ -119,10 +120,15 @@ namespace Audio::Internal {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->addObject(this);
         m_exportCompletedMessage = new Core::NotificationMessage(windowInterface->window());
-        m_exportCompletedMessage->setTitle(tr("Audio export completed"));
         m_exportCompletedMessage->setIcon(SVS::SVSCraft::Success);
         m_exportCompletedMessage->setAllowDoNotShowAgain(true);
         m_exportCompletedMessage->setDoNotShowAgainIdentifier("org.diffscope.audio.exportaudioaddon.message");
+        connect(m_exportCompletedMessage, &Core::NotificationMessage::buttonClicked, this, [this](int index) {
+            if (index != 0 || m_exportedFilePath.isEmpty()) {
+                return;
+            }
+            SVS::DesktopServices::reveal(m_exportedFilePath);
+        });
 
         auto io = GlobalAudioContext::formatManager()->getFormatLoad(":/diffscope/audio/soundfx/export_completed.ogg");
         Q_ASSERT(io);
@@ -400,8 +406,40 @@ namespace Audio::Internal {
             return false;
         }
 
-        const auto sendExportCompletedNotification = [this, windowInterface] {
+        const auto sendExportCompletedNotification = [this, windowInterface, exporter] {
             m_exportCompletedMessage->close();
+
+            const auto fileList = exporter->fileList();
+            QString revealPath;
+            if (exporter->config().mixingOption() == AudioExporterConfig::MO_Mixed) {
+                const auto path = fileList.isEmpty()
+                    ? QString {}
+                    : QDir::toNativeSeparators(QFileInfo(fileList.first()).canonicalFilePath());
+                revealPath = path;
+                m_exportCompletedMessage->setTitle(tr("Audio exported to %1").arg(path));
+                m_exportCompletedMessage->setText({});
+            } else if (fileList.isEmpty()) {
+                m_exportCompletedMessage->setTitle(tr("Audio export completed, no files exported"));
+                m_exportCompletedMessage->setText({});
+            } else {
+                m_exportCompletedMessage->setTitle(tr("Audio exported to multiple files"));
+                QStringList paths;
+                paths.reserve(fileList.size());
+                for (const auto &file : fileList) {
+                    paths.append(QDir::toNativeSeparators(QFileInfo(file).canonicalFilePath()));
+                }
+                m_exportCompletedMessage->setText(paths.join(QStringLiteral("\n")));
+                revealPath = paths.first();
+            }
+            m_exportedFilePath = revealPath;
+            if (revealPath.isEmpty()) {
+                m_exportCompletedMessage->setButtons({});
+                m_exportCompletedMessage->setPrimaryButton(-1);
+            } else {
+                m_exportCompletedMessage->setButtons({tr("Reveal in %1").arg(SVS::DesktopServices::fileManagerName())});
+                m_exportCompletedMessage->setPrimaryButton(0);
+            }
+
             windowInterface->sendNotification(m_exportCompletedMessage, Core::ProjectWindowInterface::AutoHide);
             if (AudioPreference::shouldPlayNotificationSoundWhenExportCompleted()) {
                 m_completedSound->play();
