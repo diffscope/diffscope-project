@@ -53,6 +53,11 @@ namespace Core::Internal {
         m_msecsSinceEpoch = QDateTime::currentMSecsSinceEpoch();
         qCInfo(lcProjectStartupTimerAddOn) << "Project startup timer started at" << m_msecsSinceEpoch;
     }
+    void ProjectStartupTimerAddOn::startTimerIfNotStarted() {
+        if (m_msecsSinceEpoch != -1)
+            return;
+        startTimer();
+    }
     qint64 ProjectStartupTimerAddOn::stopTimerAndGetElapsedTime() {
         if (m_msecsSinceEpoch == -1) {
             qCWarning(lcProjectStartupTimerAddOn) << "Project startup timer not started";

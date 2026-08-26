@@ -309,7 +309,7 @@ namespace Core {
     }
 
     ProjectWindowInterface *CoreInterface::createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
-        Internal::ProjectStartupTimerAddOn::startTimer();
+        Internal::ProjectStartupTimerAddOn::startTimerIfNotStarted();
         auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
         projectDocumentContext->setParent(windowInterface);
@@ -364,6 +364,7 @@ namespace Core {
             }
         };
         qCInfo(lcCoreInterface) << "New file";
+        Internal::ProjectStartupTimerAddOn::startTimer();
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         if (!projectDocumentContext->newFile(defaultModel, tr("Untitled") + ".dspx", false)) {
             return nullptr;
@@ -374,6 +375,7 @@ namespace Core {
 
     ProjectWindowInterface *CoreInterface::newFileFromTemplate(const QString &templateFilePath_, QWindow *parent) {
         qCInfo(lcCoreInterface) << "New file from template" << templateFilePath_;
+        Internal::ProjectStartupTimerAddOn::startTimer();
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
         auto templateFilePath = templateFilePath_;
@@ -391,6 +393,7 @@ namespace Core {
 
     ProjectWindowInterface *CoreInterface::openFile(const QString &filePath_, QWindow *parent) {
         qCInfo(lcCoreInterface) << "Open file" << filePath_;
+        Internal::ProjectStartupTimerAddOn::startTimer();
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
         auto filePath = filePath_;
