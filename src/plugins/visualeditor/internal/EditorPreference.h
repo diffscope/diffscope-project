@@ -35,6 +35,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
         Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
+        Q_PROPERTY(bool warnOfOverlappingNotes READ warnOfOverlappingNotes WRITE setWarnOfOverlappingNotes NOTIFY warnOfOverlappingNotesChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
         Q_PROPERTY(bool showSingerBackground READ showSingerBackground WRITE setShowSingerBackground NOTIFY showSingerBackgroundChanged)
         Q_PROPERTY(double singerBackgroundOpacity READ singerBackgroundOpacity WRITE setSingerBackgroundOpacity NOTIFY singerBackgroundOpacityChanged)
@@ -105,6 +106,9 @@ namespace VisualEditor::Internal {
         static int shortNoteThreshold();
         static void setShortNoteThreshold(int shortNoteThreshold);
 
+        static bool warnOfOverlappingNotes();
+        static void setWarnOfOverlappingNotes(bool warnOfOverlappingNotes);
+
         static bool trackCursorPosition();
         static void setTrackCursorPosition(bool trackCursorPosition);
 
@@ -131,6 +135,7 @@ namespace VisualEditor::Internal {
         void pianoKeyboardLabelPolicyChanged();
         void displayPronunciationBelowNoteChanged();
         void shortNoteThresholdChanged();
+        void warnOfOverlappingNotesChanged();
         void trackCursorPositionChanged();
         void showSingerBackgroundChanged();
         void singerBackgroundOpacityChanged();

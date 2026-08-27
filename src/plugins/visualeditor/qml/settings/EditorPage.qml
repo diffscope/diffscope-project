@@ -29,6 +29,7 @@ ScrollView {
     property int pianoKeyboardLabelPolicy: 0
     property bool displayPronunciationBelowNote: false
     property int shortNoteThreshold: 30
+    property bool warnOfOverlappingNotes: true
     property bool trackCursorPosition: false
     property bool showSingerBackground: true
     property double singerBackgroundOpacity: 0.25
@@ -47,6 +48,7 @@ ScrollView {
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
     onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
+    onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
     onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
     onSingerBackgroundOpacityChanged: if (started) pageHandle.markDirty()
@@ -282,6 +284,14 @@ ScrollView {
                         to: 60
                         value: page.shortNoteThreshold
                         onValueModified: page.shortNoteThreshold = value
+                    }
+
+                    CheckBox {
+                        text: qsTr("Warn of overlapping notes")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.warnOfOverlappingNotes
+                        onClicked: page.warnOfOverlappingNotes = checked
                     }
 
                     CheckBox {

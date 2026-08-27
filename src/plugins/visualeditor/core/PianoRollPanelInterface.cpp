@@ -407,6 +407,12 @@ namespace VisualEditor {
         };
         applyThreshold();
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::shortNoteThresholdChanged, noteEditLayerInteractionController, applyThreshold);
+
+        auto applyWarnOfOverlappingNotes = [=, this] {
+            noteEditLayerInteractionController->setWarnOfOverlappingNotes(Internal::EditorPreference::warnOfOverlappingNotes());
+        };
+        applyWarnOfOverlappingNotes();
+        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::warnOfOverlappingNotesChanged, noteEditLayerInteractionController, applyWarnOfOverlappingNotes);
     }
 
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {

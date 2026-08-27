@@ -28,6 +28,7 @@ namespace VisualEditor::Internal {
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
         bool displayPronunciationBelowNote{};
         int shortNoteThreshold{30};
+        bool warnOfOverlappingNotes{true};
         bool trackCursorPosition{true};
         bool showSingerBackground{true};
         double singerBackgroundOpacity{0.25};
@@ -79,6 +80,8 @@ namespace VisualEditor::Internal {
         emit displayPronunciationBelowNoteChanged();
         d->shortNoteThreshold = settings->value("shortNoteThreshold", 30).toInt();
         emit shortNoteThresholdChanged();
+        d->warnOfOverlappingNotes = settings->value("warnOfOverlappingNotes", true).toBool();
+        emit warnOfOverlappingNotesChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
         emit trackCursorPositionChanged();
         d->showSingerBackground = settings->value("showSingerBackground", true).toBool();
@@ -109,6 +112,7 @@ namespace VisualEditor::Internal {
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
         settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
+        settings->setValue("warnOfOverlappingNotes", d->warnOfOverlappingNotes);
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->setValue("showSingerBackground", d->showSingerBackground);
         settings->setValue("singerBackgroundOpacity", d->singerBackgroundOpacity);
@@ -287,6 +291,19 @@ namespace VisualEditor::Internal {
             return;
         d->shortNoteThreshold = shortNoteThreshold;
         emit m_instance->shortNoteThresholdChanged();
+    }
+
+    bool EditorPreference::warnOfOverlappingNotes() {
+        M_INSTANCE_D;
+        return d->warnOfOverlappingNotes;
+    }
+
+    void EditorPreference::setWarnOfOverlappingNotes(bool warnOfOverlappingNotes) {
+        M_INSTANCE_D;
+        if (d->warnOfOverlappingNotes == warnOfOverlappingNotes)
+            return;
+        d->warnOfOverlappingNotes = warnOfOverlappingNotes;
+        emit m_instance->warnOfOverlappingNotesChanged();
     }
 
     bool EditorPreference::trackCursorPosition() {

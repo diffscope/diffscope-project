@@ -73,6 +73,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("displayPronunciationBelowNote");
         m_widget->setProperty("shortNoteThreshold", EditorPreference::instance()->property("shortNoteThreshold"));
         qCDebug(lcEditorPage) << m_widget->property("shortNoteThreshold");
+        m_widget->setProperty("warnOfOverlappingNotes", EditorPreference::instance()->property("warnOfOverlappingNotes"));
+        qCDebug(lcEditorPage) << m_widget->property("warnOfOverlappingNotes");
         m_widget->setProperty("trackCursorPosition", EditorPreference::instance()->property("trackCursorPosition"));
         qCDebug(lcEditorPage) << m_widget->property("trackCursorPosition");
         m_widget->setProperty("showSingerBackground", EditorPreference::instance()->property("showSingerBackground"));
@@ -113,6 +115,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("displayPronunciationBelowNote", m_widget->property("displayPronunciationBelowNote"));
         qCDebug(lcEditorPage) << "shortNoteThreshold" << m_widget->property("shortNoteThreshold");
         EditorPreference::instance()->setProperty("shortNoteThreshold", m_widget->property("shortNoteThreshold"));
+        qCDebug(lcEditorPage) << "warnOfOverlappingNotes" << m_widget->property("warnOfOverlappingNotes");
+        EditorPreference::instance()->setProperty("warnOfOverlappingNotes", m_widget->property("warnOfOverlappingNotes"));
         qCDebug(lcEditorPage) << "trackCursorPosition" << m_widget->property("trackCursorPosition");
         EditorPreference::instance()->setProperty("trackCursorPosition", m_widget->property("trackCursorPosition"));
         qCDebug(lcEditorPage) << "showSingerBackground" << m_widget->property("showSingerBackground");
