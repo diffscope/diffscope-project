@@ -30,7 +30,8 @@ QtObject {
 
         property PhonemeViewModel itemBeingDragged: null
         property bool phonemeHovered: false
-        property int hoverCursorPosition: -1
+        readonly property int hoverCursorPosition:
+            sequencePositionToTimeline(pointerTimePosition)
         property bool timeCursorOverrideActive: false
         readonly property bool timeCursorOverrideRequested:
             itemBeingDragged !== null
@@ -53,14 +54,17 @@ QtObject {
                 - (control.clipViewModel?.clipStart ?? 0))
         }
 
-        function updatePhonemeHover(phonemeSequence, position) {
+        function updatePhonemeHover(phonemeSequence) {
             if (phonemeSequence !== control
                     || (control.contextObject?.mouseTrackingDisabled ?? true)) {
                 return
             }
-            control.hoverCursorPosition =
-                control.sequencePositionToTimeline(position)
             control.phonemeHovered = true
+        }
+
+        function endPhonemeHover(phonemeSequence) {
+            if (phonemeSequence === control && !phonemeSequence.hasPointerHover())
+                control.phonemeHovered = false
         }
 
         function setTimeCursorOverrideActive(active: bool) {
@@ -136,16 +140,23 @@ QtObject {
             target: control.phonemeSequenceInteractionController
 
             function onHoverEntered(phonemeSequence, position) {
-                control.updatePhonemeHover(phonemeSequence, position)
+                control.updatePhonemeHover(phonemeSequence)
             }
 
             function onHoverMoved(phonemeSequence, position) {
-                control.updatePhonemeHover(phonemeSequence, position)
+                control.updatePhonemeHover(phonemeSequence)
             }
 
             function onHoverExited(phonemeSequence) {
-                if (phonemeSequence === control)
-                    control.phonemeHovered = false
+                control.endPhonemeHover(phonemeSequence)
+            }
+
+            function onItemHoverEntered(phonemeSequence, item) {
+                control.updatePhonemeHover(phonemeSequence)
+            }
+
+            function onItemHoverExited(phonemeSequence, item) {
+                control.endPhonemeHover(phonemeSequence)
             }
 
             function onMovingStarted(phonemeSequence, item) {
@@ -173,7 +184,12 @@ QtObject {
             }
         }
 
-        Component.onDestruction:
+        Component.onCompleted:
+            contextObject?.pianoRollView?.registerUnalignedTimeCursorSurface(control)
+
+        Component.onDestruction: {
             setTimeCursorOverrideActive(false)
+            contextObject?.pianoRollView?.unregisterUnalignedTimeCursorSurface(control)
+        }
     }
 }

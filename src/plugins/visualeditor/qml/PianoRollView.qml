@@ -41,13 +41,12 @@ Item {
     property Item noteEditLayerBeingEdited: null
     property bool noteDrawing: false
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
-    property int pitchFreeEditPosition: 0
-    property double pitchFreeEditValue: 0.0
     property bool pitchHovered: false
-    property int pitchHoverPosition: 0
+    readonly property int pitchHoverPosition: pitchEditor.pointerTimePosition
     property double pitchClavierCursorPosition: -1.0
     property var cursorPositionSelectionOwners: []
     property var timeCursorOverrideOwners: []
+    property var unalignedTimeCursorSurfaces: []
 
     readonly property bool cursorPositionsHiddenBySelection:
         cursorPositionSelectionOwners.length > 0
@@ -155,8 +154,10 @@ Item {
             } else {
                 const position = cursorTimeManipulator.mapToPosition(p.x)
                 view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition =
-                    cursorTimeManipulator.alignPosition(
-                        position, ScopicFlow.AO_Visible)
+                    view.usesUnalignedTimeCursorPosition(point)
+                        ? position
+                        : cursorTimeManipulator.alignPosition(
+                            position, ScopicFlow.AO_Visible)
             }
         }
 
@@ -184,6 +185,21 @@ Item {
         }
     }
 
+    function beginPitchHover(editor) {
+        if (editor !== pitchEditor
+                || !pitchEditor.enabled
+                || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
+            return
+        view.pitchHovered = true
+    }
+
+    function endPitchHover(editor) {
+        if (editor !== pitchEditor || editor.hasPointerHover())
+            return
+        view.pitchHovered = false
+        view.refreshCursorPositions()
+    }
+
     function beginCursorPositionHidingSelection(owner) {
         if (!owner || view.cursorPositionSelectionOwners.indexOf(owner) >= 0)
             return
@@ -209,6 +225,38 @@ Item {
         const owners = view.timeCursorOverrideOwners.slice()
         owners.push(owner)
         view.timeCursorOverrideOwners = owners
+    }
+
+    function registerUnalignedTimeCursorSurface(surface) {
+        if (!surface || view.unalignedTimeCursorSurfaces.indexOf(surface) >= 0)
+            return
+        const surfaces = view.unalignedTimeCursorSurfaces.slice()
+        surfaces.push(surface)
+        view.unalignedTimeCursorSurfaces = surfaces
+    }
+
+    function unregisterUnalignedTimeCursorSurface(surface) {
+        const index = view.unalignedTimeCursorSurfaces.indexOf(surface)
+        if (index < 0)
+            return
+        const surfaces = view.unalignedTimeCursorSurfaces.slice()
+        surfaces.splice(index, 1)
+        view.unalignedTimeCursorSurfaces = surfaces
+    }
+
+    function usesUnalignedTimeCursorPosition(point): bool {
+        if (view.pianoRollPanelInterface?.pitchToolActive ?? false)
+            return true
+        for (const surface of view.unalignedTimeCursorSurfaces) {
+            if (!surface || !surface.visible || !surface.enabled)
+                continue
+            const localPoint = surface.mapFromItem(noteArea, point)
+            if (localPoint.x >= 0 && localPoint.x < surface.width
+                    && localPoint.y >= 0 && localPoint.y < surface.height) {
+                return true
+            }
+        }
+        return false
     }
 
     function endTimeCursorOverride(owner) {
@@ -277,7 +325,7 @@ Item {
         target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
         property: "cursorPosition"
         value: view.mapClipPositionToTimeline(
-            view.pitchFreeEditPosition,
+            pitchEditor.freeEditPointerPosition,
             pitchProxyTimeViewModel?.clipViewModel ?? null)
         when: false
     }
@@ -289,7 +337,8 @@ Item {
         value: view.mapClipPositionToTimeline(
             view.pitchHoverPosition,
             pitchProxyTimeViewModel?.clipViewModel ?? null)
-        when: view.pitchHovered
+        when: pitchEditor.enabled
+            && view.pitchHovered
             && !view.cursorPositionsHiddenBySelection
             && !pitchAnchorCursorBinding.when
             && !pitchFreeEditCursorBinding.when
@@ -305,7 +354,7 @@ Item {
                       view.pitchAnchorBeingEdited?.value ?? 0.0)
                 : pitchFreeEditCursorBinding.when
                     ? view.pitchPositionFromNormalizedValue(
-                          view.pitchFreeEditValue)
+                          pitchEditor.freeEditPointerValue)
                     : view.pitchClavierCursorPosition
         when: view.pianoRollPanelInterface?.pitchToolActive ?? false
     }
@@ -427,16 +476,7 @@ Item {
         function onFreeEditingStarted(editor, operation, position, value) {
             if (editor !== pitchEditor)
                 return
-            view.pitchFreeEditPosition = position
-            view.pitchFreeEditValue = value
             pitchFreeEditCursorBinding.when = true
-        }
-
-        function onFreeEditingUpdated(editor, operation, position, value) {
-            if (editor !== pitchEditor)
-                return
-            view.pitchFreeEditPosition = position
-            view.pitchFreeEditValue = value
         }
 
         function onFreeEditingCommitted(editor) {
@@ -511,26 +551,23 @@ Item {
         }
 
         function onHoverEntered(editor, position, value) {
-            if (editor !== pitchEditor
-                    || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
-                return
-            view.pitchHoverPosition = position
-            view.pitchHovered = true
+            view.beginPitchHover(editor)
         }
 
         function onHoverMoved(editor, position, value) {
-            if (editor !== pitchEditor
-                    || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
-                return
-            view.pitchHoverPosition = position
-            view.pitchHovered = true
+            view.beginPitchHover(editor)
         }
 
         function onHoverExited(editor) {
-            if (editor !== pitchEditor)
-                return
-            view.pitchHovered = false
-            view.refreshCursorPositions()
+            view.endPitchHover(editor)
+        }
+
+        function onItemHoverEntered(editor, item) {
+            view.beginPitchHover(editor)
+        }
+
+        function onItemHoverExited(editor, item) {
+            view.endPitchHover(editor)
         }
     }
 

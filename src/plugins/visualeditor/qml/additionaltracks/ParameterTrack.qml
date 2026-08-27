@@ -37,17 +37,20 @@ QtObject {
             parameterContext?.referenceDataBinding ?? null
         property int currentTool: ParameterEditorInteractionController.Pencil
         property ParameterAnchorViewModel anchorBeingEdited: null
-        property int freeEditPosition: 0
-        property double freeEditValue: 0.0
+        property ParameterEditor hoveredParameterEditor: null
         property bool parameterHovered: false
-        property int hoveredParameterPosition: 0
-        property double hoveredParameterValue: 0.0
+        readonly property int hoveredParameterPosition:
+            hoveredParameterEditor?.pointerTimePosition ?? 0
+        readonly property double hoveredParameterValue:
+            hoveredParameterEditor?.pointerTransformedValue ?? 0.0
         property bool timeCursorOverrideActive: false
         readonly property bool timeCursorOverrideRequested:
             anchorCursorBinding.when || freeEditCursorBinding.when
             || (parameterHovered
                 && !(contextObject?.mouseTrackingDisabled ?? true))
         readonly property bool transformEditing: parameterContext?.transformEditing ?? false
+        readonly property ParameterEditor activeParameterEditor:
+            transformEditing ? transformEditor : editingEditor
         readonly property var editingTrackViewModel:
             d.projectViewModelContext?.getTrackViewItemFromDocumentItem(
                 contextObject?.editingClip?.clipSequence?.track ?? null) ?? null
@@ -108,19 +111,10 @@ QtObject {
             anchorBeingEdited = null
         }
 
-        function beginFreeEdit(editor, position, value) {
+        function beginFreeEdit(editor) {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
-            freeEditPosition = position
-            freeEditValue = value
             freeEditCursorBinding.when = true
-        }
-
-        function updateFreeEdit(editor, position, value) {
-            if (editor !== editingEditor && editor !== transformEditor)
-                return
-            freeEditPosition = position
-            freeEditValue = value
         }
 
         function endFreeEdit(editor) {
@@ -130,7 +124,7 @@ QtObject {
         }
 
         function beginCursorPositionHidingSelection(editor) {
-            parameterHovered = false
+            clearParameterHover()
             const pianoRollView = contextObject?.pianoRollView
             if (pianoRollView) {
                 pianoRollView.beginCursorPositionHidingSelection(editor)
@@ -151,17 +145,23 @@ QtObject {
                                     : editor === editingEditor
         }
 
-        function updateParameterHover(editor, position, value) {
+        function updateParameterHover(editor) {
             if (!isActiveParameterEditor(editor))
                 return
-            hoveredParameterPosition = position
-            hoveredParameterValue = value
+            hoveredParameterEditor = editor
             parameterHovered = true
         }
 
         function endParameterHover(editor) {
-            if (isActiveParameterEditor(editor))
+            if (isActiveParameterEditor(editor) && !editor.hasPointerHover()) {
                 parameterHovered = false
+                hoveredParameterEditor = null
+            }
+        }
+
+        function clearParameterHover() {
+            parameterHovered = false
+            hoveredParameterEditor = null
         }
 
         function setTimeCursorOverrideActive(active: bool) {
@@ -478,7 +478,7 @@ QtObject {
             id: freeEditCursorBinding
             target: control.contextObject?.timeLayoutViewModel ?? null
             property: "cursorPosition"
-            value: control.freeEditPosition
+            value: control.activeParameterEditor.freeEditPointerPosition
                 + (proxyTimeViewModel.clipViewModel?.position ?? 0)
                 - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
             when: false
@@ -672,7 +672,7 @@ QtObject {
             readonly property double valueIndicatorSource: anchorCursorBinding.when
                 ? (control.anchorBeingEdited?.value ?? 0.0)
                 : freeEditCursorBinding.when
-                    ? control.freeEditValue
+                    ? control.activeParameterEditor.freeEditPointerValue
                     : control.hoveredParameterValue
             readonly property double valueIndicatorPosition: {
                 if (!Number.isFinite(valueIndicatorSource))
@@ -759,23 +759,25 @@ QtObject {
             }
         }
 
-        Component.onCompleted: setTool(currentTool)
-        Component.onDestruction:
+        Component.onCompleted: {
+            setTool(currentTool)
+            contextObject?.pianoRollView?.registerUnalignedTimeCursorSurface(control)
+        }
+        Component.onDestruction: {
             setTimeCursorOverrideActive(false)
+            contextObject?.pianoRollView?.unregisterUnalignedTimeCursorSurface(control)
+        }
         Connections {
             target: control.editingBinding
             function onTargetChanged() {
-                control.parameterHovered = false
+                control.clearParameterHover()
                 control.setTool(control.currentTool)
             }
         }
         Connections {
             target: control.editingBinding?.interactionController ?? null
             function onFreeEditingStarted(editor, operation, position, value) {
-                control.beginFreeEdit(editor, position, value)
-            }
-            function onFreeEditingUpdated(editor, operation, position, value) {
-                control.updateFreeEdit(editor, position, value)
+                control.beginFreeEdit(editor)
             }
             function onFreeEditingCommitted(editor) {
                 control.endFreeEdit(editor)
@@ -817,22 +819,25 @@ QtObject {
                 control.endAnchorMove(editor)
             }
             function onHoverEntered(editor, position, value) {
-                control.updateParameterHover(editor, position, value)
+                control.updateParameterHover(editor)
             }
             function onHoverMoved(editor, position, value) {
-                control.updateParameterHover(editor, position, value)
+                control.updateParameterHover(editor)
             }
             function onHoverExited(editor) {
+                control.endParameterHover(editor)
+            }
+            function onItemHoverEntered(editor, item) {
+                control.updateParameterHover(editor)
+            }
+            function onItemHoverExited(editor, item) {
                 control.endParameterHover(editor)
             }
         }
         Connections {
             target: control.editingBinding?.transformInteractionController ?? null
             function onFreeEditingStarted(editor, operation, position, value) {
-                control.beginFreeEdit(editor, position, value)
-            }
-            function onFreeEditingUpdated(editor, operation, position, value) {
-                control.updateFreeEdit(editor, position, value)
+                control.beginFreeEdit(editor)
             }
             function onFreeEditingCommitted(editor) {
                 control.endFreeEdit(editor)
@@ -874,19 +879,25 @@ QtObject {
                 control.endAnchorMove(editor)
             }
             function onHoverEntered(editor, position, value) {
-                control.updateParameterHover(editor, position, value)
+                control.updateParameterHover(editor)
             }
             function onHoverMoved(editor, position, value) {
-                control.updateParameterHover(editor, position, value)
+                control.updateParameterHover(editor)
             }
             function onHoverExited(editor) {
+                control.endParameterHover(editor)
+            }
+            function onItemHoverEntered(editor, item) {
+                control.updateParameterHover(editor)
+            }
+            function onItemHoverExited(editor, item) {
                 control.endParameterHover(editor)
             }
         }
         Connections {
             target: control.parameterContext
             function onTransformEditingChanged() {
-                control.parameterHovered = false
+                control.clearParameterHover()
                 control.setTool(control.currentTool)
             }
         }
@@ -894,7 +905,7 @@ QtObject {
             target: control.contextObject
             function onMouseTrackingDisabledChanged() {
                 if (control.contextObject?.mouseTrackingDisabled ?? true)
-                    control.parameterHovered = false
+                    control.clearParameterHover()
             }
         }
     }
