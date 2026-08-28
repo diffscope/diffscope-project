@@ -451,15 +451,18 @@ namespace Audio::Internal {
         Q_ASSERT(trackContext);
         auto context = AudioClipAudioContextPrivate::create(windowHandle()->cast<Core::ProjectWindowInterface>(), audioClip, TrackAudioContextPrivate::of(trackContext)->trackContext);
         syncAudioClip(audioClip, context);
+        Q_EMIT audioClipAudioContextChanged(audioClip, context);
     }
 
     void ProjectAudioAddOn::removeClip(dspx::Clip *clip) {
         if (!clip || clip->type() != dspx::Clip::Audio) {
             return;
         }
-        auto context = AudioClipAudioContext::of(static_cast<dspx::AudioClip *>(clip));
+        auto audioClip = static_cast<dspx::AudioClip *>(clip);
+        auto context = AudioClipAudioContext::of(audioClip);
         if (context) {
             delete context;
+            Q_EMIT audioClipAudioContextChanged(audioClip, nullptr);
         }
     }
 

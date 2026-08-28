@@ -24,7 +24,27 @@ Item {
     required property double viewportLength
 
     readonly property DspxModel.AudioClip audioClip: projectViewModelContext?.getClipDocumentItemFromViewItem(clipViewModel) ?? null
-    readonly property AudioClipAudioContext audioClipAudioContext: AudioQmlHelper.getAudioClipAudioContext(audioClip)
+    readonly property QtObject projectAudioAddOn: AudioQmlHelper.getProjectAudioAddOn(projectViewModelContext?.windowHandle ?? null)
+    property AudioClipAudioContext audioClipAudioContext: null
+
+    function refreshAudioClipAudioContext() {
+        audioClipAudioContext = AudioQmlHelper.getAudioClipAudioContext(audioClip)
+    }
+
+    onAudioClipChanged: refreshAudioClipAudioContext()
+    onProjectAudioAddOnChanged: refreshAudioClipAudioContext()
+
+    Component.onCompleted: refreshAudioClipAudioContext()
+
+    Connections {
+        target: d.projectAudioAddOn
+
+        function onAudioClipAudioContextChanged(audioClip, context) {
+            if (audioClip === d.audioClip) {
+                d.audioClipAudioContext = context
+            }
+        }
+    }
 
     AudioThumbnailWaveformThumbnail {
         anchors.fill: parent
@@ -45,11 +65,13 @@ Item {
         opacity: 0.9
         visible: {
             switch (d.audioClipAudioContext?.status) {
-                case AudioClipAudioContext.Unknown:
-                case AudioClipAudioContext.Ready:
-                    return false
-                default:
+                case AudioClipAudioContext.FileNotFound:
+                case AudioClipAudioContext.FileLoadFailed:
+                case AudioClipAudioContext.FileMoved:
+                case AudioClipAudioContext.FileContentChanged:
                     return true
+                default:
+                    return false
             }
         }
         IconLabel {

@@ -39,6 +39,7 @@ namespace Audio::Internal {
         Q_INVOKABLE static AudioClipAudioContext *getAudioClipAudioContext(QObject *object);
         Q_INVOKABLE static QString getNativeSeparatorPath(const QString &path);
         Q_INVOKABLE static AudioClipAddOn *getAudioClipAddOn(Core::ProjectWindowInterface *win);
+        Q_INVOKABLE static QObject *getProjectAudioAddOn(Core::ProjectWindowInterface *win);
     };
 
 }

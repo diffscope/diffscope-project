@@ -11,6 +11,7 @@
 
 #include <audio/AudioClipAudioContext.h>
 #include <audio/internal/AudioClipAddOn.h>
+#include <audio/internal/ProjectAudioAddOn.h>
 
 namespace Audio::Internal {
 
@@ -40,6 +41,10 @@ namespace Audio::Internal {
 
     AudioClipAddOn *AudioQmlHelper::getAudioClipAddOn(Core::ProjectWindowInterface *win) {
         return AudioClipAddOn::of(win);
+    }
+
+    QObject *AudioQmlHelper::getProjectAudioAddOn(Core::ProjectWindowInterface *win) {
+        return win ? ProjectAudioAddOn::of(win) : nullptr;
     }
 
 }

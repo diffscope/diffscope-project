@@ -17,7 +17,28 @@ PropertyEditorGroupBox {
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
     readonly property QtObject audioClip: groupBox.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedItems[0] ?? null
-    readonly property QtObject audioClipAudioContext: AudioQmlHelper.getAudioClipAudioContext(groupBox.audioClip)
+    readonly property QtObject projectAudioAddOn: AudioQmlHelper.getProjectAudioAddOn(groupBox.windowHandle)
+    property QtObject audioClipAudioContext: null
+
+    function refreshAudioClipAudioContext() {
+        audioClipAudioContext = AudioQmlHelper.getAudioClipAudioContext(audioClip)
+    }
+
+    onAudioClipChanged: refreshAudioClipAudioContext()
+    onProjectAudioAddOnChanged: refreshAudioClipAudioContext()
+
+    Component.onCompleted: refreshAudioClipAudioContext()
+
+    Connections {
+        target: groupBox.projectAudioAddOn
+
+        function onAudioClipAudioContextChanged(audioClip, context) {
+            if (audioClip === groupBox.audioClip) {
+                groupBox.audioClipAudioContext = context
+            }
+        }
+    }
+
     title: qsTr("Audio")
     visualVisible: propertyMapper?.type === 0
     StackLayout {

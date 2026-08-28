@@ -59,6 +59,9 @@ namespace Audio::Internal {
         void addAudioClipCache(dspx::AudioClip *clip, talcs::AbstractAudioFormatIO *io);
         talcs::AbstractAudioFormatIO *takeAudioClipCache(dspx::AudioClip *clip);
 
+    Q_SIGNALS:
+        void audioClipAudioContextChanged(dspx::AudioClip *clip, AudioClipAudioContext *context);
+
     private Q_SLOTS:
         void addTrack(int index, dspx::Track *track);
         void removeTrack(int index, dspx::Track *track);
