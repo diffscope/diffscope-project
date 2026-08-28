@@ -20,6 +20,7 @@
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
 #include <ScopicFlowCore/ParameterEditorInteractionController.h>
 #include <ScopicFlowCore/PhonemeSequenceInteractionController.h>
+#include <ScopicFlowCore/RangeIndicatorInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeManipulator.h>
@@ -437,6 +438,7 @@ namespace VisualEditor {
         d->labelSequenceInteractionControllerOfLabel = ProjectViewModelContext::of(d->windowHandle)->createAndBindLabelSequenceInteractionControllerOfLabel(this);
         d->noteEditLayerInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindNoteEditLayerInteractionController(this);
         d->phonemeSequenceInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindPhonemeSequenceInteractionController(this);
+        d->clipRangeIndicatorInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindClipRangeIndicatorInteractionController(this);
         d->clavierViewModel = new sflow::ClavierViewModel(this);
         d->clavierInteractionController = new sflow::ClavierInteractionController(this);
 
@@ -568,6 +570,11 @@ namespace VisualEditor {
     sflow::PhonemeSequenceInteractionController *PianoRollPanelInterface::phonemeSequenceInteractionController() const {
         Q_D(const PianoRollPanelInterface);
         return d->phonemeSequenceInteractionController;
+    }
+
+    sflow::RangeIndicatorInteractionController *PianoRollPanelInterface::clipRangeIndicatorInteractionController() const {
+        Q_D(const PianoRollPanelInterface);
+        return d->clipRangeIndicatorInteractionController;
     }
 
     sflow::ClavierViewModel *PianoRollPanelInterface::clavierViewModel() const {

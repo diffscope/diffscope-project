@@ -12,6 +12,7 @@
 #include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/PhonemeSequenceInteractionController.h>
 #include <ScopicFlowCore/PointSequenceViewModel.h>
+#include <ScopicFlowCore/RangeIndicatorInteractionController.h>
 #include <ScopicFlowCore/LabelViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
 #include <ScopicFlowCore/TrackViewModel.h>
@@ -261,6 +262,12 @@ namespace VisualEditor {
         return d->masterTrackData->createController(parent);
     }
 
+    sflow::RangeIndicatorInteractionController *
+        ProjectViewModelContext::createAndBindClipRangeIndicatorInteractionController(QObject *parent) {
+        Q_D(ProjectViewModelContext);
+        return d->clipData->createRangeIndicatorController(parent);
+    }
+
     dspx::Clip *ProjectViewModelContext::getClipDocumentItemFromViewItem(sflow::ClipViewModel *viewItem) const {
         Q_D(const ProjectViewModelContext);
         return d->clipData->clipDocumentItemMap.value(viewItem);
@@ -324,6 +331,12 @@ namespace VisualEditor {
     sflow::RangeSequenceViewModel *ProjectViewModelContext::getSingingClipPerTrackSequenceViewModel(dspx::Track *track) const {
         Q_D(const ProjectViewModelContext);
         return d->noteData->singingClipPerTrackSequenceViewModelMap.value(track);
+    }
+
+    sflow::RangeSequenceViewModel *
+        ProjectViewModelContext::getSingingClipRangeIndicatorSequenceViewModel(dspx::Track *track) const {
+        Q_D(const ProjectViewModelContext);
+        return d->clipData->singingClipRangeIndicatorSequenceViewModelMap.value(track);
     }
 
     sflow::RangeSequenceViewModel *ProjectViewModelContext::getNoteSequenceViewModel(dspx::SingingClip *clip) const {

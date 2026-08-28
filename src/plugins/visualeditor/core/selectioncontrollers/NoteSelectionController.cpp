@@ -36,6 +36,13 @@ namespace VisualEditor {
         selectionModel = document->selectionModel();
         noteSelectionModel = selectionModel->noteSelectionModel();
         currentEditingNoteSequence = noteSelectionModel->noteSequenceWithSelectedItems();
+        if (currentEditingNoteSequence) {
+            auto clipViewModel = parent->getClipViewItemFromDocumentItem(
+                currentEditingNoteSequence->singingClip());
+            if (clipViewModel) {
+                clipViewModel->setEditing(true);
+            }
+        }
         connect(noteSelectionModel, &dspx::NoteSelectionModel::currentItemChanged, this, &SelectionController::currentItemChanged);
         connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, this, &SelectionController::editScopeFocusedChanged);
         connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, [=, this] {

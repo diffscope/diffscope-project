@@ -154,7 +154,7 @@ View-model bindings maintain explicit document-to-view and view-to-document maps
 
 Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. During vcpkg installation, expose the Qt CMake directory through `QT_DIR`/`Qt6_DIR` and retain those variables for overlay ports.
 
-Do not perform any build, test, run, or automatic formatting operations unless explicitly requested by the user.
+Do not perform any test, build, run, or automatic formatting operations unless explicitly requested by the user. Also do not include any of these operations in the plan unless explicitly requested by the user.
 
 ```sh
 git submodule update --init --recursive

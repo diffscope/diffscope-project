@@ -10,6 +10,7 @@
 #include <QMetaObject>
 #include <QPair>
 #include <QPointer>
+#include <QString>
 #include <qqmlintegration.h>
 
 namespace Core {
@@ -26,6 +27,11 @@ namespace Synth {
     enum class SynthesisTaskType;
 }
 
+namespace sflow {
+    class RangeIndicatorViewModel;
+    class RangeSequenceViewModel;
+}
+
 namespace SynthVisualizer::Internal {
 
     class SynthesisPieceModel : public QAbstractListModel {
@@ -33,6 +39,7 @@ namespace SynthVisualizer::Internal {
         QML_ELEMENT
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
         Q_PROPERTY(dspx::SingingClip *singingClip READ singingClip WRITE setSingingClip NOTIFY singingClipChanged)
+        Q_PROPERTY(sflow::RangeSequenceViewModel *rangeIndicatorSequenceViewModel READ rangeIndicatorSequenceViewModel CONSTANT)
 
     public:
         enum Role {
@@ -58,12 +65,17 @@ namespace SynthVisualizer::Internal {
         dspx::SingingClip *singingClip() const;
         void setSingingClip(dspx::SingingClip *clip);
 
+        sflow::RangeSequenceViewModel *rangeIndicatorSequenceViewModel() const;
+
         int rowCount(const QModelIndex &parent = {}) const override;
         QVariant data(const QModelIndex &index, int role) const override;
         QHash<int, QByteArray> roleNames() const override;
 
         Q_INVOKABLE bool cancelPieceTask(QObject *piece);
         Q_INVOKABLE void resynthesizePiece(QObject *piece, int fromType, bool readCache, bool writeCache);
+        Q_INVOKABLE QObject *pieceForRangeIndicator(sflow::RangeIndicatorViewModel *viewItem) const;
+        Q_INVOKABLE bool isPieceTaskActive(QObject *piece) const;
+        Q_INVOKABLE QString verifiedDiagnosticFilePath(QObject *piece) const;
 
     Q_SIGNALS:
         void windowHandleChanged();
@@ -74,6 +86,9 @@ namespace SynthVisualizer::Internal {
         void rebuild();
         void updatePiece(Synth::SynthesisPiece *piece);
         void updateClipPosition();
+        void reconcileRangeIndicators();
+        void updateRangeIndicator(Synth::SynthesisPiece *piece);
+        void clearRangeIndicators();
         QString statusText(const Synth::SynthesisPiece *piece) const;
         QString taskTypeText(Synth::SynthesisTaskType type) const;
         QPair<double, double> absoluteRange(const Synth::SynthesisPiece *piece) const;
@@ -88,6 +103,9 @@ namespace SynthVisualizer::Internal {
         QList<QMetaObject::Connection> m_contextConnections;
         QList<QMetaObject::Connection> m_pieceConnections;
         QList<QMetaObject::Connection> m_clipConnections;
+        sflow::RangeSequenceViewModel *m_rangeIndicatorSequenceViewModel{};
+        QHash<Synth::SynthesisPiece *, sflow::RangeIndicatorViewModel *> m_rangeIndicatorViewItemMap;
+        QHash<sflow::RangeIndicatorViewModel *, Synth::SynthesisPiece *> m_pieceMap;
     };
 
 }

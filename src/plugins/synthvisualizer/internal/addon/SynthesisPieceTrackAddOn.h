@@ -6,7 +6,9 @@
 
 #include <CoreApi/windowinterface.h>
 
-class QAbstractItemModel;
+namespace sflow {
+    class RangeIndicatorInteractionController;
+}
 
 namespace SynthVisualizer::Internal {
 
@@ -14,13 +16,15 @@ namespace SynthVisualizer::Internal {
 
     class SynthesisPieceTrackAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
-        Q_PROPERTY(QAbstractItemModel *pieceModel READ pieceModel CONSTANT)
+        Q_PROPERTY(SynthesisPieceModel *pieceModel READ pieceModel CONSTANT)
+        Q_PROPERTY(sflow::RangeIndicatorInteractionController *rangeIndicatorInteractionController READ rangeIndicatorInteractionController CONSTANT)
 
     public:
         explicit SynthesisPieceTrackAddOn(QObject *parent = nullptr);
         ~SynthesisPieceTrackAddOn() override;
 
-        QAbstractItemModel *pieceModel() const;
+        SynthesisPieceModel *pieceModel() const;
+        sflow::RangeIndicatorInteractionController *rangeIndicatorInteractionController() const;
 
         void initialize() override;
         void extensionsInitialized() override;
@@ -28,6 +32,7 @@ namespace SynthVisualizer::Internal {
 
     private:
         SynthesisPieceModel *m_pieceModel{};
+        sflow::RangeIndicatorInteractionController *m_rangeIndicatorInteractionController{};
     };
 
 }

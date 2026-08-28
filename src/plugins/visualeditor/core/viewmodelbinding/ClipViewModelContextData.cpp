@@ -13,7 +13,10 @@
 
 #include <ScopicFlowCore/ClipPaneInteractionController.h>
 #include <ScopicFlowCore/ClipViewModel.h>
+#include <ScopicFlowCore/RangeIndicatorInteractionController.h>
+#include <ScopicFlowCore/RangeIndicatorViewModel.h>
 #include <ScopicFlowCore/RangeSequenceViewModel.h>
+#include <ScopicFlowCore/SelectionController.h>
 #include <ScopicFlowCore/TimeManipulator.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
@@ -33,6 +36,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/private/ClipSelectionController_p.h>
+#include <visualeditor/PianoRollPanelInterface.h>
 
 namespace VisualEditor {
 
@@ -296,13 +300,17 @@ namespace VisualEditor {
         if (!track) {
             return;
         }
+        if (!singingClipRangeIndicatorSequenceViewModelMap.contains(track)) {
+            singingClipRangeIndicatorSequenceViewModelMap.insert(
+                track, new sflow::RangeSequenceViewModel(q_ptr, "position", "length"));
+        }
         auto sequence = track->clips();
         connect(sequence, &dspx::ClipSequence::itemInserted, this, [=, this](dspx::Clip *item) {
             bindClipDocumentItem(item, track);
         });
         connect(sequence, &dspx::ClipSequence::itemRemoved, this, [=, this](dspx::Clip *item, dspx::ClipSequence *clipSequenceToWhichMoved) {
             if (clipSequenceToWhichMoved && trackList->items().contains(clipSequenceToWhichMoved->track())) {
-                clipTrackMap.insert(item, clipSequenceToWhichMoved->track());
+                moveClipRangeIndicatorToTrack(item, clipSequenceToWhichMoved->track());
                 return;
             }
             unbindClipDocumentItem(item);
@@ -323,16 +331,21 @@ namespace VisualEditor {
         for (auto documentItem : items) {
             unbindClipDocumentItem(documentItem);
         }
+        auto rangeIndicatorSequence = singingClipRangeIndicatorSequenceViewModelMap.take(track);
+        if (rangeIndicatorSequence) {
+            rangeIndicatorSequence->deleteLater();
+        }
     }
 
     void ClipViewModelContextData::bindClipDocumentItem(dspx::Clip *item, dspx::Track *track) {
         if (!item) {
             return;
         }
-        clipTrackMap.insert(item, track);
         if (clipViewItemMap.contains(item)) {
+            moveClipRangeIndicatorToTrack(item, track);
             return;
         }
+        clipTrackMap.insert(item, track);
         auto viewItem = new sflow::ClipViewModel(clipSequenceViewModel);
         viewItem->setIconSource(clipIconForType(item->type()));
         clipViewItemMap.insert(item, viewItem);
@@ -367,6 +380,9 @@ namespace VisualEditor {
             viewItem->setOverlapped(item->overlapped());
         });
         connect(item, &dspx::Clip::clipSequenceChanged, viewItem, [=, this] {
+            if (item->clipSequence()) {
+                moveClipRangeIndicatorToTrack(item, item->clipSequence()->track());
+            }
             if (stateMachine->configuration().contains(moveProcessingState)) {
                 return;
             }
@@ -525,12 +541,77 @@ namespace VisualEditor {
         }
 
         clipSequenceViewModel->insertItem(viewItem);
+
+        if (item->type() == dspx::Clip::Singing) {
+            auto rangeIndicator = new sflow::RangeIndicatorViewModel(q_ptr);
+            clipRangeIndicatorViewItemMap.insert(item, rangeIndicator);
+            clipRangeIndicatorDocumentItemMap.insert(rangeIndicator, item);
+
+            connect(viewItem, &sflow::ClipViewModel::positionChanged, rangeIndicator, [=] {
+                rangeIndicator->setPosition(viewItem->position());
+            });
+            connect(viewItem, &sflow::ClipViewModel::lengthChanged, rangeIndicator, [=] {
+                rangeIndicator->setLength(viewItem->length());
+            });
+            connect(viewItem, &sflow::ClipViewModel::nameChanged, rangeIndicator, [=] {
+                rangeIndicator->setContent(viewItem->name());
+            });
+            connect(viewItem, &sflow::ClipViewModel::editingChanged, rangeIndicator, [=] {
+                rangeIndicator->setType(viewItem->isEditing()
+                                            ? SVS::SVSCraft::CT_Accent
+                                            : SVS::SVSCraft::CT_Normal);
+            });
+
+            rangeIndicator->setPosition(viewItem->position());
+            rangeIndicator->setLength(viewItem->length());
+            rangeIndicator->setContent(viewItem->name());
+            rangeIndicator->setType(viewItem->isEditing()
+                                        ? SVS::SVSCraft::CT_Accent
+                                        : SVS::SVSCraft::CT_Normal);
+
+            auto rangeIndicatorSequence = singingClipRangeIndicatorSequenceViewModelMap.value(track);
+            Q_ASSERT(rangeIndicatorSequence);
+            rangeIndicatorSequence->insertItem(rangeIndicator);
+        }
+    }
+
+    void ClipViewModelContextData::moveClipRangeIndicatorToTrack(dspx::Clip *item, dspx::Track *track) {
+        if (!item || !track) {
+            return;
+        }
+        const auto previousTrack = clipTrackMap.value(item);
+        if (previousTrack == track) {
+            return;
+        }
+        auto rangeIndicator = clipRangeIndicatorViewItemMap.value(item);
+        if (rangeIndicator) {
+            auto previousSequence = singingClipRangeIndicatorSequenceViewModelMap.value(previousTrack);
+            if (previousSequence) {
+                previousSequence->removeItem(rangeIndicator);
+            }
+            auto targetSequence = singingClipRangeIndicatorSequenceViewModelMap.value(track);
+            if (targetSequence) {
+                targetSequence->insertItem(rangeIndicator);
+            }
+        }
+        clipTrackMap.insert(item, track);
     }
 
     void ClipViewModelContextData::unbindClipDocumentItem(dspx::Clip *item) {
         if (!clipViewItemMap.contains(item)) {
             return;
         }
+        const auto track = clipTrackMap.value(item);
+        auto rangeIndicator = clipRangeIndicatorViewItemMap.take(item);
+        if (rangeIndicator) {
+            clipRangeIndicatorDocumentItemMap.remove(rangeIndicator);
+            auto rangeIndicatorSequence = singingClipRangeIndicatorSequenceViewModelMap.value(track);
+            if (rangeIndicatorSequence) {
+                rangeIndicatorSequence->removeItem(rangeIndicator);
+            }
+            rangeIndicator->deleteLater();
+        }
+
         auto viewItem = clipViewItemMap.take(item);
         clipDocumentItemMap.remove(viewItem);
         clipTrackMap.remove(item);
@@ -544,6 +625,37 @@ namespace VisualEditor {
         clipSequenceViewModel->removeItem(viewItem);
 
         viewItem->deleteLater();
+    }
+
+    sflow::RangeIndicatorInteractionController *
+        ClipViewModelContextData::createRangeIndicatorController(QObject *parent) {
+        auto controller = new sflow::RangeIndicatorInteractionController(parent);
+
+        connect(controller, &sflow::RangeIndicatorInteractionController::itemClicked,
+                this, [=, this](QQuickItem *, sflow::RangeIndicatorViewModel *viewItem) {
+            auto clip = qobject_cast<dspx::SingingClip *>(
+                clipRangeIndicatorDocumentItemMap.value(viewItem));
+            auto pianoRollPanelInterface = PianoRollPanelInterface::of(q_ptr->windowHandle());
+            if (clip && pianoRollPanelInterface) {
+                pianoRollPanelInterface->setEditingClip(clip);
+            }
+        });
+
+        connect(controller, &sflow::RangeIndicatorInteractionController::itemContextMenuRequested,
+                this, [=, this](QQuickItem *, sflow::RangeIndicatorViewModel *viewItem) {
+            auto clip = clipRangeIndicatorDocumentItemMap.value(viewItem);
+            auto clipViewItem = clipViewItemMap.value(clip);
+            if (!clipViewItem) {
+                return;
+            }
+            clipSelectionController->select(
+                clipViewItem,
+                sflow::SelectionController::Select |
+                    sflow::SelectionController::ClearPreviousSelection |
+                    sflow::SelectionController::SetCurrentItem);
+        });
+
+        return controller;
     }
 
     sflow::ClipPaneInteractionController *ClipViewModelContextData::createController(QObject *parent) {

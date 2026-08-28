@@ -7,7 +7,13 @@
 #include <utility>
 
 #include <QFileInfo>
+#include <QSet>
 #include <QVariant>
+
+#include <SVSCraftCore/SVSCraftNamespace.h>
+
+#include <ScopicFlowCore/RangeIndicatorViewModel.h>
+#include <ScopicFlowCore/RangeSequenceViewModel.h>
 
 #include <dspxmodelORM/SingingClip.h>
 
@@ -20,6 +26,8 @@ namespace SynthVisualizer::Internal {
 
     SynthesisPieceModel::SynthesisPieceModel(QObject *parent)
         : QAbstractListModel(parent) {
+        m_rangeIndicatorSequenceViewModel =
+            new sflow::RangeSequenceViewModel(this, "position", "length");
     }
 
     SynthesisPieceModel::SynthesisPieceModel(Synth::ProjectSynthesisContext *context, QObject *parent)
@@ -28,6 +36,7 @@ namespace SynthVisualizer::Internal {
     }
 
     SynthesisPieceModel::~SynthesisPieceModel() {
+        clearRangeIndicators();
         disconnectPieceSignals();
         disconnectClipSignals();
         disconnect(m_windowHandleConnection);
@@ -81,6 +90,10 @@ namespace SynthVisualizer::Internal {
         }
         rebuild();
         Q_EMIT singingClipChanged();
+    }
+
+    sflow::RangeSequenceViewModel *SynthesisPieceModel::rangeIndicatorSequenceViewModel() const {
+        return m_rangeIndicatorSequenceViewModel;
     }
 
     int SynthesisPieceModel::rowCount(const QModelIndex &parent) const {
@@ -159,6 +172,26 @@ namespace SynthVisualizer::Internal {
         );
     }
 
+    QObject *SynthesisPieceModel::pieceForRangeIndicator(
+        sflow::RangeIndicatorViewModel *viewItem) const {
+        return m_pieceMap.value(viewItem);
+    }
+
+    bool SynthesisPieceModel::isPieceTaskActive(QObject *pieceObject) const {
+        auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
+        return piece && (piece->state() == Synth::SynthesisPiece::Queued ||
+                         piece->state() == Synth::SynthesisPiece::Synthesizing);
+    }
+
+    QString SynthesisPieceModel::verifiedDiagnosticFilePath(QObject *pieceObject) const {
+        auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
+        if (!piece) {
+            return {};
+        }
+        const auto path = piece->diagnosticFilePath();
+        return path.isEmpty() || !QFileInfo::exists(path) ? QString() : path;
+    }
+
     void SynthesisPieceModel::setSynthesisContext(Synth::ProjectSynthesisContext *context) {
         if (m_context == context) {
             return;
@@ -209,6 +242,8 @@ namespace SynthVisualizer::Internal {
         }
         endResetModel();
 
+        reconcileRangeIndicators();
+
         for (auto piecePointer : std::as_const(m_pieces)) {
             auto piece = piecePointer.data();
             if (!piece) {
@@ -227,6 +262,7 @@ namespace SynthVisualizer::Internal {
         if (!piece) {
             return;
         }
+        updateRangeIndicator(piece);
         for (int row = 0; row < m_pieces.size(); ++row) {
             if (m_pieces.at(row) != piece) {
                 continue;
@@ -249,12 +285,81 @@ namespace SynthVisualizer::Internal {
     }
 
     void SynthesisPieceModel::updateClipPosition() {
+        for (auto piece : m_rangeIndicatorViewItemMap.keys()) {
+            updateRangeIndicator(piece);
+        }
         if (m_pieces.isEmpty()) {
             return;
         }
         Q_EMIT dataChanged(index(0), index(m_pieces.size() - 1), {
             AbsolutePositionRole,
         });
+    }
+
+    void SynthesisPieceModel::reconcileRangeIndicators() {
+        QSet<Synth::SynthesisPiece *> livePieces;
+        for (const auto piecePointer : std::as_const(m_pieces)) {
+            if (auto piece = piecePointer.data()) {
+                livePieces.insert(piece);
+            }
+        }
+
+        for (auto piece : m_rangeIndicatorViewItemMap.keys()) {
+            if (livePieces.contains(piece)) {
+                continue;
+            }
+            auto viewItem = m_rangeIndicatorViewItemMap.take(piece);
+            m_pieceMap.remove(viewItem);
+            m_rangeIndicatorSequenceViewModel->removeItem(viewItem);
+            viewItem->deleteLater();
+        }
+
+        for (auto piece : std::as_const(livePieces)) {
+            auto viewItem = m_rangeIndicatorViewItemMap.value(piece);
+            if (!viewItem) {
+                viewItem = new sflow::RangeIndicatorViewModel(this);
+                m_rangeIndicatorViewItemMap.insert(piece, viewItem);
+                m_pieceMap.insert(viewItem, piece);
+                updateRangeIndicator(piece);
+                m_rangeIndicatorSequenceViewModel->insertItem(viewItem);
+            } else {
+                updateRangeIndicator(piece);
+            }
+        }
+    }
+
+    void SynthesisPieceModel::updateRangeIndicator(Synth::SynthesisPiece *piece) {
+        auto viewItem = m_rangeIndicatorViewItemMap.value(piece);
+        if (!viewItem || !m_singingClip) {
+            return;
+        }
+        viewItem->setPosition(qRound(m_singingClip->start() + piece->position()));
+        viewItem->setLength(qRound(piece->length()));
+        viewItem->setContent(statusText(piece));
+        switch (piece->state()) {
+            case Synth::SynthesisPiece::Ready:
+                viewItem->setType(SVS::SVSCraft::CT_Accent);
+                break;
+            case Synth::SynthesisPiece::Failed:
+                viewItem->setType(SVS::SVSCraft::CT_Error);
+                break;
+            case Synth::SynthesisPiece::Idle:
+            case Synth::SynthesisPiece::Stale:
+            case Synth::SynthesisPiece::Queued:
+            case Synth::SynthesisPiece::Synthesizing:
+                viewItem->setType(SVS::SVSCraft::CT_Normal);
+                break;
+        }
+    }
+
+    void SynthesisPieceModel::clearRangeIndicators() {
+        const auto viewItems = m_pieceMap.keys();
+        for (auto viewItem : viewItems) {
+            m_rangeIndicatorSequenceViewModel->removeItem(viewItem);
+            delete viewItem;
+        }
+        m_rangeIndicatorViewItemMap.clear();
+        m_pieceMap.clear();
     }
 
     QString SynthesisPieceModel::statusText(const Synth::SynthesisPiece *piece) const {

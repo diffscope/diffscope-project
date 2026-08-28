@@ -25,6 +25,8 @@ namespace dspx {
 namespace sflow {
     class ClipPaneInteractionController;
     class ClipViewModel;
+    class RangeIndicatorInteractionController;
+    class RangeIndicatorViewModel;
     class RangeSequenceViewModel;
 }
 
@@ -53,6 +55,9 @@ namespace VisualEditor {
         QHash<dspx::Clip *, sflow::ClipViewModel *> clipViewItemMap;
         QHash<sflow::ClipViewModel *, dspx::Clip *> clipDocumentItemMap;
         QHash<dspx::Clip *, dspx::Track *> clipTrackMap;
+        QHash<dspx::Track *, sflow::RangeSequenceViewModel *> singingClipRangeIndicatorSequenceViewModelMap;
+        QHash<dspx::Clip *, sflow::RangeIndicatorViewModel *> clipRangeIndicatorViewItemMap;
+        QHash<sflow::RangeIndicatorViewModel *, dspx::Clip *> clipRangeIndicatorDocumentItemMap;
         QSet<sflow::ClipViewModel *> moveUpdatedClips;
         QSet<sflow::ClipViewModel *> lengthUpdatedClips;
 
@@ -95,7 +100,9 @@ namespace VisualEditor {
         void unbindTrack(dspx::Track *track);
         void bindClipDocumentItem(dspx::Clip *item, dspx::Track *track);
         void unbindClipDocumentItem(dspx::Clip *item);
+        void moveClipRangeIndicatorToTrack(dspx::Clip *item, dspx::Track *track);
         sflow::ClipPaneInteractionController *createController(QObject *parent);
+        sflow::RangeIndicatorInteractionController *createRangeIndicatorController(QObject *parent);
 
         void onMovePendingStateEntered();
         void onMoveCommittingStateEntered();

@@ -11,6 +11,8 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <ScopicFlowCore/RangeIndicatorInteractionController.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <synth/ProjectSynthesisContext.h>
@@ -27,8 +29,13 @@ namespace SynthVisualizer::Internal {
 
     SynthesisPieceTrackAddOn::~SynthesisPieceTrackAddOn() = default;
 
-    QAbstractItemModel *SynthesisPieceTrackAddOn::pieceModel() const {
+    SynthesisPieceModel *SynthesisPieceTrackAddOn::pieceModel() const {
         return m_pieceModel;
+    }
+
+    sflow::RangeIndicatorInteractionController *
+        SynthesisPieceTrackAddOn::rangeIndicatorInteractionController() const {
+        return m_rangeIndicatorInteractionController;
     }
 
     void SynthesisPieceTrackAddOn::initialize() {
@@ -43,6 +50,8 @@ namespace SynthVisualizer::Internal {
             qCWarning(lcSynthesisPieceTrackAddOn) << "The project synthesis context is unavailable";
         }
         m_pieceModel = new SynthesisPieceModel(synthesisContext, this);
+        m_rangeIndicatorInteractionController =
+            new sflow::RangeIndicatorInteractionController(this);
 
         QQmlComponent component(
             Core::RuntimeInterface::qmlEngine(),

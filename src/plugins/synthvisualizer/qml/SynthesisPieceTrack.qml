@@ -11,7 +11,7 @@ import QtQuick.Layouts
 import SVSCraft
 
 import dev.sjimo.ScopicFlow
-import dev.sjimo.ScopicFlow.Internal
+import dev.sjimo.ScopicFlow.Views
 
 import DiffScope.Synth
 import DiffScope.UIShell
@@ -25,21 +25,29 @@ QtObject {
     readonly property ProjectViewModelContext projectViewModelContext:
         addOn?.windowHandle.ProjectViewModelContext.context ?? null
 
-    readonly property Component synthesisPieceTrackComponent: FocusScope {
+    readonly property Component synthesisPieceTrackComponent: RangeIndicatorSequence {
         id: control
 
         required property PianoRollPanelInterface contextObject
 
-        readonly property QtObject pieceModel: d.addOn?.pieceModel ?? null
+        readonly property SynthesisPieceModel pieceModel:
+            d.addOn?.pieceModel ?? null
         readonly property var editingTrackViewModel:
             d.projectViewModelContext?.getTrackViewItemFromDocumentItem(
                 control.contextObject?.editingClip?.clipSequence?.track ?? null) ?? null
-        readonly property color trackColor:
-            editingTrackViewModel?.color ?? Theme.accentColor
+
+        property QtObject hoveredPiece: null
 
         Layout.fillWidth: true
-        clip: true
-        implicitHeight: 20
+        Theme.accentColor: editingTrackViewModel?.color ?? Qt.rgba(0, 0, 0, 0)
+
+        rangeIndicatorSequenceViewModel:
+            pieceModel?.rangeIndicatorSequenceViewModel ?? null
+        rangeIndicatorInteractionController:
+            d.addOn?.rangeIndicatorInteractionController ?? null
+        scrollBehaviorViewModel: contextObject?.scrollBehaviorViewModel ?? null
+        timeLayoutViewModel: contextObject?.timeLayoutViewModel ?? null
+        timeViewModel: contextObject?.timeViewModel ?? null
 
         Binding {
             target: control.pieceModel
@@ -47,93 +55,45 @@ QtObject {
             value: control.contextObject?.editingClip ?? null
         }
 
-        TimeManipulator {
-            id: timeManipulator
+        ToolTip.visible:
+            control.hoveredPiece !== null
+            && control.hoveredPiece.errorMessage.length > 0
+        ToolTip.text: control.hoveredPiece?.errorMessage ?? ""
 
-            target: control
-            timeLayoutViewModel: control.contextObject?.timeLayoutViewModel ?? null
-            timeViewModel: control.contextObject?.timeViewModel ?? null
-        }
+        Connections {
+            target: control.rangeIndicatorInteractionController
 
-        Rectangle {
-            anchors.fill: parent
-            color: Theme.backgroundColor(control.ThemedItem.backgroundLevel)
-        }
+            function onItemHoverEntered(rangeIndicatorSequence, viewItem) {
+                if (rangeIndicatorSequence !== control)
+                    return
+                control.hoveredPiece =
+                    control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
+            }
 
-        Repeater {
-            model: control.pieceModel
+            function onItemHoverExited(rangeIndicatorSequence, viewItem) {
+                if (rangeIndicatorSequence !== control)
+                    return
+                const piece =
+                    control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
+                if (control.hoveredPiece === piece)
+                    control.hoveredPiece = null
+            }
 
-            delegate: Rectangle {
-                id: pieceDelegate
-
-                required property real absolutePosition
-                required property real duration
-                required property string statusText
-                required property string errorMessage
-                required property bool ready
-                required property bool failed
-                required property bool active
-                required property QtObject piece
-                required property string diagnosticFilePath
-
-                readonly property real pixelDensity:
-                    control.contextObject?.timeLayoutViewModel?.pixelDensity ?? 0
-                readonly property real viewStart:
-                    control.contextObject?.timeViewModel?.start ?? 0
-
-                x: (absolutePosition - viewStart) * pixelDensity
-                width: duration * pixelDensity
-                height: control.height
-                visible: width > 0 && x < control.width && x + width > 0
-                color: failed
-                    ? Theme.errorColor
-                    : ready
-                        ? control.trackColor
-                        : Theme.backgroundTertiaryColor
-                border.color: Theme.borderColor
-
-                Text {
-                    readonly property real boundedWidth:
-                        Math.max(0, Math.min(implicitWidth, parent.width - 8))
-
-                    x: Math.max(
-                        4,
-                        Math.min(
-                            (pieceDelegate.viewStart
-                                - pieceDelegate.absolutePosition)
-                                * pieceDelegate.pixelDensity + 4,
-                            parent.width - boundedWidth - 4))
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Math.max(0, Math.min(implicitWidth, parent.width - x - 4))
-                    text: pieceDelegate.statusText
-                    color: Theme.foregroundPrimaryColor
-                    font: Theme.font
-                    elide: Text.ElideRight
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    onClicked: (mouse) => {
-                        const window = control.Window.window
-                        const anchor = window
-                            ? pieceDelegate.mapToItem(window.contentItem, mouse.x, mouse.y)
-                            : Qt.point(mouse.x, mouse.y)
-                        pieceMenu.piece = pieceDelegate.piece
-                        pieceMenu.canTerminate = pieceDelegate.active
-                        pieceMenu.pieceDiagnosticFilePath = pieceDelegate.diagnosticFilePath
-                        pieceMenu.anchorX = anchor.x
-                        pieceMenu.anchorY = anchor.y
-                        pieceMenu.popup(pieceDelegate, mouse.x, mouse.y)
-                    }
-                }
-
-                HoverHandler {
-                    id: hoverHandler
-                }
-
-                ToolTip.visible: hoverHandler.hovered && errorMessage.length > 0
-                ToolTip.text: errorMessage
+            function onItemContextMenuRequested(rangeIndicatorSequence, viewItem) {
+                if (rangeIndicatorSequence !== control)
+                    return
+                const piece =
+                    control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
+                if (piece === null)
+                    return
+                pieceMenu.piece = piece
+                pieceMenu.canTerminate =
+                    control.pieceModel?.isPieceTaskActive(piece) ?? false
+                pieceMenu.pieceDiagnosticFilePath =
+                    control.pieceModel?.verifiedDiagnosticFilePath(piece) ?? ""
+                pieceMenu.popup()
+                pieceMenu.anchorX = pieceMenu.x
+                pieceMenu.anchorY = pieceMenu.y
             }
         }
 
@@ -151,59 +111,58 @@ QtObject {
                 icon.source: "image://fluent-system-icons/arrow_sync"
                 onTriggered: control.openResynthesizeDialog()
             }
+
             Action {
                 text: qsTr("Terminate Task")
                 icon.source: "image://fluent-system-icons/stop"
-                enabled: pieceMenu.canTerminate && pieceMenu.piece != null
+                enabled: pieceMenu.canTerminate && pieceMenu.piece !== null
                 onTriggered: control.pieceModel.cancelPieceTask(pieceMenu.piece)
             }
+
             Action {
                 text: qsTr("View Diagnostics")
                 icon.source: "image://fluent-system-icons/document_search"
                 enabled: pieceMenu.pieceDiagnosticFilePath.length > 0
-                onTriggered: DesktopServices.reveal(pieceMenu.pieceDiagnosticFilePath)
+                onTriggered: DesktopServices.reveal(
+                    pieceMenu.pieceDiagnosticFilePath)
             }
         }
 
         Component {
             id: resynthesizeDialogComponent
-            ResynthesizeDialog {}
+
+            ResynthesizeDialog {
+            }
         }
 
         function openResynthesizeDialog() {
             const piece = pieceMenu.piece
-            if (piece == null)
+            if (piece === null)
                 return
             const window = control.Window.window
-            if (window == null)
+            if (window === null)
                 return
-            const dialog = resynthesizeDialogComponent.createObject(window.contentItem, {
-                resynthesizeFrom: 0,
-                disableCache: false,
-            })
-            if (dialog == null)
+            const dialog = resynthesizeDialogComponent.createObject(
+                window.contentItem, {
+                    resynthesizeFrom: 0,
+                    disableCache: false,
+                })
+            if (dialog === null)
                 return
             const width = dialog.width
             const height = dialog.height
-            dialog.x = Math.max(0, Math.min(pieceMenu.anchorX, window.width - width))
-            dialog.y = Math.max(0, Math.min(pieceMenu.anchorY, window.height - height))
+            dialog.x = Math.max(
+                0, Math.min(pieceMenu.anchorX, window.width - width))
+            dialog.y = Math.max(
+                0, Math.min(pieceMenu.anchorY, window.height - height))
             dialog.accepted.connect(() => {
                 control.pieceModel.resynthesizePiece(
-                    piece, dialog.resynthesizeFrom, !dialog.disableCache, true)
+                    piece, dialog.resynthesizeFrom,
+                    !dialog.disableCache, true)
                 dialog.destroy()
             })
             dialog.rejected.connect(() => dialog.destroy())
             dialog.open()
-        }
-
-        StandardScrollHandler {
-            movableOrientation: Qt.Horizontal
-            viewModel: control.contextObject?.scrollBehaviorViewModel ?? null
-
-            onMoved: (x, _, isPhysicalWheel) =>
-                timeManipulator.moveViewBy(x, isPhysicalWheel)
-            onZoomed: (ratioX, _, x, _, isPhysicalWheel) =>
-                timeManipulator.zoomViewBy(ratioX, x, isPhysicalWheel)
         }
     }
 }

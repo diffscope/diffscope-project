@@ -21,6 +21,7 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class NoteEditLayerInteractionController;
     class PhonemeSequenceInteractionController;
+    class RangeIndicatorInteractionController;
     class ClavierViewModel;
     class ClavierInteractionController;
 }
@@ -59,6 +60,7 @@ namespace VisualEditor {
         Q_PROPERTY(sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel READ labelSequenceInteractionControllerOfLabel CONSTANT)
         Q_PROPERTY(sflow::NoteEditLayerInteractionController *noteEditLayerInteractionController READ noteEditLayerInteractionController CONSTANT)
         Q_PROPERTY(sflow::PhonemeSequenceInteractionController *phonemeSequenceInteractionController READ phonemeSequenceInteractionController CONSTANT)
+        Q_PROPERTY(sflow::RangeIndicatorInteractionController *clipRangeIndicatorInteractionController READ clipRangeIndicatorInteractionController CONSTANT)
         Q_PROPERTY(sflow::ClavierViewModel *clavierViewModel READ clavierViewModel CONSTANT)
         Q_PROPERTY(sflow::ClavierInteractionController *clavierInteractionController READ clavierInteractionController CONSTANT)
         Q_PROPERTY(PositionAlignmentManipulator *positionAlignmentManipulator READ positionAlignmentManipulator CONSTANT)
@@ -89,6 +91,7 @@ namespace VisualEditor {
         sflow::LabelSequenceInteractionController *labelSequenceInteractionControllerOfLabel() const;
         sflow::NoteEditLayerInteractionController *noteEditLayerInteractionController() const;
         sflow::PhonemeSequenceInteractionController *phonemeSequenceInteractionController() const;
+        sflow::RangeIndicatorInteractionController *clipRangeIndicatorInteractionController() const;
         sflow::ClavierViewModel *clavierViewModel() const;
         sflow::ClavierInteractionController *clavierInteractionController() const;
 
