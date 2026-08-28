@@ -942,19 +942,34 @@ Item {
                                         view.projectViewModelContext?.parameterEditorContext.pitchBinding ?? null
                                     readonly property real keyHeight:
                                         view.pianoRollPanelInterface?.clavierViewModel?.pixelDensity ?? 0
+                                    readonly property real timePixelDensity:
+                                        view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0
                                     readonly property real clavierStart:
                                         view.pianoRollPanelInterface?.clavierViewModel?.start ?? 0
                                     readonly property real key128CenterY:
                                         (clavierStart - 128.5) * keyHeight
                                     readonly property real key0CenterY:
                                         (clavierStart - 0.5) * keyHeight
+                                    readonly property bool noteEditPitchCurveVisible: {
+                                        if (EditorPreference.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_AlwaysShow)
+                                            return true
+                                        if (EditorPreference.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_AlwaysHide)
+                                            return false
+                                        return timePixelDensity >= EditorPreference.autoPitchCurveDisplayPixelDensityThreshold
+                                    }
+                                    readonly property real noteEditPitchCurveOpacityFactor: {
+                                        if (EditorPreference.noteEditPitchCurveDisplayMode !== EditorPreference.PCDM_Automatic)
+                                            return 1.0
+                                        const ratio = timePixelDensity / EditorPreference.autoPitchCurveDisplayPixelDensityThreshold
+                                        return Math.max(0.0, Math.min(1.0, 2 * Math.log2(ratio)))
+                                    }
                                     x: 0
                                     width: parent.width
                                     y: key128CenterY
                                     height: key0CenterY - key128CenterY
-                                    visible: binding?.available ?? false
+                                    visible: (binding?.available ?? false) && (enabled || noteEditPitchCurveVisible)
                                     enabled: view.pianoRollPanelInterface?.pitchToolActive ?? false
-                                    opacity: enabled ? 1.0 : 0.5
+                                    opacity: enabled ? 1.0 : 0.5 * noteEditPitchCurveOpacityFactor
                                     freeParameterViewModel: binding?.freeEdited ?? null
                                     anchorParameterViewModel: binding?.anchorEdited ?? null
                                     originalParameterViewModel: binding?.original ?? null

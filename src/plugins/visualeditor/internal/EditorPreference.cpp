@@ -11,6 +11,8 @@
 
 namespace VisualEditor::Internal {
 
+    static constexpr double kDefaultAutoPitchCurveDisplayPixelDensityThreshold = 0.07071;
+
     class EditorPreferencePrivate {
     public:
         bool initialized{};
@@ -26,6 +28,8 @@ namespace VisualEditor::Internal {
         bool centerPianoRollOnClipDoubleClick{true};
         double pianoKeyboardBlackKeyLengthRatio{0.6};
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
+        EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
+        double autoPitchCurveDisplayPixelDensityThreshold{kDefaultAutoPitchCurveDisplayPixelDensityThreshold};
         bool displayPronunciationBelowNote{};
         int shortNoteThreshold{30};
         bool warnOfOverlappingNotes{true};
@@ -76,6 +80,10 @@ namespace VisualEditor::Internal {
         emit pianoKeyboardBlackKeyLengthRatioChanged();
         d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
         emit pianoKeyboardLabelPolicyChanged();
+        d->noteEditPitchCurveDisplayMode = settings->value("noteEditPitchCurveDisplayMode", QVariant::fromValue(PCDM_Automatic)).value<NoteEditPitchCurveDisplayMode>();
+        Q_EMIT noteEditPitchCurveDisplayModeChanged();
+        d->autoPitchCurveDisplayPixelDensityThreshold = settings->value("autoPitchCurveDisplayPixelDensityThreshold", kDefaultAutoPitchCurveDisplayPixelDensityThreshold).toDouble();
+        Q_EMIT autoPitchCurveDisplayPixelDensityThresholdChanged();
         d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
         emit displayPronunciationBelowNoteChanged();
         d->shortNoteThreshold = settings->value("shortNoteThreshold", 30).toInt();
@@ -110,6 +118,8 @@ namespace VisualEditor::Internal {
         settings->setValue("centerPianoRollOnClipDoubleClick", d->centerPianoRollOnClipDoubleClick);
         settings->setValue("pianoKeyboardBlackKeyLengthRatio", d->pianoKeyboardBlackKeyLengthRatio);
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
+        settings->setValue("noteEditPitchCurveDisplayMode", static_cast<int>(d->noteEditPitchCurveDisplayMode));
+        settings->setValue("autoPitchCurveDisplayPixelDensityThreshold", d->autoPitchCurveDisplayPixelDensityThreshold);
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
         settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
         settings->setValue("warnOfOverlappingNotes", d->warnOfOverlappingNotes);
@@ -265,6 +275,32 @@ namespace VisualEditor::Internal {
             return;
         d->pianoKeyboardLabelPolicy = pianoKeyboardLabelPolicy;
         emit m_instance->pianoKeyboardLabelPolicyChanged();
+    }
+
+    EditorPreference::NoteEditPitchCurveDisplayMode EditorPreference::noteEditPitchCurveDisplayMode() {
+        M_INSTANCE_D;
+        return d->noteEditPitchCurveDisplayMode;
+    }
+
+    void EditorPreference::setNoteEditPitchCurveDisplayMode(NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode) {
+        M_INSTANCE_D;
+        if (d->noteEditPitchCurveDisplayMode == noteEditPitchCurveDisplayMode)
+            return;
+        d->noteEditPitchCurveDisplayMode = noteEditPitchCurveDisplayMode;
+        Q_EMIT m_instance->noteEditPitchCurveDisplayModeChanged();
+    }
+
+    double EditorPreference::autoPitchCurveDisplayPixelDensityThreshold() {
+        M_INSTANCE_D;
+        return d->autoPitchCurveDisplayPixelDensityThreshold;
+    }
+
+    void EditorPreference::setAutoPitchCurveDisplayPixelDensityThreshold(double autoPitchCurveDisplayPixelDensityThreshold) {
+        M_INSTANCE_D;
+        if (qFuzzyCompare(d->autoPitchCurveDisplayPixelDensityThreshold, autoPitchCurveDisplayPixelDensityThreshold))
+            return;
+        d->autoPitchCurveDisplayPixelDensityThreshold = autoPitchCurveDisplayPixelDensityThreshold;
+        Q_EMIT m_instance->autoPitchCurveDisplayPixelDensityThresholdChanged();
     }
 
     bool EditorPreference::displayPronunciationBelowNote() {

@@ -69,6 +69,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         m_widget->setProperty("pianoKeyboardLabelPolicy", EditorPreference::instance()->property("pianoKeyboardLabelPolicy"));
         qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardLabelPolicy");
+        m_widget->setProperty("noteEditPitchCurveDisplayMode", EditorPreference::instance()->property("noteEditPitchCurveDisplayMode"));
+        qCDebug(lcEditorPage) << m_widget->property("noteEditPitchCurveDisplayMode");
+        m_widget->setProperty("autoPitchCurveDisplayPixelDensityThreshold", EditorPreference::instance()->property("autoPitchCurveDisplayPixelDensityThreshold"));
+        qCDebug(lcEditorPage) << m_widget->property("autoPitchCurveDisplayPixelDensityThreshold");
         m_widget->setProperty("displayPronunciationBelowNote", EditorPreference::instance()->property("displayPronunciationBelowNote"));
         qCDebug(lcEditorPage) << m_widget->property("displayPronunciationBelowNote");
         m_widget->setProperty("shortNoteThreshold", EditorPreference::instance()->property("shortNoteThreshold"));
@@ -111,6 +115,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("pianoKeyboardBlackKeyLengthRatio", m_widget->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << "pianoKeyboardLabelPolicy" << m_widget->property("pianoKeyboardLabelPolicy");
         EditorPreference::instance()->setProperty("pianoKeyboardLabelPolicy", m_widget->property("pianoKeyboardLabelPolicy"));
+        qCDebug(lcEditorPage) << "noteEditPitchCurveDisplayMode" << m_widget->property("noteEditPitchCurveDisplayMode");
+        EditorPreference::instance()->setProperty("noteEditPitchCurveDisplayMode", m_widget->property("noteEditPitchCurveDisplayMode"));
+        qCDebug(lcEditorPage) << "autoPitchCurveDisplayPixelDensityThreshold" << m_widget->property("autoPitchCurveDisplayPixelDensityThreshold");
+        EditorPreference::instance()->setProperty("autoPitchCurveDisplayPixelDensityThreshold", m_widget->property("autoPitchCurveDisplayPixelDensityThreshold"));
         qCDebug(lcEditorPage) << "displayPronunciationBelowNote" << m_widget->property("displayPronunciationBelowNote");
         EditorPreference::instance()->setProperty("displayPronunciationBelowNote", m_widget->property("displayPronunciationBelowNote"));
         qCDebug(lcEditorPage) << "shortNoteThreshold" << m_widget->property("shortNoteThreshold");

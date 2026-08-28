@@ -27,6 +27,8 @@ ScrollView {
     property bool centerPianoRollOnClipDoubleClick: true
     property double pianoKeyboardBlackKeyLengthRatio: 0.6
     property int pianoKeyboardLabelPolicy: 0
+    property int noteEditPitchCurveDisplayMode: EditorPreference.PCDM_Automatic
+    property double autoPitchCurveDisplayPixelDensityThreshold: defaultAutoPitchCurveDisplayPixelDensityThreshold
     property bool displayPronunciationBelowNote: false
     property int shortNoteThreshold: 30
     property bool warnOfOverlappingNotes: true
@@ -46,6 +48,8 @@ ScrollView {
     onCenterPianoRollOnClipDoubleClickChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardBlackKeyLengthRatioChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
+    onNoteEditPitchCurveDisplayModeChanged: if (started) pageHandle.markDirty()
+    onAutoPitchCurveDisplayPixelDensityThresholdChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
     onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
     onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
@@ -58,6 +62,10 @@ ScrollView {
     contentWidth: availableWidth
 
     readonly property TextMatcher matcher: TextMatcher {}
+    readonly property double minAutoPitchCurveDisplayPixelDensityThreshold: 0.05
+    readonly property double maxAutoPitchCurveDisplayPixelDensityThreshold: 0.1
+    readonly property double defaultAutoPitchCurveDisplayPixelDensityThreshold:
+        Math.sqrt(minAutoPitchCurveDisplayPixelDensityThreshold * maxAutoPitchCurveDisplayPixelDensityThreshold)
 
     ColumnLayout {
         width: page.width
@@ -270,6 +278,41 @@ ScrollView {
                         model: [qsTr("Above note"), qsTr("Below note")]
                         currentIndex: page.displayPronunciationBelowNote ? 1 : 0
                         onActivated: (index) => page.displayPronunciationBelowNote = (index === 1)
+                    }
+
+                    Label {
+                        text: qsTr("Pitch curve display in note edit mode")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    ComboBox {
+                        model: [qsTr("Automatic"), qsTr("Always show"), qsTr("Always hide")]
+                        currentIndex: page.noteEditPitchCurveDisplayMode
+                        onActivated: (index) => page.noteEditPitchCurveDisplayMode = index
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 22
+                        enabled: page.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_Automatic
+
+                        Label {
+                            text: qsTr("Automatic display zoom threshold")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: Math.log2(page.minAutoPitchCurveDisplayPixelDensityThreshold)
+                            to: Math.log2(page.maxAutoPitchCurveDisplayPixelDensityThreshold)
+                            value: Math.log2(page.autoPitchCurveDisplayPixelDensityThreshold)
+                            onMoved: page.autoPitchCurveDisplayPixelDensityThreshold = Math.pow(2, value)
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            ThemedItem.doubleClickResetValue: Math.log2(page.defaultAutoPitchCurveDisplayPixelDensityThreshold)
+                            ThemedItem.onDoubleClickReset: moved()
+                        }
                     }
 
                     Label {

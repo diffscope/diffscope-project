@@ -33,6 +33,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool centerPianoRollOnClipDoubleClick READ centerPianoRollOnClipDoubleClick WRITE setCenterPianoRollOnClipDoubleClick NOTIFY centerPianoRollOnClipDoubleClickChanged)
         Q_PROPERTY(double pianoKeyboardBlackKeyLengthRatio READ pianoKeyboardBlackKeyLengthRatio WRITE setPianoKeyboardBlackKeyLengthRatio NOTIFY pianoKeyboardBlackKeyLengthRatioChanged)
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
+        Q_PROPERTY(EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode READ noteEditPitchCurveDisplayMode WRITE setNoteEditPitchCurveDisplayMode NOTIFY noteEditPitchCurveDisplayModeChanged)
+        Q_PROPERTY(double autoPitchCurveDisplayPixelDensityThreshold READ autoPitchCurveDisplayPixelDensityThreshold WRITE setAutoPitchCurveDisplayPixelDensityThreshold NOTIFY autoPitchCurveDisplayPixelDensityThresholdChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
         Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
         Q_PROPERTY(bool warnOfOverlappingNotes READ warnOfOverlappingNotes WRITE setWarnOfOverlappingNotes NOTIFY warnOfOverlappingNotesChanged)
@@ -59,6 +61,13 @@ namespace VisualEditor::Internal {
             LP_None,
         };
         Q_ENUM(PianoKeyboardLabelPolicy)
+
+        enum NoteEditPitchCurveDisplayMode {
+            PCDM_Automatic,
+            PCDM_AlwaysShow,
+            PCDM_AlwaysHide,
+        };
+        Q_ENUM(NoteEditPitchCurveDisplayMode)
 
         enum ScrollModifier {
             SM_Control,
@@ -100,6 +109,12 @@ namespace VisualEditor::Internal {
         static PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy();
         static void setPianoKeyboardLabelPolicy(PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy);
 
+        static NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode();
+        static void setNoteEditPitchCurveDisplayMode(NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode);
+
+        static double autoPitchCurveDisplayPixelDensityThreshold();
+        static void setAutoPitchCurveDisplayPixelDensityThreshold(double autoPitchCurveDisplayPixelDensityThreshold);
+
         static bool displayPronunciationBelowNote();
         static void setDisplayPronunciationBelowNote(bool displayPronunciationBelowNote);
 
@@ -133,6 +148,8 @@ namespace VisualEditor::Internal {
         void centerPianoRollOnClipDoubleClickChanged();
         void pianoKeyboardBlackKeyLengthRatioChanged();
         void pianoKeyboardLabelPolicyChanged();
+        void noteEditPitchCurveDisplayModeChanged();
+        void autoPitchCurveDisplayPixelDensityThresholdChanged();
         void displayPronunciationBelowNoteChanged();
         void shortNoteThresholdChanged();
         void warnOfOverlappingNotesChanged();
