@@ -19,16 +19,13 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
-#include <dspxmodelORM/AnchorNode.h>
 #include <dspxmodelORM/AnchorNodeSequence.h>
 #include <dspxmodelORM/AudioDSP.h>
 #include <dspxmodelORM/AudioDSPList.h>
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
-#include <dspxmodelORM/DynamicMixingAnchor.h>
 #include <dspxmodelORM/DynamicMixingAnchorSequence.h>
 #include <dspxmodelORM/Model.h>
-#include <dspxmodelORM/Note.h>
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/Parameter.h>
 #include <dspxmodelORM/ParameterMap.h>
@@ -62,34 +59,33 @@ namespace Audio::Internal {
 
     namespace {
 
-        dspx::Track *trackFromClip(dspx::Clip *clip) {
-            return clip && clip->clipSequence() ? clip->clipSequence()->track() : nullptr;
-        }
-
         dspx::Track *trackFromSingingClip(dspx::SingingClip *singingClip) {
-            return singingClip ? trackFromClip(singingClip) : nullptr;
-        }
-
-        dspx::Track *trackFromNote(dspx::Note *note) {
-            return note && note->noteSequence()
-                ? trackFromSingingClip(note->noteSequence()->singingClip())
-                : nullptr;
-        }
-
-        dspx::Track *trackFromAnchorNode(dspx::AnchorNode *anchor) {
-            if (!anchor || !anchor->anchorNodeSequence()) {
+            if (!singingClip) {
                 return nullptr;
             }
-            auto parameter = anchor->anchorNodeSequence()->parameter();
+            auto clipSequence = singingClip->clipSequence();
+            return clipSequence ? clipSequence->track() : nullptr;
+        }
+
+        dspx::Track *trackFromNoteSequence(dspx::NoteSequence *noteSequence) {
+            return noteSequence ? trackFromSingingClip(noteSequence->singingClip()) : nullptr;
+        }
+
+        dspx::Track *trackFromAnchorNodeSequence(dspx::AnchorNodeSequence *anchorNodeSequence) {
+            if (!anchorNodeSequence) {
+                return nullptr;
+            }
+            auto parameter = anchorNodeSequence->parameter();
             auto parameterMap = parameter ? parameter->parameterMap() : nullptr;
             return parameterMap ? trackFromSingingClip(parameterMap->singingClip()) : nullptr;
         }
 
-        dspx::Track *trackFromDynamicMixingAnchor(dspx::DynamicMixingAnchor *anchor) {
-            if (!anchor || !anchor->dynamicMixingAnchorSequence()) {
+        dspx::Track *trackFromDynamicMixingAnchorSequence(
+            dspx::DynamicMixingAnchorSequence *sequence) {
+            if (!sequence) {
                 return nullptr;
             }
-            auto sources = anchor->dynamicMixingAnchorSequence()->sources();
+            auto sources = sequence->sources();
             return sources ? trackFromSingingClip(sources->singingClip()) : nullptr;
         }
 
@@ -131,6 +127,18 @@ namespace Audio::Internal {
                 this, [this](QObject *, bool) {
                     refreshSelection();
                 });
+        connect(m_selectionModel->clipSelectionModel(),
+                &dspx::ClipSelectionModel::clipSequencesWithSelectedItemsChanged, this,
+                &EffectsAddOn::refreshSelection);
+        connect(m_selectionModel->noteSelectionModel(),
+                &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this,
+                &EffectsAddOn::refreshSelection);
+        connect(m_selectionModel->anchorNodeSelectionModel(),
+                &dspx::AnchorNodeSelectionModel::anchorNodeSequenceWithSelectedItemsChanged, this,
+                &EffectsAddOn::refreshSelection);
+        connect(m_selectionModel->dynamicMixingAnchorSelectionModel(),
+                &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged,
+                this, &EffectsAddOn::refreshSelection);
 
         auto collection = EffectsUnitCollection::instance();
         connect(collection, &EffectsUnitCollection::effectsUnitIdsChanged,
@@ -421,7 +429,7 @@ namespace Audio::Internal {
 
     void EffectsAddOn::refreshSelection() {
         clearAssociationConnections();
-        if (!m_selectionModel || m_selectionModel->selectedCount() == 0) {
+        if (!m_selectionModel) {
             setTrackSelection(false, nullptr, nullptr, {});
             return;
         }
@@ -450,43 +458,45 @@ namespace Audio::Internal {
                 }
                 break;
             case dspx::SelectionModel::ST_Clip:
-                for (auto clip : m_selectionModel->clipSelectionModel()->selectedItems()) {
-                    addTrack(trackFromClip(clip));
-                    watch(clip, &dspx::Clip::clipSequenceChanged);
+                for (auto clipSequence :
+                     m_selectionModel->clipSelectionModel()->clipSequencesWithSelectedItems()) {
+                    addTrack(clipSequence ? clipSequence->track() : nullptr);
                 }
                 break;
-            case dspx::SelectionModel::ST_Note:
-                for (auto note : m_selectionModel->noteSelectionModel()->selectedItems()) {
-                    addTrack(trackFromNote(note));
-                    watch(note, &dspx::Note::noteSequenceChanged);
-                    auto sequence = note->noteSequence();
-                    auto singingClip = sequence ? sequence->singingClip() : nullptr;
-                    watch(singingClip, &dspx::Clip::clipSequenceChanged);
+            case dspx::SelectionModel::ST_Note: {
+                auto noteSequence =
+                    m_selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+                if (noteSequence) {
+                    addTrack(trackFromNoteSequence(noteSequence));
+                    watch(noteSequence->singingClip(), &dspx::Clip::clipSequenceChanged);
                 }
                 break;
-            case dspx::SelectionModel::ST_AnchorNode:
-                for (auto anchor : m_selectionModel->anchorNodeSelectionModel()->selectedItems()) {
-                    addTrack(trackFromAnchorNode(anchor));
-                    watch(anchor, &dspx::AnchorNode::anchorNodeSequenceChanged);
-                    auto sequence = anchor->anchorNodeSequence();
-                    auto parameter = sequence ? sequence->parameter() : nullptr;
+            }
+            case dspx::SelectionModel::ST_AnchorNode: {
+                auto anchorNodeSequence = m_selectionModel->anchorNodeSelectionModel()
+                                              ->anchorNodeSequenceWithSelectedItems();
+                if (anchorNodeSequence) {
+                    addTrack(trackFromAnchorNodeSequence(anchorNodeSequence));
+                    auto parameter = anchorNodeSequence->parameter();
                     watch(parameter, &dspx::Parameter::parameterMapChanged);
                     auto parameterMap = parameter ? parameter->parameterMap() : nullptr;
-                    auto singingClip = parameterMap ? parameterMap->singingClip() : nullptr;
-                    watch(singingClip, &dspx::Clip::clipSequenceChanged);
+                    watch(parameterMap ? parameterMap->singingClip() : nullptr,
+                          &dspx::Clip::clipSequenceChanged);
                 }
                 break;
-            case dspx::SelectionModel::ST_DynamicMixingAnchor:
-                for (auto anchor : m_selectionModel->dynamicMixingAnchorSelectionModel()->selectedItems()) {
-                    addTrack(trackFromDynamicMixingAnchor(anchor));
-                    watch(anchor, &dspx::DynamicMixingAnchor::dynamicMixingAnchorSequenceChanged);
-                    auto sequence = anchor->dynamicMixingAnchorSequence();
-                    auto sources = sequence ? sequence->sources() : nullptr;
+            }
+            case dspx::SelectionModel::ST_DynamicMixingAnchor: {
+                auto sequence = m_selectionModel->dynamicMixingAnchorSelectionModel()
+                                    ->dynamicMixingAnchorSequenceWithSelectedItems();
+                if (sequence) {
+                    addTrack(trackFromDynamicMixingAnchorSequence(sequence));
+                    auto sources = sequence->sources();
                     watch(sources, &dspx::Sources::singingClipChanged);
-                    auto singingClip = sources ? sources->singingClip() : nullptr;
-                    watch(singingClip, &dspx::Clip::clipSequenceChanged);
+                    watch(sources ? sources->singingClip() : nullptr,
+                          &dspx::Clip::clipSequenceChanged);
                 }
                 break;
+            }
             default:
                 setTrackSelection(false, nullptr, nullptr, {});
                 return;
