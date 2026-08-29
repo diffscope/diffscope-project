@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISTASKMANAGER_P_H
 #define DIFFSCOPE_SYNTH_SYNTHESISTASKMANAGER_P_H
 
+#include <synth/SynthesisTaskManager.h>
+
 #include <functional>
 #include <optional>
 #include <utility>
@@ -20,7 +22,6 @@
 
 #include <synth/ServiceTypes.h>
 #include <synth/SynthesisTask.h>
-#include <synth/SynthesisTaskManager.h>
 #include <synth/internal/ApiClient.h>
 #include <synth/internal/SynthesisTaskCache.h>
 

@@ -189,6 +189,7 @@ namespace {
     }
 
     class NetworkWorker : public QObject {
+        Q_OBJECT
     public:
         explicit NetworkWorker(QObject *parent = nullptr) : QObject(parent) {}
 
@@ -735,7 +736,7 @@ public:
                     ApiError error;
                     error.kind = ApiError::ResponseError;
                     error.httpStatusCode = response.httpStatusCode;
-                    error.message = QObject::tr("The synthesis service returned data that does not match the DSSP schema: %1")
+                    error.message = Synth::Internal::Api::ApiClient::tr("The synthesis service returned data that does not match the DSSP schema: %1")
                                         .arg(parseError);
                     error.rawResponse = response.rawResponse;
                     error.rawJsonResponse = response.json;
@@ -931,3 +932,5 @@ void ApiClient::cancelAll() { d->cancelAll(); }
 void ApiClient::shutdown() { d.reset(); }
 
 } // namespace Synth::Internal::Api
+
+#include "ApiClient.moc"

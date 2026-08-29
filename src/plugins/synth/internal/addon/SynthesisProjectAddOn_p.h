@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISPROJECTADDON_P_H
 #define DIFFSCOPE_SYNTH_SYNTHESISPROJECTADDON_P_H
 
+#include <synth/internal/SynthesisProjectAddOn.h>
+
 #include <optional>
 
 #include <QHash>
@@ -16,7 +18,12 @@
 #include <dspxmodelORM/Handle.h>
 #include <synth/ServiceTypes.h>
 #include <synth/SynthesisModel.h>
-#include <synth/internal/SynthesisProjectAddOn.h>
+
+// We have to include this to make lupdate know where `SynthesisProjectAddOn` is
+// Otherwise it will warn that the class is not found
+#ifdef QT_LUPDATE_ONLY
+#   include "SynthesisProjectAddOn.h"
+#endif
 
 namespace dspx {
     class ClipWatcher;

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "SynthesisPiece.h"
+#include "SynthesisPiece_p.h"
 
 #include <dspxmodelORM/SingingClip.h>
-#include <synth/private/SynthesisPiece_p.h>
 
 namespace Synth {
 

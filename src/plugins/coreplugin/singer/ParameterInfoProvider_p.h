@@ -4,11 +4,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PARAMETERINFOPROVIDER_P_H
 #define DIFFSCOPE_COREPLUGIN_PARAMETERINFOPROVIDER_P_H
 
+#include <coreplugin/ParameterInfoProvider.h>
+
 #include <QMetaObject>
 #include <QPointer>
 #include <QVector>
-
-#include <coreplugin/ParameterInfoProvider.h>
 
 namespace Core {
 

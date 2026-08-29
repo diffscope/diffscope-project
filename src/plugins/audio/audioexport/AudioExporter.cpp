@@ -75,7 +75,7 @@ namespace Audio {
         static QList<AudioExporterListener *> s_listeners;
 
         static QString fallbackProjectName() {
-            return AudioExporter::tr("Untitled");
+            return Audio::AudioExporter::tr("Untitled");
         }
 
         static QString documentsDirectory() {
@@ -376,28 +376,28 @@ namespace Audio {
         } else if (newErrorString.isEmpty()) {
             switch (newError) {
                 case AudioExporter::InvalidConfig:
-                    newErrorString = AudioExporter::tr("Invalid audio export configuration.");
+                    newErrorString = Audio::AudioExporter::tr("Invalid audio export configuration.");
                     break;
                 case AudioExporter::CannotOpenFile:
-                    newErrorString = AudioExporter::tr("Cannot open file for writing.");
+                    newErrorString = Audio::AudioExporter::tr("Cannot open file for writing.");
                     break;
                 case AudioExporter::UnsupportedFormat:
-                    newErrorString = AudioExporter::tr("Audio format is not supported.");
+                    newErrorString = Audio::AudioExporter::tr("Audio format is not supported.");
                     break;
                 case AudioExporter::CannotStartExport:
-                    newErrorString = AudioExporter::tr("Cannot start audio exporting.");
+                    newErrorString = Audio::AudioExporter::tr("Cannot start audio exporting.");
                     break;
                 case AudioExporter::ExporterFailed:
-                    newErrorString = AudioExporter::tr("Audio exporting failed.");
+                    newErrorString = Audio::AudioExporter::tr("Audio exporting failed.");
                     break;
                 case AudioExporter::RenameTemporaryFileFailed:
-                    newErrorString = AudioExporter::tr("Cannot rename temporary files to target files.");
+                    newErrorString = Audio::AudioExporter::tr("Cannot rename temporary files to target files.");
                     break;
                 case AudioExporter::Cancelled:
-                    newErrorString = AudioExporter::tr("Audio exporting was cancelled.");
+                    newErrorString = Audio::AudioExporter::tr("Audio exporting was cancelled.");
                     break;
                 case AudioExporter::UnknownError:
-                    newErrorString = AudioExporter::tr("Unknown error.");
+                    newErrorString = Audio::AudioExporter::tr("Unknown error.");
                     break;
                 case AudioExporter::NoError:
                     break;

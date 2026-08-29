@@ -4,12 +4,12 @@
 #ifndef DIFFSCOPE_MIDI_FORMAT_CONVERTER_MIDITRACKSELECTORDIALOG_P_H
 #define DIFFSCOPE_MIDI_FORMAT_CONVERTER_MIDITRACKSELECTORDIALOG_P_H
 
+#include <midiformatconverter/internal/MIDITrackSelectorDialog.h>
+
 #include <QCheckBox>
 #include <QList>
 #include <QScopedPointer>
 #include <QString>
-
-#include <midiformatconverter/internal/MIDITrackSelectorDialog.h>
 
 class QComboBox;
 class QStandardItemModel;

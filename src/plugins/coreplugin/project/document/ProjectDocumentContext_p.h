@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTDOCUMENTCONTEXT_P_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTDOCUMENTCONTEXT_P_H
 
-#include <opendspx/model.h>
-
 #include <coreplugin/ProjectDocumentContext.h>
+
+#include <opendspx/model.h>
 
 class QFile;
 class QLockFile;

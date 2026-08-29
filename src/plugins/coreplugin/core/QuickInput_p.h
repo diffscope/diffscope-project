@@ -4,11 +4,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_QUICKINPUT_P_H
 #define DIFFSCOPE_COREPLUGIN_QUICKINPUT_P_H
 
+#include <coreplugin/QuickInput.h>
+
 #include <QPointer>
 
 #include <CoreApi/windowinterface.h>
-
-#include <coreplugin/QuickInput.h>
 
 namespace Core {
 

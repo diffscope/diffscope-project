@@ -267,7 +267,7 @@ namespace Core {
         state.valid = true;
         validations.insert(node, state);
         if (!node || !node->singer) {
-            addNodeWarning(node, QStringLiteral("nullSinger"), path, SourcesPickerModel::tr("The singer entry is empty."));
+            addNodeWarning(node, QStringLiteral("nullSinger"), path, Core::SourcesPickerModel::tr("The singer entry is empty."));
             return validations.value(node);
         }
 
@@ -276,10 +276,10 @@ namespace Core {
                 const auto &single = static_cast<const opendspx::SingleSinger &>(*node->singer);
                 const QString id = QString::fromStdString(single.id);
                 if (id.isEmpty()) {
-                    addNodeWarning(node, QStringLiteral("emptySingerId"), path, SourcesPickerModel::tr("The singer ID is empty."));
+                    addNodeWarning(node, QStringLiteral("emptySingerId"), path, Core::SourcesPickerModel::tr("The singer ID is empty."));
                 } else if (!registry || !architectureExists || !registry->containsSinger(architectureId, id)) {
                     addNodeWarning(node, QStringLiteral("missingSinger"), path,
-                                   SourcesPickerModel::tr("Singer \"%1\" is not registered in the current architecture.").arg(id));
+                                   Core::SourcesPickerModel::tr("Singer \"%1\" is not registered in the current architecture.").arg(id));
                 } else {
                     validations[node].effectiveMixGroup = registry->singerInfo(architectureId, id).mixGroup();
                 }
@@ -287,7 +287,7 @@ namespace Core {
             }
             case opendspx::Singer::Type::Mixed: {
                 if (node->children.empty())
-                    addNodeWarning(node, QStringLiteral("emptyMixedSinger"), path, SourcesPickerModel::tr("The mixed singer has no child singers."));
+                    addNodeWarning(node, QStringLiteral("emptyMixedSinger"), path, Core::SourcesPickerModel::tr("The mixed singer has no child singers."));
 
                 QString group;
                 bool groupInitialized = false;
@@ -305,21 +305,21 @@ namespace Core {
                             groupInitialized = true;
                         } else if (group != childState.effectiveMixGroup) {
                             addNodeWarning(node, QStringLiteral("mixedGroupMismatch"), path,
-                                           SourcesPickerModel::tr("The mixed singer contains incompatible mix groups."));
+                                           Core::SourcesPickerModel::tr("The mixed singer contains incompatible mix groups."));
                             break;
                         }
                     } else if (childState.valid) {
                         addNodeWarning(node, QStringLiteral("nonMixableSinger"), path,
-                                       SourcesPickerModel::tr("A singer with an empty mix group cannot participate in a mixed singer."));
+                                       Core::SourcesPickerModel::tr("A singer with an empty mix group cannot participate in a mixed singer."));
                         break;
                     }
                 }
                 if (containsInvalidChild)
-                    validations[node].warnings.append(SourcesPickerModel::tr("The mixed singer contains an invalid child singer."));
+                    validations[node].warnings.append(Core::SourcesPickerModel::tr("The mixed singer contains an invalid child singer."));
                 validations[node].effectiveMixGroup = group;
                 validations[node].ratioValid = rawRatioValid(node);
                 if (!validations[node].ratioValid)
-                    addNodeWarning(node, QStringLiteral("invalidRatio"), path, SourcesPickerModel::tr("The mixed singer ratio is invalid."));
+                    addNodeWarning(node, QStringLiteral("invalidRatio"), path, Core::SourcesPickerModel::tr("The mixed singer ratio is invalid."));
                 break;
             }
         }
@@ -334,7 +334,7 @@ namespace Core {
 
         if (!architectureId.isEmpty() && !architectureExists)
             addIssue(QStringLiteral("missingArchitecture"), QStringLiteral("architectureId"),
-                     SourcesPickerModel::tr("Architecture \"%1\" is not registered.").arg(architectureId));
+                     Core::SourcesPickerModel::tr("Architecture \"%1\" is not registered.").arg(architectureId));
 
         bool nodesValid = true;
         for (std::size_t i = 0; i < roots.size(); ++i) {
@@ -361,10 +361,10 @@ namespace Core {
             }
             if (!compatible) {
                 addIssue(QStringLiteral("rootMixGroupMismatch"), QStringLiteral("singers"),
-                         SourcesPickerModel::tr("The source singers do not share one non-empty mix group."));
+                         Core::SourcesPickerModel::tr("The source singers do not share one non-empty mix group."));
                 for (const auto &root : roots) {
                     validations[root.get()].valid = false;
-                    validations[root.get()].warnings.append(SourcesPickerModel::tr("The source singer is not compatible with the root mix group."));
+                    validations[root.get()].warnings.append(Core::SourcesPickerModel::tr("The source singer is not compatible with the root mix group."));
                 }
                 nodesValid = false;
                 rootMixGroup.clear();
@@ -384,12 +384,12 @@ namespace Core {
 
     QString SourcesPickerModelPrivate::displayName(const Node *node) const {
         if (!node || !node->singer)
-            return SourcesPickerModel::tr("Invalid singer");
+            return Core::SourcesPickerModel::tr("Invalid singer");
         if (node->singer->type == opendspx::Singer::Type::Single) {
             const auto &single = static_cast<const opendspx::SingleSinger &>(*node->singer);
             const QString id = QString::fromStdString(single.id);
             const QString name = registeredSingerName(id);
-            return name.isEmpty() ? (id.isEmpty() ? SourcesPickerModel::tr("Unnamed singer") : id) : name;
+            return name.isEmpty() ? (id.isEmpty() ? Core::SourcesPickerModel::tr("Unnamed singer") : id) : name;
         }
         const QString explicitName = workspaceNameFor(*node->singer);
         if (!explicitName.isEmpty())
@@ -398,7 +398,7 @@ namespace Core {
         names.reserve(static_cast<qsizetype>(node->children.size()));
         for (const auto &child : node->children)
             names.append(displayName(child.get()));
-        return SourcesPickerModel::tr("Mixed singer (%1)").arg(names.join(SourcesPickerModel::tr(", ")));
+        return Core::SourcesPickerModel::tr("Mixed singer (%1)").arg(names.join(Core::SourcesPickerModel::tr(", ")));
     }
 
     QString SourcesPickerModelPrivate::firstLeafSingerId(const Node *node) const {

@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_SYNTH_SERVICETYPES_P_H
 #define DIFFSCOPE_SYNTH_SERVICETYPES_P_H
 
-#include <QSharedData>
-
 #include <synth/ServiceTypes.h>
+
+#include <QSharedData>
 
 namespace Synth {
 

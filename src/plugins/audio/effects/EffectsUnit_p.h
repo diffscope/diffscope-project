@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_AUDIO_EFFECTSUNIT_P_H
 #define DIFFSCOPE_AUDIO_EFFECTSUNIT_P_H
 
-#include <memory>
-
 #include <audio/EffectsUnit.h>
+
+#include <memory>
 
 namespace Audio {
 

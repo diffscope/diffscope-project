@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "DefaultLyricManager.h"
+#include "DefaultLyricManager_p.h"
 
 #include <QPair>
 
@@ -16,7 +17,6 @@
 #include <coreplugin/SingerInfo.h>
 #include <coreplugin/SingerRegistry.h>
 #include <coreplugin/internal/BehaviorPreference.h>
-#include <coreplugin/private/DefaultLyricManager_p.h>
 
 namespace Core {
 

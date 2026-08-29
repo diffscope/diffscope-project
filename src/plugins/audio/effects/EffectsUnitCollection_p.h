@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_AUDIO_EFFECTSUNITCOLLECTION_P_H
 #define DIFFSCOPE_AUDIO_EFFECTSUNITCOLLECTION_P_H
 
-#include <QHash>
-
 #include <audio/EffectsUnitCollection.h>
+
+#include <QHash>
 
 namespace Audio {
 

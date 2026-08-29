@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_PARAMETEREDITORCONTEXT_P_H
 #define DIFFSCOPE_VISUALEDITOR_PARAMETEREDITORCONTEXT_P_H
 
+#include <visualeditor/ParameterEditorContext.h>
+
 #include <array>
 #include <limits>
 
@@ -19,8 +21,6 @@
 #include <dspxmodelORM/Parameter.h>
 
 #include <transactional/TransactionController.h>
-
-#include <visualeditor/ParameterEditorContext.h>
 
 class QState;
 class QStateMachine;

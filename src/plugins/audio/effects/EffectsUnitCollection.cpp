@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "EffectsUnitCollection.h"
+#include "EffectsUnitCollection_p.h"
 
 #include <audio/EffectsUnitClass.h>
-#include <audio/private/EffectsUnitCollection_p.h>
 
 namespace Audio {
 

@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include <visualeditor/ParameterEditorContext.h>
-#include <visualeditor/private/ParameterEditorContext_p.h>
+#include "ParameterEditorContext.h"
+#include "ParameterEditorContext_p.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1368,7 +1368,7 @@ namespace VisualEditor {
         const QString oldEditingDisplayName = displayName(editingParameterId, editingDisplayName);
         const QString oldReferenceDisplayName = displayName(referenceParameterId, referenceDisplayName);
         QList<ParameterDefinitionListModel::Entry> entries;
-        entries.append({{}, ParameterEditorContext::tr("None"), {}, true, true});
+        entries.append({{}, VisualEditor::ParameterEditorContext::tr("None"), {}, true, true});
         QSet<QString> included;
         included.insert(QStringLiteral("pitch"));
         if (registry->containsArchitecture(architectureId)) {
@@ -1492,7 +1492,7 @@ namespace VisualEditor {
     QString ParameterEditorContextPrivate::displayName(const QString &parameterId,
                                                         const QString &remembered) const {
         if (parameterId.isEmpty())
-            return ParameterEditorContext::tr("None");
+            return VisualEditor::ParameterEditorContext::tr("None");
         if (const auto *definition = entry(parameterId))
             return definition->displayName;
         return remembered.isEmpty() ? parameterId : remembered;

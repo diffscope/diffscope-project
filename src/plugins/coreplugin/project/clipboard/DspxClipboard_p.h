@@ -4,12 +4,13 @@
 #ifndef DIFFSCOPE_COREPLUGIN_DSPXCLIPBOARD_P_H
 #define DIFFSCOPE_COREPLUGIN_DSPXCLIPBOARD_P_H
 
+#include <coreplugin/DspxClipboard.h>
+
 #include <optional>
 
 #include <QHash>
 #include <QtGlobal>
 
-#include <coreplugin/DspxClipboard.h>
 #include <coreplugin/DspxClipboardData.h>
 
 namespace Core {

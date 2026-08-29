@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "EffectsUnit.h"
+#include "EffectsUnit_p.h"
 
 #include <utility>
 
 #include <QQuickItem>
 
 #include <TalcsCore/AudioSource.h>
-
-#include <audio/private/EffectsUnit_p.h>
 
 namespace Audio {
 

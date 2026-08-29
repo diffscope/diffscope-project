@@ -4,10 +4,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_TRACKCOLORSCHEMA_P_H
 #define DIFFSCOPE_COREPLUGIN_TRACKCOLORSCHEMA_P_H
 
+#include <coreplugin/TrackColorSchema.h>
+
 #include <QColor>
 #include <QList>
-
-#include <coreplugin/TrackColorSchema.h>
 
 namespace Core {
 

@@ -4,11 +4,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_P_H
 #define DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_P_H
 
+#include <coreplugin/NotificationMessage.h>
+
 #include <QPointer>
 
 #include <uishell/BubbleNotificationHandle.h>
-
-#include <coreplugin/NotificationMessage.h>
 
 namespace UIShell {
     class BubbleNotificationHandle;

@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISPIECE_P_H
 #define DIFFSCOPE_SYNTH_SYNTHESISPIECE_P_H
 
-#include <QPointer>
-
 #include <synth/SynthesisPiece.h>
+
+#include <QPointer>
 
 namespace Synth {
 

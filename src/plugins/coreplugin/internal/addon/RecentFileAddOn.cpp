@@ -164,8 +164,8 @@ namespace Core::Internal {
         SVS::MessageBox::critical(
             RuntimeInterface::qmlEngine(),
             nullptr,
-            RecentFileAddOn::tr("Failed to restore recovery file"),
-            RecentFileAddOn::tr("Cannot restore the recovery file.")
+            Core::Internal::RecentFileAddOn::tr("Failed to restore recovery file"),
+            Core::Internal::RecentFileAddOn::tr("Cannot restore the recovery file.")
         );
     }
 
@@ -173,8 +173,8 @@ namespace Core::Internal {
         SVS::MessageBox::warning(
             RuntimeInterface::qmlEngine(),
             nullptr,
-            RecentFileAddOn::tr("Complete recovery failed"),
-            RecentFileAddOn::tr("Complete recovery failed. Partial recovery will be attempted."),
+            Core::Internal::RecentFileAddOn::tr("Complete recovery failed"),
+            Core::Internal::RecentFileAddOn::tr("Complete recovery failed. Partial recovery will be attempted."),
             SVS::SVSCraft::Ok,
             SVS::SVSCraft::Ok
         );

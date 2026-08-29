@@ -149,7 +149,7 @@ namespace Core {
             }
             return defaultDocumentName;
         }
-        return CoreInterface::tr("Untitled");
+        return Core::CoreInterface::tr("Untitled");
     }
 
     bool ProjectDocumentContextPrivate::writeRecoveryNameFile() const {

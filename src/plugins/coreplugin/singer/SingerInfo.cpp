@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "SingerInfo.h"
-
-#include <coreplugin/private/SingerInfo_p.h>
+#include "SingerInfo_p.h"
 
 namespace Core {
 

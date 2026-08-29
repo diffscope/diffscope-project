@@ -3,9 +3,9 @@
 
 #include "AudioVisualizerPlugin.h"
 
-#include "addon/AudioMipmapAddOn.h"
-#include "addon/LevelMeterAddOn.h"
-#include "addon/MasterTrackAddOn.h"
+#include <audiovisualizer/internal/AudioMipmapAddOn.h>
+#include <audiovisualizer/internal/LevelMeterAddOn.h>
+#include <audiovisualizer/internal/MasterTrackAddOn.h>
 
 #include <QQmlComponent>
 

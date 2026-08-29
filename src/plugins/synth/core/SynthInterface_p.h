@@ -4,10 +4,10 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHINTERFACE_P_H
 #define DIFFSCOPE_SYNTH_SYNTHINTERFACE_P_H
 
+#include <synth/SynthInterface.h>
+
 #include <QHash>
 #include <QMap>
-
-#include <synth/SynthInterface.h>
 
 namespace Synth {
 

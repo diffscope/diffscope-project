@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_SYNTH_PARAMETERCONFIGURATION_P_H
 #define DIFFSCOPE_SYNTH_PARAMETERCONFIGURATION_P_H
 
-#include <QSharedData>
-
 #include <synth/ParameterConfiguration.h>
+
+#include <QSharedData>
 
 namespace Synth {
 

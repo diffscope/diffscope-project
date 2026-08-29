@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include <visualeditor/DynamicMixingEditorContext.h>
-#include <visualeditor/private/DynamicMixingEditorContext_p.h>
+#include "DynamicMixingEditorContext.h"
+#include "DynamicMixingEditorContext_p.h"
 
 #include <algorithm>
 #include <limits>
@@ -493,7 +493,7 @@ namespace VisualEditor {
         }
         bindDocumentItem(item, viewItem);
         document->transactionController()->commitTransaction(
-            transactionId, DynamicMixingEditorContext::tr("Adding voice blending anchor"));
+            transactionId, VisualEditor::DynamicMixingEditorContext::tr("Adding voice blending anchor"));
         transactionId = {};
         finishOperation();
     }
@@ -563,7 +563,7 @@ namespace VisualEditor {
         suppressDocumentSync = false;
         restoreOperationSelection();
         document->transactionController()->commitTransaction(
-            transactionId, DynamicMixingEditorContext::tr("Editing voice blending"));
+            transactionId, VisualEditor::DynamicMixingEditorContext::tr("Editing voice blending"));
         transactionId = {};
         finishOperation();
     }
@@ -584,7 +584,7 @@ namespace VisualEditor {
         }
         suppressDocumentSync = false;
         document->transactionController()->commitTransaction(
-            transactionId, DynamicMixingEditorContext::tr("Deleting voice blending anchor"));
+            transactionId, VisualEditor::DynamicMixingEditorContext::tr("Deleting voice blending anchor"));
         transactionId = {};
         finishOperation();
     }

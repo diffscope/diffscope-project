@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_DYNAMICMIXINGEDITORCONTEXT_P_H
 #define DIFFSCOPE_VISUALEDITOR_DYNAMICMIXINGEDITORCONTEXT_P_H
 
+#include <visualeditor/DynamicMixingEditorContext.h>
+
 #include <QHash>
 #include <QList>
 #include <QMetaObject>
@@ -12,8 +14,6 @@
 #include <ScopicFlowCore/SelectionController.h>
 
 #include <transactional/TransactionController.h>
-
-#include <visualeditor/DynamicMixingEditorContext.h>
 
 class QState;
 class QStateMachine;

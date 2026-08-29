@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_PROJECTVIEWMODELCONTEXT_P_H
 #define DIFFSCOPE_COREPLUGIN_PROJECTVIEWMODELCONTEXT_P_H
 
-#include <memory>
-
 #include <visualeditor/ProjectViewModelContext.h>
+
+#include <memory>
 
 namespace VisualEditor {
 

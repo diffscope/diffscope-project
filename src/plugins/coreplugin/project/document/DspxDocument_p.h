@@ -4,13 +4,14 @@
 #ifndef DIFFSCOPE_COREPLUGIN_DSPXDOCUMENT_P_H
 #define DIFFSCOPE_COREPLUGIN_DSPXDOCUMENT_P_H
 
+#include <coreplugin/DspxDocument.h>
+
 #include <optional>
 
 #include <QList>
 
 #include <stdcorelib/support/json.h>
 
-#include <coreplugin/DspxDocument.h>
 #include <coreplugin/DspxClipboardData.h>
 
 namespace opendspx {

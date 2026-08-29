@@ -4,10 +4,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_EDITSOURCESSCENARIO_P_H
 #define DIFFSCOPE_COREPLUGIN_EDITSOURCESSCENARIO_P_H
 
+#include <coreplugin/EditSourcesScenario.h>
+
 #include <QMetaObject>
 #include <QPointer>
-
-#include <coreplugin/EditSourcesScenario.h>
 
 namespace Core {
 

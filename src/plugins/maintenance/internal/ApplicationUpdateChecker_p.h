@@ -4,9 +4,9 @@
 #ifndef DIFFSCOPE_MAINTENANCE_APPLICATIONUPDATECHECKER_P_H
 #define DIFFSCOPE_MAINTENANCE_APPLICATIONUPDATECHECKER_P_H
 
-#include <QNetworkAccessManager>
-
 #include <maintenance/internal/ApplicationUpdateChecker.h>
+
+#include <QNetworkAccessManager>
 
 namespace Maintenance {
 

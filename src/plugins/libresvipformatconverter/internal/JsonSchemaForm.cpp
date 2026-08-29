@@ -94,6 +94,7 @@ namespace LibreSVIPFormatConverter::Internal {
     };
 
     class PrimitiveArrayEditor : public QWidget {
+        Q_OBJECT
     public:
         using Builder = std::function<SchemaFieldPtr(const QJsonValue &)>;
 
@@ -693,3 +694,5 @@ namespace LibreSVIPFormatConverter::Internal {
     }
 
 }
+
+#include "JsonSchemaForm.moc"

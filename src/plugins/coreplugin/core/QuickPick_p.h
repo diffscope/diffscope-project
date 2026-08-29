@@ -4,11 +4,11 @@
 #ifndef DIFFSCOPE_COREPLUGIN_QUICKPICK_P_H
 #define DIFFSCOPE_COREPLUGIN_QUICKPICK_P_H
 
+#include <coreplugin/QuickPick.h>
+
 #include <QPointer>
 
 #include <CoreApi/windowinterface.h>
-
-#include <coreplugin/QuickPick.h>
 
 namespace Core {
 

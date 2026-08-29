@@ -4,8 +4,9 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_AUTOPAGESCROLLINGMANIPULATOR_P_H
 #define DIFFSCOPE_VISUALEDITOR_AUTOPAGESCROLLINGMANIPULATOR_P_H
 
-#include <QObject>
 #include <visualeditor/AutoPageScrollingManipulator.h>
+
+#include <QObject>
 
 class QQuickItem;
 

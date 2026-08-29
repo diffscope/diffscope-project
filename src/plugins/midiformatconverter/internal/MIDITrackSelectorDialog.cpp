@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: Apache-2.0
 
-#include "MIDITrackSelectorDialog_p.h"
 #include "MIDITrackSelectorDialog.h"
+#include "MIDITrackSelectorDialog_p.h"
 
 #include <QAbstractItemView>
 #include <QCheckBox>

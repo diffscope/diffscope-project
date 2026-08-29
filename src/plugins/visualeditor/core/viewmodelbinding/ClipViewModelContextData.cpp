@@ -878,7 +878,7 @@ namespace VisualEditor {
 
         const int defaultClipLength = 15360;
 
-        document->transactionController()->beginScopedTransaction(QObject::tr("Inserting singing clip"), [=, &newClip, &success] {
+        document->transactionController()->beginScopedTransaction(VisualEditor::ClipViewModelContextData::tr("Inserting singing clip"), [=, &newClip, &success] {
             newClip = document->model()->createSingingClip();
             newClip->setName(tr("Unnamed clip"));
             newClip->setClipStart(0);

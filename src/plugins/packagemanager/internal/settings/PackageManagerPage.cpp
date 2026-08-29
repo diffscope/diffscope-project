@@ -40,14 +40,14 @@ namespace PackageManager {
             QJsonParseError parseError;
             const auto document = QJsonDocument::fromJson(commandResult.stdOut, &parseError);
             if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
-                result.errorMessage = PackageManagerPage::tr("The command did not return valid JSON.");
+                result.errorMessage = PackageManager::PackageManagerPage::tr("The command did not return valid JSON.");
                 return result;
             }
             const auto root = document.object();
             result.name = root.value(QStringLiteral("name")).toString();
             result.version = root.value(QStringLiteral("version")).toString();
             if (result.name != QStringLiteral("dspm")) {
-                result.errorMessage = PackageManagerPage::tr("The selected command is not dspm.");
+                result.errorMessage = PackageManager::PackageManagerPage::tr("The selected command is not dspm.");
                 return result;
             }
 

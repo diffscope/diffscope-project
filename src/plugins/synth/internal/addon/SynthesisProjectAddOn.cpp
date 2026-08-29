@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "SynthesisProjectAddOn.h"
+#include "SynthesisProjectAddOn_p.h"
 
 #include <algorithm>
 #include <limits>
@@ -68,7 +69,6 @@
 #include <synth/internal/SynthesisAudioController.h>
 #include <synth/internal/SynthesisDocumentWriter.h>
 #include <synth/internal/SynthesisProjectInput.h>
-#include <synth/internal/private/SynthesisProjectAddOn_p.h>
 #include <synth/private/ProjectSynthesisContext_p.h>
 #include <synth/private/SynthesisPiece_p.h>
 #include <transactional/TransactionController.h>
@@ -107,7 +107,7 @@ namespace Synth::Internal {
                 exporter->cancel(
                     true,
                     errorMessage.isEmpty()
-                        ? SynthesisProjectAddOn::tr("Synthesized audio could not be prepared for the export sample rate")
+                        ? Synth::Internal::SynthesisProjectAddOn::tr("Synthesized audio could not be prepared for the export sample rate")
                         : errorMessage
                 );
                 return false;
@@ -150,7 +150,7 @@ namespace Synth::Internal {
                 refresh();
             } else if (!QMetaObject::invokeMethod(addOn, refresh, Qt::BlockingQueuedConnection)) {
                 if (errorMessage) {
-                    *errorMessage = SynthesisProjectAddOn::tr("Synthesized audio positions could not be updated before export");
+                    *errorMessage = Synth::Internal::SynthesisProjectAddOn::tr("Synthesized audio positions could not be updated before export");
                 }
                 return false;
             }
@@ -172,11 +172,11 @@ namespace Synth::Internal {
             if (QThread::currentThread() == addOn->thread()) {
                 wait();
             } else if (!QMetaObject::invokeMethod(addOn, wait, Qt::BlockingQueuedConnection)) {
-                errorMessage = SynthesisProjectAddOn::tr("The synthesis state could not be checked before audio export");
+                errorMessage = Synth::Internal::SynthesisProjectAddOn::tr("The synthesis state could not be checked before audio export");
                 accepted = false;
             }
             if (!accepted && exporter) {
-                exporter->cancel(true, errorMessage.isEmpty() ? SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully") : errorMessage);
+                exporter->cancel(true, errorMessage.isEmpty() ? Synth::Internal::SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully") : errorMessage);
             }
             return accepted;
         }

@@ -4,10 +4,10 @@
 #ifndef DIFFSCOPE_COREPLUGIN_FREEPARAMETERSELECTIONMODEL_P_H
 #define DIFFSCOPE_COREPLUGIN_FREEPARAMETERSELECTIONMODEL_P_H
 
+#include <coreplugin/FreeParameterSelectionModel.h>
+
 #include <QPointer>
 #include <QMetaObject>
-
-#include <coreplugin/FreeParameterSelectionModel.h>
 
 namespace Core {
     class FreeParameterSelectionModelPrivate {

@@ -1093,7 +1093,7 @@ namespace VisualEditor {
         position = qMax(0, timeManipulator.alignPosition(position + start, sflow::ScopicFlow::AO_Visible) - start);
         auto implicitNoteLength = qMax(1, qMax(PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength(), timeManipulator.timeLayoutViewModel()->positionAlignment()));
 
-        document->transactionController()->beginScopedTransaction(QObject::tr("Inserting note"), [=, &newNote, &success] {
+        document->transactionController()->beginScopedTransaction(VisualEditor::NoteViewModelContextData::tr("Inserting note"), [=, &newNote, &success] {
             newNote = document->model()->createNote();
             newNote->setPosition(position);
             newNote->setLength(implicitNoteLength);

@@ -16,6 +16,7 @@
 namespace Synth::Internal::Api {
 
     class ApiClient : public QObject {
+        Q_OBJECT
     public:
         explicit ApiClient(QObject *parent = nullptr);
         ~ApiClient() override;

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "SingerInfoProvider.h"
+#include "SingerInfoProvider_p.h"
 
 #include <utility>
 
 #include <QVariantMap>
 
 #include <coreplugin/SingerRegistry.h>
-#include <coreplugin/private/SingerInfoProvider_p.h>
 
 namespace Core {
 

@@ -400,7 +400,7 @@ namespace Synth::Internal::ProjectInput {
     BuiltScore buildScore(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, const ArchitectureMetadata &architecture, bool forAudio, const std::optional<QStringList> &requestedParameters) {
         BuiltScore result;
         if (!window || !clip || !piece || !clip->sources()) {
-            result.error = SynthesisProjectAddOn::tr("The synthesis piece is no longer attached to a valid clip");
+            result.error = Synth::Internal::SynthesisProjectAddOn::tr("The synthesis piece is no longer attached to a valid clip");
             return result;
         }
         auto timeline = window->projectTimeline()->musicTimeline();
@@ -427,7 +427,7 @@ namespace Synth::Internal::ProjectInput {
             const double noteStart = tickSeconds(timeline, clip->start() + note->position());
             const double noteEnd = tickSeconds(timeline, clip->start() + note->position() + note->length());
             if (noteStart + 1e-9 < previousEnd) {
-                result.error = SynthesisProjectAddOn::tr("Some notes overlap. Move or resize the overlapping notes before synthesizing");
+                result.error = Synth::Internal::SynthesisProjectAddOn::tr("Some notes overlap. Move or resize the overlapping notes before synthesizing");
                 return result;
             }
             SynthesisScoreNote converted;

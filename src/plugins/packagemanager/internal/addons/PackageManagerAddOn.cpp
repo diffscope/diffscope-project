@@ -47,14 +47,14 @@ namespace PackageManager {
         }
 
         void addPackageSubtrees(QStandardItem *packageItem) {
-            packageItem->setChild(UIShell::USDef::PI_Dependencies, createSubtree(PackageManagerAddOn::tr("Dependencies")));
-            packageItem->setChild(UIShell::USDef::PI_Inferences, createSubtree(PackageManagerAddOn::tr("Inferences")));
-            packageItem->setChild(UIShell::USDef::PI_Singers, createSubtree(PackageManagerAddOn::tr("Singers")));
+            packageItem->setChild(UIShell::USDef::PI_Dependencies, createSubtree(PackageManager::PackageManagerAddOn::tr("Dependencies")));
+            packageItem->setChild(UIShell::USDef::PI_Inferences, createSubtree(PackageManager::PackageManagerAddOn::tr("Inferences")));
+            packageItem->setChild(UIShell::USDef::PI_Singers, createSubtree(PackageManager::PackageManagerAddOn::tr("Singers")));
         }
 
         QStandardItem *addSinger(QStandardItem *singers, QStandardItem *singer) {
-            singer->setChild(UIShell::USDef::PI_SingerImports, createSubtree(PackageManagerAddOn::tr("Imports")));
-            singer->setChild(UIShell::USDef::PI_SingerDemoAudioList, createSubtree(PackageManagerAddOn::tr("Demo Audio List")));
+            singer->setChild(UIShell::USDef::PI_SingerImports, createSubtree(PackageManager::PackageManagerAddOn::tr("Imports")));
+            singer->setChild(UIShell::USDef::PI_SingerDemoAudioList, createSubtree(PackageManager::PackageManagerAddOn::tr("Demo Audio List")));
             singers->appendRow(singer);
             return singer;
         }
@@ -135,7 +135,7 @@ namespace PackageManager {
             if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
                 qCWarning(lcPackageManagerAddOn) << "Failed to parse dspm JSON" << parseError.errorString();
                 if (errorMessage) {
-                    *errorMessage = PackageManagerAddOn::tr("The command did not return valid JSON.");
+                    *errorMessage = PackageManager::PackageManagerAddOn::tr("The command did not return valid JSON.");
                 }
                 return false;
             }
@@ -144,7 +144,7 @@ namespace PackageManager {
             if (!root->value(QStringLiteral("ok")).toBool()) {
                 auto message = dspmJsonError(*root);
                 if (message.isEmpty()) {
-                    message = PackageManagerAddOn::tr("The command reported an error.");
+                    message = PackageManager::PackageManagerAddOn::tr("The command reported an error.");
                 }
                 qCWarning(lcPackageManagerAddOn) << "dspm JSON error" << message;
                 if (errorMessage) {

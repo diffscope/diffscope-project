@@ -4,8 +4,9 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_POSITIONALIGNMENTMANIPULATOR_P_H
 #define DIFFSCOPE_VISUALEDITOR_POSITIONALIGNMENTMANIPULATOR_P_H
 
-#include <QObject>
 #include <visualeditor/PositionAlignmentManipulator.h>
+
+#include <QObject>
 
 namespace sflow {
     class TimeLayoutViewModel;

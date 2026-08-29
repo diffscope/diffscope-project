@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "SynthInterface.h"
+#include "SynthInterface_p.h"
 
 #include <algorithm>
 #include <utility>
@@ -11,7 +12,6 @@
 #include <synth/SynthesisTaskManager.h>
 #include <synth/internal/BuiltinParameterConfigurations.h>
 #include <synth/internal/ParameterRuntimeRegistry.h>
-#include <synth/private/SynthInterface_p.h>
 
 namespace Synth {
 

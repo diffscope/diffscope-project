@@ -81,15 +81,15 @@ namespace Synth::Internal {
         connect(m_metadataController, &MetadataRefreshController::serviceBecameUnhealthy, this, [](const QString &serviceName, const QString &message) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
-                SynthService::tr("Synthesis service unavailable"),
-                SynthService::tr("%1: %2").arg(serviceName, message)
+                Synth::Internal::SynthService::tr("Synthesis service unavailable"),
+                Synth::Internal::SynthService::tr("%1: %2").arg(serviceName, message)
             );
         });
         connect(m_metadataController, &MetadataRefreshController::metadataRefreshFailed, this, [](const QString &serviceName, const QString &message) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
-                SynthService::tr("Could not refresh singer metadata"),
-                SynthService::tr("%1: %2").arg(serviceName, message)
+                Synth::Internal::SynthService::tr("Could not refresh singer metadata"),
+                Synth::Internal::SynthService::tr("%1: %2").arg(serviceName, message)
             );
         });
         connect(m_interface, &SynthInterface::builtinParameterConfigurationsChanged, this, [this] {

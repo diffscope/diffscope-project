@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "ProjectSynthesisContext.h"
+#include "ProjectSynthesisContext_p.h"
 
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <synth/internal/SynthesisProjectAddOn.h>
-#include <synth/private/ProjectSynthesisContext_p.h>
 
 namespace Synth {
 
