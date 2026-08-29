@@ -3,6 +3,11 @@
 
 #include "CompressorEffectsUnitPlugin.h"
 
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
+
 #include <audio/EffectsUnitCollection.h>
 
 #include <compressoreffectsunit/internal/CompressorEffectsUnit.h>
@@ -14,6 +19,7 @@ namespace CompressorEffectsUnit::Internal {
     CompressorEffectsUnitPlugin::~CompressorEffectsUnitPlugin() = default;
 
     bool CompressorEffectsUnitPlugin::initialize(const QStringList &, QString *errorMessage) {
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new CompressorEffectsUnitClass(this);

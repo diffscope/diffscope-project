@@ -3,6 +3,11 @@
 
 #include "ReverbEffectsUnitPlugin.h"
 
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
+
 #include <audio/EffectsUnitCollection.h>
 
 #include <reverbeffectsunit/internal/ReverbEffectsUnit.h>
@@ -14,6 +19,7 @@ namespace ReverbEffectsUnit::Internal {
     ReverbEffectsUnitPlugin::~ReverbEffectsUnitPlugin() = default;
 
     bool ReverbEffectsUnitPlugin::initialize(const QStringList &, QString *errorMessage) {
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new ReverbEffectsUnitClass(this);

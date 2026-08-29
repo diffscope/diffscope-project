@@ -12,12 +12,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="93"/>
+        <location filename="../../../../app/main.cpp" line="96"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="94"/>
+        <location filename="../../../../app/main.cpp" line="97"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -49,7 +49,7 @@
 <context>
     <name>PackageManager::CommandLineTool</name>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="38"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="41"/>
         <source>The command line tool does not exist:
 
 %1
@@ -62,12 +62,12 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 Please install dspm and configure it in Settings &gt; Package Manager.</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="92"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="95"/>
         <source>The command timed out.</source>
         <translation type="unfinished">The command timed out.</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="105"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="108"/>
         <source>The command exited with code %1.</source>
         <translation type="unfinished">The command exited with code %1.</translation>
     </message>
@@ -75,54 +75,54 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 <context>
     <name>PackageManager::PackageManagerAddOn</name>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="47"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="50"/>
         <source>Dependencies</source>
         <translation type="unfinished">Dependencies</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="48"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="51"/>
         <source>Inferences</source>
         <translation type="unfinished">Inferences</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="49"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="52"/>
         <source>Singers</source>
         <translation type="unfinished">Singers</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="53"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="56"/>
         <source>Imports</source>
         <translation type="unfinished">Imports</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="54"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="57"/>
         <source>Demo Audio List</source>
         <translation type="unfinished">Demo Audio List</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="135"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="138"/>
         <source>The command did not return valid JSON.</source>
         <translation type="unfinished">The command did not return valid JSON.</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="144"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="147"/>
         <source>The command reported an error.</source>
         <translation type="unfinished">The command reported an error.</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="357"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="360"/>
         <source>Failed to get package information for %1:
 %2</source>
         <translation type="unfinished">Failed to get package information for %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="377"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="380"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="378"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="381"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -134,32 +134,32 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 <context>
     <name>PackageManager::PackageManagerPage</name>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="40"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="43"/>
         <source>The command did not return valid JSON.</source>
         <translation type="unfinished">The command did not return valid JSON.</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="47"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="50"/>
         <source>The selected command is not dspm.</source>
         <translation type="unfinished">The selected command is not dspm.</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="68"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="71"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="69"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="72"/>
         <source>Configure package manager settings</source>
         <translation type="unfinished">Configure package manager settings</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="132"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="135"/>
         <source>Invalid Package Manager</source>
         <translation type="unfinished">Invalid Package Manager</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="133"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="136"/>
         <source>Failed to validate the selected command:
 
 %1</source>
@@ -168,12 +168,12 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="143"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="146"/>
         <source>Incompatible Package Manager</source>
         <translation type="unfinished">Incompatible Package Manager</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="144"/>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="147"/>
         <source>The selected dspm version (%1) is not marked as compatible. It will still be used.</source>
         <translation type="unfinished">The selected dspm version (%1) is not marked as compatible. It will still be used.</translation>
     </message>
@@ -181,58 +181,58 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 <context>
     <name>PackageManagerPage</name>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="32"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="35"/>
         <source>Select Package Manager</source>
         <translation type="unfinished">Select Package Manager</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="34"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="37"/>
         <source>Executable files (*)</source>
         <translation type="unfinished">Executable files (*)</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="44"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="47"/>
         <source>Select Package Directory</source>
         <translation type="unfinished">Select Package Directory</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="57"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="60"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="66"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="69"/>
         <source>Package manager tool</source>
         <translation type="unfinished">Package manager tool</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="73"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="76"/>
         <source>Bundled dspm</source>
         <translation type="unfinished">Bundled dspm</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="76"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="79"/>
         <source>Reset to Bundled dspm</source>
         <translation type="unfinished">Reset to Bundled dspm</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="82"/>
-        <location filename="../../qml/PackageManagerPage.qml" line="99"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="85"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="102"/>
         <source>Browse</source>
         <translation type="unfinished">Browse</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="89"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="92"/>
         <source>Package directory</source>
         <translation type="unfinished">Package directory</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="106"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="109"/>
         <source>Command timeout</source>
         <translation type="unfinished">Command timeout</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="119"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="122"/>
         <source>seconds</source>
         <translation type="unfinished">seconds</translation>
     </message>
@@ -240,7 +240,7 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 <context>
     <name>PackageManagerWindow</name>
     <message>
-        <location filename="../../qml/PackageManagerWindow.qml" line="19"/>
+        <location filename="../../qml/PackageManagerWindow.qml" line="22"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>

@@ -12,12 +12,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="93"/>
+        <location filename="../../../../app/main.cpp" line="96"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="94"/>
+        <location filename="../../../../app/main.cpp" line="97"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -144,12 +144,12 @@
         <translation type="vanished">Important Notice</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="95"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="98"/>
         <source>Disclaimer</source>
         <translation type="unfinished">Disclaimer</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="96"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="99"/>
         <source>&lt;p&gt;The diagnostic report may contain &lt;b&gt;sensitive information&lt;/b&gt; (e.g., usernames, hostnames, network addresses, personalized configurations).&lt;/p&gt;
 &lt;p&gt;If you do not wish to make such information public, please &lt;b&gt;do not&lt;/b&gt; share this report on public platforms like GitHub Issues or online chat rooms.&lt;/p&gt;
 &lt;p&gt;You may follow the feedback guidelines to send the report privately via email to the DiffScope development team.&lt;/p&gt;
@@ -162,17 +162,17 @@
 </translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="104"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="107"/>
         <source>Save Diagnostic Report</source>
         <translation>Save Diagnostic Report</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="114"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="117"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="115"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="118"/>
         <source>Failed to open the file for writing:
 
 %1</source>
@@ -181,12 +181,12 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="145"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="148"/>
         <source>Diagnostic Report Generated</source>
         <translation>Diagnostic Report Generated</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="146"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="149"/>
         <source>The identifier of report is:</source>
         <translation>The identifier of report is:</translation>
     </message>
@@ -194,12 +194,12 @@
 <context>
     <name>Maintenance::UpdatePage</name>
     <message>
-        <location filename="../../internal/settings/UpdatePage.cpp" line="17"/>
+        <location filename="../../internal/settings/UpdatePage.cpp" line="20"/>
         <source>Update</source>
         <translation>Update</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/UpdatePage.cpp" line="18"/>
+        <location filename="../../internal/settings/UpdatePage.cpp" line="21"/>
         <source>Configure update settings for %1</source>
         <translation>Configure update settings for %1</translation>
     </message>
@@ -207,12 +207,12 @@
 <context>
     <name>Maintenance::ViewJsonAddOn</name>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="105"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="108"/>
         <source>Failed to create JSON file</source>
         <translation type="unfinished">Failed to create JSON file</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="106"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="109"/>
         <source>Could not create temporary JSON file:
 
 %1</source>
@@ -224,27 +224,27 @@
 <context>
     <name>UpdatePage</name>
     <message>
-        <location filename="../../qml/UpdatePage.qml" line="37"/>
+        <location filename="../../qml/UpdatePage.qml" line="40"/>
         <source>Update Settings</source>
         <translation>Update Settings</translation>
     </message>
     <message>
-        <location filename="../../qml/UpdatePage.qml" line="45"/>
+        <location filename="../../qml/UpdatePage.qml" line="48"/>
         <source>Check for updates on startup</source>
         <translation>Check for updates on startup</translation>
     </message>
     <message>
-        <location filename="../../qml/UpdatePage.qml" line="53"/>
+        <location filename="../../qml/UpdatePage.qml" line="56"/>
         <source>Type of update to check for</source>
         <translation>Type of update to check for</translation>
     </message>
     <message>
-        <location filename="../../qml/UpdatePage.qml" line="58"/>
+        <location filename="../../qml/UpdatePage.qml" line="61"/>
         <source>Stable</source>
         <translation>Stable</translation>
     </message>
     <message>
-        <location filename="../../qml/UpdatePage.qml" line="59"/>
+        <location filename="../../qml/UpdatePage.qml" line="62"/>
         <source>Beta</source>
         <translation>Beta</translation>
     </message>

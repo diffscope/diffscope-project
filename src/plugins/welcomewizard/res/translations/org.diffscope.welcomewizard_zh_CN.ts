@@ -12,12 +12,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="93"/>
+        <location filename="../../../../app/main.cpp" line="96"/>
         <source>Version %1</source>
         <translation>版本 %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="94"/>
+        <location filename="../../../../app/main.cpp" line="97"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>

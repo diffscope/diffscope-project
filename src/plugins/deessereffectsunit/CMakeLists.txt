@@ -17,7 +17,6 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     MACRO_PREFIX DEESSER_EFFECTS_UNIT
     QML_MODULE_NAME DeEsserEffectsUnit
     NO_ACTION
-    NO_TRANSLATION
     QT_LINKS
         Core
         Gui

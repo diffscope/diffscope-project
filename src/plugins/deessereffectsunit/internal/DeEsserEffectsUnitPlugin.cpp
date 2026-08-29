@@ -3,6 +3,11 @@
 
 #include "DeEsserEffectsUnitPlugin.h"
 
+#include <CoreApi/runtimeinterface.h>
+#include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
+
 #include <audio/EffectsUnitCollection.h>
 
 #include <deessereffectsunit/internal/DeEsserEffectsUnit.h>
@@ -15,6 +20,7 @@ namespace DeEsserEffectsUnit::Internal {
 
     bool DeEsserEffectsUnitPlugin::initialize(const QStringList &,
                                               QString *errorMessage) {
+        Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         auto collection = Audio::EffectsUnitCollection::instance();
         Q_ASSERT(collection);
         auto effectsUnitClass = new DeEsserEffectsUnitClass(this);
