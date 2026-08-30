@@ -64,7 +64,7 @@ namespace Audio::Internal {
     }
 
     ProjectAudioAddOn::~ProjectAudioAddOn() {
-        if (m_context && AudioSystem::outputSystem()) {
+        if (m_context && AudioSystem::instance() && AudioSystem::outputSystem()) {
             GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
             if (m_metronomeAudioSource) {
                 m_metronomeAudioSource->setDetector(nullptr);

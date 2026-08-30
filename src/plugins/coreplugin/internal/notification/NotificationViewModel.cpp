@@ -106,6 +106,21 @@ namespace Core::Internal {
         });
         const auto index = static_cast<int>(std::distance(messages.cbegin(), it));
         messages.insert(index, message);
+        // A message can outlive the NotificationManager that added it (e.g. on application exit a
+        // window-local manager may be destroyed before its messages). In that case no messageRemoved
+        // signal will reach this view model, so purge the stale pointer here to keep m_messages and
+        // m_bubbleMessages free of dangling pointers. The message is already being destroyed when
+        // this handler runs and must not be dereferenced.
+        connect(message, &QObject::destroyed, this, [this, message] {
+            const bool wasTop = !m_messages.isEmpty() && m_messages.last() == message;
+            if (m_messages.removeAll(message) == 0 && m_bubbleMessages.removeAll(message) == 0) {
+                return;
+            }
+            if (wasTop) {
+                updateTopMessageTitleConnection();
+                Q_EMIT topMessageTitleChanged(topMessageTitle());
+            }
+        });
         return index;
     }
 
