@@ -158,7 +158,6 @@ namespace Core {
         }
 
         dialog->setTransientParent(window);
-        dialog->setModality(Qt::ApplicationModal);
         dialogAccepted = false;
         QEventLoop eventLoop;
         QObject::connect(dialog.get(), SIGNAL(accepted()), q, SLOT(handleDialogAccepted()));

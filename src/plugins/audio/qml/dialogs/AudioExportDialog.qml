@@ -24,6 +24,8 @@ Window {
     readonly property QtObject trackSelectionModel: addOn.windowHandle.projectDocumentContext.document.selectionModel.trackSelectionModel
     property int trackSelectionRevision: 0
 
+    readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+
     width: AudioPreference.audioExporterEnableAdvancedOptions ? 800 : 480
     minimumHeight: windowLayout.implicitHeight
     height: Math.max(minimumHeight, windowLayout.implicitHeight)
@@ -221,11 +223,12 @@ Window {
             color: Theme.backgroundPrimaryColor
             Layout.fillWidth: true
             Layout.fillHeight: true
-            implicitHeight: mainLayout.implicitHeight + 24
+            implicitHeight: mainLayout.implicitHeight + (dialog.isMacOS ? 36 : 24)
             ColumnLayout {
                 id: mainLayout
                 anchors.fill: parent
-                anchors.margins: 12
+                anchors.margins: dialog.isMacOS ? 24 : 12
+                anchors.bottomMargin: 12
                 GridLayout {
                     id: simpleOptionsLayout
                     visible: !AudioPreference.audioExporterEnableAdvancedOptions
@@ -680,11 +683,12 @@ Window {
         Rectangle {
             color: Theme.backgroundSecondaryColor
             Layout.fillWidth: true
-            height: 52
+            height: dialog.isMacOS ? 64 : 52
             RowLayout {
                 id: buttonLayout
                 anchors.fill: parent
-                anchors.margins: 12
+                anchors.margins: dialog.isMacOS ? 24 : 12
+                anchors.topMargin: 12
                 Button {
                     text: AudioPreference.audioExporterEnableAdvancedOptions ? qsTr("Simple Mode") : qsTr("Advanced Mode")
                     onClicked: AudioPreference.audioExporterEnableAdvancedOptions = !AudioPreference.audioExporterEnableAdvancedOptions

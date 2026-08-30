@@ -18,10 +18,6 @@ namespace Core {
 
 namespace Audio {
 
-    namespace Internal {
-        class AudioExportDialog;
-    }
-
     class AudioExporter;
     class AudioExporterPrivate;
 
@@ -119,7 +115,6 @@ namespace Audio {
         void runtimeWarningAdded(const QString &message, int sourceIndex);
 
     private:
-        friend class Internal::AudioExportDialog;
         QScopedPointer<AudioExporterPrivate> d_ptr;
     };
 

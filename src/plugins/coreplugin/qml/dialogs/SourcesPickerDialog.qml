@@ -44,13 +44,14 @@ Window {
                : SourcesPickerModel.InvalidSinger
     }
 
+    readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+
     width: 840
     height: 600
     minimumWidth: 680
     minimumHeight: 480
-    flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint
-           | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint
-    modality: Qt.ApplicationModal
+    flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint
+    modality: Qt.WindowModal
     title: qsTr("Select Sources")
 
     WindowSystem.windowSystem: CoreInterface.windowSystem
@@ -163,7 +164,10 @@ Window {
                 ListView {
                     id: sourceListView
                     anchors.fill: parent
-                    anchors.margins: 8
+                    anchors.leftMargin: 8
+                    anchors.rightMargin: 8
+                    topMargin: dialog.isMacOS ? 20 : 8
+                    bottomMargin: 8
                     spacing: 0
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
@@ -417,6 +421,7 @@ Window {
 
                 StackLayout {
                     anchors.fill: parent
+                    anchors.topMargin: dialog.isMacOS ? 12 : 0
                     currentIndex: dialog.needsInitialPicker || dialog.addPickerSelected ? 0 : 1
 
                     SingerPicker {
@@ -451,12 +456,13 @@ Window {
 
         Rectangle {
             Layout.fillWidth: true
-            height: 60
+            height: dialog.isMacOS ? 64 : 52
             color: Theme.backgroundSecondaryColor
 
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: 16
+                anchors.margins: dialog.isMacOS ? 24 : 12
+                anchors.topMargin: 12
                 spacing: 12
 
                 ToolButton {

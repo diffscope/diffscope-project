@@ -25,6 +25,8 @@ Window {
     readonly property string actionButtonText: textOfActionStatus(actionStatus)
     readonly property bool keepPartialFilesVisible: isPartialFilesOptionVisible(progressStatus)
 
+    readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+
     width: 420
     height: windowLayout.implicitHeight
     minimumHeight: windowLayout.implicitHeight
@@ -143,12 +145,13 @@ Window {
             color: Theme.backgroundPrimaryColor
             Layout.fillWidth: true
             Layout.fillHeight: true
-            implicitHeight: mainLayout.implicitHeight + 24
+            implicitHeight: mainLayout.implicitHeight + (dialog.isMacOS ? 36 : 24)
 
             ColumnLayout {
                 id: mainLayout
                 anchors.fill: parent
-                anchors.margins: 12
+                anchors.margins: dialog.isMacOS ? 24 : 12
+                anchors.bottomMargin: 12
                 spacing: 8
 
                 Label {
@@ -194,11 +197,12 @@ Window {
         Rectangle {
             color: Theme.backgroundSecondaryColor
             Layout.fillWidth: true
-            height: 52
+            height: dialog.isMacOS ? 64 : 52
 
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: 12
+                anchors.margins: dialog.isMacOS ? 24 : 12
+                anchors.topMargin: 12
 
                 CheckBox {
                     text: qsTr("Keep partial files")
