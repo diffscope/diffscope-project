@@ -7,6 +7,7 @@
 #include <functional>
 
 #include <QObject>
+#include <QStringList>
 #include <qqmlintegration.h>
 
 #include <CoreApi/windowinterface.h>
@@ -116,7 +117,7 @@ namespace Audio::Internal {
         AudioExporterConfig m_simpleConfig;
         Core::NotificationMessage *m_exportCompletedMessage{};
         SimplePreviewSoundPlayer *m_completedSound{};
-        QString m_exportedFilePath;
+        QStringList m_exportedFiles;
     };
 
 }

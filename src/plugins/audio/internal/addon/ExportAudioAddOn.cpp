@@ -124,10 +124,10 @@ namespace Audio::Internal {
         m_exportCompletedMessage->setAllowDoNotShowAgain(true);
         m_exportCompletedMessage->setDoNotShowAgainIdentifier("org.diffscope.audio.exportaudioaddon.message");
         connect(m_exportCompletedMessage, &Core::NotificationMessage::buttonClicked, this, [this](int index) {
-            if (index != 0 || m_exportedFilePath.isEmpty()) {
+            if (index != 0 || m_exportedFiles.isEmpty()) {
                 return;
             }
-            SVS::DesktopServices::reveal(m_exportedFilePath);
+            SVS::DesktopServices::reveal(QFileInfo(m_exportedFiles.first()).absolutePath(), m_exportedFiles);
         });
 
         auto io = GlobalAudioContext::formatManager()->getFormatLoad(":/diffscope/audio/soundfx/export_completed.ogg");
@@ -410,12 +410,14 @@ namespace Audio::Internal {
             m_exportCompletedMessage->close();
 
             const auto fileList = exporter->fileList();
-            QString revealPath;
+            QStringList exportedFiles;
             if (exporter->config().mixingOption() == AudioExporterConfig::MO_Mixed) {
                 const auto path = fileList.isEmpty()
                     ? QString {}
                     : QDir::toNativeSeparators(QFileInfo(fileList.first()).canonicalFilePath());
-                revealPath = path;
+                if (!path.isEmpty()) {
+                    exportedFiles.append(path);
+                }
                 m_exportCompletedMessage->setTitle(tr("Audio exported to %1").arg(path));
                 m_exportCompletedMessage->setText({});
             } else if (fileList.isEmpty()) {
@@ -423,16 +425,14 @@ namespace Audio::Internal {
                 m_exportCompletedMessage->setText({});
             } else {
                 m_exportCompletedMessage->setTitle(tr("Audio exported to multiple files"));
-                QStringList paths;
-                paths.reserve(fileList.size());
+                exportedFiles.reserve(fileList.size());
                 for (const auto &file : fileList) {
-                    paths.append(QDir::toNativeSeparators(QFileInfo(file).canonicalFilePath()));
+                    exportedFiles.append(QDir::toNativeSeparators(QFileInfo(file).canonicalFilePath()));
                 }
-                m_exportCompletedMessage->setText(paths.join(QStringLiteral("\n")));
-                revealPath = paths.first();
+                m_exportCompletedMessage->setText(exportedFiles.join(QStringLiteral("\n")));
             }
-            m_exportedFilePath = revealPath;
-            if (revealPath.isEmpty()) {
+            m_exportedFiles = exportedFiles;
+            if (exportedFiles.isEmpty()) {
                 m_exportCompletedMessage->setButtons({});
                 m_exportCompletedMessage->setPrimaryButton(-1);
             } else {
