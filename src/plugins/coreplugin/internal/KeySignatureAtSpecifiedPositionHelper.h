@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_COREPLUGIN_KEYSIGNATUREATSPECIFIEDPOSITIONHELPER_H
 #define DIFFSCOPE_COREPLUGIN_KEYSIGNATUREATSPECIFIEDPOSITIONHELPER_H
 
+#include <QHash>
+#include <QMap>
 #include <QObject>
 #include <qqmlintegration.h>
 
@@ -36,10 +38,12 @@ namespace Core::Internal {
         void setKeySignatureSequence(dspx::KeySignatureSequence *keySignatureSequence);
 
         dspx::KeySignature *keySignature() const;
+        dspx::KeySignature *keySignatureAt(int position) const;
 
         int mode() const;
         int tonality() const;
         int accidentalType() const;
+        int accidentalTypeAt(int position) const;
 
     Q_SIGNALS:
         void positionChanged();
@@ -48,17 +52,25 @@ namespace Core::Internal {
         void modeChanged();
         void tonalityChanged();
         void accidentalTypeChanged();
+        void keySignatureLookupChanged();
 
     private:
         void updateKeySignature();
+        void rebuildKeySignatureLookup();
+        void insertKeySignatureIntoLookup(dspx::KeySignature *item);
+        void removeKeySignatureFromLookup(dspx::KeySignature *item);
+        void updateKeySignaturePositionInLookup(dspx::KeySignature *item);
         void disconnectSequence();
         void connectSequence();
+        void connectSequenceItem(dspx::KeySignature *item);
         void disconnectKeySignature();
         void connectKeySignature();
 
         int m_position = 0;
         dspx::KeySignatureSequence *m_keySignatureSequence = nullptr;
         dspx::KeySignature *m_keySignature = nullptr;
+        QMap<int, dspx::KeySignature *> m_keySignatureLookup;
+        QHash<dspx::KeySignature *, int> m_keySignaturePositions;
     };
 
 }

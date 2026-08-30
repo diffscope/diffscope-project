@@ -51,6 +51,7 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.edit.dese&amp;lect" shortcut="D" />
         <action id="org.diffscope.core.edit.selectCurrent" shortcut="\;" />
         <action id="org.diffscope.core.edit.multipleSelectCurrent" shortcut="Ctrl+\;" />
+        <action id="org.diffscope.core.edit.itemSelector^" />
         <action id="org.diffscope.core.edit.shiftCursorUp" shortcut="K" />
         <action id="org.diffscope.core.edit.shiftCursorDown" shortcut="J" />
         <action id="org.diffscope.core.edit.shiftCursorLeft" shortcut="H" />
@@ -211,6 +212,7 @@ SPDX-License-Identifier: Apache-2.0
                         <action id="org.diffscope.core.edit.shiftCursorRight" />
                     </group>
                 </menu>
+                <action id="org.diffscope.core.edit.itemSelector" />
                 <separator />
                 <group id="org.diffscope.core.edit.msrActions">
                     <action id="org.diffscope.core.edit.mute" />
