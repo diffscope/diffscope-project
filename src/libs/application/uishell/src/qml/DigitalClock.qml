@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 T.Button {
     id: control
     property bool backgroundVisible: true
+    property int fineTuneMode: DigitalClockLabel.TabularFiguresFontFeature
     
     implicitWidth: Math.max(backgroundVisible ? 108 : 0, timeLabel.width + 16)
     implicitHeight: 24
@@ -32,5 +33,6 @@ T.Button {
         color: Theme.foregroundPrimaryColor
         font.family: Theme.font.family
         font.pixelSize: 16
+        fineTuneMode: control.fineTuneMode
     }
 }

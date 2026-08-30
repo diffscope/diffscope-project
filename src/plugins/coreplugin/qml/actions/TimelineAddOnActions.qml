@@ -40,6 +40,7 @@ ActionCollection {
         DigitalClock {
             id: digitalClock
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
+            fineTuneMode: BehaviorPreference.timeIndicatorTextFineTuneMode
             text: d.addOn.showMusicTime ? d.addOn.musicTimeText : d.addOn.longTimeText
             DescriptiveText.activated: hovered
             DescriptiveText.statusTip: qsTr("Current project time")

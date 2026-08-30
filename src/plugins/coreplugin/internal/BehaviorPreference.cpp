@@ -43,7 +43,7 @@ namespace Core::Internal {
         BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorClickAction{};
         BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction{};
         BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction{};
-        bool timeIndicatorTextFineTuneEnabled{};
+        BehaviorPreference::TimeIndicatorTextFineTuneMode timeIndicatorTextFineTuneMode{};
         bool timeIndicatorShowSliderOnHover{};
     };
 
@@ -131,8 +131,8 @@ namespace Core::Internal {
         emit timeIndicatorDoubleClickActionChanged();
         d->timeIndicatorPressAndHoldAction = settings->value("timeIndicatorPressAndHoldAction", QVariant::fromValue(TIIB_ShowGoTo)).value<TimeIndicatorInteractionBehavior>();
         emit timeIndicatorPressAndHoldActionChanged();
-        d->timeIndicatorTextFineTuneEnabled = settings->value("timeIndicatorTextFineTuneEnabled", true).toBool();
-        emit timeIndicatorTextFineTuneEnabledChanged();
+        d->timeIndicatorTextFineTuneMode = settings->value("timeIndicatorTextFineTuneMode", QVariant::fromValue(TITFTM_TabularFiguresFontFeature)).value<TimeIndicatorTextFineTuneMode>();
+        emit timeIndicatorTextFineTuneModeChanged();
         d->timeIndicatorShowSliderOnHover = settings->value("timeIndicatorShowSliderOnHover", true).toBool();
         emit timeIndicatorShowSliderOnHoverChanged();
         settings->endGroup();
@@ -170,7 +170,7 @@ namespace Core::Internal {
         settings->setValue("timeIndicatorClickAction", static_cast<int>(d->timeIndicatorClickAction));
         settings->setValue("timeIndicatorDoubleClickAction", static_cast<int>(d->timeIndicatorDoubleClickAction));
         settings->setValue("timeIndicatorPressAndHoldAction", static_cast<int>(d->timeIndicatorPressAndHoldAction));
-        settings->setValue("timeIndicatorTextFineTuneEnabled", d->timeIndicatorTextFineTuneEnabled);
+        settings->setValue("timeIndicatorTextFineTuneMode", static_cast<int>(d->timeIndicatorTextFineTuneMode));
         settings->setValue("timeIndicatorShowSliderOnHover", d->timeIndicatorShowSliderOnHover);
         settings->endGroup();
     }
@@ -505,16 +505,16 @@ namespace Core::Internal {
         d->timeIndicatorPressAndHoldAction = timeIndicatorPressAndHoldAction;
         emit m_instance->timeIndicatorPressAndHoldActionChanged();
     }
-    bool BehaviorPreference::timeIndicatorTextFineTuneEnabled() {
+    BehaviorPreference::TimeIndicatorTextFineTuneMode BehaviorPreference::timeIndicatorTextFineTuneMode() {
         M_INSTANCE_D;
-        return d->timeIndicatorTextFineTuneEnabled;
+        return d->timeIndicatorTextFineTuneMode;
     }
-    void BehaviorPreference::setTimeIndicatorTextFineTuneEnabled(bool timeIndicatorTextFineTuneEnabled) {
+    void BehaviorPreference::setTimeIndicatorTextFineTuneMode(TimeIndicatorTextFineTuneMode timeIndicatorTextFineTuneMode) {
         M_INSTANCE_D;
-        if (d->timeIndicatorTextFineTuneEnabled == timeIndicatorTextFineTuneEnabled)
+        if (d->timeIndicatorTextFineTuneMode == timeIndicatorTextFineTuneMode)
             return;
-        d->timeIndicatorTextFineTuneEnabled = timeIndicatorTextFineTuneEnabled;
-        emit m_instance->timeIndicatorTextFineTuneEnabledChanged();
+        d->timeIndicatorTextFineTuneMode = timeIndicatorTextFineTuneMode;
+        emit m_instance->timeIndicatorTextFineTuneModeChanged();
     }
     bool BehaviorPreference::timeIndicatorShowSliderOnHover() {
         M_INSTANCE_D;

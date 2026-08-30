@@ -3,65 +3,120 @@
 
 #include "DigitalClockLabel_p.h"
 
+#include <algorithm>
+
+#include <QFontMetricsF>
+#include <QTextLayout>
+
 #include <QtQuick/private/qquicktext_p_p.h>
 
 namespace UIShell {
 
     DigitalClockLabel::DigitalClockLabel(QQuickItem *parent) : QQuickText(parent) {
     }
+
     DigitalClockLabel::~DigitalClockLabel() = default;
 
     QString DigitalClockLabel::text() const {
-        return m_fullText;
+        return m_text;
     }
 
     void DigitalClockLabel::setText(const QString &text) {
-        if (m_fullText == text)
+        if (text == m_text) {
             return;
-
-        m_fullText = text;
+        }
+        m_text = text;
         updateDigitalFormat();
-        Q_EMIT textChanged();
     }
 
-    bool DigitalClockLabel::fineTuneEnabled() const {
-        return m_fineTuneEnabled;
+    QFont DigitalClockLabel::font() const {
+        return m_font;
     }
 
-    void DigitalClockLabel::setFineTuneEnabled(bool enabled) {
-        if (m_fineTuneEnabled == enabled)
+    void DigitalClockLabel::setFont(const QFont &font) {
+        if (font == m_font) {
             return;
-
-        m_fineTuneEnabled = enabled;
+        }
+        m_font = font;
         updateDigitalFormat();
-
-        if (isComponentComplete())
-            forceLayout();
-
-        Q_EMIT fineTuneEnabledChanged();
+        Q_EMIT fontChanged();
     }
 
-    static inline QTextLayout::FormatRange fixedPitchRange(int start, int length) {
-        QTextLayout::FormatRange range;
-        range.start = start;
-        range.length = length;
-        range.format.setFontFixedPitch(true);
-        return range;
+    DigitalClockLabel::FineTuneMode DigitalClockLabel::fineTuneMode() const {
+        return m_fineTuneMode;
     }
 
-    static constexpr bool isIncludedChar(QChar c) {
-        return c.isDigit();
+    void DigitalClockLabel::setFineTuneMode(FineTuneMode mode) {
+        if (m_fineTuneMode == mode) {
+            return;
+        }
+        m_fineTuneMode = mode;
+        updateDigitalFormat();
+        Q_EMIT fineTuneModeChanged();
+    }
+
+    static QList<QTextLayout::FormatRange> makeTabularDigitFormats(const QString &text, const QFont &font) {
+        QFontMetricsF fm(font);
+
+        qreal digitWidth = 0.0;
+        for (int i = 0; i <= 9; i++) {
+            const QChar ch(static_cast<uchar>('0' + i));
+            digitWidth = std::max(digitWidth, fm.horizontalAdvance(ch));
+        }
+
+        QList<QTextLayout::FormatRange> formats;
+        formats.reserve(text.size());
+
+        for (qsizetype i = 0; i < text.size(); ++i) {
+            const QChar ch = text[i];
+
+            if (!ch.isDigit())
+                continue;
+
+            const qreal width = fm.horizontalAdvance(ch);
+            const qreal extraSpacing = digitWidth - width;
+
+            QTextCharFormat format;
+
+            format.setFontKerning(false);
+
+            format.setFontLetterSpacingType(QFont::AbsoluteSpacing);
+            format.setFontLetterSpacing(extraSpacing);
+
+            QTextLayout::FormatRange range;
+            range.start = static_cast<int>(i);
+            range.length = 1;
+            range.format = format;
+
+            formats.append(range);
+        }
+
+        return formats;
     }
 
     void DigitalClockLabel::updateDigitalFormat() {
-        // FIXME
-        QString text = m_fullText;
+        auto font = m_font;
+        switch (m_fineTuneMode) {
+        case None:
+            font.unsetFeature("tnum");
+            break;
+        case TabularFiguresFontFeature:
+            font.setFeature("tnum", 1);
+            break;
+        case LayoutSimulation:
+            font.unsetFeature("tnum");
+            break;
+        }
+        QQuickText::setFont(font);
+        QQuickText::setText(m_text);
         QList<QTextLayout::FormatRange> formats;
-        if (m_fineTuneEnabled) {
-            formats += fixedPitchRange(0, m_fullText.length());
+        if (m_fineTuneMode == LayoutSimulation) {
+            formats = makeTabularDigitFormats(m_text, font);
         }
         QQuickTextPrivate::get(this)->layout.setFormats(formats);
-        QQuickText::setText(text);
+        if (isComponentComplete()) {
+            forceLayout();
+        }
     }
 
 }

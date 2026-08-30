@@ -6,7 +6,9 @@
 
 #include <qqmlintegration.h>
 
+#include <QFont>
 #include <QObject>
+#include <QString>
 
 #include <QtQuick/private/qquicktext_p.h>
 
@@ -17,27 +19,41 @@ namespace UIShell {
         QML_ELEMENT
 
         Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-        Q_PROPERTY(bool fineTuneEnabled READ fineTuneEnabled WRITE setFineTuneEnabled NOTIFY fineTuneEnabledChanged)
+        Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
+        Q_PROPERTY(FineTuneMode fineTuneMode READ fineTuneMode WRITE setFineTuneMode NOTIFY fineTuneModeChanged)
 
     public:
+        enum FineTuneMode {
+            None,
+            TabularFiguresFontFeature,
+            LayoutSimulation,
+        };
+        Q_ENUM(FineTuneMode)
+
         explicit DigitalClockLabel(QQuickItem *parent = nullptr);
         ~DigitalClockLabel() override;
 
         QString text() const;
         void setText(const QString &text);
 
-        bool fineTuneEnabled() const;
-        void setFineTuneEnabled(bool enabled);
+        QFont font() const;
+        void setFont(const QFont &font);
+
+        FineTuneMode fineTuneMode() const;
+        void setFineTuneMode(FineTuneMode mode);
 
     Q_SIGNALS:
         void textChanged();
-        void fineTuneEnabledChanged();
+        void fontChanged();
+        void fineTuneModeChanged();
 
     private:
         void updateDigitalFormat();
 
-        bool m_fineTuneEnabled = true;
-        QString m_fullText;
+        QString m_text;
+        QFont m_font;
+        FineTuneMode m_fineTuneMode = TabularFiguresFontFeature;
+
     };
 
 }

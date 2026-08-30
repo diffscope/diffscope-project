@@ -51,7 +51,7 @@ namespace Core::Internal {
         Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorClickAction READ timeIndicatorClickAction WRITE setTimeIndicatorClickAction NOTIFY timeIndicatorClickActionChanged)
         Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorDoubleClickAction READ timeIndicatorDoubleClickAction WRITE setTimeIndicatorDoubleClickAction NOTIFY timeIndicatorDoubleClickActionChanged)
         Q_PROPERTY(BehaviorPreference::TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction READ timeIndicatorPressAndHoldAction WRITE setTimeIndicatorPressAndHoldAction NOTIFY timeIndicatorPressAndHoldActionChanged)
-        Q_PROPERTY(bool timeIndicatorTextFineTuneEnabled READ timeIndicatorTextFineTuneEnabled WRITE setTimeIndicatorTextFineTuneEnabled NOTIFY timeIndicatorTextFineTuneEnabledChanged)
+        Q_PROPERTY(BehaviorPreference::TimeIndicatorTextFineTuneMode timeIndicatorTextFineTuneMode READ timeIndicatorTextFineTuneMode WRITE setTimeIndicatorTextFineTuneMode NOTIFY timeIndicatorTextFineTuneModeChanged)
         Q_PROPERTY(bool timeIndicatorShowSliderOnHover READ timeIndicatorShowSliderOnHover WRITE setTimeIndicatorShowSliderOnHover NOTIFY timeIndicatorShowSliderOnHoverChanged)
 
     public:
@@ -199,6 +199,13 @@ namespace Core::Internal {
         };
         Q_ENUM(TimeIndicatorInteractionBehavior)
 
+        enum TimeIndicatorTextFineTuneMode {
+            TITFTM_None,
+            TITFTM_TabularFiguresFontFeature,
+            TITFTM_LayoutSimulation,
+        };
+        Q_ENUM(TimeIndicatorTextFineTuneMode)
+
         static bool timeIndicatorBackgroundVisible();
         static void setTimeIndicatorBackgroundVisible(bool timeIndicatorBackgroundVisible);
 
@@ -211,8 +218,8 @@ namespace Core::Internal {
         static TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction();
         static void setTimeIndicatorPressAndHoldAction(TimeIndicatorInteractionBehavior timeIndicatorPressAndHoldAction);
 
-        static bool timeIndicatorTextFineTuneEnabled();
-        static void setTimeIndicatorTextFineTuneEnabled(bool timeIndicatorTextFineTuneEnabled);
+        static TimeIndicatorTextFineTuneMode timeIndicatorTextFineTuneMode();
+        static void setTimeIndicatorTextFineTuneMode(TimeIndicatorTextFineTuneMode timeIndicatorTextFineTuneMode);
 
         static bool timeIndicatorShowSliderOnHover();
         static void setTimeIndicatorShowSliderOnHover(bool timeIndicatorShowSliderOnHover);
@@ -247,7 +254,7 @@ namespace Core::Internal {
         void timeIndicatorClickActionChanged();
         void timeIndicatorDoubleClickActionChanged();
         void timeIndicatorPressAndHoldActionChanged();
-        void timeIndicatorTextFineTuneEnabledChanged();
+        void timeIndicatorTextFineTuneModeChanged();
         void timeIndicatorShowSliderOnHoverChanged();
 
         void commandPaletteClearHistoryRequested();

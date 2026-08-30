@@ -57,8 +57,8 @@ namespace Core::Internal {
         qCDebug(lcTimeIndicatorPage) << "timeIndicatorDoubleClickAction" << m_widget->property("timeIndicatorDoubleClickAction");
         m_widget->setProperty("timeIndicatorPressAndHoldAction", BehaviorPreference::instance()->property("timeIndicatorPressAndHoldAction"));
         qCDebug(lcTimeIndicatorPage) << "timeIndicatorPressAndHoldAction" << m_widget->property("timeIndicatorPressAndHoldAction");
-        m_widget->setProperty("timeIndicatorTextFineTuneEnabled", BehaviorPreference::instance()->property("timeIndicatorTextFineTuneEnabled"));
-        qCDebug(lcTimeIndicatorPage) << "timeIndicatorTextFineTuneEnabled" << m_widget->property("timeIndicatorTextFineTuneEnabled");
+        m_widget->setProperty("timeIndicatorTextFineTuneMode", BehaviorPreference::instance()->property("timeIndicatorTextFineTuneMode"));
+        qCDebug(lcTimeIndicatorPage) << "timeIndicatorTextFineTuneMode" << m_widget->property("timeIndicatorTextFineTuneMode");
         m_widget->setProperty("timeIndicatorShowSliderOnHover", BehaviorPreference::instance()->property("timeIndicatorShowSliderOnHover"));
         qCDebug(lcTimeIndicatorPage) << "timeIndicatorShowSliderOnHover" << m_widget->property("timeIndicatorShowSliderOnHover");
         m_widget->setProperty("started", true);
@@ -75,8 +75,8 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("timeIndicatorDoubleClickAction", m_widget->property("timeIndicatorDoubleClickAction"));
         qCDebug(lcTimeIndicatorPage) << "timeIndicatorPressAndHoldAction" << m_widget->property("timeIndicatorPressAndHoldAction");
         BehaviorPreference::instance()->setProperty("timeIndicatorPressAndHoldAction", m_widget->property("timeIndicatorPressAndHoldAction"));
-        qCDebug(lcTimeIndicatorPage) << "timeIndicatorTextFineTuneEnabled" << m_widget->property("timeIndicatorTextFineTuneEnabled");
-        BehaviorPreference::instance()->setProperty("timeIndicatorTextFineTuneEnabled", m_widget->property("timeIndicatorTextFineTuneEnabled"));
+        qCDebug(lcTimeIndicatorPage) << "timeIndicatorTextFineTuneMode" << m_widget->property("timeIndicatorTextFineTuneMode");
+        BehaviorPreference::instance()->setProperty("timeIndicatorTextFineTuneMode", m_widget->property("timeIndicatorTextFineTuneMode"));
         qCDebug(lcTimeIndicatorPage) << "timeIndicatorShowSliderOnHover" << m_widget->property("timeIndicatorShowSliderOnHover");
         BehaviorPreference::instance()->setProperty("timeIndicatorShowSliderOnHover", m_widget->property("timeIndicatorShowSliderOnHover"));
         BehaviorPreference::instance()->save();

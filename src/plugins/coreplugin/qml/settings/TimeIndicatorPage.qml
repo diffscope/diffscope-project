@@ -19,7 +19,7 @@ ScrollView {
     property int timeIndicatorClickAction
     property int timeIndicatorDoubleClickAction
     property int timeIndicatorPressAndHoldAction
-    property bool timeIndicatorTextFineTuneEnabled
+    property int timeIndicatorTextFineTuneMode
     property bool timeIndicatorShowSliderOnHover
 
     readonly property var interactionBehaviorModel: [
@@ -32,7 +32,7 @@ ScrollView {
     onTimeIndicatorClickActionChanged: if (started) pageHandle.markDirty()
     onTimeIndicatorDoubleClickActionChanged: if (started) pageHandle.markDirty()
     onTimeIndicatorPressAndHoldActionChanged: if (started) pageHandle.markDirty()
-    onTimeIndicatorTextFineTuneEnabledChanged: if (started) pageHandle.markDirty()
+    onTimeIndicatorTextFineTuneModeChanged: if (started) pageHandle.markDirty()
     onTimeIndicatorShowSliderOnHoverChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -63,9 +63,10 @@ ScrollView {
                         }
                     }
                     CheckBox {
+                        id: fineTuneCharacterSpacingCheckBox
                         text: qsTr("Fine-tune character spacing")
-                        checked: page.timeIndicatorTextFineTuneEnabled
-                        onClicked: page.timeIndicatorTextFineTuneEnabled = checked
+                        checked: page.timeIndicatorTextFineTuneMode !== BehaviorPreference.TITFTM_None
+                        onClicked: page.timeIndicatorTextFineTuneMode = checked ? layoutSimulationCheckBox.checked ? BehaviorPreference.TITFTM_LayoutSimulation : BehaviorPreference.TITFTM_TabularFiguresFontFeature : BehaviorPreference.TITFTM_None
                         TextMatcherItem on text {
                             matcher: page.matcher
                         }
@@ -74,7 +75,18 @@ ScrollView {
                         ThemedItem.foregroundLevel: SVS.FL_Secondary
                         Layout.fillWidth: true
                         wrapMode: Text.Wrap
-                        text: qsTr("Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes")
+                        text: qsTr("Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes.\nBy default, OpenType's Tabular Figures feature is used. If the widths of numeric characters are still inconsistent after enabling this, please try using text layout simulation.")
+                    }
+                    CheckBox {
+                        id: layoutSimulationCheckBox
+                        Layout.leftMargin: 22
+                        enabled: fineTuneCharacterSpacingCheckBox.checked
+                        text: qsTr("Use text layout simulation (advanced)")
+                        checked: page.timeIndicatorTextFineTuneMode === BehaviorPreference.TITFTM_LayoutSimulation
+                        onClicked: page.timeIndicatorTextFineTuneMode = checked ? BehaviorPreference.TITFTM_LayoutSimulation : BehaviorPreference.TITFTM_TabularFiguresFontFeature
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
                     }
                 }
             }
