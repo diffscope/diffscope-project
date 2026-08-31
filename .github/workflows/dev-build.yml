@@ -46,7 +46,7 @@ jobs:
           # - ubuntu-24.04
           - macos-15
     env:
-      QT_VERSION: 6.10.1
+      QT_VERSION: 6.11.2
       VCPKG_REF: 39344dff01c5a5a0134caf2624cdd492f05d30ea
       INNOSETUP_REF: is-6_5_4
       VERSION_IDENTIFIER: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
