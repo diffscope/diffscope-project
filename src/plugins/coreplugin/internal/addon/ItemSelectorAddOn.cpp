@@ -3,7 +3,6 @@
 
 #include "ItemSelectorAddOn.h"
 
-#include <QDialog>
 #include <QQmlComponent>
 #include <QWindow>
 
@@ -48,14 +47,13 @@ namespace Core::Internal {
         if (!m_dialog) {
             m_dialog = new ItemSelectorDialog(windowInterface);
             m_dialog->setAttribute(Qt::WA_NativeWindow);
-            m_dialog->setWindowModality(Qt::WindowModal);
             (void)m_dialog->winId();
             if (auto *dialogWindow = m_dialog->windowHandle()) {
                 dialogWindow->setTransientParent(windowInterface->window());
             }
         }
 
-        m_dialog->open();
+        m_dialog->show();
         m_dialog->raise();
         m_dialog->activateWindow();
     }

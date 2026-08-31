@@ -60,11 +60,13 @@ Public and private headers are flattened to `<target>/` and `<target>/private/`;
 
 ## Include Format and Ordering
 
-In every header, use angle brackets for **all** includes, including first-party headers. In a `.cpp`, the matching header is the first include and the only header included with quotes. Every other header—including the PImpl header and same-plugin headers—uses its synchronized angle-bracket path. Generated `moc_*.cpp` inclusions at the end of a source file are not headers and remain quoted.
+In every header, use angle brackets for **all** includes, including first-party headers. In a `.cpp`/`.mm`, the matching public header and, when present, its private `_p.h` partner are the only quoted includes, written as plain relative filenames (`#include "Class.h"` then `#include "Class_p.h"`, public before private). In a `Class_p.h`, the corresponding public header must be the first include, alone in its own standalone group. Every other header—including same-directory siblings and same-plugin headers—uses its synchronized angle-bracket path. Generated `moc_*.cpp` inclusions at the end of a source file are not headers and remain quoted.
+
+Platform-split implementation files that share one class header (for example `Class_icu.cpp` and `Class_NSString.mm` both including `Class.h`) treat that shared header as their matching header. Generated headers outside the synchronized include tree, such as protobuf `*.qpb.h` outputs, are exempt from the synchronized-path rule and may remain quoted.
 
 Separate include groups with one blank line and let `.clang-format` sort each group case-sensitively:
 
-1. Matching header (`.cpp` only).
+1. Matching headers: the file's public header, then its `_p.h` private header (`.cpp`/`.mm` only). In a `_p.h`, the corresponding public header takes this place.
 2. Platform/C and C++ standard library headers, then Boost.
 3. Qt public headers, Qt QPA headers, then Qt private headers.
 4. Frameworks in the configured order: `CoreApi`, ExtensionSystem, OpenDSPX, QActionKit, QWindowKit, SVSCraft, ScopicFlow, then TALCS.
@@ -72,6 +74,7 @@ Separate include groups with one blank line and let `.clang-format` sort each gr
 
 ```cpp
 #include "AudioExporter.h"
+#include "AudioExporter_p.h"
 
 #include <algorithm>
 #include <memory>
@@ -83,7 +86,6 @@ Separate include groups with one blank line and let `.clang-format` sort each gr
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
-#include <audio/private/AudioExporter_p.h>
 ```
 
 Include what the file uses and prefer forward declarations in headers when a complete type is unnecessary.
@@ -119,8 +121,7 @@ private:
 
 // Widget.cpp
 #include "Widget.h"
-
-#include <module/private/Widget_p.h>
+#include "Widget_p.h"
 ```
 
 Internal classes under `internal/` do not need PImpl; store their members directly with `m_` names. C++ types meant only for QML may use `Type_p.h` as their primary header; if such a type needs a private implementation/attached helper, use `Type_p_p.h`. QML property notify signals are normally parameterless; regular C++ API signals may carry the new value. Keep declarations ordered as Qt macros/properties, public API, signals/slots, protected API, then private storage.
