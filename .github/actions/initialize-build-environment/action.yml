@@ -49,5 +49,6 @@ runs:
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ inputs.qt_version }}
+        aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@refs/pull/1000/head' # FIXME remove this after the next release of aqt
         modules: qt5compat qtscxml qtshadertools qtgrpc qttasktree
         cache: true
