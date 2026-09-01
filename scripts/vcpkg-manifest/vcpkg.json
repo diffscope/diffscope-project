@@ -35,7 +35,8 @@
             "default-features": false
         },
         "xxhash",
-        "signalsmith-dsp"
+        "signalsmith-dsp",
+        "rubberband"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [

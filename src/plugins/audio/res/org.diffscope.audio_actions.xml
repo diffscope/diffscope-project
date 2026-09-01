@@ -52,6 +52,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <group id="org.diffscope.audio.metronomeActions">
             <action id="org.diffscope.audio.playback.metronome" />
         </group>
+        <group id="org.diffscope.audio.audioProcessingActions" />
     </layouts>
 
     <insertions>
@@ -74,6 +75,12 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         </insertion>
         <insertion target="org.diffscope.core.edit.editCurrentClipActions" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClip">
             <action id="org.diffscope.audio.edit.replaceAudioClip" />
+        </insertion>
+        <insertion target="org.diffscope.core.edit" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClipActions">
+            <group id="org.diffscope.audio.audioProcessingActions" />
+        </insertion>
+        <insertion target="org.diffscope.core.clipItemContextMenu" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClipActions">
+            <group id="org.diffscope.audio.audioProcessingActions" />
         </insertion>
         <insertion target="org.diffscope.core.file" anchor="before" relativeTo="org.diffscope.core.preferenceActions">
             <group id="org.diffscope.audio.exportAudioActions" />

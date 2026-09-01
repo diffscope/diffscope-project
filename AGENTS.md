@@ -102,6 +102,7 @@ Include what the file uses and prefer forward declarations in headers when a com
 - Use full Qt forms: `Q_SIGNALS`, `Q_SLOTS`, and `Q_EMIT`, not `signals`, `slots`, or bare signal calls when emitting.
 - Make single-argument constructors `explicit`, mark overrides, initialize pointers, and use QObject parent ownership where appropriate.
 - Prefer C++20 ranges and `<=>` where they make code clearer. Do not use exceptions for normal control flow; catch only at APIs that can throw, translate the failure there, and preserve useful diagnostics.
+- Unless explicitly required, never declare any classes as `final`.
 
 ## Class Design and PImpl
 
@@ -144,6 +145,8 @@ Write user-facing window, dialog, and page titles, button text, and menu text in
 Use `RuntimeInterface::settings()` for user preferences and `RuntimeInterface::globalSettings()` only for machine-wide state. Group C++ keys by `staticMetaObject.className()` (or an equally stable module name), use descriptive `lowerCamelCase` keys, supply defaults, and balance every `beginGroup()` with `endGroup()`. In QML, use `SVSCraft.Extras.Settings` with a stable module-qualified category.
 
 Every interactive control must be keyboard reachable. Give icon-only controls meaningful `text`, tooltips, and `Accessible` metadata; preserve logical focus order. Use `control.mirrored`, layouts, and left/right padding correctly for RTL interfaces. Test long translations and never encode meaning by color alone.
+
+Unless explicitly required, do not fill in any translated strings in TS files.
 
 ## Document Editing and View-Model Binding
 

@@ -29,8 +29,23 @@ Audio (src/plugins/audio)
 Audio Visualizer (src/plugins/audiovisualizer)
     SPDX-License-Identifier: LGPL-3.0-or-later
 
+Channel Mapper Effects Unit (src/plugins/channelmappereffectsunit)
+    SPDX-License-Identifier: LGPL-3.0-or-later
+
+Compressor Effects Unit (src/plugins/compressoreffectsunit)
+    SPDX-License-Identifier: LGPL-3.0-or-later
+
 Core (src/plugins/coreplugin)
     SPDX-License-Identifier: Apache-2.0
+
+De-Esser Effects Unit (src/plugins/deessereffectsunit)
+    SPDX-License-Identifier: LGPL-3.0-or-later
+
+Equalizer Effects Unit (src/plugins/equalizereffectsunit)
+    SPDX-License-Identifier: LGPL-3.0-or-later
+
+Gain Effects Unit (src/plugins/gaineffectsunit)
+    SPDX-License-Identifier: LGPL-3.0-or-later
 
 Import/Export Manager (src/plugins/importexportmanager)
     SPDX-License-Identifier: Apache-2.0
@@ -45,6 +60,12 @@ MIDI Format Converter (src/plugins/midiformatconverter)
     SPDX-License-Identifier: Apache-2.0
 
 Package Manager (src/plugins/packagemanager)
+    SPDX-License-Identifier: LGPL-3.0-or-later
+
+Pitch Shifter (src/plugins/pitchshifter)
+    SPDX-License-Identifier: GPL-3.0-or-later
+
+Reverb Effects Unit (src/plugins/reverbeffectsunit)
     SPDX-License-Identifier: LGPL-3.0-or-later
 
 Synthesis (src/plugins/synth)
