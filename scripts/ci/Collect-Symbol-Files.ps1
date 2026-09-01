@@ -11,6 +11,32 @@ param(
     [string]$InstallDir
 )
 
+function Get-FilesByMagic {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string[]]$MagicNumbers
+    )
+
+    Get-ChildItem -Path $Path -File -Recurse | Where-Object {
+        $stream = $null
+        try {
+            $stream = $_.OpenRead()
+            $magic = [byte[]]::new(4)
+            $stream.Read($magic, 0, $magic.Length) -eq $magic.Length -and
+                [System.Convert]::ToHexString($magic) -in $MagicNumbers
+        } catch {
+            $false
+        } finally {
+            if ($null -ne $stream) {
+                $stream.Dispose()
+            }
+        }
+    }
+}
+
 $symbolFilesDirectory = [System.IO.Path]::GetTempPath() + "DiffScope-Symbols"
 New-Item -ItemType Directory -Force -Path $symbolFilesDirectory
 
@@ -39,7 +65,11 @@ if ($IsWindows) {
     Pop-Location
 } elseif ($IsMacOS) {
     Push-Location $InstallDir
-    $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { (file $_) -match "Mach-O 64-bit" }
+    $dllFiles = @(Get-FilesByMagic -Path . -MagicNumbers @(
+        'CFFAEDFE', # 64-bit little-endian thin Mach-O
+        'CAFEBABE', # Universal Mach-O container using fat_arch entries
+        'CAFEBABF'  # Universal Mach-O container using 64-bit fat_arch_64 entries
+    ))
     foreach ($dllFile in $dllFiles) {
         $dsymutilOutput = dsymutil -s $dllFile.FullName
         if ($dsymutilOutput -match "N_OSO") {
@@ -58,7 +88,7 @@ if ($IsWindows) {
     Pop-Location
 } else {
     Push-Location $InstallDir
-    $dllFiles = Get-ChildItem -Path . -Recurse | Where-Object { (file $_) -match "ELF 64-bit" }
+    $dllFiles = @(Get-FilesByMagic -Path . -MagicNumbers '7F454C46')
     foreach ($dllFile in $dllFiles) {
         file $dllFile.FullName
         $fileOutput = file $dllFile.FullName
