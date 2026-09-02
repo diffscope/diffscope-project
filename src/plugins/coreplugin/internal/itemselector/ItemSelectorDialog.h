@@ -6,7 +6,10 @@
 
 #include <QDialog>
 #include <QList>
+#include <QPointer>
 #include <QString>
+
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 class QCheckBox;
 class QGroupBox;
@@ -18,12 +21,13 @@ class QShowEvent;
 class QTreeView;
 
 namespace Core {
+    class FreeParameterSelectionModel;
     class ProjectWindowInterface;
 }
 
 namespace dspx {
     class Model;
-    class SelectionModel;
+    class SingingClip;
 }
 
 namespace Core::Internal {
@@ -45,10 +49,15 @@ namespace Core::Internal {
 
     private:
         struct Column {
-            QGroupBox *widget;
-            QCheckBox *selectAll;
-            QTreeView *view;
-            ItemSelectorListModel *model;
+            QGroupBox *widget = nullptr;
+            QCheckBox *selectAll = nullptr;
+            QWidget *focusWidget = nullptr;
+            QTreeView *view = nullptr;
+            ItemSelectorListModel *model = nullptr;
+            bool rangeColumn = false;
+            QPointer<QObject> context;
+            QString contextKey;
+            bool transform = false;
         };
 
         void initialize();
@@ -56,7 +65,13 @@ namespace Core::Internal {
         void releaseColumns();
         dspx::Model *model() const;
         dspx::SelectionModel *selectionModel() const;
-        void addColumn(ListKind kind, QObject *context);
+        FreeParameterSelectionModel *freeParameterSelectionModel() const;
+        void popupDocumentContextMenu(dspx::SelectionModel::SelectionType selectionType,
+                                      bool sceneContextMenu);
+        void addColumn(ListKind kind, QObject *context, const QString &contextKey = {});
+        void addRangeColumn(dspx::SingingClip *clip,
+                            ItemSelectorListModel *parameterComponentsModel,
+                            bool transform);
         void updateColumnWidth(QWidget *columnWidget);
         void focusInitialColumn();
         void focusColumn(int columnIndex, bool ensureVisible);
@@ -72,6 +87,7 @@ namespace Core::Internal {
         void restoreNotePath();
         void restoreAnchorPath();
         void restoreDynamicAnchorPath();
+        void restoreFreeParameterPath();
 
         ProjectWindowInterface *m_windowInterface;
         QScrollArea *m_scrollArea = nullptr;
@@ -80,6 +96,7 @@ namespace Core::Internal {
         QList<Column> m_columns;
         bool m_mutatingColumns = false;
         int m_horizontalScrollRestoreGeneration = 0;
+        QObject *m_menuLayerObject = nullptr;
     };
 
 }

@@ -133,6 +133,7 @@ QtObject {
                 return trackItemContextMenu
             if (selectionType === DspxSelectionModel.SelectionModel.ST_Note)
                 return noteItemContextMenu
+            // TODO: Support all selection types
             return null
         }
         QtObject {

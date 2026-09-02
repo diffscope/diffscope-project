@@ -283,10 +283,10 @@ namespace Core::Internal {
 
     }
 
-    ItemSelectorListModel::ItemSelectorListModel(ListKind kind, QObject *context,
+    ItemSelectorListModel::ItemSelectorListModel(ListKind kind, QObject *context, const QString &contextKey,
                                                  ProjectWindowInterface *windowInterface,
                                                  QObject *parent)
-            : QAbstractListModel(parent), m_kind(kind), m_context(context) {
+            : QAbstractListModel(parent), m_kind(kind), m_context(context), m_contextKey(contextKey) {
             auto *document = windowInterface->projectDocumentContext()->document();
             m_selectionModel = document->selectionModel();
             m_musicTimeline = windowInterface->projectTimeline()->musicTimeline();
@@ -316,6 +316,11 @@ namespace Core::Internal {
                 connect(resolver, &SingerNameResolver::changed, this, [this] {
                     refreshAll(rolesIncludingDescription());
                 });
+            } else if (m_kind == ListKind::AnchorBranches) {
+                m_contextParameterProvider = new ParameterInfoProvider(this);
+                m_contextParameterProvider->setRegistry(CoreInterface::singerRegistry());
+                m_contextParameterProvider->setArchitectureId(parameterArchitectureId());
+                m_contextParameterProvider->setParameterId(m_contextKey);
             } else if (m_kind == ListKind::Anchors) {
                 rebuildAnchorProvider();
             }
@@ -498,6 +503,18 @@ namespace Core::Internal {
             return m_context.data();
         }
 
+    QString ItemSelectorListModel::contextKey() const {
+            return m_contextKey;
+        }
+
+    QString ItemSelectorListModel::parameterDisplayName() const {
+            if (!m_contextParameterProvider) {
+                return m_contextKey;
+            }
+            const auto displayName = m_contextParameterProvider->info().displayName;
+            return displayName.isEmpty() ? m_contextKey : displayName;
+        }
+
     bool ItemSelectorListModel::isSelectable(const ItemSelectorEntry &entry) const {
             return entry.object
                    && dspx::SelectionModel::selectionTypeFromItem(entry.object.data())
@@ -515,10 +532,13 @@ namespace Core::Internal {
                 case NodeKind::RootTempos:
                 case NodeKind::RootKeySignatures:
                 case NodeKind::Track:
+                case NodeKind::TrackClips:
                 case NodeKind::SingingNotes:
                 case NodeKind::SingingParameters:
                 case NodeKind::SingingVoiceBlending:
                 case NodeKind::Parameter:
+                case NodeKind::FreeformEdited:
+                case NodeKind::FreeformTransform:
                 case NodeKind::EditedAnchors:
                 case NodeKind::TransformAnchors:
                     return true;
@@ -541,16 +561,22 @@ namespace Core::Internal {
                     return tr("Tempos");
                 case NodeKind::RootKeySignatures:
                     return tr("Key Signatures");
+                case NodeKind::TrackClips:
+                    return tr("Clips");
                 case NodeKind::SingingNotes:
                     return tr("Notes");
                 case NodeKind::SingingParameters:
                     return tr("Parameters");
                 case NodeKind::SingingVoiceBlending:
                     return tr("Voice Blending");
+                case NodeKind::FreeformEdited:
+                    return tr("Freeform Edited");
+                case NodeKind::FreeformTransform:
+                    return tr("Freeform Transform");
                 case NodeKind::EditedAnchors:
-                    return tr("Edited Anchors");
+                    return tr("Anchor Edited");
                 case NodeKind::TransformAnchors:
-                    return tr("Transform Anchors");
+                    return tr("Anchor Transform");
                 case NodeKind::Track: {
                     const auto *track = static_cast<dspx::Track *>(entry.object.data());
                     return tr("%L1. %2").arg(row + 1).arg(track->name());
@@ -714,6 +740,10 @@ namespace Core::Internal {
                     }
                     break;
                 }
+                case ListKind::TrackBranches:
+                    return {
+                        {NodeKind::TrackClips, {}, {}},
+                    };
                 case ListKind::Clips: {
                     const auto *track = qobject_cast<dspx::Track *>(m_context.data());
                     if (track) {
@@ -750,6 +780,8 @@ namespace Core::Internal {
                 }
                 case ListKind::AnchorBranches:
                     return {
+                        {NodeKind::FreeformEdited, {}, {}},
+                        {NodeKind::FreeformTransform, {}, {}},
                         {NodeKind::EditedAnchors, {}, {}},
                         {NodeKind::TransformAnchors, {}, {}},
                     };
@@ -808,8 +840,11 @@ namespace Core::Internal {
     void ItemSelectorListModel::bindContainer() {
             switch (m_kind) {
                 case ListKind::Root:
+                case ListKind::TrackBranches:
                 case ListKind::SingingBranches:
+                    break;
                 case ListKind::AnchorBranches:
+                    bindParameterArchitecture();
                     break;
                 case ListKind::Tracks: {
                     auto *model = qobject_cast<dspx::Model *>(m_context.data());
@@ -1177,20 +1212,33 @@ namespace Core::Internal {
             }
         }
 
-    QString ItemSelectorListModel::parameterArchitectureId() const {
-            auto *clip = qobject_cast<dspx::SingingClip *>(m_context.data());
+    dspx::SingingClip *ItemSelectorListModel::parameterClip() const {
+            if (m_kind == ListKind::Parameters) {
+                return qobject_cast<dspx::SingingClip *>(m_context.data());
+            }
+            if (m_kind == ListKind::AnchorBranches) {
+                auto *parameter = qobject_cast<dspx::Parameter *>(m_context.data());
+                return parameter && parameter->parameterMap()
+                           ? parameter->parameterMap()->singingClip()
+                           : nullptr;
+            }
             if (m_kind == ListKind::Anchors) {
                 auto *sequence = qobject_cast<dspx::AnchorNodeSequence *>(m_context.data());
-                clip = sequence && sequence->parameter() && sequence->parameter()->parameterMap()
+                return sequence && sequence->parameter() && sequence->parameter()->parameterMap()
                            ? sequence->parameter()->parameterMap()->singingClip()
                            : nullptr;
             }
+            return nullptr;
+        }
+
+    QString ItemSelectorListModel::parameterArchitectureId() const {
+            auto *clip = parameterClip();
             return clip && clip->sources() ? clip->sources()->category() : QString{};
         }
 
     void ItemSelectorListModel::bindParameterArchitecture() {
             clearMetadataConnections();
-            auto *clip = qobject_cast<dspx::SingingClip *>(m_context.data());
+            auto *clip = parameterClip();
             if (!clip) {
                 return;
             }
@@ -1209,6 +1257,9 @@ namespace Core::Internal {
             for (auto *provider : std::as_const(m_parameterProviders)) {
                 provider->setArchitectureId(architectureId);
             }
+            if (m_contextParameterProvider) {
+                m_contextParameterProvider->setArchitectureId(architectureId);
+            }
         }
 
     void ItemSelectorListModel::rebuildAnchorProvider() {
@@ -1216,18 +1267,11 @@ namespace Core::Internal {
             if (!sequence || !sequence->parameter() || !sequence->parameter()->parameterMap()) {
                 return;
             }
-            const auto *map = sequence->parameter()->parameterMap();
-            const auto keys = map->keys();
-            const auto items = map->items();
-            const int parameterIndex = items.indexOf(sequence->parameter());
-            const auto parameterId = parameterIndex >= 0 && parameterIndex < keys.size()
-                                         ? keys.at(parameterIndex)
-                                         : QString{};
 
             m_anchorProvider = new ParameterInfoProvider(this);
             m_anchorProvider->setRegistry(CoreInterface::singerRegistry());
             m_anchorProvider->setArchitectureId(parameterArchitectureId());
-            m_anchorProvider->setParameterId(parameterId);
+            m_anchorProvider->setParameterId(m_contextKey);
             m_anchorProvider->setTransform(sequence->role() == dspx::AnchorNodeSequence::Transform);
             connect(m_anchorProvider, &ParameterInfoProvider::infoChanged, this, [this] {
                 refreshAll(rolesIncludingDescription());

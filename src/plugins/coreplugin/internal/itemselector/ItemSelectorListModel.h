@@ -25,6 +25,7 @@ namespace dspx {
     class NoteSequence;
     class ParameterMap;
     class SelectionModel;
+    class SingingClip;
     class TempoSequence;
     class TrackList;
 }
@@ -44,12 +45,15 @@ namespace Core::Internal {
         RootTempos,
         RootKeySignatures,
         Track,
+        TrackClips,
         Clip,
         SingingNotes,
         SingingParameters,
         SingingVoiceBlending,
         Note,
         Parameter,
+        FreeformEdited,
+        FreeformTransform,
         EditedAnchors,
         TransformAnchors,
         Anchor,
@@ -62,6 +66,7 @@ namespace Core::Internal {
     enum class ListKind {
         Root,
         Tracks,
+        TrackBranches,
         Clips,
         SingingBranches,
         Notes,
@@ -93,7 +98,7 @@ namespace Core::Internal {
             HasChildrenRole,
         };
 
-        ItemSelectorListModel(ListKind kind, QObject *context,
+        ItemSelectorListModel(ListKind kind, QObject *context, const QString &contextKey,
                               ProjectWindowInterface *windowInterface,
                               QObject *parent = nullptr);
         ~ItemSelectorListModel() override;
@@ -113,6 +118,8 @@ namespace Core::Internal {
                    const QString &key = {}) const;
         ListKind listKind() const;
         QObject *context() const;
+        QString contextKey() const;
+        QString parameterDisplayName() const;
 
     Q_SIGNALS:
         void checkStateSummaryChanged();
@@ -143,6 +150,7 @@ namespace Core::Internal {
         int rowForObject(QObject *object) const;
         void refreshAll(const QList<int> &roles);
 
+        dspx::SingingClip *parameterClip() const;
         QString parameterArchitectureId() const;
         void bindParameterArchitecture();
         void updateParameterProviders();
@@ -154,6 +162,7 @@ namespace Core::Internal {
 
         ListKind m_kind;
         QPointer<QObject> m_context;
+        QString m_contextKey;
         dspx::SelectionModel *m_selectionModel;
         SVS::MusicTimeline *m_musicTimeline;
         QList<ItemSelectorEntry> m_entries;
@@ -164,6 +173,7 @@ namespace Core::Internal {
         QHash<QObject *, QObject *> m_singerResolvers;
         QHash<QObject *, ParameterInfoProvider *> m_parameterProviders;
         QObject *m_contextSingerResolver = nullptr;
+        ParameterInfoProvider *m_contextParameterProvider = nullptr;
         ParameterInfoProvider *m_anchorProvider = nullptr;
         KeySignatureAtSpecifiedPositionHelper *m_keySignatureHelper = nullptr;
     };

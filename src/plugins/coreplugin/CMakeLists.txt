@@ -27,6 +27,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QuickControls2
         QuickTemplates2
         QuickDialogs2
+        QuickWidgets
         Network
     QT_INCLUDE_PRIVATE
         Core
@@ -43,6 +44,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         QAKCore
         QAKQuick
+        svscraft::Gui
         svscraft::QmlExtras
         dspxmodelCore
         dspxmodelORM
