@@ -127,14 +127,15 @@ PropertyEditorGroupBox {
                     text: singerRow.displayName
                 }
 
-                SpinBox {
+                DoubleSpinBox {
                     id: ratioSpinBox
 
                     Layout.preferredWidth: 84
+                    decimals: 3
                     from: 0
-                    to: Math.round(Number(singerRow.maximumValue ?? 0) * 1000)
-                    stepSize: 1
-                    value: Math.round(Number(singerRow.ratioValue ?? 0) * 1000)
+                    to: Number(singerRow.maximumValue ?? 0)
+                    stepSize: 0.001
+                    value: Number(singerRow.ratioValue ?? 0)
                     enabled: (groupBox.propertyMapper?.voiceCount ?? 0) > 1
                              && singerRow.maximumValue !== undefined
                              && singerRow.maximumValue !== null
@@ -145,18 +146,18 @@ PropertyEditorGroupBox {
                     validator: DoubleValidator {
                         locale: ratioSpinBox.locale.name
                         bottom: 0
-                        top: ratioSpinBox.to / 10
+                        top: ratioSpinBox.to * 100
                         decimals: 1
                         notation: DoubleValidator.StandardNotation
                     }
-                    textFromValue: function(value, locale) {
-                        return qsTr("%1%").arg(Number(value / 10).toLocaleString(
+                    textFromValue: function(value, decimals, locale) {
+                        return qsTr("%1%").arg(Number(value * 100).toLocaleString(
                                                    locale, "f", 1))
                     }
                     valueFromText: function(text, locale) {
                         const numberText = String(text).replace(/%/g, "").trim()
                         const parsed = Number.fromLocaleString(locale, numberText)
-                        return isNaN(parsed) ? 0 : Math.round(parsed * 10)
+                        return isNaN(parsed) ? 0 : parsed / 100
                     }
                     onValueModified: {
                         const continuous = spinBoxHelper.buttonPressed
@@ -166,7 +167,7 @@ PropertyEditorGroupBox {
                         if (!groupBox.transactionId)
                             return
                         groupBox.propertyMapper.setSingerRatio(singerRow.index,
-                                                               value / 1000)
+                                                               value)
                         if (!continuous)
                             groupBox.commitTransaction()
                     }

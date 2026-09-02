@@ -148,23 +148,14 @@ ColumnLayout {
         Label {
             text: qsTr("Wet")
         }
-        SpinBox {
+        DoubleSpinBox {
             Layout.minimumWidth: 64
             Accessible.name: qsTr("Dry/Wet Mix")
             editable: true
+            decimals: 2
             from: 0
             to: 100
-            value: Math.round(editor.effectsUnit?.mixPercent ?? 25)
-            validator: IntValidator {
-                bottom: 0
-                top: 100
-            }
-            textFromValue: function(value, locale) {
-                return Number(value).toLocaleString(locale, "f", 0)
-            }
-            valueFromText: function(text, locale) {
-                return Math.round(Number.fromLocaleString(locale, text))
-            }
+            value: editor.effectsUnit?.mixPercent ?? 25
             onValueModified: editor.effectsUnit.setMixPercent(value)
         }
         Label {

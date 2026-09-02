@@ -95,10 +95,8 @@ PropertyEditorGroupBox {
         FormGroup {
             Layout.fillWidth: true
             label: qsTr("Value")
-            columnItem: SpinBox {
+            columnItem: DoubleSpinBox {
                 id: valueSpinBox
-                readonly property int decimals: 3
-                readonly property int decimalFactor: Math.pow(10, decimals)
                 readonly property var displayValue: {
                     const info = parameterInfoProvider.info
                     if (!parameterInfoProvider.exists || info === undefined || info === null)
@@ -119,40 +117,21 @@ PropertyEditorGroupBox {
                 }
 
                 enabled: parameterInfoProvider.exists
-                from: Math.round(Math.min(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
-                                 * decimalFactor)
-                to: Math.round(Math.max(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
-                               * decimalFactor)
+                decimals: 3
+                from: Math.min(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
+                to: Math.max(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
                 value: {
                     if (displayValue === undefined || displayValue === null)
                         return 0
                     const lowerBound = Math.min(from, to)
                     const upperBound = Math.max(from, to)
-                    return Math.max(lowerBound, Math.min(
-                        upperBound, Math.round(displayValue * decimalFactor)))
+                    return Math.max(lowerBound, Math.min(upperBound, displayValue))
                 }
-                stepSize: 1
+                stepSize: 0.001
                 contentItem.visible: displayValue !== undefined && displayValue !== null
-                validator: DoubleValidator {
-                    locale: valueSpinBox.locale.name
-                    bottom: Math.min(valueSpinBox.bottomDisplayValue ?? 0,
-                                     valueSpinBox.topDisplayValue ?? 0)
-                    top: Math.max(valueSpinBox.bottomDisplayValue ?? 0,
-                                  valueSpinBox.topDisplayValue ?? 0)
-                    decimals: valueSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(
-                        locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
 
                 onValueModified: {
-                    const rawValue = parameterInfoProvider.rawValue(value / decimalFactor)
+                    const rawValue = parameterInfoProvider.rawValue(value)
                     if (rawValue === undefined || rawValue === null)
                         return
                     if (!spinBoxHelper.buttonPressed)

@@ -36,31 +36,18 @@ Dialog {
         }
         RowLayout {
             Layout.fillWidth: true
-            SpinBox {
+            DoubleSpinBox {
                 id: stretchSpinBox
-                readonly property int decimalFactor: 100
-                property int decimals: 2
+                decimals: 2
 
                 Accessible.labelledBy: stretchLabel
                 Accessible.name: stretchLabel.text
                 Layout.fillWidth: true
-                from: 10 * decimalFactor
-                to: 1000 * decimalFactor
-                value: Math.round(dialog.stretch * 100 * decimalFactor)
+                from: 10
+                to: 1000
+                value: dialog.stretch * 100
                 editable: true
-                validator: DoubleValidator {
-                    bottom: 10
-                    top: 1000
-                    decimals: stretchSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: dialog.stretch = value / decimalFactor / 100
+                onValueModified: dialog.stretch = value / 100
             }
             Label {
                 text: qsTr("%")
@@ -73,31 +60,18 @@ Dialog {
         }
         RowLayout {
             Layout.fillWidth: true
-            SpinBox {
+            DoubleSpinBox {
                 id: pitchSpinBox
-                readonly property int decimalFactor: 100
-                property int decimals: 2
+                decimals: 2
 
                 Accessible.labelledBy: pitchLabel
                 Accessible.name: pitchLabel.text
                 Layout.fillWidth: true
-                from: -24 * decimalFactor
-                to: 24 * decimalFactor
-                value: Math.round(dialog.pitch * decimalFactor)
+                from: -24
+                to: 24
+                value: dialog.pitch
                 editable: true
-                validator: DoubleValidator {
-                    bottom: -24
-                    top: 24
-                    decimals: pitchSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function(value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function(text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: dialog.pitch = value / decimalFactor
+                onValueModified: dialog.pitch = value
             }
             Label {
                 text: qsTr("semitones")
@@ -126,32 +100,19 @@ Dialog {
         }
         RowLayout {
             Layout.fillWidth: true
-            SpinBox {
+            DoubleSpinBox {
                 id: formantShiftSpinBox
-                readonly property int decimalFactor: 100
-                property int decimals: 2
+                decimals: 2
 
                 Accessible.labelledBy: formantShiftLabel
                 Accessible.name: formantShiftLabel.text
                 Layout.fillWidth: true
                 enabled: formantModeComboBox.currentIndex === 2
-                from: -24 * decimalFactor
-                to: 24 * decimalFactor
-                value: Math.round(dialog.formantShift * decimalFactor)
+                from: -24
+                to: 24
+                value: dialog.formantShift
                 editable: true
-                validator: DoubleValidator {
-                    bottom: -24
-                    top: 24
-                    decimals: formantShiftSpinBox.decimals
-                    notation: DoubleValidator.StandardNotation
-                }
-                textFromValue: function (value, locale) {
-                    return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-                }
-                valueFromText: function (text, locale) {
-                    return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                }
-                onValueModified: dialog.formantShift = value / decimalFactor
+                onValueModified: dialog.formantShift = value
             }
             Label {
                 text: qsTr("semitones")

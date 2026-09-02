@@ -182,9 +182,10 @@ ScrollView {
                             matcher: page.matcher
                         }
                     }
-                    SpinBox {
+                    DoubleSpinBox {
+                        decimals: 1
                         from: 0
-                        to: 60000
+                        to: 1000
                         editable: true
                         value: page.pageHandle.paddingBase
                         onValueModified: page.pageHandle.paddingBase = value
@@ -201,9 +202,10 @@ ScrollView {
                             matcher: page.matcher
                         }
                     }
-                    SpinBox {
+                    DoubleSpinBox {
+                        decimals: 1
                         from: 0
-                        to: 60000
+                        to: 1000
                         editable: true
                         value: page.pageHandle.paddingAdditional
                         onValueModified: page.pageHandle.paddingAdditional = value
@@ -220,9 +222,10 @@ ScrollView {
                             matcher: page.matcher
                         }
                     }
-                    SpinBox {
+                    DoubleSpinBox {
+                        decimals: 1
                         from: 0
-                        to: 60000
+                        to: 1000
                         editable: true
                         value: page.pageHandle.paddingGap
                         onValueModified: page.pageHandle.paddingGap = value

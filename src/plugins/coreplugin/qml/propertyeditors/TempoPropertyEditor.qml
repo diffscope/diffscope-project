@@ -28,11 +28,12 @@ PropertyEditorGroupBox {
                 ThemedItem.flat: true
             }
         }
-        IntegerPropertyEditorField {
+        DoublePropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
             key: "value"
             label: qsTr("Value")
+            decimals: 2
             from: 10
             to: 1000
             transactionName: qsTr("Editing tempo")

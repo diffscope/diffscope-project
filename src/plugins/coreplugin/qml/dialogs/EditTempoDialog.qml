@@ -34,30 +34,19 @@ Dialog {
             id: tempoLabel
             text: qsTr("Tempo")
         }
-        SpinBox {
+        DoubleSpinBox {
             id: tempoSpinBox
             Accessible.labelledBy: tempoLabel
             Accessible.name: tempoLabel.text
             Layout.fillWidth: true
-            readonly property int decimals: 2
-            from: dialog.minTempoBpm * Math.pow(10, decimals)
-            to: dialog.maxTempoBpm * Math.pow(10, decimals)
-            stepSize: 100
-            value: Math.round(dialog.tempo * Math.pow(10, decimals))
+            decimals: 2
+            from: dialog.minTempoBpm
+            to: dialog.maxTempoBpm
+            stepSize: 1.0
+            value: dialog.tempo
             onValueModified: () => {
                 tapDetectButton.resetSession()
-                dialog.tempo = value / Math.pow(10, decimals)
-            }
-            textFromValue: function(value, locale) {
-                return Number(value / Math.pow(10, decimals)).toLocaleString(locale, 'f', decimals)
-            }
-            valueFromText: function(text, locale) {
-                return Math.round(Number.fromLocaleString(locale, text) * Math.pow(10, decimals))
-            }
-            validator: DoubleValidator {
-                bottom: 10
-                top: 1000
-                decimals: 2
+                dialog.tempo = value
             }
         }
         Item {

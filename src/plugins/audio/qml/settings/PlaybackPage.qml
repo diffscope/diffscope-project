@@ -119,35 +119,13 @@ ScrollView {
                             onMoved: page.pageHandle.metronomeGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
                             ThemedItem.onDoubleClickReset: moved()
                         }
-                        SpinBox {
+                        DoubleSpinBox {
                             id: metronomeGainSpinBox
-                            property int decimals: 1
-                            property real realValue: value / decimalFactor
-                            readonly property int decimalFactor: Math.pow(10, decimals)
-
-                            function decimalToInt(decimal) {
-                                return decimal * decimalFactor
-                            }
-
-                            validator: DoubleValidator {
-                                bottom: Math.min(metronomeGainSpinBox.from, metronomeGainSpinBox.to)
-                                top: Math.max(metronomeGainSpinBox.from, metronomeGainSpinBox.to)
-                                decimals: metronomeGainSpinBox.decimals
-                                notation: DoubleValidator.StandardNotation
-                            }
-
-                            textFromValue: function(value, locale) {
-                                return Number(value / decimalFactor).toLocaleString(locale, 'f', decimals)
-                            }
-
-                            valueFromText: function(text, locale) {
-                                return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                            }
-
-                            from: decimalToInt(-96)
-                            to: decimalToInt(6)
-                            value: decimalToInt(SVS.gainToDecibels(page.pageHandle.metronomeGain))
-                            onValueModified: page.pageHandle.metronomeGain = SVS.decibelsToGain(realValue)
+                            decimals: 1
+                            from: -96
+                            to: 6
+                            value: SVS.gainToDecibels(page.pageHandle.metronomeGain)
+                            onValueModified: page.pageHandle.metronomeGain = SVS.decibelsToGain(value)
                         }
                     }
                     Label {
@@ -166,7 +144,8 @@ ScrollView {
                             onMoved: page.pageHandle.metronomePan = value
                             ThemedItem.onDoubleClickReset: moved()
                         }
-                        SpinBox {
+                        DoubleSpinBox {
+                            decimals: 0
                             from: -100
                             to: 100
                             value: Math.round(page.pageHandle.metronomePan * 100)

@@ -52,28 +52,15 @@ GridLayout {
             editor.effectsUnit.commitPreview()
         }
     }
-    SpinBox {
+    DoubleSpinBox {
         id: leftSpinBox
-        property int decimals: 2
-        readonly property int decimalFactor: 10
-        from: -96 * decimalFactor
-        to: 6 * decimalFactor
-        value: Math.round((editor.effectsUnit?.leftGainDb ?? 0) * decimalFactor)
+        decimals: 2
+        from: -96
+        to: 6
+        value: editor.effectsUnit?.leftGainDb ?? 0
         editable: true
         Accessible.labelledBy: leftLabel
-        validator: DoubleValidator {
-            bottom: -96
-            top: 6
-            decimals: leftSpinBox.decimals
-            notation: DoubleValidator.StandardNotation
-        }
-        textFromValue: function(value, locale) {
-            return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-        }
-        valueFromText: function(text, locale) {
-            return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-        }
-        onValueModified: editor.effectsUnit.setLeftGainDb(value / decimalFactor)
+        onValueModified: editor.effectsUnit.setLeftGainDb(value)
     }
     Label {
         text: qsTr("dB")
@@ -104,28 +91,15 @@ GridLayout {
             editor.effectsUnit.commitPreview()
         }
     }
-    SpinBox {
+    DoubleSpinBox {
         id: rightSpinBox
-        property int decimals: 2
-        readonly property int decimalFactor: 10
-        from: -96 * decimalFactor
-        to: 6 * decimalFactor
-        value: Math.round((editor.effectsUnit?.rightGainDb ?? 0) * decimalFactor)
+        decimals: 2
+        from: -96
+        to: 6
+        value: editor.effectsUnit?.rightGainDb ?? 0
         editable: true
         Accessible.labelledBy: rightLabel
-        validator: DoubleValidator {
-            bottom: -96
-            top: 6
-            decimals: rightSpinBox.decimals
-            notation: DoubleValidator.StandardNotation
-        }
-        textFromValue: function(value, locale) {
-            return Number(value / decimalFactor).toLocaleString(locale, "f", decimals)
-        }
-        valueFromText: function(text, locale) {
-            return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-        }
-        onValueModified: editor.effectsUnit.setRightGainDb(value / decimalFactor)
+        onValueModified: editor.effectsUnit.setRightGainDb(value)
     }
     Label {
         text: qsTr("dB")

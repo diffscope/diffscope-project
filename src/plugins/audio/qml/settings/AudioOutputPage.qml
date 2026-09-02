@@ -137,36 +137,13 @@ ScrollView {
                             onMoved: page.helper.deviceGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
                             ThemedItem.onDoubleClickReset: moved()
                         }
-                        SpinBox {
+                        DoubleSpinBox {
                             id: gainSpinBox
-                            property int decimals: 1
-                            property real realValue: value / decimalFactor
-                            readonly property int decimalFactor: Math.pow(10, decimals)
-
-                            function decimalToInt(decimal) {
-                                return decimal * decimalFactor
-                            }
-
-                            validator: DoubleValidator {
-                                bottom: Math.min(gainSpinBox.from, gainSpinBox.to)
-                                top:  Math.max(gainSpinBox.from, gainSpinBox.to)
-                                decimals: gainSpinBox.decimals
-                                notation: DoubleValidator.StandardNotation
-                            }
-
-                            textFromValue: function(value, locale) {
-                                return Number(value / decimalFactor).toLocaleString(locale, 'f', decimals)
-                            }
-
-                            valueFromText: function(text, locale) {
-                                return Math.round(Number.fromLocaleString(locale, text) * decimalFactor)
-                            }
-
-                            from: decimalToInt(-96)
-                            to: decimalToInt(6)
-                            value: decimalToInt(SVS.gainToDecibels(page.helper?.deviceGain ?? 1))
-
-                            onValueModified: page.helper.deviceGain = SVS.decibelsToGain(realValue)
+                            decimals: 1
+                            from: -96
+                            to: 6
+                            value: SVS.gainToDecibels(page.helper?.deviceGain ?? 1)
+                            onValueModified: page.helper.deviceGain = SVS.decibelsToGain(value)
                         }
                     }
                     Label {
@@ -183,7 +160,8 @@ ScrollView {
                             onMoved: page.helper.devicePan = value
                             ThemedItem.onDoubleClickReset: moved()
                         }
-                        SpinBox {
+                        DoubleSpinBox {
+                            decimals: 0
                             from: -100
                             to: 100
                             value: Math.round((page.helper?.devicePan ?? 0) * 100)

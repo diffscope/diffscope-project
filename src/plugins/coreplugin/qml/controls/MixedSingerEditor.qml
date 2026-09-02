@@ -185,30 +185,38 @@ Item {
                                 }
                             }
 
-                            SpinBox {
+                            DoubleSpinBox {
                                 id: ratioSpinBox
 
                                 Layout.preferredWidth: 76
                                 Layout.preferredHeight: 28
+                                decimals: 3
                                 from: 0
-                                to: control.maximumPercentageValueAt(singerRow.index)
-                                stepSize: 1
-                                value: Number(control.percentageValues[singerRow.index] ?? 0)
+                                to: control.maximumPercentageValueAt(singerRow.index) / 1000
+                                stepSize: 0.001
+                                value: Number(control.percentageValues[singerRow.index] ?? 0) / 1000
                                 editable: singerListView.count > 1
 
-                                textFromValue: function(value, locale) {
+                                validator: DoubleValidator {
+                                    locale: ratioSpinBox.locale.name
+                                    bottom: 0
+                                    top: ratioSpinBox.to * 100
+                                    decimals: 1
+                                    notation: DoubleValidator.StandardNotation
+                                }
+                                textFromValue: function(value, decimals, locale) {
                                     return qsTr("%1%").arg(
-                                                Number(value / 10).toLocaleString(locale, "f", 1))
+                                                Number(value * 100).toLocaleString(locale, "f", 1))
                                 }
                                 valueFromText: function(text, locale) {
                                     const numberText = String(text).replace(/%/g, "").trim()
                                     const parsedValue = Number.fromLocaleString(locale, numberText)
-                                    return isNaN(parsedValue) ? 0 : Math.round(parsedValue * 10)
+                                    return isNaN(parsedValue) ? 0 : parsedValue / 100
                                 }
                                 onValueModified: control.sourcesModel.setSingerRatio(
                                                      control.modelIndex,
                                                      singerRow.index,
-                                                     value / 1000)
+                                                     value)
                             }
 
                             ToolButton {

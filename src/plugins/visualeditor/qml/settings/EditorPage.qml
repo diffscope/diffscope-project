@@ -360,13 +360,14 @@ ScrollView {
                         ThemedItem.sliderTrackStartType: SVS.TS_Begin
                         ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
                     }
-                    SpinBox {
+                    DoubleSpinBox {
+                        decimals: 0
                         from: 0
                         to: 100
                         value: Math.round(page.singerBackgroundOpacity * 100)
                         enabled: page.showSingerBackground
                         onValueModified: page.singerBackgroundOpacity = value / 100.0
-                        textFromValue: function(value, locale) {
+                        textFromValue: function(value, decimals, locale) {
                             return value + "%"
                         }
                         valueFromText: function(text, locale) {
@@ -387,12 +388,13 @@ ScrollView {
                         ThemedItem.sliderTrackStartType: SVS.TS_Begin
                         ThemedItem.onDoubleClickReset: page.bottomPanelOpacity = 0.5
                     }
-                    SpinBox {
+                    DoubleSpinBox {
+                        decimals: 0
                         from: 0
                         to: 100
                         value: Math.round(page.bottomPanelOpacity * 100)
                         onValueModified: page.bottomPanelOpacity = value / 100.0
-                        textFromValue: function(value, locale) {
+                        textFromValue: function(value, decimals, locale) {
                             return value + "%"
                         }
                         valueFromText: function(text, locale) {

@@ -25,8 +25,6 @@ ColumnLayout {
 
     property string unit: ""
 
-    readonly property int decimalFactor: Math.pow(10, decimals)
-
     spacing: 4
 
     Label {
@@ -69,31 +67,18 @@ ColumnLayout {
         Layout.fillWidth: true
         spacing: 2
 
-        SpinBox {
+        DoubleSpinBox {
             id: parameterSpinBox
 
             Layout.fillWidth: true
             Layout.minimumWidth: 52
             Accessible.labelledBy: parameterLabel
             editable: true
-            from: Math.round(control.minimum * control.decimalFactor)
-            to: Math.round(control.maximum * control.decimalFactor)
-            value: Math.round(control.parameterValue * control.decimalFactor)
-            validator: DoubleValidator {
-                bottom: control.minimum
-                top: control.maximum
-                decimals: control.decimals
-                notation: DoubleValidator.StandardNotation
-            }
-            textFromValue: function(value, locale) {
-                return Number(value / control.decimalFactor).toLocaleString(
-                    locale, "f", control.decimals)
-            }
-            valueFromText: function(text, locale) {
-                return Math.round(Number.fromLocaleString(locale, text)
-                                  * control.decimalFactor)
-            }
-            onValueModified: control.setValue(value / control.decimalFactor)
+            decimals: control.decimals
+            from: control.minimum
+            to: control.maximum
+            value: control.parameterValue
+            onValueModified: control.setValue(value)
         }
         Label {
             visible: control.unit.length > 0

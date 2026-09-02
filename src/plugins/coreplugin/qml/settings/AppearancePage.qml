@@ -238,12 +238,13 @@ ScrollView {
                             text: qsTr("Animation speed ratio")
                             TextMatcherItem on text { matcher: page.matcher }
                         }
-                        SpinBox {
+                        DoubleSpinBox {
+                            decimals: 0
                             from: 10
                             to: 1000
                             value: page.animationSpeedRatio * 100
                             onValueModified: page.animationSpeedRatio = value / 100.0
-                            textFromValue: function(value, locale) {
+                            textFromValue: function(value, decimals, locale) {
                                 return value + "%"
                             }
                             valueFromText: function(text, locale) {

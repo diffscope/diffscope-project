@@ -13,7 +13,7 @@ import DiffScope.UIShell
 
 QtObject {
     id: d
-    required property SpinBox spinBox
+    required property var spinBox
     property bool keyPressing: false
     signal pressed()
     signal released()
