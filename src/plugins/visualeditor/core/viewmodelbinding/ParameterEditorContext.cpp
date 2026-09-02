@@ -540,6 +540,19 @@ namespace VisualEditor {
             return;
         const auto connectController = [this](sflow::ParameterEditorInteractionController *controller,
                                               bool transform) {
+            auto *viewSelection = transform ? transformFreeSelection : freeSelection;
+            connect(viewSelection, &sflow::ParameterRangeSelectionViewModel::hasSelectionChanged,
+                    this, [this, transform](bool hasSelection) {
+                if (hasSelection || updatingSelection || freeRangeSelecting ||
+                    freeSelectionModel->singingClip() != singingClip ||
+                    freeSelectionModel->parameterId() != parameterId ||
+                    freeSelectionModel->layer() != (transform
+                        ? Core::FreeParameterSelectionModel::TransformLayer
+                        : Core::FreeParameterSelectionModel::EditedLayer)) {
+                    return;
+                }
+                freeSelectionModel->clear();
+            });
             connect(controller, &sflow::ParameterEditorInteractionController::freeEditingStarted,
                     this, [this, transform] { startOperation(FreeEditing, transform); });
             connect(controller, &sflow::ParameterEditorInteractionController::freeEditingCommitted,
@@ -573,6 +586,7 @@ namespace VisualEditor {
 
             connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingStarted,
                     this, [this, transform] {
+                freeRangeSelecting = true;
                 if (!singingClip || parameterId.isEmpty())
                     return;
                 const auto name = parameterInfo.displayName.isEmpty() ? parameterId : parameterInfo.displayName;
@@ -583,14 +597,15 @@ namespace VisualEditor {
             });
             connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingCommitted,
                     this, [this, transform](QQuickItem *, int start, int end) {
-                if (!singingClip || parameterId.isEmpty())
-                    return;
-                const auto name = parameterInfo.displayName.isEmpty() ? parameterId : parameterInfo.displayName;
-                freeSelectionModel->setContext(singingClip, parameterId,
-                    transform ? tr("%1 Transform").arg(name) : name,
-                    transform ? Core::FreeParameterSelectionModel::TransformLayer
-                              : Core::FreeParameterSelectionModel::EditedLayer);
-                freeSelectionModel->setRange(start, end);
+                if (singingClip && !parameterId.isEmpty()) {
+                    const auto name = parameterInfo.displayName.isEmpty() ? parameterId : parameterInfo.displayName;
+                    freeSelectionModel->setContext(singingClip, parameterId,
+                        transform ? tr("%1 Transform").arg(name) : name,
+                        transform ? Core::FreeParameterSelectionModel::TransformLayer
+                                  : Core::FreeParameterSelectionModel::EditedLayer);
+                    freeSelectionModel->setRange(start, end);
+                }
+                freeRangeSelecting = false;
             });
             connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingAborted,
                     this, [this, transform] {
@@ -599,6 +614,7 @@ namespace VisualEditor {
                     freeSelectionModel->layer() != (transform
                         ? Core::FreeParameterSelectionModel::TransformLayer
                         : Core::FreeParameterSelectionModel::EditedLayer)) {
+                    freeRangeSelecting = false;
                     return;
                 }
                 auto *viewSelection = transform ? transformFreeSelection : freeSelection;
@@ -606,6 +622,7 @@ namespace VisualEditor {
                     viewSelection->setRange(freeSelectionModel->start(), freeSelectionModel->end());
                 else
                     viewSelection->clear();
+                freeRangeSelecting = false;
             });
         };
         connectController(interactionController, false);

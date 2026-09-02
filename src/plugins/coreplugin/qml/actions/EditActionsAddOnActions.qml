@@ -7,6 +7,7 @@ import QtQuick.Controls
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import QActionKit
 
@@ -263,7 +264,7 @@ ActionCollection {
                 if (freeSelection?.active) {
                     if (!freeSelection.hasSelection)
                         return freeSelection.displayName
-                    return qsTr("%1 [%2, %3)").arg(freeSelection.displayName)
+                    return qsTr("%1 (%2 - %3)").arg(freeSelection.displayName)
                         .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.start, 1, 1, 3))
                         .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.end, 1, 1, 3))
                 }

@@ -146,6 +146,7 @@ namespace VisualEditor {
         bool updatingView{};
         bool updatingDocument{};
         bool updatingSelection{};
+        bool freeRangeSelecting{};
         bool creatingParameter{};
 
         QVector<QMetaObject::Connection> parameterConnections;
