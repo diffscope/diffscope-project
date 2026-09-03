@@ -47,9 +47,11 @@ namespace Core {
         ParameterInfo info() const;
         bool exists() const;
 
-        Q_INVOKABLE QVariant displayValue(const QVariant &rawValue) const;
-        Q_INVOKABLE QString displayString(const QVariant &rawValue) const;
-        Q_INVOKABLE QVariant rawValue(double displayValue) const;
+        Q_INVOKABLE QVariant displayValue(const QVariant &value) const;
+        Q_INVOKABLE QString displayString(const QVariant &value) const;
+        Q_INVOKABLE QVariant valueFromDisplay(double displayValue) const;
+        Q_INVOKABLE QVariant valueFromDspx(const QVariant &value) const;
+        Q_INVOKABLE QVariant valueToDspx(double value) const;
 
     Q_SIGNALS:
         void registryChanged(SingerRegistry *registry);

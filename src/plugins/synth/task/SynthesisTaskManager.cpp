@@ -45,6 +45,21 @@ namespace Synth {
 
     using namespace Internal::TaskCodec;
 
+    namespace {
+
+        bool parametersAreNormalized(const QMap<QString, SynthesisParameter> &parameters) {
+            for (auto it = parameters.cbegin(); it != parameters.cend(); ++it) {
+                if (!std::ranges::all_of(it->values, [](double value) {
+                        return std::isfinite(value) && value >= 0.0 && value <= 1.0;
+                    })) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    }
+
     SynthesisTaskManagerPrivate::SynthesisTaskManagerPrivate(SynthesisTaskManager *q)
         : q_ptr(q),
           apiClient(new Internal::Api::ApiClient(q)),
@@ -586,6 +601,11 @@ namespace Synth {
             executeParameter(task, service, environmentTag);
             return;
         }
+        if (task->type() == SynthesisTaskType::Audio &&
+            !parametersAreNormalized(task->request().score.parameters)) {
+            fail(task, SynthesisTaskManager::tr("Audio request contains a non-normalized parameter value"));
+            return;
+        }
         const auto key = taskCacheKey(service, task->request(), environmentTag);
         SynthesisTaskResult cached;
         if (task->options().readCache && cache.read(task->type(), key, &cached)) {
@@ -701,6 +721,10 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::executeParameter(SynthesisTask *task, const ServiceInstanceConfiguration &service, const QString &environmentTag) {
         auto requestModel = task->request();
+        if (!parametersAreNormalized(requestModel.score.parameters)) {
+            fail(task, SynthesisTaskManager::tr("Parameter request contains a non-normalized value"));
+            return;
+        }
         SynthesisTaskResult combined;
         QStringList pending = requestModel.score.requestedParameters;
         QSet<QString> unavailableParameters(pending.cbegin(), pending.cend());

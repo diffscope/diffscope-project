@@ -3,7 +3,11 @@
 
 #include "WaveformSingerMetadata.h"
 
+#include <cmath>
+#include <limits>
+
 #include <QJsonObject>
+#include <QLocale>
 #include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
@@ -25,42 +29,23 @@ namespace Audio::Internal {
         Core::ArchitectureInfo::ParameterMap parameters;
         parameters.insert(QStringLiteral("energy"), {
             .displayName = tr("Energy"),
-            .bottomValue = -96000,
-            .topValue = 0,
-            .defaultValue = 0,
+            .defaultValue = 1.0,
             .fillMode = Core::ParameterInfo::FillMode::BottomFill,
             .valueType = Core::ParameterInfo::ValueType::Relative,
-            .divisionValue = 12000,
+            .divisionValue = 0.125,
             .showDefaultValue = false,
             .showDivision = true,
-            .normalize = [](const Core::ParameterInfo &self, int value) {
-                return 1.0 - std::pow(1.0 * (self.topValue - value) / (self.topValue - self.bottomValue), 1.25);
-            },
-            .denormalize = [](const Core::ParameterInfo &self, double value) {
-                return static_cast<int>(self.topValue - std::pow(1.0 - value, 0.8) * (self.topValue - self.bottomValue));
-            },
-            .toDisplayValue = [](const Core::ParameterInfo &, int value) {
-                return value / 1000.0;
+            .toDisplayValue = [](const Core::ParameterInfo &, double value) {
+                return value <= 0.0 ? -std::numeric_limits<double>::infinity()
+                                    : 20.0 * std::log10(value);
             },
             .fromDisplayValue = [](const Core::ParameterInfo &, double value) {
-                return static_cast<int>(value * 1000.0);
+                return std::pow(10.0, value / 20.0);
             },
-            .toDisplayString = [](const Core::ParameterInfo &, int value) {
-                return QLocale().toString(value / 1000.0, 'f', 3) + tr(" dB");
-            }
-        });
-        parameters.insert(QStringLiteral("tone_shift"), {
-            .displayName = tr("Tone shift"),
-            .bottomValue = -1200,
-            .topValue = 1200,
-            .defaultValue = 0,
-            .fillMode = Core::ParameterInfo::FillMode::BaselineFill,
-            .valueType = Core::ParameterInfo::ValueType::Relative,
-            .divisionValue = 0,
-            .showDefaultValue = true,
-            .showDivision = false,
-            .toDisplayString = [](const Core::ParameterInfo &, int value) {
-                return tr("%Ln cent(s)", nullptr, value);
+            .toDisplayString = [](const Core::ParameterInfo &, double value) {
+                if (value <= 0.0)
+                    return QStringLiteral("−∞") + tr(" dB");
+                return QLocale().toString(20.0 * std::log10(value), 'f', 3) + tr(" dB");
             }
         });
         info.setParameters(parameters);

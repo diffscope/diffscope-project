@@ -15,16 +15,12 @@ namespace Synth {
         QString id;
         QString architectureId;
         QString displayName;
-        int minimumValue{};
-        int maximumValue{1000};
         bool showDefaultValue{false};
-        int defaultValue{};
+        double defaultValue{};
         ParameterConfiguration::FillMode fillMode{ParameterConfiguration::NoFill};
         ParameterConfiguration::ValueType valueType{ParameterConfiguration::Absolute};
         bool showDivision{true};
-        int divisionValue{200};
-        QString normalizationExpression;
-        QString denormalizationExpression;
+        double divisionValue{0.2};
         QString displayValueExpression;
         QString displayValueInverseExpression;
         QString displayTextTemplate{QStringLiteral("%d")};

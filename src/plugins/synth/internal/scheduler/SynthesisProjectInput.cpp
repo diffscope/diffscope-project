@@ -524,13 +524,16 @@ namespace Synth::Internal::ProjectInput {
             SynthesisParameter parameter;
             parameter.sampleRate = parameterSampleRate;
             const auto configuration = parameterConfiguration(architecture.id(), id);
-            const int fallback = configuration.id().isEmpty() ? 0 : configuration.defaultValue();
+            const double fallback = configuration.id().isEmpty() ? 0.0 : configuration.defaultValue();
             const SynthesisParameterEvaluator evaluator(clip->parameters()->item(id), *minimumTick, *maximumTick);
             for (const int relativeTick : parameterTicks) {
-                const int defaultValue = id == QStringLiteral("pitch") ? pitchAt(clip, relativeTick) : fallback;
+                const double defaultValue = id == QStringLiteral("pitch")
+                    ? std::clamp(static_cast<double>(pitchAt(clip, relativeTick)) / 12800.0, 0.0, 1.0)
+                    : fallback;
                 double value = evaluator.evaluate(relativeTick, defaultValue);
                 if (id == QStringLiteral("pitch")) {
-                    value = std::clamp(value + documentCentShift, 0.0, 12800.0);
+                    value = std::clamp(value + static_cast<double>(documentCentShift) / 12800.0,
+                                       0.0, 1.0);
                 }
                 parameter.values.append(value);
             }

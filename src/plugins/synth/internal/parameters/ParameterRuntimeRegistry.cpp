@@ -61,17 +61,6 @@ namespace Synth::Internal {
             }
         };
 
-        int boundedRaw(const Core::ParameterInfo &info, double value) {
-            if (!std::isfinite(value))
-                return std::clamp(info.defaultValue, info.bottomValue, info.topValue);
-            const auto rounded = std::round(value);
-            if (rounded <= static_cast<double>(info.bottomValue))
-                return info.bottomValue;
-            if (rounded >= static_cast<double>(info.topValue))
-                return info.topValue;
-            return static_cast<int>(rounded);
-        }
-
         Core::ParameterInfo::FillMode coreFillMode(ParameterConfiguration::FillMode mode) {
             switch (mode) {
                 case ParameterConfiguration::TopFill: return Core::ParameterInfo::TopFill;
@@ -95,26 +84,11 @@ namespace Synth::Internal {
         }
 
         bool compile(QString *errorMessage) {
-            return normalization.compile(configuration.normalizationExpression(), errorMessage) &&
-                   denormalization.compile(configuration.denormalizationExpression(), errorMessage) &&
-                   display.compile(configuration.displayValueExpression(), errorMessage) &&
+            return display.compile(configuration.displayValueExpression(), errorMessage) &&
                    inverseDisplay.compile(configuration.displayValueInverseExpression(), errorMessage);
         }
 
-        double linearNormalize(double raw) const {
-            const auto minimum = static_cast<double>(configuration.minimumValue());
-            const auto range = static_cast<double>(configuration.maximumValue()) - minimum;
-            return range > 0.0 ? (raw - minimum) / range : 0.0;
-        }
-
-        double linearDenormalize(double normalized) const {
-            return static_cast<double>(configuration.minimumValue()) + normalized *
-                       (static_cast<double>(configuration.maximumValue()) - configuration.minimumValue());
-        }
-
         ParameterConfiguration configuration;
-        CompiledExpression normalization;
-        CompiledExpression denormalization;
         CompiledExpression display;
         CompiledExpression inverseDisplay;
     };
@@ -156,19 +130,13 @@ namespace Synth::Internal {
 
         Core::ParameterInfo info;
         info.displayName = configuration.displayName();
-        info.bottomValue = configuration.minimumValue();
-        info.topValue = configuration.maximumValue();
-        info.defaultValue = std::clamp(configuration.defaultValue(),
-                                       configuration.minimumValue(),
-                                       configuration.maximumValue());
+        info.defaultValue = configuration.defaultValue();
         info.fillMode = coreFillMode(configuration.fillMode());
         info.valueType = coreValueType(configuration.valueType());
         info.divisionValue = configuration.divisionValue();
         info.showDefaultValue = configuration.showDefaultValue();
         info.showDivision = configuration.showDivision();
         info.userData = handle;
-        info.normalize = &ParameterRuntimeRegistry::normalize;
-        info.denormalize = &ParameterRuntimeRegistry::denormalize;
         info.toDisplayValue = &ParameterRuntimeRegistry::toDisplayValue;
         info.fromDisplayValue = &ParameterRuntimeRegistry::fromDisplayValue;
         info.toDisplayString = &ParameterRuntimeRegistry::toDisplayString;
@@ -192,54 +160,29 @@ namespace Synth::Internal {
         return m_contexts.value(handle);
     }
 
-    double ParameterRuntimeRegistry::normalize(const Core::ParameterInfo &self, int value) {
-        auto runtime = instance().context(self.userData.toByteArray());
-        if (!runtime) {
-            const auto range = static_cast<double>(self.topValue) - self.bottomValue;
-            return range > 0.0 ? std::clamp((value - self.bottomValue) / range, 0.0, 1.0) : 0.0;
-        }
-        double result{};
-        if (!runtime->normalization.evaluate(value, &result) || result < 0.0 || result > 1.0)
-            result = runtime->linearNormalize(value);
-        return std::clamp(result, 0.0, 1.0);
-    }
-
-    int ParameterRuntimeRegistry::denormalize(const Core::ParameterInfo &self, double value) {
-        auto runtime = instance().context(self.userData.toByteArray());
-        const auto normalized = std::clamp(value, 0.0, 1.0);
-        if (!runtime) {
-            return boundedRaw(self, self.bottomValue + normalized *
-                                        (static_cast<double>(self.topValue) - self.bottomValue));
-        }
-        double result{};
-        if (!runtime->denormalization.evaluate(normalized, &result)
-            || result < self.bottomValue || result > self.topValue)
-            result = runtime->linearDenormalize(normalized);
-        return boundedRaw(self, result);
-    }
-
-    double ParameterRuntimeRegistry::toDisplayValue(const Core::ParameterInfo &self, int value) {
+    double ParameterRuntimeRegistry::toDisplayValue(const Core::ParameterInfo &self, double value) {
         auto runtime = instance().context(self.userData.toByteArray());
         if (!runtime)
             return value;
         double result{};
         if (!runtime->display.evaluate(value, &result))
             result = value;
-        return std::isfinite(result) ? result : static_cast<double>(value);
+        return std::isfinite(result) ? result : value;
     }
 
-    int ParameterRuntimeRegistry::fromDisplayValue(const Core::ParameterInfo &self, double value) {
+    double ParameterRuntimeRegistry::fromDisplayValue(const Core::ParameterInfo &self, double value) {
         auto runtime = instance().context(self.userData.toByteArray());
         if (!runtime)
-            return boundedRaw(self, value);
+            return std::clamp(value, 0.0, 1.0);
         double result{};
-        if (!runtime->inverseDisplay.evaluate(value, &result)
-            || result < self.bottomValue || result > self.topValue)
+        if (!runtime->inverseDisplay.evaluate(value, &result) || result < 0.0 || result > 1.0)
             result = value;
-        return boundedRaw(self, result);
+        if (!std::isfinite(result))
+            result = self.defaultValue;
+        return std::clamp(result, 0.0, 1.0);
     }
 
-    QString ParameterRuntimeRegistry::toDisplayString(const Core::ParameterInfo &self, int value) {
+    QString ParameterRuntimeRegistry::toDisplayString(const Core::ParameterInfo &self, double value) {
         auto runtime = instance().context(self.userData.toByteArray());
         if (!runtime)
             return QLocale().toString(value);

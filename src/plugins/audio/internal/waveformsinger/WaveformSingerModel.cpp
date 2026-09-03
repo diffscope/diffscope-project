@@ -32,6 +32,15 @@ namespace Audio::Internal {
             return index < weights.size() ? weights[index] : 0.0;
         }
 
+        double anchorSlope(const std::vector<WaveformSingerAnchorCurve::Anchor> &anchors,
+                           std::size_t index) {
+            const auto left = index == 0 ? index : index - 1;
+            const auto right = index + 1 < anchors.size() ? index + 1 : index;
+            const double tickDistance = anchors[right].tick - anchors[left].tick;
+            return tickDistance == 0.0 ? 0.0
+                                       : (anchors[right].value - anchors[left].value) / tickDistance;
+        }
+
     }
 
     double WaveformSingerTempoSnapshot::tickToSeconds(double tick) const {
@@ -73,7 +82,7 @@ namespace Audio::Internal {
                  (std::uint64_t{1} << (itemIndex % 64))) == 0) {
                 return std::nullopt;
             }
-            return static_cast<double>(block.values[static_cast<std::size_t>(itemIndex)]);
+            return block.values[static_cast<std::size_t>(itemIndex)];
         };
 
         const auto left = valueAt(leftIndex);
@@ -96,7 +105,40 @@ namespace Audio::Internal {
         if (right == segments.end() || tick < right->firstTick) {
             return std::nullopt;
         }
-        return right->interpolator->evaluate(tick);
+        const auto &anchors = right->anchors;
+        const auto upper = std::lower_bound(anchors.begin(), anchors.end(), tick,
+                                            [](const Anchor &anchor, double value) {
+                                                return anchor.tick < value;
+                                            });
+        if (upper == anchors.begin())
+            return upper->value;
+        if (upper == anchors.end())
+            return anchors.back().value;
+        if (upper->tick == tick)
+            return upper->value;
+
+        const auto rightIndex = static_cast<std::size_t>(upper - anchors.begin());
+        const auto leftIndex = rightIndex - 1;
+        const auto &left = anchors[leftIndex];
+        const auto &rightAnchor = anchors[rightIndex];
+        const double duration = rightAnchor.tick - left.tick;
+        if (duration <= 0.0)
+            return left.value;
+        const double position = (tick - left.tick) / duration;
+        if (left.interpolation != opendspx::AnchorNode::Interpolation::Hermite)
+            return std::clamp(left.value + (rightAnchor.value - left.value) * position, 0.0, 1.0);
+
+        const double position2 = position * position;
+        const double position3 = position2 * position;
+        const double leftBasis = 2.0 * position3 - 3.0 * position2 + 1.0;
+        const double leftSlopeBasis = position3 - 2.0 * position2 + position;
+        const double rightBasis = -2.0 * position3 + 3.0 * position2;
+        const double rightSlopeBasis = position3 - position2;
+        return std::clamp(
+            leftBasis * left.value + leftSlopeBasis * duration * anchorSlope(anchors, leftIndex) +
+                rightBasis * rightAnchor.value +
+                rightSlopeBasis * duration * anchorSlope(anchors, rightIndex),
+            0.0, 1.0);
     }
 
     std::optional<double> WaveformSingerParameterSnapshot::evaluate(double tick) const {
@@ -115,7 +157,7 @@ namespace Audio::Internal {
         if (!transform) {
             transform = freeTransform.evaluate(tick);
         }
-        return *base * (transform ? *transform / 1000.0 : 1.0);
+        return std::clamp(*base * (transform ? *transform * 2.0 : 1.0), 0.0, 1.0);
     }
 
     void WaveformSingerVoiceSnapshot::evaluate(double tick, std::array<double, waveformSingerTypeCount> &result) const {

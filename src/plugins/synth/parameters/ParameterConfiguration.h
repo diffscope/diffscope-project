@@ -21,16 +21,12 @@ namespace Synth {
         Q_PROPERTY(QString id READ id WRITE setId)
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId)
         Q_PROPERTY(QString displayName READ displayName WRITE setDisplayName)
-        Q_PROPERTY(int minimumValue READ minimumValue WRITE setMinimumValue)
-        Q_PROPERTY(int maximumValue READ maximumValue WRITE setMaximumValue)
         Q_PROPERTY(bool showDefaultValue READ showDefaultValue WRITE setShowDefaultValue)
-        Q_PROPERTY(int defaultValue READ defaultValue WRITE setDefaultValue)
+        Q_PROPERTY(double defaultValue READ defaultValue WRITE setDefaultValue)
         Q_PROPERTY(FillMode fillMode READ fillMode WRITE setFillMode)
         Q_PROPERTY(ValueType valueType READ valueType WRITE setValueType)
         Q_PROPERTY(bool showDivision READ showDivision WRITE setShowDivision)
-        Q_PROPERTY(int divisionValue READ divisionValue WRITE setDivisionValue)
-        Q_PROPERTY(QString normalizationExpression READ normalizationExpression WRITE setNormalizationExpression)
-        Q_PROPERTY(QString denormalizationExpression READ denormalizationExpression WRITE setDenormalizationExpression)
+        Q_PROPERTY(double divisionValue READ divisionValue WRITE setDivisionValue)
         Q_PROPERTY(QString displayValueExpression READ displayValueExpression WRITE setDisplayValueExpression)
         Q_PROPERTY(QString displayValueInverseExpression READ displayValueInverseExpression WRITE setDisplayValueInverseExpression)
         Q_PROPERTY(QString displayTextTemplate READ displayTextTemplate WRITE setDisplayTextTemplate)
@@ -63,26 +59,18 @@ namespace Synth {
         void setArchitectureId(const QString &architectureId);
         QString displayName() const;
         void setDisplayName(const QString &name);
-        int minimumValue() const;
-        void setMinimumValue(int value);
-        int maximumValue() const;
-        void setMaximumValue(int value);
         bool showDefaultValue() const;
         void setShowDefaultValue(bool show);
-        int defaultValue() const;
-        void setDefaultValue(int value);
+        double defaultValue() const;
+        void setDefaultValue(double value);
         FillMode fillMode() const;
         void setFillMode(FillMode mode);
         ValueType valueType() const;
         void setValueType(ValueType type);
         bool showDivision() const;
         void setShowDivision(bool show);
-        int divisionValue() const;
-        void setDivisionValue(int value);
-        QString normalizationExpression() const;
-        void setNormalizationExpression(const QString &expression);
-        QString denormalizationExpression() const;
-        void setDenormalizationExpression(const QString &expression);
+        double divisionValue() const;
+        void setDivisionValue(double value);
         QString displayValueExpression() const;
         void setDisplayValueExpression(const QString &expression);
         QString displayValueInverseExpression() const;

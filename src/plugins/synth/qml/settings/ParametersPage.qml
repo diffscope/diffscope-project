@@ -239,24 +239,6 @@ Item {
                                 text: page.currentParameter?.displayName ?? ""
                                 onTextEdited: page.currentParameter.displayName = text
                             }
-                            Label { text: qsTr("Minimum value") }
-                            SpinBox {
-                                Layout.fillWidth: true
-                                from: -2147483647
-                                to: 2147483647
-                                editable: true
-                                value: page.currentParameter?.minimumValue ?? 0
-                                onValueModified: page.currentParameter.minimumValue = value
-                            }
-                            Label { text: qsTr("Maximum value") }
-                            SpinBox {
-                                Layout.fillWidth: true
-                                from: -2147483647
-                                to: 2147483647
-                                editable: true
-                                value: page.currentParameter?.maximumValue ?? 1000
-                                onValueModified: page.currentParameter.maximumValue = value
-                            }
                             CheckBox {
                                 Layout.columnSpan: 2
                                 text: qsTr("Show default value")
@@ -265,15 +247,15 @@ Item {
                             }
                             Label {
                                 text: qsTr("Default value")
-                                enabled: page.currentParameter?.showDefaultValue ?? false
                             }
-                            SpinBox {
+                            DoubleSpinBox {
                                 Layout.fillWidth: true
-                                enabled: page.currentParameter?.showDefaultValue ?? false
-                                from: -2147483647
-                                to: 2147483647
+                                from: 0.0
+                                to: 1.0
+                                decimals: 3
+                                stepSize: 0.001
                                 editable: true
-                                value: page.currentParameter?.defaultValue ?? 0
+                                value: page.currentParameter?.defaultValue ?? 0.0
                                 onValueModified: page.currentParameter.defaultValue = value
                             }
                             Label { text: qsTr("Fill mode") }
@@ -314,13 +296,15 @@ Item {
                                 text: qsTr("Division interval")
                                 enabled: page.currentParameter?.showDivision ?? false
                             }
-                            SpinBox {
+                            DoubleSpinBox {
                                 Layout.fillWidth: true
                                 enabled: page.currentParameter?.showDivision ?? false
-                                from: 1
-                                to: 2147483647
+                                from: 0.001
+                                to: 1.0
+                                decimals: 3
+                                stepSize: 0.001
                                 editable: true
-                                value: page.currentParameter?.divisionValue ?? 1
+                                value: page.currentParameter?.divisionValue ?? 0.2
                                 onValueModified: page.currentParameter.divisionValue = value
                             }
                         }
@@ -331,7 +315,7 @@ Item {
                         Layout.leftMargin: 12
                         Layout.rightMargin: 12
                         enabled: Boolean(page.currentParameter && !page.currentParameter.builtin)
-                        title: qsTr("Value Mapping Expressions")
+                        title: qsTr("Display Mapping Expressions")
                         TextMatcherItem on title {
                             matcher: page.matcher
                         }
@@ -342,36 +326,8 @@ Item {
                             columnSpacing: 12
                             rowSpacing: 8
                             Label {
-                                id: normalizationLabel
-                                readonly property string description: qsTr("Maps a raw parameter value to its normalized value.")
-                                text: qsTr("Normalization")
-                                DescriptiveText.toolTip: description
-                                DescriptiveText.activated: normalizationHoverHandler.hovered
-                                HoverHandler { id: normalizationHoverHandler }
-                            }
-                            TextField {
-                                Layout.fillWidth: true
-                                text: page.currentParameter?.normalizationExpression ?? ""
-                                onTextEdited: page.currentParameter.normalizationExpression = text
-                                Accessible.description: normalizationLabel.description
-                            }
-                            Label {
-                                id: inverseNormalizationLabel
-                                readonly property string description: qsTr("Maps a normalized parameter value back to its raw value.")
-                                text: qsTr("Inverse normalization")
-                                DescriptiveText.toolTip: description
-                                DescriptiveText.activated: inverseNormalizationHoverHandler.hovered
-                                HoverHandler { id: inverseNormalizationHoverHandler }
-                            }
-                            TextField {
-                                Layout.fillWidth: true
-                                text: page.currentParameter?.denormalizationExpression ?? ""
-                                onTextEdited: page.currentParameter.denormalizationExpression = text
-                                Accessible.description: inverseNormalizationLabel.description
-                            }
-                            Label {
                                 id: displayValueMappingLabel
-                                readonly property string description: qsTr("Maps a raw parameter value to its displayed value.")
+                                readonly property string description: qsTr("Maps a normalized parameter value to its displayed value.")
                                 text: qsTr("Display value mapping")
                                 DescriptiveText.toolTip: description
                                 DescriptiveText.activated: displayValueMappingHoverHandler.hovered
@@ -385,7 +341,7 @@ Item {
                             }
                             Label {
                                 id: inverseDisplayValueMappingLabel
-                                readonly property string description: qsTr("Maps a displayed parameter value back to its raw value.")
+                                readonly property string description: qsTr("Maps a displayed parameter value back to its normalized value.")
                                 text: qsTr("Inverse display value mapping")
                                 DescriptiveText.toolTip: description
                                 DescriptiveText.activated: inverseDisplayValueMappingHoverHandler.hovered

@@ -9,6 +9,7 @@
 #include <QSet>
 #include <QVariant>
 
+#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -60,7 +61,7 @@ namespace Synth::Internal::DocumentWriter {
                 const int tick = index * dspx::FreeValueDataArray::step();
                 const double offset = ProjectInput::tickSeconds(timeline, clip->start() + tick) - pieceStartSeconds;
                 const int sample = std::clamp(static_cast<int>(std::round(offset * it->sampleRate)), 0, static_cast<int>(it->values.size()) - 1);
-                values.append(static_cast<int>(std::round(it->values.at(sample))));
+                values.append(Core::ParameterInfo::toDspxModelValue(it->values.at(sample)));
             }
             auto original = modelParameter->original();
             if (original->size() < firstIndex) {

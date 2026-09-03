@@ -12,9 +12,8 @@
 #include <vector>
 
 #include <opendspx/anchornode.h>
-#include <opendspx/vibrato.h>
-#include <opendspx/interpolator/parameterinterpolator.h>
 #include <opendspx/interpolator/vibratocurve.h>
+#include <opendspx/vibrato.h>
 
 namespace Audio::Internal {
 
@@ -41,7 +40,7 @@ namespace Audio::Internal {
         static constexpr int blockSize = 512;
 
         struct Block {
-            std::array<int, blockSize> values{};
+            std::array<double, blockSize> values{};
             std::array<std::uint64_t, blockSize / 64> valid{};
         };
 
@@ -52,10 +51,16 @@ namespace Audio::Internal {
     };
 
     struct WaveformSingerAnchorCurve {
+        struct Anchor {
+            opendspx::AnchorNode::Interpolation interpolation{opendspx::AnchorNode::Interpolation::None};
+            int tick{};
+            double value{};
+        };
+
         struct Segment {
             int firstTick{};
             int lastTick{};
-            std::shared_ptr<const opendspx::ParameterInterpolator> interpolator;
+            std::vector<Anchor> anchors;
         };
 
         std::vector<Segment> segments;
@@ -95,7 +100,6 @@ namespace Audio::Internal {
         int clipLengthTick{};
         std::shared_ptr<const WaveformSingerParameterSnapshot> pitch;
         std::shared_ptr<const WaveformSingerParameterSnapshot> energy;
-        std::shared_ptr<const WaveformSingerParameterSnapshot> toneShift;
         std::shared_ptr<const WaveformSingerVoiceSnapshot> voices;
     };
 

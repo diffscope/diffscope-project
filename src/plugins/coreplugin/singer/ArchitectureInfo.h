@@ -21,12 +21,10 @@ namespace Core {
     struct CORE_EXPORT ParameterInfo {
         Q_GADGET
         Q_PROPERTY(QString displayName MEMBER displayName)
-        Q_PROPERTY(int bottomValue MEMBER bottomValue)
-        Q_PROPERTY(int topValue MEMBER topValue)
-        Q_PROPERTY(int defaultValue MEMBER defaultValue)
+        Q_PROPERTY(double defaultValue MEMBER defaultValue)
         Q_PROPERTY(FillMode fillMode MEMBER fillMode)
         Q_PROPERTY(ValueType valueType MEMBER valueType)
-        Q_PROPERTY(int divisionValue MEMBER divisionValue)
+        Q_PROPERTY(double divisionValue MEMBER divisionValue)
         Q_PROPERTY(bool showDefaultValue MEMBER showDefaultValue)
         Q_PROPERTY(bool showDivision MEMBER showDivision)
     public:
@@ -45,46 +43,35 @@ namespace Core {
         Q_ENUM(ValueType)
 
         QString displayName;
-        int bottomValue{0};
-        int topValue{1000};
-        int defaultValue{0};
+        double defaultValue{0.0};
         FillMode fillMode{NoFill};
         ValueType valueType{Absolute};
-        int divisionValue{200};
+        double divisionValue{0.2};
         bool showDefaultValue{false};
         bool showDivision{true};
         QVariant userData;
-        double (*normalize)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
-            return static_cast<double>(value - self.bottomValue) / static_cast<double>(self.topValue - self.bottomValue);
+        double (*toDisplayValue)(const ParameterInfo &, double){[](const ParameterInfo &, double value) {
+            return value;
         }};
-        int (*denormalize)(const ParameterInfo &, double){[](const ParameterInfo &self, double value) {
-            return static_cast<int>(value * static_cast<double>(self.topValue - self.bottomValue) + self.bottomValue);
+        double (*fromDisplayValue)(const ParameterInfo &, double){[](const ParameterInfo &, double value) {
+            return value;
         }};
-        double (*toDisplayValue)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
-            return static_cast<double>(value);
-        }};
-        int (*fromDisplayValue)(const ParameterInfo &, double){[](const ParameterInfo &self, double value) {
-            return static_cast<int>(value);
-        }};
-        QString (*toDisplayString)(const ParameterInfo &, int){[](const ParameterInfo &self, int value) {
+        QString (*toDisplayString)(const ParameterInfo &, double){[](const ParameterInfo &, double value) {
             return QString::number(value);
         }};
 
-        Q_INVOKABLE double invokeNormalize(int value) const {
-            return normalize(*this, value);
-        }
-        Q_INVOKABLE int invokeDenormalize(double value) const {
-            return denormalize(*this, value);
-        }
-        Q_INVOKABLE double invokeToDisplayValue(int value) const {
+        Q_INVOKABLE double invokeToDisplayValue(double value) const {
             return toDisplayValue(*this, value);
         }
-        Q_INVOKABLE int invokeFromDisplayValue(double value) const {
+        Q_INVOKABLE double invokeFromDisplayValue(double value) const {
             return fromDisplayValue(*this, value);
         }
-        Q_INVOKABLE QString invokeToDisplayString(int value) const {
+        Q_INVOKABLE QString invokeToDisplayString(double value) const {
             return toDisplayString(*this, value);
         }
+
+        static double fromDspxModelValue(int value);
+        static int toDspxModelValue(double value);
 
         bool operator==(const ParameterInfo &) const = default;
         bool operator!=(const ParameterInfo &) const = default;

@@ -97,29 +97,25 @@ PropertyEditorGroupBox {
             label: qsTr("Value")
             columnItem: DoubleSpinBox {
                 id: valueSpinBox
+                readonly property var normalizedValue: parameterInfoProvider.valueFromDspx(
+                    groupBox.propertyMapper?.value)
                 readonly property var displayValue: {
                     const info = parameterInfoProvider.info
                     if (!parameterInfoProvider.exists || info === undefined || info === null)
                         return undefined
-                    return parameterInfoProvider.displayValue(groupBox.propertyMapper?.value)
+                    return parameterInfoProvider.displayValue(normalizedValue)
                 }
-                readonly property var bottomDisplayValue: {
-                    const info = parameterInfoProvider.info
-                    if (!parameterInfoProvider.exists)
-                        return undefined
-                    return parameterInfoProvider.displayValue(info.bottomValue)
-                }
-                readonly property var topDisplayValue: {
-                    const info = parameterInfoProvider.info
-                    if (!parameterInfoProvider.exists)
-                        return undefined
-                    return parameterInfoProvider.displayValue(info.topValue)
-                }
+                readonly property var mappedBottomDisplayValue: parameterInfoProvider.displayValue(0.0)
+                readonly property var mappedTopDisplayValue: parameterInfoProvider.displayValue(1.0)
+                readonly property double bottomDisplayValue: Number.isFinite(mappedBottomDisplayValue)
+                    ? mappedBottomDisplayValue : (mappedBottomDisplayValue < 0 ? -999.0 : 999.0)
+                readonly property double topDisplayValue: Number.isFinite(mappedTopDisplayValue)
+                    ? mappedTopDisplayValue : (mappedTopDisplayValue < 0 ? -999.0 : 999.0)
 
                 enabled: parameterInfoProvider.exists
                 decimals: 3
-                from: Math.min(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
-                to: Math.max(bottomDisplayValue ?? 0, topDisplayValue ?? 0)
+                from: Math.min(bottomDisplayValue, topDisplayValue)
+                to: Math.max(bottomDisplayValue, topDisplayValue)
                 value: {
                     if (displayValue === undefined || displayValue === null)
                         return 0
@@ -129,16 +125,32 @@ PropertyEditorGroupBox {
                 }
                 stepSize: 0.001
                 contentItem.visible: displayValue !== undefined && displayValue !== null
+                textFromValue: function(value, decimals, locale) {
+                    if (normalizedValue === 0.0 && !Number.isFinite(mappedBottomDisplayValue)
+                            && Math.abs(value - from) < stepSize / 2.0) {
+                        return "−∞"
+                    }
+                    return Number(value).toLocaleString(locale, "f", decimals)
+                }
+                valueFromText: function(text, locale) {
+                    const valueText = String(text).trim()
+                    if (valueText === "−∞" || valueText === "-∞")
+                        return from
+                    const parsed = Number.fromLocaleString(locale, valueText)
+                    return isNaN(parsed) ? 0 : parsed
+                }
 
                 onValueModified: {
-                    const rawValue = parameterInfoProvider.rawValue(value)
-                    if (rawValue === undefined || rawValue === null)
+                    const normalized = !Number.isFinite(mappedBottomDisplayValue)
+                            && Math.abs(value - from) < stepSize / 2.0
+                        ? 0.0 : parameterInfoProvider.valueFromDisplay(value)
+                    if (normalized === undefined || normalized === null)
                         return
                     if (!spinBoxHelper.buttonPressed)
                         groupBox.beginTransaction()
                     if (!groupBox.transactionId)
                         return
-                    groupBox.propertyMapper.value = rawValue
+                    groupBox.propertyMapper.value = parameterInfoProvider.valueToDspx(normalized)
                     if (!spinBoxHelper.buttonPressed)
                         groupBox.commitTransaction()
                 }

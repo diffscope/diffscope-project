@@ -171,8 +171,7 @@ namespace VisualEditor {
         void unbindParameter();
         void reloadFromDocument();
         void clearViewModels();
-        void bindFreeArray(dspx::FreeValueDataArray *array, sflow::FreeParameterViewModel *viewModel,
-                           bool transform = false);
+        void bindFreeArray(dspx::FreeValueDataArray *array, sflow::FreeParameterViewModel *viewModel);
         void bindAnchorSequence(dspx::AnchorNodeSequence *sequence,
                                 sflow::AnchorParameterViewModel *viewModel, bool edited);
         void bindAnchor(dspx::AnchorNode *item, sflow::AnchorParameterViewModel *viewModel, bool edited,
@@ -180,10 +179,9 @@ namespace VisualEditor {
         void unbindAnchor(dspx::AnchorNode *item, sflow::AnchorParameterViewModel *viewModel, bool edited);
 
         Core::ParameterInfo conversionInfo(bool transform) const;
-        QList<QVariant> normalizeValues(const QList<QVariant> &values, bool transform = false) const;
-        QList<QVariant> denormalizeValues(const QList<QVariant> &values, bool transform = false) const;
-        int canonicalRawValue(double normalizedValue, bool transform = false) const;
-        double canonicalNormalizedValue(double normalizedValue, bool transform = false) const;
+        QList<QVariant> valuesFromDspx(const QList<QVariant> &values) const;
+        QList<QVariant> valuesToDspx(const QList<QVariant> &values, bool transform = false) const;
+        double canonicalValue(double value, bool transform = false) const;
         static sflow::ParameterAnchorViewModel::InterpolationMode toViewInterpolation(int mode);
         static int toDocumentInterpolation(sflow::ParameterAnchorViewModel::InterpolationMode mode);
 

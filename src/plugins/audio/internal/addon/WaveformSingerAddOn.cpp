@@ -54,6 +54,7 @@
 #include <audio/internal/WaveformSingerMetadata.h>
 #include <audio/internal/WaveformSingerTypeCatalog.h>
 
+#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
@@ -65,7 +66,6 @@ namespace Audio::Internal {
 
         const QString pitchKey = QStringLiteral("pitch");
         const QString energyKey = QStringLiteral("energy");
-        const QString toneShiftKey = QStringLiteral("tone_shift");
         const QString waveformSingerId = QStringLiteral("waveform");
 
         enum class FreeLayer {
@@ -109,7 +109,8 @@ namespace Audio::Internal {
                         continue;
                     }
                     const auto localIndex = index - begin;
-                    block->values[static_cast<std::size_t>(localIndex)] = value.toInt();
+                    block->values[static_cast<std::size_t>(localIndex)] =
+                        Core::ParameterInfo::fromDspxModelValue(value.toInt());
                     block->valid[static_cast<std::size_t>(localIndex / 64)] |=
                         std::uint64_t{1} << (localIndex % 64);
                 }
@@ -123,15 +124,15 @@ namespace Audio::Internal {
             if (!sequence) {
                 return result;
             }
-            std::vector<opendspx::AnchorNode> current;
+            std::vector<WaveformSingerAnchorCurve::Anchor> current;
             const auto appendSegment = [&] {
                 if (current.empty()) {
                     return;
                 }
                 result.segments.push_back({
-                    current.front().x,
-                    current.back().x,
-                    std::make_shared<opendspx::ParameterInterpolator>(current),
+                    current.front().tick,
+                    current.back().tick,
+                    std::move(current),
                 });
                 current.clear();
             };
@@ -139,7 +140,7 @@ namespace Audio::Internal {
                 current.push_back({
                     static_cast<opendspx::AnchorNode::Interpolation>(node->interpolationMode()),
                     node->x(),
-                    node->y(),
+                    Core::ParameterInfo::fromDspxModelValue(node->y()),
                 });
                 if (node->interpolationMode() == dspx::AnchorNode::None) {
                     appendSegment();
@@ -425,12 +426,10 @@ namespace Audio::Internal {
             connect(map, &dspx::ParameterMap::itemRemoved, m_parameterWatcher, [this] { syncParameters(); });
             watchParameter(pitchKey, map->item(pitchKey));
             watchParameter(energyKey, map->item(energyKey));
-            watchParameter(toneShiftKey, map->item(toneShiftKey));
 
             auto snapshot = mutableSnapshot();
             snapshot->pitch = buildParameter(map->item(pitchKey));
             snapshot->energy = buildParameter(map->item(energyKey));
-            snapshot->toneShift = buildParameter(map->item(toneShiftKey));
             publishClip(std::move(snapshot), true);
         }
 
@@ -459,9 +458,7 @@ namespace Audio::Internal {
         void patchFreeCurve(const QString &key, FreeLayer layer, dspx::FreeValueDataArray *array,
                             int index, int length, const QList<QVariant> &values) {
             const auto clipSnapshot = m_model->snapshot();
-            const auto oldParameter = key == pitchKey ? clipSnapshot->pitch
-                                    : key == energyKey ? clipSnapshot->energy
-                                                       : clipSnapshot->toneShift;
+            const auto oldParameter = key == pitchKey ? clipSnapshot->pitch : clipSnapshot->energy;
             auto parameter = oldParameter
                 ? std::make_shared<WaveformSingerParameterSnapshot>(*oldParameter)
                 : std::make_shared<WaveformSingerParameterSnapshot>();
@@ -491,7 +488,8 @@ namespace Audio::Internal {
                     if (!value.isValid() || value.isNull()) {
                         word &= ~mask;
                     } else {
-                        block->values[static_cast<std::size_t>(localIndex)] = value.toInt();
+                        block->values[static_cast<std::size_t>(localIndex)] =
+                            Core::ParameterInfo::fromDspxModelValue(value.toInt());
                         word |= mask;
                     }
                 }
@@ -499,10 +497,8 @@ namespace Audio::Internal {
             auto snapshot = mutableSnapshot();
             if (key == pitchKey) {
                 snapshot->pitch = std::move(parameter);
-            } else if (key == energyKey) {
-                snapshot->energy = std::move(parameter);
             } else {
-                snapshot->toneShift = std::move(parameter);
+                snapshot->energy = std::move(parameter);
             }
             publishClip(std::move(snapshot), key != energyKey);
         }
@@ -512,10 +508,8 @@ namespace Audio::Internal {
             const auto parameter = buildParameter(m_clip->parameters()->item(key));
             if (key == pitchKey) {
                 snapshot->pitch = parameter;
-            } else if (key == energyKey) {
-                snapshot->energy = parameter;
             } else {
-                snapshot->toneShift = parameter;
+                snapshot->energy = parameter;
             }
             publishClip(std::move(snapshot), key != energyKey);
         }

@@ -45,11 +45,6 @@ namespace VisualEditor {
 
     namespace {
 
-        int boundedRawValue(const Core::ParameterInfo &info, int value) {
-            return std::clamp(value, qMin(info.bottomValue, info.topValue),
-                              qMax(info.bottomValue, info.topValue));
-        }
-
         void disconnectAll(QVector<QMetaObject::Connection> &connections) {
             for (const auto &connection : std::as_const(connections))
                 QObject::disconnect(connection);
@@ -302,7 +297,7 @@ namespace VisualEditor {
                         if (parameter) {
                             auto *array = parameter->freeEdited();
                             freeEdited->splice(index, values.size(),
-                                normalizeValues(array->slice(index, removeCount)));
+                                valuesFromDspx(array->slice(index, removeCount)));
                         } else {
                             freeEdited->splice(0, freeEdited->size(), {});
                         }
@@ -324,7 +319,7 @@ namespace VisualEditor {
                         if (parameter) {
                             auto *array = parameter->freeTransform();
                             freeTransform->splice(index, values.size(),
-                                normalizeValues(array->slice(index, removeCount), true));
+                                valuesFromDspx(array->slice(index, removeCount)));
                         } else {
                             freeTransform->splice(0, freeTransform->size(), {});
                         }
@@ -345,7 +340,7 @@ namespace VisualEditor {
                     } else if (auto *documentItem = anchorDocumentItems.value(item)) {
                         updatingView = true;
                         item->setPosition(documentItem->x());
-                        item->setValue(parameterInfo.invokeNormalize(documentItem->y()));
+                        item->setValue(Core::ParameterInfo::fromDspxModelValue(documentItem->y()));
                         item->setInterpolationMode(toViewInterpolation(documentItem->interpolationMode()));
                         updatingView = false;
                     }
@@ -358,10 +353,9 @@ namespace VisualEditor {
                     if (progressing) {
                         dirtyAnchors.insert(item);
                     } else if (auto *documentItem = transformAnchorDocumentItems.value(item)) {
-                        const auto info = Core::transformParameterInfo();
                         updatingView = true;
                         item->setPosition(documentItem->x());
-                        item->setValue(info.invokeNormalize(documentItem->y()));
+                        item->setValue(Core::ParameterInfo::fromDspxModelValue(documentItem->y()));
                         item->setInterpolationMode(toViewInterpolation(documentItem->interpolationMode()));
                         updatingView = false;
                     }
@@ -686,7 +680,7 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::updateControllerDefinition() {
-        const double defaultValue = canonicalNormalizedValue(parameterInfo.invokeNormalize(parameterInfo.defaultValue));
+        const double defaultValue = canonicalValue(parameterInfo.defaultValue);
         interactionController->setDefaultValue(defaultValue);
         interactionController->setFillBaseline(defaultValue);
         interactionController->setReferenceBaseline(defaultValue);
@@ -733,7 +727,7 @@ namespace VisualEditor {
             return;
         bindFreeArray(parameter->original(), original);
         bindFreeArray(parameter->freeEdited(), freeEdited);
-        bindFreeArray(parameter->freeTransform(), freeTransform, true);
+        bindFreeArray(parameter->freeTransform(), freeTransform);
         bindAnchorSequence(parameter->anchorEdited(), anchorEdited, true);
         bindAnchorSequence(parameter->anchorTransform(), anchorTransform, false);
         resetDirtyState();
@@ -764,25 +758,24 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::bindFreeArray(dspx::FreeValueDataArray *array,
-                                                         sflow::FreeParameterViewModel *viewModel,
-                                                         bool transform) {
+                                                         sflow::FreeParameterViewModel *viewModel) {
         updatingView = true;
-        viewModel->splice(0, viewModel->size(), normalizeValues(array->items(), transform));
+        viewModel->splice(0, viewModel->size(), valuesFromDspx(array->items()));
         updatingView = false;
         parameterConnections.append(connect(array, &dspx::FreeValueDataArray::spliced, this,
-            [this, viewModel, transform](int index, int removeCount, const QList<QVariant> &values) {
+            [this, viewModel](int index, int removeCount, const QList<QVariant> &values) {
                 if (updatingDocument)
                     return;
                 updatingView = true;
-                viewModel->splice(index, removeCount, normalizeValues(values, transform));
+                viewModel->splice(index, removeCount, valuesFromDspx(values));
                 updatingView = false;
             }));
         parameterConnections.append(connect(array, &dspx::FreeValueDataArray::rotated, this,
-            [this, array, viewModel, transform] {
+            [this, array, viewModel] {
                 if (updatingDocument)
                     return;
                 updatingView = true;
-                viewModel->splice(0, viewModel->size(), normalizeValues(array->items(), transform));
+                viewModel->splice(0, viewModel->size(), valuesFromDspx(array->items()));
                 updatingView = false;
             }));
 
@@ -815,10 +808,9 @@ namespace VisualEditor {
         if (viewMap.contains(item))
             return;
         auto *viewItem = existingViewItem ? existingViewItem : new sflow::ParameterAnchorViewModel(viewModel);
-        const auto info = conversionInfo(!edited);
         updatingView = true;
         viewItem->setPosition(item->x());
-        viewItem->setValue(info.invokeNormalize(item->y()));
+        viewItem->setValue(Core::ParameterInfo::fromDspxModelValue(item->y()));
         viewItem->setInterpolationMode(toViewInterpolation(item->interpolationMode()));
         viewItem->setSelected(selectionModel->anchorNodeSelectionModel()->isItemSelected(item));
         if (!existingViewItem)
@@ -839,7 +831,7 @@ namespace VisualEditor {
             if (updatingDocument)
                 return;
             updatingView = true;
-            viewItem->setValue(conversionInfo(!edited).invokeNormalize(item->y()));
+            viewItem->setValue(Core::ParameterInfo::fromDspxModelValue(item->y()));
             updatingView = false;
         }));
         parameterConnections.append(connect(item, &dspx::AnchorNode::interpolationModeChanged, viewItem,
@@ -872,41 +864,33 @@ namespace VisualEditor {
         return transform ? Core::transformParameterInfo() : parameterInfo;
     }
 
-    QList<QVariant> ParameterViewModelBindingPrivate::normalizeValues(const QList<QVariant> &values,
-                                                                      bool transform) const {
-        const auto info = conversionInfo(transform);
+    QList<QVariant> ParameterViewModelBindingPrivate::valuesFromDspx(const QList<QVariant> &values) const {
         QList<QVariant> result;
         result.reserve(values.size());
         for (const auto &value : values)
-            result.append(value.isValid() ? QVariant(info.invokeNormalize(value.toInt())) : QVariant());
+            result.append(value.isValid()
+                              ? QVariant(Core::ParameterInfo::fromDspxModelValue(value.toInt()))
+                              : QVariant());
         return result;
     }
 
-    QList<QVariant> ParameterViewModelBindingPrivate::denormalizeValues(const QList<QVariant> &values,
-                                                                        bool transform) const {
+    QList<QVariant> ParameterViewModelBindingPrivate::valuesToDspx(const QList<QVariant> &values,
+                                                                   bool transform) const {
         QList<QVariant> result;
         result.reserve(values.size());
         for (const auto &value : values)
-            result.append(value.isValid() ? QVariant(canonicalRawValue(value.toDouble(), transform)) : QVariant());
+            result.append(value.isValid()
+                              ? QVariant(Core::ParameterInfo::toDspxModelValue(
+                                    canonicalValue(value.toDouble(), transform)))
+                              : QVariant());
         return result;
     }
 
-    int ParameterViewModelBindingPrivate::canonicalRawValue(double normalizedValue, bool transform) const {
+    double ParameterViewModelBindingPrivate::canonicalValue(double value, bool transform) const {
         const auto info = conversionInfo(transform);
-        const double bottom = info.invokeNormalize(info.bottomValue);
-        const double top = info.invokeNormalize(info.topValue);
-        if (!std::isfinite(normalizedValue)) {
-            normalizedValue = info.invokeNormalize(info.defaultValue);
-        } else if (std::isfinite(bottom) && std::isfinite(top)) {
-            normalizedValue = std::clamp(normalizedValue, qMin(bottom, top), qMax(bottom, top));
-        }
-        return boundedRawValue(info, info.invokeDenormalize(normalizedValue));
-    }
-
-    double ParameterViewModelBindingPrivate::canonicalNormalizedValue(double normalizedValue,
-                                                                       bool transform) const {
-        const auto info = conversionInfo(transform);
-        return info.invokeNormalize(canonicalRawValue(normalizedValue, transform));
+        if (!std::isfinite(value))
+            value = info.defaultValue;
+        return std::clamp(value, 0.0, 1.0);
     }
 
     sflow::ParameterAnchorViewModel::InterpolationMode
@@ -1066,9 +1050,9 @@ namespace VisualEditor {
         if (count <= 0)
             return false;
         const auto normalizedValues = viewValues->slice(first, count);
-        const auto rawValues = denormalizeValues(normalizedValues, currentOperationTransforms);
+        const auto dspxValues = valuesToDspx(normalizedValues, currentOperationTransforms);
         const int removeCount = qMin(count, qMax(0, documentValues->size() - first));
-        return documentValues->splice(first, removeCount, rawValues);
+        return documentValues->splice(first, removeCount, dspxValues);
     }
 
     bool ParameterViewModelBindingPrivate::commitAnchorChanges() {
@@ -1085,7 +1069,7 @@ namespace VisualEditor {
             sflow::ParameterAnchorViewModel *viewItem{};
             dspx::AnchorNode *documentItem{};
             int position{};
-            int value{};
+            double value{};
             dspx::AnchorNode::InterpolationMode interpolation{dspx::AnchorNode::None};
             bool selected{};
             bool current{};
@@ -1104,7 +1088,7 @@ namespace VisualEditor {
                 viewItem,
                 documentItem,
                 qMax(0, viewItem->position()),
-                canonicalRawValue(viewItem->value(), currentOperationTransforms),
+                canonicalValue(viewItem->value(), currentOperationTransforms),
                 dspx::AnchorNode::InterpolationMode(toDocumentInterpolation(viewItem->interpolationMode())),
                 viewItem->isSelected() || pendingSelectedAnchors.contains(viewItem),
                 pendingCurrentAnchor == viewItem ||
@@ -1141,7 +1125,7 @@ namespace VisualEditor {
             if (!entry.documentItem)
                 entry.documentItem = model->createAnchorNode();
             entry.documentItem->setX(entry.position);
-            entry.documentItem->setY(entry.value);
+            entry.documentItem->setY(Core::ParameterInfo::toDspxModelValue(entry.value));
             entry.documentItem->setInterpolationMode(entry.interpolation);
             if (!sequence->insertItem(entry.documentItem)) {
                 if (!movingDocumentItems.contains(entry.documentItem))
@@ -1160,7 +1144,7 @@ namespace VisualEditor {
                     selectionCommand, dspx::SelectionModel::ST_AnchorNode, sequence);
             }
             updatingView = true;
-            entry.viewItem->setValue(conversionInfo(currentOperationTransforms).invokeNormalize(entry.value));
+            entry.viewItem->setValue(entry.value);
             updatingView = false;
         }
         return !entries.isEmpty() || !removedAnchors.isEmpty();

@@ -5,6 +5,8 @@
 
 #include <xxhash.h>
 
+#include <cmath>
+#include <optional>
 #include <utility>
 
 #include <QCborValue>
@@ -23,10 +25,17 @@ namespace Synth::Internal::TaskCodec {
             return result;
         }
 
-        QList<double> doublesFromJson(const QJsonValue &value) {
+        std::optional<QList<double>> normalizedDoublesFromJson(const QJsonValue &value) {
+            if (!value.isArray())
+                return std::nullopt;
             QList<double> result;
             for (const auto &item : value.toArray()) {
-                result.append(item.toDouble());
+                if (!item.isDouble())
+                    return std::nullopt;
+                const double number = item.toDouble();
+                if (!std::isfinite(number) || number < 0.0 || number > 1.0)
+                    return std::nullopt;
+                result.append(number);
             }
             return result;
         }
@@ -56,11 +65,15 @@ namespace Synth::Internal::TaskCodec {
             };
         }
 
-        SynthesisParameter parameterFromJson(const QJsonObject &object) {
-            return {
-                doublesFromJson(object.value(QStringLiteral("values"))),
-                object.value(QStringLiteral("sampleRate")).toDouble(100.0),
-            };
+        std::optional<SynthesisParameter> parameterFromJson(const QJsonObject &object) {
+            const auto values = normalizedDoublesFromJson(object.value(QStringLiteral("values")));
+            const auto sampleRateValue = object.value(QStringLiteral("sampleRate"));
+            if (!values || !sampleRateValue.isDouble())
+                return std::nullopt;
+            const double sampleRate = sampleRateValue.toDouble();
+            if (!std::isfinite(sampleRate) || sampleRate <= 0.0)
+                return std::nullopt;
+            return SynthesisParameter{*values, sampleRate};
         }
 
     }
@@ -215,7 +228,12 @@ namespace Synth::Internal::TaskCodec {
         }
         const auto parameters = object.value(QStringLiteral("parameters")).toObject();
         for (auto it = parameters.constBegin(); it != parameters.constEnd(); ++it) {
-            parsed.parameters.insert(it.key(), parameterFromJson(it.value().toObject()));
+            if (!it.value().isObject())
+                return false;
+            const auto parameter = parameterFromJson(it.value().toObject());
+            if (!parameter)
+                return false;
+            parsed.parameters.insert(it.key(), *parameter);
         }
         parsed.audioFilePath = object.value(QStringLiteral("audioFilePath")).toString();
         *result = std::move(parsed);

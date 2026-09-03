@@ -138,31 +138,47 @@ namespace Core {
         return d->exists;
     }
 
-    QVariant ParameterInfoProvider::displayValue(const QVariant &rawValue) const {
+    QVariant ParameterInfoProvider::displayValue(const QVariant &value) const {
         Q_D(const ParameterInfoProvider);
-        if (!d->exists || !rawValue.isValid())
+        if (!d->exists || !value.isValid())
             return {};
-        return d->info.invokeToDisplayValue(rawValue.toInt());
+        const double normalizedValue = value.toDouble();
+        if (!std::isfinite(normalizedValue))
+            return {};
+        return d->info.invokeToDisplayValue(std::clamp(normalizedValue, 0.0, 1.0));
     }
 
-    QString ParameterInfoProvider::displayString(const QVariant &rawValue) const {
+    QString ParameterInfoProvider::displayString(const QVariant &value) const {
         Q_D(const ParameterInfoProvider);
-        if (!d->exists || !rawValue.isValid())
+        if (!d->exists || !value.isValid())
             return {};
-        return d->info.invokeToDisplayString(rawValue.toInt());
+        const double normalizedValue = value.toDouble();
+        if (!std::isfinite(normalizedValue))
+            return {};
+        return d->info.invokeToDisplayString(std::clamp(normalizedValue, 0.0, 1.0));
     }
 
-    QVariant ParameterInfoProvider::rawValue(double displayValue) const {
+    QVariant ParameterInfoProvider::valueFromDisplay(double displayValue) const {
         Q_D(const ParameterInfoProvider);
-        if (!d->exists || !std::isfinite(displayValue))
+        if (!d->exists)
             return {};
-        const double bottom = d->info.invokeToDisplayValue(d->info.bottomValue);
-        const double top = d->info.invokeToDisplayValue(d->info.topValue);
-        if (std::isfinite(bottom) && std::isfinite(top))
-            displayValue = std::clamp(displayValue, std::min(bottom, top), std::max(bottom, top));
-        const int rawValue = d->info.invokeFromDisplayValue(displayValue);
-        return std::clamp(rawValue, std::min(d->info.bottomValue, d->info.topValue),
-                          std::max(d->info.bottomValue, d->info.topValue));
+        const double value = d->info.invokeFromDisplayValue(displayValue);
+        if (!std::isfinite(value))
+            return {};
+        return std::clamp(value, 0.0, 1.0);
+    }
+
+    QVariant ParameterInfoProvider::valueFromDspx(const QVariant &value) const {
+        if (!value.isValid())
+            return {};
+        return ParameterInfo::fromDspxModelValue(value.toInt());
+    }
+
+    QVariant ParameterInfoProvider::valueToDspx(double value) const {
+        Q_D(const ParameterInfoProvider);
+        if (!std::isfinite(value))
+            value = std::clamp(d->info.defaultValue, 0.0, 1.0);
+        return ParameterInfo::toDspxModelValue(value);
     }
 
 }

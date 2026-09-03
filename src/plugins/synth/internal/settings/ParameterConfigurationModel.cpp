@@ -31,10 +31,6 @@ namespace Synth::Internal {
                 return configuration.architectureId();
             case DisplayNameRole:
                 return configuration.displayName();
-            case MinimumValueRole:
-                return configuration.minimumValue();
-            case MaximumValueRole:
-                return configuration.maximumValue();
             case ShowDefaultValueRole:
                 return configuration.showDefaultValue();
             case DefaultValueRole:
@@ -47,10 +43,6 @@ namespace Synth::Internal {
                 return configuration.showDivision();
             case DivisionValueRole:
                 return configuration.divisionValue();
-            case NormalizationExpressionRole:
-                return configuration.normalizationExpression();
-            case DenormalizationExpressionRole:
-                return configuration.denormalizationExpression();
             case DisplayValueExpressionRole:
                 return configuration.displayValueExpression();
             case DisplayValueInverseExpressionRole:
@@ -82,17 +74,11 @@ namespace Synth::Internal {
             case DisplayNameRole:
                 configuration.setDisplayName(value.toString());
                 break;
-            case MinimumValueRole:
-                configuration.setMinimumValue(value.toInt());
-                break;
-            case MaximumValueRole:
-                configuration.setMaximumValue(value.toInt());
-                break;
             case ShowDefaultValueRole:
                 configuration.setShowDefaultValue(value.toBool());
                 break;
             case DefaultValueRole:
-                configuration.setDefaultValue(value.toInt());
+                configuration.setDefaultValue(value.toDouble());
                 break;
             case FillModeRole:
                 configuration.setFillMode(static_cast<ParameterConfiguration::FillMode>(value.toInt()));
@@ -104,13 +90,7 @@ namespace Synth::Internal {
                 configuration.setShowDivision(value.toBool());
                 break;
             case DivisionValueRole:
-                configuration.setDivisionValue(value.toInt());
-                break;
-            case NormalizationExpressionRole:
-                configuration.setNormalizationExpression(value.toString());
-                break;
-            case DenormalizationExpressionRole:
-                configuration.setDenormalizationExpression(value.toString());
+                configuration.setDivisionValue(value.toDouble());
                 break;
             case DisplayValueExpressionRole:
                 configuration.setDisplayValueExpression(value.toString());
@@ -143,16 +123,12 @@ namespace Synth::Internal {
             {IdRole, "parameterId"},
             {ArchitectureIdRole, "architectureId"},
             {DisplayNameRole, "displayName"},
-            {MinimumValueRole, "minimumValue"},
-            {MaximumValueRole, "maximumValue"},
             {ShowDefaultValueRole, "showDefaultValue"},
             {DefaultValueRole, "defaultValue"},
             {FillModeRole, "fillMode"},
             {ValueTypeRole, "valueType"},
             {ShowDivisionRole, "showDivision"},
             {DivisionValueRole, "divisionValue"},
-            {NormalizationExpressionRole, "normalizationExpression"},
-            {DenormalizationExpressionRole, "denormalizationExpression"},
             {DisplayValueExpressionRole, "displayValueExpression"},
             {DisplayValueInverseExpressionRole, "displayValueInverseExpression"},
             {DisplayTextTemplateRole, "displayTextTemplate"},
@@ -240,16 +216,12 @@ namespace Synth::Internal {
         configuration.setId(id);
         configuration.setArchitectureId(QStringLiteral("diffsinger"));
         configuration.setDisplayName(tr("New Parameter"));
-        configuration.setMinimumValue(0);
-        configuration.setMaximumValue(1000);
         configuration.setShowDefaultValue(false);
-        configuration.setDefaultValue(0);
+        configuration.setDefaultValue(0.0);
         configuration.setFillMode(ParameterConfiguration::NoFill);
         configuration.setValueType(ParameterConfiguration::Absolute);
         configuration.setShowDivision(true);
-        configuration.setDivisionValue(200);
-        configuration.setNormalizationExpression(QStringLiteral("x / 1000"));
-        configuration.setDenormalizationExpression(QStringLiteral("x * 1000"));
+        configuration.setDivisionValue(0.2);
         configuration.setDisplayValueExpression(QStringLiteral("x"));
         configuration.setDisplayValueInverseExpression(QStringLiteral("x"));
         configuration.setDisplayTextTemplate(QStringLiteral("%d"));

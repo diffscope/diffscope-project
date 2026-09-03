@@ -4,45 +4,52 @@
 #include "ArchitectureInfo.h"
 #include "ArchitectureInfo_p.h"
 
+#include <algorithm>
+#include <cmath>
+
+#include <QLocale>
+
 namespace Core {
+
+    double ParameterInfo::fromDspxModelValue(int value) {
+        return std::clamp(static_cast<double>(value) / 8064000.0, 0.0, 1.0);
+    }
+
+    int ParameterInfo::toDspxModelValue(double value) {
+        if (std::isnan(value))
+            value = 0.0;
+        return static_cast<int>(std::llround(std::clamp(value, 0.0, 1.0) * 8064000.0));
+    }
 
     ParameterInfo pitchParameterInfo() {
         ParameterInfo info;
-        info.bottomValue = 0;
-        info.topValue = 12800;
-        info.toDisplayValue = [](const ParameterInfo &, int value) {
-            return static_cast<double>(value) / 100.0;
+        info.defaultValue = 0.0;
+        info.toDisplayValue = [](const ParameterInfo &, double value) {
+            return value * 128.0;
         };
         info.fromDisplayValue = [](const ParameterInfo &, double value) {
-            return static_cast<int>(value * 100.0);
+            return value / 128.0;
         };
-        info.toDisplayString = [](const ParameterInfo &, int value) {
-            return QString::number(static_cast<double>(value) / 100.0);
+        info.toDisplayString = [](const ParameterInfo &, double value) {
+            return QLocale().toString(value * 128.0);
         };
         return info;
     }
 
     ParameterInfo transformParameterInfo() {
         ParameterInfo info;
-        info.bottomValue = 0;
-        info.topValue = 2000;
-        info.defaultValue = 1000;
+        info.defaultValue = 0.5;
+        info.divisionValue = 0.1;
         info.fillMode = ParameterInfo::NoFill;
         info.valueType = ParameterInfo::Relative;
-        info.normalize = [](const ParameterInfo &, int value) {
-            return static_cast<double>(value) / 2000.0;
-        };
-        info.denormalize = [](const ParameterInfo &, double value) {
-            return static_cast<int>(value * 2000.0);
-        };
-        info.toDisplayValue = [](const ParameterInfo &, int value) {
-            return static_cast<double>(value) / 1000.0;
+        info.toDisplayValue = [](const ParameterInfo &, double value) {
+            return value * 2.0;
         };
         info.fromDisplayValue = [](const ParameterInfo &, double value) {
-            return static_cast<int>(value * 1000.0);
+            return value / 2.0;
         };
-        info.toDisplayString = [](const ParameterInfo &, int value) {
-            return QString::number(static_cast<double>(value) / 1000.0);
+        info.toDisplayString = [](const ParameterInfo &, double value) {
+            return QLocale().toString(value * 2.0);
         };
         return info;
     }

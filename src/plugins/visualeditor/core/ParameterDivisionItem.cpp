@@ -67,12 +67,13 @@ namespace VisualEditor {
     void ParameterDivisionItem::paint(QPainter *painter) {
         Q_D(ParameterDivisionItem);
         const auto &info = d->parameterInfo;
-        if (!info.showDivision || info.divisionValue <= 0 || height() <= 0 || width() <= 0 || !d->color.isValid())
+        if (!info.showDivision || !std::isfinite(info.divisionValue) || info.divisionValue <= 0.0 ||
+            info.divisionValue > 1.0 || height() <= 0 || width() <= 0 || !d->color.isValid())
             return;
-        const int bottom = std::min(info.bottomValue, info.topValue);
-        const int top = std::max(info.bottomValue, info.topValue);
-        const qint64 first = qint64(std::ceil(double(bottom) / info.divisionValue)) * info.divisionValue;
-        const qint64 count = first > top ? 0 : (qint64(top) - first) / info.divisionValue + 1;
+        const double rawCount = std::floor(1.0 / info.divisionValue) + 1.0;
+        if (rawCount > static_cast<double>(std::numeric_limits<qint64>::max()))
+            return;
+        const qint64 count = static_cast<qint64>(rawCount);
         if (count <= 0)
             return;
         const qint64 stride = std::max<qint64>(1, count / std::max<qint64>(1, qint64(height()) * 2));
@@ -80,10 +81,7 @@ namespace VisualEditor {
         int previousPixel = std::numeric_limits<int>::min();
         painter->setPen(QPen(d->color, 1.0));
         for (qint64 i = 0; i < count; i += stride) {
-            const qint64 raw = first + i * info.divisionValue;
-            const double normalized = info.invokeNormalize(int(raw));
-            if (!std::isfinite(normalized))
-                continue;
+            const double normalized = static_cast<double>(i) * info.divisionValue;
             const qreal y = (1.0 - normalized) * height();
             const int pixel = qRound(y);
             if (pixel == previousPixel)

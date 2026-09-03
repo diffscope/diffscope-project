@@ -3,6 +3,7 @@
 
 #include "Dtos.h"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -137,6 +138,24 @@ namespace {
         QJsonValue json;
         return requiredValue(object, key, json, errorMessage)
             && readDoubleListValue(json, values, errorMessage);
+    }
+
+    bool readNormalizedDoubleListValue(const QJsonValue &json, QList<double> &values,
+                                       QString *errorMessage) {
+        QList<double> result;
+        if (!readDoubleListValue(json, result, errorMessage))
+            return false;
+        if (std::ranges::any_of(result, [](double value) { return value < 0.0 || value > 1.0; }))
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Parameter values must be within [0, 1]")));
+        values = std::move(result);
+        return true;
+    }
+
+    bool readNormalizedDoubleList(const QJsonObject &object, const char *key,
+                                  QList<double> &values, QString *errorMessage) {
+        QJsonValue json;
+        return requiredValue(object, key, json, errorMessage) &&
+               readNormalizedDoubleListValue(json, values, errorMessage);
     }
 
     template<typename T>
@@ -848,7 +867,7 @@ QJsonValue Parameter::toJson() const {
 bool Parameter::fromJson(const QJsonValue &json, Parameter &value, QString *errorMessage) {
     QJsonObject object;
     Parameter result;
-    if (!readObject(json, object, errorMessage) || !readDoubleList(object, "values", result.values, errorMessage)
+    if (!readObject(json, object, errorMessage) || !readNormalizedDoubleList(object, "values", result.values, errorMessage)
         || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
@@ -881,7 +900,7 @@ bool AudioParameter::fromJson(const QJsonValue &json, AudioParameter &value,
         return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive")));
     if (const auto it = object.constFind(QStringLiteral("values")); it != object.constEnd()) {
         QList<double> parsed;
-        if (!readDoubleListValue(*it, parsed, errorMessage))
+        if (!readNormalizedDoubleListValue(*it, parsed, errorMessage))
             return false;
         result.values = std::move(parsed);
     }
@@ -1169,7 +1188,7 @@ bool ParameterOutputParameter::fromJson(const QJsonValue &json, ParameterOutputP
                                         QString *errorMessage) {
     QJsonObject object;
     ParameterOutputParameter result;
-    if (!readObject(json, object, errorMessage) || !readDoubleList(object, "values", result.values, errorMessage)
+    if (!readObject(json, object, errorMessage) || !readNormalizedDoubleList(object, "values", result.values, errorMessage)
         || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)

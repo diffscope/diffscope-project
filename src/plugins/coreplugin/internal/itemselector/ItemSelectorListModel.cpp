@@ -672,9 +672,10 @@ namespace Core::Internal {
                 }
                 case NodeKind::Anchor: {
                     const auto *anchor = static_cast<dspx::AnchorNode *>(entry.object.data());
+                    const double normalizedValue = ParameterInfo::fromDspxModelValue(anchor->y());
                     const auto value = m_anchorProvider && m_anchorProvider->exists()
-                                           ? m_anchorProvider->displayString(anchor->y())
-                                           : QLocale().toString(anchor->y());
+                                           ? m_anchorProvider->displayString(normalizedValue)
+                                           : QLocale().toString(normalizedValue);
                     return tr("Value: %1\nInterpolation: %2")
                         .arg(value, interpolationText(anchor->interpolationMode()));
                 }

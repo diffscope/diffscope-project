@@ -679,24 +679,14 @@ QtObject {
                     return 0.0
                 return Math.max(0.0, Math.min(1.0, valueIndicatorSource))
             }
-            readonly property var valueIndicatorRawValue: {
-                const info = parameterInfoProvider.info
-                if (!parameterInfoProvider.exists
-                        || info === undefined || info === null
-                        || !Number.isFinite(valueIndicatorSource)) {
-                    return undefined
-                }
-                return info.invokeDenormalize(valueIndicatorPosition)
-            }
             readonly property string valueIndicatorDisplayString: {
                 const info = parameterInfoProvider.info
                 if (!parameterInfoProvider.exists
                         || info === undefined || info === null
-                        || valueIndicatorRawValue === undefined
-                        || valueIndicatorRawValue === null) {
+                        || !Number.isFinite(valueIndicatorSource)) {
                     return ""
                 }
-                return parameterInfoProvider.displayString(valueIndicatorRawValue)
+                return parameterInfoProvider.displayString(valueIndicatorPosition)
             }
 
             Loader {
@@ -715,15 +705,13 @@ QtObject {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: 3
-                text: scale.activeParameterInfo?.invokeToDisplayString(
-                    scale.activeParameterInfo.topValue) ?? ""
+                text: scale.activeParameterInfo?.invokeToDisplayString(1.0) ?? ""
             }
             Label {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.margins: 3
-                text: scale.activeParameterInfo?.invokeToDisplayString(
-                    scale.activeParameterInfo.bottomValue) ?? ""
+                text: scale.activeParameterInfo?.invokeToDisplayString(0.0) ?? ""
             }
             Rectangle {
                 width: 1

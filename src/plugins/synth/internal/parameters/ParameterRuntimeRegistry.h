@@ -35,11 +35,9 @@ namespace Synth::Internal {
         ~ParameterRuntimeRegistry();
 
         std::shared_ptr<Context> context(const QByteArray &handle) const;
-        static double normalize(const Core::ParameterInfo &self, int value);
-        static int denormalize(const Core::ParameterInfo &self, double value);
-        static double toDisplayValue(const Core::ParameterInfo &self, int value);
-        static int fromDisplayValue(const Core::ParameterInfo &self, double value);
-        static QString toDisplayString(const Core::ParameterInfo &self, int value);
+        static double toDisplayValue(const Core::ParameterInfo &self, double value);
+        static double fromDisplayValue(const Core::ParameterInfo &self, double value);
+        static QString toDisplayString(const Core::ParameterInfo &self, double value);
 
         mutable std::mutex m_mutex;
         QHash<QByteArray, std::shared_ptr<Context>> m_contexts;

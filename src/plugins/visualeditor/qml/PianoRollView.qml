@@ -91,9 +91,8 @@ Item {
     function pitchPositionFromNormalizedValue(value: double): double {
         const normalizedValue = Math.max(0.0, Math.min(1.0, value))
         const parameterInfo = view.projectViewModelContext?.parameterEditorContext?.pitchBinding?.parameterInfo
-        const centValue = parameterInfo?.invokeDenormalize(normalizedValue)
-            ?? normalizedValue * 12800.0
-        return centValue / 100.0
+        return parameterInfo?.invokeToDisplayValue(normalizedValue)
+            ?? normalizedValue * 128.0
     }
 
     function updatePitchClavierCursorPosition(point) {

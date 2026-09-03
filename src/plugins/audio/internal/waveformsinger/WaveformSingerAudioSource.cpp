@@ -190,16 +190,16 @@ namespace Audio::Internal {
         result.noteOffTime = evaluation.noteDuration;
 
         const auto pitchValue = clip.pitch ? clip.pitch->evaluate(parameterTick) : std::nullopt;
-        const auto toneShiftValue = clip.toneShift ? clip.toneShift->evaluate(parameterTick) : std::nullopt;
         const auto energyValue = clip.energy ? clip.energy->evaluate(parameterTick) : std::nullopt;
         const double normalizedNoteTime = evaluation.noteDuration > 0.0
             ? std::clamp(result.noteTime / evaluation.noteDuration, 0.0, 1.0)
             : 0.0;
         const double vibrato = note.vibrato ? note.vibrato->evaluate(normalizedNoteTime) : 0.0;
-        const double basePitch = pitchValue.value_or(
-            note.keyNumber * 100.0 + note.centShift + tempo.globalCentShift);
-        result.frequency = frequencyFromCents(basePitch + toneShiftValue.value_or(0.0) + vibrato);
-        result.energyGain = std::pow(10.0, energyValue.value_or(0.0) / 20000.0);
+        const double basePitch = pitchValue
+            ? *pitchValue * 12800.0
+            : note.keyNumber * 100.0 + note.centShift;
+        result.frequency = frequencyFromCents(basePitch + tempo.globalCentShift + vibrato);
+        result.energyGain = energyValue.value_or(1.0);
         if (clip.voices) {
             clip.voices->evaluate(parameterTick, result.weights);
         } else {

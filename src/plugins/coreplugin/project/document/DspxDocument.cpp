@@ -65,6 +65,7 @@
 #include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
+#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/DspxClipboard.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
 
@@ -350,12 +351,12 @@ namespace Core {
 
         struct AnchorPointData {
             dspx::AnchorNode::InterpolationMode interpolationMode{dspx::AnchorNode::None};
-            int value{};
+            double value{};
         };
 
         struct MergedParameterData {
-            QMap<int, int> freeTransform;
-            QMap<int, int> freeEdited;
+            QMap<int, double> freeTransform;
+            QMap<int, double> freeEdited;
             QMap<int, AnchorPointData> anchorTransform;
             QMap<int, AnchorPointData> anchorEdited;
         };
@@ -367,7 +368,7 @@ namespace Core {
             return (position + step - 1) / step;
         }
 
-        std::optional<int> interpolatedFreeValue(const QList<QVariant> &values, int position) {
+        std::optional<double> interpolatedFreeValue(const QList<QVariant> &values, int position) {
             const int step = dspx::FreeValueDataArray::step();
             const int leftIndex = position / step;
             if (leftIndex < 0 || leftIndex >= values.size())
@@ -376,22 +377,22 @@ namespace Core {
             if (!leftValue.isValid())
                 return std::nullopt;
             if (position % step == 0)
-                return leftValue.toInt();
+                return ParameterInfo::fromDspxModelValue(leftValue.toInt());
 
             const int rightIndex = leftIndex + 1;
             if (rightIndex >= values.size() || !values.at(rightIndex).isValid())
                 return std::nullopt;
             const double fraction = static_cast<double>(position - leftIndex * step) / step;
-            const double value = leftValue.toDouble() +
-                                 (values.at(rightIndex).toDouble() - leftValue.toDouble()) * fraction;
-            return static_cast<int>(std::lround(value));
+            const double left = ParameterInfo::fromDspxModelValue(leftValue.toInt());
+            const double right = ParameterInfo::fromDspxModelValue(values.at(rightIndex).toInt());
+            return left + (right - left) * fraction;
         }
 
         void mergeFreeValues(const dspx::FreeValueDataArray *array,
                              int clipStart,
                              int clipEnd,
                              int deltaPosition,
-                             QMap<int, int> &target) {
+                             QMap<int, double> &target) {
             const int step = dspx::FreeValueDataArray::step();
             const auto values = array->items();
             if (deltaPosition % step == 0) {
@@ -399,7 +400,8 @@ namespace Core {
                 const int endIndex = ceilToFreeValueIndex(clipEnd);
                 for (int index = firstIndex; index < endIndex && index < values.size(); ++index) {
                     if (values.at(index).isValid())
-                        target.insert(index + deltaPosition / step, values.at(index).toInt());
+                        target.insert(index + deltaPosition / step,
+                                      ParameterInfo::fromDspxModelValue(values.at(index).toInt()));
                 }
                 return;
             }
@@ -425,7 +427,7 @@ namespace Core {
                     continue;
                 target.insert(node->x() + deltaPosition, {
                     .interpolationMode = node->interpolationMode(),
-                    .value = node->y(),
+                    .value = ParameterInfo::fromDspxModelValue(node->y()),
                 });
             }
         }
@@ -476,13 +478,13 @@ namespace Core {
             return result;
         }
 
-        QList<QVariant> freeValuesFromMergedPoints(const QMap<int, int> &points) {
+        QList<QVariant> freeValuesFromMergedPoints(const QMap<int, double> &points) {
             if (points.isEmpty())
                 return {};
             QList<QVariant> result;
             result.resize(points.lastKey() + 1);
             for (auto it = points.cbegin(); it != points.cend(); ++it)
-                result[it.key()] = it.value();
+                result[it.key()] = ParameterInfo::toDspxModelValue(it.value());
             return result;
         }
 
@@ -501,7 +503,7 @@ namespace Core {
                 const auto &point = it.value();
                 auto *node = model->createAnchorNode();
                 node->setX(it.key());
-                node->setY(point.value);
+                node->setY(ParameterInfo::toDspxModelValue(point.value));
                 node->setInterpolationMode(point.interpolationMode);
                 if (!sequence->insertItem(node))
                     model->destroyItem(node);
