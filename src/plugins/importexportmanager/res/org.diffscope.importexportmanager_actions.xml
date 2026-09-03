@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0
         <insertion target="org.diffscope.core.insert" anchor="last">
             <group id="org.diffscope.importexportmanager.importTracksActions" />
         </insertion>
-        <insertion target="org.diffscope.core.trackSceneContextMenu" anchor="last">
+        <insertion target="org.diffscope.core.trackSceneContextMenu" anchor="after" relativeTo="org.diffscope.core.insert.insertTrack">
             <group id="org.diffscope.importexportmanager.importTracksActions" />
         </insertion>
     </insertions>
