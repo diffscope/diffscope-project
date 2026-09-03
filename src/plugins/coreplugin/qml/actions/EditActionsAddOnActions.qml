@@ -48,6 +48,17 @@ ActionCollection {
         editSourcesScenario.editSources(sourcesPickerModel, clips)
     }
 
+    function setPropertyInTransaction(propertyMapper, propertyName, value, transactionName) {
+        if (propertyMapper[propertyName] === value)
+            return
+        const transactionController = d.windowHandle.projectDocumentContext.document.transactionController
+        const transactionId = transactionController.beginTransaction()
+        if (!transactionId)
+            return
+        propertyMapper[propertyName] = value
+        transactionController.commitTransaction(transactionId, transactionName)
+    }
+
     component EditAction: Action {
         required property int flag
         enabled: d.windowHandle.mainEditActionsHandlerRegistry.enabledActions & flag
@@ -180,9 +191,9 @@ ActionCollection {
             onTriggered: () => {
                 let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
                 if (selectionType === DspxSelectionModel.SelectionModel.ST_Track) {
-                    trackPropertyMapper.mute = checked
+                    d.setPropertyInTransaction(trackPropertyMapper, "mute", checked, qsTr("Toggling mute"))
                 } else {
-                    clipPropertyMapper.mute = checked
+                    d.setPropertyInTransaction(clipPropertyMapper, "mute", checked, qsTr("Toggling mute"))
                 }
             }
         }
@@ -194,7 +205,7 @@ ActionCollection {
             checkable: true
             checked: Boolean(trackPropertyMapper.solo)
             onTriggered: () => {
-                trackPropertyMapper.solo = checked
+                d.setPropertyInTransaction(trackPropertyMapper, "solo", checked, qsTr("Toggling solo"))
             }
         }
     }
@@ -205,7 +216,7 @@ ActionCollection {
             checkable: true
             checked: Boolean(trackPropertyMapper.record)
             onTriggered: () => {
-                trackPropertyMapper.record = checked
+                d.setPropertyInTransaction(trackPropertyMapper, "record", checked, qsTr("Toggling record"))
             }
         }
     }
