@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
 
     // Check QML import
     {
-        QQmlComponent component(engine, "DiffScope.UIShell", "ProjectWindow");
+        QQmlComponent component(engine, "DiffScope.UIShell", "Action");
         if (component.isError()) {
             qFatal().nospace() << "QML Import Check Failed: " << component.errorString() << "\n\n" << "Note for developers: If you encounter this error when running after building DiffScope, please check:\n- Whether all targets have been built\n- Whether the correct QML_IMPORT_PATH environment variable was specified at runtime (it may need to be set to `../qml`)";
         }

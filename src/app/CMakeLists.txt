@@ -38,7 +38,7 @@ ck_configure_application(
 qm_configure_target(${PROJECT_NAME}
     SOURCES main.cpp
     QT_LINKS_PRIVATE
-        Core Widgets Qml
+        Core Widgets Qml Quick QuickControls2
     LINKS_PRIVATE
         ChorusKit::Loader
         ChorusKit::AppCore

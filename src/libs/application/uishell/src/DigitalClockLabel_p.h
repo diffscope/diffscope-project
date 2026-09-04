@@ -18,8 +18,8 @@ namespace UIShell {
         Q_OBJECT
         QML_ELEMENT
 
-        Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-        Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
+        Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged OVERRIDE)
+        Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged OVERRIDE)
         Q_PROPERTY(FineTuneMode fineTuneMode READ fineTuneMode WRITE setFineTuneMode NOTIFY fineTuneModeChanged)
 
     public:
