@@ -139,6 +139,19 @@ SPDX-License-Identifier: Apache-2.0
         <menu id="org.diffscope.core.homeNavigation" topLevel="true"/>
         <menu id="org.diffscope.core.homeTool" topLevel="true"/>
 
+        <menu id="org.diffscope.core.clipItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.clipSceneContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.labelItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.labelSceneContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.noteItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.noteSceneContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.tempoItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.tempoSceneContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.keySignatureItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.keySignatureSceneContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.trackItemContextMenu" topLevel="true" />
+        <menu id="org.diffscope.core.trackSceneContextMenu" topLevel="true" />
+
         <action id="org.diffscope.core.home.navigationPanels" diffscope:componentType="menu" />
 
         <menu id="org.diffscope.core.homePreferences" text="Preferences" icon="settings" />
@@ -434,19 +447,18 @@ SPDX-License-Identifier: Apache-2.0
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
 
-        <menu id="org.diffscope.core.keySignatureSceneContextMenu">
+        <menu id="org.diffscope.core.tempoSceneContextMenu">
             <action id="org.diffscope.core.timeline.editTempo" />
+            <group id="org.diffscope.core.genericSceneContextMenuActions" />
+        </menu>
+
+        <menu id="org.diffscope.core.keySignatureSceneContextMenu">
             <group id="org.diffscope.core.genericSceneContextMenuActions" />
         </menu>
 
         <menu id="org.diffscope.core.keySignatureItemContextMenu">
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
-
-        <menu id="org.diffscope.core.tempoSceneContextMenu">
-            <group id="org.diffscope.core.genericSceneContextMenuActions" />
-        </menu>
-
 
         <menu id="org.diffscope.core.trackItemContextMenu">
             <group id="org.diffscope.core.edit.msrActions" />

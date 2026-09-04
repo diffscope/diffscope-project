@@ -130,7 +130,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <action id="org.diffscope.visualeditor.view.resetVerticalScale" />
             <action id="org.diffscope.visualeditor.view.resetHorizontalScale" />
         </menu>
-        <menu id="org.diffscope.visualeditor.arrangementPanelToolBar">
+        <menu id="org.diffscope.visualeditor.arrangementPanelToolBar" topLevel="true">
             <group id="org.diffscope.visualeditor.arrangementPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" />
@@ -144,7 +144,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" />
         </menu>
-        <menu id="org.diffscope.visualeditor.pianoRollPanelToolBar">
+        <menu id="org.diffscope.visualeditor.pianoRollPanelToolBar" topLevel="true">
             <group id="org.diffscope.visualeditor.pianoRollPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" />
@@ -172,19 +172,19 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" />
             <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" />
         </menu>
-        <menu id="org.diffscope.visualeditor.mixerPanelToolBar">
+        <menu id="org.diffscope.visualeditor.mixerPanelToolBar" topLevel="true">
             <group id="org.diffscope.visualeditor.mixerPanelToolBar.toolActions">
                 <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" />
                 <action id="org.diffscope.visualeditor.mixerPanel.handTool" />
             </group>
             <stretch />
         </menu>
-        <menu id="org.diffscope.visualeditor.arrangementPanelTimelineToolBar">
+        <menu id="org.diffscope.visualeditor.arrangementPanelTimelineToolBar" topLevel="true">
             <action id="org.diffscope.core.insert.addTrack" />
             <stretch />
             <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" />
         </menu>
-        <menu id="org.diffscope.visualeditor.pianoRollPanelTimelineToolBar">
+        <menu id="org.diffscope.visualeditor.pianoRollPanelTimelineToolBar" topLevel="true">
             <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" />
             <stretch />
             <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" />
