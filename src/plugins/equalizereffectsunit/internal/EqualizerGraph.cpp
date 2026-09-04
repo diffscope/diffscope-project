@@ -6,8 +6,16 @@
 #include <algorithm>
 #include <cmath>
 
+#include <QPainter>
+#include <QPainterPath>
+#include <QQuickWindow>
 #include <QSGFlatColorMaterial>
 #include <QSGGeometryNode>
+#include <QSGRectangleNode>
+#include <QSGRendererInterface>
+#include <QSGTransformNode>
+
+#include <SVSCraftQuick/SoftwarePainterNode.h>
 
 #include <equalizereffectsunit/internal/EqualizerEffectsUnit.h>
 #include <equalizereffectsunit/internal/EqualizerParameters.h>
@@ -18,6 +26,10 @@ namespace EqualizerEffectsUnit::Internal {
 
         constexpr int guideVertexCount = 8;
         constexpr int spectrumFillVertexCount = equalizerSpectrumBinCount * 2;
+
+        float xFromFrequency(double frequency, float width);
+        float yFromResponse(float responseDb, float height);
+        float yFromSpectrum(float spectrumDb, float height);
 
         QSGGeometryNode *createGeometryNode(int vertexCount,
                                             QSGGeometry::DrawingMode drawingMode,
@@ -57,6 +69,135 @@ namespace EqualizerEffectsUnit::Internal {
             QSGGeometryNode *spectrumFill;
             QSGGeometryNode *spectrumLine;
             QSGGeometryNode *responseLine;
+        };
+
+        class EqualizerCurvesSoftwareNode : public SVS::SoftwarePainterNode {
+        public:
+            explicit EqualizerCurvesSoftwareNode(QQuickItem *item) : SoftwarePainterNode(item) {
+                setFlag(QSGNode::OwnedByParent);
+            }
+
+            void synchronize(const std::array<float, equalizerResponsePointCount> &response,
+                             const std::array<float, equalizerSpectrumBinCount> &spectrum,
+                             float width,
+                             float height,
+                             const QColor &responseColor,
+                             const QColor &spectrumColor) {
+                const QSizeF size(width, height);
+                if (m_size != size || m_spectrum != spectrum) {
+                    m_spectrum = spectrum;
+                    m_spectrumLine = {};
+                    m_spectrumFill = {};
+                    if (!spectrum.empty()) {
+                        m_spectrumFill.moveTo(0, height);
+                        for (int index = 0; index < equalizerSpectrumBinCount; ++index) {
+                            const float x = width * static_cast<float>(index)
+                                / static_cast<float>(equalizerSpectrumBinCount - 1);
+                            const float y = yFromSpectrum(spectrum.at(static_cast<std::size_t>(index)), height);
+                            if (index == 0) {
+                                m_spectrumLine.moveTo(x, y);
+                            } else {
+                                m_spectrumLine.lineTo(x, y);
+                            }
+                            m_spectrumFill.lineTo(x, y);
+                        }
+                        m_spectrumFill.lineTo(width, height);
+                        m_spectrumFill.closeSubpath();
+                    }
+                    markDirty(QSGNode::DirtyGeometry);
+                }
+                if (m_size != size || m_response != response) {
+                    m_response = response;
+                    m_responseLine = {};
+                    for (int index = 0; index < equalizerResponsePointCount; ++index) {
+                        const float x = width * static_cast<float>(index)
+                            / static_cast<float>(equalizerResponsePointCount - 1);
+                        const QPointF point(x, yFromResponse(response.at(static_cast<std::size_t>(index)), height));
+                        if (index == 0) {
+                            m_responseLine.moveTo(point);
+                        } else {
+                            m_responseLine.lineTo(point);
+                        }
+                    }
+                    markDirty(QSGNode::DirtyGeometry);
+                }
+                m_size = size;
+                if (m_responseColor != responseColor || m_spectrumColor != spectrumColor) {
+                    m_responseColor = responseColor;
+                    m_spectrumColor = spectrumColor;
+                    markDirty(QSGNode::DirtyMaterial);
+                }
+                setBoundingRect(QRectF(QPointF(), size).adjusted(-1, -1, 1, 1));
+            }
+
+        protected:
+            void paint(QPainter *painter) override {
+                painter->setRenderHint(QPainter::Antialiasing);
+                painter->fillPath(m_spectrumFill, m_spectrumColor);
+                QColor spectrumLineColor = m_spectrumColor;
+                spectrumLineColor.setAlphaF(std::min(1.0, spectrumLineColor.alphaF() * 2.0));
+                painter->setBrush(Qt::NoBrush);
+                QPen spectrumPen(spectrumLineColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin);
+                spectrumPen.setCosmetic(true);
+                painter->setPen(spectrumPen);
+                painter->drawPath(m_spectrumLine);
+                QPen responsePen(m_responseColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin);
+                responsePen.setCosmetic(true);
+                painter->setPen(responsePen);
+                painter->drawPath(m_responseLine);
+            }
+
+        private:
+            std::array<float, equalizerResponsePointCount> m_response{};
+            std::array<float, equalizerSpectrumBinCount> m_spectrum{};
+            QPainterPath m_spectrumFill;
+            QPainterPath m_spectrumLine;
+            QPainterPath m_responseLine;
+            QSizeF m_size;
+            QColor m_responseColor;
+            QColor m_spectrumColor;
+        };
+
+        class EqualizerGraphSoftwareNode : public QSGTransformNode {
+        public:
+            EqualizerGraphSoftwareNode(EqualizerGraph *item, QQuickWindow *window) {
+                for (auto &guide : guides) {
+                    guide = window->createRectangleNode();
+                    guide->setFlag(QSGNode::OwnedByParent);
+                    appendChildNode(guide);
+                }
+                curves = new EqualizerCurvesSoftwareNode(item);
+                appendChildNode(curves);
+            }
+
+            void synchronize(const std::array<float, equalizerResponsePointCount> &response,
+                             const std::array<float, equalizerSpectrumBinCount> &spectrum,
+                             float width,
+                             float height,
+                             const QColor &guideColor,
+                             const QColor &responseColor,
+                             const QColor &spectrumColor) {
+                const std::array<double, 3> guideFrequencies{100.0, 1000.0, 10000.0};
+                for (int index = 0; index < 3; ++index) {
+                    const float x = xFromFrequency(guideFrequencies.at(static_cast<std::size_t>(index)), width);
+                    updateGuide(guides.at(static_cast<std::size_t>(index)), QRectF(x - 0.5, 0, 1, height), guideColor);
+                }
+                updateGuide(guides.at(3), QRectF(0, height * 0.5f - 0.5, width, 1), guideColor);
+                curves->synchronize(response, spectrum, width, height, responseColor, spectrumColor);
+            }
+
+            std::array<QSGRectangleNode *, 4> guides{};
+            EqualizerCurvesSoftwareNode *curves = nullptr;
+
+        private:
+            static void updateGuide(QSGRectangleNode *node, const QRectF &rect, const QColor &color) {
+                if (node->rect() != rect) {
+                    node->setRect(rect);
+                }
+                if (node->color() != color) {
+                    node->setColor(color);
+                }
+            }
         };
 
         void setMaterialColor(QSGGeometryNode *node, const QColor &color) {
@@ -158,11 +299,6 @@ namespace EqualizerEffectsUnit::Internal {
 
     QSGNode *EqualizerGraph::updatePaintNode(
         QSGNode *oldNode, UpdatePaintNodeData *) {
-        auto node = static_cast<EqualizerGraphNode *>(oldNode);
-        if (!node) {
-            node = new EqualizerGraphNode;
-        }
-
         const float graphWidth = static_cast<float>(width());
         const float graphHeight = static_cast<float>(height());
         const auto response = m_effectsUnit
@@ -173,6 +309,30 @@ namespace EqualizerEffectsUnit::Internal {
             : std::array<float, equalizerSpectrumBinCount>{};
         if (!m_effectsUnit) {
             spectrum.fill(-96.0f);
+        }
+
+        const bool software = window()
+            && window()->rendererInterface()->graphicsApi() == QSGRendererInterface::Software;
+        if (software) {
+            auto *node = dynamic_cast<EqualizerGraphSoftwareNode *>(oldNode);
+            if (!node) {
+                delete oldNode;
+                node = new EqualizerGraphSoftwareNode(this, window());
+            }
+            node->synchronize(response,
+                              spectrum,
+                              graphWidth,
+                              graphHeight,
+                              m_guideColor,
+                              m_responseColor,
+                              m_spectrumColor);
+            return node;
+        }
+
+        auto node = dynamic_cast<EqualizerGraphNode *>(oldNode);
+        if (!node) {
+            delete oldNode;
+            node = new EqualizerGraphNode;
         }
 
         auto guideVertices = node->guides->geometry()->vertexDataAsPoint2D();

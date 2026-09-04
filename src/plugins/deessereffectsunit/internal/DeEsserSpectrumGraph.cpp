@@ -6,8 +6,14 @@
 #include <algorithm>
 #include <array>
 
+#include <QPainter>
+#include <QPainterPath>
+#include <QQuickWindow>
 #include <QSGFlatColorMaterial>
 #include <QSGGeometryNode>
+#include <QSGRendererInterface>
+
+#include <SVSCraftQuick/SoftwarePainterNode.h>
 
 #include <deessereffectsunit/internal/DeEsserEffectsUnit.h>
 #include <deessereffectsunit/internal/DeEsserParameters.h>
@@ -17,6 +23,8 @@ namespace DeEsserEffectsUnit::Internal {
     namespace {
 
         constexpr int spectrumFillVertexCount = deEsserSpectrumBinCount * 2;
+
+        float yFromSpectrum(float spectrumDb, float height);
 
         QSGGeometryNode *createGeometryNode(int vertexCount,
                                             QSGGeometry::DrawingMode drawingMode) {
@@ -46,6 +54,68 @@ namespace DeEsserEffectsUnit::Internal {
 
             QSGGeometryNode *spectrumFill;
             QSGGeometryNode *spectrumLine;
+        };
+
+        class DeEsserSpectrumGraphSoftwareNode : public SVS::SoftwarePainterNode {
+        public:
+            explicit DeEsserSpectrumGraphSoftwareNode(QQuickItem *item) : SoftwarePainterNode(item) {
+            }
+
+            void synchronize(const std::array<float, deEsserSpectrumBinCount> &spectrum,
+                             float width,
+                             float height,
+                             const QColor &color) {
+                const QSizeF size(width, height);
+                if (m_size != size || m_spectrum != spectrum) {
+                    m_spectrum = spectrum;
+                    m_fillPath = {};
+                    m_linePath = {};
+                    if (!spectrum.empty()) {
+                        m_fillPath.moveTo(0, height);
+                        for (int index = 0; index < deEsserSpectrumBinCount; ++index) {
+                            const float x = width * static_cast<float>(index)
+                                / static_cast<float>(deEsserSpectrumBinCount - 1);
+                            const QPointF point(x, yFromSpectrum(
+                                spectrum.at(static_cast<std::size_t>(index)), height));
+                            if (index == 0) {
+                                m_linePath.moveTo(point);
+                            } else {
+                                m_linePath.lineTo(point);
+                            }
+                            m_fillPath.lineTo(point);
+                        }
+                        m_fillPath.lineTo(width, height);
+                        m_fillPath.closeSubpath();
+                    }
+                    m_size = size;
+                    markDirty(QSGNode::DirtyGeometry);
+                }
+                if (m_color != color) {
+                    m_color = color;
+                    markDirty(QSGNode::DirtyMaterial);
+                }
+                setBoundingRect(QRectF(QPointF(), size).adjusted(-1, -1, 1, 1));
+            }
+
+        protected:
+            void paint(QPainter *painter) override {
+                painter->setRenderHint(QPainter::Antialiasing);
+                painter->fillPath(m_fillPath, m_color);
+                QColor lineColor = m_color;
+                lineColor.setAlphaF(std::min(1.0, lineColor.alphaF() * 2.0));
+                painter->setBrush(Qt::NoBrush);
+                QPen pen(lineColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin);
+                pen.setCosmetic(true);
+                painter->setPen(pen);
+                painter->drawPath(m_linePath);
+            }
+
+        private:
+            std::array<float, deEsserSpectrumBinCount> m_spectrum{};
+            QPainterPath m_fillPath;
+            QPainterPath m_linePath;
+            QSizeF m_size;
+            QColor m_color;
         };
 
         void setMaterialColor(QSGGeometryNode *node, const QColor &color) {
@@ -105,11 +175,6 @@ namespace DeEsserEffectsUnit::Internal {
 
     QSGNode *DeEsserSpectrumGraph::updatePaintNode(
         QSGNode *oldNode, UpdatePaintNodeData *) {
-        auto node = static_cast<DeEsserSpectrumGraphNode *>(oldNode);
-        if (!node) {
-            node = new DeEsserSpectrumGraphNode;
-        }
-
         const float graphWidth = static_cast<float>(width());
         const float graphHeight = static_cast<float>(height());
         auto spectrum = m_effectsUnit
@@ -117,6 +182,24 @@ namespace DeEsserEffectsUnit::Internal {
             : std::array<float, deEsserSpectrumBinCount>{};
         if (!m_effectsUnit) {
             spectrum.fill(meterFloorDb);
+        }
+
+        const bool software = window()
+            && window()->rendererInterface()->graphicsApi() == QSGRendererInterface::Software;
+        if (software) {
+            auto *node = dynamic_cast<DeEsserSpectrumGraphSoftwareNode *>(oldNode);
+            if (!node) {
+                delete oldNode;
+                node = new DeEsserSpectrumGraphSoftwareNode(this);
+            }
+            node->synchronize(spectrum, graphWidth, graphHeight, m_spectrumColor);
+            return node;
+        }
+
+        auto node = dynamic_cast<DeEsserSpectrumGraphNode *>(oldNode);
+        if (!node) {
+            delete oldNode;
+            node = new DeEsserSpectrumGraphNode;
         }
 
         auto fillVertices = node->spectrumFill->geometry()->vertexDataAsPoint2D();
