@@ -2171,7 +2171,7 @@ namespace Core {
                         data->time.pos = position;
 
                         dspx::Clip *newClip = nullptr;
-                        switch (clip->type()) {
+                        switch (clip->kind()) {
                             case dspx::Clip::Audio:
                                 newClip = d->model->createAudioClip();
                                 break;

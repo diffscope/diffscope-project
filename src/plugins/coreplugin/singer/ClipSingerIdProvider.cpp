@@ -37,7 +37,7 @@ namespace Core {
         }));
 
         for (auto *singer : singerList->items()) {
-            switch (singer->type()) {
+            switch (singer->kind()) {
                 case dspx::Singer::Single: {
                     auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
                     if (singleSinger) {
@@ -80,7 +80,7 @@ namespace Core {
         if (!singer)
             return {};
 
-        switch (singer->type()) {
+        switch (singer->kind()) {
             case dspx::Singer::Single: {
                 const auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
                 return singleSinger ? QVariant(singleSinger->id()) : QVariant{};

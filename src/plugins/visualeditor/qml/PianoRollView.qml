@@ -640,7 +640,7 @@ Item {
                                     onClicked: () => {
                                         // TODO consider playback position
                                         let clip = trackRow.modelData.display.track.clips.firstItem
-                                        for (; clip && clip.type !== DspxModel.Clip.Singing; clip = clip.nextItem);
+                                        for (; clip && clip.kind !== DspxModel.Clip.Singing; clip = clip.nextItem);
                                         if (!clip)
                                             return
                                         view.pianoRollPanelInterface.editingClip = clip

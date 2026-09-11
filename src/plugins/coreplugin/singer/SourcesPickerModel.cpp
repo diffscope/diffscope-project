@@ -726,8 +726,8 @@ namespace Core {
             case Qt::DisplayRole:
             case DisplayNameRole:
                 return d->displayName(node);
-            case SingerTypeRole:
-                return singerType(index);
+            case SingerKindRole:
+                return singerKind(index);
             case SingerIdRole:
                 return singerId(index);
             case ExtraRole:
@@ -761,7 +761,7 @@ namespace Core {
     }
 
     QHash<int, QByteArray> SourcesPickerModel::roleNames() const {
-        return {{SingerTypeRole, "singerType"},
+        return {{SingerKindRole, "singerKind"},
                 {SingerIdRole, "singerId"},
                 {ExtraRole, "extra"},
                 {SingerTreeRole, "singerTree"},
@@ -787,7 +787,7 @@ namespace Core {
         return rowCount(parent);
     }
 
-    SourcesPickerModel::SingerType SourcesPickerModel::singerType(const QModelIndex &index) const {
+    SourcesPickerModel::SingerKind SourcesPickerModel::singerKind(const QModelIndex &index) const {
         Q_D(const SourcesPickerModel);
         const auto *node = d->nodeForIndex(index);
         if (!node || !node->singer)

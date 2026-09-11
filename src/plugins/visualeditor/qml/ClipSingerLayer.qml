@@ -24,7 +24,7 @@ Item {
     required property double viewportOffset
 
     readonly property QtObject documentClip: projectViewModelContext?.getClipDocumentItemFromViewItem(clipViewModel) ?? null
-    readonly property QtObject singingClip: documentClip?.type === DspxModel.Clip.Singing ? documentClip : null
+    readonly property QtObject singingClip: documentClip?.kind === DspxModel.Clip.Singing ? documentClip : null
     readonly property var singerIds: flattenSingerIds(clipSingerIdProvider.singerTree)
     readonly property string singerName: {
         if (!singingClip?.sources || singerIds.length === 0)

@@ -42,8 +42,8 @@ namespace VisualEditor {
 
     Q_STATIC_LOGGING_CATEGORY(lcClipViewModelContextData, "diffscope.visualeditor.clipviewmodelcontextdata")
 
-    static QUrl clipIconForType(dspx::Clip::ClipType type) {
-        if (type == dspx::Clip::Singing) {
+    static QUrl clipIconForKind(dspx::Clip::ClipKind kind) {
+        if (kind == dspx::Clip::Singing) {
             return QUrl("image://fluent-system-icons/mic");
         }
         return QUrl("image://fluent-system-icons/sound_wave_circle");
@@ -58,7 +58,7 @@ namespace VisualEditor {
             return nullptr;
         }
         dspx::Clip *result = nullptr;
-        if (source->type() == dspx::Clip::Audio) {
+        if (source->kind() == dspx::Clip::Audio) {
             result = document->model()->createAudioClip();
         } else {
             result = document->model()->createSingingClip();
@@ -347,7 +347,7 @@ namespace VisualEditor {
         }
         clipTrackMap.insert(item, track);
         auto viewItem = new sflow::ClipViewModel(clipSequenceViewModel);
-        viewItem->setIconSource(clipIconForType(item->type()));
+        viewItem->setIconSource(clipIconForKind(item->kind()));
         clipViewItemMap.insert(item, viewItem);
         clipDocumentItemMap.insert(viewItem, item);
 
@@ -542,7 +542,7 @@ namespace VisualEditor {
 
         clipSequenceViewModel->insertItem(viewItem);
 
-        if (item->type() == dspx::Clip::Singing) {
+        if (item->kind() == dspx::Clip::Singing) {
             auto rangeIndicator = new sflow::RangeIndicatorViewModel(q_ptr);
             clipRangeIndicatorViewItemMap.insert(item, rangeIndicator);
             clipRangeIndicatorDocumentItemMap.insert(rangeIndicator, item);

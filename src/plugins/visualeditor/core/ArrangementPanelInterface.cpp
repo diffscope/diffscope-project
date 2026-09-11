@@ -69,7 +69,7 @@ namespace VisualEditor {
             auto item = ProjectViewModelContext::of(windowHandle)->getClipDocumentItemFromViewItem(clipViewModel);
             if (!item)
                 return;
-            if (item->type() == dspx::Clip::Singing) {
+            if (item->kind() == dspx::Clip::Singing) {
                 auto selectionModel = windowHandle->projectDocumentContext()->document()->selectionModel();
                 auto singingClip = static_cast<dspx::SingingClip *>(item);
                 selectionModel->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, singingClip->notes());

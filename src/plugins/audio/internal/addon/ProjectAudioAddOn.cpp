@@ -442,7 +442,7 @@ namespace Audio::Internal {
     }
 
     void ProjectAudioAddOn::addClip(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Audio) {
+        if (!clip || clip->kind() != dspx::Clip::Audio) {
             return;
         }
         auto audioClip = static_cast<dspx::AudioClip *>(clip);
@@ -455,7 +455,7 @@ namespace Audio::Internal {
     }
 
     void ProjectAudioAddOn::removeClip(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Audio) {
+        if (!clip || clip->kind() != dspx::Clip::Audio) {
             return;
         }
         auto audioClip = static_cast<dspx::AudioClip *>(clip);

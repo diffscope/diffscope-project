@@ -156,7 +156,7 @@ QtObject {
                     spacing: 3
 
                     readonly property bool mixed:
-                        modelData?.type === DspxModel.Singer.Mixed
+                        modelData?.kind === DspxModel.Singer.Mixed
                     readonly property string singerId:
                         mixed ? "" : (modelData?.id ?? "")
                     readonly property string displayName: mixed

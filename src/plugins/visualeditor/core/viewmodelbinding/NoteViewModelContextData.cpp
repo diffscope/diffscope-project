@@ -361,7 +361,7 @@ namespace VisualEditor {
         });
 
         for (auto clip : sequence->asRange()) {
-            if (clip->type() == dspx::Clip::Singing) {
+            if (clip->kind() == dspx::Clip::Singing) {
                 bindSingingClip(static_cast<dspx::SingingClip *>(clip));
             }
         }

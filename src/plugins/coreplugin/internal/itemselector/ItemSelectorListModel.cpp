@@ -544,7 +544,7 @@ namespace Core::Internal {
                     return true;
                 case NodeKind::Clip:
                     return entry.object
-                           && static_cast<dspx::Clip *>(entry.object.data())->type()
+                           && static_cast<dspx::Clip *>(entry.object.data())->kind()
                                   == dspx::Clip::Singing;
                 default:
                     return false;
@@ -583,8 +583,8 @@ namespace Core::Internal {
                 }
                 case NodeKind::Clip: {
                     const auto *clip = static_cast<dspx::Clip *>(entry.object.data());
-                    const auto type = clip->type() == dspx::Clip::Audio ? tr("Audio") : tr("Singing");
-                    return tr("%1: %2").arg(type, clip->name());
+                    const auto kind = clip->kind() == dspx::Clip::Audio ? tr("Audio") : tr("Singing");
+                    return tr("%1: %2").arg(kind, clip->name());
                 }
                 case NodeKind::Note: {
                     const auto *note = static_cast<dspx::Note *>(entry.object.data());
@@ -644,7 +644,7 @@ namespace Core::Internal {
                     auto result = tr("Position: %1\nStarting Offset: %2\nClip Length: %3")
                                       .arg(formatPosition(m_musicTimeline, clip->position()),
                                            formatOffset(clip->clipStart()), formatOffset(clip->clipLength()));
-                    if (clip->type() == dspx::Clip::Singing) {
+                    if (clip->kind() == dspx::Clip::Singing) {
                         auto *resolver = static_cast<SingerNameResolver *>(m_singerResolvers.value(entry.object.data()));
                         result += tr("\nVirtual Singer: %1").arg(resolver ? resolver->displayName() : tr("No singer"));
                     } else {
@@ -1097,7 +1097,7 @@ namespace Core::Internal {
                     connections.append(connect(clip, &dspx::Clip::positionChanged, this, refreshAndSort));
                     connections.append(connect(clip, &dspx::Clip::clipStartChanged, this, refresh));
                     connections.append(connect(clip, &dspx::Clip::clipLengthChanged, this, refresh));
-                    if (clip->type() == dspx::Clip::Singing) {
+                    if (clip->kind() == dspx::Clip::Singing) {
                         auto *resolver = new SingerNameResolver(static_cast<dspx::SingingClip *>(clip), this);
                         connections.append(connect(resolver, &SingerNameResolver::changed, this, refresh));
                         m_singerResolvers.insert(object, resolver);

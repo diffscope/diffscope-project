@@ -68,7 +68,7 @@ namespace VisualEditor::Internal {
     }
 
     void SingingClipListModel::addClipIfSinging(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Singing)
+        if (!clip || clip->kind() != dspx::Clip::Singing)
             return;
 
         if (itemForClip(clip))

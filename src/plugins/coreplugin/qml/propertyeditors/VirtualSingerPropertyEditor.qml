@@ -63,7 +63,7 @@ PropertyEditorGroupBox {
                                                || clipSingerIdProvider.architectureId
 
     title: qsTr("Virtual Singer")
-    visualVisible: propertyMapper?.type === 1
+    visualVisible: propertyMapper?.kind === 1
 
     function showSingerResolutionWarning() {
         if (architectureMissing) {

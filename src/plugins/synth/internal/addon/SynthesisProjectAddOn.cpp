@@ -377,7 +377,7 @@ namespace Synth::Internal {
         QList<dspx::SingingClip *> added;
         for (auto track : model->tracks()->items()) {
             for (auto clip : track->clips()->asRange()) {
-                if (clip->type() == dspx::Clip::Singing) {
+                if (clip->kind() == dspx::Clip::Singing) {
                     auto singing = static_cast<dspx::SingingClip *>(clip);
                     if (!isManagedClip(singing))
                         continue;

@@ -32,7 +32,7 @@ PropertyEditorGroupBox {
             Layout.fillWidth: true
             label: qsTr("Type")
             columnItem: TextField {
-                text: groupBox.propertyMapper?.type === 0 ? qsTr("Audio") : groupBox.propertyMapper?.type === 1 ? qsTr("Singing") : qsTr("Multiple types")
+                text: groupBox.propertyMapper?.kind === 0 ? qsTr("Audio") : groupBox.propertyMapper?.kind === 1 ? qsTr("Singing") : qsTr("Multiple types")
                 readOnly: true
                 ThemedItem.flat: true
             }

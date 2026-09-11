@@ -33,7 +33,7 @@ ActionCollection {
                                .selectionModel.clipSelectionModel.selectedItems ?? []
         const clips = []
         for (let index = 0; index < selectedItems.length; ++index) {
-            if (selectedItems[index].type !== DspxModel.Clip.Singing)
+            if (selectedItems[index].kind !== DspxModel.Clip.Singing)
                 return []
             clips.push(selectedItems[index])
         }
@@ -344,7 +344,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.editCurrentClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Singing
+            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.kind === DspxModel.Clip.Singing
             onTriggered: () => {
                 let selectionModel = d.windowHandle.projectDocumentContext.document.selectionModel
                 let clip = selectionModel.currentItem

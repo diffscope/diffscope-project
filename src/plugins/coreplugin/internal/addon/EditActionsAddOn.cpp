@@ -119,7 +119,7 @@ namespace Core::Internal {
         dspx::SingingClip *firstSingingClip = nullptr;
         for (auto *track : tracks) {
             for (auto *clip : track->clips()->asRange()) {
-                if (clip->type() != dspx::Clip::Singing) {
+                if (clip->kind() != dspx::Clip::Singing) {
                     continue;
                 }
                 firstSingingClip = static_cast<dspx::SingingClip *>(clip);

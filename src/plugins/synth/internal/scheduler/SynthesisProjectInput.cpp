@@ -91,7 +91,7 @@ namespace Synth::Internal::ProjectInput {
             if (!singer) {
                 return;
             }
-            if (singer->type() == dspx::Singer::Single) {
+            if (singer->kind() == dspx::Singer::Single) {
                 auto single = static_cast<dspx::SingleSinger *>(singer);
                 result.append({{single->id(), singer->extra()}, rootIndex, weight});
                 return;

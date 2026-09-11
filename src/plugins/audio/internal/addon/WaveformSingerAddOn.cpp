@@ -175,7 +175,7 @@ namespace Audio::Internal {
         void flattenSinger(const dspx::Singer *singer, double weight,
                            std::array<double, waveformSingerTypeCount> &result,
                            bool &valid, int &leafCount) {
-            if (singer->type() == dspx::Singer::Single) {
+            if (singer->kind() == dspx::Singer::Single) {
                 const auto single = static_cast<const dspx::SingleSinger *>(singer);
                 if (single->id() != waveformSingerId) {
                     valid = false;
@@ -520,7 +520,7 @@ namespace Audio::Internal {
             connect(list, &dspx::SingerList::rotated, m_sourceWatcher, [this] { syncSources(); });
             for (const auto singer : list->items()) {
                 connect(singer, &dspx::Singer::extraChanged, m_sourceWatcher, [this] { syncSources(); });
-                if (singer->type() == dspx::Singer::Single) {
+                if (singer->kind() == dspx::Singer::Single) {
                     connect(static_cast<dspx::SingleSinger *>(singer), &dspx::SingleSinger::idChanged,
                             m_sourceWatcher, [this] { syncSources(); });
                 } else {
@@ -698,7 +698,7 @@ namespace Audio::Internal {
     }
 
     void WaveformSingerAddOn::addClip(dspx::Clip *clip, TrackBinding *trackBinding) {
-        if (!clip || clip->type() != dspx::Clip::Singing) {
+        if (!clip || clip->kind() != dspx::Clip::Singing) {
             return;
         }
         auto singingClip = static_cast<dspx::SingingClip *>(clip);
@@ -707,7 +707,7 @@ namespace Audio::Internal {
     }
 
     void WaveformSingerAddOn::removeClip(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Singing) {
+        if (!clip || clip->kind() != dspx::Clip::Singing) {
             return;
         }
         delete m_clips.take(static_cast<dspx::SingingClip *>(clip));

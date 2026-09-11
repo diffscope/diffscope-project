@@ -29,7 +29,7 @@ namespace Core {
             for (auto *singer : singers->items()) {
                 if (!singer)
                     continue;
-                if (singer->type() == dspx::Singer::Single) {
+                if (singer->kind() == dspx::Singer::Single) {
                     auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
                     if (singleSinger && !singleSinger->id().isEmpty())
                         return singleSinger;

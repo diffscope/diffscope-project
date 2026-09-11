@@ -1161,7 +1161,7 @@ namespace Core::Internal {
                     break;
                 case NodeKind::Clip: {
                     auto *clip = qobject_cast<dspx::Clip *>(entry.object.data());
-                    if (clip && clip->type() == dspx::Clip::Singing) {
+                    if (clip && clip->kind() == dspx::Clip::Singing) {
                         hasNextColumn = true;
                         nextKind = ListKind::SingingBranches;
                         nextContext = clip;

@@ -132,7 +132,7 @@ Item {
                         id: singerRow
 
                         required property int index
-                        required property int singerType
+                        required property int singerKind
                         required property string singerId
                         required property var singerTree
                         required property string displayName
@@ -226,7 +226,7 @@ Item {
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Configure singer")
                                 icon.source: "image://fluent-system-icons/settings"
-                                enabled: singerRow.singerType === SourcesPickerModel.MixedSinger
+                                enabled: singerRow.singerKind === SourcesPickerModel.MixedSinger
                                          || singerRow.singerValid
                                 ToolTip.visible: hovered
                                 ToolTip.text: enabled ? text : singerRow.warningText
@@ -424,8 +424,8 @@ Item {
             control.sourcesModel.revision
             return Boolean(targetIndex && control.sourcesModel.indexAlive(targetIndex))
         }
-        readonly property int targetType: targetIndexValid
-                                          ? control.sourcesModel.singerType(targetIndex)
+        readonly property int targetKind: targetIndexValid
+                                          ? control.sourcesModel.singerKind(targetIndex)
                                           : SourcesPickerModel.InvalidSinger
 
         parent: control
@@ -439,7 +439,7 @@ Item {
         onAboutToShow: {
             if (!targetIndexValid)
                 return
-            const componentUrl = targetType === SourcesPickerModel.MixedSinger
+            const componentUrl = targetKind === SourcesPickerModel.MixedSinger
                                  ? Qt.resolvedUrl("MixedSingerEditor.qml")
                                  : Qt.resolvedUrl("SourcesSingerControlPanel.qml")
             configurationLoader.setSource(componentUrl, {

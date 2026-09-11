@@ -22,7 +22,7 @@ ActionCollection {
         actionId: "org.diffscope.pitchshifter.edit.shiftPitch"
         Action {
             enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
-                     && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.type === DspxModel.Clip.Audio
+                     && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.kind === DspxModel.Clip.Audio
             onTriggered: Qt.callLater(() => d.addOn.shiftPitch(d.windowHandle.projectDocumentContext.document.selectionModel.currentItem))
         }
     }

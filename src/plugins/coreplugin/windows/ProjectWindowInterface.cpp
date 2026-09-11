@@ -212,7 +212,7 @@ namespace Core {
             model->tracks()->size() == 0 ? 0 : std::ranges::max(std::views::transform(model->tracks()->items(), [](dspx::Track *track) {
                 return track->clips()->size() == 0 ? 0 : std::ranges::max(std::views::transform(track->clips()->asRange(), [](dspx::Clip *clip) {
                     const int clipRight = clip->position() + clip->clipLength();
-                    const int noteRight = clip->type() == dspx::Clip::Audio || static_cast<dspx::SingingClip *>(clip)->notes()->size() == 0
+                    const int noteRight = clip->kind() == dspx::Clip::Audio || static_cast<dspx::SingingClip *>(clip)->notes()->size() == 0
                                               ? 0
                                               : clip->start() + std::ranges::max(std::views::transform(static_cast<dspx::SingingClip *>(clip)->notes()->asRange(), [](dspx::Note *note) {
                                                     return note->position() + note->length();

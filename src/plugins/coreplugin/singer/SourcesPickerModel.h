@@ -40,15 +40,15 @@ namespace Core {
         Q_PROPERTY(qulonglong revision READ revision NOTIFY revisionChanged)
 
     public:
-        enum SingerType {
+        enum SingerKind {
             InvalidSinger = -1,
             SingleSinger,
             MixedSinger,
         };
-        Q_ENUM(SingerType)
+        Q_ENUM(SingerKind)
 
         enum Role {
-            SingerTypeRole = Qt::UserRole + 1,
+            SingerKindRole = Qt::UserRole + 1,
             SingerIdRole,
             ExtraRole,
             SingerTreeRole,
@@ -94,7 +94,7 @@ namespace Core {
         Q_INVOKABLE QModelIndex modelIndex(int row, const QModelIndex &parent = {}) const;
         Q_INVOKABLE bool indexAlive(const QModelIndex &index) const;
         Q_INVOKABLE int childCount(const QModelIndex &parent = {}) const;
-        Q_INVOKABLE SingerType singerType(const QModelIndex &index) const;
+        Q_INVOKABLE SingerKind singerKind(const QModelIndex &index) const;
         Q_INVOKABLE QString singerId(const QModelIndex &index) const;
         Q_INVOKABLE QJsonValue singerExtra(const QModelIndex &index) const;
         Q_INVOKABLE QString workspaceName(const QModelIndex &index) const;

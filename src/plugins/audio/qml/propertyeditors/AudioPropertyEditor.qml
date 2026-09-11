@@ -40,7 +40,7 @@ PropertyEditorGroupBox {
     }
 
     title: qsTr("Audio")
-    visualVisible: propertyMapper?.type === 0
+    visualVisible: propertyMapper?.kind === 0
     StackLayout {
         width: parent.width
         currentIndex: groupBox.windowHandle?.projectDocumentContext.document.selectionModel.selectedCount > 1 ? 0 : 1

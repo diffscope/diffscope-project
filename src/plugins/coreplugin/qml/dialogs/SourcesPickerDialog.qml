@@ -37,10 +37,10 @@ Window {
         sourcesModel.revision
         return Boolean(selectedModelIndex && sourcesModel.indexAlive(selectedModelIndex))
     }
-    readonly property int selectedSingerType: {
+    readonly property int selectedSingerKind: {
         sourcesModel.revision
         return selectedModelIndexValid
-               ? sourcesModel.singerType(selectedModelIndex)
+               ? sourcesModel.singerKind(selectedModelIndex)
                : SourcesPickerModel.InvalidSinger
     }
 
@@ -177,7 +177,7 @@ Window {
                         id: sourceButton
 
                         required property int index
-                        required property int singerType
+                        required property int singerKind
                         required property var singerTree
                         required property string displayName
                         required property bool singerValid
@@ -351,7 +351,7 @@ Window {
                             }
 
                             Action {
-                                enabled: sourceButton.singerType === SourcesPickerModel.SingleSinger
+                                enabled: sourceButton.singerKind === SourcesPickerModel.SingleSinger
                                          && sourceButton.singerValid
                                          && sourceButton.effectiveMixGroup !== ""
                                 text: qsTr("Create mixed singer")
@@ -439,7 +439,7 @@ Window {
                         active: dialog.selectedModelIndexValid
                         sourceComponent: {
                             dialog.sourcesModel.revision
-                            return dialog.selectedSingerType === SourcesPickerModel.MixedSinger
+                            return dialog.selectedSingerKind === SourcesPickerModel.MixedSinger
                                    ? mixedEditorComponent
                                    : singleEditorComponent
                         }

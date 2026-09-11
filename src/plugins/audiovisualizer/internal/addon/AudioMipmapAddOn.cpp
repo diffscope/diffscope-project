@@ -111,7 +111,7 @@ namespace AudioVisualizer::Internal {
     }
 
     void AudioMipmapAddOn::addClip(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Audio) {
+        if (!clip || clip->kind() != dspx::Clip::Audio) {
             return;
         }
         auto audioClip = static_cast<dspx::AudioClip *>(clip);
@@ -126,7 +126,7 @@ namespace AudioVisualizer::Internal {
     }
 
     void AudioMipmapAddOn::removeClip(dspx::Clip *clip) {
-        if (!clip || clip->type() != dspx::Clip::Audio) {
+        if (!clip || clip->kind() != dspx::Clip::Audio) {
             return;
         }
         auto audioClip = static_cast<dspx::AudioClip *>(clip);
