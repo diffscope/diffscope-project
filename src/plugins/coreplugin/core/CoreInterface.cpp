@@ -172,8 +172,15 @@ namespace Core {
             if (component.isError()) {
                 qFatal() << component.errorString();
             }
-            dlg.reset(qobject_cast<QWindow *>(component.create()));
-            Q_ASSERT(dlg);
+            auto object = component.create();
+            if (!object) {
+                qFatal() << component.errorString();
+            }
+            auto window = qobject_cast<QWindow *>(object);
+            if (!window) {
+                qFatal("SettingDialog in DiffScope.Core is not QWindow");
+            }
+            dlg.reset(window);
             dlg->setTransientParent(parent);
             qCDebug(lcCoreInterface) << "Showing settings dialog";
             if (!id.isEmpty())
@@ -195,12 +202,18 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        std::unique_ptr<QWindow> dlg(qobject_cast<QWindow *>(component.create()));
-        Q_ASSERT(dlg);
+        std::unique_ptr<QObject> object(component.create());
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto dlg = qobject_cast<QWindow *>(object.get());
+        if (!dlg) {
+            qFatal("PluginDialog in DiffScope.Core is not QWindow");
+        }
         dlg->setTransientParent(parent);
         dlg->show();
         QEventLoop eventLoop;
-        connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        connect(dlg, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
 
@@ -210,14 +223,20 @@ namespace Core {
             qFatal() << component.errorString();
         }
         auto notificationModel = instance()->d_func()->notificationCenter->globalNotificationManager();
-        std::unique_ptr<QWindow> dlg(qobject_cast<QWindow *>(component.createWithInitialProperties({
+        std::unique_ptr<QObject> object(component.createWithInitialProperties({
             {"notificationModel", QVariant::fromValue(notificationModel)},
-        })));
-        Q_ASSERT(dlg);
+        }));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto dlg = qobject_cast<QWindow *>(object.get());
+        if (!dlg) {
+            qFatal("NotificationListDialog in DiffScope.Core is not QWindow");
+        }
         dlg->setTransientParent(parent);
         dlg->show();
         QEventLoop eventLoop;
-        connect(dlg.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        connect(dlg, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
     void CoreInterface::execAboutAppDialog(QWindow *parent) {
@@ -269,18 +288,27 @@ namespace Core {
                                      QStringLiteral(APPLICATION_COMPILER_VERSION));
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
         QQuickIcon icon;
         icon.setSource(QUrl("image://appicon/app"));
         icon.setWidth(64);
         icon.setHeight(64);
-        QScopedPointer mb(qobject_cast<QWindow *>(component.createWithInitialProperties({{"title", tr("About %1").arg(appName)}, {"textFormat", Qt::RichText}, {"text", appName.toHtmlEscaped()}, {"informativeText", aboutInfo + licenseInfo + buildInfo}, {"width", 480}, {"icon", QVariant::fromValue(icon)}})));
-        Q_ASSERT(mb);
+        QScopedPointer<QObject> object(component.createWithInitialProperties({{"title", tr("About %1").arg(appName)}, {"textFormat", Qt::RichText}, {"text", appName.toHtmlEscaped()}, {"informativeText", aboutInfo + licenseInfo + buildInfo}, {"width", 480}, {"icon", QVariant::fromValue(icon)}}));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto mb = qobject_cast<QWindow *>(object.get());
+        if (!mb) {
+            qFatal("MessageBoxDialog in SVSCraft.UIComponents is not QWindow");
+        }
         mb->setTransientParent(parent);
         mb->show();
         QEventLoop eventLoop;
         OpenUrlHelper openUrlHelper;
-        connect(mb.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
-        connect(mb.get(), SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
+        connect(mb, SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
+        connect(mb, SIGNAL(linkActivated(QString)), &openUrlHelper, SLOT(openUrl(QString)));
         eventLoop.exec();
     }
     void CoreInterface::execAboutQtDialog(QWindow *parent) {

@@ -47,6 +47,9 @@ namespace Audio::Internal {
         auto o = component.createWithInitialProperties({
             {"addOn", QVariant::fromValue(this)},
         });
+        if (!o) {
+            qFatal() << component.errorString();
+        }
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
 

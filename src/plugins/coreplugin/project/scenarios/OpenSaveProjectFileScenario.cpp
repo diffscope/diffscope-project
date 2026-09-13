@@ -116,18 +116,36 @@ namespace Core {
     void OpenSaveProjectFileScenario::showDeserializationFailMessageBox(const QString &path) const {
         Q_D(const OpenSaveProjectFileScenario);
         QQmlComponent buttonComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Button");
-        auto button = qobject_cast<QQuickButton *>(buttonComponent.create());
-        Q_ASSERT(button);
+        if (buttonComponent.isError()) {
+            qFatal() << buttonComponent.errorString();
+        }
+        auto buttonObject = buttonComponent.create();
+        if (!buttonObject) {
+            qFatal() << buttonComponent.errorString();
+        }
+        auto button = qobject_cast<QQuickButton *>(buttonObject);
+        if (!button) {
+            qFatal("Button in SVSCraft.UIComponents is not QQuickButton");
+        }
         button->setText(tr("Open DSPX Inspector"));
         QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
-        std::unique_ptr<QQuickWindow> mb(qobject_cast<QQuickWindow *>(component.createWithInitialProperties(
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        std::unique_ptr<QObject> object(component.createWithInitialProperties(
             {{"text", tr("Failed to parse file content")},
              {"informativeText", tr("%1\n\nYou can check for problems in the file with DSPX Inspector.").arg(QDir::toNativeSeparators(path))},
              {"icon", SVS::SVSCraft::Critical},
              {"transientParent", QVariant::fromValue(d->window)},
              {"content", QVariant::fromValue(button)}}
-        )));
-        Q_ASSERT(mb);
+        ));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto mb = qobject_cast<QQuickWindow *>(object.get());
+        if (!mb) {
+            qFatal("MessageBoxDialog in SVSCraft.UIComponents is not QQuickWindow");
+        }
         connect(button, &QQuickButton::clicked, [this, path, &mb] {
             mb->close();
             QTimer::singleShot(0, [this, path] {
@@ -137,7 +155,7 @@ namespace Core {
                 dialog.exec();
             });
         });
-        SVS::MessageBox::customExec(mb.get());
+        SVS::MessageBox::customExec(mb);
     }
 
     bool OpenSaveProjectFileScenario::confirmFileCreatedByAnotherApplication(const QString &name) const {

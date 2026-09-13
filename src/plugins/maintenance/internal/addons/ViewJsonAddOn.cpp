@@ -47,6 +47,9 @@ namespace Maintenance {
             qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
+        if (!object) {
+            qFatal() << component.errorString();
+        }
         object->setParent(this);
         QMetaObject::invokeMethod(object, "registerToContext", windowInterface->actionContext());
     }

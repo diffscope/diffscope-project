@@ -327,12 +327,14 @@ namespace VisualEditor {
             {"addOn", QVariant::fromValue(d->addon)},
             {"arrangementPanelInterface", QVariant::fromValue(this)}
         });
-        if (component.isError()) {
+        if (!o) {
             qFatal() << component.errorString();
         }
-        o->setParent(this);
         d->arrangementView = qobject_cast<QQuickItem *>(o);
-        Q_ASSERT(d->arrangementView);
+        if (!d->arrangementView) {
+            qFatal("ArrangementView in DiffScope.VisualEditor is not QQuickItem");
+        }
+        o->setParent(this);
 
         d->autoPageScrollingManipulator->setTarget(d->arrangementView->property("timeline").value<QQuickItem *>());
 

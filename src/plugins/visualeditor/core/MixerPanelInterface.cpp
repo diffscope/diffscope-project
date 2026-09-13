@@ -93,12 +93,14 @@ namespace VisualEditor {
             {"addOn", QVariant::fromValue(d->addon)},
             {"mixerPanelInterface", QVariant::fromValue(this)}
         });
-        if (component.isError()) {
+        if (!o) {
             qFatal() << component.errorString();
         }
-        o->setParent(this);
         d->mixerView = qobject_cast<QQuickItem *>(o);
-        Q_ASSERT(d->mixerView);
+        if (!d->mixerView) {
+            qFatal("MixerView in DiffScope.VisualEditor is not QQuickItem");
+        }
+        o->setParent(this);
 
         d->bindScrollBehaviorViewModel();
     }

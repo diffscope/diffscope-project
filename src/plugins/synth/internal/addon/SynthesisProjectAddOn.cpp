@@ -1521,8 +1521,7 @@ namespace Synth::Internal {
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("ResynthesizeDialog"));
         if (component.isError()) {
-            qWarning() << component.errorString();
-            return;
+            qFatal() << component.errorString();
         }
         std::unique_ptr<QObject> dialog(component.createWithInitialProperties({
             {QStringLiteral("parent"), QVariant::fromValue(window->contentItem())},
@@ -1530,8 +1529,7 @@ namespace Synth::Internal {
             {QStringLiteral("disableCache"), false},
         }));
         if (!dialog) {
-            qWarning() << component.errorString();
-            return;
+            qFatal() << component.errorString();
         }
         dialog->setProperty("x", window->width() / 2.0 - dialog->property("width").toDouble() / 2.0);
         if (const auto topMargin = window->property("popupTopMarginHint"); topMargin.isValid()) {

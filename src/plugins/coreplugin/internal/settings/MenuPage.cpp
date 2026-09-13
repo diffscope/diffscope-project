@@ -54,6 +54,9 @@ namespace Core::Internal {
             qFatal() << component.errorString();
         }
         m_widget = component.createWithInitialProperties({{"pageHandle", QVariant::fromValue(this)}, {"model", QVariant::fromValue(m_actionLayoutsModel)}});
+        if (!m_widget) {
+            qFatal() << component.errorString();
+        }
         m_widget->setParent(this);
         return m_widget;
     }

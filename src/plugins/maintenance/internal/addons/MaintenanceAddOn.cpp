@@ -46,6 +46,9 @@ namespace Maintenance {
             qFatal() << component.errorString();
         }
         auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
+        if (!o) {
+            qFatal() << component.errorString();
+        }
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
@@ -140,6 +143,9 @@ namespace Maintenance {
             {"readOnly", true},
             {"text", reportId},
         }));
+        if (!textField) {
+            qFatal() << textFieldComponent.errorString();
+        }
         QQmlComponent dialogComponent(Core::RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         if (dialogComponent.isError()) {
             qFatal() << dialogComponent.errorString();
@@ -151,6 +157,9 @@ namespace Maintenance {
             {"content", QVariant::fromValue(textField.get())},
             {"transientParent", QVariant::fromValue(windowInterface->window())},
         }));
+        if (!dialog) {
+            qFatal() << dialogComponent.errorString();
+        }
         SVS::MessageBox::customExec(dialog.get());
     }
 

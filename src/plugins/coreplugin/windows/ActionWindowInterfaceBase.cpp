@@ -42,9 +42,23 @@ namespace Core {
 
         void initActionContext() {
             Q_Q(ActionWindowInterfaceBase);
-            actionContext->setMenuComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Menu", q));
-            actionContext->setSeparatorComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
-            actionContext->setStretchComponent(new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q));
+            auto menuComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Menu", q);
+            if (menuComponent->isError()) {
+                qFatal() << menuComponent->errorString();
+            }
+            actionContext->setMenuComponent(menuComponent);
+
+            auto separatorComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q);
+            if (separatorComponent->isError()) {
+                qFatal() << separatorComponent->errorString();
+            }
+            actionContext->setSeparatorComponent(separatorComponent);
+
+            auto stretchComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MenuSeparator", q);
+            if (stretchComponent->isError()) {
+                qFatal() << stretchComponent->errorString();
+            }
+            actionContext->setStretchComponent(stretchComponent);
         }
     };
 

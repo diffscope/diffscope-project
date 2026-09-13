@@ -272,14 +272,20 @@ namespace PackageManager {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        std::unique_ptr<QWindow> window(qobject_cast<QWindow *>(component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}})));
-        Q_ASSERT(window);
-        m_window = window.get();
+        std::unique_ptr<QObject> object(component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}}));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto window = qobject_cast<QWindow *>(object.get());
+        if (!window) {
+            qFatal("PackageManagerWindow in DiffScope.PackageManager is not QWindow");
+        }
+        m_window = window;
         window->setTransientParent(windowInterface->window());
         window->show();
 
         QEventLoop eventLoop;
-        connect(window.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        connect(window, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
         m_window = nullptr;
     }
@@ -319,6 +325,9 @@ namespace PackageManager {
             qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
+        if (!object) {
+            qFatal() << component.errorString();
+        }
         object->setParent(this);
         QMetaObject::invokeMethod(object, "registerToContext", windowInterface->actionContext());
     }

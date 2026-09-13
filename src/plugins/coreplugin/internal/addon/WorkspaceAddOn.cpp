@@ -41,6 +41,9 @@ namespace Core::Internal {
             }
             m_helper = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}
             });
+            if (!m_helper) {
+                qFatal() << component.errorString();
+            }
             m_helper->setParent(windowInterface->window());
         }
         {
@@ -49,11 +52,28 @@ namespace Core::Internal {
                 qFatal() << component.errorString();
             }
             auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.get())}});
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this));
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.singers", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SingerPickerPanel", this));
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this));
+            auto pluginsPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this);
+            if (pluginsPanelComponent->isError()) {
+                qFatal() << pluginsPanelComponent->errorString();
+            }
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", pluginsPanelComponent);
+
+            auto singerPickerPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SingerPickerPanel", this);
+            if (singerPickerPanelComponent->isError()) {
+                qFatal() << singerPickerPanelComponent->errorString();
+            }
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.singers", singerPickerPanelComponent);
+
+            auto tipsPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this);
+            if (tipsPanelComponent->isError()) {
+                qFatal() << tipsPanelComponent->errorString();
+            }
+            windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", tipsPanelComponent);
         }
     }
     void WorkspaceAddOn::extensionsInitialized() {
@@ -172,8 +192,13 @@ namespace Core::Internal {
         createSpec(firstSpec);
         if (edge != 0) {
             QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "DockingStretch");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
             auto object = component.create();
-            Q_ASSERT(object);
+            if (!object) {
+                qFatal() << component.errorString();
+            }
             QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
             result.append(QVariantMap{
                 {"object", QVariant::fromValue(object)},

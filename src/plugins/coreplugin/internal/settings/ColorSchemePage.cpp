@@ -48,6 +48,9 @@ namespace Core::Internal {
             {"pageHandle", QVariant::fromValue(this)},
             {"collection", QVariant::fromValue(m_collection)},
         });
+        if (!m_widget) {
+            qFatal() << component.errorString();
+        }
         m_widget->setParent(this);
         return m_widget;
     }

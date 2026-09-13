@@ -469,12 +469,14 @@ namespace VisualEditor {
                 {"addOn", QVariant::fromValue(d->addon)},
                 {"pianoRollPanelInterface", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
-            o->setParent(this);
             d->pianoRollView = qobject_cast<QQuickItem *>(o);
-            Q_ASSERT(d->pianoRollView);
+            if (!d->pianoRollView) {
+                qFatal("PianoRollView in DiffScope.VisualEditor is not QQuickItem");
+            }
+            o->setParent(this);
         }
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());

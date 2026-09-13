@@ -60,15 +60,13 @@ namespace SynthVisualizer::Internal {
             this
         );
         if (component.isError()) {
-            qCWarning(lcSynthesisPieceTrackAddOn) << component.errorString();
-            return;
+            qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties({
             {QStringLiteral("addOn"), QVariant::fromValue(this)},
         });
         if (!object) {
-            qCWarning(lcSynthesisPieceTrackAddOn) << component.errorString();
-            return;
+            qFatal() << component.errorString();
         }
         object->setParent(this);
 

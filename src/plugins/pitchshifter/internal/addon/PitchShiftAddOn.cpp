@@ -78,14 +78,12 @@ namespace PitchShifter::Internal {
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PitchShifter", "PitchShiftActions");
         if (component.isError()) {
             qFatal() << component.errorString();
-            return;
         }
         auto actions = component.createWithInitialProperties({
             {QStringLiteral("addOn"), QVariant::fromValue(this)},
         });
         if (!actions) {
             qFatal() << component.errorString();
-            return;
         }
         actions->setParent(this);
         QMetaObject::invokeMethod(actions, "registerToContext", windowInterface->actionContext());
@@ -247,9 +245,7 @@ namespace PitchShifter::Internal {
 
             QQmlComponent configComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.PitchShifter", "PitchShiftDialog");
             if (configComponent.isError()) {
-                qCCritical(lcPitchShiftAddOn) << "Unable to create pitch shift dialog:" << configComponent.errorString();
-                showCritical(tr("Failed to stretch and shift pitch"), configComponent.errorString());
-                return;
+                qFatal() << configComponent.errorString();
             }
             QScopedPointer<QObject, QScopedPointerDeleteLater> configDialog(createAndPositionDialog(quickWindow, &configComponent, {}));
             if (!configDialog) {
@@ -288,15 +284,15 @@ namespace PitchShifter::Internal {
 
             QQmlComponent progressComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.PitchShifter", "PitchShiftProgressDialog");
             if (progressComponent.isError()) {
-                delete task;
                 qFatal() << progressComponent.errorString();
-                return;
             }
-            auto progressDialog = qobject_cast<QWindow *>(progressComponent.create());
-            if (!progressDialog) {
-                delete task;
+            auto progressObject = progressComponent.create();
+            if (!progressObject) {
                 qFatal() << progressComponent.errorString();
-                return;
+            }
+            auto progressDialog = qobject_cast<QWindow *>(progressObject);
+            if (!progressDialog) {
+                qFatal("PitchShiftProgressDialog in DiffScope.PitchShifter is not QWindow");
             }
             progressDialog->setTransientParent(windowInterface->window());
             if (inputObject) {

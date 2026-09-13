@@ -40,6 +40,9 @@ namespace VisualEditor::Internal {
             qFatal() << component.errorString();
         }
         m_widget = component.createWithInitialProperties({{"pageHandle", QVariant::fromValue(this)}});
+        if (!m_widget) {
+            qFatal() << component.errorString();
+        }
         m_widget->setParent(this);
         return m_widget;
     }

@@ -124,9 +124,11 @@ namespace Core {
             if (!musicTimeline) {
                 qFatal() << component.errorString();
             }
-            musicTimeline->setParent(this);
             d->musicTimeline = qobject_cast<SVS::MusicTimeline *>(musicTimeline);
-            Q_ASSERT(d->musicTimeline);
+            if (!d->musicTimeline) {
+                qFatal("MusicTimelineHelper in DiffScope.Core is not SVS::MusicTimeline");
+            }
+            musicTimeline->setParent(this);
         }
         auto tempoSequence = document->model()->tempos();
         auto timeSignatureSequence = document->model()->timeSignatures();

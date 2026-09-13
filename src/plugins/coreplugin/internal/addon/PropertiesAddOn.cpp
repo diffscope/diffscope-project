@@ -27,6 +27,9 @@ namespace Core::Internal {
                 {"addOn", QVariant::fromValue(this)},
             },
             RuntimeInterface::qmlEngine()->rootContext());
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.properties", o->property("propertiesPanelComponent").value<QQmlComponent *>());
         }

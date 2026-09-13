@@ -60,6 +60,9 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
@@ -73,7 +76,7 @@ namespace VisualEditor::Internal {
                 {"addOn", QVariant::fromValue(this)},
                 {"scrollAddOn", QVariant::fromValue(windowInterface->getFirstObject<ScrollAddOn>())},
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);

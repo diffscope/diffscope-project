@@ -139,16 +139,21 @@ public:
         if (settings->value("lastInitializationAbortedFlag").toBool() && !lastInitializationWarningSuppressed) {
             qInfo() << "Last initialization was aborted abnormally";
             QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
-            std::unique_ptr<QObject> dialog(component.isError() ? nullptr : component.createWithInitialProperties({
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            std::unique_ptr<QObject> dialog(component.createWithInitialProperties({
                 {"logsPath", Logger::logsLocation()}
             }));
             if (!dialog) {
-                qFatal() << "Failed to load InitializationFailureWarningDialog" << component.errorString();
+                qFatal() << component.errorString();
+            }
+            auto win = qobject_cast<QWindow *>(dialog.get());
+            if (!win) {
+                qFatal("InitializationFailureWarningDialog in DiffScope.UIShell is not QWindow");
             }
             QEventLoop eventLoop;
             QObject::connect(dialog.get(), SIGNAL(done(QVariant)), &eventLoop, SLOT(quit()));
-            auto win = qobject_cast<QWindow *>(dialog.get());
-            Q_ASSERT(win);
             win->show();
             eventLoop.exec();
         }
@@ -216,7 +221,7 @@ int main(int argc, char *argv[]) {
     {
         QQmlComponent component(engine, "DiffScope.UIShell", "Action");
         if (component.isError()) {
-            qFatal().nospace() << "QML Import Check Failed: " << component.errorString() << "\n\n" << "Note for developers: If you encounter this error when running after building DiffScope, please check:\n- Whether all targets have been built\n- Whether the correct QML_IMPORT_PATH environment variable was specified at runtime (it may need to be set to `../qml`)";
+            qFatal() << component.errorString();
         }
     }
 

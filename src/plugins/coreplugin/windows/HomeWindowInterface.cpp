@@ -39,6 +39,9 @@ namespace Core {
                 auto o = component.createWithInitialProperties({
                     {"windowHandle", QVariant::fromValue(q)},
                 });
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(q);
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
@@ -50,6 +53,9 @@ namespace Core {
                 auto o = component.createWithInitialProperties({
                     {"windowHandle", QVariant::fromValue(q)},
                 });
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(q);
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
@@ -65,11 +71,17 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QWindow *>(component.createWithInitialProperties({
+        auto object = component.createWithInitialProperties({
             {"windowHandle", QVariant::fromValue(this)},
             {"notificationViewModel", QVariant::fromValue(d->notificationViewModel)},
-        }));
-        Q_ASSERT(win);
+        });
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto win = qobject_cast<QWindow *>(object);
+        if (!win) {
+            qFatal("HomeWindow in DiffScope.Core is not QWindow");
+        }
         return win;
     }
     HomeWindowInterface::HomeWindowInterface(QObject *parent) : HomeWindowInterface(*new HomeWindowInterfacePrivate, parent) {

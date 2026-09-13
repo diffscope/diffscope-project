@@ -46,8 +46,14 @@ namespace WelcomeWizard {
                     qFatal() << component.errorString();
                 }
                 auto o = component.createWithInitialProperties({{"pages", QVariant::fromValue(pages)}});
-                o->setParent(m_plugin);
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 m_window = qobject_cast<QQuickWindow *>(o);
+                if (!m_window) {
+                    qFatal("WelcomeWizardDialog in DiffScope.WelcomeWizard is not QQuickWindow");
+                }
+                o->setParent(m_plugin);
             }
             for (auto item : pages) {
                 item->setParent(m_window);
@@ -64,6 +70,9 @@ namespace WelcomeWizard {
         }
         auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}
         });
+        if (!o) {
+            qFatal() << component.errorString();
+        }
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }

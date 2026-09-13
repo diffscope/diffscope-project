@@ -145,23 +145,25 @@ namespace Core {
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SourcesPickerDialog");
         if (component.isError()) {
-            qCCritical(lcEditSourcesScenario) << component.errorString();
-            return false;
+            qFatal() << component.errorString();
         }
 
-        std::unique_ptr<QQuickWindow> dialog(qobject_cast<QQuickWindow *>(component.createWithInitialProperties({
+        std::unique_ptr<QObject> object(component.createWithInitialProperties({
             {"sourcesModel", QVariant::fromValue(model)},
-        })));
+        }));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto dialog = qobject_cast<QQuickWindow *>(object.get());
         if (!dialog) {
-            qCCritical(lcEditSourcesScenario) << component.errorString();
-            return false;
+            qFatal("SourcesPickerDialog in DiffScope.Core is not QQuickWindow");
         }
 
         dialog->setTransientParent(window);
         dialogAccepted = false;
         QEventLoop eventLoop;
-        QObject::connect(dialog.get(), SIGNAL(accepted()), q, SLOT(handleDialogAccepted()));
-        QObject::connect(dialog.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        QObject::connect(dialog, SIGNAL(accepted()), q, SLOT(handleDialogAccepted()));
+        QObject::connect(dialog, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         dialog->show();
         eventLoop.exec();
         return dialogAccepted;

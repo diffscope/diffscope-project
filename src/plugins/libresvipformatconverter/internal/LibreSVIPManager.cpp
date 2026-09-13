@@ -228,12 +228,12 @@ namespace LibreSVIPFormatConverter::Internal {
     static QObject *createQuickObject(const char *componentName, const QVariantMap &properties) {
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.LibreSVIPFormatConverter", componentName);
         if (component.isError()) {
-            qCCritical(lcLibreSVIPManager) << component.errorString();
-            return nullptr;
+            qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties(properties);
-        if (!object)
-            qCCritical(lcLibreSVIPManager) << component.errorString();
+        if (!object) {
+            qFatal() << component.errorString();
+        }
         return object;
     }
 
@@ -638,11 +638,6 @@ namespace LibreSVIPFormatConverter::Internal {
                 {QStringLiteral("indeterminate"), true},
                 {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
             }));
-            if (!progress) {
-                LibreSVIPValidationResult result;
-                result.errorMessage = tr("Failed to create the LibreSVIP progress dialog.");
-                return result;
-            }
             QMetaObject::invokeMethod(progress.get(), "show");
         }
         const auto result = validateExecutableInternal(path, [dialog = progress.get()] {
@@ -975,12 +970,6 @@ namespace LibreSVIPFormatConverter::Internal {
             {QStringLiteral("indeterminate"), true},
             {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
         }));
-        if (!dialog) {
-            qCCritical(lcLibreSVIPManager) << "Failed to create the LibreSVIP download dialog.";
-            showError(parent, tr("Download failed"), tr("Failed to create the LibreSVIP download dialog."));
-            m_busy = false;
-            return false;
-        }
 
         const auto setDialogProgress = [dialog = dialog.get()](qint64 received, qint64 total) {
             dialog->setProperty("bytesReceived", received);
@@ -1302,7 +1291,7 @@ namespace LibreSVIPFormatConverter::Internal {
                 {QStringLiteral("primaryButton"), QStringLiteral("download")},
                 {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
             }));
-            const QString choice = dialog ? SVS::MessageBox::customExec(dialog.get()).toString() : QString();
+            const QString choice = SVS::MessageBox::customExec(dialog.get()).toString();
             QPointer<QWindow> guardedParent(parent);
             if (choice == QStringLiteral("download")) {
                 QTimer::singleShot(0, this, [this, guardedParent] { downloadAndConfigure(guardedParent ? guardedParent.data() : defaultParentWindow(), true); });
@@ -1366,11 +1355,6 @@ namespace LibreSVIPFormatConverter::Internal {
             {QStringLiteral("indeterminate"), true},
             {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
         }));
-        if (!progress) {
-            result.errorMessage = tr("Failed to create the LibreSVIP progress dialog.");
-            m_busy = false;
-            return result;
-        }
         QMetaObject::invokeMethod(progress.get(), "show");
         QCoreApplication::processEvents();
 

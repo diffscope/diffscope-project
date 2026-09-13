@@ -82,6 +82,9 @@ namespace Core {
                 auto o = component.createWithInitialProperties({
                     {"windowHandle", QVariant::fromValue(q)}
                 });
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(q);
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
@@ -93,6 +96,9 @@ namespace Core {
                 auto o = component.createWithInitialProperties({
                     {"windowHandle", QVariant::fromValue(q)},
                 });
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(q);
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
@@ -114,7 +120,10 @@ namespace Core {
         ExternalChangeOperation promptFileExternalChange() const {
             Q_Q(const ProjectWindowInterface);
             QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
-            std::unique_ptr<QQuickWindow> mb(qobject_cast<QQuickWindow *>(component.createWithInitialProperties(
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            std::unique_ptr<QObject> object(component.createWithInitialProperties(
                 {{"text", Core::ProjectWindowInterface::tr("File Modified Externally")},
                  {"informativeText", Core::ProjectWindowInterface::tr("The file has been modified by another program since it was last saved.\n\nDo you want to save as a new file or overwrite it?")},
                  {"buttons", QVariantList{
@@ -131,8 +140,15 @@ namespace Core {
                  {"primaryButton", SaveAs},
                  {"icon", SVS::SVSCraft::Warning},
                  {"transientParent", QVariant::fromValue(q->window())}}
-            )));
-            return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb.get()).toInt());
+            ));
+            if (!object) {
+                qFatal() << component.errorString();
+            }
+            auto mb = qobject_cast<QQuickWindow *>(object.get());
+            if (!mb) {
+                qFatal("MessageBoxDialog in SVSCraft.UIComponents is not QQuickWindow");
+            }
+            return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb).toInt());
         }
     };
 
@@ -233,9 +249,15 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto win = qobject_cast<QQuickWindow *>(component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}
-        }));
-        Q_ASSERT(win);
+        auto object = component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(this)}
+        });
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto win = qobject_cast<QQuickWindow *>(object);
+        if (!win) {
+            qFatal("ProjectWindow in DiffScope.Core is not QQuickWindow");
+        }
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
         d->projectDocumentContext->openSaveProjectFileScenario()->setWindow(win);

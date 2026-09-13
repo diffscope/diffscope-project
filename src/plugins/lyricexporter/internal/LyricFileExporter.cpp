@@ -76,20 +76,17 @@ namespace LyricExporter::Internal {
         );
         if (component.isError()) {
             qFatal() << component.errorString();
-            return false;
         }
 
         QObject *object = component.createWithInitialProperties({
             {QStringLiteral("session"), QVariant::fromValue(&session)},
         });
+        if (!object) {
+            qFatal() << component.errorString();
+        }
         QWindow *dialogWindow = qobject_cast<QWindow *>(object);
         if (!dialogWindow) {
-            delete object;
-            const QString detail = component.errorString().isEmpty()
-                ? tr("Could not create the lyric export window.")
-                : component.errorString();
-            qFatal() << detail;
-            return false;
+            qFatal("LyricExportDialog in DiffScope.LyricExporter is not QWindow");
         }
         std::unique_ptr<QWindow> dialog(dialogWindow);
 

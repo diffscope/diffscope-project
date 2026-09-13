@@ -62,6 +62,9 @@ namespace ImportExportManager::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
@@ -73,6 +76,9 @@ namespace ImportExportManager::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             }, component.creationContext());
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.importexportmanager.panel.import", o->property("importPanelComponent").value<QQmlComponent *>());
         }
@@ -84,6 +90,9 @@ namespace ImportExportManager::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }

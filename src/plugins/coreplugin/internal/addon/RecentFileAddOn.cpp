@@ -80,6 +80,9 @@ namespace Core::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
@@ -92,6 +95,9 @@ namespace Core::Internal {
                 auto o = component.createWithInitialProperties({
                     {"addOn", QVariant::fromValue(this)},
                 }, component.creationContext());
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(this);
                 windowInterface->actionContext()->addAction("org.diffscope.core.panel.recentFiles", o->property("recentFilesPanelComponent").value<QQmlComponent *>());
             }
@@ -100,6 +106,9 @@ namespace Core::Internal {
                     {"addOn", QVariant::fromValue(this)},
                     {"isRecovery", true}
                 }, component.creationContext());
+                if (!o) {
+                    qFatal() << component.errorString();
+                }
                 o->setParent(this);
                 windowInterface->actionContext()->addAction("org.diffscope.core.panel.recoveryFiles", o->property("recentFilesPanelComponent").value<QQmlComponent *>());
             }

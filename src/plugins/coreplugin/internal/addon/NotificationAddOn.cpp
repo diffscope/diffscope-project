@@ -36,6 +36,9 @@ namespace Core::Internal {
                 qFatal() << component.errorString();
             }
             auto helper = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
+            if (!helper) {
+                qFatal() << component.errorString();
+            }
             helper->setParent(windowInterface->window());
         }
         {
@@ -46,6 +49,9 @@ namespace Core::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         }
@@ -58,6 +64,9 @@ namespace Core::Internal {
                                                                {"addOn", QVariant::fromValue(this)},
                                                            },
                                                            RuntimeInterface::qmlEngine()->rootContext());
+            if (!o) {
+                qFatal() << component.errorString();
+            }
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }

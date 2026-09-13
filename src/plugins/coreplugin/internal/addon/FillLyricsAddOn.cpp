@@ -70,6 +70,9 @@ namespace Core::Internal {
         auto *actions = component.createWithInitialProperties({
             {"addOn", QVariant::fromValue(this)},
         });
+        if (!actions) {
+            qFatal() << component.errorString();
+        }
         actions->setParent(this);
         QMetaObject::invokeMethod(actions, "registerToContext", windowInterface->actionContext());
     }

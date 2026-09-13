@@ -141,6 +141,9 @@ namespace Audio::Internal {
         auto o = component.createWithInitialProperties({
             {"addOn", QVariant::fromValue(this)},
         });
+        if (!o) {
+            qFatal() << component.errorString();
+        }
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
     }
@@ -218,21 +221,25 @@ namespace Audio::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        std::unique_ptr<QWindow> dialog(qobject_cast<QWindow *>(component.createWithInitialProperties({
+        std::unique_ptr<QObject> object(component.createWithInitialProperties({
             {"addOn", QVariant::fromValue(this)},
             {"exporter", QVariant::fromValue(&exporter)},
             {"timeRangeAllEnd", timeRangeAllEnd},
             {"timeRangeLoopSectionStart", timeRangeLoopSectionStart},
             {"timeRangeLoopSectionEnd", timeRangeLoopSectionEnd},
-        })));
-        if (!dialog) {
+        }));
+        if (!object) {
             qFatal() << component.errorString();
+        }
+        auto dialog = qobject_cast<QWindow *>(object.get());
+        if (!dialog) {
+            qFatal("AudioExportDialog in DiffScope.Audio is not QWindow");
         }
         dialog->setTransientParent(windowInterface->window());
         dialog->show();
 
         QEventLoop eventLoop;
-        connect(dialog.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        connect(dialog, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
     }
 
@@ -450,9 +457,13 @@ namespace Audio::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        std::unique_ptr<QWindow> progressDialog(qobject_cast<QWindow *>(component.create()));
-        if (!progressDialog) {
+        std::unique_ptr<QObject> progressObject(component.create());
+        if (!progressObject) {
             qFatal() << component.errorString();
+        }
+        auto progressDialog = qobject_cast<QWindow *>(progressObject.get());
+        if (!progressDialog) {
+            qFatal("AudioExportProgressDialog in DiffScope.Audio is not QWindow");
         }
         progressDialog->setTransientParent(windowInterface->window());
 
@@ -461,7 +472,7 @@ namespace Audio::Internal {
         };
         auto closeDialog = [&progressDialog] {
             progressDialog->setProperty("closeAllowed", true);
-            QMetaObject::invokeMethod(progressDialog.get(), "done");
+            QMetaObject::invokeMethod(progressDialog, "done");
         };
 
         const auto setProgressStatus = [&](ExportAudioProgressController::ProgressStatus status) {
@@ -515,7 +526,7 @@ namespace Audio::Internal {
         };
 
         if (exporter->config().mixingOption() == AudioExporterConfig::MO_Mixed) {
-            connect(exporter, &AudioExporter::progressChanged, progressDialog.get(), [setDialogProperty, setProgressStatus, &isProgressing](double ratio) {
+            connect(exporter, &AudioExporter::progressChanged, progressDialog, [setDialogProperty, setProgressStatus, &isProgressing](double ratio) {
                 if (!isProgressing) {
                     isProgressing = true;
                     setProgressStatus(ExportAudioProgressController::Exporting);
@@ -524,7 +535,7 @@ namespace Audio::Internal {
             });
         } else {
             const auto sourceCount = std::max<qsizetype>(1, exporter->fileList().size());
-            connect(exporter, &AudioExporter::progressChanged, progressDialog.get(),
+            connect(exporter, &AudioExporter::progressChanged, progressDialog,
                     [sourceCount, setDialogProperty, setProgressStatus, &progressRatioHash, &isProgressing](double ratio, int sourceIndex) {
                 if (!isProgressing) {
                     isProgressing = true;
@@ -539,7 +550,7 @@ namespace Audio::Internal {
             });
         }
 
-        connect(exporter, &AudioExporter::clippingDetected, progressDialog.get(), [&, sourceInfo](int sourceIndex) {
+        connect(exporter, &AudioExporter::clippingDetected, progressDialog, [&, sourceInfo](int sourceIndex) {
             if (sourceIndex == -1) {
                 appendMessage(ExportAudioProgressController::ClippingDetectedMessage);
             } else {
@@ -548,13 +559,13 @@ namespace Audio::Internal {
             }
             requestAlert();
         });
-        connect(exporter, &AudioExporter::runtimeWarningAdded, progressDialog.get(), [&](const QString &message, int sourceIndex) {
+        connect(exporter, &AudioExporter::runtimeWarningAdded, progressDialog, [&](const QString &message, int sourceIndex) {
             Q_UNUSED(sourceIndex)
             appendMessage(ExportAudioProgressController::RuntimeWarningMessage, message);
             requestAlert();
         });
 
-        ExportAudioProgressController progressController(progressDialog.get());
+        ExportAudioProgressController progressController(progressDialog);
         progressController.setActionRequestedCallback([&] {
             if (isExporting) {
                 exporter->cancel();
@@ -569,15 +580,15 @@ namespace Audio::Internal {
                 closeDialog();
             }
         });
-        connect(progressDialog.get(), SIGNAL(actionRequested()), &progressController, SLOT(requestAction()));
-        connect(progressDialog.get(), SIGNAL(closeRequested()), &progressController, SLOT(requestClose()));
+        connect(progressDialog, SIGNAL(actionRequested()), &progressController, SLOT(requestAction()));
+        connect(progressDialog, SIGNAL(closeRequested()), &progressController, SLOT(requestClose()));
 
         QEventLoop eventLoop;
-        connect(progressDialog.get(), SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        connect(progressDialog, SIGNAL(finished()), &eventLoop, SLOT(quit()));
 
         progressDialog->show();
 
-        QTimer::singleShot(0, progressDialog.get(), [&] {
+        QTimer::singleShot(0, progressDialog, [&] {
             QCoreApplication::processEvents();
             const auto result = exporter->exec();
             isExporting = false;

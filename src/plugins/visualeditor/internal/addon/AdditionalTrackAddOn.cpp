@@ -29,7 +29,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)},
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -46,7 +46,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -63,7 +63,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -80,7 +80,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -96,7 +96,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -112,7 +112,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
@@ -128,7 +128,7 @@ namespace VisualEditor::Internal {
             auto o = component.createWithInitialProperties({
                 {"addOn", QVariant::fromValue(this)}
             });
-            if (component.isError()) {
+            if (!o) {
                 qFatal() << component.errorString();
             }
             o->setParent(this);
