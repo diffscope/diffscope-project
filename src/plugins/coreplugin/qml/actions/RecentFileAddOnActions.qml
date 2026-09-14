@@ -45,7 +45,7 @@ ActionCollection {
             MenuSeparator {
             }
             Action {
-                text: "Clear Recent Files"
+                text: qsTr("Clear Recent Files")
                 onTriggered: CoreInterface.recentFileCollection.clearRecentFile()
             }
         }
