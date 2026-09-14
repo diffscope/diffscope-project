@@ -18,6 +18,8 @@ namespace BatchProcess {
     }
 
     class ScriptAction;
+    class FileSystemAccessInterface;
+    class FileSystemAccessInterfacePrivate;
     class ScriptPrivate;
 
     class BATCH_PROCESS_EXPORT Script : public QObject {
@@ -34,6 +36,8 @@ namespace BatchProcess {
     private:
         friend class Internal::BatchProcessRuntime;
         friend class Internal::RuntimeModuleExtension;
+        friend class FileSystemAccessInterface;
+        friend class FileSystemAccessInterfacePrivate;
         explicit Script(const QString &filePath, const QString &rootPath, QObject *parent = nullptr);
 
         QScopedPointer<ScriptPrivate> d_ptr;

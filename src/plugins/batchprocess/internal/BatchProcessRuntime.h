@@ -106,7 +106,6 @@ namespace BatchProcess {
             void reportExecutionError(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface, const ErrorInfo &errorInfo) const;
             ErrorInfo errorInfo(const QJSValue &error, const QString &moduleId = {}) const;
             QString errorText(const QJSValue &error, const QString &moduleId = {}) const;
-            QString virtualModuleId(const QString &rootPath, const QString &filePath) const;
             void clearExecutionContext();
 
             BatchProcessInterfacePrivate *m_interfacePrivate;

@@ -24,6 +24,7 @@ namespace BatchProcess::Internal {
         void endSetting() override;
 
         Q_INVOKABLE QString defaultScriptDirectory() const;
+        Q_INVOKABLE QString defaultScriptDataDirectory() const;
         Q_INVOKABLE QString localFilePath(const QUrl &url) const;
 
     private:

@@ -80,6 +80,26 @@ namespace BatchProcess::Internal {
         return QDir::toNativeSeparators(QDir(documentsDirectory).filePath(QApplication::applicationName() + QStringLiteral("/Scripts")));
     }
 
+    QString BatchProcessSettings::scriptDataDirectory() {
+        Q_ASSERT(m_instance);
+        return m_instance->m_customScriptDataDirectory.isEmpty() ? defaultScriptDataDirectory() : m_instance->m_customScriptDataDirectory;
+    }
+
+    void BatchProcessSettings::setScriptDataDirectory(const QString &directory) {
+        Q_ASSERT(m_instance);
+        const auto normalized = normalizedPath(directory);
+        const auto normalizedDefault = normalizedPath(defaultScriptDataDirectory());
+        m_instance->m_customScriptDataDirectory = normalized.compare(normalizedDefault, pathCaseSensitivity()) == 0 ? QString() : normalized;
+    }
+
+    QString BatchProcessSettings::defaultScriptDataDirectory() {
+        auto documentsDirectory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        if (documentsDirectory.isEmpty()) {
+            documentsDirectory = QDir::homePath();
+        }
+        return QDir::toNativeSeparators(QDir(documentsDirectory).filePath(QApplication::applicationName() + QStringLiteral("/Script Data")));
+    }
+
     int BatchProcessSettings::maximumConsoleMessageCount() {
         Q_ASSERT(m_instance);
         return m_instance->m_maximumConsoleMessageCount;
@@ -102,17 +122,19 @@ namespace BatchProcess::Internal {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_customScriptDirectory = normalizedPath(settings->value(QStringLiteral("scriptDirectory")).toString());
+        m_customScriptDataDirectory = normalizedPath(settings->value(QStringLiteral("scriptDataDirectory")).toString());
         bool ok = false;
         const auto storedMaximumMessageCount = settings->value(QStringLiteral("maximumConsoleMessageCount"), DefaultMaximumConsoleMessageCount).toInt(&ok);
         m_maximumConsoleMessageCount = boundedMaximumConsoleMessageCount(ok ? storedMaximumMessageCount : DefaultMaximumConsoleMessageCount);
         settings->endGroup();
-        qCDebug(lcBatchProcessSettings) << "Loaded Batch Process settings" << m_customScriptDirectory << m_maximumConsoleMessageCount;
+        qCDebug(lcBatchProcessSettings) << "Loaded Batch Process settings" << m_customScriptDirectory << m_customScriptDataDirectory << m_maximumConsoleMessageCount;
     }
 
     void BatchProcessSettings::save() const {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         settings->setValue(QStringLiteral("scriptDirectory"), m_customScriptDirectory);
+        settings->setValue(QStringLiteral("scriptDataDirectory"), m_customScriptDataDirectory);
         settings->setValue(QStringLiteral("maximumConsoleMessageCount"), m_maximumConsoleMessageCount);
         settings->endGroup();
     }

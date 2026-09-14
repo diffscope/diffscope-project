@@ -24,6 +24,9 @@ namespace BatchProcess::Internal {
         static QString scriptDirectory();
         static void setScriptDirectory(const QString &directory);
         static QString defaultScriptDirectory();
+        static QString scriptDataDirectory();
+        static void setScriptDataDirectory(const QString &directory);
+        static QString defaultScriptDataDirectory();
         static int maximumConsoleMessageCount();
         static void setMaximumConsoleMessageCount(int maximumMessageCount);
 
@@ -35,6 +38,7 @@ namespace BatchProcess::Internal {
         explicit BatchProcessSettings(QObject *parent = nullptr);
 
         QString m_customScriptDirectory;
+        QString m_customScriptDataDirectory;
         int m_maximumConsoleMessageCount{DefaultMaximumConsoleMessageCount};
     };
 

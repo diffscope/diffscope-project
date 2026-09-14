@@ -18,7 +18,7 @@ namespace BatchProcess::Internal {
     BatchProcessPage::BatchProcessPage(QObject *parent)
         : Core::ISettingPage("org.diffscope.batchprocess.BatchProcess", parent) {
         setTitle(tr("Batch Process"));
-        setDescription(tr("Configure batch processing scripts and the JavaScript console"));
+        setDescription(tr("Configure batch processing scripts, file-system access, and the JavaScript console"));
     }
 
     BatchProcessPage::~BatchProcessPage() {
@@ -54,6 +54,7 @@ namespace BatchProcess::Internal {
         widget();
         m_initialScriptDirectory = BatchProcessSettings::scriptDirectory();
         m_widget->setProperty("scriptDirectory", m_initialScriptDirectory);
+        m_widget->setProperty("scriptDataDirectory", BatchProcessSettings::scriptDataDirectory());
         m_widget->setProperty("maximumConsoleMessageCount", BatchProcessSettings::maximumConsoleMessageCount());
         m_widget->setProperty("started", true);
         Core::ISettingPage::beginSetting();
@@ -62,6 +63,7 @@ namespace BatchProcess::Internal {
     bool BatchProcessPage::accept() {
         const auto scriptDirectory = m_widget->property("scriptDirectory").toString();
         BatchProcessSettings::setScriptDirectory(scriptDirectory);
+        BatchProcessSettings::setScriptDataDirectory(m_widget->property("scriptDataDirectory").toString());
         BatchProcessSettings::setMaximumConsoleMessageCount(m_widget->property("maximumConsoleMessageCount").toInt());
         BatchProcessSettings::instance()->save();
         if (BatchProcessSettings::scriptDirectory() != m_initialScriptDirectory) {
@@ -78,6 +80,10 @@ namespace BatchProcess::Internal {
 
     QString BatchProcessPage::defaultScriptDirectory() const {
         return BatchProcessSettings::defaultScriptDirectory();
+    }
+
+    QString BatchProcessPage::defaultScriptDataDirectory() const {
+        return BatchProcessSettings::defaultScriptDataDirectory();
     }
 
     QString BatchProcessPage::localFilePath(const QUrl &url) const {

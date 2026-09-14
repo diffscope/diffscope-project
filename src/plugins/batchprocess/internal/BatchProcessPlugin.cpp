@@ -18,12 +18,14 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <batchprocess/BatchProcessInterface.h>
+#include <batchprocess/FileSystemAccessInterface.h>
 #include <batchprocess/JavaScriptConsoleInterface.h>
 #include <batchprocess/internal/BatchProcessAddOn.h>
 #include <batchprocess/internal/BatchProcessPage.h>
 #include <batchprocess/internal/BatchProcessSettings.h>
 #include <batchprocess/internal/JavaScriptConsoleAddOn.h>
 #include <batchprocess/internal/JavaScriptConsoleExtension.h>
+#include <batchprocess/internal/FileSystemModuleExtension.h>
 #include <batchprocess/internal/RuntimeModuleExtension.h>
 
 static auto getBatchProcessActionExtension() {
@@ -48,7 +50,9 @@ namespace BatchProcess::Internal {
         new BatchProcessSettings(this);
         auto batchProcessInterface = new BatchProcessInterface(this);
         auto consoleInterface = new JavaScriptConsoleInterface(this);
+        auto fileSystemAccessInterface = new FileSystemAccessInterface(this);
         new JavaScriptConsoleExtension(batchProcessInterface, consoleInterface, this);
+        new FileSystemModuleExtension(batchProcessInterface, fileSystemAccessInterface, this);
         new RuntimeModuleExtension(batchProcessInterface, this);
 
         Core::CoreInterface::actionRegistry()->addExtension(::getBatchProcessActionExtension());

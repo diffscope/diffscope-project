@@ -25,7 +25,6 @@ namespace BatchProcess::Internal {
 
         constexpr auto RuntimeModuleName = "diffscope:runtime";
         constexpr auto RuntimeModuleResourcePath = ":/diffscope/batchprocess/internalscripts/runtime/runtime-module.js";
-        constexpr auto RuntimeModuleSourceUrl = "qrc:/diffscope/batchprocess/internalscripts/runtime/runtime-module.js";
 
         QString javaScriptErrorText(const QJSValue &error) {
             auto text = error.toString();
@@ -104,7 +103,7 @@ namespace BatchProcess::Internal {
             qFatal() << "Failed to open the embedded Batch Process runtime module:" << runtimeModuleFile.errorString();
         }
 
-        const auto factory = engine->evaluate(QString::fromUtf8(runtimeModuleFile.readAll()), QString::fromLatin1(RuntimeModuleSourceUrl));
+        const auto factory = engine->evaluate(QString::fromUtf8(runtimeModuleFile.readAll()), QString::fromLatin1(RuntimeModuleResourcePath));
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process runtime module:" << javaScriptErrorText(factory);
         }
@@ -120,7 +119,7 @@ namespace BatchProcess::Internal {
         if (runtimeModule.isError()) {
             qFatal() << "Failed to create the Batch Process runtime module:" << javaScriptErrorText(runtimeModule);
         }
-        if (!runtimeModule.isObject() || !runtimeModule.property(QStringLiteral("script")).isObject() || !runtimeModule.property(QStringLiteral("abort")).isCallable()) {
+        if (!runtimeModule.isObject()) {
             qFatal("The embedded Batch Process runtime module factory returned an invalid module object");
         }
         qCDebug(lcRuntimeModuleExtension) << "Created runtime module for script engine" << engine;

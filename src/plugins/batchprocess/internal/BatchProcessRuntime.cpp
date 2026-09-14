@@ -84,7 +84,7 @@ namespace BatchProcess::Internal {
         }
 
         bool isFileSpecifier(const QString &specifier) {
-            return specifier.startsWith(QLatin1Char('.')) || specifier.startsWith(QLatin1Char('/'));
+            return specifier.startsWith(QLatin1Char('.')) || QDir::isAbsolutePath(specifier);
         }
 
         QString nativeAbsolutePath(const QString &path) {
@@ -580,10 +580,6 @@ namespace BatchProcess::Internal {
             m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The script package that created this require() function is no longer active."));
             return QJSValue(QJSValue::UndefinedValue);
         }
-        if (!specifier.startsWith(QLatin1Char('/')) && QDir::isAbsolutePath(specifier)) {
-            m_engine->throwError(QJSValue::TypeError, BatchProcessInterface::tr("Operating-system absolute module paths are not allowed: %1.").arg(quoted(specifier)));
-            return QJSValue(QJSValue::UndefinedValue);
-        }
         if (!isFileSpecifier(specifier)) {
             QString errorMessage;
             const auto value = loadRegisteredModule(specifier, &errorMessage);
@@ -619,7 +615,7 @@ namespace BatchProcess::Internal {
             m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The global require() function is only available while a built-in script is loading or executing."));
             return QJSValue(QJSValue::UndefinedValue);
         }
-        if (isFileSpecifier(specifier) || QDir::isAbsolutePath(specifier)) {
+        if (isFileSpecifier(specifier)) {
             m_engine->throwError(QJSValue::TypeError, BatchProcessInterface::tr("Built-in scripts may only require registered modules: %1.").arg(quoted(specifier)));
             return QJSValue(QJSValue::UndefinedValue);
         }
@@ -676,13 +672,8 @@ namespace BatchProcess::Internal {
 
     bool BatchProcessRuntime::resolveFile(const QString &rootPath, const QString &entryPath, const QString &currentPath, const QString &specifier, bool singleFile, QString *resolvedPath, QString *errorMessage) const {
         QString basePath;
-        if (specifier.startsWith(QLatin1Char('/'))) {
-            const auto packageRelativePath = specifier.mid(1);
-            if (packageRelativePath.startsWith(QLatin1Char('/')) || QDir::isAbsolutePath(packageRelativePath)) {
-                *errorMessage = BatchProcessInterface::tr("Operating-system absolute module paths are not allowed: %1.").arg(quoted(specifier));
-                return false;
-            }
-            basePath = QDir(rootPath).filePath(packageRelativePath);
+        if (QDir::isAbsolutePath(specifier)) {
+            basePath = specifier;
         } else if (specifier.startsWith(QStringLiteral("./")) || specifier.startsWith(QStringLiteral("../"))) {
             basePath = QDir(QFileInfo(currentPath).absolutePath()).filePath(specifier);
         } else {
@@ -732,7 +723,7 @@ namespace BatchProcess::Internal {
             return cached.value()->moduleObject.property(QStringLiteral("exports"));
         }
 
-        const auto moduleId = virtualModuleId(rootPath, filePath);
+        const auto moduleId = nativeAbsolutePath(filePath);
         const auto exportsObject = m_engine->newObject();
         const auto makeModule = m_runtimeHelpers.property(QStringLiteral("makeModule"));
         const auto moduleObject = makeModule.call({moduleId, exportsObject});
@@ -909,7 +900,7 @@ namespace BatchProcess::Internal {
         if (selected == definitions.end()) {
             exportedDefinition = entryExports.property(QStringLiteral("default"));
             if (m_engine->hasError()) {
-                error = errorInfo(m_engine->catchError(), virtualModuleId(candidate.rootPath, candidate.entryPath));
+                error = errorInfo(m_engine->catchError(), nativeAbsolutePath(candidate.entryPath));
             } else {
                 selected = std::ranges::find_if(definitions, [&exportedDefinition](const DefinitionRecord &record) {
                     return record.definition.strictlyEquals(exportedDefinition);
@@ -1278,7 +1269,7 @@ namespace BatchProcess::Internal {
         result.stackTrace = std::move(javaScriptStackTrace);
         if (!fileName.isEmpty()) {
             QUrl fileUrl;
-            if (hasErrorFileName && QDir::isAbsolutePath(fileName)) {
+            if (QDir::isAbsolutePath(fileName)) {
                 fileUrl = QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath());
             } else {
                 fileUrl = QUrl(fileName);
@@ -1302,12 +1293,6 @@ namespace BatchProcess::Internal {
 
     QString BatchProcessRuntime::errorText(const QJSValue &error, const QString &moduleId) const {
         return errorInfo(error, moduleId).diagnosticText;
-    }
-
-    QString BatchProcessRuntime::virtualModuleId(const QString &rootPath, const QString &filePath) const {
-        auto relativePath = QDir(rootPath).relativeFilePath(filePath);
-        relativePath = QDir::fromNativeSeparators(relativePath);
-        return QLatin1Char('/') + relativePath;
     }
 
     void BatchProcessRuntime::clearExecutionContext() {
