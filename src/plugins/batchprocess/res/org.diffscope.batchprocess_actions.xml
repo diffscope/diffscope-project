@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: LGPL-3.0-or-later
+-->
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.batchprocess</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
+        <translationContext
+            text="Application::ActionText"
+            class="Application::ActionClass"
+            description="Application::ActionDescription"
+        />
+    </configuration>
+
+    <items>
+        <action id="org.diffscope.batchprocess.&amp;batchProcess" text="&amp;Batch Process" diffscope:componentType="menu" />
+        <action id="org.diffscope.batchprocess.reload&amp;Scripts" text="&amp;Reload Scripts" description="Reload batch processing scripts" />
+        <action id="org.diffscope.batchprocess.openJavaScriptDebug&amp;Console" text="JavaScript Debug &amp;Console..." description="Open the JavaScript debug console" class="Help" icon="window_console" />
+    </items>
+
+    <layouts>
+        <group id="org.diffscope.batchprocess.javaScriptDebugConsoleActions">
+            <action id="org.diffscope.batchprocess.openJavaScriptDebugConsole" />
+        </group>
+    </layouts>
+
+    <insertions>
+        <insertion target="org.diffscope.core.mainMenu" anchor="after" relativeTo="org.diffscope.core.insert">
+            <action id="org.diffscope.batchprocess.batchProcess" />
+        </insertion>
+        <insertion target="org.diffscope.core.homeMenu" anchor="before" relativeTo="org.diffscope.core.homeView">
+            <action id="org.diffscope.batchprocess.batchProcess" />
+        </insertion>
+        <insertion target="org.diffscope.core.help" anchor="before" relativeTo="org.diffscope.core.aboutActions">
+            <group id="org.diffscope.batchprocess.javaScriptDebugConsoleActions" />
+        </insertion>
+    </insertions>
+</actionExtension>

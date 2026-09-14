@@ -165,6 +165,7 @@ function(diffscope_add_builtin_plugin _target)
 endfunction()
 
 add_subdirectory(coreplugin)
+add_subdirectory(batchprocess)
 add_subdirectory(audio)
 add_subdirectory(pitchshifter)
 add_subdirectory(gaineffectsunit)
