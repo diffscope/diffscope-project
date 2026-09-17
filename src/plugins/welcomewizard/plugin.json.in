@@ -12,7 +12,7 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Help",
+    "Category": "Application",
     "Description": "Display the Welcome Wizard when you first start @APPLICATION_DISPLAY_NAME@",
     "Url": "@APPLICATION_URL@",
     "Required": false,

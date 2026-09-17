@@ -12,7 +12,7 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Help",
+    "Category": "Application",
     "Description": "Provide support, update and feedback actions for @APPLICATION_DISPLAY_NAME@",
     "Url": "@APPLICATION_URL@",
     "Required": false,

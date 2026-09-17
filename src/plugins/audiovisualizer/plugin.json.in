@@ -12,7 +12,7 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Audio",
+    "Category": "Editor",
     "Description": "The audio visualizer plugin for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies" : [

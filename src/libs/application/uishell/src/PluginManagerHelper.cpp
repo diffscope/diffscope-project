@@ -127,6 +127,7 @@ namespace UIShell {
         std::ranges::transform(m_pluginCollection->plugins(), std::back_inserter(result), [=, this](auto *p) {
             return pluginManagerHelper()->getHelper(p);
         });
+        std::ranges::sort(result, [](auto *a, auto *b) { return a->name() < b->name(); });
         return result;
     }
 
@@ -138,6 +139,7 @@ namespace UIShell {
     QList<PluginCollectionHelper *> PluginManagerHelper::pluginCollections() {
         QList<PluginCollectionHelper *> result;
         std::ranges::transform(ExtensionSystem::PluginManager::pluginCollections(), std::back_inserter(result), [=, this](auto *p) { return getHelper(p); });
+        std::ranges::sort(result, [](auto *a, auto *b) { return a->name() < b->name(); });
         return result;
     }
     PluginSpecHelper *PluginManagerHelper::findPlugin(const QString &name) {

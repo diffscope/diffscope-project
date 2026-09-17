@@ -12,7 +12,7 @@
     ],
     "Arguments" : [
     ],
-    "Category": "Audio",
+    "Category": "Application",
     "Description": "The audio plugin for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies" : [

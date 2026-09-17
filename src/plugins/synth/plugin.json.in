@@ -11,7 +11,7 @@
         "LGPL-3.0-or-later"
     ],
     "Arguments": [],
-    "Category": "Audio",
+    "Category": "Application",
     "Description": "DSSP synthesis service integration for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies": [
