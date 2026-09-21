@@ -21,6 +21,7 @@
 #include <batchprocess/FileSystemAccessInterface.h>
 #include <batchprocess/JavaScriptConsoleInterface.h>
 #include <batchprocess/ShellInterface.h>
+#include <batchprocess/StorageInterface.h>
 #include <batchprocess/internal/BatchProcessAddOn.h>
 #include <batchprocess/internal/BatchProcessPage.h>
 #include <batchprocess/internal/BatchProcessSettings.h>
@@ -29,6 +30,7 @@
 #include <batchprocess/internal/JavaScriptConsoleExtension.h>
 #include <batchprocess/internal/RuntimeModuleExtension.h>
 #include <batchprocess/internal/ShellModuleExtension.h>
+#include <batchprocess/internal/StorageModuleExtension.h>
 
 static auto getBatchProcessActionExtension() {
     return QAK_STATIC_ACTION_EXTENSION(batchprocess);
@@ -54,9 +56,11 @@ namespace BatchProcess::Internal {
         auto consoleInterface = new JavaScriptConsoleInterface(this);
         auto fileSystemAccessInterface = new FileSystemAccessInterface(this);
         auto shellInterface = new ShellInterface(this);
+        auto storageInterface = new StorageInterface(this);
         new JavaScriptConsoleExtension(batchProcessInterface, consoleInterface, this);
         new FileSystemModuleExtension(batchProcessInterface, fileSystemAccessInterface, this);
         new ShellModuleExtension(batchProcessInterface, shellInterface, fileSystemAccessInterface, this);
+        new StorageModuleExtension(batchProcessInterface, storageInterface, this);
         new RuntimeModuleExtension(batchProcessInterface, this);
 
         Core::CoreInterface::actionRegistry()->addExtension(::getBatchProcessActionExtension());
