@@ -13,12 +13,17 @@ inputs:
     description: "The directory to build in"
     required: false
     default: ${{ runner.workspace }}/diffscope-package-manager
+  use_cache:
+    description: Restore and save dspm and Go caches
+    required: false
+    default: 'true'
 
 runs:
   using: "composite"
   steps:
     - name: Restore dspm executable cache
       id: cache_dspm
+      if: inputs.use_cache == 'true'
       uses: actions/cache/restore@v4
       with:
         path: ${{inputs.build-dir}}/dist
@@ -38,6 +43,7 @@ runs:
       with:
         go-version-file: ${{inputs.build-dir}}/go.mod
         cache-dependency-path: ${{inputs.build-dir}}/go.sum
+        cache: ${{ inputs.use_cache == 'true' }}
 
     - name: Download dependencies
       if: steps.cache_dspm.outputs.cache-hit != 'true'
@@ -56,7 +62,7 @@ runs:
 
     - name: Cache dspm executable
       uses: actions/cache/save@v4
-      if: steps.cache_dspm.outputs.cache-hit != 'true'
+      if: inputs.use_cache == 'true' && steps.cache_dspm.outputs.cache-hit != 'true'
       with:
         path: ${{inputs.build-dir}}/dist
         key: ${{ runner.os }}-dspm-${{ inputs.ref }}

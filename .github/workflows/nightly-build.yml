@@ -1,0 +1,106 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
+name: Nightly Build
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: nightly-build
+  queue: max
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  Check:
+    if: github.repository == 'diffscope/diffscope-project' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Check nightly eligibility
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await require('./.github/scripts/nightly.cjs').check({github, context, core});
+
+  Build:
+    needs: Check
+    if: needs.Check.outputs.should_build == 'true'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/build.yml
+    with:
+      source_sha: ${{ github.sha }}
+      build_type: nightly
+      use_cache: false
+      use_ccache: false
+
+  Publish:
+    needs: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    outputs:
+      release_id: ${{ steps.publish.outputs.release_id }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ needs.Build.outputs.application_name }}_*
+          path: release-assets
+          merge-multiple: true
+      - name: Publish nightly prerelease
+        id: publish
+        uses: actions/github-script@v7
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NIGHTLY_TAG: ${{ needs.Build.outputs.tag }}
+          APPLICATION_NAME: ${{ needs.Build.outputs.application_name }}
+          SOURCE_SHA: ${{ github.sha }}
+        with:
+          script: |
+            await require('./.github/scripts/nightly.cjs').publish({github, context, core});
+
+  UpdateCatalogs:
+    needs: Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Create catalogs dispatch token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.WORKFLOW_APP_ID }}
+          private-key: ${{ secrets.WORKFLOW_APP_PRIVATE_KEY }}
+          owner: diffscope
+          repositories: catalogs
+          permission-actions: write
+      - name: Update catalogs and wait for completion
+        uses: actions/github-script@v7
+        env:
+          RELEASE_ID: ${{ needs.Publish.outputs.release_id }}
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            await require('./.github/scripts/nightly.cjs').dispatch({github, context, core});

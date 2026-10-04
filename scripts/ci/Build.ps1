@@ -3,7 +3,7 @@
 
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("dev", "alpha", "beta", "release")]
+    [ValidateSet("dev", "nightly", "alpha", "beta", "release")]
     [string]$BuildType,
     
     [Parameter(Mandatory = $true)]
@@ -24,6 +24,12 @@ param(
 
     [string]$VersionIdentifier = "0",
 
+    [ValidateSet("Windows", "macOS", "Linux")]
+    [string]$ArtifactPlatform,
+
+    [ValidateSet("amd64", "arm64")]
+    [string]$ArtifactArchitecture,
+
     [switch]$CCache = $false
 )
 
@@ -31,8 +37,8 @@ if (-not (Test-Path $VcpkgRootDir)) {
     throw "Vcpkg root directory does not exist: $VcpkgRootDir"
 }
 
-New-Item $BuildDir -ItemType Directory -Force
-New-Item $InstallDir -ItemType Directory -Force
+New-Item $BuildDir -ItemType Directory -Force | Out-Null
+New-Item $InstallDir -ItemType Directory -Force | Out-Null
 
 Write-Host "Build type: $BuildType"
 Write-Host "Vcpkg root directory: $VcpkgRootDir"
@@ -66,6 +72,14 @@ switch ($BuildType) {
         $applicationDisplayName += " (Dev)"
         $semver += "+$VersionIdentifier"
     }
+    "nightly" {
+        if ($VersionIdentifier -notmatch '^\d{8}\.[1-9]\d*$') {
+            throw "Invalid nightly version identifier: $VersionIdentifier"
+        }
+        $applicationName += "_nightly"
+        $applicationDisplayName += " (Nightly)"
+        $semver += "-nightly.$VersionIdentifier"
+    }
     "alpha" {
         $applicationName += "_alpha"
         $applicationDisplayName += " (Alpha)"
@@ -83,7 +97,18 @@ Write-Host "Application name: $applicationName"
 Write-Host "Application display name: $applicationDisplayName"
 Write-Host "Semver: $semver"
 
-$installerFileBase = "${applicationName}_$($semver -replace '[\.\-\+]', '_')_installer"
+if (-not $ArtifactPlatform) {
+    $ArtifactPlatform = $IsWindows ? "Windows" : ($IsMacOS ? "macOS" : "Linux")
+}
+if (-not $ArtifactArchitecture) {
+    switch ([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture) {
+        "X64" { $ArtifactArchitecture = "amd64" }
+        "Arm64" { $ArtifactArchitecture = "arm64" }
+        default { throw "Unsupported artifact architecture" }
+    }
+}
+$artifactFileBase = "${applicationName}_$($semver -replace '[\.\-\+]', '_')_${ArtifactPlatform}_${ArtifactArchitecture}"
+$installerFileBase = $ArtifactPlatform -eq "Windows" ? "${artifactFileBase}_installer" : $artifactFileBase
 
 $depsDir = (Get-ChildItem -Path $(Join-Path $VcpkgRootDir installed) | Where-Object {$_.Name -ne "vcpkg"})[0].FullName
 $depsRuntimeDir = Join-Path $depsDir ($IsWindows ? "bin" : "lib")
@@ -138,6 +163,7 @@ $buildResult = @{
     ApplicationName = $applicationName
     ApplicationDisplayName = $applicationDisplayName
     Semver = $semver
+    ArtifactFileBase = $artifactFileBase
     InstallerFileBase = $installerFileBase
 }
 

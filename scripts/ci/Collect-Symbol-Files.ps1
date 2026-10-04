@@ -8,7 +8,11 @@ param(
 
     [Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [string]$InstallDir
+    [string]$InstallDir,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ArchivePath
 )
 
 function Get-FilesByMagic {
@@ -38,7 +42,7 @@ function Get-FilesByMagic {
 }
 
 $symbolFilesDirectory = [System.IO.Path]::GetTempPath() + "DiffScope-Symbols"
-New-Item -ItemType Directory -Force -Path $symbolFilesDirectory
+New-Item -ItemType Directory -Force -Path $symbolFilesDirectory | Out-Null
 
 if ($IsWindows) {
     $PATTERN = "PDB file found at.*'(.*)'"
@@ -55,7 +59,7 @@ if ($IsWindows) {
             Write-Host "$dllFile -> $pdbPath"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
-                New-Item $pdbTargetDirectory -ItemType directory
+                New-Item $pdbTargetDirectory -ItemType directory | Out-Null
             }
             Copy-Item $pdbPath $pdbTargetDirectory
         } else {
@@ -76,7 +80,7 @@ if ($IsWindows) {
             Write-Host "Copy and strip debug_info: $dllFile"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
-                New-Item $pdbTargetDirectory -ItemType directory
+                New-Item $pdbTargetDirectory -ItemType directory | Out-Null
             }
             dsymutil $dllFile.FullName -o "$pdbTargetDirectory/$($dllFile.Name).dSYM"
             strip -S $dllFile.FullName
@@ -96,7 +100,7 @@ if ($IsWindows) {
             Write-Host "Copy and strip debug_info: $dllFile"
             $pdbTargetDirectory = "$symbolFilesDirectory/$(Split-Path $(Resolve-Path $dllFile.FullName -Relative))"
             if (!(Test-Path $pdbTargetDirectory)) {
-                New-Item $pdbTargetDirectory -ItemType directory
+                New-Item $pdbTargetDirectory -ItemType directory | Out-Null
             }
             objcopy --only-keep-debug $dllFile.FullName "$pdbTargetDirectory/$($dllFile.Name).debug"
             strip --strip-debug $dllFile.FullName
@@ -107,6 +111,9 @@ if ($IsWindows) {
     Pop-Location
 }
 
-7z a -t7z -mx=9 -ms=on symbol_files.7z $symbolFilesDirectory
+7z a -t7z -mx=9 -ms=on $ArchivePath $symbolFilesDirectory | Write-Host
+if ($LASTEXITCODE -ne 0) {
+    throw 'Symbol archive creation failed'
+}
 Remove-Item -Recurse -Force $symbolFilesDirectory
-Write-Output $(Resolve-Path symbol_files.7z)
+Write-Output (Resolve-Path -LiteralPath $ArchivePath).Path

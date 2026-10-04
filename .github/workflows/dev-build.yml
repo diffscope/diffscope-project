@@ -31,115 +31,21 @@ on:
         required: false
         type: boolean
         default: true
+      use_cache:
+        description: 'Restore and save caches'
+        required: false
+        type: boolean
+        default: true
 
-defaults:
-  run:
-    shell: pwsh
+permissions:
+  contents: read
 
 jobs:
   Build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - windows-2025
-          # - ubuntu-24.04
-          - macos-15
-    env:
-      QT_VERSION: 6.11.2
-      VCPKG_REF: 39344dff01c5a5a0134caf2624cdd492f05d30ea
-      INNOSETUP_REF: is-6_5_4
-      VERSION_IDENTIFIER: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
-      BUILD_DIR: ${{ github.workspace }}/build/build
-      INSTALL_DIR: ${{ github.workspace }}/build/install
-      CCACHE_DIR: ${{ github.workspace }}/build/ccache
-      MACOSX_DEPLOYMENT_TARGET: 13.0
-      DSPM_REF: 51b75ae77caef5227be14da9e8e00a0593fbd83a
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Initialize building environment
-        uses: ./.github/actions/initialize-build-environment
-        with:
-          qt_version: ${{ env.QT_VERSION }}
-
-      - name: Initialize dspm
-        uses: ./.github/actions/initialize-dspm
-        with:
-          ref: ${{ env.DSPM_REF }}
-
-      - name: Initialize Vcpkg
-        uses: ./.github/actions/initialize-vcpkg
-        with:
-          ref: ${{ env.VCPKG_REF }}
-
-      - name: Restore CCache cache
-        uses: actions/cache/restore@v4
-        if: ${{ github.event.inputs.use_ccache == 'true' }}
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-ccache-
-
-      - name: Build
-        run: |
-          $output = & ./scripts/ci/Build.ps1 `
-            -BuildType dev `
-            -VcpkgRootDir $env:VCPKG_ROOT_DIR `
-            -BuildDir $env:BUILD_DIR `
-            -InstallDir $env:INSTALL_DIR `
-            -VersionIdentifier $env:VERSION_IDENTIFIER `
-            -dspmExecutablePath $env:DSPM_EXECUTABLE_PATH `
-            ${{ github.event.inputs.use_ccache == 'true' && '-CCache' || '' }} 
-          Write-Output ARTIFACT_NAME=$($output.ApplicationName)_$($output.Semver -replace '[\.\-\+]', '_')_${{ runner.os }}_${{ runner.arch }} >> $env:GITHUB_ENV
-          Write-Output APPLICATION_SEMVER=$($output.Semver) >> $env:GITHUB_ENV
-          Write-Output APPLICATION_DISPLAY_NAME=$($output.ApplicationDisplayName) >> $env:GITHUB_ENV
-          Write-Output APPLICATION_NAME=$($output.ApplicationName) >> $env:GITHUB_ENV
-          Write-Output INSTALLER_FILE_BASE=$($output.InstallerFileBase) >> $env:GITHUB_ENV
-
-      - name: Save CCache cache
-        uses: actions/cache/save@v4
-        if: ${{ github.event.inputs.use_ccache == 'true' }}
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-${{ github.sha }}
-
-      - name: Collect symbol files
-        run: |
-          $output = & ./scripts/ci/Collect-Symbol-Files.ps1 -VcpkgRootDir $env:VCPKG_ROOT_DIR -InstallDir $env:INSTALL_DIR
-          Write-Output SYMBOL_FILES_PATH=$($output.Path) >> $env:GITHUB_ENV
-
-      - name: Create InnoSetup installer (Windows)
-        if: ${{ runner.os == 'Windows' }}
-        run: |
-          $output = & ./scripts/ci/Pack.ps1 -BuildDir $env:BUILD_DIR -InstallerFileBase $env:INSTALLER_FILE_BASE -InnoSetupCommit $env:INNOSETUP_REF
-          Write-Output PACKAGE_PATH=$($output.Path) >> $env:GITHUB_ENV
-
-      - name: Create DMG installer (macOS)
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          $output = & ./scripts/ci/Create-DMG.ps1 `
-            -AppPath $(Join-Path $env:INSTALL_DIR $env:APPLICATION_NAME'.app') `
-            -Semver $env:APPLICATION_SEMVER `
-            -ApplicationDisplayName $env:APPLICATION_DISPLAY_NAME `
-            -InstallerFileBase $env:INSTALLER_FILE_BASE
-          Write-Output PACKAGE_PATH=$($output) >> $env:GITHUB_ENV
-
-      - name: Upload symbol files
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}_symbol_files
-          path: ${{ env.SYMBOL_FILES_PATH }}
-
-      - name: Upload package
-        uses: actions/upload-artifact@v4
-        with:
-            name: ${{ env.ARTIFACT_NAME }}
-            path: ${{ env.PACKAGE_PATH }}
+    uses: ./.github/workflows/build.yml
+    with:
+      source_sha: ${{ github.sha }}
+      build_type: dev
+      version_identifier: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
+      use_cache: ${{ github.event_name != 'workflow_dispatch' || inputs.use_cache }}
+      use_ccache: ${{ github.event.inputs.use_ccache == 'true' }}

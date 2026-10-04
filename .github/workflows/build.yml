@@ -1,0 +1,221 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      source_sha:
+        required: true
+        type: string
+      build_type:
+        required: true
+        type: string
+      version_identifier:
+        required: false
+        type: string
+        default: ''
+      use_cache:
+        required: false
+        type: boolean
+        default: true
+      use_ccache:
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      semver:
+        value: ${{ jobs.Prepare.outputs.semver }}
+      tag:
+        value: ${{ jobs.Prepare.outputs.tag }}
+      application_name:
+        value: ${{ jobs.Prepare.outputs.application_name }}
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  Prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.prepare.outputs.semver }}
+      tag: ${{ steps.prepare.outputs.tag }}
+      application_name: ${{ steps.prepare.outputs.application_name }}
+      version_identifier: ${{ steps.prepare.outputs.version_identifier }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_sha }}
+      - name: Prepare build version
+        id: prepare
+        uses: actions/github-script@v7
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          BUILD_TYPE: ${{ inputs.build_type }}
+          VERSION_IDENTIFIER: ${{ inputs.version_identifier }}
+        with:
+          script: |
+            await require('./.github/scripts/nightly.cjs').prepare({github, context, core});
+
+  Build:
+    needs: Prepare
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            platform: Windows
+            arch: amd64
+          # - os: ubuntu-24.04
+          - os: macos-15
+            platform: macOS
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    env:
+      QT_VERSION: 6.11.2
+      VCPKG_REF: 39344dff01c5a5a0134caf2624cdd492f05d30ea
+      INNOSETUP_REF: is-6_5_4
+      DSPM_REF: 51b75ae77caef5227be14da9e8e00a0593fbd83a
+      MACOSX_DEPLOYMENT_TARGET: 13.0
+      BUILD_DIR: ${{ github.workspace }}/build/build
+      INSTALL_DIR: ${{ github.workspace }}/build/install
+      CCACHE_DIR: ${{ github.workspace }}/build/ccache
+      BUILD_TYPE: ${{ inputs.build_type }}
+      VERSION_IDENTIFIER: ${{ needs.Prepare.outputs.version_identifier }}
+      EXPECTED_SEMVER: ${{ needs.Prepare.outputs.semver }}
+      ARTIFACT_PLATFORM: ${{ matrix.platform }}
+      ARTIFACT_ARCH: ${{ matrix.arch }}
+      USE_CCACHE: ${{ inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_sha }}
+          submodules: recursive
+
+      - name: Initialize building environment
+        uses: ./.github/actions/initialize-build-environment
+        with:
+          qt_version: ${{ env.QT_VERSION }}
+          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+
+      - name: Initialize dspm
+        uses: ./.github/actions/initialize-dspm
+        with:
+          ref: ${{ env.DSPM_REF }}
+          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+
+      - name: Initialize Vcpkg
+        uses: ./.github/actions/initialize-vcpkg
+        with:
+          ref: ${{ env.VCPKG_REF }}
+          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+
+      - name: Restore CCache cache
+        if: inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ccache-${{ inputs.source_sha }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
+
+      - name: Build
+        run: |
+          $expectedRunnerArch = $env:ARTIFACT_ARCH -eq 'amd64' ? 'X64' : 'ARM64'
+          if ($env:RUNNER_ARCH -ne $expectedRunnerArch) {
+            throw "Unexpected runner architecture: $env:RUNNER_ARCH"
+          }
+          $output = & ./scripts/ci/Build.ps1 `
+            -BuildType $env:BUILD_TYPE `
+            -VcpkgRootDir $env:VCPKG_ROOT_DIR `
+            -BuildDir $env:BUILD_DIR `
+            -InstallDir $env:INSTALL_DIR `
+            -VersionIdentifier $env:VERSION_IDENTIFIER `
+            -dspmExecutablePath $env:DSPM_EXECUTABLE_PATH `
+            -ArtifactPlatform $env:ARTIFACT_PLATFORM `
+            -ArtifactArchitecture $env:ARTIFACT_ARCH `
+            -CCache:($env:USE_CCACHE -eq 'true')
+          if ($output.Semver -ne $env:EXPECTED_SEMVER) {
+            throw 'Built application version differs from the reserved version'
+          }
+          "ARTIFACT_NAME=$($output.ArtifactFileBase)" >> $env:GITHUB_ENV
+          "APPLICATION_SEMVER=$($output.Semver)" >> $env:GITHUB_ENV
+          "APPLICATION_DISPLAY_NAME=$($output.ApplicationDisplayName)" >> $env:GITHUB_ENV
+          "APPLICATION_NAME=$($output.ApplicationName)" >> $env:GITHUB_ENV
+          "INSTALLER_FILE_BASE=$($output.InstallerFileBase)" >> $env:GITHUB_ENV
+
+      - name: Save CCache cache
+        if: inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ccache-${{ inputs.source_sha }}
+
+      - name: Collect symbol files
+        run: |
+          $output = & ./scripts/ci/Collect-Symbol-Files.ps1 `
+            -VcpkgRootDir $env:VCPKG_ROOT_DIR `
+            -InstallDir $env:INSTALL_DIR `
+            -ArchivePath "$($env:ARTIFACT_NAME)_debug_symbols.7z"
+          "SYMBOL_FILES_PATH=$output" >> $env:GITHUB_ENV
+
+      - name: Create InnoSetup installer (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          $output = & ./scripts/ci/Pack.ps1 -BuildDir $env:BUILD_DIR -InstallerFileBase $env:INSTALLER_FILE_BASE -InnoSetupCommit $env:INNOSETUP_REF
+          "PACKAGE_PATH=$($output.Path)" >> $env:GITHUB_ENV
+          "PACKAGE_ARTIFACT_NAME=$env:INSTALLER_FILE_BASE" >> $env:GITHUB_ENV
+
+      - name: Create portable archive (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          $output = & ./scripts/ci/Create-Portable.ps1 `
+            -InstallDir $env:INSTALL_DIR `
+            -ApplicationName $env:APPLICATION_NAME `
+            -ArchivePath "$($env:ARTIFACT_NAME)_portable.zip"
+          "PORTABLE_PATH=$output" >> $env:GITHUB_ENV
+
+      - name: Create DMG installer (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          $output = & ./scripts/ci/Create-DMG.ps1 `
+            -AppPath (Join-Path $env:INSTALL_DIR "$($env:APPLICATION_NAME).app") `
+            -Semver $env:APPLICATION_SEMVER `
+            -ApplicationDisplayName $env:APPLICATION_DISPLAY_NAME `
+            -InstallerFileBase $env:INSTALLER_FILE_BASE
+          "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
+          "PACKAGE_ARTIFACT_NAME=$env:INSTALLER_FILE_BASE" >> $env:GITHUB_ENV
+
+      - name: Upload symbol files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_debug_symbols
+          path: ${{ env.SYMBOL_FILES_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_ARTIFACT_NAME }}
+          path: ${{ env.PACKAGE_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
+
+      - name: Upload portable archive
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_portable
+          path: ${{ env.PORTABLE_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0

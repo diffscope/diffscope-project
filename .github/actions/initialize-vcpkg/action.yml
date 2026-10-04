@@ -9,12 +9,17 @@ inputs:
     description: "The ref to checkout"
     required: false
     default: "master"
+  use_cache:
+    description: Restore and save vcpkg binary caches
+    required: false
+    default: 'true'
 
 
 runs:
   using: "composite"
   steps:
     - name: Prepare vcpkg
+      if: inputs.use_cache == 'true'
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Path ${{ github.workspace }}/../vcpkg_archives -Force
@@ -22,6 +27,7 @@ runs:
 
     - name: Restore vcpkg binary cache
       id: cache_vcpkg
+      if: inputs.use_cache == 'true'
       uses: actions/cache/restore@v4
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
@@ -31,12 +37,13 @@ runs:
 
     - name: Install vcpkg dependencies
       env:
+        USE_CACHE: ${{ inputs.use_cache }}
         QT_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
         Qt6_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_KEEP_ENV_VARS: "QT_DIR;Qt6_DIR;VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
       shell: pwsh
       run: |
-        if (!(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {
+        if ($env:USE_CACHE -eq 'true' -and !(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {
           New-Item $env:VCPKG_DEFAULT_BINARY_CACHE -ItemType directory
         }
         Set-Location ${{ github.workspace }}/..
@@ -45,11 +52,23 @@ runs:
         Write-Output VCPKG_ROOT_DIR=$(Resolve-Path .) >> $env:GITHUB_ENV
         git checkout ${{ inputs.ref }}
         ${{ runner.os == 'Windows' && './bootstrap-vcpkg.bat' || 'sh ./bootstrap-vcpkg.sh' }}
-        ./vcpkg install `
-          --x-manifest-root=${{ github.workspace }}/scripts/vcpkg-manifest `
-          --x-install-root=./installed
+        $arguments = @(
+          'install'
+          '--x-manifest-root=${{ github.workspace }}/scripts/vcpkg-manifest'
+          '--x-install-root=./installed'
+        )
+        if ($env:USE_CACHE -ne 'true') {
+          $env:VCPKG_BINARY_SOURCES = 'clear'
+          'VCPKG_BINARY_SOURCES=clear' >> $env:GITHUB_ENV
+          $arguments += '--binarysource=clear'
+        }
+        ./vcpkg @arguments
+        if ($LASTEXITCODE -ne 0) {
+          throw 'vcpkg installation failed'
+        }
 
     - name: Save vcpkg binary cache
+      if: inputs.use_cache == 'true'
       uses: actions/cache/save@v4
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
