@@ -271,8 +271,8 @@ QtObject {
                     ? (control.parameterContext?.editingParameterDisplayName ?? qsTr("None"))
                     : (control.parameterContext?.referenceParameterDisplayName ?? qsTr("None"))
                 readonly property bool selectedWarning: selectedId.length > 0 && (editing
-                    ? !(control.editingBinding?.registered ?? false)
-                    : !(control.referenceBinding?.registered ?? false))
+                    ? !(control.editingBinding?.supported ?? false)
+                    : !(control.referenceBinding?.supported ?? false))
 
                 implicitWidth: 132
                 implicitHeight: 22
@@ -433,6 +433,16 @@ QtObject {
                 }
             }
 
+            IconLabel {
+                visible: (control.editingBinding?.available ?? false)
+                    && !(control.editingBinding?.supported ?? false)
+                text: qsTr("Unsupported parameter")
+                icon.source: "image://fluent-system-icons/warning"
+                icon.color: Theme.warningColor
+                color: Theme.warningColor
+                Accessible.name: text
+            }
+
             Item {
                 Layout.fillWidth: true
             }
@@ -453,15 +463,6 @@ QtObject {
             timeViewModel: control.contextObject?.timeViewModel ?? null
             clipViewModel: d.projectViewModelContext?.getClipViewItemFromDocumentItem(
                 control.contextObject?.editingClip ?? null) ?? null
-        }
-
-        ParameterInfoProvider {
-            id: parameterInfoProvider
-            registry: CoreInterface.singerRegistry
-            architectureId:
-                control.parameterContext?.singingClip?.sources?.category ?? ""
-            parameterId: control.editingBinding?.parameterId ?? ""
-            transform: control.transformEditing
         }
 
         Binding {
@@ -651,22 +652,15 @@ QtObject {
             SFPalette.scaleSecondaryColor: control.defaultReferenceColor
         }
 
-        IconLabel {
-            anchors.centerIn: parent
-            z: 4
-            visible: (control.parameterContext?.editingParameterId.length ?? 0) > 0
-                && !(control.editingBinding?.registered ?? false)
-            text: qsTr("The selected parameter is unavailable.")
-            icon.source: "image://fluent-system-icons/warning"
-        }
-
         Item {
             id: scale
             width: 64
             height: parent.height
             z: 3
             visible: control.editingBinding?.available ?? false
-            readonly property var activeParameterInfo: parameterInfoProvider.info
+            readonly property var activeParameterInfo: control.transformEditing
+                ? control.editingBinding?.transformParameterInfo
+                : control.editingBinding?.parameterInfo
             readonly property bool valueIndicatorEditing:
                 anchorCursorBinding.when || freeEditCursorBinding.when
             readonly property double valueIndicatorSource: anchorCursorBinding.when
@@ -680,27 +674,14 @@ QtObject {
                 return Math.max(0.0, Math.min(1.0, valueIndicatorSource))
             }
             readonly property string valueIndicatorDisplayString: {
-                const info = parameterInfoProvider.info
-                if (!parameterInfoProvider.exists
-                        || info === undefined || info === null
+                const info = activeParameterInfo
+                if (info === undefined || info === null
                         || !Number.isFinite(valueIndicatorSource)) {
                     return ""
                 }
-                return parameterInfoProvider.displayString(valueIndicatorPosition)
+                return info.invokeToDisplayString(valueIndicatorPosition)
             }
 
-            Loader {
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                width: 8
-                active: control.editingBinding?.available ?? false
-                sourceComponent: ParameterDivisionItem {
-                    parameterInfo: scale.activeParameterInfo
-                    color: Theme.foregroundPrimaryColor
-                    lineLength: 8
-                }
-            }
             Label {
                 anchors.top: parent.top
                 anchors.left: parent.left
@@ -728,7 +709,7 @@ QtObject {
                 width: valueIndicatorLabel.implicitWidth + 8
                 height: valueIndicatorLabel.implicitHeight + 4
                 radius: 2
-                visible: parameterInfoProvider.exists
+                visible: (control.editingBinding?.available ?? false)
                     && (scale.valueIndicatorEditing
                         || (!(control.contextObject?.mouseTrackingDisabled ?? true)
                             && control.parameterHovered))

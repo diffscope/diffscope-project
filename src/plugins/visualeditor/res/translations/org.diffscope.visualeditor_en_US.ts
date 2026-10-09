@@ -940,9 +940,9 @@
         <translation type="unfinished">Anchors Select</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="659"/>
-        <source>The selected parameter is unavailable.</source>
-        <translation type="unfinished">The selected parameter is unavailable.</translation>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="439"/>
+        <source>Unsupported parameter</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

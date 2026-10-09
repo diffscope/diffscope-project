@@ -12,7 +12,7 @@
 namespace Synth::Internal::MetadataConverter {
 
     ArchitectureMetadata architecture(const Api::V1::ArchitectureMetadata &source);
-    SingerMetadata singer(const Api::V1::SingerInfo &source, const QUuid &serviceId);
+    SingerMetadata singer(const Api::V1::SingerInfo &source, const Api::V1::GroupMetadata &group, const QUuid &serviceId);
     QJsonArray demos(const Api::V1::SingerDemoAudioList &source);
 
 }

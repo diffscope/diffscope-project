@@ -15,8 +15,10 @@
 #include <QDateTime>
 #include <QFutureInterface>
 #include <QHash>
+#include <QImageReader>
 #include <QJsonDocument>
 #include <QJsonParseError>
+#include <QList>
 #include <QLoggingCategory>
 #include <QMetaObject>
 #include <QNetworkAccessManager>
@@ -26,9 +28,10 @@
 #include <QSslConfiguration>
 #include <QSslError>
 #include <QSslSocket>
+#include <QStringList>
 #include <QThread>
 #include <QTimer>
-#include <QUrlQuery>
+#include <QUrl>
 
 #include <synth/internal/ApiVersion.h>
 
@@ -81,12 +84,20 @@ namespace {
         QList<ApiExchange> exchanges;
     };
 
+    struct QueryItem {
+        QString name;
+        QStringList values;
+    };
+
+    using RequestQuery = QList<QueryItem>;
+
     struct RequestTask {
         quint64 id{};
         ServiceOptions service;
         QByteArray method;
-        QString route;
-        QUrlQuery query;
+        QStringList route;
+        RequestQuery query;
+        QString displayLanguage;
         QByteArray body;
         SynthesisCategory category{SynthesisCategory::None};
         ApiVersion apiVersion{ApiVersion::V1};
@@ -98,8 +109,27 @@ namespace {
         std::function<void()> reportCanceledAndFinished;
     };
 
-    QString encodedPathSegment(const QString &segment) {
-        return QString::fromLatin1(QUrl::toPercentEncoding(segment));
+    QString encodedQuery(const RequestQuery &query) {
+        QStringList items;
+        for (const auto &item : query) {
+            QStringList values;
+            for (const auto &value : item.values)
+                values.append(QString::fromLatin1(QUrl::toPercentEncoding(value)));
+            // Encode array elements independently; only the OpenAPI separators remain literal.
+            items.append(QString::fromLatin1(QUrl::toPercentEncoding(item.name)) + u'=' + values.join(u','));
+        }
+        return items.join(u'&');
+    }
+
+    RequestQuery mediaQuery(const QList<QByteArray> &acceptableFormats = {}) {
+        RequestQuery query{{QStringLiteral("acceptableSchemes"), {QStringLiteral("data"), QStringLiteral("http"), QStringLiteral("https")}}};
+        if (!acceptableFormats.isEmpty()) {
+            QStringList formats;
+            for (const auto &format : acceptableFormats)
+                formats.append(QString::fromLatin1(format));
+            query.append({QStringLiteral("acceptableFormats"), formats});
+        }
+        return query;
     }
 
     QByteArray jsonBody(const QJsonValue &value) {
@@ -310,22 +340,24 @@ namespace {
 
         QUrl requestUrl(const RequestTask &task) const {
             auto url = task.service.baseUrl;
-            auto path = url.path();
+            auto path = url.path(QUrl::FullyEncoded);
             while (path.size() > 1 && path.endsWith(u'/'))
                 path.chop(1);
             if (path == QStringLiteral("/"))
                 path.clear();
-            path += apiVersionPrefix(task.apiVersion) + task.route;
-            // route contains encoded dynamic path segments. StrictMode preserves those escape
-            // sequences while still accepting the normalized endpoint prefix.
+            path += apiVersionPrefix(task.apiVersion);
+            for (const auto &segment : task.route)
+                path += u'/' + QString::fromLatin1(QUrl::toPercentEncoding(segment));
             url.setPath(path, QUrl::StrictMode);
-            url.setQuery(task.query);
+            url.setQuery(encodedQuery(task.query), QUrl::StrictMode);
             return url;
         }
 
         QNetworkRequest networkRequest(const RequestTask &task) const {
             QNetworkRequest request(requestUrl(task));
             request.setRawHeader("Accept", "application/json");
+            if (!task.displayLanguage.isEmpty())
+                request.setRawHeader("Accept-Language", task.displayLanguage.toUtf8());
             if (task.method == QByteArrayLiteral("POST"))
                 request.setRawHeader("Content-Type", "application/json");
             if (task.service.authenticationEnabled) {
@@ -686,9 +718,9 @@ public:
 
     template<typename T>
     QFuture<ApiResult<T>> request(const ServiceInstanceConfiguration &service, const QByteArray &method,
-                                  const QString &route, const QUrlQuery &query,
+                                  const QStringList &route, const RequestQuery &query,
                                   const QByteArray &body, SynthesisCategory category,
-                                  ApiVersion apiVersion = ApiVersion::V1) {
+                                  ApiVersion apiVersion = ApiVersion::V1, const QString &displayLanguage = {}) {
         // Pending is a real, waitable Qt future state used by continuations. Until
         // reportStarted() is called by the network scheduler, isStarted()/isRunning() remain
         // false and Qt 6.10 also reports isValid() == false. Callers must therefore use
@@ -703,6 +735,7 @@ public:
         task->method = method;
         task->route = route;
         task->query = query;
+        task->displayLanguage = displayLanguage;
         task->body = body;
         task->category = category;
         task->apiVersion = apiVersion;
@@ -774,116 +807,92 @@ ApiClient::~ApiClient() = default;
 QFuture<ApiResult<V1::ApplicationInfoResponse>>
 ApiClient::getInfo(const ServiceInstanceConfiguration &service) {
     return d->request<V1::ApplicationInfoResponse>(service, QByteArrayLiteral("GET"),
-                                                   QStringLiteral("/info"), {}, {},
+                                                   {QStringLiteral("info")}, {}, {},
                                                    SynthesisCategory::None);
 }
 
 QFuture<ApiResult<V1::ArchitectureMetadataList>>
-ApiClient::getArchitectures(const ServiceInstanceConfiguration &service,
-                            const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
+ApiClient::getArchitectures(const ServiceInstanceConfiguration &service, const QString &displayLanguage) {
+    RequestQuery query;
     return d->request<V1::ArchitectureMetadataList>(service, QByteArrayLiteral("GET"),
-                                                    QStringLiteral("/arch"), query, {},
-                                                    SynthesisCategory::None);
+        {QStringLiteral("arch")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::ArchitectureMetadata>>
-ApiClient::getArchitecture(const ServiceInstanceConfiguration &service,
-                           const QString &architectureId, const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::ArchitectureMetadata>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1").arg(encodedPathSegment(architectureId)), query, {},
-        SynthesisCategory::None);
+ApiClient::getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::ArchitectureMetadata>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
+}
+
+QFuture<ApiResult<V1::GroupMetadataList>>
+ApiClient::getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::GroupMetadataList>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
+}
+
+QFuture<ApiResult<V1::GroupMetadata>>
+ApiClient::getGroup(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::GroupMetadata>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
+}
+
+QFuture<ApiResult<V1::SingerInfoList>>
+ApiClient::getGroupSingers(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId, QStringLiteral("singer")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerInfoList>>
 ApiClient::getSingers(const ServiceInstanceConfiguration &service, const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
+    RequestQuery query;
     return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
-                                         QStringLiteral("/singer"), query, {},
-                                         SynthesisCategory::None);
+        {QStringLiteral("singer")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerInfoList>>
-ApiClient::getArchitectureSingers(const ServiceInstanceConfiguration &service,
-                                  const QString &architectureId,
-                                  const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::SingerInfoList>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1/singer").arg(encodedPathSegment(architectureId)), query, {},
-        SynthesisCategory::None);
+ApiClient::getArchitectureSingers(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerInfo>>
-ApiClient::getSinger(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                     const QString &singerId, const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::SingerInfo>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1/singer/%2")
-            .arg(encodedPathSegment(architectureId), encodedPathSegment(singerId)),
-        query, {}, SynthesisCategory::None);
+ApiClient::getSinger(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+    RequestQuery query;
+    return d->request<V1::SingerInfo>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerAvatarResponse>>
-ApiClient::getSingerAvatar(const ServiceInstanceConfiguration &service,
-                           const QString &architectureId, const QString &singerId,
-                           const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::SingerAvatarResponse>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1/singer/%2/avatar")
-            .arg(encodedPathSegment(architectureId), encodedPathSegment(singerId)),
-        query, {}, SynthesisCategory::None);
+ApiClient::getSingerAvatar(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+    const auto query = mediaQuery(QImageReader::supportedMimeTypes());
+    return d->request<V1::SingerAvatarResponse>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("avatar")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerBackgroundResponse>>
-ApiClient::getSingerBackground(const ServiceInstanceConfiguration &service,
-                               const QString &architectureId, const QString &singerId,
-                               const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::SingerBackgroundResponse>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1/singer/%2/background")
-            .arg(encodedPathSegment(architectureId), encodedPathSegment(singerId)),
-        query, {}, SynthesisCategory::None);
+ApiClient::getSingerBackground(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+    const auto query = mediaQuery(QImageReader::supportedMimeTypes());
+    return d->request<V1::SingerBackgroundResponse>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("background")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::SingerDemoAudioList>>
-ApiClient::getSingerDemoAudio(const ServiceInstanceConfiguration &service,
-                              const QString &architectureId, const QString &singerId,
-                              const QString &displayLanguage) {
-    QUrlQuery query;
-    if (!displayLanguage.isEmpty())
-        query.addQueryItem(QStringLiteral("display_language"), displayLanguage);
-    return d->request<V1::SingerDemoAudioList>(
-        service, QByteArrayLiteral("GET"),
-        QStringLiteral("/arch/%1/singer/%2/demo_audio")
-            .arg(encodedPathSegment(architectureId), encodedPathSegment(singerId)),
-        query, {}, SynthesisCategory::None);
+ApiClient::getSingerDemoAudio(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+    const auto query = mediaQuery();
+    return d->request<V1::SingerDemoAudioList>(service, QByteArrayLiteral("GET"),
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("demo-audio")}, query, {}, SynthesisCategory::None, ApiVersion::V1, displayLanguage);
 }
 
 QFuture<ApiResult<V1::EnvTagResponse>>
 ApiClient::createEnvironmentTag(const ServiceInstanceConfiguration &service,
                                 const V1::EnvTagRequest &request) {
     return d->request<V1::EnvTagResponse>(service, QByteArrayLiteral("POST"),
-                                         QStringLiteral("/env_tag"), {}, jsonBody(request.toJson()),
+                                         {QStringLiteral("synth"), QStringLiteral("env-tag")}, {}, jsonBody(request.toJson()),
                                          SynthesisCategory::None);
 }
 
@@ -891,7 +900,7 @@ QFuture<ApiResult<V1::PronunciationResponse>>
 ApiClient::synthesizePronunciation(const ServiceInstanceConfiguration &service,
                                    const V1::PronunciationRequest &request) {
     return d->request<V1::PronunciationResponse>(
-        service, QByteArrayLiteral("POST"), QStringLiteral("/synth/pronunciation"), {},
+        service, QByteArrayLiteral("POST"), {QStringLiteral("synth"), QStringLiteral("pronunciation")}, {},
         jsonBody(request.toJson()), SynthesisCategory::Pronunciation);
 }
 
@@ -899,7 +908,7 @@ QFuture<ApiResult<V1::PhonemeResponse>>
 ApiClient::synthesizePhoneme(const ServiceInstanceConfiguration &service,
                              const V1::PhonemeRequest &request) {
     return d->request<V1::PhonemeResponse>(service, QByteArrayLiteral("POST"),
-                                          QStringLiteral("/synth/phoneme"), {},
+                                          {QStringLiteral("synth"), QStringLiteral("phoneme")}, {},
                                           jsonBody(request.toJson()), SynthesisCategory::Phoneme);
 }
 
@@ -907,7 +916,7 @@ QFuture<ApiResult<V1::DurationResponse>>
 ApiClient::synthesizeDuration(const ServiceInstanceConfiguration &service,
                               const V1::DurationRequest &request) {
     return d->request<V1::DurationResponse>(service, QByteArrayLiteral("POST"),
-                                           QStringLiteral("/synth/duration"), {},
+                                           {QStringLiteral("synth"), QStringLiteral("duration")}, {},
                                            jsonBody(request.toJson()), SynthesisCategory::Duration);
 }
 
@@ -915,7 +924,7 @@ QFuture<ApiResult<V1::ParameterResponse>>
 ApiClient::synthesizeParameter(const ServiceInstanceConfiguration &service,
                                const V1::ParameterRequest &request) {
     return d->request<V1::ParameterResponse>(service, QByteArrayLiteral("POST"),
-                                            QStringLiteral("/synth/parameter"), {},
+                                            {QStringLiteral("synth"), QStringLiteral("parameter")}, {},
                                             jsonBody(request.toJson()), SynthesisCategory::Parameter);
 }
 
@@ -923,7 +932,7 @@ QFuture<ApiResult<V1::AudioResponse>>
 ApiClient::synthesizeAudio(const ServiceInstanceConfiguration &service,
                            const V1::AudioRequest &request) {
     return d->request<V1::AudioResponse>(service, QByteArrayLiteral("POST"),
-                                        QStringLiteral("/synth/audio"), {},
+                                        {QStringLiteral("synth"), QStringLiteral("audio")}, {},
                                         jsonBody(request.toJson()), SynthesisCategory::Audio);
 }
 

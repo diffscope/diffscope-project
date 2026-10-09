@@ -9,6 +9,7 @@
 #include <QMetaType>
 #include <QSharedDataPointer>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QVariant>
 
@@ -38,6 +39,7 @@ namespace Core {
         Q_PROPERTY(QUrl backgroundUrl READ backgroundUrl WRITE setBackgroundUrl)
         Q_PROPERTY(QString defaultLanguage READ defaultLanguage WRITE setDefaultLanguage)
         Q_PROPERTY(LanguageMap languages READ languages WRITE setLanguages)
+        Q_PROPERTY(QStringList supportedParameters READ supportedParameters WRITE setSupportedParameters)
         Q_PROPERTY(QString mixGroup READ mixGroup WRITE setMixGroup)
         Q_PROPERTY(QVariant userData READ userData WRITE setUserData)
         Q_PROPERTY(QJsonValue defaultExtra READ defaultExtra WRITE setDefaultExtra)
@@ -66,6 +68,9 @@ namespace Core {
 
         LanguageMap languages() const;
         void setLanguages(const LanguageMap &languages);
+
+        QStringList supportedParameters() const;
+        void setSupportedParameters(const QStringList &supportedParameters);
 
         QString mixGroup() const;
         void setMixGroup(const QString &mixGroup);

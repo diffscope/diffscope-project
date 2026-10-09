@@ -18,6 +18,7 @@
 #include <dspxmodelORM/Handle.h>
 #include <synth/ServiceTypes.h>
 #include <synth/SynthesisModel.h>
+#include <synth/internal/SynthesisPipeline.h>
 
 // We have to include this to make lupdate know where `SynthesisProjectAddOn` is
 // Otherwise it will warn that the class is not found
@@ -42,7 +43,7 @@ namespace Synth::Internal {
             double position{};
             double length{};
             SynthesisTaskOptions options;
-            ArchitectureMetadata architecture;
+            SynthesisPipeline pipeline;
             bool failed{};
             bool canceled{};
             QString errorMessage;
@@ -72,7 +73,7 @@ namespace Synth::Internal {
         QPointer<SynthesisPiece> piece;
         SynthesisTaskType type{SynthesisTaskType::Pronunciation};
         SynthesisTaskOptions options;
-        ArchitectureMetadata architecture;
+        SynthesisPipeline pipeline;
         SynthesisTaskRequest request;
         QList<dspx::Handle> noteHandles;
         std::optional<QStringList> requestedParameters;

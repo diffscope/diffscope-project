@@ -42,7 +42,6 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Core
         svscraft::Quick
         svscraft::QmlExtras
-        SVSCraft3rdParty_tinyexpr
         xxHash::xxhash
     INCLUDE_PRIVATE
         internal/**

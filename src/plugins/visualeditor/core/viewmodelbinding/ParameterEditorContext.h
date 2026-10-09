@@ -37,7 +37,7 @@ namespace VisualEditor {
         Q_PROPERTY(QString parameterId READ parameterId NOTIFY targetChanged)
         Q_PROPERTY(Core::ParameterInfo parameterInfo READ parameterInfo NOTIFY parameterInfoChanged)
         Q_PROPERTY(Core::ParameterInfo transformParameterInfo READ transformParameterInfo CONSTANT)
-        Q_PROPERTY(bool registered READ isRegistered NOTIFY targetChanged)
+        Q_PROPERTY(bool supported READ isSupported NOTIFY targetChanged)
         Q_PROPERTY(bool available READ isAvailable NOTIFY targetChanged)
         Q_PROPERTY(bool parameterExists READ parameterExists NOTIFY parameterChanged)
         Q_PROPERTY(sflow::FreeParameterViewModel *original READ original CONSTANT)
@@ -58,7 +58,7 @@ namespace VisualEditor {
         QString parameterId() const;
         Core::ParameterInfo parameterInfo() const;
         Core::ParameterInfo transformParameterInfo() const;
-        bool isRegistered() const;
+        bool isSupported() const;
         bool isAvailable() const;
         bool parameterExists() const;
 

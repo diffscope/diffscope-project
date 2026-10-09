@@ -1076,7 +1076,7 @@ namespace Synth::Internal {
                                : SynthesisPiece::Queued;
                 d->currentTaskType = languageCoverage
                                          ? languageCoverage->type
-                                         : nextStage(completedLanguageCoverage->architecture, SynthesisTaskType::Phoneme);
+                                         : nextStage(completedLanguageCoverage->pipeline, SynthesisTaskType::Phoneme);
                 if (coverageTask) {
                     m_pieceTasks.insert(piece, coverageTask);
                 } else {
@@ -1137,10 +1137,10 @@ namespace Synth::Internal {
                 notifyFailure(piece, tr("The clip has no valid singer source"));
             return;
         }
-        const auto architecture = architectureFor(*context);
-        if (architecture.id().isEmpty()) {
+        const auto pipeline = pipelineFor(*context);
+        if (pipeline.architecture.id().isEmpty()) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("No healthy service supports the architecture used by this clip"));
+                notifyFailure(piece, tr("No healthy service supports the singers selected for this clip"));
             return;
         }
         QList<ClipRuntime::LanguageContinuation> preservedContinuations;
@@ -1194,16 +1194,20 @@ namespace Synth::Internal {
                 runtime, piece, oldWriteback->type, oldWriteback->options
             );
         }
-        fromType = executableStage(architecture, fromType);
-        if (fromType == SynthesisTaskType::Parameter) {
+        fromType = executableStage(pipeline, fromType);
+        if (fromType >= SynthesisTaskType::Duration) {
             for (auto piece : affectedPieces)
-                schedulePieceStage(runtime, piece, SynthesisTaskType::Parameter, options);
+                schedulePieceStage(runtime, piece, fromType, options);
             return;
         }
         const auto built = buildLanguageRequest(runtime->clip, position, length, fromType, *context);
         if (built.noteHandles.isEmpty()) {
-            for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("The synthesis task could not be queued"));
+            const auto next = nextStage(pipeline, fromType);
+            if (next < SynthesisTaskType::Duration)
+                scheduleLanguageRange(runtime, position, length, next, options);
+            else
+                for (auto piece : affectedPieces)
+                    schedulePieceStage(runtime, piece, next, options);
             return;
         }
         for (auto piece : affectedPieces) {
@@ -1242,7 +1246,7 @@ namespace Synth::Internal {
         writeback->clipHandle = runtime->clipHandle;
         writeback->type = fromType;
         writeback->options = options;
-        writeback->architecture = architecture;
+        writeback->pipeline = pipeline;
         writeback->request = built.request;
         writeback->noteHandles = built.noteHandles;
         writeback->piecePosition = position;
@@ -1297,18 +1301,18 @@ namespace Synth::Internal {
             return;
         }
         const auto context = buildSynthesisContext(runtime->clip);
-        const auto architecture = context ? architectureFor(*context) : ArchitectureMetadata{};
-        if (!context || architecture.id().isEmpty()) {
+        const auto pipeline = context ? pipelineFor(*context) : SynthesisPipeline{};
+        if (!context || pipeline.architecture.id().isEmpty()) {
             notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece"));
             return;
         }
-        const auto executableType = executableStage(architecture, type);
+        const auto executableType = executableStage(pipeline, type);
         if (executableType != type) {
             schedulePieceStage(runtime, piece, executableType, options, requestedParameters);
             return;
         }
         const bool forAudio = type == SynthesisTaskType::Audio;
-        auto built = buildScore(windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip, piece, architecture, forAudio, requestedParameters);
+        auto built = buildScore(windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip, piece, pipeline, forAudio, requestedParameters);
         if (!built.error.isEmpty()) {
             notifyFailure(piece, built.error);
             return;
@@ -1337,7 +1341,7 @@ namespace Synth::Internal {
         writeback->piece = piece;
         writeback->type = type;
         writeback->options = options;
-        writeback->architecture = architecture;
+        writeback->pipeline = pipeline;
         writeback->request = request;
         writeback->noteHandles = built.noteHandles;
         writeback->requestedParameters = requestedParameters;
@@ -1621,7 +1625,7 @@ namespace Synth::Internal {
                     writeback->piecePosition,
                     writeback->pieceLength,
                     writeback->options,
-                    writeback->architecture,
+                    writeback->pipeline,
                     true,
                     false,
                     {},
@@ -1800,7 +1804,7 @@ namespace Synth::Internal {
         if (!runtime || !runtime->clip || !runtime->divider || !isManagedClip(runtime->clip))
             return false;
         const auto context = buildSynthesisContext(runtime->clip);
-        if (!context || context->architectureId != writeback->architecture.id())
+        if (!context || context->architectureId != writeback->pipeline.architecture.id())
             return false;
         if (writeback->scope == TaskWriteback::Language) {
             const auto current = buildLanguageRequest(
@@ -1822,7 +1826,7 @@ namespace Synth::Internal {
         }
         const auto current = buildScore(
             windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip, piece,
-            writeback->architecture, writeback->type == SynthesisTaskType::Audio,
+            writeback->pipeline, writeback->type == SynthesisTaskType::Audio,
             writeback->requestedParameters
         );
         if (!current.error.isEmpty() || current.noteHandles != writeback->noteHandles)
@@ -1927,7 +1931,7 @@ namespace Synth::Internal {
                     writeback->piecePosition,
                     writeback->pieceLength,
                     writeback->options,
-                    writeback->architecture,
+                    writeback->pipeline,
                     true,
                     false,
                     message,
@@ -1949,7 +1953,7 @@ namespace Synth::Internal {
                                 candidate->piecePosition,
                                 candidate->pieceLength,
                                 candidate->options,
-                                candidate->architecture,
+                                candidate->pipeline,
                                 true,
                                 false,
                                 message,
@@ -2009,7 +2013,7 @@ namespace Synth::Internal {
         }
         scheduleLanguageRange(
             runtime, writeback->piecePosition, writeback->pieceLength,
-            nextStage(writeback->architecture, SynthesisTaskType::Pronunciation), writeback->options
+            nextStage(writeback->pipeline, SynthesisTaskType::Pronunciation), writeback->options
         );
     }
 
@@ -2021,12 +2025,12 @@ namespace Synth::Internal {
             writeback->piecePosition,
             writeback->pieceLength,
             writeback->options,
-            writeback->architecture,
+            writeback->pipeline,
             false,
             false,
             {},
         });
-        const auto next = nextStage(writeback->architecture, SynthesisTaskType::Phoneme);
+        const auto next = nextStage(writeback->pipeline, SynthesisTaskType::Phoneme);
         for (auto affected : synthesisPiecesIn(runtime, piecesInRange(runtime->clip, writeback->piecePosition, writeback->pieceLength))) {
             auto d = SynthesisPiecePrivate::get(affected);
             d->state = SynthesisPiece::Queued;
@@ -2045,7 +2049,7 @@ namespace Synth::Internal {
         for (int index = 0; index < notes.size(); ++index) {
             replaceOriginalPhonemes(notes.at(index), result.phonemes.at(index));
         }
-        schedulePieceStage(runtime, writeback->piece, nextStage(writeback->architecture, SynthesisTaskType::Duration), writeback->options);
+        schedulePieceStage(runtime, writeback->piece, nextStage(writeback->pipeline, SynthesisTaskType::Duration), writeback->options);
     }
 
     void SynthesisProjectAddOn::processParameterWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result) {
@@ -2056,7 +2060,7 @@ namespace Synth::Internal {
             windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip,
             writeback->piece, result.parameters
         );
-        schedulePieceStage(runtime, writeback->piece, nextStage(writeback->architecture, SynthesisTaskType::Parameter), writeback->options);
+        schedulePieceStage(runtime, writeback->piece, nextStage(writeback->pipeline, SynthesisTaskType::Parameter), writeback->options);
     }
 
     void SynthesisProjectAddOn::processAudioWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result) {
@@ -2172,9 +2176,9 @@ namespace Synth::Internal {
                 !change.contains(dspx::ClipChange::Vibrato) &&
                 !change.parameterNames().isEmpty()) {
                 const auto context = buildSynthesisContext(runtime->clip);
-                const auto architecture = context ? architectureFor(*context) : ArchitectureMetadata{};
-                if (!architecture.id().isEmpty()) {
-                    requestedParameters = downstreamIndirectParameters(architecture, change.parameterNames());
+                const auto pipeline = context ? pipelineFor(*context) : SynthesisPipeline{};
+                if (!pipeline.architecture.id().isEmpty()) {
+                    requestedParameters = downstreamIndirectParameters(pipeline, change.parameterNames());
                 }
             }
 
@@ -2315,7 +2319,7 @@ namespace Synth::Internal {
                 d->diagnosticFilePath.clear();
                 removeAudio(piece);
             }
-            const auto next = nextStage(successful->architecture, SynthesisTaskType::Phoneme);
+            const auto next = nextStage(successful->pipeline, SynthesisTaskType::Phoneme);
             schedulePieceStage(runtime, piece, next, successful->options);
         }
         updatePriorities();

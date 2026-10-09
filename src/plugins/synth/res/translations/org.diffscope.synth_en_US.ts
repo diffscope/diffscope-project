@@ -109,211 +109,6 @@
     </message>
 </context>
 <context>
-    <name>ParametersPage</name>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="27"/>
-        <source>Import Parameter Configurations</source>
-        <translation type="unfinished">Import Parameter Configurations</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="29"/>
-        <location filename="../../qml/settings/ParametersPage.qml" line="38"/>
-        <source>JSON files (*.json)</source>
-        <translation type="unfinished">JSON files (*.json)</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="29"/>
-        <location filename="../../qml/settings/ParametersPage.qml" line="38"/>
-        <source>All files (*)</source>
-        <translation type="unfinished">All files (*)</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="35"/>
-        <source>Export Parameter Configurations</source>
-        <translation type="unfinished">Export Parameter Configurations</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="149"/>
-        <source>No parameter configurations</source>
-        <translation type="unfinished">No parameter configurations</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="166"/>
-        <source>Add Parameter</source>
-        <translation type="unfinished">Add Parameter</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="172"/>
-        <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="183"/>
-        <source>Import</source>
-        <translation type="unfinished">Import</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="189"/>
-        <source>Export All</source>
-        <translation type="unfinished">Export All</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="213"/>
-        <source>Parameter Configuration</source>
-        <translation type="unfinished">Parameter Configuration</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="224"/>
-        <source>Architecture ID</source>
-        <translation type="unfinished">Architecture ID</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="230"/>
-        <source>Parameter ID</source>
-        <translation type="unfinished">Parameter ID</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="236"/>
-        <source>Display name</source>
-        <translation type="unfinished">Display name</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="242"/>
-        <source>Minimum value</source>
-        <translation type="unfinished">Minimum value</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="251"/>
-        <source>Maximum value</source>
-        <translation type="unfinished">Maximum value</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="262"/>
-        <source>Show default value</source>
-        <translation type="unfinished">Show default value</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="267"/>
-        <source>Default value</source>
-        <translation type="unfinished">Default value</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="279"/>
-        <source>Fill mode</source>
-        <translation type="unfinished">Fill mode</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="286"/>
-        <source>No fill</source>
-        <translation type="unfinished">No fill</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="287"/>
-        <source>Top fill</source>
-        <translation type="unfinished">Top fill</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="288"/>
-        <source>Bottom fill</source>
-        <translation type="unfinished">Bottom fill</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="289"/>
-        <source>Baseline fill</source>
-        <translation type="unfinished">Baseline fill</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="294"/>
-        <source>Value type</source>
-        <translation type="unfinished">Value type</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="301"/>
-        <source>Absolute</source>
-        <translation type="unfinished">Absolute</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="302"/>
-        <source>Relative</source>
-        <translation type="unfinished">Relative</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="309"/>
-        <source>Show divisions</source>
-        <translation type="unfinished">Show divisions</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="314"/>
-        <source>Division interval</source>
-        <translation type="unfinished">Division interval</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="334"/>
-        <source>Value Mapping Expressions</source>
-        <translation type="unfinished">Value Mapping Expressions</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="346"/>
-        <source>Maps a raw parameter value to its normalized value.</source>
-        <translation type="unfinished">Maps a raw parameter value to its normalized value.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="347"/>
-        <source>Normalization</source>
-        <translation type="unfinished">Normalization</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="360"/>
-        <source>Maps a normalized parameter value back to its raw value.</source>
-        <translation type="unfinished">Maps a normalized parameter value back to its raw value.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="361"/>
-        <source>Inverse normalization</source>
-        <translation type="unfinished">Inverse normalization</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="374"/>
-        <source>Maps a raw parameter value to its displayed value.</source>
-        <translation type="unfinished">Maps a raw parameter value to its displayed value.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="375"/>
-        <source>Display value mapping</source>
-        <translation type="unfinished">Display value mapping</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="388"/>
-        <source>Maps a displayed parameter value back to its raw value.</source>
-        <translation type="unfinished">Maps a displayed parameter value back to its raw value.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="389"/>
-        <source>Inverse display value mapping</source>
-        <translation type="unfinished">Inverse display value mapping</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="402"/>
-        <source>Formats the displayed parameter value. Use %d for a rounded integer, %.Nf for a fixed-point value with N decimal places, and %% for a literal percent sign.</source>
-        <translation type="unfinished">Formats the displayed parameter value. Use %d for a rounded integer, %.Nf for a fixed-point value with N decimal places, and %% for a literal percent sign.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="403"/>
-        <source>Display text template</source>
-        <translation type="unfinished">Display text template</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="411"/>
-        <source>Use %d for integers, %.Nf for N decimal places, and %% for a percent sign</source>
-        <translation type="unfinished">Use %d for integers, %.Nf for N decimal places, and %% for a percent sign</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ParametersPage.qml" line="423"/>
-        <source>Select a parameter to edit.</source>
-        <translation type="unfinished">Select a parameter to edit.</translation>
-    </message>
-</context>
-<context>
     <name>ResynthesizeDialog</name>
     <message>
         <location filename="../../qml/dialogs/ResynthesizeDialog.qml" line="19"/>
@@ -649,16 +444,6 @@ X-Custom-Header-2: bar</translation>
         <source>Invalid map value &apos;%1&apos;: %2</source>
         <translation type="unfinished">Invalid map value &apos;%1&apos;: %2</translation>
     </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="236"/>
-        <source>Field &apos;state&apos; must be &apos;COMPLETE&apos;</source>
-        <translation type="unfinished">Field &apos;state&apos; must be &apos;COMPLETE&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="245"/>
-        <source>Only non-streaming requests are supported</source>
-        <translation type="unfinished">Only non-streaming requests are supported</translation>
-    </message>
     <message numerus="yes">
         <location filename="../../internal/api/Dtos.cpp" line="256"/>
         <source>Mix row %L1 must contain exactly %Ln value(s)</source>
@@ -676,16 +461,6 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../internal/api/Dtos.cpp" line="324"/>
         <source>Unknown architecture parameter type &apos;%1&apos;</source>
         <translation type="unfinished">Unknown architecture parameter type &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="372"/>
-        <source>Unknown &apos;pronunciation_mode&apos; value &apos;%1&apos;</source>
-        <translation type="unfinished">Unknown &apos;pronunciation_mode&apos; value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="381"/>
-        <source>Unknown &apos;phoneme_mode&apos; value &apos;%1&apos;</source>
-        <translation type="unfinished">Unknown &apos;phoneme_mode&apos; value &apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="544"/>
@@ -724,13 +499,6 @@ X-Custom-Header-2: bar</translation>
         <translation type="unfinished">Retake position and length must be non-negative</translation>
     </message>
     <message>
-        <location filename="../../internal/api/Dtos.cpp" line="855"/>
-        <location filename="../../internal/api/Dtos.cpp" line="881"/>
-        <location filename="../../internal/api/Dtos.cpp" line="1176"/>
-        <source>Field &apos;sample_rate&apos; must be positive</source>
-        <translation type="unfinished">Field &apos;sample_rate&apos; must be positive</translation>
-    </message>
-    <message>
         <location filename="../../internal/api/Dtos.cpp" line="933"/>
         <source>Parameter input constraints were violated</source>
         <translation type="unfinished">Parameter input constraints were violated</translation>
@@ -739,6 +507,41 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../internal/api/Dtos.cpp" line="975"/>
         <source>Audio input constraints were violated</source>
         <translation type="unfinished">Audio input constraints were violated</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="338"/>
+        <source>Invalid parameter display metadata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="364"/>
+        <source>Invalid parameter retake mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="409"/>
+        <source>Invalid language conversion mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="437"/>
+        <source>Invalid duration mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="752"/>
+        <source>Invalid note kind</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="754"/>
+        <source>Slur notes must have no phonemes and no gap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="908"/>
+        <source>Field 'sampleRate' must be positive</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -811,54 +614,6 @@ X-Custom-Header-2: bar</translation>
     </message>
 </context>
 <context>
-    <name>Synth::Internal::BuiltinParameterConfigurations</name>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="59"/>
-        <source>Expressiveness</source>
-        <translation type="unfinished">Expressiveness</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="63"/>
-        <source>Energy</source>
-        <translation type="unfinished">Energy</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="64"/>
-        <source>Breathiness</source>
-        <translation type="unfinished">Breathiness</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="65"/>
-        <source>Voicing</source>
-        <translation type="unfinished">Voicing</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="67"/>
-        <source>Tension</source>
-        <translation type="unfinished">Tension</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="76"/>
-        <source>Mouth opening</source>
-        <translation type="unfinished">Mouth opening</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="81"/>
-        <source>Gender</source>
-        <translation type="unfinished">Gender</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="86"/>
-        <source>Velocity</source>
-        <translation type="unfinished">Velocity</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BuiltinParameterConfigurations.cpp" line="91"/>
-        <source>Tone shift</source>
-        <translation type="unfinished">Tone shift</translation>
-    </message>
-</context>
-<context>
     <name>Synth::Internal::MetadataRefreshController</name>
     <message>
         <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="34"/>
@@ -905,119 +660,23 @@ X-Custom-Header-2: bar</translation>
         <source>Could not refresh singer demo audio</source>
         <translation type="unfinished">Could not refresh singer demo audio</translation>
     </message>
-</context>
-<context>
-    <name>Synth::Internal::ParameterConfigurationModel</name>
     <message>
-        <location filename="../../internal/settings/ParameterConfigurationModel.cpp" line="242"/>
-        <source>New Parameter</source>
-        <translation type="unfinished">New Parameter</translation>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="444"/>
+        <source>The group request was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="450"/>
+        <source>The synthesis service returned inconsistent group metadata</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Synth::Internal::ParameterRuntimeRegistry</name>
     <message>
-        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="46"/>
-        <source>The parameter expression is invalid at position %L1</source>
-        <translation type="unfinished">The parameter expression is invalid at position %L1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="133"/>
-        <source>Result pointer must not be null</source>
-        <translation type="unfinished">Result pointer must not be null</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ParametersPage</name>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="50"/>
-        <source>Parameters</source>
-        <translation type="unfinished">Parameters</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="51"/>
-        <source>Configure how DSSP parameters are displayed and mapped</source>
-        <translation type="unfinished">Configure how DSSP parameters are displayed and mapped</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="99"/>
-        <source>Parameter ID &apos;%1&apos; is provided by a read-only built-in configuration</source>
-        <translation type="unfinished">Parameter ID &apos;%1&apos; is provided by a read-only built-in configuration</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="104"/>
-        <source>Parameter ID &apos;%1&apos; is duplicated</source>
-        <translation type="unfinished">Parameter ID &apos;%1&apos; is duplicated</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="110"/>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="189"/>
-        <source>Parameter &apos;%1&apos;: %2</source>
-        <translation type="unfinished">Parameter &apos;%1&apos;: %2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="118"/>
-        <source>Could not save parameter configurations</source>
-        <translation type="unfinished">Could not save parameter configurations</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="148"/>
-        <source>Could not open the parameter configuration file</source>
-        <translation type="unfinished">Could not open the parameter configuration file</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="155"/>
-        <source>Invalid JSON: %1</source>
-        <translation type="unfinished">Invalid JSON: %1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="161"/>
-        <source>This is not a supported synthesis parameter configuration file</source>
-        <translation type="unfinished">This is not a supported synthesis parameter configuration file</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="171"/>
-        <source>Parameter entry %L1 is not an object</source>
-        <translation type="unfinished">Parameter entry %L1 is not an object</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="184"/>
-        <source>Parameter entry %L1: %2</source>
-        <translation type="unfinished">Parameter entry %L1: %2</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/settings/ParametersPage.cpp" line="199"/>
-        <source>Imported %Ln parameter configuration(s).</source>
-        <translation type="unfinished">
-            <numerusform>Imported %Ln parameter configuration.</numerusform>
-            <numerusform>Imported %Ln parameter configurations.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/settings/ParametersPage.cpp" line="200"/>
-        <source>Imported %Ln parameter configuration(s); ignored reserved or built-in IDs: %1.</source>
-        <translation type="unfinished">
-            <numerusform>Imported %Ln parameter configuration; ignored reserved or built-in IDs: %1.</numerusform>
-            <numerusform>Imported %Ln parameter configurations; ignored reserved or built-in IDs: %1.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="210"/>
-        <source>Could not create the parameter configuration file</source>
-        <translation type="unfinished">Could not create the parameter configuration file</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ParametersPage.cpp" line="223"/>
-        <source>Could not write the parameter configuration file</source>
-        <translation type="unfinished">Could not write the parameter configuration file</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/settings/ParametersPage.cpp" line="226"/>
-        <source>Exported %Ln parameter configuration(s).</source>
-        <translation type="unfinished">
-            <numerusform>Exported %Ln parameter configuration.</numerusform>
-            <numerusform>Exported %Ln parameter configurations.</numerusform>
-        </translation>
+        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="141"/>
+        <source>Invalid parameter display expression</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1120,60 +779,6 @@ X-Custom-Header-2: bar</translation>
         <source>Service identifiers must be unique</source>
         <translation type="unfinished">Service identifiers must be unique</translation>
     </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="254"/>
-        <source>Parameter identifiers must be unique</source>
-        <translation type="unfinished">Parameter identifiers must be unique</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="273"/>
-        <source>The parameter configuration file must contain a JSON object</source>
-        <translation type="unfinished">The parameter configuration file must contain a JSON object</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="281"/>
-        <source>The parameter configuration file has an unsupported format or version</source>
-        <translation type="unfinished">The parameter configuration file has an unsupported format or version</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="294"/>
-        <source>Every parameter entry must be a JSON object</source>
-        <translation type="unfinished">Every parameter entry must be a JSON object</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="300"/>
-        <source>Every parameter entry must contain a string &apos;id&apos; field</source>
-        <translation type="unfinished">Every parameter entry must contain a string &apos;id&apos; field</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="316"/>
-        <source>Invalid parameter %1: %2</source>
-        <translation type="unfinished">Invalid parameter %1: %2</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/SynthService.cpp" line="330"/>
-        <source>Imported %Ln parameter configuration(s).</source>
-        <translation type="unfinished">
-            <numerusform>Imported %Ln parameter configuration.</numerusform>
-            <numerusform>Imported %Ln parameter configurations.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/SynthService.cpp" line="332"/>
-        <source>Ignored %Ln built-in parameter configuration(s).</source>
-        <translation type="unfinished">
-            <numerusform>Ignored %Ln built-in parameter configuration.</numerusform>
-            <numerusform>Ignored %Ln built-in parameter configurations.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/SynthService.cpp" line="334"/>
-        <source>Ignored %Ln reserved pitch configuration(s).</source>
-        <translation type="unfinished">
-            <numerusform>Ignored %Ln reserved pitch configuration.</numerusform>
-            <numerusform>Ignored %Ln reserved pitch configurations.</numerusform>
-        </translation>
-    </message>
 </context>
 <context>
     <name>Synth::Internal::SynthesisPage</name>
@@ -1217,47 +822,6 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="821"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">The synthesis piece is no longer available</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="121"/>
-        <source>The project audio context is not available</source>
-        <translation type="unfinished">The project audio context is not available</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="137"/>
-        <source>Synthesized audio for the synthesis piece could not be added to the track</source>
-        <translation type="unfinished">Synthesized audio for the synthesis piece could not be added to the track</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="147"/>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="255"/>
-        <source>The synthesis piece is outside the visible range of its clip</source>
-        <translation type="unfinished">The synthesis piece is outside the visible range of its clip</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="176"/>
-        <source>The synthesis piece overlaps another synthesis piece in the same clip</source>
-        <translation type="unfinished">The synthesis piece overlaps another synthesis piece in the same clip</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="199"/>
-        <source>The synthesis piece is no longer waiting for synthesized audio</source>
-        <translation type="unfinished">The synthesis piece is no longer waiting for synthesized audio</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="206"/>
-        <source>The synthesized audio file could not be opened</source>
-        <translation type="unfinished">The synthesized audio file could not be opened</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="217"/>
-        <source>Synthesized audio for the synthesis piece could not be prepared</source>
-        <translation type="unfinished">Synthesized audio for the synthesis piece could not be prepared</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="266"/>
-        <source>Synthesized audio for the synthesis piece could not be repositioned</source>
-        <translation type="unfinished">Synthesized audio for the synthesis piece could not be repositioned</translation>
     </message>
     <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="864"/>
@@ -1306,11 +870,6 @@ X-Custom-Header-2: bar</translation>
         <translation type="unfinished">The clip has no valid singer source</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1143"/>
-        <source>No healthy service supports the architecture used by this clip</source>
-        <translation type="unfinished">No healthy service supports the architecture used by this clip</translation>
-    </message>
-    <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1206"/>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1226"/>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1328"/>
@@ -1355,128 +914,49 @@ X-Custom-Header-2: bar</translation>
         <translation type="unfinished">Synthesis was canceled</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="403"/>
-        <source>The synthesis piece is no longer attached to a valid clip</source>
-        <translation type="unfinished">The synthesis piece is no longer attached to a valid clip</translation>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1143"/>
+        <source>No healthy service supports the singers selected for this clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp"/>
+        <source>A slur note must immediately follow another note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
+        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\"</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
+        <source>Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
+        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
+        <source>Audio synthesis could not be started for clip \"%1\"</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="430"/>
         <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
         <translation type="unfinished">Some notes overlap. Move or resize the overlapping notes before synthesizing</translation>
     </message>
-</context>
-<context>
-    <name>Synth::ParameterConfiguration</name>
     <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="130"/>
-        <source>Parameter ID must not be empty or contain control characters</source>
-        <translation type="unfinished">Parameter ID must not be empty or contain control characters</translation>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
+        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:\n%1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="132"/>
-        <source>The parameter ID &apos;pitch&apos; is reserved and cannot be configured</source>
-        <translation type="unfinished">The parameter ID &apos;pitch&apos; is reserved and cannot be configured</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="134"/>
-        <source>Architecture ID must not be empty or contain control characters</source>
-        <translation type="unfinished">Architecture ID must not be empty or contain control characters</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="136"/>
-        <source>Display name must not be empty or contain control characters</source>
-        <translation type="unfinished">Display name must not be empty or contain control characters</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="138"/>
-        <source>Minimum value must be less than maximum value</source>
-        <translation type="unfinished">Minimum value must be less than maximum value</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="141"/>
-        <source>Default value must be within the configured range</source>
-        <translation type="unfinished">Default value must be within the configured range</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="144"/>
-        <source>Division value must be positive when divisions are shown</source>
-        <translation type="unfinished">Division value must be positive when divisions are shown</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="146"/>
-        <source>Fill mode is invalid</source>
-        <translation type="unfinished">Fill mode is invalid</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="148"/>
-        <source>Value type is invalid</source>
-        <translation type="unfinished">Value type is invalid</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="151"/>
-        <source>Normalization and inverse normalization expressions must be configured together</source>
-        <translation type="unfinished">Normalization and inverse normalization expressions must be configured together</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="155"/>
-        <source>Display value mapping and inverse display value mapping expressions must be configured together</source>
-        <translation type="unfinished">Display value mapping and inverse display value mapping expressions must be configured together</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="164"/>
-        <source>Expressions must not contain control characters</source>
-        <translation type="unfinished">Expressions must not contain control characters</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="175"/>
-        <source>Normalization expression is invalid at position %L1</source>
-        <translation type="unfinished">Normalization expression is invalid at position %L1</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="180"/>
-        <source>Normalization expression must be finite, increasing, and map into [0, 1]</source>
-        <translation type="unfinished">Normalization expression must be finite, increasing, and map into [0, 1]</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="187"/>
-        <source>Normalization expressions do not round-trip within one raw unit</source>
-        <translation type="unfinished">Normalization expressions do not round-trip within one raw unit</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="196"/>
-        <source>Display value expressions are invalid or do not round-trip within one raw unit</source>
-        <translation type="unfinished">Display value expressions are invalid or do not round-trip within one raw unit</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="206"/>
-        <source>Display text template contains an invalid placeholder at position %L1</source>
-        <translation type="unfinished">Display text template contains an invalid placeholder at position %L1</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="239"/>
-        <source>Result pointer must not be null</source>
-        <translation type="unfinished">Result pointer must not be null</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="246"/>
-        <source>Field &apos;%1&apos; must be a string</source>
-        <translation type="unfinished">Field &apos;%1&apos; must be a string</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="255"/>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="260"/>
-        <source>Field &apos;%1&apos; must be an integer</source>
-        <translation type="unfinished">Field &apos;%1&apos; must be an integer</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="268"/>
-        <source>Field &apos;%1&apos; must be a boolean</source>
-        <translation type="unfinished">Field &apos;%1&apos; must be a boolean</translation>
-    </message>
-    <message>
-        <location filename="../../parameters/ParameterConfiguration.cpp" line="293"/>
-        <source>Parameter configuration contains an invalid enum value</source>
-        <translation type="unfinished">Parameter configuration contains an invalid enum value</translation>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="403"/>
+        <source>The synthesis piece is no longer attached to a valid clip</source>
+        <translation type="unfinished">The synthesis piece is no longer attached to a valid clip</translation>
     </message>
 </context>
 <context>
@@ -1600,26 +1080,6 @@ X-Custom-Header-2: bar</translation>
         <translation type="unfinished">Local DSSP</translation>
     </message>
     <message>
-        <location filename="../../service/ServiceTypes.cpp" line="366"/>
-        <source>Unknown parameter kind</source>
-        <translation type="unfinished">Unknown parameter kind</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="370"/>
-        <source>Invalid parameter metadata</source>
-        <translation type="unfinished">Invalid parameter metadata</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="419"/>
-        <source>Invalid architecture metadata</source>
-        <translation type="unfinished">Invalid architecture metadata</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="430"/>
-        <source>Field &apos;audioDependencies&apos; must be an array of strings</source>
-        <translation type="unfinished">Field &apos;audioDependencies&apos; must be an array of strings</translation>
-    </message>
-    <message>
         <location filename="../../service/ServiceTypes.cpp" line="518"/>
         <source>Invalid singer metadata</source>
         <translation type="unfinished">Invalid singer metadata</translation>
@@ -1673,19 +1133,6 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../service/ServiceTypes.cpp" line="716"/>
         <source>Field &apos;metadataStale&apos; must be a boolean</source>
         <translation type="unfinished">Field &apos;metadataStale&apos; must be a boolean</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::SynthInterface</name>
-    <message>
-        <location filename="../../core/SynthInterface.cpp" line="78"/>
-        <source>pitch is reserved and cannot be configured</source>
-        <translation type="unfinished">pitch is reserved and cannot be configured</translation>
-    </message>
-    <message>
-        <location filename="../../core/SynthInterface.cpp" line="89"/>
-        <source>A built-in parameter with this ID is already registered</source>
-        <translation type="unfinished">A built-in parameter with this ID is already registered</translation>
     </message>
 </context>
 <context>
@@ -1746,6 +1193,21 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../task/SynthesisTaskManager.cpp" line="964"/>
         <source>The synthesized audio exceeds the configured download size limit</source>
         <translation type="unfinished">The synthesized audio exceeds the configured download size limit</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="587"/>
+        <source>Audio request contains an invalid parameter value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="707"/>
+        <source>Parameter request contains an invalid value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="715"/>
+        <source>The selected singer cannot predict parameter %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

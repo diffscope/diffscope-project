@@ -9,8 +9,10 @@
 #include <utility>
 
 #include <QLoggingCategory>
+#include <QMetaType>
 #include <QState>
 #include <QStateMachine>
+#include <QVariantList>
 
 #include <ScopicFlowCore/AnchorParameterViewModel.h>
 #include <ScopicFlowCore/FreeParameterViewModel.h>
@@ -30,6 +32,7 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
+#include <coreplugin/ClipSingerIdProvider.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
@@ -215,10 +218,10 @@ namespace VisualEditor {
                 return entry.displayName;
             case ParameterIdRole:
                 return entry.parameterId;
-            case RegisteredRole:
-                return entry.registered;
+            case SupportedRole:
+                return entry.supported;
             case WarningRole:
-                return !entry.none && !entry.registered;
+                return !entry.none && !entry.supported;
             case NoneRole:
                 return entry.none;
             case ParameterInfoRole:
@@ -232,7 +235,7 @@ namespace VisualEditor {
         return {
             {ParameterIdRole, "parameterId"},
             {DisplayNameRole, "displayName"},
-            {RegisteredRole, "registered"},
+            {SupportedRole, "supported"},
             {WarningRole, "warning"},
             {NoneRole, "isNone"},
             {ParameterInfoRole, "parameterInfo"},
@@ -254,7 +257,7 @@ namespace VisualEditor {
 
     const ParameterDefinitionListModel::Entry *ParameterDefinitionListModel::firstAvailable() const {
         const auto it = std::find_if(m_entries.cbegin(), m_entries.cend(), [](const Entry &entry) {
-            return !entry.none && entry.registered;
+            return !entry.none;
         });
         return it == m_entries.cend() ? nullptr : &*it;
     }
@@ -624,8 +627,8 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::setTarget(dspx::SingingClip *clip, const QString &id,
-                                                     const Core::ParameterInfo &info, bool isRegistered) {
-        const bool targetChanged = singingClip != clip || parameterId != id || registered != isRegistered;
+                                                     const Core::ParameterInfo &info, bool isSupported) {
+        const bool targetChanged = singingClip != clip || parameterId != id || supported != isSupported;
         const bool infoChanged = parameterInfo != info;
         if (!targetChanged && !infoChanged)
             return;
@@ -635,11 +638,11 @@ namespace VisualEditor {
         unbindParameter();
         singingClip = clip;
         parameterId = id;
-        registered = isRegistered;
+        supported = isSupported;
         parameterInfo = info;
         updateControllerDefinition();
 
-        if (singingClip && !parameterId.isEmpty() && registered) {
+        if (singingClip && !parameterId.isEmpty()) {
             auto *parameterMap = singingClip->parameters();
             targetConnections.append(connect(parameterMap, &dspx::ParameterMap::itemInserted, this,
                 [this](const QString &key, dspx::Parameter *item) {
@@ -682,8 +685,8 @@ namespace VisualEditor {
     void ParameterViewModelBindingPrivate::updateControllerDefinition() {
         const double defaultValue = canonicalValue(parameterInfo.defaultValue);
         interactionController->setDefaultValue(defaultValue);
-        interactionController->setFillBaseline(defaultValue);
-        interactionController->setReferenceBaseline(defaultValue);
+        interactionController->setFillBaseline(canonicalValue(parameterInfo.baselineValue));
+        interactionController->setReferenceBaseline(canonicalValue(parameterInfo.baselineValue));
         interactionController->setFillMode(
             sflow::ParameterEditorInteractionController::FillMode(parameterInfo.fillMode));
         interactionController->setDefaultValueEnabled(parameterInfo.valueType == Core::ParameterInfo::Relative);
@@ -920,7 +923,7 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::startOperation(Operation operation, bool transform) {
-        if (!editable || !singingClip || parameterId.isEmpty() || !registered ||
+        if (!editable || !singingClip || parameterId.isEmpty() ||
             currentOperation != NoOperation || !stateMachine->configuration().contains(idleState)) {
             return;
         }
@@ -1195,8 +1198,8 @@ namespace VisualEditor {
     QString ParameterViewModelBinding::parameterId() const { Q_D(const ParameterViewModelBinding); return d->parameterId; }
     Core::ParameterInfo ParameterViewModelBinding::parameterInfo() const { Q_D(const ParameterViewModelBinding); return d->parameterInfo; }
     Core::ParameterInfo ParameterViewModelBinding::transformParameterInfo() const { return Core::transformParameterInfo(); }
-    bool ParameterViewModelBinding::isRegistered() const { Q_D(const ParameterViewModelBinding); return d->registered; }
-    bool ParameterViewModelBinding::isAvailable() const { Q_D(const ParameterViewModelBinding); return d->singingClip && !d->parameterId.isEmpty() && d->registered; }
+    bool ParameterViewModelBinding::isSupported() const { Q_D(const ParameterViewModelBinding); return d->supported; }
+    bool ParameterViewModelBinding::isAvailable() const { Q_D(const ParameterViewModelBinding); return d->singingClip && !d->parameterId.isEmpty(); }
     bool ParameterViewModelBinding::parameterExists() const { Q_D(const ParameterViewModelBinding); return d->parameter; }
     sflow::FreeParameterViewModel *ParameterViewModelBinding::original() const { Q_D(const ParameterViewModelBinding); return d->original; }
     sflow::FreeParameterViewModel *ParameterViewModelBinding::freeEdited() const { Q_D(const ParameterViewModelBinding); return d->freeEdited; }
@@ -1212,7 +1215,7 @@ namespace VisualEditor {
 
     void ParameterViewModelBinding::focusFreeLayer() {
         Q_D(ParameterViewModelBinding);
-        if (!d->editable || !d->singingClip || d->parameterId.isEmpty() || !d->registered)
+        if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
         d->freeSelectionModel->setContext(d->singingClip, d->parameterId,
             d->parameterInfo.displayName.isEmpty() ? d->parameterId : d->parameterInfo.displayName,
@@ -1221,7 +1224,7 @@ namespace VisualEditor {
 
     void ParameterViewModelBinding::focusAnchorLayer() {
         Q_D(ParameterViewModelBinding);
-        if (!d->editable || !d->singingClip || d->parameterId.isEmpty() || !d->registered)
+        if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
         if (d->freeSelectionModel->singingClip() == d->singingClip &&
             d->freeSelectionModel->parameterId() == d->parameterId) {
@@ -1241,7 +1244,7 @@ namespace VisualEditor {
 
     void ParameterViewModelBinding::focusTransformFreeLayer() {
         Q_D(ParameterViewModelBinding);
-        if (!d->editable || !d->singingClip || d->parameterId.isEmpty() || !d->registered)
+        if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
         const auto name = d->parameterInfo.displayName.isEmpty() ? d->parameterId
                                                                  : d->parameterInfo.displayName;
@@ -1251,7 +1254,7 @@ namespace VisualEditor {
 
     void ParameterViewModelBinding::focusTransformAnchorLayer() {
         Q_D(ParameterViewModelBinding);
-        if (!d->editable || !d->singingClip || d->parameterId.isEmpty() || !d->registered)
+        if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
         if (d->freeSelectionModel->singingClip() == d->singingClip &&
             d->freeSelectionModel->parameterId() == d->parameterId) {
@@ -1273,6 +1276,11 @@ namespace VisualEditor {
         Q_Q(ParameterEditorContext);
         document = projectContext->windowHandle()->projectDocumentContext()->document();
         registry = Core::CoreInterface::singerRegistry();
+        singerIdProvider = new Core::ClipSingerIdProvider(q);
+        QObject::connect(singerIdProvider, &Core::ClipSingerIdProvider::singerTreeChanged, q, [this] {
+            rebuildParameterModel();
+            refreshBindings();
+        });
         parameterModel = new ParameterDefinitionListModel(q);
         pitchBinding = new ParameterViewModelBinding(q, true);
         editingBinding = new ParameterViewModelBinding(q, true);
@@ -1296,6 +1304,12 @@ namespace VisualEditor {
         QObject::connect(registry, &Core::SingerRegistry::architectureRegistered, q, refreshArchitecture);
         QObject::connect(registry, &Core::SingerRegistry::architectureUpdated, q, refreshArchitecture);
         QObject::connect(registry, &Core::SingerRegistry::architectureRemoved, q, refreshArchitecture);
+        const auto refreshSinger = [refreshArchitecture](const QString &architectureId, const QString &) {
+            refreshArchitecture(architectureId);
+        };
+        QObject::connect(registry, &Core::SingerRegistry::singerRegistered, q, refreshSinger);
+        QObject::connect(registry, &Core::SingerRegistry::singerUpdated, q, refreshSinger);
+        QObject::connect(registry, &Core::SingerRegistry::singerRemoved, q, refreshSinger);
 
         rebuildParameterModel();
         refreshBindings();
@@ -1347,6 +1361,7 @@ namespace VisualEditor {
         disconnectAll(sourceConnections);
         sources = singingClip ? singingClip->sources() : nullptr;
         architectureId = sources ? sources->category() : QString{};
+        singerIdProvider->setSources(sources);
         if (!sources)
             return;
         sourceConnections.append(QObject::connect(sources, &dspx::Sources::categoryChanged,
@@ -1363,6 +1378,21 @@ namespace VisualEditor {
         }));
     }
 
+    QSet<QString> ParameterEditorContextPrivate::supportedParameters() const {
+        const auto firstSingerId = [](const auto &self, const QVariantList &tree) -> QString {
+            for (const auto &node : tree) {
+                const auto id = node.metaType().id() == QMetaType::QVariantList
+                                    ? self(self, node.toList()) : node.toString();
+                if (!id.isEmpty())
+                    return id;
+            }
+            return {};
+        };
+        const auto singerId = firstSingerId(firstSingerId, singerIdProvider->singerTree());
+        const auto parameters = registry->singerInfo(architectureId, singerId).supportedParameters();
+        return QSet<QString>(parameters.cbegin(), parameters.cend());
+    }
+
     void ParameterEditorContextPrivate::rebuildParameterModel() {
         const QString oldEditingParameterId = editingParameterId;
         const QString oldReferenceParameterId = referenceParameterId;
@@ -1370,6 +1400,7 @@ namespace VisualEditor {
         const QString oldReferenceDisplayName = displayName(referenceParameterId, referenceDisplayName);
         QList<ParameterDefinitionListModel::Entry> entries;
         entries.append({{}, VisualEditor::ParameterEditorContext::tr("None"), {}, true, true});
+        const auto supported = supportedParameters();
         QSet<QString> included;
         included.insert(QStringLiteral("pitch"));
         if (registry->containsArchitecture(architectureId)) {
@@ -1378,22 +1409,33 @@ namespace VisualEditor {
                 if (it.key() == QStringLiteral("pitch"))
                     continue;
                 entries.append({it.key(), it.value().displayName.isEmpty() ? it.key() : it.value().displayName,
-                                it.value(), true, false});
+                                it.value(), supported.contains(it.key()), false});
                 included.insert(it.key());
             }
         }
+        const auto appendFallback = [&](const QString &key) {
+            if (key.isEmpty() || included.contains(key))
+                return;
+            Core::ParameterInfo info;
+            info.displayName = key;
+            entries.append({key, key, info, supported.contains(key), false});
+            included.insert(key);
+        };
+        auto supportedIds = supported.values();
+        std::sort(supportedIds.begin(), supportedIds.end());
+        for (const auto &key : supportedIds)
+            appendFallback(key);
         if (singingClip) {
             for (const auto &key : singingClip->parameters()->keys()) {
-                if (included.contains(key))
-                    continue;
-                entries.append({key, key, {}, false, false});
-                included.insert(key);
+                appendFallback(key);
             }
         }
+        appendFallback(editingParameterId);
+        appendFallback(referenceParameterId);
         parameterModel->setEntries(std::move(entries));
 
         const auto *editingDefinition = entry(editingParameterId);
-        if ((!editingDefinition || !editingDefinition->registered || editingParameterId.isEmpty()) &&
+        if ((!editingDefinition || editingParameterId.isEmpty()) &&
             singingClip) {
             if (const auto *firstAvailable = parameterModel->firstAvailable()) {
                 editingParameterId = firstAvailable->parameterId;
@@ -1403,20 +1445,18 @@ namespace VisualEditor {
 
         const auto *referenceDefinition = entry(referenceParameterId);
         if (!referenceParameterId.isEmpty() &&
-            (!referenceDefinition || !referenceDefinition->registered)) {
+            !referenceDefinition) {
             referenceParameterId.clear();
             referenceDefinition = entry(referenceParameterId);
         }
 
-        if (editingDefinition && editingDefinition->registered) {
+        if (editingDefinition) {
             const auto *definition = editingDefinition;
             editingDisplayName = definition->displayName;
-            editingLastInfo = definition->parameterInfo;
         }
-        if (referenceDefinition && referenceDefinition->registered && !referenceDefinition->none) {
+        if (referenceDefinition && !referenceDefinition->none) {
             const auto *definition = referenceDefinition;
             referenceDisplayName = definition->displayName;
-            referenceLastInfo = definition->parameterInfo;
         }
 
         const bool editingParameterChanged = oldEditingParameterId != editingParameterId;
@@ -1438,25 +1478,26 @@ namespace VisualEditor {
     }
 
     void ParameterEditorContextPrivate::refreshBindings() {
-        const auto update = [this](ParameterViewModelBinding *binding, const QString &id,
-                                   const Core::ParameterInfo &lastInfo) {
+        const auto update = [this](ParameterViewModelBinding *binding, const QString &id) {
             if (id.isEmpty()) {
                 binding->d_func()->setTarget(singingClip, {}, {}, false);
                 return;
             }
-            if (const auto *definition = entry(id); definition && definition->registered) {
-                binding->d_func()->setTarget(singingClip, id, definition->parameterInfo, true);
+            if (const auto *definition = entry(id)) {
+                binding->d_func()->setTarget(singingClip, id, definition->parameterInfo, definition->supported);
             } else {
-                binding->d_func()->setTarget(singingClip, id, lastInfo, false);
+                Core::ParameterInfo info;
+                info.displayName = id;
+                binding->d_func()->setTarget(singingClip, id, info, supportedParameters().contains(id));
             }
         };
         pitchBinding->d_func()->setTarget(singingClip, QStringLiteral("pitch"),
                                           Core::pitchParameterInfo(), true);
-        update(editingBinding, editingParameterId, editingLastInfo);
+        update(editingBinding, editingParameterId);
         if (!referenceParameterId.isEmpty() && referenceParameterId == editingParameterId)
             referenceBinding->d_func()->setTarget(nullptr, {}, {}, false);
         else
-            update(referenceBinding, referenceParameterId, referenceLastInfo);
+            update(referenceBinding, referenceParameterId);
 
         if (restoreEditingSelectionAfterRefresh) {
             restoreEditingSelectionAfterRefresh = false;
@@ -1519,8 +1560,6 @@ namespace VisualEditor {
             return;
         if (const auto *definition = d->entry(parameterId)) {
             d->editingDisplayName = definition->displayName;
-            if (definition->registered)
-                d->editingLastInfo = definition->parameterInfo;
         } else if (!parameterId.isEmpty()) {
             d->editingDisplayName = parameterId;
         }
@@ -1546,8 +1585,6 @@ namespace VisualEditor {
             return;
         if (const auto *definition = d->entry(parameterId)) {
             d->referenceDisplayName = definition->displayName;
-            if (definition->registered)
-                d->referenceLastInfo = definition->parameterInfo;
         } else if (!parameterId.isEmpty()) {
             d->referenceDisplayName = parameterId;
         }
@@ -1592,13 +1629,10 @@ namespace VisualEditor {
         Q_D(ParameterEditorContext);
         const auto editingId = d->editingParameterId;
         const auto editingName = d->editingDisplayName;
-        const auto editingInfo = d->editingLastInfo;
         d->editingParameterId = d->referenceParameterId;
         d->editingDisplayName = d->referenceDisplayName;
-        d->editingLastInfo = d->referenceLastInfo;
         d->referenceParameterId = editingId;
         d->referenceDisplayName = editingName;
-        d->referenceLastInfo = editingInfo;
         d->clearParameterSelection();
         d->refreshBindings();
         if (d->editingBinding->parameterExists()) {

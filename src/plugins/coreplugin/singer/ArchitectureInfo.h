@@ -22,11 +22,10 @@ namespace Core {
         Q_GADGET
         Q_PROPERTY(QString displayName MEMBER displayName)
         Q_PROPERTY(double defaultValue MEMBER defaultValue)
+        Q_PROPERTY(double baselineValue MEMBER baselineValue)
         Q_PROPERTY(FillMode fillMode MEMBER fillMode)
         Q_PROPERTY(ValueType valueType MEMBER valueType)
-        Q_PROPERTY(double divisionValue MEMBER divisionValue)
         Q_PROPERTY(bool showDefaultValue MEMBER showDefaultValue)
-        Q_PROPERTY(bool showDivision MEMBER showDivision)
     public:
         enum FillMode {
             NoFill,
@@ -43,12 +42,11 @@ namespace Core {
         Q_ENUM(ValueType)
 
         QString displayName;
-        double defaultValue{0.0};
+        double defaultValue{0.0}; // Fallback for missing or invalid parameter values.
+        double baselineValue{0.0}; // Reference line and curve-fill baseline.
         FillMode fillMode{NoFill};
         ValueType valueType{Absolute};
-        double divisionValue{0.2};
         bool showDefaultValue{false};
-        bool showDivision{true};
         QVariant userData;
         double (*toDisplayValue)(const ParameterInfo &, double){[](const ParameterInfo &, double value) {
             return value;

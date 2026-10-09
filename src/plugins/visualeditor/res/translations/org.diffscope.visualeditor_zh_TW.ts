@@ -959,8 +959,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="659"/>
-        <source>The selected parameter is unavailable.</source>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="439"/>
+        <source>Unsupported parameter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

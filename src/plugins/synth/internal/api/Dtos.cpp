@@ -3,12 +3,11 @@
 
 #include "Dtos.h"
 
-#include <algorithm>
 #include <cmath>
 #include <limits>
+#include <utility>
 
 #include <QCoreApplication>
-#include <QJsonDocument>
 
 namespace Synth::Internal::Api::V1 {
 namespace {
@@ -140,24 +139,6 @@ namespace {
             && readDoubleListValue(json, values, errorMessage);
     }
 
-    bool readNormalizedDoubleListValue(const QJsonValue &json, QList<double> &values,
-                                       QString *errorMessage) {
-        QList<double> result;
-        if (!readDoubleListValue(json, result, errorMessage))
-            return false;
-        if (std::ranges::any_of(result, [](double value) { return value < 0.0 || value > 1.0; }))
-            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Parameter values must be within [0, 1]")));
-        values = std::move(result);
-        return true;
-    }
-
-    bool readNormalizedDoubleList(const QJsonObject &object, const char *key,
-                                  QList<double> &values, QString *errorMessage) {
-        QJsonValue json;
-        return requiredValue(object, key, json, errorMessage) &&
-               readNormalizedDoubleListValue(json, values, errorMessage);
-    }
-
     template<typename T>
     bool readDto(const QJsonObject &object, const char *key, T &value, QString *errorMessage) {
         QJsonValue json;
@@ -247,24 +228,6 @@ namespace {
         return object;
     }
 
-    bool readCompleteState(const QJsonObject &object, QString *errorMessage) {
-        QString state;
-        if (!readString(object, "state", state, errorMessage))
-            return false;
-        if (state != QStringLiteral("COMPLETE"))
-            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'state' must be 'COMPLETE'")));
-        return true;
-    }
-
-    bool readNonStreamingFlag(const QJsonObject &object, QString *errorMessage) {
-        const auto it = object.constFind(QStringLiteral("stream"));
-        if (it == object.constEnd())
-            return true;
-        if (!it->isBool() || it->toBool())
-            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Only non-streaming requests are supported")));
-        return true;
-    }
-
     bool validateMix(const MultiSingerContext &context, const Mix &mix,
                      QString *errorMessage) {
         const qsizetype expectedColumns = context.singers.size() - 1;
@@ -289,15 +252,30 @@ namespace {
 
 } // namespace
 
+QJsonValue ApplicationApiVersion::toJson() const {
+    return QJsonObject{{QStringLiteral("major"), major}, {QStringLiteral("minor"), minor}};
+}
+
+bool ApplicationApiVersion::fromJson(const QJsonValue &json, ApplicationApiVersion &value, QString *errorMessage) {
+    QJsonObject object;
+    ApplicationApiVersion result;
+    if (!readObject(json, object, errorMessage)
+        || !readNumber(object, "major", result.major, errorMessage)
+        || !readNumber(object, "minor", result.minor, errorMessage))
+        return false;
+    value = result;
+    return true;
+}
+
 QJsonValue ApplicationInfo::toJson() const {
-    return QJsonObject{{QStringLiteral("api_version"), apiVersion}};
+    return QJsonObject{{QStringLiteral("apiVersion"), apiVersion.toJson()}};
 }
 
 bool ApplicationInfo::fromJson(const QJsonValue &json, ApplicationInfo &value, QString *errorMessage) {
     QJsonObject object;
     ApplicationInfo result;
     if (!readObject(json, object, errorMessage)
-        || !readInteger(object, "api_version", result.apiVersion, errorMessage))
+        || !readDto(object, "apiVersion", result.apiVersion, errorMessage))
         return false;
     value = result;
     return true;
@@ -317,129 +295,159 @@ bool ApplicationInfoResponse::fromJson(const QJsonValue &json, ApplicationInfoRe
     return true;
 }
 
-QJsonValue ArchitectureParameterMetadata::toJson() const {
-    QJsonObject object{{QStringLiteral("type"), type == Direct ? QStringLiteral("DIRECT")
-                                                               : QStringLiteral("INDIRECT")}};
-    if (type == Indirect)
-        object.insert(QStringLiteral("depends_on"), stringListToJson(dependsOn));
+QJsonValue ParameterDefinition::toJson() const {
+    return QJsonObject{
+        {QStringLiteral("name"), name},
+        {QStringLiteral("defaultValue"), defaultValue},
+        {QStringLiteral("showBaseline"), showBaseline},
+        {QStringLiteral("baselineValue"), baselineValue},
+        {QStringLiteral("fillMode"), fillMode},
+        {QStringLiteral("fallbackOnDefaultValue"), fallbackOnDefaultValue},
+        {QStringLiteral("displayValueMappingExpression"), displayValueMappingExpression},
+        {QStringLiteral("displayValueInverseMappingExpression"), displayValueInverseMappingExpression},
+        {QStringLiteral("displayValuePrefix"), displayValuePrefix},
+        {QStringLiteral("displayValueSuffix"), displayValueSuffix},
+        {QStringLiteral("displayValueDecimalPlaces"), displayValueDecimalPlaces},
+    };
+}
+
+bool ParameterDefinition::fromJson(const QJsonValue &json, ParameterDefinition &value, QString *errorMessage) {
+    QJsonObject object;
+    ParameterDefinition result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "name", result.name, errorMessage)
+        || !readNumber(object, "defaultValue", result.defaultValue, errorMessage)
+        || !readBool(object, "showBaseline", result.showBaseline, errorMessage)
+        || !readNumber(object, "baselineValue", result.baselineValue, errorMessage)
+        || !readString(object, "fillMode", result.fillMode, errorMessage)
+        || !readBool(object, "fallbackOnDefaultValue", result.fallbackOnDefaultValue, errorMessage)
+        || !readAny(object, "displayValueMappingExpression", result.displayValueMappingExpression, errorMessage)
+        || !readAny(object, "displayValueInverseMappingExpression", result.displayValueInverseMappingExpression, errorMessage)
+        || !readString(object, "displayValuePrefix", result.displayValuePrefix, errorMessage)
+        || !readString(object, "displayValueSuffix", result.displayValueSuffix, errorMessage)
+        || !readInteger(object, "displayValueDecimalPlaces", result.displayValueDecimalPlaces, errorMessage))
+        return false;
+    if (result.defaultValue < 0 || result.defaultValue > 1 || result.baselineValue < 0 || result.baselineValue > 1
+        || result.displayValueDecimalPlaces < 0
+        || !QStringList{QStringLiteral("no"), QStringLiteral("top"), QStringLiteral("bottom"), QStringLiteral("baseline")}.contains(result.fillMode))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid parameter display metadata")));
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ParameterPipelineMetadata::toJson() const {
+    QJsonObject object{{QStringLiteral("type"), type == Direct ? QStringLiteral("direct") : QStringLiteral("indirect")}};
+    if (type == Indirect) {
+        object.insert(QStringLiteral("dependsOn"), stringListToJson(dependsOn));
+        object.insert(QStringLiteral("retakeMode"), retakeMode);
+    }
     return object;
 }
 
-bool ArchitectureParameterMetadata::fromJson(const QJsonValue &json,
-                                             ArchitectureParameterMetadata &value,
-                                             QString *errorMessage) {
+bool ParameterPipelineMetadata::fromJson(const QJsonValue &json, ParameterPipelineMetadata &value, QString *errorMessage) {
     QJsonObject object;
-    QString typeValue;
-    ArchitectureParameterMetadata result;
-    if (!readObject(json, object, errorMessage) || !readString(object, "type", typeValue, errorMessage))
+    QString type;
+    ParameterPipelineMetadata result;
+    if (!readObject(json, object, errorMessage) || !readString(object, "type", type, errorMessage))
         return false;
-    if (typeValue == QStringLiteral("DIRECT")) {
-        result.type = Direct;
-    } else if (typeValue == QStringLiteral("INDIRECT")) {
+    if (type == QStringLiteral("indirect")) {
         result.type = Indirect;
-        if (!readStringList(object, "depends_on", result.dependsOn, errorMessage))
+        if (!readStringList(object, "dependsOn", result.dependsOn, errorMessage)
+            || !readString(object, "retakeMode", result.retakeMode, errorMessage))
             return false;
-    } else {
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown architecture parameter type '%1'")).arg(typeValue));
+        if (result.retakeMode != QStringLiteral("full") && result.retakeMode != QStringLiteral("range"))
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid parameter retake mode")));
+    } else if (type != QStringLiteral("direct")) {
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown architecture parameter type '%1'")).arg(type));
     }
     value = std::move(result);
     return true;
 }
 
 QJsonValue ArchitectureMetadata::toJson() const {
-    const auto pronunciation = pronunciationMode == FullPronunciation ? QStringLiteral("FULL")
-                                                                      : QStringLiteral("SKIP");
-    QString phoneme;
-    switch (phonemeMode) {
-    case FullPhoneme:
-        phoneme = QStringLiteral("FULL");
-        break;
-    case TokenOnlyPhoneme:
-        phoneme = QStringLiteral("TOKEN_ONLY");
-        break;
-    case SkipPhoneme:
-        phoneme = QStringLiteral("SKIP");
-        break;
-    }
-    return QJsonObject{{QStringLiteral("id"), id},
-                       {QStringLiteral("name"), name},
-                       {QStringLiteral("pronunciation_mode"), pronunciation},
-                       {QStringLiteral("phoneme_mode"), phoneme},
-                       {QStringLiteral("parameters"), dtoMapToJson(parameters)},
-                       {QStringLiteral("audio_dependencies"), stringListToJson(audioDependencies)}};
+    return QJsonObject{{QStringLiteral("id"), id}, {QStringLiteral("name"), name},
+                       {QStringLiteral("parameters"), dtoMapToJson(parameters)}};
 }
 
-bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata &value,
-                                    QString *errorMessage) {
+bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata &value, QString *errorMessage) {
     QJsonObject object;
-    QString pronunciation;
-    QString phoneme;
     ArchitectureMetadata result;
     if (!readObject(json, object, errorMessage) || !readString(object, "id", result.id, errorMessage)
         || !readString(object, "name", result.name, errorMessage)
-        || !readString(object, "pronunciation_mode", pronunciation, errorMessage)
-        || !readString(object, "phoneme_mode", phoneme, errorMessage)
-        || !readDtoMap(object, "parameters", result.parameters, errorMessage)
-        || !readStringList(object, "audio_dependencies", result.audioDependencies, errorMessage))
+        || !readDtoMap(object, "parameters", result.parameters, errorMessage))
         return false;
-
-    if (pronunciation == QStringLiteral("FULL"))
-        result.pronunciationMode = FullPronunciation;
-    else if (pronunciation == QStringLiteral("SKIP"))
-        result.pronunciationMode = SkipPronunciation;
-    else
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown 'pronunciation_mode' value '%1'")).arg(pronunciation));
-
-    if (phoneme == QStringLiteral("FULL"))
-        result.phonemeMode = FullPhoneme;
-    else if (phoneme == QStringLiteral("TOKEN_ONLY"))
-        result.phonemeMode = TokenOnlyPhoneme;
-    else if (phoneme == QStringLiteral("SKIP"))
-        result.phonemeMode = SkipPhoneme;
-    else
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Unknown 'phoneme_mode' value '%1'")).arg(phoneme));
-
     value = std::move(result);
     return true;
 }
 
 QJsonValue ArchitectureMetadataList::toJson() const { return dtoListToJson(items); }
 
-bool ArchitectureMetadataList::fromJson(const QJsonValue &json, ArchitectureMetadataList &value,
-                                         QString *errorMessage) {
-    ArchitectureMetadataList result;
-    if (!readDtoListValue(json, result.items, errorMessage))
-        return false;
-    value = std::move(result);
-    return true;
+bool ArchitectureMetadataList::fromJson(const QJsonValue &json, ArchitectureMetadataList &value, QString *errorMessage) {
+    return readDtoListValue(json, value.items, errorMessage);
 }
 
-QJsonValue SingerLanguageInfo::toJson() const {
-    return QJsonObject{{QStringLiteral("name"), name},
-                       {QStringLiteral("default_lyric"), defaultLyric}};
+QJsonValue GroupLanguageInfo::toJson() const {
+    return QJsonObject{{QStringLiteral("name"), name}, {QStringLiteral("defaultLyric"), defaultLyric},
+                       {QStringLiteral("pronunciationMode"), pronunciationMode}, {QStringLiteral("phonemeMode"), phonemeMode}};
 }
 
-bool SingerLanguageInfo::fromJson(const QJsonValue &json, SingerLanguageInfo &value,
-                                  QString *errorMessage) {
+bool GroupLanguageInfo::fromJson(const QJsonValue &json, GroupLanguageInfo &value, QString *errorMessage) {
     QJsonObject object;
-    SingerLanguageInfo result;
-    if (!readObject(json, object, errorMessage)
-        || !readString(object, "name", result.name, errorMessage)
-        || !readString(object, "default_lyric", result.defaultLyric, errorMessage))
+    GroupLanguageInfo result;
+    if (!readObject(json, object, errorMessage) || !readString(object, "name", result.name, errorMessage)
+        || !readString(object, "defaultLyric", result.defaultLyric, errorMessage)
+        || !readString(object, "pronunciationMode", result.pronunciationMode, errorMessage)
+        || !readString(object, "phonemeMode", result.phonemeMode, errorMessage))
         return false;
+    if ((result.pronunciationMode != QStringLiteral("full") && result.pronunciationMode != QStringLiteral("skip"))
+        || !QStringList{QStringLiteral("full"), QStringLiteral("token_only"), QStringLiteral("skip")}.contains(result.phonemeMode))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid language conversion mode")));
     value = std::move(result);
     return true;
+}
+
+QJsonValue GroupMetadata::toJson() const {
+    return QJsonObject{{QStringLiteral("id"), id}, {QStringLiteral("arch"), arch},
+                       {QStringLiteral("languages"), dtoMapToJson(languages)}, {QStringLiteral("durationMode"), durationMode},
+                       {QStringLiteral("parameterPipeline"), dtoMapToJson(parameterPipeline)},
+                       {QStringLiteral("audioDependencies"), stringListToJson(audioDependencies)},
+                       {QStringLiteral("mixable"), mixable}, {QStringLiteral("archSpecificInfo"), archSpecificInfo},
+                       {QStringLiteral("defaultArchExtra"), defaultArchExtra}};
+}
+
+bool GroupMetadata::fromJson(const QJsonValue &json, GroupMetadata &value, QString *errorMessage) {
+    QJsonObject object;
+    GroupMetadata result;
+    if (!readObject(json, object, errorMessage) || !readString(object, "id", result.id, errorMessage)
+        || !readString(object, "arch", result.arch, errorMessage)
+        || !readDtoMap(object, "languages", result.languages, errorMessage)
+        || !readString(object, "durationMode", result.durationMode, errorMessage)
+        || !readDtoMap(object, "parameterPipeline", result.parameterPipeline, errorMessage)
+        || !readStringList(object, "audioDependencies", result.audioDependencies, errorMessage)
+        || !readBool(object, "mixable", result.mixable, errorMessage)
+        || !readAny(object, "archSpecificInfo", result.archSpecificInfo, errorMessage)
+        || !readAny(object, "defaultArchExtra", result.defaultArchExtra, errorMessage))
+        return false;
+    if (result.durationMode != QStringLiteral("full") && result.durationMode != QStringLiteral("skip"))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid duration mode")));
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue GroupMetadataList::toJson() const { return dtoListToJson(items); }
+
+bool GroupMetadataList::fromJson(const QJsonValue &json, GroupMetadataList &value, QString *errorMessage) {
+    return readDtoListValue(json, value.items, errorMessage);
 }
 
 QJsonValue SingerInfo::toJson() const {
     return QJsonObject{{QStringLiteral("id"), id},
                        {QStringLiteral("name"), name},
                        {QStringLiteral("arch"), arch},
-                       {QStringLiteral("mix_group"), mixGroup},
-                       {QStringLiteral("languages"), dtoMapToJson(languages)},
-                       {QStringLiteral("default_language"), defaultLanguage},
-                       {QStringLiteral("arch_specific_info"), archSpecificInfo},
-                       {QStringLiteral("default_extra"), defaultExtra}};
+                       {QStringLiteral("group"), group},
+                       {QStringLiteral("defaultLanguage"), defaultLanguage},
+                       {QStringLiteral("archSpecificInfo"), archSpecificInfo},
+                       {QStringLiteral("defaultExtra"), defaultExtra}};
 }
 
 bool SingerInfo::fromJson(const QJsonValue &json, SingerInfo &value, QString *errorMessage) {
@@ -448,11 +456,10 @@ bool SingerInfo::fromJson(const QJsonValue &json, SingerInfo &value, QString *er
     if (!readObject(json, object, errorMessage) || !readString(object, "id", result.id, errorMessage)
         || !readString(object, "name", result.name, errorMessage)
         || !readString(object, "arch", result.arch, errorMessage)
-        || !readString(object, "mix_group", result.mixGroup, errorMessage)
-        || !readDtoMap(object, "languages", result.languages, errorMessage)
-        || !readString(object, "default_language", result.defaultLanguage, errorMessage)
-        || !readAny(object, "arch_specific_info", result.archSpecificInfo, errorMessage)
-        || !readAny(object, "default_extra", result.defaultExtra, errorMessage))
+        || !readString(object, "group", result.group, errorMessage)
+        || !readString(object, "defaultLanguage", result.defaultLanguage, errorMessage)
+        || !readAny(object, "archSpecificInfo", result.archSpecificInfo, errorMessage)
+        || !readAny(object, "defaultExtra", result.defaultExtra, errorMessage))
         return false;
     value = std::move(result);
     return true;
@@ -480,15 +487,15 @@ bool SingerInfoList::fromJson(const QJsonValue &json, SingerInfoList &value, QSt
         return true;                                                                                                    \
     }
 
-SYNTH_SIMPLE_STRING_DTO(SingerAvatarResponse, avatarUrl, "avatar_url")
-SYNTH_SIMPLE_STRING_DTO(SingerBackgroundResponse, backgroundUrl, "background_url")
-SYNTH_SIMPLE_STRING_DTO(EnvTagResponse, envTag, "env_tag")
-SYNTH_SIMPLE_STRING_DTO(AudioOutput, audioUrl, "audio_url")
+SYNTH_SIMPLE_STRING_DTO(SingerAvatarResponse, avatarUrl, "avatarUrl")
+SYNTH_SIMPLE_STRING_DTO(SingerBackgroundResponse, backgroundUrl, "backgroundUrl")
+SYNTH_SIMPLE_STRING_DTO(EnvTagResponse, envTag, "envTag")
+SYNTH_SIMPLE_STRING_DTO(AudioOutput, audioUrl, "audioUrl")
 
 #undef SYNTH_SIMPLE_STRING_DTO
 
 QJsonValue SingerDemoAudio::toJson() const {
-    return QJsonObject{{QStringLiteral("name"), name}, {QStringLiteral("audio_url"), audioUrl}};
+    return QJsonObject{{QStringLiteral("name"), name}, {QStringLiteral("audioUrl"), audioUrl}};
 }
 
 bool SingerDemoAudio::fromJson(const QJsonValue &json, SingerDemoAudio &value,
@@ -496,7 +503,7 @@ bool SingerDemoAudio::fromJson(const QJsonValue &json, SingerDemoAudio &value,
     QJsonObject object;
     SingerDemoAudio result;
     if (!readObject(json, object, errorMessage) || !readString(object, "name", result.name, errorMessage)
-        || !readString(object, "audio_url", result.audioUrl, errorMessage))
+        || !readString(object, "audioUrl", result.audioUrl, errorMessage))
         return false;
     value = std::move(result);
     return true;
@@ -529,7 +536,7 @@ bool Singer::fromJson(const QJsonValue &json, Singer &value, QString *errorMessa
 
 QJsonValue SingleSingerContext::toJson() const {
     return QJsonObject{{QStringLiteral("arch"), arch},
-                       {QStringLiteral("arch_extra"), archExtra},
+                       {QStringLiteral("archExtra"), archExtra},
                        {QStringLiteral("singer"), singer.toJson()}};
 }
 
@@ -538,7 +545,7 @@ bool SingleSingerContext::fromJson(const QJsonValue &json, SingleSingerContext &
     QJsonObject object;
     SingleSingerContext result;
     if (!readObject(json, object, errorMessage) || !readString(object, "arch", result.arch, errorMessage)
-        || !readAny(object, "arch_extra", result.archExtra, errorMessage)
+        || !readAny(object, "archExtra", result.archExtra, errorMessage)
         || !readDto(object, "singer", result.singer, errorMessage))
         return false;
     value = std::move(result);
@@ -547,7 +554,7 @@ bool SingleSingerContext::fromJson(const QJsonValue &json, SingleSingerContext &
 
 QJsonValue MultiSingerContext::toJson() const {
     return QJsonObject{{QStringLiteral("arch"), arch},
-                       {QStringLiteral("arch_extra"), archExtra},
+                       {QStringLiteral("archExtra"), archExtra},
                        {QStringLiteral("singers"), dtoListToJson(singers)}};
 }
 
@@ -556,7 +563,7 @@ bool MultiSingerContext::fromJson(const QJsonValue &json, MultiSingerContext &va
     QJsonObject object;
     MultiSingerContext result;
     if (!readObject(json, object, errorMessage) || !readString(object, "arch", result.arch, errorMessage)
-        || !readAny(object, "arch_extra", result.archExtra, errorMessage)
+        || !readAny(object, "archExtra", result.archExtra, errorMessage)
         || !readDtoList(object, "singers", result.singers, errorMessage))
         return false;
     if (result.singers.isEmpty())
@@ -615,7 +622,7 @@ bool PronunciationRequest::fromJson(const QJsonValue &json, PronunciationRequest
                                     QString *errorMessage) {
     QJsonObject object;
     PronunciationRequest result;
-    if (!readObject(json, object, errorMessage) || !readNonStreamingFlag(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "context", result.context, errorMessage)
         || !readDto(object, "input", result.input, errorMessage))
         return false;
@@ -625,7 +632,9 @@ bool PronunciationRequest::fromJson(const QJsonValue &json, PronunciationRequest
 
 QJsonValue PronunciationNote::toJson() const {
     return QJsonObject{{QStringLiteral("pronunciation"), pronunciation},
-                       {QStringLiteral("language"), language}};
+                       {QStringLiteral("language"), language},
+                       {QStringLiteral("syllableSliceStart"), syllableSliceStart ? QJsonValue(*syllableSliceStart) : QJsonValue(QJsonValue::Null)},
+                       {QStringLiteral("syllableSliceEnd"), syllableSliceEnd ? QJsonValue(*syllableSliceEnd) : QJsonValue(QJsonValue::Null)}};
 }
 
 bool PronunciationNote::fromJson(const QJsonValue &json, PronunciationNote &value,
@@ -636,6 +645,14 @@ bool PronunciationNote::fromJson(const QJsonValue &json, PronunciationNote &valu
         || !readString(object, "pronunciation", result.pronunciation, errorMessage)
         || !readString(object, "language", result.language, errorMessage))
         return false;
+    for (const auto &[key, target] : {std::pair{"syllableSliceStart", &result.syllableSliceStart}, std::pair{"syllableSliceEnd", &result.syllableSliceEnd}}) {
+        if (object.value(QLatin1StringView(key)).isNull() || !object.contains(QLatin1StringView(key)))
+            continue;
+        int endpoint{};
+        if (!readInteger(object, key, endpoint, errorMessage))
+            return false;
+        *target = endpoint;
+    }
     value = std::move(result);
     return true;
 }
@@ -662,7 +679,7 @@ bool PhonemeRequest::fromJson(const QJsonValue &json, PhonemeRequest &value,
                               QString *errorMessage) {
     QJsonObject object;
     PhonemeRequest result;
-    if (!readObject(json, object, errorMessage) || !readNonStreamingFlag(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "context", result.context, errorMessage)
         || !readDto(object, "input", result.input, errorMessage))
         return false;
@@ -707,6 +724,7 @@ bool DurationInputPhoneme::fromJson(const QJsonValue &json, DurationInputPhoneme
 QJsonValue DurationNote::toJson() const {
     return QJsonObject{{QStringLiteral("position"), position.toJson()},
                        {QStringLiteral("cent"), cent},
+                       {QStringLiteral("kind"), kind},
                        {QStringLiteral("pronunciation"), pronunciation},
                        {QStringLiteral("language"), language},
                        {QStringLiteral("phonemes"), dtoListToJson(phonemes)}};
@@ -718,12 +736,17 @@ bool DurationNote::fromJson(const QJsonValue &json, DurationNote &value, QString
     if (!readObject(json, object, errorMessage)
         || !readDto(object, "position", result.position, errorMessage)
         || !readInteger(object, "cent", result.cent, errorMessage)
+        || !readString(object, "kind", result.kind, errorMessage)
         || !readString(object, "pronunciation", result.pronunciation, errorMessage)
         || !readString(object, "language", result.language, errorMessage)
         || !readDtoList(object, "phonemes", result.phonemes, errorMessage))
         return false;
     if (result.cent < 0 || result.cent > 12800)
         return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'cent' must be in [0, 12800]")));
+    if (result.kind != QStringLiteral("normal") && result.kind != QStringLiteral("slur"))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid note kind")));
+    if (result.kind == QStringLiteral("slur") && (!result.phonemes.isEmpty() || result.position.gap != 0))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Slur notes must have no phonemes and no gap")));
     value = std::move(result);
     return true;
 }
@@ -754,20 +777,20 @@ bool Mix::fromJson(const QJsonValue &json, Mix &value, QString *errorMessage) {
 }
 
 QJsonValue DurationInput::toJson() const {
-    return QJsonObject{{QStringLiteral("piece_duration"), pieceDuration},
+    return QJsonObject{{QStringLiteral("pieceDuration"), pieceDuration},
                        {QStringLiteral("notes"), dtoListToJson(notes)},
                        {QStringLiteral("mix"), mix.toJson()},
-                       {QStringLiteral("mix_sample_rate"), mixSampleRate}};
+                       {QStringLiteral("mixSampleRate"), mixSampleRate}};
 }
 
 bool DurationInput::fromJson(const QJsonValue &json, DurationInput &value, QString *errorMessage) {
     QJsonObject object;
     DurationInput result;
     if (!readObject(json, object, errorMessage)
-        || !readNumber(object, "piece_duration", result.pieceDuration, errorMessage)
+        || !readNumber(object, "pieceDuration", result.pieceDuration, errorMessage)
         || !readDtoList(object, "notes", result.notes, errorMessage)
         || !readDto(object, "mix", result.mix, errorMessage)
-        || !readNumber(object, "mix_sample_rate", result.mixSampleRate, errorMessage))
+        || !readNumber(object, "mixSampleRate", result.mixSampleRate, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
         return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Duration and sample-rate constraints were violated")));
@@ -784,7 +807,7 @@ bool DurationRequest::fromJson(const QJsonValue &json, DurationRequest &value,
                                QString *errorMessage) {
     QJsonObject object;
     DurationRequest result;
-    if (!readObject(json, object, errorMessage) || !readNonStreamingFlag(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "context", result.context, errorMessage)
         || !readDto(object, "input", result.input, errorMessage)
         || !validateMix(result.context, result.input.mix, errorMessage))
@@ -816,6 +839,7 @@ bool ParameterInputPhoneme::fromJson(const QJsonValue &json, ParameterInputPhone
 QJsonValue ParameterNote::toJson() const {
     return QJsonObject{{QStringLiteral("position"), position.toJson()},
                        {QStringLiteral("cent"), cent},
+                       {QStringLiteral("kind"), kind},
                        {QStringLiteral("pronunciation"), pronunciation},
                        {QStringLiteral("language"), language},
                        {QStringLiteral("phonemes"), dtoListToJson(phonemes)}};
@@ -828,12 +852,17 @@ bool ParameterNote::fromJson(const QJsonValue &json, ParameterNote &value,
     if (!readObject(json, object, errorMessage)
         || !readDto(object, "position", result.position, errorMessage)
         || !readInteger(object, "cent", result.cent, errorMessage)
+        || !readString(object, "kind", result.kind, errorMessage)
         || !readString(object, "pronunciation", result.pronunciation, errorMessage)
         || !readString(object, "language", result.language, errorMessage)
         || !readDtoList(object, "phonemes", result.phonemes, errorMessage))
         return false;
     if (result.cent < 0 || result.cent > 12800)
         return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'cent' must be in [0, 12800]")));
+    if (result.kind != QStringLiteral("normal") && result.kind != QStringLiteral("slur"))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid note kind")));
+    if (result.kind == QStringLiteral("slur") && (!result.phonemes.isEmpty() || result.position.gap != 0))
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Slur notes must have no phonemes and no gap")));
     value = std::move(result);
     return true;
 }
@@ -858,7 +887,7 @@ bool ParameterRetake::fromJson(const QJsonValue &json, ParameterRetake &value,
 
 QJsonValue Parameter::toJson() const {
     QJsonObject object{{QStringLiteral("values"), doubleListToJson(values)},
-                       {QStringLiteral("sample_rate"), sampleRate}};
+                       {QStringLiteral("sampleRate"), sampleRate}};
     if (retake)
         object.insert(QStringLiteral("retake"), retake->toJson());
     return object;
@@ -867,11 +896,11 @@ QJsonValue Parameter::toJson() const {
 bool Parameter::fromJson(const QJsonValue &json, Parameter &value, QString *errorMessage) {
     QJsonObject object;
     Parameter result;
-    if (!readObject(json, object, errorMessage) || !readNormalizedDoubleList(object, "values", result.values, errorMessage)
-        || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
+    if (!readObject(json, object, errorMessage) || !readDoubleList(object, "values", result.values, errorMessage)
+        || !readNumber(object, "sampleRate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive")));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sampleRate' must be positive")));
     if (const auto it = object.constFind(QStringLiteral("retake")); it != object.constEnd()) {
         ParameterRetake parsed;
         if (!ParameterRetake::fromJson(*it, parsed, errorMessage))
@@ -883,7 +912,7 @@ bool Parameter::fromJson(const QJsonValue &json, Parameter &value, QString *erro
 }
 
 QJsonValue AudioParameter::toJson() const {
-    QJsonObject object{{QStringLiteral("sample_rate"), sampleRate}};
+    QJsonObject object{{QStringLiteral("sampleRate"), sampleRate}};
     if (values)
         object.insert(QStringLiteral("values"), doubleListToJson(*values));
     return object;
@@ -894,13 +923,13 @@ bool AudioParameter::fromJson(const QJsonValue &json, AudioParameter &value,
     QJsonObject object;
     AudioParameter result;
     if (!readObject(json, object, errorMessage)
-        || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
+        || !readNumber(object, "sampleRate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive")));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sampleRate' must be positive")));
     if (const auto it = object.constFind(QStringLiteral("values")); it != object.constEnd()) {
         QList<double> parsed;
-        if (!readNormalizedDoubleListValue(*it, parsed, errorMessage))
+        if (!readDoubleListValue(*it, parsed, errorMessage))
             return false;
         result.values = std::move(parsed);
     }
@@ -930,10 +959,10 @@ bool AudioParameterMap::fromJson(const QJsonValue &json, AudioParameterMap &valu
 }
 
 QJsonValue ParameterInput::toJson() const {
-    return QJsonObject{{QStringLiteral("piece_duration"), pieceDuration},
+    return QJsonObject{{QStringLiteral("pieceDuration"), pieceDuration},
                        {QStringLiteral("notes"), dtoListToJson(notes)},
                        {QStringLiteral("mix"), mix.toJson()},
-                       {QStringLiteral("mix_sample_rate"), mixSampleRate},
+                       {QStringLiteral("mixSampleRate"), mixSampleRate},
                        {QStringLiteral("parameters"), parameters.toJson()}};
 }
 
@@ -942,10 +971,10 @@ bool ParameterInput::fromJson(const QJsonValue &json, ParameterInput &value,
     QJsonObject object;
     ParameterInput result;
     if (!readObject(json, object, errorMessage)
-        || !readNumber(object, "piece_duration", result.pieceDuration, errorMessage)
+        || !readNumber(object, "pieceDuration", result.pieceDuration, errorMessage)
         || !readDtoList(object, "notes", result.notes, errorMessage)
         || !readDto(object, "mix", result.mix, errorMessage)
-        || !readNumber(object, "mix_sample_rate", result.mixSampleRate, errorMessage)
+        || !readNumber(object, "mixSampleRate", result.mixSampleRate, errorMessage)
         || !readDto(object, "parameters", result.parameters, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
@@ -963,7 +992,7 @@ bool ParameterRequest::fromJson(const QJsonValue &json, ParameterRequest &value,
                                 QString *errorMessage) {
     QJsonObject object;
     ParameterRequest result;
-    if (!readObject(json, object, errorMessage) || !readNonStreamingFlag(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "context", result.context, errorMessage)
         || !readDto(object, "input", result.input, errorMessage)
         || !validateMix(result.context, result.input.mix, errorMessage))
@@ -973,10 +1002,10 @@ bool ParameterRequest::fromJson(const QJsonValue &json, ParameterRequest &value,
 }
 
 QJsonValue AudioInput::toJson() const {
-    return QJsonObject{{QStringLiteral("piece_duration"), pieceDuration},
+    return QJsonObject{{QStringLiteral("pieceDuration"), pieceDuration},
                        {QStringLiteral("notes"), dtoListToJson(notes)},
                        {QStringLiteral("mix"), mix.toJson()},
-                       {QStringLiteral("mix_sample_rate"), mixSampleRate},
+                       {QStringLiteral("mixSampleRate"), mixSampleRate},
                        {QStringLiteral("parameters"), parameters.toJson()}};
 }
 
@@ -984,10 +1013,10 @@ bool AudioInput::fromJson(const QJsonValue &json, AudioInput &value, QString *er
     QJsonObject object;
     AudioInput result;
     if (!readObject(json, object, errorMessage)
-        || !readNumber(object, "piece_duration", result.pieceDuration, errorMessage)
+        || !readNumber(object, "pieceDuration", result.pieceDuration, errorMessage)
         || !readDtoList(object, "notes", result.notes, errorMessage)
         || !readDto(object, "mix", result.mix, errorMessage)
-        || !readNumber(object, "mix_sample_rate", result.mixSampleRate, errorMessage)
+        || !readNumber(object, "mixSampleRate", result.mixSampleRate, errorMessage)
         || !readDto(object, "parameters", result.parameters, errorMessage))
         return false;
     if (result.pieceDuration < 0 || result.mixSampleRate <= 0)
@@ -998,18 +1027,24 @@ bool AudioInput::fromJson(const QJsonValue &json, AudioInput &value, QString *er
 
 QJsonValue AudioRequest::toJson() const {
     return QJsonObject{{QStringLiteral("context"), context.toJson()},
-                       {QStringLiteral("input"), input.toJson()}};
+                       {QStringLiteral("input"), input.toJson()},
+                       {QStringLiteral("acceptableFormats"), stringListToJson(acceptableFormats)},
+                       {QStringLiteral("acceptableSchemes"), stringListToJson(acceptableSchemes)}};
 }
 
 bool AudioRequest::fromJson(const QJsonValue &json, AudioRequest &value,
                             QString *errorMessage) {
     QJsonObject object;
     AudioRequest result;
-    if (!readObject(json, object, errorMessage) || !readNonStreamingFlag(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "context", result.context, errorMessage)
         || !readDto(object, "input", result.input, errorMessage)
         || !validateMix(result.context, result.input.mix, errorMessage))
         return false;
+    for (const auto &[key, target] : {std::pair{"acceptableFormats", &result.acceptableFormats}, std::pair{"acceptableSchemes", &result.acceptableSchemes}}) {
+        if (object.contains(QLatin1StringView(key)) && !readStringList(object, key, *target, errorMessage))
+            return false;
+    }
     value = std::move(result);
     return true;
 }
@@ -1046,15 +1081,14 @@ bool PronunciationOutput::fromJson(const QJsonValue &json, PronunciationOutput &
 }
 
 QJsonValue PronunciationResponse::toJson() const {
-    return QJsonObject{{QStringLiteral("state"), QStringLiteral("COMPLETE")},
-                       {QStringLiteral("output"), output.toJson()}};
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
 }
 
 bool PronunciationResponse::fromJson(const QJsonValue &json, PronunciationResponse &value,
                                      QString *errorMessage) {
     QJsonObject object;
     PronunciationResponse result;
-    if (!readObject(json, object, errorMessage) || !readCompleteState(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "output", result.output, errorMessage))
         return false;
     value = std::move(result);
@@ -1105,15 +1139,14 @@ bool PhonemeOutput::fromJson(const QJsonValue &json, PhonemeOutput &value,
 }
 
 QJsonValue PhonemeResponse::toJson() const {
-    return QJsonObject{{QStringLiteral("state"), QStringLiteral("COMPLETE")},
-                       {QStringLiteral("output"), output.toJson()}};
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
 }
 
 bool PhonemeResponse::fromJson(const QJsonValue &json, PhonemeResponse &value,
                                QString *errorMessage) {
     QJsonObject object;
     PhonemeResponse result;
-    if (!readObject(json, object, errorMessage) || !readCompleteState(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "output", result.output, errorMessage))
         return false;
     value = std::move(result);
@@ -1164,15 +1197,14 @@ bool DurationOutput::fromJson(const QJsonValue &json, DurationOutput &value,
 }
 
 QJsonValue DurationResponse::toJson() const {
-    return QJsonObject{{QStringLiteral("state"), QStringLiteral("COMPLETE")},
-                       {QStringLiteral("output"), output.toJson()}};
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
 }
 
 bool DurationResponse::fromJson(const QJsonValue &json, DurationResponse &value,
                                 QString *errorMessage) {
     QJsonObject object;
     DurationResponse result;
-    if (!readObject(json, object, errorMessage) || !readCompleteState(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "output", result.output, errorMessage))
         return false;
     value = std::move(result);
@@ -1181,18 +1213,18 @@ bool DurationResponse::fromJson(const QJsonValue &json, DurationResponse &value,
 
 QJsonValue ParameterOutputParameter::toJson() const {
     return QJsonObject{{QStringLiteral("values"), doubleListToJson(values)},
-                       {QStringLiteral("sample_rate"), sampleRate}};
+                       {QStringLiteral("sampleRate"), sampleRate}};
 }
 
 bool ParameterOutputParameter::fromJson(const QJsonValue &json, ParameterOutputParameter &value,
                                         QString *errorMessage) {
     QJsonObject object;
     ParameterOutputParameter result;
-    if (!readObject(json, object, errorMessage) || !readNormalizedDoubleList(object, "values", result.values, errorMessage)
-        || !readNumber(object, "sample_rate", result.sampleRate, errorMessage))
+    if (!readObject(json, object, errorMessage) || !readDoubleList(object, "values", result.values, errorMessage)
+        || !readNumber(object, "sampleRate", result.sampleRate, errorMessage))
         return false;
     if (result.sampleRate <= 0)
-        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sample_rate' must be positive")));
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sampleRate' must be positive")));
     value = std::move(result);
     return true;
 }
@@ -1213,15 +1245,14 @@ bool ParameterOutput::fromJson(const QJsonValue &json, ParameterOutput &value,
 }
 
 QJsonValue ParameterResponse::toJson() const {
-    return QJsonObject{{QStringLiteral("state"), QStringLiteral("COMPLETE")},
-                       {QStringLiteral("output"), output.toJson()}};
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
 }
 
 bool ParameterResponse::fromJson(const QJsonValue &json, ParameterResponse &value,
                                  QString *errorMessage) {
     QJsonObject object;
     ParameterResponse result;
-    if (!readObject(json, object, errorMessage) || !readCompleteState(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "output", result.output, errorMessage))
         return false;
     value = std::move(result);
@@ -1229,15 +1260,14 @@ bool ParameterResponse::fromJson(const QJsonValue &json, ParameterResponse &valu
 }
 
 QJsonValue AudioResponse::toJson() const {
-    return QJsonObject{{QStringLiteral("state"), QStringLiteral("COMPLETE")},
-                       {QStringLiteral("output"), output.toJson()}};
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
 }
 
 bool AudioResponse::fromJson(const QJsonValue &json, AudioResponse &value,
                              QString *errorMessage) {
     QJsonObject object;
     AudioResponse result;
-    if (!readObject(json, object, errorMessage) || !readCompleteState(object, errorMessage)
+    if (!readObject(json, object, errorMessage)
         || !readDto(object, "output", result.output, errorMessage))
         return false;
     value = std::move(result);

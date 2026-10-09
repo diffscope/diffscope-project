@@ -21,6 +21,10 @@
 
 namespace Synth {
 
+    namespace Internal {
+        struct SynthesisMetadataAccess;
+    }
+
     class ServiceInstanceConfigurationData;
 
     class SYNTH_EXPORT ServiceInstanceConfiguration {
@@ -100,59 +104,13 @@ namespace Synth {
         QSharedDataPointer<ServiceInstanceConfigurationData> d;
     };
 
-    class ParameterMetadataData;
-
-    class SYNTH_EXPORT ParameterMetadata {
-        Q_GADGET
-        Q_PROPERTY(QString id READ id WRITE setId)
-        Q_PROPERTY(Kind kind READ kind WRITE setKind)
-        Q_PROPERTY(QStringList dependsOn READ dependsOn WRITE setDependsOn)
-        Q_PROPERTY(QJsonObject extra READ extra WRITE setExtra)
-
-    public:
-        enum Kind {
-            Direct,
-            Indirect,
-        };
-        Q_ENUM(Kind)
-
-        ParameterMetadata();
-        ParameterMetadata(const ParameterMetadata &other);
-        ParameterMetadata(ParameterMetadata &&other) noexcept;
-        ParameterMetadata &operator=(const ParameterMetadata &other);
-        ParameterMetadata &operator=(ParameterMetadata &&other) noexcept;
-        ~ParameterMetadata();
-
-        QString id() const;
-        void setId(const QString &id);
-        Kind kind() const;
-        void setKind(Kind kind);
-        QStringList dependsOn() const;
-        void setDependsOn(const QStringList &dependsOn);
-        QJsonObject extra() const;
-        void setExtra(const QJsonObject &extra);
-
-        QJsonObject toJson() const;
-        static bool fromJson(const QJsonObject &object, ParameterMetadata *result,
-                             QString *errorMessage = nullptr);
-        bool operator==(const ParameterMetadata &other) const;
-        bool operator!=(const ParameterMetadata &other) const;
-
-    private:
-        QSharedDataPointer<ParameterMetadataData> d;
-    };
-
     class ArchitectureMetadataData;
 
     class SYNTH_EXPORT ArchitectureMetadata {
         Q_GADGET
         Q_PROPERTY(QString id READ id WRITE setId)
         Q_PROPERTY(QString name READ name WRITE setName)
-        Q_PROPERTY(QString pronunciationMode READ pronunciationMode WRITE setPronunciationMode)
-        Q_PROPERTY(QString phonemeMode READ phonemeMode WRITE setPhonemeMode)
-        Q_PROPERTY(QList<Synth::ParameterMetadata> parameters READ parameters WRITE setParameters)
-        Q_PROPERTY(QStringList audioDependencies READ audioDependencies WRITE setAudioDependencies)
-        Q_PROPERTY(QJsonObject extra READ extra WRITE setExtra)
+        Q_PROPERTY(QJsonObject parameters READ parameters WRITE setParameters)
 
     public:
         ArchitectureMetadata();
@@ -166,16 +124,8 @@ namespace Synth {
         void setId(const QString &id);
         QString name() const;
         void setName(const QString &name);
-        QString pronunciationMode() const;
-        void setPronunciationMode(const QString &mode);
-        QString phonemeMode() const;
-        void setPhonemeMode(const QString &mode);
-        QList<ParameterMetadata> parameters() const;
-        void setParameters(const QList<ParameterMetadata> &parameters);
-        QStringList audioDependencies() const;
-        void setAudioDependencies(const QStringList &dependencies);
-        QJsonObject extra() const;
-        void setExtra(const QJsonObject &extra);
+        QJsonObject parameters() const;
+        void setParameters(const QJsonObject &parameters);
 
         QJsonObject toJson() const;
         static bool fromJson(const QJsonObject &object, ArchitectureMetadata *result,
@@ -210,6 +160,7 @@ namespace Synth {
         Q_PROPERTY(QString id READ id WRITE setId)
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId)
         Q_PROPERTY(QString name READ name WRITE setName)
+        Q_PROPERTY(QStringList supportedParameters READ supportedParameters WRITE setSupportedParameters)
         Q_PROPERTY(QString mixGroup READ mixGroup WRITE setMixGroup)
         Q_PROPERTY(LanguageMap languages READ languages WRITE setLanguages)
         Q_PROPERTY(QString defaultLanguage READ defaultLanguage WRITE setDefaultLanguage)
@@ -218,7 +169,6 @@ namespace Synth {
         Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
         Q_PROPERTY(QUrl backgroundUrl READ backgroundUrl WRITE setBackgroundUrl)
         Q_PROPERTY(QJsonArray demos READ demos WRITE setDemos)
-        Q_PROPERTY(QJsonObject extra READ extra WRITE setExtra)
 
     public:
         using LanguageMap = QMap<QString, SingerLanguageMetadata>;
@@ -236,6 +186,8 @@ namespace Synth {
         void setArchitectureId(const QString &architectureId);
         QString name() const;
         void setName(const QString &name);
+        QStringList supportedParameters() const;
+        void setSupportedParameters(const QStringList &parameters);
         QString mixGroup() const;
         void setMixGroup(const QString &mixGroup);
         LanguageMap languages() const;
@@ -252,8 +204,6 @@ namespace Synth {
         void setBackgroundUrl(const QUrl &url);
         QJsonArray demos() const;
         void setDemos(const QJsonArray &demos);
-        QJsonObject extra() const;
-        void setExtra(const QJsonObject &extra);
 
         QJsonObject toJson() const;
         static bool fromJson(const QJsonObject &object, SingerMetadata *result,
@@ -262,6 +212,7 @@ namespace Synth {
         bool operator!=(const SingerMetadata &other) const;
 
     private:
+        friend struct Internal::SynthesisMetadataAccess;
         QSharedDataPointer<SingerMetadataData> d;
     };
 
@@ -292,6 +243,7 @@ namespace Synth {
         bool operator!=(const ServiceMetadata &other) const;
 
     private:
+        friend struct Internal::SynthesisMetadataAccess;
         QSharedDataPointer<ServiceMetadataData> d;
     };
 
@@ -301,7 +253,7 @@ namespace Synth {
         Q_GADGET
         Q_PROPERTY(Synth::ServiceInstanceConfiguration configuration READ configuration WRITE setConfiguration)
         Q_PROPERTY(HealthStatus healthStatus READ healthStatus WRITE setHealthStatus)
-        Q_PROPERTY(int maximumApiVersion READ maximumApiVersion WRITE setMaximumApiVersion)
+        Q_PROPERTY(double maximumApiVersion READ maximumApiVersion WRITE setMaximumApiVersion)
         Q_PROPERTY(int selectedApiVersion READ selectedApiVersion WRITE setSelectedApiVersion)
         Q_PROPERTY(QDateTime lastHealthCheck READ lastHealthCheck WRITE setLastHealthCheck)
         Q_PROPERTY(QDateTime lastMetadataRefresh READ lastMetadataRefresh WRITE setLastMetadataRefresh)
@@ -330,8 +282,8 @@ namespace Synth {
         void setConfiguration(const ServiceInstanceConfiguration &configuration);
         HealthStatus healthStatus() const;
         void setHealthStatus(HealthStatus status);
-        int maximumApiVersion() const;
-        void setMaximumApiVersion(int version);
+        double maximumApiVersion() const;
+        void setMaximumApiVersion(double version);
         int selectedApiVersion() const;
         void setSelectedApiVersion(int version);
         QDateTime lastHealthCheck() const;
@@ -358,7 +310,6 @@ namespace Synth {
 }
 
 Q_DECLARE_METATYPE(Synth::ServiceInstanceConfiguration)
-Q_DECLARE_METATYPE(Synth::ParameterMetadata)
 Q_DECLARE_METATYPE(Synth::ArchitectureMetadata)
 Q_DECLARE_METATYPE(Synth::SingerLanguageMetadata)
 Q_DECLARE_METATYPE(Synth::SingerMetadata::LanguageMap)

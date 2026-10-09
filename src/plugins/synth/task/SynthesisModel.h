@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISMODEL_H
 #define DIFFSCOPE_SYNTH_SYNTHESISMODEL_H
 
+#include <optional>
+
 #include <QJsonValue>
 #include <QList>
 #include <QMap>
@@ -32,7 +34,7 @@ namespace Synth {
 
     struct SYNTH_EXPORT SynthesisContext {
         QString architectureId;
-        QJsonValue architectureExtra{QJsonValue::Null};
+        QJsonValue architectureExtra{QJsonValue::Undefined};
         QList<SynthesisSinger> singers;
 
         bool operator==(const SynthesisContext &) const = default;
@@ -48,6 +50,8 @@ namespace Synth {
     struct SYNTH_EXPORT SynthesisPronunciationNote {
         QString pronunciation;
         QString language;
+        std::optional<int> syllableSliceStart;
+        std::optional<int> syllableSliceEnd;
 
         bool operator==(const SynthesisPronunciationNote &) const = default;
     };
@@ -65,6 +69,7 @@ namespace Synth {
         double gap{};
         double duration{};
         int cent{};
+        bool slur{};
         QString pronunciation;
         QString language;
         QList<SynthesisPhoneme> phonemes;

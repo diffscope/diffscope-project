@@ -47,10 +47,11 @@ namespace Synth {
 
     namespace {
 
-        bool parametersAreNormalized(const QMap<QString, SynthesisParameter> &parameters) {
+        bool parametersAreValid(const QMap<QString, SynthesisParameter> &parameters) {
             for (auto it = parameters.cbegin(); it != parameters.cend(); ++it) {
-                if (!std::ranges::all_of(it->values, [](double value) {
-                        return std::isfinite(value) && value >= 0.0 && value <= 1.0;
+                if (!std::isfinite(it->sampleRate) || it->sampleRate <= 0.0
+                    || !std::ranges::all_of(it->values, [](double value) {
+                        return std::isfinite(value);
                     })) {
                     return false;
                 }
@@ -81,19 +82,7 @@ namespace Synth {
     }
 
     bool SynthesisTaskManagerPrivate::providesContext(const ServiceInstanceDetails &details, const SynthesisContext &context) {
-        const auto architectures = details.metadata().architectures();
-        const auto architecture = std::ranges::find_if(architectures, [&context](const ArchitectureMetadata &candidate) {
-            return candidate.id() == context.architectureId;
-        });
-        if (architecture == architectures.cend()) {
-            return false;
-        }
-        const auto singers = details.metadata().singers();
-        return std::ranges::all_of(context.singers, [&singers, &context](const SynthesisSinger &requested) {
-            return std::ranges::any_of(singers, [&requested, &context](const SingerMetadata &singer) {
-                return singer.id() == requested.id && singer.architectureId() == context.architectureId;
-            });
-        });
+        return Internal::SynthesisMetadataAccess::resolve(details.metadata(), context).has_value();
     }
 
     SynthesisTaskManagerPrivate::ServiceResolution SynthesisTaskManagerPrivate::resolveService(const SynthesisContext &context) const {
@@ -128,14 +117,9 @@ namespace Synth {
         return {};
     }
 
-    ArchitectureMetadata SynthesisTaskManagerPrivate::architectureMetadata(const ServiceInstanceConfiguration &service, const QString &architectureId) const {
+    Internal::SynthesisPipeline SynthesisTaskManagerPrivate::synthesisPipeline(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const {
         const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
-        for (const auto &architecture : details.metadata().architectures()) {
-            if (architecture.id() == architectureId) {
-                return architecture;
-            }
-        }
-        return {};
+        return Internal::SynthesisMetadataAccess::resolve(details.metadata(), context).value_or(Internal::SynthesisPipeline{});
     }
 
     QJsonObject SynthesisTaskManagerPrivate::cacheEnvelope(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const {
@@ -160,14 +144,8 @@ namespace Synth {
         auto requestJson = envelope.value(QStringLiteral("request")).toObject();
         auto score = scoreCommonToJson(request.score);
         QJsonObject dependencies;
-        const auto architecture = architectureMetadata(service, request.context.architectureId);
-        QStringList dependsOn;
-        for (const auto &metadata : architecture.parameters()) {
-            if (metadata.id() == target) {
-                dependsOn = metadata.dependsOn();
-                break;
-            }
-        }
+        const auto pipeline = synthesisPipeline(service, request.context);
+        const auto dependsOn = pipeline.group.parameterPipeline.value(target).dependsOn;
         for (const auto &dependency : dependsOn) {
             if (unavailableParameters.contains(dependency)) {
                 return {};
@@ -272,6 +250,9 @@ namespace Synth {
             taskPrivate->diagnosticFilePath.clear();
             Q_EMIT task->diagnosticsChanged();
         }
+        const auto pipeline = synthesisPipeline(service, taskPrivate->request.context);
+        if (taskPrivate->request.context.architectureExtra.isUndefined())
+            taskPrivate->request.context.architectureExtra = pipeline.group.defaultArchExtra;
         setState(task, SynthesisTask::Running);
         ++activeByService[service.id()];
         ++activeByServiceAndType[counterKey(service.id(), task->type())];
@@ -602,8 +583,8 @@ namespace Synth {
             return;
         }
         if (task->type() == SynthesisTaskType::Audio &&
-            !parametersAreNormalized(task->request().score.parameters)) {
-            fail(task, SynthesisTaskManager::tr("Audio request contains a non-normalized parameter value"));
+            !parametersAreValid(task->request().score.parameters)) {
+            fail(task, SynthesisTaskManager::tr("Audio request contains an invalid parameter value"));
             return;
         }
         const auto key = taskCacheKey(service, task->request(), environmentTag);
@@ -660,7 +641,7 @@ namespace Synth {
         V1::PhonemeRequest request;
         request.context = singleContext(task->request().context);
         for (const auto &note : task->request().pronunciationNotes) {
-            request.input.notes.append({note.pronunciation, note.language});
+            request.input.notes.append({note.pronunciation, note.language, note.syllableSliceStart, note.syllableSliceEnd});
         }
         watch(task, apiClient->synthesizePhoneme(service, request), [this, task, key](ApiResult<V1::PhonemeResponse> response) {
             if (!response) {
@@ -691,6 +672,7 @@ namespace Synth {
             V1::DurationNote converted;
             converted.position = {note.gap, note.duration};
             converted.cent = note.cent;
+            converted.kind = note.slur ? QStringLiteral("slur") : QStringLiteral("normal");
             converted.pronunciation = note.pronunciation;
             converted.language = note.language;
             for (const auto &phoneme : note.phonemes) {
@@ -721,9 +703,17 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::executeParameter(SynthesisTask *task, const ServiceInstanceConfiguration &service, const QString &environmentTag) {
         auto requestModel = task->request();
-        if (!parametersAreNormalized(requestModel.score.parameters)) {
-            fail(task, SynthesisTaskManager::tr("Parameter request contains a non-normalized value"));
+        if (!parametersAreValid(requestModel.score.parameters)) {
+            fail(task, SynthesisTaskManager::tr("Parameter request contains an invalid value"));
             return;
+        }
+        const auto pipeline = synthesisPipeline(service, requestModel.context);
+        for (const auto &target : requestModel.score.requestedParameters) {
+            const auto metadata = pipeline.group.parameterPipeline.constFind(target);
+            if (metadata == pipeline.group.parameterPipeline.cend() || metadata->type != V1::ParameterPipelineMetadata::Indirect) {
+                fail(task, SynthesisTaskManager::tr("The selected singer cannot predict parameter %1").arg(target));
+                return;
+            }
         }
         SynthesisTaskResult combined;
         QStringList pending = requestModel.score.requestedParameters;
@@ -905,10 +895,10 @@ namespace Synth {
             const auto metadata = location.mid(5, comma - 5);
             const auto parts = metadata.split(u';');
             const auto mime = parts.value(0, QStringLiteral("application/octet-stream"));
-            const auto payload = location.mid(comma + 1).toLatin1();
+            const auto payload = QByteArray::fromPercentEncoding(location.mid(comma + 1).toLatin1());
             const auto bytes = parts.contains(QStringLiteral("base64"), Qt::CaseInsensitive)
                                    ? QByteArray::fromBase64(payload)
-                                   : QByteArray::fromPercentEncoding(payload);
+                                   : payload;
             finishAudioBytes(task, key, bytes, suffixForMime(mime));
             return;
         }

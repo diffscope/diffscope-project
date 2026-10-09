@@ -23,6 +23,7 @@
 #include <synth/ServiceTypes.h>
 #include <synth/SynthesisTask.h>
 #include <synth/internal/ApiClient.h>
+#include <synth/internal/SynthesisPipeline.h>
 #include <synth/internal/SynthesisTaskCache.h>
 
 class QNetworkAccessManager;
@@ -61,7 +62,7 @@ namespace Synth {
 
         ServiceResolution resolveService(const SynthesisContext &context) const;
         static bool providesContext(const ServiceInstanceDetails &details, const SynthesisContext &context);
-        ArchitectureMetadata architectureMetadata(const ServiceInstanceConfiguration &service, const QString &architectureId) const;
+        Internal::SynthesisPipeline synthesisPipeline(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const;
 
         QJsonObject cacheEnvelope(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const;
         QByteArray taskCacheKey(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag) const;

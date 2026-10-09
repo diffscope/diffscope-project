@@ -71,7 +71,7 @@ namespace Core {
                                   ? languages.cend()
                                   : languages.constFind(singerInfo.defaultLanguage());
             if (languageIt == languages.cend())
-                languageIt = languages.cbegin();
+                return fallback;
 
             return {
                 languageIt.key(),

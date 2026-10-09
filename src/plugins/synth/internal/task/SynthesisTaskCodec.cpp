@@ -25,7 +25,7 @@ namespace Synth::Internal::TaskCodec {
             return result;
         }
 
-        std::optional<QList<double>> normalizedDoublesFromJson(const QJsonValue &value) {
+        std::optional<QList<double>> doublesFromJson(const QJsonValue &value) {
             if (!value.isArray())
                 return std::nullopt;
             QList<double> result;
@@ -33,7 +33,7 @@ namespace Synth::Internal::TaskCodec {
                 if (!item.isDouble())
                     return std::nullopt;
                 const double number = item.toDouble();
-                if (!std::isfinite(number) || number < 0.0 || number > 1.0)
+                if (!std::isfinite(number))
                     return std::nullopt;
                 result.append(number);
             }
@@ -66,7 +66,7 @@ namespace Synth::Internal::TaskCodec {
         }
 
         std::optional<SynthesisParameter> parameterFromJson(const QJsonObject &object) {
-            const auto values = normalizedDoublesFromJson(object.value(QStringLiteral("values")));
+            const auto values = doublesFromJson(object.value(QStringLiteral("values")));
             const auto sampleRateValue = object.value(QStringLiteral("sampleRate"));
             if (!values || !sampleRateValue.isDouble())
                 return std::nullopt;
@@ -119,6 +119,7 @@ namespace Synth::Internal::TaskCodec {
                 {QStringLiteral("gap"), note.gap},
                 {QStringLiteral("duration"), note.duration},
                 {QStringLiteral("cent"), note.cent},
+                {QStringLiteral("kind"), note.slur ? QStringLiteral("slur") : QStringLiteral("normal")},
                 {QStringLiteral("pronunciation"), note.pronunciation},
                 {QStringLiteral("language"), note.language},
                 {QStringLiteral("phonemes"), phonemes},
@@ -149,6 +150,8 @@ namespace Synth::Internal::TaskCodec {
             pronunciations.append(QJsonObject{
                 {QStringLiteral("pronunciation"), note.pronunciation},
                 {QStringLiteral("language"), note.language},
+                {QStringLiteral("syllableSliceStart"), note.syllableSliceStart ? QJsonValue(*note.syllableSliceStart) : QJsonValue(QJsonValue::Null)},
+                {QStringLiteral("syllableSliceEnd"), note.syllableSliceEnd ? QJsonValue(*note.syllableSliceEnd) : QJsonValue(QJsonValue::Null)},
             });
         }
         auto score = scoreCommonToJson(request.score);
@@ -272,6 +275,7 @@ namespace Synth::Internal::TaskCodec {
             Api::V1::ParameterNote converted;
             converted.position = {note.gap, note.duration};
             converted.cent = note.cent;
+            converted.kind = note.slur ? QStringLiteral("slur") : QStringLiteral("normal");
             converted.pronunciation = note.pronunciation;
             converted.language = note.language;
             for (const auto &phoneme : note.phonemes) {

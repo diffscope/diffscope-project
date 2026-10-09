@@ -990,9 +990,9 @@
         <translation type="unfinished">锚点选择</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="659"/>
-        <source>The selected parameter is unavailable.</source>
-        <translation type="unfinished">所选参数不可用。</translation>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="439"/>
+        <source>Unsupported parameter</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -29,6 +29,15 @@ namespace Synth::Internal::Api {
         QFuture<ApiResult<V1::ArchitectureMetadata>>
             getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId,
                             const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::GroupMetadataList>>
+            getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId,
+                                  const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::GroupMetadata>>
+            getGroup(const ServiceInstanceConfiguration &service, const QString &architectureId,
+                     const QString &groupId, const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::SingerInfoList>>
+            getGroupSingers(const ServiceInstanceConfiguration &service, const QString &architectureId,
+                            const QString &groupId, const QString &displayLanguage = {});
         QFuture<ApiResult<V1::SingerInfoList>>
             getSingers(const ServiceInstanceConfiguration &service,
                        const QString &displayLanguage = {});

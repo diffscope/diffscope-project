@@ -3,9 +3,12 @@
 
 #include "MetadataRefreshController.h"
 
+#include <algorithm>
+#include <functional>
 #include <limits>
 #include <memory>
 #include <optional>
+#include <ranges>
 #include <utility>
 
 #include <QElapsedTimer>
@@ -20,6 +23,7 @@
 #include <synth/internal/ApiClient.h>
 #include <synth/internal/ApiVersion.h>
 #include <synth/internal/MetadataConverter.h>
+#include <synth/internal/SynthesisPipeline.h>
 
 namespace Synth::Internal {
 
@@ -70,6 +74,10 @@ namespace Synth::Internal {
 
             bool architecturesDone{};
             bool singersDone{};
+            bool groupsRequested{};
+            int pendingGroups{};
+            QList<Api::V1::GroupMetadata> refreshedGroups;
+            QStringList groupErrors;
             std::optional<Api::ApiResult<Api::V1::ArchitectureMetadataList>> architecturesResult;
             std::optional<Api::ApiResult<Api::V1::SingerInfoList>> singersResult;
             QList<ArchitectureMetadata> refreshedArchitectures;
@@ -320,7 +328,7 @@ namespace Synth::Internal {
                     return;
                 state->details.setLastHealthCheck(QDateTime::currentDateTimeUtc());
                 const auto negotiatedVersion = result && result->hasValue()
-                    ? Api::negotiateApiVersion(result->value().dssp.apiVersion)
+                    ? Api::negotiateApiVersion(result->value().dssp.apiVersion.major)
                     : std::nullopt;
                 if (!result || result->hasError() || !negotiatedVersion) {
                     QString message;
@@ -352,22 +360,24 @@ namespace Synth::Internal {
                     return;
                 }
 
-                const int maximumVersion = result->value().dssp.apiVersion;
+                const auto maximumVersion = result->value().dssp.apiVersion;
                 if (includeMetadata) {
                     qCInfo(lcMetadataRefreshController)
                         << "DSSP health check succeeded"
                         << "service=" << state->configuration.name()
-                        << "maximumApiVersion=" << maximumVersion
+                        << "maximumApiVersionMajor=" << maximumVersion.major
+                        << "maximumApiVersionMinor=" << maximumVersion.minor
                         << "selectedApiVersion=" << static_cast<int>(*negotiatedVersion);
                 } else {
                     qCDebug(lcMetadataRefreshController)
                         << "DSSP health check succeeded"
                         << "service=" << state->configuration.name()
-                        << "maximumApiVersion=" << maximumVersion
+                        << "maximumApiVersionMajor=" << maximumVersion.major
+                        << "maximumApiVersionMinor=" << maximumVersion.minor
                         << "selectedApiVersion=" << static_cast<int>(*negotiatedVersion);
                 }
                 state->details.setHealthStatus(ServiceInstanceDetails::Healthy);
-                state->details.setMaximumApiVersion(maximumVersion);
+                state->details.setMaximumApiVersion(maximumVersion.major);
                 state->details.setSelectedApiVersion(static_cast<int>(*negotiatedVersion));
                 state->healthError.clear();
                 syncError(state);
@@ -385,6 +395,10 @@ namespace Synth::Internal {
         void beginMetadata(const std::shared_ptr<State> &state, quint64 generation) {
             state->architecturesDone = false;
             state->singersDone = false;
+            state->groupsRequested = false;
+            state->pendingGroups = 0;
+            state->refreshedGroups.clear();
+            state->groupErrors.clear();
             state->architecturesResult.reset();
             state->singersResult.reset();
             const auto displayLanguage = QLocale().bcp47Name();
@@ -418,7 +432,37 @@ namespace Synth::Internal {
             if (!isCurrent(state, generation) || !state->architecturesDone ||
                 !state->singersDone)
                 return;
-            QStringList errors;
+            if (state->architecturesResult && state->architecturesResult->hasValue() && !state->groupsRequested) {
+                state->groupsRequested = true;
+                state->pendingGroups = state->architecturesResult->value().items.size();
+                const auto displayLanguage = QLocale().bcp47Name();
+                for (const auto &architecture : state->architecturesResult->value().items) {
+                    watch(state, generation, apiClient->getArchitectureGroups(state->configuration, architecture.id, displayLanguage),
+                          [this, state, generation, architectureId = architecture.id](std::optional<Api::ApiResult<Api::V1::GroupMetadataList>> result) {
+                        if (!isCurrent(state, generation))
+                            return;
+                        if (!result || result->hasError()) {
+                            state->groupErrors.append(result ? apiErrorText(result->error())
+                                : Synth::Internal::MetadataRefreshController::tr("The group request was canceled"));
+                        } else {
+                            for (const auto &group : result->value().items) {
+                                if (group.arch != architectureId || std::ranges::any_of(state->refreshedGroups, [&](const auto &existing) {
+                                        return existing.arch == group.arch && existing.id == group.id;
+                                    })) {
+                                    state->groupErrors.append(Synth::Internal::MetadataRefreshController::tr("The synthesis service returned inconsistent group metadata"));
+                                } else {
+                                    state->refreshedGroups.append(group);
+                                }
+                            }
+                        }
+                        --state->pendingGroups;
+                        finishMetadataLists(state, generation);
+                    });
+                }
+            }
+            if (state->pendingGroups > 0)
+                return;
+            QStringList errors = state->groupErrors;
             if (!state->architecturesResult || state->architecturesResult->hasError()) {
                 errors.append(state->architecturesResult
                                   ? apiErrorText(state->architecturesResult->error())
@@ -446,13 +490,56 @@ namespace Synth::Internal {
             for (const auto &item : state->architecturesResult->value().items)
                 state->refreshedArchitectures.append(MetadataConverter::architecture(item));
 
+            for (const auto &group : state->refreshedGroups) {
+                const auto architecture = std::ranges::find_if(state->refreshedArchitectures, [&group](const auto &candidate) {
+                    return candidate.id() == group.arch;
+                });
+                QHash<QString, int> visits;
+                std::function<bool(const QString &)> visit = [&](const QString &id) {
+                    if (visits.value(id) == 1)
+                        return false;
+                    if (visits.value(id) == 2)
+                        return true;
+                    const auto parameter = group.parameterPipeline.constFind(id);
+                    if (parameter == group.parameterPipeline.cend() || architecture == state->refreshedArchitectures.end()
+                        || !architecture->parameters().contains(id))
+                        return false;
+                    visits.insert(id, 1);
+                    for (const auto &dependency : parameter->dependsOn) {
+                        if (!visit(dependency))
+                            return false;
+                    }
+                    visits.insert(id, 2);
+                    return true;
+                };
+                bool valid = architecture != state->refreshedArchitectures.end();
+                for (auto parameter = group.parameterPipeline.cbegin(); valid && parameter != group.parameterPipeline.cend(); ++parameter)
+                    valid = visit(parameter.key());
+                for (const auto &dependency : group.audioDependencies)
+                    valid = valid && group.parameterPipeline.contains(dependency);
+                if (!valid) {
+                    if (failMetadata(state, generation, Synth::Internal::MetadataRefreshController::tr("The synthesis service returned inconsistent group metadata")))
+                        finish(state);
+                    return;
+                }
+            }
+
             QHash<QString, SingerMetadata> previousSingers;
             for (const auto &item : state->details.metadata().singers())
                 previousSingers.insert(singerKey(item.architectureId(), item.id()), item);
 
             state->refreshedSingers.clear();
             for (const auto &item : state->singersResult->value().items) {
-                auto converted = MetadataConverter::singer(item, state->configuration.id());
+                const auto group = std::ranges::find_if(state->refreshedGroups, [&item](const auto &candidate) {
+                    return candidate.arch == item.arch && candidate.id == item.group;
+                });
+                if (group == state->refreshedGroups.end()
+                    || (!item.defaultLanguage.isEmpty() && !group->languages.contains(item.defaultLanguage))) {
+                    if (failMetadata(state, generation, Synth::Internal::MetadataRefreshController::tr("The synthesis service returned inconsistent group metadata")))
+                        finish(state);
+                    return;
+                }
+                auto converted = MetadataConverter::singer(item, *group, state->configuration.id());
                 const auto previous = previousSingers.constFind(singerKey(item.arch, item.id));
                 if (previous != previousSingers.cend()) {
                     converted.setAvatarUrl(previous->avatarUrl());
@@ -534,6 +621,7 @@ namespace Synth::Internal {
             ServiceMetadata metadata;
             metadata.setArchitectures(state->refreshedArchitectures);
             metadata.setSingers(state->refreshedSingers);
+            SynthesisMetadataAccess::setGroups(metadata, state->refreshedGroups);
             state->details.setMetadata(metadata);
             state->details.setLastMetadataRefresh(QDateTime::currentDateTimeUtc());
             state->details.setMetadataStale(!state->assetErrors.isEmpty());

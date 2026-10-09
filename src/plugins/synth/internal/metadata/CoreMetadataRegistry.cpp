@@ -24,7 +24,7 @@ namespace Synth::Internal {
 
         struct DesiredArchitecture {
             QString name;
-            QSet<QString> parameterIds;
+            QJsonObject parameters;
         };
 
         struct DesiredMetadata {
@@ -53,8 +53,11 @@ namespace Synth::Internal {
                         desired.name = architecture.name();
                         it = result.architectures.insert(architecture.id(), desired);
                     }
-                    for (const auto &parameter : architecture.parameters())
-                        it->parameterIds.insert(parameter.id());
+                    const auto parameters = architecture.parameters();
+                    for (auto parameter = parameters.begin(); parameter != parameters.end(); ++parameter) {
+                        if (!it->parameters.contains(parameter.key()))
+                            it->parameters.insert(parameter.key(), parameter.value());
+                    }
                 }
                 for (const auto &singer : metadata.singers()) {
                     if (!result.architectures.contains(singer.architectureId()))
@@ -67,34 +70,25 @@ namespace Synth::Internal {
             return result;
         }
 
-        Core::ArchitectureInfo architectureInfo(
-            const QString &architectureId, const DesiredArchitecture &desired,
-            const QHash<QString, ParameterConfiguration> &parameterConfigurations) {
+        Core::ArchitectureInfo architectureInfo(const DesiredArchitecture &desired) {
             Core::ArchitectureInfo info;
             info.setName(desired.name);
             Core::ArchitectureInfo::ParameterMap parameters;
-            for (const auto &parameterId : desired.parameterIds) {
-                if (parameterId == QStringLiteral("pitch"))
+            for (auto parameter = desired.parameters.begin(); parameter != desired.parameters.end(); ++parameter) {
+                if (parameter.key() == QStringLiteral("pitch"))
                     continue;
-                const auto configurationIt = parameterConfigurations.constFind(parameterId);
-                if (configurationIt == parameterConfigurations.cend() ||
-                    configurationIt->architectureId() != architectureId) {
-                    continue;
-                }
+                Api::V1::ParameterDefinition definition;
                 Core::ParameterInfo parameterInfo;
                 QString errorMessage;
-                if (!ParameterRuntimeRegistry::instance().parameterInfo(
-                        *configurationIt, &parameterInfo, &errorMessage)) {
-                    qCWarning(lcCoreMetadataRegistry)
-                        << "Could not create runtime metadata for parameter" << parameterId
-                        << errorMessage;
+                if (!Api::V1::ParameterDefinition::fromJson(parameter.value(), definition, &errorMessage)
+                    || !ParameterRuntimeRegistry::instance().parameterInfo(definition, &parameterInfo, &errorMessage)) {
+                    qCWarning(lcCoreMetadataRegistry) << "Could not create runtime metadata for parameter" << parameter.key() << errorMessage;
                     continue;
                 }
-                parameters.insert(parameterId, parameterInfo);
+                parameters.insert(parameter.key(), parameterInfo);
             }
             info.setParameters(parameters);
-            // TODO: Register an architecture-specific control panel when synthesis controls are
-            // implemented. Per-service architecture schemas remain available through SynthInterface.
+            // TODO: Register architecture-specific synthesis controls when they are implemented.
             return info;
         }
 
@@ -113,6 +107,9 @@ namespace Synth::Internal {
                 languages.insert(it.key(), language);
             }
             info.setLanguages(languages);
+            auto supportedParameters = source.supportedParameters();
+            supportedParameters.removeAll(QStringLiteral("pitch"));
+            info.setSupportedParameters(supportedParameters);
             info.setMixGroup(source.mixGroup());
             info.setDefaultExtra(source.defaultExtra());
             return info;
@@ -177,8 +174,7 @@ namespace Synth::Internal {
 
     void CoreMetadataRegistry::reconcile(
         const QList<ServiceInstanceConfiguration> &serviceOrder,
-        const QList<ServiceInstanceDetails> &details,
-        const QList<ParameterConfiguration> &parameterConfigurations) {
+        const QList<ServiceInstanceDetails> &details) {
         auto registry = Core::CoreInterface::singerRegistry();
         if (!registry) {
             const bool managementChanged = !m_managedArchitectures.isEmpty();
@@ -197,14 +193,6 @@ namespace Synth::Internal {
         };
 
         const auto desired = mergeMetadata(serviceOrder, details);
-        QHash<QString, ParameterConfiguration> configurationsById;
-        for (const auto &configuration : parameterConfigurations) {
-            if (configuration.id() != QStringLiteral("pitch") &&
-                !configurationsById.contains(configuration.id())) {
-                configurationsById.insert(configuration.id(), configuration);
-            }
-        }
-
         // Remove singers first. SingerRegistry::removeArchitecture removes all singers, including
         // entries another plugin may have attached to an architecture originally owned by synth.
         for (auto architectureIt = m_ownedSingers.begin(); architectureIt != m_ownedSingers.end();) {
@@ -230,7 +218,7 @@ namespace Synth::Internal {
         QSet<QString> blockedArchitectures;
         for (auto it = desired.architectures.cbegin(); it != desired.architectures.cend(); ++it) {
             const auto id = it.key();
-            const auto info = architectureInfo(id, it.value(), configurationsById);
+            const auto info = architectureInfo(it.value());
             if (m_ownedArchitectures.contains(id)) {
                 if (!registry->containsArchitecture(id)) {
                     m_ownedArchitectures.remove(id);
@@ -265,7 +253,7 @@ namespace Synth::Internal {
             }
             for (auto singerIt = architectureIt->cbegin(); singerIt != architectureIt->cend(); ++singerIt) {
                 const auto &singerId = singerIt.key();
-                const auto info = singerInfo(singerIt.value());
+                auto info = singerInfo(singerIt.value());
                 if (m_ownedSingers.value(architectureId).contains(singerId)) {
                     if (registry->containsSinger(architectureId, singerId))
                         mutateRegistry([&] {

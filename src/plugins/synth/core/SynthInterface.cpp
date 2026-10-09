@@ -4,13 +4,11 @@
 #include "SynthInterface.h"
 #include "SynthInterface_p.h"
 
-#include <algorithm>
 #include <utility>
 
 #include <QSet>
 
 #include <synth/SynthesisTaskManager.h>
-#include <synth/internal/BuiltinParameterConfigurations.h>
 #include <synth/internal/ParameterRuntimeRegistry.h>
 
 namespace Synth {
@@ -25,8 +23,6 @@ namespace Synth {
         : QObject(parent), d_ptr(new SynthInterfacePrivate(this)) {
         Q_ASSERT(!s_instance);
         s_instance = this;
-        for (const auto &configuration : Internal::BuiltinParameterConfigurations::all())
-            registerBuiltinParameterConfiguration(configuration);
     }
 
     SynthInterface::~SynthInterface() {
@@ -70,41 +66,6 @@ namespace Synth {
         return d->taskManager;
     }
 
-    SynthInterface::BuiltinParameterRegistrationResult
-    SynthInterface::registerBuiltinParameterConfiguration(const ParameterConfiguration &configuration, QString *errorMessage) {
-        Q_D(SynthInterface);
-        if (configuration.id() == QStringLiteral("pitch")) {
-            if (errorMessage)
-                *errorMessage = tr("pitch is reserved and cannot be configured");
-            return ReservedPitch;
-        }
-        QStringList errors;
-        if (!configuration.validate(&errors)) {
-            if (errorMessage)
-                *errorMessage = errors.join(u'\n');
-            return Invalid;
-        }
-        if (d->builtinParameters.contains(configuration.id())) {
-            if (errorMessage)
-                *errorMessage = tr("A built-in parameter with this ID is already registered");
-            return AlreadyRegistered;
-        }
-        d->builtinParameters.insert(configuration.id(), configuration);
-        emit builtinParameterConfigurationsChanged();
-        return Registered;
-    }
-
-    QList<ParameterConfiguration> SynthInterface::builtinParameterConfigurations() const {
-        Q_D(const SynthInterface);
-        auto result = d->builtinParameters.values();
-        std::sort(result.begin(), result.end(), [](const auto &left, const auto &right) {
-            if (left.architectureId() != right.architectureId())
-                return left.architectureId() < right.architectureId();
-            return left.id() < right.id();
-        });
-        return result;
-    }
-
     void SynthInterface::setServiceInstances(const QList<ServiceInstanceConfiguration> &instances) {
         Q_D(SynthInterface);
         if (d->serviceInstances == instances)
@@ -129,11 +90,11 @@ namespace Synth {
                 ++iterator;
             }
         }
-        emit serviceInstancesChanged();
+        Q_EMIT serviceInstancesChanged();
         for (const auto &id : std::as_const(changedDetailIds))
-            emit serviceInstanceDetailsChanged(id);
+            Q_EMIT serviceInstanceDetailsChanged(id);
         for (const auto &id : std::as_const(removedDetailIds))
-            emit serviceInstanceDetailsChanged(id);
+            Q_EMIT serviceInstanceDetailsChanged(id);
     }
 
     void SynthInterface::setServiceInstanceDetails(const ServiceInstanceDetails &details) {
@@ -142,14 +103,14 @@ namespace Synth {
         if (id.isNull() || d->serviceDetails.value(id) == details)
             return;
         d->serviceDetails.insert(id, details);
-        emit serviceInstanceDetailsChanged(id);
+        Q_EMIT serviceInstanceDetailsChanged(id);
     }
 
     void SynthInterface::removeServiceInstanceDetails(const QUuid &id) {
         Q_D(SynthInterface);
         if (!d->serviceDetails.remove(id))
             return;
-        emit serviceInstanceDetailsChanged(id);
+        Q_EMIT serviceInstanceDetailsChanged(id);
     }
 
     void SynthInterface::clearParameterRuntime() {

@@ -39,7 +39,7 @@ namespace Core {
     ParameterInfo transformParameterInfo() {
         ParameterInfo info;
         info.defaultValue = 0.5;
-        info.divisionValue = 0.1;
+        info.baselineValue = 0.5;
         info.fillMode = ParameterInfo::NoFill;
         info.valueType = ParameterInfo::Relative;
         info.toDisplayValue = [](const ParameterInfo &, double value) {

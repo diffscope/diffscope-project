@@ -3,13 +3,13 @@
 
 #include "SynthService.h"
 
-#include <algorithm>
 #include <utility>
 
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
 #include <QLoggingCategory>
-#include <QMap>
 #include <QSet>
 #include <QSettings>
 
@@ -33,18 +33,7 @@ namespace Synth::Internal {
 
         constexpr auto settingsGroup = "org.diffscope.synth";
         constexpr auto servicesKey = "services";
-        constexpr auto parametersKey = "parameters";
-        constexpr auto parameterFormat = "org.diffscope.synth.parameter-config";
         constexpr int schemaVersion = 1;
-
-        template <typename T>
-        void sortParameterConfigurations(QList<T> &configurations) {
-            std::sort(configurations.begin(), configurations.end(), [](const auto &left, const auto &right) {
-                if (left.architectureId() != right.architectureId())
-                    return left.architectureId() < right.architectureId();
-                return left.id() < right.id();
-            });
-        }
 
         QJsonDocument parseStoredDocument(const QVariant &value) {
             if (!value.isValid())
@@ -92,19 +81,6 @@ namespace Synth::Internal {
                 Synth::Internal::SynthService::tr("%1: %2").arg(serviceName, message)
             );
         });
-        connect(m_interface, &SynthInterface::builtinParameterConfigurationsChanged, this, [this] {
-            QSet<QString> builtinIds;
-            for (const auto &configuration : m_interface->builtinParameterConfigurations())
-                builtinIds.insert(configuration.id());
-            const auto oldSize = m_userParameters.size();
-            m_userParameters.removeIf([&builtinIds](const ParameterConfiguration &configuration) {
-                return builtinIds.contains(configuration.id());
-            });
-            if (m_userParameters.size() != oldSize && m_initialized)
-                saveUserParameters();
-            Q_EMIT parameterConfigurationsChanged();
-            reconcileCoreMetadata();
-        });
     }
 
     SynthService::~SynthService() {
@@ -133,11 +109,7 @@ namespace Synth::Internal {
         m_interface->setServiceInstances(m_services);
         m_metadataController->setServices(m_services);
         m_initialized = true;
-        qCInfo(lcSynthService) << "Initialized with" << m_services.size()
-                               << "DSSP service instance(s),"
-                               << m_interface->builtinParameterConfigurations().size()
-                               << "built-in parameter configuration(s), and"
-                               << m_userParameters.size() << "user parameter configuration(s)";
+        qCInfo(lcSynthService) << "Initialized with" << m_services.size() << "DSSP service instance(s)";
         return true;
     }
 
@@ -208,143 +180,8 @@ namespace Synth::Internal {
         return true;
     }
 
-    QList<ParameterConfiguration> SynthService::allParameterConfigurations() const {
-        auto result = m_interface->builtinParameterConfigurations();
-        QSet<QString> usedIds;
-        for (const auto &configuration : std::as_const(result))
-            usedIds.insert(configuration.id());
-        for (const auto &configuration : m_userParameters) {
-            if (!usedIds.contains(configuration.id())) {
-                result.append(configuration);
-                usedIds.insert(configuration.id());
-            }
-        }
-        sortParameterConfigurations(result);
-        return result;
-    }
-
-    QList<ParameterConfiguration> SynthService::userParameterConfigurations() const {
-        return m_userParameters;
-    }
-
     bool SynthService::managesArchitecture(const QString &architectureId) const {
         return m_coreRegistry && m_coreRegistry->managesArchitecture(architectureId);
-    }
-
-    bool SynthService::replaceUserParameterConfigurations(
-        const QList<ParameterConfiguration> &configurations, QString *errorMessage
-    ) {
-        QSet<QString> builtinIds;
-        for (const auto &configuration : m_interface->builtinParameterConfigurations())
-            builtinIds.insert(configuration.id());
-        QSet<QString> ids;
-        QList<ParameterConfiguration> accepted;
-        accepted.reserve(configurations.size());
-        for (const auto &configuration : configurations) {
-            if (configuration.id() == QStringLiteral("pitch") || builtinIds.contains(configuration.id()))
-                continue;
-            QStringList errors;
-            if (!configuration.validate(&errors)) {
-                if (errorMessage)
-                    *errorMessage = errors.join(QStringLiteral("; "));
-                return false;
-            }
-            if (ids.contains(configuration.id())) {
-                if (errorMessage)
-                    *errorMessage = tr("Parameter identifiers must be unique");
-                return false;
-            }
-            ids.insert(configuration.id());
-            accepted.append(configuration);
-        }
-        sortParameterConfigurations(accepted);
-        if (m_userParameters == accepted)
-            return true;
-        m_userParameters = accepted;
-        saveUserParameters();
-        Q_EMIT parameterConfigurationsChanged();
-        reconcileCoreMetadata();
-        return true;
-    }
-
-    bool SynthService::importParameterConfigurations(const QJsonDocument &document, QString *errorMessage, QStringList *summary) {
-        if (!document.isObject()) {
-            if (errorMessage)
-                *errorMessage = tr("The parameter configuration file must contain a JSON object");
-            return false;
-        }
-        const auto root = document.object();
-        if (root.value(QStringLiteral("format")).toString() != QString::fromLatin1(parameterFormat) ||
-            root.value(QStringLiteral("version")).toInt(-1) != schemaVersion ||
-            !root.value(QStringLiteral("parameters")).isArray()) {
-            if (errorMessage)
-                *errorMessage = tr("The parameter configuration file has an unsupported format or version");
-            return false;
-        }
-
-        QSet<QString> builtinIds;
-        for (const auto &configuration : m_interface->builtinParameterConfigurations())
-            builtinIds.insert(configuration.id());
-        QMap<QString, ParameterConfiguration> imported;
-        int ignoredReserved{};
-        int ignoredBuiltin{};
-        for (const auto &item : root.value(QStringLiteral("parameters")).toArray()) {
-            if (!item.isObject()) {
-                if (errorMessage)
-                    *errorMessage = tr("Every parameter entry must be a JSON object");
-                return false;
-            }
-            const auto idValue = item.toObject().value(QStringLiteral("id"));
-            if (!idValue.isString()) {
-                if (errorMessage)
-                    *errorMessage = tr("Every parameter entry must contain a string 'id' field");
-                return false;
-            }
-            const auto id = idValue.toString();
-            if (id == QStringLiteral("pitch")) {
-                ++ignoredReserved;
-                continue;
-            }
-            if (builtinIds.contains(id)) {
-                ++ignoredBuiltin;
-                continue;
-            }
-            ParameterConfiguration configuration;
-            QString parseError;
-            if (!ParameterConfiguration::fromJson(item.toObject(), &configuration, &parseError)) {
-                if (errorMessage)
-                    *errorMessage = tr("Invalid parameter %1: %2").arg(id, parseError);
-                return false;
-            }
-            imported.insert(id, configuration); // Last entry in the file wins.
-        }
-
-        QMap<QString, ParameterConfiguration> merged;
-        for (const auto &configuration : m_userParameters)
-            merged.insert(configuration.id(), configuration);
-        for (auto it = imported.cbegin(); it != imported.cend(); ++it)
-            merged.insert(it.key(), it.value());
-        if (!replaceUserParameterConfigurations(merged.values(), errorMessage))
-            return false;
-        if (summary) {
-            summary->append(tr("Imported %Ln parameter configuration(s).", nullptr, imported.size()));
-            if (ignoredBuiltin)
-                summary->append(tr("Ignored %Ln built-in parameter configuration(s).", nullptr, ignoredBuiltin));
-            if (ignoredReserved)
-                summary->append(tr("Ignored %Ln reserved pitch configuration(s).", nullptr, ignoredReserved));
-        }
-        return true;
-    }
-
-    QJsonDocument SynthService::exportParameterConfigurations() const {
-        QJsonArray parameters;
-        for (const auto &configuration : allParameterConfigurations())
-            parameters.append(configuration.toJson());
-        return QJsonDocument(QJsonObject{
-            {QStringLiteral("format"), QString::fromLatin1(parameterFormat)},
-            {QStringLiteral("version"), schemaVersion},
-            {QStringLiteral("parameters"), parameters},
-        });
     }
 
     bool SynthService::refreshing() const {
@@ -399,41 +236,12 @@ namespace Synth::Internal {
                 qCWarning(lcSynthService) << "Falling back to the default DSSP service";
         }
 
-        const auto parameterDocument = parseStoredDocument(settings->value(QString::fromLatin1(parametersKey)));
-        if (parameterDocument.isObject()) {
-            const auto root = parameterDocument.object();
-            if (root.value(QStringLiteral("version")).toInt(-1) == schemaVersion &&
-                root.value(QStringLiteral("parameters")).isArray()) {
-                QMap<QString, ParameterConfiguration> loaded;
-                const auto builtinConfigurations = m_interface->builtinParameterConfigurations();
-                QSet<QString> builtinIds;
-                for (const auto &configuration : builtinConfigurations)
-                    builtinIds.insert(configuration.id());
-                for (const auto &item : root.value(QStringLiteral("parameters")).toArray()) {
-                    if (!item.isObject())
-                        continue;
-                    ParameterConfiguration configuration;
-                    QString error;
-                    if (!ParameterConfiguration::fromJson(item.toObject(), &configuration, &error) ||
-                        configuration.id() == QStringLiteral("pitch") ||
-                        builtinIds.contains(configuration.id())) {
-                        qCWarning(lcSynthService) << "Ignoring invalid persisted parameter" << error;
-                        continue;
-                    }
-                    loaded.insert(configuration.id(), configuration);
-                }
-                m_userParameters = loaded.values();
-                sortParameterConfigurations(m_userParameters);
-            }
-        }
         settings->endGroup();
         // Persist the generated UUID immediately so the default service has a stable identity
         // even when the user never opens the settings page.
         if (persistDefaultService)
             saveServices();
-        qCInfo(lcSynthService) << "Loaded" << m_services.size()
-                               << "service configuration(s) and" << m_userParameters.size()
-                               << "user parameter configuration(s) from settings";
+        qCInfo(lcSynthService) << "Loaded" << m_services.size() << "service configuration(s) from settings";
     }
 
     void SynthService::saveServices() const {
@@ -451,27 +259,13 @@ namespace Synth::Internal {
         settings->endGroup();
     }
 
-    void SynthService::saveUserParameters() const {
-        QJsonArray parameters;
-        for (const auto &configuration : m_userParameters)
-            parameters.append(configuration.toJson());
-        const QJsonDocument document(QJsonObject{
-            {QStringLiteral("version"), schemaVersion},
-            {QStringLiteral("parameters"), parameters},
-        });
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QString::fromLatin1(settingsGroup));
-        settings->setValue(QString::fromLatin1(parametersKey), document.toJson(QJsonDocument::Compact));
-        settings->endGroup();
-    }
-
     void SynthService::reconcileCoreMetadata() {
         if (!m_initialized || m_shutdown)
             return;
         qCDebug(lcSynthService) << "Reconciling Core singer metadata from"
                                 << m_metadataController->serviceDetails().size()
                                 << "service cache(s)";
-        m_coreRegistry->reconcile(m_services, m_metadataController->serviceDetails(), allParameterConfigurations());
+        m_coreRegistry->reconcile(m_services, m_metadataController->serviceDetails());
     }
 
 }

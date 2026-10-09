@@ -8,7 +8,6 @@
 #include <QObject>
 #include <QSet>
 
-#include <synth/ParameterConfiguration.h>
 #include <synth/ServiceTypes.h>
 
 namespace Synth::Internal {
@@ -23,8 +22,7 @@ namespace Synth::Internal {
         bool managesArchitecture(const QString &architectureId) const;
 
         void reconcile(const QList<ServiceInstanceConfiguration> &serviceOrder,
-                       const QList<ServiceInstanceDetails> &details,
-                       const QList<ParameterConfiguration> &parameterConfigurations);
+                       const QList<ServiceInstanceDetails> &details);
         void clear();
 
     Q_SIGNALS:

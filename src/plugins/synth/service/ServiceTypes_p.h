@@ -8,6 +8,8 @@
 
 #include <QSharedData>
 
+#include <synth/internal/Dtos.h>
+
 namespace Synth {
 
     class ServiceInstanceConfigurationData : public QSharedData {
@@ -32,23 +34,11 @@ namespace Synth {
         QString customHeaders;
     };
 
-    class ParameterMetadataData : public QSharedData {
-    public:
-        QString id;
-        ParameterMetadata::Kind kind{ParameterMetadata::Direct};
-        QStringList dependsOn;
-        QJsonObject extra;
-    };
-
     class ArchitectureMetadataData : public QSharedData {
     public:
         QString id;
         QString name;
-        QString pronunciationMode;
-        QString phonemeMode;
-        QList<ParameterMetadata> parameters;
-        QStringList audioDependencies;
-        QJsonObject extra;
+        QJsonObject parameters;
     };
 
     class SingerMetadataData : public QSharedData {
@@ -57,6 +47,8 @@ namespace Synth {
         QString architectureId;
         QString name;
         QString mixGroup;
+        QString groupId;
+        QStringList supportedParameters;
         SingerMetadata::LanguageMap languages;
         QString defaultLanguage;
         QJsonValue architectureSpecificInfo;
@@ -64,13 +56,13 @@ namespace Synth {
         QUrl avatarUrl;
         QUrl backgroundUrl;
         QJsonArray demos;
-        QJsonObject extra;
     };
 
     class ServiceMetadataData : public QSharedData {
     public:
         QList<ArchitectureMetadata> architectures;
         QList<SingerMetadata> singers;
+        QList<Internal::Api::V1::GroupMetadata> groups;
     };
 
     class ServiceInstanceDetailsData : public QSharedData {
@@ -79,7 +71,7 @@ namespace Synth {
 
         ServiceInstanceConfiguration configuration;
         ServiceInstanceDetails::HealthStatus healthStatus{ServiceInstanceDetails::Unknown};
-        int maximumApiVersion{};
+        double maximumApiVersion{};
         int selectedApiVersion{};
         QDateTime lastHealthCheck;
         QDateTime lastMetadataRefresh;

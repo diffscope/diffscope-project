@@ -334,49 +334,6 @@ namespace Synth {
         return !(*this == other);
     }
 
-    ParameterMetadata::ParameterMetadata() : d(new ParameterMetadataData) {}
-    ParameterMetadata::ParameterMetadata(const ParameterMetadata &other) = default;
-    ParameterMetadata::ParameterMetadata(ParameterMetadata &&other) noexcept = default;
-    ParameterMetadata &ParameterMetadata::operator=(const ParameterMetadata &other) = default;
-    ParameterMetadata &ParameterMetadata::operator=(ParameterMetadata &&other) noexcept = default;
-    ParameterMetadata::~ParameterMetadata() = default;
-    QString ParameterMetadata::id() const { return d->id; }
-    void ParameterMetadata::setId(const QString &id) { d->id = id; }
-    ParameterMetadata::Kind ParameterMetadata::kind() const { return d->kind; }
-    void ParameterMetadata::setKind(Kind kind) { d->kind = kind; }
-    QStringList ParameterMetadata::dependsOn() const { return d->dependsOn; }
-    void ParameterMetadata::setDependsOn(const QStringList &dependsOn) { d->dependsOn = dependsOn; }
-    QJsonObject ParameterMetadata::extra() const { return d->extra; }
-    void ParameterMetadata::setExtra(const QJsonObject &extra) { d->extra = extra; }
-    QJsonObject ParameterMetadata::toJson() const {
-        return {{QStringLiteral("id"), d->id},
-                {QStringLiteral("kind"), d->kind == Direct ? QStringLiteral("direct") : QStringLiteral("indirect")},
-                {QStringLiteral("dependsOn"), stringListToJson(d->dependsOn)},
-                {QStringLiteral("extra"), d->extra}};
-    }
-    bool ParameterMetadata::fromJson(const QJsonObject &object, ParameterMetadata *result,
-                                     QString *errorMessage) {
-        if (!result) return false;
-        ParameterMetadata value;
-        QString kind;
-        if (!readRequiredString(object, QStringLiteral("id"), &value.d->id, errorMessage) ||
-            !readRequiredString(object, QStringLiteral("kind"), &kind, errorMessage)) return false;
-        if (kind == QStringLiteral("direct")) value.d->kind = Direct;
-        else if (kind == QStringLiteral("indirect")) value.d->kind = Indirect;
-        else { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Unknown parameter kind"))); return false; }
-        bool ok{};
-        value.d->dependsOn = stringListFromJson(object.value(QStringLiteral("dependsOn")), &ok);
-        if (!ok || !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid parameter metadata")));
-            return false;
-        }
-        value.d->extra = object.value(QStringLiteral("extra")).toObject();
-        *result = std::move(value);
-        return true;
-    }
-    bool ParameterMetadata::operator==(const ParameterMetadata &other) const { return d.constData() == other.d.constData() || toJson() == other.toJson(); }
-    bool ParameterMetadata::operator!=(const ParameterMetadata &other) const { return !(*this == other); }
-
     ArchitectureMetadata::ArchitectureMetadata() : d(new ArchitectureMetadataData) {}
     ArchitectureMetadata::ArchitectureMetadata(const ArchitectureMetadata &other) = default;
     ArchitectureMetadata::ArchitectureMetadata(ArchitectureMetadata &&other) noexcept = default;
@@ -387,48 +344,22 @@ namespace Synth {
     void ArchitectureMetadata::setId(const QString &id) { d->id = id; }
     QString ArchitectureMetadata::name() const { return d->name; }
     void ArchitectureMetadata::setName(const QString &name) { d->name = name; }
-    QString ArchitectureMetadata::pronunciationMode() const { return d->pronunciationMode; }
-    void ArchitectureMetadata::setPronunciationMode(const QString &mode) { d->pronunciationMode = mode; }
-    QString ArchitectureMetadata::phonemeMode() const { return d->phonemeMode; }
-    void ArchitectureMetadata::setPhonemeMode(const QString &mode) { d->phonemeMode = mode; }
-    QList<ParameterMetadata> ArchitectureMetadata::parameters() const { return d->parameters; }
-    void ArchitectureMetadata::setParameters(const QList<ParameterMetadata> &parameters) { d->parameters = parameters; }
-    QStringList ArchitectureMetadata::audioDependencies() const { return d->audioDependencies; }
-    void ArchitectureMetadata::setAudioDependencies(const QStringList &dependencies) { d->audioDependencies = dependencies; }
-    QJsonObject ArchitectureMetadata::extra() const { return d->extra; }
-    void ArchitectureMetadata::setExtra(const QJsonObject &extra) { d->extra = extra; }
+    QJsonObject ArchitectureMetadata::parameters() const { return d->parameters; }
+    void ArchitectureMetadata::setParameters(const QJsonObject &parameters) { d->parameters = parameters; }
     QJsonObject ArchitectureMetadata::toJson() const {
-        QJsonArray parameters;
-        for (const auto &parameter : d->parameters) parameters.append(parameter.toJson());
         return {{QStringLiteral("id"), d->id}, {QStringLiteral("name"), d->name},
-                {QStringLiteral("pronunciationMode"), d->pronunciationMode},
-                {QStringLiteral("phonemeMode"), d->phonemeMode}, {QStringLiteral("parameters"), parameters},
-                {QStringLiteral("audioDependencies"), stringListToJson(d->audioDependencies)},
-                {QStringLiteral("extra"), d->extra}};
+                {QStringLiteral("parameters"), d->parameters}};
     }
     bool ArchitectureMetadata::fromJson(const QJsonObject &object, ArchitectureMetadata *result,
                                         QString *errorMessage) {
         if (!result) return false;
-        ArchitectureMetadata value;
-        if (!readRequiredString(object, QStringLiteral("id"), &value.d->id, errorMessage) ||
-            !readRequiredString(object, QStringLiteral("name"), &value.d->name, errorMessage) ||
-            !readRequiredString(object, QStringLiteral("pronunciationMode"), &value.d->pronunciationMode, errorMessage) ||
-            !readRequiredString(object, QStringLiteral("phonemeMode"), &value.d->phonemeMode, errorMessage) ||
-            !object.value(QStringLiteral("parameters")).isArray() ||
-            !object.value(QStringLiteral("extra")).isObject()) {
-            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid architecture metadata")));
+        Internal::Api::V1::ArchitectureMetadata source;
+        if (!Internal::Api::V1::ArchitectureMetadata::fromJson(object, source, errorMessage))
             return false;
-        }
-        for (const auto &item : object.value(QStringLiteral("parameters")).toArray()) {
-            if (!item.isObject()) return false;
-            ParameterMetadata parameter;
-            if (!ParameterMetadata::fromJson(item.toObject(), &parameter, errorMessage)) return false;
-            value.d->parameters.append(parameter);
-        }
-        bool ok{};
-        value.d->audioDependencies = stringListFromJson(object.value(QStringLiteral("audioDependencies")), &ok);
-        if (!ok) { setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field 'audioDependencies' must be an array of strings"))); return false; }
-        value.d->extra = object.value(QStringLiteral("extra")).toObject();
+        ArchitectureMetadata value;
+        value.d->id = source.id;
+        value.d->name = source.name;
+        value.d->parameters = object.value(QStringLiteral("parameters")).toObject();
         *result = std::move(value);
         return true;
     }
@@ -468,6 +399,8 @@ namespace Synth {
     void SingerMetadata::setArchitectureId(const QString &id) { d->architectureId = id; }
     QString SingerMetadata::name() const { return d->name; }
     void SingerMetadata::setName(const QString &name) { d->name = name; }
+    QStringList SingerMetadata::supportedParameters() const { return d->supportedParameters; }
+    void SingerMetadata::setSupportedParameters(const QStringList &parameters) { d->supportedParameters = parameters; }
     QString SingerMetadata::mixGroup() const { return d->mixGroup; }
     void SingerMetadata::setMixGroup(const QString &group) { d->mixGroup = group; }
     SingerMetadata::LanguageMap SingerMetadata::languages() const { return d->languages; }
@@ -484,21 +417,21 @@ namespace Synth {
     void SingerMetadata::setBackgroundUrl(const QUrl &url) { d->backgroundUrl = url; }
     QJsonArray SingerMetadata::demos() const { return d->demos; }
     void SingerMetadata::setDemos(const QJsonArray &demos) { d->demos = demos; }
-    QJsonObject SingerMetadata::extra() const { return d->extra; }
-    void SingerMetadata::setExtra(const QJsonObject &extra) { d->extra = extra; }
     QJsonObject SingerMetadata::toJson() const {
         QJsonObject languages;
         for (auto it = d->languages.cbegin(); it != d->languages.cend(); ++it)
             languages.insert(it.key(), it->toJson());
         return {{QStringLiteral("id"), d->id}, {QStringLiteral("architectureId"), d->architectureId},
                 {QStringLiteral("name"), d->name}, {QStringLiteral("mixGroup"), d->mixGroup},
+                {QStringLiteral("groupId"), d->groupId},
+                {QStringLiteral("supportedParameters"), stringListToJson(d->supportedParameters)},
                 {QStringLiteral("languages"), languages},
                 {QStringLiteral("defaultLanguage"), d->defaultLanguage},
                 {QStringLiteral("architectureSpecificInfo"), serializableJsonValue(d->architectureSpecificInfo)},
                 {QStringLiteral("defaultExtra"), serializableJsonValue(d->defaultExtra)},
                 {QStringLiteral("avatarUrl"), d->avatarUrl.toString()},
                 {QStringLiteral("backgroundUrl"), d->backgroundUrl.toString()},
-                {QStringLiteral("demos"), d->demos}, {QStringLiteral("extra"), d->extra}};
+                {QStringLiteral("demos"), d->demos}};
     }
     bool SingerMetadata::fromJson(const QJsonObject &object, SingerMetadata *result,
                                   QString *errorMessage) {
@@ -513,8 +446,7 @@ namespace Synth {
             !readRequiredString(object, QStringLiteral("avatarUrl"), &avatar, errorMessage) ||
             !readRequiredString(object, QStringLiteral("backgroundUrl"), &background, errorMessage) ||
             !object.value(QStringLiteral("languages")).isObject() ||
-            !object.value(QStringLiteral("demos")).isArray() ||
-            !object.value(QStringLiteral("extra")).isObject()) {
+            !object.value(QStringLiteral("demos")).isArray()) {
             setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Invalid singer metadata")));
             return false;
         }
@@ -532,12 +464,15 @@ namespace Synth {
             }
             value.d->languages.insert(it.key(), language);
         }
+        value.d->groupId = object.value(QStringLiteral("groupId")).toString();
+        bool parametersOk{};
+        value.d->supportedParameters = stringListFromJson(object.value(QStringLiteral("supportedParameters")), &parametersOk);
+        if (!parametersOk) return false;
         value.d->architectureSpecificInfo = object.value(QStringLiteral("architectureSpecificInfo"));
         value.d->defaultExtra = object.value(QStringLiteral("defaultExtra"));
         value.d->avatarUrl = QUrl(avatar);
         value.d->backgroundUrl = QUrl(background);
         value.d->demos = object.value(QStringLiteral("demos")).toArray();
-        value.d->extra = object.value(QStringLiteral("extra")).toObject();
         *result = std::move(value);
         return true;
     }
@@ -555,10 +490,12 @@ namespace Synth {
     QList<SingerMetadata> ServiceMetadata::singers() const { return d->singers; }
     void ServiceMetadata::setSingers(const QList<SingerMetadata> &values) { d->singers = values; }
     QJsonObject ServiceMetadata::toJson() const {
+        QJsonArray groupItems;
+        for (const auto &group : d->groups) groupItems.append(group.toJson());
         QJsonArray architectures, singers;
         for (const auto &item : d->architectures) architectures.append(item.toJson());
         for (const auto &item : d->singers) singers.append(item.toJson());
-        return {{QStringLiteral("architectures"), architectures}, {QStringLiteral("singers"), singers}};
+        return {{QStringLiteral("architectures"), architectures}, {QStringLiteral("singers"), singers}, {QStringLiteral("groups"), groupItems}};
     }
     bool ServiceMetadata::fromJson(const QJsonObject &object, ServiceMetadata *result,
                                    QString *errorMessage) {
@@ -577,6 +514,10 @@ namespace Synth {
             if (!SingerMetadata::fromJson(item.toObject(), &metadata, errorMessage)) return false;
             value.d->singers.append(metadata);
         }
+        Internal::Api::V1::GroupMetadataList groups;
+        if (!Internal::Api::V1::GroupMetadataList::fromJson(object.value(QStringLiteral("groups")), groups, errorMessage))
+            return false;
+        value.d->groups = std::move(groups.items);
         *result = std::move(value);
         return true;
     }
@@ -593,8 +534,8 @@ namespace Synth {
     void ServiceInstanceDetails::setConfiguration(const ServiceInstanceConfiguration &value) { d->configuration = value; }
     ServiceInstanceDetails::HealthStatus ServiceInstanceDetails::healthStatus() const { return d->healthStatus; }
     void ServiceInstanceDetails::setHealthStatus(HealthStatus value) { d->healthStatus = value; }
-    int ServiceInstanceDetails::maximumApiVersion() const { return d->maximumApiVersion; }
-    void ServiceInstanceDetails::setMaximumApiVersion(int value) { d->maximumApiVersion = value; }
+    double ServiceInstanceDetails::maximumApiVersion() const { return d->maximumApiVersion; }
+    void ServiceInstanceDetails::setMaximumApiVersion(double value) { d->maximumApiVersion = value; }
     int ServiceInstanceDetails::selectedApiVersion() const { return d->selectedApiVersion; }
     void ServiceInstanceDetails::setSelectedApiVersion(int value) { d->selectedApiVersion = value; }
     QDateTime ServiceInstanceDetails::lastHealthCheck() const { return d->lastHealthCheck; }
@@ -691,9 +632,13 @@ namespace Synth {
         if (!readInteger(QStringLiteral("healthStatus"), Disabled, Error, &health))
             return false;
         value.d->healthStatus = static_cast<HealthStatus>(health);
-        if (!readInteger(QStringLiteral("maximumApiVersion"), 0,
-                         std::numeric_limits<int>::max(), &value.d->maximumApiVersion) ||
-            !readInteger(QStringLiteral("selectedApiVersion"), 0,
+        const auto maximumVersion = object.value(QStringLiteral("maximumApiVersion"));
+        if (!maximumVersion.isDouble() || !std::isfinite(maximumVersion.toDouble()) || maximumVersion.toDouble() < 0.0) {
+            setError(errorMessage, translateSourceText(QT_TRANSLATE_NOOP("Synth::ServiceTypes", "Field '%1' is outside its valid range")).arg(QStringLiteral("maximumApiVersion")));
+            return false;
+        }
+        value.d->maximumApiVersion = maximumVersion.toDouble();
+        if (!readInteger(QStringLiteral("selectedApiVersion"), 0,
                          std::numeric_limits<int>::max(), &value.d->selectedApiVersion)) {
             return false;
         }

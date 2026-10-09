@@ -112,10 +112,10 @@ namespace Synth::Internal::ProjectInput {
             QJsonParseError error;
             const auto document = QJsonDocument::fromJson(encoded, &error);
             if (error.error != QJsonParseError::NoError || !document.isObject()) {
-                return QJsonValue::Null;
+                return QJsonValue::Undefined;
             }
             const auto value = document.object().value(architectureId);
-            return value.isUndefined() ? QJsonValue(QJsonValue::Null) : value;
+            return value;
         }
 
         std::optional<SynthesisContext> buildContext(dspx::SingingClip *clip, QList<FlattenedSinger> *flattened) {
@@ -137,6 +137,11 @@ namespace Synth::Internal::ProjectInput {
             for (const auto &leaf : leaves) {
                 result.singers.append(leaf.singer);
             }
+            const auto pipeline = pipelineFor(result);
+            if (!pipeline.architecture.id().isEmpty()) {
+                if (result.architectureExtra.isUndefined())
+                    result.architectureExtra = pipeline.group.defaultArchExtra;
+            }
             if (flattened) {
                 *flattened = leaves;
             }
@@ -151,6 +156,45 @@ namespace Synth::Internal::ProjectInput {
                 return note->originalPronunciation();
             }
             return note->lyric();
+        }
+
+        struct NoteText {
+            QString lyric;
+            QString pronunciation;
+            QString language;
+            bool slur{};
+            bool continuation{};
+            bool emptySyllableSlice{};
+            int syllableOffset{};
+        };
+
+        QList<NoteText> noteTexts(const QList<dspx::Note *> &notes, const QString &defaultLanguage) {
+            QList<NoteText> result;
+            for (auto note : notes) {
+                NoteText text;
+                text.lyric = note->lyric();
+                text.pronunciation = effectivePronunciation(note);
+                text.language = note->language().isEmpty() ? defaultLanguage : note->language();
+                text.slur = note->lyric() == QStringLiteral("-");
+                text.continuation = text.slur || note->lyric() == QStringLiteral("+");
+                text.emptySyllableSlice = text.slur;
+                if (text.continuation) {
+                    if (result.isEmpty()) {
+                        text.lyric.clear();
+                        text.pronunciation.clear();
+                        text.emptySyllableSlice = true;
+                    } else {
+                        const auto &previous = result.last();
+                        text.lyric = previous.lyric;
+                        text.pronunciation = previous.pronunciation;
+                        text.language = previous.language;
+                        text.emptySyllableSlice = text.slur || previous.emptySyllableSlice;
+                        text.syllableOffset = previous.syllableOffset + (text.slur ? 0 : 1);
+                    }
+                }
+                result.append(text);
+            }
+            return result;
         }
 
         dspx::PhonemeSequence *effectivePhonemes(dspx::Note *note) {
@@ -265,86 +309,52 @@ namespace Synth::Internal::ProjectInput {
         return left == right;
     }
 
-    ArchitectureMetadata architectureFor(const SynthesisContext &context) {
-        auto interface = SynthInterface::instance();
-        if (!interface) {
+    SynthesisPipeline pipelineFor(const SynthesisContext &context) {
+        const auto interface = SynthInterface::instance();
+        if (!interface)
             return {};
-        }
-        const auto findArchitecture = [&context, interface](bool healthyOnly, ArchitectureMetadata *fallback) {
+        for (const bool healthyOnly : {true, false}) {
             for (const auto &service : interface->serviceInstances()) {
                 const auto details = interface->serviceInstanceDetails(service.id());
-                if (!service.isEnabled() ||
-                    details.healthStatus() == ServiceInstanceDetails::Disabled ||
-                    (healthyOnly && details.healthStatus() != ServiceInstanceDetails::Healthy) ||
-                    (!healthyOnly && details.healthStatus() == ServiceInstanceDetails::Healthy)) {
+                if (!service.isEnabled() || details.healthStatus() == ServiceInstanceDetails::Disabled
+                    || (details.healthStatus() == ServiceInstanceDetails::Healthy) != healthyOnly)
                     continue;
-                }
-                ArchitectureMetadata architecture;
-                for (const auto &candidate : details.metadata().architectures()) {
-                    if (candidate.id() == context.architectureId) {
-                        architecture = candidate;
-                        break;
-                    }
-                }
-                if (architecture.id().isEmpty()) {
-                    continue;
-                }
-                if (fallback && fallback->id().isEmpty()) {
-                    *fallback = architecture;
-                }
-                const auto singers = details.metadata().singers();
-                const bool hasEverySinger = std::ranges::all_of(context.singers, [&singers, &context](const SynthesisSinger &requested) {
-                    return std::ranges::any_of(singers, [&requested, &context](const SingerMetadata &singer) {
-                        return singer.id() == requested.id && singer.architectureId() == context.architectureId;
-                    });
-                });
-                if (!hasEverySinger) {
-                    continue;
-                }
-                return architecture;
+                const auto pipeline = SynthesisMetadataAccess::resolve(details.metadata(), context);
+                if (pipeline)
+                    return *pipeline;
             }
-            return ArchitectureMetadata{};
-        };
-        ArchitectureMetadata healthyFallback;
-        const auto healthy = findArchitecture(true, &healthyFallback);
-        if (!healthy.id().isEmpty()) {
-            return healthy;
         }
-        ArchitectureMetadata waitingFallback;
-        const auto waiting = findArchitecture(false, &waitingFallback);
-        if (!waiting.id().isEmpty()) {
-            return waiting;
-        }
-        return healthyFallback.id().isEmpty() ? waitingFallback : healthyFallback;
+        return {};
     }
 
-    QStringList downstreamIndirectParameters(const ArchitectureMetadata &architecture, const QStringList &changedParameters) {
+    QStringList downstreamIndirectParameters(const SynthesisPipeline &pipeline, const QStringList &changedParameters) {
         const QSet<QString> editedParameters(changedParameters.cbegin(), changedParameters.cend());
         QSet<QString> affectedParameters = editedParameters;
         QSet<QString> requestedParameters;
         bool progressed = true;
         while (progressed) {
             progressed = false;
-            for (const auto &metadata : architecture.parameters()) {
-                if (metadata.kind() != ParameterMetadata::Indirect || editedParameters.contains(metadata.id()) || requestedParameters.contains(metadata.id())) {
+            for (auto it = pipeline.group.parameterPipeline.cbegin(); it != pipeline.group.parameterPipeline.cend(); ++it) {
+                const auto &metadata = it.value();
+                if (metadata.type != Api::V1::ParameterPipelineMetadata::Indirect || editedParameters.contains(it.key()) || requestedParameters.contains(it.key())) {
                     continue;
                 }
-                const bool dependsOnAffectedParameter = std::ranges::any_of(metadata.dependsOn(), [&affectedParameters](const QString &dependency) {
+                const bool dependsOnAffectedParameter = std::ranges::any_of(metadata.dependsOn, [&affectedParameters](const QString &dependency) {
                     return affectedParameters.contains(dependency);
                 });
                 if (!dependsOnAffectedParameter) {
                     continue;
                 }
-                requestedParameters.insert(metadata.id());
-                affectedParameters.insert(metadata.id());
+                requestedParameters.insert(it.key());
+                affectedParameters.insert(it.key());
                 progressed = true;
             }
         }
 
         QStringList result;
-        for (const auto &metadata : architecture.parameters()) {
-            if (requestedParameters.contains(metadata.id())) {
-                result.append(metadata.id());
+        for (auto it = pipeline.group.parameterPipeline.cbegin(); it != pipeline.group.parameterPipeline.cend(); ++it) {
+            if (requestedParameters.contains(it.key())) {
+                result.append(it.key());
             }
         }
         return result;
@@ -354,50 +364,30 @@ namespace Synth::Internal::ProjectInput {
         return buildContext(clip, nullptr);
     }
 
-    ParameterConfiguration parameterConfiguration(const QString &architectureId, const QString &parameterId) {
-        const auto service = SynthService::instance();
-        if (!service) {
-            return {};
-        }
-        for (const auto &configuration : service->allParameterConfigurations()) {
-            if (configuration.id() == parameterId &&
-                (configuration.architectureId().isEmpty() || configuration.architectureId() == architectureId)) {
-                return configuration;
-            }
-        }
-        return {};
-    }
-
-    SynthesisTaskType executableStage(const ArchitectureMetadata &architecture, SynthesisTaskType requestedStage) {
-        if (requestedStage == SynthesisTaskType::Pronunciation && architecture.pronunciationMode() == QStringLiteral("SKIP")) {
+    SynthesisTaskType executableStage(const SynthesisPipeline &pipeline, SynthesisTaskType requestedStage) {
+        if (requestedStage == SynthesisTaskType::Pronunciation
+            && std::ranges::none_of(pipeline.group.languages, [](const auto &language) { return language.pronunciationMode == QStringLiteral("full"); }))
             requestedStage = SynthesisTaskType::Phoneme;
-        }
-        if (requestedStage == SynthesisTaskType::Phoneme && architecture.phonemeMode() == QStringLiteral("SKIP")) {
-            return SynthesisTaskType::Parameter;
-        }
-        if (requestedStage == SynthesisTaskType::Duration && architecture.phonemeMode() != QStringLiteral("FULL")) {
-            return SynthesisTaskType::Parameter;
-        }
+        if (requestedStage == SynthesisTaskType::Phoneme
+            && std::ranges::none_of(pipeline.group.languages, [](const auto &language) { return language.phonemeMode != QStringLiteral("skip"); }))
+            requestedStage = SynthesisTaskType::Duration;
+        if (requestedStage == SynthesisTaskType::Duration && pipeline.group.durationMode == QStringLiteral("skip"))
+            requestedStage = SynthesisTaskType::Parameter;
         return requestedStage;
     }
 
-    SynthesisTaskType nextStage(const ArchitectureMetadata &architecture, SynthesisTaskType completedStage) {
+    SynthesisTaskType nextStage(const SynthesisPipeline &pipeline, SynthesisTaskType completedStage) {
         switch (completedStage) {
-            case SynthesisTaskType::Pronunciation:
-                return executableStage(architecture, SynthesisTaskType::Phoneme);
-            case SynthesisTaskType::Phoneme:
-                return executableStage(architecture, SynthesisTaskType::Duration);
-            case SynthesisTaskType::Duration:
-                return SynthesisTaskType::Parameter;
+            case SynthesisTaskType::Pronunciation: return executableStage(pipeline, SynthesisTaskType::Phoneme);
+            case SynthesisTaskType::Phoneme: return executableStage(pipeline, SynthesisTaskType::Duration);
+            case SynthesisTaskType::Duration: return SynthesisTaskType::Parameter;
             case SynthesisTaskType::Parameter:
-                return SynthesisTaskType::Audio;
-            case SynthesisTaskType::Audio:
-                return SynthesisTaskType::Audio;
+            case SynthesisTaskType::Audio: return SynthesisTaskType::Audio;
         }
         return SynthesisTaskType::Audio;
     }
 
-    BuiltScore buildScore(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, const ArchitectureMetadata &architecture, bool forAudio, const std::optional<QStringList> &requestedParameters) {
+    BuiltScore buildScore(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, const SynthesisPipeline &pipeline, bool forAudio, const std::optional<QStringList> &requestedParameters) {
         BuiltScore result;
         if (!window || !clip || !piece || !clip->sources()) {
             result.error = Synth::Internal::SynthesisProjectAddOn::tr("The synthesis piece is no longer attached to a valid clip");
@@ -411,16 +401,21 @@ namespace Synth::Internal::ProjectInput {
         result.score.pieceDuration = std::max(0.0, pieceEndSeconds - pieceStartSeconds);
         result.score.mixSampleRate = configuredSampleRate(QStringLiteral("mixSampleRate"), 100.0);
 
+        QList<dspx::Note *> allNotes;
+        for (auto note : clip->notes()->asRange())
+            allNotes.append(note);
+        std::sort(allNotes.begin(), allNotes.end(), [](auto left, auto right) { return left->position() < right->position(); });
+        const auto allTexts = noteTexts(allNotes, pipeline.defaultLanguage);
         QList<dspx::Note *> notes;
-        for (auto note : clip->notes()->asRange()) {
-            const double noteTick = clip->start() + note->position();
+        QList<NoteText> texts;
+        for (qsizetype index = 0; index < allNotes.size(); ++index) {
+            const double noteTick = clip->start() + allNotes.at(index)->position();
             if (noteTick >= pieceStartTick && noteTick < pieceEndTick) {
-                notes.append(note);
+                notes.append(allNotes.at(index));
+                texts.append(allTexts.at(index));
             }
         }
-        std::sort(notes.begin(), notes.end(), [](dspx::Note *left, dspx::Note *right) {
-            return left->position() < right->position();
-        });
+        qsizetype noteIndex{};
         double previousEnd = pieceStartSeconds;
         const int documentCentShift = globalCentShift(clip);
         for (auto note : notes) {
@@ -434,13 +429,23 @@ namespace Synth::Internal::ProjectInput {
             converted.gap = std::max(0.0, noteStart - previousEnd);
             converted.duration = std::max(0.0, noteEnd - noteStart);
             converted.cent = std::clamp(note->keyNumber() * 100 + note->centShift() + documentCentShift, 0, 12800);
-            converted.pronunciation = effectivePronunciation(note);
-            converted.language = note->language();
+            const auto &text = texts.at(noteIndex++);
+            converted.pronunciation = text.pronunciation;
+            converted.language = text.language;
+            converted.slur = text.slur;
+            if (converted.slur && (result.score.notes.isEmpty() || converted.gap > 1e-9)) {
+                result.error = Synth::Internal::SynthesisProjectAddOn::tr("A slur note must immediately follow another note");
+                return result;
+            }
+            if (converted.slur)
+                converted.gap = 0.0;
             for (auto phoneme : effectivePhonemes(note)->asRange()) {
+                if (converted.slur)
+                    break;
                 converted.phonemes.append({
                     phoneme->token(),
                     phoneme->onset(),
-                    phoneme->language(),
+                    phoneme->language().isEmpty() ? text.language : phoneme->language(),
                     phoneme->start() / 1000.0,
                 });
             }
@@ -488,25 +493,21 @@ namespace Synth::Internal::ProjectInput {
         const int parameterFrames = std::max(1, static_cast<int>(std::ceil(result.score.pieceDuration * parameterSampleRate)));
         QStringList parameterIds;
         if (forAudio) {
-            parameterIds = architecture.audioDependencies();
-            if (parameterIds.isEmpty()) {
-                for (const auto &metadata : architecture.parameters()) {
-                    parameterIds.append(metadata.id());
-                }
-            }
+            parameterIds = pipeline.group.audioDependencies;
         } else {
             if (requestedParameters) {
                 result.score.requestedParameters = *requestedParameters;
             } else {
-                for (const auto &metadata : architecture.parameters()) {
-                    if (metadata.kind() == ParameterMetadata::Indirect) {
-                        result.score.requestedParameters.append(metadata.id());
+                for (auto it = pipeline.group.parameterPipeline.cbegin(); it != pipeline.group.parameterPipeline.cend(); ++it) {
+                    const auto &metadata = it.value();
+                    if (metadata.type == Api::V1::ParameterPipelineMetadata::Indirect) {
+                        result.score.requestedParameters.append(it.key());
                     }
                 }
             }
             result.score.requestedParameters.removeDuplicates();
-            for (const auto &metadata : architecture.parameters()) {
-                parameterIds.append(metadata.id());
+            for (auto it = pipeline.group.parameterPipeline.cbegin(); it != pipeline.group.parameterPipeline.cend(); ++it) {
+                parameterIds.append(it.key());
             }
         }
         parameterIds.removeDuplicates();
@@ -523,8 +524,7 @@ namespace Synth::Internal::ProjectInput {
         for (const auto &id : parameterIds) {
             SynthesisParameter parameter;
             parameter.sampleRate = parameterSampleRate;
-            const auto configuration = parameterConfiguration(architecture.id(), id);
-            const double fallback = configuration.id().isEmpty() ? 0.0 : configuration.defaultValue();
+            const double fallback = pipeline.architecture.parameters().value(id).toObject().value(QStringLiteral("defaultValue")).toDouble();
             const SynthesisParameterEvaluator evaluator(clip->parameters()->item(id), *minimumTick, *maximumTick);
             for (const int relativeTick : parameterTicks) {
                 const double defaultValue = id == QStringLiteral("pitch")
@@ -547,23 +547,39 @@ namespace Synth::Internal::ProjectInput {
         result.request.type = type;
         result.request.context = context;
         result.request.displayName = clip->name();
-        const double pieceEnd = piecePosition + pieceLength;
+        const auto pipeline = pipelineFor(context);
         QList<dspx::Note *> notes;
-        for (auto note : clip->notes()->asRange()) {
-            if (note->position() < piecePosition || note->position() >= pieceEnd) {
-                continue;
-            }
+        for (auto note : clip->notes()->asRange())
             notes.append(note);
-        }
-        std::sort(notes.begin(), notes.end(), [](dspx::Note *left, dspx::Note *right) {
-            return left->position() < right->position();
-        });
-        for (auto note : notes) {
+        std::sort(notes.begin(), notes.end(), [](auto left, auto right) { return left->position() < right->position(); });
+        const auto texts = noteTexts(notes, pipeline.defaultLanguage);
+        const double pieceEnd = piecePosition + pieceLength;
+        for (qsizetype index = 0; index < notes.size(); ++index) {
+            const auto note = notes.at(index);
+            if (note->position() < piecePosition || note->position() >= pieceEnd)
+                continue;
+            const auto &text = texts.at(index);
+            if (type == SynthesisTaskType::Pronunciation && text.continuation)
+                continue;
+            const auto language = pipeline.group.languages.constFind(text.language);
+            if (language != pipeline.group.languages.cend()
+                && ((type == SynthesisTaskType::Pronunciation && language->pronunciationMode == QStringLiteral("skip"))
+                    || (type == SynthesisTaskType::Phoneme && language->phonemeMode == QStringLiteral("skip"))))
+                continue;
             result.noteHandles.append(note->handle());
             if (type == SynthesisTaskType::Pronunciation) {
-                result.request.lyricNotes.append({note->lyric(), note->language()});
+                result.request.lyricNotes.append({text.lyric, text.language});
             } else {
-                result.request.pronunciationNotes.append({effectivePronunciation(note), note->language()});
+                SynthesisPronunciationNote converted{text.pronunciation, text.language};
+                if (text.emptySyllableSlice || text.pronunciation.isEmpty()) {
+                    converted.syllableSliceStart = 0;
+                    converted.syllableSliceEnd = 0;
+                } else {
+                    converted.syllableSliceStart = text.syllableOffset;
+                    if (index + 1 < texts.size() && notes.at(index + 1)->lyric() == QStringLiteral("+"))
+                        converted.syllableSliceEnd = text.syllableOffset + 1;
+                }
+                result.request.pronunciationNotes.append(converted);
             }
         }
         return result;

@@ -6,10 +6,8 @@
 
 #include <memory>
 
-#include <QJsonDocument>
 #include <QObject>
 
-#include <synth/ParameterConfiguration.h>
 #include <synth/ServiceTypes.h>
 
 namespace Synth {
@@ -42,12 +40,6 @@ namespace Synth::Internal {
         ServiceInstanceDetails serviceInstanceDetails(const QUuid &serviceId) const;
         bool replaceServiceConfigurations(const QList<ServiceInstanceConfiguration> &configurations, QString *errorMessage = nullptr);
 
-        QList<ParameterConfiguration> allParameterConfigurations() const;
-        QList<ParameterConfiguration> userParameterConfigurations() const;
-        bool replaceUserParameterConfigurations(const QList<ParameterConfiguration> &configurations, QString *errorMessage = nullptr);
-        bool importParameterConfigurations(const QJsonDocument &document, QString *errorMessage = nullptr, QStringList *summary = nullptr);
-        QJsonDocument exportParameterConfigurations() const;
-
         bool managesArchitecture(const QString &architectureId) const;
         bool refreshing() const;
 
@@ -56,7 +48,6 @@ namespace Synth::Internal {
 
     Q_SIGNALS:
         void serviceConfigurationsChanged();
-        void parameterConfigurationsChanged();
         void serviceDetailsChanged(const QUuid &serviceId);
         void managedArchitecturesChanged();
         void refreshingChanged();
@@ -64,7 +55,6 @@ namespace Synth::Internal {
     private:
         void loadSettings();
         void saveServices() const;
-        void saveUserParameters() const;
         void reconcileCoreMetadata();
 
         static SynthService *s_instance;
@@ -74,7 +64,6 @@ namespace Synth::Internal {
         MetadataRefreshController *m_metadataController{};
         std::unique_ptr<CoreMetadataRegistry> m_coreRegistry;
         QList<ServiceInstanceConfiguration> m_services;
-        QList<ParameterConfiguration> m_userParameters;
         bool m_initialized{};
         bool m_shutdown{};
     };

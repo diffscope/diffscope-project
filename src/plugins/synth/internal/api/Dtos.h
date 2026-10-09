@@ -21,10 +21,19 @@ namespace Synth::Internal::Api::V1 {
     QJsonValue toJson() const;                                                                                         \
     static bool fromJson(const QJsonValue &json, Type &value, QString *errorMessage = nullptr)
 
+    struct ApplicationApiVersion {
+        Q_GADGET
+    public:
+        double major{};
+        double minor{};
+
+        SYNTH_DSSP_JSON_MEMBERS(ApplicationApiVersion);
+    };
+
     struct ApplicationInfo {
         Q_GADGET
     public:
-        int apiVersion{};
+        ApplicationApiVersion apiVersion;
 
         SYNTH_DSSP_JSON_MEMBERS(ApplicationInfo);
     };
@@ -37,43 +46,43 @@ namespace Synth::Internal::Api::V1 {
         SYNTH_DSSP_JSON_MEMBERS(ApplicationInfoResponse);
     };
 
-    struct ArchitectureParameterMetadata {
+    struct ParameterDefinition {
         Q_GADGET
     public:
-        enum Type {
-            Direct,
-            Indirect,
-        };
+        QString name;
+        double defaultValue{};
+        bool showBaseline{};
+        double baselineValue{};
+        QString fillMode;
+        bool fallbackOnDefaultValue{};
+        QJsonValue displayValueMappingExpression;
+        QJsonValue displayValueInverseMappingExpression;
+        QString displayValuePrefix;
+        QString displayValueSuffix;
+        int displayValueDecimalPlaces{};
+
+        SYNTH_DSSP_JSON_MEMBERS(ParameterDefinition);
+    };
+
+    struct ParameterPipelineMetadata {
+        Q_GADGET
+    public:
+        enum Type { Direct, Indirect };
         Q_ENUM(Type)
 
         Type type{Direct};
         QStringList dependsOn;
+        QString retakeMode;
 
-        SYNTH_DSSP_JSON_MEMBERS(ArchitectureParameterMetadata);
+        SYNTH_DSSP_JSON_MEMBERS(ParameterPipelineMetadata);
     };
 
     struct ArchitectureMetadata {
         Q_GADGET
     public:
-        enum PronunciationMode {
-            FullPronunciation,
-            SkipPronunciation,
-        };
-        Q_ENUM(PronunciationMode)
-
-        enum PhonemeMode {
-            FullPhoneme,
-            TokenOnlyPhoneme,
-            SkipPhoneme,
-        };
-        Q_ENUM(PhonemeMode)
-
         QString id;
         QString name;
-        PronunciationMode pronunciationMode{FullPronunciation};
-        PhonemeMode phonemeMode{FullPhoneme};
-        QMap<QString, ArchitectureParameterMetadata> parameters;
-        QStringList audioDependencies;
+        QMap<QString, ParameterDefinition> parameters;
 
         SYNTH_DSSP_JSON_MEMBERS(ArchitectureMetadata);
     };
@@ -86,13 +95,39 @@ namespace Synth::Internal::Api::V1 {
         SYNTH_DSSP_JSON_MEMBERS(ArchitectureMetadataList);
     };
 
-    struct SingerLanguageInfo {
+    struct GroupLanguageInfo {
         Q_GADGET
     public:
         QString name;
         QString defaultLyric;
+        QString pronunciationMode;
+        QString phonemeMode;
 
-        SYNTH_DSSP_JSON_MEMBERS(SingerLanguageInfo);
+        SYNTH_DSSP_JSON_MEMBERS(GroupLanguageInfo);
+    };
+
+    struct GroupMetadata {
+        Q_GADGET
+    public:
+        QString id;
+        QString arch;
+        QMap<QString, GroupLanguageInfo> languages;
+        QString durationMode;
+        QMap<QString, ParameterPipelineMetadata> parameterPipeline;
+        QStringList audioDependencies;
+        bool mixable{};
+        QJsonValue archSpecificInfo;
+        QJsonValue defaultArchExtra;
+
+        SYNTH_DSSP_JSON_MEMBERS(GroupMetadata);
+    };
+
+    struct GroupMetadataList {
+        Q_GADGET
+    public:
+        QList<GroupMetadata> items;
+
+        SYNTH_DSSP_JSON_MEMBERS(GroupMetadataList);
     };
 
     struct SingerInfo {
@@ -101,8 +136,7 @@ namespace Synth::Internal::Api::V1 {
         QString id;
         QString name;
         QString arch;
-        QString mixGroup;
-        QMap<QString, SingerLanguageInfo> languages;
+        QString group;
         QString defaultLanguage;
         QJsonValue archSpecificInfo;
         QJsonValue defaultExtra;
@@ -227,6 +261,8 @@ namespace Synth::Internal::Api::V1 {
     public:
         QString pronunciation;
         QString language;
+        std::optional<int> syllableSliceStart;
+        std::optional<int> syllableSliceEnd;
 
         SYNTH_DSSP_JSON_MEMBERS(PronunciationNote);
     };
@@ -272,6 +308,7 @@ namespace Synth::Internal::Api::V1 {
     public:
         NotePosition position;
         int cent{};
+        QString kind{QStringLiteral("normal")};
         QString pronunciation;
         QString language;
         QList<DurationInputPhoneme> phonemes;
@@ -323,6 +360,7 @@ namespace Synth::Internal::Api::V1 {
     public:
         NotePosition position;
         int cent{};
+        QString kind{QStringLiteral("normal")};
         QString pronunciation;
         QString language;
         QList<ParameterInputPhoneme> phonemes;
@@ -412,6 +450,8 @@ namespace Synth::Internal::Api::V1 {
     public:
         MultiSingerContext context;
         AudioInput input;
+        QStringList acceptableFormats;
+        QStringList acceptableSchemes{QStringLiteral("data"), QStringLiteral("http"), QStringLiteral("https")};
 
         SYNTH_DSSP_JSON_MEMBERS(AudioRequest);
     };

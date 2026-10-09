@@ -36,6 +36,7 @@ namespace dspx {
 }
 
 namespace Core {
+    class ClipSingerIdProvider;
     class DspxDocument;
     class FreeParameterSelectionModel;
     class SingerRegistry;
@@ -56,7 +57,7 @@ namespace VisualEditor {
         enum Role {
             ParameterIdRole = Qt::UserRole + 1,
             DisplayNameRole,
-            RegisteredRole,
+            SupportedRole,
             WarningRole,
             NoneRole,
             ParameterInfoRole,
@@ -66,7 +67,7 @@ namespace VisualEditor {
             QString parameterId;
             QString displayName;
             Core::ParameterInfo parameterInfo;
-            bool registered{};
+            bool supported{};
             bool none{};
         };
 
@@ -117,7 +118,7 @@ namespace VisualEditor {
         QPointer<dspx::Parameter> parameter;
         QString parameterId;
         Core::ParameterInfo parameterInfo;
-        bool registered{};
+        bool supported{};
 
         sflow::FreeParameterViewModel *original{};
         sflow::FreeParameterViewModel *freeEdited{};
@@ -163,7 +164,7 @@ namespace VisualEditor {
         void initializeStateMachine();
         void initializeController();
         void setTarget(dspx::SingingClip *clip, const QString &id,
-                       const Core::ParameterInfo &info, bool isRegistered);
+                       const Core::ParameterInfo &info, bool isSupported);
         void abortActiveEdit();
         void updateControllerDefinition();
 
@@ -240,6 +241,7 @@ namespace VisualEditor {
         ProjectViewModelContext *projectContext{};
         Core::DspxDocument *document{};
         Core::SingerRegistry *registry{};
+        Core::ClipSingerIdProvider *singerIdProvider{};
         QPointer<dspx::SingingClip> singingClip;
         QPointer<dspx::Sources> sources;
         QString architectureId;
@@ -249,8 +251,6 @@ namespace VisualEditor {
         QString referenceDisplayName;
         bool transformEditing{};
         bool restoreEditingSelectionAfterRefresh{};
-        Core::ParameterInfo editingLastInfo;
-        Core::ParameterInfo referenceLastInfo;
 
         ParameterDefinitionListModel *parameterModel{};
         ParameterViewModelBinding *pitchBinding{};
@@ -264,6 +264,7 @@ namespace VisualEditor {
         void setSingingClip(dspx::SingingClip *clip);
         void reconnectClip();
         void reconnectSources();
+        QSet<QString> supportedParameters() const;
         void rebuildParameterModel();
         void refreshBindings();
         void abortEditingOperation();

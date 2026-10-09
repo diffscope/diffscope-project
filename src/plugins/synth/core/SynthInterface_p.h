@@ -7,7 +7,6 @@
 #include <synth/SynthInterface.h>
 
 #include <QHash>
-#include <QMap>
 
 namespace Synth {
 
@@ -20,7 +19,6 @@ namespace Synth {
         SynthInterface *q_ptr{};
         QList<ServiceInstanceConfiguration> serviceInstances;
         QHash<QUuid, ServiceInstanceDetails> serviceDetails;
-        QMap<QString, ParameterConfiguration> builtinParameters;
         SynthesisTaskManager *taskManager{};
     };
 

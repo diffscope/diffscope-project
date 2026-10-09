@@ -30,11 +30,10 @@ namespace Audio::Internal {
         parameters.insert(QStringLiteral("energy"), {
             .displayName = tr("Energy"),
             .defaultValue = 1.0,
+            .baselineValue = 1.0,
             .fillMode = Core::ParameterInfo::FillMode::BottomFill,
             .valueType = Core::ParameterInfo::ValueType::Relative,
-            .divisionValue = 0.125,
             .showDefaultValue = false,
-            .showDivision = true,
             .toDisplayValue = [](const Core::ParameterInfo &, double value) {
                 return value <= 0.0 ? -std::numeric_limits<double>::infinity()
                                     : 20.0 * std::log10(value);
@@ -55,6 +54,7 @@ namespace Audio::Internal {
     Core::SingerInfo WaveformSingerMetadata::singerInfo() {
         Core::SingerInfo info;
         info.setName(tr("Waveform Synthesizer"));
+        info.setSupportedParameters(architectureInfo().parameters().keys());
         info.setMixGroup(QStringLiteral("waveform"));
         info.setAvatarUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform.svg")));
         info.setBackgroundUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform_portrait.svg")));

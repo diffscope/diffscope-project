@@ -59,6 +59,14 @@ namespace Core {
         d->languages = languages;
     }
 
+    QStringList SingerInfo::supportedParameters() const {
+        return d->supportedParameters;
+    }
+
+    void SingerInfo::setSupportedParameters(const QStringList &supportedParameters) {
+        d->supportedParameters = supportedParameters;
+    }
+
     QString SingerInfo::mixGroup() const {
         return d->mixGroup;
     }
@@ -87,7 +95,8 @@ namespace Core {
         return d.constData() == other.d.constData() ||
                (d->name == other.d->name && d->avatarUrl == other.d->avatarUrl &&
                 d->backgroundUrl == other.d->backgroundUrl && d->defaultLanguage == other.d->defaultLanguage &&
-                d->languages == other.d->languages && d->mixGroup == other.d->mixGroup &&
+                d->languages == other.d->languages && d->supportedParameters == other.d->supportedParameters &&
+                d->mixGroup == other.d->mixGroup &&
                 d->userData == other.d->userData && d->defaultExtra == other.d->defaultExtra);
     }
 

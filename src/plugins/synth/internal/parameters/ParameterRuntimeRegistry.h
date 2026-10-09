@@ -13,7 +13,7 @@
 
 #include <coreplugin/ArchitectureInfo.h>
 
-#include <synth/ParameterConfiguration.h>
+#include <synth/internal/Dtos.h>
 
 namespace Synth::Internal {
 
@@ -24,7 +24,7 @@ namespace Synth::Internal {
         ParameterRuntimeRegistry(const ParameterRuntimeRegistry &) = delete;
         ParameterRuntimeRegistry &operator=(const ParameterRuntimeRegistry &) = delete;
 
-        bool parameterInfo(const ParameterConfiguration &configuration, Core::ParameterInfo *result,
+        bool parameterInfo(const Api::V1::ParameterDefinition &definition, Core::ParameterInfo *result,
                            QString *errorMessage = nullptr);
         void clear();
 

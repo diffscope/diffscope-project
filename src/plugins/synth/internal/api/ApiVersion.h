@@ -14,9 +14,9 @@ namespace Synth::Internal::Api {
         V1 = 1,
     };
 
-    inline std::optional<ApiVersion> negotiateApiVersion(int serviceMaximumVersion) {
+    inline std::optional<ApiVersion> negotiateApiVersion(double serviceMaximumMajorVersion) {
         // Add newer versions from highest to lowest as api/vN implementations become available.
-        if (serviceMaximumVersion >= static_cast<int>(ApiVersion::V1))
+        if (serviceMaximumMajorVersion >= static_cast<int>(ApiVersion::V1))
             return ApiVersion::V1;
         return std::nullopt;
     }
