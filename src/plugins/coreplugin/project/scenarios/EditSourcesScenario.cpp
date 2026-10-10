@@ -16,16 +16,24 @@
 #include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
+#include <opendspx/mixedsinger.h>
+#include <opendspx/singlesinger.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <dspxmodelORM/DynamicMixingAnchor.h>
 #include <dspxmodelORM/DynamicMixingAnchorSequence.h>
 #include <dspxmodelORM/Model.h>
+#include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/Singer.h>
 #include <dspxmodelORM/SingerList.h>
 #include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Sources.h>
 
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/SingerInfo.h>
+#include <coreplugin/SingerRegistry.h>
 #include <coreplugin/SourcesPickerModel.h>
 
 #include <transactional/TransactionController.h>
@@ -93,6 +101,24 @@ namespace Core {
             for (const auto &singer : singers)
                 result.push_back(singer);
             return result;
+        }
+
+        QString firstSingerId(const std::vector<opendspx::SingerRef> &singers) {
+            for (const auto &singer : singers) {
+                if (!singer)
+                    continue;
+                if (singer->type == opendspx::Singer::Type::Single) {
+                    const auto &single = static_cast<const opendspx::SingleSinger &>(*singer);
+                    if (!single.id.empty())
+                        return QString::fromStdString(single.id);
+                } else if (singer->type == opendspx::Singer::Type::Mixed) {
+                    const auto &mixed = static_cast<const opendspx::MixedSinger &>(*singer);
+                    const auto id = firstSingerId(mixed.singers);
+                    if (!id.isEmpty())
+                        return id;
+                }
+            }
+            return {};
         }
 
         QList<QPointer<dspx::SingingClip>> guardedClips(const QList<dspx::SingingClip *> &clips) {
@@ -171,18 +197,34 @@ namespace Core {
 
     bool EditSourcesScenarioPrivate::applySourcesImpl(
         SourcesPickerModel *model, const QList<QPointer<dspx::SingingClip>> &clips) const {
+        Q_Q(const EditSourcesScenario);
         if (!model)
             return false;
 
         const QString architectureId = model->architectureId();
         const auto singers = toSingerVector(model->singers());
+        const auto *registry = CoreInterface::singerRegistry();
+        const auto languages = registry ? registry->singerInfo(architectureId, firstSingerId(singers)).languages() : SingerInfo::LanguageMap{};
+        bool hasUnsupportedLanguage = false;
         bool applied = false;
         for (const auto &guardedClip : clips) {
             auto *clip = guardedClip.data();
             if (!clip)
                 continue;
             updateSources(clip, architectureId, singers);
+            if (!languages.isEmpty() && !hasUnsupportedLanguage) {
+                hasUnsupportedLanguage = std::ranges::any_of(clip->notes()->asRange(), [&languages](const dspx::Note *note) {
+                    return !languages.contains(note->language());
+                });
+            }
             applied = true;
+        }
+        if (hasUnsupportedLanguage) {
+            SVS::MessageBox::warning(
+                RuntimeInterface::qmlEngine(), window,
+                q->tr("Unsupported Note Languages"),
+                q->tr("Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.")
+            );
         }
         return applied;
     }

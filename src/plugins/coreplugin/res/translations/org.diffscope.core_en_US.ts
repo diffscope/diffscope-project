@@ -2811,8 +2811,18 @@
 <context>
     <name>Core::EditSourcesScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="247"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="265"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="225"/>
+        <source>Unsupported Note Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="226"/>
+        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="290"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="308"/>
         <source>Editing sources</source>
         <translation type="unfinished">Editing sources</translation>
     </message>
