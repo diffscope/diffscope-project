@@ -52,6 +52,15 @@ else()
     set(_extra_search_path ${CK_BUILD_LIBRARY_DIR})
 endif()
 
+set(_exclude)
+
+if(UNIX AND NOT APPLE)
+    # Libraries resolved from the system library directories (glibc, graphics drivers, X11, D-Bus,
+    # ...) must come from the target system. Qt and vcpkg libraries resolve from their own
+    # directories and are still deployed.
+    list(APPEND _exclude "^/(usr/)?lib(64)?/")
+endif()
+
 set(_qml
     Qt/labs
     Qt5Compat
@@ -81,6 +90,7 @@ qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
     LIBRARY_DIR ${_lib_dir}
     PLUGIN_DIR ${CK_INSTALL_LIBRARY_DIR}/Qt/plugins
     EXTRA_SEARCHING_PATHS ${_extra_search_path}
+    EXCLUDE ${_exclude}
     QML ${_qml}
     QML_DIR ${CK_INSTALL_QML_DIR}
     VERBOSE
