@@ -18,6 +18,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <synth/internal/ArchitecturePage.h>
+#include <synth/internal/AudioExtractionAddOn.h>
 #include <synth/internal/ServicesPage.h>
 #include <synth/internal/SynthService.h>
 #include <synth/internal/SynthesisPage.h>
@@ -57,6 +58,7 @@ namespace Synth::Internal {
 
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisServicePanelAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisProjectAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioExtractionAddOn>();
         qCInfo(lcSynthPlugin) << "Initialized";
         return true;
     }

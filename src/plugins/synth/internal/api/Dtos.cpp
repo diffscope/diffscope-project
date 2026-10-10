@@ -1274,4 +1274,326 @@ bool AudioResponse::fromJson(const QJsonValue &json, AudioResponse &value,
     return true;
 }
 
+QJsonValue ExtractorInfo::toJson() const {
+    QJsonArray sampleRates;
+    for (int sampleRate : acceptableAudioSampleRates)
+        sampleRates.append(sampleRate);
+    return QJsonObject{{QStringLiteral("id"), id},
+                       {QStringLiteral("name"), name},
+                       {QStringLiteral("preferredAudioSampleRate"), preferredAudioSampleRate},
+                       {QStringLiteral("acceptableFormats"), stringListToJson(acceptableFormats)},
+                       {QStringLiteral("acceptableSchemes"), stringListToJson(acceptableSchemes)},
+                       {QStringLiteral("acceptableAudioSampleRates"), sampleRates}};
+}
+
+bool ExtractorInfo::fromJson(const QJsonValue &json, ExtractorInfo &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractorInfo result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "id", result.id, errorMessage)
+        || !readString(object, "name", result.name, errorMessage)
+        || !readInteger(object, "preferredAudioSampleRate", result.preferredAudioSampleRate, errorMessage))
+        return false;
+    if (result.preferredAudioSampleRate <= 0)
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be positive")).arg(QStringLiteral("preferredAudioSampleRate")));
+    for (const auto &[key, target] : {std::pair{"acceptableFormats", &result.acceptableFormats}, std::pair{"acceptableSchemes", &result.acceptableSchemes}}) {
+        if (object.contains(QLatin1StringView(key)) && !readStringList(object, key, *target, errorMessage))
+            return false;
+    }
+    if (const auto it = object.constFind(QStringLiteral("acceptableAudioSampleRates")); it != object.constEnd()) {
+        if (!it->isArray())
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Expected a JSON array")));
+        for (const auto &item : it->toArray()) {
+            const double sampleRate = item.toDouble();
+            if (!item.isDouble() || !std::isfinite(sampleRate) || sampleRate <= 0
+                || std::trunc(sampleRate) != sampleRate || sampleRate > std::numeric_limits<int>::max())
+                return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Array item must be a positive integer")));
+            result.acceptableAudioSampleRates.append(static_cast<int>(sampleRate));
+        }
+    }
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationTrackInfo::toJson() const {
+    return QJsonObject{{QStringLiteral("name"), name}};
+}
+
+bool SeparationTrackInfo::fromJson(const QJsonValue &json, SeparationTrackInfo &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationTrackInfo result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "name", result.name, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationExtractorInfo::toJson() const {
+    auto object = ExtractorInfo::toJson().toObject();
+    object.insert(QStringLiteral("tracks"), dtoListToJson(tracks));
+    return object;
+}
+
+bool SeparationExtractorInfo::fromJson(const QJsonValue &json, SeparationExtractorInfo &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationExtractorInfo result;
+    if (!readObject(json, object, errorMessage)
+        || !ExtractorInfo::fromJson(json, result, errorMessage)
+        || !readDtoList(object, "tracks", result.tracks, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ExtractorList::toJson() const {
+    return QJsonObject{{QStringLiteral("note"), dtoListToJson(note)},
+                       {QStringLiteral("tempo"), dtoListToJson(tempo)},
+                       {QStringLiteral("pitch"), dtoListToJson(pitch)},
+                       {QStringLiteral("separation"), dtoListToJson(separation)}};
+}
+
+bool ExtractorList::fromJson(const QJsonValue &json, ExtractorList &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractorList result;
+    if (!readObject(json, object, errorMessage)
+        || !readDtoList(object, "note", result.note, errorMessage)
+        || !readDtoList(object, "tempo", result.tempo, errorMessage)
+        || !readDtoList(object, "pitch", result.pitch, errorMessage)
+        || !readDtoList(object, "separation", result.separation, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ExtractionInput::toJson() const {
+    return QJsonObject{{QStringLiteral("audioUrl"), audioUrl}};
+}
+
+bool ExtractionInput::fromJson(const QJsonValue &json, ExtractionInput &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractionInput result;
+    if (!readObject(json, object, errorMessage) || !readString(object, "audioUrl", result.audioUrl, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ExtractionRequest::toJson() const {
+    return QJsonObject{{QStringLiteral("extractor"), extractor}, {QStringLiteral("input"), input.toJson()}};
+}
+
+bool ExtractionRequest::fromJson(const QJsonValue &json, ExtractionRequest &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractionRequest result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "extractor", result.extractor, errorMessage)
+        || !readDto(object, "input", result.input, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationExtractionRequest::toJson() const {
+    return QJsonObject{{QStringLiteral("extractor"), extractor},
+                       {QStringLiteral("input"), input.toJson()},
+                       {QStringLiteral("acceptableFormats"), stringListToJson(acceptableFormats)},
+                       {QStringLiteral("acceptableSchemes"), stringListToJson(acceptableSchemes)}};
+}
+
+bool SeparationExtractionRequest::fromJson(const QJsonValue &json, SeparationExtractionRequest &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationExtractionRequest result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "extractor", result.extractor, errorMessage)
+        || !readDto(object, "input", result.input, errorMessage))
+        return false;
+    for (const auto &[key, target] : {std::pair{"acceptableFormats", &result.acceptableFormats}, std::pair{"acceptableSchemes", &result.acceptableSchemes}}) {
+        if (object.contains(QLatin1StringView(key)) && !readStringList(object, key, *target, errorMessage))
+            return false;
+    }
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ExtractedNote::toJson() const {
+    return QJsonObject{{QStringLiteral("position"), position.toJson()}, {QStringLiteral("cent"), cent}};
+}
+
+bool ExtractedNote::fromJson(const QJsonValue &json, ExtractedNote &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractedNote result;
+    if (!readObject(json, object, errorMessage)
+        || !readDto(object, "position", result.position, errorMessage)
+        || !readInteger(object, "cent", result.cent, errorMessage))
+        return false;
+    if (result.cent < 0 || result.cent > 12800)
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'cent' must be in [0, 12800]")));
+    value = result;
+    return true;
+}
+
+QJsonValue NoteExtractionOutput::toJson() const {
+    return QJsonObject{{QStringLiteral("notes"), dtoListToJson(notes)}};
+}
+
+bool NoteExtractionOutput::fromJson(const QJsonValue &json, NoteExtractionOutput &value, QString *errorMessage) {
+    QJsonObject object;
+    NoteExtractionOutput result;
+    if (!readObject(json, object, errorMessage) || !readDtoList(object, "notes", result.notes, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue NoteExtractionResponse::toJson() const {
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
+}
+
+bool NoteExtractionResponse::fromJson(const QJsonValue &json, NoteExtractionResponse &value, QString *errorMessage) {
+    QJsonObject object;
+    NoteExtractionResponse result;
+    if (!readObject(json, object, errorMessage) || !readDto(object, "output", result.output, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue ExtractedBeat::toJson() const {
+    return QJsonObject{{QStringLiteral("position"), position}, {QStringLiteral("downbeat"), downbeat}};
+}
+
+bool ExtractedBeat::fromJson(const QJsonValue &json, ExtractedBeat &value, QString *errorMessage) {
+    QJsonObject object;
+    ExtractedBeat result;
+    if (!readObject(json, object, errorMessage)
+        || !readNumber(object, "position", result.position, errorMessage)
+        || !readBool(object, "downbeat", result.downbeat, errorMessage))
+        return false;
+    if (result.position < 0)
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be non-negative")).arg(QStringLiteral("position")));
+    value = result;
+    return true;
+}
+
+QJsonValue TempoExtractionOutput::toJson() const {
+    return QJsonObject{{QStringLiteral("beats"), dtoListToJson(beats)}};
+}
+
+bool TempoExtractionOutput::fromJson(const QJsonValue &json, TempoExtractionOutput &value, QString *errorMessage) {
+    QJsonObject object;
+    TempoExtractionOutput result;
+    if (!readObject(json, object, errorMessage) || !readDtoList(object, "beats", result.beats, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue TempoExtractionResponse::toJson() const {
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
+}
+
+bool TempoExtractionResponse::fromJson(const QJsonValue &json, TempoExtractionResponse &value, QString *errorMessage) {
+    QJsonObject object;
+    TempoExtractionResponse result;
+    if (!readObject(json, object, errorMessage) || !readDto(object, "output", result.output, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue PitchExtractionSegment::toJson() const {
+    return QJsonObject{{QStringLiteral("gap"), gap}, {QStringLiteral("pitch"), doubleListToJson(pitch)}};
+}
+
+bool PitchExtractionSegment::fromJson(const QJsonValue &json, PitchExtractionSegment &value, QString *errorMessage) {
+    QJsonObject object;
+    PitchExtractionSegment result;
+    if (!readObject(json, object, errorMessage)
+        || !readInteger(object, "gap", result.gap, errorMessage)
+        || !readDoubleList(object, "pitch", result.pitch, errorMessage))
+        return false;
+    if (result.gap < 0)
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must be non-negative")).arg(QStringLiteral("gap")));
+    if (result.pitch.isEmpty())
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field '%1' must contain at least one item")).arg(QStringLiteral("pitch")));
+    for (double pitch : result.pitch) {
+        if (pitch < 0 || pitch > 12800)
+            return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Pitch values must be in [0, 12800]")));
+    }
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue PitchExtractionOutput::toJson() const {
+    return QJsonObject{{QStringLiteral("segments"), dtoListToJson(segments)}, {QStringLiteral("sampleRate"), sampleRate}};
+}
+
+bool PitchExtractionOutput::fromJson(const QJsonValue &json, PitchExtractionOutput &value, QString *errorMessage) {
+    QJsonObject object;
+    PitchExtractionOutput result;
+    if (!readObject(json, object, errorMessage)
+        || !readDtoList(object, "segments", result.segments, errorMessage)
+        || !readNumber(object, "sampleRate", result.sampleRate, errorMessage))
+        return false;
+    if (result.sampleRate <= 0)
+        return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Field 'sampleRate' must be positive")));
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue PitchExtractionResponse::toJson() const {
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
+}
+
+bool PitchExtractionResponse::fromJson(const QJsonValue &json, PitchExtractionResponse &value, QString *errorMessage) {
+    QJsonObject object;
+    PitchExtractionResponse result;
+    if (!readObject(json, object, errorMessage) || !readDto(object, "output", result.output, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationTrack::toJson() const {
+    return QJsonObject{{QStringLiteral("name"), name}, {QStringLiteral("audioUrl"), audioUrl}};
+}
+
+bool SeparationTrack::fromJson(const QJsonValue &json, SeparationTrack &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationTrack result;
+    if (!readObject(json, object, errorMessage)
+        || !readString(object, "name", result.name, errorMessage)
+        || !readString(object, "audioUrl", result.audioUrl, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationExtractionOutput::toJson() const {
+    return QJsonObject{{QStringLiteral("tracks"), dtoListToJson(tracks)}};
+}
+
+bool SeparationExtractionOutput::fromJson(const QJsonValue &json, SeparationExtractionOutput &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationExtractionOutput result;
+    if (!readObject(json, object, errorMessage) || !readDtoList(object, "tracks", result.tracks, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
+QJsonValue SeparationExtractionResponse::toJson() const {
+    return QJsonObject{{QStringLiteral("output"), output.toJson()}};
+}
+
+bool SeparationExtractionResponse::fromJson(const QJsonValue &json, SeparationExtractionResponse &value, QString *errorMessage) {
+    QJsonObject object;
+    SeparationExtractionResponse result;
+    if (!readObject(json, object, errorMessage) || !readDto(object, "output", result.output, errorMessage))
+        return false;
+    value = std::move(result);
+    return true;
+}
+
 } // namespace Synth::Internal::Api::V1

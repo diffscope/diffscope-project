@@ -587,6 +587,179 @@ namespace Synth::Internal::Api::V1 {
         SYNTH_DSSP_JSON_MEMBERS(AudioResponse);
     };
 
+    struct ExtractorInfo {
+        Q_GADGET
+    public:
+        QString id;
+        QString name;
+        int preferredAudioSampleRate{};
+        QStringList acceptableFormats;
+        QStringList acceptableSchemes;
+        QList<int> acceptableAudioSampleRates;
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractorInfo);
+    };
+
+    struct SeparationTrackInfo {
+        Q_GADGET
+    public:
+        QString name;
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationTrackInfo);
+    };
+
+    struct SeparationExtractorInfo : ExtractorInfo {
+        Q_GADGET
+    public:
+        QList<SeparationTrackInfo> tracks;
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationExtractorInfo);
+    };
+
+    struct ExtractorList {
+        Q_GADGET
+    public:
+        QList<ExtractorInfo> note;
+        QList<ExtractorInfo> tempo;
+        QList<ExtractorInfo> pitch;
+        QList<SeparationExtractorInfo> separation;
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractorList);
+    };
+
+    struct ExtractionInput {
+        Q_GADGET
+    public:
+        QString audioUrl;
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractionInput);
+    };
+
+    struct ExtractionRequest {
+        Q_GADGET
+    public:
+        QString extractor;
+        ExtractionInput input;
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractionRequest);
+    };
+
+    using NoteExtractionRequest = ExtractionRequest;
+    using TempoExtractionRequest = ExtractionRequest;
+    using PitchExtractionRequest = ExtractionRequest;
+
+    struct SeparationExtractionRequest {
+        Q_GADGET
+    public:
+        QString extractor;
+        ExtractionInput input;
+        QStringList acceptableFormats;
+        QStringList acceptableSchemes{QStringLiteral("data"), QStringLiteral("http"), QStringLiteral("https")};
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationExtractionRequest);
+    };
+
+    struct ExtractedNote {
+        Q_GADGET
+    public:
+        NotePosition position;
+        int cent{};
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractedNote);
+    };
+
+    struct NoteExtractionOutput {
+        Q_GADGET
+    public:
+        QList<ExtractedNote> notes;
+
+        SYNTH_DSSP_JSON_MEMBERS(NoteExtractionOutput);
+    };
+
+    struct NoteExtractionResponse {
+        Q_GADGET
+    public:
+        NoteExtractionOutput output;
+
+        SYNTH_DSSP_JSON_MEMBERS(NoteExtractionResponse);
+    };
+
+    struct ExtractedBeat {
+        Q_GADGET
+    public:
+        double position{};
+        bool downbeat{};
+
+        SYNTH_DSSP_JSON_MEMBERS(ExtractedBeat);
+    };
+
+    struct TempoExtractionOutput {
+        Q_GADGET
+    public:
+        QList<ExtractedBeat> beats;
+
+        SYNTH_DSSP_JSON_MEMBERS(TempoExtractionOutput);
+    };
+
+    struct TempoExtractionResponse {
+        Q_GADGET
+    public:
+        TempoExtractionOutput output;
+
+        SYNTH_DSSP_JSON_MEMBERS(TempoExtractionResponse);
+    };
+
+    struct PitchExtractionSegment {
+        Q_GADGET
+    public:
+        int gap{};
+        QList<double> pitch;
+
+        SYNTH_DSSP_JSON_MEMBERS(PitchExtractionSegment);
+    };
+
+    struct PitchExtractionOutput {
+        Q_GADGET
+    public:
+        QList<PitchExtractionSegment> segments;
+        double sampleRate{};
+
+        SYNTH_DSSP_JSON_MEMBERS(PitchExtractionOutput);
+    };
+
+    struct PitchExtractionResponse {
+        Q_GADGET
+    public:
+        PitchExtractionOutput output;
+
+        SYNTH_DSSP_JSON_MEMBERS(PitchExtractionResponse);
+    };
+
+    struct SeparationTrack {
+        Q_GADGET
+    public:
+        QString name;
+        QString audioUrl;
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationTrack);
+    };
+
+    struct SeparationExtractionOutput {
+        Q_GADGET
+    public:
+        QList<SeparationTrack> tracks;
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationExtractionOutput);
+    };
+
+    struct SeparationExtractionResponse {
+        Q_GADGET
+    public:
+        SeparationExtractionOutput output;
+
+        SYNTH_DSSP_JSON_MEMBERS(SeparationExtractionResponse);
+    };
+
 #undef SYNTH_DSSP_JSON_MEMBERS
 
 } // namespace Synth::Internal::Api::V1

@@ -79,6 +79,36 @@ namespace Synth::Internal::Api {
             synthesizeAudio(const ServiceInstanceConfiguration &service,
                             const V1::AudioRequest &request);
 
+        QFuture<ApiResult<V1::ExtractorList>>
+            getExtractors(const ServiceInstanceConfiguration &service,
+                          const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::ExtractorInfo>>
+            getNoteExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
+                             const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::ExtractorInfo>>
+            getTempoExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
+                              const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::ExtractorInfo>>
+            getPitchExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
+                              const QString &displayLanguage = {});
+        QFuture<ApiResult<V1::SeparationExtractorInfo>>
+            getSeparationExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
+                                   const QString &displayLanguage = {});
+
+        QFuture<ApiResult<V1::NoteExtractionResponse>>
+            extractNotes(const ServiceInstanceConfiguration &service,
+                         const V1::NoteExtractionRequest &request);
+        QFuture<ApiResult<V1::TempoExtractionResponse>>
+            extractTempo(const ServiceInstanceConfiguration &service,
+                         const V1::TempoExtractionRequest &request);
+        QFuture<ApiResult<V1::PitchExtractionResponse>>
+            extractPitch(const ServiceInstanceConfiguration &service,
+                         const V1::PitchExtractionRequest &request);
+        QFuture<ApiResult<V1::SeparationExtractionResponse>>
+            extractSeparation(const ServiceInstanceConfiguration &service,
+                              const V1::SeparationExtractionRequest &request,
+                              const QString &displayLanguage = {});
+
         void cancelAll();
         void shutdown();
 

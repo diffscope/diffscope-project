@@ -58,6 +58,18 @@
         <source>Synthesis Actions</source>
         <translation type="unfinished">合成操作</translation>
     </message>
+    <message>
+        <source>Audio Extraction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract Notes...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Separate Audio...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ArchitecturePage</name>
@@ -540,6 +552,32 @@ X-Custom-Header-2: bar</translation>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="908"/>
         <source>Field 'sampleRate' must be positive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1298"/>
+        <source>Field '%1' must be positive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1310"/>
+        <source>Array item must be a positive integer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1421"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1464"/>
+        <source>Field '%1' must be non-negative</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1466"/>
+        <source>Field '%1' must contain at least one item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1469"/>
+        <source>Pitch values must be in [0, 12800]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1561,6 +1599,312 @@ X-Custom-Header-2: bar</translation>
         <location filename="../../qml/panels/SynthesisServicePanel.qml" line="321"/>
         <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
         <translation type="unfinished">未配置合成服务。请在“设置 &gt; 合成 &gt; 服务”中添加。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::AudioExtractionTask</name>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="58"/>
+        <source>, </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.h" line="105"/>
+        <source>The extraction request did not return a result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="57"/>
+        <source>%1 — %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="81"/>
+        <source>%1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="94"/>
+        <source>No extractors are available. Check your synthesis services.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="99"/>
+        <source>No enabled synthesis services are available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="118"/>
+        <source>The extraction request failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="148"/>
+        <source>The service returned inconsistent extractor metadata.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="192"/>
+        <source>The extractor returned invalid note data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="208"/>
+        <source>The extractor returned invalid beat data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="224"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="231"/>
+        <source>The extractor returned invalid pitch data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="253"/>
+        <source>The extractor returned no separated audio tracks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="271"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="279"/>
+        <source>The extractor returned an invalid audio data URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="293"/>
+        <source>The extractor returned an unsupported audio URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="327"/>
+        <source>The audio download redirected to an insecure URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="335"/>
+        <source>Could not download separated audio: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="358"/>
+        <source>Could not store separated audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ExtractionAudioCodec</name>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="36"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="85"/>
+        <source>Could not open the source audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="41"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="87"/>
+        <source>The audio has invalid format information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="56"/>
+        <source>Could not prepare the audio for extraction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="71"/>
+        <source>Could not convert the audio format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
+        <source>The extractor does not accept audio data URLs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="138"/>
+        <source>Could not encode an audio format accepted by the extractor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="166"/>
+        <source>Could not decode the separated audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::AudioExtractionAddOn</name>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="139"/>
+        <source>Choose Separated Audio Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="177"/>
+        <source>Audio Extraction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="203"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="272"/>
+        <source>The original audio clip is no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="212"/>
+        <source>The audio file for the selected clip is unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="221"/>
+        <source>Choose a writable directory for the separated audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="237"/>
+        <source>Overwrite Separated Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="238"/>
+        <source>The following files may be replaced by the separated tracks. Overwrite matching files?
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="282"/>
+        <source>The original audio clip or project tempo changed during extraction. Try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="293"/>
+        <source>The extracted tracks could not be inserted while another edit is in progress.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="311"/>
+        <source>%1
+Some files could not be restored. Backups are in %2.
+%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="324"/>
+        <source>The separated track names produce duplicate file names.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="334"/>
+        <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="339"/>
+        <source>Could not back up an existing output file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="349"/>
+        <source>Could not save the separated audio files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="375"/>
+        <source>%1 (Extracted notes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="382"/>
+        <source>Could not insert the extracted tracks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="408"/>
+        <source>Could not insert the extracted notes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="424"/>
+        <source>Could not insert the extracted clips.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
+        <source>Extracting notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
+        <source>Separating audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="431"/>
+        <source>Could not commit the extracted tracks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AudioExtractionDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="27"/>
+        <source>Separate Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="27"/>
+        <source>Extract Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="34"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="41"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="60"/>
+        <source>Extractor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="74"/>
+        <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="83"/>
+        <source>Output directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="98"/>
+        <source>Browse...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="111"/>
+        <source>Extracting audio…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="111"/>
+        <source>Updating extractors…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="118"/>
+        <source>Extraction status</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

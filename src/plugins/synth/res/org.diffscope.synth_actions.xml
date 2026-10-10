@@ -15,6 +15,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         />
     </configuration>
     <items>
+        <menu id="org.diffscope.synth.extract" text="Audio Extraction" />
+        <action id="org.diffscope.synth.extract.notes" text="Extract Notes..." />
+        <action id="org.diffscope.synth.extract.separation" text="Separate Audio..." />
         <action
                 id="org.diffscope.synth.panel.services"
                 text="Synthesis Services"
@@ -36,12 +39,19 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </items>
 
     <layouts>
+        <menu id="org.diffscope.synth.extract">
+            <action id="org.diffscope.synth.extract.notes" />
+            <action id="org.diffscope.synth.extract.separation" />
+        </menu>
         <group id="org.diffscope.synth.synthesisActions">
             <action id="org.diffscope.synth.resynthesize" />
         </group>
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.audio.audioProcessingActions" anchor="last">
+            <menu id="org.diffscope.synth.extract" />
+        </insertion>
         <insertion
                 target="org.diffscope.core.mainStatusBar"
                 anchor="before"
