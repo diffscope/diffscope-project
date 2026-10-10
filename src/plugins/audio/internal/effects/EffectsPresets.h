@@ -23,9 +23,9 @@ namespace Audio::Internal {
 
         QStringList presetNames() const;
         bool hasPreset(const QString &name) const;
-        bool savePreset(const QString &name, const stdc::JsonArray &audioDSPs);
+        bool savePreset(const QString &name, const stdc::json::Array &audioDSPs);
         bool removePreset(const QString &name);
-        stdc::JsonArray presetAudioDSPs(const QString &name) const;
+        stdc::json::Array presetAudioDSPs(const QString &name) const;
 
         void load();
         void save() const;
@@ -39,8 +39,8 @@ namespace Audio::Internal {
             QByteArray data;
         };
 
-        QByteArray serialize(const stdc::JsonArray &audioDSPs) const;
-        stdc::JsonArray deserialize(const QByteArray &data) const;
+        QByteArray serialize(const stdc::json::Array &audioDSPs) const;
+        stdc::json::Array deserialize(const QByteArray &data) const;
 
         static EffectsPresets *m_instance;
         QList<Preset> m_presets;

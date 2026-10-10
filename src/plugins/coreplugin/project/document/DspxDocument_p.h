@@ -50,7 +50,7 @@ namespace Core {
         bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteKeySignatures(const QList<stdc::JsonValue> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
+        bool pasteKeySignatures(const QList<stdc::json::Value> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
         bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
         bool pasteClips(const QList<std::vector<opendspx::ClipRef>> &clips, const DspxClipboardData &data,
                         int playheadPosition, QList<QObject *> &pastedItems);

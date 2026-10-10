@@ -49,11 +49,11 @@ namespace Core {
             return std::get<Label>(m_data);
         }
 
-        void setKeySignatures(const QList<stdc::JsonValue> &keySignatures) {
+        void setKeySignatures(const QList<stdc::json::Value> &keySignatures) {
             m_data = keySignatures;
         }
 
-        QList<stdc::JsonValue> keySignatures() const {
+        QList<stdc::json::Value> keySignatures() const {
             return std::get<KeySignature>(m_data);
         }
 
@@ -122,7 +122,7 @@ namespace Core {
         std::variant<
             QList<opendspx::Tempo>,
             QList<opendspx::Label>,
-            QList<stdc::JsonValue>,
+            QList<stdc::json::Value>,
             QList<opendspx::Track>,
             QList<std::vector<opendspx::ClipRef>>,
             QList<opendspx::Note>,

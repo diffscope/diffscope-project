@@ -378,9 +378,9 @@ namespace Core {
                     }
                 },
                 .workspace = {
-                    {"diffscope", stdc::JsonObject({
-                        {"keySignatures", stdc::JsonArray({
-                            stdc::JsonValue(stdc::JsonObject({
+                    {"diffscope", stdc::json::Object({
+                        {"keySignatures", stdc::json::Array({
+                            stdc::json::Value(stdc::json::Object({
                                 {"pos", 0},
                                 {"mode", 2741},
                                 {"tonality", 0},

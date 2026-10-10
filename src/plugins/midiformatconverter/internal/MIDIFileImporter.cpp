@@ -82,14 +82,14 @@ namespace MIDIFormatConverter::Internal {
             return;
 
         const auto tonality = SVS::MusicMode(mode).detectTonality(notes);
-        stdc::JsonObject keySignature;
+        stdc::json::Object keySignature;
         keySignature["pos"] = 0;
         keySignature["mode"] = mode;
         keySignature["tonality"] = static_cast<int>(tonality);
         keySignature["accidentalType"] = accidentalType;
 
         auto &keySignatures = model.content.workspace["diffscope"]["keySignatures"];
-        stdc::JsonArray keySignatureArray = keySignatures.isArray() ? keySignatures.toArray() : stdc::JsonArray{};
+        stdc::json::Array keySignatureArray = keySignatures.isArray() ? keySignatures.toArray() : stdc::json::Array{};
         keySignatureArray.push_back(std::move(keySignature));
         keySignatures = std::move(keySignatureArray);
     }

@@ -16,7 +16,7 @@ namespace Core::Internal {
 
     class JsonUtils {
     public:
-        static stdc::JsonValue fromQJsonValue(const QJsonValue &value) {
+        static stdc::json::Value fromQJsonValue(const QJsonValue &value) {
             if (value.isString())
                 return value.toString().toStdString();
 
@@ -27,13 +27,13 @@ namespace Core::Internal {
                 return value.toDouble();
 
             if (value.isArray()) {
-                stdc::JsonArray ret;
+                stdc::json::Array ret;
                 std::ranges::transform(value.toArray(), std::back_inserter(ret), &JsonUtils::fromQJsonValue);
                 return ret;
             }
 
             if (value.isObject()) {
-                stdc::JsonObject ret;
+                stdc::json::Object ret;
                 for (auto [key, item] : value.toObject().asKeyValueRange()) {
                     ret[key.toString().toStdString()] = fromQJsonValue(item);
                 }
@@ -43,7 +43,7 @@ namespace Core::Internal {
             return {};
         }
 
-        static QJsonValue toQJsonValue(const stdc::JsonValue &value) {
+        static QJsonValue toQJsonValue(const stdc::json::Value &value) {
             if (value.isString())
                 return QString::fromStdString(value.toString());
 

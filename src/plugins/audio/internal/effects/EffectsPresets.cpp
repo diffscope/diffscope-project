@@ -18,7 +18,7 @@ namespace Audio::Internal {
 
     namespace {
 
-        QJsonValue toQJsonValue(const stdc::JsonValue &value) {
+        QJsonValue toQJsonValue(const stdc::json::Value &value) {
             if (value.isString()) {
                 return QString::fromStdString(value.toString());
             }
@@ -45,7 +45,7 @@ namespace Audio::Internal {
             return {};
         }
 
-        stdc::JsonValue fromQJsonValue(const QJsonValue &value) {
+        stdc::json::Value fromQJsonValue(const QJsonValue &value) {
             switch (value.type()) {
                 case QJsonValue::Null:
                 case QJsonValue::Undefined:
@@ -57,14 +57,14 @@ namespace Audio::Internal {
                 case QJsonValue::String:
                     return value.toString().toStdString();
                 case QJsonValue::Array: {
-                    stdc::JsonArray result;
+                    stdc::json::Array result;
                     for (const auto &item : value.toArray()) {
                         result.push_back(fromQJsonValue(item));
                     }
                     return result;
                 }
                 case QJsonValue::Object: {
-                    stdc::JsonObject result;
+                    stdc::json::Object result;
                     for (auto it = value.toObject().begin(); it != value.toObject().end(); ++it) {
                         result[it.key().toStdString()] = fromQJsonValue(it.value());
                     }
@@ -107,7 +107,7 @@ namespace Audio::Internal {
         });
     }
 
-    bool EffectsPresets::savePreset(const QString &name, const stdc::JsonArray &audioDSPs) {
+    bool EffectsPresets::savePreset(const QString &name, const stdc::json::Array &audioDSPs) {
         const auto normalizedName = name.trimmed();
         if (normalizedName.isEmpty()) {
             return false;
@@ -143,7 +143,7 @@ namespace Audio::Internal {
         return true;
     }
 
-    stdc::JsonArray EffectsPresets::presetAudioDSPs(const QString &name) const {
+    stdc::json::Array EffectsPresets::presetAudioDSPs(const QString &name) const {
         for (const auto &preset : m_presets) {
             if (preset.name == name) {
                 return deserialize(preset.data);
@@ -187,12 +187,12 @@ namespace Audio::Internal {
         settings->endGroup();
     }
 
-    QByteArray EffectsPresets::serialize(const stdc::JsonArray &audioDSPs) const {
+    QByteArray EffectsPresets::serialize(const stdc::json::Array &audioDSPs) const {
         const auto json = toQJsonValue(audioDSPs).toArray();
         return QJsonDocument(json).toJson(QJsonDocument::Compact);
     }
 
-    stdc::JsonArray EffectsPresets::deserialize(const QByteArray &data) const {
+    stdc::json::Array EffectsPresets::deserialize(const QByteArray &data) const {
         const auto document = QJsonDocument::fromJson(data);
         if (!document.isArray()) {
             return {};

@@ -937,7 +937,7 @@ namespace Core {
         if (selectedItems.isEmpty())
             return std::nullopt;
 
-        QList<stdc::JsonValue> keySignatures;
+        QList<stdc::json::Value> keySignatures;
         keySignatures.reserve(selectedItems.size());
         for (const auto *item : selectedItems) {
             keySignatures.append(item->toOpenDSPX());
@@ -945,13 +945,13 @@ namespace Core {
         if (keySignatures.isEmpty())
             return std::nullopt;
 
-        std::sort(keySignatures.begin(), keySignatures.end(), [](const stdc::JsonValue &lhs, const stdc::JsonValue &rhs) {
+        std::sort(keySignatures.begin(), keySignatures.end(), [](const stdc::json::Value &lhs, const stdc::json::Value &rhs) {
             return lhs["pos"].toInt() < rhs["pos"].toInt();
         });
 
         const int absolute = static_cast<int>(keySignatures.first()["pos"].toInt());
         for (auto &keySignature : keySignatures) {
-            stdc::JsonObject object = keySignature.toObject();
+            stdc::json::Object object = keySignature.toObject();
             object["pos"] = static_cast<int>(object["pos"].toInt()) - absolute;
             keySignature = std::move(object);
         }
@@ -1315,7 +1315,7 @@ namespace Core {
         return inserted;
     }
 
-    bool DspxDocumentPrivate::pasteKeySignatures(const QList<stdc::JsonValue> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
+    bool DspxDocumentPrivate::pasteKeySignatures(const QList<stdc::json::Value> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
         if (!model || keySignatures.isEmpty())
             return false;
 
@@ -1340,10 +1340,10 @@ namespace Core {
             return playheadPosition;
         }();
 
-        QList<stdc::JsonValue> adjusted = keySignatures;
+        QList<stdc::json::Value> adjusted = keySignatures;
         int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
         for (auto &keySignature : adjusted) {
-            stdc::JsonObject object = keySignature.toObject();
+            stdc::json::Object object = keySignature.toObject();
             const int pos = keySignature.isObject() && keySignature["pos"].isNumber() ? static_cast<int>(keySignature["pos"].toInt()) + baseOffset : baseOffset;
             object["pos"] = pos;
             keySignature = std::move(object);
@@ -1352,13 +1352,13 @@ namespace Core {
         if (minPos < 0) {
             const int shift = -minPos;
             for (auto &keySignature : adjusted) {
-                stdc::JsonObject object = keySignature.toObject();
+                stdc::json::Object object = keySignature.toObject();
                 object["pos"] = static_cast<int>(object["pos"].toInt()) + shift;
                 keySignature = std::move(object);
             }
         }
 
-        std::sort(adjusted.begin(), adjusted.end(), [](const stdc::JsonValue &lhs, const stdc::JsonValue &rhs) {
+        std::sort(adjusted.begin(), adjusted.end(), [](const stdc::json::Value &lhs, const stdc::json::Value &rhs) {
             return lhs["pos"].toInt() < rhs["pos"].toInt();
         });
 
