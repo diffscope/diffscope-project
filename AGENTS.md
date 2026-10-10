@@ -104,6 +104,23 @@ Include what the file uses and prefer forward declarations in headers when a com
 - Prefer C++20 ranges and `<=>` where they make code clearer. Do not use exceptions for normal control flow; catch only at APIs that can throw, translate the failure there, and preserve useful diagnostics.
 - Unless explicitly required, never declare any classes as `final`.
 
+## Prose Style
+
+These rules apply to comments, documentation, README files, help text, and diagnostic messages.
+
+- **Use formal technical writing.** Comments and documentation are normative text, not narration. Each sentence states a fact, a constraint, or a reason, without preamble, impressions, or rhetoric.
+- **Do not personify.** Code, files, formats, programs, and tests are not subjects with a will. Do not write says, tells, knows, asks, wants, means, cares, decides, promises, or is told. Use returns, indicates, records, specifies, reports, detects, requires, or rejects instead. Real actors such as the user, the author, or the caller may be subjects.
+- **Use terms, not descriptive paraphrases.** Write invalid byte sequence, not bytes that do not decode. Write unpaired surrogate, reverse mapping, and unrepresentable character, not half of one, the way back, and what cannot be spelled. If no common term exists, define one at its first use and keep that name throughout.
+- **Headings, group names, and list labels are nouns or noun phrases.** Write Motivation, Behavior, and Rationale, not Why, What it does, and How it works. If a noun works, do not use a what-clause as a subject or object. Write the requested encoding, not what the user asked for.
+- **Use if for conditions and where only for places.** Write empty if absent, not empty where there is none. Do not use one to refer back to a noun (such a one, the one it wants). Repeat the noun.
+- **Avoid colloquial phrases** such as whatever else, for good, as it stands, on its own, on the way out, at a glance, there and back, is given up on, the rest of why, and and all. Use precise written expressions instead.
+- **Write complete sentences.** Do not write fragments, comma splices (two independent clauses joined only by a comma), or rhetorical questions. Do not start a causal statement with So, And so, Which is why, That is why, or Hence. State the cause in the same sentence with because or therefore. Do not address the reader in the second person.
+- **Do not use dashes, and do not join clauses with semicolons.** Start a new sentence wherever a sentence break belongs. Use American spelling.
+- **Function documentation starts with a verb** (Returns, Decodes, Reads, Rejects). State the return value for each case. Boolean queries read Returns whether ….
+- **Do not write a paragraph for what a few words can say.** Comments explain constraints, ownership, lifetimes, and the reason the implementation must take its current form. Do not restate what the signature already shows.
+- **Do not write archaeological comments.** Keep the reason the code must be this way now. Remove how it used to be and how it was fixed.
+- The same rules apply to Chinese text. Use written language, not colloquial words such as 「别」「搞」「就行」「得（表必须）」「啥」「拿来」「反正」「其实」「说白了」「这玩意儿」. Headings use 「动机」「设计理由」「实现方式」, not 「为什么」「怎么做」. Normative imperatives such as 「不要」「必须」 are not colloquial and remain in use.
+
 ## Class Design and PImpl
 
 Exported QObject-based interfaces and other stable public APIs use Qt-style PImpl. Keep `Class.h`, `Class.cpp`, and `Class_p.h` together in the source tree; consumers see the private header as `<module/private/Class_p.h>`. The public class forward-declares `ClassPrivate`, uses `Q_DECLARE_PRIVATE(Class)`, owns `QScopedPointer<ClassPrivate> d_ptr`, and has an out-of-line destructor. The private class uses `Q_DECLARE_PUBLIC(Class)` and stores `Class *q_ptr`. Use `Q_D`/`Q_Q` in implementations. Data/value types may use `QSharedDataPointer` when implicit sharing is intended.
@@ -189,7 +206,11 @@ There is no numeric coverage gate. Cover new branches and regressions proportion
 
 ## Commits and Pull Requests
 
-Recent history uses short, imperative, sentence-case subjects such as `Add synth plugin`, `Fix bugs with language settings`, and `Update audio export extension name logic`. Follow that style; keep each commit focused and avoid a mandatory Conventional Commit prefix.
+- **Write the commit message as a single line**: an English, sentence-case imperative subject in American spelling, such as `Add synth plugin`, `Fix bugs with language settings`, or `Update audio export extension name logic`. Do not add a body or a mandatory Conventional Commit prefix. Design rationale belongs in code comments or the pull request description, not in the commit message.
+- **Commit messages carry no AI attribution.** Do not add `Co-Authored-By` or `Generated with` lines.
+- **Each commit does one thing.** Split work into small commits by concern instead of one large commit. If a file contains changes for two commits, take the old content with `git show HEAD:<path>`, apply only one set of changes, commit it, and then restore the complete version. Do not stage the whole file for convenience.
+- Every commit must build and pass its tests on its own, including the intermediate states created by splitting.
+- **Do not commit without the author's authorization, and above all do not push without it.** Leave the changes in the working tree until the author approves the commit.
 
 A pull request must explain the user-visible result, affected modules, architecture/API choices, compatibility or migration concerns, and the commands/tests run. Link relevant issues. Include before/after visuals for QML or layout changes. Call out action IDs, settings keys, translation changes, dependency/license changes, and submodule pointer bumps explicitly. Keep unrelated formatting, generated output, and local configuration out of the diff.
 
