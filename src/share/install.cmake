@@ -60,6 +60,22 @@ set(_qml
     QtQuick
 )
 
+set(_vcpkg_lib_dir)
+
+if(UNIX AND NOT APPLE AND DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_vcpkg_lib_dir ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib)
+endif()
+
+if(_vcpkg_lib_dir)
+    # The deployment resolves each binary with `ldd`, so Qt picks up the system glib while gio and
+    # gobject from vcpkg pick up the newer vcpkg glib, and the two end up mixed in one directory.
+    # Let the loader prefer vcpkg libraries so that every library comes from a single place.
+    install(CODE "
+        set(_old_ld_library_path \"\$ENV{LD_LIBRARY_PATH}\")
+        set(ENV{LD_LIBRARY_PATH} \"${_vcpkg_lib_dir}:\$ENV{LD_LIBRARY_PATH}\")
+    ")
+endif()
+
 qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
     PLUGINS ${_plugins}
     LIBRARY_DIR ${_lib_dir}
@@ -69,6 +85,10 @@ qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
     QML_DIR ${CK_INSTALL_QML_DIR}
     VERBOSE
 )
+
+if(_vcpkg_lib_dir)
+    install(CODE "set(ENV{LD_LIBRARY_PATH} \"\${_old_ld_library_path}\")")
+endif()
 
 # Install vcruntime
 if(MSVC AND APPLICATION_INSTALL_MSVC_RUNTIME)
