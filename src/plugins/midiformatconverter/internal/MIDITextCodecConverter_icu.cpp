@@ -3,13 +3,9 @@
 
 #include "MIDITextCodecConverter.h"
 
-#ifdef Q_OS_WIN
-#    include <icu.h>
-#else
-#    include <unicode/ucnv.h>
-#    include <unicode/ustring.h>
-#    include <unicode/ucsdet.h>
-#endif
+#include <unicode/ucnv.h>
+#include <unicode/ucsdet.h>
+#include <unicode/ustring.h>
 
 #include <QDebug>
 

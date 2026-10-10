@@ -7,11 +7,9 @@ project(midiformatconverter
 )
 
 set(_links_icu)
-if(WIN32)
-    list(APPEND _links_icu icu)
-elseif(NOT APPLE)
-    find_package(ICU COMPONENTS uc REQUIRED)
-    list(APPEND _links_icu ICU::uc)
+if(NOT APPLE)
+    find_package(ICU COMPONENTS uc i18n REQUIRED)
+    list(APPEND _links_icu ICU::uc ICU::i18n)
 endif()
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
