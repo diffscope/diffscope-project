@@ -530,7 +530,7 @@
         <translation type="unfinished">The LibreSVIP operation failed.</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1043"/>
+        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="69"/>
         <source>The LibreSVIP download catalog could not be retrieved.</source>
         <translation type="unfinished">The LibreSVIP download catalog could not be retrieved.</translation>
     </message>
@@ -751,17 +751,17 @@
 <context>
     <name>LibreSVIPManager</name>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="126"/>
-        <source>The root value is not an array.</source>
-        <translation type="unfinished">The root value is not an array.</translation>
+        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="130"/>
+        <source>The root value is not an object.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="128"/>
+        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="121"/>
         <source>The LibreSVIP download catalog is invalid: %1</source>
         <translation type="unfinished">The LibreSVIP download catalog is invalid: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="153"/>
+        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="180"/>
         <source>No LibreSVIP downloads are available for this system architecture.</source>
         <translation type="unfinished">No LibreSVIP downloads are available for this system architecture.</translation>
     </message>

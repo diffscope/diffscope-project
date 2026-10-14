@@ -8,7 +8,7 @@ project(libresvipformatconverter
 
 set(DIFFSCOPE_LIBRESVIP_HOMEPAGE_URL "https://soulmelody.github.io/LibreSVIP/" CACHE STRING
     "Homepage URL of LibreSVIP")
-set(DIFFSCOPE_LIBRESVIP_CATALOG_URL "https://catalogs.diffscope.org/3rdparty/libresvip/index.json" CACHE STRING
+set(DIFFSCOPE_LIBRESVIP_CATALOG_URL "https://catalogs.diffscope.org/v1/libresvip-cli/index.json" CACHE STRING
     "URL of the LibreSVIP download catalog")
 
 qm_find_qt(Network Protobuf Grpc)

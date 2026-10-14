@@ -11,18 +11,15 @@
 #include <libresvipformatconverter/internal/LibreSVIPTypes.h>
 
 class QProcess;
-class QBuffer;
 class QWindow;
 
 namespace Core {
     class NotificationMessage;
 }
 
-namespace SVS {
-    class DownloadSession;
-}
-
 namespace LibreSVIPFormatConverter::Internal {
+
+    class LibreSVIPDownloadCatalog;
 
     class LibreSVIPManager : public QObject {
         Q_OBJECT
@@ -90,8 +87,7 @@ namespace LibreSVIPFormatConverter::Internal {
         bool m_autoCheckForUpdates{true};
         bool m_busy{};
         QProcess *m_process{};
-        QBuffer *m_updateCatalogData{};
-        SVS::DownloadSession *m_updateCheckSession{};
+        LibreSVIPDownloadCatalog *m_updateCatalog{};
         Core::NotificationMessage *m_updateNotification{};
     };
 
