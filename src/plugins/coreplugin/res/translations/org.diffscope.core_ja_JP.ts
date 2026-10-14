@@ -3255,14 +3255,76 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::KeyMapPage</name>
     <message>
-        <location filename="../../internal/settings/KeymapPage.cpp" line="18"/>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="34"/>
         <source>Keymap</source>
         <translation type="unfinished">Keymap</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/KeymapPage.cpp" line="19"/>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="35"/>
         <source>Configure shortcuts of actions</source>
         <translation type="unfinished">Configure shortcuts of actions</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="91"/>
+        <source>The keyboard mapping settings could not be saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="110"/>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="182"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="181"/>
+        <source>Enter a preset name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="186"/>
+        <source>A preset with this name already exists.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="242"/>
+        <source>Default (copy)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="248"/>
+        <source>%1 (%L2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="257"/>
+        <source>Enter a shortcut.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="262"/>
+        <source>A shortcut must include a key other than a modifier.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="289"/>
+        <source>%1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="292"/>
+        <source>Already assigned to:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
+        <source>Find Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
+        <source>Edit Shortcut</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3281,14 +3343,34 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::MenuPage</name>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="23"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="83"/>
         <source>Menus and Toolbars</source>
         <translation type="unfinished">Menus and Toolbars</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="24"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="84"/>
         <source>Configure the layout of menus and toolbars</source>
         <translation type="unfinished">Configure the layout of menus and toolbars</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MenuPage.cpp" line="140"/>
+        <source>The menu and toolbar settings could not be saved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MenuPage.cpp" line="299"/>
+        <source>This item cannot be added because it would create an invalid or recursive menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MenuPage.cpp" line="340"/>
+        <source>This item cannot be moved to the selected position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MenuPage.cpp" line="435"/>
+        <source>Restoring this menu would create a recursive menu. Restore all layouts or remove the conflicting reference.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5100,7 +5182,8 @@ Continue to bounce?</source>
 <context>
     <name>MenuPage</name>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="70"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="164"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="339"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
@@ -5110,54 +5193,106 @@ Continue to bounce?</source>
         <translation type="unfinished">Add Action or Menu...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="76"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="56"/>
         <source>Add Separator</source>
         <translation type="unfinished">Add Separator</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="80"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="63"/>
         <source>Add Stretch</source>
         <translation type="unfinished">Add Stretch</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="85"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="70"/>
         <source>Edit Icon...</source>
         <translation type="unfinished">Edit Icon...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="90"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="76"/>
         <source>Move Up</source>
         <translation type="unfinished">Move Up</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="95"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="83"/>
         <source>Move Down</source>
         <translation type="unfinished">Move Down</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="100"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="90"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="105"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="138"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="172"/>
         <source>Restore</source>
         <translation type="unfinished">Restore</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="108"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="138"/>
         <source>Restore This Menu</source>
         <translation type="unfinished">Restore This Menu</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="111"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="144"/>
         <source>Restore All</source>
         <translation type="unfinished">Restore All</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="49"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="239"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="301"/>
         <source>Search</source>
         <translation type="unfinished">Search</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="28"/>
+        <source>Restore all menu and toolbar layouts to their defaults?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="29"/>
+        <source>Restore the selected item to its defaults?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="30"/>
+        <source>Restore Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="283"/>
+        <source>Add Action, Menu, or Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="337"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="50"/>
+        <source>Add Action...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="100"/>
+        <source>Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="109"/>
+        <source>Action Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="118"/>
+        <source>Separator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MenuPage.qml" line="128"/>
+        <source>Stretch</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6237,6 +6372,182 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="318"/>
         <source>Drag to the sidebar to add &quot;%1&quot;</source>
         <translation type="unfinished">Drag to the sidebar to add &quot;%1&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ActionCatalogProxyModel</name>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
+        <source>Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
+        <source>Action group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
+        <source>Separator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
+        <source>Stretch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
+        <source>Widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
+        <source>Custom component</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KeymapPage</name>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore all shortcuts in this preset to their defaults?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="54"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="63"/>
+        <source>Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="75"/>
+        <source>Save As...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="80"/>
+        <source>Rename...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="86"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete preset "%1"?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="102"/>
+        <source>Expand All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="103"/>
+        <source>Collapse All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="107"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="117"/>
+        <source>Find Shortcut...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="128"/>
+        <source>Shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="131"/>
+        <source>Clear Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="36"/>
+        <source>Clear Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="42"/>
+        <source>Restore Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="95"/>
+        <source>Restore All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="30"/>
+        <source>Edit Shortcut...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Rename Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Save Preset As</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="182"/>
+        <source>%1 (copy)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="199"/>
+        <source>Preset name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ActionCatalogView</name>
+    <message>
+        <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

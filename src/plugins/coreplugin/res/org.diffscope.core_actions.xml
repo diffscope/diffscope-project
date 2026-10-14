@@ -30,8 +30,6 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" category="Preferences" icon="settings" shortcut="Ctrl+,"/>
         <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" category="Preferences" icon="puzzle_piece" shortcut=""/>
 
-        <action id="org.diffscope.core.file.metadata^" category="File" icon="document_settings" />
-
         <action id="org.diffscope.core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" category="Window" icon="home" shortcut="Ctrl+Shift+H" />
 
         <action id="org.diffscope.core.e&amp;xit" description="Quit ${APP_NAME}" category="Application" />
@@ -167,7 +165,6 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.panel.singers" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="mic" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.notifications" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.tips" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.metadata" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_settings" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.core.panel.recentFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="history" triggerable="false" diffscope:componentType="custom" />
         <action id="org.diffscope.core.panel.recoveryFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_sync" triggerable="false" diffscope:componentType="custom" />
         <action id="org.diffscope.core.widget.digitalClock" category="Widget" triggerable="false" diffscope:componentType="widget"/>
@@ -177,7 +174,6 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.fileOpenActions" />
         <group id="org.diffscope.core.fileSaveActions" />
         <group id="org.diffscope.core.preferenceActions" />
-        <group id="org.diffscope.core.fileMetadataActions" />
         <menu id="org.diffscope.core.&amp;edit" />
         <group id="org.diffscope.core.edit.undoActions" />
         <group id="org.diffscope.core.edit.generic" />
@@ -210,7 +206,7 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.aboutActions" />
         <group id="org.diffscope.core.dspxInspectorActions" />
         <group id="org.diffscope.core.toolBarTimelineNavigationActions" />
-        <menu id="org.diffscope.core.homeMenu" />
+        <menu id="org.diffscope.core.homeMenu" topLevel="true" />
         <menu id="org.diffscope.core.homeFile" text="&amp;File" />
         <menu id="org.diffscope.core.homeView" text="&amp;View" />
         <group id="org.diffscope.core.genericItemContextMenuActions" />
@@ -235,9 +231,6 @@ SPDX-License-Identifier: Apache-2.0
                 <group id="org.diffscope.core.preferenceActions">
                     <action id="org.diffscope.core.settings"/>
                     <action id="org.diffscope.core.plugins"/>
-                </group>
-                <group id="org.diffscope.core.fileMetadataActions">
-                    <action id="org.diffscope.core.file.metadata" />
                 </group>
                 <action id="org.diffscope.core.exit" />
             </menu>

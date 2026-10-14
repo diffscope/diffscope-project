@@ -78,7 +78,7 @@ namespace Core::Internal {
             return QStringList();
         }
 
-        const auto shortcuts = actionInfo->shortcuts();
+        const auto shortcuts = CoreInterface::actionRegistry()->actionShortcuts(id);
         QStringList result;
         result.reserve(shortcuts.size());
 

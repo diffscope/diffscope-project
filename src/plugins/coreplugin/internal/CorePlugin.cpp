@@ -43,6 +43,7 @@
 #include <coreplugin/DspxClipboard.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/ActionConfiguration.h>
 #include <coreplugin/internal/AfterSavingNotifyAddOn.h>
 #include <coreplugin/internal/AppearancePage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
@@ -205,6 +206,7 @@ namespace Core::Internal {
     void CorePlugin::extensionsInitialized() {
         RuntimeInterface::splash()->showMessage(tr("Plugins loading complete, preparing for subsequent initialization..."));
         initializeColorScheme();
+        ActionConfiguration::get()->load();
         for (auto plugin : ExtensionSystem::PluginManager::plugins()) {
             qCInfo(lcCorePlugin) << "Plugin" << plugin->name() << "enabled =" << plugin->isEffectivelyEnabled() << "enabledBySettings =" << plugin->isEnabledBySettings() << "hasError =" << plugin->hasError();
         }
@@ -255,6 +257,8 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeActions() {
+        auto configuration = new ActionConfiguration(this);
+        RuntimeInterface::instance()->addObject(ActionConfiguration::staticMetaObject.className(), configuration);
         auto actionRegistry = CoreInterface::actionRegistry();
         actionRegistry->addExtension(::corepluginActionExtension());
         for (const auto &iconName : SVS::FluentSystemIcons::getAllIconNames()) {

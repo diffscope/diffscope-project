@@ -5,25 +5,52 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQml.Models
-import QtQuick.Templates as T
 import QtQuick.Controls.impl as Impl
 
 import SVSCraft
 import SVSCraft.UIComponents
 
-TreeView {
+ActionTreeView {
     id: treeView
 
     property QtObject actionRegistry: null
     property string filterText
-    clip: true
-    acceptedButtons: Qt.NoButton
-    boundsBehavior: Flickable.StopAtBounds
-    boundsMovement: Flickable.StopAtBounds
-    reuseItems: false
+    property var typeTextProvider: null
+    property var pathProvider: null
+    property var expansionKeyProvider: null
+    property var expansionIndexProvider: null
+    property var savedExpansionKeys: []
+    property bool dragEnabled: false
+    signal entryDropped(var path, var target, int placement)
 
-    selectionModel: ItemSelectionModel {
+    Connections {
+        target: treeView.model
+        function onModelAboutToBeReset() {
+            if (!treeView.expansionKeyProvider)
+                return
+            const keys = []
+            for (let row = 0; row < treeView.rows; ++row) {
+                if (treeView.isExpanded(row))
+                    keys.push(treeView.expansionKeyProvider(treeView.index(row, 0)))
+            }
+            treeView.savedExpansionKeys = keys
+        }
+        function onModelReset() {
+            if (!treeView.expansionIndexProvider)
+                return
+            const keys = treeView.savedExpansionKeys
+            Qt.callLater(() => {
+                for (const key of keys) {
+                    const index = treeView.expansionIndexProvider(key)
+                    if (index.valid) {
+                        treeView.expandToIndex(index)
+                        const row = treeView.rowAtIndex(index)
+                        if (row >= 0)
+                            treeView.expand(row)
+                    }
+                }
+            })
+        }
     }
 
     ActionLayoutsEditorHelper {
@@ -31,92 +58,60 @@ TreeView {
         actionRegistry: treeView.actionRegistry
     }
 
-    delegate: T.TreeViewDelegate {
+    delegate: ActionTreeViewDelegate {
         id: control
 
+        actionTreeView: treeView
         readonly property var info: helper.getActionDisplayInfo(model.display, model.entry)
-
-        implicitWidth: leftMargin + __contentIndent + implicitContentWidth + rightPadding + rightMargin
-        implicitHeight: 24
-
-        font: Theme.font
-
-        indentation: indicator ? indicator.width : 12
-        leftMargin: 4
-        rightMargin: 4
-        spacing: 4
-
-        topPadding: contentItem ? (height - contentItem.implicitHeight) / 2 : 0
-        leftPadding: !mirrored ? leftMargin + __contentIndent : width - leftMargin - __contentIndent - implicitContentWidth
-
-        highlighted: control.current || control.selected
-        text: control.info.text
+        text: info.text
         icon.source: info.iconSource
-        icon.color: info.iconColor.valid ? info.iconColor : Theme.foregroundPrimaryColor
-        icon.width: 16
-        icon.height: 16
-
-        width: treeView.width
-        onWidthChanged: width = treeView.width
-
-        Accessible.role: Accessible.TreeItem
-
-        required property int row
-        required property var model
-        readonly property real __contentIndent: !isTreeNode ? 0 : (depth * indentation) + (indicator ? indicator.width + spacing : 0)
-
-        indicator: Item {
-            readonly property real __indicatorIndent: control.leftMargin + (control.depth * control.indentation)
-            x: !control.mirrored ? __indicatorIndent : control.width - __indicatorIndent - width
-            y: (control.height - height) / 2
-            implicitWidth: 16
-            implicitHeight: 24
-            Impl.ColorImage {
-                id: arrow
-                x: (parent.width - width) / 2
-                y: (parent.height - height) / 2
-                width: 12
-                height: 12
-                sourceSize.width: 12
-                sourceSize.height: 12
-                source: "image://fluent-system-icons/chevron_right?size=12"
-                color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
-                    control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
-                        control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
-                            Theme.foregroundPrimaryColor
-                transform: [
-                    Rotation {
-                        origin.x: arrow.width / 2
-                        origin.y: arrow.height / 2
-                        angle: control.expanded ? 90 : 0
-                    },
-                    Scale {
-                        origin.x: arrow.width / 2
-                        origin.y: arrow.height / 2
-                        xScale: control.mirrored ? -1 : 1
-                    }
-                ]
-                Behavior on color {
-                    ColorAnimation {
-                        duration: Theme.colorAnimationDuration
-                        easing.type: Easing.OutCubic
-                    }
+        icon.color: info.iconColor.valid ? info.iconColor : primaryTextColor
+        property var dragPath: []
+        DragHandler {
+            id: dragHandler
+            target: null
+            enabled: treeView.dragEnabled && control.depth > 0
+            onActiveChanged: {
+                if (active) {
+                    control.dragPath = treeView.pathProvider(control.modelIndex)
+                    dragProxy.Drag.active = true
+                } else {
+                    dragProxy.Drag.drop()
+                    dragProxy.Drag.active = false
                 }
             }
         }
-
-        background: Rectangle {
-            implicitHeight: 24
-            function transparentIf(condition, color) {
-                return condition ? Qt.rgba(color.r, color.g, color.b, 0) : color
+        Item {
+            id: dragProxy
+            x: dragHandler.centroid.position.x
+            y: dragHandler.centroid.position.y
+            width: 1
+            height: 1
+            Drag.source: control
+            Drag.keys: ["diffscope-action-layout"]
+            Drag.supportedActions: Qt.MoveAction
+        }
+        DropArea {
+            id: dropArea
+            anchors.fill: parent
+            keys: ["diffscope-action-layout"]
+            property int placement: 0
+            onPositionChanged: drag => placement = drag.y < height / 4 ? -1 : drag.y > height * 3 / 4 ? 1 : 0
+            onDropped: drop => {
+                const path = drop.source.dragPath
+                const target = control.modelIndex
+                const position = placement
+                drop.accept(Qt.MoveAction)
+                Qt.callLater(() => treeView.entryDropped(path, target, position))
             }
-            property color _baseColor: control.highlighted ? Theme.accentColor : Theme.buttonColor
-            property color _statusColor: !control.enabled ? Theme.controlDisabledColorChange.apply(_baseColor) :
-                control.down ? Theme.controlPressedColorChange.apply(_baseColor) :
-                    control.hovered ? Theme.controlHoveredColorChange.apply(_baseColor) :
-                        transparentIf(!control.highlighted, _baseColor)
-            color: _statusColor
-
+        }
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            y: dropArea.placement < 0 ? 0 : parent.height - height
+            height: 2
+            color: Theme.accentColor
+            visible: dropArea.containsDrag && dropArea.placement !== 0
         }
 
         contentItem: RowLayout {
@@ -139,19 +134,18 @@ TreeView {
                 id: label
                 text: helper.highlightString(control.text, treeView.filterText, Theme.highlightColor)
                 font: control.font
-                color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundPrimaryColor) :
-                       control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundPrimaryColor) :
-                       control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundPrimaryColor) :
-                       control.highlighted ? Theme.foregroundPrimaryColor : Theme.foregroundPrimaryColor
+                color: control.primaryTextColor
                 textFormat: Text.RichText
                 visible: control.info.type !== ActionLayoutsEditorHelper.Separator && control.info.type !== ActionLayoutsEditorHelper.Stretch
             }
             Text {
                 id: typeLabel
                 text: {
-                    if (control.info.topLevel) {
+                    if (control.depth === 0) {
                         return ""
                     }
+                    if (treeView.typeTextProvider)
+                        return treeView.typeTextProvider(control.info.id, control.info.type)
                     if (control.info.type === ActionLayoutsEditorHelper.Action) {
                         return qsTr("Action")
                     }
@@ -169,10 +163,7 @@ TreeView {
                     }
                 }
                 font: control.font
-                color: !control.enabled ? Theme.foregroundDisabledColorChange.apply(Theme.foregroundSecondaryColor) :
-                       control.down ? Theme.foregroundPressedColorChange.apply(Theme.foregroundSecondaryColor) :
-                       control.hovered ? Theme.foregroundHoveredColorChange.apply(Theme.foregroundSecondaryColor) :
-                       control.highlighted ? Theme.foregroundSecondaryColor : Theme.foregroundSecondaryColor
+                color: control.secondaryTextColor
                 Layout.fillWidth: true
                 leftPadding: control.info.type === ActionLayoutsEditorHelper.Separator || control.info.type === ActionLayoutsEditorHelper.Stretch ? 0 : 8
             }

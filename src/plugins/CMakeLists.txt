@@ -28,7 +28,7 @@ function(diffscope_add_builtin_plugin _target)
         MACRO_PREFIX ${FUNC_MACRO_PREFIX}
     )
 
-    file(GLOB_RECURSE _src *.h *.cpp)
+    file(GLOB_RECURSE _src CONFIGURE_DEPENDS *.h *.cpp)
 
     if(APPLE AND FUNC_MACOS_INCLUDE_OBJC_SRC)
         file(GLOB_RECURSE _objc_src *.m *.mm)
@@ -81,7 +81,7 @@ function(diffscope_add_builtin_plugin _target)
             qt_policy(SET QTP0004 NEW)
         endif()
 
-        file(GLOB_RECURSE _qml_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
+        file(GLOB_RECURSE _qml_files CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
 
         qt_add_qml_module(${_target}
             URI DiffScope.${FUNC_QML_MODULE_NAME}

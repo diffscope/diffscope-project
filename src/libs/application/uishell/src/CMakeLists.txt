@@ -33,7 +33,7 @@ if(QT_KNOWN_POLICY_QTP0004)
     qt_policy(SET QTP0004 NEW)
 endif()
 
-file(GLOB_RECURSE _qml_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
+file(GLOB_RECURSE _qml_files CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
 file(GLOB_RECURSE _resource_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} assets/*)
 
 qt_add_qml_module(${PROJECT_NAME}

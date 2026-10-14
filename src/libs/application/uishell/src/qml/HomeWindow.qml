@@ -79,7 +79,21 @@ Window {
     }
 
     onCurrentNavIndexChanged: () => {
-        navItemsModel.get(currentNavIndex)?.click()
+        updateCurrentPanel()
+    }
+
+    function updateCurrentPanel() {
+        if (!navItemsModel.count) {
+            currentNavIndex = -1
+            recentFilesStack.pane = null
+            return
+        }
+        const index = Math.max(0, Math.min(currentNavIndex, navItemsModel.count - 1))
+        if (currentNavIndex !== index)
+            currentNavIndex = index
+        const button = navItemsModel.get(index)
+        button.checked = true
+        recentFilesStack.pane = button.pane
     }
 
     CommandPalette {
@@ -263,6 +277,12 @@ Window {
                                 }
                                 onClicked: () => {
                                     if (checked) {
+                                        for (let i = 0; i < navItemsModel.count; ++i) {
+                                            if (navItemsModel.get(i) === button) {
+                                                window.currentNavIndex = i
+                                                break
+                                            }
+                                        }
                                         recentFilesStack.pane = pane
                                     }
                                 }
@@ -273,10 +293,14 @@ Window {
                                     navItemsModel.insert(index, navItemsModel.navButtonComponent.createObject(navLayout, {pane: object}))
                                 }
                                 onObjectRemoved: (index, object) => {
+                                    const button = navItemsModel.get(index)
+                                    if (recentFilesStack.pane === button.pane)
+                                        recentFilesStack.pane = null
                                     navItemsModel.remove(index)
+                                    button.destroy()
                                 }
                             }
-                            onCountChanged: get(window.currentNavIndex).click()
+                            onCountChanged: Qt.callLater(window.updateCurrentPanel)
                         }
                     }
                 }

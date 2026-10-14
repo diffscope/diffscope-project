@@ -4,27 +4,27 @@
 <context>
     <name>ActionLayoutsEditor</name>
     <message>
-        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="156"/>
+        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="150"/>
         <source>Action</source>
         <translation type="unfinished">Action</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="159"/>
+        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="153"/>
         <source>Menu</source>
         <translation type="unfinished">Menu</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="162"/>
+        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="156"/>
         <source>Action group</source>
         <translation type="unfinished">Action group</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="165"/>
+        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="159"/>
         <source>Separator</source>
         <translation type="unfinished">Separator</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="168"/>
+        <location filename="../../src/qml/ActionLayoutsEditor.qml" line="162"/>
         <source>Stretch</source>
         <translation type="unfinished">Stretch</translation>
     </message>

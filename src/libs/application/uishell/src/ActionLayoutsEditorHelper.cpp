@@ -31,7 +31,10 @@ namespace UIShell {
         auto engine = qmlEngine(this);
 
         auto info = m_actionRegistry->actionInfo(id).value_or(QAK::ActionItemInfo());
-        auto text = info.text().toString();
+        auto text = info.shortText().withoutMnemonic();
+        if (text.isEmpty()) {
+            text = id;
+        }
         auto type = entry.type();
         auto actionIcon = m_actionRegistry->actionIcon("", id, info.icon()).value_or(QAK::ActionIcon());
         auto iconSource = actionIcon.url();
@@ -39,6 +42,7 @@ namespace UIShell {
 
         auto ret = engine->newObject();
         ret.setProperty("text", text);
+        ret.setProperty("id", id);
         ret.setProperty("iconSource", engine->fromVariant<QJSValue>(iconSource));
         ret.setProperty("iconColor", engine->fromVariant<QJSValue>(iconColor));
         ret.setProperty("type", type);
@@ -46,38 +50,7 @@ namespace UIShell {
         return ret;
     }
 
-    static QString removeMnemonic(const QString &s) {
-        QString text(s.size(), QChar::Null);
-        int idx = 0;
-        int pos = 0;
-        int len = s.size();
-        while (len) {
-            if (s.at(pos) == QLatin1Char('&') && (len == 1 || s.at(pos + 1) != QLatin1Char('&'))) {
-                ++pos;
-                --len;
-                if (len == 0)
-                    break;
-            } else if (s.at(pos) == QLatin1Char('(') && len >= 4 && s.at(pos + 1) == QLatin1Char('&') && s.at(pos + 2) != QLatin1Char('&') && s.at(pos + 3) == QLatin1Char(')')) {
-                // a mnemonic with format "\s*(&X)"
-                int n = 0;
-                while (idx > n && text.at(idx - n - 1).isSpace())
-                    ++n;
-                idx -= n;
-                pos += 4;
-                len -= 4;
-                continue;
-            }
-            text[idx] = s.at(pos);
-            ++pos;
-            ++idx;
-            --len;
-        }
-        text.truncate(idx);
-        return text;
-    }
-
-    QString ActionLayoutsEditorHelper::highlightString(const QString &s_, const QString &t, const QColor &c) {
-        QString s = removeMnemonic(s_);
+    QString ActionLayoutsEditorHelper::highlightString(const QString &s, const QString &t, const QColor &c) {
         if (t.isEmpty()) {
             return s.toHtmlEscaped();
         }
@@ -90,7 +63,7 @@ namespace UIShell {
             result += s.mid(matchPos, t.length()).toHtmlEscaped();
             result += QStringLiteral("</span>");
             pos = matchPos + t.length();
-            matchPos = s.indexOf(t, pos);
+            matchPos = s.indexOf(t, pos, Qt::CaseInsensitive);
         }
         result += s.mid(pos).toHtmlEscaped();
         return result;
