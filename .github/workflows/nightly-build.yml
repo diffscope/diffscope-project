@@ -54,7 +54,7 @@ jobs:
       contents: write
       actions: read
     outputs:
-      release_id: ${{ steps.publish.outputs.release_id }}
+      catalog_manifest: ${{ steps.publish.outputs.catalog_manifest }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -83,24 +83,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      - name: Update catalogs and wait for completion
+        uses: diffscope/catalogs/actions/update-catalog@main
         with:
-          ref: ${{ github.sha }}
-      - name: Create catalogs dispatch token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
+          product: diffscope
+          channel: nightly
+          manifest: ${{ needs.Publish.outputs.catalog_manifest }}
           app-id: ${{ vars.WORKFLOW_APP_ID }}
           private-key: ${{ secrets.WORKFLOW_APP_PRIVATE_KEY }}
-          owner: diffscope
-          repositories: catalogs
-          permission-actions: write
-      - name: Update catalogs and wait for completion
-        uses: actions/github-script@v7
-        env:
-          RELEASE_ID: ${{ needs.Publish.outputs.release_id }}
-        with:
-          github-token: ${{ steps.app-token.outputs.token }}
-          script: |
-            await require('./.github/scripts/nightly.cjs').dispatch({github, context, core});
