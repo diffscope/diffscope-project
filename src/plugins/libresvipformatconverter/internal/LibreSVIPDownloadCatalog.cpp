@@ -91,7 +91,7 @@ namespace LibreSVIPFormatConverter::Internal {
         m_releases.clear();
         m_artifacts.clear();
         m_errorMessage.clear();
-        request(QUrl(QString::fromUtf8(DIFFSCOPE_LIBRESVIP_CATALOG_URL)));
+        request(QUrl(QString::fromUtf8(DIFFSCOPE_LIBRESVIP_RELEASE_INDEX_URL)));
     }
 
     void LibreSVIPDownloadCatalog::cancel() {
