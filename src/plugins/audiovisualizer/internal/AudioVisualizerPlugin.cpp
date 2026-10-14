@@ -19,9 +19,7 @@
 
 #include <extensionsystem/pluginspec.h>
 
-static auto getAudioVisualizerActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(audiovisualizer);
-}
+#include <org.diffscope.audiovisualizer_actions.qak.h>
 
 namespace AudioVisualizer::Internal {
 
@@ -32,7 +30,7 @@ namespace AudioVisualizer::Internal {
 
     bool AudioVisualizerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getAudioVisualizerActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::audiovisualizerActionExtension());
         auto audioThumbnailComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioThumbnail", this);
         if (audioThumbnailComponent->isError()) {
             qFatal() << audioThumbnailComponent->errorString();

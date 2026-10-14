@@ -32,9 +32,7 @@
 #include <batchprocess/internal/ShellModuleExtension.h>
 #include <batchprocess/internal/StorageModuleExtension.h>
 
-static auto getBatchProcessActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(batchprocess);
-}
+#include <org.diffscope.batchprocess_actions.qak.h>
 
 namespace BatchProcess::Internal {
 
@@ -63,7 +61,7 @@ namespace BatchProcess::Internal {
         new StorageModuleExtension(batchProcessInterface, storageInterface, this);
         new RuntimeModuleExtension(batchProcessInterface, this);
 
-        Core::CoreInterface::actionRegistry()->addExtension(::getBatchProcessActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::batchprocessActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<BatchProcessAddOn>();
         Core::HomeWindowInterfaceRegistry::instance()->attach<JavaScriptConsoleAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<BatchProcessAddOn>();

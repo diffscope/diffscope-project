@@ -72,9 +72,7 @@
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
 
-static auto getCoreActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(coreplugin);
-}
+#include <org.diffscope.core_actions.qak.h>
 
 namespace Core::Internal {
 
@@ -258,7 +256,7 @@ namespace Core::Internal {
 
     void CorePlugin::initializeActions() {
         auto actionRegistry = CoreInterface::actionRegistry();
-        actionRegistry->addExtension(::getCoreActionExtension());
+        actionRegistry->addExtension(::corepluginActionExtension());
         for (const auto &iconName : SVS::FluentSystemIcons::getAllIconNames()) {
             actionRegistry->addIcon({}, iconName, QUrl(QStringLiteral("image://fluent-system-icons/") + iconName));
         }

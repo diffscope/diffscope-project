@@ -10,7 +10,7 @@ SPDX-License-Identifier: Apache-2.0
         <defaultCatalog>core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
-                class="Application::ActionClass"
+                category="Application::ActionClass"
                 description="Application::ActionDescription"
         />
         <vars>
@@ -19,13 +19,20 @@ SPDX-License-Identifier: Apache-2.0
     </configuration>
 
     <items>
-        <action id="org.diffscope.importexportmanager.file.&amp;import" icon="document_arrow_right" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.file.&amp;export" icon="document_arrow_left" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.project.importAsTracks" text="Import Tracks from File" icon="document_arrow_right" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.edit.copySpecial^" shortcut="Ctrl+Alt+C" />
-        <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" shortcut="Ctrl+Alt+V" />
+        <phony id="core.mainMenu" />
 
-        <action id="org.diffscope.importexportmanager.panel.import" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_arrow_right" diffscope:componentType="custom" />
+        <action id="org.diffscope.importexportmanager.file.&amp;import" category="File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.file.&amp;export" category="File" icon="document_arrow_left" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.project.importAsTracks" category="Project" text="Import Tracks from File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.edit.copySpecial^" category="Edit" shortcut="Ctrl+Alt+C" />
+        <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" category="Edit" shortcut="Ctrl+Alt+V" />
+
+        <action id="org.diffscope.importexportmanager.panel.import" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_arrow_right" triggerable="false" diffscope:componentType="custom" />
+
+        <group id="org.diffscope.importexportmanager.importExportActions" />
+        <group id="org.diffscope.importexportmanager.importActions" />
+        <group id="org.diffscope.importexportmanager.importTracksActions" />
+        <phony id="org.diffscope.core.workspacePanelWidgets" />
     </items>
 
     <layouts>

@@ -29,9 +29,7 @@
 #include <visualeditor/internal/ScrollAddOn.h>
 #include <visualeditor/internal/EditorPage.h>
 
-static auto getVisualEditorActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(visualeditor);
-}
+#include <org.diffscope.visualeditor_actions.qak.h>
 
 namespace VisualEditor::Internal {
 
@@ -42,7 +40,7 @@ namespace VisualEditor::Internal {
 
     bool VisualEditorPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getVisualEditorActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::visualeditorActionExtension());
 
         initializeSingletons();
         initializeEditorPreference();

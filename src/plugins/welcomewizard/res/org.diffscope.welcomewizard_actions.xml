@@ -10,7 +10,7 @@ SPDX-License-Identifier: Apache-2.0
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
-                class="Application::ActionClass"
+                category="Application::ActionClass"
                 description="Application::ActionDescription"
         />
         <vars>
@@ -19,7 +19,9 @@ SPDX-License-Identifier: Apache-2.0
     </configuration>
 
     <items>
-        <action id="org.diffscope.welcomewizard.welcomeWizard" />
+        <phony id="org.diffscope.core.mainMenu" />
+
+        <action id="org.diffscope.welcomewizard.welcomeWizard" category="Welcomewizard" />
     </items>
 
     <insertions>

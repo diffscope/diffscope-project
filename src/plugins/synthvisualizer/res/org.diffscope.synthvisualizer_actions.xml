@@ -10,7 +10,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
-                class="Application::ActionClass"
+                category="Application::ActionClass"
                 description="Application::ActionDescription"
         />
         <vars>
@@ -19,13 +19,19 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </configuration>
 
     <items>
+        <phony id="org.diffscope.core.mainMenu" />
+
         <action
                 id="org.diffscope.synthvisualizer.pianoRollPanel.additionalTracks.synthesisPieces"
+                category="Additional Tracks"
                 catalog="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets"
                 text="Synthesis Pieces"
                 icon=""
+                triggerable="false"
                 diffscope:componentType="custom"
         />
+
+        <phony id="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" />
     </items>
 
     <layouts>

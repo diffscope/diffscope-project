@@ -17,9 +17,7 @@
 
 #include <synthvisualizer/internal/SynthesisPieceTrackAddOn.h>
 
-static auto synthVisualizerActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(synthvisualizer);
-}
+#include <org.diffscope.synthvisualizer_actions.qak.h>
 
 namespace SynthVisualizer::Internal {
 
@@ -30,7 +28,7 @@ namespace SynthVisualizer::Internal {
         Core::RuntimeInterface::translationManager()->addTranslationPath(
             pluginSpec()->location() + QStringLiteral("/translations")
         );
-        Core::CoreInterface::actionRegistry()->addExtension(::synthVisualizerActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::synthvisualizerActionExtension());
         auto phonemePanelBackgroundComponent = new QQmlComponent(
             Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.SynthVisualizer"),
             QStringLiteral("SynthesisWaveformBackground"), this

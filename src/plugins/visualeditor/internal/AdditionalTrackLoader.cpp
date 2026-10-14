@@ -109,12 +109,11 @@ namespace VisualEditor::Internal {
 
     QString AdditionalTrackLoader::componentName(const QString &id) {
         auto info = Core::CoreInterface::actionRegistry()->actionInfo(id);
-        auto t = info.text(true);
-        return t.isEmpty() ? info.text(false) : t;
+        return info ? info->text().toString() : QString();
     }
     QUrl AdditionalTrackLoader::componentIcon(const QString &id) {
-        auto icon = Core::CoreInterface::actionRegistry()->actionIcon("", id);
-        return icon.url();
+        auto icon = Core::CoreInterface::actionRegistry()->actionIcon("", id, id);
+        return icon ? icon->url() : QUrl();
     }
 
     void AdditionalTrackLoader::updateComponentIdList() {

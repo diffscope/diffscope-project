@@ -18,9 +18,7 @@
 
 #include <pitchshifter/internal/PitchShiftAddOn.h>
 
-static auto getPitchShifterActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(pitchshifter);
-}
+#include <org.diffscope.pitchshifter_actions.qak.h>
 
 namespace PitchShifter::Internal {
 
@@ -32,7 +30,7 @@ namespace PitchShifter::Internal {
 
     bool PitchShifterPlugin::initialize(const QStringList &, QString *) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getPitchShifterActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::pitchshifterActionExtension());
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing pitch shifter plugin..."));
         qCInfo(lcPitchShifterPlugin) << "Initializing";
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PitchShiftAddOn>();

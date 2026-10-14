@@ -132,10 +132,7 @@ namespace Core::Internal {
         }
         auto createFallbackAction = [&](const QString &id, bool isComponentRegistered, const QString &errorString) -> QObject * {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            QString actionText = info.text(true);
-            if (actionText.isEmpty()) {
-                actionText = info.text(false);
-            }
+            QString actionText = info ? info->text().toString() : QString();
             if (actionText.isEmpty()) {
                 actionText = id;
             }
@@ -316,12 +313,11 @@ namespace Core::Internal {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto a = CoreInterface::actionRegistry()->catalog().children("org.diffscope.core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
         std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
-            auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", info.icon());
-            auto translatedText = info.text(true);
+            auto info = CoreInterface::actionRegistry()->actionInfo(id).value_or(QAK::ActionItemInfo());
+            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", id, info.icon()).value_or(QAK::ActionIcon());
             return QVariantMap{
                 {"id", id},
-                {"text", !translatedText.isEmpty() ? translatedText : info.text()},
+                {"text", info.text().toString()},
                 {"iconSource", actionIcon.url()},
                 {"iconColor", QColor::fromString(actionIcon.currentColor())},
                 {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}

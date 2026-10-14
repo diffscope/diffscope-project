@@ -10,32 +10,42 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <defaultCatalog>core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
-                class="Application::ActionClass"
+                category="Application::ActionClass"
                 description="Application::ActionDescription"
         />
     </configuration>
     <items>
+        <phony id="core.mainMenu" />
+
         <menu id="org.diffscope.synth.extract" text="Audio Extraction" />
-        <action id="org.diffscope.synth.extract.notes" text="Extract Notes..." />
-        <action id="org.diffscope.synth.extract.separation" text="Separate Audio..." />
+        <action id="org.diffscope.synth.extract.notes" category="Extract" text="Extract Notes..." />
+        <action id="org.diffscope.synth.extract.separation" category="Extract" text="Separate Audio..." />
         <action
                 id="org.diffscope.synth.panel.services"
+                category="Panel"
                 text="Synthesis Services"
                 icon="music_note_2_pulse"
                 catalog="org.diffscope.core.workspacePanelWidgets"
                 diffscope:uniquePanel="true"
+                triggerable="false"
                 diffscope:componentType="custom"
         />
         <action
                 id="org.diffscope.synth.status"
+                category="Synth"
                 text="Synthesis Status"
+                triggerable="false"
                 diffscope:componentType="widget"
         />
         <action
                 id="org.diffscope.synth.resynthesize"
+                category="Synth"
                 text="&amp;Resynthesize..."
                 icon="arrow_sync"
         />
+
+        <group id="org.diffscope.synth.synthesisActions" />
+        <phony id="org.diffscope.core.workspacePanelWidgets" />
     </items>
 
     <layouts>

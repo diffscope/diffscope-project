@@ -60,10 +60,11 @@ function(diffscope_add_builtin_plugin _target)
         qak_add_action_extension(
             _actions_src
             ${CMAKE_CURRENT_SOURCE_DIR}/res/${_plugin_name}_actions.xml
-            IDENTIFIER ${_target}
+            FUNCTION ${_target}ActionExtension
             DEFINES ${FUNC_QAK_DEFINES}
         )
         list(APPEND _src ${_actions_src})
+        target_include_directories(${_target} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
     endif()
 
     qm_configure_target(${_target}

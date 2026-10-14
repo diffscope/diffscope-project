@@ -39,9 +39,7 @@
 #include <audio/internal/WaveformSingerAddOn.h>
 #include <audio/private/GlobalAudioContext_p.h>
 
-static auto getAudioActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(audio);
-}
+#include <org.diffscope.audio_actions.qak.h>
 
 namespace Audio::Internal {
 
@@ -53,7 +51,7 @@ namespace Audio::Internal {
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getAudioActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::audioActionExtension());
         Core::RuntimeInterface::splash()->showMessage(tr("Initializing audio plugin..."));
         qCInfo(lcAudioPlugin) << "Initializing";
         initializeAudioPreference();

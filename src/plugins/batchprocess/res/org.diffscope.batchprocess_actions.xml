@@ -10,15 +10,19 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
             text="Application::ActionText"
-            class="Application::ActionClass"
+            category="Application::ActionClass"
             description="Application::ActionDescription"
         />
     </configuration>
 
     <items>
-        <action id="org.diffscope.batchprocess.&amp;batchProcess" text="&amp;Batch Process" diffscope:componentType="menu" />
-        <action id="org.diffscope.batchprocess.reload&amp;Scripts" text="&amp;Reload Scripts" description="Reload batch processing scripts" />
-        <action id="org.diffscope.batchprocess.openJavaScriptDebug&amp;Console" text="JavaScript Debug &amp;Console..." description="Open the JavaScript debug console" class="Help" icon="window_console" />
+        <phony id="org.diffscope.core.mainMenu" />
+
+        <action id="org.diffscope.batchprocess.&amp;batchProcess" category="Batchprocess" text="&amp;Batch Process" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.batchprocess.reload&amp;Scripts" category="Batchprocess" text="&amp;Reload Scripts" description="Reload batch processing scripts" />
+        <action id="org.diffscope.batchprocess.openJavaScriptDebug&amp;Console" text="JavaScript Debug &amp;Console..." description="Open the JavaScript debug console" category="Help" icon="window_console" />
+
+        <group id="org.diffscope.batchprocess.javaScriptDebugConsoleActions" />
     </items>
 
     <layouts>

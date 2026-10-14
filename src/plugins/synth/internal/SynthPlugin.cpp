@@ -25,9 +25,7 @@
 #include <synth/internal/SynthesisProjectAddOn.h>
 #include <synth/internal/SynthesisServicePanelAddOn.h>
 
-static auto synthActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(synth);
-}
+#include <org.diffscope.synth_actions.qak.h>
 
 namespace Synth::Internal {
 

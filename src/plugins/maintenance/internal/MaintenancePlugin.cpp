@@ -22,9 +22,7 @@
 #include <maintenance/internal/ViewJsonAddOn.h>
 #include <maintenance/internal/UpdatePage.h>
 
-static auto getMaintenanceActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(maintenance);
-}
+#include <org.diffscope.maintenance_actions.qak.h>
 
 namespace Maintenance {
 
@@ -36,7 +34,7 @@ namespace Maintenance {
 
     bool MaintenancePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getMaintenanceActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::maintenanceActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<MaintenanceAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MaintenanceAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ViewJsonAddOn>();

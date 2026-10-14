@@ -21,9 +21,7 @@
 #include <importexportmanager/internal/DspxFileImporter.h>
 #include <importexportmanager/internal/DspxFileExporter.h>
 
-static auto getImportExportManagerActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(importexportmanager);
-}
+#include <org.diffscope.importexportmanager_actions.qak.h>
 
 namespace ImportExportManager::Internal {
 
@@ -34,7 +32,7 @@ namespace ImportExportManager::Internal {
 
     bool ImportExportManagerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getImportExportManagerActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::importexportmanagerActionExtension());
 
         new ConverterCollection(this);
 

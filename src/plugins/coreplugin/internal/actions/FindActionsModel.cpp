@@ -57,52 +57,28 @@ namespace Core::Internal {
         return 1;
     }
 
-    QString getTextWithFallback(const QString &id, bool translated) {
+    QString getActionText(const QString &id) {
         auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
-        if (actionInfo.isNull()) {
-            return QString();
-        }
-
-        QString text = actionInfo.text(translated);
-        if (text.isEmpty() && translated) {
-            text = actionInfo.text(false);
-        }
-        return text;
+        return actionInfo ? actionInfo->text().toString() : QString();
     }
 
-    QString getClassWithFallback(const QString &id, bool translated) {
+    QString getActionCategory(const QString &id) {
         auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
-        if (actionInfo.isNull()) {
-            return QString();
-        }
-
-        QString clazz = actionInfo.actionClass(translated);
-        if (clazz.isEmpty() && translated) {
-            clazz = actionInfo.actionClass(false);
-        }
-        return clazz;
+        return actionInfo ? actionInfo->category().toString() : QString();
     }
 
-    QString getDescriptionWithFallback(const QString &id, bool translated) {
+    QString getActionDescription(const QString &id) {
         auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
-        if (actionInfo.isNull()) {
-            return QString();
-        }
-
-        QString description = actionInfo.description(translated);
-        if (description.isEmpty() && translated) {
-            description = actionInfo.description(false);
-        }
-        return description;
+        return actionInfo ? actionInfo->description().toString() : QString();
     }
 
     QStringList getShortcutsAsStringList(const QString &id) {
         auto actionInfo = CoreInterface::actionRegistry()->actionInfo(id);
-        if (actionInfo.isNull()) {
+        if (!actionInfo) {
             return QStringList();
         }
 
-        const auto shortcuts = actionInfo.shortcuts();
+        const auto shortcuts = actionInfo->shortcuts();
         QStringList result;
         result.reserve(shortcuts.size());
 
@@ -131,16 +107,16 @@ namespace Core::Internal {
             case Qt::DisplayRole:
                 return actionId;
             case SVS::SVSCraft::CP_TitleRole: {
-                auto text = ActionHelper::removeMnemonic(getTextWithFallback(actionId, true));
+                auto text = ActionHelper::removeMnemonic(getActionText(actionId));
                 if (flag == Checkable) {
                     text = tr("Toggle \"%1\"").arg(text);
                 } else if (flag == Menu) {
                     text = tr("Open Menu \"%1\"...").arg(text);
                 }
-                auto clazz = getClassWithFallback(actionId, true);
-                if (clazz.isEmpty())
+                auto category = getActionCategory(actionId);
+                if (category.isEmpty())
                     return text;
-                return tr("%1: %2").arg(clazz, text);
+                return tr("%1: %2").arg(category, text);
             }
 
             case SVS::SVSCraft::CP_SubtitleRole:
@@ -150,7 +126,7 @@ namespace Core::Internal {
                 return actionId;
 
             case SVS::SVSCraft::CP_DescriptionRole:
-                return getDescriptionWithFallback(actionId, true);
+                return getActionDescription(actionId);
 
             case SVS::SVSCraft::CP_KeySequenceRole:
                 return getShortcutsAsStringList(actionId);
@@ -168,7 +144,7 @@ namespace Core::Internal {
 
     static bool includeActionPredicate(const QString &id) {
         static const QString namespaceUri = "http://schemas.diffscope.org/diffscope/actions/diffscope";
-        auto info = CoreInterface::actionRegistry()->actionInfo(id);
+        auto info = CoreInterface::actionRegistry()->actionInfo(id).value_or(QAK::ActionItemInfo());
         if (info.attributes().contains(QAK::ActionAttributeKey("excludeFromCommands", namespaceUri))) {
             return false;
         }

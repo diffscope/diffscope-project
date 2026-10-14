@@ -10,7 +10,7 @@ SPDX-License-Identifier: Apache-2.0
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
             text="Application::ActionText"
-            class="Application::ActionClass"
+            category="Application::ActionClass"
             description="Application::ActionDescription"
         />
         <vars>
@@ -19,16 +19,23 @@ SPDX-License-Identifier: Apache-2.0
     </configuration>
 
     <items>
-        <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport^" />
-        <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" />
-        <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" />
-        <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" />
-        <action id="org.diffscope.maintenance.diagnosis.viewJson" text="View JSON Code of Project" description="View the JSON code of the current project in the default editor" />
-        <action id="org.diffscope.maintenance.getInvolved.reportIssue" description="Report bugs, request new features, or ask for support" />
-        <action id="org.diffscope.maintenance.getInvolved.contribute" text="Contribute to ${APP_NAME}" />
-        <action id="org.diffscope.maintenance.getInvolved.joinTheCommunity" />
-        <action id="org.diffscope.maintenance.update.checkForUpdates" />
-        <action id="org.diffscope.maintenance.update.viewReleaseLog" />
+        <phony id="org.diffscope.core.mainMenu" />
+
+        <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport^" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.viewJson" category="Diagnosis" text="View JSON Code of Project" description="View the JSON code of the current project in the default editor" />
+        <action id="org.diffscope.maintenance.getInvolved.reportIssue" category="Get Involved" description="Report bugs, request new features, or ask for support" />
+        <action id="org.diffscope.maintenance.getInvolved.contribute" category="Get Involved" text="Contribute to ${APP_NAME}" />
+        <action id="org.diffscope.maintenance.getInvolved.joinTheCommunity" category="Get Involved" />
+        <action id="org.diffscope.maintenance.update.checkForUpdates" category="Update" />
+        <action id="org.diffscope.maintenance.update.viewReleaseLog" category="Update" />
+
+        <menu id="org.diffscope.maintenance.diagnosis" />
+        <group id="org.diffscope.maintenance.diagnosis.openDirectoryActions" />
+        <group id="org.diffscope.maintenance.getInvolvedActions" />
+        <group id="org.diffscope.maintenance.updateActions" />
     </items>
 
     <layouts>

@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
                 text="Application::ActionText"
-                class="Application::ActionClass"
+                category="Application::ActionClass"
                 description="Application::ActionDescription"
         />
         <vars>
@@ -19,7 +19,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </configuration>
 
     <items>
-        <action id="org.diffscope.pitchshifter.edit.shiftPitch" text="Stretch and Shift Pitch..." />
+        <phony id="org.diffscope.core.mainMenu" />
+
+        <action id="org.diffscope.pitchshifter.edit.shiftPitch" category="Edit" text="Stretch and Shift Pitch..." />
     </items>
 
     <insertions>

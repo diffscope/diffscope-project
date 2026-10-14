@@ -30,10 +30,10 @@ namespace UIShell {
     QJSValue ActionLayoutsEditorHelper::getActionDisplayInfo(const QString &id, const QAK::ActionLayoutEntry &entry) const {
         auto engine = qmlEngine(this);
 
-        auto info = m_actionRegistry->actionInfo(id);
-        auto text = info.text(true).isEmpty() ? info.text(false) : info.text(true);
+        auto info = m_actionRegistry->actionInfo(id).value_or(QAK::ActionItemInfo());
+        auto text = info.text().toString();
         auto type = entry.type();
-        auto actionIcon = m_actionRegistry->actionIcon("", info.icon());
+        auto actionIcon = m_actionRegistry->actionIcon("", id, info.icon()).value_or(QAK::ActionIcon());
         auto iconSource = actionIcon.url();
         auto iconColor = QColor::fromString(actionIcon.currentColor());
 

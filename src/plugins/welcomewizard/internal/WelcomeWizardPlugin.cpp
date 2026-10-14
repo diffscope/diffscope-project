@@ -18,9 +18,7 @@
 
 #include <welcomewizard/internal/WelcomeWizardAddOn.h>
 
-static auto getWelcomeWizardActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(welcomewizard);
-}
+#include <org.diffscope.welcomewizard_actions.qak.h>
 
 namespace WelcomeWizard {
 
@@ -32,7 +30,7 @@ namespace WelcomeWizard {
 
     bool WelcomeWizardPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
-        Core::CoreInterface::actionRegistry()->addExtension(::getWelcomeWizardActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::welcomewizardActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<WelcomeWizardAddOn>();
         return true;

@@ -19,9 +19,7 @@
 #include <packagemanager/internal/PackageManagerAddOn.h>
 #include <packagemanager/internal/PackageManagerPage.h>
 
-static auto getPackageManagerActionExtension() {
-    return QAK_STATIC_ACTION_EXTENSION(packagemanager);
-}
+#include <org.diffscope.packagemanager_actions.qak.h>
 
 namespace PackageManager {
 
@@ -36,7 +34,7 @@ namespace PackageManager {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         new PackageManagerSettings(pluginSpec()->location(), this);
 
-        Core::CoreInterface::actionRegistry()->addExtension(::getPackageManagerActionExtension());
+        Core::CoreInterface::actionRegistry()->addExtension(::packagemanagerActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<PackageManagerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PackageManagerAddOn>();
 

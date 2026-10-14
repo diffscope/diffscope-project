@@ -44,7 +44,7 @@ namespace Core::Internal {
         QVector<QAK::ActionLayoutEntry> topLevelNodes;
         for (const auto &id : CoreInterface::actionRegistry()->actionIds()) {
             auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            if (info.topLevel()) {
+            if (info && info->topLevel()) {
                 topLevelNodes.append(QAK::ActionLayoutEntry(id, QAK::ActionLayoutEntry::Menu));
             }
         }

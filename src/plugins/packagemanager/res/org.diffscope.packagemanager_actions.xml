@@ -10,13 +10,15 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <defaultCatalog>org.diffscope.core.mainMenu</defaultCatalog>
         <translationContext
             text="Application::ActionText"
-            class="Application::ActionClass"
+            category="Application::ActionClass"
             description="Application::ActionDescription"
         />
     </configuration>
 
     <items>
-        <action id="org.diffscope.packagemanager.packageManager" text="Package Manager" description="Open package manager" class="Preferences" icon="box" />
+        <phony id="org.diffscope.core.mainMenu" />
+
+        <action id="org.diffscope.packagemanager.packageManager" text="Package Manager" description="Open package manager" category="Preferences" icon="box" />
     </items>
 
     <insertions>
