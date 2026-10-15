@@ -262,6 +262,9 @@ async function publish({ github, context, core }) {
         ({ data: release } = await github.rest.repos.updateRelease({
             ...context.repo, release_id: release.id, draft: false, prerelease: true, make_latest: 'false'
         }));
+        assets = await github.paginate(github.rest.repos.listReleaseAssets, {
+            ...context.repo, release_id: release.id, per_page: 100
+        });
     }
     if (!release.published_at) throw new Error('The nightly release has no publication timestamp');
     const artifacts = [];
