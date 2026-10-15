@@ -7,6 +7,10 @@ import QtQuick.Controls
 
 import QActionKit
 
+import SVSCraft.UIComponents
+
+import DiffScope.Core
+
 ActionCollection {
     id: d
 
@@ -33,50 +37,6 @@ ActionCollection {
             checked: d.window.toolBar.visible
             onTriggered: () => {
                 d.addOn.toggleVisibility(ViewVisibilityAddOn.ToolBar, checked)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.view.showLeftSideBar"
-        Action {
-            checkable: true
-            checked: d.window.leftDockingView.barSize !== 0
-            onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.LeftSideBar, checked)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.view.showRightSideBar"
-        Action {
-            checkable: true
-            checked: d.window.rightDockingView.barSize !== 0
-            onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.RightSideBar, checked)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.view.showTopSideBar"
-        Action {
-            checkable: true
-            checked: d.window.topDockingView.barSize !== 0
-            onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.TopSideBar, checked)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.view.showBottomSideBar"
-        Action {
-            checkable: true
-            checked: d.window.bottomDockingView.barSize !== 0
-            onTriggered: () => {
-                d.addOn.toggleVisibility(ViewVisibilityAddOn.BottomSideBar, checked)
             }
         }
     }

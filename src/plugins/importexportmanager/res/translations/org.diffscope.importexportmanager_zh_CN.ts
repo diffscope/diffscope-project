@@ -98,6 +98,11 @@
         <source>Import Tracks Actions</source>
         <translation type="unfinished">导入轨道操作</translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.importexportmanager_actions.xml"/>
+        <source>Show Import</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>

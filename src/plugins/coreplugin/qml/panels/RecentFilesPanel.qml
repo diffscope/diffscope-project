@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
+import DiffScope.Core
 
 QtObject {
     id: d
@@ -23,12 +24,18 @@ QtObject {
 
         property bool recentFilesIsListView: false
 
-        ThemedItem.backgroundLevel: d.addOn?.isHomeWindow ? SVS.BL_Quaternary : SVS.BL_Primary
         badgeType: SVS.CT_Warning
         badgeNumber: d.isRecovery ? (d.addOn?.recoveryFileCount ?? 0) : 0
 
+        function validateState(state) {
+            if (!state || typeof state !== "object" || Array.isArray(state)
+                || (state.recentFilesIsListView !== undefined && typeof state.recentFilesIsListView !== "boolean"))
+                throw new Error(qsTr("The recent files panel state is invalid."))
+        }
+
         function loadState(state) {
-            recentFilesIsListView = state.recentFilesIsListView
+            if (state.recentFilesIsListView !== undefined)
+                recentFilesIsListView = state.recentFilesIsListView
         }
 
         function saveState() {
@@ -46,6 +53,7 @@ QtObject {
                 Accessible.name: qsTr("Search")
                 Layout.fillWidth: true
                 ThemedItem.icon.source: "image://fluent-system-icons/search"
+                implicitWidth: 80
                 implicitHeight: 24
             }
             RowLayout {

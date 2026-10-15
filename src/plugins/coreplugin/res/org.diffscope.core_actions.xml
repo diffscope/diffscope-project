@@ -90,24 +90,11 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.workspace.default&amp;Layout" category="Workspace" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.&amp;customLayouts" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
         <action id="org.diffscope.core.workspace.saveLayout" category="Workspace" text="&amp;Save Current Layout As..." diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;allPanels" category="Workspace" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelLeftTop" category="Workspace" text="None (Left Top)" shortcut="Ctrl+Alt+1" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelLeftBottom" category="Workspace" text="None (Left Bottom)" shortcut="Ctrl+Alt+2" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelRightTop" category="Workspace" text="None (Right Top)" shortcut="Ctrl+Alt+3" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelRightBottom" category="Workspace" text="None (Right Bottom)" shortcut="Ctrl+Alt+4" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelTopLeft" category="Workspace" text="None (Top Left)" shortcut="Ctrl+Alt+5" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelTopRight" category="Workspace" text="None (Top Right)" shortcut="Ctrl+Alt+6" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelBottomLeft" category="Workspace" text="None (Bottom Left)" shortcut="Ctrl+Alt+7" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.panelBottomRight" category="Workspace" text="None (Bottom Right)" shortcut="Ctrl+Alt+8" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;floatingPanels" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.dockActionToSideBar" category="Workspace" text="Add &amp;New Panel or Action" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.&amp;allPanels" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.activePanels" category="Workspace" text="Active &amp;Panel" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
 
         <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" category="View" text="Always Show &amp;Menu Bar" description="Show or hide the main menu bar" />
         <action id="org.diffscope.core.view.showToo&amp;lBar" category="View" description="Show or hide the main tool bar" />
-        <action id="org.diffscope.core.view.show&amp;LeftSideBar" category="View" description="Show or hide the left side bar" />
-        <action id="org.diffscope.core.view.show&amp;RightSideBar" category="View" description="Show or hide the right side bar" />
-        <action id="org.diffscope.core.view.show&amp;TopSideBar" category="View" description="Show or hide the top side bar" />
-        <action id="org.diffscope.core.view.show&amp;BottomSideBar" category="View" description="Show or hide the bottom side bar" />
         <action id="org.diffscope.core.view.show&amp;StatusBar" category="View" description="Show or hide the status bar" />
 
         <action id="org.diffscope.core.insert.addTrack" category="Insert" icon="list_bar_add" />
@@ -161,12 +148,19 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.selectionIndicator" category="Core" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.core.notificationErrorIndicator" category="Core" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.core.panel.properties" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="properties" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.properties.show" category="Panel" text="Show Properties" />
         <action id="org.diffscope.core.panel.plugins" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.plugins.show" category="Panel" text="Show Plugins" />
         <action id="org.diffscope.core.panel.singers" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="mic" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.singers.show" category="Panel" text="Show Singer Picker" />
         <action id="org.diffscope.core.panel.notifications" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.notifications.show" category="Panel" text="Show Notifications" />
         <action id="org.diffscope.core.panel.tips" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.core.panel.tips.show" category="Panel" text="Show Tips" />
         <action id="org.diffscope.core.panel.recentFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="history" triggerable="false" diffscope:componentType="custom" />
+        <action id="org.diffscope.core.panel.recentFiles.show" category="Panel" text="Show Recent Files" />
         <action id="org.diffscope.core.panel.recoveryFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_sync" triggerable="false" diffscope:componentType="custom" />
+        <action id="org.diffscope.core.panel.recoveryFiles.show" category="Panel" text="Show Recovery Files" />
         <action id="org.diffscope.core.widget.digitalClock" category="Widget" triggerable="false" diffscope:componentType="widget"/>
         <action id="org.diffscope.core.widget.tempoTimeSignatureIndicator" category="Widget" triggerable="false" diffscope:componentType="widget"/>
 
@@ -197,8 +191,6 @@ SPDX-License-Identifier: Apache-2.0
         <menu id="org.diffscope.core.&amp;view" />
         <group id="org.diffscope.core.workspaceActions" />
         <group id="org.diffscope.core.workspaceLayouts" />
-        <menu id="org.diffscope.core.openedDockingPanels" text="Opened &amp;Docking Panels" />
-        <action id="org.diffscope.core.dockActionToSideBar" category="Core" />
         <group id="org.diffscope.core.viewVisibilityActions" />
         <menu id="org.diffscope.core.&amp;window" />
         <group id="org.diffscope.core.window.projectWindowActions" />
@@ -334,27 +326,12 @@ SPDX-License-Identifier: Apache-2.0
                     </group>
                     <separator />
                     <action id="org.diffscope.core.workspace.allPanels" />
-                    <menu id="org.diffscope.core.openedDockingPanels">
-                        <action id="org.diffscope.core.workspace.panelLeftTop" />
-                        <action id="org.diffscope.core.workspace.panelLeftBottom" />
-                        <action id="org.diffscope.core.workspace.panelRightTop" />
-                        <action id="org.diffscope.core.workspace.panelRightBottom" />
-                        <action id="org.diffscope.core.workspace.panelTopLeft" />
-                        <action id="org.diffscope.core.workspace.panelTopRight" />
-                        <action id="org.diffscope.core.workspace.panelBottomLeft" />
-                        <action id="org.diffscope.core.workspace.panelBottomRight" />
-                    </menu>
-                    <action id="org.diffscope.core.workspace.floatingPanels" />
+                    <action id="org.diffscope.core.workspace.activePanels" />
                     <separator />
-                    <action id="org.diffscope.core.dockActionToSideBar" />
                 </group>
                 <group id="org.diffscope.core.viewVisibilityActions">
                     <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" />
                     <action id="org.diffscope.core.view.showToolBar" />
-                    <action id="org.diffscope.core.view.showLeftSideBar" />
-                    <action id="org.diffscope.core.view.showRightSideBar" />
-                    <action id="org.diffscope.core.view.showTopSideBar" />
-                    <action id="org.diffscope.core.view.showBottomSideBar" />
                     <action id="org.diffscope.core.view.showStatusBar" />
                 </group>
             </menu>

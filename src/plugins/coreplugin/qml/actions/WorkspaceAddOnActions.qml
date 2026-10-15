@@ -2,295 +2,229 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import QtQml
+import QtQml.Models
 import QtQuick
 import QtQuick.Controls
 
-import SVSCraft.UIComponents
-import SVSCraft.UIComponents.impl
-
 import QActionKit
 
-import DiffScope.UIShell
+import SVSCraft.UIComponents
+
 import DiffScope.Core
 
 ActionCollection {
-    id: d
-
+    id: collection
     required property QtObject addOn
     required property QtObject helper
-    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
-    readonly property Window window: windowHandle?.window ?? null
+    readonly property QtObject session: addOn?.session ?? null
+    readonly property bool usable: Boolean(addOn && session && !session.shuttingDown)
+
+    component PanelStateMenu: Menu {
+        id: panelMenu
+        required property var entry
+        readonly property DockingPanel panel: entry?.panel ?? null
+        readonly property bool hideAllowed: panel?.group?.canHide(panel) ?? false
+        readonly property string stateText: panel?.shown ? qsTr("Shown") : panel?.group ? qsTr("Hidden") : qsTr("Unplaced")
+        title: qsTr("%1 (%2)").arg(entry.text).arg(stateText)
+        icon.source: entry.iconSource
+        enabled: collection.usable
+
+        Binding {
+            target: panelMenu
+            property: "icon.color"
+            value: panelMenu.entry.iconColor
+            when: panelMenu.entry.iconColor.valid
+        }
+
+        MenuItem {
+            text: qsTr("Show and Activate")
+            checkable: true
+            autoExclusive: true
+            checked: panelMenu.panel?.shown ?? false
+            enabled: collection.usable && !collection.session.busy
+            onTriggered: collection.session.showPanel(panelMenu.entry.id)
+        }
+
+        Instantiator {
+            model: panelMenu.panel?.shown ? 1 : 0
+            delegate: MenuItem {
+                text: qsTr("Hide and Keep Tab")
+                enabled: collection.usable && !collection.session.busy && panelMenu.hideAllowed
+                DescriptiveText.statusTip: !panelMenu.hideAllowed ? qsTr("This panel group requires a visible panel.") : ""
+                onTriggered: collection.session.context.hide(panelMenu.panel)
+            }
+            onObjectAdded: (index, object) => panelMenu.insertItem(1, object)
+            onObjectRemoved: (index, object) => panelMenu.removeItem(object)
+        }
+
+        MenuItem {
+            text: qsTr("Remove from Workspace")
+            checkable: true
+            autoExclusive: true
+            checked: !panelMenu.panel?.group
+            enabled: collection.usable && Boolean(panelMenu.panel?.group) && !collection.session.busy
+            onTriggered: collection.session.context.remove(panelMenu.panel)
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("Float")
+            enabled: collection.usable && Boolean(panelMenu.panel) && !collection.session.busy
+            onTriggered: collection.session.context.requestFloat(panelMenu.panel)
+        }
+
+        MenuItem {
+            text: qsTr("Reload Panel")
+            enabled: collection.usable && Boolean(panelMenu.panel?.contentItem) && !collection.session.busy
+            onTriggered: collection.session.retryPanel(panelMenu.entry.id)
+        }
+    }
 
     ActionItem {
         actionId: "org.diffscope.core.workspace.workspaceLayout"
+
         Action {
-            onTriggered: () => {
-                d.addOn.showWorkspaceLayoutCommand()
-            }
+            enabled: collection.usable
+            onTriggered: collection.addOn.showWorkspaceLayoutCommand()
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.workspace.defaultLayout"
+
         Action {
-            onTriggered: () => {
-                d.addOn.workspaceManager.currentLayout = d.addOn.workspaceManager.defaultLayout
+            enabled: collection.usable
+            onTriggered: collection.addOn.workspaceManager.currentLayout = collection.addOn.workspaceManager.defaultLayout
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.core.workspace.saveLayout"
+
+        Action {
+            enabled: collection.usable && !collection.session.busy
+            onTriggered: {
+                collection.addOn.saveCurrentLayout()
+                collection.helper.promptSaveLayout(collection.addOn.workspaceManager.currentLayout, "")
             }
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.workspace.customLayouts"
-        Menu {
-            readonly property list<var> customLayouts: d.addOn.workspaceManager.customLayouts
-            readonly property Component customLayoutAction: Menu {
-                id: menu
-                required property var layout
-                title: layout?.name ?? ""
-                Action {
-                    text: qsTr("&Apply")
-                    onTriggered: () => {
-                        d.addOn.workspaceManager.currentLayout = layout
-                    }
-                }
-                Action {
-                    text: qsTr("&Rename")
-                    onTriggered: () => {
-                        Qt.callLater(() => d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, layout.name))
-                    }
-                }
-                Action {
-                    text: qsTr("&Delete")
-                    onTriggered: () => {
-                        Qt.callLater(() => d.helper.promptDeleteLayout(layout.name))
-                    }
-                }
-            }
-            readonly property Component dummyAction: Action {
-                enabled: false
-                text: qsTr("None")
-            }
-            onCustomLayoutsChanged: () => {
-                while (count) {
-                    if (!itemAt(0))
-                        takeItem(0)
-                    removeItem(itemAt(0))
-                }
-                if (customLayouts.length === 0) {
-                    let action = dummyAction.createObject(this)
-                    addAction(action)
-                    return
-                }
-                for (let o of customLayouts) {
-                    let action = customLayoutAction.createObject(this, {layout: o})
-                    addMenu(action)
-                }
-            }
-        }
-    }
 
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.saveLayout"
-        Action {
-            onTriggered: () => {
-                d.helper.saveCurrentLayout()
-                Qt.callLater(() => d.helper.promptSaveLayout(d.addOn.workspaceManager.currentLayout, ""))
+        Menu {
+            id: layouts
+
+            Instantiator {
+                model: collection.addOn?.workspaceManager?.customLayouts ?? []
+                delegate: Menu {
+                    required property var modelData
+                    title: modelData.name
+
+                    MenuItem {
+                        text: qsTr("Apply")
+                        onTriggered: collection.addOn.workspaceManager.currentLayout = modelData
+                    }
+
+                    MenuItem {
+                        text: qsTr("Rename")
+                        onTriggered: collection.helper.promptSaveLayout(modelData, modelData.name)
+                    }
+
+                    MenuItem {
+                        text: qsTr("Delete")
+                        onTriggered: collection.helper.promptDeleteLayout(modelData.name)
+                    }
+                }
+                onObjectAdded: (index, object) => layouts.insertMenu(index, object)
+                onObjectRemoved: (index, object) => layouts.removeMenu(object)
             }
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.workspace.allPanels"
+
         Menu {
-            readonly property list<QtObject> allPanes: d.helper.allPanes
-            readonly property Component panelAction: Action {
-                required property QtObject dockingPane
-                text: dockingPane?.title ?? ""
-                icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
-                onTriggered: () => {
-                    dockingPane.Docking.dockingView.togglePane(dockingPane)
+            id: allPanels
+
+            Instantiator {
+                model: (collection.addOn?.panelEntries ?? []).filter(entry => entry.available)
+                delegate: PanelStateMenu {
+                    required property var modelData
+                    entry: modelData
                 }
+                onObjectAdded: (index, object) => allPanels.insertMenu(index, object)
+                onObjectRemoved: (index, object) => allPanels.removeMenu(object)
             }
-            onAllPanesChanged: () => {
-                while (count) {
-                    if (!itemAt(0))
-                        takeItem(0)
-                    removeItem(itemAt(0))
-                }
-                if (allPanes.length === 0) {
-                    let action = panelAction.createObject(this, {
-                        dockingPane: null,
-                        enabled: false,
-                        text: qsTr("None")
-                    })
-                    addAction(action)
-                    return
-                }
-                for (let o of allPanes) {
-                    let action = panelAction.createObject(this, {dockingPane: o})
-                    addAction(action)
-                }
-            }
-        }
-    }
 
-    component WorkspacePanelAction: Action {
-        id: action
-        required property int panelPosition
-        readonly property QtObject currentPane: d.helper.dockingPanes[panelPosition]
-        enabled: currentPane !== null
-        readonly property string baseText: [
-            qsTr("%1 (Left Top)"),
-            qsTr("%1 (Left Bottom)"),
-            qsTr("%1 (Right Top)"),
-            qsTr("%1 (Right Bottom)"),
-            qsTr("%1 (Top Left)"),
-            qsTr("%1 (Top Right)"),
-            qsTr("%1 (Bottom Left)"),
-            qsTr("%1 (Bottom Right)"),
-        ][panelPosition]
-        icon: GlobalHelper.defaultIcon()
-        readonly property Binding binding: Binding {
-            when: action.currentPane !== null
-            action.text: action.baseText.arg(action.currentPane.title)
-            action.icon: action.currentPane.icon
-        }
-        onTriggered: () => {
-            d.helper.activePanel = panelPosition
-            d.helper.activeUndockedPane = null
-            d.window.requestActivate()
-        }
-    }
+            Menu {
+                id: unavailablePanels
+                title: qsTr("Unavailable Panels")
+                enabled: unavailableRepeater.count > 0
 
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelLeftTop"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.LeftTop
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelLeftBottom"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.LeftBottom
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelRightTop"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.RightTop
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelRightBottom"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.RightBottom
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelTopLeft"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.TopLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelTopRight"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.TopRight
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelBottomLeft"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.BottomLeft
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.panelBottomRight"
-        WorkspacePanelAction {
-            panelPosition: WorkspaceAddOnHelper.BottomRight
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.workspace.floatingPanels"
-        Menu {
-            readonly property list<QtObject> floatingPanes: d.helper.floatingPanes
-            readonly property Component floatingPanelAction: Action {
-                required property QtObject dockingPane
-                text: dockingPane?.title ?? ""
-                icon: dockingPane?.icon ?? GlobalHelper.defaultIcon()
-                onTriggered: () => {
-                    let window = dockingPane.Window.window
-                }
-            }
-            onFloatingPanesChanged: () => {
-                while (count) {
-                    if (!itemAt(0))
-                        takeItem(0)
-                    removeItem(itemAt(0))
-                }
-                if (floatingPanes.length === 0) {
-                    let action = floatingPanelAction.createObject(this, {
-                        dockingPane: null,
-                        enabled: false,
-                        text: qsTr("None")
-                    })
-                    addAction(action)
-                    return
-                }
-                for (let o of floatingPanes) {
-                    let action = floatingPanelAction.createObject(this, {dockingPane: o})
-                    addAction(action)
-                }
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.dockActionToSideBar"
-        Menu {
-            readonly property list<var> panelEntries: d.addOn.panelEntries
-            readonly property Component addActionActionComponent: Action {
-                text: qsTr("Add Action...")
-            }
-            readonly property Component panelEntryActionComponent: Action {
-                required property var panelEntry
-                text: panelEntry.text
-                icon.source: panelEntry.iconSource
-                icon.color: panelEntry.iconColor.valid ? panelEntry.iconColor : !enabled ? Theme.controlDisabledColorChange.apply(Theme.foregroundPrimaryColor) : Theme.foregroundPrimaryColor
-                enabled: !panelEntry.unique || !d.helper.allPanes.some(o => o.ActionInstantiator.id === panelEntry.id)
-                onTriggered: () => {
-                    let o = d.windowHandle.actionContext.action(panelEntry.id)?.createObject(null)
-                    if (!o || !(o instanceof Action || o instanceof DockingPane)) {
-                        MessageBox.critical(qsTr("Error"), qsTr('Failed to create panel "%1"').arg(panelEntry.text))
-                        if (o)
-                            o.destroy()
-                        return
+                Instantiator {
+                    id: unavailableRepeater
+                    model: (collection.addOn?.panelEntries ?? []).filter(entry => !entry.available)
+                    delegate: PanelStateMenu {
+                        required property var modelData
+                        entry: modelData
                     }
-                    d.windowHandle.actionContext.attachActionInfo(panelEntry.id, o)
-                    d.helper.promptAddAction(o)
+                    onObjectAdded: (index, object) => unavailablePanels.insertMenu(index, object)
+                    onObjectRemoved: (index, object) => unavailablePanels.removeMenu(object)
                 }
-            }
-            onPanelEntriesChanged: () => {
-                while (count) {
-                    if (!itemAt(0))
-                        takeItem(0)
-                    removeItem(itemAt(0))
-                }
-                for (let entry of panelEntries) {
-                    let action = panelEntryActionComponent.createObject(this, {panelEntry: entry})
-                    addAction(action)
-                }
-                addAction(addActionActionComponent.createObject(this))
             }
         }
     }
 
+    ActionItem {
+        actionId: "org.diffscope.core.workspace.activePanels"
+
+        Menu {
+            id: activePanels
+
+            Instantiator {
+                model: activePanelRepeater.count === 0 ? 1 : 0
+                delegate: MenuItem {
+                    text: qsTr("No Open Panels")
+                    enabled: false
+                }
+                onObjectAdded: (index, object) => activePanels.insertItem(0, object)
+                onObjectRemoved: (index, object) => activePanels.removeItem(object)
+            }
+
+            Instantiator {
+                id: activePanelRepeater
+                model: (collection.addOn?.panelEntries ?? []).filter(entry => entry.panel?.shown)
+                delegate: MenuItem {
+                    required property var modelData
+                    text: modelData.text
+                    icon.source: modelData.iconSource
+                    checkable: true
+                    autoExclusive: true
+                    checked: collection.session?.context?.activePanel === modelData.panel
+                    enabled: collection.usable && !collection.session.busy
+                    onTriggered: collection.session.context.activate(modelData.panel)
+                }
+                onObjectAdded: (index, object) => activePanels.insertItem(index, object)
+                onObjectRemoved: (index, object) => activePanels.removeItem(object)
+            }
+        }
+    }
+
+    readonly property Instantiator showCommands: Instantiator {
+        model: collection.addOn?.registeredPanelIds ?? []
+        delegate: QtObject {
+            required property string modelData
+
+            readonly property Component actionComponent: Action {
+                enabled: collection.usable && !collection.session.busy
+                onTriggered: collection.session.showPanel(modelData)
+            }
+            Component.onCompleted: if (collection.usable)
+                collection.addOn.windowHandle.actionContext.addAction(modelData + ".show", actionComponent)
+        }
+    }
 }

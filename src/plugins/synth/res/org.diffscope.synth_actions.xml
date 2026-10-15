@@ -26,10 +26,10 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 text="Synthesis Services"
                 icon="music_note_2_pulse"
                 catalog="org.diffscope.core.workspacePanelWidgets"
-                diffscope:uniquePanel="true"
                 triggerable="false"
                 diffscope:componentType="custom"
         />
+        <action id="org.diffscope.synth.panel.services.show" category="Panel" text="Show Synthesis Services" />
         <action
                 id="org.diffscope.synth.status"
                 category="Synth"

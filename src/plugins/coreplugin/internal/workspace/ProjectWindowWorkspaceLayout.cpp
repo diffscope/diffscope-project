@@ -3,93 +3,84 @@
 
 #include "ProjectWindowWorkspaceLayout.h"
 
-#include <algorithm>
-#include <iterator>
-#include <ranges>
+#include <functional>
 
-#include <QVariant>
+#include <QSet>
+
+#include <SVSCraftQuick/DockingLayout.h>
 
 namespace Core::Internal {
-    ProjectWindowWorkspaceLayout::PanelSpec::operator QVariant() const {
-        return QVariantMap{
-            {"id", id},
-            {"dock", dock},
-            {"opened", opened},
-            {"geometry", geometry},
-            {"data", data},
-        };
-    }
-    ProjectWindowWorkspaceLayout::PanelSpec &ProjectWindowWorkspaceLayout::PanelSpec::operator=(const QVariant &variant) {
-        auto map = variant.toMap();
-        id = map.value("id").toString();
-        dock = map.value("dock").toBool();
-        opened = map.value("opened").toBool();
-        geometry = map.value("geometry").toRect();
-        data = map.value("data");
-        return *this;
-    }
-    ProjectWindowWorkspaceLayout::ViewSpec::operator QVariant() const {
-        return QVariantMap{
-            {"panels", QVariantList(panels.cbegin(), panels.cend())},
-            {"width", width},
-            {"height", height},
-            {"visibleIndex", visibleIndex},
-        };
-    }
-    ProjectWindowWorkspaceLayout::ViewSpec &ProjectWindowWorkspaceLayout::ViewSpec::operator=(const QVariant &variant) {
-        auto map = variant.toMap();
-        auto panelsVariantList = map.value("panels").toList();
-        panels = QList<PanelSpec>(panelsVariantList.cbegin(), panelsVariantList.cend());
-        width = map.value("width").toDouble();
-        height = map.value("height").toDouble();
-        visibleIndex = map.value("visibleIndex").toInt();
-        return *this;
-    }
     QString ProjectWindowWorkspaceLayout::name() const {
         return m_name;
     }
+
     void ProjectWindowWorkspaceLayout::setName(const QString &name) {
         m_name = name;
     }
-    ProjectWindowWorkspaceLayout::ViewSpec ProjectWindowWorkspaceLayout::viewSpec(PanelPosition position) const {
-        if (position >= m_viewSpecMap.size()) {
-            return {};
-        }
-        return m_viewSpecMap.at(position);
+
+    QVariantMap ProjectWindowWorkspaceLayout::state() const {
+        return m_state;
     }
-    void ProjectWindowWorkspaceLayout::setViewSpec(PanelPosition position, const ViewSpec &viewSpec) {
-        if (position >= m_viewSpecMap.size()) {
-            m_viewSpecMap.resize(position + 1);
-        }
-        m_viewSpecMap[position] = viewSpec;
+
+    void ProjectWindowWorkspaceLayout::setState(const QVariantMap &state) {
+        m_state = state;
     }
-    void ProjectWindowWorkspaceLayout::setViewSpecFromJavaScript(const QJSValue &viewSpecJSArray) {
-        m_viewSpecMap.clear();
-        for (int i = LeftTop; i <= BottomRight; i++) {
-            auto viewSpec = viewSpecJSArray.property(i).toVariant(QJSValue::ConvertJSObjects);
-            setViewSpec(static_cast<PanelPosition>(i), viewSpec);
+
+    bool ProjectWindowWorkspaceLayout::isValid() const {
+        if (m_name.isEmpty() || !m_state.contains("mainRoot")
+            || !m_state.value("floatingHosts").canConvert<QVariantList>()
+            || !m_state.value("panelStates").canConvert<QVariantMap>()
+            || m_state.value("floatingHosts").toList().size() > 128)
+            return false;
+
+        QSet<QString> panels, shown, hosts;
+        hosts.insert("main");
+        std::function<bool(const SVS::DockingNodeState &)> unique = [&](const auto &node) {
+            for (const auto &side : node.panelIds)
+                for (const auto &id : side) {
+                    if (panels.contains(id))
+                        return false;
+                    panels.insert(id);
+                }
+            for (const auto &id : node.selected)
+                if (!id.isEmpty())
+                    shown.insert(id);
+            for (const auto &child : node.children)
+                if (!unique(child))
+                    return false;
+            return true;
+        };
+        auto check = [&](const QVariant &root) {
+            if (!root.canConvert<QVariantMap>())
+                return false;
+            auto state = SVS::DockingLayoutState::fromVariant(root.toMap());
+            return SVS::DockingLayout::validateState(state).accepted() && (!state.hasRoot || unique(state.root));
+        };
+        if (!check(m_state.value("mainRoot")))
+            return false;
+        for (const auto &value : m_state.value("floatingHosts").toList()) {
+            auto host = value.toMap();
+            auto id = host.value("hostId").toString();
+            auto rect = host.value("normalGeometry").toRect();
+            if (id.isEmpty() || hosts.contains(id) || host.value("root").toMap().isEmpty() || rect.width() <= 0 || rect.height() <= 0 || !check(host.value("root")))
+                return false;
+            hosts.insert(id);
         }
+        auto active = m_state.value("activePanelId").toString();
+        return active.isEmpty() || shown.contains(active);
     }
 
     QVariant ProjectWindowWorkspaceLayout::toVariant() const {
-        return QVariantMap{
-            {"name", m_name},
-            {"viewSpecMap", QVariantList(m_viewSpecMap.cbegin(), m_viewSpecMap.cend())}
-        };
+        auto v = m_state;
+        v.insert("name", m_name);
+        return v;
     }
+
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceLayout::fromVariant(const QVariant &variant) {
-        auto map = variant.toMap();
-        if (!map.contains("name") || !map.contains("viewSpecMap")) {
-            return {};
-        }
-        auto name = map.value("name").toString();
-        if (name.isEmpty()) {
-            return {};
-        }
         ProjectWindowWorkspaceLayout layout;
-        layout.m_name = name;
-        auto viewSpecVariantList = map.value("viewSpecMap").toList();
-        layout.m_viewSpecMap = QList<ViewSpec>(viewSpecVariantList.cbegin(), viewSpecVariantList.cend());
-        return layout;
+        auto map = variant.toMap();
+        layout.m_name = map.take("name").toString();
+        layout.m_state = map;
+        return layout.isValid() ? layout : ProjectWindowWorkspaceLayout{};
     }
 }

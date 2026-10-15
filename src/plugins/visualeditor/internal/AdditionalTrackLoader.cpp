@@ -5,9 +5,13 @@
 
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
-#include <QQuickItem>
 #include <QLoggingCategory>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQuickItem>
+#include <QSet>
 #include <QUrl>
 
 #include <QAKCore/actionregistry.h>
@@ -38,22 +42,24 @@ namespace VisualEditor::Internal {
     QStringList AdditionalTrackLoader::loadedComponents() const {
         QStringList list;
         list.reserve(m_loaded.size());
-        std::ranges::transform(m_loaded, std::back_inserter(list), [](const auto &p) {
-            return p.first;
-        });
+        for (const auto &[id, item] : m_loaded)
+            if (item)
+                list.append(id);
         return list;
     }
 
-    QList<QQuickItem*> AdditionalTrackLoader::loadedItems() const {
-        QList<QQuickItem*> list;
+    QList<QQuickItem *> AdditionalTrackLoader::loadedItems() const {
+        QList<QQuickItem *> list;
         list.reserve(m_loaded.size());
-        std::ranges::transform(m_loaded, std::back_inserter(list), [](const auto &p) {
-            return p.second;
-        });
+        for (const auto &[id, item] : m_loaded)
+            if (item)
+                list.append(item.data());
         return list;
     }
 
     void AdditionalTrackLoader::moveUp(const QString &id) {
+        if (m_prepared)
+            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -68,6 +74,8 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::moveDown(const QString &id) {
+        if (m_prepared)
+            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -82,6 +90,8 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::loadItem(const QString &id) {
+        if (m_prepared)
+            return;
         if (std::ranges::any_of(m_loaded, [&id](const auto &p) { return p.first == id; }))
             return;
 
@@ -95,6 +105,8 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::removeItem(const QString &id) {
+        if (m_prepared)
+            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -102,7 +114,8 @@ namespace VisualEditor::Internal {
             return;
         auto item = it->second;
         m_loaded.erase(it);
-        item->deleteLater();
+        if (item)
+            item->deleteLater();
         Q_EMIT loadedComponentsChanged();
         Q_EMIT loadedItemsChanged();
     }
@@ -111,6 +124,7 @@ namespace VisualEditor::Internal {
         auto info = Core::CoreInterface::actionRegistry()->actionInfo(id);
         return info ? info->text().toString() : QString();
     }
+
     QUrl AdditionalTrackLoader::componentIcon(const QString &id) {
         auto icon = Core::CoreInterface::actionRegistry()->actionIcon("", id, id);
         return icon ? icon->url() : QUrl();
@@ -123,19 +137,20 @@ namespace VisualEditor::Internal {
     }
 
     QQuickItem *AdditionalTrackLoader::createItem(const QString &id) {
-        Q_UNUSED(id)
         if (!m_contextObject)
             return nullptr;
         auto windowInterface = m_contextObject->property("windowHandle").value<Core::ProjectWindowInterface *>();
-        Q_ASSERT(windowInterface);
+        if (!windowInterface)
+            return nullptr;
         auto component = windowInterface->actionContext()->action(id);
-        if (!component) {
+        if (!component || !component->isReady()) {
             qCWarning(lcAdditionalTrackLoader) << "Component" << id << "not found";
             return nullptr;
         }
         std::unique_ptr<QObject> object(component->createWithInitialProperties({
-            {"contextObject", QVariant::fromValue(m_contextObject)},
-        }, component->creationContext()));
+                                                                                   {"contextObject", QVariant::fromValue(m_contextObject.data())},
+                                                                               },
+                                                                               component->creationContext()));
         if (!object) {
             qCWarning(lcAdditionalTrackLoader) << "Failed to create component" << id << component->errorString();
             return nullptr;
@@ -147,7 +162,98 @@ namespace VisualEditor::Internal {
         }
         auto item = qobject_cast<QQuickItem *>(object.release());
         item->setParent(this);
+        QQmlEngine::setObjectOwnership(item, QQmlEngine::CppOwnership);
+        connect(item, &QObject::destroyed, this, [this, id] {
+            if (m_loaded.removeIf([&](const auto &entry) { return entry.first == id && entry.second.isNull(); })) {
+                Q_EMIT loadedComponentsChanged();
+                Q_EMIT loadedItemsChanged();
+            }
+        });
         return item;
+    }
+
+    bool AdditionalTrackLoader::prepareItems(const QStringList &ids) {
+        if (m_prepared)
+            return false;
+
+        QSet<QString> unique;
+        for (const auto &id : ids) {
+            if (!m_components.contains(id) || unique.contains(id))
+                return false;
+            unique.insert(id);
+        }
+
+        m_prepared = true;
+        m_originalLoaded = m_loaded;
+        for (const auto &id : ids) {
+            auto it = std::ranges::find_if(m_loaded, [&](const auto &entry) { return entry.first == id && entry.second; });
+            bool existing = it != m_loaded.end();
+            QPointer<QQuickItem> item = existing ? it->second.data() : createItem(id);
+            if (!item) {
+                abortPreparedItems();
+                return false;
+            }
+            if (!existing)
+                m_createdItems.append(item);
+            m_preparedLoaded.append({id, item});
+        }
+        return true;
+    }
+
+    bool AdditionalTrackLoader::commitPreparedItems() {
+        if (!m_prepared || m_committed)
+            return false;
+        if (std::ranges::any_of(m_preparedLoaded, [](const auto &entry) { return entry.second.isNull(); }))
+            return false;
+
+        bool changed = m_loaded != m_preparedLoaded;
+        m_loaded = m_preparedLoaded;
+        m_committed = true;
+        if (changed) {
+            Q_EMIT loadedComponentsChanged();
+            Q_EMIT loadedItemsChanged();
+        }
+        return true;
+    }
+
+    void AdditionalTrackLoader::finishPreparedItems() {
+        if (!m_prepared || !m_committed)
+            return;
+
+        for (const auto &entry : m_originalLoaded) {
+            if (!entry.second)
+                continue;
+            if (std::ranges::none_of(m_loaded, [&](const auto &current) { return current.second == entry.second; }))
+                entry.second->deleteLater();
+        }
+
+        m_originalLoaded.clear();
+        m_preparedLoaded.clear();
+        m_createdItems.clear();
+        m_prepared = false;
+        m_committed = false;
+    }
+
+    void AdditionalTrackLoader::abortPreparedItems() {
+        if (!m_prepared)
+            return;
+
+        bool changed = m_committed && m_loaded != m_originalLoaded;
+        if (m_committed)
+            m_loaded = m_originalLoaded;
+        for (auto item : m_createdItems)
+            if (item)
+                item->deleteLater();
+
+        m_originalLoaded.clear();
+        m_preparedLoaded.clear();
+        m_createdItems.clear();
+        m_prepared = false;
+        m_committed = false;
+        if (changed) {
+            Q_EMIT loadedComponentsChanged();
+            Q_EMIT loadedItemsChanged();
+        }
     }
 
 }

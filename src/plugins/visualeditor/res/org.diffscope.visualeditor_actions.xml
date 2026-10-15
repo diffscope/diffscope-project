@@ -78,9 +78,12 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" category="Piano Roll Panel" icon="highlight" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" category="Piano Roll Panel" icon="navigation" />
 
-        <action id="org.diffscope.visualeditor.panel.arrangement" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" diffscope:uniquePanel="true" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.visualeditor.panel.mixer" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" diffscope:uniquePanel="true" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.visualeditor.panel.pianoRoll" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" diffscope:uniquePanel="true" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.arrangement" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.arrangement.show" category="Panel" text="Show Arrangement" />
+        <action id="org.diffscope.visualeditor.panel.mixer" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.mixer.show" category="Panel" text="Show Mixer" />
+        <action id="org.diffscope.visualeditor.panel.pianoRoll" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.pianoRoll.show" category="Panel" text="Show Piano Roll" />
 
         <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
         <phony id="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" />

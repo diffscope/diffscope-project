@@ -28,6 +28,7 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" category="Edit" shortcut="Ctrl+Alt+V" />
 
         <action id="org.diffscope.importexportmanager.panel.import" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_arrow_right" triggerable="false" diffscope:componentType="custom" />
+        <action id="org.diffscope.importexportmanager.panel.import.show" category="Panel" text="Show Import" />
 
         <group id="org.diffscope.importexportmanager.importExportActions" />
         <group id="org.diffscope.importexportmanager.importActions" />

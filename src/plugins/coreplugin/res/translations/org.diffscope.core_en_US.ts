@@ -506,26 +506,6 @@
         <translation>Show or hide the main tool bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6133"/>
-        <source>Show or hide the left side bar</source>
-        <translation>Show or hide the left side bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6134"/>
-        <source>Show or hide the right side bar</source>
-        <translation>Show or hide the right side bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6135"/>
-        <source>Show or hide the top side bar</source>
-        <translation>Show or hide the top side bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6136"/>
-        <source>Show or hide the bottom side bar</source>
-        <translation>Show or hide the bottom side bar</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6137"/>
         <source>Show or hide the status bar</source>
         <translation>Show or hide the status bar</translation>
@@ -1123,56 +1103,6 @@
         <translation>&amp;All Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5890"/>
-        <source>None (Left Top)</source>
-        <translation>None (Left Top)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5891"/>
-        <source>None (Left Bottom)</source>
-        <translation>None (Left Bottom)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5892"/>
-        <source>None (Right Top)</source>
-        <translation>None (Right Top)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5893"/>
-        <source>None (Right Bottom)</source>
-        <translation>None (Right Bottom)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5894"/>
-        <source>None (Top Left)</source>
-        <translation>None (Top Left)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5895"/>
-        <source>None (Top Right)</source>
-        <translation>None (Top Right)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5896"/>
-        <source>None (Bottom Left)</source>
-        <translation>None (Bottom Left)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5897"/>
-        <source>None (Bottom Right)</source>
-        <translation>None (Bottom Right)</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5898"/>
-        <source>&amp;Floating Panels</source>
-        <translation>&amp;Floating Panels</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5899"/>
-        <source>Add &amp;New Panel or Action</source>
-        <translation>Add &amp;New Panel or Action</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5916"/>
         <source>&amp;Notification List...</source>
         <translation type="unfinished">&amp;Notification List...</translation>
@@ -1275,26 +1205,6 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5901"/>
         <source>Show Too&amp;l Bar</source>
         <translation>Show Too&amp;l Bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5902"/>
-        <source>Show &amp;Left Side Bar</source>
-        <translation>Show &amp;Left Side Bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5903"/>
-        <source>Show &amp;Right Side Bar</source>
-        <translation>Show &amp;Right Side Bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5904"/>
-        <source>Show &amp;Top Side Bar</source>
-        <translation>Show &amp;Top Side Bar</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5905"/>
-        <source>Show &amp;Bottom Side Bar</source>
-        <translation>Show &amp;Bottom Side Bar</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5906"/>
@@ -1585,16 +1495,6 @@
         <translation>Workspace Layouts</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5971"/>
-        <source>Opened &amp;Docking Panels</source>
-        <translation>Opened &amp;Docking Panels</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5972"/>
-        <source>Dock Action to Side Bar</source>
-        <translation>Dock Action to Side Bar</translation>
-    </message>
-    <message>
         <source>Scroll Actions</source>
         <translation type="vanished">Scroll Actions</translation>
     </message>
@@ -1639,6 +1539,46 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5979"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>Tool Bar Timeline Navigation Actions</translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Active &amp;Panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Singer Picker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Recent Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.core_actions.xml"/>
+        <source>Show Recovery Files</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5036,6 +4976,11 @@ Continue to bounce?</translation>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
+    <message>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="23"/>
+        <source>%1 (Failed to Load)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LogPage</name>
@@ -5901,6 +5846,11 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <source>Remove from &quot;Recent Files&quot;</source>
         <translation type="unfinished">Remove from &quot;Recent Files&quot;</translation>
     </message>
+    <message>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="33"/>
+        <source>The recent files panel state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SegmentedRatioSlider</name>
@@ -6261,134 +6211,132 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="51"/>
-        <source>&amp;Apply</source>
-        <translation>&amp;Apply</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="57"/>
-        <source>&amp;Rename</source>
-        <translation>&amp;Rename</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="95"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="63"/>
-        <source>&amp;Delete</source>
-        <translation>&amp;Delete</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="96"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="71"/>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="124"/>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="243"/>
-        <source>None</source>
-        <translation>None</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="30"/>
+        <source>Show and Activate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="143"/>
-        <source>%1 (Left Top)</source>
-        <translation>%1 (Left Top)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="38"/>
+        <source>Hide and Keep Tab</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="144"/>
-        <source>%1 (Left Bottom)</source>
-        <translation>%1 (Left Bottom)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="47"/>
+        <source>Remove from Workspace</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="145"/>
-        <source>%1 (Right Top)</source>
-        <translation>%1 (Right Top)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="56"/>
+        <source>Float</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="146"/>
-        <source>%1 (Right Bottom)</source>
-        <translation>%1 (Right Bottom)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="61"/>
+        <source>Reload Panel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="147"/>
-        <source>%1 (Top Left)</source>
-        <translation>%1 (Top Left)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
+        <source>Shown</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="148"/>
-        <source>%1 (Top Right)</source>
-        <translation>%1 (Top Right)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="149"/>
-        <source>%1 (Bottom Left)</source>
-        <translation>%1 (Bottom Left)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
+        <source>Unplaced</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="150"/>
-        <source>%1 (Bottom Right)</source>
-        <translation>%1 (Bottom Right)</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="26"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="261"/>
-        <source>Add Action...</source>
-        <translation>Add Action...</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="43"/>
+        <source>This panel group requires a visible panel.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="272"/>
-        <source>Error</source>
-        <translation>Error</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="118"/>
+        <source>Unavailable Panels</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="272"/>
-        <source>Failed to create panel &quot;%1&quot;</source>
-        <translation>Failed to create panel &quot;%1&quot;</translation>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="138"/>
+        <source>No Open Panels</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WorkspaceAddOnHelper</name>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="76"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="29"/>
         <source>The current workspace does not contain any panels</source>
         <translation>The current workspace does not contain any panels</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="77"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="30"/>
         <source>Workspace data might be erroneous. You can try restoring the default workspace.</source>
         <translation>Workspace data might be erroneous. You can try restoring the default workspace.</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="79"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
         <source>Restore Default Workspace</source>
         <translation>Restore Default Workspace</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="233"/>
-        <source>Custom layout name</source>
-        <translation>Custom layout name</translation>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="53"/>
+        <source>Workspace Error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="238"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="71"/>
         <source>Name should not be empty</source>
         <translation>Name should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="245"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="72"/>
         <source>New name should not be the same as old name</source>
         <translation>New name should not be the same as old name</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="252"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="74"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>Custom presets with the same name will be overwritten</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="277"/>
-        <source>Delete</source>
-        <translation>Delete</translation>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
+        <source>Delete Layout</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="277"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>Delete layout &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="318"/>
-        <source>Drag to the sidebar to add &quot;%1&quot;</source>
-        <translation>Drag to the sidebar to add &quot;%1&quot;</translation>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="70"/>
+        <source>Custom Layout Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6564,6 +6512,75 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
     <message>
         <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
         <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspacePanelLoader</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="39"/>
+        <source>The panel request expired.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="41"/>
+        <source>The panel component was destroyed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="49"/>
+        <source>The panel component is not registered.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="50"/>
+        <source>The panel component is not ready.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="57"/>
+        <source>The panel component must provide a DockingPane.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="91"/>
+        <source>The panel rejected the workspace state in %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspaceSession</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="44"/>
+        <source>The panel could not be placed in the selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="95"/>
+        <source>The workspace layout is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="151"/>
+        <source>The workspace layout could not be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="235"/>
+        <source>The panel could not be moved to a floating window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewPanelsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="15"/>
+        <source>New Panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="26"/>
+        <source>Drag a panel to the workspace to place it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

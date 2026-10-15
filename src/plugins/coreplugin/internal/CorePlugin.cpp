@@ -72,6 +72,7 @@
 #include <coreplugin/internal/UndoAddOn.h>
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
+#include <coreplugin/internal/WorkspacePanelCatalog.h>
 
 #include <org.diffscope.core_actions.qak.h>
 
@@ -204,6 +205,9 @@ namespace Core::Internal {
     }
 
     void CorePlugin::extensionsInitialized() {
+        auto panelCatalog = new WorkspacePanelCatalog(this);
+        panelCatalog->capture();
+        RuntimeInterface::instance()->addObject(panelCatalog);
         RuntimeInterface::splash()->showMessage(tr("Plugins loading complete, preparing for subsequent initialization..."));
         initializeColorScheme();
         ActionConfiguration::get()->load();

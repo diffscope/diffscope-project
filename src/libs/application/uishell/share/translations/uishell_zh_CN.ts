@@ -628,26 +628,6 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <source>&amp;Main Menu</source>
         <translation type="unfinished">主菜单(&amp;M)</translation>
     </message>
-    <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="422"/>
-        <source>Left Docking View</source>
-        <translation>左侧停靠视图</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="456"/>
-        <source>Top Docking View</source>
-        <translation>顶部停靠视图</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="483"/>
-        <source>Bottom Docking View</source>
-        <translation>底部停靠视图</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="504"/>
-        <source>Right Docking View</source>
-        <translation>右侧停靠视图</translation>
-    </message>
 </context>
 <context>
     <name>SettingDialog</name>

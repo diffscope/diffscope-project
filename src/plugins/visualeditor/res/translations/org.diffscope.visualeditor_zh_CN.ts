@@ -481,6 +481,21 @@
         <source>New</source>
         <translation type="vanished">新建</translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Show Arrangement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Show Mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Show Piano Roll</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ArrangementAddOnActions</name>
@@ -1578,6 +1593,55 @@
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="940"/>
         <source>Resizing track</source>
         <translation>调整轨道大小</translation>
+    </message>
+</context>
+<context>
+    <name>ArrangementPanel</name>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="39"/>
+        <source>The arrangement panel state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="44"/>
+        <source>The arrangement panel tracks could not be prepared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="52"/>
+        <source>The arrangement panel tracks could not be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PianoRollPanel</name>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="43"/>
+        <source>The piano roll panel state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="49"/>
+        <source>The piano roll panel tracks could not be prepared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="64"/>
+        <source>The piano roll panel tracks could not be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="78"/>
+        <source>The piano roll split view state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MixerPanel</name>
+    <message>
+        <location filename="../../qml/panels/MixerPanel.qml" line="26"/>
+        <source>The mixer panel state is invalid.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -88,6 +88,9 @@ namespace Core::Internal {
         updateStatusText();
     }
     void NotificationAddOn::extensionsInitialized() {
+        auto window = windowHandle()->cast<ProjectWindowInterface>();
+        connect(this, &NotificationAddOn::showPanelRequested, this, [window] { window->triggerAction("org.diffscope.core.panel.notifications.show"); });
+        connect(this, &NotificationAddOn::_diffscope_statusTipTriggered, this, [window] { window->triggerAction("org.diffscope.core.panel.notifications.show"); });
     }
     bool NotificationAddOn::delayedInitialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();

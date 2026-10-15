@@ -37,10 +37,10 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 text="Effects (Experimental)"
                 icon="math_formula"
                 catalog="org.diffscope.core.workspacePanelWidgets"
-                diffscope:uniquePanel="true"
                 triggerable="false"
                 diffscope:componentType="custom"
         />
+        <action id="org.diffscope.audio.panel.effects.show" category="Panel" text="Show Effects" />
 
         <group id="org.diffscope.audio.exportAudioActions" />
         <group id="org.diffscope.audio.playbackActions" />

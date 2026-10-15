@@ -8,6 +8,7 @@ import QtQuick.Controls
 import QtQml.Models
 
 import SVSCraft
+import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 
@@ -16,32 +17,49 @@ ProjectWindow {
     visible: true
     icon: "qrc:/qt/qml/DiffScope/UIShell/Test/ProjectWindow/test_icon.png"
     documentName: "test.dspx"
+
     component ListHelper: QtObject {
         default property list<QtObject> list: []
     }
     menusModel: ObjectModel {
         Menu {
             title: "&Test 1"
-            Action { text: "aaa" }
-            Action { text: "bbb" }
+
+            Action {
+                text: "aaa"
+            }
+
+            Action {
+                text: "bbb"
+            }
         }
+
         Menu {
             title: "T&est 2"
-            Action { text: "aaa" }
-            Action { text: "bbb" }
+
+            Action {
+                text: "aaa"
+            }
+
+            Action {
+                text: "bbb"
+            }
         }
     }
     leftToolButtonsModel: ObjectModel {
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
+
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
+
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
+
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
@@ -50,70 +68,99 @@ ProjectWindow {
         Label {
             text: "status text"
         }
+
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
+
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
+
         ToolButton {
             icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
         }
     }
 
-    ListHelper {
-        id: leftHelper
-        DockingPane {
-            title: "Test 1"
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-        }
-        DockingStretch {
-        }
-        Action {
-            text: "Action 1"
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-        }
-        Action {
-            text: "Checkable Action 2"
-            checkable: true
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-        }
-    }
-    leftDockingView.contentData: leftHelper.list
+    property DockingContext dockingContext: DockingContext {}
 
-    ListHelper {
-        id: rightHelper
-        DockingPane {
-            title: "Test 2"
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-        }
-        DockingStretch {
-        }
+    property DockingHost dockingHost: DockingHost {
+        context: window.dockingContext
+        window: window
     }
-    rightDockingView.contentData: rightHelper.list
+    property list<DockingPane> panels: [
+        DockingPane {
+            panelKey: "first"
+            title: "First Panel"
+        },
 
-    ListHelper {
-        id: topHelper
         DockingPane {
-            title: "Test 3"
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
-        }
-        DockingStretch {
-        }
-    }
-    topDockingView.contentData: topHelper.list
+            panelKey: "second"
+            title: "Second Panel"
+        },
 
-    ListHelper {
-        id: bottomHelper
         DockingPane {
-            title: "Test 4"
-            icon.source: "qrc:/qt/qml/DiffScope/UIShell/assets/Grid16Filled.svg"
+            panelKey: "third"
+            title: "Third Panel"
+        },
+
+        DockingPane {
+            panelKey: "fourth"
+            title: "Fourth Panel"
         }
-        DockingStretch {
-        }
+    ]
+    workspaceContent: DockingView {
+        anchors.fill: parent
+        host: window.dockingHost
     }
-    bottomDockingView.contentData: bottomHelper.list
+    Component.onCompleted: {
+        for (const pane of panels)
+            dockingContext.registerPanel(pane.panel)
+        dockingHost.layout.restore({
+            kind: "split",
+            nodeId: "root",
+            orientation: Qt.Horizontal,
+            weights: [1, 3],
+            children: [
+                {
+                    kind: "group",
+                    nodeId: "side",
+                    tabBarEdge: Qt.LeftEdge,
+                    leading: {
+                        panelIds: ["first", "second"],
+                        selected: "first"
+                    }
+                },
+                {
+                    kind: "split",
+                    nodeId: "center",
+                    orientation: Qt.Vertical,
+                    weights: [2, 3],
+                    children: [
+                        {
+                            kind: "group",
+                            nodeId: "top",
+                            tabBarEdge: Qt.TopEdge,
+                            leading: {
+                                panelIds: ["third"],
+                                selected: "third"
+                            }
+                        },
+                        {
+                            kind: "group",
+                            nodeId: "bottom",
+                            tabBarEdge: Qt.BottomEdge,
+                            leading: {
+                                panelIds: ["fourth"],
+                                selected: "fourth"
+                            }
+                        }
+                    ]
+                }
+            ]
+        })
+    }
 
     property Component bubbleNotificationHandle: QtObject {
         property string title: "111"
@@ -127,9 +174,11 @@ ProjectWindow {
         property bool progressAbortable: false
         property bool permanentlyHideable: true
         property int textFormat: Text.AutoText
+
         function hideClicked() {
             bnm.remove(ObjectModel.index)
         }
+
         function hoverEntered() {
             console.log("hover entered")
         }
@@ -137,6 +186,7 @@ ProjectWindow {
 
     bubbleNotificationsModel: ObjectModel {
         id: bnm
+
         QtObject {
             property string title: "Test"
             property string text: 'This is a test <a href="aaa">link</a>'
@@ -148,14 +198,17 @@ ProjectWindow {
             property double progress: -1
             property bool progressAbortable: true
             property bool permanentlyHideable: true
-            function buttonClicked (index) {
+
+            function buttonClicked(index) {
                 bnm.append(window.bubbleNotificationHandle.createObject())
             }
-            function linkActivated (link) {
+
+            function linkActivated(link) {
                 console.log(link)
             }
             signal hoverEntered()
         }
+
         QtObject {
             property string title: "Error"
             property string text: ""
@@ -168,6 +221,7 @@ ProjectWindow {
             property bool progressAbortable: false
             property bool permanentlyHideable: true
         }
+
         QtObject {
             property string title: "Warning"
             property string text: "aaa"

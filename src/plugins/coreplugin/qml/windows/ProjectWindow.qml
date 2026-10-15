@@ -41,12 +41,6 @@ ProjectWindow {
         windowModified: windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep || windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave
     }
 
-    signal beforeTerminated()
-
-    onClosing: () => {
-        beforeTerminated()
-    }
-
     menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {
             actionId: "org.diffscope.core.mainMenu"

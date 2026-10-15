@@ -18,15 +18,6 @@ QtObject {
 
     readonly property Component notificationsPanelComponent: ActionDockingPane {
         id: pane
-        Connections {
-            target: d.addOn
-            function on_Diffscope_statusTipTriggered() {
-                pane.Docking.dockingView.showPane(pane)
-            }
-            function onShowPanelRequested() {
-                pane.Docking.dockingView.showPane(pane)
-            }
-        }
         Docking.onVisibleChanged: () => {
             if (Docking.visible)
                 d.addOn.deactivateIndicator()

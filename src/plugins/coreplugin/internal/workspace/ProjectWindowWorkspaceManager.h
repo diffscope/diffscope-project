@@ -32,7 +32,7 @@ namespace Core::Internal {
         void load();
         void save() const;
 
-    signals:
+    Q_SIGNALS:
         void currentLayoutChanged();
         void customLayoutsChanged();
 

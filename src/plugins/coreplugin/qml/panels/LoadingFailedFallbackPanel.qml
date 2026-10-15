@@ -19,10 +19,8 @@ DockingPane {
     required property bool componentRegistered
     required property string errorString
 
-    title: actionText + " " + "(Failed to load)"
+    title: qsTr("%1 (Failed to Load)").arg(actionText)
     icon.source: "image://fluent-system-icons/error_circle"
-    icon.width: 16
-    icon.height: 16
     icon.color: Theme.errorColor
 
     property var state

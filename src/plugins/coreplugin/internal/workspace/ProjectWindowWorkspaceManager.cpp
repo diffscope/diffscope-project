@@ -12,6 +12,8 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <SVSCraftQuick/DockingTypes.h>
+
 namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcProjectWindowWorkspaceManager, "diffscope.core.projectwindowworkspacemanager")
@@ -22,6 +24,7 @@ namespace Core::Internal {
     ProjectWindowWorkspaceManager::ProjectWindowWorkspaceManager(QObject *parent) : QObject(parent) {
         m_instances.insert(this);
     }
+
     ProjectWindowWorkspaceManager::~ProjectWindowWorkspaceManager() {
         m_instances.remove(this);
     }
@@ -29,88 +32,60 @@ namespace Core::Internal {
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceManager::currentLayout() const {
         return m_currentLayout;
     }
+
     void ProjectWindowWorkspaceManager::setCurrentLayout(const ProjectWindowWorkspaceLayout &layout) {
         m_currentLayout = layout;
-        emit currentLayoutChanged();
+        Q_EMIT currentLayoutChanged();
     }
+
     QList<ProjectWindowWorkspaceLayout> ProjectWindowWorkspaceManager::customLayouts() {
         return m_customLayouts;
     }
+
     void ProjectWindowWorkspaceManager::setCustomLayouts(const QList<ProjectWindowWorkspaceLayout> &layouts) {
-        auto oldLayouts = m_customLayouts;
         m_customLayouts = layouts;
         for (auto manager : m_instances) {
-            emit manager->customLayoutsChanged();
+            Q_EMIT manager->customLayoutsChanged();
         }
     }
+
     ProjectWindowWorkspaceLayout ProjectWindowWorkspaceManager::defaultLayout() {
+        using SVS::DockingNodeState;
+        auto group = [](const QString &id, Qt::Edge edge, const QStringList &leading, const QStringList &trailing, bool open, bool locked) {
+            DockingNodeState n;
+            n.nodeId = id;
+            n.tabBarEdge = edge;
+            n.panelIds[0] = leading;
+            n.selected[0] = open ? leading.value(0) : QString{};
+            n.lastSelected[0] = leading.value(0);
+            n.panelIds[1] = trailing;
+            n.lastSelected[1] = trailing.value(0);
+            n.widthLocked = locked;
+            return n;
+        };
+        auto top = group("arrangement", Qt::TopEdge, {"org.diffscope.visualeditor.panel.arrangement"}, {}, true, false);
+        auto bottom = group("editors", Qt::BottomEdge, {"org.diffscope.visualeditor.panel.pianoRoll", "org.diffscope.visualeditor.panel.mixer"}, {}, true, false);
+        auto right = group("right", Qt::RightEdge, {"org.diffscope.core.panel.properties", "org.diffscope.audio.panel.effects", "org.diffscope.core.panel.notifications", "org.diffscope.core.panel.plugins"}, {"org.diffscope.core.panel.singers", "org.diffscope.synth.panel.services", "org.diffscope.core.panel.recentFiles", "org.diffscope.core.panel.recoveryFiles"}, true, true);
+        right.lockedSize.setWidth(420);
+        DockingNodeState center;
+        center.kind = "split";
+        center.nodeId = "center";
+        center.orientation = Qt::Vertical;
+        center.children = {top, bottom};
+        center.weights = {2, 3};
+        DockingNodeState root;
+        root.kind = "split";
+        root.nodeId = "root";
+        root.children = {center, right};
+        root.weights = {2, 1};
         ProjectWindowWorkspaceLayout layout;
         layout.setName("_default");
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::LeftTop,
-            {{
-                {"org.diffscope.core.panel.singers", true},
-                {"org.diffscope.core.panel.recentFiles", true},
-                {"org.diffscope.core.panel.recoveryFiles", true},
-                {"org.diffscope.core.panel.plugins", true},
-             },
-             400,
-             400,
-             -1
-            }
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::LeftBottom,
-            {{}, 400, 400, -1
-            }
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::TopLeft,
-            {{{"org.diffscope.visualeditor.panel.arrangement", true}
-             },
-             400,
-             0.4,
-             0
-            }
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::TopRight,
-            {{}, 400, 0.4, -1}
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::BottomLeft,
-            {{{"org.diffscope.visualeditor.panel.pianoRoll", true},
-              {"org.diffscope.visualeditor.panel.mixer", true}
-             },
-             400,
-             0.4,
-             0
-            }
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::BottomRight,
-            {{}, 400, 0.4, -1}
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::RightTop,
-            {{
-                {"org.diffscope.core.panel.properties", true},
-                {"org.diffscope.synth.panel.services", true},
-                {"org.diffscope.core.panel.notifications", true},
-             },
-             400,
-             400,
-             0
-            }
-        );
-        layout.setViewSpec(
-            ProjectWindowWorkspaceLayout::RightBottom,
-            {{},
-             400,
-             150,
-             0
-            }
-        );
+        layout.setState({
+            {"mainRoot", root.toVariant()},
+            {"floatingHosts", QVariantList{}},
+            {"panelStates", QVariantMap{}},
+            {"activePanelId", "org.diffscope.visualeditor.panel.arrangement"}
+        });
         return layout;
     }
 
@@ -130,12 +105,14 @@ namespace Core::Internal {
         }
         auto customLayoutsVariants = map.value("customLayouts").toList();
         QList<ProjectWindowWorkspaceLayout> customLayouts;
-        std::ranges::transform(customLayoutsVariants | std::views::filter([](const auto &v) { return v.isValid(); }), std::back_inserter(customLayouts), [](const auto &v) {
+        std::ranges::transform(customLayoutsVariants, std::back_inserter(customLayouts), [](const auto &v) {
             return ProjectWindowWorkspaceLayout::fromVariant(v);
         });
         setCurrentLayout(currentLayout);
+        customLayouts.removeIf([](const auto &v) { return !v.isValid(); });
         setCustomLayouts(customLayouts);
     }
+
     void ProjectWindowWorkspaceManager::save() const {
         qCDebug(lcProjectWindowWorkspaceManager) << "Saving settings";
         auto settings = RuntimeInterface::settings();

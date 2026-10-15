@@ -14,6 +14,7 @@ import SVSCraft.UIComponents.impl
 
 Window {
     id: window
+    property alias workspaceContent: workspaceArea.data
     width: 1600
     height: 960
     minimumWidth: 360
@@ -31,7 +32,6 @@ Window {
     property ObjectModel rightToolButtonsModel: null
     property ObjectModel statusButtonsModel: null
     property ObjectModel bubbleNotificationsModel: null
-    property double topDockingViewHeightRatio: 0.5
     property bool useSeparatedMenu: false
     property bool useLeftSystemButton: false
 
@@ -46,13 +46,9 @@ Window {
     readonly property MenuBar menuBar: menuBar
     readonly property Item toolBar: toolBar
     readonly property Item statusBar: statusBar
-    readonly property DockingView leftDockingView: leftDock
-    readonly property DockingView rightDockingView: rightDock
-    readonly property DockingView topDockingView: topDock
-    readonly property DockingView bottomDockingView: bottomDock
     readonly property CommandPalette commandPalette: commandPalettePopup
     readonly property InputPalette inputPalette: inputPalettePopup
-    readonly property double popupTopMarginHint: mainPane.y + 2
+    readonly property double popupTopMarginHint: workspaceArea.y + 2
 
     property bool notificationEnablesAnimation: false
 
@@ -391,131 +387,11 @@ Window {
         PaneSeparator {
 
         }
-        Item {
-            id: mainPane
-            readonly property double minimumPanelSize: 64
+        Rectangle {
+            id: workspaceArea
             Layout.fillWidth: true
             Layout.fillHeight: true
-            SplitView {
-                anchors.fill: parent
-                ThemedItem.splitHandleEnabled: rightDock.panelOpened
-                ThemedItem.dividerStroke: {
-                    if (!rightDock.barVisible && !rightDock.panelOpened) {
-                        return SVS.DS_None
-                    }
-                    return rightDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
-                }
-                Accessible.ignored: true
-                SplitView {
-                    SplitView.minimumWidth: leftDock.SplitView.minimumWidth + mainPane.minimumPanelSize
-                    SplitView.fillWidth: true
-                    ThemedItem.splitHandleEnabled: leftDock.panelOpened
-                    ThemedItem.dividerStroke: {
-                        if (!leftDock.barVisible && !leftDock.panelOpened) {
-                            return SVS.DS_None
-                        }
-                        return leftDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
-                    }
-                    Accessible.ignored: true
-                    DockingView {
-                        id: leftDock
-                        Accessible.name: qsTr("Left Docking View")
-                        property double preferredPanelSize: 400
-                        SplitView.minimumWidth: barSize + (panelOpened ? mainPane.minimumPanelSize : 0)
-                        SplitView.preferredWidth: barSize + (panelOpened ? preferredPanelSize : 0)
-                        SplitView.maximumWidth: !panelOpened ? barSize : Infinity
-                        clip: true
-                        panelSize: width - barSize
-                        onPanelSizeChanged: () => {
-                            if (panelSize > 0)
-                                preferredPanelSize = panelSize
-                        }
-                        barBackgroundLevel: SVS.BL_Secondary
-                    }
-                    SplitView {
-                        id: middleSplitView
-                        orientation: Qt.Vertical
-                        SplitView.fillWidth: true
-                        SplitView.fillHeight: true
-                        SplitView.minimumWidth: mainPane.minimumPanelSize
-                        ThemedItem.splitHandleVisible: topDock.panelOpened || bottomDock.panelOpened
-                        ThemedItem.splitHandleEnabled: topDock.panelOpened && bottomDock.panelOpened
-                        ThemedItem.dividerStroke: {
-                            if ((!topDock.barVisible && !topDock.panelOpened) || (!bottomDock.barVisible && !bottomDock.panelOpened)) {
-                                return SVS.DS_None
-                            }
-                            return topDock.panelOpened && bottomDock.panelOpened ? SVS.DS_Splitter : SVS.DS_PaneSeparator
-                        }
-                        Accessible.ignored: true
-                        Item {
-                            SplitView.minimumHeight: !bottomDock.panelOpened ? middleSplitView.height - bottomDock.barSize - 1 : topDock.barSize + (topDock.panelOpened ? mainPane.minimumPanelSize : 0)
-                            SplitView.preferredHeight: window.topDockingViewHeightRatio * (middleSplitView.height - 1)
-                            SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !topDock.panelOpened ? topDock.barSize : Infinity)
-                            DockingView {
-                                id: topDock
-                                Accessible.name: qsTr("Top Docking View")
-                                width: parent.width
-                                anchors.top: parent.top
-                                edge: Qt.TopEdge
-                                readonly property double preferredPanelSize: window.topDockingViewHeightRatio * (middleSplitView.height - 1) - barSize
-                                panelSize: parent.height - barSize
-                                onPanelSizeChanged: () => {
-                                    if (middleSplitView.resizing) {
-                                        window.topDockingViewHeightRatio = height / (middleSplitView.height - 1)
-                                    }
-                                }
-                                barBackgroundLevel: SVS.BL_Secondary
-                            }
-                            Rectangle {
-                                width: parent.width
-                                height: 1
-                                anchors.top: topDock.bottom
-                                color: Theme.paneSeparatorColor
-                                visible: !topDock.panelOpened && topDock.barVisible
-                            }
-                        }
-                        Item {
-                            SplitView.minimumHeight: bottomDock.barSize + (bottomDock.panelOpened ? mainPane.minimumPanelSize : 0)
-                            SplitView.preferredHeight: middleSplitView.height - 1 - topDock.height
-                            SplitView.maximumHeight: Math.max(SplitView.minimumHeight, !bottomDock.panelOpened ? bottomDock.barSize : Infinity)
-                            DockingView {
-                                id: bottomDock
-                                Accessible.name: qsTr("Bottom Docking View")
-                                width: parent.width
-                                anchors.bottom: parent.bottom
-                                edge: Qt.BottomEdge
-                                readonly property double preferredPanelSize: (1 - window.topDockingViewHeightRatio) * (middleSplitView.height - 1)
-                                panelSize: parent.height - barSize
-                                barBackgroundLevel: SVS.BL_Secondary
-                            }
-                            Rectangle {
-                                width: parent.width
-                                height: 1
-                                anchors.bottom: bottomDock.top
-                                color: Theme.paneSeparatorColor
-                                visible: !bottomDock.panelOpened && bottomDock.barVisible
-                            }
-                        }
-                    }
-                }
-
-                DockingView {
-                    id: rightDock
-                    Accessible.name: qsTr("Right Docking View")
-                    SplitView.minimumWidth: barSize + (panelOpened ? mainPane.minimumPanelSize : 0)
-                    SplitView.preferredWidth: barSize + (panelOpened ? preferredPanelSize : 0)
-                    SplitView.maximumWidth: !panelOpened ? barSize : Infinity
-                    clip: true
-                    edge: Qt.RightEdge
-                    property double preferredPanelSize: 400
-                    panelSize: width - barSize
-                    onPanelSizeChanged: () => {
-                        if (panelSize > 0)
-                            preferredPanelSize = panelSize
-                    }
-                    barBackgroundLevel: SVS.BL_Secondary
-                }
-            }
+            color: Theme.backgroundPrimaryColor
         }
         PaneSeparator {
             visible: statusBar.visible

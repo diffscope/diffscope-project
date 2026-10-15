@@ -70,6 +70,11 @@
         <source>Separate Audio...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml"/>
+        <source>Show Synthesis Services</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ArchitecturePage</name>

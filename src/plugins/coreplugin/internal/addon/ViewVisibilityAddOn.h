@@ -25,10 +25,6 @@ namespace Core::Internal {
         enum ViewVisibilityOption {
             MenuBar,
             ToolBar,
-            LeftSideBar,
-            RightSideBar,
-            TopSideBar,
-            BottomSideBar,
             StatusBar,
         };
         Q_ENUM(ViewVisibilityOption)

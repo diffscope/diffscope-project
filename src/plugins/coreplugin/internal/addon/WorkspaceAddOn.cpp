@@ -6,210 +6,125 @@
 #include <algorithm>
 #include <ranges>
 
-#include <QLoggingCategory>
+#include <QDebug>
 #include <QQmlComponent>
-#include <QQmlEngine>
+#include <QSet>
+#include <QSignalBlocker>
 #include <QStandardItemModel>
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
-#include <coreplugin/CoreInterface.h>
+#include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftQuick/DockingContext.h>
+#include <SVSCraftQuick/DockingPanel.h>
+
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/ProjectWindowWorkspaceLayout.h>
 #include <coreplugin/internal/ProjectWindowWorkspaceManager.h>
-#include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/WorkspacePanelCatalog.h>
+#include <coreplugin/internal/WorkspaceSession.h>
 
 namespace Core::Internal {
-
-    Q_STATIC_LOGGING_CATEGORY(lcWorkspaceAddOn, "diffscope.core.workspaceaddon")
-
-    WorkspaceAddOn::WorkspaceAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        m_workspaceManager = new ProjectWindowWorkspaceManager(this);
+    WorkspaceAddOn::WorkspaceAddOn(QObject *parent) : WindowInterfaceAddOn(parent), m_workspaceManager(new ProjectWindowWorkspaceManager(this)) {
         m_workspaceManager->load();
     }
+
     WorkspaceAddOn::~WorkspaceAddOn() {
-        m_workspaceManager->save();
+        if (m_session)
+            m_session->shutdown();
+        delete m_actions.data();
+        delete m_helper.data();
     }
-    void WorkspaceAddOn::initialize() {
-        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        {
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
-            if (component.isError()) {
-                qFatal() << component.errorString();
-            }
-            m_helper = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}
-            });
-            if (!m_helper) {
-                qFatal() << component.errorString();
-            }
-            m_helper->setParent(windowInterface->window());
-        }
-        {
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
-            if (component.isError()) {
-                qFatal() << component.errorString();
-            }
-            auto o = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.get())}});
-            if (!o) {
-                qFatal() << component.errorString();
-            }
-            o->setParent(this);
-            QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-            auto pluginsPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PluginsPanel", this);
-            if (pluginsPanelComponent->isError()) {
-                qFatal() << pluginsPanelComponent->errorString();
-            }
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.plugins", pluginsPanelComponent);
 
-            auto singerPickerPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "SingerPickerPanel", this);
-            if (singerPickerPanelComponent->isError()) {
-                qFatal() << singerPickerPanelComponent->errorString();
-            }
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.singers", singerPickerPanelComponent);
-
-            auto tipsPanelComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TipsPanel", this);
-            if (tipsPanelComponent->isError()) {
-                qFatal() << tipsPanelComponent->errorString();
-            }
-            windowInterface->actionContext()->addAction("org.diffscope.core.panel.tips", tipsPanelComponent);
-        }
-    }
-    void WorkspaceAddOn::extensionsInitialized() {
-        windowHandle()->window()->installEventFilter(this);
-    }
-    bool WorkspaceAddOn::delayedInitialize() {
-        emit panelEntriesChanged();
-        return WindowInterfaceAddOn::delayedInitialize();
-    }
     ProjectWindowWorkspaceManager *WorkspaceAddOn::workspaceManager() const {
         return m_workspaceManager;
     }
-    QVariantMap WorkspaceAddOn::createDockingViewContents(int edge) const {
-        qCDebug(lcWorkspaceAddOn) << "Creating docking view contents of edge" << edge;
-        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        ProjectWindowWorkspaceLayout::ViewSpec firstSpec;
-        ProjectWindowWorkspaceLayout::ViewSpec lastSpec;
-        if (edge == Qt::LeftEdge) {
-            firstSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::LeftTop);
-            lastSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::LeftBottom);
-        } else if (edge == Qt::RightEdge) {
-            firstSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::RightTop);
-            lastSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::RightBottom);
-        } else if (edge == Qt::TopEdge) {
-            firstSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::TopLeft);
-            lastSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::TopRight);
-        } else if (edge == Qt::BottomEdge) {
-            firstSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::BottomLeft);
-            lastSpec = m_workspaceManager->currentLayout().viewSpec(ProjectWindowWorkspaceLayout::BottomRight);
-        } else {
-            return {};
-        }
-        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "First spec "
-                                                      << "("
-                                                      << "width=" << firstSpec.width << ","
-                                                      << "height=" << firstSpec.height << ","
-                                                      << "visibleIndex=" << firstSpec.visibleIndex << ")";
-        qCDebug(lcWorkspaceAddOn).noquote().nospace() << "Last spec "
-                                                      << "("
-                                                      << "width=" << lastSpec.width << ","
-                                                      << "height=" << lastSpec.height << ","
-                                                      << "visibleIndex=" << lastSpec.visibleIndex << ")";
-        QVariantList result;
-        QVariantList visibleIndices;
-        double preferredPanelSize = edge == Qt::TopEdge || edge == Qt::BottomEdge
-                                        ? qMax(firstSpec.height, lastSpec.height)
-                                        : qMax(firstSpec.width, lastSpec.width);
-        qCDebug(lcWorkspaceAddOn) << "Calculated preferred panel size" << preferredPanelSize;
-        double splitterRatio = edge == Qt::TopEdge || edge == Qt::BottomEdge
-                                   ? firstSpec.width / (firstSpec.width + lastSpec.width)
-                                   : firstSpec.height / (firstSpec.height + lastSpec.height);
-        qCDebug(lcWorkspaceAddOn) << "Calculated splitter ratio" << splitterRatio;
-        QQmlComponent fallbackComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "LoadingFailedFallbackPanel");
-        if (fallbackComponent.isError()) {
-            qFatal() << fallbackComponent.errorString();
-        }
-        auto createFallbackAction = [&](const QString &id, bool isComponentRegistered, const QString &errorString) -> QObject * {
-            auto info = CoreInterface::actionRegistry()->actionInfo(id);
-            QString actionText = info ? info->text().toString() : QString();
-            if (actionText.isEmpty()) {
-                actionText = id;
-            }
-            auto object = fallbackComponent.createWithInitialProperties({
-                {"actionId", id},
-                {"actionText", actionText},
-                {"componentRegistered", isComponentRegistered},
-                {"errorString", errorString}
-            });
-            Q_ASSERT(object);
-            QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
-            return object;
-        };
-        auto createAction = [&](const QString &id) -> QObject * {
-            auto component = windowInterface->actionContext()->action(id);
-            if (!component) {
-                qCWarning(lcWorkspaceAddOn) << "Action" << id << "not found";
-                return createFallbackAction(id, false, {});
-            }
-            if (component->isError()) {
-                qCWarning(lcWorkspaceAddOn) << "Action" << id << "component has error";
-                qWarning() << component->errorString();
-                return createFallbackAction(id, true, component->errorString());
-            }
-            auto object = component->create(component->creationContext());
-            if (!object) {
-                qCWarning(lcWorkspaceAddOn) << "Action" << id << "component cannot be created";
-                qWarning() << component->errorString();
-                return createFallbackAction(id, true, component->errorString());
-            }
-            QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
-            windowInterface->actionContext()->attachActionInfo(id, object);
-            return object;
-        };
-        auto createSpec = [&](const ProjectWindowWorkspaceLayout::ViewSpec &spec) -> void {
-            for (int i = 0; i < spec.panels.size(); i++) {
-                const auto &[id, dock, opened, geometry, data] = spec.panels.at(i);
-                qCDebug(lcWorkspaceAddOn) << "Creating panel" << id << dock << opened << geometry;
-                auto object = createAction(id);
-                qCDebug(lcWorkspaceAddOn) << "Created object" << object;
-                // TODO: check if object has dock property (it might be an Action)
-                object->setProperty("dock", dock);
-                if (i == spec.visibleIndex || opened) {
-                    visibleIndices.append(result.size());
-                }
-                result.append(QVariantMap{
-                    {"object", QVariant::fromValue(object)},
-                    {"geometry", geometry},
-                    {"state", data}
-                });
-            }
-        };
-        qCDebug(lcWorkspaceAddOn) << "Creating first spec";
-        createSpec(firstSpec);
-        if (edge != 0) {
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "DockingStretch");
-            if (component.isError()) {
-                qFatal() << component.errorString();
-            }
-            auto object = component.create();
-            if (!object) {
-                qFatal() << component.errorString();
-            }
-            QQmlEngine::setObjectOwnership(object, QQmlEngine::JavaScriptOwnership);
-            result.append(QVariantMap{
-                {"object", QVariant::fromValue(object)},
-            });
-        }
-        qCDebug(lcWorkspaceAddOn) << "Creating last spec";
-        createSpec(lastSpec);
 
-        return {
-            {"objects", result},
-            {"preferredPanelSize", preferredPanelSize},
-            {"splitterRatio", splitterRatio},
-            {"visibleIndices", visibleIndices},
+    WorkspaceSession *WorkspaceAddOn::session() const {
+        return m_session;
+    }
+
+    void WorkspaceAddOn::initialize() {
+        auto window = windowHandle()->cast<ProjectWindowInterface>();
+        m_session = new WorkspaceSession(window, this);
+        window->addObject(m_session);
+
+        QQmlComponent helper(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
+        if (helper.isError()) {
+            qFatal() << helper.errorString();
+        }
+        m_helper = helper.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
+        if (!m_helper) {
+            qFatal() << "WorkspaceAddOnHelper could not be created." << helper.errorString();
+        }
+        m_helper->setParent(this);
+
+        QQmlComponent actions(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnActions");
+        if (actions.isError()) {
+            qFatal() << actions.errorString();
+        }
+        auto object = actions.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.data())}});
+        if (!object) {
+            qFatal() << "WorkspaceAddOnActions could not be created." << actions.errorString();
+        }
+        object->setParent(this);
+        m_actions = object;
+        QMetaObject::invokeMethod(object, "registerToContext", window->actionContext());
+
+        const std::pair<const char *, const char *> components[]{
+            {"org.diffscope.core.panel.plugins", "PluginsPanel"},
+            {"org.diffscope.core.panel.singers", "SingerPickerPanel"},
+            {"org.diffscope.core.panel.tips", "TipsPanel"}
         };
+        for (const auto &[id, type] : components) {
+            auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", type, this);
+            if (component->isError()) {
+                qFatal() << component->errorString();
+            }
+            window->actionContext()->addAction(id, component);
+        }
+        connect(m_session->context(), &SVS::DockingContext::changed, this, [this] {
+            if (!m_session->isBusy() && !m_session->isShuttingDown())
+                Q_EMIT panelEntriesChanged();
+        });
+        connect(m_session, &WorkspaceSession::restored, this, &WorkspaceAddOn::panelEntriesChanged);
+        connect(m_workspaceManager, &ProjectWindowWorkspaceManager::currentLayoutChanged, this, [this] {
+            m_session->apply(m_workspaceManager->currentLayout());
+        });
+    }
+
+    void WorkspaceAddOn::extensionsInitialized() {
+        if (auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>())
+            for (const auto &entry : catalog->entries())
+                m_registeredPanelIds.append(entry.toMap().value("id").toString());
+        Q_EMIT registeredPanelIdsChanged();
+        m_session->initialize();
+        Q_EMIT panelEntriesChanged();
+        m_session->apply(m_workspaceManager->currentLayout());
+
+        windowHandle()->addCloseCallback([this] {
+            if (m_session->isBusy())
+                return false;
+            saveCurrentLayout();
+            m_workspaceManager->save();
+            return true;
+        });
+    }
+
+    void WorkspaceAddOn::saveCurrentLayout() {
+        if (!m_session || m_session->isShuttingDown())
+            return;
+        auto layout = m_session->snapshot(m_workspaceManager->currentLayout().name());
+        QSignalBlocker blocker(m_workspaceManager);
+        m_workspaceManager->setCurrentLayout(layout);
+    }
+
+    void WorkspaceAddOn::markNewPanelsPresented() {
+        if (auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>())
+            catalog->markPresented();
+        Q_EMIT panelEntriesChanged();
     }
 
     void WorkspaceAddOn::saveCustomLayoutFromJavaScript(const ProjectWindowWorkspaceLayout &layout_, const QString &originName, const QString &name) const {
@@ -233,12 +148,14 @@ namespace Core::Internal {
         ProjectWindowWorkspaceManager::setCustomLayouts(customLayouts);
         m_workspaceManager->save();
     }
+
     void WorkspaceAddOn::removeCustomLayoutFromJavaScript(const QString &name) const {
         auto customLayouts = ProjectWindowWorkspaceManager::customLayouts();
         customLayouts.removeIf([&](const auto &o) { return o.name() == name; });
         ProjectWindowWorkspaceManager::setCustomLayouts(customLayouts);
         m_workspaceManager->save();
     }
+
     void WorkspaceAddOn::showWorkspaceLayoutCommand() const {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QStandardItemModel model;
@@ -278,6 +195,7 @@ namespace Core::Internal {
             showWorkspaceCustomLayoutCommand(layout);
         }
     }
+
     void WorkspaceAddOn::showWorkspaceCustomLayoutCommand(const ProjectWindowWorkspaceLayout &layout) const {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         QStandardItemModel model;
@@ -299,7 +217,7 @@ namespace Core::Internal {
                 break;
             }
             case 1: {
-                QMetaObject::invokeMethod(m_helper, "promptSaveLayout", QVariant::fromValue(m_workspaceManager->currentLayout()), QVariant::fromValue(layout.name()));
+                QMetaObject::invokeMethod(m_helper, "promptSaveLayout", QVariant::fromValue(layout), QVariant::fromValue(layout.name()));
                 break;
             }
             case 2: {
@@ -308,29 +226,36 @@ namespace Core::Internal {
             }
         }
     }
+
     QVariantList WorkspaceAddOn::panelEntries() const {
-        QVariantList ret;
-        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        auto a = CoreInterface::actionRegistry()->catalog().children("org.diffscope.core.workspacePanelWidgets") | std::views::filter([=](const QString &id) -> bool { return windowInterface->actionContext()->action(id); });
-        std::ranges::transform(a, std::back_inserter(ret), [](const QString &id) {
-            auto info = CoreInterface::actionRegistry()->actionInfo(id).value_or(QAK::ActionItemInfo());
-            auto actionIcon = CoreInterface::actionRegistry()->actionIcon("", id, info.icon()).value_or(QAK::ActionIcon());
-            return QVariantMap{
-                {"id", id},
-                {"text", info.text().toString()},
-                {"iconSource", actionIcon.url()},
-                {"iconColor", QColor::fromString(actionIcon.currentColor())},
-                {"unique", info.attributes().contains(QAK::ActionAttributeKey("uniquePanel", "http://schemas.diffscope.org/diffscope/actions/diffscope"))}
-            };
-        });
-        return ret;
-    }
-    bool WorkspaceAddOn::eventFilter(QObject *watched, QEvent *event) {
-        if (event->type() == QEvent::Expose && windowHandle()->window()->isExposed()) {
-            Q_EMIT windowExposed();
-            windowHandle()->window()->removeEventFilter(this);
+        auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>();
+        QVariantList result = catalog ? catalog->entries() : QVariantList{};
+        if (!m_session)
+            return result;
+        QSet<QString> included;
+        for (auto &entry : result) {
+            auto map = entry.toMap();
+            auto panel = m_session->context()->panel(map.value("id").toString());
+            included.insert(map.value("id").toString());
+            map.insert("panel", QVariant::fromValue(panel));
+            map.insert("available", true);
+            entry = map;
         }
-        return WindowInterfaceAddOn::eventFilter(watched, event);
+        for (const auto &value : m_session->context()->panelObjects()) {
+            auto panel = value.value<SVS::DockingPanel *>();
+            if (!included.contains(panel->key()) && panel->group())
+                result.append(QVariantMap{{"id", panel->key()}, {"text", panel->title()}, {"iconSource", panel->iconSource()}, {"iconColor", panel->iconColor()}, {"panel", QVariant::fromValue(panel)}, {"available", false}});
+        }
+        return result;
+    }
+
+    QVariantList WorkspaceAddOn::newPanelEntries() const {
+        auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>();
+        return catalog ? catalog->pendingEntries() : QVariantList{};
+    }
+
+    QStringList WorkspaceAddOn::registeredPanelIds() const {
+        return m_registeredPanelIds;
     }
 }
 

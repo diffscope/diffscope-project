@@ -132,6 +132,11 @@
         <source>Metronome Actions</source>
         <translation type="unfinished">节拍器操作</translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml"/>
+        <source>Show Effects</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Audio::AudioExporter</name>
