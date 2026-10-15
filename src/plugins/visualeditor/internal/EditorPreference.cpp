@@ -27,7 +27,7 @@ namespace VisualEditor::Internal {
         bool trackListOnRight{};
         bool centerPianoRollOnClipDoubleClick{true};
         double pianoKeyboardBlackKeyLengthRatio{0.6};
-        EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{};
+        EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{EditorPreference::LP_COnly};
         EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
         double autoPitchCurveDisplayPixelDensityThreshold{kDefaultAutoPitchCurveDisplayPixelDensityThreshold};
         bool displayPronunciationBelowNote{};
@@ -78,7 +78,7 @@ namespace VisualEditor::Internal {
         emit centerPianoRollOnClipDoubleClickChanged();
         d->pianoKeyboardBlackKeyLengthRatio = settings->value("pianoKeyboardBlackKeyLengthRatio", 0.6).toDouble();
         emit pianoKeyboardBlackKeyLengthRatioChanged();
-        d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_All)).value<PianoKeyboardLabelPolicy>();
+        d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_COnly)).value<PianoKeyboardLabelPolicy>();
         emit pianoKeyboardLabelPolicyChanged();
         d->noteEditPitchCurveDisplayMode = settings->value("noteEditPitchCurveDisplayMode", QVariant::fromValue(PCDM_Automatic)).value<NoteEditPitchCurveDisplayMode>();
         Q_EMIT noteEditPitchCurveDisplayModeChanged();
