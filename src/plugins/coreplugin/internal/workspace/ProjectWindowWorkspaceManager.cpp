@@ -64,7 +64,12 @@ namespace Core::Internal {
             return n;
         };
         auto top = group("arrangement", Qt::TopEdge, {"org.diffscope.visualeditor.panel.arrangement"}, {}, true, false);
+        top.showPanelNames = true;
+        top.compactLayout = true;
+        top.autoHide = true;
         auto bottom = group("editors", Qt::BottomEdge, {"org.diffscope.visualeditor.panel.pianoRoll", "org.diffscope.visualeditor.panel.mixer"}, {}, true, false);
+        bottom.showPanelNames = true;
+        bottom.compactLayout = true;
         auto right = group("right", Qt::RightEdge, {"org.diffscope.core.panel.properties", "org.diffscope.audio.panel.effects", "org.diffscope.core.panel.notifications", "org.diffscope.core.panel.plugins"}, {"org.diffscope.core.panel.singers", "org.diffscope.synth.panel.services", "org.diffscope.core.panel.recentFiles", "org.diffscope.core.panel.recoveryFiles"}, true, true);
         right.lockedSize.setWidth(420);
         DockingNodeState center;

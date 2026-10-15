@@ -51,7 +51,6 @@ namespace Core {
             void apply(const ProjectWindowWorkspaceLayout &layout);
             ProjectWindowWorkspaceLayout snapshot(const QString &name) const;
             Q_INVOKABLE void showPanel(const QString &id);
-            Q_INVOKABLE void retryPanel(const QString &id);
             void shutdown();
         Q_SIGNALS:
             void busyChanged();

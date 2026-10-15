@@ -478,34 +478,6 @@ namespace Core::Internal {
             m_context->requestFloat(panel);
     }
 
-    void WorkspaceSession::retryPanel(const QString &id) {
-        if (m_busy || m_shuttingDown)
-            return;
-        auto panel = m_context->panel(id);
-        if (!panel)
-            return;
-        QString error;
-        auto state = WorkspacePanelLoader::saveState(panel->contentItem(), &error);
-        if (!error.isEmpty()) {
-            Q_EMIT errorOccurred(error);
-            return;
-        }
-        if (state.isValid())
-            m_panelStates.insert(id, state);
-        auto old = m_contents.take(id);
-        panel->setContentItem(nullptr);
-        ensureContent(panel, false, [this, panel, old](bool ready) {
-            if (ready) {
-                if (old)
-                    old->deleteLater();
-            } else if (old) {
-                m_contents.insert(panel->key(), old);
-                panel->setContentItem(old);
-                panel->setHeaderItem(old->property("header").value<QQuickItem *>());
-            }
-        });
-    }
-
     void WorkspaceSession::disposeFloatingHosts() {
         for (auto host : m_context->hosts())
             if (host != m_embeddedHost) {

@@ -19,65 +19,22 @@ ActionCollection {
     readonly property QtObject session: addOn?.session ?? null
     readonly property bool usable: Boolean(addOn && session && !session.shuttingDown)
 
-    component PanelStateMenu: Menu {
-        id: panelMenu
+    component PanelAction: Action {
+        id: panelAction
         required property var entry
         readonly property DockingPanel panel: entry?.panel ?? null
-        readonly property bool hideAllowed: panel?.group?.canHide(panel) ?? false
-        readonly property string stateText: panel?.shown ? qsTr("Shown") : panel?.group ? qsTr("Hidden") : qsTr("Unplaced")
-        title: qsTr("%1 (%2)").arg(entry.text).arg(stateText)
+        text: entry.text
         icon.source: entry.iconSource
-        enabled: collection.usable
+        icon.width: 16
+        icon.height: 16
+        checkable: true
+        enabled: collection.usable && !collection.session.busy
 
-        Binding {
-            target: panelMenu
+        readonly property Binding iconColorBinding: Binding {
+            target: panelAction
             property: "icon.color"
-            value: panelMenu.entry.iconColor
-            when: panelMenu.entry.iconColor.valid
-        }
-
-        MenuItem {
-            text: qsTr("Show and Activate")
-            checkable: true
-            autoExclusive: true
-            checked: panelMenu.panel?.shown ?? false
-            enabled: collection.usable && !collection.session.busy
-            onTriggered: collection.session.showPanel(panelMenu.entry.id)
-        }
-
-        Instantiator {
-            model: panelMenu.panel?.shown ? 1 : 0
-            delegate: MenuItem {
-                text: qsTr("Hide and Keep Tab")
-                enabled: collection.usable && !collection.session.busy && panelMenu.hideAllowed
-                DescriptiveText.statusTip: !panelMenu.hideAllowed ? qsTr("This panel group requires a visible panel.") : ""
-                onTriggered: collection.session.context.hide(panelMenu.panel)
-            }
-            onObjectAdded: (index, object) => panelMenu.insertItem(1, object)
-            onObjectRemoved: (index, object) => panelMenu.removeItem(object)
-        }
-
-        MenuItem {
-            text: qsTr("Remove from Workspace")
-            checkable: true
-            autoExclusive: true
-            checked: !panelMenu.panel?.group
-            enabled: collection.usable && Boolean(panelMenu.panel?.group) && !collection.session.busy
-            onTriggered: collection.session.context.remove(panelMenu.panel)
-        }
-
-        MenuSeparator {}
-
-        MenuItem {
-            text: qsTr("Float")
-            enabled: collection.usable && Boolean(panelMenu.panel) && !collection.session.busy
-            onTriggered: collection.session.context.requestFloat(panelMenu.panel)
-        }
-
-        MenuItem {
-            text: qsTr("Reload Panel")
-            enabled: collection.usable && Boolean(panelMenu.panel?.contentItem) && !collection.session.busy
-            onTriggered: collection.session.retryPanel(panelMenu.entry.id)
+            value: panelAction.entry.iconColor
+            when: panelAction.entry.iconColor.valid
         }
     }
 
@@ -151,30 +108,23 @@ ActionCollection {
             id: allPanels
 
             Instantiator {
-                model: (collection.addOn?.panelEntries ?? []).filter(entry => entry.available)
-                delegate: PanelStateMenu {
+                model: collection.addOn?.panelEntries ?? []
+                delegate: PanelAction {
+                    id: allPanelAction
                     required property var modelData
                     entry: modelData
-                }
-                onObjectAdded: (index, object) => allPanels.insertMenu(index, object)
-                onObjectRemoved: (index, object) => allPanels.removeMenu(object)
-            }
-
-            Menu {
-                id: unavailablePanels
-                title: qsTr("Unavailable Panels")
-                enabled: unavailableRepeater.count > 0
-
-                Instantiator {
-                    id: unavailableRepeater
-                    model: (collection.addOn?.panelEntries ?? []).filter(entry => !entry.available)
-                    delegate: PanelStateMenu {
-                        required property var modelData
-                        entry: modelData
+                    checked: Boolean(panel?.group)
+                    onTriggered: {
+                        const addPanel = checked
+                        checked = Qt.binding(() => Boolean(allPanelAction.panel?.group))
+                        if (addPanel)
+                            collection.session.showPanel(entry.id)
+                        else
+                            collection.session.context.remove(panel)
                     }
-                    onObjectAdded: (index, object) => unavailablePanels.insertMenu(index, object)
-                    onObjectRemoved: (index, object) => unavailablePanels.removeMenu(object)
                 }
+                onObjectAdded: (index, object) => allPanels.insertAction(index, object)
+                onObjectRemoved: (index, object) => allPanels.removeAction(object)
             }
         }
     }
@@ -197,19 +147,23 @@ ActionCollection {
 
             Instantiator {
                 id: activePanelRepeater
-                model: (collection.addOn?.panelEntries ?? []).filter(entry => entry.panel?.shown)
-                delegate: MenuItem {
+                model: (collection.addOn?.panelEntries ?? []).filter(entry => entry.panel?.group)
+                delegate: PanelAction {
+                    id: activePanelAction
                     required property var modelData
-                    text: modelData.text
-                    icon.source: modelData.iconSource
-                    checkable: true
-                    autoExclusive: true
-                    checked: collection.session?.context?.activePanel === modelData.panel
-                    enabled: collection.usable && !collection.session.busy
-                    onTriggered: collection.session.context.activate(modelData.panel)
+                    entry: modelData
+                    checked: Boolean(panel) && collection.session?.context?.activePanel === panel
+                    onTriggered: {
+                        const activatePanel = checked
+                        checked = Qt.binding(() => Boolean(activePanelAction.panel) && collection.session?.context?.activePanel === activePanelAction.panel)
+                        if (activatePanel)
+                            collection.session.showPanel(entry.id)
+                        else if (panel?.group?.canHide(panel))
+                            collection.session.context.hide(panel)
+                    }
                 }
-                onObjectAdded: (index, object) => activePanels.insertItem(index, object)
-                onObjectRemoved: (index, object) => activePanels.removeItem(object)
+                onObjectAdded: (index, object) => activePanels.insertAction(index, object)
+                onObjectRemoved: (index, object) => activePanels.removeAction(object)
             }
         }
     }

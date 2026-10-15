@@ -6194,77 +6194,22 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="84"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="95"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="89"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="96"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="30"/>
-        <source>Show and Activate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="38"/>
-        <source>Hide and Keep Tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="47"/>
-        <source>Remove from Workspace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="56"/>
-        <source>Float</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="61"/>
-        <source>Reload Panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
-        <source>Shown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
-        <source>Hidden</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="25"/>
-        <source>Unplaced</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="26"/>
-        <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="43"/>
-        <source>This panel group requires a visible panel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="118"/>
-        <source>Unavailable Panels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="138"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="141"/>
         <source>No Open Panels</source>
         <translation type="unfinished"></translation>
     </message>

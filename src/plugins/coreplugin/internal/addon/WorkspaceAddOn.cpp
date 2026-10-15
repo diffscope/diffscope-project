@@ -238,13 +238,12 @@ namespace Core::Internal {
             auto panel = m_session->context()->panel(map.value("id").toString());
             included.insert(map.value("id").toString());
             map.insert("panel", QVariant::fromValue(panel));
-            map.insert("available", true);
             entry = map;
         }
         for (const auto &value : m_session->context()->panelObjects()) {
             auto panel = value.value<SVS::DockingPanel *>();
             if (!included.contains(panel->key()) && panel->group())
-                result.append(QVariantMap{{"id", panel->key()}, {"text", panel->title()}, {"iconSource", panel->iconSource()}, {"iconColor", panel->iconColor()}, {"panel", QVariant::fromValue(panel)}, {"available", false}});
+                result.append(QVariantMap{{"id", panel->key()}, {"text", panel->title()}, {"iconSource", panel->iconSource()}, {"iconColor", panel->iconColor()}, {"panel", QVariant::fromValue(panel)}});
         }
         return result;
     }
