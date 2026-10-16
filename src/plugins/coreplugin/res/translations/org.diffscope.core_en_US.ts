@@ -3628,6 +3628,14 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
 </context>
 <context>
+    <name>Core::Internal::SingerNameResolver</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::TimeIndicatorPage</name>
     <message>
         <location filename="../../internal/settings/TimeIndicatorPage.cpp" line="20"/>
@@ -3996,6 +4004,19 @@ Do you want to save as a new file or overwrite it?</translation>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
         <source>Overwrite</source>
         <translation type="unfinished">Overwrite</translation>
+    </message>
+</context>
+<context>
+    <name>Core::SingerInfoProvider</name>
+    <message>
+        <location filename="../../singer/SingerInfoProvider.cpp" line="121"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../singer/SingerInfoProvider.cpp" line="135"/>
+        <source>Default language (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4577,11 +4598,6 @@ Continue to bounce?</translation>
         <location filename="../../qml/settings/GeneralPage.qml" line="183"/>
         <source>(Restart required)</source>
         <translation>(Restart required)</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="191"/>
-        <source>Fallback lyric language code</source>
-        <translation type="unfinished">Fallback lyric language code</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="200"/>

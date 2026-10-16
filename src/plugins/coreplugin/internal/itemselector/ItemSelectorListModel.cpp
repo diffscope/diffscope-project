@@ -13,6 +13,7 @@
 #include <QMap>
 #include <QMetaType>
 #include <QPointer>
+#include <QVariantMap>
 
 #include <SVSCraftCore/DecibelLinearizer.h>
 #include <SVSCraftCore/MusicMode.h>
@@ -59,7 +60,6 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/SingerInfo.h>
 #include <coreplugin/SingerInfoProvider.h>
-#include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/ItemSelectorDialog.h>
 #include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
 
@@ -150,15 +150,10 @@ namespace Core::Internal {
         Q_OBJECT
 
     public:
-        explicit SingerNameResolver(dspx::SingingClip *clip, QObject *parent = nullptr,
-                                    bool languageAware = false)
+        explicit SingerNameResolver(dspx::SingingClip *clip, QObject *parent = nullptr)
             : QObject(parent), m_clip(clip), m_clipProvider(new ClipSingerIdProvider(this)) {
             connect(m_clipProvider, &ClipSingerIdProvider::architectureIdChanged, this, &SingerNameResolver::rebuildProviders);
             connect(m_clipProvider, &ClipSingerIdProvider::singerTreeChanged, this, &SingerNameResolver::rebuildProviders);
-            if (languageAware) {
-                connect(BehaviorPreference::instance(), &BehaviorPreference::fallbackLyricLanguageCodeChanged,
-                        this, &SingerNameResolver::changed);
-            }
             if (m_clip) {
                 connect(m_clip, &dspx::SingingClip::sourcesChanged, this, [this] {
                     m_clipProvider->setSources(m_clip ? m_clip->sources() : nullptr);
@@ -188,18 +183,17 @@ namespace Core::Internal {
         QString languageName(const QString &languageCode) const {
             const auto firstPath = firstLeafPath(m_clipProvider->singerTree(), QString{});
             auto *provider = m_providers.value(firstPath);
-            if (!provider || !provider->exists() || provider->info().languages().isEmpty()) {
-                return languageCode == BehaviorPreference::fallbackLyricLanguageCode()
-                           ? languageCode
-                           : tr("Custom (%1)").arg(languageCode);
+            if (!provider) {
+                return languageCode.isEmpty() ? tr("Not available") : tr("Custom (%1)").arg(languageCode);
             }
 
-            const auto languages = provider->info().languages();
-            const auto it = languages.constFind(languageCode);
-            if (it == languages.cend()) {
-                return tr("Custom (%1)").arg(languageCode);
+            const auto options = provider->languageOptions();
+            for (const auto &option : options) {
+                const auto values = option.toMap();
+                if (values.value(QStringLiteral("value")).toString() == languageCode)
+                    return values.value(QStringLiteral("text")).toString();
             }
-            return it->name.isEmpty() ? languageCode : it->name;
+            return tr("Custom (%1)").arg(languageCode);
         }
 
         QStringList dynamicSingerNames() const {
@@ -293,7 +287,7 @@ namespace Core::Internal {
 
             if (m_kind == ListKind::Notes) {
                 auto *clip = qobject_cast<dspx::SingingClip *>(m_context.data());
-                auto *resolver = new SingerNameResolver(clip, this, true);
+                auto *resolver = new SingerNameResolver(clip, this);
                 m_contextSingerResolver = resolver;
                 connect(resolver, &SingerNameResolver::changed, this, [this] {
                     refreshAll(rolesIncludingDescription());

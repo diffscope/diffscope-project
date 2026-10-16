@@ -389,7 +389,6 @@ namespace Synth::Internal {
                 clip = singing;
                 auto lyrics = Core::CoreInterface::defaultLyricManager();
                 const auto lyric = lyrics->getDefaultLyricForSingingClip(singing);
-                const auto language = lyrics->getDefaultLanguageForSingingClip(singing);
                 for (const auto &extracted : result.notes) {
                     const double startSeconds = std::clamp(extracted.startSeconds, 0.0, operation.input.durationSeconds);
                     const double endSeconds = std::clamp(extracted.startSeconds + extracted.durationSeconds, 0.0, operation.input.durationSeconds);
@@ -404,7 +403,6 @@ namespace Synth::Internal {
                     note->setPosition(start);
                     note->setLength(end - start);
                     note->setLyric(lyric);
-                    note->setLanguage(language);
                     if (!singing->notes()->insertItem(note)) {
                         abort(tr("Could not insert the extracted notes."));
                         return;

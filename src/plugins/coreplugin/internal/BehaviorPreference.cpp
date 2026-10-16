@@ -17,7 +17,6 @@ namespace Core::Internal {
         BehaviorPreference::StartupBehavior startupBehavior{};
         bool useSystemLanguage{};
         QString localeName{};
-        QString fallbackLyricLanguageCode{};
         QString fallbackLyricText{};
         bool hasNotificationSoundAlert{};
         int notificationAutoHideTimeout{};
@@ -71,8 +70,6 @@ namespace Core::Internal {
         emit useSystemLanguageChanged();
         d->localeName = settings->value("localeName", QLocale().name()).toString();
         emit localeNameChanged();
-        d->fallbackLyricLanguageCode = settings->value("fallbackLyricLanguageCode", QStringLiteral("und")).toString();
-        Q_EMIT fallbackLyricLanguageCodeChanged();
         d->fallbackLyricText = settings->value("fallbackLyricText", QStringLiteral("a")).toString();
         Q_EMIT fallbackLyricTextChanged();
         d->hasNotificationSoundAlert = settings->value("hasNotificationSoundAlert", false).toBool();
@@ -144,7 +141,6 @@ namespace Core::Internal {
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);
-        settings->setValue("fallbackLyricLanguageCode", d->fallbackLyricLanguageCode);
         settings->setValue("fallbackLyricText", d->fallbackLyricText);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
         settings->setValue("notificationAutoHideTimeout", d->notificationAutoHideTimeout);
@@ -211,17 +207,6 @@ namespace Core::Internal {
             return;
         d->localeName = localeName;
         emit m_instance->localeNameChanged();
-    }
-    QString BehaviorPreference::fallbackLyricLanguageCode() {
-        M_INSTANCE_D;
-        return d->fallbackLyricLanguageCode;
-    }
-    void BehaviorPreference::setFallbackLyricLanguageCode(const QString &fallbackLyricLanguageCode) {
-        M_INSTANCE_D;
-        if (d->fallbackLyricLanguageCode == fallbackLyricLanguageCode)
-            return;
-        d->fallbackLyricLanguageCode = fallbackLyricLanguageCode;
-        Q_EMIT m_instance->fallbackLyricLanguageCodeChanged();
     }
     QString BehaviorPreference::fallbackLyricText() {
         M_INSTANCE_D;

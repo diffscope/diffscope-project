@@ -1099,7 +1099,6 @@ namespace VisualEditor {
             newNote->setLength(implicitNoteLength);
             newNote->setKeyNumber(key);
             newNote->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
-            newNote->setLanguage(Core::CoreInterface::defaultLyricManager()->getDefaultLanguageForSingingClip(singingClip));
             if (!singingClip->notes()->insertItem(newNote)) {
                 document->model()->destroyItem(newNote);
                 newNote = nullptr;
@@ -1174,7 +1173,6 @@ namespace VisualEditor {
         note->setLength(0);
         note->setKeyNumber(trackIndex);
         note->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(singingClip));
-        note->setLanguage(Core::CoreInterface::defaultLyricManager()->getDefaultLanguageForSingingClip(singingClip));
         singingClip->notes()->insertItem(note);
 
         m_context->targetNote = note;

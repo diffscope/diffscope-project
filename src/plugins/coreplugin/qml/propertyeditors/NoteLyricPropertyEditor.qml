@@ -19,7 +19,6 @@ PropertyEditorGroupBox {
     readonly property var singingClip: propertyMapper?.singingClip ?? null
     readonly property string firstLeafSingerId: findFirstLeafSingerId(clipSingerIdProvider.singerTree)
     readonly property var languageOptions: singerInfoProvider.languageOptions
-    readonly property bool useGlobalLanguageFallback: !singerInfoProvider.exists || languageOptions.length === 0
     title: qsTr("Lyric and Pronunciation")
 
     function findFirstLeafSingerId(singerTree) {
@@ -82,7 +81,7 @@ PropertyEditorGroupBox {
                         const currentLanguage = groupBox.propertyMapper?.language
                         const initialLanguage = typeof currentLanguage === "string"
                                                 ? currentLanguage
-                                                : BehaviorPreference.fallbackLyricLanguageCode
+                                                : ""
                         const languageCode = groupBox.windowHandle.execQuickInput(
                             qsTr("Custom language code"),
                             warningText,
@@ -108,26 +107,18 @@ PropertyEditorGroupBox {
                     textRole: "text"
                     valueRole: "value"
                     currentIndex: {
-                        groupBox.languageOptions
                         const language = groupBox.propertyMapper?.language
-                        return groupBox.useGlobalLanguageFallback || typeof language !== "string"
+                        return typeof language !== "string"
                                 ? -1
-                                : indexOfValue(language)
+                                : groupBox.languageOptions.findIndex(option => option.value === language)
                     }
                     displayText: {
-                        groupBox.languageOptions
                         const language = languageField.value
                         if (typeof language !== "string")
                             return qsTr("Multiple values")
 
-                        if (groupBox.useGlobalLanguageFallback) {
-                            return language === BehaviorPreference.fallbackLyricLanguageCode
-                                    ? BehaviorPreference.fallbackLyricLanguageCode
-                                    : qsTr("Custom (%1)").arg(language)
-                        }
-
-                        const index = indexOfValue(language)
-                        return index === -1 ? qsTr("Custom (%1)").arg(language) : textAt(index)
+                        const option = groupBox.languageOptions.find(option => option.value === language)
+                        return option ? option.text : qsTr("Custom (%1)").arg(language)
                     }
                     onActivated: (index) => languageField.setValue(valueAt(index))
                 }

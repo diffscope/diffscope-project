@@ -45,6 +45,9 @@ namespace Synth::Internal {
             if (index == 0) {
                 selectedGroup = groupId(*singer);
                 defaultLanguage = singer->defaultLanguage();
+                const auto languages = singer->languages();
+                if (defaultLanguage.isEmpty() && !languages.isEmpty())
+                    defaultLanguage = languages.firstKey();
             } else if (groupId(*singer) != selectedGroup) {
                 return std::nullopt;
             }

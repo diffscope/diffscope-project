@@ -4,8 +4,6 @@
 #include "DefaultLyricManager.h"
 #include "DefaultLyricManager_p.h"
 
-#include <QPair>
-
 #include <dspxmodelORM/MixedSinger.h>
 #include <dspxmodelORM/Singer.h>
 #include <dspxmodelORM/SingerList.h>
@@ -45,15 +43,8 @@ namespace Core {
             return nullptr;
         }
 
-        QPair<QString, QString> fallbackDefaults() {
-            return {
-                Internal::BehaviorPreference::fallbackLyricLanguageCode(),
-                Internal::BehaviorPreference::fallbackLyricText(),
-            };
-        }
-
-        QPair<QString, QString> defaultsForSingingClip(dspx::SingingClip *targetSingingClip) {
-            const auto fallback = fallbackDefaults();
+        QString defaultLyricForSingingClip(dspx::SingingClip *targetSingingClip) {
+            const auto fallback = Internal::BehaviorPreference::fallbackLyricText();
             if (!targetSingingClip || !targetSingingClip->sources())
                 return fallback;
 
@@ -67,16 +58,13 @@ namespace Core {
             if (languages.isEmpty())
                 return fallback;
 
-            auto languageIt = singerInfo.defaultLanguage().isEmpty()
-                                  ? languages.cend()
-                                  : languages.constFind(singerInfo.defaultLanguage());
+            const auto languageIt = singerInfo.defaultLanguage().isEmpty()
+                                        ? languages.cbegin()
+                                        : languages.constFind(singerInfo.defaultLanguage());
             if (languageIt == languages.cend())
                 return fallback;
 
-            return {
-                languageIt.key(),
-                languageIt->defaultLyric.isEmpty() ? fallback.second : languageIt->defaultLyric,
-            };
+            return languageIt->defaultLyric.isEmpty() ? fallback : languageIt->defaultLyric;
         }
 
     }
@@ -90,11 +78,7 @@ namespace Core {
     DefaultLyricManager::~DefaultLyricManager() = default;
 
     QString DefaultLyricManager::getDefaultLyricForSingingClip(dspx::SingingClip *targetSingingClip) const {
-        return defaultsForSingingClip(targetSingingClip).second;
-    }
-
-    QString DefaultLyricManager::getDefaultLanguageForSingingClip(dspx::SingingClip *targetSingingClip) const {
-        return defaultsForSingingClip(targetSingingClip).first;
+        return defaultLyricForSingingClip(targetSingingClip);
     }
 
 }

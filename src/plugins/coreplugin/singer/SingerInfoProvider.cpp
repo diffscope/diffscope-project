@@ -114,7 +114,27 @@ namespace Core {
         Q_D(const SingerInfoProvider);
         const auto languages = d->info.languages();
         QVariantList result;
-        result.reserve(languages.size());
+        result.reserve(languages.size() + 1);
+
+        if (languages.isEmpty()) {
+            result.append(QVariantMap{
+                {QStringLiteral("text"), tr("Not available")},
+                {QStringLiteral("value"), QString{}},
+            });
+            return result;
+        }
+
+        const auto defaultLanguage = d->info.defaultLanguage().isEmpty()
+                                         ? languages.firstKey()
+                                         : d->info.defaultLanguage();
+        const auto defaultIt = languages.constFind(defaultLanguage);
+        const auto defaultName = defaultIt == languages.cend() || defaultIt->name.isEmpty()
+                                     ? defaultLanguage
+                                     : defaultIt->name;
+        result.append(QVariantMap{
+            {QStringLiteral("text"), tr("Default language (%1)").arg(defaultName)},
+            {QStringLiteral("value"), QString{}},
+        });
 
         const auto appendOption = [&result](auto it) {
             result.append(QVariantMap{
@@ -123,9 +143,6 @@ namespace Core {
             });
         };
 
-        const auto defaultIt = d->info.defaultLanguage().isEmpty()
-                                   ? languages.cend()
-                                   : languages.constFind(d->info.defaultLanguage());
         if (defaultIt != languages.cend())
             appendOption(defaultIt);
         for (auto it = languages.cbegin(); it != languages.cend(); ++it) {

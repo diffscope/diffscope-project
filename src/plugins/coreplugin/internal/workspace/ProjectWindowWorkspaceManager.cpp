@@ -71,7 +71,7 @@ namespace Core::Internal {
         bottom.showPanelNames = true;
         bottom.compactLayout = true;
         auto right = group("right", Qt::RightEdge, {"org.diffscope.core.panel.properties", "org.diffscope.audio.panel.effects", "org.diffscope.core.panel.notifications", "org.diffscope.core.panel.plugins"}, {"org.diffscope.core.panel.singers", "org.diffscope.synth.panel.services", "org.diffscope.core.panel.recentFiles", "org.diffscope.core.panel.recoveryFiles"}, true, true);
-        right.lockedSize.setWidth(420);
+        right.lockedSize.setWidth(424);
         DockingNodeState center;
         center.kind = "split";
         center.nodeId = "center";

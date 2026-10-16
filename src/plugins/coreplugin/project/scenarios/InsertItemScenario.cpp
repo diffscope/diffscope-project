@@ -348,7 +348,6 @@ namespace Core {
         properties.insert("noteLength", 480);
         properties.insert("notePitch", 60); // Default to middle C (C4)
         properties.insert("noteLyric", CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(clip));
-        const auto noteLanguage = CoreInterface::defaultLyricManager()->getDefaultLanguageForSingingClip(clip);
         auto dialog = createAndPositionDialog(&component, properties);
         if (!DocumentEditScenarioPrivate::execDialog(dialog))
             return;
@@ -367,7 +366,6 @@ namespace Core {
             newNote->setLength(noteLength);
             newNote->setKeyNumber(notePitch);
             newNote->setLyric(noteLyric);
-            newNote->setLanguage(noteLanguage);
             if (!noteSequence->insertItem(newNote)) {
                 model->destroyItem(newNote);
                 newNote = nullptr;

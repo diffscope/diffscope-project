@@ -60,8 +60,6 @@ namespace Core::Internal {
         qCDebug(lcGeneralPage) << "useSystemLanguage" << m_widget->property("useSystemLanguage");
         m_widget->setProperty("localeName", BehaviorPreference::instance()->property("localeName"));
         qCDebug(lcGeneralPage) << "localeName" << m_widget->property("localeName");
-        m_widget->setProperty("fallbackLyricLanguageCode", BehaviorPreference::instance()->property("fallbackLyricLanguageCode"));
-        qCDebug(lcGeneralPage) << "fallbackLyricLanguageCode" << m_widget->property("fallbackLyricLanguageCode");
         m_widget->setProperty("fallbackLyricText", BehaviorPreference::instance()->property("fallbackLyricText"));
         qCDebug(lcGeneralPage) << "fallbackLyricText" << m_widget->property("fallbackLyricText");
         m_widget->setProperty("hasNotificationSoundAlert", BehaviorPreference::instance()->property("hasNotificationSoundAlert"));
@@ -102,8 +100,6 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
         qCDebug(lcGeneralPage) << "localeName" << m_widget->property("localeName");
         BehaviorPreference::instance()->setProperty("localeName", m_widget->property("localeName"));
-        qCDebug(lcGeneralPage) << "fallbackLyricLanguageCode" << m_widget->property("fallbackLyricLanguageCode");
-        BehaviorPreference::instance()->setProperty("fallbackLyricLanguageCode", m_widget->property("fallbackLyricLanguageCode"));
         qCDebug(lcGeneralPage) << "fallbackLyricText" << m_widget->property("fallbackLyricText");
         BehaviorPreference::instance()->setProperty("fallbackLyricText", m_widget->property("fallbackLyricText"));
         qCDebug(lcGeneralPage) << "hasNotificationSoundAlert" << m_widget->property("hasNotificationSoundAlert");
