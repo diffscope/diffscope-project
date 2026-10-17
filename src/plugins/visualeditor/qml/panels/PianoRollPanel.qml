@@ -22,6 +22,7 @@ QtObject {
 
     readonly property Component pianoRollPanelComponent: ActionDockingPane {
         id: pane
+        preferredSize: Qt.size(1152, 480)
 
         function validateState(state) {
             const durations = [PositionAlignmentManipulator.Auto, PositionAlignmentManipulator.Unset, PositionAlignmentManipulator.Note1st, PositionAlignmentManipulator.Note2nd, PositionAlignmentManipulator.Note4th, PositionAlignmentManipulator.Note8th, PositionAlignmentManipulator.Note16th, PositionAlignmentManipulator.Note32nd, PositionAlignmentManipulator.Note64th, PositionAlignmentManipulator.Note128th]

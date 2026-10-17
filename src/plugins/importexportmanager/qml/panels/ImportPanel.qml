@@ -21,6 +21,7 @@ QtObject {
 
     readonly property Component importPanelComponent: ActionDockingPane {
         id: pane
+        preferredSize: Qt.size(600, 464)
         ThemedItem.backgroundLevel: addOn?.isHomeWindow ? SVS.BL_Quaternary : SVS.BL_Primary
         ColumnLayout {
             anchors.fill: parent

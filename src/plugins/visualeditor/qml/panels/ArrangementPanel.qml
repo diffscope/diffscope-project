@@ -21,6 +21,7 @@ QtObject {
     required property QtObject scrollAddOn
 
     readonly property Component arrangementPanelComponent: ActionDockingPane {
+        preferredSize: Qt.size(1152, 320)
 
         function validateState(state) {
             const durations = [PositionAlignmentManipulator.Auto, PositionAlignmentManipulator.Unset, PositionAlignmentManipulator.Note1st, PositionAlignmentManipulator.Note2nd, PositionAlignmentManipulator.Note4th, PositionAlignmentManipulator.Note8th, PositionAlignmentManipulator.Note16th, PositionAlignmentManipulator.Note32nd, PositionAlignmentManipulator.Note64th, PositionAlignmentManipulator.Note128th]

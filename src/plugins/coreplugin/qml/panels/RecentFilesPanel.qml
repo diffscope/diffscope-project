@@ -21,6 +21,7 @@ QtObject {
 
     readonly property Component recentFilesPanelComponent: ActionDockingPane {
         id: pane
+        preferredSize: Qt.size(600, 464)
 
         property bool recentFilesIsListView: false
 

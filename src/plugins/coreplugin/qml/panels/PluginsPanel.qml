@@ -14,6 +14,8 @@ import SVSCraft.UIComponents
 import DiffScope.UIShell
 
 ActionDockingPane {
+    preferredSize: Qt.size(480, 560)
+
     PluginView {
         anchors.fill: parent
         useSplitView: false

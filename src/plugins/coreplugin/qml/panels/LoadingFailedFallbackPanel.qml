@@ -19,6 +19,7 @@ DockingPane {
     required property bool componentRegistered
     required property string errorString
 
+    preferredSize: Qt.size(600, 400)
     title: qsTr("%1 (Failed to Load)").arg(actionText)
     icon.source: "image://fluent-system-icons/error_circle"
     icon.color: Theme.errorColor

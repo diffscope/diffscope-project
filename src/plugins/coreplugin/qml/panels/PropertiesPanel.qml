@@ -22,6 +22,8 @@ QtObject {
     required property QtObject addOn
 
     readonly property Component propertiesPanelComponent: ActionDockingPane {
+        preferredSize: Qt.size(424, 640)
+
         ListModel {
             id: selectionTypeModel
             ListElement {

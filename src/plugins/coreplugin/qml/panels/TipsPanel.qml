@@ -12,5 +12,5 @@ import SVSCraft.UIComponents
 import DiffScope.UIShell
 
 ActionDockingPane {
-
+    preferredSize: Qt.size(400, 240)
 }

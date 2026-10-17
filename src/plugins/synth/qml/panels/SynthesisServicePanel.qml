@@ -39,6 +39,8 @@ QtObject {
 
     readonly property Component panelComponent: ActionDockingPane {
         id: pane
+        preferredSize: Qt.size(480, 560)
+
         property double now: Date.now()
         onVisibleChanged: {
             if (visible)

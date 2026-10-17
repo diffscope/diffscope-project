@@ -13,6 +13,7 @@ import DiffScope.UIShell
 
 ActionDockingPane {
     id: pane
+    preferredSize: Qt.size(400, 480)
 
     signal singerSelected(string architectureId, string singerId)
 

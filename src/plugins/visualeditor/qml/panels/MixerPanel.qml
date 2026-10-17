@@ -20,6 +20,8 @@ QtObject {
     required property QtObject scrollAddOn
 
     readonly property Component mixerPanelComponent: ActionDockingPane {
+        preferredSize: Qt.size(1152, 480)
+
         function validateState(state) {
             if (!state || typeof state !== "object" || Array.isArray(state)
                 || (state.tool !== undefined && (!Number.isInteger(state.tool) || state.tool < MixerPanelInterface.PointerTool || state.tool > MixerPanelInterface.HandTool)))

@@ -18,6 +18,8 @@ QtObject {
 
     readonly property Component notificationsPanelComponent: ActionDockingPane {
         id: pane
+        preferredSize: Qt.size(400, 400)
+
         Docking.onVisibleChanged: () => {
             if (Docking.visible)
                 d.addOn.deactivateIndicator()
