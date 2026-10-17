@@ -82,7 +82,7 @@ jobs:
       VCPKG_DISABLE_METRICS: '1'
       INNOSETUP_REF: is-6_5_4
       DSSP_CHANNEL: nightly
-      DSSP_VERSION: 0.1.0-nightly.20261017.1
+      DSSP_VERSION: 0.1.0-nightly.20261017.2
       MACOSX_DEPLOYMENT_TARGET: 13.0
       BUILD_DIR: ${{ github.workspace }}/build/build
       INSTALL_DIR: ${{ github.workspace }}/build/install
