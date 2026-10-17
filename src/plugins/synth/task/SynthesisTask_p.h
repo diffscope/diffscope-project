@@ -22,6 +22,7 @@ namespace Synth {
         SynthesisTaskOptions options;
         SynthesisTaskResult result;
         SynthesisTask::State state{SynthesisTask::Queued};
+        double progress{};
         QUuid serviceId;
         QString serviceName;
         QDateTime createdAt{QDateTime::currentDateTimeUtc()};

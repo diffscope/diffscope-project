@@ -63,6 +63,7 @@ namespace Synth::Internal {
         QML_UNCREATABLE("")
         Q_PROPERTY(bool busy READ busy NOTIFY changed)
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY changed)
+        Q_PROPERTY(double progress READ progress NOTIFY changed)
         Q_PROPERTY(QVariantList extractors READ extractors NOTIFY extractorsChanged)
         Q_PROPERTY(QString error READ error NOTIFY changed)
     public:
@@ -74,6 +75,7 @@ namespace Synth::Internal {
 
         bool busy() const;
         bool refreshing() const;
+        double progress() const;
         QVariantList extractors() const;
         QString error() const;
         const AudioExtractionResult &result() const;
@@ -135,6 +137,7 @@ namespace Synth::Internal {
         int m_pendingMetadata{};
         quint64 m_generation{};
         bool m_busy{};
+        double m_progress{};
     };
 
 }

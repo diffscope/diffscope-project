@@ -187,9 +187,10 @@ namespace Synth {
         if (d->state == state && d->errorMessage == error) {
             return;
         }
+        const bool wasQueued = d->state == SynthesisTask::Queued;
         d->state = state;
         d->errorMessage = error;
-        if (state == SynthesisTask::Running) {
+        if (wasQueued && task->isActive()) {
             d->startedAt = QDateTime::currentDateTimeUtc();
         }
         if (state == SynthesisTask::Succeeded || state == SynthesisTask::Failed || state == SynthesisTask::Canceled) {
@@ -204,6 +205,29 @@ namespace Synth {
         if (task->isFinished()) {
             Q_EMIT task->finished();
         }
+    }
+
+    Internal::Api::StreamUpdateHandler SynthesisTaskManagerPrivate::streamUpdateHandler(SynthesisTask *task) {
+        return [this, task = QPointer<SynthesisTask>(task)](const Internal::Api::StreamUpdate &update) {
+            if (!task || !task->isActive())
+                return;
+            auto d = SynthesisTaskPrivate::get(task);
+            if (d->progress != update.progress) {
+                d->progress = update.progress;
+                Q_EMIT task->progressChanged();
+            }
+            switch (update.state) {
+                case Internal::Api::StreamState::AwaitingResponse:
+                    setState(task, SynthesisTask::AwaitingResponse);
+                    break;
+                case Internal::Api::StreamState::Queued:
+                    setState(task, SynthesisTask::StreamingQueued);
+                    break;
+                case Internal::Api::StreamState::Processing:
+                    setState(task, SynthesisTask::Synthesizing);
+                    break;
+            }
+        };
     }
 
     bool SynthesisTaskManagerPrivate::canStart(const ServiceInstanceConfiguration &service, SynthesisTaskType type) const {
@@ -253,7 +277,7 @@ namespace Synth {
         const auto pipeline = synthesisPipeline(service, taskPrivate->request.context);
         if (taskPrivate->request.context.architectureExtra.isUndefined())
             taskPrivate->request.context.architectureExtra = pipeline.group.defaultArchExtra;
-        setState(task, SynthesisTask::Running);
+        setState(task, SynthesisTask::AwaitingResponse);
         ++activeByService[service.id()];
         ++activeByServiceAndType[counterKey(service.id(), task->type())];
         obtainEnvironmentTag(task, service);
@@ -269,7 +293,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::complete(SynthesisTask *task, SynthesisTaskResult result) {
-        if (task->state() != SynthesisTask::Running) {
+        if (!task->isActive()) {
             return;
         }
         auto taskPrivate = SynthesisTaskPrivate::get(task);
@@ -284,7 +308,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::fail(SynthesisTask *task, const QString &message) {
-        if (task->state() != SynthesisTask::Running) {
+        if (!task->isActive()) {
             return;
         }
         publishDiagnostics(task);
@@ -294,7 +318,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::finishCanceled(SynthesisTask *task) {
-        if (task->state() != SynthesisTask::Running) {
+        if (!task->isActive()) {
             return;
         }
         auto taskPrivate = SynthesisTaskPrivate::get(task);
@@ -308,7 +332,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::requeue(SynthesisTask *task, const std::optional<ServiceInstanceConfiguration> &service) {
-        if (!task || task->state() != SynthesisTask::Running) {
+        if (!task || !task->isActive()) {
             return;
         }
         queue.append(task);
@@ -321,14 +345,14 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::appendExchanges(SynthesisTask *task, const QList<Internal::Api::ApiExchange> &exchanges) {
-        if (!task || task->state() != SynthesisTask::Running || exchanges.isEmpty()) {
+        if (!task || !task->isActive() || exchanges.isEmpty()) {
             return;
         }
         diagnosticExchanges[task] += exchanges;
     }
 
     void SynthesisTaskManagerPrivate::appendExchange(SynthesisTask *task, const Internal::Api::ApiExchange &exchange) {
-        if (!task || task->state() != SynthesisTask::Running) {
+        if (!task || !task->isActive()) {
             return;
         }
         diagnosticExchanges[task].append(exchange);
@@ -497,7 +521,7 @@ namespace Synth {
             if (shuttingDown) {
                 watcher->deleteLater();
                 for (const auto &task : pending.tasks) {
-                    if (task && task->state() == SynthesisTask::Running) {
+                    if (task && task->isActive()) {
                         finishCanceled(task);
                     }
                 }
@@ -505,7 +529,7 @@ namespace Synth {
             }
             QList<QPointer<SynthesisTask>> validTasks;
             for (const auto &task : pending.tasks) {
-                if (!task || task->state() != SynthesisTask::Running) {
+                if (!task || !task->isActive()) {
                     continue;
                 }
                 const auto resolution = resolveService(task->request().context);
@@ -558,7 +582,7 @@ namespace Synth {
                                             QDateTime::currentDateTimeUtc().addSecs(std::max(1, cache.environmentTagTtlSeconds())),
                                         });
             for (const auto &task : validTasks) {
-                if (!task || task->state() != SynthesisTask::Running) {
+                if (!task || !task->isActive()) {
                     continue;
                 }
                 const auto resolution = resolveService(task->request().context);
@@ -575,7 +599,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::execute(SynthesisTask *task, const ServiceInstanceConfiguration &service, const QString &environmentTag) {
-        if (task->state() != SynthesisTask::Running) {
+        if (!task->isActive()) {
             return;
         }
         if (task->type() == SynthesisTaskType::Parameter) {
@@ -624,7 +648,7 @@ namespace Synth {
         for (const auto &note : task->request().lyricNotes) {
             request.input.notes.append({note.lyric, note.language});
         }
-        watch(task, apiClient->synthesizePronunciation(service, request), [this, task, key](ApiResult<V1::PronunciationResponse> response) {
+        watch(task, apiClient->synthesizePronunciation(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::PronunciationResponse> response) {
             if (!response) {
                 fail(task, apiErrorText(response.error()));
                 return;
@@ -643,7 +667,7 @@ namespace Synth {
         for (const auto &note : task->request().pronunciationNotes) {
             request.input.notes.append({note.pronunciation, note.language, note.syllableSliceStart, note.syllableSliceEnd});
         }
-        watch(task, apiClient->synthesizePhoneme(service, request), [this, task, key](ApiResult<V1::PhonemeResponse> response) {
+        watch(task, apiClient->synthesizePhoneme(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::PhonemeResponse> response) {
             if (!response) {
                 fail(task, apiErrorText(response.error()));
                 return;
@@ -680,7 +704,7 @@ namespace Synth {
             }
             request.input.notes.append(converted);
         }
-        watch(task, apiClient->synthesizeDuration(service, request), [this, task, key](ApiResult<V1::DurationResponse> response) {
+        watch(task, apiClient->synthesizeDuration(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::DurationResponse> response) {
             if (!response) {
                 fail(task, apiErrorText(response.error()));
                 return;
@@ -767,7 +791,7 @@ namespace Synth {
             }
             request.input.parameters.values.insert(it.key(), parameter);
         }
-        watch(task, apiClient->synthesizeParameter(service, request), [this, task, service, environmentTag, requestModel, combined = std::move(combined)](ApiResult<V1::ParameterResponse> response) mutable {
+        watch(task, apiClient->synthesizeParameter(service, request, streamUpdateHandler(task)), [this, task, service, environmentTag, requestModel, combined = std::move(combined)](ApiResult<V1::ParameterResponse> response) mutable {
             if (!response) {
                 fail(task, apiErrorText(response.error()));
                 return;
@@ -808,7 +832,7 @@ namespace Synth {
             parameter.sampleRate = it->sampleRate;
             request.input.parameters.values.insert(it.key(), parameter);
         }
-        watch(task, apiClient->synthesizeAudio(service, request), [this, task, service, key](ApiResult<V1::AudioResponse> response) {
+        watch(task, apiClient->synthesizeAudio(service, request, streamUpdateHandler(task)), [this, task, service, key](ApiResult<V1::AudioResponse> response) {
             if (!response) {
                 fail(task, apiErrorText(response.error()));
                 return;
@@ -1047,13 +1071,15 @@ namespace Synth {
     int SynthesisTaskManager::runningTaskCount() const {
         Q_D(const SynthesisTaskManager);
         return static_cast<int>(std::ranges::count_if(d->tasks, [](SynthesisTask *task) {
-            return task->state() == SynthesisTask::Running;
+            return task->isActive() && !task->isQueued();
         }));
     }
 
     int SynthesisTaskManager::queuedTaskCount() const {
         Q_D(const SynthesisTaskManager);
-        return d->queue.size();
+        return static_cast<int>(std::ranges::count_if(d->tasks, [](SynthesisTask *task) {
+            return task->isQueued();
+        }));
     }
 
     qint64 SynthesisTaskManager::cacheSize() const {

@@ -241,10 +241,12 @@ namespace Synth::Internal {
             }
             switch (task->state()) {
                 case SynthesisTask::Queued:
+                case SynthesisTask::StreamingQueued:
                     ++queuedTaskCounts[serviceId];
                     tasksByService[serviceId].append(task);
                     break;
-                case SynthesisTask::Running:
+                case SynthesisTask::AwaitingResponse:
+                case SynthesisTask::Synthesizing:
                     ++runningTaskCounts[serviceId];
                     tasksByService[serviceId].append(task);
                     break;

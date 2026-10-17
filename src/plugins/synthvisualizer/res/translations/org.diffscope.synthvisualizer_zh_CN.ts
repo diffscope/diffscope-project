@@ -56,11 +56,6 @@
         <translation type="unfinished">排队中：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="374"/>
-        <source>Synthesizing: %1</source>
-        <translation type="unfinished">合成中：%1</translation>
-    </message>
-    <message>
         <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
         <source>Ready</source>
         <translation type="unfinished">就绪</translation>
@@ -94,6 +89,11 @@
         <location filename="../../internal/model/SynthesisPieceModel.cpp" line="394"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="382"/>
+        <source>Synthesizing: %1 (%L2%)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

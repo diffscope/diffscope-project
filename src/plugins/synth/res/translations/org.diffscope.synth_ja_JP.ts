@@ -621,6 +621,21 @@ X-Custom-Header-2: bar</source>
         <source>The synthesis service returned invalid JSON: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="488"/>
+        <source>The synthesis service returned an invalid streaming response</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="556"/>
+        <source>The synthesis service returned a streaming error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="669"/>
+        <source>The synthesis service closed the stream before returning a result</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Synth::Internal::ArchitectureExtraModel</name>
@@ -1524,11 +1539,6 @@ X-Custom-Header-2: bar</source>
     </message>
     <message>
         <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Running</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
         <source>Succeeded</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1600,6 +1610,11 @@ X-Custom-Header-2: bar</source>
     <message>
         <location filename="../../qml/panels/SynthesisServicePanel.qml" line="321"/>
         <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
+        <source>Running (%1%)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

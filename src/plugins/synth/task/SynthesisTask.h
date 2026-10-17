@@ -24,6 +24,9 @@ namespace Synth {
         Q_PROPERTY(QUuid id READ id CONSTANT)
         Q_PROPERTY(Synth::SynthesisTaskType type READ type CONSTANT)
         Q_PROPERTY(State state READ state NOTIFY stateChanged)
+        Q_PROPERTY(bool active READ isActive NOTIFY stateChanged)
+        Q_PROPERTY(bool queued READ isQueued NOTIFY stateChanged)
+        Q_PROPERTY(double progress READ progress NOTIFY progressChanged)
         Q_PROPERTY(QString displayName READ displayName CONSTANT)
         Q_PROPERTY(QUuid serviceInstanceId READ serviceInstanceId NOTIFY serviceChanged)
         Q_PROPERTY(QString serviceInstanceName READ serviceInstanceName NOTIFY serviceChanged)
@@ -38,7 +41,9 @@ namespace Synth {
     public:
         enum State {
             Queued,
-            Running,
+            AwaitingResponse,
+            StreamingQueued,
+            Synthesizing,
             Succeeded,
             Failed,
             Canceled,
@@ -50,6 +55,11 @@ namespace Synth {
         QUuid id() const;
         SynthesisTaskType type() const;
         State state() const;
+        /// Returns whether the task occupies a service concurrency slot.
+        bool isActive() const;
+        /// Returns whether the task is queued locally or on the service.
+        bool isQueued() const;
+        double progress() const;
         QString displayName() const;
         QUuid serviceInstanceId() const;
         QString serviceInstanceName() const;
@@ -67,6 +77,7 @@ namespace Synth {
 
     Q_SIGNALS:
         void stateChanged();
+        void progressChanged();
         void serviceChanged();
         void priorityChanged();
         void diagnosticsChanged();

@@ -4,6 +4,7 @@
 #ifndef DIFFSCOPE_SYNTH_INTERNAL_APITYPES_H
 #define DIFFSCOPE_SYNTH_INTERNAL_APITYPES_H
 
+#include <functional>
 #include <optional>
 #include <utility>
 
@@ -18,6 +19,19 @@
 #include <QUuid>
 
 namespace Synth::Internal::Api {
+
+    enum class StreamState {
+        AwaitingResponse,
+        Queued,
+        Processing,
+    };
+
+    struct StreamUpdate {
+        StreamState state{StreamState::AwaitingResponse};
+        double progress{};
+    };
+
+    using StreamUpdateHandler = std::function<void(const StreamUpdate &)>;
 
     struct ApiExchange {
         quint64 requestId{};

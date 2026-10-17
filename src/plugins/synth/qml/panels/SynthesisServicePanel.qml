@@ -19,18 +19,20 @@ QtObject {
         return [qsTr("Pronunciation"), qsTr("Phoneme"), qsTr("Duration"), qsTr("Parameter"), qsTr("Audio")][type] ?? qsTr("Unknown");
     }
 
-    function taskStateText(state) {
-        return [qsTr("Queued"), qsTr("Running"), qsTr("Succeeded"), qsTr("Failed"), qsTr("Canceled")][state] ?? qsTr("Unknown");
+    function taskStateText(task) {
+        if (task.state === 1 || task.state === 3)
+            return qsTr("Running (%1%)").arg(Math.round(task.progress * 100).toLocaleString(Qt.locale(), "f", 0));
+        return [qsTr("Queued"), "", qsTr("Queued"), "", qsTr("Succeeded"), qsTr("Failed"), qsTr("Canceled")][task.state] ?? qsTr("Unknown");
     }
 
     function taskStateIcon(state) {
-        return ["clock", "play_circle", "checkmark_circle", "dismiss_circle", "subtract_circle"][state] ?? "question_circle";
+        return ["clock", "play_circle", "clock", "play_circle", "checkmark_circle", "dismiss_circle", "subtract_circle"][state] ?? "question_circle";
     }
 
     function taskStateColor(state) {
-        if (state === 1)
+        if (state === 1 || state === 3)
             return Theme.accentColor;
-        if (state === 3)
+        if (state === 5)
             return Theme.errorColor;
         return Theme.foregroundSecondaryColor;
     }
@@ -239,9 +241,9 @@ QtObject {
                                         color: Theme.backgroundTertiaryColor
                                         radius: 3
                                         Accessible.role: Accessible.ListItem
-                                        Accessible.name: "%1, %2".arg(root.taskTypeText(task.type)).arg(root.taskStateText(task.state))
+                                        Accessible.name: "%1, %2".arg(root.taskTypeText(task.type)).arg(root.taskStateText(task))
 
-                                        ToolTip.visible: taskHoverHandler.hovered && !diagnosticsButton.hovered && !removeButton.hovered && task.state === 3 && Boolean(task.errorMessage)
+                                        ToolTip.visible: taskHoverHandler.hovered && !diagnosticsButton.hovered && !removeButton.hovered && task.state === 5 && Boolean(task.errorMessage)
                                         ToolTip.text: task.errorMessage
 
                                         HoverHandler {
@@ -267,19 +269,19 @@ QtObject {
                                             }
 
                                             Label {
-                                                text: root.taskStateText(taskDelegate.task.state)
+                                                text: root.taskStateText(taskDelegate.task)
                                                 color: root.taskStateColor(taskDelegate.task.state)
                                             }
 
                                             Label {
-                                                visible: taskDelegate.task.state === 1 && Boolean(taskDelegate.task.startedAt)
+                                                visible: taskDelegate.task.active && !taskDelegate.task.queued && Boolean(taskDelegate.task.startedAt)
                                                 text: qsTr("%L1 s").arg(Math.max(0, Math.floor((pane.now - taskDelegate.task.startedAt.getTime()) / 1000)))
                                                 ThemedItem.foregroundLevel: SVS.FL_Secondary
                                             }
 
                                             ToolButton {
                                                 id: terminateButton
-                                                visible: taskDelegate.task.state === 0 || taskDelegate.task.state === 1
+                                                visible: taskDelegate.task.queued || taskDelegate.task.active
                                                 text: qsTr("Terminate Task")
                                                 display: AbstractButton.IconOnly
                                                 icon.source: "image://fluent-system-icons/stop"
@@ -289,7 +291,7 @@ QtObject {
 
                                             ToolButton {
                                                 id: diagnosticsButton
-                                                visible: taskDelegate.task.state === 3 && Boolean(taskDelegate.task.diagnosticFilePath)
+                                                visible: taskDelegate.task.state === 5 && Boolean(taskDelegate.task.diagnosticFilePath)
                                                 text: qsTr("View Diagnostics")
                                                 display: AbstractButton.IconOnly
                                                 icon.source: "image://fluent-system-icons/document_search"
@@ -298,7 +300,7 @@ QtObject {
 
                                             ToolButton {
                                                 id: removeButton
-                                                visible: taskDelegate.task.state === 3
+                                                visible: taskDelegate.task.state === 5
                                                 text: qsTr("Remove Task")
                                                 display: AbstractButton.IconOnly
                                                 icon.source: "image://fluent-system-icons/dismiss"

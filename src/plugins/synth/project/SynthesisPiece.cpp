@@ -36,6 +36,10 @@ namespace Synth {
         Q_D(const SynthesisPiece);
         return d->state;
     }
+    double SynthesisPiece::progress() const {
+        Q_D(const SynthesisPiece);
+        return d->progress;
+    }
     SynthesisTaskType SynthesisPiece::currentTaskType() const {
         Q_D(const SynthesisPiece);
         return d->currentTaskType;

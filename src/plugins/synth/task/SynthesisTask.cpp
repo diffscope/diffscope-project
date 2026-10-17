@@ -27,6 +27,18 @@ namespace Synth {
         Q_D(const SynthesisTask);
         return d->state;
     }
+    bool SynthesisTask::isActive() const {
+        const auto current = state();
+        return current == AwaitingResponse || current == StreamingQueued || current == Synthesizing;
+    }
+    bool SynthesisTask::isQueued() const {
+        const auto current = state();
+        return current == Queued || current == StreamingQueued;
+    }
+    double SynthesisTask::progress() const {
+        Q_D(const SynthesisTask);
+        return d->progress;
+    }
     QString SynthesisTask::displayName() const {
         Q_D(const SynthesisTask);
         return d->request.displayName;

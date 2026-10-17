@@ -70,6 +70,7 @@ namespace Synth {
 
         void setService(SynthesisTask *task, const ServiceInstanceConfiguration &service);
         void setState(SynthesisTask *task, SynthesisTask::State state, const QString &error = {});
+        Internal::Api::StreamUpdateHandler streamUpdateHandler(SynthesisTask *task);
         bool canStart(const ServiceInstanceConfiguration &service, SynthesisTaskType type) const;
         void pump();
         void start(SynthesisTask *task, const ServiceInstanceConfiguration &service);
@@ -90,15 +91,16 @@ namespace Synth {
         void watch(SynthesisTask *task, QFuture<Internal::Api::ApiResult<T>> future, Callback callback) {
             auto watcher = new QFutureWatcher<Internal::Api::ApiResult<T>>(q_ptr);
             cancelFunctions.insert(task, [future]() mutable { future.cancel(); });
-            QObject::connect(watcher, &QFutureWatcherBase::finished, q_ptr, [this, watcher, task, callback = std::move(callback)]() mutable {
+            QObject::connect(watcher, &QFutureWatcherBase::finished, q_ptr, [this, watcher, task = QPointer<SynthesisTask>(task), callback = std::move(callback)]() mutable {
+                watcher->deleteLater();
+                if (!task || task->isFinished())
+                    return;
                 cancelFunctions.remove(task);
                 if (watcher->future().isCanceled()) {
-                    watcher->deleteLater();
                     finishCanceled(task);
                     return;
                 }
                 const auto result = watcher->result();
-                watcher->deleteLater();
                 appendExchanges(task, result.exchanges());
                 callback(std::move(result));
             });

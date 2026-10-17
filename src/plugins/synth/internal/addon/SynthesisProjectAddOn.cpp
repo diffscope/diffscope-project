@@ -79,6 +79,25 @@ namespace Synth::Internal {
 
     using namespace ProjectInput;
 
+    namespace {
+
+        void synchronizePieceTask(SynthesisPiece *piece, const SynthesisTask *task) {
+            auto d = SynthesisPiecePrivate::get(piece);
+            d->state = SynthesisPiece::Queued;
+            d->progress = task && task->isActive() ? task->progress() : 0;
+            if (!task)
+                return;
+            if (task->state() == SynthesisTask::AwaitingResponse) {
+                d->state = SynthesisPiece::AwaitingResponse;
+            } else if (task->state() == SynthesisTask::StreamingQueued) {
+                d->state = SynthesisPiece::StreamingQueued;
+            } else if (task->state() == SynthesisTask::Synthesizing) {
+                d->state = SynthesisPiece::Synthesizing;
+            }
+        }
+
+    }
+
     class SynthesisExportListener : public Audio::AudioExporterListener {
     public:
         static SynthesisExportListener &instance() {
@@ -355,13 +374,15 @@ namespace Synth::Internal {
 
     int SynthesisProjectAddOn::synthesizingPieceCount() const {
         return static_cast<int>(std::ranges::count_if(pieces(), [](SynthesisPiece *piece) {
-            return piece->state() == SynthesisPiece::Synthesizing;
+            return piece->state() == SynthesisPiece::AwaitingResponse ||
+                   piece->state() == SynthesisPiece::Synthesizing;
         }));
     }
 
     int SynthesisProjectAddOn::queuedPieceCount() const {
         return static_cast<int>(std::ranges::count_if(pieces(), [](SynthesisPiece *piece) {
-            return piece->state() == SynthesisPiece::Queued;
+            return piece->state() == SynthesisPiece::Queued ||
+                   piece->state() == SynthesisPiece::StreamingQueued;
         }));
     }
 
@@ -496,7 +517,7 @@ namespace Synth::Internal {
             auto d = SynthesisPiecePrivate::get(piece);
             d->clip = nullptr;
             ++d->revision;
-            if (auto task = m_pieceTasks.value(piece); task && task->state() == SynthesisTask::Queued) {
+            if (auto task = m_pieceTasks.value(piece); task && task->isQueued()) {
                 discardTaskWritebacks(task);
                 m_taskManager->cancel(task);
             }
@@ -515,15 +536,17 @@ namespace Synth::Internal {
         updateCounts();
     }
 
-    void SynthesisProjectAddOn::synchronizePieces(ClipRuntime *runtime) {
+    QList<SynthesisPiece *> SynthesisProjectAddOn::synchronizePieces(ClipRuntime *runtime) {
         if (!runtime || !runtime->clip || !runtime->divider) {
-            return;
+            return {};
         }
         const auto sourcePieces = runtime->divider->pieces();
         QSet<dspx::Piece *> live(sourcePieces.cbegin(), sourcePieces.cend());
+        QList<SynthesisPiece *> changedPieces;
         bool changed{};
         for (auto source : sourcePieces) {
             auto piece = runtime->pieces.value(source);
+            const bool added = !piece;
             if (!piece) {
                 piece = new SynthesisPiece(runtime->clip, m_context);
                 runtime->pieces.insert(source, piece);
@@ -535,9 +558,30 @@ namespace Synth::Internal {
             }
             auto d = SynthesisPiecePrivate::get(piece);
             if (d->position != source->position() || d->length != source->length()) {
+                qCDebug(lcSynthesisScheduler) << "The synthesis piece range changed." << piece->id()
+                                            << "oldPosition" << d->position << "oldLength" << d->length
+                                            << "position" << source->position() << "length" << source->length();
+                if (!added) {
+                    ++d->revision;
+                    if (auto task = m_pieceTasks.value(piece);
+                        task && task->type() > SynthesisTaskType::Phoneme) {
+                        discardTaskWritebacks(task);
+                        if (task->isQueued())
+                            m_taskManager->cancel(task);
+                        m_pieceTasks.remove(piece);
+                    }
+                    removeAudio(piece);
+                    d->state = SynthesisPiece::Stale;
+                    d->progress = 0;
+                    d->errorMessage.clear();
+                    d->diagnosticFilePath.clear();
+                }
                 d->position = source->position();
                 d->length = source->length();
+                changedPieces.append(piece);
                 Q_EMIT piece->rangeChanged();
+                if (!added)
+                    publishPieceState(piece);
             }
         }
         for (auto source : runtime->pieces.keys()) {
@@ -553,10 +597,10 @@ namespace Synth::Internal {
             // A language task owns an immutable range and remains useful when a
             // phoneme writeback replaces its SynthesisPiece projection.
             if (auto task = m_pieceTasks.value(piece);
-                task && task->state() == SynthesisTask::Queued &&
-                task->type() > SynthesisTaskType::Phoneme) {
+                task && task->type() > SynthesisTaskType::Phoneme) {
                 discardTaskWritebacks(task);
-                m_taskManager->cancel(task);
+                if (task->isQueued())
+                    m_taskManager->cancel(task);
             }
             m_pieceTasks.remove(piece);
             removeAudio(piece);
@@ -571,6 +615,7 @@ namespace Synth::Internal {
         if (changed)
             Q_EMIT m_context->piecesChanged();
         updateCounts();
+        return changedPieces;
     }
 
     bool SynthesisProjectAddOn::isPieceInSynthesisRange(const ClipRuntime *runtime, const SynthesisPiece *piece) const {
@@ -623,8 +668,8 @@ namespace Synth::Internal {
         }
         ++d->revision;
         const quint64 revision = d->revision;
-        const bool running = task && task->state() == SynthesisTask::Running;
-        if (task && task->state() == SynthesisTask::Queued) {
+        const bool running = task && task->isActive() && !task->isQueued();
+        if (task && task->isQueued()) {
             discardTaskWritebacks(task);
             m_taskManager->cancel(task);
         }
@@ -913,6 +958,8 @@ namespace Synth::Internal {
                             clipsToStart.insert(runtime->clipHandle);
                             break;
                         case SynthesisPiece::Queued:
+                        case SynthesisPiece::AwaitingResponse:
+                        case SynthesisPiece::StreamingQueued:
                         case SynthesisPiece::Synthesizing:
                             waiting = true;
                             break;
@@ -1041,13 +1088,13 @@ namespace Synth::Internal {
                     }
                     if (!languageCoverage || candidate->type < languageCoverage->type ||
                         (candidate->type == languageCoverage->type &&
-                         candidate->task->state() == SynthesisTask::Running)) {
+                         candidate->task->isActive())) {
                         languageCoverage = candidate;
                     }
                 }
             }
             if (blockedLanguageCoverage) {
-                if (old && old->state() == SynthesisTask::Queued) {
+                if (old && old->isQueued()) {
                     discardTaskWritebacks(old);
                     m_taskManager->cancel(old);
                 }
@@ -1066,14 +1113,12 @@ namespace Synth::Internal {
             }
             if (languageCoverage || completedLanguageCoverage) {
                 auto coverageTask = languageCoverage ? languageCoverage->task.data() : nullptr;
-                if (old && old != coverageTask && old->state() == SynthesisTask::Queued) {
+                if (old && old != coverageTask && old->isQueued()) {
                     discardTaskWritebacks(old);
                     m_taskManager->cancel(old);
                 }
                 ++d->revision;
-                d->state = coverageTask && coverageTask->state() == SynthesisTask::Running
-                               ? SynthesisPiece::Synthesizing
-                               : SynthesisPiece::Queued;
+                synchronizePieceTask(piece, coverageTask);
                 d->currentTaskType = languageCoverage
                                          ? languageCoverage->type
                                          : nextStage(completedLanguageCoverage->pipeline, SynthesisTaskType::Phoneme);
@@ -1091,7 +1136,7 @@ namespace Synth::Internal {
             if (!coveredByCurrentPipeline) {
                 ++d->revision;
                 d->state = SynthesisPiece::Stale;
-                if (old && old->state() == SynthesisTask::Queued) {
+                if (old && old->isQueued()) {
                     m_taskManager->cancel(old);
                 }
                 toSchedule.append(piece);
@@ -1182,7 +1227,7 @@ namespace Synth::Internal {
                     deferredLanguagePieces.insert(piece, oldWriteback);
             }
             oldWriteback->discarded = true;
-            if (oldWriteback->task && oldWriteback->task->state() == SynthesisTask::Queued)
+            if (oldWriteback->task && oldWriteback->task->isQueued())
                 m_taskManager->cancel(oldWriteback->task);
         }
         for (auto it = deferredLanguagePieces.cbegin(); it != deferredLanguagePieces.cend(); ++it) {
@@ -1212,7 +1257,7 @@ namespace Synth::Internal {
         }
         for (auto piece : affectedPieces) {
             const auto oldTask = m_pieceTasks.value(piece);
-            if (oldTask && oldTask->state() == SynthesisTask::Queued) {
+            if (oldTask && oldTask->isQueued()) {
                 discardTaskWritebacks(oldTask);
                 m_taskManager->cancel(oldTask);
             }
@@ -1233,7 +1278,7 @@ namespace Synth::Internal {
         for (auto piece : affectedPieces) {
             auto d = SynthesisPiecePrivate::get(piece);
             ++d->revision;
-            d->state = SynthesisPiece::Queued;
+            synchronizePieceTask(piece, task);
             d->currentTaskType = fromType;
             d->errorMessage.clear();
             d->diagnosticFilePath.clear();
@@ -1252,12 +1297,12 @@ namespace Synth::Internal {
         writeback->piecePosition = position;
         writeback->pieceLength = length;
         m_taskWritebacks.insert(writeback);
-        connect(task, &SynthesisTask::stateChanged, this, [this, clipHandle = runtime->clipHandle, task, fromType, position, length] {
-            if (task->state() != SynthesisTask::Running)
+        const auto updateTask = [this, clipHandle = runtime->clipHandle, task = QPointer<SynthesisTask>(task), fromType, position, length] {
+            if (!task || !task->isActive())
                 return;
             queueFinalizer([this, clipHandle, task, fromType, position, length] {
                 auto runtime = m_clips.value(clipHandle);
-                if (!runtime || !runtime->clip || task->state() != SynthesisTask::Running ||
+                if (!runtime || !runtime->clip || !task || !task->isActive() ||
                     !hasUnprocessedWriteback(task)) {
                     return;
                 }
@@ -1265,14 +1310,16 @@ namespace Synth::Internal {
                          runtime, piecesInRange(runtime->clip, position, length)
                      )) {
                     auto d = SynthesisPiecePrivate::get(currentPiece);
-                    d->state = SynthesisPiece::Synthesizing;
+                    synchronizePieceTask(currentPiece, task);
                     d->currentTaskType = fromType;
                     m_pieceTasks.insert(currentPiece, task);
                     publishPieceState(currentPiece);
                 }
                 updateCounts();
             });
-        });
+        };
+        connect(task, &SynthesisTask::stateChanged, this, updateTask);
+        connect(task, &SynthesisTask::progressChanged, this, updateTask);
         connect(task, &SynthesisTask::finished, this, [this, writeback] {
             queueTaskWriteback(writeback);
         });
@@ -1359,26 +1406,27 @@ namespace Synth::Internal {
 
     void SynthesisProjectAddOn::bindPieceTask(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTask *task, quint64 revision, const SynthesisTaskOptions &) {
         auto d = SynthesisPiecePrivate::get(piece);
-        d->state = SynthesisPiece::Queued;
+        synchronizePieceTask(piece, task);
         d->currentTaskType = task->type();
         d->errorMessage.clear();
         d->diagnosticFilePath.clear();
         publishPieceState(piece);
-        connect(task, &SynthesisTask::stateChanged, this, [this, runtime, piece = QPointer<SynthesisPiece>(piece), task, revision] {
-            if (task->state() != SynthesisTask::Running)
+        const auto updateTask = [this, clipHandle = runtime->clipHandle, piece = QPointer<SynthesisPiece>(piece), task = QPointer<SynthesisTask>(task), revision] {
+            if (!task || !task->isActive())
                 return;
-            queueFinalizer([this, runtime, piece, task, revision] {
-                if (m_clips.value(runtime->clipHandle) != runtime || !piece ||
+            queueFinalizer([this, clipHandle, piece, task, revision] {
+                if (!m_clips.contains(clipHandle) || !piece || !task ||
                     SynthesisPiecePrivate::get(piece)->revision != revision ||
-                    task->state() != SynthesisTask::Running) {
+                    !task->isActive()) {
                     return;
                 }
-                auto d = SynthesisPiecePrivate::get(piece);
-                d->state = SynthesisPiece::Synthesizing;
+                synchronizePieceTask(piece, task);
                 publishPieceState(piece);
                 updateCounts();
             });
-        });
+        };
+        connect(task, &SynthesisTask::stateChanged, this, updateTask);
+        connect(task, &SynthesisTask::progressChanged, this, updateTask);
         updateCounts();
     }
 
@@ -1399,8 +1447,12 @@ namespace Synth::Internal {
             }
             configureDivider(runtime->divider);
             runtime->divider->update();
-            synchronizePieces(runtime);
-            invalidate(runtime, fromType, synthesisPiecesForClip(runtime), options);
+            const auto changedPieces = synchronizePieces(runtime);
+            auto unchangedPieces = synthesisPiecesForClip(runtime);
+            for (auto piece : changedPieces)
+                unchangedPieces.removeOne(piece);
+            invalidate(runtime, fromType, unchangedPieces, options);
+            invalidate(runtime, std::min(fromType, SynthesisTaskType::Duration), changedPieces, options);
         }
         updatePriorities();
     }
@@ -1425,8 +1477,12 @@ namespace Synth::Internal {
         if (auto runtime = runtimeForClip(clip); runtime && runtime->divider) {
             configureDivider(runtime->divider);
             runtime->divider->update();
-            synchronizePieces(runtime);
-            invalidate(runtime, fromType, synthesisPiecesForClip(runtime), options);
+            const auto changedPieces = synchronizePieces(runtime);
+            auto unchangedPieces = synthesisPiecesForClip(runtime);
+            for (auto piece : changedPieces)
+                unchangedPieces.removeOne(piece);
+            invalidate(runtime, fromType, unchangedPieces, options);
+            invalidate(runtime, std::min(fromType, SynthesisTaskType::Duration), changedPieces, options);
         }
         updatePriorities();
     }
@@ -1459,14 +1515,17 @@ namespace Synth::Internal {
         runtime = runtimeForClip(clip);
         if (!runtime || !runtime->clip || !runtime->divider)
             return;
+        const double position = piece->position();
+        const double length = piece->length();
         configureDivider(runtime->divider);
         runtime->divider->update();
-        synchronizePieces(runtime);
-        if (!runtime->pieces.values().contains(piece))
-            return;
-        if (!isPieceInSynthesisRange(runtime, piece))
-            return;
-        invalidate(runtime, fromType, {piece}, options);
+        auto changedPieces = synchronizePieces(runtime);
+        for (auto currentPiece : piecesInRange(clip, position, length)) {
+            const bool topologyChanged = changedPieces.removeOne(currentPiece);
+            const auto stage = topologyChanged ? std::min(fromType, SynthesisTaskType::Duration) : fromType;
+            invalidate(runtime, stage, {currentPiece}, options);
+        }
+        invalidate(runtime, SynthesisTaskType::Duration, changedPieces, options);
         updatePriorities();
     }
 
@@ -1898,15 +1957,13 @@ namespace Synth::Internal {
                     }
                     if (!coverage || candidate->type < coverage->type ||
                         (candidate->type == coverage->type &&
-                         candidate->task->state() == SynthesisTask::Running)) {
+                         candidate->task->isActive())) {
                         coverage = candidate;
                     }
                 }
                 if (coverage) {
                     auto d = SynthesisPiecePrivate::get(piece);
-                    d->state = coverage->task->state() == SynthesisTask::Running
-                                   ? SynthesisPiece::Synthesizing
-                                   : SynthesisPiece::Queued;
+                    synchronizePieceTask(piece, coverage->task);
                     d->currentTaskType = coverage->type;
                     d->errorMessage.clear();
                     d->diagnosticFilePath.clear();
@@ -1960,7 +2017,7 @@ namespace Synth::Internal {
                             });
                         }
                         candidate->discarded = true;
-                        if (candidate->task && candidate->task->state() == SynthesisTask::Queued)
+                        if (candidate->task && candidate->task->isQueued())
                             m_taskManager->cancel(candidate->task);
                     }
                     notifyFailure(affected, message, diagnosticFilePath);
@@ -2034,6 +2091,7 @@ namespace Synth::Internal {
         for (auto affected : synthesisPiecesIn(runtime, piecesInRange(runtime->clip, writeback->piecePosition, writeback->pieceLength))) {
             auto d = SynthesisPiecePrivate::get(affected);
             d->state = SynthesisPiece::Queued;
+            d->progress = 0;
             d->currentTaskType = next;
             d->errorMessage.clear();
             d->diagnosticFilePath.clear();
@@ -2184,8 +2242,13 @@ namespace Synth::Internal {
 
             configureDivider(runtime->divider);
             runtime->divider->update();
-            synchronizePieces(runtime);
+            const auto changedPieces = synchronizePieces(runtime);
+            if (!changedPieces.isEmpty() && from > SynthesisTaskType::Duration) {
+                from = SynthesisTaskType::Duration;
+                requestedParameters.reset();
+            }
             auto affected = affectedPieces();
+            affected.append(changedPieces);
             for (const auto &[position, length] : invalidatedRanges)
                 affected.append(piecesInRange(runtime->clip, position, length));
             QSet<SynthesisPiece *> uniqueAffected(affected.cbegin(), affected.cend());
@@ -2240,22 +2303,16 @@ namespace Synth::Internal {
                 return !continuation.failed;
             }
         );
-        QHash<SynthesisPiece *, QPair<double, double>> oldRanges;
-        for (auto piece : runtime->pieces) {
-            if (piece)
-                oldRanges.insert(piece, {piece->position(), piece->length()});
-        }
+        QSet<SynthesisPiece *> changedPieces;
         if (hasSuccessfulPhoneme) {
             configureDivider(runtime->divider);
             runtime->divider->update();
-            synchronizePieces(runtime);
+            const auto changed = synchronizePieces(runtime);
+            changedPieces = QSet<SynthesisPiece *>(changed.cbegin(), changed.cend());
         }
 
         for (auto piece : synthesisPiecesForClip(runtime)) {
-            const auto oldRange = oldRanges.constFind(piece);
-            const bool topologyChanged = oldRange == oldRanges.cend() ||
-                                         oldRange->first != piece->position() ||
-                                         oldRange->second != piece->length();
+            const bool topologyChanged = changedPieces.contains(piece);
             const ClipRuntime::LanguageContinuation *successful{};
             const ClipRuntime::LanguageContinuation *failed{};
             for (const auto &continuation : continuations) {
@@ -2310,14 +2367,6 @@ namespace Synth::Internal {
             }
             if (!successful) {
                 continue;
-            }
-            if (topologyChanged) {
-                auto d = SynthesisPiecePrivate::get(piece);
-                ++d->revision;
-                d->state = SynthesisPiece::Stale;
-                d->errorMessage.clear();
-                d->diagnosticFilePath.clear();
-                removeAudio(piece);
             }
             const auto next = nextStage(successful->pipeline, SynthesisTaskType::Phoneme);
             schedulePieceStage(runtime, piece, next, successful->options);

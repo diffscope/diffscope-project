@@ -56,11 +56,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="374"/>
-        <source>Synthesizing: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
@@ -93,6 +88,11 @@
     <message>
         <location filename="../../internal/model/SynthesisPieceModel.cpp" line="394"/>
         <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="382"/>
+        <source>Synthesizing: %1 (%L2%)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

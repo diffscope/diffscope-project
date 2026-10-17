@@ -133,7 +133,8 @@ Dialog {
         ProgressBar {
             Layout.fillWidth: true
             visible: dialog.busy || dialog.refreshing
-            indeterminate: true
+            value: dialog.task?.progress ?? 0
+            indeterminate: dialog.refreshing || value === 0
             Accessible.name: qsTr("Extraction status")
         }
         Label {

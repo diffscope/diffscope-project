@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -17,6 +18,7 @@
 #include <QHash>
 #include <QImageReader>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonParseError>
 #include <QList>
 #include <QLoggingCategory>
@@ -109,6 +111,7 @@ namespace {
         QList<ApiExchange> exchanges;
         std::function<bool()> isCanceled;
         std::function<void()> reportStarted;
+        StreamUpdateHandler reportUpdate;
         std::function<void(const RawResponse &)> reportResponse;
         std::function<void()> reportCanceledAndFinished;
     };
@@ -281,6 +284,14 @@ namespace {
             QPointer<QTimer> retryTimer;
             QDateTime attemptStartedAt;
             bool timedOut{};
+            QByteArray responseBody;
+            QByteArray pendingLine;
+            bool streaming{};
+            bool processing{};
+            bool terminal{};
+            double progress{};
+            QJsonValue result{QJsonValue::Undefined};
+            std::optional<ApiError> streamError;
         };
 
         void ensureInitialized() {
@@ -359,7 +370,9 @@ namespace {
 
         QNetworkRequest networkRequest(const RequestTask &task) const {
             QNetworkRequest request(requestUrl(task));
-            request.setRawHeader("Accept", "application/json");
+            request.setRawHeader("Accept", task.category == RequestCategory::None
+                                             ? "application/json"
+                                             : "application/x-ndjson, application/json;q=0.9");
             if (!task.displayLanguage.isEmpty())
                 request.setRawHeader("Accept-Language", task.displayLanguage.toUtf8());
             if (task.method == QByteArrayLiteral("POST"))
@@ -407,6 +420,15 @@ namespace {
             }
 
             active.timedOut = false;
+            active.responseBody.clear();
+            active.pendingLine.clear();
+            active.streaming = false;
+            active.processing = false;
+            active.terminal = false;
+            active.progress = 0;
+            active.result = QJsonValue::Undefined;
+            active.streamError.reset();
+            task->reportUpdate({});
             active.attemptStartedAt = QDateTime::currentDateTimeUtc();
             auto request = networkRequest(*task);
             qCDebug(lcDsspApiClient) << "Sending DSSP API request"
@@ -444,9 +466,108 @@ namespace {
             timeout->start();
             active.timeoutTimer = timeout;
 
+            connect(reply, &QNetworkReply::readyRead, this, [this, id, reply] {
+                const auto it = m_active.find(id);
+                if (it == m_active.end() || it->reply != reply)
+                    return;
+                readResponse(it.value(), reply);
+                if (it->terminal || it->streamError) {
+                    QObject::disconnect(reply, nullptr, this, nullptr);
+                    finishAttempt(id, reply);
+                }
+            });
             connect(reply, &QNetworkReply::finished, this, [this, id, reply] {
                 finishAttempt(id, reply);
             });
+        }
+
+        void rejectStream(ActiveTask &active) {
+            ApiError error;
+            error.kind = ApiError::ResponseError;
+            error.httpStatusCode = active.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            error.message = tr("The synthesis service returned an invalid streaming response");
+            active.streamError = std::move(error);
+        }
+
+        void readResponse(ActiveTask &active, QNetworkReply *reply) {
+            const auto bytes = reply->readAll();
+            active.responseBody.append(bytes);
+            const auto contentType = reply->header(QNetworkRequest::ContentTypeHeader).toByteArray().split(';').first().trimmed();
+            active.streaming = contentType.compare(QByteArrayLiteral("application/x-ndjson"), Qt::CaseInsensitive) == 0;
+            if (!active.streaming || active.streamError)
+                return;
+            if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+                rejectStream(active);
+                return;
+            }
+            active.pendingLine.append(bytes);
+            qsizetype consumed = 0;
+            while (true) {
+                const auto end = active.pendingLine.indexOf('\n', consumed);
+                if (end < 0)
+                    break;
+                const auto line = active.pendingLine.mid(consumed, end - consumed);
+                consumed = end + 1;
+                const auto json = parseJsonBestEffort(line);
+                if (active.terminal || !json.isObject()) {
+                    rejectStream(active);
+                    break;
+                }
+                const auto object = json.toObject();
+                const auto event = object.value(QStringLiteral("event")).toString();
+                const auto data = object.value(QStringLiteral("data"));
+                if (object.size() != (data.isUndefined() ? 1 : 2)) {
+                    rejectStream(active);
+                    break;
+                }
+                if (event == QStringLiteral("queue")) {
+                    if (active.processing || !data.isUndefined()) {
+                        rejectStream(active);
+                        break;
+                    }
+                    active.task->reportUpdate({StreamState::Queued, 0});
+                } else if (event == QStringLiteral("progress")) {
+                    double value = 0;
+                    if (!data.isUndefined()) {
+                        const auto progress = data.toObject().value(QStringLiteral("value"));
+                        if (!data.isObject() || data.toObject().size() != 1 || !progress.isDouble()) {
+                            rejectStream(active);
+                            break;
+                        }
+                        value = progress.toDouble();
+                    }
+                    if (!std::isfinite(value) || value < active.progress || value > 1) {
+                        rejectStream(active);
+                        break;
+                    }
+                    active.processing = true;
+                    active.progress = value;
+                    active.task->reportUpdate({StreamState::Processing, value});
+                } else if (event == QStringLiteral("result") && !data.isUndefined()) {
+                    active.result = data;
+                    active.terminal = true;
+                    active.task->reportUpdate({StreamState::Processing, 1});
+                } else if (event == QStringLiteral("error") && !data.isUndefined()) {
+                    ApiError error;
+                    error.kind = ApiError::ResponseError;
+                    error.httpStatusCode = data.toObject().value(QStringLiteral("status")).toInt();
+                    error.message = problemDetailsText(data);
+                    if (error.message.isEmpty())
+                        error.message = tr("The synthesis service returned a streaming error");
+                    error.rawJsonResponse = data;
+                    active.streamError = std::move(error);
+                    active.terminal = true;
+                } else {
+                    rejectStream(active);
+                    break;
+                }
+                // Complete events, including repeated heartbeats, reset the inactivity deadline.
+                if (active.timeoutTimer)
+                    active.timeoutTimer->start();
+            }
+            active.pendingLine.remove(0, consumed);
+            if (active.terminal && !active.pendingLine.isEmpty())
+                rejectStream(active);
         }
 
         void finishAttempt(quint64 id, QNetworkReply *reply) {
@@ -458,6 +579,7 @@ namespace {
 
             auto &active = it.value();
             const auto task = active.task;
+            readResponse(active, reply);
             if (active.timeoutTimer)
                 active.timeoutTimer->stop();
 
@@ -471,8 +593,11 @@ namespace {
                                     .trimmed();
             const auto retryAfter = reply->rawHeader(QByteArrayLiteral("Retry-After"));
             const auto url = reply->url();
-            const auto body = reply->readAll();
-            const auto rawJson = parseJsonBestEffort(body);
+            const auto body = active.responseBody;
+            const auto rawJson = active.streaming ? active.result : parseJsonBestEffort(body);
+            QObject::disconnect(reply, nullptr, this, nullptr);
+            if (!reply->isFinished())
+                reply->abort();
             reply->deleteLater();
             active.reply = nullptr;
             active.timeoutTimer = nullptr;
@@ -533,6 +658,20 @@ namespace {
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
+            } else if (active.streaming) {
+                if (active.streamError) {
+                    response.error = active.streamError;
+                    response.error->rawResponse = body;
+                } else if (!active.terminal) {
+                    ApiError error;
+                    error.kind = ApiError::ResponseError;
+                    error.httpStatusCode = status;
+                    error.message = tr("The synthesis service closed the stream before returning a result");
+                    error.rawResponse = body;
+                    response.error = std::move(error);
+                } else {
+                    response.json = active.result;
+                }
             } else {
                 QJsonParseError parseError;
                 const auto json = QJsonValue::fromJson(body, &parseError);
@@ -700,7 +839,7 @@ namespace {
 
 class ApiClient::Private {
 public:
-    Private() {
+    explicit Private(ApiClient *client) : client(client) {
         worker = new NetworkWorker;
         worker->moveToThread(&networkThread);
         QObject::connect(&networkThread, &QThread::finished, worker, &QObject::deleteLater);
@@ -724,7 +863,8 @@ public:
     QFuture<ApiResult<T>> request(const ServiceInstanceConfiguration &service, const QByteArray &method,
                                   const QStringList &route, const RequestQuery &query,
                                   const QByteArray &body, RequestCategory category,
-                                  ApiVersion apiVersion = ApiVersion::V1, const QString &displayLanguage = {}) {
+                                  ApiVersion apiVersion = ApiVersion::V1, const QString &displayLanguage = {},
+                                  StreamUpdateHandler update = {}) {
         // Pending is a real, waitable Qt future state used by continuations. Until
         // reportStarted() is called by the network scheduler, isStarted()/isRunning() remain
         // false and Qt 6.10 also reports isValid() == false. Callers must therefore use
@@ -743,6 +883,14 @@ public:
         task->body = body;
         task->category = category;
         task->apiVersion = apiVersion;
+        task->reportUpdate = [client = client, futureInterface, update = std::move(update)](const StreamUpdate &value) {
+            if (!update || futureInterface->isCanceled())
+                return;
+            QMetaObject::invokeMethod(client, [futureInterface, update, value] {
+                if (!futureInterface->isCanceled())
+                    update(value);
+            }, Qt::QueuedConnection);
+        };
         task->isCanceled = [futureInterface] { return futureInterface->isCanceled(); };
         task->reportStarted = [futureInterface] {
             if (!futureInterface->isCanceled() && !futureInterface->isStarted())
@@ -800,11 +948,12 @@ public:
     }
 
     QThread networkThread;
+    ApiClient *client{};
     NetworkWorker *worker{};
     std::atomic<quint64> nextId{1};
 };
 
-ApiClient::ApiClient(QObject *parent) : QObject(parent), d(std::make_unique<Private>()) {}
+ApiClient::ApiClient(QObject *parent) : QObject(parent), d(std::make_unique<Private>(this)) {}
 
 ApiClient::~ApiClient() = default;
 
@@ -902,42 +1051,42 @@ ApiClient::createEnvironmentTag(const ServiceInstanceConfiguration &service,
 
 QFuture<ApiResult<V1::PronunciationResponse>>
 ApiClient::synthesizePronunciation(const ServiceInstanceConfiguration &service,
-                                   const V1::PronunciationRequest &request) {
+                                   const V1::PronunciationRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PronunciationResponse>(
         service, QByteArrayLiteral("POST"), {QStringLiteral("synth"), QStringLiteral("pronunciation")}, {},
-        jsonBody(request.toJson()), RequestCategory::Pronunciation);
+        jsonBody(request.toJson()), RequestCategory::Pronunciation, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::PhonemeResponse>>
 ApiClient::synthesizePhoneme(const ServiceInstanceConfiguration &service,
-                             const V1::PhonemeRequest &request) {
+                             const V1::PhonemeRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PhonemeResponse>(service, QByteArrayLiteral("POST"),
                                           {QStringLiteral("synth"), QStringLiteral("phoneme")}, {},
-                                          jsonBody(request.toJson()), RequestCategory::Phoneme);
+                                          jsonBody(request.toJson()), RequestCategory::Phoneme, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::DurationResponse>>
 ApiClient::synthesizeDuration(const ServiceInstanceConfiguration &service,
-                              const V1::DurationRequest &request) {
+                              const V1::DurationRequest &request, StreamUpdateHandler update) {
     return d->request<V1::DurationResponse>(service, QByteArrayLiteral("POST"),
                                            {QStringLiteral("synth"), QStringLiteral("duration")}, {},
-                                           jsonBody(request.toJson()), RequestCategory::Duration);
+                                           jsonBody(request.toJson()), RequestCategory::Duration, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::ParameterResponse>>
 ApiClient::synthesizeParameter(const ServiceInstanceConfiguration &service,
-                               const V1::ParameterRequest &request) {
+                               const V1::ParameterRequest &request, StreamUpdateHandler update) {
     return d->request<V1::ParameterResponse>(service, QByteArrayLiteral("POST"),
                                             {QStringLiteral("synth"), QStringLiteral("parameter")}, {},
-                                            jsonBody(request.toJson()), RequestCategory::Parameter);
+                                            jsonBody(request.toJson()), RequestCategory::Parameter, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::AudioResponse>>
 ApiClient::synthesizeAudio(const ServiceInstanceConfiguration &service,
-                           const V1::AudioRequest &request) {
+                           const V1::AudioRequest &request, StreamUpdateHandler update) {
     return d->request<V1::AudioResponse>(service, QByteArrayLiteral("POST"),
                                         {QStringLiteral("synth"), QStringLiteral("audio")}, {},
-                                        jsonBody(request.toJson()), RequestCategory::Audio);
+                                        jsonBody(request.toJson()), RequestCategory::Audio, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::ExtractorList>>
@@ -971,27 +1120,27 @@ ApiClient::getSeparationExtractor(const ServiceInstanceConfiguration &service, c
 }
 
 QFuture<ApiResult<V1::NoteExtractionResponse>>
-ApiClient::extractNotes(const ServiceInstanceConfiguration &service, const V1::NoteExtractionRequest &request) {
+ApiClient::extractNotes(const ServiceInstanceConfiguration &service, const V1::NoteExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::NoteExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("note")}, {}, jsonBody(request.toJson()), RequestCategory::NoteExtraction);
+        {QStringLiteral("extract"), QStringLiteral("note")}, {}, jsonBody(request.toJson()), RequestCategory::NoteExtraction, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::TempoExtractionResponse>>
-ApiClient::extractTempo(const ServiceInstanceConfiguration &service, const V1::TempoExtractionRequest &request) {
+ApiClient::extractTempo(const ServiceInstanceConfiguration &service, const V1::TempoExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::TempoExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("tempo")}, {}, jsonBody(request.toJson()), RequestCategory::TempoExtraction);
+        {QStringLiteral("extract"), QStringLiteral("tempo")}, {}, jsonBody(request.toJson()), RequestCategory::TempoExtraction, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::PitchExtractionResponse>>
-ApiClient::extractPitch(const ServiceInstanceConfiguration &service, const V1::PitchExtractionRequest &request) {
+ApiClient::extractPitch(const ServiceInstanceConfiguration &service, const V1::PitchExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PitchExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("pitch")}, {}, jsonBody(request.toJson()), RequestCategory::PitchExtraction);
+        {QStringLiteral("extract"), QStringLiteral("pitch")}, {}, jsonBody(request.toJson()), RequestCategory::PitchExtraction, ApiVersion::V1, {}, std::move(update));
 }
 
 QFuture<ApiResult<V1::SeparationExtractionResponse>>
-ApiClient::extractSeparation(const ServiceInstanceConfiguration &service, const V1::SeparationExtractionRequest &request, const QString &displayLanguage) {
+ApiClient::extractSeparation(const ServiceInstanceConfiguration &service, const V1::SeparationExtractionRequest &request, const QString &displayLanguage, StreamUpdateHandler update) {
     return d->request<V1::SeparationExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("separation")}, {}, jsonBody(request.toJson()), RequestCategory::SeparationExtraction, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extract"), QStringLiteral("separation")}, {}, jsonBody(request.toJson()), RequestCategory::SeparationExtraction, ApiVersion::V1, displayLanguage, std::move(update));
 }
 
 void ApiClient::cancelAll() { d->cancelAll(); }

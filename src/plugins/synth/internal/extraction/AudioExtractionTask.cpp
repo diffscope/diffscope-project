@@ -47,6 +47,7 @@ namespace Synth::Internal {
 
     bool AudioExtractionTask::busy() const { return m_busy; }
     bool AudioExtractionTask::refreshing() const { return m_pendingMetadata > 0; }
+    double AudioExtractionTask::progress() const { return m_progress; }
     QString AudioExtractionTask::error() const { return m_error; }
     const AudioExtractionResult &AudioExtractionTask::result() const { return m_result; }
 
@@ -120,6 +121,7 @@ namespace Synth::Internal {
             m_reply->abort();
         m_pendingMetadata = 0;
         m_busy = false;
+        m_progress = 0;
         qCDebug(lcAudioExtractionTask) << "Entered idle state";
         Q_EMIT changed();
     }
@@ -138,6 +140,7 @@ namespace Synth::Internal {
         ++m_generation;
         m_cancelled = std::make_shared<std::atomic_bool>(false);
         m_busy = true;
+        m_progress = 0;
         m_error.clear();
         m_result = {};
         m_stems.clear();
@@ -193,8 +196,14 @@ namespace Synth::Internal {
     void AudioExtractionTask::request(const Extractor &extractor, const QString &audioUrl) {
         qCDebug(lcAudioExtractionTask) << "Entered extracting state";
         const Api::V1::ExtractionRequest request{extractor.info.id, {audioUrl}};
+        const auto update = [this, generation = m_generation](const Api::StreamUpdate &value) {
+            if (generation != m_generation || !m_busy || m_progress == value.progress)
+                return;
+            m_progress = value.progress;
+            Q_EMIT changed();
+        };
         if (m_type == Notes) {
-            watch(m_client.extractNotes(extractor.service, request), [this](const auto &result) {
+            watch(m_client.extractNotes(extractor.service, request, update), [this](const auto &result) {
                 if (result.hasError()) {
                     fail(result.error().message);
                     return;
@@ -213,7 +222,7 @@ namespace Synth::Internal {
                 complete();
             });
         } else if (m_type == Tempo) {
-            watch(m_client.extractTempo(extractor.service, request), [this](const auto &result) {
+            watch(m_client.extractTempo(extractor.service, request, update), [this](const auto &result) {
                 if (result.hasError()) {
                     fail(result.error().message);
                     return;
@@ -230,7 +239,7 @@ namespace Synth::Internal {
                 complete();
             });
         } else if (m_type == Pitch) {
-            watch(m_client.extractPitch(extractor.service, request), [this](const auto &result) {
+            watch(m_client.extractPitch(extractor.service, request, update), [this](const auto &result) {
                 if (result.hasError()) {
                     fail(result.error().message);
                     return;
@@ -259,7 +268,7 @@ namespace Synth::Internal {
             separation.input.audioUrl = audioUrl;
             // An empty format list accepts any server output format; transport is explicit.
             separation.acceptableSchemes = {QStringLiteral("data"), QStringLiteral("http"), QStringLiteral("https")};
-            watch(m_client.extractSeparation(extractor.service, separation, QLocale().bcp47Name()), [this](const auto &result) {
+            watch(m_client.extractSeparation(extractor.service, separation, QLocale().bcp47Name(), update), [this](const auto &result) {
                 if (result.hasError()) {
                     fail(result.error().message);
                     return;

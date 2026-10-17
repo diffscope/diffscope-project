@@ -65,19 +65,24 @@ namespace Synth::Internal::Api {
                                  const V1::EnvTagRequest &request);
         QFuture<ApiResult<V1::PronunciationResponse>>
             synthesizePronunciation(const ServiceInstanceConfiguration &service,
-                                    const V1::PronunciationRequest &request);
+                                    const V1::PronunciationRequest &request,
+                                    StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::PhonemeResponse>>
             synthesizePhoneme(const ServiceInstanceConfiguration &service,
-                              const V1::PhonemeRequest &request);
+                              const V1::PhonemeRequest &request,
+                              StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::DurationResponse>>
             synthesizeDuration(const ServiceInstanceConfiguration &service,
-                               const V1::DurationRequest &request);
+                               const V1::DurationRequest &request,
+                               StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::ParameterResponse>>
             synthesizeParameter(const ServiceInstanceConfiguration &service,
-                                const V1::ParameterRequest &request);
+                                const V1::ParameterRequest &request,
+                                StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::AudioResponse>>
             synthesizeAudio(const ServiceInstanceConfiguration &service,
-                            const V1::AudioRequest &request);
+                            const V1::AudioRequest &request,
+                            StreamUpdateHandler update = {});
 
         QFuture<ApiResult<V1::ExtractorList>>
             getExtractors(const ServiceInstanceConfiguration &service,
@@ -97,17 +102,21 @@ namespace Synth::Internal::Api {
 
         QFuture<ApiResult<V1::NoteExtractionResponse>>
             extractNotes(const ServiceInstanceConfiguration &service,
-                         const V1::NoteExtractionRequest &request);
+                         const V1::NoteExtractionRequest &request,
+                         StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::TempoExtractionResponse>>
             extractTempo(const ServiceInstanceConfiguration &service,
-                         const V1::TempoExtractionRequest &request);
+                         const V1::TempoExtractionRequest &request,
+                         StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::PitchExtractionResponse>>
             extractPitch(const ServiceInstanceConfiguration &service,
-                         const V1::PitchExtractionRequest &request);
+                         const V1::PitchExtractionRequest &request,
+                         StreamUpdateHandler update = {});
         QFuture<ApiResult<V1::SeparationExtractionResponse>>
             extractSeparation(const ServiceInstanceConfiguration &service,
                               const V1::SeparationExtractionRequest &request,
-                              const QString &displayLanguage = {});
+                              const QString &displayLanguage = {},
+                              StreamUpdateHandler update = {});
 
         void cancelAll();
         void shutdown();

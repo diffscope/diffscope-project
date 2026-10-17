@@ -120,6 +120,8 @@ namespace SynthVisualizer::Internal {
                 return piece->errorMessage();
             case ActiveRole:
                 return piece->state() == Synth::SynthesisPiece::Queued ||
+                       piece->state() == Synth::SynthesisPiece::AwaitingResponse ||
+                       piece->state() == Synth::SynthesisPiece::StreamingQueued ||
                        piece->state() == Synth::SynthesisPiece::Synthesizing;
             case ReadyRole:
                 return piece->state() == Synth::SynthesisPiece::Ready;
@@ -180,6 +182,8 @@ namespace SynthVisualizer::Internal {
     bool SynthesisPieceModel::isPieceTaskActive(QObject *pieceObject) const {
         auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
         return piece && (piece->state() == Synth::SynthesisPiece::Queued ||
+                         piece->state() == Synth::SynthesisPiece::AwaitingResponse ||
+                         piece->state() == Synth::SynthesisPiece::StreamingQueued ||
                          piece->state() == Synth::SynthesisPiece::Synthesizing);
     }
 
@@ -346,6 +350,8 @@ namespace SynthVisualizer::Internal {
             case Synth::SynthesisPiece::Idle:
             case Synth::SynthesisPiece::Stale:
             case Synth::SynthesisPiece::Queued:
+            case Synth::SynthesisPiece::AwaitingResponse:
+            case Synth::SynthesisPiece::StreamingQueued:
             case Synth::SynthesisPiece::Synthesizing:
                 viewItem->setType(SVS::SVSCraft::CT_Normal);
                 break;
@@ -369,9 +375,11 @@ namespace SynthVisualizer::Internal {
             case Synth::SynthesisPiece::Stale:
                 return tr("Waiting");
             case Synth::SynthesisPiece::Queued:
+            case Synth::SynthesisPiece::StreamingQueued:
                 return tr("Queued: %1").arg(taskTypeText(piece->currentTaskType()));
+            case Synth::SynthesisPiece::AwaitingResponse:
             case Synth::SynthesisPiece::Synthesizing:
-                return tr("Synthesizing: %1").arg(taskTypeText(piece->currentTaskType()));
+                return tr("Synthesizing: %1 (%L2%)").arg(taskTypeText(piece->currentTaskType())).arg(qRound(piece->progress() * 100));
             case Synth::SynthesisPiece::Ready:
                 return tr("Ready");
             case Synth::SynthesisPiece::Failed:

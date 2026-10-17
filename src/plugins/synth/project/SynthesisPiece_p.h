@@ -23,6 +23,7 @@ namespace Synth {
         double position{};
         double length{};
         SynthesisPiece::State state{SynthesisPiece::Idle};
+        double progress{};
         SynthesisTaskType currentTaskType{SynthesisTaskType::Pronunciation};
         QString audioFilePath;
         QString errorMessage;

@@ -31,6 +31,7 @@ namespace Synth {
         Q_PROPERTY(double position READ position NOTIFY rangeChanged)
         Q_PROPERTY(double length READ length NOTIFY rangeChanged)
         Q_PROPERTY(State state READ state NOTIFY stateChanged)
+        Q_PROPERTY(double progress READ progress NOTIFY stateChanged)
         Q_PROPERTY(Synth::SynthesisTaskType currentTaskType READ currentTaskType NOTIFY stateChanged)
         Q_PROPERTY(QString audioFilePath READ audioFilePath NOTIFY audioFileChanged)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY stateChanged)
@@ -41,6 +42,8 @@ namespace Synth {
             Idle,
             Stale,
             Queued,
+            AwaitingResponse,
+            StreamingQueued,
             Synthesizing,
             Ready,
             Failed,
@@ -54,6 +57,7 @@ namespace Synth {
         double position() const;
         double length() const;
         State state() const;
+        double progress() const;
         SynthesisTaskType currentTaskType() const;
         QString audioFilePath() const;
         QString errorMessage() const;

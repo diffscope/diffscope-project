@@ -84,7 +84,7 @@ namespace Synth {
             void removeClip(dspx::Handle clipHandle);
             void watchClipLifetime(ClipRuntime *runtime);
             void resetClipBaseline(ClipRuntime *runtime);
-            void synchronizePieces(ClipRuntime *runtime);
+            QList<SynthesisPiece *> synchronizePieces(ClipRuntime *runtime);
             bool isPieceInSynthesisRange(const ClipRuntime *runtime, const SynthesisPiece *piece) const;
             QList<SynthesisPiece *> synthesisPiecesForClip(const ClipRuntime *runtime) const;
             QList<SynthesisPiece *> synthesisPiecesIn(const ClipRuntime *runtime, const QList<SynthesisPiece *> &pieces) const;
