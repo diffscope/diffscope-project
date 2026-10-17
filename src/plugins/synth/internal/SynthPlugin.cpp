@@ -15,10 +15,14 @@
 #include <QAKCore/actionregistry.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <synth/internal/ArchitecturePage.h>
 #include <synth/internal/AudioExtractionAddOn.h>
+#include <synth/internal/DsspServerAddOn.h>
+#include <synth/internal/DsspServerManager.h>
+#include <synth/internal/DsspServerPage.h>
 #include <synth/internal/ServicesPage.h>
 #include <synth/internal/SynthService.h>
 #include <synth/internal/SynthesisPage.h>
@@ -49,19 +53,27 @@ namespace Synth::Internal {
             return false;
         }
 
+        m_dsspServer = new DsspServerManager(pluginSpec()->location(), this);
+        Core::RuntimeInterface::instance()->addObject(m_dsspServer);
+        m_dsspServer->initialize();
+
         auto rootPage = new SynthesisPage;
         rootPage->addPage(new ArchitecturePage);
         rootPage->addPage(new ServicesPage(m_service));
+        rootPage->addPage(new DsspServerPage(m_dsspServer));
         Core::CoreInterface::settingCatalog()->addPage(rootPage);
 
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisServicePanelAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisProjectAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioExtractionAddOn>();
+        Core::HomeWindowInterfaceRegistry::instance()->attach<DsspServerAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<DsspServerAddOn>();
         qCInfo(lcSynthPlugin) << "Initialized";
         return true;
     }
 
     void SynthPlugin::extensionsInitialized() {
+        m_dsspServer->enableNotifications();
     }
 
     bool SynthPlugin::delayedInitialize() {
@@ -72,6 +84,8 @@ namespace Synth::Internal {
 
     ExtensionSystem::IPlugin::ShutdownFlag SynthPlugin::aboutToShutdown() {
         qCInfo(lcSynthPlugin) << "Shutting down";
+        if (m_dsspServer)
+            m_dsspServer->shutdown();
         if (m_service)
             m_service->shutdown();
         qCInfo(lcSynthPlugin) << "Shut down";

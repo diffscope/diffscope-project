@@ -39,17 +39,17 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="261"/>
+        <location filename="../org.diffscope.synth_actions.xml" line="43"/>
         <source>Synthesis Services</source>
         <translation type="unfinished">Synthesis Services</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="262"/>
+        <location filename="../org.diffscope.synth_actions.xml" line="53"/>
         <source>Synthesis Status</source>
         <translation type="unfinished">Synthesis Status</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="263"/>
+        <location filename="../org.diffscope.synth_actions.xml" line="60"/>
         <source>&amp;Resynthesize...</source>
         <translation type="unfinished">&amp;Resynthesize...</translation>
     </message>
@@ -59,20 +59,63 @@
         <translation type="unfinished">Synthesis Actions</translation>
     </message>
     <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="40"/>
         <source>Audio Extraction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="41"/>
         <source>Extract Notes...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="42"/>
         <source>Separate Audio...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml"/>
+        <location filename="../org.diffscope.synth_actions.xml" line="52"/>
         <source>Show Synthesis Services</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="20"/>
+        <source>DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="32"/>
+        <source>DiffSinger Synthesis Program Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="30"/>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="28"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="29"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="21"/>
+        <source>DiffSinger Synthesis Program Status Menu Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="31"/>
+        <source>Settings...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.synth_actions.xml" line="67"/>
+        <source>Synthesis Status Indicators</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1926,6 +1969,371 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="118"/>
         <source>Extraction status</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DsspServerActions</name>
+    <message>
+        <location filename="../../qml/actions/DsspServerActions.qml" line="80"/>
+        <source>Show DiffSinger Synthesis Program controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DsspServerPage</name>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="29"/>
+        <source>Add DiffSinger Synthesis Program Installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="116"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="339"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="351"/>
+        <source>Additional Command-Line Arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="165"/>
+        <source>Automatically start DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="224"/>
+        <source>Browse for Package Directory...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="218"/>
+        <source>Default package directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="297"/>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="60"/>
+        <source>DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="153"/>
+        <source>Download DiffSinger Synthesis Program...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="31"/>
+        <source>Executable files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="145"/>
+        <source>Executable path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="260"/>
+        <source>Execution Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="280"/>
+        <source>Execution provider</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
+        <source>Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="70"/>
+        <source>Installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="236"/>
+        <source>Log level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="144"/>
+        <source>No DiffSinger Synthesis Program installation is selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="212"/>
+        <source>Package directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="197"/>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="314"/>
+        <source>Refresh Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="127"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="37"/>
+        <source>Select Package Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="174"/>
+        <source>Server Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="268"/>
+        <source>Use the default execution provider and device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="247"/>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="243"/>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="248"/>
+        <source>Fatal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="245"/>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="244"/>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="242"/>
+        <source>Trace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="246"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspDeviceCatalog</name>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="100"/>
+        <source>Could not read execution devices from DiffSinger Synthesis Program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="94"/>
+        <source>Could not start device discovery.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="20"/>
+        <source>Device discovery timed out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerManager</name>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="200"/>
+        <source>Built-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="68"/>
+        <source>Could not start DiffSinger Synthesis Program:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
+        <source>DiffSinger Synthesis Program exited abnormally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="80"/>
+        <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="344"/>
+        <source>DiffSinger Synthesis Program is not configured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="350"/>
+        <source>DiffSinger Synthesis Program is running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="348"/>
+        <source>DiffSinger Synthesis Program is starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
+        <source>DiffSinger Synthesis Program is stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="346"/>
+        <source>DiffSinger Synthesis Program is stopping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="477"/>
+        <source>DiffSinger Synthesis Program Stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="402"/>
+        <source>DiffSinger Synthesis Program was not found:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="211"/>
+        <source>Downloaded %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="193"/>
+        <source>No installation selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="480"/>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="232"/>
+        <source>Selected installation (unavailable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="221"/>
+        <source>DiffSinger Synthesis Program (version unknown)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="221"/>
+        <source>DiffSinger Synthesis Program %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="339"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="332"/>
+        <source>Not Configured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="338"/>
+        <source>Running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="336"/>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="339"/>
+        <source>Stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="334"/>
+        <source>Stopping</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerPage</name>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="23"/>
+        <source>DiffSinger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="24"/>
+        <source>Manager DiffSinger Synthesis Program and startup options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="114"/>
+        <source>No installation is selected. Stop DiffSinger Synthesis Program now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="113"/>
+        <source>Restart DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="113"/>
+        <source>Stop DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="202"/>
+        <source>The executable does not exist:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="82"/>
+        <source>The host must not be empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="90"/>
+        <source>The package directory does not exist:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="86"/>
+        <source>The port must be between %L1 and %L2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
+        <source>The startup options have changed. Restart DiffSinger Synthesis Program now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

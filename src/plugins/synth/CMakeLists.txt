@@ -46,3 +46,10 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     INCLUDE_PRIVATE
         internal/**
 )
+
+set(DIFFSCOPE_DSSP_DIRECTORY "" CACHE PATH "Directory containing the bundled dssp installation")
+if(DIFFSCOPE_DSSP_DIRECTORY)
+    ck_add_attached_files(${PROJECT_NAME}
+        SRC "${DIFFSCOPE_DSSP_DIRECTORY}/*" DEST ./dssp
+    )
+endif()

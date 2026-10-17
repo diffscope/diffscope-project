@@ -18,9 +18,7 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$InstallDir,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
-    [string]$dspmExecutablePath,
+    [string]$DsspDirectory,
 
     [string]$VersionIdentifier = "0",
 
@@ -35,6 +33,10 @@ param(
 
 if (-not (Test-Path $VcpkgRootDir)) {
     throw "Vcpkg root directory does not exist: $VcpkgRootDir"
+}
+
+if ($DsspDirectory) {
+    $DsspDirectory = (Resolve-Path -LiteralPath $DsspDirectory -ErrorAction Stop).Path
 }
 
 New-Item $BuildDir -ItemType Directory -Force | Out-Null
@@ -133,7 +135,7 @@ cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     "-DAPPLICATION_SEMVER=$semver" `
     -DTALCS_DSPX:BOOL=ON `
     -DTALCS_WIDGETS:BOOL=ON `
-    "-DDIFFSCOPE_PACKAGE_MANAGER_COMMAND_LINE_TOOL=$dspmExecutablePath" `
+    "-DDIFFSCOPE_DSSP_DIRECTORY=$DsspDirectory" `
     "-DCMAKE_INSTALL_PREFIX=$(Resolve-Path $InstallDir)" | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Configure failed"

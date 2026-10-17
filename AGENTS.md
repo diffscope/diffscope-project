@@ -189,7 +189,7 @@ cmake --build build --parallel
 cmake --install build --prefix <install-dir>
 ```
 
-On Windows, run these commands in a compiler developer shell and use `DiffScope.exe`. Build one target with `cmake --build build --target <target>`. For CI/package parity, use `scripts/ci/Build.ps1`; it performs a RelWithDebInfo configure, full build, and install and requires vcpkg and the `dspm` executable paths.
+On Windows, run these commands in a compiler developer shell and use `DiffScope.exe`. Build one target with `cmake --build build --target <target>`. For CI/package parity, use `scripts/ci/Build.ps1`. It performs a RelWithDebInfo configure, full build, and install and requires a vcpkg root directory. The optional `DsspDirectory` parameter specifies the bundled dssp installation directory.
 
 Useful options include `APPLICATION_INSTALL`, `APPLICATION_ENABLE_DEVEL`, `APPLICATION_ENABLE_BREAKPAD`, and `APPLICATION_CONFIGURE_INSTALLER`. Keep machine-specific paths in CMake cache entries or environment variables, never in source files.
 

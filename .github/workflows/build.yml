@@ -81,7 +81,8 @@ jobs:
       VCPKG_REF: 39344dff01c5a5a0134caf2624cdd492f05d30ea
       VCPKG_DISABLE_METRICS: '1'
       INNOSETUP_REF: is-6_5_4
-      DSPM_REF: 51b75ae77caef5227be14da9e8e00a0593fbd83a
+      DSSP_CHANNEL: nightly
+      DSSP_VERSION: 0.1.0-nightly.20261017.1
       MACOSX_DEPLOYMENT_TARGET: 13.0
       BUILD_DIR: ${{ github.workspace }}/build/build
       INSTALL_DIR: ${{ github.workspace }}/build/install
@@ -105,11 +106,45 @@ jobs:
           qt_version: ${{ env.QT_VERSION }}
           use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
 
-      - name: Initialize dspm
-        uses: ./.github/actions/initialize-dspm
+      # TODO: Install dspm from its product catalog.
+
+      - name: Download dssp
+        id: download_dssp
+        uses: diffscope/catalogs/actions/download-product@main
         with:
-          ref: ${{ env.DSPM_REF }}
-          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          product: dssp
+          channel: ${{ env.DSSP_CHANNEL }}
+          version: ${{ env.DSSP_VERSION }}
+          platform: ${{ matrix.platform }}
+          arch: ${{ matrix.arch }}
+          variant: portable
+          directory: ${{ runner.temp }}/dssp-download
+          # TODO: Require matching artifacts after dssp is available on all supported platforms.
+          fail-on-no-match: 'false'
+          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+
+      - name: Extract dssp
+        if: steps.download_dssp.outputs.matched == 'true'
+        env:
+          DSSP_ARCHIVE: ${{ steps.download_dssp.outputs.path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $extractionDirectory = Join-Path $env:RUNNER_TEMP ("dssp-" + [guid]::NewGuid())
+          New-Item -ItemType Directory -Path $extractionDirectory | Out-Null
+          if ($IsWindows) {
+            Expand-Archive -LiteralPath $env:DSSP_ARCHIVE -DestinationPath $extractionDirectory
+          } else {
+            & /usr/bin/unzip -q $env:DSSP_ARCHIVE -d $extractionDirectory
+            if ($LASTEXITCODE -ne 0) {
+              throw 'dssp artifact extraction failed'
+            }
+          }
+          $dsspDirectory = Join-Path $extractionDirectory 'dssp_nightly'
+          $executable = Join-Path $dsspDirectory ($IsWindows ? 'bin/dssp.exe' : 'bin/dssp')
+          if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
+            throw 'The dssp artifact does not contain the expected executable'
+          }
+          "DSSP_DIRECTORY=$dsspDirectory" >> $env:GITHUB_ENV
 
       - name: Initialize Vcpkg
         uses: ./.github/actions/initialize-vcpkg
@@ -138,7 +173,7 @@ jobs:
             -BuildDir $env:BUILD_DIR `
             -InstallDir $env:INSTALL_DIR `
             -VersionIdentifier $env:VERSION_IDENTIFIER `
-            -dspmExecutablePath $env:DSPM_EXECUTABLE_PATH `
+            -DsspDirectory $env:DSSP_DIRECTORY `
             -ArtifactPlatform $env:ARTIFACT_PLATFORM `
             -ArtifactArchitecture $env:ARTIFACT_ARCH `
             -CCache:($env:USE_CCACHE -eq 'true')

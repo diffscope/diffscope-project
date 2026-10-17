@@ -30,7 +30,7 @@ If you are interested in contributing or collaborating, please feel free to reac
 - [x] Basic audio processing functionalities
 - [x] Phoneme and parameter editors
 - [x] Audio playback
-- [ ] Integration of synthesis engine
+- [x] Integration of synthesis engine
 
 ## Build
 

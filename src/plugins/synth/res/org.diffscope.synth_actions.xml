@@ -17,6 +17,26 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <items>
         <phony id="core.mainMenu" />
 
+        <menu id="org.diffscope.synth.dssp" text="DiffSinger Synthesis Program" icon="dssp" />
+        <action
+                id="org.diffscope.synth.dssp.statusMenuItem"
+                category="Synth"
+                text="DiffSinger Synthesis Program Status Menu Item"
+                triggerable="false"
+                diffscope:componentType="widget"
+        />
+        <action id="org.diffscope.synth.dssp.start" category="Synth" text="Start" icon="play" />
+        <action id="org.diffscope.synth.dssp.stop" category="Synth" text="Stop" icon="stop" />
+        <action id="org.diffscope.synth.dssp.restart" category="Synth" text="Restart" icon="arrow_clockwise" />
+        <action id="org.diffscope.synth.dssp.settings" category="Synth" text="Settings..." icon="settings" />
+        <action
+                id="org.diffscope.synth.dssp.status"
+                category="Synth"
+                text="DiffSinger Synthesis Program Status"
+                triggerable="false"
+                diffscope:componentType="widget"
+        />
+
         <menu id="org.diffscope.synth.extract" text="Audio Extraction" />
         <action id="org.diffscope.synth.extract.notes" category="Extract" text="Extract Notes..." />
         <action id="org.diffscope.synth.extract.separation" category="Extract" text="Separate Audio..." />
@@ -44,21 +64,38 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 icon="arrow_sync"
         />
 
+        <group id="org.diffscope.synth.statusIndicators" text="Synthesis Status Indicators" />
         <group id="org.diffscope.synth.synthesisActions" />
         <phony id="org.diffscope.core.workspacePanelWidgets" />
     </items>
 
     <layouts>
+        <menu id="org.diffscope.synth.dssp">
+            <action id="org.diffscope.synth.dssp.statusMenuItem" />
+            <separator />
+            <action id="org.diffscope.synth.dssp.start" />
+            <action id="org.diffscope.synth.dssp.stop" />
+            <action id="org.diffscope.synth.dssp.restart" />
+            <separator />
+            <action id="org.diffscope.synth.dssp.settings" />
+        </menu>
         <menu id="org.diffscope.synth.extract">
             <action id="org.diffscope.synth.extract.notes" />
             <action id="org.diffscope.synth.extract.separation" />
         </menu>
+        <group id="org.diffscope.synth.statusIndicators">
+            <action id="org.diffscope.synth.dssp.status" />
+            <action id="org.diffscope.synth.status" />
+        </group>
         <group id="org.diffscope.synth.synthesisActions">
             <action id="org.diffscope.synth.resynthesize" />
         </group>
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.core.preferenceActions" anchor="last">
+            <menu id="org.diffscope.synth.dssp" />
+        </insertion>
         <insertion target="org.diffscope.audio.audioProcessingActions" anchor="last">
             <menu id="org.diffscope.synth.extract" />
         </insertion>
@@ -67,7 +104,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 anchor="before"
                 relativeTo="org.diffscope.core.selectionIndicator"
         >
-            <action id="org.diffscope.synth.status" />
+            <group id="org.diffscope.synth.statusIndicators" />
         </insertion>
         <insertion
                 target="org.diffscope.core.edit"
