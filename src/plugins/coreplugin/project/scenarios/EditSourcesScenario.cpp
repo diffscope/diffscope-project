@@ -214,7 +214,8 @@ namespace Core {
             updateSources(clip, architectureId, singers);
             if (!languages.isEmpty() && !hasUnsupportedLanguage) {
                 hasUnsupportedLanguage = std::ranges::any_of(clip->notes()->asRange(), [&languages](const dspx::Note *note) {
-                    return !languages.contains(note->language());
+                    const auto language = note->language();
+                    return !language.isEmpty() && !languages.contains(language);
                 });
             }
             applied = true;
