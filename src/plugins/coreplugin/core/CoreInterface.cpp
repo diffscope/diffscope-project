@@ -342,7 +342,7 @@ namespace Core {
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
         projectDocumentContext->setParent(windowInterface);
         auto win = static_cast<QQuickWindow *>(windowInterface->window());
-        win->show();
+        win->setVisible(true);
         if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
             qCInfo(lcCoreInterface) << "Closing home window";
             HomeWindowInterface::instance()->quit();
