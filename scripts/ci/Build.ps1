@@ -135,7 +135,6 @@ cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     "-DAPPLICATION_SEMVER=$semver" `
     -DTALCS_DSPX:BOOL=ON `
     -DTALCS_WIDGETS:BOOL=ON `
-    "-DDIFFSCOPE_DSSP_DIRECTORY=$DsspDirectory" `
     "-DCMAKE_INSTALL_PREFIX=$(Resolve-Path $InstallDir)" | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Configure failed"
@@ -157,6 +156,35 @@ if ($CCache) {
 cmake --build $(Resolve-Path $BuildDir) --target install | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Install failed"
+}
+
+if ($DsspDirectory) {
+    $synthPluginRelativePath = switch ($ArtifactPlatform) {
+        "Windows" { "lib/$applicationName/plugins/synth" }
+        "macOS" { "$applicationName.app/Contents/Plugins/synth" }
+        "Linux" { "lib/$applicationName/plugins/synth" }
+    }
+    $synthPluginDirectory = Join-Path $InstallDir $synthPluginRelativePath
+    if (-not (Test-Path -LiteralPath $synthPluginDirectory -PathType Container)) {
+        throw "Installed synth plugin directory does not exist: $synthPluginDirectory"
+    }
+    $dsspExecutableName = $ArtifactPlatform -eq "Windows" ? "dssp.exe" : "dssp"
+    $dsspExecutable = Join-Path $DsspDirectory "bin/$dsspExecutableName"
+    if (-not (Test-Path -LiteralPath $dsspExecutable -PathType Leaf)) {
+        throw "The dssp installation does not contain the expected executable: $dsspExecutable"
+    }
+    $dsspDestination = Join-Path $synthPluginDirectory "dssp"
+    Write-Host "Bundling dssp: $DsspDirectory -> $dsspDestination"
+    New-Item -ItemType Directory -Path $dsspDestination -Force -ErrorAction Stop | Out-Null
+    if ($IsWindows) {
+        Get-ChildItem -LiteralPath $DsspDirectory -Force -ErrorAction Stop |
+            Copy-Item -Destination $dsspDestination -Recurse -Force -ErrorAction Stop
+    } else {
+        & /bin/cp -a "$DsspDirectory/." $dsspDestination
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to copy the dssp installation"
+        }
+    }
 }
 
 $buildResult = @{
