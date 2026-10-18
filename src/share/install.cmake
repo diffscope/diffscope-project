@@ -78,7 +78,7 @@ if(_vcpkg_lib_dir)
     ")
 endif()
 
-qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
+qm_deploy_directory(.
     QT_PLUGINS
     QT_PLUGINS_EXCLUDE ${_qt_plugins_exclude}
     QT_PLUGINS_EXCLUDE_MODULES ${_qt_plugins_exclude_modules}
