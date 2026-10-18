@@ -52,7 +52,7 @@ namespace LibreSVIPFormatConverter::Internal {
     bool LibreSVIPFileExporter::execExport(const QString &path, const opendspx::Model &model, QWindow *window) {
         opendspx::SerializationErrorList serializationErrors;
         std::stringstream stream(std::ios::out | std::ios::binary);
-        opendspx::Serializer::serialize(stream, model, serializationErrors, opendspx::Serializer::CheckError, true);
+        opendspx::Serializer::serialize(stream, model, serializationErrors, opendspx::Serializer::CheckError, opendspx::Serializer::Compress | opendspx::Serializer::WriteSchema);
         if (serializationErrors.containsFatal() || serializationErrors.containsError()) {
             qCCritical(lcLibreSVIPFileExporter) << "Failed to serialize DSPX data for LibreSVIP";
             SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), window,

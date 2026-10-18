@@ -71,7 +71,7 @@ namespace Maintenance {
         auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toOpenDSPX();
         opendspx::SerializationErrorList errors;
         std::stringstream out(std::ios::out);
-        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, false);
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, opendspx::Serializer::WriteSchema);
         auto data = QByteArray::fromStdString(out.str());
         data = QJsonDocument::fromJson(data).toJson(QJsonDocument::Indented);
         return data;

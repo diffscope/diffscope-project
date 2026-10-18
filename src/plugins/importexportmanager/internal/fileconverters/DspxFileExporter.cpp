@@ -101,7 +101,11 @@ namespace ImportExportManager::Internal {
         }
         opendspx::SerializationErrorList errors;
         std::stringstream out(std::ios::out);
-        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, compressCheckbox->isChecked());
+        opendspx::Serializer::OutputOption outputOptions = opendspx::Serializer::WriteSchema;
+        if (compressCheckbox->isChecked()) {
+            outputOptions |= opendspx::Serializer::Compress;
+        }
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, outputOptions);
         auto data = QByteArray::fromStdString(out.str());
         auto bytesWritten = file.write(data);
         if (bytesWritten != data.size()) {

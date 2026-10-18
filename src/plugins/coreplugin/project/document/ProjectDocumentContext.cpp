@@ -77,7 +77,11 @@ namespace Core {
         auto model = document->model()->toOpenDSPX();
         writeEditorInfo(model);
         std::stringstream out(std::ios::out);
-        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_Compress);
+        opendspx::Serializer::OutputOption outputOptions = opendspx::Serializer::WriteSchema;
+        if (Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_Compress) {
+            outputOptions |= opendspx::Serializer::Compress;
+        }
+        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, outputOptions);
         if (errors.containsError()) {
             if (hasError) {
                 *hasError = true;
