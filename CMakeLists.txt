@@ -37,6 +37,8 @@ if(APPLICATION_INSTALL)
     include(CMakePackageConfigHelpers)
     if(MSVC)
         set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "")
+        # sleefdft from vcpkg, a dependency of Rubber Band, requires the OpenMP runtime vcomp140.dll
+        set(CMAKE_INSTALL_OPENMP_LIBRARIES ON)
         include(InstallRequiredSystemLibraries)
     endif()
 endif()
