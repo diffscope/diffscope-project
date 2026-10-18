@@ -5,10 +5,13 @@
 #define DIFFSCOPE_SYNTH_INTERNAL_DSSPSERVERMANAGER_H
 
 #include <QHash>
+#include <QList>
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
+
+#include <synth/internal/DsspServerLog.h>
 
 class QProcess;
 class QTimer;
@@ -29,6 +32,7 @@ namespace Synth::Internal {
         QString executionProvider;
         QString deviceId;
         QString extraArguments;
+        DsspLogConfiguration logging;
 
         bool operator==(const DsspServerConfiguration &) const = default;
     };
@@ -89,12 +93,21 @@ namespace Synth::Internal {
         void stopProcess(bool restart);
         void fail(const QString &message);
         void notifyFailure();
+        void notifyLog(const QString &level, const QString &module, const QString &text);
+        void finishLogging();
+
+        struct LogNotification {
+            QString level;
+            QString module;
+            QString text;
+        };
 
         QString m_pluginDirectory;
         DsspServerConfiguration m_configuration;
         DsspServerConfiguration m_startConfiguration;
         QString m_startExecutable;
         QProcess *m_process{};
+        DsspServerLog *m_log{};
         DsspDeviceCatalog *m_devices{};
         QTimer *m_stopTimer{};
         QProcess *m_versionProcess{};
@@ -110,6 +123,7 @@ namespace Synth::Internal {
         bool m_shutdown{};
         bool m_notificationsReady{};
         QString m_failureMessage;
+        QList<LogNotification> m_pendingLogNotifications;
     };
 
 }

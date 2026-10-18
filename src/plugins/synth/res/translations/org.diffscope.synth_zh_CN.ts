@@ -2141,6 +2141,57 @@ Some files could not be restored. Backups are in %2.
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="262"/>
+        <source>Logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="275"/>
+        <source>Max file size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="287"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="304"/>
+        <source>KiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="292"/>
+        <source>Max archive size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="309"/>
+        <source>Max archive days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="323"/>
+        <source>Compression level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="336"/>
+        <source>%L1 = no compression, %L2 = best compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="343"/>
+        <source>Notify about warnings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="354"/>
+        <source>Log directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="357"/>
+        <source>Open in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Synth::Internal::DsspDeviceCatalog</name>
@@ -2279,6 +2330,27 @@ Some files could not be restored. Backups are in %2.
         <source>Stopping</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="527"/>
+        <source>DiffSinger Synthesis Program Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="529"/>
+        <source>DiffSinger Synthesis Program Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="531"/>
+        <source>DiffSinger Synthesis Program Fatal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="538"/>
+        <source>Module: %1
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Synth::Internal::DsspServerPage</name>
@@ -2332,6 +2404,57 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
         <source>The startup options have changed. Restart DiffSinger Synthesis Program now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerLog</name>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="75"/>
+        <source>Could not create the log directory:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="119"/>
+        <source>Could not open the log file:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="140"/>
+        <source>Could not open the log file for compression:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="145"/>
+        <source>Could not read the log file for compression:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="151"/>
+        <source>Could not compress the log file:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="156"/>
+        <source>Could not create the log archive:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="161"/>
+        <source>Could not write to the log archive:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="208"/>
+        <source>Could not write to the log file:
+%1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

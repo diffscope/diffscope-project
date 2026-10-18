@@ -8,6 +8,12 @@ project(synth
 
 find_package(xxHash CONFIG REQUIRED)
 
+set(_dssp_zlib_link)
+if(NOT WIN32)
+    find_package(ZLIB REQUIRED)
+    set(_dssp_zlib_link ZLIB::ZLIB)
+endif()
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.synth
     DISPLAY_NAME Synthesis
@@ -22,6 +28,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         Quick
         QuickDialogs2
         Widgets
+    QT_INCLUDE_PRIVATE
+        Core
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
@@ -43,6 +51,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Quick
         svscraft::QmlExtras
         xxHash::xxhash
+    LINKS_PRIVATE
+        ${_dssp_zlib_link}
     INCLUDE_PRIVATE
         internal/**
 )

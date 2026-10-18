@@ -40,11 +40,17 @@ namespace Synth::Internal {
     }
 
     DsspServerManager::DsspServerManager(const QString &pluginDirectory, QObject *parent)
-        : QObject(parent), m_pluginDirectory(pluginDirectory), m_process(new QProcess(this)),
+        : QObject(parent), m_pluginDirectory(pluginDirectory), m_process(new QProcess(this)), m_log(new DsspServerLog(this)),
           m_devices(new DsspDeviceCatalog(this)), m_stopTimer(new QTimer(this)),
           m_versionProcess(new QProcess(this)), m_versionTimer(new QTimer(this)) {
-        m_process->setStandardOutputFile(QProcess::nullDevice());
-        m_process->setStandardErrorFile(QProcess::nullDevice());
+        m_process->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_process, &QProcess::readyReadStandardOutput, this, [this] {
+            m_log->append(m_process->readAllStandardOutput());
+        });
+        connect(m_log, &DsspServerLog::recordReceived, this, &DsspServerManager::notifyLog);
+        connect(m_log, &DsspServerLog::errorOccurred, this, [this](const QString &message) {
+            notifyLog(QStringLiteral("CRITICAL"), QStringLiteral("diffscope.synth.dsspserver"), message);
+        });
         m_stopTimer->setSingleShot(true);
         m_stopTimer->setInterval(5000);
         connect(m_stopTimer, &QTimer::timeout, this, [this] {
@@ -60,6 +66,7 @@ namespace Synth::Internal {
         connect(m_process, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error) {
             if (error != QProcess::FailedToStart)
                 return;
+            finishLogging();
             m_stopTimer->stop();
             const bool expected = m_stopping || m_shutdown;
             m_stopping = false;
@@ -71,6 +78,7 @@ namespace Synth::Internal {
                 start();
         });
         connect(m_process, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
+            finishLogging();
             qCInfo(lcDsspServer) << "Server process exited" << exitCode << exitStatus;
             m_stopTimer->stop();
             const bool expected = m_stopping || m_shutdown;
@@ -132,6 +140,8 @@ namespace Synth::Internal {
 
     void DsspServerManager::enableNotifications() {
         m_notificationsReady = true;
+        for (const auto &notification : std::exchange(m_pendingLogNotifications, {}))
+            notifyLog(notification.level, notification.module, notification.text);
         notifyFailure();
     }
 
@@ -157,6 +167,7 @@ namespace Synth::Internal {
                 m_process->waitForFinished(1000);
             }
         }
+        finishLogging();
     }
 
     DsspServerConfiguration DsspServerManager::configuration() const {
@@ -174,6 +185,7 @@ namespace Synth::Internal {
         if (m_configuration == normalized)
             return;
         m_configuration = normalized;
+        m_log->setConfiguration(m_configuration.logging);
         saveSettings();
         Q_EMIT configurationChanged();
         Q_EMIT stateChanged();
@@ -371,7 +383,13 @@ namespace Synth::Internal {
         m_configuration.executionProvider = settings->value(QStringLiteral("executionProvider")).toString();
         m_configuration.deviceId = settings->value(QStringLiteral("deviceId")).toString();
         m_configuration.extraArguments = settings->value(QStringLiteral("extraArguments")).toString();
+        m_configuration.logging.maxFileSize = qMax(1LL, settings->value(QStringLiteral("logMaxFileSize"), m_configuration.logging.maxFileSize).toLongLong());
+        m_configuration.logging.maxArchiveSize = qMax(1LL, settings->value(QStringLiteral("logMaxArchiveSize"), m_configuration.logging.maxArchiveSize).toLongLong());
+        m_configuration.logging.maxArchiveDays = qMax(1, settings->value(QStringLiteral("logMaxArchiveDays"), m_configuration.logging.maxArchiveDays).toInt());
+        m_configuration.logging.compressLevel = qBound(0, settings->value(QStringLiteral("logCompressLevel"), m_configuration.logging.compressLevel).toInt(), 9);
+        m_configuration.logging.notifyWarnings = settings->value(QStringLiteral("notifyWarnings"), m_configuration.logging.notifyWarnings).toBool();
         settings->endGroup();
+        m_log->setConfiguration(m_configuration.logging);
     }
 
     void DsspServerManager::saveSettings() const {
@@ -388,6 +406,11 @@ namespace Synth::Internal {
         settings->setValue(QStringLiteral("executionProvider"), m_configuration.executionProvider);
         settings->setValue(QStringLiteral("deviceId"), m_configuration.deviceId);
         settings->setValue(QStringLiteral("extraArguments"), m_configuration.extraArguments);
+        settings->setValue(QStringLiteral("logMaxFileSize"), m_configuration.logging.maxFileSize);
+        settings->setValue(QStringLiteral("logMaxArchiveSize"), m_configuration.logging.maxArchiveSize);
+        settings->setValue(QStringLiteral("logMaxArchiveDays"), m_configuration.logging.maxArchiveDays);
+        settings->setValue(QStringLiteral("logCompressLevel"), m_configuration.logging.compressLevel);
+        settings->setValue(QStringLiteral("notifyWarnings"), m_configuration.logging.notifyWarnings);
         settings->endGroup();
     }
 
@@ -427,6 +450,8 @@ namespace Synth::Internal {
             });
         }
         arguments.append(QProcess::splitCommand(m_startConfiguration.extraArguments));
+        arguments.append({QStringLiteral("--log-mode"), QStringLiteral("structured")});
+        m_log->beginSession();
         qCInfo(lcDsspServer) << "Starting server process";
         m_process->start(m_startExecutable, arguments, QIODevice::ReadOnly);
         Q_EMIT stateChanged();
@@ -488,6 +513,37 @@ namespace Synth::Internal {
         });
         connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
         Core::CoreInterface::sendNotification(message);
+    }
+
+    void DsspServerManager::notifyLog(const QString &level, const QString &module, const QString &text) {
+        if (m_shutdown)
+            return;
+        if (!m_notificationsReady) {
+            m_pendingLogNotifications.append({level, module, text});
+            return;
+        }
+        QString title;
+        if (level == QStringLiteral("WARNING"))
+            title = tr("DiffSinger Synthesis Program Warning");
+        else if (level == QStringLiteral("CRITICAL"))
+            title = tr("DiffSinger Synthesis Program Critical");
+        else if (level == QStringLiteral("FATAL"))
+            title = tr("DiffSinger Synthesis Program Fatal");
+        else
+            return;
+        auto message = new Core::NotificationMessage(this);
+        message->setIcon(level == QStringLiteral("WARNING") ? SVS::SVSCraft::Warning : SVS::SVSCraft::Critical);
+        message->setTitle(title);
+        message->setText(tr("Module: %1\n%2").arg(module, text));
+        message->setTextFormat(Qt::PlainText);
+        message->setClosable(true);
+        connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
+        Core::CoreInterface::sendNotification(message);
+    }
+
+    void DsspServerManager::finishLogging() {
+        m_log->append(m_process->readAllStandardOutput());
+        m_log->endSession();
     }
 
 }
