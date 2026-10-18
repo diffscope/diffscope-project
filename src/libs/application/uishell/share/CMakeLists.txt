@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Team OpenVPI
 # SPDX-License-Identifier: Apache-2.0
 
-qm_import(Translate)
+qm_import(QtLinguist)
 qm_find_qt(LinguistTools)
 
 set(_qm_dir ${CMAKE_BUILD_SHARE_DIR}/uishell/translations)

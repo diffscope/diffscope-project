@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: Team OpenVPI
 # SPDX-License-Identifier: Apache-2.0
 
-qm_import(Translate)
-qm_import(Qml)
+qm_import(QtLinguist)
+qm_import(QtQml)
 qm_find_qt(LinguistTools)
 
 set(CURRENT_PLUGIN_DESC "${APPLICATION_NAME} Application Plugin")

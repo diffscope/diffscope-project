@@ -3,7 +3,7 @@
 
 project(uishell VERSION 0.0.1.0)
 
-qm_import(Qml)
+qm_import(QtQml)
 
 file(GLOB_RECURSE _src *.h *.cpp)
 
