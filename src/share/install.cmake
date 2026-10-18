@@ -100,12 +100,6 @@ if(_vcpkg_lib_dir)
     install(CODE "set(ENV{LD_LIBRARY_PATH} \"\${_old_ld_library_path}\")")
 endif()
 
-# Install vcruntime
-if(MSVC AND APPLICATION_INSTALL_MSVC_RUNTIME)
-    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${OUTPUT_DIR}")
-    include(InstallRequiredSystemLibraries)
-endif()
-
 if(APPLE)
     install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/qml/
         DESTINATION ${CK_INSTALL_QML_DIR}

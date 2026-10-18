@@ -15,7 +15,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 option(APPLICATION_BUILD_TESTS "Build test cases" OFF)
 option(APPLICATION_INSTALL "Install this project" ON)
 option(APPLICATION_ENABLE_DEVEL "Install developer files" OFF)
-option(APPLICATION_INSTALL_MSVC_RUNTIME "Install MSVC runtime" OFF)
 option(APPLICATION_CONFIGURE_INSTALLER "Configure installer" OFF)
 
 # ----------------------------------
