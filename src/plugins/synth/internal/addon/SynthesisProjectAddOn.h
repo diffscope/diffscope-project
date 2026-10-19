@@ -83,7 +83,6 @@ namespace Synth {
             void rebindClip(ClipRuntime *runtime, dspx::SingingClip *clip);
             void removeClip(dspx::Handle clipHandle);
             void watchClipLifetime(ClipRuntime *runtime);
-            void resetClipBaseline(ClipRuntime *runtime);
             QList<SynthesisPiece *> synchronizePieces(ClipRuntime *runtime);
             bool isPieceInSynthesisRange(const ClipRuntime *runtime, const SynthesisPiece *piece) const;
             QList<SynthesisPiece *> synthesisPiecesForClip(const ClipRuntime *runtime) const;
@@ -138,7 +137,6 @@ namespace Synth {
             bool m_commitPending{};
             bool m_internalCommit{};
             bool m_documentSyncPending{};
-            bool m_rollbackPending{};
             bool m_architectureSyncPending{};
             bool m_globalCentShiftPending{};
             bool m_pendingWorkScheduled{};
