@@ -1461,10 +1461,6 @@ namespace VisualEditor {
 
         const bool editingParameterChanged = oldEditingParameterId != editingParameterId;
         const bool referenceParameterChanged = oldReferenceParameterId != referenceParameterId;
-        if (editingParameterChanged) {
-            clearParameterSelection();
-            restoreEditingSelectionAfterRefresh = true;
-        }
         if (editingParameterChanged ||
             oldEditingDisplayName != displayName(editingParameterId, editingDisplayName)) {
             Q_EMIT q_ptr->editingParameterIdChanged();
@@ -1498,17 +1494,6 @@ namespace VisualEditor {
             referenceBinding->d_func()->setTarget(nullptr, {}, {}, false);
         else
             update(referenceBinding, referenceParameterId);
-
-        if (restoreEditingSelectionAfterRefresh) {
-            restoreEditingSelectionAfterRefresh = false;
-            if (editingBinding->parameterExists()) {
-                auto *parameter = singingClip->parameters()->item(editingParameterId);
-                document->selectionModel()->select(nullptr,
-                    dspx::SelectionModel::ClearPreviousSelection,
-                    dspx::SelectionModel::ST_AnchorNode,
-                    transformEditing ? parameter->anchorTransform() : parameter->anchorEdited());
-            }
-        }
     }
 
     void ParameterEditorContextPrivate::abortEditingOperation() {

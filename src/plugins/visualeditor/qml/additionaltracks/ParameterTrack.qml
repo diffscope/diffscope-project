@@ -198,6 +198,31 @@ QtObject {
         }
 
         function setTool(tool: int) {
+            updateTool(tool)
+            switch (tool) {
+            case ParameterEditorInteractionController.Pencil:
+            case ParameterEditorInteractionController.Line:
+            case ParameterEditorInteractionController.Brush:
+            case ParameterEditorInteractionController.Eraser:
+            case ParameterEditorInteractionController.FreeRangeSelect:
+                if (transformEditing)
+                    editingBinding?.focusTransformFreeLayer()
+                else
+                    editingBinding?.focusFreeLayer()
+                break
+            case ParameterEditorInteractionController.Pointer:
+            case ParameterEditorInteractionController.Pen:
+            case ParameterEditorInteractionController.AnchorRubberBandSelect:
+            case ParameterEditorInteractionController.ConvertAnchor:
+                if (transformEditing)
+                    editingBinding?.focusTransformAnchorLayer()
+                else
+                    editingBinding?.focusAnchorLayer()
+                break
+            }
+        }
+
+        function updateTool(tool: int) {
             currentTool = tool
             resetController(editingBinding?.interactionController)
             resetController(editingBinding?.transformInteractionController)
@@ -214,21 +239,6 @@ QtObject {
             case ParameterEditorInteractionController.Eraser:
             case ParameterEditorInteractionController.FreeRangeSelect:
             case ParameterEditorInteractionController.Pen:
-                if (tool === ParameterEditorInteractionController.Pencil
-                        || tool === ParameterEditorInteractionController.Line
-                        || tool === ParameterEditorInteractionController.Brush
-                        || tool === ParameterEditorInteractionController.Eraser
-                        || tool === ParameterEditorInteractionController.FreeRangeSelect) {
-                    if (transformEditing)
-                        editingBinding.focusTransformFreeLayer()
-                    else
-                        editingBinding.focusFreeLayer()
-                } else {
-                    if (transformEditing)
-                        editingBinding.focusTransformAnchorLayer()
-                    else
-                        editingBinding.focusAnchorLayer()
-                }
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
                 controller.secondaryItemInteraction = alternate
@@ -236,10 +246,6 @@ QtObject {
                 break
             case ParameterEditorInteractionController.Pointer:
             case ParameterEditorInteractionController.AnchorRubberBandSelect:
-                if (transformEditing)
-                    editingBinding.focusTransformAnchorLayer()
-                else
-                    editingBinding.focusAnchorLayer()
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
                 controller.primarySelectInteraction = tool
@@ -248,10 +254,6 @@ QtObject {
                 controller.secondarySelectInteraction = alternate
                 break
             case ParameterEditorInteractionController.ConvertAnchor:
-                if (transformEditing)
-                    editingBinding.focusTransformAnchorLayer()
-                else
-                    editingBinding.focusAnchorLayer()
                 controller.primaryItemInteraction = tool
                 controller.secondaryItemInteraction = alternate
                 break
@@ -284,10 +286,12 @@ QtObject {
                 Component.onCompleted: currentValue = Qt.binding(() => selectedId)
                 onActivated: index => {
                     const value = valueAt(index)
-                    if (editing)
+                    if (editing) {
                         control.parameterContext.editingParameterId = value
-                    else
+                        control.setTool(control.currentTool)
+                    } else {
                         control.parameterContext.referenceParameterId = value
+                    }
                 }
 
                 delegate: ItemDelegate {
@@ -370,7 +374,10 @@ QtObject {
                 text: qsTr("Swap")
                 icon.source: "image://fluent-system-icons/arrow_swap"
                 display: AbstractButton.IconOnly
-                onClicked: control.parameterContext?.swapParameters()
+                onClicked: {
+                    control.parameterContext?.swapParameters()
+                    control.setTool(control.currentTool)
+                }
             }
             Label {
                 Layout.alignment: Qt.AlignVCenter
@@ -729,7 +736,7 @@ QtObject {
         }
 
         Component.onCompleted: {
-            setTool(currentTool)
+            updateTool(currentTool)
             contextObject?.pianoRollView?.registerUnalignedTimeCursorSurface(control)
         }
         Component.onDestruction: {
@@ -740,7 +747,7 @@ QtObject {
             target: control.editingBinding
             function onTargetChanged() {
                 control.clearParameterHover()
-                control.setTool(control.currentTool)
+                control.updateTool(control.currentTool)
             }
         }
         Connections {

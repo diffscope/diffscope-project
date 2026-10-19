@@ -122,48 +122,69 @@
 <context>
     <name>ArchitecturePage</name>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="93"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="45"/>
+        <source>Select Control Panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="47"/>
+        <source>QML files (*.qml)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="114"/>
         <source>Unnamed architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="102"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="128"/>
         <source>No architecture configurations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="119"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="145"/>
         <source>Add Architecture Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="125"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="154"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="155"/>
-        <source>Architecture Configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="165"/>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="173"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="231"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="238"/>
         <source>Architecture ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="177"/>
-        <source>Configuration JSON</source>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="243"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="254"/>
+        <source>Control Panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="187"/>
-        <source>Enter a JSON value</source>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="253"/>
+        <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="203"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="253"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="257"/>
+        <source>Browse...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="264"/>
+        <source>Remove Control Panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="292"/>
         <source>Select an architecture configuration to edit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -683,31 +704,31 @@ X-Custom-Header-2: bar</source>
 <context>
     <name>Synth::Internal::ArchitectureExtraModel</name>
     <message>
-        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="104"/>
+        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="170"/>
         <source>Architecture entry %L1 has no ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="109"/>
+        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="175"/>
         <source>Architecture ID &apos;%1&apos; is configured more than once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="116"/>
-        <source>Invalid JSON for architecture &apos;%1&apos;: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Synth::Internal::ArchitecturePage</name>
     <message>
-        <location filename="../../internal/settings/ArchitecturePage.cpp" line="22"/>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="23"/>
         <source>Architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ArchitecturePage.cpp" line="23"/>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="24"/>
         <source>Configure architecture-specific synthesis options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="74"/>
+        <source>Some settings could not be applied. Review the selected control panel.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2452,6 +2473,122 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/dssp/DsspServerLog.cpp" line="208"/>
         <source>Could not write to the log file:
 %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExtraControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="86"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="90"/>
+        <source>Additional settings are not available for this singer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="96"/>
+        <source>The current settings cannot be opened in this panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="101"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="147"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="179"/>
+        <source>Additional settings could not be opened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="119"/>
+        <source>The settings could not be applied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="180"/>
+        <source>No control panel is available for these settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="189"/>
+        <source>Singer Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="213"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JsonExtraEditor</name>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="51"/>
+        <source>The settings are not valid. Check the text and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="76"/>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="118"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="82"/>
+        <source>Edit JSON (advanced)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="97"/>
+        <source>Edit JSON</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="134"/>
+        <source>Apply Changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="140"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiffSingerArchitectureControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="78"/>
+        <source>Synthesis Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="88"/>
+        <source>Pitch steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="103"/>
+        <source>Variance steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="118"/>
+        <source>Acoustic steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="133"/>
+        <source>Depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiffSingerSingerControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="88"/>
+        <source>Speaker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
+        <source>Default Speaker</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

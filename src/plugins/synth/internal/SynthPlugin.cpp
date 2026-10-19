@@ -4,6 +4,7 @@
 #include "SynthPlugin.h"
 
 #include <QLoggingCategory>
+#include <QQmlComponent>
 #include <QSplashScreen>
 
 #include <CoreApi/runtimeinterface.h>
@@ -18,6 +19,7 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <synth/SynthInterface.h>
 #include <synth/internal/ArchitecturePage.h>
 #include <synth/internal/AudioExtractionAddOn.h>
 #include <synth/internal/DsspServerAddOn.h>
@@ -52,6 +54,7 @@ namespace Synth::Internal {
                                       << (errorMessage ? *errorMessage : QString{});
             return false;
         }
+        initializeControlPanels();
 
         m_dsspServer = new DsspServerManager(pluginSpec()->location(), this);
         Core::RuntimeInterface::instance()->addObject(m_dsspServer);
@@ -74,6 +77,18 @@ namespace Synth::Internal {
 
     void SynthPlugin::extensionsInitialized() {
         m_dsspServer->enableNotifications();
+    }
+
+    void SynthPlugin::initializeControlPanels() {
+        auto engine = Core::RuntimeInterface::qmlEngine();
+        auto architecturePanel = new QQmlComponent(engine, QStringLiteral("DiffScope.Synth"), QStringLiteral("DiffSingerArchitectureControlPanel"), this);
+        if (architecturePanel->isError())
+            qFatal() << architecturePanel->errorString();
+        auto singerPanel = new QQmlComponent(engine, QStringLiteral("DiffScope.Synth"), QStringLiteral("DiffSingerSingerControlPanel"), this);
+        if (singerPanel->isError())
+            qFatal() << singerPanel->errorString();
+        if (!SynthInterface::instance()->registerBuiltInArchitecture(QStringLiteral("diffsinger"), architecturePanel, singerPanel))
+            qCWarning(lcSynthPlugin) << "The built-in DiffSinger control panels could not be registered.";
     }
 
     bool SynthPlugin::delayedInitialize() {

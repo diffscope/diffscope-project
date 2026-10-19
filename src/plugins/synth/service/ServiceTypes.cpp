@@ -346,9 +346,11 @@ namespace Synth {
     void ArchitectureMetadata::setName(const QString &name) { d->name = name; }
     QJsonObject ArchitectureMetadata::parameters() const { return d->parameters; }
     void ArchitectureMetadata::setParameters(const QJsonObject &parameters) { d->parameters = parameters; }
+    QJsonValue ArchitectureMetadata::defaultArchExtra() const { return d->defaultArchExtra; }
+    void ArchitectureMetadata::setDefaultArchExtra(const QJsonValue &extra) { d->defaultArchExtra = extra; }
     QJsonObject ArchitectureMetadata::toJson() const {
         return {{QStringLiteral("id"), d->id}, {QStringLiteral("name"), d->name},
-                {QStringLiteral("parameters"), d->parameters}};
+                {QStringLiteral("parameters"), d->parameters}, {QStringLiteral("defaultArchExtra"), d->defaultArchExtra}};
     }
     bool ArchitectureMetadata::fromJson(const QJsonObject &object, ArchitectureMetadata *result,
                                         QString *errorMessage) {
@@ -360,6 +362,7 @@ namespace Synth {
         value.d->id = source.id;
         value.d->name = source.name;
         value.d->parameters = object.value(QStringLiteral("parameters")).toObject();
+        value.d->defaultArchExtra = source.defaultArchExtra;
         *result = std::move(value);
         return true;
     }

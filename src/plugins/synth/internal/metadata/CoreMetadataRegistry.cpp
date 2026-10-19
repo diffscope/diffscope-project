@@ -7,7 +7,10 @@
 
 #include <QLoggingCategory>
 #include <QMap>
+#include <QQmlComponent>
 #include <QScopedValueRollback>
+
+#include <CoreApi/runtimeinterface.h>
 
 #include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/CoreInterface.h>
@@ -88,7 +91,6 @@ namespace Synth::Internal {
                 parameters.insert(parameter.key(), parameterInfo);
             }
             info.setParameters(parameters);
-            // TODO: Register architecture-specific synthesis controls when they are implemented.
             return info;
         }
 
@@ -112,6 +114,7 @@ namespace Synth::Internal {
             info.setSupportedParameters(supportedParameters);
             info.setMixGroup(source.mixGroup());
             info.setDefaultExtra(source.defaultExtra());
+            info.setUserData(source.architectureSpecificInfo());
             return info;
         }
 
@@ -172,6 +175,21 @@ namespace Synth::Internal {
         return m_managedArchitectures.contains(architectureId);
     }
 
+    QQmlComponent *CoreMetadataRegistry::controlPanelComponent(const QString &architectureId) {
+        auto provider = m_controlPanelProviders.value(architectureId);
+        if (!provider) {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("SingerControlPanelProvider"));
+            if (component.isError())
+                qFatal() << component.errorString();
+            provider = component.createWithInitialProperties({{QStringLiteral("architectureId"), architectureId}});
+            if (!provider)
+                qFatal() << component.errorString();
+            provider->setParent(this);
+            m_controlPanelProviders.insert(architectureId, provider);
+        }
+        return provider->property("controlPanelComponent").value<QQmlComponent *>();
+    }
+
     void CoreMetadataRegistry::reconcile(
         const QList<ServiceInstanceConfiguration> &serviceOrder,
         const QList<ServiceInstanceDetails> &details) {
@@ -218,7 +236,8 @@ namespace Synth::Internal {
         QSet<QString> blockedArchitectures;
         for (auto it = desired.architectures.cbegin(); it != desired.architectures.cend(); ++it) {
             const auto id = it.key();
-            const auto info = architectureInfo(it.value());
+            auto info = architectureInfo(it.value());
+            info.setControlPanelComponent(controlPanelComponent(id));
             if (m_ownedArchitectures.contains(id)) {
                 if (!registry->containsArchitecture(id)) {
                     m_ownedArchitectures.remove(id);
@@ -295,6 +314,7 @@ namespace Synth::Internal {
             } else {
                 auto neutralInfo = registry->architectureInfo(id);
                 neutralInfo.setParameters(Core::ArchitectureInfo::ParameterMap{});
+                neutralInfo.setControlPanelComponent(nullptr);
                 mutateRegistry([&] { return registry->updateArchitecture(id, neutralInfo); });
                 qCWarning(lcCoreMetadataRegistry)
                     << "Keeping an unused synth architecture because it contains foreign singers" << id;
@@ -346,6 +366,7 @@ namespace Synth::Internal {
             else {
                 auto neutralInfo = registry->architectureInfo(architectureId);
                 neutralInfo.setParameters(Core::ArchitectureInfo::ParameterMap{});
+                neutralInfo.setControlPanelComponent(nullptr);
                 mutateRegistry([&] {
                     return registry->updateArchitecture(architectureId, neutralInfo);
                 });
@@ -356,6 +377,8 @@ namespace Synth::Internal {
         }
         m_ownedArchitectures.clear();
         m_managedArchitectures.clear();
+        qDeleteAll(m_controlPanelProviders);
+        m_controlPanelProviders.clear();
         if (hadManagedArchitectures)
             Q_EMIT managedArchitecturesChanged();
     }

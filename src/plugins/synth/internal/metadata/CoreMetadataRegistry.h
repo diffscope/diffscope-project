@@ -10,6 +10,8 @@
 
 #include <synth/ServiceTypes.h>
 
+class QQmlComponent;
+
 namespace Synth::Internal {
 
     class CoreMetadataRegistry : public QObject {
@@ -29,12 +31,15 @@ namespace Synth::Internal {
         void managedArchitecturesChanged();
 
     private:
+        QQmlComponent *controlPanelComponent(const QString &architectureId);
+
         // Registry ownership is retained for safe cleanup even while an architecture is not
         // currently offered by a synthesis service. Management is the narrower set that the
         // project scheduler is allowed to handle.
         QSet<QString> m_ownedArchitectures;
         QSet<QString> m_managedArchitectures;
         QHash<QString, QSet<QString>> m_ownedSingers;
+        QHash<QString, QObject *> m_controlPanelProviders;
         bool m_registryMutation{};
     };
 

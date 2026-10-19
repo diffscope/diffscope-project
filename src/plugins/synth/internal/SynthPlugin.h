@@ -24,6 +24,8 @@ namespace Synth::Internal {
         ShutdownFlag aboutToShutdown() override;
 
     private:
+        void initializeControlPanels();
+
         SynthService *m_service{};
         DsspServerManager *m_dsspServer{};
     };

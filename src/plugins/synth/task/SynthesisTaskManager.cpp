@@ -276,7 +276,7 @@ namespace Synth {
         }
         const auto pipeline = synthesisPipeline(service, taskPrivate->request.context);
         if (taskPrivate->request.context.architectureExtra.isUndefined())
-            taskPrivate->request.context.architectureExtra = pipeline.group.defaultArchExtra;
+            taskPrivate->request.context.architectureExtra = pipeline.architecture.defaultArchExtra();
         setState(task, SynthesisTask::AwaitingResponse);
         ++activeByService[service.id()];
         ++activeByServiceAndType[counterKey(service.id(), task->type())];

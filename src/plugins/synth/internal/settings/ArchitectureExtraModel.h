@@ -6,6 +6,7 @@
 
 #include <QAbstractListModel>
 #include <QJsonObject>
+#include <QUrl>
 
 namespace Synth::Internal {
 
@@ -15,7 +16,9 @@ namespace Synth::Internal {
     public:
         enum Role {
             ArchitectureIdRole = Qt::UserRole + 1,
-            JsonRole,
+            ExtraRole,
+            ProviderUrlRole,
+            BuiltInRole,
         };
         Q_ENUM(Role)
 
@@ -29,16 +32,21 @@ namespace Synth::Internal {
 
         Q_INVOKABLE int addEntry();
         Q_INVOKABLE bool removeEntry(int row);
-        void setEntries(const QJsonObject &object);
-        bool entries(QJsonObject *object, QString *errorMessage = nullptr) const;
+        void setEntries(const QJsonObject &extras, const QJsonObject &providers);
+        bool entries(QJsonObject *extras, QJsonObject *providers, QString *errorMessage = nullptr) const;
 
     Q_SIGNALS:
         void edited();
 
     private:
+        void syncBuiltInEntries();
+
         struct Entry {
             QString architectureId;
-            QString json;
+            QJsonValue extra;
+            QUrl providerUrl;
+            bool extraConfigured{};
+            bool builtIn{};
         };
         QList<Entry> m_entries;
     };

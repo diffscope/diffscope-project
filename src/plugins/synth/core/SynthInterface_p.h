@@ -7,6 +7,8 @@
 #include <synth/SynthInterface.h>
 
 #include <QHash>
+#include <QPointer>
+#include <QQmlComponent>
 
 namespace Synth {
 
@@ -20,6 +22,11 @@ namespace Synth {
         QList<ServiceInstanceConfiguration> serviceInstances;
         QHash<QUuid, ServiceInstanceDetails> serviceDetails;
         SynthesisTaskManager *taskManager{};
+        struct ControlPanels {
+            QPointer<QQmlComponent> architecture;
+            QPointer<QQmlComponent> singer;
+        };
+        QHash<QString, ControlPanels> builtInArchitectures;
     };
 
 }

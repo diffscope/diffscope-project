@@ -4,7 +4,7 @@
 #include "SynthInterface.h"
 #include "SynthInterface_p.h"
 
-#include <utility>
+#include <algorithm>
 
 #include <QSet>
 
@@ -64,6 +64,45 @@ namespace Synth {
     SynthesisTaskManager *SynthInterface::taskManager() const {
         Q_D(const SynthInterface);
         return d->taskManager;
+    }
+
+    bool SynthInterface::registerBuiltInArchitecture(const QString &architectureId, QQmlComponent *architectureControlPanelComponent, QQmlComponent *singerControlPanelComponent) {
+        Q_D(SynthInterface);
+        if (architectureId.isEmpty() || architectureId != architectureId.trimmed() ||
+            d->builtInArchitectures.contains(architectureId) || !architectureControlPanelComponent || !singerControlPanelComponent)
+            return false;
+        d->builtInArchitectures.insert(architectureId, {architectureControlPanelComponent, singerControlPanelComponent});
+        connect(architectureControlPanelComponent, &QObject::destroyed, this, &SynthInterface::reloadControlPanels);
+        if (singerControlPanelComponent != architectureControlPanelComponent)
+            connect(singerControlPanelComponent, &QObject::destroyed, this, &SynthInterface::reloadControlPanels);
+        Q_EMIT controlPanelsChanged();
+        return true;
+    }
+
+    QStringList SynthInterface::builtInArchitectureIds() const {
+        Q_D(const SynthInterface);
+        auto ids = d->builtInArchitectures.keys();
+        ids.sort();
+        return ids;
+    }
+
+    bool SynthInterface::isBuiltInArchitecture(const QString &architectureId) const {
+        Q_D(const SynthInterface);
+        return d->builtInArchitectures.contains(architectureId);
+    }
+
+    QQmlComponent *SynthInterface::builtInArchitecturePanel(const QString &architectureId) const {
+        Q_D(const SynthInterface);
+        return d->builtInArchitectures.value(architectureId).architecture;
+    }
+
+    QQmlComponent *SynthInterface::builtInSingerPanel(const QString &architectureId) const {
+        Q_D(const SynthInterface);
+        return d->builtInArchitectures.value(architectureId).singer;
+    }
+
+    void SynthInterface::reloadControlPanels() {
+        Q_EMIT controlPanelsChanged();
     }
 
     void SynthInterface::setServiceInstances(const QList<ServiceInstanceConfiguration> &instances) {
