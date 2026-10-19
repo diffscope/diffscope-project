@@ -496,6 +496,31 @@
         <source>Show Piano Roll</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Edit Previous Track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Edit Next Track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Edit Previous Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Edit Next Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <source>Editing Target</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ArrangementAddOnActions</name>
@@ -743,6 +768,36 @@
         <location filename="../../qml/settings/EditorPage.qml" line="233"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="248"/>
+        <source>Adjust vertical view during automatic page scrolling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="256"/>
+        <source>If notes exceed the view height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <source>Align Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <source>Align Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <source>Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <source>Zoom to Fit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="244"/>

@@ -68,6 +68,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("trackListOnRight");
         m_widget->setProperty("centerPianoRollOnClipDoubleClick", EditorPreference::instance()->property("centerPianoRollOnClipDoubleClick"));
         qCDebug(lcEditorPage) << m_widget->property("centerPianoRollOnClipDoubleClick");
+        m_widget->setProperty("pianoRollAutoPageVerticalAdjustment", EditorPreference::instance()->property("pianoRollAutoPageVerticalAdjustment"));
+        qCDebug(lcEditorPage) << m_widget->property("pianoRollAutoPageVerticalAdjustment");
+        m_widget->setProperty("pianoRollAutoPageOverflowBehavior", EditorPreference::instance()->property("pianoRollAutoPageOverflowBehavior"));
+        qCDebug(lcEditorPage) << m_widget->property("pianoRollAutoPageOverflowBehavior");
         m_widget->setProperty("pianoKeyboardBlackKeyLengthRatio", EditorPreference::instance()->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         m_widget->setProperty("pianoKeyboardLabelPolicy", EditorPreference::instance()->property("pianoKeyboardLabelPolicy"));
@@ -114,6 +118,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("trackListOnRight", m_widget->property("trackListOnRight"));
         qCDebug(lcEditorPage) << "centerPianoRollOnClipDoubleClick" << m_widget->property("centerPianoRollOnClipDoubleClick");
         EditorPreference::instance()->setProperty("centerPianoRollOnClipDoubleClick", m_widget->property("centerPianoRollOnClipDoubleClick"));
+        qCDebug(lcEditorPage) << "pianoRollAutoPageVerticalAdjustment" << m_widget->property("pianoRollAutoPageVerticalAdjustment");
+        EditorPreference::instance()->setProperty("pianoRollAutoPageVerticalAdjustment", m_widget->property("pianoRollAutoPageVerticalAdjustment"));
+        qCDebug(lcEditorPage) << "pianoRollAutoPageOverflowBehavior" << m_widget->property("pianoRollAutoPageOverflowBehavior");
+        EditorPreference::instance()->setProperty("pianoRollAutoPageOverflowBehavior", m_widget->property("pianoRollAutoPageOverflowBehavior"));
         qCDebug(lcEditorPage) << "pianoKeyboardBlackKeyLengthRatio" << m_widget->property("pianoKeyboardBlackKeyLengthRatio");
         EditorPreference::instance()->setProperty("pianoKeyboardBlackKeyLengthRatio", m_widget->property("pianoKeyboardBlackKeyLengthRatio"));
         qCDebug(lcEditorPage) << "pianoKeyboardLabelPolicy" << m_widget->property("pianoKeyboardLabelPolicy");

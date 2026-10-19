@@ -36,6 +36,10 @@ namespace VisualEditor::Internal {
         Q_EMIT clipSequenceChanged();
     }
 
+    QModelIndex SingingClipListModel::indexForClip(const dspx::Clip *clip) const {
+        return index(m_clipRows.value(clip, -1), 0);
+    }
+
     QHash<int, QByteArray> SingingClipListModel::roleNames() const {
         static const QHash<int, QByteArray> roles{{Qt::DisplayRole, "display"}, {ClipObjectRole, "clip"}, {ClipPositionRole, "position"}};
         return roles;
@@ -55,6 +59,7 @@ namespace VisualEditor::Internal {
             disconnect(m_clipSequence, nullptr, this, nullptr);
         }
 
+        m_clipRows.clear();
         clear();
     }
 
@@ -71,41 +76,38 @@ namespace VisualEditor::Internal {
         if (!clip || clip->kind() != dspx::Clip::Singing)
             return;
 
-        if (itemForClip(clip))
+        if (m_clipRows.contains(clip))
             return;
 
         auto *item = new QStandardItem;
         item->setData(clip->name(), Qt::DisplayRole);
         item->setData(QVariant::fromValue(clip), ClipObjectRole);
         item->setData(clip->position(), ClipPositionRole);
+        m_clipRows.insert(clip, rowCount());
         appendRow(item);
 
         attachClipSignals(clip);
     }
 
     void SingingClipListModel::removeClip(dspx::Clip *clip) {
-        if (!clip)
+        const auto it = m_clipRows.constFind(clip);
+        if (it == m_clipRows.cend())
             return;
 
-        if (auto *item = itemForClip(clip)) {
-            disconnect(clip, nullptr, this, nullptr);
-            removeRow(item->row());
+        const int row = it.value();
+        m_clipRows.remove(clip);
+        for (auto &clipRow : m_clipRows) {
+            if (clipRow > row) {
+                --clipRow;
+            }
         }
+        disconnect(clip, nullptr, this, nullptr);
+        removeRow(row);
     }
 
     QStandardItem *SingingClipListModel::itemForClip(const dspx::Clip *clip) const {
-        if (!clip)
-            return nullptr;
-
-        for (int i = 0; i < rowCount(); ++i) {
-            auto *item = this->item(i);
-            if (!item)
-                continue;
-            auto storedClip = item->data(ClipObjectRole).value<dspx::Clip *>();
-            if (storedClip == clip)
-                return item;
-        }
-        return nullptr;
+        const auto it = m_clipRows.constFind(clip);
+        return it == m_clipRows.cend() ? nullptr : item(it.value());
     }
 
     void SingingClipListModel::attachClipSignals(dspx::Clip *clip) {

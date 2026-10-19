@@ -6,9 +6,9 @@
 
 #include <QQuickItem>
 
-#include <ScopicFlowCore/TimeViewModel.h>
-#include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/PlaybackViewModel.h>
+#include <ScopicFlowCore/TimeLayoutViewModel.h>
+#include <ScopicFlowCore/TimeViewModel.h>
 
 namespace VisualEditor {
 
@@ -149,13 +149,16 @@ namespace VisualEditor {
         double start = timeViewModel->start();
         double viewSizeInTicks = getViewSize() / timeLayoutViewModel->pixelDensity();
 
+        double newStart = start;
         if (primaryPosition < start) {
-            // Move view to show the current position on the left side
-            double newStart = qMax(0.0, primaryPosition - viewSizeInTicks);
-            timeViewModel->setStart(newStart);
+            newStart = qMax(0.0, primaryPosition - viewSizeInTicks);
         } else if (primaryPosition > start + viewSizeInTicks) {
-            // Move view to show the current position at the start
-            timeViewModel->setStart(static_cast<double>(primaryPosition));
+            newStart = static_cast<double>(primaryPosition);
+        }
+        if (newStart != start) {
+            Q_Q(AutoPageScrollingManipulator);
+            timeViewModel->setStart(newStart);
+            Q_EMIT q->pageTurned(newStart, viewSizeInTicks);
         }
     }
 

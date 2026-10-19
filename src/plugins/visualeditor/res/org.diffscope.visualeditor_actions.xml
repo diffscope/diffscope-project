@@ -77,6 +77,10 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" category="Piano Roll Panel" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" category="Piano Roll Panel" icon="highlight" description="Highlight scale tones according to the project's key signatures." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" category="Piano Roll Panel" icon="navigation" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.editPreviousTrack" category="Piano Roll Panel" text="Edit Previous Track" shortcut="Ctrl+Alt+K" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.editNextTrack" category="Piano Roll Panel" text="Edit Next Track" shortcut="Ctrl+Alt+J" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.editPreviousClip" category="Piano Roll Panel" text="Edit Previous Clip" shortcut="Ctrl+Alt+H" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.editNextClip" category="Piano Roll Panel" text="Edit Next Clip" shortcut="Ctrl+Alt+L" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.arrangement.show" category="Panel" text="Show Arrangement" />
@@ -100,6 +104,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.parameter" category="Additional Tracks" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" icon="parameter_view" triggerable="false" diffscope:componentType="custom" />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks.dynamicMixing" category="Additional Tracks" catalog="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets" text="Voice blending" icon="circle_hint_half_vertical" triggerable="false" diffscope:componentType="custom" />
 
+        <menu id="org.diffscope.visualeditor.edit.editingTarget" text="Editing Target" />
         <menu id="org.diffscope.visualeditor.view.scroll" />
         <group id="org.diffscope.visualeditor.view.scrollActions" />
         <group id="org.diffscope.visualeditor.view.scrollPageActions" />
@@ -120,6 +125,13 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </items>
 
     <layouts>
+        <menu id="org.diffscope.visualeditor.edit.editingTarget">
+            <action id="org.diffscope.visualeditor.pianoRollPanel.editPreviousTrack" />
+            <action id="org.diffscope.visualeditor.pianoRollPanel.editNextTrack" />
+            <separator />
+            <action id="org.diffscope.visualeditor.pianoRollPanel.editPreviousClip" />
+            <action id="org.diffscope.visualeditor.pianoRollPanel.editNextClip" />
+        </menu>
         <menu id="org.diffscope.visualeditor.view.scroll">
             <group id="org.diffscope.visualeditor.view.scrollActions">
                 <action id="org.diffscope.visualeditor.view.scrollUp" />
@@ -213,6 +225,10 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.core.edit" anchor="last">
+            <separator />
+            <menu id="org.diffscope.visualeditor.edit.editingTarget" />
+        </insertion>
         <insertion target="org.diffscope.core.view" anchor="last">
             <menu id="org.diffscope.visualeditor.view.scroll" />
         </insertion>

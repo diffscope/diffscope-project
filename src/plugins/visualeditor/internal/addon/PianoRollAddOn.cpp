@@ -4,10 +4,12 @@
 #include "PianoRollAddOn.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include <QKeyEvent>
 #include <QQmlComponent>
 #include <QQuickItem>
+#include <QSortFilterProxyModel>
 #include <QTimer>
 #include <QVariant>
 
@@ -19,15 +21,25 @@
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 
-#include <coreplugin/ProjectWindowInterface.h>
-
+#include <dspxmodelORM/Clip.h>
+#include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Track.h>
+#include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
+
+#include <coreplugin/DspxDocument.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectWindowInterface.h>
+
 #include <visualeditor/PianoRollPanelInterface.h>
 #include <visualeditor/internal/AdditionalTrackLoader.h>
 #include <visualeditor/internal/EditorPreference.h>
 #include <visualeditor/internal/ScrollAddOn.h>
+#include <visualeditor/internal/SingingClipListModel.h>
 
 namespace VisualEditor::Internal {
 
@@ -36,6 +48,11 @@ namespace VisualEditor::Internal {
         const double clipEnd = clipStart + clip->clipLength();
         const double latestStart = std::max(clipStart, clipEnd - viewLength);
         return std::clamp(desiredStart, clipStart, latestStart);
+    }
+
+    static double centeredClavierViewStart(double minKey, double maxKey, double viewKeyCount) {
+        const double desiredStart = (minKey + maxKey + 1.0 + viewKeyCount) / 2.0;
+        return std::clamp(desiredStart, std::min(viewKeyCount, 128.0), 128.0);
     }
 
     PianoRollAddOn::PianoRollAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
@@ -49,6 +66,7 @@ namespace VisualEditor::Internal {
         m_additionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets", this);
         m_bottomAdditionalTrackLoader = new AdditionalTrackLoader("org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTrackWidgets", this);
         auto pianoRollPanelInterface = new PianoRollPanelInterface(this, windowInterface);
+        bindEditingNavigation();
         m_additionalTrackLoader->setContextObject(pianoRollPanelInterface);
         m_bottomAdditionalTrackLoader->setContextObject(pianoRollPanelInterface);
 
@@ -92,6 +110,7 @@ namespace VisualEditor::Internal {
     bool PianoRollAddOn::delayedInitialize() {
         QTimer::singleShot(0, this, [this] {
             auto panelInterface = pianoRollPanelInterface();
+            resetTimeViewStart();
             auto clip = panelInterface->editingClip();
             auto firstNote = clip ? clip->notes()->firstItem() : nullptr;
             auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
@@ -100,7 +119,6 @@ namespace VisualEditor::Internal {
 
             static constexpr int noteCount = 8;
             auto timeLayoutViewModel = panelInterface->timeLayoutViewModel();
-            auto timeViewModel = panelInterface->timeViewModel();
             auto note = firstNote;
             auto i = 0;
             double keyNumber = 0;
@@ -111,20 +129,221 @@ namespace VisualEditor::Internal {
                 keyNumber += note->keyNumber();
             }
             keyNumber /= i;
-            if (timeLayoutViewModel->pixelDensity() > 0) {
-                const double viewLength = editArea->width() / timeLayoutViewModel->pixelDensity();
-                const double firstNotePosition = clip->position() + firstNote->position() - clip->clipStart();
-                timeViewModel->setStart(boundedTimeViewStart(clip, firstNotePosition - viewLength / 3.0, viewLength));
-            }
 
             auto clavierViewModel = panelInterface->clavierViewModel();
             if (clavierViewModel->pixelDensity() > 0) {
                 const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
-                const double minimumStart = std::min(viewKeyCount, 128.0);
-                clavierViewModel->setStart(std::clamp(keyNumber + 0.5 + viewKeyCount / 2.0, minimumStart, 128.0));
+                clavierViewModel->setStart(centeredClavierViewStart(keyNumber, keyNumber, viewKeyCount));
             }
         });
         return WindowInterfaceAddOn::delayedInitialize();
+    }
+
+    void PianoRollAddOn::bindEditingNavigation() {
+        auto panelInterface = pianoRollPanelInterface();
+        m_editingClipSelectorModel = static_cast<QSortFilterProxyModel *>(panelInterface->editingClipSelectorModel());
+        auto sourceModel = static_cast<SingingClipListModel *>(m_editingClipSelectorModel->sourceModel());
+        connect(panelInterface, &PianoRollPanelInterface::editingClipChanged, this, &PianoRollAddOn::updateClipNavigation);
+        connect(sourceModel, &SingingClipListModel::clipSequenceChanged, this, &PianoRollAddOn::updateTrackNavigation);
+        connect(sourceModel, &SingingClipListModel::clipSequenceChanged, this, &PianoRollAddOn::updateClipNavigation);
+        connect(m_editingClipSelectorModel, &QAbstractItemModel::rowsInserted, this, &PianoRollAddOn::updateClipNavigation);
+        connect(m_editingClipSelectorModel, &QAbstractItemModel::rowsRemoved, this, &PianoRollAddOn::updateClipNavigation);
+        connect(m_editingClipSelectorModel, &QAbstractItemModel::modelReset, this, &PianoRollAddOn::updateClipNavigation);
+        connect(m_editingClipSelectorModel, &QAbstractItemModel::layoutChanged, this, &PianoRollAddOn::updateClipNavigation);
+
+        auto tracks = panelInterface->windowHandle()->projectDocumentContext()->document()->model()->tracks();
+        auto bindTrack = [this](dspx::Track *track) {
+            connect(track->clips(), &dspx::ClipSequence::singingClipCountChanged, this, &PianoRollAddOn::updateTrackNavigation);
+        };
+        for (auto track : tracks->items()) {
+            bindTrack(track);
+        }
+        connect(tracks, &dspx::TrackList::itemInserted, this, [bindTrack](int, dspx::Track *track) {
+            bindTrack(track);
+        });
+        connect(tracks, &dspx::TrackList::itemRemoved, this, [this](int, dspx::Track *track) {
+            disconnect(track->clips(), &dspx::ClipSequence::singingClipCountChanged, this, &PianoRollAddOn::updateTrackNavigation);
+        });
+        connect(tracks, &dspx::TrackList::itemsChanged, this, &PianoRollAddOn::updateTrackNavigation);
+        connect(tracks, &dspx::TrackList::itemsChanged, this, &PianoRollAddOn::updateClipNavigation);
+        updateTrackNavigation();
+        updateClipNavigation();
+    }
+
+    void PianoRollAddOn::updateTrackNavigation() {
+        auto panelInterface = pianoRollPanelInterface();
+        auto clip = panelInterface->editingClip();
+        auto currentTrack = clip && clip->clipSequence() ? clip->clipSequence()->track() : nullptr;
+        dspx::Track *previousTrack = nullptr;
+        dspx::Track *nextTrack = nullptr;
+        if (currentTrack) {
+            auto tracks = panelInterface->windowHandle()->projectDocumentContext()->document()->model()->tracks();
+            bool currentTrackFound = false;
+            for (auto track : tracks->items()) {
+                if (track == currentTrack) {
+                    currentTrackFound = true;
+                    continue;
+                }
+                if (track->clips()->singingClipCount() == 0)
+                    continue;
+                if (currentTrackFound) {
+                    nextTrack = track;
+                    break;
+                }
+                previousTrack = track;
+            }
+            if (!currentTrackFound) {
+                previousTrack = nullptr;
+            }
+        }
+        if (m_previousEditingTrack == previousTrack && m_nextEditingTrack == nextTrack)
+            return;
+        m_previousEditingTrack = previousTrack;
+        m_nextEditingTrack = nextTrack;
+        Q_EMIT trackNavigationChanged();
+    }
+
+    void PianoRollAddOn::updateClipNavigation() {
+        auto sourceModel = static_cast<SingingClipListModel *>(m_editingClipSelectorModel->sourceModel());
+        auto sequence = sourceModel->clipSequence();
+        auto sourceIndex = sequence && sequence->track()->trackList() ? sourceModel->indexForClip(pianoRollPanelInterface()->editingClip()) : QModelIndex{};
+        m_editingClipIndex = m_editingClipSelectorModel->mapFromSource(sourceIndex).row();
+        Q_EMIT clipNavigationChanged();
+    }
+
+    bool PianoRollAddOn::canEditPreviousTrack() const {
+        return !m_previousEditingTrack.isNull();
+    }
+
+    bool PianoRollAddOn::canEditNextTrack() const {
+        return !m_nextEditingTrack.isNull();
+    }
+
+    bool PianoRollAddOn::canEditPreviousClip() const {
+        return m_editingClipIndex > 0;
+    }
+
+    bool PianoRollAddOn::canEditNextClip() const {
+        return m_editingClipIndex >= 0 && m_editingClipIndex + 1 < m_editingClipSelectorModel->rowCount();
+    }
+
+    int PianoRollAddOn::editingClipIndex() const {
+        return m_editingClipIndex;
+    }
+
+    void PianoRollAddOn::editAdjacentTrack(bool next) {
+        editTrack(next ? m_nextEditingTrack.data() : m_previousEditingTrack.data());
+    }
+
+    void PianoRollAddOn::editAdjacentClip(bool next) {
+        if (next ? !canEditNextClip() : !canEditPreviousClip())
+            return;
+        auto index = m_editingClipSelectorModel->index(m_editingClipIndex + (next ? 1 : -1), 0);
+        editClip(qobject_cast<dspx::SingingClip *>(index.data(SingingClipListModel::ClipObjectRole).value<dspx::Clip *>()));
+    }
+
+    void PianoRollAddOn::editTrack(dspx::Track *track) {
+        if (!track || !track->trackList() || track->clips()->singingClipCount() == 0)
+            return;
+
+        auto panelInterface = pianoRollPanelInterface();
+        auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+        const double pixelDensity = panelInterface->timeLayoutViewModel()->pixelDensity();
+        const double viewStart = panelInterface->timeViewModel()->start();
+        const double viewLength = editArea && pixelDensity > 0 ? std::max(0.0, editArea->width()) / pixelDensity : 0.0;
+        const double viewEnd = viewStart + viewLength;
+        dspx::SingingClip *nearestClip = nullptr;
+        double nearestGap = 0.0;
+        for (auto clip : track->clips()->asRange()) {
+            if (clip->kind() != dspx::Clip::Singing)
+                continue;
+            const double clipStart = clip->position();
+            const double clipEnd = clipStart + clip->clipLength();
+            const double gap = std::max(viewStart - clipEnd, clipStart - viewEnd);
+            if (!nearestClip || gap < nearestGap) {
+                nearestClip = static_cast<dspx::SingingClip *>(clip);
+                nearestGap = gap;
+            }
+            if (gap < 0 || clipStart >= viewEnd)
+                break;
+        }
+        if (nearestClip) {
+            editClip(nearestClip);
+        }
+    }
+
+    void PianoRollAddOn::editClip(dspx::SingingClip *clip) {
+        if (!clip || !clip->clipSequence() || !clip->clipSequence()->track()->trackList())
+            return;
+        auto panelInterface = pianoRollPanelInterface();
+        const bool clipChanged = clip != panelInterface->editingClip();
+        panelInterface->setEditingClip(clip);
+        auto selectionModel = panelInterface->windowHandle()->projectDocumentContext()->document()->selectionModel();
+        selectionModel->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, clip->notes());
+        if (clipChanged) {
+            adjustViewForEditingClip();
+        }
+    }
+
+    void PianoRollAddOn::resetTimeViewStart() {
+        auto panelInterface = pianoRollPanelInterface();
+        auto clip = panelInterface->editingClip();
+        auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+        auto timeLayoutViewModel = panelInterface->timeLayoutViewModel();
+        if (!clip || !editArea || editArea->width() <= 0 || timeLayoutViewModel->pixelDensity() <= 0)
+            return;
+
+        const double viewLength = editArea->width() / timeLayoutViewModel->pixelDensity();
+        auto firstNote = clip->notes()->firstItem();
+        const double desiredStart = firstNote ? clip->position() + firstNote->position() - clip->clipStart() - viewLength / 3.0 : clip->position();
+        panelInterface->timeViewModel()->setStart(boundedTimeViewStart(clip, desiredStart, viewLength));
+    }
+
+    void PianoRollAddOn::adjustViewForEditingClip() {
+        auto panelInterface = pianoRollPanelInterface();
+        auto clip = panelInterface->editingClip();
+        auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+        auto timeLayoutViewModel = panelInterface->timeLayoutViewModel();
+        if (!clip || !editArea || editArea->width() <= 0 || timeLayoutViewModel->pixelDensity() <= 0)
+            return;
+
+        auto timeViewModel = panelInterface->timeViewModel();
+        const double viewLength = editArea->width() / timeLayoutViewModel->pixelDensity();
+        const double clipStart = clip->position();
+        const double clipEnd = clipStart + clip->clipLength();
+        if (std::max(timeViewModel->start(), clipStart) >= std::min(timeViewModel->start() + viewLength, clipEnd)) {
+            resetTimeViewStart();
+        }
+
+        auto clavierViewModel = panelInterface->clavierViewModel();
+        if (editArea->height() <= 0 || clavierViewModel->pixelDensity() <= 0)
+            return;
+
+        const double visibleStart = std::max(timeViewModel->start(), clipStart);
+        const double visibleEnd = std::min(timeViewModel->start() + viewLength, clipEnd);
+        if (visibleStart >= visibleEnd)
+            return;
+
+        const double offset = static_cast<double>(clip->clipStart()) - clipStart;
+        const int first = static_cast<int>(std::floor(visibleStart + offset));
+        const int last = static_cast<int>(std::ceil(visibleEnd + offset));
+        const auto notes = clip->notes()->slice(first, last - first);
+        int minKey = 128;
+        int maxKey = -1;
+        for (auto note : notes) {
+            if (note->length() == 0)
+                continue;
+            minKey = std::min(minKey, note->keyNumber());
+            maxKey = std::max(maxKey, note->keyNumber());
+        }
+        if (maxKey < minKey)
+            return;
+
+        const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
+        const double currentStart = clavierViewModel->start();
+        if (maxKey + 1.0 <= currentStart && minKey >= currentStart - viewKeyCount)
+            return;
+        clavierViewModel->setStart(centeredClavierViewStart(minKey, maxKey, viewKeyCount));
     }
 
     PianoRollPanelInterface *PianoRollAddOn::pianoRollPanelInterface() const {

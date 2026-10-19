@@ -175,9 +175,9 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.edit.selectAllActions" />
         <group id="org.diffscope.core.edit.selectCurrentActions" />
         <group id="org.diffscope.core.edit.shiftCursorActions" />
-        <group id="org.diffscope.core.edit.msrActions" />
+        <menu id="org.diffscope.core.edit.msr" text="MSR" />
         <group id="org.diffscope.core.edit.trackSelectActions" />
-        <group id="org.diffscope.core.edit.noteShiftActions" />
+        <menu id="org.diffscope.core.edit.transpose" />
         <group id="org.diffscope.core.edit.fillLyricsActions" />
         <group id="org.diffscope.core.edit.bounceActions" />
         <group id="org.diffscope.core.edit.editCurrentClipActions" />
@@ -256,20 +256,20 @@ SPDX-License-Identifier: Apache-2.0
                 </menu>
                 <action id="org.diffscope.core.edit.itemSelector" />
                 <separator />
-                <group id="org.diffscope.core.edit.msrActions">
+                <menu id="org.diffscope.core.edit.msr">
                     <action id="org.diffscope.core.edit.mute" />
                     <action id="org.diffscope.core.edit.solo" />
                     <action id="org.diffscope.core.edit.record" />
-                </group>
+                </menu>
                 <group id="org.diffscope.core.edit.trackSelectActions">
                     <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
                 </group>
-                <group id="org.diffscope.core.edit.noteShiftActions">
+                <menu id="org.diffscope.core.edit.transpose">
                     <action id="org.diffscope.core.edit.shiftUpByASemitone" />
                     <action id="org.diffscope.core.edit.shiftDownByASemitone" />
                     <action id="org.diffscope.core.edit.shiftUpByAnOctave" />
                     <action id="org.diffscope.core.edit.shiftDownByAnOctave" />
-                </group>
+                </menu>
                 <group id="org.diffscope.core.edit.fillLyricsActions">
                     <action id="org.diffscope.core.edit.fillLyrics" />
                 </group>
@@ -475,7 +475,7 @@ SPDX-License-Identifier: Apache-2.0
         </menu>
 
         <menu id="org.diffscope.core.trackItemContextMenu">
-            <group id="org.diffscope.core.edit.msrActions" />
+            <group id="org.diffscope.core.edit.msr" />
             <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
@@ -487,7 +487,7 @@ SPDX-License-Identifier: Apache-2.0
         </menu>
 
         <menu id="org.diffscope.core.noteItemContextMenu">
-            <group id="org.diffscope.core.edit.noteShiftActions" />
+            <group id="org.diffscope.core.edit.transpose" />
             <group id="org.diffscope.core.edit.fillLyricsActions" />
             <action id="org.diffscope.core.edit.split" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />

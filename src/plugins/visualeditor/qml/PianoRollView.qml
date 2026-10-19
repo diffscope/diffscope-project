@@ -8,18 +8,16 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 
-import SVSCraft
-import SVSCraft.UIComponents
-
 import QActionKit
 
 import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
 import dev.sjimo.ScopicFlow.Internal as ScopicFlowInternal
 
+import SVSCraft
+import SVSCraft.UIComponents
+
 import DiffScope.Core
-import DiffScope.DspxModel as DspxModel
-import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 Item {
     id: view
@@ -637,15 +635,7 @@ Item {
                                     icon.source: "image://fluent-system-icons/edit"
                                     highlighted: view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === trackRow.modelData.display.track
                                     enabled: (trackRow.modelData.display.track?.clips.singingClipCount ?? 0) > 0
-                                    onClicked: () => {
-                                        // TODO consider playback position
-                                        let clip = trackRow.modelData.display.track.clips.firstItem
-                                        for (; clip && clip.kind !== DspxModel.Clip.Singing; clip = clip.nextItem);
-                                        if (!clip)
-                                            return
-                                        view.pianoRollPanelInterface.editingClip = clip
-                                        view.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, clip.notes);
-                                    }
+                                    onClicked: view.addOn.editTrack(trackRow.modelData.display.track)
                                 }
                                 Label {
                                     Layout.fillWidth: true

@@ -4,6 +4,7 @@
 #include "PianoRollPanelInterface.h"
 #include "PianoRollPanelInterface_p.h"
 
+#include <algorithm>
 #include <cmath>
 
 #include <QLoggingCategory>
@@ -16,26 +17,31 @@
 
 #include <ScopicFlowCore/ClavierInteractionController.h>
 #include <ScopicFlowCore/ClavierViewModel.h>
+#include <ScopicFlowCore/ClipViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
+#include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/ParameterEditorInteractionController.h>
 #include <ScopicFlowCore/PhonemeSequenceInteractionController.h>
 #include <ScopicFlowCore/RangeIndicatorInteractionController.h>
+#include <ScopicFlowCore/RangeSequenceViewModel.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeManipulator.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
+#include <ScopicFlowCore/private/SliceableViewModelManipulatorInterface_p.h>
 
 #include <dspxmodelORM/Clip.h>
-#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
-#include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelORM/NoteSequence.h>
-#include <dspxmodelSelectionModel/SelectionModel.h>
 #include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/TrackList.h>
+#include <dspxmodelSelectionModel/ClipSelectionModel.h>
+#include <dspxmodelSelectionModel/NoteSelectionModel.h>
+#include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
@@ -416,6 +422,84 @@ namespace VisualEditor {
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::warnOfOverlappingNotesChanged, noteEditLayerInteractionController, applyWarnOfOverlappingNotes);
     }
 
+    void PianoRollPanelInterfacePrivate::adjustVerticalViewForPage(double start, double length) const {
+        if (!Internal::EditorPreference::pianoRollAutoPageVerticalAdjustment())
+            return;
+
+        auto editArea = pianoRollView->property("centerEditArea").value<QQuickItem *>();
+        if (!editArea || editArea->height() <= 0 || clavierViewModel->pixelDensity() <= 0 || length <= 0)
+            return;
+
+        auto context = ProjectViewModelContext::of(windowHandle);
+        auto editingTrack = editingClip && editingClip->clipSequence() ? editingClip->clipSequence()->track() : nullptr;
+        int minKey = 128;
+        int maxKey = -1;
+        for (int row = 0; row < trackOverlaySelectorModel->rowCount(); ++row) {
+            auto item = qobject_cast<Internal::TrackOverlaySelectorItem *>(trackOverlaySelectorModel->index(row, 0).data().value<QObject *>());
+            if (!item || (!item->overlayVisible() && item->track() != editingTrack))
+                continue;
+
+            auto clips = context->getSingingClipPerTrackSequenceViewModel(item->track());
+            if (!clips)
+                continue;
+            const auto clipItems = clips->items();
+            for (auto clipItem : clipItems) {
+                auto clip = qobject_cast<sflow::ClipViewModel *>(clipItem);
+                auto notes = clip ? clip->associatedNoteSequence() : nullptr;
+                auto sliceable = notes ? notes->property("iSliceable").value<sflow::SliceableViewModelManipulatorInterface *>() : nullptr;
+                if (!sliceable)
+                    continue;
+
+                const double offset = static_cast<double>(clip->clipStart()) - clip->position();
+                const int first = static_cast<int>(std::floor(start + offset));
+                const int last = static_cast<int>(std::ceil(start + length + offset));
+                const auto pageNotes = sliceable->slice(first, last - first);
+                for (auto noteItem : pageNotes) {
+                    auto note = qobject_cast<sflow::NoteViewModel *>(noteItem);
+                    if (!note)
+                        continue;
+                    minKey = std::min(minKey, note->key());
+                    maxKey = std::max(maxKey, note->key());
+                }
+            }
+        }
+        if (maxKey < minKey)
+            return;
+
+        // Each note occupies [key, key + 1] in clavier coordinates.
+        const double noteTop = maxKey + 1.0;
+        const double noteBottom = minKey;
+        const double noteHeight = noteTop - noteBottom;
+        double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
+        const double currentStart = clavierViewModel->start();
+        if (noteTop <= currentStart && noteBottom >= currentStart - viewKeyCount)
+            return;
+
+        double newStart;
+        if (noteHeight <= viewKeyCount) {
+            newStart = (noteTop + noteBottom + viewKeyCount) / 2.0;
+        } else {
+            switch (Internal::EditorPreference::pianoRollAutoPageOverflowBehavior()) {
+                case Internal::EditorPreference::APOB_AlignBottom:
+                    newStart = noteBottom + viewKeyCount;
+                    break;
+                case Internal::EditorPreference::APOB_Center:
+                    newStart = (noteTop + noteBottom + viewKeyCount) / 2.0;
+                    break;
+                case Internal::EditorPreference::APOB_ZoomToFit:
+                    // The manual zoom minimum must not prevent all notes from fitting.
+                    clavierViewModel->setPixelDensity(editArea->height() / noteHeight);
+                    viewKeyCount = noteHeight;
+                    newStart = noteTop;
+                    break;
+                default:
+                    newStart = noteTop;
+                    break;
+            }
+        }
+        clavierViewModel->setStart(std::clamp(newStart, std::min(viewKeyCount, 128.0), 128.0));
+    }
+
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {
         Q_D(PianoRollPanelInterface);
         Q_ASSERT(windowHandle->getObjects(staticMetaObject.className()).isEmpty());
@@ -459,6 +543,7 @@ namespace VisualEditor {
         d->editingClipSelectorModel->setSourceModel(d->singingClipListModel);
         d->editingClipSelectorModel->setDynamicSortFilter(true);
         d->editingClipSelectorModel->setSortRole(Internal::SingingClipListModel::ClipPositionRole);
+        d->editingClipSelectorModel->sort(0);
 
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "PianoRollView");
@@ -480,6 +565,10 @@ namespace VisualEditor {
         }
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());
+        connect(d->autoPageScrollingManipulator, &AutoPageScrollingManipulator::pageTurned, this, [this](double start, double length) {
+            Q_D(PianoRollPanelInterface);
+            d->adjustVerticalViewForPage(start, length);
+        });
 
         auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
 

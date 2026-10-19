@@ -25,6 +25,8 @@ ScrollView {
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
     property bool centerPianoRollOnClipDoubleClick: true
+    property bool pianoRollAutoPageVerticalAdjustment: false
+    property int pianoRollAutoPageOverflowBehavior: EditorPreference.APOB_AlignTop
     property double pianoKeyboardBlackKeyLengthRatio: 0.6
     property int pianoKeyboardLabelPolicy: 0
     property int noteEditPitchCurveDisplayMode: EditorPreference.PCDM_Automatic
@@ -46,6 +48,8 @@ ScrollView {
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
     onCenterPianoRollOnClipDoubleClickChanged: if (started) pageHandle.markDirty()
+    onPianoRollAutoPageVerticalAdjustmentChanged: if (started) pageHandle.markDirty()
+    onPianoRollAutoPageOverflowBehaviorChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardBlackKeyLengthRatioChanged: if (started) pageHandle.markDirty()
     onPianoKeyboardLabelPolicyChanged: if (started) pageHandle.markDirty()
     onNoteEditPitchCurveDisplayModeChanged: if (started) pageHandle.markDirty()
@@ -239,6 +243,37 @@ ScrollView {
                 GridLayout {
                     anchors.fill: parent
                     columns: 3
+
+                    CheckBox {
+                        text: qsTr("Adjust vertical view during automatic page scrolling")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.pianoRollAutoPageVerticalAdjustment
+                        onClicked: page.pianoRollAutoPageVerticalAdjustment = checked
+                    }
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: autoPageOverflowComboBox.mirrored ? 0 : 22
+                        Layout.rightMargin: autoPageOverflowComboBox.mirrored ? 22 : 0
+                        enabled: page.pianoRollAutoPageVerticalAdjustment
+
+                        Label {
+                            id: autoPageOverflowLabel
+                            text: qsTr("If notes exceed the view height")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
+                        ComboBox {
+                            id: autoPageOverflowComboBox
+                            model: [qsTr("Align Top"), qsTr("Align Bottom"), qsTr("Center"), qsTr("Zoom to Fit")]
+                            currentIndex: page.pianoRollAutoPageOverflowBehavior
+                            Accessible.name: autoPageOverflowLabel.text
+                            onActivated: (index) => page.pianoRollAutoPageOverflowBehavior = index
+                        }
+                    }
 
                     Label {
                         text: qsTr("Black key width")
