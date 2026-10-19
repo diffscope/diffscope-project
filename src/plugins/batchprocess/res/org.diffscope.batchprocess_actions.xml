@@ -18,9 +18,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <items>
         <phony id="org.diffscope.core.mainMenu" />
 
-        <action id="org.diffscope.batchprocess.&amp;batchProcess" category="Batchprocess" text="&amp;Batch Process" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.batchprocess.reload&amp;Scripts" category="Batchprocess" text="&amp;Reload Scripts" description="Reload batch processing scripts" />
-        <action id="org.diffscope.batchprocess.openJavaScriptDebug&amp;Console" text="JavaScript Debug &amp;Console..." description="Open the JavaScript debug console" category="Help" icon="window_console" />
+        <action id="org.diffscope.batchprocess.&amp;batchProcess" category="Batchprocess" text="&amp;Batch Process" triggerable="false" diffscope:componentType="menu" description="Choose a batch processing task to run." />
+        <action id="org.diffscope.batchprocess.reload&amp;Scripts" category="Batchprocess" text="&amp;Reload Scripts" description="Refresh the batch processing menu with scripts from disk." />
+        <action id="org.diffscope.batchprocess.openJavaScriptDebug&amp;Console" text="JavaScript Debug &amp;Console..." category="Help" icon="window_console" />
 
         <group id="org.diffscope.batchprocess.javaScriptDebugConsoleActions" />
     </items>

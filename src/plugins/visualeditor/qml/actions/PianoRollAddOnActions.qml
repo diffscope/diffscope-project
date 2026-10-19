@@ -13,6 +13,7 @@ import SVSCraft.UIComponents.impl
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
@@ -186,7 +187,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.snapDuration"
-        Menu {
+        ActionMenu {
             id: menuDuration
             Instantiator {
                 model: DelegateModel {
@@ -225,7 +226,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.snapTuplet"
-        Menu {
+        ActionMenu {
             id: menuTuplet
             Instantiator {
                 model: DelegateModel {
@@ -327,7 +328,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.additionalTracks"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: d.addOn?.additionalTrackLoader.components ?? null
@@ -356,7 +357,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks"
-        Menu {
+        ActionMenu {
             id: bottomMenu
             Instantiator {
                 model: d.addOn?.bottomAdditionalTrackLoader.components ?? null

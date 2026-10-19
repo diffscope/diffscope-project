@@ -13,6 +13,7 @@ import QActionKit
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.UIShell
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
 ActionCollection {

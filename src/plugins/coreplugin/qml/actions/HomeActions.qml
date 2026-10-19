@@ -21,7 +21,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.home.navigationPanels"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: DelegateModel {

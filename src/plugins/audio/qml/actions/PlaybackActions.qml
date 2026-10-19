@@ -10,6 +10,7 @@ import QActionKit
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.UIShell
 import DiffScope.Audio
 
 ActionCollection {

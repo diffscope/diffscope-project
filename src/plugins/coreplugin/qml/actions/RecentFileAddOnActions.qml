@@ -21,7 +21,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.file.openRecentFile"
-        Menu {
+        ActionMenu {
             id: recentFilesMenu
             Instantiator {
                 model: DelegateModel {

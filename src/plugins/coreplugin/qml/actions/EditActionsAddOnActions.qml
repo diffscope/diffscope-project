@@ -11,6 +11,7 @@ import SVSCraft.UIComponents.impl
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 import DiffScope.DspxModel.PropertyMapper

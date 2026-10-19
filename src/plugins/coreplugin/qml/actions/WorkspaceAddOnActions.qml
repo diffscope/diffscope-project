@@ -10,6 +10,7 @@ import QActionKit
 
 import SVSCraft.UIComponents
 
+import DiffScope.UIShell
 import DiffScope.Core
 
 ActionCollection {
@@ -71,7 +72,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.workspace.customLayouts"
 
-        Menu {
+        ActionMenu {
             id: layouts
 
             Instantiator {
@@ -104,7 +105,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.workspace.allPanels"
 
-        Menu {
+        ActionMenu {
             id: allPanels
 
             Instantiator {
@@ -132,7 +133,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.workspace.activePanels"
 
-        Menu {
+        ActionMenu {
             id: activePanels
 
             Instantiator {

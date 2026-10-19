@@ -26,6 +26,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ChorusKit::AppCore
         QAKCore
         QAKQuick
+        uishell
         coreplugin
         audio
         dspxmodelORM

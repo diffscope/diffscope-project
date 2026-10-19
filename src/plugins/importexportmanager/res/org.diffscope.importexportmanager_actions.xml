@@ -21,9 +21,9 @@ SPDX-License-Identifier: Apache-2.0
     <items>
         <phony id="core.mainMenu" />
 
-        <action id="org.diffscope.importexportmanager.file.&amp;import" category="File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.file.&amp;export" category="File" icon="document_arrow_left" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.importexportmanager.project.importAsTracks" category="Project" text="Import Tracks from File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.importexportmanager.file.&amp;import" category="File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" description="Choose a file format to import as a new project." />
+        <action id="org.diffscope.importexportmanager.file.&amp;export" category="File" icon="document_arrow_left" triggerable="false" diffscope:componentType="menu" description="Choose a file format for exporting the current project." />
+        <action id="org.diffscope.importexportmanager.project.importAsTracks" category="Project" text="Import Tracks from File" icon="document_arrow_right" triggerable="false" diffscope:componentType="menu" description="Choose a file format to add tracks to the current project." />
         <action id="org.diffscope.importexportmanager.edit.copySpecial^" category="Edit" shortcut="Ctrl+Alt+C" />
         <action id="org.diffscope.importexportmanager.edit.pasteSpecial^" category="Edit" shortcut="Ctrl+Alt+V" />
 

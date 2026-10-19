@@ -42,40 +42,40 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.view.resetVerticalScale" category="View" icon="arrow_autofit_height" shortcut="Ctrl+Shift+R" />
         <action id="org.diffscope.visualeditor.view.resetHorizontalScale" category="View" icon="arrow_autofit_width" shortcut="Ctrl+Alt+Shift+R" />
 
-        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" category="Arrangement Panel" icon="cursor" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" category="Arrangement Panel" icon="edit" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.scissorTool" category="Arrangement Panel" icon="cut" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" category="Arrangement Panel" icon="rectangle_landscape_dash" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" category="Arrangement Panel" icon="hand_left" />
-        <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" category="Mixer Panel" icon="cursor" />
-        <action id="org.diffscope.visualeditor.mixerPanel.handTool" category="Mixer Panel" icon="hand_left" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" category="Piano Roll Panel" icon="cursor" shortcut="F5" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" category="Piano Roll Panel" icon="edit" shortcut="F6" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" category="Piano Roll Panel" icon="cut" shortcut="F7" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" category="Piano Roll Panel" icon="rectangle_landscape_dash" shortcut="F8" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" category="Piano Roll Panel" icon="hand_left" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" category="Piano Roll Panel" icon="pitch_pencil" shortcut="1" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" category="Piano Roll Panel" icon="line" shortcut="2" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" category="Piano Roll Panel" icon="paint_brush_arrow_down" shortcut="3" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" category="Piano Roll Panel" icon="pitch_erase" shortcut="4" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" category="Piano Roll Panel" icon="pitch_cursor_text" shortcut="5" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" category="Piano Roll Panel" icon="pitch_cursor" shortcut="6" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" category="Piano Roll Panel" icon="calligraphy_pen" shortcut="7" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" category="Piano Roll Panel" icon="arrow_bidirectional_left_right" shortcut="8" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" category="Piano Roll Panel" icon="pitch_rectangle_landscape_dash" shortcut="9" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" category="Piano Roll Panel" icon="more_vertical" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" category="Piano Roll Panel" text="Bottom Panels" icon="layout_row_two_focus_bottom" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pointerTool" category="Arrangement Panel" icon="cursor" description="Select, move, or resize clips." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.pencilTool" category="Arrangement Panel" icon="edit" description="Draw singing clips, or move and resize existing clips." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.scissorTool" category="Arrangement Panel" icon="cut" description="Split selected clips at the pointer position." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.selectTool" category="Arrangement Panel" icon="rectangle_landscape_dash" description="Select clips by area or time range." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.handTool" category="Arrangement Panel" icon="hand_left" description="Drag the arrangement view to scroll." />
+        <action id="org.diffscope.visualeditor.mixerPanel.pointerTool" category="Mixer Panel" icon="cursor" description="Select tracks and adjust volume and pan." />
+        <action id="org.diffscope.visualeditor.mixerPanel.handTool" category="Mixer Panel" icon="hand_left" description="Drag the mixer view to scroll." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pointerTool" category="Piano Roll Panel" icon="cursor" shortcut="F5" description="Select, move, or resize notes." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pencilTool" category="Piano Roll Panel" icon="edit" shortcut="F6" description="Draw notes, or move and resize existing notes." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.scissorTool" category="Piano Roll Panel" icon="cut" shortcut="F7" description="Split selected notes at the pointer position." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.selectTool" category="Piano Roll Panel" icon="rectangle_landscape_dash" shortcut="F8" description="Select notes by area or time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.handTool" category="Piano Roll Panel" icon="hand_left" description="Drag the piano roll view to scroll." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" category="Piano Roll Panel" icon="pitch_pencil" shortcut="1" description="Draw pitch changes freehand." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" category="Piano Roll Panel" icon="line" shortcut="2" description="Drag to draw a straight segment of the pitch curve." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" category="Piano Roll Panel" icon="paint_brush_arrow_down" shortcut="3" description="Freeze the original pitch over the dragged time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" category="Piano Roll Panel" icon="pitch_erase" shortcut="4" description="Erase drawn pitch edits over the dragged time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" category="Piano Roll Panel" icon="pitch_cursor_text" shortcut="5" description="Select a time range of the drawn pitch curve." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" category="Piano Roll Panel" icon="pitch_cursor" shortcut="6" description="Select and move pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" category="Piano Roll Panel" icon="calligraphy_pen" shortcut="7" description="Add, move, or delete pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" category="Piano Roll Panel" icon="arrow_bidirectional_left_right" shortcut="8" description="Change how the curve connects neighboring pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" category="Piano Roll Panel" icon="pitch_rectangle_landscape_dash" shortcut="9" description="Select pitch anchors by area or time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" category="Piano Roll Panel" icon="more_vertical" triggerable="false" diffscope:componentType="menu" description="Choose which additional lanes to display in the piano roll." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" category="Piano Roll Panel" text="Bottom Panels" icon="layout_row_two_focus_bottom" triggerable="false" diffscope:componentType="menu" description="Choose which editing panels to display below the piano roll." />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" category="Arrangement Panel" triggerable="false" diffscope:componentType="widget" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" category="Arrangement Panel" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" category="Arrangement Panel" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" category="Arrangement Panel" icon="playhead_panel_chevron_double" />
-        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" category="Arrangement Panel" icon="more_vertical" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapDuration" category="Arrangement Panel" triggerable="false" diffscope:componentType="menu" description="Choose the time grid used to align clip edits." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.snapTuplet" category="Arrangement Panel" triggerable="false" diffscope:componentType="menu" description="Choose a tuplet subdivision for the snap grid." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.autoPageScrolling" category="Arrangement Panel" icon="playhead_panel_chevron_double" description="Scroll the arrangement by pages to follow the playhead." />
+        <action id="org.diffscope.visualeditor.arrangementPanel.additionalTracks" category="Arrangement Panel" icon="more_vertical" triggerable="false" diffscope:componentType="menu" description="Choose which additional lanes to display in the arrangement." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.snap" category="Piano Roll Panel" triggerable="false" diffscope:componentType="widget" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.snapDuration" category="Piano Roll Panel" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" category="Piano Roll Panel" triggerable="false" diffscope:componentType="menu" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" category="Piano Roll Panel" icon="playhead_panel_chevron_double" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.snapDuration" category="Piano Roll Panel" triggerable="false" diffscope:componentType="menu" description="Choose the time grid used to align note edits." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.snapTuplet" category="Piano Roll Panel" triggerable="false" diffscope:componentType="menu" description="Choose a tuplet subdivision for the snap grid." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.autoPageScrolling" category="Piano Roll Panel" icon="playhead_panel_chevron_double" description="Scroll the piano roll by pages to follow the playhead." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.editingClip" category="Piano Roll Panel" triggerable="false" diffscope:componentType="widget" />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" category="Piano Roll Panel" icon="highlight" />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.highlightScale" category="Piano Roll Panel" icon="highlight" description="Highlight scale tones according to the project's key signatures." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.showTrackSelector" category="Piano Roll Panel" icon="navigation" />
 
         <action id="org.diffscope.visualeditor.panel.arrangement" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" triggerable="false" diffscope:componentType="custom"/>

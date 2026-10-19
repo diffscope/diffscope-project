@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
     <items>
         <phony id="org.diffscope.core.mainMenu" />
 
-        <action id="org.diffscope.welcomewizard.welcomeWizard" category="Welcomewizard" />
+        <action id="org.diffscope.welcomewizard.welcomeWizard" category="Welcomewizard" description="Review the initial setup for DiffScope." />
     </items>
 
     <insertions>

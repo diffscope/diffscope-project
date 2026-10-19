@@ -7,6 +7,7 @@ import QtQuick.Controls
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 
