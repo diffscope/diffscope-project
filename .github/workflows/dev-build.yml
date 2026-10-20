@@ -3,23 +3,12 @@
 
 name: Dev Build
 on:
-#  push:
-#    branches:
-#      - main
-#    paths-ignore:
-#      - 'README.md'
-#      - 'LICENSE'
-#      - 'crowdin.yml'
-#      - '.github/**'
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'crowdin.yml'
-      - '.github/**'
-      - '**/translations/*.ts'
   workflow_dispatch:
     inputs:
       identifier:

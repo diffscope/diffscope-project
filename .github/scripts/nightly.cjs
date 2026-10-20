@@ -165,6 +165,8 @@ function expectedAssets(applicationName, semver) {
         ['_Windows_amd64_installer.exe', 'windows', 'amd64', 'exe', 'installer'],
         ['_Windows_amd64_portable.zip', 'windows', 'amd64', 'zip', 'portable'],
         ['_Windows_amd64_debug_symbols.7z', 'windows', 'amd64', '7z', 'debug_symbols'],
+        ['_Linux_amd64_portable.tar.xz', 'linux', 'amd64', 'tar.xz', 'portable'],
+        ['_Linux_amd64_debug_symbols.7z', 'linux', 'amd64', '7z', 'debug_symbols'],
         ['_macOS_arm64.dmg', 'macos', 'arm64', 'dmg', ''],
         ['_macOS_arm64_debug_symbols.7z', 'macos', 'arm64', '7z', 'debug_symbols']
     ].map(([suffix, platform, arch, format, variant]) => ({ name: base + suffix, platform, arch, format, variant }));

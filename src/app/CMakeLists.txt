@@ -90,18 +90,6 @@ qt_add_resources(${PROJECT_NAME} icons
     FILES ${_icons}
 )
 
-if(WIN32)
-    # Deploy windows icons
-    ck_add_shared_files(
-        SKIP_BUILD
-        SRC share/win-icons/ DEST ${CK_BUILD_DATA_DIR}/icons
-    )
-elseif(APPLE)
-# TODO...
-else()
-    # Add linux files
-    ck_add_shared_files(
-        SKIP_BUILD
-        SRC share/applications share/icons DEST ${CK_BUILD_DATA_DIR}
-    )
+if(LINUX)
+    add_subdirectory(share/linux)
 endif()

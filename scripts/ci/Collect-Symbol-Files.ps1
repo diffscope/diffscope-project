@@ -94,7 +94,7 @@ if ($IsWindows) {
     Push-Location $InstallDir
     $dllFiles = @(Get-FilesByMagic -Path . -MagicNumbers '7F454C46')
     foreach ($dllFile in $dllFiles) {
-        file $dllFile.FullName
+        file $dllFile.FullName | Write-Host
         $fileOutput = file $dllFile.FullName
         if ($fileOutput -match "with debug_info") {
             Write-Host "Copy and strip debug_info: $dllFile"

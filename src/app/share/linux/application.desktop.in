@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=@APPLICATION_DISPLAY_NAME@
+GenericName=Singing Voice Editor
+Comment=A free, professional singing-voice-synthesis editor powered by DiffSinger
+Exec="@_application_executable@" %F
+TryExec=@_application_executable@
+Icon=@_desktop_id@
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo;Audio;Music;
+Keywords=singing;voice;music;synthesis;
+MimeType=application/vnd.openvpi.dspx+json;application/x.diffscope.compressed-dspx+zstd;

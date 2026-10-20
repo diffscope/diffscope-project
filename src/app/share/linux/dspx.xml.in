@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/vnd.openvpi.dspx+json">
+        <comment>@_display_name_xml@ Project</comment>
+        <sub-class-of type="application/json"/>
+        <glob pattern="*.dspx"/>
+        <icon name="@_dspx_icon_name@"/>
+        <generic-icon name="@_dspx_icon_name@"/>
+    </mime-type>
+    <mime-type type="application/x.diffscope.compressed-dspx+zstd">
+        <comment>@_display_name_xml@ Project</comment>
+        <sub-class-of type="application/zstd"/>
+        <glob pattern="*.dspx"/>
+        <icon name="@_dspx_icon_name@"/>
+        <generic-icon name="@_dspx_icon_name@"/>
+    </mime-type>
+</mime-info>

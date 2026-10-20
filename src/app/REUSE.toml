@@ -1,7 +1,7 @@
 version = 1
 
 [[annotations]]
-path = ["conf/**", "config.json.in", "info.plist.in"]
+path = ["conf/**", "config.json.in", "info.plist.in", "share/linux/*.in"]
 SPDX-FileCopyrightText = "Team OpenVPI"
 SPDX-License-Identifier = "Apache-2.0"
 

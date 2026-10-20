@@ -71,7 +71,9 @@ jobs:
           - os: windows-2025
             platform: Windows
             arch: amd64
-          # - os: ubuntu-24.04
+          - os: ubuntu-24.04
+            platform: Linux
+            arch: amd64
           - os: macos-15
             platform: macOS
             arch: arm64
@@ -134,7 +136,7 @@ jobs:
           if ($IsWindows) {
             Expand-Archive -LiteralPath $env:DSSP_ARCHIVE -DestinationPath $extractionDirectory
           } else {
-            & /usr/bin/unzip -q $env:DSSP_ARCHIVE -d $extractionDirectory
+            & /usr/bin/tar -xJf $env:DSSP_ARCHIVE -C $extractionDirectory
             if ($LASTEXITCODE -ne 0) {
               throw 'dssp artifact extraction failed'
             }
@@ -227,6 +229,16 @@ jobs:
             -InstallerFileBase $env:INSTALLER_FILE_BASE
           "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
           "PACKAGE_ARTIFACT_NAME=$env:INSTALLER_FILE_BASE" >> $env:GITHUB_ENV
+
+      - name: Create portable archive (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          $output = & ./scripts/ci/Create-Portable.ps1 `
+            -InstallDir $env:INSTALL_DIR `
+            -ApplicationName $env:APPLICATION_NAME `
+            -ArchivePath "$($env:ARTIFACT_NAME)_portable.tar.xz"
+          "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
+          "PACKAGE_ARTIFACT_NAME=$($env:ARTIFACT_NAME)_portable" >> $env:GITHUB_ENV
 
       - name: Upload symbol files
         uses: actions/upload-artifact@v4
