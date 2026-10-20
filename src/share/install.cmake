@@ -8,37 +8,30 @@ install(DIRECTORY ${CK_BUILD_MAIN_DIR}/share/
 
 qm_find_qt(Core)
 
-set(_plugins
-    generic/qtuiotouchplugin
-    iconengines/qsvgicon
-    imageformats/q*
-    networkinformation/qnetworklistmanager
-    tls/q*
+# QT_PLUGINS deploys the plugins of every Qt module in the deployment. The OpenSSL backend requires
+# OpenSSL, which the deployment does not include. The QML debugging plugins serve development only.
+# Qt SQL is in the deployment only as a dependency of Qt Quick Local Storage, which DiffScope does
+# not use, therefore the SQL drivers are excluded with the module.
+set(_qt_plugins_exclude
+    generic/qinsighttracker
+    tls/qopensslbackend
+    qmltooling/qmldbg_debugger
+    qmltooling/qmldbg_inspector
+    qmltooling/qmldbg_local
+    qmltooling/qmldbg_messages
+    qmltooling/qmldbg_native
+    qmltooling/qmldbg_nativedebugger
+    qmltooling/qmldbg_preview
+    qmltooling/qmldbg_profiler
+    qmltooling/qmldbg_quickeventreplay
+    qmltooling/qmldbg_quickprofiler
+    qmltooling/qmldbg_server
+    qmltooling/qmldbg_tcp
 )
 
-if(WIN32)
-    # Windows
-    list(APPEND _plugins
-        platforms/qwindows
-        styles/qmodernwindowsstyle
-    )
-elseif(APPLE)
-    # Mac
-    list(APPEND _plugins
-        platforms/qcocoa
-        styles/qmacstyle
-        platforminputcontexts/q*
-        printsupport/q*
-        virtualkeyboard/q*
-    )
-else()
-    # Linux
-    list(APPEND _plugins
-        platforms/qxcb
-        platforminputcontexts/*
-        xcbglintegrations/*
-    )
-endif()
+set(_qt_plugins_exclude_modules
+    Sql
+)
 
 if(WIN32)
     set(_lib_dir ${CK_INSTALL_RUNTIME_DIR})
@@ -61,8 +54,10 @@ if(UNIX AND NOT APPLE)
     list(APPEND _exclude "^/(usr/)?lib(64)?/")
 endif()
 
+# Qt Labs Folder List Model is imported by the non-native file and folder dialogs of Qt Quick
+# Dialogs. DiffScope imports no other Qt Labs module.
 set(_qml
-    Qt/labs
+    Qt/labs/folderlistmodel
     Qt5Compat
     QtCore
     QtQml
@@ -85,8 +80,10 @@ if(_vcpkg_lib_dir)
     ")
 endif()
 
-qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
-    PLUGINS ${_plugins}
+qm_deploy_directory(.
+    QT_PLUGINS
+    QT_PLUGINS_EXCLUDE ${_qt_plugins_exclude}
+    QT_PLUGINS_EXCLUDE_MODULES ${_qt_plugins_exclude_modules}
     LIBRARY_DIR ${_lib_dir}
     PLUGIN_DIR ${CK_INSTALL_LIBRARY_DIR}/Qt/plugins
     EXTRA_SEARCHING_PATHS ${_extra_search_path}
@@ -98,12 +95,6 @@ qm_deploy_directory(${CMAKE_INSTALL_PREFIX}
 
 if(_vcpkg_lib_dir)
     install(CODE "set(ENV{LD_LIBRARY_PATH} \"\${_old_ld_library_path}\")")
-endif()
-
-# Install vcruntime
-if(MSVC AND APPLICATION_INSTALL_MSVC_RUNTIME)
-    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${OUTPUT_DIR}")
-    include(InstallRequiredSystemLibraries)
 endif()
 
 if(APPLE)

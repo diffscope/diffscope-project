@@ -4,6 +4,14 @@
 cmake_minimum_required(VERSION 3.19)
 cmake_policy(SET CMP0141 NEW)
 
+# The oldest macOS that Qt 6.11 supports, unless the MACOSX_DEPLOYMENT_TARGET environment variable
+# or the cache specifies another. Info.plist records it as LSMinimumSystemVersion. The variable
+# must be set before project().
+if(CMAKE_HOST_APPLE AND NOT DEFINED CMAKE_OSX_DEPLOYMENT_TARGET AND
+    NOT DEFINED ENV{MACOSX_DEPLOYMENT_TARGET})
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 13.0 CACHE STRING "Minimum macOS version")
+endif()
+
 project(DiffScope VERSION 0.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -15,7 +23,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 option(APPLICATION_BUILD_TESTS "Build test cases" OFF)
 option(APPLICATION_INSTALL "Install this project" ON)
 option(APPLICATION_ENABLE_DEVEL "Install developer files" OFF)
-option(APPLICATION_INSTALL_MSVC_RUNTIME "Install MSVC runtime" OFF)
 option(APPLICATION_CONFIGURE_INSTALLER "Configure installer" OFF)
 
 # ----------------------------------
@@ -37,6 +44,8 @@ if(APPLICATION_INSTALL)
     include(CMakePackageConfigHelpers)
     if(MSVC)
         set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "")
+        # sleefdft from vcpkg, a dependency of Rubber Band, requires the OpenMP runtime vcomp140.dll
+        set(CMAKE_INSTALL_OPENMP_LIBRARIES ON)
         include(InstallRequiredSystemLibraries)
     endif()
 endif()
