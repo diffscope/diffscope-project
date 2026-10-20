@@ -36,6 +36,9 @@
 	<key>CSResourcesFileMapped</key>
 	<true/>
 
+	<key>LSMinimumSystemVersion</key>
+	<string>@CMAKE_OSX_DEPLOYMENT_TARGET@</string>
+
 	<key>NSHumanReadableCopyright</key>
 	<string>@RC_COPYRIGHT@</string>
 
