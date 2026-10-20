@@ -18,6 +18,7 @@ ScrollView {
     id: page
 
     required property QtObject pageHandle
+    property bool basicOptionsOnly: false
     readonly property var configuration: pageHandle.configuration
     readonly property var selectedDevice: pageHandle.selectedDevice
     readonly property QtObject deviceCatalog: pageHandle.deviceCatalog
@@ -140,6 +141,7 @@ ScrollView {
 
                     TextField {
                         Layout.fillWidth: true
+                        visible: !page.basicOptionsOnly
                         readOnly: true
                         selectByMouse: true
                         text: page.configuration.executablePath
@@ -150,6 +152,7 @@ ScrollView {
 
                     Flow {
                         Layout.fillWidth: true
+                        visible: !page.basicOptionsOnly
                         spacing: 8
                         Button {
                             text: qsTr("Download DiffSinger Synthesis Program...")
@@ -164,6 +167,7 @@ ScrollView {
                     }
 
                     CheckBox {
+                        visible: !page.basicOptionsOnly
                         text: qsTr("Automatically start DiffSinger Synthesis Program")
                         checked: page.configuration.autoStart
                         TextMatcherItem on text { matcher: page.matcher }
@@ -173,6 +177,7 @@ ScrollView {
             }
 
             GroupBox {
+                visible: !page.basicOptionsOnly
                 title: qsTr("Server Options")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
@@ -259,6 +264,111 @@ ScrollView {
             }
 
             GroupBox {
+                title: qsTr("Execution Device")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+
+                ColumnLayout {
+                    anchors.fill: parent
+
+                    CheckBox {
+                        text: qsTr("Use the default execution provider and device")
+                        checked: page.configuration.useDefaultDevice
+                        TextMatcherItem on text { matcher: page.matcher }
+                        onClicked: page.pageHandle.setValue("useDefaultDevice", checked)
+                    }
+
+                    GridLayout {
+                        Layout.fillWidth: true
+                        columns: 2
+
+                        Label {
+                            id: providerLabel
+                            text: qsTr("Execution provider")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        ComboBox {
+                            id: providerCombo
+                            Layout.fillWidth: true
+                            model: page.deviceCatalog.providers
+                            textRole: "name"
+                            valueRole: "id"
+                            currentValue: page.selectedDevice.executionProvider ?? ""
+                            enabled: !page.configuration.useDefaultDevice && !page.deviceCatalog.busy && count > 0
+                            Accessible.name: providerLabel.text
+                            onActivated: page.pageHandle.setValue("executionProvider", currentValue)
+                        }
+
+                        Label {
+                            id: deviceLabel
+                            text: qsTr("Device")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            model: page.deviceCatalog.devicesByProvider[page.selectedDevice.executionProvider ?? ""] ?? []
+                            textRole: "description"
+                            valueRole: "id"
+                            currentValue: page.selectedDevice.id ?? ""
+                            enabled: !page.configuration.useDefaultDevice && !page.deviceCatalog.busy && count > 0
+                            Accessible.name: deviceLabel.text
+                            onActivated: page.pageHandle.setValue("deviceId", currentValue)
+                        }
+                    }
+
+                    RowLayout {
+                        Button {
+                            text: qsTr("Refresh Devices")
+                            enabled: page.configuration.executablePath.length > 0 && !page.deviceCatalog.busy
+                            TextMatcherItem on text { matcher: page.matcher }
+                            onClicked: page.pageHandle.refreshDevices()
+                        }
+                        BusyIndicator {
+                            running: page.deviceCatalog.busy
+                            visible: running
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        visible: text.length > 0
+                        text: page.deviceCatalog.errorMessage
+                        textFormat: Text.PlainText
+                        color: Theme.errorColor
+                        wrapMode: Text.Wrap
+                    }
+                }
+            }
+
+            GroupBox {
+                visible: !page.basicOptionsOnly
+                title: qsTr("Additional Command-Line Arguments")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+
+                ScrollView {
+                    anchors.fill: parent
+                    implicitWidth: additionalArgumentsInput.implicitWidth + leftPadding + rightPadding
+                    implicitHeight: 120
+                    contentWidth: availableWidth
+                    TextArea {
+                        id: additionalArgumentsInput
+                        text: page.configuration.extraArguments
+                        wrapMode: TextEdit.Wrap
+                        selectByMouse: true
+                        Accessible.name: qsTr("Additional command-line arguments")
+                        onTextChanged: {
+                            if (text !== page.configuration.extraArguments)
+                                page.pageHandle.setValue("extraArguments", text)
+                        }
+                    }
+                }
+            }
+
+            GroupBox {
+                visible: !page.basicOptionsOnly
                 title: qsTr("Logging")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
@@ -357,109 +467,6 @@ ScrollView {
                         text: qsTr("Open in %1").arg(DesktopServices.fileManagerName)
                         TextMatcherItem on text { matcher: page.matcher }
                         onClicked: DesktopServices.reveal(page.pageHandle.logsLocation)
-                    }
-                }
-            }
-
-            GroupBox {
-                title: qsTr("Execution Device")
-                TextMatcherItem on title { matcher: page.matcher }
-                Layout.fillWidth: true
-
-                ColumnLayout {
-                    anchors.fill: parent
-
-                    CheckBox {
-                        text: qsTr("Use the default execution provider and device")
-                        checked: page.configuration.useDefaultDevice
-                        TextMatcherItem on text { matcher: page.matcher }
-                        onClicked: page.pageHandle.setValue("useDefaultDevice", checked)
-                    }
-
-                    GridLayout {
-                        Layout.fillWidth: true
-                        columns: 2
-
-                        Label {
-                            id: providerLabel
-                            text: qsTr("Execution provider")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        ComboBox {
-                            id: providerCombo
-                            Layout.fillWidth: true
-                            model: page.deviceCatalog.providers
-                            textRole: "name"
-                            valueRole: "id"
-                            currentValue: page.selectedDevice.executionProvider ?? ""
-                            enabled: !page.configuration.useDefaultDevice && !page.deviceCatalog.busy && count > 0
-                            Accessible.name: providerLabel.text
-                            onActivated: page.pageHandle.setValue("executionProvider", currentValue)
-                        }
-
-                        Label {
-                            id: deviceLabel
-                            text: qsTr("Device")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        ComboBox {
-                            Layout.fillWidth: true
-                            model: page.deviceCatalog.devicesByProvider[page.selectedDevice.executionProvider ?? ""] ?? []
-                            textRole: "description"
-                            valueRole: "id"
-                            currentValue: page.selectedDevice.id ?? ""
-                            enabled: !page.configuration.useDefaultDevice && !page.deviceCatalog.busy && count > 0
-                            Accessible.name: deviceLabel.text
-                            onActivated: page.pageHandle.setValue("deviceId", currentValue)
-                        }
-                    }
-
-                    RowLayout {
-                        Button {
-                            text: qsTr("Refresh Devices")
-                            enabled: page.configuration.executablePath.length > 0 && !page.deviceCatalog.busy
-                            TextMatcherItem on text { matcher: page.matcher }
-                            onClicked: page.pageHandle.refreshDevices()
-                        }
-                        BusyIndicator {
-                            running: page.deviceCatalog.busy
-                            visible: running
-                            Layout.preferredWidth: 24
-                            Layout.preferredHeight: 24
-                        }
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        visible: text.length > 0
-                        text: page.deviceCatalog.errorMessage
-                        textFormat: Text.PlainText
-                        color: Theme.errorColor
-                        wrapMode: Text.Wrap
-                    }
-                }
-            }
-
-            GroupBox {
-                title: qsTr("Additional Command-Line Arguments")
-                TextMatcherItem on title { matcher: page.matcher }
-                Layout.fillWidth: true
-
-                ScrollView {
-                    anchors.fill: parent
-                    implicitWidth: additionalArgumentsInput.implicitWidth + leftPadding + rightPadding
-                    implicitHeight: 120
-                    contentWidth: availableWidth
-                    TextArea {
-                        id: additionalArgumentsInput
-                        text: page.configuration.extraArguments
-                        wrapMode: TextEdit.Wrap
-                        selectByMouse: true
-                        Accessible.name: qsTr("Additional command-line arguments")
-                        onTextChanged: {
-                            if (text !== page.configuration.extraArguments)
-                                page.pageHandle.setValue("extraArguments", text)
-                        }
                     }
                 }
             }

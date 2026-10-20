@@ -240,207 +240,42 @@
 <context>
     <name>ServicesPage</name>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="124"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="121"/>
         <source>Unnamed service</source>
         <translation type="unfinished">未命名服务</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="137"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="134"/>
         <source>Disabled</source>
         <translation type="unfinished">已禁用</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="147"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="144"/>
         <source>No DSSP services configured</source>
         <translation type="unfinished">未配置 DSSP 服务</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="164"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="161"/>
         <source>Add Service</source>
         <translation type="unfinished">添加服务</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="170"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="171"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="177"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="182"/>
         <source>Move Up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="184"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="193"/>
         <source>Move Down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="213"/>
-        <source>Connection</source>
-        <translation type="unfinished">连接</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="226"/>
-        <source>Enabled</source>
-        <translation type="unfinished">已启用</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="232"/>
-        <source>Service name</source>
-        <translation type="unfinished">服务名称</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="241"/>
-        <source>Host</source>
-        <translation type="unfinished">主机</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="247"/>
-        <source>localhost</source>
-        <translation type="unfinished">localhost</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="251"/>
-        <source>Port</source>
-        <translation type="unfinished">端口</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="264"/>
-        <source>Optional path prepended to every DSSP API endpoint.</source>
-        <translation type="unfinished">可选路径，会前置添加到每个 DSSP API 端点之前。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="265"/>
-        <source>Endpoint path prefix</source>
-        <translation type="unfinished">端点路径前缀</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="274"/>
-        <source>Optional</source>
-        <translation type="unfinished">可选</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="280"/>
-        <source>Use HTTPS</source>
-        <translation type="unfinished">使用 HTTPS</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="292"/>
-        <source>Authentication</source>
-        <translation type="unfinished">认证</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="305"/>
-        <source>Use authentication</source>
-        <translation type="unfinished">使用认证</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="311"/>
-        <source>API key</source>
-        <translation type="unfinished">API 密钥</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="327"/>
-        <source>Hide Advanced Options</source>
-        <translation type="unfinished">隐藏高级选项</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="328"/>
-        <source>Show Advanced Options</source>
-        <translation type="unfinished">显示高级选项</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="341"/>
-        <source>Advanced Options</source>
-        <translation type="unfinished">高级选项</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="354"/>
-        <source>Maximum time to wait for a service request.</source>
-        <translation type="unfinished">等待服务请求响应的最长时间。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="355"/>
-        <source>Request timeout</source>
-        <translation type="unfinished">请求超时</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="372"/>
-        <location filename="../../qml/settings/ServicesPage.qml" line="448"/>
-        <source>seconds</source>
-        <translation type="unfinished">秒</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="376"/>
-        <source>Number of times to retry a failed request after the initial attempt.</source>
-        <translation type="unfinished">初次尝试失败后重试请求的次数。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="377"/>
-        <source>Maximum retries</source>
-        <translation type="unfinished">最大重试次数</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="394"/>
-        <source>Maximum number of concurrent tasks of the same synthesis type for this service.</source>
-        <translation type="unfinished">此服务同类型合成任务的最大并发数。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="395"/>
-        <source>Concurrent tasks per type</source>
-        <translation type="unfinished">每类型并发任务数</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="412"/>
-        <source>Maximum number of concurrent synthesis tasks for this service.</source>
-        <translation type="unfinished">此服务合成任务的最大并发数。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="413"/>
-        <source>Total concurrent tasks</source>
-        <translation type="unfinished">总并发任务数</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="430"/>
-        <source>How often to check whether this service is available.</source>
-        <translation type="unfinished">检查此服务是否可用的时间间隔。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="431"/>
-        <source>Health check interval</source>
-        <translation type="unfinished">健康检查间隔</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="452"/>
-        <source>Reject HTTPS connections with invalid or untrusted certificates.</source>
-        <translation type="unfinished">拒绝使用无效或不受信任证书的 HTTPS 连接。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="453"/>
-        <source>Verify TLS certificate</source>
-        <translation type="unfinished">验证 TLS 证书</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="464"/>
-        <source>Headers sent with every request to this service.</source>
-        <translation type="unfinished">随每个请求发送到此服务的标头。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="466"/>
-        <source>Custom request headers</source>
-        <translation type="unfinished">自定义请求标头</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="478"/>
-        <source>One header per line, for example:
-X-Custom-Header-1: foo
-X-Custom-Header-2: bar</source>
-        <translation type="unfinished">每行一个标头，例如：
-X-Custom-Header-1: foo
-X-Custom-Header-2: bar</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="495"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="228"/>
         <source>Select a service to edit.</source>
         <translation type="unfinished">选择要编辑的服务。</translation>
     </message>
@@ -2002,214 +1837,214 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>DsspServerPage</name>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="29"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="32"/>
         <source>Add DiffSinger Synthesis Program Installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="116"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="119"/>
         <source>Add Local Installation...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="339"/>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="351"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="347"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="361"/>
         <source>Additional Command-Line Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="165"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="171"/>
         <source>Automatically start DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="224"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="231"/>
         <source>Browse for Package Directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="218"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="225"/>
         <source>Default package directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="297"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="304"/>
         <source>Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="60"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="63"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="153"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
         <source>Download DiffSinger Synthesis Program...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="31"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="34"/>
         <source>Executable files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="145"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="149"/>
         <source>Executable path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="260"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="267"/>
         <source>Execution Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="280"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="287"/>
         <source>Execution provider</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="191"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="70"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="76"/>
         <source>Installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="236"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="243"/>
         <source>Log level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="144"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="148"/>
         <source>No DiffSinger Synthesis Program installation is selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="212"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="219"/>
         <source>Package directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="197"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="204"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="314"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="321"/>
         <source>Refresh Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="127"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="37"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="40"/>
         <source>Select Package Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="174"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="181"/>
         <source>Server Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="163"/>
         <source>Uninstall Downloaded Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="268"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="275"/>
         <source>Use the default execution provider and device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="247"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="254"/>
         <source>Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="243"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="250"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="248"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="255"/>
         <source>Fatal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="245"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="252"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="244"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="251"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="242"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="249"/>
         <source>Trace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="246"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="253"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="262"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="372"/>
         <source>Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="275"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="385"/>
         <source>Max file size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="287"/>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="304"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="397"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="414"/>
         <source>KiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="292"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="402"/>
         <source>Max archive size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="309"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="419"/>
         <source>Max archive days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="323"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="433"/>
         <source>Compression level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="336"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="446"/>
         <source>%L1 = no compression, %L2 = best compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="343"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="453"/>
         <source>Notify about warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="354"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="464"/>
         <source>Log directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="357"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="467"/>
         <source>Open in %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2592,6 +2427,240 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
         <source>Default Speaker</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ServiceConfigurationEditor</name>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="28"/>
+        <source>Connection</source>
+        <translation type="unfinished">连接</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="41"/>
+        <source>Enabled</source>
+        <translation type="unfinished">已启用</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="48"/>
+        <source>Service name</source>
+        <translation type="unfinished">服务名称</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="59"/>
+        <source>Host</source>
+        <translation type="unfinished">主机</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="65"/>
+        <source>localhost</source>
+        <translation type="unfinished">localhost</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="71"/>
+        <source>Port</source>
+        <translation type="unfinished">端口</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="85"/>
+        <source>Optional path prepended to every DSSP API endpoint.</source>
+        <translation type="unfinished">可选路径，会前置添加到每个 DSSP API 端点之前。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="86"/>
+        <source>Endpoint path prefix</source>
+        <translation type="unfinished">端点路径前缀</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="95"/>
+        <source>Optional</source>
+        <translation type="unfinished">可选</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="102"/>
+        <source>Use HTTPS</source>
+        <translation type="unfinished">使用 HTTPS</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="114"/>
+        <source>Authentication</source>
+        <translation type="unfinished">认证</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="127"/>
+        <source>Use authentication</source>
+        <translation type="unfinished">使用认证</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="134"/>
+        <source>API key</source>
+        <translation type="unfinished">API 密钥</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="151"/>
+        <source>Hide Advanced Options</source>
+        <translation type="unfinished">隐藏高级选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="152"/>
+        <source>Show Advanced Options</source>
+        <translation type="unfinished">显示高级选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="165"/>
+        <source>Advanced Options</source>
+        <translation type="unfinished">高级选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="178"/>
+        <source>Maximum time to wait for a service request.</source>
+        <translation type="unfinished">等待服务请求响应的最长时间。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="179"/>
+        <source>Request timeout</source>
+        <translation type="unfinished">请求超时</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="197"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="277"/>
+        <source>seconds</source>
+        <translation type="unfinished">秒</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="201"/>
+        <source>Number of times to retry a failed request after the initial attempt.</source>
+        <translation type="unfinished">初次尝试失败后重试请求的次数。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="202"/>
+        <source>Maximum retries</source>
+        <translation type="unfinished">最大重试次数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="220"/>
+        <source>Maximum number of concurrent tasks of the same synthesis type for this service.</source>
+        <translation type="unfinished">此服务同类型合成任务的最大并发数。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="221"/>
+        <source>Concurrent tasks per type</source>
+        <translation type="unfinished">每类型并发任务数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="239"/>
+        <source>Maximum number of concurrent synthesis tasks for this service.</source>
+        <translation type="unfinished">此服务合成任务的最大并发数。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="240"/>
+        <source>Total concurrent tasks</source>
+        <translation type="unfinished">总并发任务数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="258"/>
+        <source>How often to check whether this service is available.</source>
+        <translation type="unfinished">检查此服务是否可用的时间间隔。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="259"/>
+        <source>Health check interval</source>
+        <translation type="unfinished">健康检查间隔</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="281"/>
+        <source>Reject HTTPS connections with invalid or untrusted certificates.</source>
+        <translation type="unfinished">拒绝使用无效或不受信任证书的 HTTPS 连接。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="282"/>
+        <source>Verify TLS certificate</source>
+        <translation type="unfinished">验证 TLS 证书</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="293"/>
+        <source>Headers sent with every request to this service.</source>
+        <translation type="unfinished">随每个请求发送到此服务的标头。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="295"/>
+        <source>Custom request headers</source>
+        <translation type="unfinished">自定义请求标头</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="307"/>
+        <source>One header per line, for example:
+X-Custom-Header-1: foo
+X-Custom-Header-2: bar</source>
+        <translation type="unfinished">每行一个标头，例如：
+X-Custom-Header-1: foo
+X-Custom-Header-2: bar</translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisEnvironmentWelcomeWizardPage</name>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
+        <source>Synthesis Environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="21"/>
+        <source>Configure a synthesis program or connect to a synthesis service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
+        <source>Use the local DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
+        <source>Connect to a synthesis service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
+        <source>More Options...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
+        <source>Available singers: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisEnvironmentWelcomeWizardPageHelper</name>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="113"/>
+        <source>Service disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="114"/>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="115"/>
+        <source>Connection failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="116"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="159"/>
+        <source>Service %L1: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

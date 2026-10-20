@@ -152,6 +152,10 @@ namespace Synth::Internal {
         };
     }
 
+    DsspServerConfiguration DsspServerPage::serverConfiguration() const {
+        return m_configuration;
+    }
+
     QVariantList DsspServerPage::installations() const {
         return m_manager->installations(m_configuration);
     }

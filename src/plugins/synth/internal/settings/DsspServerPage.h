@@ -35,6 +35,7 @@ namespace Synth::Internal {
         void endSetting() override;
 
         QVariantMap configuration() const;
+        DsspServerConfiguration serverConfiguration() const;
         QVariantList installations() const;
         QVariantMap selectedDevice() const;
         QObject *deviceCatalog() const;

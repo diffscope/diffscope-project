@@ -21,6 +21,8 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <items>
         <phony id="org.diffscope.core.mainMenu" />
 
+        <action id="org.diffscope.audio.welcomeWizard.audioOutput" text="Audio Output" textTr="AudioOutputWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+
         <action id="org.diffscope.audio.playback.&amp;play" category="Playback" icon="play" />
         <action id="org.diffscope.audio.playback.p&amp;ause" category="Playback" icon="pause" />
         <action id="org.diffscope.audio.playback.&amp;stop" category="Playback" icon="stop" />
@@ -66,6 +68,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
+            <action id="org.diffscope.audio.welcomeWizard.audioOutput" />
+        </insertion>
         <insertion target="org.diffscope.core.timeline" anchor="last">
             <group id="org.diffscope.audio.playbackActions" />
         </insertion>

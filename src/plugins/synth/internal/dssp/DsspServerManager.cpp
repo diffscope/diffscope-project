@@ -462,6 +462,10 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::restart() {
+        if (!m_shutdown && m_stopping && !executablePath().isEmpty()) {
+            m_restartPending = true;
+            return;
+        }
         if (canRestart())
             stopProcess(true);
     }

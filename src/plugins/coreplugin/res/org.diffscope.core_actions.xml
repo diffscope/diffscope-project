@@ -19,6 +19,8 @@ SPDX-License-Identifier: Apache-2.0
     </configuration>
 
     <items>
+        <action id="org.diffscope.core.welcomeWizard.colorScheme" text="Color Scheme" textTr="ColorSchemeWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+
         <action id="org.diffscope.core.file.&amp;new" category="File" description="Create a project in a new window." icon="document_add" shortcut="Ctrl+N" />
         <action id="org.diffscope.core.file.newFromTemplate^" category="File" description="Create a project from an existing file in a new window." shortcut="Ctrl+Alt+N" />
         <action id="org.diffscope.core.file.&amp;open^" category="File" description="Open a project or switch to it if already open." icon="folder_open" shortcut="Ctrl+O" />
@@ -500,6 +502,9 @@ SPDX-License-Identifier: Apache-2.0
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
+            <action id="org.diffscope.core.welcomeWizard.colorScheme" />
+        </insertion>
         <insertion target="org.diffscope.visualeditor.arrangementPanelTimelineToolBar" anchor="first">
             <action id="org.diffscope.core.insert.addTrack" />
         </insertion>

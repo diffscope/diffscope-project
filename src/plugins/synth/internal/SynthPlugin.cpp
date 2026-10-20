@@ -14,6 +14,7 @@
 #include <extensionsystem/pluginspec.h>
 
 #include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
@@ -77,6 +78,10 @@ namespace Synth::Internal {
 
     void SynthPlugin::extensionsInitialized() {
         m_dsspServer->enableNotifications();
+        auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("SynthesisEnvironmentWelcomeWizardPage"), this);
+        if (component->isError())
+            qFatal() << component->errorString();
+        Core::CoreInterface::actionContext()->addAction(QStringLiteral("org.diffscope.synth.welcomeWizard.synthesisEnvironment"), component);
     }
 
     void SynthPlugin::initializeControlPanels() {

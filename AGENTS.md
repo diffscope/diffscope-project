@@ -20,6 +20,10 @@ DiffScope is a C++20/Qt 6 singing-voice editor. Keep `src/app` a thin launcher; 
 
 Never commit generated files from `build/`, `cmake-build-*`, `out/`, `.qm`, MOC, QML cache, or synchronized include directories.
 
+## Document Creation
+
+Do not create any documents inside the project directory unless explicitly requested by the user. If documentation is necessary without such a request, create it outside the project directory and inform the user of its location.
+
 ## Plugin and Dependency Boundaries
 
 Extend the closest existing plugin before creating a new one. New built-in plugins must use `diffscope_add_builtin_plugin`, declare `project(<lowercase-target>)`, provide `plugin.json.in`, add their subdirectory in `src/plugins/CMakeLists.txt`, and keep CMake `LINKS` consistent with metadata `Dependencies`. Plugin IDs use reverse DNS (`org.diffscope.audio`); QML URIs use `DiffScope.<PascalCaseName>`.

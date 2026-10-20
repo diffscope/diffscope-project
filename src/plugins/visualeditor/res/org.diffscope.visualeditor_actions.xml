@@ -21,6 +21,8 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <items>
         <phony id="core.mainMenu" />
 
+        <action id="org.diffscope.visualeditor.welcomeWizard.moveAndZoom" text="Move and Zoom" textTr="MoveAndZoomWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+
         <action id="org.diffscope.visualeditor.view.scrollUp" category="View" icon="arrow_up" shortcut="Ctrl+Up" />
         <action id="org.diffscope.visualeditor.view.scrollDown" category="View" icon="arrow_down" shortcut="Ctrl+Down" />
         <action id="org.diffscope.visualeditor.view.scrollLeft" category="View" icon="arrow_left" shortcut="Ctrl+Left" />
@@ -225,6 +227,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
+            <action id="org.diffscope.visualeditor.welcomeWizard.moveAndZoom" />
+        </insertion>
         <insertion target="org.diffscope.core.edit" anchor="last">
             <separator />
             <menu id="org.diffscope.visualeditor.edit.editingTarget" />
