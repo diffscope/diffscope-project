@@ -37,4 +37,4 @@ jobs:
       build_type: dev
       version_identifier: ${{ github.sha }}${{ github.event.inputs.identifier && '.' || '' }}${{ github.event.inputs.identifier }}
       use_cache: ${{ github.event_name != 'workflow_dispatch' || inputs.use_cache }}
-      use_ccache: ${{ github.event.inputs.use_ccache == 'true' }}
+      use_ccache: ${{ github.event_name != 'workflow_dispatch' || inputs.use_ccache }}
