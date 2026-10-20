@@ -51,14 +51,12 @@ jobs:
           ref: ${{ inputs.source_sha }}
       - name: Prepare build version
         id: prepare
-        uses: actions/github-script@v7
-        env:
-          SOURCE_SHA: ${{ inputs.source_sha }}
-          BUILD_TYPE: ${{ inputs.build_type }}
-          VERSION_IDENTIFIER: ${{ inputs.version_identifier }}
+        uses: diffscope/catalogs/actions/nightly@main
         with:
-          script: |
-            await require('./.github/scripts/nightly.cjs').prepare({github, context, core});
+          operation: prepare
+          source-sha: ${{ inputs.source_sha }}
+          build-type: ${{ inputs.build_type }}
+          version-identifier: ${{ inputs.version_identifier }}
 
   Build:
     needs: Prepare

@@ -1,0 +1,15 @@
+{
+    "repository": "diffscope/diffscope-project",
+    "attemptKind": "diffscope-nightly-build",
+    "versionFile": "CMakeLists.txt",
+    "versionFormat": "cmake",
+    "artifacts": [
+        { "suffix": "_Windows_amd64_installer.exe", "platform": "windows", "arch": "amd64", "format": "exe", "variant": "installer" },
+        { "suffix": "_Windows_amd64_portable.zip", "platform": "windows", "arch": "amd64", "format": "zip", "variant": "portable" },
+        { "suffix": "_Windows_amd64_debug_symbols.7z", "platform": "windows", "arch": "amd64", "format": "7z", "variant": "debug_symbols" },
+        { "suffix": "_Linux_amd64_portable.tar.xz", "platform": "linux", "arch": "amd64", "format": "tar.xz", "variant": "portable" },
+        { "suffix": "_Linux_amd64_debug_symbols.7z", "platform": "linux", "arch": "amd64", "format": "7z", "variant": "debug_symbols" },
+        { "suffix": "_macOS_arm64.dmg", "platform": "macos", "arch": "arm64", "format": "dmg", "variant": "" },
+        { "suffix": "_macOS_arm64_debug_symbols.7z", "platform": "macos", "arch": "arm64", "format": "7z", "variant": "debug_symbols" }
+    ]
+}
