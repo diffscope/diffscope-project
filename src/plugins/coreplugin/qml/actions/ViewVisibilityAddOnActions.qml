@@ -9,6 +9,7 @@ import QActionKit
 
 import SVSCraft.UIComponents
 
+import DiffScope.UIShell
 import DiffScope.Core
 
 ActionCollection {

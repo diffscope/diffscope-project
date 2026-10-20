@@ -3,16 +3,28 @@
 
 #include "WelcomeWizardAddOn.h"
 
+#include <memory>
+
+#include <QEventLoop>
+#include <QLoggingCategory>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QQuickItem>
+#include <QQuickWindow>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
+
 #include <coreplugin/ActionWindowInterfaceBase.h>
+#include <coreplugin/CoreInterface.h>
 
 #include <welcomewizard/internal/WelcomeWizardPlugin.h>
 
 namespace WelcomeWizard {
+    Q_STATIC_LOGGING_CATEGORY(lcWelcomeWizardAddOn, "diffscope.welcomewizard.welcomewizardaddon")
+
     WelcomeWizardAddOn::WelcomeWizardAddOn(QObject *parent) : Core::WindowInterfaceAddOn(parent) {
     }
 
@@ -27,18 +39,36 @@ namespace WelcomeWizard {
 
     QQuickWindow *WelcomeWizardAddOn::window() {
         if (!m_window) {
-            auto pageComponents = Core::RuntimeInterface::instance()->getObjects("org.diffscope.welcomewizard.pages");
+            auto actionContext = Core::CoreInterface::actionContext();
+            const auto entries = actionContext->registry()->layouts().adjacencyMap().value("org.diffscope.welcomewizard.pages");
             QList<QQuickItem *> pages;
-            for (auto o : pageComponents) {
-                auto c = qobject_cast<QQmlComponent *>(o);
-                if (!c || c->isError()) {
+            for (const auto &entry : entries) {
+                if (entry.type() != QAK::ActionLayoutEntry::Action) {
+                    qCWarning(lcWelcomeWizardAddOn) << "Skipping welcome wizard entry" << entry.id() << "of type" << entry.type() << "because it is not an action.";
                     continue;
                 }
-                std::unique_ptr<QObject> obj(c->create(c->creationContext()));
-                if (auto item = qobject_cast<QQuickItem *>(obj.get())) {
-                    Q_UNUSED(obj.release());
-                    pages.append(item);
+                auto component = actionContext->action(entry.id());
+                if (!component) {
+                    qCWarning(lcWelcomeWizardAddOn) << "Skipping welcome wizard action" << entry.id() << "because no component is registered.";
+                    continue;
                 }
+                if (component->isError()) {
+                    qCWarning(lcWelcomeWizardAddOn) << "Skipping welcome wizard action" << entry.id() << component->errorString();
+                    continue;
+                }
+                std::unique_ptr<QObject> object(component->create(component->creationContext()));
+                if (!object) {
+                    qCWarning(lcWelcomeWizardAddOn) << "Skipping welcome wizard action" << entry.id() << component->errorString();
+                    continue;
+                }
+                auto item = qobject_cast<QQuickItem *>(object.get());
+                if (!item) {
+                    qCWarning(lcWelcomeWizardAddOn) << "Skipping welcome wizard action" << entry.id() << "because its component is not QQuickItem.";
+                    continue;
+                }
+                actionContext->attachActionInfo(entry.id(), item);
+                pages.append(item);
+                Q_UNUSED(object.release());
             }
             {
                 QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.WelcomeWizard", "WelcomeWizardDialog");

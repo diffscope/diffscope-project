@@ -12,6 +12,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <synth/SynthInterface.h>
 #include <synth/internal/ArchitectureExtraModel.h>
 
 namespace Synth::Internal {
@@ -59,16 +60,25 @@ namespace Synth::Internal {
         const auto document = QJsonDocument::fromJson(
             settings->value(QStringLiteral("architectureExtras")).toByteArray(), &error
         );
+        const auto providers = QJsonDocument::fromJson(settings->value(QStringLiteral("architectureControlPanelProviders")).toByteArray()).object();
         settings->endGroup();
-        m_model->setEntries(error.error == QJsonParseError::NoError && document.isObject() ? document.object() : QJsonObject{});
+        m_model->setEntries(error.error == QJsonParseError::NoError && document.isObject() ? document.object() : QJsonObject{}, providers);
         setErrorMessage({});
         Core::ISettingPage::beginSetting();
     }
 
     bool ArchitecturePage::accept() {
+        if (m_widget) {
+            bool saved{};
+            if (!QMetaObject::invokeMethod(m_widget, "savePanels", qReturnArg(saved)) || !saved) {
+                setErrorMessage(tr("Some settings could not be applied. Review the selected control panel."));
+                return false;
+            }
+        }
         QJsonObject entries;
+        QJsonObject providers;
         QString errorMessage;
-        if (!m_model->entries(&entries, &errorMessage)) {
+        if (!m_model->entries(&entries, &providers, &errorMessage)) {
             setErrorMessage(errorMessage);
             return false;
         }
@@ -76,7 +86,9 @@ namespace Synth::Internal {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QStringLiteral("org.diffscope.synth"));
         settings->setValue(QStringLiteral("architectureExtras"), QJsonDocument(entries).toJson(QJsonDocument::Compact));
+        settings->setValue(QStringLiteral("architectureControlPanelProviders"), QJsonDocument(providers).toJson(QJsonDocument::Compact));
         settings->endGroup();
+        SynthInterface::instance()->reloadControlPanels();
         setErrorMessage({});
         return Core::ISettingPage::accept();
     }

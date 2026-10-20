@@ -11,9 +11,10 @@
 #include <CoreApi/settingcatalog.h>
 #include <CoreApi/translationmanager.h>
 
-#include <QAKCore/actionregistry.h>
-
 #include <extensionsystem/pluginspec.h>
+
+#include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftQuick/MessageBox.h>
 
@@ -127,7 +128,7 @@ namespace Audio::Internal {
         if (component->isError()) {
             qFatal() << component->errorString();
         }
-        Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        Core::CoreInterface::actionContext()->addAction("org.diffscope.audio.welcomeWizard.audioOutput", component);
     }
 
     void AudioPlugin::initializeWindows() {

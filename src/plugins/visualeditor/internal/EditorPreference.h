@@ -31,6 +31,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
         Q_PROPERTY(bool centerPianoRollOnClipDoubleClick READ centerPianoRollOnClipDoubleClick WRITE setCenterPianoRollOnClipDoubleClick NOTIFY centerPianoRollOnClipDoubleClickChanged)
+        Q_PROPERTY(bool pianoRollAutoPageVerticalAdjustment READ pianoRollAutoPageVerticalAdjustment WRITE setPianoRollAutoPageVerticalAdjustment NOTIFY pianoRollAutoPageVerticalAdjustmentChanged)
+        Q_PROPERTY(EditorPreference::PianoRollAutoPageOverflowBehavior pianoRollAutoPageOverflowBehavior READ pianoRollAutoPageOverflowBehavior WRITE setPianoRollAutoPageOverflowBehavior NOTIFY pianoRollAutoPageOverflowBehaviorChanged)
         Q_PROPERTY(double pianoKeyboardBlackKeyLengthRatio READ pianoKeyboardBlackKeyLengthRatio WRITE setPianoKeyboardBlackKeyLengthRatio NOTIFY pianoKeyboardBlackKeyLengthRatioChanged)
         Q_PROPERTY(EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy READ pianoKeyboardLabelPolicy WRITE setPianoKeyboardLabelPolicy NOTIFY pianoKeyboardLabelPolicyChanged)
         Q_PROPERTY(EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode READ noteEditPitchCurveDisplayMode WRITE setNoteEditPitchCurveDisplayMode NOTIFY noteEditPitchCurveDisplayModeChanged)
@@ -76,6 +78,14 @@ namespace VisualEditor::Internal {
         };
         Q_ENUM(ScrollModifier)
 
+        enum PianoRollAutoPageOverflowBehavior {
+            APOB_AlignTop,
+            APOB_AlignBottom,
+            APOB_Center,
+            APOB_ZoomToFit,
+        };
+        Q_ENUM(PianoRollAutoPageOverflowBehavior)
+
         static ScrollModifier alternateAxisModifier();
         static void setAlternateAxisModifier(ScrollModifier alternateAxisModifier);
 
@@ -102,6 +112,12 @@ namespace VisualEditor::Internal {
 
         static bool centerPianoRollOnClipDoubleClick();
         static void setCenterPianoRollOnClipDoubleClick(bool centerPianoRollOnClipDoubleClick);
+
+        static bool pianoRollAutoPageVerticalAdjustment();
+        static void setPianoRollAutoPageVerticalAdjustment(bool enabled);
+
+        static PianoRollAutoPageOverflowBehavior pianoRollAutoPageOverflowBehavior();
+        static void setPianoRollAutoPageOverflowBehavior(PianoRollAutoPageOverflowBehavior behavior);
 
         static double pianoKeyboardBlackKeyLengthRatio();
         static void setPianoKeyboardBlackKeyLengthRatio(double pianoKeyboardBlackKeyLengthRatio);
@@ -146,6 +162,8 @@ namespace VisualEditor::Internal {
         void enableTemporarySnapOffChanged();
         void trackListOnRightChanged();
         void centerPianoRollOnClipDoubleClickChanged();
+        void pianoRollAutoPageVerticalAdjustmentChanged();
+        void pianoRollAutoPageOverflowBehaviorChanged();
         void pianoKeyboardBlackKeyLengthRatioChanged();
         void pianoKeyboardLabelPolicyChanged();
         void noteEditPitchCurveDisplayModeChanged();

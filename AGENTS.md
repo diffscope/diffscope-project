@@ -20,6 +20,10 @@ DiffScope is a C++20/Qt 6 singing-voice editor. Keep `src/app` a thin launcher; 
 
 Never commit generated files from `build/`, `cmake-build-*`, `out/`, `.qm`, MOC, QML cache, or synchronized include directories.
 
+## Document Creation
+
+Do not create any documents inside the project directory unless explicitly requested by the user. If documentation is necessary without such a request, create it outside the project directory and inform the user of its location.
+
 ## Plugin and Dependency Boundaries
 
 Extend the closest existing plugin before creating a new one. New built-in plugins must use `diffscope_add_builtin_plugin`, declare `project(<lowercase-target>)`, provide `plugin.json.in`, add their subdirectory in `src/plugins/CMakeLists.txt`, and keep CMake `LINKS` consistent with metadata `Dependencies`. Plugin IDs use reverse DNS (`org.diffscope.audio`); QML URIs use `DiffScope.<PascalCaseName>`.
@@ -103,6 +107,34 @@ Include what the file uses and prefer forward declarations in headers when a com
 - Make single-argument constructors `explicit`, mark overrides, initialize pointers, and use QObject parent ownership where appropriate.
 - Prefer C++20 ranges and `<=>` where they make code clearer. Do not use exceptions for normal control flow; catch only at APIs that can throw, translate the failure there, and preserve useful diagnostics.
 - Unless explicitly required, never declare any classes as `final`.
+
+## Fixed QML Component Failure Handling
+
+Treat a QML component identified by a fixed module URI and type name as a required application component unless the surrounding code or the user's requirement provides explicit evidence of fallback behavior.
+
+```cpp
+QQmlComponent component(engine, "Module.Package", "ComponentName");
+if (component.isError()) {
+    qFatal() << component.errorString();
+}
+
+QObject *object = component.createWithInitialProperties(initialProperties);
+if (!object) {
+    qFatal() << component.errorString();
+}
+
+ExpectedClass *typedObject = qobject_cast<ExpectedClass *>(object);
+if (!typedObject) {
+    qFatal("ComponentName in Module.Package is not ExpectedClass");
+}
+```
+
+- Check `isError()` immediately after constructing a `QQmlComponent` from a fixed module URI and type name. Report the failure only with `qFatal() << component.errorString()`. Do not add prefixes, developer guidance, user-facing dialogs, or alternate diagnostics.
+- If the same code path immediately calls `create()` or `createWithInitialProperties()`, retain the raw `QObject *` and check it before dereferencing it, assigning a parent, reading a property, or calling a method. Report a null result only with `qFatal() << component.errorString()`.
+- If the created object requires a specific C++ type, perform the null check before `qobject_cast`. Report a failed cast with the exact message `ComponentName in Module.Package is not ExpectedClass`, using the actual QML component name, module URI, and C++ class name.
+- `Q_ASSERT`, `qWarning`, `qCritical`, user-facing messages, and null returns do not replace these fatal checks.
+- The load check applies even if the component is subsequently passed to another object. Creation and type checks apply only when creation occurs immediately in the same code path. Do not trace components through helper parameters, members, registries, action contexts, or other indirect creation paths.
+- Preserve an existing nonfatal path only if the code explicitly implements fallback behavior for that component.
 
 ## Prose Style
 

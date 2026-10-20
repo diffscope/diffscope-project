@@ -83,6 +83,7 @@ namespace Synth::Internal::Api::V1 {
         QString id;
         QString name;
         QMap<QString, ParameterDefinition> parameters;
+        QJsonValue defaultArchExtra;
 
         SYNTH_DSSP_JSON_MEMBERS(ArchitectureMetadata);
     };
@@ -117,7 +118,6 @@ namespace Synth::Internal::Api::V1 {
         QStringList audioDependencies;
         bool mixable{};
         QJsonValue archSpecificInfo;
-        QJsonValue defaultArchExtra;
 
         SYNTH_DSSP_JSON_MEMBERS(GroupMetadata);
     };

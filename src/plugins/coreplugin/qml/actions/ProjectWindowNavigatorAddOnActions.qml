@@ -36,7 +36,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.core.window.projectWindows"
-        Menu {
+        ActionMenu {
             id: menu
             enabled: d.addOn.projectWindows.length !== 0
             Instantiator {

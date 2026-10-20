@@ -62,6 +62,7 @@ namespace VisualEditor {
         void targetChanged();
         void viewSizeChanged();
         void enabledChanged();
+        void pageTurned(double start, double length);
 
     private:
         QScopedPointer<AutoPageScrollingManipulatorPrivate> d_ptr;

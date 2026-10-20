@@ -42,7 +42,7 @@ namespace Core {
 
         void initActionContext() {
             Q_Q(ActionWindowInterfaceBase);
-            auto menuComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "Menu", q);
+            auto menuComponent = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.UIShell", "ActionMenu", q);
             if (menuComponent->isError()) {
                 qFatal() << menuComponent->errorString();
             }

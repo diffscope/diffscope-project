@@ -7,6 +7,7 @@ import QtQuick.Controls
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.Audio
 import DiffScope.Core
 import DiffScope.DspxModel as DspxModel

@@ -138,7 +138,10 @@ namespace AudioVisualizer::Internal {
         m_audioClipConnections.append(connect(m_audioClip, &dspx::Clip::positionChanged, this, [this] {
             updateWaveformGeometry();
         }));
-        m_audioClipConnections.append(connect(m_audioClip, &dspx::Clip::lengthChanged, this, [this] {
+        m_audioClipConnections.append(connect(m_audioClip, &dspx::Clip::clipStartChanged, this, [this] {
+            updateWaveformGeometry();
+        }));
+        m_audioClipConnections.append(connect(m_audioClip, &dspx::Clip::clipLengthChanged, this, [this] {
             updateWaveformGeometry();
         }));
         m_audioClipConnections.append(connect(m_audioClip, &QObject::destroyed, this, [this] {

@@ -140,7 +140,7 @@ namespace Synth::Internal::ProjectInput {
             const auto pipeline = pipelineFor(result);
             if (!pipeline.architecture.id().isEmpty()) {
                 if (result.architectureExtra.isUndefined())
-                    result.architectureExtra = pipeline.group.defaultArchExtra;
+                    result.architectureExtra = pipeline.architecture.defaultArchExtra();
             }
             if (flattened) {
                 *flattened = leaves;

@@ -12,6 +12,8 @@ import SVSCraft.UIComponents.impl
 
 import QActionKit
 
+import DiffScope.UIShell
+
 ActionCollection {
     id: d
 
@@ -89,7 +91,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.arrangementPanel.snapDuration"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: DelegateModel {
@@ -128,7 +130,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.arrangementPanel.snapTuplet"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: DelegateModel {
@@ -169,7 +171,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.arrangementPanel.additionalTracks"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: d.addOn?.additionalTrackLoader.components ?? null

@@ -14,6 +14,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
+#include <synth/internal/DsspServerLog.h>
 
 namespace Synth::Internal {
 
@@ -94,6 +95,7 @@ namespace Synth::Internal {
         auto current = m_configuration;
         const bool pathChanged = m_manager->executablePath(previous) != m_manager->executablePath(m_configuration);
         previous.autoStart = m_configuration.autoStart;
+        previous.logging = current.logging;
         previous.installationId = m_configuration.installationId;
         previous.localInstallations = m_configuration.localInstallations;
         if (previous.useDefaultDevice && current.useDefaultDevice) {
@@ -142,7 +144,16 @@ namespace Synth::Internal {
             {QStringLiteral("executionProvider"), m_configuration.executionProvider},
             {QStringLiteral("deviceId"), m_configuration.deviceId},
             {QStringLiteral("extraArguments"), m_configuration.extraArguments},
+            {QStringLiteral("logMaxFileSize"), m_configuration.logging.maxFileSize},
+            {QStringLiteral("logMaxArchiveSize"), m_configuration.logging.maxArchiveSize},
+            {QStringLiteral("logMaxArchiveDays"), m_configuration.logging.maxArchiveDays},
+            {QStringLiteral("logCompressLevel"), m_configuration.logging.compressLevel},
+            {QStringLiteral("notifyWarnings"), m_configuration.logging.notifyWarnings},
         };
+    }
+
+    DsspServerConfiguration DsspServerPage::serverConfiguration() const {
+        return m_configuration;
     }
 
     QVariantList DsspServerPage::installations() const {
@@ -160,6 +171,10 @@ namespace Synth::Internal {
 
     QString DsspServerPage::errorMessage() const {
         return m_errorMessage;
+    }
+
+    QString DsspServerPage::logsLocation() const {
+        return DsspServerLog::logsLocation();
     }
 
     void DsspServerPage::setValue(const QString &key, const QVariant &value) {
@@ -187,6 +202,16 @@ namespace Synth::Internal {
             m_configuration.deviceId = value.toString();
         else if (key == QStringLiteral("extraArguments"))
             m_configuration.extraArguments = value.toString();
+        else if (key == QStringLiteral("logMaxFileSize"))
+            m_configuration.logging.maxFileSize = qMax(1LL, value.toLongLong());
+        else if (key == QStringLiteral("logMaxArchiveSize"))
+            m_configuration.logging.maxArchiveSize = qMax(1LL, value.toLongLong());
+        else if (key == QStringLiteral("logMaxArchiveDays"))
+            m_configuration.logging.maxArchiveDays = qBound(1, value.toInt(), 3650);
+        else if (key == QStringLiteral("logCompressLevel"))
+            m_configuration.logging.compressLevel = qBound(0, value.toInt(), 9);
+        else if (key == QStringLiteral("notifyWarnings"))
+            m_configuration.logging.notifyWarnings = value.toBool();
         if (previous == m_configuration)
             return;
         setErrorMessage({});

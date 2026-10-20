@@ -7,14 +7,13 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import QActionKit
+
 import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
-import QActionKit
-
-import DiffScope.DspxModel as DspxModel
-import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
+import DiffScope.UIShell
 
 ActionCollection {
     id: d
@@ -186,7 +185,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.snapDuration"
-        Menu {
+        ActionMenu {
             id: menuDuration
             Instantiator {
                 model: DelegateModel {
@@ -225,7 +224,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.snapTuplet"
-        Menu {
+        ActionMenu {
             id: menuTuplet
             Instantiator {
                 model: DelegateModel {
@@ -279,22 +278,46 @@ ActionCollection {
                     textRole: "display"
                     valueRole: "clip"
 
-                    Component.onCompleted: currentValue = Qt.binding(() => {
-                        return d.pianoRollPanelInterface?.editingClip ?? null
-                    })
+                    currentIndex: d.addOn?.editingClipIndex ?? -1
                     onActivated: (index) => {
-                        if (!d.pianoRollPanelInterface || !model) {
-                            return
-                        }
-
-                        const value = valueAt(index)
-                        if (value !== undefined) {
-                            d.pianoRollPanelInterface.editingClip = value
-                            d.addOn.windowHandle.projectDocumentContext.document.selectionModel.select(null, DspxSelectionModel.SelectionModel.Select, DspxSelectionModel.SelectionModel.ST_Note, value.notes);
+                        if (d.addOn && model) {
+                            d.addOn.editClip(valueAt(index))
                         }
                     }
                 }
             }
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.editPreviousTrack"
+        Action {
+            enabled: d.addOn?.canEditPreviousTrack ?? false
+            onTriggered: d.addOn.editAdjacentTrack(false)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.editNextTrack"
+        Action {
+            enabled: d.addOn?.canEditNextTrack ?? false
+            onTriggered: d.addOn.editAdjacentTrack(true)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.editPreviousClip"
+        Action {
+            enabled: d.addOn?.canEditPreviousClip ?? false
+            onTriggered: d.addOn.editAdjacentClip(false)
+        }
+    }
+
+    ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.editNextClip"
+        Action {
+            enabled: d.addOn?.canEditNextClip ?? false
+            onTriggered: d.addOn.editAdjacentClip(true)
         }
     }
 
@@ -327,7 +350,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.additionalTracks"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: d.addOn?.additionalTrackLoader.components ?? null
@@ -356,7 +379,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks"
-        Menu {
+        ActionMenu {
             id: bottomMenu
             Instantiator {
                 model: d.addOn?.bottomAdditionalTrackLoader.components ?? null

@@ -13,6 +13,8 @@ import QActionKit
 
 import dev.sjimo.ScopicFlow
 
+import DiffScope.UIShell
+
 ActionCollection {
     id: d
 

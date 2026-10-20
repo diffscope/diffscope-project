@@ -5,11 +5,14 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.impl
+import QtQuick.Dialogs
 import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
+
+import DiffScope.Synth
 
 Item {
     id: page
@@ -17,9 +20,38 @@ Item {
     required property QtObject pageHandle
     required property var configurationModel
     readonly property TextMatcher matcher: TextMatcher {}
-    readonly property var currentArchitecture: architectureList.currentItem?.architectureModel ?? null
+    property int editorRevision: 0
+    readonly property var currentEditor: {
+        editorRevision
+        return architectureEditors.itemAt(architectureList.currentIndex)
+    }
 
     anchors.fill: parent
+
+    function savePanels(): bool {
+        for (let i = 0; i < architectureEditors.count; ++i) {
+            const editor = architectureEditors.itemAt(i)
+            if (editor && !editor.savePanel()) {
+                architectureList.currentIndex = i
+                return false
+            }
+        }
+        return true
+    }
+
+    FileDialog {
+        id: panelDialog
+        property var targetEditor: null
+        title: qsTr("Select Control Panel")
+        fileMode: FileDialog.OpenFile
+        nameFilters: [qsTr("QML files (*.qml)")]
+        onAccepted: {
+            if (targetEditor)
+                targetEditor.selectProvider(selectedFile)
+            targetEditor = null
+        }
+        onRejected: targetEditor = null
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -43,7 +75,7 @@ Item {
 
             Frame {
                 SplitView.preferredWidth: 220
-                SplitView.minimumWidth: 220
+                SplitView.minimumWidth: 180
                 SplitView.maximumWidth: 400
                 padding: 1
 
@@ -73,25 +105,19 @@ Item {
                             id: architectureDelegate
                             required property var model
                             required property int index
-                            property var architectureModel: model
 
                             width: ListView.view.width
                             padding: 4
                             leftPadding: 8
                             rightPadding: 8
                             highlighted: ListView.isCurrentItem
+                            text: model.architectureId.length > 0 ? model.architectureId : qsTr("Unnamed architecture")
                             ThemedItem.flat: true
                             ThemedItem.controlType: highlighted ? SVS.CT_Accent : SVS.CT_Normal
                             background: ButtonRectangle {
                                 control: architectureDelegate
                                 checked: architectureDelegate.highlighted
                                 flat: true
-                            }
-                            contentItem: Label {
-                                text: architectureDelegate.model.architectureId.length > 0
-                                      ? architectureDelegate.model.architectureId
-                                      : qsTr("Unnamed architecture")
-                                elide: Text.ElideRight
                             }
                             onClicked: architectureList.currentIndex = index
                         }
@@ -125,7 +151,7 @@ Item {
                             text: qsTr("Delete")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/delete"
-                            enabled: architectureList.currentIndex >= 0
+                            enabled: Boolean(page.currentEditor) && !page.currentEditor.builtIn
                             onClicked: {
                                 const oldIndex = architectureList.currentIndex
                                 if (page.configurationModel.removeEntry(oldIndex))
@@ -137,69 +163,125 @@ Item {
                 }
             }
 
-            Item {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.fillHeight: true
+                padding: 0
+                leftPadding: mirrored ? 0 : 12
+                rightPadding: mirrored ? 12 : 0
+                background: null
 
-                ScrollView {
-                    anchors.fill: parent
-                    visible: Boolean(page.currentArchitecture)
-                    contentWidth: availableWidth
+                Repeater {
+                    id: architectureEditors
+                    model: page.configurationModel
+                    onItemAdded: page.editorRevision++
+                    onItemRemoved: page.editorRevision++
 
-                    ColumnLayout {
-                        width: parent.width
+                    delegate: ColumnLayout {
+                        id: editor
+                        required property var model
+                        required property int index
+                        readonly property bool builtIn: model.builtIn
+                        readonly property var configuredExtra: model.extra
+                        property bool complete: false
 
-                        GroupBox {
+                        anchors.fill: parent
+                        visible: index === architectureList.currentIndex
+                        spacing: 12
+                        onConfiguredExtraChanged: {
+                            if (complete)
+                                extraEditor.loadState(configuredExtra)
+                        }
+                        Component.onCompleted: {
+                            complete = true
+                            extraEditor.loadState(configuredExtra)
+                        }
+
+                        function savePanel(): bool {
+                            if (!extraEditor.captureState())
+                                return false
+                            model.extra = extraEditor.saveState()
+                            return true
+                        }
+
+                        function selectProvider(url) {
+                            savePanel()
+                            model.providerUrl = url
+                        }
+
+                        ControlPanelProvider {
+                            id: provider
+                            architectureId: editor.model.architectureId.trim()
+                            preview: true
+                            source: editor.model.providerUrl
+                        }
+
+                        GridLayout {
                             Layout.fillWidth: true
-                            Layout.margins: 12
-                            title: qsTr("Architecture Configuration")
-                            TextMatcherItem on title {
-                                matcher: page.matcher
+                            columns: 2
+                            columnSpacing: 8
+
+                            Label {
+                                text: qsTr("Architecture ID")
+                                TextMatcherItem on text { matcher: page.matcher }
+                            }
+                            TextField {
+                                Layout.fillWidth: true
+                                text: editor.model.architectureId
+                                readOnly: editor.builtIn
+                                Accessible.name: qsTr("Architecture ID")
+                                onTextEdited: editor.model.architectureId = text
                             }
 
-                            ColumnLayout {
-                                anchors.fill: parent
-                                spacing: 8
+                            Label {
+                                text: qsTr("Control Panel")
+                                TextMatcherItem on text { matcher: page.matcher }
+                            }
+                            RowLayout {
+                                Layout.fillWidth: true
 
-                                Label {
-                                    text: qsTr("Architecture ID")
-                                    TextMatcherItem on text {
-                                        matcher: page.matcher
-                                    }
-                                }
                                 TextField {
                                     Layout.fillWidth: true
-                                    text: page.currentArchitecture?.architectureId ?? ""
-                                    placeholderText: qsTr("Architecture ID")
-                                    onTextEdited: page.currentArchitecture.architectureId = text
+                                    readOnly: true
+                                    text: decodeURIComponent(editor.model.providerUrl.toString().split("/").pop())
+                                    placeholderText: editor.builtIn ? qsTr("Default") : qsTr("None")
+                                    Accessible.name: qsTr("Control Panel")
                                 }
-                                Label {
-                                    text: qsTr("Configuration JSON")
-                                    TextMatcherItem on text {
-                                        matcher: page.matcher
+                                ToolButton {
+                                    text: qsTr("Browse...")
+                                    display: AbstractButton.IconOnly
+                                    icon.source: "image://fluent-system-icons/folder_open"
+                                    onClicked: {
+                                        panelDialog.targetEditor = editor
+                                        panelDialog.open()
                                     }
                                 }
-                                ScrollView {
-                                    Layout.fillWidth: true
-                                    implicitHeight: 240
-                                    TextArea {
-                                        text: page.currentArchitecture?.json ?? ""
-                                        placeholderText: qsTr("Enter a JSON value")
-                                        wrapMode: TextEdit.NoWrap
-                                        onTextChanged: if (activeFocus)
-                                            page.currentArchitecture.json = text
-                                    }
+                                ToolButton {
+                                    text: qsTr("Remove Control Panel")
+                                    display: AbstractButton.IconOnly
+                                    icon.source: "image://fluent-system-icons/dismiss"
+                                    enabled: editor.model.providerUrl.toString().length > 0
+                                    onClicked: editor.selectProvider("")
                                 }
                             }
                         }
 
-                        Item { Layout.fillHeight: true }
+                        ExtraControlPanel {
+                            id: extraEditor
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            padding: 0
+                            panelComponent: provider.architectureControlPanelComponent
+                            providerLoading: provider.loading
+                            providerFailed: provider.failed
+                            onStateEdited: editor.model.extra = saveState()
+                        }
                     }
                 }
 
                 Label {
                     anchors.centerIn: parent
-                    visible: !page.currentArchitecture
+                    visible: architectureList.currentIndex < 0
                     text: qsTr("Select an architecture configuration to edit.")
                     ThemedItem.foregroundLevel: SVS.FL_Secondary
                 }

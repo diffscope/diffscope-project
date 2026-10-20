@@ -19,101 +19,103 @@ SPDX-License-Identifier: Apache-2.0
     </configuration>
 
     <items>
-        <action id="org.diffscope.core.file.&amp;new" category="File" description="Create a project in a new window" icon="document_add" shortcut="Ctrl+N" />
-        <action id="org.diffscope.core.file.newFromTemplate^" category="File" description="Create a project from template in a new window" shortcut="Ctrl+Alt+N" />
-        <action id="org.diffscope.core.file.&amp;open^" category="File" description="Open an existing project in a new window" icon="folder_open" shortcut="Ctrl+O" />
-        <action id="org.diffscope.core.file.open&amp;RecentFile" category="File" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.core.welcomeWizard.colorScheme" text="Color Scheme" textTr="ColorSchemeWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+
+        <action id="org.diffscope.core.file.&amp;new" category="File" description="Create a project in a new window." icon="document_add" shortcut="Ctrl+N" />
+        <action id="org.diffscope.core.file.newFromTemplate^" category="File" description="Create a project from an existing file in a new window." shortcut="Ctrl+Alt+N" />
+        <action id="org.diffscope.core.file.&amp;open^" category="File" description="Open a project or switch to it if already open." icon="folder_open" shortcut="Ctrl+O" />
+        <action id="org.diffscope.core.file.open&amp;RecentFile" category="File" triggerable="false" diffscope:componentType="menu" description="Choose a recently used project to open." />
         <action id="org.diffscope.core.file.&amp;save" category="File" icon="save" shortcut="Ctrl+S" />
-        <action id="org.diffscope.core.file.save&amp;As^" category="File" shortcut="Ctrl+Shift+S" />
-        <action id="org.diffscope.core.file.saveCopyAs^" category="File" shortcut="Ctrl+Alt+Shift+S" />
+        <action id="org.diffscope.core.file.save&amp;As^" category="File" shortcut="Ctrl+Shift+S" description="Save under a new name and continue editing the new file." />
+        <action id="org.diffscope.core.file.saveCopyAs^" category="File" shortcut="Ctrl+Alt+Shift+S" description="Save a separate copy while continuing to edit the current file." />
 
-        <action id="org.diffscope.core.se&amp;ttings^" description="Open application settings" category="Preferences" icon="settings" shortcut="Ctrl+,"/>
-        <action id="org.diffscope.core.pl&amp;ugins^" description="Open plugin configuration dialog" category="Preferences" icon="puzzle_piece" shortcut=""/>
+        <action id="org.diffscope.core.se&amp;ttings^" category="Preferences" icon="settings" shortcut="Ctrl+,"/>
+        <action id="org.diffscope.core.pl&amp;ugins^" description="View plugin details and choose which plugins are enabled." category="Preferences" icon="puzzle_piece" shortcut=""/>
 
-        <action id="org.diffscope.core.show&amp;HomeWindow" description="Switch to home window if it is opened, or else open home window" category="Window" icon="home" shortcut="Ctrl+Shift+H" />
+        <action id="org.diffscope.core.show&amp;HomeWindow" category="Window" icon="home" shortcut="Ctrl+Shift+H" />
 
-        <action id="org.diffscope.core.e&amp;xit" description="Quit ${APP_NAME}" category="Application" />
+        <action id="org.diffscope.core.e&amp;xit" category="Application" />
 
-        <action id="org.diffscope.core.home.recentFiles" category="Home" description="Toggle &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="history"/>
-        <action id="org.diffscope.core.home.recoveryFiles" category="Home" description="Toggle &quot;Recovery Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="document_sync" />
-        <action id="org.diffscope.core.home.gridView" category="Home" description="Toggle grid view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="grid" />
-        <action id="org.diffscope.core.home.listView" category="Home" description="Toggle list view in &quot;Recent Files&quot; page" catalog="org.diffscope.core.homeMenu" icon="list" />
+        <action id="org.diffscope.core.home.recentFiles" category="Home" catalog="org.diffscope.core.homeMenu" icon="history"/>
+        <action id="org.diffscope.core.home.recoveryFiles" category="Home" catalog="org.diffscope.core.homeMenu" icon="document_sync" />
+        <action id="org.diffscope.core.home.gridView" category="Home" catalog="org.diffscope.core.homeMenu" icon="grid" />
+        <action id="org.diffscope.core.home.listView" category="Home" catalog="org.diffscope.core.homeMenu" icon="list" />
 
         <action id="org.diffscope.core.edit.&amp;undo" category="Edit" icon="arrow_undo" shortcut="Ctrl+Z" />
         <action id="org.diffscope.core.edit.&amp;redo" category="Edit" icon="arrow_redo" shortcut="Ctrl+Shift+Z" />
         <action id="org.diffscope.core.edit.cu&amp;t" category="Edit" icon="cut" shortcut="Ctrl+X" />
         <action id="org.diffscope.core.edit.&amp;copy" category="Edit" icon="copy" shortcut="Ctrl+C" />
-        <action id="org.diffscope.core.edit.&amp;paste" category="Edit" icon="clipboard_paste" shortcut="Ctrl+V" />
+        <action id="org.diffscope.core.edit.&amp;paste" category="Edit" icon="clipboard_paste" shortcut="Ctrl+V" description="Paste timed items at the playhead or tracks after the current track." />
         <action id="org.diffscope.core.edit.&amp;delete" category="Edit" icon="delete" shortcut="Del" />
-        <action id="org.diffscope.core.edit.select&amp;All" category="Edit" shortcut="Ctrl+A" />
+        <action id="org.diffscope.core.edit.select&amp;All" category="Edit" shortcut="Ctrl+A" description="Select all items in the current editing scope." />
         <action id="org.diffscope.core.edit.dese&amp;lect" category="Edit" shortcut="D" />
-        <action id="org.diffscope.core.edit.selectCurrent" category="Edit" shortcut="\;" />
-        <action id="org.diffscope.core.edit.multipleSelectCurrent" category="Edit" shortcut="Ctrl+\;" />
-        <action id="org.diffscope.core.edit.itemSelector^" category="Edit" />
-        <action id="org.diffscope.core.edit.shiftCursorUp" category="Edit" shortcut="K" />
-        <action id="org.diffscope.core.edit.shiftCursorDown" category="Edit" shortcut="J" />
-        <action id="org.diffscope.core.edit.shiftCursorLeft" category="Edit" shortcut="H" />
-        <action id="org.diffscope.core.edit.shiftCursorRight" category="Edit" shortcut="L" />
-        <action id="org.diffscope.core.edit.mute" category="Edit" shortcut="M" />
-        <action id="org.diffscope.core.edit.solo" category="Edit" shortcut="S" />
-        <action id="org.diffscope.core.edit.record" category="Edit" shortcut="R" />
+        <action id="org.diffscope.core.edit.selectCurrent" category="Edit" shortcut="\;" description="Select only the item under the editing cursor." />
+        <action id="org.diffscope.core.edit.multipleSelectCurrent" category="Edit" shortcut="Ctrl+\;" description="Toggle the current item's selection without clearing other selections." />
+        <action id="org.diffscope.core.edit.itemSelector^" category="Edit" description="Browse project items in a tree and change the selection." />
+        <action id="org.diffscope.core.edit.shiftCursorUp" category="Edit" shortcut="K" description="Move the editing cursor to the previous item without changing selection." />
+        <action id="org.diffscope.core.edit.shiftCursorDown" category="Edit" shortcut="J" description="Move the editing cursor to the next item without changing selection." />
+        <action id="org.diffscope.core.edit.shiftCursorLeft" category="Edit" shortcut="H" description="Move the editing cursor to the previous item without changing selection." />
+        <action id="org.diffscope.core.edit.shiftCursorRight" category="Edit" shortcut="L" description="Move the editing cursor to the next item without changing selection." />
+        <action id="org.diffscope.core.edit.mute" category="Edit" shortcut="M" description="Mute or unmute the selected tracks or clips." />
+        <action id="org.diffscope.core.edit.solo" category="Edit" shortcut="S" description="Play only the tracks marked as solo." />
+        <action id="org.diffscope.core.edit.record" category="Edit" shortcut="R" description="Arm or disarm the selected tracks for recording." />
         <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" category="Edit" shortcut="=" />
-        <action id="org.diffscope.core.edit.shiftUpByASemitone" category="Edit" shortcut="Alt+Up" />
-        <action id="org.diffscope.core.edit.shiftDownByASemitone" category="Edit" shortcut="Alt+Down" />
-        <action id="org.diffscope.core.edit.shiftUpByAnOctave" category="Edit" shortcut="Alt+Shift+Up" />
-        <action id="org.diffscope.core.edit.shiftDownByAnOctave" category="Edit" shortcut="Alt+Shift+Down" />
-        <action id="org.diffscope.core.edit.fill&amp;Lyrics^" category="Edit" shortcut="Ctrl+L" />
-        <action id="org.diffscope.core.edit.split" category="Edit" shortcut="Ctrl+K" />
-        <action id="org.diffscope.core.edit.bounceToClip" category="Edit" shortcut="Ctrl+B" />
-        <action id="org.diffscope.core.edit.editCurrentClip" category="Edit" icon="edit" shortcut="Ctrl+P" />
-        <action id="org.diffscope.core.edit.editSingers^" category="Edit" icon="mic" />
+        <action id="org.diffscope.core.edit.shiftUpByASemitone" category="Edit" shortcut="Alt+Up" description="Raise the selected notes by a semitone." />
+        <action id="org.diffscope.core.edit.shiftDownByASemitone" category="Edit" shortcut="Alt+Down" description="Lower the selected notes by a semitone." />
+        <action id="org.diffscope.core.edit.shiftUpByAnOctave" category="Edit" shortcut="Alt+Shift+Up" description="Raise the selected notes by an octave." />
+        <action id="org.diffscope.core.edit.shiftDownByAnOctave" category="Edit" shortcut="Alt+Shift+Down" description="Lower the selected notes by an octave." />
+        <action id="org.diffscope.core.edit.fill&amp;Lyrics^" category="Edit" shortcut="Ctrl+L" description="Split text into lyrics and apply them to the selected notes." />
+        <action id="org.diffscope.core.edit.split" category="Edit" shortcut="Ctrl+K" description="Split the selected clips or notes at the playhead." />
+        <action id="org.diffscope.core.edit.bounceToClip" category="Edit" shortcut="Ctrl+B" description="Merge the selected singing clips within each track." />
+        <action id="org.diffscope.core.edit.editCurrentClip" category="Edit" icon="edit" shortcut="Ctrl+P" description="Edit notes in the current singing clip." />
+        <action id="org.diffscope.core.edit.editSingers^" category="Edit" icon="mic" description="Choose source singers for the selected singing clips." />
 
-        <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" category="Time Indicator" description="Show music time (measure:beat:tick) on the time indicator" />
-        <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" category="Time Indicator" description="Show absolute time (minute:second.millisecond) on the time indicator" />
-        <action id="org.diffscope.core.timeline.&amp;goTo^" category="Timeline" description="Navigate to a specific position" shortcut="Ctrl+Shift+G" />
-        <action id="org.diffscope.core.timeline.&amp;quickJump^" category="Timeline" description="Quickly navigate to a specific position" shortcut="Ctrl+G" />
-        <action id="org.diffscope.core.timeline.goTo&amp;Start" category="Timeline" description="Navigate to the start of current project" icon="previous" shortcut="Home"/>
+        <action id="org.diffscope.core.timeIndicator.show&amp;MusicTime" category="Time Indicator" description="Display time as measures, beats, and ticks." />
+        <action id="org.diffscope.core.timeIndicator.show&amp;AbsoluteTime" category="Time Indicator" description="Display time as minutes, seconds, and milliseconds." />
+        <action id="org.diffscope.core.timeline.&amp;goTo^" category="Timeline" shortcut="Ctrl+Shift+G" />
+        <action id="org.diffscope.core.timeline.&amp;quickJump^" category="Timeline" description="Jump to a position, time, or relative offset entered as text." shortcut="Ctrl+G" />
+        <action id="org.diffscope.core.timeline.goTo&amp;Start" category="Timeline" icon="previous" shortcut="Home"/>
         <action id="org.diffscope.core.timeline.goToPreviousMeasure" category="Timeline" shortcut="[" />
         <action id="org.diffscope.core.timeline.goToPreviousBeat" category="Timeline" shortcut="Ctrl+[" />
         <action id="org.diffscope.core.timeline.goToPreviousTick" category="Timeline" shortcut="Ctrl+Shift+[" />
-        <action id="org.diffscope.core.timeline.goTo&amp;End" category="Timeline" description="Navigate to the end of current project" icon="next" shortcut="End" />
+        <action id="org.diffscope.core.timeline.goTo&amp;End" category="Timeline" icon="next" shortcut="End" />
         <action id="org.diffscope.core.timeline.goToNextMeasure" category="Timeline" shortcut="]" />
         <action id="org.diffscope.core.timeline.goToNextBeat" category="Timeline" shortcut="Ctrl+]" />
         <action id="org.diffscope.core.timeline.goToNextTick" category="Timeline" shortcut="Ctrl+Shift+]" />
-        <action id="org.diffscope.core.timeline.&amp;resetProjectTimeRange" category="Timeline" description="Reset project end time based on project content" shortcut="Ctrl+Alt+R" />
-        <action id="org.diffscope.core.timeline.editTempo^" category="Timeline" icon="metronome" />
-        <action id="org.diffscope.core.timeline.editTimeSignature^" category="Timeline" />
-        <action id="org.diffscope.core.timeline.editLoop^" category="Timeline" icon="arrow_repeat_all" />
+        <action id="org.diffscope.core.timeline.&amp;resetProjectTimeRange" category="Timeline" description="Fit the timeline range to project content and the loop range." shortcut="Ctrl+Alt+R" />
+        <action id="org.diffscope.core.timeline.editTempo^" category="Timeline" icon="metronome" description="Edit the tempo at the playhead." />
+        <action id="org.diffscope.core.timeline.editTimeSignature^" category="Timeline" description="Edit the time signature at the playhead." />
+        <action id="org.diffscope.core.timeline.editLoop^" category="Timeline" icon="arrow_repeat_all" description="Set the start and end of the playback loop." />
         <action id="org.diffscope.core.timeline.enableLoop" category="Timeline" icon="arrow_repeat_all" />
 
-        <action id="org.diffscope.core.workspace.workspaceLayout^" category="Workspace" />
-        <action id="org.diffscope.core.workspace.default&amp;Layout" category="Workspace" description="Apply the default workspace layout" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;customLayouts" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.workspaceLayout^" category="Workspace" description="Choose a workspace layout for the current window." />
+        <action id="org.diffscope.core.workspace.default&amp;Layout" category="Workspace" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.&amp;customLayouts" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" description="Manage saved workspace layouts." />
         <action id="org.diffscope.core.workspace.saveLayout" category="Workspace" text="&amp;Save Current Layout As..." diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.&amp;allPanels" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
-        <action id="org.diffscope.core.workspace.activePanels" category="Workspace" text="Active &amp;Panel" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" />
+        <action id="org.diffscope.core.workspace.&amp;allPanels" category="Workspace" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" description="Choose which panels are included in the workspace." />
+        <action id="org.diffscope.core.workspace.activePanels" category="Workspace" text="Active &amp;Panel" triggerable="false" diffscope:componentType="menu" diffscope:excludeFromCommands="true" description="Choose which open workspace panel is active." />
 
-        <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" category="View" text="Always Show &amp;Menu Bar" description="Show or hide the main menu bar" />
-        <action id="org.diffscope.core.view.showToo&amp;lBar" category="View" description="Show or hide the main tool bar" />
-        <action id="org.diffscope.core.view.show&amp;StatusBar" category="View" description="Show or hide the status bar" />
+        <action if="NOT_MACOS" id="org.diffscope.core.view.showMenuBar" category="View" text="Always Show &amp;Menu Bar" description="Keep the menu bar visible without pressing Alt." />
+        <action id="org.diffscope.core.view.showToo&amp;lBar" category="View" />
+        <action id="org.diffscope.core.view.show&amp;StatusBar" category="View" />
 
-        <action id="org.diffscope.core.insert.addTrack" category="Insert" icon="list_bar_add" />
-        <action id="org.diffscope.core.insert.insertTrack^" category="Insert" icon="list_bar_add" />
+        <action id="org.diffscope.core.insert.addTrack" category="Insert" icon="list_bar_add" description="Add a track after the current track, or at the end if none is current." />
+        <action id="org.diffscope.core.insert.insertTrack^" category="Insert" icon="list_bar_add" description="Choose the number, name, and insertion position of new tracks." />
         <action id="org.diffscope.core.insert.insertLabel^" category="Insert" icon="tag_add" />
         <!--TODO: make "add" icons for insert actions-->
         <action id="org.diffscope.core.insert.insertSingingClip^" category="Insert" icon="mic" />
         <action id="org.diffscope.core.insert.insertNote^" category="Insert" icon="music_note_1" />
 
-        <action id="org.diffscope.core.window.&amp;nextProjectWindow" category="Window" description="Switch to the next project window" shortcut="Alt+J" />
-        <action id="org.diffscope.core.window.&amp;previousProjectWindow" category="Window" description="Switch to the previous project window" shortcut="Alt+K" />
-        <action id="org.diffscope.core.window.pro&amp;jectWindows" category="Window" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.core.window.&amp;nextProjectWindow" category="Window" shortcut="Alt+J" />
+        <action id="org.diffscope.core.window.&amp;previousProjectWindow" category="Window" shortcut="Alt+K" />
+        <action id="org.diffscope.core.window.pro&amp;jectWindows" category="Window" triggerable="false" diffscope:componentType="menu" description="Choose an open project window to switch to." />
 
-        <action id="org.diffscope.core.documentations" text="&amp;Help" description="Show help contents" category="Help" icon="question_circle" shortcut="F1" />
-        <action id="org.diffscope.core.notificationList" text="&amp;Notification List..." description="Show global notifications" category="Help" icon="alert" />
-        <action id="org.diffscope.core.&amp;findActions^" category="Help" description="Find and trigger action by name" icon="search" shortcut="Ctrl+Shift+P" />
-        <action id="org.diffscope.core.aboutApp" text="&amp;About ${APP_NAME}" description="Show information about ${APP_NAME}" category="Help"/>
-        <action id="org.diffscope.core.about&amp;Qt" description="Show information about Qt" category="Help"/>
-        <action id="org.diffscope.core.runDspxInspector" text="Run DSPX Inspector" category="Help" />
+        <action id="org.diffscope.core.documentations" text="&amp;Help" category="Help" icon="question_circle" shortcut="F1" />
+        <action id="org.diffscope.core.notificationList" text="&amp;Notification List..." description="View global notifications." category="Help" icon="alert" />
+        <action id="org.diffscope.core.&amp;findActions^" category="Help" description="Find a command by name and run it." icon="search" shortcut="Ctrl+Shift+P" />
+        <action id="org.diffscope.core.aboutApp" text="&amp;About ${APP_NAME}" category="Help"/>
+        <action id="org.diffscope.core.about&amp;Qt" category="Help"/>
+        <action id="org.diffscope.core.runDspxInspector" text="Run DSPX Inspector" category="Help" description="Check a DSPX file for format and data errors." />
 
         <menu id="org.diffscope.core.mainMenu" topLevel="true" />
         <menu id="org.diffscope.core.mainToolBarLeft" topLevel="true" />
@@ -137,7 +139,7 @@ SPDX-License-Identifier: Apache-2.0
         <menu id="org.diffscope.core.trackItemContextMenu" topLevel="true" />
         <menu id="org.diffscope.core.trackSceneContextMenu" topLevel="true" />
 
-        <action id="org.diffscope.core.home.navigationPanels" category="Home" triggerable="false" diffscope:componentType="menu" />
+        <action id="org.diffscope.core.home.navigationPanels" category="Home" triggerable="false" diffscope:componentType="menu" description="Choose which page to display in the home window." />
 
         <menu id="org.diffscope.core.homePreferences" text="Preferences" icon="settings" />
         <menu id="org.diffscope.core.&amp;help" icon="question_circle" />
@@ -175,9 +177,9 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.edit.selectAllActions" />
         <group id="org.diffscope.core.edit.selectCurrentActions" />
         <group id="org.diffscope.core.edit.shiftCursorActions" />
-        <group id="org.diffscope.core.edit.msrActions" />
+        <menu id="org.diffscope.core.edit.msr" text="MSR" />
         <group id="org.diffscope.core.edit.trackSelectActions" />
-        <group id="org.diffscope.core.edit.noteShiftActions" />
+        <menu id="org.diffscope.core.edit.transpose" />
         <group id="org.diffscope.core.edit.fillLyricsActions" />
         <group id="org.diffscope.core.edit.bounceActions" />
         <group id="org.diffscope.core.edit.editCurrentClipActions" />
@@ -256,20 +258,20 @@ SPDX-License-Identifier: Apache-2.0
                 </menu>
                 <action id="org.diffscope.core.edit.itemSelector" />
                 <separator />
-                <group id="org.diffscope.core.edit.msrActions">
+                <menu id="org.diffscope.core.edit.msr">
                     <action id="org.diffscope.core.edit.mute" />
                     <action id="org.diffscope.core.edit.solo" />
                     <action id="org.diffscope.core.edit.record" />
-                </group>
+                </menu>
                 <group id="org.diffscope.core.edit.trackSelectActions">
                     <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
                 </group>
-                <group id="org.diffscope.core.edit.noteShiftActions">
+                <menu id="org.diffscope.core.edit.transpose">
                     <action id="org.diffscope.core.edit.shiftUpByASemitone" />
                     <action id="org.diffscope.core.edit.shiftDownByASemitone" />
                     <action id="org.diffscope.core.edit.shiftUpByAnOctave" />
                     <action id="org.diffscope.core.edit.shiftDownByAnOctave" />
-                </group>
+                </menu>
                 <group id="org.diffscope.core.edit.fillLyricsActions">
                     <action id="org.diffscope.core.edit.fillLyrics" />
                 </group>
@@ -475,7 +477,7 @@ SPDX-License-Identifier: Apache-2.0
         </menu>
 
         <menu id="org.diffscope.core.trackItemContextMenu">
-            <group id="org.diffscope.core.edit.msrActions" />
+            <group id="org.diffscope.core.edit.msr" />
             <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>
@@ -487,7 +489,7 @@ SPDX-License-Identifier: Apache-2.0
         </menu>
 
         <menu id="org.diffscope.core.noteItemContextMenu">
-            <group id="org.diffscope.core.edit.noteShiftActions" />
+            <group id="org.diffscope.core.edit.transpose" />
             <group id="org.diffscope.core.edit.fillLyricsActions" />
             <action id="org.diffscope.core.edit.split" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />
@@ -500,6 +502,9 @@ SPDX-License-Identifier: Apache-2.0
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
+            <action id="org.diffscope.core.welcomeWizard.colorScheme" />
+        </insertion>
         <insertion target="org.diffscope.visualeditor.arrangementPanelTimelineToolBar" anchor="first">
             <action id="org.diffscope.core.insert.addTrack" />
         </insertion>

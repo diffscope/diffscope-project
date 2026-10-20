@@ -250,7 +250,6 @@ namespace VisualEditor {
         QString editingDisplayName;
         QString referenceDisplayName;
         bool transformEditing{};
-        bool restoreEditingSelectionAfterRefresh{};
 
         ParameterDefinitionListModel *parameterModel{};
         ParameterViewModelBinding *pitchBinding{};

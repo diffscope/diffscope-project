@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <items>
         <phony id="org.diffscope.core.mainMenu" />
 
-        <action id="org.diffscope.pitchshifter.edit.shiftPitch" category="Edit" text="Stretch and Shift Pitch..." />
+        <action id="org.diffscope.pitchshifter.edit.shiftPitch" category="Edit" text="Stretch and Shift Pitch..." description="Change the duration and pitch of the current audio clip." />
     </items>
 
     <insertions>

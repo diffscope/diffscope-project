@@ -19,6 +19,7 @@ class QWindow;
 
 namespace QAK {
     class ActionRegistry;
+    class QuickActionContext;
 }
 
 namespace Core {
@@ -44,6 +45,7 @@ namespace Core {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(CoreInterface)
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
+        Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
         Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
         Q_PROPERTY(SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
@@ -52,6 +54,7 @@ namespace Core {
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
         static QAK::ActionRegistry *actionRegistry();
+        static QAK::QuickActionContext *actionContext();
 
         static DspxCheckerRegistry *dspxCheckerRegistry();
 

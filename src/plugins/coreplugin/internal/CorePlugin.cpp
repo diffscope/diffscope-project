@@ -32,6 +32,7 @@
 #include <extensionsystem/pluginspec.h>
 
 #include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftFluentSystemIcons/FluentSystemIcons.h>
 #include <SVSCraftQuick/MessageBox.h>
@@ -415,13 +416,11 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeHelpContents() {
-        {
-            auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
-            if (component->isError()) {
-                qFatal() << component->errorString();
-            }
-            RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        auto component = new QQmlComponent(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ColorSchemeWelcomeWizardPage", this);
+        if (component->isError()) {
+            qFatal() << component->errorString();
         }
+        CoreInterface::actionContext()->addAction("org.diffscope.core.welcomeWizard.colorScheme", component);
     }
 
     void CorePlugin::initializePropertyEditors() {

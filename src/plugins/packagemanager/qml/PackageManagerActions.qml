@@ -7,6 +7,7 @@ import QtQuick.Controls
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.PackageManager
 
 ActionCollection {

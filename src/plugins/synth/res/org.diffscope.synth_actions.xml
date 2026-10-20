@@ -17,7 +17,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <items>
         <phony id="core.mainMenu" />
 
-        <menu id="org.diffscope.synth.dssp" text="DiffSinger Synthesis Program" icon="dssp" />
+        <action id="org.diffscope.synth.welcomeWizard.synthesisEnvironment" text="Synthesis Environment" textTr="SynthesisEnvironmentWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+
+        <menu id="org.diffscope.synth.dssp" text="DiffSinger Synthesis Program" icon="dssp" description="Control the local DiffSinger Synthesis Program service." />
         <action
                 id="org.diffscope.synth.dssp.statusMenuItem"
                 category="Synth"
@@ -37,9 +39,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 diffscope:componentType="widget"
         />
 
-        <menu id="org.diffscope.synth.extract" text="Audio Extraction" />
-        <action id="org.diffscope.synth.extract.notes" category="Extract" text="Extract Notes..." />
-        <action id="org.diffscope.synth.extract.separation" category="Extract" text="Separate Audio..." />
+        <menu id="org.diffscope.synth.extract" text="Audio Extraction" description="Choose an extraction task for the current audio clip." />
+        <action id="org.diffscope.synth.extract.notes" category="Extract" text="Extract Notes..." description="Create an editable singing clip from the current audio clip." />
+        <action id="org.diffscope.synth.extract.separation" category="Extract" text="Separate Audio..." description="Split the current audio clip into separate audio tracks." />
         <action
                 id="org.diffscope.synth.panel.services"
                 category="Panel"
@@ -62,6 +64,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 category="Synth"
                 text="&amp;Resynthesize..."
                 icon="arrow_sync"
+                description="Choose which synthesis stages to rerun for the selected clips or notes."
         />
 
         <group id="org.diffscope.synth.statusIndicators" text="Synthesis Status Indicators" />
@@ -93,6 +96,9 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     </layouts>
 
     <insertions>
+        <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
+            <action id="org.diffscope.synth.welcomeWizard.synthesisEnvironment" />
+        </insertion>
         <insertion target="org.diffscope.core.preferenceActions" anchor="last">
             <menu id="org.diffscope.synth.dssp" />
         </insertion>

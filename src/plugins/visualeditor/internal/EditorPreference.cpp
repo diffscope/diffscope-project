@@ -26,6 +26,8 @@ namespace VisualEditor::Internal {
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
         bool centerPianoRollOnClipDoubleClick{true};
+        bool pianoRollAutoPageVerticalAdjustment{false};
+        EditorPreference::PianoRollAutoPageOverflowBehavior pianoRollAutoPageOverflowBehavior{EditorPreference::APOB_AlignTop};
         double pianoKeyboardBlackKeyLengthRatio{0.6};
         EditorPreference::PianoKeyboardLabelPolicy pianoKeyboardLabelPolicy{EditorPreference::LP_COnly};
         EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
@@ -76,6 +78,10 @@ namespace VisualEditor::Internal {
         emit trackListOnRightChanged();
         d->centerPianoRollOnClipDoubleClick = settings->value("centerPianoRollOnClipDoubleClick", true).toBool();
         emit centerPianoRollOnClipDoubleClickChanged();
+        d->pianoRollAutoPageVerticalAdjustment = settings->value("pianoRollAutoPageVerticalAdjustment", false).toBool();
+        Q_EMIT pianoRollAutoPageVerticalAdjustmentChanged();
+        d->pianoRollAutoPageOverflowBehavior = settings->value("pianoRollAutoPageOverflowBehavior", QVariant::fromValue(APOB_AlignTop)).value<PianoRollAutoPageOverflowBehavior>();
+        Q_EMIT pianoRollAutoPageOverflowBehaviorChanged();
         d->pianoKeyboardBlackKeyLengthRatio = settings->value("pianoKeyboardBlackKeyLengthRatio", 0.6).toDouble();
         emit pianoKeyboardBlackKeyLengthRatioChanged();
         d->pianoKeyboardLabelPolicy = settings->value("pianoKeyboardLabelPolicy", QVariant::fromValue(LP_COnly)).value<PianoKeyboardLabelPolicy>();
@@ -116,6 +122,8 @@ namespace VisualEditor::Internal {
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->setValue("trackListOnRight", d->trackListOnRight);
         settings->setValue("centerPianoRollOnClipDoubleClick", d->centerPianoRollOnClipDoubleClick);
+        settings->setValue("pianoRollAutoPageVerticalAdjustment", d->pianoRollAutoPageVerticalAdjustment);
+        settings->setValue("pianoRollAutoPageOverflowBehavior", static_cast<int>(d->pianoRollAutoPageOverflowBehavior));
         settings->setValue("pianoKeyboardBlackKeyLengthRatio", d->pianoKeyboardBlackKeyLengthRatio);
         settings->setValue("pianoKeyboardLabelPolicy", static_cast<int>(d->pianoKeyboardLabelPolicy));
         settings->setValue("noteEditPitchCurveDisplayMode", static_cast<int>(d->noteEditPitchCurveDisplayMode));
@@ -249,6 +257,32 @@ namespace VisualEditor::Internal {
             return;
         d->centerPianoRollOnClipDoubleClick = centerPianoRollOnClipDoubleClick;
         emit m_instance->centerPianoRollOnClipDoubleClickChanged();
+    }
+
+    bool EditorPreference::pianoRollAutoPageVerticalAdjustment() {
+        M_INSTANCE_D;
+        return d->pianoRollAutoPageVerticalAdjustment;
+    }
+
+    void EditorPreference::setPianoRollAutoPageVerticalAdjustment(bool enabled) {
+        M_INSTANCE_D;
+        if (d->pianoRollAutoPageVerticalAdjustment == enabled)
+            return;
+        d->pianoRollAutoPageVerticalAdjustment = enabled;
+        Q_EMIT m_instance->pianoRollAutoPageVerticalAdjustmentChanged();
+    }
+
+    EditorPreference::PianoRollAutoPageOverflowBehavior EditorPreference::pianoRollAutoPageOverflowBehavior() {
+        M_INSTANCE_D;
+        return d->pianoRollAutoPageOverflowBehavior;
+    }
+
+    void EditorPreference::setPianoRollAutoPageOverflowBehavior(PianoRollAutoPageOverflowBehavior behavior) {
+        M_INSTANCE_D;
+        if (d->pianoRollAutoPageOverflowBehavior == behavior)
+            return;
+        d->pianoRollAutoPageOverflowBehavior = behavior;
+        Q_EMIT m_instance->pianoRollAutoPageOverflowBehaviorChanged();
     }
 
     double EditorPreference::pianoKeyboardBlackKeyLengthRatio() {

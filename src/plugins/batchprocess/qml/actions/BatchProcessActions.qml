@@ -8,6 +8,9 @@ import QtQuick.Controls
 
 import QActionKit
 
+import SVSCraft.UIComponents
+
+import DiffScope.UIShell
 import DiffScope.BatchProcess
 import DiffScope.Core
 
@@ -18,7 +21,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.batchprocess.batchProcess"
-        Menu {
+        ActionMenu {
             id: batchProcessMenu
 
             Instantiator {
@@ -39,6 +42,7 @@ ActionCollection {
                                 required property var scriptAction
 
                                 text: name
+                                DescriptiveAction.statusTip: description
                                 onTriggered: Qt.callLater(() => d.addOn.executeAction(scriptAction))
                             }
                         }

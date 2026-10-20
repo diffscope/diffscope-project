@@ -60,8 +60,11 @@ namespace Synth::Internal::DocumentWriter {
             for (int index = firstIndex; index < lastIndex; ++index) {
                 const int tick = index * dspx::FreeValueDataArray::step();
                 const double offset = ProjectInput::tickSeconds(timeline, clip->start() + tick) - pieceStartSeconds;
-                const int sample = std::clamp(static_cast<int>(std::round(offset * it->sampleRate)), 0, static_cast<int>(it->values.size()) - 1);
-                values.append(Core::ParameterInfo::toDspxModelValue(it->values.at(sample)));
+                const double samplePosition = std::clamp(offset * it->sampleRate, 0.0, static_cast<double>(it->values.size() - 1));
+                const auto leftIndex = static_cast<qsizetype>(std::floor(samplePosition));
+                const auto rightIndex = std::min(leftIndex + 1, it->values.size() - 1);
+                const double value = std::lerp(it->values.at(leftIndex), it->values.at(rightIndex), samplePosition - static_cast<double>(leftIndex));
+                values.append(Core::ParameterInfo::toDspxModelValue(value));
             }
             auto original = modelParameter->original();
             if (original->size() < firstIndex) {

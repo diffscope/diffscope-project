@@ -13,6 +13,7 @@
 #include <extensionsystem/pluginspec.h>
 
 #include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
@@ -87,6 +88,6 @@ namespace VisualEditor::Internal {
         if (component->isError()) {
             qFatal() << component->errorString();
         }
-        Core::RuntimeInterface::instance()->addObject("org.diffscope.welcomewizard.pages", component);
+        Core::CoreInterface::actionContext()->addAction("org.diffscope.visualeditor.welcomeWizard.moveAndZoom", component);
     }
 }

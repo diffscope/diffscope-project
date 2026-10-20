@@ -111,6 +111,7 @@ namespace Synth {
         Q_PROPERTY(QString id READ id WRITE setId)
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QJsonObject parameters READ parameters WRITE setParameters)
+        Q_PROPERTY(QJsonValue defaultArchExtra READ defaultArchExtra WRITE setDefaultArchExtra)
 
     public:
         ArchitectureMetadata();
@@ -126,6 +127,8 @@ namespace Synth {
         void setName(const QString &name);
         QJsonObject parameters() const;
         void setParameters(const QJsonObject &parameters);
+        QJsonValue defaultArchExtra() const;
+        void setDefaultArchExtra(const QJsonValue &extra);
 
         QJsonObject toJson() const;
         static bool fromJson(const QJsonObject &object, ArchitectureMetadata *result,

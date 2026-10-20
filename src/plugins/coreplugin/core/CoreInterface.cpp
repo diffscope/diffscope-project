@@ -28,8 +28,6 @@
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
-#include <QAKCore/actionregistry.h>
-
 #include <CoreApi/filelocker.h>
 #include <CoreApi/private/coreinterfacebase_p.h>
 #include <CoreApi/recentfilecollection.h>
@@ -41,6 +39,9 @@
 #include <stdcorelib/support/json.h>
 
 #include <opendspx/model.h>
+
+#include <QAKCore/actionregistry.h>
+#include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
@@ -71,6 +72,7 @@ namespace Core {
 
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
+        QAK::QuickActionContext *actionContext = nullptr;
         DspxCheckerRegistry *dspxCheckerRegistry;
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
@@ -81,6 +83,8 @@ namespace Core {
             Q_Q(CoreInterface);
             qmlEngine = new QQmlEngine(q);
             actionRegistry = new QAK::ActionRegistry(q);
+            actionContext = new QAK::QuickActionContext(q);
+            actionRegistry->addContext(actionContext);
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
@@ -105,6 +109,11 @@ namespace Core {
     QAK::ActionRegistry *CoreInterface::actionRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->actionRegistry;
+    }
+
+    QAK::QuickActionContext *CoreInterface::actionContext() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->actionContext;
     }
 
     DspxCheckerRegistry *CoreInterface::dspxCheckerRegistry() {

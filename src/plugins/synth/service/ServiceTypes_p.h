@@ -39,6 +39,7 @@ namespace Synth {
         QString id;
         QString name;
         QJsonObject parameters;
+        QJsonValue defaultArchExtra;
     };
 
     class SingerMetadataData : public QSharedData {

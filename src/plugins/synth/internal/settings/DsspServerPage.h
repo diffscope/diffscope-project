@@ -22,6 +22,7 @@ namespace Synth::Internal {
         Q_PROPERTY(QVariantMap selectedDevice READ selectedDevice NOTIFY configurationChanged)
         Q_PROPERTY(QObject *deviceCatalog READ deviceCatalog CONSTANT)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)
+        Q_PROPERTY(QString logsLocation READ logsLocation CONSTANT)
     public:
         explicit DsspServerPage(DsspServerManager *manager, QObject *parent = nullptr);
         ~DsspServerPage() override;
@@ -34,10 +35,12 @@ namespace Synth::Internal {
         void endSetting() override;
 
         QVariantMap configuration() const;
+        DsspServerConfiguration serverConfiguration() const;
         QVariantList installations() const;
         QVariantMap selectedDevice() const;
         QObject *deviceCatalog() const;
         QString errorMessage() const;
+        QString logsLocation() const;
 
         Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
         Q_INVOKABLE void addLocalInstallation(const QUrl &url);

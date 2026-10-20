@@ -15,6 +15,7 @@ namespace Synth::Internal::MetadataConverter {
         target.setId(source.id);
         target.setName(source.name);
         target.setParameters(source.toJson().toObject().value(QStringLiteral("parameters")).toObject());
+        target.setDefaultArchExtra(source.defaultArchExtra);
         return target;
     }
 

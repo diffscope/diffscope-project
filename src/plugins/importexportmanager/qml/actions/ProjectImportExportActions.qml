@@ -19,7 +19,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.importexportmanager.file.export"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: DelegateModel {
@@ -42,7 +42,7 @@ ActionCollection {
     }
     ActionItem {
         actionId: "org.diffscope.importexportmanager.project.importAsTracks"
-        Menu {
+        ActionMenu {
             id: importTracksMenu
             Instantiator {
                 model: DelegateModel {

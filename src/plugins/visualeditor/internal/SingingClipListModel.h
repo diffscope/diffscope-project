@@ -4,6 +4,7 @@
 #ifndef DIFFSCOPE_VISUALEDITOR_SINGINGCLIPLISTMODEL_H
 #define DIFFSCOPE_VISUALEDITOR_SINGINGCLIPLISTMODEL_H
 
+#include <QHash>
 #include <QStandardItemModel>
 
 namespace dspx {
@@ -32,6 +33,7 @@ namespace VisualEditor::Internal {
         dspx::ClipSequence *clipSequence() const;
         void setClipSequence(dspx::ClipSequence *clipSequence);
 
+        QModelIndex indexForClip(const dspx::Clip *clip) const;
         QHash<int, QByteArray> roleNames() const override;
 
     Q_SIGNALS:
@@ -50,6 +52,7 @@ namespace VisualEditor::Internal {
 
     private:
         dspx::ClipSequence *m_clipSequence = nullptr;
+        QHash<const dspx::Clip *, int> m_clipRows;
     };
 
 }

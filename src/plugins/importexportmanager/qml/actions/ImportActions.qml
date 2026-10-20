@@ -19,7 +19,7 @@ ActionCollection {
 
     ActionItem {
         actionId: "org.diffscope.importexportmanager.file.import"
-        Menu {
+        ActionMenu {
             id: menu
             Instantiator {
                 model: DelegateModel {

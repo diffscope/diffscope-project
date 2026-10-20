@@ -267,10 +267,8 @@ namespace Synth::Internal {
                     schedulePendingWork();
             });
             connect(m_transactionController.data(), &Core::TransactionController::transactionAborted, this, [this] {
-                m_documentSyncPending = true;
-                m_rollbackPending = true;
+                // Rollback restores the values tracked by the clip observers.
                 m_globalCentShiftPending = false;
-                schedulePendingWork();
             });
         }
         if (auto service = SynthService::instance()) {
@@ -490,19 +488,6 @@ namespace Synth::Internal {
             m_documentSyncPending = true;
             schedulePendingWork();
         });
-    }
-
-    void SynthesisProjectAddOn::resetClipBaseline(ClipRuntime *runtime) {
-        if (!runtime || !runtime->clip || !runtime->divider || !runtime->watcher)
-            return;
-        runtime->divider->setSingingClip(nullptr);
-        runtime->divider->setSingingClip(runtime->clip);
-        runtime->divider->update();
-        synchronizePieces(runtime);
-        runtime->watcher->setSingingClip(nullptr);
-        runtime->watcher->setSingingClip(runtime->clip);
-        runtime->synthesisContextSnapshot = buildSynthesisContext(runtime->clip);
-        runtime->rebound = false;
     }
 
     void SynthesisProjectAddOn::removeClip(dspx::Handle clipHandle) {
@@ -731,11 +716,6 @@ namespace Synth::Internal {
             } else if (m_documentSyncPending) {
                 m_documentSyncPending = false;
                 synchronizeDocument();
-                if (std::exchange(m_rollbackPending, false)) {
-                    m_globalCentShiftPending = false;
-                    for (auto runtime : m_clips)
-                        resetClipBaseline(runtime);
-                }
                 processed = true;
             }
             if (m_architectureSyncPending) {
@@ -2107,7 +2087,17 @@ namespace Synth::Internal {
         for (int index = 0; index < notes.size(); ++index) {
             replaceOriginalPhonemes(notes.at(index), result.phonemes.at(index));
         }
-        schedulePieceStage(runtime, writeback->piece, nextStage(writeback->pipeline, SynthesisTaskType::Duration), writeback->options);
+        // Leading padding depends on the timed phonemes and can change the duration input.
+        configureDivider(runtime->divider);
+        runtime->divider->update();
+        const auto changedPieces = synchronizePieces(runtime);
+        if (!changedPieces.isEmpty()) {
+            invalidate(runtime, SynthesisTaskType::Duration, changedPieces, writeback->options);
+        }
+        auto piece = writeback->piece.data();
+        if (piece && piece->singingClip() == runtime->clip && !changedPieces.contains(piece)) {
+            schedulePieceStage(runtime, piece, nextStage(writeback->pipeline, SynthesisTaskType::Duration), writeback->options);
+        }
     }
 
     void SynthesisProjectAddOn::processParameterWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result) {

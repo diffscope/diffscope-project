@@ -19,4 +19,6 @@ Item {
     id: page
     property string title: ""
     property string description: ""
+    signal aboutToEnter()
+    signal aboutToLeave()
 }

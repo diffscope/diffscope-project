@@ -366,7 +366,8 @@ bool ParameterPipelineMetadata::fromJson(const QJsonValue &json, ParameterPipeli
 
 QJsonValue ArchitectureMetadata::toJson() const {
     return QJsonObject{{QStringLiteral("id"), id}, {QStringLiteral("name"), name},
-                       {QStringLiteral("parameters"), dtoMapToJson(parameters)}};
+                       {QStringLiteral("parameters"), dtoMapToJson(parameters)},
+                       {QStringLiteral("defaultArchExtra"), defaultArchExtra}};
 }
 
 bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata &value, QString *errorMessage) {
@@ -374,7 +375,8 @@ bool ArchitectureMetadata::fromJson(const QJsonValue &json, ArchitectureMetadata
     ArchitectureMetadata result;
     if (!readObject(json, object, errorMessage) || !readString(object, "id", result.id, errorMessage)
         || !readString(object, "name", result.name, errorMessage)
-        || !readDtoMap(object, "parameters", result.parameters, errorMessage))
+        || !readDtoMap(object, "parameters", result.parameters, errorMessage)
+        || !readAny(object, "defaultArchExtra", result.defaultArchExtra, errorMessage))
         return false;
     value = std::move(result);
     return true;
@@ -411,8 +413,7 @@ QJsonValue GroupMetadata::toJson() const {
                        {QStringLiteral("languages"), dtoMapToJson(languages)}, {QStringLiteral("durationMode"), durationMode},
                        {QStringLiteral("parameterPipeline"), dtoMapToJson(parameterPipeline)},
                        {QStringLiteral("audioDependencies"), stringListToJson(audioDependencies)},
-                       {QStringLiteral("mixable"), mixable}, {QStringLiteral("archSpecificInfo"), archSpecificInfo},
-                       {QStringLiteral("defaultArchExtra"), defaultArchExtra}};
+                       {QStringLiteral("mixable"), mixable}, {QStringLiteral("archSpecificInfo"), archSpecificInfo}};
 }
 
 bool GroupMetadata::fromJson(const QJsonValue &json, GroupMetadata &value, QString *errorMessage) {
@@ -425,8 +426,7 @@ bool GroupMetadata::fromJson(const QJsonValue &json, GroupMetadata &value, QStri
         || !readDtoMap(object, "parameterPipeline", result.parameterPipeline, errorMessage)
         || !readStringList(object, "audioDependencies", result.audioDependencies, errorMessage)
         || !readBool(object, "mixable", result.mixable, errorMessage)
-        || !readAny(object, "archSpecificInfo", result.archSpecificInfo, errorMessage)
-        || !readAny(object, "defaultArchExtra", result.defaultArchExtra, errorMessage))
+        || !readAny(object, "archSpecificInfo", result.archSpecificInfo, errorMessage))
         return false;
     if (result.durationMode != QStringLiteral("full") && result.durationMode != QStringLiteral("skip"))
         return fail(errorMessage, translateError(QT_TRANSLATE_NOOP("Synth::Internal::Api::Dtos", "Invalid duration mode")));

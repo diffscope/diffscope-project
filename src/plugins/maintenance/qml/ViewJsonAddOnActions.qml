@@ -10,6 +10,7 @@ import SVSCraft.UIComponents.impl
 
 import QActionKit
 
+import DiffScope.UIShell
 import DiffScope.Maintenance
 
 ActionCollection {

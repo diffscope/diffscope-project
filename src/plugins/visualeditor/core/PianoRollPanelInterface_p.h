@@ -5,9 +5,10 @@
 #define DIFFSCOPE_VISUALEDITOR_PIANOROLLPANELINTERFACE_P_H
 
 #include <visualeditor/PianoRollPanelInterface.h>
-#include <visualeditor/PositionAlignmentManipulator.h>
 
 #include <QPointer>
+
+#include <visualeditor/PositionAlignmentManipulator.h>
 
 namespace dspx {
     class SelectionModel;
@@ -73,6 +74,7 @@ namespace VisualEditor {
         void bindControllersInteraction() const;
         void bindClavierInteractionController() const;
         void bindNoteEditLayerInteractionController() const;
+        void adjustVerticalViewForPage(double start, double length) const;
     };
 
 }

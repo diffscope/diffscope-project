@@ -12,10 +12,13 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 ScrollView {
     id: page
 
     required property QtObject pageHandle
+    property bool basicOptionsOnly: false
     readonly property var configuration: pageHandle.configuration
     readonly property var selectedDevice: pageHandle.selectedDevice
     readonly property QtObject deviceCatalog: pageHandle.deviceCatalog
@@ -138,6 +141,7 @@ ScrollView {
 
                     TextField {
                         Layout.fillWidth: true
+                        visible: !page.basicOptionsOnly
                         readOnly: true
                         selectByMouse: true
                         text: page.configuration.executablePath
@@ -148,6 +152,7 @@ ScrollView {
 
                     Flow {
                         Layout.fillWidth: true
+                        visible: !page.basicOptionsOnly
                         spacing: 8
                         Button {
                             text: qsTr("Download DiffSinger Synthesis Program...")
@@ -162,6 +167,7 @@ ScrollView {
                     }
 
                     CheckBox {
+                        visible: !page.basicOptionsOnly
                         text: qsTr("Automatically start DiffSinger Synthesis Program")
                         checked: page.configuration.autoStart
                         TextMatcherItem on text { matcher: page.matcher }
@@ -171,6 +177,7 @@ ScrollView {
             }
 
             GroupBox {
+                visible: !page.basicOptionsOnly
                 title: qsTr("Server Options")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
@@ -336,6 +343,7 @@ ScrollView {
             }
 
             GroupBox {
+                visible: !page.basicOptionsOnly
                 title: qsTr("Additional Command-Line Arguments")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
@@ -355,6 +363,110 @@ ScrollView {
                             if (text !== page.configuration.extraArguments)
                                 page.pageHandle.setValue("extraArguments", text)
                         }
+                    }
+                }
+            }
+
+            GroupBox {
+                visible: !page.basicOptionsOnly
+                title: qsTr("Logging")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+
+                ColumnLayout {
+                    anchors.fill: parent
+
+                    GridLayout {
+                        Layout.fillWidth: true
+                        columns: 2
+
+                        Label {
+                            id: logFileSizeLabel
+                            text: qsTr("Max file size")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        RowLayout {
+                            SpinBox {
+                                from: 1
+                                to: 2147483647
+                                editable: true
+                                value: Math.round(page.configuration.logMaxFileSize / 1024)
+                                Accessible.name: logFileSizeLabel.text
+                                onValueModified: page.pageHandle.setValue("logMaxFileSize", value * 1024)
+                            }
+                            Label { text: qsTr("KiB") }
+                        }
+
+                        Label {
+                            id: logArchiveSizeLabel
+                            text: qsTr("Max archive size")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        RowLayout {
+                            SpinBox {
+                                from: 1
+                                to: 2147483647
+                                editable: true
+                                value: Math.round(page.configuration.logMaxArchiveSize / 1024)
+                                Accessible.name: logArchiveSizeLabel.text
+                                onValueModified: page.pageHandle.setValue("logMaxArchiveSize", value * 1024)
+                            }
+                            Label { text: qsTr("KiB") }
+                        }
+
+                        Label {
+                            id: logArchiveDaysLabel
+                            text: qsTr("Max archive days")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        SpinBox {
+                            from: 1
+                            to: 3650
+                            editable: true
+                            value: page.configuration.logMaxArchiveDays
+                            Accessible.name: logArchiveDaysLabel.text
+                            onValueModified: page.pageHandle.setValue("logMaxArchiveDays", value)
+                        }
+
+                        Label {
+                            id: logCompressionLabel
+                            text: qsTr("Compression level")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        RowLayout {
+                            SpinBox {
+                                from: 0
+                                to: 9
+                                editable: true
+                                value: page.configuration.logCompressLevel
+                                Accessible.name: logCompressionLabel.text
+                                onValueModified: page.pageHandle.setValue("logCompressLevel", value)
+                            }
+                            Label {
+                                text: qsTr("%L1 = no compression, %L2 = best compression").arg(0).arg(9)
+                                color: Theme.foregroundSecondaryColor
+                            }
+                        }
+                    }
+
+                    CheckBox {
+                        text: qsTr("Notify about warnings")
+                        checked: page.configuration.notifyWarnings
+                        TextMatcherItem on text { matcher: page.matcher }
+                        onClicked: page.pageHandle.setValue("notifyWarnings", checked)
+                    }
+
+                    TextField {
+                        Layout.fillWidth: true
+                        readOnly: true
+                        selectByMouse: true
+                        text: page.pageHandle.logsLocation
+                        Accessible.name: qsTr("Log directory")
+                    }
+                    Button {
+                        text: qsTr("Open in %1").arg(DesktopServices.fileManagerName)
+                        TextMatcherItem on text { matcher: page.matcher }
+                        onClicked: DesktopServices.reveal(page.pageHandle.logsLocation)
                     }
                 }
             }

@@ -12,6 +12,8 @@ import SVSCraft.UIComponents.impl
 
 import QActionKit
 
+import DiffScope.UIShell
+
 ActionCollection {
     id: d
 
