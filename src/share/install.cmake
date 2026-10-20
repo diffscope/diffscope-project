@@ -54,8 +54,10 @@ if(UNIX AND NOT APPLE)
     list(APPEND _exclude "^/(usr/)?lib(64)?/")
 endif()
 
+# Qt Labs Folder List Model is imported by the non-native file and folder dialogs of Qt Quick
+# Dialogs. DiffScope imports no other Qt Labs module.
 set(_qml
-    Qt/labs
+    Qt/labs/folderlistmodel
     Qt5Compat
     QtCore
     QtQml
