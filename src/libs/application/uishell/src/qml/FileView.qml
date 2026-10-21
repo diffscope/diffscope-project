@@ -43,20 +43,6 @@ Item {
     component ButtonHandler: Item {
         id: handler
         required property Button button
-        Component.onCompleted: () => {
-            button.Drag.mimeData = {
-                "text/uri-list": [GlobalHelper.localFileUrl(button.modelData.path)]
-            }
-            button.Drag.supportedActions = Qt.CopyAction
-            button.Drag.active = Qt.binding(() => dragHandler.active)
-            button.Drag.dragType = Drag.Automatic
-        }
-        DragHandler {
-            id: dragHandler
-            parent: handler.button ?? handler
-            enabled: handler.button.index !== -1
-            target: null
-        }
         TapHandler {
             parent: handler.button ?? handler
             acceptedButtons: Qt.RightButton
