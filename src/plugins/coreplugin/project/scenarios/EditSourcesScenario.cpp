@@ -223,8 +223,8 @@ namespace Core {
         if (hasUnsupportedLanguage) {
             SVS::MessageBox::warning(
                 RuntimeInterface::qmlEngine(), window,
-                q->tr("Unsupported Note Languages"),
-                q->tr("Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.")
+                Core::EditSourcesScenario::tr("Unsupported Note Languages"),
+                Core::EditSourcesScenario::tr("Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.")
             );
         }
         return applied;
