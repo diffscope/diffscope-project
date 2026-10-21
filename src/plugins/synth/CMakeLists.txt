@@ -7,7 +7,6 @@ project(synth
 )
 
 find_package(xxHash CONFIG REQUIRED)
-find_package(LibArchive REQUIRED)
 
 set(DIFFSCOPE_DSSP_CATALOG_URL "https://catalogs.diffscope.org/v1/dssp/" CACHE STRING
     "URL of the DiffSinger Synthesis Program release catalog")
@@ -40,6 +39,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         uishell
+        appinstall
         transactional
         coreplugin
         audio
@@ -54,11 +54,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Core
         svscraft::Quick
         svscraft::QmlExtras
-        svscraft::Network
         xxHash::xxhash
     LINKS_PRIVATE
         ${_dssp_zlib_link}
-        LibArchive::LibArchive
     INCLUDE_PRIVATE
         internal/**
 )

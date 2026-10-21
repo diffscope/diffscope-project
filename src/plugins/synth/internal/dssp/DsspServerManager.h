@@ -4,12 +4,12 @@
 #ifndef DIFFSCOPE_SYNTH_INTERNAL_DSSPSERVERMANAGER_H
 #define DIFFSCOPE_SYNTH_INTERNAL_DSSPSERVERMANAGER_H
 
-#include <QHash>
 #include <QList>
 #include <QObject>
 #include <QString>
-#include <QStringList>
 #include <QVariant>
+
+#include <appinstall/InstallationTypes.h>
 
 #include <synth/internal/DsspServerLog.h>
 
@@ -17,13 +17,16 @@ class QProcess;
 class QTimer;
 class QWindow;
 
+namespace AppInstall {
+    class InstallationManager;
+}
+
 namespace Synth::Internal {
 
     class DsspDeviceCatalog;
 
     struct DsspServerConfiguration {
-        QString installationId;
-        QVariantList localInstallations;
+        AppInstall::InstallationSelection installation;
         bool autoStart = true;
         QString host = QStringLiteral("127.0.0.1");
         int port = 13711;
@@ -59,9 +62,9 @@ namespace Synth::Internal {
         DsspServerConfiguration configuration() const;
         void setConfiguration(const DsspServerConfiguration &configuration);
         DsspServerConfiguration defaultConfiguration() const;
+        AppInstall::InstallationManager *installationManager() const;
         QVariantList installations(const DsspServerConfiguration &configuration) const;
         void refreshInstallationVersions(const DsspServerConfiguration &configuration);
-        QString downloadedVersionsDirectory() const;
         QString executablePath() const;
         QString executablePath(const DsspServerConfiguration &configuration) const;
         static QString normalizedPath(const QString &path);
@@ -87,11 +90,8 @@ namespace Synth::Internal {
         void stateChanged();
 
     private:
-        QString bundledExecutablePath() const;
         void loadSettings();
         void saveSettings() const;
-        void startNextVersionQuery();
-        void completeVersionQuery(const QString &version);
         void launch(const QVariantMap &device = {});
         void stopProcess(bool restart);
         void fail(const QString &message);
@@ -105,7 +105,7 @@ namespace Synth::Internal {
             QString text;
         };
 
-        QString m_pluginDirectory;
+        AppInstall::InstallationManager *m_installations{};
         DsspServerConfiguration m_configuration;
         DsspServerConfiguration m_startConfiguration;
         QString m_startExecutable;
@@ -113,19 +113,12 @@ namespace Synth::Internal {
         DsspServerLog *m_log{};
         DsspDeviceCatalog *m_devices{};
         QTimer *m_stopTimer{};
-        QProcess *m_versionProcess{};
-        QTimer *m_versionTimer{};
-        QStringList m_pendingVersionPaths;
-        QString m_versionPath;
-        QHash<QString, QString> m_installationVersions;
-        bool m_versionTimedOut{};
         bool m_startPending{};
         bool m_stopping{};
         bool m_restartPending{};
         bool m_lastRunFailed{};
         bool m_shutdown{};
         bool m_notificationsReady{};
-        bool m_installationBusy{};
         QString m_failureMessage;
         QList<LogNotification> m_pendingLogNotifications;
     };

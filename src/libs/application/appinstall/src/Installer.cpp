@@ -1,14 +1,16 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include "DsspInstaller.h"
+#include "Installer_p.h"
 
+#include <archive.h>
+#include <archive_entry.h>
 #include <array>
 #include <functional>
 #include <memory>
 
 #ifndef Q_OS_WIN
-#include <unistd.h>
+#    include <unistd.h>
 #endif
 
 #include <QCoreApplication>
@@ -33,39 +35,19 @@
 #include <SVSCraftNetwork/DownloadSession.h>
 
 #ifdef MessageBox
-#  undef MessageBox
+#    undef MessageBox
 #endif
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <synth/internal/DsspDownloadCatalog.h>
-#include <synth/internal/DsspServerManager.h>
+#include <appinstall/InstallationManager.h>
+#include <appinstall/private/DownloadCatalog_p.h>
 
-#include <archive.h>
-#include <archive_entry.h>
-
-#ifdef MessageBox
-#  undef MessageBox
-#endif
-
-namespace Synth::Internal {
+namespace AppInstall {
 
     namespace {
 
         using Cancelled = std::function<bool()>;
-
-        QString executableRelativePath() {
-#ifdef Q_OS_WIN
-            return QStringLiteral("bin/dssp.exe");
-#else
-            return QStringLiteral("bin/dssp");
-#endif
-        }
-
-        bool isInside(const QString &directory, const QString &path) {
-            const auto relative = QDir(directory).relativeFilePath(path);
-            return !QDir::isAbsolutePath(relative) && relative != QStringLiteral("..") && !relative.startsWith(QStringLiteral("../"));
-        }
 
         bool extract(const QString &sourcePath, const QString &destination, const Cancelled &cancelled, QString *error) {
             const auto reject = [error](const QString &message) {
@@ -77,12 +59,12 @@ namespace Synth::Internal {
                 return reject(source.errorString());
             std::unique_ptr<archive, decltype(&archive_read_free)> reader(archive_read_new(), archive_read_free);
             if (!reader)
-                return reject(DsspInstaller::tr("Could not initialize archive extraction."));
+                return reject(Installer::tr("Could not initialize archive extraction."));
             archive_read_support_filter_all(reader.get());
             archive_read_support_format_all(reader.get());
             const auto archiveError = [&] {
                 const auto message = archive_error_string(reader.get());
-                return reject(message ? QString::fromUtf8(message) : DsspInstaller::tr("Could not read the downloaded archive."));
+                return reject(message ? QString::fromUtf8(message) : Installer::tr("Could not read the downloaded archive."));
             };
             if (archive_read_open_fd(reader.get(), source.handle(), 64 * 1024) != ARCHIVE_OK)
                 return archiveError();
@@ -102,16 +84,16 @@ namespace Synth::Internal {
                 const auto name = QString::fromUtf8(rawName ? rawName : archive_entry_pathname(entry)).replace(u'\\', u'/');
                 const auto relative = QDir::cleanPath(name);
                 const auto path = QDir(destination).absoluteFilePath(relative);
-                if (name.isEmpty() || QDir::isAbsolutePath(relative) || name.contains(u':') || name.split(u'/').contains(QStringLiteral("..")) || !isInside(destination, path))
-                    return reject(DsspInstaller::tr("The archive contains an unsafe path: %1").arg(QDir::toNativeSeparators(name)));
+                if (name.isEmpty() || QDir::isAbsolutePath(relative) || name.contains(u':') || name.split(u'/').contains(QStringLiteral("..")) || !InstallationManager::pathIsWithin(destination, path))
+                    return reject(Installer::tr("The archive contains an unsafe path: %1").arg(QDir::toNativeSeparators(name)));
                 const auto type = archive_entry_filetype(entry);
                 if (relative == QStringLiteral(".") && type == AE_IFDIR)
                     continue;
                 if (archive_entry_hardlink(entry))
-                    return reject(DsspInstaller::tr("The archive contains an unsupported hard link."));
+                    return reject(Installer::tr("The archive contains an unsupported hard link."));
                 if (type == AE_IFDIR) {
                     if (!QDir().mkpath(path))
-                        return reject(DsspInstaller::tr("Could not create the directory:\n%1").arg(QDir::toNativeSeparators(path)));
+                        return reject(Installer::tr("Could not create the directory:\n%1").arg(QDir::toNativeSeparators(path)));
                     continue;
                 }
                 auto key = path;
@@ -119,15 +101,15 @@ namespace Synth::Internal {
                 key = key.toCaseFolded();
 #endif
                 if (files.contains(key) || QFileInfo::exists(path))
-                    return reject(DsspInstaller::tr("The archive contains duplicate paths."));
+                    return reject(Installer::tr("The archive contains duplicate paths."));
                 files.insert(key);
                 if (!QDir().mkpath(QFileInfo(path).absolutePath()))
-                    return reject(DsspInstaller::tr("Could not create the directory:\n%1").arg(QDir::toNativeSeparators(QFileInfo(path).absolutePath())));
+                    return reject(Installer::tr("Could not create the directory:\n%1").arg(QDir::toNativeSeparators(QFileInfo(path).absolutePath())));
                 if (type == AE_IFLNK) {
                     const auto rawTarget = archive_entry_symlink_utf8(entry);
                     const auto target = QString::fromUtf8(rawTarget ? rawTarget : archive_entry_symlink(entry)).replace(u'\\', u'/');
-                    if (target.isEmpty() || QDir::isAbsolutePath(target) || target.contains(u':') || !isInside(destination, QDir(QFileInfo(path).absolutePath()).absoluteFilePath(target)))
-                        return reject(DsspInstaller::tr("The archive contains an unsafe symbolic link."));
+                    if (target.isEmpty() || QDir::isAbsolutePath(target) || target.contains(u':') || !InstallationManager::pathIsWithin(destination, QDir(QFileInfo(path).absolutePath()).absoluteFilePath(target)))
+                        return reject(Installer::tr("The archive contains an unsafe symbolic link."));
                     links.append({path, target});
                 } else if (type == AE_IFREG) {
                     QSaveFile output(path);
@@ -168,10 +150,10 @@ namespace Synth::Internal {
                     if (mode & 0001)
                         permissions |= QFileDevice::ExeOther;
                     if (!QFile::setPermissions(path, permissions))
-                        return reject(DsspInstaller::tr("Could not restore file permissions:\n%1").arg(QDir::toNativeSeparators(path)));
+                        return reject(Installer::tr("Could not restore file permissions:\n%1").arg(QDir::toNativeSeparators(path)));
 #endif
                 } else {
-                    return reject(DsspInstaller::tr("The archive contains an unsupported file type."));
+                    return reject(Installer::tr("The archive contains an unsupported file type."));
                 }
             }
             if (status != ARCHIVE_EOF)
@@ -179,10 +161,10 @@ namespace Synth::Internal {
             // Create links after regular files to prevent extraction through a symbolic link.
             for (const auto &link : links) {
 #ifdef Q_OS_WIN
-                return reject(DsspInstaller::tr("The archive contains an unsupported symbolic link."));
+                return reject(Installer::tr("The archive contains an unsupported symbolic link."));
 #else
                 if (::symlink(QFile::encodeName(link.target).constData(), QFile::encodeName(link.path).constData()) != 0)
-                    return reject(DsspInstaller::tr("Could not create the symbolic link:\n%1").arg(QDir::toNativeSeparators(link.path)));
+                    return reject(Installer::tr("Could not create the symbolic link:\n%1").arg(QDir::toNativeSeparators(link.path)));
 #endif
             }
             return true;
@@ -194,12 +176,14 @@ namespace Synth::Internal {
 
     }
 
-    QString DsspInstaller::download(const QString &versionsDirectory, QWindow *parent) {
-        DsspDownloadCatalog catalog;
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("DsspDownloadDialog"));
+    DownloadResult Installer::download(const ProductConfiguration &product, QWindow *parent) {
+        const auto &versionsDirectory = product.downloadedVersionsDirectory;
+        DownloadCatalog catalog(product.catalogUrl, product.variant);
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.AppInstall"), QStringLiteral("DownloadDialog"));
         if (component.isError())
             qFatal() << component.errorString();
         auto object = component.createWithInitialProperties({
+            {QStringLiteral("productName"), product.displayName},
             {QStringLiteral("catalog"), QVariant::fromValue(&catalog)},
             {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
         });
@@ -209,10 +193,10 @@ namespace Synth::Internal {
         const auto cancelled = [&] { return dialog->property("completed").toBool(); };
         const auto reportError = [&](const QString &message) {
             finishDialog(dialog.get(), QStringLiteral("error"));
-            SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("DiffSinger Synthesis Program Download Failed"), message);
-            return QString{};
+            SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("%1 Download Failed").arg(product.displayName), message);
+            return DownloadResult{};
         };
-        QTimer::singleShot(0, &catalog, &DsspDownloadCatalog::start);
+        QTimer::singleShot(0, &catalog, &DownloadCatalog::start);
         if (SVS::MessageBox::customExec(dialog.get()).toString() != QStringLiteral("download")) {
             catalog.cancel();
             return {};
@@ -223,21 +207,38 @@ namespace Synth::Internal {
             return reportError(tr("The selected version is not available for this system."));
         const auto directoryName = artifact.channel + u'-' + artifact.version;
         const auto target = QDir(versionsDirectory).filePath(directoryName);
+        const auto validate = [&](const QString &directory) {
+            InstallationValidationResult result;
+            result.success = true;
+            if (!product.validateInstallation)
+                return result;
+            dialog->setProperty("phase", QStringLiteral("validate"));
+            dialog->setProperty("statusText", tr("Validating %1...").arg(product.displayName));
+            const InstallationCandidate candidate{
+                QStringLiteral("downloaded:") + directoryName, directory, QDir(directory).filePath(product.executableRelativePath), artifact.channel, artifact.version,
+            };
+            return product.validateInstallation(candidate, {cancelled, [&](const QString &text) { dialog->setProperty("statusText", text); }});
+        };
         const auto targetInfo = QFileInfo(target);
         if (targetInfo.isSymLink())
-            return reportError(tr("The installation directory is a symbolic link:\n%1").arg(DsspServerManager::normalizedPath(target)));
-        if (QFileInfo::exists(QDir(target).filePath(executableRelativePath()))) {
+            return reportError(tr("The installation directory is a symbolic link:\n%1").arg(InstallationManager::normalizedPath(target)));
+        if (QFileInfo::exists(QDir(target).filePath(product.executableRelativePath))) {
+            const auto validation = validate(target);
+            if (cancelled() || validation.cancelled)
+                return {};
+            if (!validation.success)
+                return reportError(validation.errorMessage.isEmpty() ? tr("Installation validation failed.") : validation.errorMessage);
             finishDialog(dialog.get(), QStringLiteral("completed"));
-            return QStringLiteral("downloaded:") + directoryName;
+            return {QStringLiteral("downloaded:") + directoryName, validation.data};
         }
         if (targetInfo.exists())
-            return reportError(tr("The installation directory already exists:\n%1").arg(DsspServerManager::normalizedPath(target)));
+            return reportError(tr("The installation directory already exists:\n%1").arg(InstallationManager::normalizedPath(target)));
         if (!QDir().mkpath(versionsDirectory))
             return reportError(tr("Could not create the installation directory:\n%1").arg(versionsDirectory));
         const auto temporaryDirectory = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData);
         if (!QDir().mkpath(temporaryDirectory))
-            return reportError(tr("Could not create the download directory:\n%1").arg(DsspServerManager::normalizedPath(temporaryDirectory)));
-        QTemporaryFile archiveFile(QDir(temporaryDirectory).filePath(QStringLiteral("dssp-download-XXXXXX")));
+            return reportError(tr("Could not create the download directory:\n%1").arg(InstallationManager::normalizedPath(temporaryDirectory)));
+        QTemporaryFile archiveFile(QDir(temporaryDirectory).filePath(QStringLiteral("installation-download-XXXXXX")));
         if (!archiveFile.open())
             return reportError(archiveFile.errorString());
         dialog->setProperty("phase", QStringLiteral("download"));
@@ -265,7 +266,7 @@ namespace Synth::Internal {
             return {};
         }
         if (result != QStringLiteral("downloaded"))
-            return reportError(downloadError.isEmpty() ? tr("DiffSinger Synthesis Program could not be downloaded.") : downloadError);
+            return reportError(downloadError.isEmpty() ? tr("%1 could not be downloaded.").arg(product.displayName) : downloadError);
         if (!archiveFile.flush() || archiveFile.size() != artifact.size)
             return reportError(tr("The downloaded file size does not match the catalog."));
         dialog->setProperty("phase", QStringLiteral("verify"));
@@ -284,43 +285,65 @@ namespace Synth::Internal {
         if (hash.result() != artifact.sha256)
             return reportError(tr("The downloaded file checksum does not match the catalog."));
         archiveFile.close();
-        QTemporaryDir stage(QDir(versionsDirectory).filePath(QStringLiteral(".dssp-install-XXXXXX")));
+        QTemporaryDir stage(QDir(versionsDirectory).filePath(QStringLiteral(".installation-stage-XXXXXX")));
         if (!stage.isValid())
             return reportError(tr("Could not create a temporary installation directory."));
         dialog->setProperty("phase", QStringLiteral("install"));
         QString error;
         if (!extract(archiveFile.fileName(), stage.path(), cancelled, &error))
-            return cancelled() ? QString{} : reportError(error);
+            return cancelled() ? DownloadResult{} : reportError(error);
         QString installation;
-        if (QFileInfo(QDir(stage.path()).filePath(executableRelativePath())).isFile()) {
+        if (QFileInfo(QDir(stage.path()).filePath(product.executableRelativePath)).isFile()) {
             installation = stage.path();
         } else {
             for (const auto &entry : QDir(stage.path()).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-                if (entry.isSymLink() || !QFileInfo(QDir(entry.absoluteFilePath()).filePath(executableRelativePath())).isFile())
+                if (entry.isSymLink() || !QFileInfo(QDir(entry.absoluteFilePath()).filePath(product.executableRelativePath)).isFile())
                     continue;
                 if (!installation.isEmpty())
-                    return reportError(tr("The archive contains multiple DiffSinger Synthesis Program installations."));
+                    return reportError(tr("The archive contains multiple %1 installations.").arg(product.displayName));
                 installation = entry.absoluteFilePath();
             }
         }
         if (installation.isEmpty())
-            return reportError(tr("The archive does not contain the DiffSinger Synthesis Program executable."));
+            return reportError(tr("The archive does not contain the %1 executable.").arg(product.displayName));
         QDirIterator paths(installation, QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System, QDirIterator::Subdirectories);
         while (paths.hasNext()) {
             paths.next();
             const auto info = paths.fileInfo();
-            if (info.isSymLink() && !isInside(installation, info.symLinkTarget()))
+            if (info.isSymLink() && !InstallationManager::pathIsWithin(installation, info.symLinkTarget()))
                 return reportError(tr("The archive contains an unsafe symbolic link."));
         }
+        const auto validation = validate(installation);
+        if (cancelled() || validation.cancelled)
+            return {};
+        if (!validation.success)
+            return reportError(validation.errorMessage.isEmpty() ? tr("Installation validation failed.") : validation.errorMessage);
         QCoreApplication::processEvents();
         if (cancelled())
             return {};
         if (!QDir().rename(installation, target))
-            return reportError(tr("Could not move the installation into the data directory:\n%1").arg(DsspServerManager::normalizedPath(target)));
+            return reportError(tr("Could not move the installation into the data directory:\n%1").arg(InstallationManager::normalizedPath(target)));
         finishDialog(dialog.get(), QStringLiteral("completed"));
-        return QStringLiteral("downloaded:") + directoryName;
+        return {QStringLiteral("downloaded:") + directoryName, validation.data};
+    }
+
+    bool Installer::confirmUninstall(const ProductConfiguration &product, const QString &name, const QString &directory, const QString &preparationText, QWindow *parent) {
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.AppInstall"), QStringLiteral("UninstallDialog"));
+        if (component.isError())
+            qFatal() << component.errorString();
+        auto object = component.createWithInitialProperties({
+            {QStringLiteral("productName"), product.displayName},
+            {QStringLiteral("installationName"), name},
+            {QStringLiteral("directory"), directory},
+            {QStringLiteral("preparationText"), preparationText},
+            {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
+        });
+        if (!object)
+            qFatal() << component.errorString();
+        std::unique_ptr<QObject> dialog(object);
+        return SVS::MessageBox::customExec(dialog.get()).toString() == QStringLiteral("uninstall");
     }
 
 }
 
-#include "moc_DsspInstaller.cpp"
+#include "moc_Installer_p.cpp"

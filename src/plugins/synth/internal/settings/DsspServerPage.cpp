@@ -7,11 +7,12 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
-#include <QUuid>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftQuick/MessageBox.h>
+
+#include <appinstall/InstallationManager.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
 #include <synth/internal/DsspServerLog.h>
@@ -96,8 +97,7 @@ namespace Synth::Internal {
         const bool pathChanged = m_manager->executablePath(previous) != m_manager->executablePath(m_configuration);
         previous.autoStart = m_configuration.autoStart;
         previous.logging = current.logging;
-        previous.installationId = m_configuration.installationId;
-        previous.localInstallations = m_configuration.localInstallations;
+        previous.installation = current.installation;
         if (previous.useDefaultDevice && current.useDefaultDevice) {
             previous.executionProvider.clear();
             previous.deviceId.clear();
@@ -133,7 +133,7 @@ namespace Synth::Internal {
 
     QVariantMap DsspServerPage::configuration() const {
         return {
-            {QStringLiteral("installationId"), m_configuration.installationId},
+            {QStringLiteral("installationId"), m_configuration.installation.id},
             {QStringLiteral("executablePath"), m_manager->executablePath(m_configuration)},
             {QStringLiteral("autoStart"), m_configuration.autoStart},
             {QStringLiteral("host"), m_configuration.host},
@@ -180,7 +180,7 @@ namespace Synth::Internal {
     void DsspServerPage::setValue(const QString &key, const QVariant &value) {
         const auto previous = m_configuration;
         if (key == QStringLiteral("installationId"))
-            m_configuration.installationId = value.toString();
+            m_configuration.installation.id = value.toString();
         else if (key == QStringLiteral("autoStart"))
             m_configuration.autoStart = value.toBool();
         else if (key == QStringLiteral("host"))
@@ -222,41 +222,27 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::addLocalInstallation(const QUrl &url) {
-        const auto path = localFilePath(url);
-        if (!QFileInfo(path).isFile()) {
-            setErrorMessage(tr("The executable does not exist:\n%1").arg(path));
+        QString error;
+        if (!m_manager->installationManager()->addLocalInstallation(m_configuration.installation, localFilePath(url), &error)) {
+            setErrorMessage(error);
             return;
         }
-        for (const auto &value : installations()) {
-            const auto installation = value.toMap();
-            if (installation.value(QStringLiteral("path")).toString() == path) {
-                setValue(QStringLiteral("installationId"), installation.value(QStringLiteral("id")));
-                m_manager->refreshInstallationVersions(m_configuration);
-                return;
-            }
-        }
-        const auto id = QStringLiteral("local:") + QUuid::createUuid().toString(QUuid::WithoutBraces);
-        m_configuration.localInstallations.append(QVariantMap{
-            {QStringLiteral("id"), id},
-            {QStringLiteral("path"), path},
-        });
+        setErrorMessage({});
         Q_EMIT installationsChanged();
-        setValue(QStringLiteral("installationId"), id);
+        Q_EMIT configurationChanged();
+        markDirty();
+        refreshDevices();
         m_manager->refreshInstallationVersions(m_configuration);
     }
 
     void DsspServerPage::removeLocalInstallation() {
-        if (!m_configuration.installationId.startsWith(QStringLiteral("local:")))
+        if (!m_manager->installationManager()->removeLocalInstallation(m_configuration.installation))
             return;
-        for (qsizetype i = 0; i < m_configuration.localInstallations.size(); ++i) {
-            if (m_configuration.localInstallations.at(i).toMap().value(QStringLiteral("id")).toString() == m_configuration.installationId) {
-                m_configuration.localInstallations.removeAt(i);
-                setValue(QStringLiteral("installationId"), QString{});
-                Q_EMIT installationsChanged();
-                m_manager->refreshInstallationVersions(m_configuration);
-                return;
-            }
-        }
+        Q_EMIT installationsChanged();
+        Q_EMIT configurationChanged();
+        markDirty();
+        refreshDevices();
+        m_manager->refreshInstallationVersions(m_configuration);
     }
 
     void DsspServerPage::refreshDevices() {
@@ -271,16 +257,16 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::uninstallInstallation() {
-        if (!m_configuration.installationId.startsWith(QStringLiteral("downloaded:")))
+        if (!m_configuration.installation.id.startsWith(QStringLiteral("downloaded:")))
             return;
-        const auto id = m_configuration.installationId;
+        const auto id = m_configuration.installation.id;
         if (!m_devices->cancelAndWait()) {
             setErrorMessage(tr("Could not stop device discovery."));
             return;
         }
         auto item = qobject_cast<QQuickItem *>(widget());
         if (m_manager->uninstallInstallation(id, item ? item->window() : nullptr))
-            setValue(QStringLiteral("installationId"), m_manager->defaultConfiguration().installationId);
+            setValue(QStringLiteral("installationId"), m_manager->defaultConfiguration().installation.id);
         refreshDevices();
     }
 

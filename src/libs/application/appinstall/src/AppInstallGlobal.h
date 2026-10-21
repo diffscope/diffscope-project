@@ -1,0 +1,15 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+#ifndef DIFFSCOPE_APPINSTALL_APPINSTALLGLOBAL_H
+#define DIFFSCOPE_APPINSTALL_APPINSTALLGLOBAL_H
+
+#include <QtCore/QtGlobal>
+
+#if defined(APPINSTALL_LIBRARY)
+#    define APPINSTALL_EXPORT Q_DECL_EXPORT
+#else
+#    define APPINSTALL_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DIFFSCOPE_APPINSTALL_APPINSTALLGLOBAL_H

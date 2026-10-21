@@ -8,26 +8,22 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QLoggingCategory>
-#include <QPair>
+#include <QPointer>
 #include <QProcess>
-#include <QScopeGuard>
-#include <QScopedValueRollback>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QStringList>
-#include <QTemporaryDir>
 #include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftCore/Semver.h>
-#include <SVSCraftQuick/MessageBox.h>
 
+#include <appinstall/InstallationManager.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/NotificationMessage.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
-#include <synth/internal/DsspInstaller.h>
 
 namespace Synth::Internal {
 
@@ -46,9 +42,49 @@ namespace Synth::Internal {
     }
 
     DsspServerManager::DsspServerManager(const QString &pluginDirectory, QObject *parent)
-        : QObject(parent), m_pluginDirectory(pluginDirectory), m_process(new QProcess(this)), m_log(new DsspServerLog(this)),
-          m_devices(new DsspDeviceCatalog(this)), m_stopTimer(new QTimer(this)),
-          m_versionProcess(new QProcess(this)), m_versionTimer(new QTimer(this)) {
+        : QObject(parent), m_process(new QProcess(this)), m_log(new DsspServerLog(this)),
+          m_devices(new DsspDeviceCatalog(this)), m_stopTimer(new QTimer(this)) {
+        AppInstall::ProductConfiguration product;
+        product.id = QStringLiteral("dssp");
+        product.displayName = tr("DiffSinger Synthesis Program");
+        product.executableRelativePath = QStringLiteral("bin/") + executableName();
+        product.bundledExecutablePath = QDir(pluginDirectory).filePath(QStringLiteral("dssp/") + product.executableRelativePath);
+        product.downloadedVersionsDirectory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("dssp/versions"));
+        product.catalogUrl = QUrl(QString::fromUtf8(DIFFSCOPE_DSSP_CATALOG_URL));
+        product.probeVersion = [](const QString &path, QObject *context, AppInstall::VersionResultHandler finished) -> AppInstall::VersionProbeCancellation {
+            auto process = new QProcess(context);
+            process->setStandardErrorFile(QProcess::nullDevice());
+            QObject::connect(process, &QProcess::errorOccurred, context, [finished](QProcess::ProcessError error) {
+                if (error == QProcess::FailedToStart)
+                    finished({});
+            });
+            QObject::connect(process, &QProcess::finished, context, [process, finished](int code, QProcess::ExitStatus status) {
+                const auto version = QString::fromUtf8(process->readAllStandardOutput()).trimmed();
+                finished(code == 0 && status == QProcess::NormalExit && SVS::Semver(version).isValid() ? version : QString{});
+            });
+            process->start(path, {QStringLiteral("--version")}, QIODevice::ReadOnly);
+            return [guard = QPointer<QProcess>(process)] {
+                if (!guard)
+                    return;
+                guard->disconnect();
+                if (guard->state() != QProcess::NotRunning) {
+                    guard->kill();
+                    guard->waitForFinished(1000);
+                }
+                delete guard.data();
+            };
+        };
+        m_installations = new AppInstall::InstallationManager(product, this);
+        connect(m_installations, &AppInstall::InstallationManager::installationsChanged, this, &DsspServerManager::installationNamesChanged);
+        connect(m_installations, &AppInstall::InstallationManager::busyChanged, this, &DsspServerManager::stateChanged);
+        connect(m_installations, &AppInstall::InstallationManager::selectionChanged, this, [this] {
+            const auto selection = m_installations->selection();
+            if (m_configuration.installation == selection)
+                return;
+            m_configuration.installation = selection;
+            Q_EMIT configurationChanged();
+            Q_EMIT stateChanged();
+        });
         m_process->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_process, &QProcess::readyReadStandardOutput, this, [this] {
             m_log->append(m_process->readAllStandardOutput());
@@ -112,26 +148,6 @@ namespace Synth::Internal {
                 setConfiguration(m_startConfiguration);
             launch(device);
         });
-        m_versionProcess->setStandardErrorFile(QProcess::nullDevice());
-        m_versionTimer->setSingleShot(true);
-        m_versionTimer->setInterval(5000);
-        connect(m_versionTimer, &QTimer::timeout, this, [this] {
-            m_versionTimedOut = true;
-            m_versionProcess->kill();
-        });
-        connect(m_versionProcess, &QProcess::started, this, [this] {
-            if (m_shutdown || m_versionTimedOut)
-                m_versionProcess->kill();
-        });
-        connect(m_versionProcess, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error) {
-            if (error == QProcess::FailedToStart)
-                completeVersionQuery({});
-        });
-        connect(m_versionProcess, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus status) {
-            const auto output = m_versionProcess->readAllStandardOutput();
-            const bool success = !m_versionTimedOut && status == QProcess::NormalExit && exitCode == 0;
-            completeVersionQuery(success ? QString::fromUtf8(output).trimmed() : QString{});
-        });
     }
 
     DsspServerManager::~DsspServerManager() {
@@ -155,12 +171,7 @@ namespace Synth::Internal {
         if (m_shutdown)
             return;
         m_shutdown = true;
-        m_pendingVersionPaths.clear();
-        m_versionTimer->stop();
-        if (m_versionProcess->state() != QProcess::NotRunning) {
-            m_versionProcess->kill();
-            m_versionProcess->waitForFinished(1000);
-        }
+        m_installations->shutdown();
         m_restartPending = false;
         m_startPending = false;
         m_devices->cancel();
@@ -182,15 +193,12 @@ namespace Synth::Internal {
 
     void DsspServerManager::setConfiguration(const DsspServerConfiguration &configuration) {
         auto normalized = configuration;
-        for (auto &value : normalized.localInstallations) {
-            auto installation = value.toMap();
-            installation.insert(QStringLiteral("path"), normalizedPath(installation.value(QStringLiteral("path")).toString()));
-            value = installation;
-        }
+        normalized.installation = AppInstall::InstallationManager::normalizedSelection(normalized.installation);
         normalized.packageDirectory = normalizedPath(normalized.packageDirectory);
         if (m_configuration == normalized)
             return;
         m_configuration = normalized;
+        m_installations->setSelection(m_configuration.installation);
         m_log->setConfiguration(m_configuration.logging);
         saveSettings();
         Q_EMIT configurationChanged();
@@ -199,155 +207,40 @@ namespace Synth::Internal {
 
     DsspServerConfiguration DsspServerManager::defaultConfiguration() const {
         DsspServerConfiguration configuration;
-        if (!bundledExecutablePath().isEmpty())
-            configuration.installationId = QStringLiteral("bundled");
+        configuration.installation.id = m_installations->defaultInstallationId();
         return configuration;
     }
 
+    AppInstall::InstallationManager *DsspServerManager::installationManager() const {
+        return m_installations;
+    }
+
     QVariantList DsspServerManager::installations(const DsspServerConfiguration &configuration) const {
-        QVariantList result{
-            QVariantMap{
-                {QStringLiteral("id"), QString{}},
-                {QStringLiteral("name"), tr("No installation selected")},
-                {QStringLiteral("path"), QString{}},
-            },
-        };
-        if (!bundledExecutablePath().isEmpty()) {
-            result.append(QVariantMap{
-                {QStringLiteral("id"), QStringLiteral("bundled")},
-                {QStringLiteral("name"), tr("Built-in")},
-                {QStringLiteral("path"), bundledExecutablePath()},
-            });
-        }
-        const QDir root(downloadedVersionsDirectory());
-        for (const auto &directory : root.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)) {
-            const auto path = QDir(directory.absoluteFilePath()).filePath(QStringLiteral("bin/") + executableName());
-            if (!QFileInfo(path).isFile())
-                continue;
-            auto name = tr("Downloaded %1").arg(directory.fileName());
-            const QList<QPair<QString, QString>> channels{
-                {QStringLiteral("stable"), tr("Stable")},
-                {QStringLiteral("beta"), tr("Beta")},
-                {QStringLiteral("nightly"), tr("Nightly")},
-            };
-            for (const auto &[id, label] : channels) {
-                if (directory.fileName().startsWith(id + u'-')) {
-                    name = tr("DiffSinger Synthesis Program %1 (%2)").arg(directory.fileName().sliced(id.size() + 1), label);
-                    break;
-                }
-            }
-            result.append(QVariantMap{
-                {QStringLiteral("id"), QStringLiteral("downloaded:") + directory.fileName()},
-                {QStringLiteral("name"), name},
-                {QStringLiteral("path"), normalizedPath(path)},
-            });
-        }
-        for (const auto &value : configuration.localInstallations) {
-            const auto installation = value.toMap();
-            const auto path = normalizedPath(installation.value(QStringLiteral("path")).toString());
-            const auto version = m_installationVersions.value(path);
-            result.append(QVariantMap{
-                {QStringLiteral("id"), installation.value(QStringLiteral("id"))},
-                {QStringLiteral("name"), version.isEmpty() ? tr("DiffSinger Synthesis Program (version unknown)") : tr("DiffSinger Synthesis Program %1").arg(version)},
-                {QStringLiteral("path"), path},
-            });
-        }
-        const auto &id = configuration.installationId;
-        bool found = false;
-        for (const auto &value : std::as_const(result))
-            found |= value.toMap().value(QStringLiteral("id")).toString() == id;
-        if (!found) {
-            result.prepend(QVariantMap{
-                {QStringLiteral("id"), id},
-                {QStringLiteral("name"), tr("Selected installation (unavailable)")},
-                {QStringLiteral("path"), QString{}},
-            });
-        }
-        return result;
+        return m_installations->installations(configuration.installation);
     }
 
     void DsspServerManager::refreshInstallationVersions(const DsspServerConfiguration &configuration) {
-        if (m_shutdown)
-            return;
-        m_pendingVersionPaths.clear();
-        for (const auto &value : configuration.localInstallations) {
-            const auto path = normalizedPath(value.toMap().value(QStringLiteral("path")).toString());
-            if (!path.isEmpty() && path != m_versionPath && !m_pendingVersionPaths.contains(path))
-                m_pendingVersionPaths.append(path);
-        }
-        startNextVersionQuery();
-    }
-
-    void DsspServerManager::startNextVersionQuery() {
-        if (m_shutdown || !m_versionPath.isEmpty() || m_pendingVersionPaths.isEmpty() || m_versionProcess->state() != QProcess::NotRunning)
-            return;
-        m_versionPath = m_pendingVersionPaths.takeFirst();
-        m_versionTimedOut = false;
-        m_versionTimer->start();
-        m_versionProcess->start(m_versionPath, {QStringLiteral("--version")}, QIODevice::ReadOnly);
-    }
-
-    void DsspServerManager::completeVersionQuery(const QString &version) {
-        m_versionTimer->stop();
-        const auto path = std::exchange(m_versionPath, {});
-        if (path.isEmpty() || m_shutdown)
-            return;
-        const auto acceptedVersion = SVS::Semver(version).isValid() ? version : QString{};
-        if (!m_installationVersions.contains(path) || m_installationVersions.value(path) != acceptedVersion) {
-            m_installationVersions.insert(path, acceptedVersion);
-            Q_EMIT installationNamesChanged();
-        }
-        QTimer::singleShot(0, this, &DsspServerManager::startNextVersionQuery);
-    }
-
-    QString DsspServerManager::downloadedVersionsDirectory() const {
-        return normalizedPath(QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("dssp/versions")));
+        m_installations->refreshVersions(configuration.installation);
     }
 
     QString DsspServerManager::downloadInstallation(QWindow *parent) {
-        if (m_shutdown || m_installationBusy)
-            return {};
-        const auto notifyState = qScopeGuard([this] { Q_EMIT stateChanged(); });
-        QScopedValueRollback guard(m_installationBusy, true);
-        Q_EMIT stateChanged();
-        const auto id = DsspInstaller::download(downloadedVersionsDirectory(), parent);
-        if (!id.isEmpty())
-            Q_EMIT installationNamesChanged();
-        return id;
+        return m_shutdown ? QString{} : m_installations->download(parent).id;
     }
 
     bool DsspServerManager::uninstallInstallation(const QString &id, QWindow *parent) {
-        if (m_shutdown || m_installationBusy || !id.startsWith(QStringLiteral("downloaded:")))
+        if (m_shutdown)
             return false;
-        auto selected = m_configuration;
-        selected.installationId = id;
-        const auto executable = executablePath(selected);
-        if (executable.isEmpty())
-            return false;
-        const auto directory = QDir(downloadedVersionsDirectory()).filePath(id.sliced(11));
-        const auto directoryInfo = QFileInfo(directory);
-        const auto withinInstallation = [&directory](const QString &path) {
-            if (path.isEmpty())
-                return false;
-            const auto relative = QDir(directory).relativeFilePath(path);
-            return !QDir::isAbsolutePath(relative) && relative != QStringLiteral("..") && !relative.startsWith(QStringLiteral("../"));
-        };
-        if (!directoryInfo.isDir() || directoryInfo.isSymLink() || !withinInstallation(executable))
-            return false;
-        const auto notifyState = qScopeGuard([this] { Q_EMIT stateChanged(); });
-        QScopedValueRollback guard(m_installationBusy, true);
-        Q_EMIT stateChanged();
-        const bool inUse = withinInstallation(m_startExecutable) && (m_startPending || m_process->state() != QProcess::NotRunning);
-        auto prompt = tr("Uninstall %1? All files in this installation directory will be deleted:\n%2").arg(id.sliced(11), normalizedPath(directory));
-        if (inUse)
-            prompt += u'\n' + tr("DiffSinger Synthesis Program will be stopped before this version is uninstalled.");
-        if (SVS::MessageBox::question(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstall DiffSinger Synthesis Program"), prompt,
-                SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No) != SVS::SVSCraft::Yes)
-            return false;
-        if (inUse) {
+        auto selection = m_configuration.installation;
+        selection.id = id;
+        const bool inUse = m_startExecutable == m_installations->executablePath(selection)
+                           && (m_startPending || m_process->state() != QProcess::NotRunning);
+        return m_installations->uninstall(id, parent, [this](const QString &directory, QString *error) {
+            if (!AppInstall::InstallationManager::pathIsWithin(directory, m_startExecutable)
+                || (!m_startPending && m_process->state() == QProcess::NotRunning))
+                return true;
             stop();
             if (!m_devices->cancelAndWait()) {
-                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop device discovery."));
+                *error = tr("Could not stop device discovery.");
                 return false;
             }
             if (m_process->state() != QProcess::NotRunning && !m_process->waitForFinished(5000)) {
@@ -355,66 +248,23 @@ namespace Synth::Internal {
                 m_process->waitForFinished(1000);
             }
             if (m_process->state() != QProcess::NotRunning) {
-                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop DiffSinger Synthesis Program."));
+                *error = tr("Could not stop DiffSinger Synthesis Program.");
                 return false;
             }
-        }
-        m_pendingVersionPaths.removeIf(withinInstallation);
-        if (withinInstallation(m_versionPath)) {
-            m_versionPath.clear();
-            m_versionTimer->stop();
-            m_versionProcess->kill();
-            m_versionProcess->waitForFinished(1000);
-            if (m_versionProcess->state() != QProcess::NotRunning) {
-                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop the version query."));
-                return false;
-            }
-        }
-        QTemporaryDir removal(QDir(downloadedVersionsDirectory()).filePath(QStringLiteral(".dssp-remove-XXXXXX")));
-        if (!removal.isValid() || !QDir().rename(directory, QDir(removal.path()).filePath(QStringLiteral("installation")))) {
-            SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not remove the installation:\n%1").arg(normalizedPath(directory)));
-            return false;
-        }
-        if (m_configuration.installationId == id || withinInstallation(executablePath())) {
-            auto configuration = m_configuration;
-            configuration.installationId = defaultConfiguration().installationId;
-            setConfiguration(configuration);
-        }
-        Q_EMIT installationNamesChanged();
-        if (!removal.remove()) {
-            removal.setAutoRemove(false);
-            SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Cleanup Failed"), tr("The version was uninstalled, but some files could not be deleted:\n%1").arg(normalizedPath(removal.path())));
-        }
-        return true;
+            return true;
+        }, inUse ? tr("DiffSinger Synthesis Program will be stopped before this version is uninstalled.") : QString{});
     }
 
     QString DsspServerManager::executablePath() const {
-        return executablePath(m_configuration);
+        return m_installations->executablePath(m_configuration.installation);
     }
 
     QString DsspServerManager::executablePath(const DsspServerConfiguration &configuration) const {
-        if (configuration.installationId == QStringLiteral("bundled"))
-            return bundledExecutablePath();
-        if (configuration.installationId.startsWith(QStringLiteral("downloaded:"))) {
-            const auto version = configuration.installationId.sliced(11);
-            if (version.isEmpty() || version == QStringLiteral(".") || version == QStringLiteral("..") || version.contains(u'/') || version.contains(u'\\') || version.contains(u':'))
-                return {};
-            return normalizedPath(QDir(downloadedVersionsDirectory()).filePath(version + QStringLiteral("/bin/") + executableName()));
-        }
-        for (const auto &value : configuration.localInstallations) {
-            const auto installation = value.toMap();
-            if (installation.value(QStringLiteral("id")).toString() == configuration.installationId)
-                return normalizedPath(installation.value(QStringLiteral("path")).toString());
-        }
-        return {};
+        return m_installations->executablePath(configuration.installation);
     }
 
     QString DsspServerManager::normalizedPath(const QString &path) {
-        if (path.trimmed().isEmpty())
-            return {};
-        const QFileInfo info(QDir::fromNativeSeparators(path.trimmed()));
-        const auto canonical = info.canonicalFilePath();
-        return QDir::toNativeSeparators(canonical.isEmpty() ? QDir::cleanPath(info.absoluteFilePath()) : canonical);
+        return AppInstall::InstallationManager::normalizedPath(path);
     }
 
     bool DsspServerManager::running() const {
@@ -422,7 +272,7 @@ namespace Synth::Internal {
     }
 
     bool DsspServerManager::canStart() const {
-        return !m_shutdown && !m_installationBusy && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
+        return !m_shutdown && !m_installations->busy() && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
     }
 
     bool DsspServerManager::canStop() const {
@@ -430,7 +280,7 @@ namespace Synth::Internal {
     }
 
     bool DsspServerManager::canRestart() const {
-        return !m_shutdown && !m_installationBusy && !m_stopping && !executablePath().isEmpty();
+        return !m_shutdown && !m_installations->busy() && !m_stopping && !executablePath().isEmpty();
     }
 
     QString DsspServerManager::statusIcon() const {
@@ -465,17 +315,11 @@ namespace Synth::Internal {
         return m_lastRunFailed ? tr("DiffSinger Synthesis Program exited abnormally") : tr("DiffSinger Synthesis Program is stopped");
     }
 
-    QString DsspServerManager::bundledExecutablePath() const {
-        const auto path = QDir(m_pluginDirectory).filePath(QStringLiteral("dssp/bin/") + executableName());
-        return QFileInfo(path).isFile() ? normalizedPath(path) : QString{};
-    }
-
     void DsspServerManager::loadSettings() {
         m_configuration = defaultConfiguration();
+        m_configuration.installation = m_installations->selection();
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        m_configuration.installationId = settings->value(QStringLiteral("installationId"), m_configuration.installationId).toString();
-        m_configuration.localInstallations = settings->value(QStringLiteral("localInstallations")).toList();
         m_configuration.autoStart = settings->value(QStringLiteral("autoStart"), true).toBool();
         m_configuration.host = settings->value(QStringLiteral("host"), m_configuration.host).toString();
         m_configuration.port = settings->value(QStringLiteral("port"), m_configuration.port).toInt();
@@ -497,8 +341,6 @@ namespace Synth::Internal {
     void DsspServerManager::saveSettings() const {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("installationId"), m_configuration.installationId);
-        settings->setValue(QStringLiteral("localInstallations"), m_configuration.localInstallations);
         settings->setValue(QStringLiteral("autoStart"), m_configuration.autoStart);
         settings->setValue(QStringLiteral("host"), m_configuration.host);
         settings->setValue(QStringLiteral("port"), m_configuration.port);
@@ -564,7 +406,7 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::restart() {
-        if (m_installationBusy)
+        if (m_installations->busy())
             return;
         if (!m_shutdown && m_stopping && !executablePath().isEmpty()) {
             m_restartPending = true;

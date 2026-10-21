@@ -13,8 +13,10 @@ import SVSCraft.UIComponents
 Window {
     id: dialog
 
+    required property string productName
     required property QtObject catalog
     property string phase: "selection"
+    property string statusText: ""
     property bool completed: false
     property var finalResult
     property var escapeButton: SVS.Cancel
@@ -48,7 +50,7 @@ Window {
         return size.toLocaleString(Qt.locale(), "f", unit === 0 ? 0 : 1) + " " + units[unit]
     }
 
-    title: qsTr("Download DiffSinger Synthesis Program")
+    title: qsTr("Download %1").arg(dialog.productName)
     flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint
     modality: Qt.ApplicationModal
     width: 560
@@ -84,9 +86,10 @@ Window {
                 Layout.fillWidth: true
                 text: {
                     switch (dialog.phase) {
-                    case "download": return qsTr("Downloading DiffSinger Synthesis Program...")
+                    case "download": return qsTr("Downloading %1...").arg(dialog.productName)
                     case "verify": return qsTr("Verifying the downloaded archive...")
-                    case "install": return qsTr("Installing DiffSinger Synthesis Program...")
+                    case "install": return qsTr("Installing %1...").arg(dialog.productName)
+                    case "validate": return dialog.statusText
                     default: return dialog.catalog.busy ? qsTr("Retrieving available versions...") : qsTr("Select a version to download.")
                     }
                 }

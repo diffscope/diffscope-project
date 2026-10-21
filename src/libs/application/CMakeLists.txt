@@ -5,4 +5,6 @@ add_subdirectory(loadapi)
 
 add_subdirectory(uishell)
 
+add_subdirectory(appinstall)
+
 add_subdirectory(transactional)

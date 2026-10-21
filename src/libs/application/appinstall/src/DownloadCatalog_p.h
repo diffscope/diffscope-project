@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_SYNTH_INTERNAL_DSSPDOWNLOADCATALOG_H
-#define DIFFSCOPE_SYNTH_INTERNAL_DSSPDOWNLOADCATALOG_H
+#ifndef DIFFSCOPE_APPINSTALL_DOWNLOADCATALOG_P_H
+#define DIFFSCOPE_APPINSTALL_DOWNLOADCATALOG_P_H
 
 #include <array>
 
@@ -17,9 +17,9 @@
 
 #include <SVSCraftNetwork/DownloadSession.h>
 
-namespace Synth::Internal {
+namespace AppInstall {
 
-    struct DsspDownloadArtifact {
+    struct DownloadArtifact {
         QString channel;
         QString version;
         QUrl url;
@@ -28,7 +28,7 @@ namespace Synth::Internal {
         QUrl releaseNotes;
     };
 
-    class DsspDownloadCatalog : public QObject {
+    class DownloadCatalog : public QObject {
         Q_OBJECT
         Q_PROPERTY(QVariantList channels READ channels NOTIFY changed)
         Q_PROPERTY(QStringList versions READ versions NOTIFY changed)
@@ -39,7 +39,7 @@ namespace Synth::Internal {
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY changed)
         Q_PROPERTY(QUrl releaseNotes READ releaseNotes NOTIFY changed)
     public:
-        explicit DsspDownloadCatalog(QObject *parent = nullptr);
+        explicit DownloadCatalog(const QUrl &catalogUrl, const QString &variant, QObject *parent = nullptr);
 
         QVariantList channels() const;
         QStringList versions() const;
@@ -51,7 +51,8 @@ namespace Synth::Internal {
         bool available() const;
         QString errorMessage() const;
         QUrl releaseNotes() const;
-        DsspDownloadArtifact artifact() const;
+        DownloadArtifact artifact() const;
+        QVariantMap latestVersions() const;
         void start();
         void cancel();
         Q_INVOKABLE void retry();
@@ -75,11 +76,13 @@ namespace Synth::Internal {
         void fail(const QString &message);
         QString selectionKey(int channel, int version) const;
 
+        QUrl m_catalogUrl;
+        QString m_variant;
         QBuffer m_data;
         SVS::DownloadSession m_session;
         QTimer m_timeout;
         std::array<QList<Release>, 3> m_releases;
-        QHash<QString, DsspDownloadArtifact> m_artifacts;
+        QHash<QString, DownloadArtifact> m_artifacts;
         QString m_errorMessage;
         Request m_request{Request::Index};
         int m_channelIndex{};
@@ -89,8 +92,9 @@ namespace Synth::Internal {
         bool m_active{};
         bool m_notFound{};
         bool m_initialized{};
+        bool m_catalogFound{};
     };
 
 }
 
-#endif // DIFFSCOPE_SYNTH_INTERNAL_DSSPDOWNLOADCATALOG_H
+#endif // DIFFSCOPE_APPINSTALL_DOWNLOADCATALOG_P_H
