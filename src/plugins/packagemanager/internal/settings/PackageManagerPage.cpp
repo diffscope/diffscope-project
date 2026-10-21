@@ -3,14 +3,16 @@
 
 #include "PackageManagerPage.h"
 
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QLoggingCategory>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QQuickWindow>
+#include <QScopeGuard>
+#include <QScopedValueRollback>
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <SVSCraftQuick/MessageBox.h>
+#include <appinstall/InstallationManager.h>
 
 #include <packagemanager/internal/PackageManagerSettings.h>
 #include <packagemanager/internal/PackageManagerUtils.h>
@@ -21,47 +23,8 @@ namespace PackageManager {
 
     namespace {
 
-        struct DspmValidationResult {
-            bool ok{};
-            bool compatible{};
-            QString name;
-            QString version;
-            QString errorMessage;
-        };
-
-        DspmValidationResult validateDspmExecutable(const QString &path, int timeoutSeconds) {
-            DspmValidationResult result;
-            const auto commandResult = runCommandLineTool(path, QStringList{QStringLiteral("--version"), QStringLiteral("--json")}, timeoutSeconds);
-            if (!commandResult.ok) {
-                result.errorMessage = commandResult.errorMessage;
-                return result;
-            }
-
-            QJsonParseError parseError;
-            const auto document = QJsonDocument::fromJson(commandResult.stdOut, &parseError);
-            if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
-                result.errorMessage = PackageManager::PackageManagerPage::tr("The command did not return valid JSON.");
-                return result;
-            }
-            const auto root = document.object();
-            result.name = root.value(QStringLiteral("name")).toString();
-            result.version = root.value(QStringLiteral("version")).toString();
-            if (result.name != QStringLiteral("dspm")) {
-                result.errorMessage = PackageManager::PackageManagerPage::tr("The selected command is not dspm.");
-                return result;
-            }
-
-            result.ok = true;
-            // TODO: Replace this placeholder with real compatibility rules once supported dspm versions are defined.
-            result.compatible = false;
-            return result;
-        }
-
         QString urlToLocalFile(const QUrl &url) {
-            if (url.isLocalFile()) {
-                return url.toLocalFile();
-            }
-            return url.toString(QUrl::PreferLocalFile);
+            return url.isLocalFile() ? AppInstall::InstallationManager::normalizedPath(url.toLocalFile()) : QString{};
         }
 
     }
@@ -70,6 +33,8 @@ namespace PackageManager {
         : Core::ISettingPage("org.diffscope.packagemanager.PackageManager", parent) {
         setTitle(tr("Package Manager"));
         setDescription(tr("Configure package manager settings"));
+        connect(PackageManagerSettings::instance()->installationManager(), &AppInstall::InstallationManager::installationsChanged, this, &PackageManagerPage::installationsChanged);
+        connect(PackageManagerSettings::instance()->installationManager(), &AppInstall::InstallationManager::busyChanged, this, &PackageManagerPage::busyChanged);
     }
 
     PackageManagerPage::~PackageManagerPage() {
@@ -104,7 +69,11 @@ namespace PackageManager {
     void PackageManagerPage::beginSetting() {
         qCInfo(lcPackageManagerPage) << "Beginning setting";
         widget();
-        m_widget->setProperty("dspmPath", PackageManagerSettings::instance()->property("dspmPath"));
+        m_selection = PackageManagerSettings::instance()->installationManager()->selection();
+        setErrorMessage({});
+        Q_EMIT installationsChanged();
+        Q_EMIT installationChanged();
+        PackageManagerSettings::instance()->installationManager()->refreshVersions(m_selection);
         m_widget->setProperty("packageDir", PackageManagerSettings::instance()->property("packageDir"));
         m_widget->setProperty("timeoutSeconds", PackageManagerSettings::instance()->property("timeoutSeconds"));
         m_widget->setProperty("started", true);
@@ -113,7 +82,9 @@ namespace PackageManager {
 
     bool PackageManagerPage::accept() {
         qCInfo(lcPackageManagerPage) << "Accepting";
-        PackageManagerSettings::instance()->setProperty("dspmPath", m_widget->property("dspmPath"));
+        if (busy())
+            return false;
+        PackageManagerSettings::instance()->installationManager()->setSelection(m_selection);
         PackageManagerSettings::instance()->setProperty("packageDir", m_widget->property("packageDir"));
         PackageManagerSettings::instance()->setProperty("timeoutSeconds", m_widget->property("timeoutSeconds"));
         PackageManagerSettings::instance()->save();
@@ -126,31 +97,94 @@ namespace PackageManager {
         Core::ISettingPage::endSetting();
     }
 
-    bool PackageManagerPage::validateDspmPath(const QUrl &url, int timeoutSeconds) {
-        const auto path = urlToLocalFile(url);
-        qCInfo(lcPackageManagerPage) << "Validating dspm path" << path;
-        const auto result = validateDspmExecutable(path, timeoutSeconds);
-        if (!result.ok) {
-            qCWarning(lcPackageManagerPage) << "Failed to validate dspm path" << path << result.errorMessage;
-            SVS::MessageBox::critical(
-                Core::RuntimeInterface::qmlEngine(),
-                nullptr,
-                tr("Invalid Package Manager"),
-                tr("Failed to validate the selected command:\n\n%1").arg(result.errorMessage)
-            );
-            return false;
-        }
+    QVariantList PackageManagerPage::installations() const {
+        return PackageManagerSettings::instance()->installationManager()->installations(m_selection);
+    }
 
-        if (!result.compatible) {
-            qCWarning(lcPackageManagerPage) << "Incompatible dspm version" << result.version;
-            SVS::MessageBox::warning(
-                Core::RuntimeInterface::qmlEngine(),
-                nullptr,
-                tr("Incompatible Package Manager"),
-                tr("The selected dspm version (%1) is not marked as compatible. It will still be used.").arg(result.version)
-            );
+    QString PackageManagerPage::installationId() const {
+        return m_selection.id;
+    }
+
+    void PackageManagerPage::setInstallationId(const QString &id) {
+        if (m_selection.id == id)
+            return;
+        m_selection.id = id;
+        setErrorMessage({});
+        Q_EMIT installationChanged();
+        markDirty();
+    }
+
+    QString PackageManagerPage::executablePath() const {
+        return PackageManagerSettings::instance()->installationManager()->executablePath(m_selection);
+    }
+
+    QString PackageManagerPage::errorMessage() const {
+        return m_errorMessage;
+    }
+
+    bool PackageManagerPage::busy() const {
+        return m_validating || PackageManagerSettings::instance()->installationManager()->busy();
+    }
+
+    void PackageManagerPage::addLocalInstallation(const QUrl &url) {
+        if (busy())
+            return;
+        const auto notify = qScopeGuard([this] { Q_EMIT busyChanged(); });
+        QScopedValueRollback guard(m_validating, true);
+        Q_EMIT busyChanged();
+        const auto path = urlToLocalFile(url);
+        const auto result = validateDspmExecutable(path, m_widget->property("timeoutSeconds").toInt(), [this] { return !m_widget->property("started").toBool(); });
+        if (!result.ok) {
+            setErrorMessage(result.errorMessage);
+            return;
         }
-        return true;
+        auto manager = PackageManagerSettings::instance()->installationManager();
+        QString error;
+        if (!manager->addLocalInstallation(m_selection, path, &error)) {
+            setErrorMessage(error);
+            return;
+        }
+        setErrorMessage({});
+        Q_EMIT installationsChanged();
+        Q_EMIT installationChanged();
+        markDirty();
+        manager->refreshVersions(m_selection);
+    }
+
+    void PackageManagerPage::removeLocalInstallation() {
+        if (busy())
+            return;
+        if (!PackageManagerSettings::instance()->installationManager()->removeLocalInstallation(m_selection))
+            return;
+        setErrorMessage({});
+        Q_EMIT installationsChanged();
+        Q_EMIT installationChanged();
+        markDirty();
+    }
+
+    void PackageManagerPage::downloadInstallation() {
+        if (busy())
+            return;
+        auto item = qobject_cast<QQuickItem *>(widget());
+        const auto result = PackageManagerSettings::instance()->installationManager()->download(item ? item->window() : nullptr);
+        if (!result.id.isEmpty())
+            setInstallationId(result.id);
+    }
+
+    void PackageManagerPage::uninstallInstallation() {
+        if (busy() || !m_selection.id.startsWith(QStringLiteral("downloaded:")))
+            return;
+        auto manager = PackageManagerSettings::instance()->installationManager();
+        auto item = qobject_cast<QQuickItem *>(widget());
+        if (manager->uninstall(m_selection.id, item ? item->window() : nullptr))
+            setInstallationId(manager->defaultInstallationId());
+    }
+
+    void PackageManagerPage::setErrorMessage(const QString &message) {
+        if (m_errorMessage == message)
+            return;
+        m_errorMessage = message;
+        Q_EMIT errorMessageChanged();
     }
 
     QString PackageManagerPage::localFilePath(const QUrl &url) {

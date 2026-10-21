@@ -8,6 +8,10 @@
 
 #include <QObject>
 
+namespace AppInstall {
+    class InstallationManager;
+}
+
 class QQmlEngine;
 class QJSEngine;
 
@@ -20,7 +24,7 @@ namespace PackageManager {
         QML_ELEMENT
         QML_SINGLETON
 
-        Q_PROPERTY(QString dspmPath READ dspmPath WRITE setDspmPath NOTIFY dspmPathChanged)
+        Q_PROPERTY(QString dspmPath READ dspmPath NOTIFY dspmPathChanged)
         Q_PROPERTY(QString packageDir READ packageDir WRITE setPackageDir NOTIFY packageDirChanged)
         Q_PROPERTY(int timeoutSeconds READ timeoutSeconds WRITE setTimeoutSeconds NOTIFY timeoutSecondsChanged)
 
@@ -34,7 +38,8 @@ namespace PackageManager {
         }
 
         static QString dspmPath();
-        static void setDspmPath(const QString &dspmPath);
+
+        AppInstall::InstallationManager *installationManager() const;
 
         static QString packageDir();
         static void setPackageDir(const QString &packageDir);
@@ -43,7 +48,6 @@ namespace PackageManager {
         static void setTimeoutSeconds(int timeoutSeconds);
 
         static QString defaultPackageDir();
-        static QString defaultDspmPath();
 
         void load();
         void save() const;
@@ -57,8 +61,7 @@ namespace PackageManager {
         friend class PackageManagerPlugin;
         explicit PackageManagerSettings(const QString &pluginLocation, QObject *parent = nullptr);
 
-        QString m_pluginLocation;
-        QString m_dspmPath;
+        AppInstall::InstallationManager *m_installations{};
         QString m_packageDir;
         int m_timeoutSeconds{5};
     };

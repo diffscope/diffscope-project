@@ -6,8 +6,10 @@
 
 #include <qqmlintegration.h>
 
+#include <QList>
 #include <QPointer>
 #include <QStandardItemModel>
+#include <QUrl>
 #include <QWindow>
 
 #include <CoreApi/windowinterface.h>
@@ -21,6 +23,8 @@ namespace PackageManager {
 
         Q_PROPERTY(QStandardItemModel *packageModel READ packageModel CONSTANT)
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
+        Q_PROPERTY(bool uninstalling READ uninstalling NOTIFY uninstallingChanged)
+        Q_PROPERTY(bool installing READ installing NOTIFY installingChanged)
 
     public:
         explicit PackageManagerAddOn(QObject *parent = nullptr);
@@ -28,10 +32,14 @@ namespace PackageManager {
 
         QStandardItemModel *packageModel();
         bool refreshing() const;
+        bool uninstalling() const;
+        bool installing() const;
 
         Q_INVOKABLE QModelIndex invalidIndex() const;
         Q_INVOKABLE void openPackageManager();
         Q_INVOKABLE void refresh();
+        Q_INVOKABLE void uninstallPackage(int index);
+        Q_INVOKABLE void installPackages(const QList<QUrl> &files);
 
         void initialize() override;
         void extensionsInitialized() override;
@@ -40,14 +48,21 @@ namespace PackageManager {
     Q_SIGNALS:
         void refreshStarted();
         void refreshingChanged();
+        void uninstallingChanged();
+        void installingChanged();
 
     private:
         bool populatePackageModel(QStandardItemModel *model, QString *errorMessage) const;
+        bool reloadPackageModel(QString *errorMessage, bool clearModel = false);
         void setRefreshing(bool refreshing);
+        void setUninstalling(bool uninstalling);
+        void setInstalling(bool installing);
         void showError(const QString &message) const;
 
         QStandardItemModel m_packageModel;
         bool m_refreshing{};
+        bool m_uninstalling{};
+        bool m_installing{};
         QPointer<QWindow> m_window;
     };
 

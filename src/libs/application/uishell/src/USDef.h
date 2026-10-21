@@ -49,20 +49,21 @@ namespace UIShell {
             PR_ReadmePathRole,
             PR_LicensePathRole,
             PR_UrlRole,
-            PR_ClassNameRole,
+            PR_CategoryRole,
+            PR_InterfaceRole,
+            PR_LevelRole,
+            PR_VariantRole,
+            PR_MetadataErrorRole,
             PR_AvatarPathRole,
             PR_BackgroundPathRole,
-            PR_ImportInferenceIdRole,
+            PR_DemoAudioPathRole,
         };
         Q_ENUM_NS(PackageRole)
 
         enum PackageIndex {
             PI_Dependencies = 0,
-            PI_Inferences = 1,
+            PI_OtherContributions = 1,
             PI_Singers = 2,
-
-            PI_SingerImports = 0,
-            PI_SingerDemoAudioList = 1,
         };
         Q_ENUM_NS(PackageIndex)
 

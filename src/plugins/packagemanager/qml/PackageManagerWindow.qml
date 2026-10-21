@@ -25,7 +25,12 @@ Window {
     WindowSystem.id: "org.diffscope.packagemanager.packagemanagerwindow"
 
     signal finished()
-    onClosing: finished()
+    onClosing: (event) => {
+        if (addOn.uninstalling || addOn.installing)
+            event.accepted = false
+        else
+            finished()
+    }
     Component.onCompleted: Qt.callLater(() => addOn.refresh())
 
     PackageManagerView {
@@ -33,8 +38,17 @@ Window {
         anchors.fill: parent
         model: window.addOn.packageModel
         refreshing: window.addOn.refreshing
+        uninstalling: window.addOn.uninstalling
+        installing: window.addOn.installing
 
         onRefreshRequested: window.addOn.refresh()
+        onUninstallRequested: (index) => window.addOn.uninstallPackage(index)
+        onInstallRequested: packageFileDialog.open()
+    }
+
+    PackageFileDialog {
+        id: packageFileDialog
+        onAccepted: window.addOn.installPackages(selectedFiles)
     }
 
     Connections {

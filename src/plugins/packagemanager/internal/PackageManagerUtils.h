@@ -4,7 +4,10 @@
 #ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERUTILS_H
 #define DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERUTILS_H
 
+#include <functional>
+
 #include <QByteArray>
+#include <QJsonValue>
 #include <QString>
 #include <QStringList>
 
@@ -12,13 +15,26 @@ namespace PackageManager {
 
     struct CommandResult {
         bool ok{};
+        bool cancelled{};
         QByteArray stdOut;
         QByteArray stdErr;
         int exitCode{};
         QString errorMessage;
     };
 
-    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds);
+    struct DspmResult {
+        bool ok{};
+        QString command;
+        QJsonValue data;
+        QString errorCode;
+        QString errorMessage;
+    };
+
+    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds, const std::function<bool()> &isCancelled = {});
+    CommandResult validateDspmExecutable(const QString &path, int timeoutSeconds, const std::function<bool()> &isCancelled = {});
+    DspmResult parseDspmQueryResult(const CommandResult &command);
+    DspmResult parseDspmMutationResult(const CommandResult &command, const QString &operation, bool dryRun);
+    QString localizedPackageText(const QJsonValue &value);
 
 }
 

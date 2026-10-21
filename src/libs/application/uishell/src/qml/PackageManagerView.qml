@@ -23,8 +23,11 @@ Item {
     property var currentIndex: packageListProxyModel.invalidIndex()
     property Component singerExtraDelegate: null
     property bool refreshing: false
+    property bool uninstalling: false
+    property bool installing: false
 
     signal refreshRequested()
+    signal installRequested()
     signal uninstallRequested(index: int)
 
     PackageListProxyModel {
@@ -85,6 +88,7 @@ Item {
     }
     component SelectableLabel: TextEdit {
         readOnly: true
+        textFormat: TextEdit.PlainText
         color: Theme.foregroundColor(ThemedItem.foregroundLevel)
         Accessible.role: Accessible.StaticText
         Accessible.name: text
@@ -110,7 +114,10 @@ Item {
                 spacing: 4
                 Layout.fillWidth: true
                 Label {
+                    Layout.fillWidth: true
                     text: card.title
+                    textFormat: Text.PlainText
+                    wrapMode: Text.Wrap
                     font.pixelSize: 14
                     font.weight: Font.DemiBold
                 }
@@ -165,6 +172,7 @@ Item {
                 }
                 Button {
                     text: qsTr("Uninstall")
+                    enabled: !view.refreshing && !view.uninstalling && !view.installing
                     icon.source: "image://fluent-system-icons/delete"
                     onClicked: view.uninstallRequested(pane.index)
                 }
@@ -229,7 +237,7 @@ Item {
                     currentIndex: {
                         if (packageListProxyModel.isSingerOrSingerRootIndex(view.currentIndex))
                             return 0
-                        if (packageListProxyModel.isInferenceOrInferenceRootIndex(view.currentIndex))
+                        if (packageListProxyModel.isOtherContributionOrRootIndex(view.currentIndex))
                             return 1
                         if (packageListProxyModel.isPackageIndex(view.currentIndex))
                             return 2
@@ -244,10 +252,10 @@ Item {
                         onClicked: view.currentIndex = packageListProxyModel.singerModelIndexForIndex(view.currentIndex)
                     }
                     TabButton {
-                        text: qsTr("Inferences (%L1)").arg(inferenceListRepeater.count)
+                        text: qsTr("Other Contributions (%L1)").arg(otherContributionListRepeater.count)
                         ThemedItem.tabIndicator: SVS.TI_Bottom
                         width: implicitWidth
-                        onClicked: view.currentIndex = packageListProxyModel.inferenceRootIndexForIndex(view.currentIndex)
+                        onClicked: view.currentIndex = packageListProxyModel.otherContributionRootIndexForIndex(view.currentIndex)
                     }
                     TabButton {
                         text: qsTr("Details")
@@ -365,7 +373,6 @@ Item {
                                     id: singerDetailView
                                     required property var modelData
                                     required property int index
-                                    readonly property var modelIndex: packageListProxyModel.index(index, 0, packageListProxyModel.singerRootIndexForIndex(pane.modelIndex))
                                     spacing: 8
                                     ScrollView {
                                         id: detailsScrollView
@@ -418,31 +425,37 @@ Item {
                                                                 id: singerNameHoverHandler
                                                             }
                                                         }
-                                                        Flow {
-                                                            Layout.fillWidth: true
-                                                            spacing: 8
-                                                            Repeater {
-                                                                model: DelegateModel {
-                                                                    model: packageListProxyModel
-                                                                    rootIndex: packageListProxyModel.demoAudioRootIndexForSingerIndex(singerDetailView.modelIndex)
-                                                                    delegate: Button {
-                                                                        required property var modelData
-                                                                        icon.source: "image://fluent-system-icons/play_circle"
-                                                                        text: modelData.name || qsTr("Preview")
-                                                                        // TODO play audio
-                                                                    }
-                                                                }
-                                                            }
+                                                        Button {
+                                                            icon.source: "image://fluent-system-icons/play_circle"
+                                                            text: qsTr("Preview")
+                                                            visible: Boolean(singerDetailView.modelData.demoAudioPath)
+                                                            enabled: false
                                                         }
                                                     }
                                                 }
                                                 InfoCard {
                                                     title: qsTr("Identifier")
-                                                    text: singerDetailView.modelData.id
+                                                    text: `${pane.modelData.id}=${pane.modelData.version}:singer/${singerDetailView.modelData.id}`
                                                 }
                                                 InfoCard {
-                                                    title: qsTr("Singer class")
-                                                    text: singerDetailView.modelData.className
+                                                    title: qsTr("Interface")
+                                                    text: singerDetailView.modelData.interfaceId ?? ""
+                                                    visible: text.length > 0
+                                                }
+                                                InfoCard {
+                                                    title: qsTr("API level")
+                                                    text: singerDetailView.modelData.level ?? ""
+                                                    visible: text.length > 0
+                                                }
+                                                InfoCard {
+                                                    title: qsTr("Variant")
+                                                    text: singerDetailView.modelData.variant ?? ""
+                                                    visible: text.length > 0
+                                                }
+                                                InfoCard {
+                                                    title: qsTr("Metadata error")
+                                                    text: singerDetailView.modelData.metadataError ?? ""
+                                                    visible: text.length > 0
                                                 }
                                                 StackLayout {
                                                     Layout.fillWidth: true
@@ -481,32 +494,10 @@ Item {
                                                                 }
                                                             }
                                                         }
-                                                        Repeater {
-                                                            model: DelegateModel {
-                                                                model: packageListProxyModel
-                                                                rootIndex: packageListProxyModel.importRootIndexForSingerIndex(singerDetailView.modelIndex)
-                                                                delegate: InfoCard {
-                                                                    id: importedInferenceCard
-                                                                    required property var modelData
-                                                                    title: qsTr("Imported inference model")
-                                                                    text: {
-                                                                        let refText = `${modelData.id}@${modelData.version}:${modelData.importInferenceId}`
-                                                                        if (modelData.name)
-                                                                            return qsTr("%1 (%2)").arg(modelData.name).arg(refText)
-                                                                        return refText
-                                                                    }
-                                                                    toolsModel: ObjectModel {
-                                                                        ToolButton {
-                                                                            icon.source: "image://fluent-system-icons/open"
-                                                                            display: AbstractButton.IconOnly
-                                                                            text: qsTr("Jump to details")
-                                                                            onClicked: () => {
-                                                                                view.currentIndex = packageListProxyModel.inferenceRootIndexForIndex(packageListProxyModel.findInferenceIndex(importedInferenceCard.modelData.id, importedInferenceCard.modelData.version, importedInferenceCard.modelData.importInferenceId))
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
+                                                        InfoCard {
+                                                            title: qsTr("Demo audio")
+                                                            text: singerDetailView.modelData.demoAudioPath ?? ""
+                                                            visible: text.length > 0
                                                         }
                                                     }
                                                 }
@@ -543,16 +534,16 @@ Item {
                 Label {
                     anchors.left: parent.left
                     anchors.leftMargin: 16
-                    text: qsTr("This package does not contain any inference modules.")
-                    visible: inferenceListRepeater.count === 0
+                    text: qsTr("This package does not contain any other contributions.")
+                    visible: otherContributionListRepeater.count === 0
                 }
                 ScrollView {
-                    id: inferenceListScrollView
+                    id: otherContributionListScrollView
                     contentWidth: availableWidth
-                    visible: inferenceListRepeater.count !== 0
+                    visible: otherContributionListRepeater.count !== 0
                     anchors.fill: parent
                     ColumnLayout {
-                        width: inferenceListScrollView.width
+                        width: otherContributionListScrollView.width
                         ColumnLayout {
                             Layout.fillWidth: true
                             Layout.leftMargin: 16
@@ -560,26 +551,23 @@ Item {
                             Layout.bottomMargin: 16
                             spacing: 16
                             Repeater {
-                                id: inferenceListRepeater
+                                id: otherContributionListRepeater
                                 model: DelegateModel {
                                     model: packageListProxyModel
-                                    rootIndex: packageListProxyModel.inferenceRootIndexForIndex(pane.modelIndex)
+                                    rootIndex: packageListProxyModel.otherContributionRootIndexForIndex(pane.modelIndex)
                                     delegate: InfoCard {
-                                        id: inferenceCard
+                                        id: otherContributionCard
                                         required property var modelData
-                                        title: {
-                                            if (modelData.name)
-                                                return qsTr("%1 (%2)").arg(modelData.name).arg(modelData.id)
-                                            return modelData.id
-                                        }
+                                        title: `${modelData.category}/${modelData.id}`
                                         text: modelData.path
                                         toolsModel: ObjectModel {
                                             ToolButton {
                                                 icon.source: "image://fluent-system-icons/open"
                                                 display: AbstractButton.IconOnly
                                                 text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
+                                                enabled: Boolean(otherContributionCard.modelData.path)
                                                 onClicked: () => {
-                                                    DesktopServices.reveal(inferenceCard.modelData.path)
+                                                    DesktopServices.reveal(otherContributionCard.modelData.path)
                                                 }
                                             }
                                         }
@@ -637,7 +625,7 @@ Item {
                         }
                         InfoCard {
                             title: qsTr("Installation time")
-                            text: (new Date(pane.modelData.installationTime)).toLocaleString()
+                            text: (new Date(pane.modelData.installationTime * 1000)).toLocaleString()
                         }
                         InfoCard {
                             title: qsTr("Installation location")
@@ -683,12 +671,8 @@ Item {
                                     Layout.fillWidth: true
                                     wrapMode: Text.Wrap
                                     href: "#"
-                                    linkText: {
-                                        let refText = `${modelData.id}@${modelData.version}`
-                                        if (modelData.name)
-                                            return qsTr("%1 (%2)").arg(modelData.name).arg(refText)
-                                        return refText
-                                    }
+                                    enabled: packageListProxyModel.findPackageIndex(modelData.id, modelData.version) >= 0
+                                    linkText: `${modelData.id}=${modelData.version}`
                                     onLinkActivated: view.currentIndex = packageListProxyModel.entryIndex(packageListProxyModel.packageModelIndex(packageListProxyModel.findPackageIndex(modelData.id, modelData.version)))
                                 }
                             }
@@ -717,19 +701,31 @@ Item {
                         // TODO temporarily not to implement search, waiting for Qt 6.11 SortFilterProxyModel
                     }
                     ToolButton {
+                        text: qsTr("Install Packages...")
+                        icon.source: "image://fluent-system-icons/add"
+                        display: AbstractButton.IconOnly
+                        focusPolicy: Qt.StrongFocus
+                        Accessible.name: text
+                        ToolTip.visible: hovered
+                        ToolTip.text: text
+                        enabled: !view.refreshing && !view.uninstalling && !view.installing
+                        onClicked: view.installRequested()
+                    }
+                    ToolButton {
                         id: refreshButton
                         text: qsTr("Refresh")
                         icon.source: "image://fluent-system-icons/arrow_sync"
                         display: AbstractButton.IconOnly
                         onClicked: view.refreshRequested()
-                        highlighted: view.refreshing
+                        enabled: !view.refreshing && !view.uninstalling && !view.installing
+                        highlighted: view.refreshing || view.uninstalling
                         RotationAnimator {
                             target: refreshButton.contentItem
                             from: 0
                             to: 360
                             duration: 2000
                             loops: Animation.Infinite
-                            running: view.refreshing
+                            running: view.refreshing || view.uninstalling
                             alwaysRunToEnd: true
                         }
                     }

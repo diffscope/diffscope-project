@@ -6,6 +6,9 @@ project(packagemanager
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+set(DIFFSCOPE_DSPM_CATALOG_URL "https://catalogs.diffscope.org/v1/dspm/" CACHE STRING
+    "URL of the DiffScope Package Manager release catalog")
+
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.packagemanager
     DISPLAY_NAME "Package Manager"
@@ -21,12 +24,17 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     LINKS
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
+        appinstall
         uishell
         QAKCore
         QAKQuick
         coreplugin
     INCLUDE_PRIVATE
         internal/**
+)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    DIFFSCOPE_DSPM_CATALOG_URL="${DIFFSCOPE_DSPM_CATALOG_URL}"
 )
 
 if(DEFINED DIFFSCOPE_PACKAGE_MANAGER_COMMAND_LINE_TOOL)

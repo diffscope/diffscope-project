@@ -25,10 +25,14 @@ namespace UIShell {
             {USDef::PR_ReadmePathRole, "readmePath"},
             {USDef::PR_LicensePathRole, "licensePath"},
             {USDef::PR_UrlRole, "url"},
-            {USDef::PR_ClassNameRole, "className"},
+            {USDef::PR_CategoryRole, "category"},
+            {USDef::PR_InterfaceRole, "interfaceId"},
+            {USDef::PR_LevelRole, "level"},
+            {USDef::PR_VariantRole, "variant"},
+            {USDef::PR_MetadataErrorRole, "metadataError"},
             {USDef::PR_AvatarPathRole, "avatarPath"},
             {USDef::PR_BackgroundPathRole, "backgroundPath"},
-            {USDef::PR_ImportInferenceIdRole, "importInferenceId"},
+            {USDef::PR_DemoAudioPathRole, "demoAudioPath"},
         };
         return m;
     }
@@ -40,11 +44,11 @@ namespace UIShell {
     QModelIndex PackageListProxyModel::entryIndex(const QModelIndex &index) const {
         const auto singerRootIndex = this->singerRootIndexForIndex(index);
         if (!singerRootIndex.isValid() || rowCount(singerRootIndex) == 0) {
-            const auto inferenceRootIndex = this->inferenceRootIndexForIndex(index);
-            if (!inferenceRootIndex.isValid() || rowCount(inferenceRootIndex) == 0) {
+            const auto otherContributionRootIndex = this->otherContributionRootIndexForIndex(index);
+            if (!otherContributionRootIndex.isValid() || rowCount(otherContributionRootIndex) == 0) {
                 return singerRootIndex;
             }
-            return inferenceRootIndex;
+            return otherContributionRootIndex;
         }
         return this->index(0, 0, singerRootIndex);
     }
@@ -85,17 +89,9 @@ namespace UIShell {
         return packageIndex.isValid() ? this->index(USDef::PI_Singers, 0, packageIndex) : QModelIndex();
     }
 
-    QModelIndex PackageListProxyModel::inferenceRootIndexForIndex(const QModelIndex &index) const {
+    QModelIndex PackageListProxyModel::otherContributionRootIndexForIndex(const QModelIndex &index) const {
         const auto packageIndex = packageModelIndexForIndex(index);
-        return packageIndex.isValid() ? this->index(USDef::PI_Inferences, 0, packageIndex) : QModelIndex();
-    }
-
-    QModelIndex PackageListProxyModel::importRootIndexForSingerIndex(const QModelIndex &index) const {
-        return isSingerIndex(index) ? this->index(USDef::PI_SingerImports, 0, index) : QModelIndex();
-    }
-
-    QModelIndex PackageListProxyModel::demoAudioRootIndexForSingerIndex(const QModelIndex &index) const {
-        return isSingerIndex(index) ? this->index(USDef::PI_SingerDemoAudioList, 0, index) : QModelIndex();
+        return packageIndex.isValid() ? this->index(USDef::PI_OtherContributions, 0, packageIndex) : QModelIndex();
     }
 
     bool PackageListProxyModel::isSingerOrSingerRootIndex(const QModelIndex &index) const {
@@ -112,16 +108,16 @@ namespace UIShell {
                !index.parent().parent().isValid();
     }
 
-    bool PackageListProxyModel::isInferenceOrInferenceRootIndex(const QModelIndex &index) const {
+    bool PackageListProxyModel::isOtherContributionOrRootIndex(const QModelIndex &index) const {
         if (!index.isValid() || index.model() != this) {
             return false;
         }
 
-        if (isInferenceIndex(index)) {
+        if (isOtherContributionIndex(index)) {
             return true;
         }
 
-        return index.row() == USDef::PI_Inferences &&
+        return index.row() == USDef::PI_OtherContributions &&
                index.parent().isValid() &&
                !index.parent().parent().isValid();
     }
@@ -151,28 +147,6 @@ namespace UIShell {
         return -1;
     }
 
-    QModelIndex PackageListProxyModel::findInferenceIndex(const QString &id, const QString &version, const QString &inferenceId) const {
-        const int packageRow = findPackageIndex(id, version);
-        if (packageRow < 0) {
-            return {};
-        }
-
-        const auto packageIndex = index(packageRow, 0);
-        const auto inferencesIndex = index(USDef::PI_Inferences, 0, packageIndex);
-        if (!inferencesIndex.isValid()) {
-            return {};
-        }
-
-        for (int i = 0; i < rowCount(inferencesIndex); ++i) {
-            const auto inferenceIndex = index(i, 0, inferencesIndex);
-            if (data(inferenceIndex, USDef::PR_IdRole).toString() == inferenceId) {
-                return inferenceIndex;
-            }
-        }
-
-        return {};
-    }
-
     int PackageListProxyModel::packageIndexForIndex(const QModelIndex &index) const {
         if (!index.isValid() || index.model() != this) {
             return -1;
@@ -198,14 +172,14 @@ namespace UIShell {
                !parentIndex.parent().parent().isValid();
     }
 
-    bool PackageListProxyModel::isInferenceIndex(const QModelIndex &index) const {
+    bool PackageListProxyModel::isOtherContributionIndex(const QModelIndex &index) const {
         if (!index.isValid() || index.model() != this) {
             return false;
         }
 
         const auto parentIndex = index.parent();
         return parentIndex.isValid() &&
-               parentIndex.row() == USDef::PI_Inferences &&
+               parentIndex.row() == USDef::PI_OtherContributions &&
                parentIndex.parent().isValid() &&
                !parentIndex.parent().parent().isValid();
     }

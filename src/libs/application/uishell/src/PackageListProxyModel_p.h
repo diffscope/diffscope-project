@@ -31,23 +31,20 @@ namespace UIShell {
         Q_INVOKABLE QModelIndex packageModelIndexForIndex(const QModelIndex &index) const;
         Q_INVOKABLE QModelIndex dependencyRootIndexForIndex(const QModelIndex &index) const;
         Q_INVOKABLE QModelIndex singerRootIndexForIndex(const QModelIndex &index) const;
-        Q_INVOKABLE QModelIndex inferenceRootIndexForIndex(const QModelIndex &index) const;
-        Q_INVOKABLE QModelIndex importRootIndexForSingerIndex(const QModelIndex &index) const;
-        Q_INVOKABLE QModelIndex demoAudioRootIndexForSingerIndex(const QModelIndex &index) const;
+        Q_INVOKABLE QModelIndex otherContributionRootIndexForIndex(const QModelIndex &index) const;
 
         Q_INVOKABLE bool isSingerOrSingerRootIndex(const QModelIndex &index) const;
-        Q_INVOKABLE bool isInferenceOrInferenceRootIndex(const QModelIndex &index) const;
+        Q_INVOKABLE bool isOtherContributionOrRootIndex(const QModelIndex &index) const;
         Q_INVOKABLE bool isPackageIndex(const QModelIndex &index) const;
         Q_INVOKABLE bool isDependencyRootIndex(const QModelIndex &index) const;
 
         Q_INVOKABLE int findPackageIndex(const QString &id, const QString &version) const;
-        Q_INVOKABLE QModelIndex findInferenceIndex(const QString &id, const QString &version, const QString &inferenceId) const;
 
         Q_INVOKABLE int packageIndexForIndex(const QModelIndex &index) const;
 
     private:
         bool isSingerIndex(const QModelIndex &index) const;
-        bool isInferenceIndex(const QModelIndex &index) const;
+        bool isOtherContributionIndex(const QModelIndex &index) const;
     };
 
 }
