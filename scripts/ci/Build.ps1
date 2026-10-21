@@ -20,6 +20,8 @@ param(
 
     [string]$DsspDirectory,
 
+    [string]$DspmExecutable,
+
     [string]$VersionIdentifier = "0",
 
     [ValidateSet("Windows", "macOS", "Linux")]
@@ -37,6 +39,13 @@ if (-not (Test-Path $VcpkgRootDir)) {
 
 if ($DsspDirectory) {
     $DsspDirectory = (Resolve-Path -LiteralPath $DsspDirectory -ErrorAction Stop).Path
+}
+
+if ($DspmExecutable) {
+    $DspmExecutable = (Resolve-Path -LiteralPath $DspmExecutable -ErrorAction Stop).Path
+    if (-not (Test-Path -LiteralPath $DspmExecutable -PathType Leaf)) {
+        throw "The dspm executable does not exist: $DspmExecutable"
+    }
 }
 
 New-Item $BuildDir -ItemType Directory -Force | Out-Null
@@ -183,6 +192,30 @@ if ($DsspDirectory) {
         & /bin/cp -a "$DsspDirectory/." $dsspDestination
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to copy the dssp installation"
+        }
+    }
+}
+
+if ($DspmExecutable) {
+    $packageManagerPluginRelativePath = switch ($ArtifactPlatform) {
+        "Windows" { "lib/$applicationName/plugins/packagemanager" }
+        "macOS" { "$applicationName.app/Contents/Plugins/packagemanager" }
+        "Linux" { "lib/$applicationName/plugins/packagemanager" }
+    }
+    $packageManagerPluginDirectory = Join-Path $InstallDir $packageManagerPluginRelativePath
+    if (-not (Test-Path -LiteralPath $packageManagerPluginDirectory -PathType Container)) {
+        throw "Installed package manager plugin directory does not exist: $packageManagerPluginDirectory"
+    }
+    $dspmDestinationDirectory = Join-Path $packageManagerPluginDirectory "dspm"
+    $dspmExecutableName = $ArtifactPlatform -eq "Windows" ? "dspm.exe" : "dspm"
+    $dspmDestination = Join-Path $dspmDestinationDirectory $dspmExecutableName
+    Write-Host "Bundling dspm: $DspmExecutable -> $dspmDestination"
+    New-Item -ItemType Directory -Path $dspmDestinationDirectory -Force -ErrorAction Stop | Out-Null
+    Copy-Item -LiteralPath $DspmExecutable -Destination $dspmDestination -Force -ErrorAction Stop
+    if (-not $IsWindows) {
+        & /bin/chmod 755 $dspmDestination
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to set executable permissions for dspm"
         }
     }
 }

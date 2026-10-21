@@ -83,6 +83,8 @@ jobs:
       INNOSETUP_REF: is-6_5_4
       DSSP_CHANNEL: nightly
       DSSP_VERSION: 0.1.0-nightly.20261021.2
+      DSPM_CHANNEL: nightly
+      DSPM_VERSION: 0.1.0-nightly.20261021.1
       MACOSX_DEPLOYMENT_TARGET: '13.3'
       BUILD_DIR: ${{ github.workspace }}/build/build
       INSTALL_DIR: ${{ github.workspace }}/build/install
@@ -106,7 +108,19 @@ jobs:
           qt_version: ${{ env.QT_VERSION }}
           use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
 
-      # TODO: Install dspm from its product catalog.
+      - name: Download dspm
+        id: download_dspm
+        uses: diffscope/catalogs/actions/download-product@main
+        with:
+          product: dspm
+          channel: ${{ env.DSPM_CHANNEL }}
+          version: ${{ env.DSPM_VERSION }}
+          platform: ${{ matrix.platform }}
+          arch: ${{ matrix.arch }}
+          variant: standalone
+          directory: ${{ runner.temp }}/dspm-download
+          fail-on-no-match: 'true'
+          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
 
       - name: Download dssp
         id: download_dssp
@@ -161,6 +175,8 @@ jobs:
             ${{ runner.os }}-ccache-
 
       - name: Build
+        env:
+          DSPM_EXECUTABLE: ${{ steps.download_dspm.outputs.path }}
         run: |
           $expectedRunnerArch = $env:ARTIFACT_ARCH -eq 'amd64' ? 'X64' : 'ARM64'
           if ($env:RUNNER_ARCH -ne $expectedRunnerArch) {
@@ -173,6 +189,7 @@ jobs:
             -InstallDir $env:INSTALL_DIR `
             -VersionIdentifier $env:VERSION_IDENTIFIER `
             -DsspDirectory $env:DSSP_DIRECTORY `
+            -DspmExecutable $env:DSPM_EXECUTABLE `
             -ArtifactPlatform $env:ARTIFACT_PLATFORM `
             -ArtifactArchitecture $env:ARTIFACT_ARCH `
             -CCache:($env:USE_CCACHE -eq 'true')
