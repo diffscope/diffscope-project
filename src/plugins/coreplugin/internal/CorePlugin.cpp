@@ -53,6 +53,7 @@
 #include <coreplugin/internal/ColorSchemePage.h>
 #include <coreplugin/internal/EditActionsAddOn.h>
 #include <coreplugin/internal/FileBackupPage.h>
+#include <coreplugin/internal/FileDropAddOn.h>
 #include <coreplugin/internal/FillLyricsAddOn.h>
 #include <coreplugin/internal/FindActionsAddOn.h>
 #include <coreplugin/internal/GeneralPage.h>
@@ -297,6 +298,8 @@ namespace Core::Internal {
 
     void CorePlugin::initializeWindows() {
         HomeWindowInterfaceRegistry::instance()->attach<HomeAddOn>();
+        HomeWindowInterfaceRegistry::instance()->attach<FileDropAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<FileDropAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<WorkspaceAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ViewVisibilityAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<NotificationAddOn>();
