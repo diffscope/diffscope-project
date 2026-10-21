@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: GPL-3.0-only
 
+pragma ComponentBehavior: Bound
+
 import QtQml
 import QtQuick
 import QtQuick.Controls
@@ -23,7 +25,7 @@ ScrollView {
     contentWidth: availableWidth
 
     ColumnLayout {
-        width: page.width
+        width: page.availableWidth
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -60,7 +62,7 @@ ScrollView {
             }
 
             GroupBox {
-                title: qsTr("LibreSVIP command-line tool")
+                title: qsTr("LibreSVIP Command-Line Tool")
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
 
@@ -71,35 +73,90 @@ ScrollView {
                     RowLayout {
                         Layout.fillWidth: true
 
-                        TextField {
+                        Label {
+                            id: installationLabel
+                            text: qsTr("Installation")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+
+                        ComboBox {
+                            id: installationCombo
                             Layout.fillWidth: true
-                            readOnly: true
-                            text: page.pageHandle.executablePath
-                            placeholderText: qsTr("No LibreSVIP executable is configured")
-                            TextMatcherItem on placeholderText { matcher: page.matcher }
-                            selectByMouse: true
-                            rightPadding: 32
-                            ToolButton {
-                                anchors.right: parent.right
-                                anchors.rightMargin: 2
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Clear")
-                                icon.source: "image://fluent-system-icons/dismiss_circle"
-                                display: AbstractButton.IconOnly
-                                visible: page.pageHandle.executablePath.length > 0
-                                onClicked: page.pageHandle.clearExecutablePath()
+                            model: page.pageHandle.installations
+                            textRole: "name"
+                            valueRole: "id"
+                            currentValue: page.pageHandle.installationId
+                            Accessible.name: installationLabel.text
+                            onActivated: {
+                                if (!page.pageHandle.selectInstallation(currentValue))
+                                    currentIndex = indexOfValue(page.pageHandle.installationId)
+                            }
+                            delegate: ItemDelegate {
+                                id: installationDelegate
+                                required property int index
+                                required property var modelData
+                                width: installationCombo.width
+                                highlighted: installationCombo.highlightedIndex === index
+                                text: modelData.name
+                                Accessible.description: modelData.path
+                                contentItem: ColumnLayout {
+                                    spacing: 2
+                                    Label {
+                                        Layout.fillWidth: true
+                                        text: installationDelegate.modelData.name
+                                        textFormat: Text.PlainText
+                                        elide: Text.ElideRight
+                                    }
+                                    Label {
+                                        Layout.fillWidth: true
+                                        visible: text.length > 0
+                                        text: installationDelegate.modelData.path
+                                        textFormat: Text.PlainText
+                                        color: Theme.foregroundSecondaryColor
+                                        font.pixelSize: 11
+                                        elide: Text.ElideMiddle
+                                    }
+                                }
                             }
                         }
 
                         ToolButton {
-                            text: qsTr("Browse...")
-                            icon.source: "image://fluent-system-icons/folder_open"
+                            text: qsTr("Add Local Installation...")
+                            icon.source: "image://fluent-system-icons/add"
                             display: AbstractButton.IconOnly
+                            focusPolicy: Qt.StrongFocus
+                            Accessible.name: text
+                            ToolTip.visible: hovered
+                            ToolTip.text: text
                             onClicked: page.pageHandle.browse()
+                        }
+
+                        ToolButton {
+                            text: qsTr("Remove Local Installation from List")
+                            icon.source: "image://fluent-system-icons/subtract"
+                            display: AbstractButton.IconOnly
+                            focusPolicy: Qt.StrongFocus
+                            enabled: page.pageHandle.installationId.startsWith("local:")
+                            Accessible.name: text
+                            ToolTip.visible: hovered
+                            ToolTip.text: text
+                            onClicked: page.pageHandle.removeLocalInstallation()
                         }
                     }
 
-                    RowLayout {
+                    TextField {
+                        Layout.fillWidth: true
+                        readOnly: true
+                        selectByMouse: true
+                        text: page.pageHandle.executablePath
+                        placeholderText: qsTr("No LibreSVIP installation is selected")
+                        Accessible.name: qsTr("Executable path")
+                        TextMatcherItem on placeholderText { matcher: page.matcher }
+                    }
+
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: 8
                         Button {
                             text: qsTr("Download LibreSVIP...")
                             icon.source: "image://fluent-system-icons/arrow_download"
@@ -108,14 +165,12 @@ ScrollView {
                         }
 
                         Button {
-                            text: qsTr("Uninstall Downloaded LibreSVIP")
+                            text: qsTr("Uninstall Downloaded Version")
                             icon.source: "image://fluent-system-icons/delete"
                             TextMatcherItem on text { matcher: page.matcher }
-                            enabled: page.pageHandle.downloadedInstallationExists
-                            onClicked: page.pageHandle.removeDownloadedInstallation()
+                            enabled: page.pageHandle.selectedInstallationIsDownloaded
+                            onClicked: page.pageHandle.uninstallSelectedInstallation()
                         }
-
-                        Item { Layout.fillWidth: true }
                     }
 
                     CheckBox {

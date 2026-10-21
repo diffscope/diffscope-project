@@ -13,26 +13,10 @@ Window {
 
     property string text: ""
     property bool cancellable: true
-    property bool indeterminate: true
-    property bool showSizes: false
-    property real progress: 0
-    property double bytesReceived: 0
-    property double bytesTotal: -1
     property bool completed: false
     property var finalResult
 
     signal done(var result)
-
-    function formatBytes(value) {
-        const units = [qsTr("B"), qsTr("KiB"), qsTr("MiB"), qsTr("GiB"), qsTr("TiB")]
-        let size = Math.max(0, value)
-        let unit = 0
-        while (size >= 1024 && unit < units.length - 1) {
-            size /= 1024
-            ++unit
-        }
-        return Number(size.toFixed(unit === 0 ? 0 : 1)).toLocaleString(Qt.locale()) + " " + units[unit]
-    }
 
     function finish(result) {
         if (completed)
@@ -101,26 +85,7 @@ Window {
 
                 ProgressBar {
                     Layout.fillWidth: true
-                    indeterminate: dialog.indeterminate
-                    from: 0
-                    to: 1
-                    value: dialog.progress
-                }
-
-                RowLayout {
-                    visible: dialog.showSizes
-                    Layout.fillWidth: true
-
-                    Label {
-                        text: dialog.formatBytes(dialog.bytesReceived)
-                    }
-
-                    Item { Layout.fillWidth: true }
-
-                    Label {
-                        visible: dialog.bytesTotal > 0
-                        text: qsTr("%1% — %2").arg(Math.floor(dialog.progress * 100)).arg(dialog.formatBytes(dialog.bytesTotal))
-                    }
+                    indeterminate: true
                 }
             }
         }

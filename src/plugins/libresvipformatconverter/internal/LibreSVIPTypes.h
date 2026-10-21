@@ -8,6 +8,7 @@
 #include <QHash>
 #include <QJsonObject>
 #include <QList>
+#include <QMetaType>
 #include <QString>
 #include <QStringList>
 
@@ -74,5 +75,7 @@ namespace LibreSVIPFormatConverter::Internal {
     };
 
 }
+
+Q_DECLARE_METATYPE(LibreSVIPFormatConverter::Internal::LibreSVIPValidationResult)
 
 #endif // DIFFSCOPE_LIBRESVIP_FORMAT_CONVERTER_LIBRESVIPTYPES_H

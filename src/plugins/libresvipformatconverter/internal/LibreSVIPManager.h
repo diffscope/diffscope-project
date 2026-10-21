@@ -7,6 +7,9 @@
 #include <functional>
 
 #include <QObject>
+#include <QVariant>
+
+#include <appinstall/InstallationTypes.h>
 
 #include <libresvipformatconverter/internal/LibreSVIPTypes.h>
 
@@ -17,14 +20,15 @@ namespace Core {
     class NotificationMessage;
 }
 
-namespace LibreSVIPFormatConverter::Internal {
+namespace AppInstall {
+    class InstallationManager;
+}
 
-    class LibreSVIPDownloadCatalog;
+namespace LibreSVIPFormatConverter::Internal {
 
     class LibreSVIPManager : public QObject {
         Q_OBJECT
         Q_PROPERTY(QString executablePath READ executablePath NOTIFY configurationChanged)
-        Q_PROPERTY(bool downloadedInstallationExists READ downloadedInstallationExists NOTIFY configurationChanged)
         Q_PROPERTY(bool autoCheckForUpdates READ autoCheckForUpdates WRITE setAutoCheckForUpdates
                        NOTIFY autoCheckForUpdatesChanged)
     public:
@@ -40,7 +44,11 @@ namespace LibreSVIPFormatConverter::Internal {
         QString executablePath() const;
         const LibreSVIPPluginCatalog &catalog() const;
         bool hasCurrentCatalog() const;
-        bool downloadedInstallationExists() const;
+        bool selectedInstallationIsDownloaded() const;
+        QVariantList installations() const;
+        QString installationId() const;
+        bool selectInstallation(const QString &id, QWindow *parent);
+        bool removeLocalInstallation();
         bool autoCheckForUpdates() const;
         void setAutoCheckForUpdates(bool enabled);
 
@@ -48,14 +56,14 @@ namespace LibreSVIPFormatConverter::Internal {
         void checkForUpdates();
         bool browseAndConfigure(QWindow *parent, bool notifyRetry = false);
         bool downloadAndConfigure(QWindow *parent, bool notifyRetry = false);
-        bool clearExecutablePath(QWindow *parent);
-        bool removeDownloadedInstallation(QWindow *parent);
+        bool uninstallSelectedInstallation(QWindow *parent);
 
         LibreSVIPConversionResult convert(const LibreSVIPConversionRequestData &request, QWindow *parent);
 
     Q_SIGNALS:
         void configurationChanged();
         void catalogChanged();
+        void installationsChanged();
         void autoCheckForUpdatesChanged(bool enabled);
 
     private:
@@ -63,14 +71,12 @@ namespace LibreSVIPFormatConverter::Internal {
         LibreSVIPValidationResult validateExecutableInternal(const QString &path,
                                                               const std::function<bool()> &isCancelled = {});
         bool cacheIsCurrent() const;
-        bool saveConfiguration(const QString &path, const LibreSVIPValidationResult &result);
+        bool saveConfiguration(const AppInstall::InstallationSelection &selection, const LibreSVIPValidationResult &result);
         void clearConfiguration();
         void loadConfiguration();
 
         QString pickExecutable(QWindow *parent) const;
-        QString downloadedRoot() const;
-        QString downloadedExecutable() const;
-        QString downloadedVersion() const;
+        QString selectedInstallationVersion() const;
         QWindow *defaultParentWindow() const;
 
         void stopProcess(bool force = false);
@@ -87,7 +93,8 @@ namespace LibreSVIPFormatConverter::Internal {
         bool m_autoCheckForUpdates{true};
         bool m_busy{};
         QProcess *m_process{};
-        LibreSVIPDownloadCatalog *m_updateCatalog{};
+        AppInstall::InstallationManager *m_installations{};
+        bool m_updateCheckPending{};
         Core::NotificationMessage *m_updateNotification{};
     };
 

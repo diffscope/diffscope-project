@@ -18,10 +18,8 @@ namespace LibreSVIPFormatConverter::Internal {
         setTitle(tr("LibreSVIP Format Conversion"));
         setDescription(tr("Manage the LibreSVIP command-line tool"));
         auto manager = LibreSVIPManager::instance();
-        connect(manager, &LibreSVIPManager::configurationChanged, this, [this] {
-            Q_EMIT executablePathChanged();
-            Q_EMIT downloadedInstallationExistsChanged();
-        });
+        connect(manager, &LibreSVIPManager::configurationChanged, this, &LibreSVIPSettingsPage::executablePathChanged);
+        connect(manager, &LibreSVIPManager::installationsChanged, this, &LibreSVIPSettingsPage::installationsChanged);
         connect(manager, &LibreSVIPManager::autoCheckForUpdatesChanged, this, [this](bool enabled) {
             if (m_widget)
                 m_widget->setProperty("autoCheckForUpdates", enabled);
@@ -36,8 +34,16 @@ namespace LibreSVIPFormatConverter::Internal {
         return LibreSVIPManager::instance()->executablePath();
     }
 
-    bool LibreSVIPSettingsPage::downloadedInstallationExists() const {
-        return LibreSVIPManager::instance()->downloadedInstallationExists();
+    QVariantList LibreSVIPSettingsPage::installations() const {
+        return LibreSVIPManager::instance()->installations();
+    }
+
+    QString LibreSVIPSettingsPage::installationId() const {
+        return LibreSVIPManager::instance()->installationId();
+    }
+
+    bool LibreSVIPSettingsPage::selectedInstallationIsDownloaded() const {
+        return LibreSVIPManager::instance()->selectedInstallationIsDownloaded();
     }
 
     QUrl LibreSVIPSettingsPage::homepageUrl() const {
@@ -92,12 +98,16 @@ namespace LibreSVIPFormatConverter::Internal {
         LibreSVIPManager::instance()->downloadAndConfigure(pageWindow());
     }
 
-    void LibreSVIPSettingsPage::clearExecutablePath() {
-        LibreSVIPManager::instance()->clearExecutablePath(pageWindow());
+    bool LibreSVIPSettingsPage::selectInstallation(const QString &id) {
+        return LibreSVIPManager::instance()->selectInstallation(id, pageWindow());
     }
 
-    void LibreSVIPSettingsPage::removeDownloadedInstallation() {
-        LibreSVIPManager::instance()->removeDownloadedInstallation(pageWindow());
+    void LibreSVIPSettingsPage::removeLocalInstallation() {
+        LibreSVIPManager::instance()->removeLocalInstallation();
+    }
+
+    void LibreSVIPSettingsPage::uninstallSelectedInstallation() {
+        LibreSVIPManager::instance()->uninstallSelectedInstallation(pageWindow());
     }
 
     bool LibreSVIPSettingsPage::widgetMatches(const QString &word) {

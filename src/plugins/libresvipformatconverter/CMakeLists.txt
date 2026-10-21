@@ -8,11 +8,10 @@ project(libresvipformatconverter
 
 set(DIFFSCOPE_LIBRESVIP_HOMEPAGE_URL "https://soulmelody.github.io/LibreSVIP/" CACHE STRING
     "Homepage URL of LibreSVIP")
-set(DIFFSCOPE_LIBRESVIP_RELEASE_INDEX_URL "https://catalogs.diffscope.org/v1/libresvip-cli/index.json" CACHE STRING
-    "URL of the LibreSVIP release index")
+set(DIFFSCOPE_LIBRESVIP_CATALOG_BASE_URL "https://catalogs.diffscope.org/v1/libresvip-cli/" CACHE STRING
+    "Base directory URL of the LibreSVIP release catalog")
 
 qm_find_qt(Network Protobuf Grpc)
-find_package(LibArchive REQUIRED)
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.libresvipformatconverter
@@ -33,14 +32,13 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         uishell
+        appinstall
         coreplugin
         importexportmanager
         opendspx::model
         opendspx::serializer
         svscraft::Core
         svscraft::Quick
-        svscraft::Network
-        LibArchive::LibArchive
     INCLUDE_PRIVATE
         internal/**
 )
@@ -62,6 +60,6 @@ qt_add_resources(${PROJECT_NAME} libresvipformatconverter_resources
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    DIFFSCOPE_LIBRESVIP_RELEASE_INDEX_URL="${DIFFSCOPE_LIBRESVIP_RELEASE_INDEX_URL}"
+    DIFFSCOPE_LIBRESVIP_CATALOG_BASE_URL="${DIFFSCOPE_LIBRESVIP_CATALOG_BASE_URL}"
     DIFFSCOPE_LIBRESVIP_HOMEPAGE_URL="${DIFFSCOPE_LIBRESVIP_HOMEPAGE_URL}"
 )
