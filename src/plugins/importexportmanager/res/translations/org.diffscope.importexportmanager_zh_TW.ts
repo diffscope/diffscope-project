@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="460"/>
         <source>Main Menu</source>
-        <translation type="unfinished">Main Menu</translation>
+        <translation type="obsolete">Main Menu</translation>
     </message>
 </context>
 <context>
@@ -25,37 +24,53 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="472"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="473"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="643"/>
         <source>File</source>
         <translation type="unfinished">File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="474"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="644"/>
         <source>Project</source>
         <translation type="unfinished">Project</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="475"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="476"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="645"/>
         <source>Edit</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="477"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="646"/>
         <source>Panel</source>
         <translation type="unfinished">Panel</translation>
     </message>
 </context>
 <context>
+    <name>Application::ActionDescription</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="649"/>
+        <source>Choose a file format to import as a new project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="650"/>
+        <source>Choose a file format for exporting the current project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="651"/>
+        <source>Choose a file format to add tracks to the current project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="461"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="628"/>
         <source>&amp;Import</source>
         <translation type="unfinished">&amp;Import</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="462"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="629"/>
         <source>&amp;Export</source>
         <translation type="unfinished">&amp;Export</translation>
     </message>
@@ -64,48 +79,63 @@
         <translation type="obsolete">Import as Tracks...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="463"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="627"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">Main Menu</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="630"/>
         <source>Import Tracks from File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="464"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="631"/>
         <source>Copy Special...</source>
         <translation type="unfinished">Copy Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="465"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="632"/>
         <source>Paste Special...</source>
         <translation type="unfinished">Paste Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="466"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="633"/>
         <source>Import</source>
         <translation type="unfinished">Import</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="467"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="635"/>
         <source>Import Export Actions</source>
         <translation type="unfinished">Import Export Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="468"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="636"/>
         <source>Import Actions</source>
         <translation type="unfinished">Import Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="469"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="637"/>
         <source>Import Tracks Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.importexportmanager_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="638"/>
+        <source>Workspace Panel Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="634"/>
         <source>Show Import</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>
+    <message>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="60"/>
+        <source>Map DS Editor Lite DiffSinger parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
         <source>DSPX</source>
@@ -142,12 +172,12 @@
         <translation type="unfinished">Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="60"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="63"/>
         <source>Compress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="67"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="70"/>
         <source>Export</source>
         <translation type="unfinished">Export</translation>
     </message>
@@ -155,37 +185,42 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileImporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="33"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="68"/>
+        <source>Map DS Editor Lite DiffSinger parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
         <source>DSPX</source>
         <translation type="unfinished">DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="34"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="33"/>
         <source>Import DSPX file compatible with DiffScope</source>
         <translation type="unfinished">Import DSPX file compatible with DiffScope</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="35"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="34"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation type="unfinished">DiffScope Project Exchange Format (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="61"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
         <source>Import DSPX</source>
         <translation type="unfinished">Import DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="63"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="62"/>
         <source>Keep Workspace data</source>
         <translation type="unfinished">Keep Workspace data</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="66"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="65"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation type="unfinished">Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="72"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="74"/>
         <source>Import</source>
         <translation type="unfinished">Import</translation>
     </message>
@@ -193,27 +228,27 @@
 <context>
     <name>ImportExportManager::Internal::FileImportExportAddOn</name>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="162"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="171"/>
         <source>Replace tempo and time signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="163"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="172"/>
         <source>Do you want to replace the current tempo and time signature with those from the imported file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="166"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="175"/>
         <source>Importing tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="198"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="207"/>
         <source>Import File</source>
         <translation type="unfinished">Import File</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="226"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="235"/>
         <source>Export File</source>
         <translation type="unfinished">Export File</translation>
     </message>
@@ -221,7 +256,7 @@
 <context>
     <name>ImportPanel</name>
     <message>
-        <location filename="../../qml/panels/ImportPanel.qml" line="33"/>
+        <location filename="../../qml/panels/ImportPanel.qml" line="34"/>
         <source>Select a format to import</source>
         <translation type="unfinished">Select a format to import</translation>
     </message>

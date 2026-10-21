@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="631"/>
         <source>Main Menu</source>
-        <translation type="unfinished">Main Menu</translation>
+        <translation type="obsolete">Main Menu</translation>
     </message>
 </context>
 <context>
@@ -25,117 +24,145 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="648"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="649"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="650"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="651"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="652"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="653"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="654"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="979"/>
         <source>Playback</source>
         <translation type="unfinished">Playback</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="655"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="980"/>
         <source>Insert</source>
         <translation type="unfinished">Insert</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="656"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="981"/>
         <source>Edit</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="657"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="982"/>
         <source>Export</source>
         <translation type="unfinished">Export</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="658"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="983"/>
         <source>Panel</source>
         <translation type="unfinished">Panel</translation>
     </message>
 </context>
 <context>
-    <name>Application::ActionText</name>
+    <name>Application::ActionDescription</name>
     <message>
-        <source>Main Menu</source>
-        <translation type="vanished">Main Menu</translation>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="986"/>
+        <source>Start playback, or pause or stop it according to playback settings.</source>
+        <translation type="unfinished">Start playback, or pause or stop it according to playback settings.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="632"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="987"/>
+        <source>Choose an audio file and its position in the project.</source>
+        <translation type="unfinished">Choose an audio file and its position in the project.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="988"/>
+        <source>Choose a different audio file for the current audio clip.</source>
+        <translation type="unfinished">Choose a different audio file for the current audio clip.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="989"/>
+        <source>Render the project mix or separate tracks to audio files.</source>
+        <translation type="unfinished">Render the project mix or separate tracks to audio files.</translation>
+    </message>
+</context>
+<context>
+    <name>Application::ActionText</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="956"/>
+        <source>Main Menu</source>
+        <translation>Main Menu</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="958"/>
         <source>&amp;Play</source>
         <translation type="unfinished">&amp;Play</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="633"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="959"/>
         <source>P&amp;ause</source>
         <translation type="unfinished">P&amp;ause</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="634"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="960"/>
         <source>&amp;Stop</source>
         <translation type="unfinished">&amp;Stop</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="635"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="961"/>
         <source>Toggle Playback</source>
         <translation type="unfinished">Toggle Playback</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="636"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="962"/>
         <source>&amp;Metronome</source>
         <translation type="unfinished">&amp;Metronome</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="637"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="963"/>
         <source>Play Button</source>
         <translation type="unfinished">Play Button</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="638"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="964"/>
         <source>Pause Button</source>
         <translation type="unfinished">Pause Button</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="639"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="965"/>
         <source>Insert Audio Clip...</source>
         <translation type="unfinished">Insert Audio Clip...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="640"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="966"/>
         <source>Replace Audio Clip...</source>
         <translation type="unfinished">Replace Audio Clip...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="641"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="967"/>
         <source>Export Audio...</source>
         <translation type="unfinished">Export Audio...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="642"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="968"/>
         <source>Effects (Experimental)</source>
         <translation type="unfinished">Effects (Experimental)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="643"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="970"/>
         <source>Export Audio Actions</source>
         <translation type="unfinished">Export Audio Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="644"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="971"/>
         <source>Playback Actions</source>
         <translation type="unfinished">Playback Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="645"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="972"/>
         <source>Metronome Actions</source>
         <translation type="unfinished">Metronome Actions</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="973"/>
+        <source>Audio Processing Actions</source>
+        <translation type="unfinished">Audio Processing Actions</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="974"/>
+        <source>Workspace Panel Widgets</source>
+        <translation type="unfinished">Workspace Panel Widgets</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="969"/>
         <source>Show Effects</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Effects</translation>
     </message>
 </context>
 <context>
@@ -303,37 +330,37 @@
 <context>
     <name>Audio::Internal::AudioClipAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="152"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="155"/>
         <source>Open Audio File</source>
         <translation type="unfinished">Open Audio File</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="164"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="167"/>
         <source>Failed to open audio file</source>
         <translation type="unfinished">Failed to open audio file</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="165"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="168"/>
         <source>Unable to open &quot;%1&quot; as an audio file.</source>
         <translation type="unfinished">Unable to open &quot;%1&quot; as an audio file.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="276"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="279"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished">Inserting audio clip</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="320"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="323"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">Updating audio clip path</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="347"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="350"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">Updating audio clip digest</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="376"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="379"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">Replacing audio clip</translation>
     </message>
@@ -437,17 +464,17 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="57"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="56"/>
         <source>Initializing audio plugin...</source>
         <translation>Initializing audio plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="104"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="103"/>
         <source>Failed to initialize audio output system</source>
         <translation>Failed to initialize audio output system</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="105"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="104"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -632,48 +659,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="obsolete">Audio export completed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="248"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="281"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="255"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="288"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished">WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="249"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="256"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished">FLAC (*.flac)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="250"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="257"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished">Ogg Container (*.ogg *.opus)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="282"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="289"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished">Ogg Vorbis (*.ogg)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="419"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="428"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished">Audio exported to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="422"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="431"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished">Audio export completed, no files exported</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="425"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="434"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished">Audio exported to multiple files</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="446"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">Reveal in %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="251"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="258"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished">MP3 (*.mp3)</translation>
     </message>
@@ -917,35 +944,34 @@ To: %3</translation>
 <context>
     <name>Audio::Internal::WaveformSingerMetadata</name>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="23"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="27"/>
         <source>Waveform</source>
         <translation type="unfinished">Waveform</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="27"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="31"/>
         <source>Energy</source>
         <translation type="unfinished">Energy</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="49"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="46"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="47"/>
         <source> dB</source>
         <translation type="unfinished"> dB</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="53"/>
         <source>Tone shift</source>
-        <translation type="unfinished">Tone shift</translation>
+        <translation type="obsolete">Tone shift</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="63"/>
         <source>%Ln cent(s)</source>
-        <translation type="unfinished">
+        <translation type="obsolete">
             <numerusform>%Ln cent</numerusform>
             <numerusform>%Ln cents</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="72"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="56"/>
         <source>Waveform Synthesizer</source>
         <translation type="unfinished">Waveform Synthesizer</translation>
     </message>
@@ -989,38 +1015,38 @@ To: %3</translation>
 <context>
     <name>AudioExportDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="32"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="34"/>
         <source>Export Audio</source>
         <translation type="unfinished">Export Audio</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="107"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="109"/>
         <source>Save Preset As</source>
         <translation type="unfinished">Save Preset As</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="115"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="117"/>
         <source>Preset name</source>
         <translation type="unfinished">Preset name</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="126"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="128"/>
         <source>The preset with the same name will be overwritten.</source>
         <translation type="unfinished">The preset with the same name will be overwritten.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="135"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="137"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="154"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="660"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="156"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="663"/>
         <source>Dry Run</source>
         <translation type="unfinished">Dry Run</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="166"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="168"/>
         <source>%Ln %1 file(s)
 Duration: %2
 Estimated size of each file: %3</source>
@@ -1034,303 +1060,303 @@ Estimated size of each file: %3</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="182"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="184"/>
         <source>File List</source>
         <translation type="unfinished">File List</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="257"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="416"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="260"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="419"/>
         <source>WAV</source>
         <translation type="unfinished">WAV</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="417"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="420"/>
         <source>FLAC</source>
         <translation type="unfinished">FLAC</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="258"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="261"/>
         <source>Ogg Vorbis</source>
         <translation type="unfinished">Ogg Vorbis</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="419"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="422"/>
         <source>MP3</source>
         <translation type="unfinished">MP3</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="418"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="421"/>
         <source>Ogg Container</source>
         <translation type="unfinished">Ogg Container</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="200"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="202"/>
         <source>N/A</source>
         <translation type="unfinished">N/A</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="234"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="237"/>
         <source>Path</source>
         <translation type="unfinished">Path</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="245"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="339"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="248"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="342"/>
         <source>&amp;Browse...</source>
         <translation type="unfinished">&amp;Browse...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="251"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="404"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="254"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="407"/>
         <source>Format</source>
         <translation type="unfinished">Format</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="270"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="273"/>
         <source>Sample Rate</source>
         <translation type="unfinished">Sample Rate</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="276"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="277"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="279"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="280"/>
         <source>%L1 Hz</source>
         <translation type="unfinished">%L1 Hz</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="291"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="294"/>
         <source>Export using mono</source>
         <translation type="unfinished">Export using mono</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="298"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="301"/>
         <source>Separate tracks</source>
         <translation type="unfinished">Separate tracks</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="309"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="312"/>
         <source>Preset</source>
         <translation type="unfinished">Preset</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="322"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="325"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished">Save &amp;As...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="326"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="329"/>
         <source>&amp;Delete</source>
         <translation type="unfinished">&amp;Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="334"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="337"/>
         <source>File</source>
         <translation type="unfinished">File</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="348"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="351"/>
         <source>Name</source>
         <translation type="unfinished">Name</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="352"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="355"/>
         <source>Templates</source>
         <translation type="unfinished">Templates</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="357"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="360"/>
         <source>Project name</source>
         <translation type="unfinished">Project name</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="361"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="364"/>
         <source>Track name</source>
         <translation type="unfinished">Track name</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="366"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="369"/>
         <source>Track number</source>
         <translation type="unfinished">Track number</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="386"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="389"/>
         <source>Directory</source>
         <translation type="unfinished">Directory</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="388"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="391"/>
         <source>(Project directory)</source>
         <translation type="unfinished">(Project directory)</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="412"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="415"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="428"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="431"/>
         <source>Option</source>
         <translation type="unfinished">Option</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="442"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="445"/>
         <source>Channel</source>
         <translation type="unfinished">Channel</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="445"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="448"/>
         <source>Stereo</source>
         <translation type="unfinished">Stereo</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="446"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="449"/>
         <source>Mono</source>
         <translation type="unfinished">Mono</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="454"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="457"/>
         <source>Sample rate (Hz)</source>
         <translation type="unfinished">Sample rate (Hz)</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="475"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="478"/>
         <source>Quality (%)</source>
         <translation type="unfinished">Quality (%)</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="502"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="505"/>
         <source>Mixer</source>
         <translation type="unfinished">Mixer</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="511"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="514"/>
         <source>Mixing option</source>
         <translation type="unfinished">Mixing option</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="514"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="517"/>
         <source>Mixed</source>
         <translation type="unfinished">Mixed</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="515"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="518"/>
         <source>Separated</source>
         <translation type="unfinished">Separated</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="516"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="519"/>
         <source>Separated (through master track)</source>
         <translation type="unfinished">Separated (through master track)</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="524"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="527"/>
         <source>Source</source>
         <translation type="unfinished">Source</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="527"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="530"/>
         <source>All tracks</source>
         <translation type="unfinished">All tracks</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="528"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="531"/>
         <source>Selected tracks</source>
         <translation type="unfinished">Selected tracks</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="529"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="613"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="532"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="616"/>
         <source>Custom</source>
         <translation type="unfinished">Custom</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="537"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="540"/>
         <source>Mute/Solo</source>
         <translation type="unfinished">Mute/Solo</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="540"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="552"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="543"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="555"/>
         <source>Enable</source>
         <translation type="unfinished">Enable</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="541"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="553"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="544"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="556"/>
         <source>Bypass</source>
         <translation type="unfinished">Bypass</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="549"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="552"/>
         <source>Effects</source>
         <translation type="unfinished">Effects</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="578"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="581"/>
         <source>%L1: %2</source>
         <translation type="unfinished">%L1: %2</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="598"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="601"/>
         <source>Time Range</source>
         <translation type="unfinished">Time Range</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="603"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="606"/>
         <source>Whole project</source>
         <translation type="unfinished">Whole project</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="608"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="611"/>
         <source>Loop section</source>
         <translation type="unfinished">Loop section</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="654"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="657"/>
         <source>Action</source>
         <translation type="unfinished">Action</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="665"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="668"/>
         <source>Keep this dialog open after successful export</source>
         <translation type="unfinished">Keep this dialog open after successful export</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="689"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="693"/>
         <source>Simple Mode</source>
         <translation type="unfinished">Simple Mode</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="689"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="693"/>
         <source>Advanced Mode</source>
         <translation type="unfinished">Advanced Mode</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="700"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="704"/>
         <source>Warnings</source>
         <translation type="unfinished">Warnings</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="707"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
         <source>Export</source>
         <translation type="unfinished">Export</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="715"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="715"/>
         <source>Continue to export?</source>
         <translation type="unfinished">Continue to export?</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="722"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="726"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
@@ -1338,22 +1364,22 @@ Estimated size of each file: %3</numerusform>
 <context>
     <name>AudioExportProgressDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="33"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="35"/>
         <source>Export Audio</source>
         <translation type="unfinished">Export Audio</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="52"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="54"/>
         <source>Preparing...</source>
         <translation type="unfinished">Preparing...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="56"/>
         <source>Exporting...</source>
         <translation type="unfinished">Exporting...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="56"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="58"/>
         <source>Export finished with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>Export finished with %Ln warning</numerusform>
@@ -1361,7 +1387,7 @@ Estimated size of each file: %3</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="58"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="60"/>
         <source>Export aborted with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>Export aborted with %Ln warning</numerusform>
@@ -1369,7 +1395,7 @@ Estimated size of each file: %3</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="60"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="62"/>
         <source>Export failed with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>Export failed with %Ln warning</numerusform>
@@ -1377,47 +1403,47 @@ Estimated size of each file: %3</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="62"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="64"/>
         <source>Export aborted</source>
         <translation type="unfinished">Export aborted</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="64"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="66"/>
         <source>Export failed</source>
         <translation type="unfinished">Export failed</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="72"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="74"/>
         <source>Close</source>
         <translation type="unfinished">Close</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="74"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="76"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="116"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="118"/>
         <source>Clipping is detected in track %L1 &quot;%2&quot;</source>
         <translation type="unfinished">Clipping is detected in track %L1 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="118"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="120"/>
         <source>Clipping is detected in track %L1</source>
         <translation type="unfinished">Clipping is detected in track %L1</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="121"/>
         <source>Clipping is detected</source>
         <translation type="unfinished">Clipping is detected</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="121"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="123"/>
         <source>Unknown error.</source>
         <translation type="unfinished">Unknown error.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="204"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="208"/>
         <source>Keep partial files</source>
         <translation type="unfinished">Keep partial files</translation>
     </message>
@@ -1480,7 +1506,7 @@ Estimated size of each file: %3</numerusform>
         <translation type="unfinished">Device gain (dB)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="173"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="150"/>
         <source>Device pan (%)</source>
         <translation type="unfinished">Device pan (%)</translation>
     </message>
@@ -1493,27 +1519,27 @@ Estimated size of each file: %3</numerusform>
         <translation type="vanished">Device pan</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="196"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="174"/>
         <source>Hot Plug</source>
         <translation>Hot Plug</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="202"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="180"/>
         <source>When device change detected</source>
         <translation>When device change detected</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="208"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="186"/>
         <source>Always show notification</source>
         <translation>Always show notification</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="209"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="187"/>
         <source>Show notification only when the current device is removed</source>
         <translation>Show notification only when the current device is removed</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="210"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="188"/>
         <source>Do not show notification</source>
         <translation>Do not show notification</translation>
     </message>
@@ -1522,6 +1548,7 @@ Estimated size of each file: %3</numerusform>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="957"/>
         <source>Audio Output</source>
         <translation>Audio Output</translation>
     </message>
@@ -1643,64 +1670,64 @@ Estimated size of each file: %3</numerusform>
 <context>
     <name>EffectsPanel</name>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="27"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="47"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="28"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="48"/>
         <source>Add Effect</source>
         <translation type="unfinished">Add Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="54"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="163"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="55"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="164"/>
         <source>Effect Presets</source>
         <translation type="unfinished">Effect Presets</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="86"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="87"/>
         <source>Track</source>
         <translation type="unfinished">Track</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="92"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="93"/>
         <source>Master</source>
         <translation type="unfinished">Master</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="199"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
         <source>Collapse Effect</source>
         <translation type="unfinished">Collapse Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="199"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
         <source>Expand Effect</source>
         <translation type="unfinished">Expand Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="208"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Disable Effect</source>
         <translation type="unfinished">Disable Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="208"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Enable Effect</source>
         <translation type="unfinished">Enable Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="222"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="223"/>
         <source>Move Effect Up</source>
         <translation type="unfinished">Move Effect Up</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="229"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="230"/>
         <source>Move Effect Down</source>
         <translation type="unfinished">Move Effect Down</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="236"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="237"/>
         <source>Reset Effect</source>
         <translation type="unfinished">Reset Effect</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="243"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="244"/>
         <source>Delete Effect</source>
         <translation type="unfinished">Delete Effect</translation>
     </message>
@@ -1898,7 +1925,7 @@ Estimated size of each file: %3</numerusform>
         <translation type="unfinished">Metronome gain (dB)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="154"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="132"/>
         <source>Metronome pan (%)</source>
         <translation type="unfinished">Metronome pan (%)</translation>
     </message>

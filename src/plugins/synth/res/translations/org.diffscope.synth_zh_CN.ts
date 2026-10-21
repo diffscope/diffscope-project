@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="260"/>
         <source>Main Menu</source>
-        <translation type="unfinished">主菜单</translation>
+        <translation type="obsolete">主菜单</translation>
     </message>
 </context>
 <context>
@@ -25,98 +24,140 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="267"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="924"/>
+        <source>Extract</source>
+        <translation type="unfinished">提取</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="925"/>
         <source>Panel</source>
         <translation type="unfinished">面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="268"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="269"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="923"/>
         <source>Synth</source>
         <translation type="unfinished">合成</translation>
     </message>
 </context>
 <context>
+    <name>Application::ActionDescription</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="928"/>
+        <source>Control the local DiffSinger Synthesis Program service.</source>
+        <translation type="unfinished">控制本地 DiffSinger 合成程序 服务。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="929"/>
+        <source>Choose an extraction task for the current audio clip.</source>
+        <translation type="unfinished">为当前音频剪辑选择提取任务。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="930"/>
+        <source>Create an editable singing clip from the current audio clip.</source>
+        <translation type="unfinished">从当前音频剪辑创建可编辑的歌声剪辑。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="931"/>
+        <source>Split the current audio clip into separate audio tracks.</source>
+        <translation type="unfinished">将当前音频剪辑分离为独立的音频轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="932"/>
+        <source>Choose which synthesis stages to rerun for the selected clips or notes.</source>
+        <translation type="unfinished">选择对选中剪辑或音符重新执行的合成阶段。</translation>
+    </message>
+</context>
+<context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="43"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="912"/>
         <source>Synthesis Services</source>
         <translation type="unfinished">合成服务</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="53"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="914"/>
         <source>Synthesis Status</source>
         <translation type="unfinished">合成状态</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="60"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="915"/>
         <source>&amp;Resynthesize...</source>
         <translation type="unfinished">重新合成(&amp;R)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="264"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="917"/>
         <source>Synthesis Actions</source>
         <translation type="unfinished">合成操作</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="40"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="909"/>
         <source>Audio Extraction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频提取</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="41"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="900"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">主菜单</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="910"/>
         <source>Extract Notes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提取音符...</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="42"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="911"/>
         <source>Separate Audio...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">分离音频...</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="52"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="913"/>
         <source>Show Synthesis Services</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示合成服务</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="918"/>
+        <source>Workspace Panel Widgets</source>
+        <translation type="unfinished">工作区面板小部件</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="902"/>
         <source>DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="32"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="908"/>
         <source>DiffSinger Synthesis Program Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DiffSinger 合成程序 状态</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="30"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="906"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新启动</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="28"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="904"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启动</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="29"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="905"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">停止</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="21"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="903"/>
         <source>DiffSinger Synthesis Program Status Menu Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DiffSinger 合成程序 状态菜单项</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="31"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="907"/>
         <source>Settings...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">设置...</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.synth_actions.xml" line="67"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="916"/>
         <source>Synthesis Status Indicators</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">合成状态指示器</translation>
     </message>
 </context>
 <context>
@@ -124,12 +165,12 @@
     <message>
         <location filename="../../qml/settings/ArchitecturePage.qml" line="45"/>
         <source>Select Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择控制面板</translation>
     </message>
     <message>
         <location filename="../../qml/settings/ArchitecturePage.qml" line="47"/>
         <source>QML files (*.qml)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QML 文件 (*.qml)</translation>
     </message>
     <message>
         <location filename="../../qml/settings/ArchitecturePage.qml" line="114"/>
@@ -147,46 +188,452 @@
         <translation type="unfinished">添加架构配置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="154"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="151"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="231"/>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="238"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="225"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="232"/>
         <source>Architecture ID</source>
         <translation type="unfinished">架构 ID</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="243"/>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="254"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="237"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="248"/>
         <source>Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">控制面板</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="253"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="247"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="253"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="247"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="257"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="251"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">浏览...</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="264"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="260"/>
         <source>Remove Control Panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">移除控制面板</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ArchitecturePage.qml" line="292"/>
+        <location filename="../../qml/settings/ArchitecturePage.qml" line="285"/>
         <source>Select an architecture configuration to edit.</source>
         <translation type="unfinished">选择要编辑的架构配置。</translation>
+    </message>
+</context>
+<context>
+    <name>AudioExtractionDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <source>Separate Audio</source>
+        <translation type="unfinished">分离音频</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <source>Extract Notes</source>
+        <translation type="unfinished">提取音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="37"/>
+        <source>Start</source>
+        <translation type="unfinished">开始</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="44"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="63"/>
+        <source>Extractor</source>
+        <translation type="unfinished">提取器</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="77"/>
+        <source>Refresh</source>
+        <translation type="unfinished">刷新</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="92"/>
+        <source>Track layout: </source>
+        <translation type="unfinished">轨道布局： </translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="100"/>
+        <source>Output directory</source>
+        <translation type="unfinished">输出目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="115"/>
+        <source>Browse...</source>
+        <translation type="unfinished">浏览...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="130"/>
+        <source>Extracting audio…</source>
+        <translation type="unfinished">正在提取音频…</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="130"/>
+        <source>Updating extractors…</source>
+        <translation type="unfinished">正在更新提取器…</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="138"/>
+        <source>Extraction status</source>
+        <translation type="unfinished">提取状态</translation>
+    </message>
+</context>
+<context>
+    <name>DiffSingerArchitectureControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="78"/>
+        <source>Synthesis Options</source>
+        <translation type="unfinished">合成选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="88"/>
+        <source>Pitch steps</source>
+        <translation type="unfinished">音高步数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="103"/>
+        <source>Variance steps</source>
+        <translation type="unfinished">唱法步数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="118"/>
+        <source>Acoustic steps</source>
+        <translation type="unfinished">声学步数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="133"/>
+        <source>Depth</source>
+        <translation type="unfinished">深度</translation>
+    </message>
+</context>
+<context>
+    <name>DiffSingerSingerControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="88"/>
+        <source>Speaker</source>
+        <translation type="unfinished">说话人</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
+        <source>Default Speaker</source>
+        <translation type="unfinished">默认说话人</translation>
+    </message>
+</context>
+<context>
+    <name>DsspServerActions</name>
+    <message>
+        <location filename="../../qml/actions/DsspServerActions.qml" line="81"/>
+        <source>Show DiffSinger Synthesis Program controls</source>
+        <translation type="unfinished">显示 DiffSinger 合成程序 控制项</translation>
+    </message>
+</context>
+<context>
+    <name>DsspServerPage</name>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="32"/>
+        <source>Add DiffSinger Synthesis Program Installation</source>
+        <translation type="unfinished">添加 DiffSinger 合成程序 安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="119"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished">添加本地安装...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="350"/>
+        <source>Additional Command-Line Arguments</source>
+        <translation type="unfinished">附加命令行参数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="174"/>
+        <source>Automatically start DiffSinger Synthesis Program</source>
+        <translation type="unfinished">自动启动 DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="234"/>
+        <source>Browse for Package Directory...</source>
+        <translation type="unfinished">浏览包目录...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="228"/>
+        <source>Default package directory</source>
+        <translation type="unfinished">默认包目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="307"/>
+        <source>Device</source>
+        <translation type="unfinished">设备</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="63"/>
+        <source>DiffSinger Synthesis Program</source>
+        <translation type="unfinished">DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
+        <source>Download DiffSinger Synthesis Program...</source>
+        <translation type="unfinished">下载 DiffSinger 合成程序...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="34"/>
+        <source>Executable files (*)</source>
+        <translation type="unfinished">可执行文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="149"/>
+        <source>Executable path</source>
+        <translation type="unfinished">可执行文件路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="270"/>
+        <source>Execution Device</source>
+        <translation type="unfinished">执行设备</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="290"/>
+        <source>Execution provider</source>
+        <translation type="unfinished">执行提供程序</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="194"/>
+        <source>Host</source>
+        <translation type="unfinished">主机</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="76"/>
+        <source>Installation</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="246"/>
+        <source>Log level</source>
+        <translation type="unfinished">日志级别</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="148"/>
+        <source>No DiffSinger Synthesis Program installation is selected</source>
+        <translation type="unfinished">未选择 DiffSinger 合成程序 安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="222"/>
+        <source>Package directory</source>
+        <translation type="unfinished">包目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="207"/>
+        <source>Port</source>
+        <translation type="unfinished">端口</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="324"/>
+        <source>Refresh Devices</source>
+        <translation type="unfinished">刷新设备</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished">从列表中移除本地安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="40"/>
+        <source>Select Package Directory</source>
+        <translation type="unfinished">选择包目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
+        <source>Server Options</source>
+        <translation type="unfinished">服务器选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="164"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished">卸载已下载的版本</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="278"/>
+        <source>Use the default execution provider and device</source>
+        <translation type="unfinished">使用默认执行提供程序和设备</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="257"/>
+        <source>Critical</source>
+        <translation type="unfinished">关键性错误</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="253"/>
+        <source>Debug</source>
+        <translation type="unfinished">调试</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="258"/>
+        <source>Fatal</source>
+        <translation type="unfinished">致命错误</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="255"/>
+        <source>Information</source>
+        <translation type="unfinished">信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="254"/>
+        <source>Success</source>
+        <translation type="unfinished">成功</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="252"/>
+        <source>Trace</source>
+        <translation type="unfinished">跟踪</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="256"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="364"/>
+        <source>Additional command-line arguments</source>
+        <translation type="unfinished">附加命令行参数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="375"/>
+        <source>Logging</source>
+        <translation type="unfinished">日志</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="388"/>
+        <source>Max file size</source>
+        <translation type="unfinished">最大文件大小</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="400"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="417"/>
+        <source>KiB</source>
+        <translation type="unfinished">KiB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="405"/>
+        <source>Max archive size</source>
+        <translation type="unfinished">最大归档大小</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="422"/>
+        <source>Max archive days</source>
+        <translation type="unfinished">最大归档日数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="436"/>
+        <source>Compression level</source>
+        <translation type="unfinished">压缩级别</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="449"/>
+        <source>%L1 = no compression, %L2 = best compression</source>
+        <translation type="unfinished">%L1 = 不压缩，%L2 = 最佳压缩</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="456"/>
+        <source>Notify about warnings</source>
+        <translation type="unfinished">通知警告</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="467"/>
+        <source>Log directory</source>
+        <translation type="unfinished">日志目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="470"/>
+        <source>Open in %1</source>
+        <translation type="unfinished">在 %1 中打开</translation>
+    </message>
+</context>
+<context>
+    <name>ExtraControlPanel</name>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="86"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="90"/>
+        <source>Additional settings are not available for this singer.</source>
+        <translation type="unfinished">此歌手没有可用的附加设置。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="96"/>
+        <source>The current settings cannot be opened in this panel.</source>
+        <translation type="unfinished">无法在此面板中打开当前设置。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="101"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="147"/>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="179"/>
+        <source>Additional settings could not be opened.</source>
+        <translation type="unfinished">无法打开附加设置。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="119"/>
+        <source>The settings could not be applied.</source>
+        <translation type="unfinished">无法应用设置。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="180"/>
+        <source>No control panel is available for these settings.</source>
+        <translation type="unfinished">没有适用于这些设置的控制面板。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="189"/>
+        <source>Singer Information</source>
+        <translation type="unfinished">歌手信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/ExtraControlPanel.qml" line="213"/>
+        <source>Settings</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+</context>
+<context>
+    <name>JsonExtraEditor</name>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="51"/>
+        <source>The settings are not valid. Check the text and try again.</source>
+        <translation type="unfinished">设置无效。请检查文本后重试。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="76"/>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="119"/>
+        <source>Settings</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="83"/>
+        <source>Edit JSON (advanced)...</source>
+        <translation type="unfinished">编辑 JSON（高级）...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="98"/>
+        <source>Edit JSON</source>
+        <translation type="unfinished">编辑 JSON</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="135"/>
+        <source>Apply Changes</source>
+        <translation type="unfinished">应用更改</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="141"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 <context>
@@ -235,2199 +682,6 @@
         <location filename="../../qml/dialogs/ResynthesizeDialog.qml" line="56"/>
         <source>Disable cache</source>
         <translation type="unfinished">禁用缓存</translation>
-    </message>
-</context>
-<context>
-    <name>ServicesPage</name>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="121"/>
-        <source>Unnamed service</source>
-        <translation type="unfinished">未命名服务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="134"/>
-        <source>Disabled</source>
-        <translation type="unfinished">已禁用</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="144"/>
-        <source>No DSSP services configured</source>
-        <translation type="unfinished">未配置 DSSP 服务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="161"/>
-        <source>Add Service</source>
-        <translation type="unfinished">添加服务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="171"/>
-        <source>Delete</source>
-        <translation type="unfinished">删除</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="182"/>
-        <source>Move Up</source>
-        <translation type="unfinished">上移</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="193"/>
-        <source>Move Down</source>
-        <translation type="unfinished">下移</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="228"/>
-        <source>Select a service to edit.</source>
-        <translation type="unfinished">选择要编辑的服务。</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::Api::ApiClient</name>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="739"/>
-        <source>The synthesis service returned data that does not match the DSSP schema: %1</source>
-        <translation type="unfinished">合成服务返回的数据与 DSSP 模式不匹配：%1</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::Api::Dtos</name>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="27"/>
-        <source>Expected a JSON object</source>
-        <translation type="unfinished">应为 JSON 对象</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="37"/>
-        <source>Missing required field &apos;%1&apos;</source>
-        <translation type="unfinished">缺少必需字段 &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="49"/>
-        <source>Field &apos;%1&apos; must be a string</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是字符串</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="61"/>
-        <source>Field &apos;%1&apos; must be a boolean</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是布尔值</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="73"/>
-        <source>Field &apos;%1&apos; must be a finite number</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是有限数值</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="87"/>
-        <source>Field &apos;%1&apos; must be an integer</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是整数</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="100"/>
-        <source>Expected an array of strings</source>
-        <translation type="unfinished">应为字符串数组</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="106"/>
-        <source>Array item must be a string</source>
-        <translation type="unfinished">数组项必须是字符串</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="122"/>
-        <source>Expected an array of numbers</source>
-        <translation type="unfinished">应为数值数组</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="128"/>
-        <source>Array item must be a finite number</source>
-        <translation type="unfinished">数组项必须是有限数值</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="151"/>
-        <source>Expected a JSON array</source>
-        <translation type="unfinished">应为 JSON 数组</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="159"/>
-        <source>Invalid array item %L1: %2</source>
-        <translation type="unfinished">无效的数组项 %L1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="177"/>
-        <source>Expected an open JSON object map</source>
-        <translation type="unfinished">应为开放的 JSON 对象映射</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="185"/>
-        <source>Invalid map value &apos;%1&apos;: %2</source>
-        <translation type="unfinished">无效的映射值 &apos;%1&apos;：%2</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../internal/api/Dtos.cpp" line="256"/>
-        <source>Mix row %L1 must contain exactly %Ln value(s)</source>
-        <translation type="unfinished">
-            <numerusform>混合行 %L1 必须恰好包含 %Ln 个值</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="264"/>
-        <source>Mix row %L1 must have a sum no greater than 1</source>
-        <translation type="unfinished">混合行 %L1 的总和不得大于 1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="324"/>
-        <source>Unknown architecture parameter type &apos;%1&apos;</source>
-        <translation type="unfinished">未知的架构参数类型 &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="544"/>
-        <source>Field &apos;singers&apos; must contain at least one item</source>
-        <translation type="unfinished">字段 &apos;singers&apos; 必须至少包含一项</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="665"/>
-        <source>Note position values must be non-negative</source>
-        <translation type="unfinished">音符位置值必须为非负数</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="707"/>
-        <location filename="../../internal/api/Dtos.cpp" line="817"/>
-        <source>Field &apos;cent&apos; must be in [0, 12800]</source>
-        <translation type="unfinished">字段 &apos;cent&apos; 必须在 [0, 12800] 范围内</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="721"/>
-        <source>Mix must be an array of arrays</source>
-        <translation type="unfinished">混合必须是由数组组成的数组</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="729"/>
-        <source>Mix values must be in [0, 1]</source>
-        <translation type="unfinished">混合值必须在 [0, 1] 范围内</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="754"/>
-        <source>Duration and sample-rate constraints were violated</source>
-        <translation type="unfinished">违反了时长和采样率约束</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="835"/>
-        <source>Retake position and length must be non-negative</source>
-        <translation type="unfinished">重录位置与长度必须为非负数</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="933"/>
-        <source>Parameter input constraints were violated</source>
-        <translation type="unfinished">违反了参数输入约束</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="975"/>
-        <source>Audio input constraints were violated</source>
-        <translation type="unfinished">违反了音频输入约束</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="338"/>
-        <source>Invalid parameter display metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="364"/>
-        <source>Invalid parameter retake mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="409"/>
-        <source>Invalid language conversion mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="437"/>
-        <source>Invalid duration mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="752"/>
-        <source>Invalid note kind</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="754"/>
-        <source>Slur notes must have no phonemes and no gap</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="908"/>
-        <source>Field 'sampleRate' must be positive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="1298"/>
-        <source>Field '%1' must be positive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="1310"/>
-        <source>Array item must be a positive integer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="1421"/>
-        <location filename="../../internal/api/Dtos.cpp" line="1464"/>
-        <source>Field '%1' must be non-negative</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="1466"/>
-        <source>Field '%1' must contain at least one item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/Dtos.cpp" line="1469"/>
-        <source>Pitch values must be in [0, 12800]</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::Api::NetworkWorker</name>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="430"/>
-        <source>The request timed out</source>
-        <translation type="unfinished">请求超时</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="460"/>
-        <source>The synthesis service returned HTTP status %1</source>
-        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="461"/>
-        <source>The synthesis service returned HTTP status %1: %2</source>
-        <translation type="unfinished">合成服务返回了 HTTP 状态 %1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="479"/>
-        <source>The synthesis service returned an incomplete HTTP response: %1</source>
-        <translation type="unfinished">合成服务返回了不完整的 HTTP 响应：%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="489"/>
-        <source>The synthesis service request failed: %1</source>
-        <translation type="unfinished">合成服务请求失败：%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="496"/>
-        <source>The synthesis service response did not contain an HTTP status code</source>
-        <translation type="unfinished">合成服务响应不包含 HTTP 状态码</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="507"/>
-        <source>The synthesis service returned invalid JSON: %1</source>
-        <translation type="unfinished">合成服务返回了无效的 JSON：%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="488"/>
-        <source>The synthesis service returned an invalid streaming response</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="556"/>
-        <source>The synthesis service returned a streaming error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="669"/>
-        <source>The synthesis service closed the stream before returning a result</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ArchitectureExtraModel</name>
-    <message>
-        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="170"/>
-        <source>Architecture entry %L1 has no ID</source>
-        <translation type="unfinished">架构条目 %L1 没有 ID</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="175"/>
-        <source>Architecture ID &apos;%1&apos; is configured more than once</source>
-        <translation type="unfinished">架构 ID &apos;%1&apos; 被配置了多次</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ArchitecturePage</name>
-    <message>
-        <location filename="../../internal/settings/ArchitecturePage.cpp" line="23"/>
-        <source>Architecture</source>
-        <translation type="unfinished">架构</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ArchitecturePage.cpp" line="24"/>
-        <source>Configure architecture-specific synthesis options</source>
-        <translation type="unfinished">配置特定架构的合成选项</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ArchitecturePage.cpp" line="74"/>
-        <source>Some settings could not be applied. Review the selected control panel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::MetadataRefreshController</name>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="34"/>
-        <source>The synthesis service returned HTTP status %1</source>
-        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="35"/>
-        <source>The synthesis service request failed: network error %1</source>
-        <translation type="unfinished">合成服务请求失败：网络错误 %1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="328"/>
-        <source>The health check was canceled</source>
-        <translation type="unfinished">健康检查已取消</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="332"/>
-        <source>The service does not support DSSP API version 1</source>
-        <translation type="unfinished">此服务不支持 DSSP API 版本 1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="425"/>
-        <source>The architecture request was canceled</source>
-        <translation type="unfinished">架构请求已取消</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="430"/>
-        <source>The singer request was canceled</source>
-        <translation type="unfinished">歌手请求已取消</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="486"/>
-        <source>Could not refresh a singer avatar</source>
-        <translation type="unfinished">无法刷新歌手头像</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="501"/>
-        <source>Could not refresh a singer background</source>
-        <translation type="unfinished">无法刷新歌手背景</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="516"/>
-        <source>Could not refresh singer demo audio</source>
-        <translation type="unfinished">无法刷新歌手试听音频</translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="444"/>
-        <source>The group request was canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="450"/>
-        <source>The synthesis service returned inconsistent group metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ParameterRuntimeRegistry</name>
-    <message>
-        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="141"/>
-        <source>Invalid parameter display expression</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServiceConfigurationModel</name>
-    <message>
-        <location filename="../../internal/settings/ServiceConfigurationModel.cpp" line="173"/>
-        <source>DSSP Service</source>
-        <translation type="unfinished">DSSP 服务</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServiceStatusModel</name>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="126"/>
-        <source>Disabled</source>
-        <translation type="unfinished">已禁用</translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="128"/>
-        <source>Not checked</source>
-        <translation type="unfinished">未检查</translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="130"/>
-        <source>Checking...</source>
-        <translation type="unfinished">正在检查...</translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="132"/>
-        <source>Connected</source>
-        <translation type="unfinished">已连接</translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="134"/>
-        <source>Error</source>
-        <translation type="unfinished">错误</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServicesPage</name>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="24"/>
-        <source>Services</source>
-        <translation type="unfinished">服务</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="25"/>
-        <source>Configure DSSP service instances</source>
-        <translation type="unfinished">配置 DSSP 服务实例</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="72"/>
-        <source>Service %L1: %2</source>
-        <translation type="unfinished">服务 %L1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="81"/>
-        <source>Could not save service configurations</source>
-        <translation type="unfinished">无法保存服务配置</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthPlugin</name>
-    <message>
-        <location filename="../../internal/SynthPlugin.cpp" line="44"/>
-        <source>Initializing synthesis plugin...</source>
-        <translation type="unfinished">正在初始化合成插件...</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthService</name>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="84"/>
-        <source>Synthesis service unavailable</source>
-        <translation type="unfinished">合成服务不可用</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="85"/>
-        <location filename="../../internal/SynthService.cpp" line="92"/>
-        <source>%1: %2</source>
-        <translation type="unfinished">%1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="91"/>
-        <source>Could not refresh singer metadata</source>
-        <translation type="unfinished">无法刷新歌手元数据</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="128"/>
-        <source>The application settings service is not available</source>
-        <translation type="unfinished">应用设置服务不可用</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="185"/>
-        <source>Service %L1: %2</source>
-        <translation type="unfinished">服务 %L1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="190"/>
-        <source>Service identifiers must be unique</source>
-        <translation type="unfinished">服务标识符必须唯一</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthesisPage</name>
-    <message>
-        <location filename="../../internal/settings/SynthesisPage.cpp" line="19"/>
-        <source>Synthesis</source>
-        <translation type="unfinished">合成</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/SynthesisPage.cpp" line="20"/>
-        <source>Configure synthesis behavior and storage</source>
-        <translation type="unfinished">配置合成行为与存储</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthesisProjectAddOn</name>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="110"/>
-        <source>Synthesized audio could not be prepared for the export sample rate</source>
-        <translation type="unfinished">无法为导出采样率准备已合成的音频</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="153"/>
-        <source>Synthesized audio positions could not be updated before export</source>
-        <translation type="unfinished">无法在导出前更新已合成音频的位置</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="175"/>
-        <source>The synthesis state could not be checked before audio export</source>
-        <translation type="unfinished">无法在音频导出前检查合成状态</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="179"/>
-        <source>Audio synthesis did not complete successfully</source>
-        <translation type="unfinished">音频合成未成功完成</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="798"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="821"/>
-        <source>The synthesis piece is no longer available</source>
-        <translation type="unfinished">合成片段已不可用</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="864"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="871"/>
-        <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
-        <translation type="unfinished">编辑进行中时无法开始音频导出。请完成或取消当前编辑后重试</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="889"/>
-        <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
-        <translation type="unfinished">编辑进行中时无法继续音频导出。请完成或取消当前编辑后重试</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="909"/>
-        <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
-        <translation type="unfinished">无法为剪辑“%1”启动音频合成</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="922"/>
-        <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
-        <translation type="unfinished">音频导出已停止，因为剪辑“%1”包含尚未完成音频的合成片段</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
-        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
-        <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的音频合成已取消</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="940"/>
-        <source>Unknown synthesis error</source>
-        <translation type="unfinished">未知的合成错误</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="942"/>
-        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
-        <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="980"/>
-        <source>Synthesis failed</source>
-        <translation type="unfinished">合成失败</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1137"/>
-        <source>The clip has no valid singer source</source>
-        <translation type="unfinished">剪辑没有有效的歌手源</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1206"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1226"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1328"/>
-        <source>The synthesis task could not be queued</source>
-        <translation type="unfinished">无法将合成任务加入队列</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1302"/>
-        <source>No healthy service can synthesize this synthesis piece</source>
-        <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1516"/>
-        <source>Resynthesize</source>
-        <translation type="unfinished">重新合成</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1517"/>
-        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
-%1</source>
-        <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：
-%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1770"/>
-        <source>The pronunciation result does not match the requested score</source>
-        <translation type="unfinished">发音结果与请求的乐谱不匹配</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1772"/>
-        <source>The phoneme result does not match the requested score</source>
-        <translation type="unfinished">音素结果与请求的乐谱不匹配</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1774"/>
-        <source>The duration result does not match the score for the requested synthesis piece</source>
-        <translation type="unfinished">时长结果与所请求合成片段的乐谱不匹配</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1971"/>
-        <source>Synthesis was canceled</source>
-        <translation type="unfinished">合成已取消</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1143"/>
-        <source>No healthy service supports the singers selected for this clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp"/>
-        <source>A slur note must immediately follow another note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
-        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\"</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
-        <source>Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
-        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
-        <source>Audio synthesis could not be started for clip \"%1\"</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="430"/>
-        <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
-        <translation type="unfinished">部分音符重叠。请在合成前移动或调整重叠的音符</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp"/>
-        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:\n%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="403"/>
-        <source>The synthesis piece is no longer attached to a valid clip</source>
-        <translation type="unfinished">合成片段已不再附加到有效的剪辑</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::ServiceTypes</name>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="33"/>
-        <location filename="../../service/ServiceTypes.cpp" line="673"/>
-        <source>Field &apos;%1&apos; must be a string</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是字符串</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="169"/>
-        <source>Service ID must not be null</source>
-        <translation type="unfinished">服务 ID 不得为空</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="171"/>
-        <source>Service name must not be empty or contain control characters</source>
-        <translation type="unfinished">服务名称不得为空或包含控制字符</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="174"/>
-        <source>Host is invalid</source>
-        <translation type="unfinished">主机无效</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="178"/>
-        <source>Host does not form a valid service URL</source>
-        <translation type="unfinished">主机无法构成有效的服务 URL</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="180"/>
-        <source>Port must be between 1 and 65535</source>
-        <translation type="unfinished">端口必须在 1 到 65535 之间</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="182"/>
-        <source>An API key is required when authentication is enabled</source>
-        <translation type="unfinished">启用认证时需要提供 API 密钥</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="185"/>
-        <source>API key must not contain whitespace</source>
-        <translation type="unfinished">API 密钥不得包含空白字符</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="188"/>
-        <source>API key must not contain control characters</source>
-        <translation type="unfinished">API 密钥不得包含控制字符</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="190"/>
-        <source>Request timeout must be positive</source>
-        <translation type="unfinished">请求超时时间必须为正数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="192"/>
-        <source>Maximum retries must not be negative</source>
-        <translation type="unfinished">最大重试次数不得为负数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="194"/>
-        <source>Concurrency limits must be positive</source>
-        <translation type="unfinished">并发限制必须为正数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="196"/>
-        <source>Concurrent tasks per type must not exceed total concurrent tasks</source>
-        <translation type="unfinished">每类型并发任务数不得超过总并发任务数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="198"/>
-        <source>Health check interval must be positive</source>
-        <translation type="unfinished">健康检查间隔必须为正数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="204"/>
-        <source>Endpoint path prefix must be an absolute URL path</source>
-        <translation type="unfinished">端点路径前缀必须是绝对 URL 路径</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="208"/>
-        <source>Endpoint path prefix must not contain dot segments</source>
-        <translation type="unfinished">端点路径前缀不得包含点号段</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="231"/>
-        <source>Custom header on line %L1 is invalid</source>
-        <translation type="unfinished">第 %L1 行的自定义标头无效</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="265"/>
-        <location filename="../../service/ServiceTypes.cpp" line="624"/>
-        <source>Result pointer must not be null</source>
-        <translation type="unfinished">结果指针不得为空</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="271"/>
-        <source>Field &apos;id&apos; must be a string</source>
-        <translation type="unfinished">字段 &apos;id&apos; 必须是字符串</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="279"/>
-        <source>Field &apos;%1&apos; must be a boolean</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是布尔值</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="288"/>
-        <location filename="../../service/ServiceTypes.cpp" line="658"/>
-        <source>Field &apos;%1&apos; must be an integer</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是整数</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="310"/>
-        <source>Service configuration contains a value of the wrong type</source>
-        <translation type="unfinished">服务配置包含类型错误的值</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="324"/>
-        <source>Local DSSP</source>
-        <translation type="unfinished">本地 DSSP</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="518"/>
-        <source>Invalid singer metadata</source>
-        <translation type="unfinished">无效的歌手元数据</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="524"/>
-        <source>Singer language &apos;%1&apos; must be an object</source>
-        <translation type="unfinished">歌手语言 &apos;%1&apos; 必须是对象</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="530"/>
-        <source>Singer language &apos;%1&apos;: %2</source>
-        <translation type="unfinished">歌手语言 &apos;%1&apos;：%2</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="628"/>
-        <source>Field &apos;configuration&apos; must be an object</source>
-        <translation type="unfinished">字段 &apos;configuration&apos; 必须是对象</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="632"/>
-        <source>Field &apos;metadata&apos; must be an object</source>
-        <translation type="unfinished">字段 &apos;metadata&apos; 必须是对象</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="642"/>
-        <source>Field &apos;configuration&apos; is invalid</source>
-        <translation type="unfinished">字段 &apos;configuration&apos; 无效</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="649"/>
-        <source>Field &apos;metadata&apos; is invalid</source>
-        <translation type="unfinished">字段 &apos;metadata&apos; 无效</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="664"/>
-        <source>Field &apos;%1&apos; is outside its valid range</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 超出其有效范围</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="683"/>
-        <source>Field &apos;%1&apos; must be an ISO 8601 date and time</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须是 ISO 8601 日期时间</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="702"/>
-        <source>Field &apos;selectedApiVersion&apos; must not exceed &apos;maximumApiVersion&apos;</source>
-        <translation type="unfinished">字段 &apos;selectedApiVersion&apos; 不得大于 &apos;maximumApiVersion&apos;</translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="716"/>
-        <source>Field &apos;metadataStale&apos; must be a boolean</source>
-        <translation type="unfinished">字段 &apos;metadataStale&apos; 必须是布尔值</translation>
-    </message>
-</context>
-<context>
-    <name>Synth::SynthesisTaskManager</name>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="240"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="518"/>
-        <source>No healthy synthesis service supports the selected architecture and all required singers</source>
-        <translation type="unfinished">没有正常的合成服务同时支持所选架构和所有必需的歌手</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="458"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="838"/>
-        <source>The synthesis service returned HTTP status %1</source>
-        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="461"/>
-        <source>The synthesis service request failed</source>
-        <translation type="unfinished">合成服务请求失败</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="829"/>
-        <source>The synthesis service request failed: %1</source>
-        <translation type="unfinished">合成服务请求失败：%1</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="840"/>
-        <source>The synthesis service returned HTTP status %1: %2</source>
-        <translation type="unfinished">合成服务返回了 HTTP 状态 %1：%2</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="861"/>
-        <source>The synthesized audio response is empty or exceeds the configured size limit</source>
-        <translation type="unfinished">已合成音频响应为空或超过配置的大小限制</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="866"/>
-        <source>Could not store synthesized audio locally</source>
-        <translation type="unfinished">无法在本地保存已合成的音频</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
-        <source>The synthesis service returned an invalid audio data URL</source>
-        <translation type="unfinished">合成服务返回了无效的音频数据 URL</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="893"/>
-        <source>The synthesis service returned an unsupported audio URL</source>
-        <translation type="unfinished">合成服务返回了不受支持的音频 URL</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="911"/>
-        <source>The synthesized audio URL redirected too many times</source>
-        <translation type="unfinished">已合成音频 URL 的重定向次数过多</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="964"/>
-        <source>The synthesized audio exceeds the configured download size limit</source>
-        <translation type="unfinished">已合成音频超过配置的下载大小限制</translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="587"/>
-        <source>Audio request contains an invalid parameter value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="707"/>
-        <source>Parameter request contains an invalid value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="715"/>
-        <source>The selected singer cannot predict parameter %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisPage</name>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="24"/>
-        <source>%1 B</source>
-        <translation type="unfinished">%1 B</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="26"/>
-        <source>%1 KiB</source>
-        <translation type="unfinished">%1 KiB</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="28"/>
-        <source>%1 MiB</source>
-        <translation type="unfinished">%1 MiB</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="29"/>
-        <source>%1 GiB</source>
-        <translation type="unfinished">%1 GiB</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="47"/>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="381"/>
-        <source>Clear Synthesis Cache</source>
-        <translation type="unfinished">清除合成缓存</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="61"/>
-        <source>Clear Selected</source>
-        <translation type="unfinished">清除所选</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="86"/>
-        <source>Select the synthesis task caches to delete.</source>
-        <translation type="unfinished">选择要删除的合成任务缓存。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="92"/>
-        <source>Pronunciation (%1)</source>
-        <translation type="unfinished">发音（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="98"/>
-        <source>Phoneme (%1)</source>
-        <translation type="unfinished">音素（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="104"/>
-        <source>Duration (%1)</source>
-        <translation type="unfinished">时长（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="110"/>
-        <source>Parameter (%1)</source>
-        <translation type="unfinished">参数（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="116"/>
-        <source>Audio (%1)</source>
-        <translation type="unfinished">音频（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="129"/>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="441"/>
-        <source>Clear Synthesis Diagnostics</source>
-        <translation type="unfinished">清除合成诊断信息</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="135"/>
-        <source>Clear</source>
-        <translation type="unfinished">清除</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="147"/>
-        <source>Delete all saved synthesis diagnostics from the disk?</source>
-        <translation type="unfinished">要删除磁盘上保存的所有合成诊断信息吗？</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="163"/>
-        <source>Synthesis</source>
-        <translation type="unfinished">合成</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="176"/>
-        <source>Padding added before and after each synthesis piece.</source>
-        <translation type="unfinished">在每个合成片段前后添加的填充。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="177"/>
-        <source>Base piece padding (ms)</source>
-        <translation type="unfinished">基础片段填充（ms）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="195"/>
-        <source>Additional leading padding added for each phoneme before a note onset.</source>
-        <translation type="unfinished">为音符起始前的每个音素添加的额外前导填充。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="196"/>
-        <source>Additional onset padding (ms)</source>
-        <translation type="unfinished">额外起始填充（ms）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="214"/>
-        <source>Minimum gap used to separate note groups into synthesis pieces and limit leading padding.</source>
-        <translation type="unfinished">用于将音符组分隔为合成片段并限制前导填充的最小间隔。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="215"/>
-        <source>Piece gap threshold (ms)</source>
-        <translation type="unfinished">片段间隔阈值（ms）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="233"/>
-        <source>Comma-separated lyrics treated as rests when dividing a clip into synthesis pieces.</source>
-        <translation type="unfinished">将剪辑划分为合成片段时视为休止的歌词，以逗号分隔。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="234"/>
-        <source>Rest lyrics</source>
-        <translation type="unfinished">休止歌词</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="245"/>
-        <source>Comma-separated, for example AP, SP</source>
-        <translation type="unfinished">以逗号分隔，例如 AP、SP</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="251"/>
-        <source>Number of parameter samples generated per second.</source>
-        <translation type="unfinished">每秒生成的参数采样数。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="252"/>
-        <source>Parameter sample rate (Hz)</source>
-        <translation type="unfinished">参数采样率（Hz）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="270"/>
-        <source>Number of singer-mix samples generated per second.</source>
-        <translation type="unfinished">每秒生成的歌手混合采样数。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="271"/>
-        <source>Singer mix sample rate (Hz)</source>
-        <translation type="unfinished">歌手混合采样率（Hz）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="292"/>
-        <source>Cache</source>
-        <translation type="unfinished">缓存</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="305"/>
-        <source>Maximum disk space used by synthesis task caches.</source>
-        <translation type="unfinished">合成任务缓存可占用的最大磁盘空间。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="306"/>
-        <source>Maximum cache size (GiB)</source>
-        <translation type="unfinished">最大缓存大小（GiB）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="324"/>
-        <source>Number of days before an unused cache entry expires. Use 0 to disable expiry.</source>
-        <translation type="unfinished">未使用的缓存条目过期前的天数。设为 0 表示永不过期。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="325"/>
-        <source>Cache expiry (days)</source>
-        <translation type="unfinished">缓存有效期（天）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="343"/>
-        <source>Maximum size of a synthesized audio file downloaded from a service.</source>
-        <translation type="unfinished">从服务下载的已合成音频文件的最大大小。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="344"/>
-        <source>Maximum audio download size (MiB)</source>
-        <translation type="unfinished">最大音频下载大小（MiB）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="362"/>
-        <source>How long to reuse a service-provided synthesis environment tag before requesting a new one.</source>
-        <translation type="unfinished">在请求新的环境标签之前，可复用服务提供的合成环境标签的时长。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="363"/>
-        <source>Environment tag lifetime (seconds)</source>
-        <translation type="unfinished">环境标签有效期（秒）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="390"/>
-        <source>Diagnostics</source>
-        <translation type="unfinished">诊断信息</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="403"/>
-        <source>Maximum disk space used by synthesis diagnostics.</source>
-        <translation type="unfinished">合成诊断信息可占用的最大磁盘空间。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="404"/>
-        <source>Maximum diagnostics size (MiB)</source>
-        <translation type="unfinished">最大诊断信息大小（MiB）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="422"/>
-        <source>Number of days before a diagnostics file expires. Use 0 to disable expiry.</source>
-        <translation type="unfinished">诊断文件过期前的天数。设为 0 表示永不过期。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="423"/>
-        <source>Diagnostics expiry (days)</source>
-        <translation type="unfinished">诊断信息有效期（天）</translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisProjectActions</name>
-    <message numerus="yes">
-        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="51"/>
-        <source>%Ln synthesis task(s)</source>
-        <translation type="unfinished">
-            <numerusform>%Ln 个合成任务</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="51"/>
-        <source>No synthesis tasks</source>
-        <translation type="unfinished">没有合成任务</translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisServicePanel</name>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Pronunciation</source>
-        <translation type="unfinished">发音</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Phoneme</source>
-        <translation type="unfinished">音素</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Duration</source>
-        <translation type="unfinished">时长</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Parameter</source>
-        <translation type="unfinished">参数</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Audio</source>
-        <translation type="unfinished">音频</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Unknown</source>
-        <translation type="unfinished">未知</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Queued</source>
-        <translation type="unfinished">排队中</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Succeeded</source>
-        <translation type="unfinished">成功</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Failed</source>
-        <translation type="unfinished">失败</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="23"/>
-        <source>Canceled</source>
-        <translation type="unfinished">已取消</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="57"/>
-        <source>Clear Failed Tasks</source>
-        <translation type="unfinished">清除失败任务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="65"/>
-        <source>Refreshing...</source>
-        <translation type="unfinished">正在刷新...</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="65"/>
-        <source>Refresh</source>
-        <translation type="unfinished">刷新</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="95"/>
-        <source>Last checked: %1</source>
-        <translation type="unfinished">最近检查：%1</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="148"/>
-        <source>Hide Tasks</source>
-        <translation type="unfinished">隐藏任务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="148"/>
-        <source>Show Tasks</source>
-        <translation type="unfinished">显示任务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="184"/>
-        <source>%L1 running, %L2 queued</source>
-        <translation type="unfinished">运行中 %L1 个，排队中 %L2 个</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="276"/>
-        <source>%L1 s</source>
-        <translation type="unfinished">%L1 秒</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="283"/>
-        <source>Terminate Task</source>
-        <translation type="unfinished">终止任务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="293"/>
-        <source>View Diagnostics</source>
-        <translation type="unfinished">查看诊断信息</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="302"/>
-        <source>Remove Task</source>
-        <translation type="unfinished">移除任务</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="321"/>
-        <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
-        <translation type="unfinished">未配置合成服务。请在“设置 &gt; 合成 &gt; 服务”中添加。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
-        <source>Running (%1%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::AudioExtractionTask</name>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="58"/>
-        <source>, </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.h" line="105"/>
-        <source>The extraction request did not return a result.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="57"/>
-        <source>%1 — %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="81"/>
-        <source>%1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="94"/>
-        <source>No extractors are available. Check your synthesis services.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="99"/>
-        <source>No enabled synthesis services are available.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="118"/>
-        <source>The extraction request failed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="148"/>
-        <source>The service returned inconsistent extractor metadata.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="192"/>
-        <source>The extractor returned invalid note data.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="208"/>
-        <source>The extractor returned invalid beat data.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="224"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="231"/>
-        <source>The extractor returned invalid pitch data.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="253"/>
-        <source>The extractor returned no separated audio tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="271"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="279"/>
-        <source>The extractor returned an invalid audio data URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="293"/>
-        <source>The extractor returned an unsupported audio URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="327"/>
-        <source>The audio download redirected to an insecure URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="335"/>
-        <source>Could not download separated audio: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="358"/>
-        <source>Could not store separated audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ExtractionAudioCodec</name>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="36"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="85"/>
-        <source>Could not open the source audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="41"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="87"/>
-        <source>The audio has invalid format information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="56"/>
-        <source>Could not prepare the audio for extraction.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="71"/>
-        <source>Could not convert the audio format.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
-        <source>The extractor does not accept audio data URLs.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="138"/>
-        <source>Could not encode an audio format accepted by the extractor.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="166"/>
-        <source>Could not decode the separated audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::AudioExtractionAddOn</name>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="139"/>
-        <source>Choose Separated Audio Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="177"/>
-        <source>Audio Extraction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="203"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="243"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="272"/>
-        <source>The original audio clip is no longer available.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="212"/>
-        <source>The audio file for the selected clip is unavailable.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="221"/>
-        <source>Choose a writable directory for the separated audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="237"/>
-        <source>Overwrite Separated Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="238"/>
-        <source>The following files may be replaced by the separated tracks. Overwrite matching files?
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="282"/>
-        <source>The original audio clip or project tempo changed during extraction. Try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="293"/>
-        <source>The extracted tracks could not be inserted while another edit is in progress.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="311"/>
-        <source>%1
-Some files could not be restored. Backups are in %2.
-%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="324"/>
-        <source>The separated track names produce duplicate file names.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="334"/>
-        <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="339"/>
-        <source>Could not back up an existing output file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="349"/>
-        <source>Could not save the separated audio files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="375"/>
-        <source>%1 (Extracted notes)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
-        <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="382"/>
-        <source>Could not insert the extracted tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="408"/>
-        <source>Could not insert the extracted notes.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="424"/>
-        <source>Could not insert the extracted clips.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
-        <source>Extracting notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
-        <source>Separating audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="431"/>
-        <source>Could not commit the extracted tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AudioExtractionDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="27"/>
-        <source>Separate Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="27"/>
-        <source>Extract Notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="34"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="41"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="60"/>
-        <source>Extractor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="74"/>
-        <source>Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="83"/>
-        <source>Output directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="98"/>
-        <source>Browse...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="111"/>
-        <source>Extracting audio…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="111"/>
-        <source>Updating extractors…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="118"/>
-        <source>Extraction status</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DsspServerActions</name>
-    <message>
-        <location filename="../../qml/actions/DsspServerActions.qml" line="80"/>
-        <source>Show DiffSinger Synthesis Program controls</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DsspServerPage</name>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="32"/>
-        <source>Add DiffSinger Synthesis Program Installation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="119"/>
-        <source>Add Local Installation...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="347"/>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="361"/>
-        <source>Additional Command-Line Arguments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="171"/>
-        <source>Automatically start DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="231"/>
-        <source>Browse for Package Directory...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="225"/>
-        <source>Default package directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="304"/>
-        <source>Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="63"/>
-        <source>DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
-        <source>Download DiffSinger Synthesis Program...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="34"/>
-        <source>Executable files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="149"/>
-        <source>Executable path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="267"/>
-        <source>Execution Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="287"/>
-        <source>Execution provider</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="191"/>
-        <source>Host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="76"/>
-        <source>Installation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="243"/>
-        <source>Log level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="148"/>
-        <source>No DiffSinger Synthesis Program installation is selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="219"/>
-        <source>Package directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="204"/>
-        <source>Port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="321"/>
-        <source>Refresh Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
-        <source>Remove Local Installation from List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="40"/>
-        <source>Select Package Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="181"/>
-        <source>Server Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="163"/>
-        <source>Uninstall Downloaded Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="275"/>
-        <source>Use the default execution provider and device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="254"/>
-        <source>Critical</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="250"/>
-        <source>Debug</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="255"/>
-        <source>Fatal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="252"/>
-        <source>Information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="251"/>
-        <source>Success</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="249"/>
-        <source>Trace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="253"/>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="372"/>
-        <source>Logging</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="385"/>
-        <source>Max file size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="397"/>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="414"/>
-        <source>KiB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="402"/>
-        <source>Max archive size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="419"/>
-        <source>Max archive days</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="433"/>
-        <source>Compression level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="446"/>
-        <source>%L1 = no compression, %L2 = best compression</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="453"/>
-        <source>Notify about warnings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="464"/>
-        <source>Log directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="467"/>
-        <source>Open in %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::DsspDeviceCatalog</name>
-    <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="100"/>
-        <source>Could not read execution devices from DiffSinger Synthesis Program.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="94"/>
-        <source>Could not start device discovery.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="20"/>
-        <source>Device discovery timed out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::DsspServerManager</name>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="200"/>
-        <source>Built-in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="68"/>
-        <source>Could not start DiffSinger Synthesis Program:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
-        <source>DiffSinger Synthesis Program exited abnormally</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="80"/>
-        <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="344"/>
-        <source>DiffSinger Synthesis Program is not configured</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="350"/>
-        <source>DiffSinger Synthesis Program is running</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="348"/>
-        <source>DiffSinger Synthesis Program is starting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
-        <source>DiffSinger Synthesis Program is stopped</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="346"/>
-        <source>DiffSinger Synthesis Program is stopping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="477"/>
-        <source>DiffSinger Synthesis Program Stopped</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="402"/>
-        <source>DiffSinger Synthesis Program was not found:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="211"/>
-        <source>Downloaded %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="193"/>
-        <source>No installation selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="480"/>
-        <source>Restart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="232"/>
-        <source>Selected installation (unavailable)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="221"/>
-        <source>DiffSinger Synthesis Program (version unknown)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="221"/>
-        <source>DiffSinger Synthesis Program %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="339"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="332"/>
-        <source>Not Configured</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="338"/>
-        <source>Running</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="336"/>
-        <source>Starting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="339"/>
-        <source>Stopped</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="334"/>
-        <source>Stopping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="527"/>
-        <source>DiffSinger Synthesis Program Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="529"/>
-        <source>DiffSinger Synthesis Program Critical</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="531"/>
-        <source>DiffSinger Synthesis Program Fatal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="538"/>
-        <source>Module: %1
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::DsspServerPage</name>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="23"/>
-        <source>DiffSinger</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="24"/>
-        <source>Manager DiffSinger Synthesis Program and startup options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="114"/>
-        <source>No installation is selected. Stop DiffSinger Synthesis Program now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="113"/>
-        <source>Restart DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="113"/>
-        <source>Stop DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="202"/>
-        <source>The executable does not exist:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="82"/>
-        <source>The host must not be empty.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="90"/>
-        <source>The package directory does not exist:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="86"/>
-        <source>The port must be between %L1 and %L2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
-        <source>The startup options have changed. Restart DiffSinger Synthesis Program now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::DsspServerLog</name>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="75"/>
-        <source>Could not create the log directory:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="119"/>
-        <source>Could not open the log file:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="140"/>
-        <source>Could not open the log file for compression:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="145"/>
-        <source>Could not read the log file for compression:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="151"/>
-        <source>Could not compress the log file:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="156"/>
-        <source>Could not create the log archive:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="161"/>
-        <source>Could not write to the log archive:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/dssp/DsspServerLog.cpp" line="208"/>
-        <source>Could not write to the log file:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ExtraControlPanel</name>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="86"/>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="90"/>
-        <source>Additional settings are not available for this singer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="96"/>
-        <source>The current settings cannot be opened in this panel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="101"/>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="147"/>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="179"/>
-        <source>Additional settings could not be opened.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="119"/>
-        <source>The settings could not be applied.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="180"/>
-        <source>No control panel is available for these settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="189"/>
-        <source>Singer Information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/ExtraControlPanel.qml" line="213"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>JsonExtraEditor</name>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="51"/>
-        <source>The settings are not valid. Check the text and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="76"/>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="118"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="82"/>
-        <source>Edit JSON (advanced)...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="97"/>
-        <source>Edit JSON</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="134"/>
-        <source>Apply Changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="140"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DiffSingerArchitectureControlPanel</name>
-    <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="78"/>
-        <source>Synthesis Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="88"/>
-        <source>Pitch steps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="103"/>
-        <source>Variance steps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="118"/>
-        <source>Acoustic steps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="133"/>
-        <source>Depth</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DiffSingerSingerControlPanel</name>
-    <message>
-        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="88"/>
-        <source>Speaker</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
-        <source>Default Speaker</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2599,41 +853,1058 @@ X-Custom-Header-2: bar</translation>
     </message>
 </context>
 <context>
-    <name>SynthesisEnvironmentWelcomeWizardPage</name>
+    <name>ServicesPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
-        <source>Synthesis Environment</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="121"/>
+        <source>Unnamed service</source>
+        <translation type="unfinished">未命名服务</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="21"/>
-        <source>Configure a synthesis program or connect to a synthesis service</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="134"/>
+        <source>Disabled</source>
+        <translation type="unfinished">已禁用</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
-        <source>Use the local DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="144"/>
+        <source>No DSSP services configured</source>
+        <translation type="unfinished">未配置 DSSP 服务</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
-        <source>Connect to a synthesis service</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="161"/>
+        <source>Add Service</source>
+        <translation type="unfinished">添加服务</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
-        <source>More Options...</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="171"/>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
-        <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="182"/>
+        <source>Move Up</source>
+        <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
-        <source>Available singers: %1</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../qml/settings/ServicesPage.qml" line="193"/>
+        <source>Move Down</source>
+        <translation type="unfinished">下移</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/ServicesPage.qml" line="228"/>
+        <source>Select a service to edit.</source>
+        <translation type="unfinished">选择要编辑的服务。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::Api::ApiClient</name>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="924"/>
+        <source>The synthesis service returned data that does not match the DSSP schema: %1</source>
+        <translation type="unfinished">合成服务返回的数据与 DSSP 模式不匹配：%1</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::Api::Dtos</name>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="27"/>
+        <source>Expected a JSON object</source>
+        <translation type="unfinished">应为 JSON 对象</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="37"/>
+        <source>Missing required field &apos;%1&apos;</source>
+        <translation type="unfinished">缺少必需字段 &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="49"/>
+        <source>Field &apos;%1&apos; must be a string</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是字符串</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="61"/>
+        <source>Field &apos;%1&apos; must be a boolean</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是布尔值</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="73"/>
+        <source>Field &apos;%1&apos; must be a finite number</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是有限数值</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="87"/>
+        <source>Field &apos;%1&apos; must be an integer</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是整数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="100"/>
+        <source>Expected an array of strings</source>
+        <translation type="unfinished">应为字符串数组</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="106"/>
+        <source>Array item must be a string</source>
+        <translation type="unfinished">数组项必须是字符串</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="122"/>
+        <source>Expected an array of numbers</source>
+        <translation type="unfinished">应为数值数组</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="128"/>
+        <source>Array item must be a finite number</source>
+        <translation type="unfinished">数组项必须是有限数值</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="151"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1305"/>
+        <source>Expected a JSON array</source>
+        <translation type="unfinished">应为 JSON 数组</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="159"/>
+        <source>Invalid array item %L1: %2</source>
+        <translation type="unfinished">无效的数组项 %L1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="177"/>
+        <source>Expected an open JSON object map</source>
+        <translation type="unfinished">应为开放的 JSON 对象映射</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="185"/>
+        <source>Invalid map value &apos;%1&apos;: %2</source>
+        <translation type="unfinished">无效的映射值 &apos;%1&apos;：%2</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../internal/api/Dtos.cpp" line="238"/>
+        <source>Mix row %L1 must contain exactly %Ln value(s)</source>
+        <translation type="unfinished">
+            <numerusform>混合行 %L1 必须恰好包含 %Ln 个值</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="246"/>
+        <source>Mix row %L1 must have a sum no greater than 1</source>
+        <translation type="unfinished">混合行 %L1 的总和不得大于 1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="361"/>
+        <source>Unknown architecture parameter type &apos;%1&apos;</source>
+        <translation type="unfinished">未知的架构参数类型 &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="570"/>
+        <source>Field &apos;singers&apos; must contain at least one item</source>
+        <translation type="unfinished">字段 &apos;singers&apos; 必须至少包含一项</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="701"/>
+        <source>Note position values must be non-negative</source>
+        <translation type="unfinished">音符位置值必须为非负数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="745"/>
+        <location filename="../../internal/api/Dtos.cpp" line="861"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1431"/>
+        <source>Field &apos;cent&apos; must be in [0, 12800]</source>
+        <translation type="unfinished">字段 &apos;cent&apos; 必须在 [0, 12800] 范围内</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="763"/>
+        <source>Mix must be an array of arrays</source>
+        <translation type="unfinished">混合必须是由数组组成的数组</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="771"/>
+        <source>Mix values must be in [0, 1]</source>
+        <translation type="unfinished">混合值必须在 [0, 1] 范围内</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="796"/>
+        <source>Duration and sample-rate constraints were violated</source>
+        <translation type="unfinished">违反了时长和采样率约束</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="883"/>
+        <source>Retake position and length must be non-negative</source>
+        <translation type="unfinished">重录位置与长度必须为非负数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="981"/>
+        <source>Parameter input constraints were violated</source>
+        <translation type="unfinished">违反了参数输入约束</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1023"/>
+        <source>Audio input constraints were violated</source>
+        <translation type="unfinished">违反了音频输入约束</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="333"/>
+        <source>Invalid parameter display metadata</source>
+        <translation type="unfinished">参数显示元数据无效</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="359"/>
+        <source>Invalid parameter retake mode</source>
+        <translation type="unfinished">参数重录模式无效</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="406"/>
+        <source>Invalid language conversion mode</source>
+        <translation type="unfinished">语言转换模式无效</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="432"/>
+        <source>Invalid duration mode</source>
+        <translation type="unfinished">时长模式无效</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="747"/>
+        <location filename="../../internal/api/Dtos.cpp" line="863"/>
+        <source>Invalid note kind</source>
+        <translation type="unfinished">音符类型无效</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="749"/>
+        <location filename="../../internal/api/Dtos.cpp" line="865"/>
+        <source>Slur notes must have no phonemes and no gap</source>
+        <translation type="unfinished">连音音符不得包含音素或间隔</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="903"/>
+        <location filename="../../internal/api/Dtos.cpp" line="929"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1227"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1540"/>
+        <source>Field &apos;sampleRate&apos; must be positive</source>
+        <translation type="unfinished">字段 &apos;sampleRate&apos; 必须为正数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1298"/>
+        <source>Field &apos;%1&apos; must be positive</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须为正数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1310"/>
+        <source>Array item must be a positive integer</source>
+        <translation type="unfinished">数组条目必须为正整数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1474"/>
+        <location filename="../../internal/api/Dtos.cpp" line="1517"/>
+        <source>Field &apos;%1&apos; must be non-negative</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须为非负数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1519"/>
+        <source>Field &apos;%1&apos; must contain at least one item</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须至少包含一个条目</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/Dtos.cpp" line="1522"/>
+        <source>Pitch values must be in [0, 12800]</source>
+        <translation type="unfinished">音高值必须位于 [0, 12800] 范围内</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::Api::NetworkWorker</name>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="588"/>
+        <source>The request timed out</source>
+        <translation type="unfinished">请求超时</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="621"/>
+        <source>The synthesis service returned HTTP status %1</source>
+        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="622"/>
+        <source>The synthesis service returned HTTP status %1: %2</source>
+        <translation type="unfinished">合成服务返回了 HTTP 状态 %1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="640"/>
+        <source>The synthesis service returned an incomplete HTTP response: %1</source>
+        <translation type="unfinished">合成服务返回了不完整的 HTTP 响应：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="650"/>
+        <source>The synthesis service request failed: %1</source>
+        <translation type="unfinished">合成服务请求失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="657"/>
+        <source>The synthesis service response did not contain an HTTP status code</source>
+        <translation type="unfinished">合成服务响应不包含 HTTP 状态码</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="682"/>
+        <source>The synthesis service returned invalid JSON: %1</source>
+        <translation type="unfinished">合成服务返回了无效的 JSON：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="488"/>
+        <source>The synthesis service returned an invalid streaming response</source>
+        <translation type="unfinished">合成服务返回了无效的流式响应</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="556"/>
+        <source>The synthesis service returned a streaming error</source>
+        <translation type="unfinished">合成服务返回了流式错误</translation>
+    </message>
+    <message>
+        <location filename="../../internal/api/ApiClient.cpp" line="669"/>
+        <source>The synthesis service closed the stream before returning a result</source>
+        <translation type="unfinished">合成服务在返回结果前关闭了流</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ArchitectureExtraModel</name>
+    <message>
+        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="170"/>
+        <source>Architecture entry %L1 has no ID</source>
+        <translation type="unfinished">架构条目 %L1 没有 ID</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ArchitectureExtraModel.cpp" line="175"/>
+        <source>Architecture ID &apos;%1&apos; is configured more than once</source>
+        <translation type="unfinished">架构 ID &apos;%1&apos; 被配置了多次</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ArchitecturePage</name>
+    <message>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="23"/>
+        <source>Architecture</source>
+        <translation type="unfinished">架构</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="24"/>
+        <source>Configure architecture-specific synthesis options</source>
+        <translation type="unfinished">配置特定架构的合成选项</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ArchitecturePage.cpp" line="74"/>
+        <source>Some settings could not be applied. Review the selected control panel.</source>
+        <translation type="unfinished">无法应用部分设置。请检查所选控制面板。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::AudioExtractionAddOn</name>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="139"/>
+        <source>Choose Separated Audio Directory</source>
+        <translation type="unfinished">选择分离音频目录</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="177"/>
+        <source>Audio Extraction</source>
+        <translation type="unfinished">音频提取</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="204"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="244"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="273"/>
+        <source>The original audio clip is no longer available.</source>
+        <translation type="unfinished">原始音频剪辑已不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="213"/>
+        <source>The audio file for the selected clip is unavailable.</source>
+        <translation type="unfinished">所选剪辑的音频文件不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="222"/>
+        <source>Choose a writable directory for the separated audio.</source>
+        <translation type="unfinished">请为分离的音频选择可写目录。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="238"/>
+        <source>Overwrite Separated Audio</source>
+        <translation type="unfinished">覆盖分离的音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="239"/>
+        <source>The following files may be replaced by the separated tracks. Overwrite matching files?
+%1</source>
+        <translation type="unfinished">以下文件可能被分离后的轨道替换。是否覆盖同名文件？
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="283"/>
+        <source>The original audio clip or project tempo changed during extraction. Try again.</source>
+        <translation type="unfinished">提取期间，原始音频剪辑或工程曲速发生了更改。请重试。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="294"/>
+        <source>The extracted tracks could not be inserted while another edit is in progress.</source>
+        <translation type="unfinished">其他编辑正在进行时无法插入提取的轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="312"/>
+        <source>%1
+Some files could not be restored. Backups are in %2.
+%3</source>
+        <translation type="unfinished">%1
+无法恢复部分文件。备份位于 %2。
+%3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="325"/>
+        <source>The separated track names produce duplicate file names.</source>
+        <translation type="unfinished">分离后的轨道名称产生了重复的文件名。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="335"/>
+        <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
+        <translation type="unfinished">提取期间，某个输出文件被创建或修改。请重新开始以确认覆盖。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="340"/>
+        <source>Could not back up an existing output file.</source>
+        <translation type="unfinished">无法备份现有输出文件。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="350"/>
+        <source>Could not save the separated audio files.</source>
+        <translation type="unfinished">无法保存分离后的音频文件。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
+        <source>%1 (Extracted notes)</source>
+        <translation type="unfinished">%1（提取的音符）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="377"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="383"/>
+        <source>Could not insert the extracted tracks.</source>
+        <translation type="unfinished">无法插入提取的轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="407"/>
+        <source>Could not insert the extracted notes.</source>
+        <translation type="unfinished">无法插入提取的音符。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="423"/>
+        <source>Could not insert the extracted clips.</source>
+        <translation type="unfinished">无法插入提取的剪辑。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="429"/>
+        <source>Extracting notes</source>
+        <translation type="unfinished">提取音符</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="429"/>
+        <source>Separating audio</source>
+        <translation type="unfinished">分离音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
+        <source>Could not commit the extracted tracks.</source>
+        <translation type="unfinished">无法提交提取的轨道。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::AudioExtractionTask</name>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="59"/>
+        <source>, </source>
+        <translation type="unfinished">， </translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.h" line="108"/>
+        <source>The extraction request did not return a result.</source>
+        <translation type="unfinished">提取请求未返回结果。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="58"/>
+        <source>%1 — %2</source>
+        <translation type="unfinished">%1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="83"/>
+        <source>%1: %2</source>
+        <translation type="unfinished">%1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="107"/>
+        <source>No extractors are available. Check your synthesis services.</source>
+        <translation type="unfinished">没有可用的提取器。请检查合成服务。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="112"/>
+        <source>No enabled synthesis services are available.</source>
+        <translation type="unfinished">没有已启用的可用合成服务。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="132"/>
+        <source>The extraction request failed.</source>
+        <translation type="unfinished">提取请求失败。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="159"/>
+        <source>The service returned inconsistent extractor metadata.</source>
+        <translation type="unfinished">服务返回的提取器元数据不一致。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="217"/>
+        <source>The extractor returned invalid note data.</source>
+        <translation type="unfinished">提取器返回的音符数据无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="233"/>
+        <source>The extractor returned invalid beat data.</source>
+        <translation type="unfinished">提取器返回的节拍数据无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="249"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="256"/>
+        <source>The extractor returned invalid pitch data.</source>
+        <translation type="unfinished">提取器返回的音高数据无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="278"/>
+        <source>The extractor returned no separated audio tracks.</source>
+        <translation type="unfinished">提取器未返回分离后的音频轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="296"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="304"/>
+        <source>The extractor returned an invalid audio data URL.</source>
+        <translation type="unfinished">提取器返回的音频数据 URL 无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="318"/>
+        <source>The extractor returned an unsupported audio URL.</source>
+        <translation type="unfinished">提取器返回了不受支持的音频 URL。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="352"/>
+        <source>The audio download redirected to an insecure URL.</source>
+        <translation type="unfinished">音频下载重定向到了不安全的 URL。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="360"/>
+        <source>Could not download separated audio: %1</source>
+        <translation type="unfinished">无法下载分离后的音频：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="383"/>
+        <source>Could not store separated audio.</source>
+        <translation type="unfinished">无法存储分离后的音频。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspDeviceCatalog</name>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="107"/>
+        <source>Could not read execution devices from DiffSinger Synthesis Program.</source>
+        <translation type="unfinished">无法从 DiffSinger 合成程序 读取执行设备。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="101"/>
+        <source>Could not start device discovery.</source>
+        <translation type="unfinished">无法启动设备发现。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="20"/>
+        <source>Device discovery timed out.</source>
+        <translation type="unfinished">设备发现超时。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerLog</name>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="75"/>
+        <source>Could not create the log directory:
+%1</source>
+        <translation type="unfinished">无法创建日志目录：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="119"/>
+        <source>Could not open the log file:
+%1</source>
+        <translation type="unfinished">无法打开日志文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="140"/>
+        <source>Could not open the log file for compression:
+%1</source>
+        <translation type="unfinished">无法打开待压缩的日志文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="145"/>
+        <source>Could not read the log file for compression:
+%1</source>
+        <translation type="unfinished">无法读取待压缩的日志文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="151"/>
+        <source>Could not compress the log file:
+%1</source>
+        <translation type="unfinished">无法压缩日志文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="156"/>
+        <source>Could not create the log archive:
+%1</source>
+        <translation type="unfinished">无法创建日志归档：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="161"/>
+        <source>Could not write to the log archive:
+%1</source>
+        <translation type="unfinished">无法写入日志归档：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerLog.cpp" line="208"/>
+        <source>Could not write to the log file:
+%1</source>
+        <translation type="unfinished">无法写入日志文件：
+%1</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerManager</name>
+    <message>
+        <source>Built-in</source>
+        <translation type="obsolete">内置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="117"/>
+        <source>Could not start DiffSinger Synthesis Program:
+%1</source>
+        <translation type="unfinished">无法启动 DiffSinger 合成程序：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <source>DiffSinger Synthesis Program exited abnormally</source>
+        <translation type="unfinished">DiffSinger 合成程序 异常退出</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="130"/>
+        <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
+        <translation type="unfinished">DiffSinger 合成程序 意外退出（退出代码为 %L1）。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="308"/>
+        <source>DiffSinger Synthesis Program is not configured</source>
+        <translation type="unfinished">未配置 DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="314"/>
+        <source>DiffSinger Synthesis Program is running</source>
+        <translation type="unfinished">DiffSinger 合成程序 正在运行</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="312"/>
+        <source>DiffSinger Synthesis Program is starting</source>
+        <translation type="unfinished">DiffSinger 合成程序 正在启动</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <source>DiffSinger Synthesis Program is stopped</source>
+        <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <source>DiffSinger Synthesis Program is stopping</source>
+        <translation type="unfinished">DiffSinger 合成程序 正在停止</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="452"/>
+        <source>DiffSinger Synthesis Program Stopped</source>
+        <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="369"/>
+        <source>DiffSinger Synthesis Program was not found:
+%1</source>
+        <translation type="unfinished">未找到 DiffSinger 合成程序：
+%1</translation>
+    </message>
+    <message>
+        <source>Downloaded %1</source>
+        <translation type="obsolete">已下载的 %1</translation>
+    </message>
+    <message>
+        <source>No installation selected</source>
+        <translation type="obsolete">未选择安装</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="455"/>
+        <source>Restart</source>
+        <translation type="unfinished">重新启动</translation>
+    </message>
+    <message>
+        <source>Selected installation (unavailable)</source>
+        <translation type="obsolete">所选安装（不可用）</translation>
+    </message>
+    <message>
+        <source>DiffSinger Synthesis Program (version unknown)</source>
+        <translation type="obsolete">DiffSinger 合成程序（版本未知）</translation>
+    </message>
+    <message>
+        <source>DiffSinger Synthesis Program %1</source>
+        <translation type="obsolete">DiffSinger 合成程序 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="296"/>
+        <source>Not Configured</source>
+        <translation type="unfinished">未配置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="302"/>
+        <source>Running</source>
+        <translation type="unfinished">运行中</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="300"/>
+        <source>Starting</source>
+        <translation type="unfinished">启动中</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <source>Stopped</source>
+        <translation type="unfinished">已停止</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="298"/>
+        <source>Stopping</source>
+        <translation type="unfinished">停止中</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="49"/>
+        <source>DiffSinger Synthesis Program</source>
+        <translation type="unfinished">DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="477"/>
+        <source>DiffSinger Synthesis Program Warning</source>
+        <translation type="unfinished">DiffSinger 合成程序 警告</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="479"/>
+        <source>DiffSinger Synthesis Program Critical</source>
+        <translation type="unfinished">DiffSinger 合成程序 关键性错误</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="481"/>
+        <source>DiffSinger Synthesis Program Fatal</source>
+        <translation type="unfinished">DiffSinger 合成程序 致命错误</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="487"/>
+        <source>Module: %1
+%2</source>
+        <translation type="unfinished">模块：%1
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="255"/>
+        <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
+        <translation type="unfinished">卸载此版本之前，将停止 DiffSinger 合成程序。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="243"/>
+        <source>Could not stop device discovery.</source>
+        <translation type="unfinished">无法停止设备发现。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="251"/>
+        <source>Could not stop DiffSinger Synthesis Program.</source>
+        <translation type="unfinished">无法停止 DiffSinger 合成程序。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::DsspServerPage</name>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="25"/>
+        <source>DiffSinger</source>
+        <translation type="unfinished">DiffSinger</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="26"/>
+        <source>Manager DiffSinger Synthesis Program and startup options</source>
+        <translation type="unfinished">管理 DiffSinger 合成程序 及启动选项</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="116"/>
+        <source>No installation is selected. Stop DiffSinger Synthesis Program now?</source>
+        <translation type="unfinished">未选择安装。是否立即停止 DiffSinger 合成程序？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
+        <source>Restart DiffSinger Synthesis Program</source>
+        <translation type="unfinished">重新启动 DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
+        <source>Stop DiffSinger Synthesis Program</source>
+        <translation type="unfinished">停止 DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <source>The executable does not exist:
+%1</source>
+        <translation type="obsolete">可执行文件不存在：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="84"/>
+        <source>The host must not be empty.</source>
+        <translation type="unfinished">主机不能为空。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="92"/>
+        <source>The package directory does not exist:
+%1</source>
+        <translation type="unfinished">包目录不存在：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="88"/>
+        <source>The port must be between %L1 and %L2.</source>
+        <translation type="unfinished">端口必须介于 %L1 和 %L2 之间。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="117"/>
+        <source>The startup options have changed. Restart DiffSinger Synthesis Program now?</source>
+        <translation type="unfinished">启动选项已更改。是否立即重新启动 DiffSinger 合成程序？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="264"/>
+        <source>Could not stop device discovery.</source>
+        <translation type="unfinished">无法停止设备发现。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ExtractionAudioCodec</name>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="36"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="85"/>
+        <source>Could not open the source audio.</source>
+        <translation type="unfinished">无法打开源音频。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="41"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="87"/>
+        <source>The audio has invalid format information.</source>
+        <translation type="unfinished">音频的格式信息无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="56"/>
+        <source>Could not prepare the audio for extraction.</source>
+        <translation type="unfinished">无法准备待提取的音频。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="71"/>
+        <source>Could not convert the audio format.</source>
+        <translation type="unfinished">无法转换音频格式。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
+        <source>The extractor does not accept audio data URLs.</source>
+        <translation type="unfinished">提取器不接受音频数据 URL。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="138"/>
+        <source>Could not encode an audio format accepted by the extractor.</source>
+        <translation type="unfinished">无法编码为提取器支持的音频格式。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="166"/>
+        <source>Could not decode the separated audio.</source>
+        <translation type="unfinished">无法解码分离后的音频。</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::MetadataRefreshController</name>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="38"/>
+        <source>The synthesis service returned HTTP status %1</source>
+        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="39"/>
+        <source>The synthesis service request failed: network error %1</source>
+        <translation type="unfinished">合成服务请求失败：网络错误 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="336"/>
+        <source>The health check was canceled</source>
+        <translation type="unfinished">健康检查已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="340"/>
+        <source>The service does not support DSSP API version 1</source>
+        <translation type="unfinished">此服务不支持 DSSP API 版本 1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="469"/>
+        <source>The architecture request was canceled</source>
+        <translation type="unfinished">架构请求已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="474"/>
+        <source>The singer request was canceled</source>
+        <translation type="unfinished">歌手请求已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="573"/>
+        <source>Could not refresh a singer avatar</source>
+        <translation type="unfinished">无法刷新歌手头像</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="588"/>
+        <source>Could not refresh a singer background</source>
+        <translation type="unfinished">无法刷新歌手背景</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="603"/>
+        <source>Could not refresh singer demo audio</source>
+        <translation type="unfinished">无法刷新歌手试听音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="446"/>
+        <source>The group request was canceled</source>
+        <translation type="unfinished">分组请求已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="452"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="521"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="538"/>
+        <source>The synthesis service returned inconsistent group metadata</source>
+        <translation type="unfinished">合成服务返回的分组元数据不一致</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ParameterRuntimeRegistry</name>
+    <message>
+        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="178"/>
+        <source>Invalid parameter display expression</source>
+        <translation type="unfinished">参数显示表达式无效</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ServiceConfigurationModel</name>
+    <message>
+        <location filename="../../internal/settings/ServiceConfigurationModel.cpp" line="173"/>
+        <source>DSSP Service</source>
+        <translation type="unfinished">DSSP 服务</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ServiceStatusModel</name>
+    <message>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="126"/>
+        <source>Disabled</source>
+        <translation type="unfinished">已禁用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="128"/>
+        <source>Not checked</source>
+        <translation type="unfinished">未检查</translation>
+    </message>
+    <message>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="130"/>
+        <source>Checking...</source>
+        <translation type="unfinished">正在检查...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="132"/>
+        <source>Connected</source>
+        <translation type="unfinished">已连接</translation>
+    </message>
+    <message>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="134"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::ServicesPage</name>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="24"/>
+        <source>Services</source>
+        <translation type="unfinished">服务</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="25"/>
+        <source>Configure DSSP service instances</source>
+        <translation type="unfinished">配置 DSSP 服务实例</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="72"/>
+        <source>Service %L1: %2</source>
+        <translation type="unfinished">服务 %L1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="81"/>
+        <source>Could not save service configurations</source>
+        <translation type="unfinished">无法保存服务配置</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthPlugin</name>
+    <message>
+        <location filename="../../internal/SynthPlugin.cpp" line="49"/>
+        <source>Initializing synthesis plugin...</source>
+        <translation type="unfinished">正在初始化合成插件...</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthService</name>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="73"/>
+        <source>Synthesis service unavailable</source>
+        <translation type="unfinished">合成服务不可用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="74"/>
+        <location filename="../../internal/SynthService.cpp" line="81"/>
+        <source>%1: %2</source>
+        <translation type="unfinished">%1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="80"/>
+        <source>Could not refresh singer metadata</source>
+        <translation type="unfinished">无法刷新歌手元数据</translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="104"/>
+        <source>The application settings service is not available</source>
+        <translation type="unfinished">应用设置服务不可用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="157"/>
+        <source>Service %L1: %2</source>
+        <translation type="unfinished">服务 %L1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="162"/>
+        <source>Service identifiers must be unique</source>
+        <translation type="unfinished">服务标识符必须唯一</translation>
     </message>
 </context>
 <context>
@@ -2641,27 +1912,867 @@ X-Custom-Header-2: bar</translation>
     <message>
         <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="113"/>
         <source>Service disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">服务已禁用</translation>
     </message>
     <message>
         <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="114"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已连接</translation>
     </message>
     <message>
         <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="115"/>
         <source>Connection failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">连接失败</translation>
     </message>
     <message>
         <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="116"/>
         <source>Connecting...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在连接...</translation>
     </message>
     <message>
         <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="159"/>
         <source>Service %L1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">服务 %L1：%2</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisPage</name>
+    <message>
+        <location filename="../../internal/settings/SynthesisPage.cpp" line="19"/>
+        <source>Synthesis</source>
+        <translation type="unfinished">合成</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/SynthesisPage.cpp" line="20"/>
+        <source>Configure synthesis behavior and storage</source>
+        <translation type="unfinished">配置合成行为与存储</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisProjectAddOn</name>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="129"/>
+        <source>Synthesized audio could not be prepared for the export sample rate</source>
+        <translation type="unfinished">无法为导出采样率准备已合成的音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="172"/>
+        <source>Synthesized audio positions could not be updated before export</source>
+        <translation type="unfinished">无法在导出前更新已合成音频的位置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="194"/>
+        <source>The synthesis state could not be checked before audio export</source>
+        <translation type="unfinished">无法在音频导出前检查合成状态</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="198"/>
+        <source>Audio synthesis did not complete successfully</source>
+        <translation type="unfinished">音频合成未成功完成</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="823"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="846"/>
+        <source>The synthesis piece is no longer available</source>
+        <translation type="unfinished">合成片段已不可用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="121"/>
+        <source>The project audio context is not available</source>
+        <translation type="unfinished">工程音频上下文不可用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="137"/>
+        <source>Synthesized audio for the synthesis piece could not be added to the track</source>
+        <translation type="unfinished">无法将合成片段的合成音频添加到轨道</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="147"/>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="255"/>
+        <source>The synthesis piece is outside the visible range of its clip</source>
+        <translation type="unfinished">合成片段超出所属剪辑的可见范围</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="176"/>
+        <source>The synthesis piece overlaps another synthesis piece in the same clip</source>
+        <translation type="unfinished">合成片段与同一剪辑内的其他合成片段重叠</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="199"/>
+        <source>The synthesis piece is no longer waiting for synthesized audio</source>
+        <translation type="unfinished">合成片段已不再等待合成音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="206"/>
+        <source>The synthesized audio file could not be opened</source>
+        <translation type="unfinished">无法打开合成音频文件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="217"/>
+        <source>Synthesized audio for the synthesis piece could not be prepared</source>
+        <translation type="unfinished">无法准备合成片段的合成音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="266"/>
+        <source>Synthesized audio for the synthesis piece could not be repositioned</source>
+        <translation type="unfinished">无法重新定位合成片段的合成音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="889"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="896"/>
+        <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
+        <translation type="unfinished">编辑进行中时无法开始音频导出。请完成或取消当前编辑后重试</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="914"/>
+        <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
+        <translation type="unfinished">编辑进行中时无法继续音频导出。请完成或取消当前编辑后重试</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="934"/>
+        <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
+        <translation type="unfinished">无法为剪辑“%1”启动音频合成</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="949"/>
+        <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
+        <translation type="unfinished">音频导出已停止，因为剪辑“%1”包含尚未完成音频的合成片段</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="955"/>
+        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
+        <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的音频合成已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="967"/>
+        <source>Unknown synthesis error</source>
+        <translation type="unfinished">未知的合成错误</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="969"/>
+        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
+        <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1007"/>
+        <source>Synthesis failed</source>
+        <translation type="unfinished">合成失败</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1162"/>
+        <source>The clip has no valid singer source</source>
+        <translation type="unfinished">剪辑没有有效的歌手源</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1255"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1359"/>
+        <source>The synthesis task could not be queued</source>
+        <translation type="unfinished">无法将合成任务加入队列</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1333"/>
+        <source>No healthy service can synthesize this synthesis piece</source>
+        <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1559"/>
+        <source>Resynthesize</source>
+        <translation type="unfinished">重新合成</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1560"/>
+        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
+%1</source>
+        <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1811"/>
+        <source>The pronunciation result does not match the requested score</source>
+        <translation type="unfinished">发音结果与请求的乐谱不匹配</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1813"/>
+        <source>The phoneme result does not match the requested score</source>
+        <translation type="unfinished">音素结果与请求的乐谱不匹配</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1815"/>
+        <source>The duration result does not match the score for the requested synthesis piece</source>
+        <translation type="unfinished">时长结果与所请求合成片段的乐谱不匹配</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2010"/>
+        <source>Synthesis was canceled</source>
+        <translation type="unfinished">合成已取消</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1168"/>
+        <source>No healthy service supports the singers selected for this clip</source>
+        <translation type="unfinished">没有正常的服务支持此剪辑所选的歌手</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="437"/>
+        <source>A slur note must immediately follow another note</source>
+        <translation type="unfinished">连音音符必须紧接在另一音符之后</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="425"/>
+        <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
+        <translation type="unfinished">部分音符重叠。请在合成前移动或调整重叠的音符</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="393"/>
+        <source>The synthesis piece is no longer attached to a valid clip</source>
+        <translation type="unfinished">合成片段已不再附加到有效的剪辑</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::ServiceTypes</name>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="33"/>
+        <location filename="../../service/ServiceTypes.cpp" line="617"/>
+        <source>Field &apos;%1&apos; must be a string</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是字符串</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="169"/>
+        <source>Service ID must not be null</source>
+        <translation type="unfinished">服务 ID 不得为空</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="171"/>
+        <source>Service name must not be empty or contain control characters</source>
+        <translation type="unfinished">服务名称不得为空或包含控制字符</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="174"/>
+        <source>Host is invalid</source>
+        <translation type="unfinished">主机无效</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="178"/>
+        <source>Host does not form a valid service URL</source>
+        <translation type="unfinished">主机无法构成有效的服务 URL</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="180"/>
+        <source>Port must be between 1 and 65535</source>
+        <translation type="unfinished">端口必须在 1 到 65535 之间</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="182"/>
+        <source>An API key is required when authentication is enabled</source>
+        <translation type="unfinished">启用认证时需要提供 API 密钥</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="185"/>
+        <source>API key must not contain whitespace</source>
+        <translation type="unfinished">API 密钥不得包含空白字符</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="188"/>
+        <source>API key must not contain control characters</source>
+        <translation type="unfinished">API 密钥不得包含控制字符</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="190"/>
+        <source>Request timeout must be positive</source>
+        <translation type="unfinished">请求超时时间必须为正数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="192"/>
+        <source>Maximum retries must not be negative</source>
+        <translation type="unfinished">最大重试次数不得为负数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="194"/>
+        <source>Concurrency limits must be positive</source>
+        <translation type="unfinished">并发限制必须为正数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="196"/>
+        <source>Concurrent tasks per type must not exceed total concurrent tasks</source>
+        <translation type="unfinished">每类型并发任务数不得超过总并发任务数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="198"/>
+        <source>Health check interval must be positive</source>
+        <translation type="unfinished">健康检查间隔必须为正数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="204"/>
+        <source>Endpoint path prefix must be an absolute URL path</source>
+        <translation type="unfinished">端点路径前缀必须是绝对 URL 路径</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="208"/>
+        <source>Endpoint path prefix must not contain dot segments</source>
+        <translation type="unfinished">端点路径前缀不得包含点号段</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="231"/>
+        <source>Custom header on line %L1 is invalid</source>
+        <translation type="unfinished">第 %L1 行的自定义标头无效</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="265"/>
+        <location filename="../../service/ServiceTypes.cpp" line="568"/>
+        <source>Result pointer must not be null</source>
+        <translation type="unfinished">结果指针不得为空</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="271"/>
+        <source>Field &apos;id&apos; must be a string</source>
+        <translation type="unfinished">字段 &apos;id&apos; 必须是字符串</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="279"/>
+        <source>Field &apos;%1&apos; must be a boolean</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是布尔值</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="288"/>
+        <location filename="../../service/ServiceTypes.cpp" line="602"/>
+        <source>Field &apos;%1&apos; must be an integer</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是整数</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="310"/>
+        <source>Service configuration contains a value of the wrong type</source>
+        <translation type="unfinished">服务配置包含类型错误的值</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="324"/>
+        <source>Local DSSP</source>
+        <translation type="unfinished">本地 DSSP</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="453"/>
+        <source>Invalid singer metadata</source>
+        <translation type="unfinished">无效的歌手元数据</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="459"/>
+        <source>Singer language &apos;%1&apos; must be an object</source>
+        <translation type="unfinished">歌手语言 &apos;%1&apos; 必须是对象</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="465"/>
+        <source>Singer language &apos;%1&apos;: %2</source>
+        <translation type="unfinished">歌手语言 &apos;%1&apos;：%2</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="572"/>
+        <source>Field &apos;configuration&apos; must be an object</source>
+        <translation type="unfinished">字段 &apos;configuration&apos; 必须是对象</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="576"/>
+        <source>Field &apos;metadata&apos; must be an object</source>
+        <translation type="unfinished">字段 &apos;metadata&apos; 必须是对象</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="586"/>
+        <source>Field &apos;configuration&apos; is invalid</source>
+        <translation type="unfinished">字段 &apos;configuration&apos; 无效</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="593"/>
+        <source>Field &apos;metadata&apos; is invalid</source>
+        <translation type="unfinished">字段 &apos;metadata&apos; 无效</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="608"/>
+        <location filename="../../service/ServiceTypes.cpp" line="640"/>
+        <source>Field &apos;%1&apos; is outside its valid range</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 超出其有效范围</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="627"/>
+        <source>Field &apos;%1&apos; must be an ISO 8601 date and time</source>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须是 ISO 8601 日期时间</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="650"/>
+        <source>Field &apos;selectedApiVersion&apos; must not exceed &apos;maximumApiVersion&apos;</source>
+        <translation type="unfinished">字段 &apos;selectedApiVersion&apos; 不得大于 &apos;maximumApiVersion&apos;</translation>
+    </message>
+    <message>
+        <location filename="../../service/ServiceTypes.cpp" line="664"/>
+        <source>Field &apos;metadataStale&apos; must be a boolean</source>
+        <translation type="unfinished">字段 &apos;metadataStale&apos; 必须是布尔值</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::SynthesisTaskManager</name>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="257"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="538"/>
+        <source>No healthy synthesis service supports the selected architecture and all required singers</source>
+        <translation type="unfinished">没有正常的合成服务同时支持所选架构和所有必需的歌手</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="478"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="876"/>
+        <source>The synthesis service returned HTTP status %1</source>
+        <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="481"/>
+        <source>The synthesis service request failed</source>
+        <translation type="unfinished">合成服务请求失败</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="867"/>
+        <source>The synthesis service request failed: %1</source>
+        <translation type="unfinished">合成服务请求失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
+        <source>The synthesis service returned HTTP status %1: %2</source>
+        <translation type="unfinished">合成服务返回了 HTTP 状态 %1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="899"/>
+        <source>The synthesized audio response is empty or exceeds the configured size limit</source>
+        <translation type="unfinished">已合成音频响应为空或超过配置的大小限制</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="904"/>
+        <source>Could not store synthesized audio locally</source>
+        <translation type="unfinished">无法在本地保存已合成的音频</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="916"/>
+        <source>The synthesis service returned an invalid audio data URL</source>
+        <translation type="unfinished">合成服务返回了无效的音频数据 URL</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="931"/>
+        <source>The synthesis service returned an unsupported audio URL</source>
+        <translation type="unfinished">合成服务返回了不受支持的音频 URL</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="949"/>
+        <source>The synthesized audio URL redirected too many times</source>
+        <translation type="unfinished">已合成音频 URL 的重定向次数过多</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="1002"/>
+        <source>The synthesized audio exceeds the configured download size limit</source>
+        <translation type="unfinished">已合成音频超过配置的下载大小限制</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="611"/>
+        <source>Audio request contains an invalid parameter value</source>
+        <translation type="unfinished">音频请求包含无效的参数值</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="731"/>
+        <source>Parameter request contains an invalid value</source>
+        <translation type="unfinished">参数请求包含无效值</translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="738"/>
+        <source>The selected singer cannot predict parameter %1</source>
+        <translation type="unfinished">所选歌手无法预测参数 %1</translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisEnvironmentWelcomeWizardPage</name>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="901"/>
+        <source>Synthesis Environment</source>
+        <translation type="unfinished">合成环境</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="21"/>
+        <source>Configure a synthesis program or connect to a synthesis service</source>
+        <translation type="unfinished">配置合成程序或连接合成服务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
+        <source>Use the local DiffSinger Synthesis Program</source>
+        <translation type="unfinished">使用本地 DiffSinger 合成程序</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
+        <source>Connect to a synthesis service</source>
+        <translation type="unfinished">连接合成服务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
+        <source>More Options...</source>
+        <translation type="unfinished">更多选项...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
+        <source>Connect</source>
+        <translation type="unfinished">连接</translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
+        <source>Available singers: %1</source>
+        <translation type="unfinished">可用歌手：%1</translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisPage</name>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="24"/>
+        <source>%1 B</source>
+        <translation type="unfinished">%1 B</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="26"/>
+        <source>%1 KiB</source>
+        <translation type="unfinished">%1 KiB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="28"/>
+        <source>%1 MiB</source>
+        <translation type="unfinished">%1 MiB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="29"/>
+        <source>%1 GiB</source>
+        <translation type="unfinished">%1 GiB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="47"/>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="384"/>
+        <source>Clear Synthesis Cache</source>
+        <translation type="unfinished">清除合成缓存</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="61"/>
+        <source>Clear Selected</source>
+        <translation type="unfinished">清除所选</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="86"/>
+        <source>Select the synthesis task caches to delete.</source>
+        <translation type="unfinished">选择要删除的合成任务缓存。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="92"/>
+        <source>Pronunciation (%1)</source>
+        <translation type="unfinished">发音（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="98"/>
+        <source>Phoneme (%1)</source>
+        <translation type="unfinished">音素（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="104"/>
+        <source>Duration (%1)</source>
+        <translation type="unfinished">时长（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="110"/>
+        <source>Parameter (%1)</source>
+        <translation type="unfinished">参数（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="116"/>
+        <source>Audio (%1)</source>
+        <translation type="unfinished">音频（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="129"/>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="444"/>
+        <source>Clear Synthesis Diagnostics</source>
+        <translation type="unfinished">清除合成诊断信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="135"/>
+        <source>Clear</source>
+        <translation type="unfinished">清除</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="147"/>
+        <source>Delete all saved synthesis diagnostics from the disk?</source>
+        <translation type="unfinished">要删除磁盘上保存的所有合成诊断信息吗？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="163"/>
+        <source>Synthesis</source>
+        <translation type="unfinished">合成</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="176"/>
+        <source>Padding added before and after each synthesis piece.</source>
+        <translation type="unfinished">在每个合成片段前后添加的填充。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="177"/>
+        <source>Base piece padding (ms)</source>
+        <translation type="unfinished">基础片段填充（ms）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="196"/>
+        <source>Additional leading padding added for each phoneme before a note onset.</source>
+        <translation type="unfinished">为音符起始前的每个音素添加的额外前导填充。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="197"/>
+        <source>Additional onset padding (ms)</source>
+        <translation type="unfinished">额外起始填充（ms）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="216"/>
+        <source>Minimum gap used to separate note groups into synthesis pieces and limit leading padding.</source>
+        <translation type="unfinished">用于将音符组分隔为合成片段并限制前导填充的最小间隔。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="217"/>
+        <source>Piece gap threshold (ms)</source>
+        <translation type="unfinished">片段间隔阈值（ms）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="236"/>
+        <source>Comma-separated lyrics treated as rests when dividing a clip into synthesis pieces.</source>
+        <translation type="unfinished">将剪辑划分为合成片段时视为休止的歌词，以逗号分隔。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="237"/>
+        <source>Rest lyrics</source>
+        <translation type="unfinished">休止歌词</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="248"/>
+        <source>Comma-separated, for example AP, SP</source>
+        <translation type="unfinished">以逗号分隔，例如 AP、SP</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="254"/>
+        <source>Number of parameter samples generated per second.</source>
+        <translation type="unfinished">每秒生成的参数采样数。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="255"/>
+        <source>Parameter sample rate (Hz)</source>
+        <translation type="unfinished">参数采样率（Hz）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="273"/>
+        <source>Number of singer-mix samples generated per second.</source>
+        <translation type="unfinished">每秒生成的歌手混合采样数。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="274"/>
+        <source>Singer mix sample rate (Hz)</source>
+        <translation type="unfinished">歌手混合采样率（Hz）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="295"/>
+        <source>Cache</source>
+        <translation type="unfinished">缓存</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="308"/>
+        <source>Maximum disk space used by synthesis task caches.</source>
+        <translation type="unfinished">合成任务缓存可占用的最大磁盘空间。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="309"/>
+        <source>Maximum cache size (GiB)</source>
+        <translation type="unfinished">最大缓存大小（GiB）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="327"/>
+        <source>Number of days before an unused cache entry expires. Use 0 to disable expiry.</source>
+        <translation type="unfinished">未使用的缓存条目过期前的天数。设为 0 表示永不过期。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="328"/>
+        <source>Cache expiry (days)</source>
+        <translation type="unfinished">缓存有效期（天）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="346"/>
+        <source>Maximum size of a synthesized audio file downloaded from a service.</source>
+        <translation type="unfinished">从服务下载的已合成音频文件的最大大小。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="347"/>
+        <source>Maximum audio download size (MiB)</source>
+        <translation type="unfinished">最大音频下载大小（MiB）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="365"/>
+        <source>How long to reuse a service-provided synthesis environment tag before requesting a new one.</source>
+        <translation type="unfinished">在请求新的环境标签之前，可复用服务提供的合成环境标签的时长。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="366"/>
+        <source>Environment tag lifetime (seconds)</source>
+        <translation type="unfinished">环境标签有效期（秒）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="393"/>
+        <source>Diagnostics</source>
+        <translation type="unfinished">诊断信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="406"/>
+        <source>Maximum disk space used by synthesis diagnostics.</source>
+        <translation type="unfinished">合成诊断信息可占用的最大磁盘空间。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="407"/>
+        <source>Maximum diagnostics size (MiB)</source>
+        <translation type="unfinished">最大诊断信息大小（MiB）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="425"/>
+        <source>Number of days before a diagnostics file expires. Use 0 to disable expiry.</source>
+        <translation type="unfinished">诊断文件过期前的天数。设为 0 表示永不过期。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="426"/>
+        <source>Diagnostics expiry (days)</source>
+        <translation type="unfinished">诊断信息有效期（天）</translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisProjectActions</name>
+    <message numerus="yes">
+        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
+        <source>%Ln synthesis task(s)</source>
+        <translation type="unfinished">
+            <numerusform>%Ln 个合成任务</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
+        <source>No synthesis tasks</source>
+        <translation type="unfinished">没有合成任务</translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisServicePanel</name>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Pronunciation</source>
+        <translation type="unfinished">发音</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Phoneme</source>
+        <translation type="unfinished">音素</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Duration</source>
+        <translation type="unfinished">时长</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Parameter</source>
+        <translation type="unfinished">参数</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Audio</source>
+        <translation type="unfinished">音频</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Unknown</source>
+        <translation type="unfinished">未知</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Queued</source>
+        <translation type="unfinished">排队中</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Succeeded</source>
+        <translation type="unfinished">成功</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Failed</source>
+        <translation type="unfinished">失败</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Canceled</source>
+        <translation type="unfinished">已取消</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="61"/>
+        <source>Clear Failed Tasks</source>
+        <translation type="unfinished">清除失败任务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="69"/>
+        <source>Refreshing...</source>
+        <translation type="unfinished">正在刷新...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="69"/>
+        <source>Refresh</source>
+        <translation type="unfinished">刷新</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="99"/>
+        <source>Last checked: %1</source>
+        <translation type="unfinished">最近检查：%1</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="152"/>
+        <source>Hide Tasks</source>
+        <translation type="unfinished">隐藏任务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="152"/>
+        <source>Show Tasks</source>
+        <translation type="unfinished">显示任务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="188"/>
+        <source>%L1 running, %L2 queued</source>
+        <translation type="unfinished">运行中 %L1 个，排队中 %L2 个</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="280"/>
+        <source>%L1 s</source>
+        <translation type="unfinished">%L1 秒</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="287"/>
+        <source>Terminate Task</source>
+        <translation type="unfinished">终止任务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="297"/>
+        <source>View Diagnostics</source>
+        <translation type="unfinished">查看诊断信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="306"/>
+        <source>Remove Task</source>
+        <translation type="unfinished">移除任务</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="325"/>
+        <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
+        <translation type="unfinished">未配置合成服务。请在“设置 &gt; 合成 &gt; 服务”中添加。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
+        <source>Running (%1%)</source>
+        <translation type="unfinished">运行中（%1%）</translation>
     </message>
 </context>
 </TS>

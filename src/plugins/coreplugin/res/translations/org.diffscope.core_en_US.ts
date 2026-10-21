@@ -4,9 +4,17 @@
 <context>
     <name></name>
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="188"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
         <source></source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ActionCatalogView</name>
+    <message>
+        <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
+        <source>Custom</source>
+        <translation type="unfinished">Custom</translation>
     </message>
 </context>
 <context>
@@ -37,22 +45,22 @@
         <translation type="unfinished">Value</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="178"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="169"/>
         <source>Interpolation</source>
         <translation type="unfinished">Interpolation</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="185"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="176"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="186"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="177"/>
         <source>Linear</source>
         <translation type="unfinished">Linear</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="187"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="178"/>
         <source>Hermite</source>
         <translation type="unfinished">Hermite</translation>
     </message>
@@ -195,17 +203,17 @@
         <translation type="vanished">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="227"/>
+        <location filename="../../core/CoreInterface.cpp" line="255"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="243"/>
+        <location filename="../../core/CoreInterface.cpp" line="271"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="257"/>
+        <location filename="../../core/CoreInterface.cpp" line="285"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</translation>
     </message>
@@ -227,173 +235,77 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5999"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6000"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6001"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6002"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6003"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6004"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6005"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6008"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6854"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6006"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6007"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6855"/>
         <source>Preferences</source>
         <translation>Preferences</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6009"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6086"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6087"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6088"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6856"/>
         <source>Window</source>
         <translation>Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6857"/>
         <source>Application</source>
         <translation>Application</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6011"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6012"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6013"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6014"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6095"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6858"/>
         <source>Home</source>
         <translation>Home</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6015"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6016"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6017"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6018"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6019"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6020"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6021"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6022"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6023"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6024"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6025"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6026"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6027"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6028"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6029"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6030"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6031"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6032"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6033"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6034"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6035"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6036"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6037"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6038"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6039"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6040"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6041"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6859"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6042"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6043"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6860"/>
         <source>Time Indicator</source>
         <translation>Time Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6044"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6045"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6046"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6047"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6048"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6049"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6050"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6051"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6052"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6053"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6054"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6055"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6056"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6057"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6058"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6861"/>
         <source>Timeline</source>
         <translation>Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6081"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6082"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6083"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6084"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6085"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6864"/>
         <source>Insert</source>
         <translation type="unfinished">Insert</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6096"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6097"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6098"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6109"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6866"/>
         <source>Core</source>
         <translation>Core</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6099"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6100"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6101"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6102"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6103"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6104"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6105"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6106"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6867"/>
         <source>Panel</source>
         <translation>Panel</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6107"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6108"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6868"/>
         <source>Widget</source>
         <translation>Widget</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6074"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6075"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6076"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6077"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6078"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6079"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6080"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6863"/>
         <source>View</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6059"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6060"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6061"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6062"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6063"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6064"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6065"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6066"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6067"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6068"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6069"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6070"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6071"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6072"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6073"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6862"/>
         <source>Workspace</source>
         <translation>Workspace</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6089"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6090"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6091"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6092"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6093"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6094"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6865"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
@@ -401,255 +313,450 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6112"/>
         <source>Create a project in a new window</source>
-        <translation>Create a project in a new window</translation>
+        <translation type="vanished">Create a project in a new window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6113"/>
         <source>Create a project from template in a new window</source>
-        <translation type="unfinished">Create a project from template in a new window</translation>
+        <translation type="obsolete">Create a project from template in a new window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6114"/>
         <source>Open an existing project in a new window</source>
-        <translation>Open an existing project in a new window</translation>
+        <translation type="vanished">Open an existing project in a new window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6115"/>
         <source>Open application settings</source>
-        <translation>Open application settings</translation>
+        <translation type="vanished">Open application settings</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6116"/>
         <source>Open plugin configuration dialog</source>
-        <translation>Open plugin configuration dialog</translation>
+        <translation type="vanished">Open plugin configuration dialog</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6117"/>
         <source>Switch to home window if it is opened, or else open home window</source>
-        <translation>Switch to home window if it is opened, or else open home window</translation>
+        <translation type="vanished">Switch to home window if it is opened, or else open home window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6118"/>
         <source>Quit DiffScope</source>
-        <translation>Quit DiffScope</translation>
+        <translation type="vanished">Quit DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6119"/>
         <source>Toggle &quot;Recent Files&quot; page</source>
-        <translation>Toggle &quot;Recent Files&quot; page</translation>
+        <translation type="vanished">Toggle &quot;Recent Files&quot; page</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6120"/>
         <source>Toggle &quot;Recovery Files&quot; page</source>
-        <translation>Toggle &quot;Recovery Files&quot; page</translation>
+        <translation type="vanished">Toggle &quot;Recovery Files&quot; page</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6121"/>
         <source>Toggle grid view in &quot;Recent Files&quot; page</source>
-        <translation>Toggle grid view in &quot;Recent Files&quot; page</translation>
+        <translation type="vanished">Toggle grid view in &quot;Recent Files&quot; page</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6122"/>
         <source>Toggle list view in &quot;Recent Files&quot; page</source>
-        <translation>Toggle list view in &quot;Recent Files&quot; page</translation>
+        <translation type="vanished">Toggle list view in &quot;Recent Files&quot; page</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6123"/>
         <source>Show music time (measure:beat:tick) on the time indicator</source>
-        <translation>Show music time (measure:beat:tick) on the time indicator</translation>
+        <translation type="vanished">Show music time (measure:beat:tick) on the time indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6124"/>
         <source>Show absolute time (minute:second.millisecond) on the time indicator</source>
-        <translation>Show absolute time (minute:second.millisecond) on the time indicator</translation>
+        <translation type="vanished">Show absolute time (minute:second.millisecond) on the time indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6125"/>
         <source>Navigate to a specific position</source>
-        <translation>Navigate to a specific position</translation>
+        <translation type="vanished">Navigate to a specific position</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6126"/>
         <source>Quickly navigate to a specific position</source>
-        <translation>Quickly navigate to a specific position</translation>
+        <translation type="vanished">Quickly navigate to a specific position</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6127"/>
         <source>Navigate to the start of current project</source>
-        <translation>Navigate to the start of current project</translation>
+        <translation type="vanished">Navigate to the start of current project</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6128"/>
         <source>Navigate to the end of current project</source>
-        <translation>Navigate to the end of current project</translation>
+        <translation type="vanished">Navigate to the end of current project</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6129"/>
         <source>Reset project end time based on project content</source>
-        <translation>Reset project end time based on project content</translation>
+        <translation type="vanished">Reset project end time based on project content</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6130"/>
         <source>Apply the default workspace layout</source>
-        <translation>Apply the default workspace layout</translation>
+        <translation type="vanished">Apply the default workspace layout</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6131"/>
         <source>Show or hide the main menu bar</source>
-        <translation>Show or hide the main menu bar</translation>
+        <translation type="vanished">Show or hide the main menu bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6132"/>
         <source>Show or hide the main tool bar</source>
-        <translation>Show or hide the main tool bar</translation>
+        <translation type="vanished">Show or hide the main tool bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6137"/>
         <source>Show or hide the status bar</source>
-        <translation>Show or hide the status bar</translation>
+        <translation type="vanished">Show or hide the status bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6138"/>
         <source>Switch to the next project window</source>
-        <translation>Switch to the next project window</translation>
+        <translation type="vanished">Switch to the next project window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6139"/>
         <source>Switch to the previous project window</source>
-        <translation>Switch to the previous project window</translation>
+        <translation type="vanished">Switch to the previous project window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6140"/>
         <source>Show help contents</source>
-        <translation>Show help contents</translation>
+        <translation type="vanished">Show help contents</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6141"/>
         <source>Show global notifications</source>
-        <translation type="unfinished">Show global notifications</translation>
+        <translation type="obsolete">Show global notifications</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6142"/>
         <source>Find and trigger action by name</source>
-        <translation>Find and trigger action by name</translation>
+        <translation type="vanished">Find and trigger action by name</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6143"/>
         <source>Show information about DiffScope</source>
-        <translation>Show information about DiffScope</translation>
+        <translation type="vanished">Show information about DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6144"/>
         <source>Show information about Qt</source>
-        <translation>Show information about Qt</translation>
+        <translation type="vanished">Show information about Qt</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6871"/>
+        <source>Create a project in a new window.</source>
+        <translation type="unfinished">Create a project in a new window.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6872"/>
+        <source>Create a project from an existing file in a new window.</source>
+        <translation type="unfinished">Create a project from an existing file in a new window.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6873"/>
+        <source>Open a project or switch to it if already open.</source>
+        <translation type="unfinished">Open a project or switch to it if already open.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6874"/>
+        <source>Choose a recently used project to open.</source>
+        <translation type="unfinished">Choose a recently used project to open.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6875"/>
+        <source>Save under a new name and continue editing the new file.</source>
+        <translation type="unfinished">Save under a new name and continue editing the new file.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6876"/>
+        <source>Save a separate copy while continuing to edit the current file.</source>
+        <translation type="unfinished">Save a separate copy while continuing to edit the current file.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6877"/>
+        <source>View plugin details and choose which plugins are enabled.</source>
+        <translation type="unfinished">View plugin details and choose which plugins are enabled.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6878"/>
+        <source>Paste timed items at the playhead or tracks after the current track.</source>
+        <translation type="unfinished">Paste timed items at the playhead or tracks after the current track.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6879"/>
+        <source>Select all items in the current editing scope.</source>
+        <translation type="unfinished">Select all items in the current editing scope.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6880"/>
+        <source>Select only the item under the editing cursor.</source>
+        <translation type="unfinished">Select only the item under the editing cursor.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6881"/>
+        <source>Toggle the current item&apos;s selection without clearing other selections.</source>
+        <translation type="unfinished">Toggle the current item&apos;s selection without clearing other selections.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6882"/>
+        <source>Browse project items in a tree and change the selection.</source>
+        <translation type="unfinished">Browse project items in a tree and change the selection.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6883"/>
+        <source>Move the editing cursor to the previous item without changing selection.</source>
+        <translation type="unfinished">Move the editing cursor to the previous item without changing selection.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6884"/>
+        <source>Move the editing cursor to the next item without changing selection.</source>
+        <translation type="unfinished">Move the editing cursor to the next item without changing selection.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6885"/>
+        <source>Mute or unmute the selected tracks or clips.</source>
+        <translation type="unfinished">Mute or unmute the selected tracks or clips.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6886"/>
+        <source>Play only the tracks marked as solo.</source>
+        <translation type="unfinished">Play only the tracks marked as solo.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6887"/>
+        <source>Arm or disarm the selected tracks for recording.</source>
+        <translation type="unfinished">Arm or disarm the selected tracks for recording.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6888"/>
+        <source>Raise the selected notes by a semitone.</source>
+        <translation type="unfinished">Raise the selected notes by a semitone.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6889"/>
+        <source>Lower the selected notes by a semitone.</source>
+        <translation type="unfinished">Lower the selected notes by a semitone.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6890"/>
+        <source>Raise the selected notes by an octave.</source>
+        <translation type="unfinished">Raise the selected notes by an octave.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6891"/>
+        <source>Lower the selected notes by an octave.</source>
+        <translation type="unfinished">Lower the selected notes by an octave.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6892"/>
+        <source>Split text into lyrics and apply them to the selected notes.</source>
+        <translation type="unfinished">Split text into lyrics and apply them to the selected notes.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6893"/>
+        <source>Split the selected clips or notes at the playhead.</source>
+        <translation type="unfinished">Split the selected clips or notes at the playhead.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6894"/>
+        <source>Merge the selected singing clips within each track.</source>
+        <translation type="unfinished">Merge the selected singing clips within each track.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6895"/>
+        <source>Edit notes in the current singing clip.</source>
+        <translation type="unfinished">Edit notes in the current singing clip.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6896"/>
+        <source>Choose source singers for the selected singing clips.</source>
+        <translation type="unfinished">Choose source singers for the selected singing clips.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6897"/>
+        <source>Display time as measures, beats, and ticks.</source>
+        <translation type="unfinished">Display time as measures, beats, and ticks.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6898"/>
+        <source>Display time as minutes, seconds, and milliseconds.</source>
+        <translation type="unfinished">Display time as minutes, seconds, and milliseconds.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6899"/>
+        <source>Jump to a position, time, or relative offset entered as text.</source>
+        <translation type="unfinished">Jump to a position, time, or relative offset entered as text.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6900"/>
+        <source>Fit the timeline range to project content and the loop range.</source>
+        <translation type="unfinished">Fit the timeline range to project content and the loop range.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6901"/>
+        <source>Edit the tempo at the playhead.</source>
+        <translation type="unfinished">Edit the tempo at the playhead.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6902"/>
+        <source>Edit the time signature at the playhead.</source>
+        <translation type="unfinished">Edit the time signature at the playhead.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6903"/>
+        <source>Set the start and end of the playback loop.</source>
+        <translation type="unfinished">Set the start and end of the playback loop.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6904"/>
+        <source>Choose a workspace layout for the current window.</source>
+        <translation type="unfinished">Choose a workspace layout for the current window.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6905"/>
+        <source>Manage saved workspace layouts.</source>
+        <translation type="unfinished">Manage saved workspace layouts.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6906"/>
+        <source>Choose which panels are included in the workspace.</source>
+        <translation type="unfinished">Choose which panels are included in the workspace.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6907"/>
+        <source>Choose which open workspace panel is active.</source>
+        <translation type="unfinished">Choose which open workspace panel is active.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6908"/>
+        <source>Keep the menu bar visible without pressing Alt.</source>
+        <translation type="unfinished">Keep the menu bar visible without pressing Alt.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6909"/>
+        <source>Add a track after the current track, or at the end if none is current.</source>
+        <translation type="unfinished">Add a track after the current track, or at the end if none is current.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6910"/>
+        <source>Choose the number, name, and insertion position of new tracks.</source>
+        <translation type="unfinished">Choose the number, name, and insertion position of new tracks.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6911"/>
+        <source>Choose an open project window to switch to.</source>
+        <translation type="unfinished">Choose an open project window to switch to.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6912"/>
+        <source>View global notifications.</source>
+        <translation type="unfinished">View global notifications.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6913"/>
+        <source>Find a command by name and run it.</source>
+        <translation type="unfinished">Find a command by name and run it.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6914"/>
+        <source>Check a DSPX file for format and data errors.</source>
+        <translation type="unfinished">Check a DSPX file for format and data errors.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6915"/>
+        <source>Choose which page to display in the home window.</source>
+        <translation type="unfinished">Choose which page to display in the home window.</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5825"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6689"/>
         <source>&amp;New</source>
         <translation>&amp;New</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5826"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6690"/>
         <source>New from Template...</source>
         <translation type="unfinished">New from Template...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5827"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6691"/>
         <source>&amp;Open...</source>
         <translation>&amp;Open...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5828"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6692"/>
         <source>Open &amp;Recent File</source>
         <translation type="unfinished">Open &amp;Recent File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5829"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6693"/>
         <source>&amp;Save</source>
         <translation>&amp;Save</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5830"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6694"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished">Save &amp;As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5831"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6695"/>
         <source>Save Copy As...</source>
         <translation type="unfinished">Save Copy As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5832"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6696"/>
         <source>Se&amp;ttings...</source>
         <translation>Se&amp;ttings...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5833"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6697"/>
         <source>Pl&amp;ugins...</source>
         <translation>Pl&amp;ugins...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5834"/>
         <source>Metadata...</source>
-        <translation type="unfinished">Metadata...</translation>
+        <translation type="obsolete">Metadata...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5835"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6698"/>
         <source>Show &amp;Home Window</source>
         <translation>Show &amp;Home Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5836"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6699"/>
         <source>E&amp;xit</source>
         <translation>E&amp;xit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5837"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6700"/>
         <source>Recent Files</source>
         <translation>Recent Files</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5838"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6701"/>
         <source>Recovery Files</source>
         <translation>Recovery Files</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5839"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6702"/>
         <source>Grid View</source>
         <translation>Grid View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5840"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6703"/>
         <source>List View</source>
         <translation>List View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5841"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6704"/>
         <source>&amp;Undo</source>
         <translation>&amp;Undo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5842"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6705"/>
         <source>&amp;Redo</source>
         <translation>&amp;Redo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5843"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6706"/>
         <source>Cu&amp;t</source>
         <translation>Cu&amp;t</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5844"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6707"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copy</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5845"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6708"/>
         <source>&amp;Paste</source>
         <translation>&amp;Paste</translation>
     </message>
@@ -658,22 +765,22 @@
         <translation type="vanished">Paste Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5846"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6709"/>
         <source>&amp;Delete</source>
         <translation>&amp;Delete</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5847"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6710"/>
         <source>Select &amp;All</source>
         <translation>Select &amp;All</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5848"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6711"/>
         <source>Dese&amp;lect</source>
         <translation>Dese&amp;lect</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5849"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6712"/>
         <source>Select Current</source>
         <translation>Select Current</translation>
     </message>
@@ -814,62 +921,62 @@
         <translation type="vanished">Scroll to Current Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5868"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6732"/>
         <source>Show &amp;Music Time</source>
         <translation>Show &amp;Music Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5869"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6733"/>
         <source>Show &amp;Absolute Time</source>
         <translation>Show &amp;Absolute Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5870"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6734"/>
         <source>&amp;Go To...</source>
         <translation>&amp;Go To...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5871"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6735"/>
         <source>&amp;Quick Jump...</source>
         <translation>&amp;Quick Jump...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5872"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6736"/>
         <source>Go to &amp;Start</source>
         <translation>Go to &amp;Start</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5873"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6737"/>
         <source>Go to Previous Measure</source>
         <translation>Go to Previous Measure</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5874"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6738"/>
         <source>Go to Previous Beat</source>
         <translation>Go to Previous Beat</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5875"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6739"/>
         <source>Go to Previous Tick</source>
         <translation>Go to Previous Tick</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5876"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6740"/>
         <source>Go to &amp;End</source>
         <translation>Go to &amp;End</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5877"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6741"/>
         <source>Go to Next Measure</source>
         <translation>Go to Next Measure</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5878"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6742"/>
         <source>Go to Next Beat</source>
         <translation>Go to Next Beat</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5879"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6743"/>
         <source>Go to Next Tick</source>
         <translation>Go to Next Tick</translation>
     </message>
@@ -878,322 +985,334 @@
         <translation type="vanished">Go Inside View Range</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5885"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6749"/>
         <source>Workspace Layout...</source>
         <translation>Workspace Layout...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5900"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6755"/>
         <source>Always Show &amp;Menu Bar</source>
         <translation type="unfinished">Always Show &amp;Menu Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5933"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6796"/>
         <source>Selection Indicator</source>
         <translation type="unfinished">Selection Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5934"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6797"/>
         <source>Notification Error Indicator</source>
         <translation type="unfinished">Notification Error Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5951"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6819"/>
         <source>Select</source>
         <translation type="unfinished">Select</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5952"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6820"/>
         <source>Select All Actions</source>
         <translation type="unfinished">Select All Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5953"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6821"/>
         <source>Select Current Actions</source>
         <translation type="unfinished">Select Current Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5954"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6822"/>
         <source>Shift Cursor Actions</source>
         <translation type="unfinished">Shift Cursor Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5955"/>
         <source>Msr Actions</source>
-        <translation type="unfinished">Msr Actions</translation>
+        <translation type="obsolete">Msr Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5956"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6824"/>
         <source>Track Select Actions</source>
         <translation type="unfinished">Track Select Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5957"/>
         <source>Note Shift Actions</source>
-        <translation type="unfinished">Note Shift Actions</translation>
+        <translation type="obsolete">Note Shift Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5959"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6827"/>
         <source>Bounce Actions</source>
         <translation type="unfinished">Bounce Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5960"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6828"/>
         <source>Edit Current Clip Actions</source>
         <translation type="unfinished">Edit Current Clip Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5961"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6829"/>
         <source>&amp;Timeline</source>
         <translation type="unfinished">&amp;Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5966"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6834"/>
         <source>Timeline Edit Actions</source>
         <translation type="unfinished">Timeline Edit Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5967"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6835"/>
         <source>&amp;Insert</source>
         <translation type="unfinished">&amp;Insert</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6846"/>
         <source>Home Menu</source>
         <translation type="unfinished">Home Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5981"/>
         <source>Window</source>
-        <translation type="unfinished">Window</translation>
+        <translation type="obsolete">Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5880"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6744"/>
         <source>&amp;Reset Project Time Range</source>
         <translation>&amp;Reset Project Time Range</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5850"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6713"/>
         <source>Multiple Select Current</source>
         <translation type="unfinished">Multiple Select Current</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5851"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6714"/>
+        <source>Item Selector...</source>
+        <translation type="unfinished">Item Selector...</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6715"/>
         <source>Shift Cursor Up</source>
         <translation type="unfinished">Shift Cursor Up</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5852"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6716"/>
         <source>Shift Cursor Down</source>
         <translation type="unfinished">Shift Cursor Down</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5853"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6717"/>
         <source>Shift Cursor Left</source>
         <translation type="unfinished">Shift Cursor Left</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5854"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6718"/>
         <source>Shift Cursor Right</source>
         <translation type="unfinished">Shift Cursor Right</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5855"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6719"/>
         <source>Mute</source>
         <translation type="unfinished">Mute</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5856"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6720"/>
         <source>Solo</source>
         <translation type="unfinished">Solo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5857"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6721"/>
         <source>Record</source>
         <translation type="unfinished">Record</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5858"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6722"/>
         <source>Select All Clips on Current Track</source>
         <translation type="unfinished">Select All Clips on Current Track</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5859"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6723"/>
         <source>Shift up by a Semitone</source>
         <translation type="unfinished">Shift up by a Semitone</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5860"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6724"/>
         <source>Shift down by a Semitone</source>
         <translation type="unfinished">Shift down by a Semitone</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5861"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6725"/>
         <source>Shift up by an Octave</source>
         <translation type="unfinished">Shift up by an Octave</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5862"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6726"/>
         <source>Shift down by an Octave</source>
         <translation type="unfinished">Shift down by an Octave</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5863"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6727"/>
         <source>Fill &amp;Lyrics...</source>
         <translation type="unfinished">Fill &amp;Lyrics...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5864"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6728"/>
         <source>Split</source>
         <translation type="unfinished">Split</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5865"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6729"/>
         <source>Bounce to Clip</source>
         <translation type="unfinished">Bounce to Clip</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5866"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6730"/>
         <source>Edit Current Clip</source>
         <translation type="unfinished">Edit Current Clip</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5867"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6731"/>
         <source>Edit Singers...</source>
         <translation type="unfinished">Edit Singers...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5881"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6745"/>
         <source>Edit Tempo...</source>
         <translation type="unfinished">Edit Tempo...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5882"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6746"/>
         <source>Edit Time Signature...</source>
         <translation type="unfinished">Edit Time Signature...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5883"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6747"/>
         <source>Edit Loop...</source>
         <translation type="unfinished">Edit Loop...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5884"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6748"/>
         <source>Enable Loop</source>
         <translation type="unfinished">Enable Loop</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5886"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6750"/>
         <source>Default &amp;Layout</source>
         <translation>Default &amp;Layout</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5887"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6751"/>
         <source>&amp;Custom Layouts</source>
         <translation>&amp;Custom Layouts</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5888"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6752"/>
         <source>&amp;Save Current Layout As...</source>
         <translation>&amp;Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5889"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6753"/>
         <source>&amp;All Panels</source>
         <translation>&amp;All Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5916"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6767"/>
         <source>&amp;Notification List...</source>
         <translation type="unfinished">&amp;Notification List...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5937"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6802"/>
         <source>Singers</source>
         <translation type="unfinished">Singers</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5958"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6823"/>
+        <source>MSR</source>
+        <translation type="unfinished">MSR</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6825"/>
+        <source>Transpose</source>
+        <translation type="unfinished">Transpose</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6826"/>
         <source>Fill Lyrics Actions</source>
         <translation type="unfinished">Fill Lyrics Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5976"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6842"/>
         <source>Notification Actions</source>
         <translation type="unfinished">Notification Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6847"/>
         <source>Generic Item Context Menu Actions</source>
         <translation type="unfinished">Generic Item Context Menu Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6848"/>
         <source>Generic Scene Context Menu Actions</source>
         <translation type="unfinished">Generic Scene Context Menu Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5984"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6780"/>
         <source>Clip Item Context Menu</source>
         <translation type="unfinished">Clip Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5985"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6849"/>
         <source>Clip Msr Actions</source>
         <translation type="unfinished">Clip Msr Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6781"/>
         <source>Clip Scene Context Menu</source>
         <translation type="unfinished">Clip Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6782"/>
         <source>Label Item Context Menu</source>
         <translation type="unfinished">Label Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6783"/>
         <source>Label Scene Context Menu</source>
         <translation type="unfinished">Label Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6786"/>
         <source>Tempo Item Context Menu</source>
         <translation type="unfinished">Tempo Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5990"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6789"/>
         <source>Key Signature Scene Context Menu</source>
         <translation type="unfinished">Key Signature Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5991"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6788"/>
         <source>Key Signature Item Context Menu</source>
         <translation type="unfinished">Key Signature Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5992"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6787"/>
         <source>Tempo Scene Context Menu</source>
         <translation type="unfinished">Tempo Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5993"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6790"/>
         <source>Track Item Context Menu</source>
         <translation type="unfinished">Track Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5994"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6791"/>
         <source>Track Scene Context Menu</source>
         <translation type="unfinished">Track Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5995"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6784"/>
         <source>Note Item Context Menu</source>
         <translation type="unfinished">Note Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5996"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6785"/>
         <source>Note Scene Context Menu</source>
         <translation type="unfinished">Note Scene Context Menu</translation>
     </message>
@@ -1202,127 +1321,127 @@
         <translation type="vanished">Show &amp;Menu Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5901"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6756"/>
         <source>Show Too&amp;l Bar</source>
         <translation>Show Too&amp;l Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5906"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6757"/>
         <source>Show &amp;Status Bar</source>
         <translation>Show &amp;Status Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5907"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6758"/>
         <source>Add Track</source>
         <translation type="unfinished">Add Track</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5908"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6759"/>
         <source>Insert Track...</source>
         <translation type="unfinished">Insert Track...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5909"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6760"/>
         <source>Insert Label...</source>
         <translation type="unfinished">Insert Label...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5910"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6761"/>
         <source>Insert Singing Clip...</source>
         <translation type="unfinished">Insert Singing Clip...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5911"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6762"/>
         <source>Insert Note...</source>
         <translation type="unfinished">Insert Note...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5912"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6763"/>
         <source>&amp;Next Project Window</source>
         <translation>&amp;Next Project Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5913"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6764"/>
         <source>&amp;Previous Project Window</source>
         <translation>&amp;Previous Project Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5914"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6765"/>
         <source>Pro&amp;ject Windows</source>
         <translation>Pro&amp;ject Windows</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5915"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6766"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5917"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6768"/>
         <source>&amp;Find Actions...</source>
         <translation>&amp;Find Actions...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5918"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6769"/>
         <source>&amp;About DiffScope</source>
         <translation>&amp;About DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5919"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6770"/>
         <source>About &amp;Qt</source>
         <translation>About &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5920"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6771"/>
         <source>Run DSPX Inspector</source>
         <translation type="unfinished">Run DSPX Inspector</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5921"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6772"/>
         <source>Main Menu</source>
         <translation>Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5922"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6773"/>
         <source>Main Tool Bar Left</source>
         <translation>Main Tool Bar Left</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5923"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6774"/>
         <source>Main Tool Bar Middle</source>
         <translation>Main Tool Bar Middle</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5924"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6775"/>
         <source>Main Tool Bar Right</source>
         <translation>Main Tool Bar Right</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5925"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6776"/>
         <source>Main Status Bar</source>
         <translation>Main Status Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5926"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6777"/>
         <source>Home Panels</source>
         <translation type="unfinished">Home Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5927"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6778"/>
         <source>Home Navigation</source>
         <translation>Home Navigation</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5928"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6779"/>
         <source>Home Tool</source>
         <translation>Home Tool</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5929"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6792"/>
         <source>Navigation Panels</source>
         <translation type="unfinished">Navigation Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5930"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6793"/>
         <source>Preferences</source>
         <translation>Preferences</translation>
     </message>
@@ -1331,22 +1450,22 @@
         <translation type="vanished">Help</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5931"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6794"/>
         <source>Workspace Panel Widgets</source>
         <translation>Workspace Panel Widgets</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5932"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6795"/>
         <source>Status Text</source>
         <translation>Status Text</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5935"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6798"/>
         <source>Properties</source>
         <translation>Properties</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5936"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6800"/>
         <source>Plugins</source>
         <translation>Plugins</translation>
     </message>
@@ -1363,67 +1482,65 @@
         <translation type="vanished">Piano Roll</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5938"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6804"/>
         <source>Notifications</source>
         <translation>Notifications</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5939"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6806"/>
         <source>Tips</source>
         <translation>Tips</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5940"/>
         <source>Metadata</source>
-        <translation type="unfinished">Metadata</translation>
+        <translation type="obsolete">Metadata</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5941"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6810"/>
         <source>Digital Clock</source>
         <translation>Digital Clock</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5942"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6811"/>
         <source>Tempo Time Signature Indicator</source>
         <translation type="unfinished">Tempo Time Signature Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5943"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6812"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5944"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6813"/>
         <source>File Open Actions</source>
         <translation>File Open Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5945"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6814"/>
         <source>File Save Actions</source>
         <translation type="unfinished">File Save Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5946"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6815"/>
         <source>Preference Actions</source>
         <translation>Preference Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5947"/>
         <source>File Metadata Actions</source>
-        <translation type="unfinished">File Metadata Actions</translation>
+        <translation type="obsolete">File Metadata Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5948"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6816"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5949"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6817"/>
         <source>Undo Actions</source>
         <translation>Undo Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5950"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6818"/>
         <source>Generic</source>
         <translation>Generic</translation>
     </message>
@@ -1456,32 +1573,32 @@
         <translation type="vanished">Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5962"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6830"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation>Time Indicator Timecode Format Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5963"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6831"/>
         <source>Timeline Go to Actions</source>
         <translation>Timeline Go to Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5964"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6832"/>
         <source>Timeline Back Navigation Actions</source>
         <translation>Timeline Back Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5965"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6833"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation>Timeline Forward Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5968"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6836"/>
         <source>&amp;View</source>
         <translation>&amp;View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5969"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6837"/>
         <source>Workspace Actions</source>
         <translation>Workspace Actions</translation>
     </message>
@@ -1490,7 +1607,7 @@
         <translation type="vanished">&amp;Workspace</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5970"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6838"/>
         <source>Workspace Layouts</source>
         <translation>Workspace Layouts</translation>
     </message>
@@ -1511,74 +1628,74 @@
         <translation type="vanished">Scroll To</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5973"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6839"/>
         <source>View Visibility Actions</source>
         <translation>View Visibility Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5974"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6840"/>
         <source>&amp;Window</source>
         <translation>&amp;Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5975"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6841"/>
         <source>Project Window Actions</source>
         <translation>Project Window Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5977"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6843"/>
         <source>About Actions</source>
         <translation>About Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5978"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6844"/>
         <source>Dspx Inspector Actions</source>
         <translation type="unfinished">Dspx Inspector Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6845"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>Tool Bar Timeline Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6754"/>
         <source>Active &amp;Panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Active &amp;Panel</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6799"/>
         <source>Show Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Properties</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6801"/>
         <source>Show Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Plugins</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6803"/>
         <source>Show Singer Picker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Singer Picker</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6805"/>
         <source>Show Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Notifications</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6807"/>
         <source>Show Tips</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Tips</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6808"/>
         <source>Show Recent Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Recent Files</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6809"/>
         <source>Show Recovery Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show Recovery Files</translation>
     </message>
 </context>
 <context>
@@ -2138,6 +2255,7 @@
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="16"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6688"/>
         <source>Color Scheme</source>
         <translation>Color Scheme</translation>
     </message>
@@ -2210,17 +2328,17 @@
         <translation type="unfinished">Gain (dB)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="57"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="58"/>
         <source>Editing gain</source>
         <translation type="unfinished">Editing gain</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="69"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="64"/>
         <source>Pan (%)</source>
         <translation type="unfinished">Pan (%)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="75"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="71"/>
         <source>Editing pan</source>
         <translation type="unfinished">Editing pan</translation>
     </message>
@@ -2228,12 +2346,12 @@
 <context>
     <name>Core::ActionWindowInterfaceBase</name>
     <message>
-        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="83"/>
+        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="97"/>
         <source>Toggle &quot;%1&quot;</source>
         <translation type="unfinished">Toggle &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="90"/>
+        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="104"/>
         <source>Open Menu &quot;%1&quot;...</source>
         <translation type="unfinished">Open Menu &quot;%1&quot;...</translation>
     </message>
@@ -2241,24 +2359,24 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="276"/>
+        <location filename="../../core/CoreInterface.cpp" line="307"/>
         <source>About %1</source>
         <translation>About %1</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="337"/>
+        <location filename="../../core/CoreInterface.cpp" line="374"/>
         <source>Unnamed track</source>
         <translation type="unfinished">Unnamed track</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="340"/>
+        <location filename="../../core/CoreInterface.cpp" line="377"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/ProjectDocumentContext.cpp" line="152"/>
-        <location filename="../../core/CoreInterface.cpp" line="369"/>
-        <location filename="../../core/CoreInterface.cpp" line="387"/>
+        <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
+        <location filename="../../core/CoreInterface.cpp" line="406"/>
+        <location filename="../../core/CoreInterface.cpp" line="424"/>
         <source>Untitled</source>
         <translation type="unfinished">Untitled</translation>
     </message>
@@ -2266,117 +2384,117 @@
 <context>
     <name>Core::DspxDocument</name>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1997"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
         <source>Paste failed</source>
         <translation type="unfinished">Paste failed</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1997"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
         <source>Cannot paste data from the clipboard.</source>
         <translation type="unfinished">Cannot paste data from the clipboard.</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2006"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2008"/>
         <source>Pasting tempo</source>
         <translation type="unfinished">Pasting tempo</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2008"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2010"/>
         <source>Pasting label</source>
         <translation type="unfinished">Pasting label</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2010"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2012"/>
         <source>Pasting key signature</source>
         <translation type="unfinished">Pasting key signature</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2012"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2014"/>
         <source>Pasting track</source>
         <translation type="unfinished">Pasting track</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2014"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2016"/>
         <source>Pasting clip</source>
         <translation type="unfinished">Pasting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2016"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2018"/>
         <source>Pasting note</source>
         <translation type="unfinished">Pasting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2018"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2020"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished">Pasting voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2020"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2022"/>
         <source>Pasting selection</source>
         <translation type="unfinished">Pasting selection</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2056"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2058"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished">Deleting parameter data</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2059"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2061"/>
         <source>Deleting tempo</source>
         <translation type="unfinished">Deleting tempo</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2061"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2063"/>
         <source>Deleting label</source>
         <translation type="unfinished">Deleting label</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2063"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2065"/>
         <source>Deleting key signature</source>
         <translation type="unfinished">Deleting key signature</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2065"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2067"/>
         <source>Deleting track</source>
         <translation type="unfinished">Deleting track</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2067"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
         <source>Deleting clip</source>
         <translation type="unfinished">Deleting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2071"/>
         <source>Deleting note</source>
         <translation type="unfinished">Deleting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2071"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2073"/>
         <source>Deleting anchor node</source>
         <translation type="unfinished">Deleting anchor node</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2073"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2075"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">Deleting voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2076"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2078"/>
         <source>Deleting selection</source>
         <translation type="unfinished">Deleting selection</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2151"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
         <source>Splitting clip</source>
         <translation type="unfinished">Splitting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2151"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
         <source>Splitting note</source>
         <translation type="unfinished">Splitting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2306"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2308"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">Bouncing to clip</translation>
     </message>
@@ -2751,18 +2869,18 @@
 <context>
     <name>Core::EditSourcesScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="225"/>
-        <source>Unsupported Note Languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="226"/>
-        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
-        <translation type="unfinished"></translation>
+        <source>Unsupported Note Languages</source>
+        <translation type="unfinished">Unsupported Note Languages</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="290"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="308"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
+        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
+        <translation type="unfinished">Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="291"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="309"/>
         <source>Editing sources</source>
         <translation type="unfinished">Editing sources</translation>
     </message>
@@ -2814,14 +2932,58 @@
         <translation type="unfinished">Inserting singing clip</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="364"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="363"/>
         <source>Inserting note</source>
         <translation type="unfinished">Inserting note</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="431"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="429"/>
         <source>Inserting phoneme</source>
         <translation type="unfinished">Inserting phoneme</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ActionCatalogProxyModel</name>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
+        <source>Menu</source>
+        <translation type="unfinished">Menu</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
+        <source>Action group</source>
+        <translation type="unfinished">Action group</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
+        <source>Separator</source>
+        <translation type="unfinished">Separator</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
+        <source>Stretch</source>
+        <translation type="unfinished">Stretch</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
+        <source>Action</source>
+        <translation type="unfinished">Action</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
+        <source>Widget</source>
+        <translation type="unfinished">Widget</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
+        <source>Custom component</source>
+        <translation type="unfinished">Custom component</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
+        <source>Category</source>
+        <translation type="unfinished">Category</translation>
     </message>
 </context>
 <context>
@@ -2932,112 +3094,112 @@
         <translation>Configure the colors and visual effects of various components</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="88"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="91"/>
         <source>Alpha: %L1</source>
         <translation>Alpha: %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="92"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="95"/>
         <source>Saturation (HSV): %L1</source>
         <translation>Saturation (HSV): %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="97"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="100"/>
         <source>Value: %L1</source>
         <translation>Value: %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="101"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="104"/>
         <source>Saturation (HSL): %L1</source>
         <translation>Saturation (HSL): %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="105"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="108"/>
         <source>Lightness: %L1</source>
         <translation>Lightness: %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="109"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="112"/>
         <source>QColor::lighter(): %L1</source>
         <translation>QColor::lighter(): %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="113"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="116"/>
         <source>Top Blend: %1</source>
         <translation>Top Blend: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="117"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="120"/>
         <source>Bottom Blend: %1</source>
         <translation>Bottom Blend: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="121"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="124"/>
         <source>OkLab Lighter: %L1</source>
         <translation type="unfinished">OkLab Lighter: %L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="229"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="232"/>
         <source>Syntax error at line %L1: Missing colon in declaration</source>
         <translation>Syntax error at line %L1: Missing colon in declaration</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="237"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="240"/>
         <source>Syntax error at line %L1: Empty property name</source>
         <translation>Syntax error at line %L1: Empty property name</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="242"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="245"/>
         <source>Syntax error at line %L1: Empty property value</source>
         <translation>Syntax error at line %L1: Empty property value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="250"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="253"/>
         <source>Syntax error at line %L1: Invalid &apos;alpha&apos; value</source>
         <translation>Syntax error at line %L1: Invalid &apos;alpha&apos; value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="258"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="261"/>
         <source>Syntax error at line %L1: Invalid &apos;saturation&apos; value</source>
         <translation>Syntax error at line %L1: Invalid &apos;saturation&apos; value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="266"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="269"/>
         <source>Syntax error at line %L1: Invalid &apos;value&apos; value</source>
         <translation>Syntax error at line %L1: Invalid &apos;value&apos; value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="274"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="277"/>
         <source>Syntax error at line %L1: Invalid &apos;hsl-saturation&apos; value</source>
         <translation>Syntax error at line %L1: Invalid &apos;hsl-saturation&apos; value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="282"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="285"/>
         <source>Syntax error at line %L1: Invalid &apos;lightness&apos; value</source>
         <translation>Syntax error at line %L1: Invalid &apos;lightness&apos; value</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="290"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="293"/>
         <source>Syntax error at line %L1: Invalid &apos;lighter&apos; value (must be a positive integer)</source>
         <translation>Syntax error at line %L1: Invalid &apos;lighter&apos; value (must be a positive integer)</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="297"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="300"/>
         <source>Syntax error at line %L1: Invalid color value for &apos;top-blend&apos;</source>
         <translation>Syntax error at line %L1: Invalid color value for &apos;top-blend&apos;</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="304"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="307"/>
         <source>Syntax error at line %L1: Invalid color value for &apos;bottom-blend&apos;</source>
         <translation>Syntax error at line %L1: Invalid color value for &apos;bottom-blend&apos;</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="312"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="315"/>
         <source>Syntax error at line %L1: Invalid &apos;oklab-lighter&apos; value (must be a positive number)</source>
         <translation type="unfinished">Syntax error at line %L1: Invalid &apos;oklab-lighter&apos; value (must be a positive number)</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="318"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="321"/>
         <source>Syntax error at line %L1: Unknown property &apos;%2&apos;</source>
         <translation>Syntax error at line %L1: Unknown property &apos;%2&apos;</translation>
     </message>
@@ -3045,27 +3207,27 @@
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="184"/>
+        <location filename="../../internal/CorePlugin.cpp" line="187"/>
         <source>Initializing core plugin...</source>
         <translation>Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="207"/>
+        <location filename="../../internal/CorePlugin.cpp" line="213"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished">Plugins loading complete, preparing for subsequent initialization...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="217"/>
+        <location filename="../../internal/CorePlugin.cpp" line="224"/>
         <source>Initializing GUI...</source>
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="464"/>
+        <location filename="../../internal/CorePlugin.cpp" line="483"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished">Last run terminated abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="464"/>
+        <location filename="../../internal/CorePlugin.cpp" line="483"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3074,7 +3236,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 To check for unsaved files, please go to Recovery Files.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="509"/>
+        <location filename="../../internal/CorePlugin.cpp" line="528"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3087,12 +3249,12 @@ Please go to Plugins to see more details.</source>
 Please go to Plugins to see more details.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="512"/>
+        <location filename="../../internal/CorePlugin.cpp" line="531"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="514"/>
+        <location filename="../../internal/CorePlugin.cpp" line="533"/>
         <source>Plugin Error</source>
         <translation type="unfinished">Plugin Error</translation>
     </message>
@@ -3110,7 +3272,7 @@ Please go to Plugins to see more details.</translation>
         <translation type="unfinished">Pitch out of range</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="193"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="196"/>
         <source>Shifting note pitch</source>
         <translation type="unfinished">Shifting note pitch</translation>
     </message>
@@ -3131,12 +3293,12 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::FillLyricsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="177"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="180"/>
         <source>Invalid Regular Expression</source>
         <translation type="unfinished">Invalid Regular Expression</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="178"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="181"/>
         <source>The regular expression is invalid:
 
 %1</source>
@@ -3145,7 +3307,7 @@ Please go to Plugins to see more details.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="209"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="212"/>
         <source>Filling lyrics</source>
         <translation type="unfinished">Filling lyrics</translation>
     </message>
@@ -3153,7 +3315,7 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::FindActionsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="64"/>
+        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="67"/>
         <source>Find actions</source>
         <translation>Find actions</translation>
     </message>
@@ -3161,22 +3323,22 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::FindActionsModel</name>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="136"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="112"/>
         <source>Toggle &quot;%1&quot;</source>
         <translation>Toggle &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="138"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="114"/>
         <source>Open Menu &quot;%1&quot;...</source>
         <translation type="unfinished">Open Menu &quot;%1&quot;...</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="143"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="119"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="159"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="135"/>
         <source>recently used</source>
         <translation>recently used</translation>
     </message>
@@ -3194,14 +3356,468 @@ Please go to Plugins to see more details.</translation>
         <translation>Configure general behaviors of %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="185"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1</source>
         <translation>Restart %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="185"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1 to apply language changes?</source>
         <translation>Restart %1 to apply language changes?</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ItemSelectorDialog</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="102"/>
+        <source>%1 Transform</source>
+        <translation type="unfinished">%1 Transform</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="232"/>
+        <source>Document Components</source>
+        <translation type="unfinished">Document Components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="233"/>
+        <source>Document Components List</source>
+        <translation type="unfinished">Document Components List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="234"/>
+        <source>Select all document components</source>
+        <translation type="unfinished">Select all document components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="238"/>
+        <source>Tracks</source>
+        <translation type="unfinished">Tracks</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="239"/>
+        <source>Tracks List</source>
+        <translation type="unfinished">Tracks List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="240"/>
+        <source>Select all tracks</source>
+        <translation type="unfinished">Select all tracks</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="244"/>
+        <source>Track Components</source>
+        <translation type="unfinished">Track Components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="245"/>
+        <source>Track Components List</source>
+        <translation type="unfinished">Track Components List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="246"/>
+        <source>Select all track components</source>
+        <translation type="unfinished">Select all track components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="250"/>
+        <source>Clips</source>
+        <translation type="unfinished">Clips</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="251"/>
+        <source>Clips List</source>
+        <translation type="unfinished">Clips List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="252"/>
+        <source>Select all clips</source>
+        <translation type="unfinished">Select all clips</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="256"/>
+        <source>Clip Components</source>
+        <translation type="unfinished">Clip Components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="257"/>
+        <source>Clip Components List</source>
+        <translation type="unfinished">Clip Components List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="258"/>
+        <source>Select all clip components</source>
+        <translation type="unfinished">Select all clip components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="262"/>
+        <source>Notes</source>
+        <translation type="unfinished">Notes</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="263"/>
+        <source>Notes List</source>
+        <translation type="unfinished">Notes List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="264"/>
+        <source>Select all notes</source>
+        <translation type="unfinished">Select all notes</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="268"/>
+        <source>Parameters</source>
+        <translation type="unfinished">Parameters</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="269"/>
+        <source>Parameters List</source>
+        <translation type="unfinished">Parameters List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="270"/>
+        <source>Select all parameters</source>
+        <translation type="unfinished">Select all parameters</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="274"/>
+        <source>Parameter Components</source>
+        <translation type="unfinished">Parameter Components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="275"/>
+        <source>Parameter Components List</source>
+        <translation type="unfinished">Parameter Components List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="276"/>
+        <source>Select all parameter components</source>
+        <translation type="unfinished">Select all parameter components</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="282"/>
+        <source>Parameter Transform Anchors</source>
+        <translation type="unfinished">Parameter Transform Anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="283"/>
+        <source>Parameter Transform Anchors List</source>
+        <translation type="unfinished">Parameter Transform Anchors List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="284"/>
+        <source>Select all parameter transform anchors</source>
+        <translation type="unfinished">Select all parameter transform anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="288"/>
+        <source>Parameter Edited Anchors</source>
+        <translation type="unfinished">Parameter Edited Anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="289"/>
+        <source>Parameter Edited Anchors List</source>
+        <translation type="unfinished">Parameter Edited Anchors List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="290"/>
+        <source>Select all parameter edited anchors</source>
+        <translation type="unfinished">Select all parameter edited anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="295"/>
+        <source>Voice Blending Anchors</source>
+        <translation type="unfinished">Voice Blending Anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="296"/>
+        <source>Voice Blending Anchors List</source>
+        <translation type="unfinished">Voice Blending Anchors List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="297"/>
+        <source>Select all voice blending anchors</source>
+        <translation type="unfinished">Select all voice blending anchors</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="301"/>
+        <source>Labels</source>
+        <translation type="unfinished">Labels</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="302"/>
+        <source>Labels List</source>
+        <translation type="unfinished">Labels List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="303"/>
+        <source>Select all labels</source>
+        <translation type="unfinished">Select all labels</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="307"/>
+        <source>Tempo Markings</source>
+        <translation type="unfinished">Tempo Markings</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="308"/>
+        <source>Tempo Markings List</source>
+        <translation type="unfinished">Tempo Markings List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="309"/>
+        <source>Select all tempo markings</source>
+        <translation type="unfinished">Select all tempo markings</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="313"/>
+        <source>Key Signatures</source>
+        <translation type="unfinished">Key Signatures</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="314"/>
+        <source>Key Signatures List</source>
+        <translation type="unfinished">Key Signatures List</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="315"/>
+        <source>Select all key signatures</source>
+        <translation type="unfinished">Select all key signatures</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="536"/>
+        <source>Item Selector</source>
+        <translation type="unfinished">Item Selector</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="623"/>
+        <source>Select All</source>
+        <translation type="unfinished">Select All</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="814"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="815"/>
+        <source>Range</source>
+        <translation type="unfinished">Range</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="826"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="829"/>
+        <source>Start</source>
+        <translation type="unfinished">Start</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="827"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="830"/>
+        <source>End</source>
+        <translation type="unfinished">End</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ItemSelectorListModel</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
+        <source>Tracks</source>
+        <translation type="unfinished">Tracks</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
+        <source>Labels</source>
+        <translation type="unfinished">Labels</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
+        <source>Tempos</source>
+        <translation type="unfinished">Tempos</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
+        <source>Key Signatures</source>
+        <translation type="unfinished">Key Signatures</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
+        <source>Clips</source>
+        <translation type="unfinished">Clips</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="561"/>
+        <source>Notes</source>
+        <translation type="unfinished">Notes</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="563"/>
+        <source>Parameters</source>
+        <translation type="unfinished">Parameters</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="565"/>
+        <source>Voice Blending</source>
+        <translation type="unfinished">Voice Blending</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="567"/>
+        <source>Freeform Edited</source>
+        <translation type="unfinished">Freeform Edited</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="569"/>
+        <source>Freeform Transform</source>
+        <translation type="unfinished">Freeform Transform</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="571"/>
+        <source>Anchor Edited</source>
+        <translation type="unfinished">Anchor Edited</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="573"/>
+        <source>Anchor Transform</source>
+        <translation type="unfinished">Anchor Transform</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="576"/>
+        <source>%L1. %2</source>
+        <translation type="unfinished">%L1. %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <source>Audio</source>
+        <translation type="unfinished">Audio</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <source>Singing</source>
+        <translation type="unfinished">Singing</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="581"/>
+        <source>%1: %2</source>
+        <translation type="unfinished">%1: %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="593"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="613"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="617"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="602"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="606"/>
+        <source>Position %1</source>
+        <translation type="unfinished">Position %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="612"/>
+        <source>%L1 BPM</source>
+        <translation type="unfinished">%L1 BPM</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="628"/>
+        <source>Clip Count: %L1
+Color: %L2
+View Height: %L3
+Gain: %L4 dB
+Pan: %L5
+Mute: %6
+Solo: %7
+Record: %8</source>
+        <translation type="unfinished">Clip Count: %L1
+Color: %L2
+View Height: %L3
+Gain: %L4 dB
+Pan: %L5
+Mute: %6
+Solo: %7
+Record: %8</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="638"/>
+        <source>Position: %1
+Starting Offset: %2
+Clip Length: %3</source>
+        <translation type="unfinished">Position: %1
+Starting Offset: %2
+Clip Length: %3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <source>
+Virtual Singer: %1</source>
+        <translation type="unfinished">
+Virtual Singer: %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <source>No singer</source>
+        <translation type="unfinished">No singer</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="646"/>
+        <source>
+File: %1</source>
+        <translation type="unfinished">
+File: %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="656"/>
+        <source>Onset Position (Relative to Clip): %1
+Duration: %2
+Language: %3
+Pronunciation (Original): %4
+Pronunciation (Edited): %5</source>
+        <translation type="unfinished">Onset Position (Relative to Clip): %1
+Duration: %2
+Language: %3
+Pronunciation (Original): %4
+Pronunciation (Edited): %5</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="662"/>
+        <source>Parameter ID: %1
+Edited Anchor Count: %L2
+Transform Anchor Count: %L3</source>
+        <translation type="unfinished">Parameter ID: %1
+Edited Anchor Count: %L2
+Transform Anchor Count: %L3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="673"/>
+        <source>Value: %1
+Interpolation: %2</source>
+        <translation type="unfinished">Value: %1
+Interpolation: %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="692"/>
+        <source>%1: %L2%</source>
+        <translation type="unfinished">%1: %L2%</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="698"/>
+        <source>Position: %1</source>
+        <translation type="unfinished">Position: %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="708"/>
+        <source>Flat</source>
+        <translation type="unfinished">Flat</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="709"/>
+        <source>Sharp</source>
+        <translation type="unfinished">Sharp</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="710"/>
+        <source>Position: %1
+Tonality: %2
+Mode: %3
+Accidental Type: %4</source>
+        <translation type="unfinished">Position: %1
+Tonality: %2
+Mode: %3
+Accidental Type: %4</translation>
     </message>
 </context>
 <context>
@@ -3219,64 +3835,65 @@ Please go to Plugins to see more details.</translation>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="91"/>
         <source>The keyboard mapping settings could not be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The keyboard mapping settings could not be saved.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="110"/>
         <location filename="../../internal/settings/KeymapPage.cpp" line="182"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Default</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="181"/>
         <source>Enter a preset name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter a preset name.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="186"/>
         <source>A preset with this name already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A preset with this name already exists.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="242"/>
         <source>Default (copy)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Default (copy)</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="248"/>
         <source>%1 (%L2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%L2)</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="257"/>
         <source>Enter a shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter a shortcut.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="262"/>
         <source>A shortcut must include a key other than a modifier.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A shortcut must include a key other than a modifier.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="289"/>
         <source>%1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1: %2</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="292"/>
         <source>Already assigned to:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Already assigned to:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
         <source>Find Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Find Shortcut</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Edit Shortcut</translation>
     </message>
 </context>
 <context>
@@ -3307,28 +3924,28 @@ Please go to Plugins to see more details.</translation>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="140"/>
         <source>The menu and toolbar settings could not be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The menu and toolbar settings could not be saved.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="299"/>
         <source>This item cannot be added because it would create an invalid or recursive menu.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">This item cannot be added because it would create an invalid or recursive menu.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="340"/>
         <source>This item cannot be moved to the selected position.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">This item cannot be moved to the selected position.</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="435"/>
         <source>Restoring this menu would create a recursive menu. Restore all layouts or remove the conflicting reference.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restoring this menu would create a recursive menu. Restore all layouts or remove the conflicting reference.</translation>
     </message>
 </context>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="74"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="83"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation>
             <numerusform>%1 (+%Ln notification)</numerusform>
@@ -3357,128 +3974,128 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::QuickJumpParser</name>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="182"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="185"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation type="unfinished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="199"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="202"/>
         <source>Invalid format</source>
         <translation type="unfinished">Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="212"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="304"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="353"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="360"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="367"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="215"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>Go to %1</source>
         <translation type="unfinished">Go to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="232"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move backward by %1 (to %2)</source>
         <translation type="unfinished">Move backward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="232"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move forward by %1 (to %2)</source>
         <translation type="unfinished">Move forward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="233"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move backward by music time...</source>
         <translation type="unfinished">Move backward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="233"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move forward by music time...</source>
         <translation type="unfinished">Move forward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="240"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="294"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation type="unfinished">
 The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>Go to absolute time...</source>
         <translation type="unfinished">Go to absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="286"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move backward by absolute time...</source>
         <translation type="unfinished">Move backward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="286"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move forward by absolute time...</source>
         <translation type="unfinished">Move forward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="304"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
         <source>the end of project (%1)</source>
         <translation type="unfinished">the end of project (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
         <source>previous measure (%1)</source>
         <translation type="unfinished">previous measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
         <source>previous beat (%1)</source>
         <translation type="unfinished">previous beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>previous tick (%1)</source>
         <translation type="unfinished">previous tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="353"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
         <source>next measure (%1)</source>
         <translation type="unfinished">next measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="360"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
         <source>next beat (%1)</source>
         <translation type="unfinished">next beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="367"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>next tick (%1)</source>
         <translation type="unfinished">next tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="396"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="399"/>
         <source>measure %L1, beat %L2</source>
         <translation type="unfinished">measure %L1, beat %L2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="398"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation type="unfinished">measure %L1, beat %L2, tick %L3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="402"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -3487,7 +4104,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="403"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="406"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -3496,13 +4113,13 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="410"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="414"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -3511,7 +4128,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="415"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -3520,7 +4137,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="416"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="419"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -3529,26 +4146,26 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="424"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="433"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="432"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="436"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -3557,7 +4174,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="437"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -3566,7 +4183,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="438"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -3575,20 +4192,20 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="446"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="455"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="454"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
@@ -3597,32 +4214,32 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
 <context>
     <name>Core::Internal::RecentFileAddOn</name>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="147"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="156"/>
         <source>&lt;i&gt;File moved or deleted&lt;/i&gt;</source>
         <translation type="unfinished">&lt;i&gt;File moved or deleted&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="167"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
         <source>Failed to restore recovery file</source>
         <translation type="unfinished">Failed to restore recovery file</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="168"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
         <source>Cannot restore the recovery file.</source>
         <translation type="unfinished">Cannot restore the recovery file.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="185"/>
         <source>Complete recovery failed</source>
         <translation type="unfinished">Complete recovery failed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="186"/>
         <source>Complete recovery failed. Partial recovery will be attempted.</source>
         <translation type="unfinished">Complete recovery failed. Partial recovery will be attempted.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="276"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="285"/>
         <source>Unsaved project from last close</source>
         <translation type="unfinished">Unsaved project from last close</translation>
     </message>
@@ -3630,9 +4247,37 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
 <context>
     <name>Core::Internal::SingerNameResolver</name>
     <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="169"/>
+        <source>No singer</source>
+        <translation type="unfinished">No singer</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <source>Mixed singer (%1)</source>
+        <translation type="unfinished">Mixed singer (%1)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <source>, </source>
+        <translation type="unfinished">, </translation>
+    </message>
+    <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Not available</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="196"/>
+        <source>Custom (%1)</source>
+        <translation type="unfinished">Custom (%1)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="208"/>
+        <source>Mixed singer</source>
+        <translation type="unfinished">Mixed singer</translation>
     </message>
 </context>
 <context>
@@ -3799,12 +4444,12 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="vanished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="487"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="490"/>
         <source>Invalid format</source>
         <translation>Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="475"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="478"/>
         <source>Jump to</source>
         <translation>Jump to</translation>
     </message>
@@ -3814,17 +4459,17 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="unfinished">Custom Mode</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="146"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
         <source>Enabling loop</source>
         <translation type="unfinished">Enabling loop</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="146"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
         <source>Disabling loop</source>
         <translation type="unfinished">Disabling loop</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="485"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="488"/>
         <source>Input should not be empty</source>
         <translation>Input should not be empty</translation>
     </message>
@@ -3847,44 +4492,100 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="224"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="163"/>
         <source>Save Current Layout As...</source>
         <translation>Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="230"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="169"/>
         <source>Default Layout</source>
         <translation>Default Layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="240"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="179"/>
         <source>custom layout</source>
         <translation>custom layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="244"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="183"/>
         <source>Workspace layout actions</source>
         <translation>Workspace layout actions</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="263"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="203"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="206"/>
         <source>Rename</source>
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="269"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="209"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="271"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>Custom layout &quot;%1&quot; actions</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspacePanelLoader</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="76"/>
+        <source>The panel request expired.</source>
+        <translation type="unfinished">The panel request expired.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="80"/>
+        <source>The panel component was destroyed.</source>
+        <translation type="unfinished">The panel component was destroyed.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="96"/>
+        <source>The panel component is not registered.</source>
+        <translation type="unfinished">The panel component is not registered.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="98"/>
+        <source>The panel component is not ready.</source>
+        <translation type="unfinished">The panel component is not ready.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="107"/>
+        <source>The panel component must provide a DockingPane.</source>
+        <translation type="unfinished">The panel component must provide a DockingPane.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="151"/>
+        <source>The panel rejected the workspace state in %1.</source>
+        <translation type="unfinished">The panel rejected the workspace state in %1.</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspaceSession</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="58"/>
+        <source>The panel could not be placed in the selected location.</source>
+        <translation type="unfinished">The panel could not be placed in the selected location.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="152"/>
+        <source>The workspace layout is invalid.</source>
+        <translation type="unfinished">The workspace layout is invalid.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="260"/>
+        <source>The workspace layout could not be restored.</source>
+        <translation type="unfinished">The workspace layout could not be restored.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="431"/>
+        <source>The panel could not be moved to a floating window.</source>
+        <translation type="unfinished">The panel could not be moved to a floating window.</translation>
     </message>
 </context>
 <context>
@@ -3910,17 +4611,17 @@ Continue?</translation>
         <translation type="unfinished">Failed to save file</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="121"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="130"/>
         <source>Open DSPX Inspector</source>
         <translation type="unfinished">Open DSPX Inspector</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="124"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="136"/>
         <source>Failed to parse file content</source>
         <translation type="unfinished">Failed to parse file content</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="125"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="137"/>
         <source>%1
 
 You can check for problems in the file with DSPX Inspector.</source>
@@ -3929,32 +4630,32 @@ You can check for problems in the file with DSPX Inspector.</source>
 You can check for problems in the file with DSPX Inspector.</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="148"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="166"/>
         <source>File created with another application</source>
         <translation type="unfinished">File created with another application</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="150"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="168"/>
         <source>name unknown</source>
         <translation type="unfinished">name unknown</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="159"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
         <source>File created with incompatible %1 version</source>
         <translation type="unfinished">File created with incompatible %1 version</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="170"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="188"/>
         <source>Additional check failed</source>
         <translation type="unfinished">Additional check failed</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="180"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="198"/>
         <source>Potential document integrity issue</source>
         <translation type="unfinished">Potential document integrity issue</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="181"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="199"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -3982,12 +4683,12 @@ Do you want to continue?</translation>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="118"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
         <source>File Modified Externally</source>
         <translation type="unfinished">File Modified Externally</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="119"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -3996,12 +4697,12 @@ Do you want to save as a new file or overwrite it?</source>
 Do you want to save as a new file or overwrite it?</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="123"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="132"/>
         <source>Save As...</source>
         <translation type="unfinished">Save As...</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="136"/>
         <source>Overwrite</source>
         <translation type="unfinished">Overwrite</translation>
     </message>
@@ -4011,12 +4712,12 @@ Do you want to save as a new file or overwrite it?</translation>
     <message>
         <location filename="../../singer/SingerInfoProvider.cpp" line="121"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Not available</translation>
     </message>
     <message>
         <location filename="../../singer/SingerInfoProvider.cpp" line="135"/>
         <source>Default language (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Default language (%1)</translation>
     </message>
 </context>
 <context>
@@ -4185,7 +4886,7 @@ Do you want to save as a new file or overwrite it?</translation>
         <translation type="unfinished">Mixed singer</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="153"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="154"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
@@ -4193,17 +4894,37 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>EditActionsAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="266"/>
         <source>%1 [%2, %3)</source>
-        <translation type="unfinished">%1 [%2, %3)</translation>
+        <translation type="obsolete">%1 [%2, %3)</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="273"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="195"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="197"/>
+        <source>Toggling mute</source>
+        <translation type="unfinished">Toggling mute</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
+        <source>Toggling solo</source>
+        <translation type="unfinished">Toggling solo</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="220"/>
+        <source>Toggling record</source>
+        <translation type="unfinished">Toggling record</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <source>%1 (%2 - %3)</source>
+        <translation type="unfinished">%1 (%2 - %3)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="286"/>
         <source>No selection</source>
         <translation type="unfinished">No selection</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="275"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="288"/>
         <source>%Ln parameter anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln parameter anchor</numerusform>
@@ -4211,7 +4932,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="277"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="290"/>
         <source>%Ln clip(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln clip</numerusform>
@@ -4219,7 +4940,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="292"/>
         <source>%Ln label(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln label</numerusform>
@@ -4227,7 +4948,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="281"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="294"/>
         <source>%Ln note(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln note</numerusform>
@@ -4235,7 +4956,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="283"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="296"/>
         <source>%Ln tempo(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln tempo</numerusform>
@@ -4243,7 +4964,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="298"/>
         <source>%Ln track(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln track</numerusform>
@@ -4251,7 +4972,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="287"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="300"/>
         <source>%Ln key signature(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln key signature</numerusform>
@@ -4259,7 +4980,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="289"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="302"/>
         <source>%Ln voice blending anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln voice blending anchor</numerusform>
@@ -4267,7 +4988,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="299"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="312"/>
         <source> (%Ln selected)</source>
         <translation type="unfinished">
             <numerusform> (%Ln selected)</numerusform>
@@ -4275,13 +4996,13 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
         <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
 
 Continue to bounce?</source>
@@ -4290,7 +5011,7 @@ Continue to bounce?</source>
 Continue to bounce?</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
         <source>Some notes or curves cross clip boundaries, free parameters require resampling, or data points overlap after merging. Bouncing may trim, resample, or overwrite this data.
 
 Continue to bounce?</source>
@@ -4389,27 +5110,27 @@ Continue to bounce?</translation>
         <translation type="unfinished">Tempo</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="68"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="57"/>
         <source>Tap to Detect Tempo</source>
         <translation type="unfinished">Tap to Detect Tempo</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="69"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="58"/>
         <source>Press the button to the rhythm to detect the tempo. Right-click to cancel.</source>
         <translation type="unfinished">Press the button to the rhythm to detect the tempo. Right-click to cancel.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="122"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="111"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="136"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="125"/>
         <source>Modify existing one</source>
         <translation type="unfinished">Modify existing one</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="141"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="130"/>
         <source>Insert new one</source>
         <translation type="unfinished">Insert new one</translation>
     </message>
@@ -4550,22 +5271,22 @@ Continue to bounce?</translation>
 <context>
     <name>GeneralPage</name>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="70"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="68"/>
         <source>Startup</source>
         <translation>Startup</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="78"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="76"/>
         <source>When starting %1</source>
         <translation>When starting %1</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="82"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="80"/>
         <source>Open the home window</source>
         <translation>Open the home window</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="95"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="93"/>
         <source>Create a new project</source>
         <translation>Create a new project</translation>
     </message>
@@ -4574,148 +5295,148 @@ Continue to bounce?</translation>
         <translation type="vanished">Open previous projects on startup automatically</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="108"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="106"/>
         <source>Close the home window after opening a project</source>
         <translation>Close the home window after opening a project</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="121"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="119"/>
         <source>Reopen the home window when the last project window closes</source>
         <translation type="unfinished">Reopen the home window when the last project window closes</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="136"/>
-        <location filename="../../qml/settings/GeneralPage.qml" line="156"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="134"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="154"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="142"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="140"/>
         <source>Use system language</source>
         <translation>Use system language</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="183"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="181"/>
         <source>(Restart required)</source>
         <translation>(Restart required)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="200"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="189"/>
         <source>Fallback lyric text</source>
         <translation type="unfinished">Fallback lyric text</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="212"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="201"/>
         <source>Notification</source>
         <translation>Notification</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="218"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="207"/>
         <source>Play sound alert when a notification bubble is sent</source>
         <translation>Play sound alert when a notification bubble is sent</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="225"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="214"/>
         <source>Timeout for auto hiding notification bubbles</source>
         <translation>Timeout for auto hiding notification bubbles</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="235"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="224"/>
         <source>milliseconds</source>
         <translation>milliseconds</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="239"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="228"/>
         <source>Reset All &quot;Do Not Show Again&quot;</source>
         <translation>Reset All &quot;Do Not Show Again&quot;</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="246"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="235"/>
         <source>Window</source>
         <translation type="unfinished">Window</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="252"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="241"/>
         <source>Memorize window position and size</source>
         <translation type="unfinished">Memorize window position and size</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="260"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="249"/>
         <source>Find Actions</source>
         <translation>Find Actions</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="267"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="256"/>
         <source>Number of &quot;recently used&quot; records</source>
         <translation>Number of &quot;recently used&quot; records</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="279"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="268"/>
         <source>Clear History</source>
         <translation>Clear History</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="288"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="277"/>
         <source>History cleared</source>
         <translation>History cleared</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="302"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="291"/>
         <source>Network Proxy</source>
         <translation>Network Proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="308"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="297"/>
         <source>No proxy</source>
         <translation>No proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="314"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="303"/>
         <source>Use system proxy</source>
         <translation>Use system proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="320"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="309"/>
         <source>Manually configure proxy</source>
         <translation>Manually configure proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="333"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="322"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="341"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="330"/>
         <source>SOCK5</source>
         <translation>SOCK5</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="342"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="331"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="348"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="337"/>
         <source>Hostname</source>
         <translation>Hostname</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="357"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="346"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="369"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="358"/>
         <source>Authentication</source>
         <translation>Authentication</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="380"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="369"/>
         <source>Username</source>
         <translation>Username</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="389"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="378"/>
         <source>Password</source>
         <translation>Password</translation>
     </message>
@@ -4875,6 +5596,39 @@ Continue to bounce?</translation>
     </message>
 </context>
 <context>
+    <name>ItemSelectorDialog</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="83"/>
+        <source>Yes</source>
+        <translation type="unfinished">Yes</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="83"/>
+        <source>No</source>
+        <translation type="unfinished">No</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="97"/>
+        <source>None</source>
+        <translation type="unfinished">None</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="99"/>
+        <source>Linear</source>
+        <translation type="unfinished">Linear</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="101"/>
+        <source>Hermite</source>
+        <translation type="unfinished">Hermite</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="116"/>
+        <source>Custom Mode</source>
+        <translation type="unfinished">Custom Mode</translation>
+    </message>
+</context>
+<context>
     <name>KeySignaturePropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="19"/>
@@ -4938,6 +5692,130 @@ Continue to bounce?</translation>
     </message>
 </context>
 <context>
+    <name>KeymapPage</name>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore Shortcuts</source>
+        <translation type="unfinished">Restore Shortcuts</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore all shortcuts in this preset to their defaults?</source>
+        <translation type="unfinished">Restore all shortcuts in this preset to their defaults?</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="54"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="63"/>
+        <source>Preset</source>
+        <translation type="unfinished">Preset</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="75"/>
+        <source>Save As...</source>
+        <translation type="unfinished">Save As...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="80"/>
+        <source>Rename...</source>
+        <translation type="unfinished">Rename...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="86"/>
+        <source>Delete</source>
+        <translation type="unfinished">Delete</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete Preset</source>
+        <translation type="unfinished">Delete Preset</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete preset &quot;%1&quot;?</source>
+        <translation type="unfinished">Delete preset &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="102"/>
+        <source>Expand All</source>
+        <translation type="unfinished">Expand All</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="103"/>
+        <source>Collapse All</source>
+        <translation type="unfinished">Collapse All</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="107"/>
+        <source>Search</source>
+        <translation type="unfinished">Search</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="117"/>
+        <source>Find Shortcut...</source>
+        <translation type="unfinished">Find Shortcut...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="128"/>
+        <source>Shortcut: %1</source>
+        <translation type="unfinished">Shortcut: %1</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="131"/>
+        <source>Clear Filter</source>
+        <translation type="unfinished">Clear Filter</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="36"/>
+        <source>Clear Shortcut</source>
+        <translation type="unfinished">Clear Shortcut</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="42"/>
+        <source>Restore Shortcut</source>
+        <translation type="unfinished">Restore Shortcut</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="95"/>
+        <source>Restore All</source>
+        <translation type="unfinished">Restore All</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="30"/>
+        <source>Edit Shortcut...</source>
+        <translation type="unfinished">Edit Shortcut...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Rename Preset</source>
+        <translation type="unfinished">Rename Preset</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Save Preset As</source>
+        <translation type="unfinished">Save Preset As</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="182"/>
+        <source>%1 (copy)</source>
+        <translation type="unfinished">%1 (copy)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="199"/>
+        <source>Preset name</source>
+        <translation type="unfinished">Preset name</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
+        <source>Save</source>
+        <translation type="unfinished">Save</translation>
+    </message>
+</context>
+<context>
     <name>LabelPropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="18"/>
@@ -4968,34 +5846,34 @@ Continue to bounce?</translation>
 <context>
     <name>LoadingFailedFallbackPanel</name>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="44"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="43"/>
         <source>Failed to load component</source>
         <translation type="unfinished">Failed to load component</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="54"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="53"/>
         <source>This component cannot be loaded because it is not registered to the application. The plugin providing this component might be disabled or no longer available.</source>
         <translation type="unfinished">This component cannot be loaded because it is not registered to the application. The plugin providing this component might be disabled or no longer available.</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="60"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="59"/>
         <source>An error occurred while loading this component.</source>
         <translation type="unfinished">An error occurred while loading this component.</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="66"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="65"/>
         <source>Component identifier</source>
         <translation type="unfinished">Component identifier</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="74"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="73"/>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
     <message>
         <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="23"/>
         <source>%1 (Failed to Load)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (Failed to Load)</translation>
     </message>
 </context>
 <context>
@@ -5168,17 +6046,17 @@ Continue to bounce?</translation>
         <translation type="unfinished">Gain (dB)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="48"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="49"/>
         <source>Editing gain</source>
         <translation type="unfinished">Editing gain</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="60"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="55"/>
         <source>Pan (%)</source>
         <translation type="unfinished">Pan (%)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="66"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="62"/>
         <source>Editing pan</source>
         <translation type="unfinished">Editing pan</translation>
     </message>
@@ -5192,9 +6070,8 @@ Continue to bounce?</translation>
         <translation>Add</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="73"/>
         <source>Add Action or Menu...</source>
-        <translation>Add Action or Menu...</translation>
+        <translation type="vanished">Add Action or Menu...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="56"/>
@@ -5233,9 +6110,8 @@ Continue to bounce?</translation>
         <translation>Restore</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="138"/>
         <source>Restore This Menu</source>
-        <translation>Restore This Menu</translation>
+        <translation type="vanished">Restore This Menu</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="144"/>
@@ -5251,52 +6127,52 @@ Continue to bounce?</translation>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="28"/>
         <source>Restore all menu and toolbar layouts to their defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restore all menu and toolbar layouts to their defaults?</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="29"/>
         <source>Restore the selected item to its defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restore the selected item to its defaults?</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="30"/>
         <source>Restore Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restore Layout</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="283"/>
         <source>Add Action, Menu, or Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Add Action, Menu, or Group</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="337"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancel</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="50"/>
         <source>Add Action...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Add Action...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="100"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menu</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="109"/>
         <source>Action Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Action Group</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="118"/>
         <source>Separator</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Separator</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="128"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stretch</translation>
     </message>
 </context>
 <context>
@@ -5382,132 +6258,144 @@ Continue to bounce?</translation>
         <translation type="unfinished">Save preset</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="200"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="208"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="219"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="227"/>
         <source>Configure singer</source>
         <translation type="unfinished">Configure singer</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="236"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="244"/>
         <source>Replace singer</source>
         <translation type="unfinished">Replace singer</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="240"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="248"/>
         <source>An invalid mixed singer cannot replace entries.</source>
         <translation type="unfinished">An invalid mixed singer cannot replace entries.</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="252"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="260"/>
         <source>Move singer up</source>
         <translation type="unfinished">Move singer up</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="266"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="274"/>
         <source>Move singer down</source>
         <translation type="unfinished">Move singer down</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="280"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="288"/>
         <source>Remove singer</source>
         <translation type="unfinished">Remove singer</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="284"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="292"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished">A mixed singer must retain at least one child singer.</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="347"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="355"/>
         <source>Add singer</source>
         <translation type="unfinished">Add singer</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="351"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="359"/>
         <source>An invalid mixed singer or empty mix group cannot accept another singer.</source>
         <translation type="unfinished">An invalid mixed singer or empty mix group cannot accept another singer.</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="401"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="409"/>
         <source>Mixed singer name</source>
         <translation type="unfinished">Mixed singer name</translation>
     </message>
 </context>
 <context>
+    <name>NewPanelsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="15"/>
+        <source>New Panels</source>
+        <translation type="unfinished">New Panels</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="28"/>
+        <source>Drag a panel to the workspace to place it.</source>
+        <translation type="unfinished">Drag a panel to the workspace to place it.</translation>
+    </message>
+</context>
+<context>
     <name>NoteLyricPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="23"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="22"/>
         <source>Lyric and Pronunciation</source>
         <translation type="unfinished">Lyric and Pronunciation</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="57"/>
         <source>Lyric</source>
         <translation type="unfinished">Lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
         <source>Editing lyric</source>
         <translation type="unfinished">Editing lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="66"/>
         <source>Language</source>
         <translation type="unfinished">Language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
         <source>Editing language</source>
         <translation type="unfinished">Editing language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="73"/>
         <source>Enter custom language code</source>
         <translation type="unfinished">Enter custom language code</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="81"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="80"/>
         <source>Custom language codes may not be supported by the singer.</source>
         <translation type="unfinished">Custom language codes may not be supported by the singer.</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="87"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="86"/>
         <source>Custom language code</source>
         <translation type="unfinished">Custom language code</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="97"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="96"/>
         <source>Language code should not be empty</source>
         <translation type="unfinished">Language code should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="126"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="121"/>
         <source>Custom (%1)</source>
         <translation type="unfinished">Custom (%1)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="139"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
         <source>Pronunciation (original)</source>
         <translation type="unfinished">Pronunciation (original)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="121"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="142"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="118"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="133"/>
         <source>Multiple values</source>
         <translation type="unfinished">Multiple values</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="153"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="144"/>
         <source>Pronunciation (edited)</source>
         <translation type="unfinished">Pronunciation (edited)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="154"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="145"/>
         <source>Editing pronunciation (edited)</source>
         <translation type="unfinished">Editing pronunciation (edited)</translation>
     </message>
@@ -5693,7 +6581,7 @@ Continue to bounce?</translation>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="41"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="34"/>
         <source>Clear All</source>
         <translation>Clear All</translation>
     </message>
@@ -5747,125 +6635,133 @@ Continue to bounce?</translation>
 <context>
     <name>PropertiesPanel</name>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="28"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="30"/>
         <source>Document</source>
         <translation type="unfinished">Document</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="34"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="36"/>
         <source>Parameter</source>
         <translation type="unfinished">Parameter</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="40"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="42"/>
         <source>Clip</source>
         <translation type="unfinished">Clip</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="46"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="48"/>
         <source>Label</source>
         <translation type="unfinished">Label</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="52"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="54"/>
         <source>Note</source>
         <translation type="unfinished">Note</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="58"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="60"/>
         <source>Tempo</source>
         <translation type="unfinished">Tempo</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="64"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="66"/>
         <source>Track</source>
         <translation type="unfinished">Track</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="70"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="72"/>
         <source>Key Signature</source>
         <translation type="unfinished">Key Signature</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="76"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="78"/>
         <source>Blending</source>
         <translation type="unfinished">Blending</translation>
     </message>
 </context>
 <context>
+    <name>RecentFileAddOnActions</name>
+    <message>
+        <location filename="../../qml/actions/RecentFileAddOnActions.qml" line="48"/>
+        <source>Clear Recent Files</source>
+        <translation type="unfinished">Clear Recent Files</translation>
+    </message>
+</context>
+<context>
     <name>RecentFilesPanel</name>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="45"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="46"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="100"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="101"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="53"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="54"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="109"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="110"/>
         <source>Search</source>
         <translation type="unfinished">Search</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="55"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="109"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="64"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="118"/>
         <source>Refresh</source>
         <translation type="unfinished">Refresh</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="66"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="120"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="75"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="129"/>
         <source>Grid view</source>
         <translation type="unfinished">Grid view</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="76"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="130"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="85"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="139"/>
         <source>List view</source>
         <translation type="unfinished">List view</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="84"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
         <source>Clear Recovery Files</source>
         <translation type="unfinished">Clear Recovery Files</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="84"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
         <source>Clear Recent Files</source>
         <translation type="unfinished">Clear Recent Files</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="142"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
         <source>No recovery file
 If %1 exits abnormally, automatic recovery files will be displayed here.</source>
         <translation type="unfinished">No recovery file
 If %1 exits abnormally, automatic recovery files will be displayed here.</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="142"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
         <source>No recent files</source>
         <translation type="unfinished">No recent files</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="163"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="172"/>
         <source>Open</source>
         <translation type="unfinished">Open</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="174"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="183"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">Reveal in %1</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="182"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
         <source>Remove from &quot;Recovery Files&quot;</source>
         <translation type="unfinished">Remove from &quot;Recovery Files&quot;</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="182"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
         <source>Remove from &quot;Recent Files&quot;</source>
         <translation type="unfinished">Remove from &quot;Recent Files&quot;</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="33"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="34"/>
         <source>The recent files panel state is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The recent files panel state is invalid.</translation>
     </message>
 </context>
 <context>
@@ -5879,12 +6775,12 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>SingerPicker</name>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="48"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="49"/>
         <source>Search</source>
         <translation type="unfinished">Search</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="227"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="228"/>
         <source>Drag to set singer</source>
         <translation type="unfinished">Drag to set singer</translation>
     </message>
@@ -5892,68 +6788,68 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>SourcesPickerDialog</name>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="55"/>
         <source>Select Sources</source>
         <translation type="unfinished">Select Sources</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="93"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="466"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="472"/>
         <source>Source singer warnings</source>
         <translation type="unfinished">Source singer warnings</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="145"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="146"/>
         <source>Cannot update source singers</source>
         <translation type="unfinished">Cannot update source singers</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="245"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="249"/>
         <source>Remove singer</source>
         <translation type="unfinished">Remove singer</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="321"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
         <source>Move up</source>
         <translation type="unfinished">Move up</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="330"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="334"/>
         <source>Move down</source>
         <translation type="unfinished">Move down</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="341"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="345"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="353"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="357"/>
         <source>Create mixed singer</source>
         <translation type="unfinished">Create mixed singer</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="368"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="372"/>
         <source>Add singer</source>
         <translation type="unfinished">Add singer</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="396"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="400"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="401"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="405"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished">The current source list cannot accept another singer.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="478"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="484"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="483"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="489"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
@@ -5994,7 +6890,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished">Value</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="38"/>
+        <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="39"/>
         <source>Editing tempo</source>
         <translation type="unfinished">Editing tempo</translation>
     </message>
@@ -6027,37 +6923,48 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation>Show background</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="66"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="67"/>
         <source>Fine-tune character spacing</source>
         <translation>Fine-tune character spacing</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="77"/>
         <source>Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes</source>
-        <translation>Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes</translation>
+        <translation type="vanished">Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="92"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="104"/>
         <source>Show slider on hover</source>
         <translation>Show slider on hover</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="82"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="94"/>
         <source>Interaction Behavior</source>
         <translation>Interaction Behavior</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="100"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="78"/>
+        <source>Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes.
+By default, OpenType&apos;s Tabular Figures feature is used. If the widths of numeric characters are still inconsistent after enabling this, please try using text layout simulation.</source>
+        <translation type="unfinished">Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes.
+By default, OpenType&apos;s Tabular Figures feature is used. If the widths of numeric characters are still inconsistent after enabling this, please try using text layout simulation.</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="84"/>
+        <source>Use text layout simulation (advanced)</source>
+        <translation type="unfinished">Use text layout simulation (advanced)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="112"/>
         <source>Click action</source>
         <translation>Click action</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="114"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="126"/>
         <source>Double-click action</source>
         <translation>Double-click action</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="128"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="140"/>
         <source>Press-and-hold action</source>
         <translation>Press-and-hold action</translation>
     </message>
@@ -6065,12 +6972,12 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>TimelineAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="45"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="46"/>
         <source>Current project time</source>
         <translation>Current project time</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="87"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="88"/>
         <source>Slide to adjust current project time</source>
         <translation>Slide to adjust current project time</translation>
     </message>
@@ -6129,22 +7036,22 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>UndoAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="23"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="25"/>
         <source>Undo %1</source>
         <translation type="unfinished">Undo %1</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="23"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="25"/>
         <source>Undo</source>
         <translation type="unfinished">Undo</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="37"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="39"/>
         <source>Redo %1</source>
         <translation type="unfinished">Redo %1</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="37"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="39"/>
         <source>Redo</source>
         <translation type="unfinished">Redo</translation>
     </message>
@@ -6227,322 +7134,77 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="84"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="85"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="89"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="90"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rename</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="95"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="141"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="142"/>
         <source>No Open Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No Open Panels</translation>
     </message>
 </context>
 <context>
     <name>WorkspaceAddOnHelper</name>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="29"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="31"/>
         <source>The current workspace does not contain any panels</source>
         <translation>The current workspace does not contain any panels</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="30"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
         <source>Workspace data might be erroneous. You can try restoring the default workspace.</source>
         <translation>Workspace data might be erroneous. You can try restoring the default workspace.</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="34"/>
         <source>Restore Default Workspace</source>
         <translation>Restore Default Workspace</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="53"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="62"/>
         <source>Workspace Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Workspace Error</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="71"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="113"/>
         <source>Name should not be empty</source>
         <translation>Name should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="72"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="119"/>
         <source>New name should not be the same as old name</source>
         <translation>New name should not be the same as old name</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="74"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="125"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>Custom presets with the same name will be overwritten</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
         <source>Delete Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Delete Layout</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>Delete layout &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="70"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="104"/>
         <source>Custom Layout Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::ActionCatalogProxyModel</name>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
-        <source>Menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
-        <source>Action group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
-        <source>Separator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
-        <source>Stretch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
-        <source>Action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
-        <source>Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
-        <source>Custom component</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
-        <source>Category</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>KeymapPage</name>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
-        <source>Restore Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
-        <source>Restore all shortcuts in this preset to their defaults?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="54"/>
-        <location filename="../../qml/settings/KeymapPage.qml" line="63"/>
-        <source>Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="75"/>
-        <source>Save As...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="80"/>
-        <source>Rename...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="86"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
-        <source>Delete Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
-        <source>Delete preset "%1"?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="102"/>
-        <source>Expand All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="103"/>
-        <source>Collapse All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="107"/>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="117"/>
-        <source>Find Shortcut...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="128"/>
-        <source>Shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="131"/>
-        <source>Clear Filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="36"/>
-        <source>Clear Shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="42"/>
-        <source>Restore Shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="95"/>
-        <source>Restore All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="30"/>
-        <source>Edit Shortcut...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
-        <source>Rename Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
-        <source>Save Preset As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="182"/>
-        <source>%1 (copy)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="199"/>
-        <source>Preset name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ActionCatalogView</name>
-    <message>
-        <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
-        <source>Custom</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::WorkspacePanelLoader</name>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="39"/>
-        <source>The panel request expired.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="41"/>
-        <source>The panel component was destroyed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="49"/>
-        <source>The panel component is not registered.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="50"/>
-        <source>The panel component is not ready.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="57"/>
-        <source>The panel component must provide a DockingPane.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="91"/>
-        <source>The panel rejected the workspace state in %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::WorkspaceSession</name>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="44"/>
-        <source>The panel could not be placed in the selected location.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="95"/>
-        <source>The workspace layout is invalid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="151"/>
-        <source>The workspace layout could not be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="235"/>
-        <source>The panel could not be moved to a floating window.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NewPanelsDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="15"/>
-        <source>New Panels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="26"/>
-        <source>Drag a panel to the workspace to place it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Custom Layout Name</translation>
     </message>
 </context>
 </TS>

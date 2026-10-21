@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audiovisualizer/res/qak_org.diffscope.audiovisualizer_actions.cpp" line="78"/>
         <source>Main Menu</source>
-        <translation type="unfinished">主菜单</translation>
+        <translation type="obsolete">主菜单</translation>
     </message>
 </context>
 <context>
@@ -20,6 +19,14 @@
         <location filename="../../../../app/main.cpp" line="97"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">版权所有 © %1-%2 %3。保留所有权利。</translation>
+    </message>
+</context>
+<context>
+    <name>Application::ActionText</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audiovisualizer/res/qak_org.diffscope.audiovisualizer_actions.cpp" line="92"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">主菜单</translation>
     </message>
 </context>
 <context>

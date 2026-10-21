@@ -44,7 +44,7 @@
     </message>
     <message>
         <location filename="../../qml/ReverbEditor.qml" line="83"/>
-        <location filename="../../qml/ReverbEditor.qml" line="171"/>
+        <location filename="../../qml/ReverbEditor.qml" line="162"/>
         <source>%</source>
         <translation type="unfinished">%</translation>
     </message>

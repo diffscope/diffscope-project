@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="124"/>
         <source>Main Menu</source>
-        <translation>主菜单</translation>
+        <translation type="vanished">主菜单</translation>
     </message>
 </context>
 <context>
@@ -29,19 +28,28 @@
         <translation type="vanished">欢迎向导</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="128"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="191"/>
         <source>Welcomewizard</source>
         <translation>欢迎向导</translation>
     </message>
 </context>
 <context>
+    <name>Application::ActionDescription</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="194"/>
+        <source>Review the initial setup for DiffScope.</source>
+        <translation type="unfinished">查看 DiffScope 的初始设置。</translation>
+    </message>
+</context>
+<context>
     <name>Application::ActionText</name>
     <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="185"/>
         <source>Main Menu</source>
-        <translation type="vanished">主菜单</translation>
+        <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="125"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/welcomewizard/res/qak_org.diffscope.welcomewizard_actions.cpp" line="186"/>
         <source>Welcome Wizard</source>
         <translation>欢迎向导</translation>
     </message>

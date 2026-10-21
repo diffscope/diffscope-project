@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="110"/>
         <source>Main Menu</source>
-        <translation type="unfinished">Main Menu</translation>
+        <translation type="obsolete">Main Menu</translation>
     </message>
 </context>
 <context>
@@ -25,7 +24,7 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="114"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="176"/>
         <source>Additional Tracks</source>
         <translation type="unfinished">Additional Tracks</translation>
     </message>
@@ -33,67 +32,77 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="111"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="169"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">Main Menu</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="170"/>
         <source>Synthesis Pieces</source>
         <translation type="unfinished">Synthesis Pieces</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synthvisualizer/res/qak_org.diffscope.synthvisualizer_actions.cpp" line="171"/>
+        <source>Additional Track Widgets</source>
+        <translation type="unfinished">Additional Track Widgets</translation>
     </message>
 </context>
 <context>
     <name>SynthVisualizer::Internal::SynthesisPieceModel</name>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="368"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="374"/>
         <source>Not synthesized</source>
         <translation type="unfinished">Not synthesized</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="370"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
         <source>Waiting</source>
         <translation type="unfinished">Waiting</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="372"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="379"/>
         <source>Queued: %1</source>
         <translation type="unfinished">Queued: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="384"/>
         <source>Ready</source>
         <translation type="unfinished">Ready</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="378"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="386"/>
         <source>Failed</source>
         <translation type="unfinished">Failed</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="386"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="394"/>
         <source>Pronunciation</source>
         <translation type="unfinished">Pronunciation</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="388"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="396"/>
         <source>Phoneme</source>
         <translation type="unfinished">Phoneme</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="390"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="398"/>
         <source>Duration</source>
         <translation type="unfinished">Duration</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="392"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="400"/>
         <source>Parameter</source>
         <translation type="unfinished">Parameter</translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="394"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="402"/>
         <source>Audio</source>
         <translation type="unfinished">Audio</translation>
     </message>
     <message>
         <location filename="../../internal/model/SynthesisPieceModel.cpp" line="382"/>
         <source>Synthesizing: %1 (%L2%)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Synthesizing: %1 (%L2%)</translation>
     </message>
 </context>
 <context>

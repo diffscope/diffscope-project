@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="188"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
         <source></source>
         <translation type="unfinished">&lt;p&gt;输入操作符和时间码以调整回放位置&lt;/p&gt;
 &lt;b&gt;跳转&lt;/b&gt;
@@ -30,6 +30,14 @@
 &lt;ul&gt;
     &lt;li&gt;&lt;b&gt;?&lt;/b&gt;：显示此帮助&lt;/li&gt;
 &lt;/ul&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ActionCatalogView</name>
+    <message>
+        <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
+        <source>Custom</source>
+        <translation type="unfinished">自定义</translation>
     </message>
 </context>
 <context>
@@ -60,22 +68,22 @@
         <translation type="unfinished">值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="178"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="169"/>
         <source>Interpolation</source>
         <translation type="unfinished">插值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="185"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="176"/>
         <source>None</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="186"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="177"/>
         <source>Linear</source>
         <translation type="unfinished">线性</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="187"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="178"/>
         <source>Hermite</source>
         <translation type="unfinished">埃尔米特</translation>
     </message>
@@ -218,17 +226,17 @@
         <translation type="vanished">&lt;h3&gt;许可协议&lt;/h3&gt;&lt;p&gt;根据 Apache License, Version 2.0 授权。&lt;br&gt;你可以在 %1 获取许可协议副本。&lt;/p&gt;&lt;p&gt;本应用程序以&lt;b&gt;原样分发，不提供任何明示或暗示的担保或条件&lt;/b&gt;。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="227"/>
+        <location filename="../../core/CoreInterface.cpp" line="255"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation>&lt;p&gt;基于 DiffSinger 的专业歌声合成编辑器&lt;/p&gt;&lt;p&gt;版本 %1&lt;/p&gt;&lt;p&gt;版权所有 © %2-%3 %4。保留所有权利。&lt;/p&gt;&lt;p&gt;访问 &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; 获取更多信息。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="243"/>
+        <location filename="../../core/CoreInterface.cpp" line="271"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;许可协议&lt;/h3&gt;&lt;p&gt;根据 Apache License, Version 2.0 授权。&lt;br&gt;你可以在 %1 获取许可协议副本。&lt;/p&gt;&lt;p&gt;本应用程序以&lt;b&gt;原样分发，不提供任何明示或暗示的担保或条件&lt;/b&gt;。&lt;/p&gt;&lt;p&gt;此许可协议不适用于插件。请参阅“插件”以查看适用于每个插件的许可协议。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="257"/>
+        <location filename="../../core/CoreInterface.cpp" line="285"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</source>
         <translation>&lt;h3&gt;构建信息&lt;/h3&gt;&lt;p&gt;分支：%1&lt;br&gt;提交：%2&lt;br&gt;构建日期：%3&lt;br&gt;工具链：%4 %5 %6&lt;/p&gt;</translation>
     </message>
@@ -250,173 +258,77 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5999"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6000"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6001"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6002"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6003"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6004"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6005"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6008"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6854"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6006"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6007"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6855"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6009"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6086"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6087"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6088"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6856"/>
         <source>Window</source>
         <translation>窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6857"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6011"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6012"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6013"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6014"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6095"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6858"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6015"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6016"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6017"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6018"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6019"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6020"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6021"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6022"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6023"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6024"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6025"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6026"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6027"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6028"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6029"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6030"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6031"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6032"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6033"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6034"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6035"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6036"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6037"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6038"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6039"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6040"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6041"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6859"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6042"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6043"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6860"/>
         <source>Time Indicator</source>
         <translation>时间指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6044"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6045"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6046"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6047"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6048"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6049"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6050"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6051"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6052"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6053"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6054"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6055"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6056"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6057"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6058"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6861"/>
         <source>Timeline</source>
         <translation>时间轴</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6081"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6082"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6083"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6084"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6085"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6864"/>
         <source>Insert</source>
         <translation>插入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6096"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6097"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6098"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6109"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6866"/>
         <source>Core</source>
         <translation>核心</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6099"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6100"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6101"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6102"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6103"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6104"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6105"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6106"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6867"/>
         <source>Panel</source>
         <translation>面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6107"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6108"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6868"/>
         <source>Widget</source>
         <translation>小组件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6074"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6075"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6076"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6077"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6078"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6079"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6080"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6863"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6059"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6060"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6061"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6062"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6063"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6064"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6065"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6066"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6067"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6068"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6069"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6070"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6071"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6072"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6073"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6862"/>
         <source>Workspace</source>
         <translation>工作区</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6089"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6090"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6091"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6092"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6093"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6094"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6865"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -424,255 +336,450 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6112"/>
         <source>Create a project in a new window</source>
-        <translation>在新窗口中创建工程</translation>
+        <translation type="vanished">在新窗口中创建工程</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6113"/>
         <source>Create a project from template in a new window</source>
-        <translation>在新窗口中从模板创建工程</translation>
+        <translation type="vanished">在新窗口中从模板创建工程</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6114"/>
         <source>Open an existing project in a new window</source>
-        <translation>在新窗口中打开现有工程</translation>
+        <translation type="vanished">在新窗口中打开现有工程</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6115"/>
         <source>Open application settings</source>
-        <translation>打开应用程序设置</translation>
+        <translation type="vanished">打开应用程序设置</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6116"/>
         <source>Open plugin configuration dialog</source>
-        <translation>打开插件配置对话框</translation>
+        <translation type="vanished">打开插件配置对话框</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6117"/>
         <source>Switch to home window if it is opened, or else open home window</source>
-        <translation>如果主窗口已打开则切换到主窗口，否则打开主窗口</translation>
+        <translation type="vanished">如果主窗口已打开则切换到主窗口，否则打开主窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6118"/>
         <source>Quit DiffScope</source>
-        <translation>退出 DiffScope</translation>
+        <translation type="vanished">退出 DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6119"/>
         <source>Toggle &quot;Recent Files&quot; page</source>
-        <translation>切换“最近文件”页面</translation>
+        <translation type="vanished">切换“最近文件”页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6120"/>
         <source>Toggle &quot;Recovery Files&quot; page</source>
-        <translation>切换“恢复文件”页面</translation>
+        <translation type="vanished">切换“恢复文件”页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6121"/>
         <source>Toggle grid view in &quot;Recent Files&quot; page</source>
-        <translation>在“最近文件”页面中切换网格视图</translation>
+        <translation type="vanished">在“最近文件”页面中切换网格视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6122"/>
         <source>Toggle list view in &quot;Recent Files&quot; page</source>
-        <translation>在“最近文件”页面中切换列表视图</translation>
+        <translation type="vanished">在“最近文件”页面中切换列表视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6123"/>
         <source>Show music time (measure:beat:tick) on the time indicator</source>
-        <translation>在时间指示器上显示音乐时间（小节:拍:刻）</translation>
+        <translation type="vanished">在时间指示器上显示音乐时间（小节:拍:刻）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6124"/>
         <source>Show absolute time (minute:second.millisecond) on the time indicator</source>
-        <translation>在时间指示器上显示绝对时间（分:秒:毫秒）</translation>
+        <translation type="vanished">在时间指示器上显示绝对时间（分:秒:毫秒）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6125"/>
         <source>Navigate to a specific position</source>
-        <translation>导航到指定位置</translation>
+        <translation type="vanished">导航到指定位置</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6126"/>
         <source>Quickly navigate to a specific position</source>
-        <translation>快速导航到指定位置</translation>
+        <translation type="vanished">快速导航到指定位置</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6127"/>
         <source>Navigate to the start of current project</source>
-        <translation>导航到当前工程的开始</translation>
+        <translation type="vanished">导航到当前工程的开始</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6128"/>
         <source>Navigate to the end of current project</source>
-        <translation>导航到当前工程的结束</translation>
+        <translation type="vanished">导航到当前工程的结束</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6129"/>
         <source>Reset project end time based on project content</source>
-        <translation>基于工程内容重置工程结束时间</translation>
+        <translation type="vanished">基于工程内容重置工程结束时间</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6130"/>
         <source>Apply the default workspace layout</source>
-        <translation>应用默认工作区布局</translation>
+        <translation type="vanished">应用默认工作区布局</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6131"/>
         <source>Show or hide the main menu bar</source>
-        <translation>显示或隐藏主菜单栏</translation>
+        <translation type="vanished">显示或隐藏主菜单栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6132"/>
         <source>Show or hide the main tool bar</source>
-        <translation>显示或隐藏主工具栏</translation>
+        <translation type="vanished">显示或隐藏主工具栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6137"/>
         <source>Show or hide the status bar</source>
-        <translation>显示或隐藏状态栏</translation>
+        <translation type="vanished">显示或隐藏状态栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6138"/>
         <source>Switch to the next project window</source>
-        <translation>切换到下一个工程窗口</translation>
+        <translation type="vanished">切换到下一个工程窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6139"/>
         <source>Switch to the previous project window</source>
-        <translation>切换到上一个工程窗口</translation>
+        <translation type="vanished">切换到上一个工程窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6140"/>
         <source>Show help contents</source>
-        <translation>显示帮助内容</translation>
+        <translation type="vanished">显示帮助内容</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6141"/>
         <source>Show global notifications</source>
-        <translation type="unfinished">显示全局通知</translation>
+        <translation type="obsolete">显示全局通知</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6142"/>
         <source>Find and trigger action by name</source>
-        <translation>使用名称查找并触发操作</translation>
+        <translation type="vanished">使用名称查找并触发操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6143"/>
         <source>Show information about DiffScope</source>
-        <translation>显示关于 DiffScope 的信息</translation>
+        <translation type="vanished">显示关于 DiffScope 的信息</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6144"/>
         <source>Show information about Qt</source>
-        <translation>显示关于 Qt 的信息</translation>
+        <translation type="vanished">显示关于 Qt 的信息</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6871"/>
+        <source>Create a project in a new window.</source>
+        <translation type="unfinished">在新窗口中创建工程。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6872"/>
+        <source>Create a project from an existing file in a new window.</source>
+        <translation type="unfinished">从现有文件在新窗口中创建工程。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6873"/>
+        <source>Open a project or switch to it if already open.</source>
+        <translation type="unfinished">打开工程，如果已打开则切换到该工程。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6874"/>
+        <source>Choose a recently used project to open.</source>
+        <translation type="unfinished">选择最近使用的工程并打开。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6875"/>
+        <source>Save under a new name and continue editing the new file.</source>
+        <translation type="unfinished">使用新名称保存，并继续编辑新文件。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6876"/>
+        <source>Save a separate copy while continuing to edit the current file.</source>
+        <translation type="unfinished">保存独立副本，并继续编辑当前文件。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6877"/>
+        <source>View plugin details and choose which plugins are enabled.</source>
+        <translation type="unfinished">查看插件详情并选择启用的插件。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6878"/>
+        <source>Paste timed items at the playhead or tracks after the current track.</source>
+        <translation type="unfinished">在播放头处粘贴带时间信息的条目，或在当前轨道之后粘贴轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6879"/>
+        <source>Select all items in the current editing scope.</source>
+        <translation type="unfinished">选择当前编辑范围内的全部条目。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6880"/>
+        <source>Select only the item under the editing cursor.</source>
+        <translation type="unfinished">仅选择编辑光标所在的条目。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6881"/>
+        <source>Toggle the current item&apos;s selection without clearing other selections.</source>
+        <translation type="unfinished">切换当前条目的选中状态，并保留其他选择。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6882"/>
+        <source>Browse project items in a tree and change the selection.</source>
+        <translation type="unfinished">以树形结构浏览工程条目并更改选择。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6883"/>
+        <source>Move the editing cursor to the previous item without changing selection.</source>
+        <translation type="unfinished">将编辑光标移至上一条目，不更改选择。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6884"/>
+        <source>Move the editing cursor to the next item without changing selection.</source>
+        <translation type="unfinished">将编辑光标移至下一条目，不更改选择。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6885"/>
+        <source>Mute or unmute the selected tracks or clips.</source>
+        <translation type="unfinished">将选中轨道或剪辑静音或取消静音。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6886"/>
+        <source>Play only the tracks marked as solo.</source>
+        <translation type="unfinished">仅播放标记为独奏的轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6887"/>
+        <source>Arm or disarm the selected tracks for recording.</source>
+        <translation type="unfinished">将选中轨道设为录音待命或取消录音待命。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6888"/>
+        <source>Raise the selected notes by a semitone.</source>
+        <translation type="unfinished">将选中音符升高半音。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6889"/>
+        <source>Lower the selected notes by a semitone.</source>
+        <translation type="unfinished">将选中音符降低半音。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6890"/>
+        <source>Raise the selected notes by an octave.</source>
+        <translation type="unfinished">将选中音符升高八度。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6891"/>
+        <source>Lower the selected notes by an octave.</source>
+        <translation type="unfinished">将选中音符降低八度。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6892"/>
+        <source>Split text into lyrics and apply them to the selected notes.</source>
+        <translation type="unfinished">将文本拆分为歌词并应用于选中音符。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6893"/>
+        <source>Split the selected clips or notes at the playhead.</source>
+        <translation type="unfinished">在播放头处拆分选中的剪辑或音符。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6894"/>
+        <source>Merge the selected singing clips within each track.</source>
+        <translation type="unfinished">合并各轨道内选中的歌声剪辑。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6895"/>
+        <source>Edit notes in the current singing clip.</source>
+        <translation type="unfinished">编辑当前歌声剪辑中的音符。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6896"/>
+        <source>Choose source singers for the selected singing clips.</source>
+        <translation type="unfinished">为选中的歌声剪辑选择声源歌手。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6897"/>
+        <source>Display time as measures, beats, and ticks.</source>
+        <translation type="unfinished">以小节、拍和刻显示时间。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6898"/>
+        <source>Display time as minutes, seconds, and milliseconds.</source>
+        <translation type="unfinished">以分、秒和毫秒显示时间。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6899"/>
+        <source>Jump to a position, time, or relative offset entered as text.</source>
+        <translation type="unfinished">跳转到以文本输入的位置、时间或相对偏移量。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6900"/>
+        <source>Fit the timeline range to project content and the loop range.</source>
+        <translation type="unfinished">使时间线范围适应工程内容和循环范围。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6901"/>
+        <source>Edit the tempo at the playhead.</source>
+        <translation type="unfinished">编辑播放头处的曲速。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6902"/>
+        <source>Edit the time signature at the playhead.</source>
+        <translation type="unfinished">编辑播放头处的拍号。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6903"/>
+        <source>Set the start and end of the playback loop.</source>
+        <translation type="unfinished">设置播放循环的起点和终点。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6904"/>
+        <source>Choose a workspace layout for the current window.</source>
+        <translation type="unfinished">为当前窗口选择工作区布局。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6905"/>
+        <source>Manage saved workspace layouts.</source>
+        <translation type="unfinished">管理已保存的工作区布局。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6906"/>
+        <source>Choose which panels are included in the workspace.</source>
+        <translation type="unfinished">选择工作区中包含的面板。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6907"/>
+        <source>Choose which open workspace panel is active.</source>
+        <translation type="unfinished">选择当前活动的已打开工作区面板。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6908"/>
+        <source>Keep the menu bar visible without pressing Alt.</source>
+        <translation type="unfinished">无需按 Alt 键即可保持菜单栏可见。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6909"/>
+        <source>Add a track after the current track, or at the end if none is current.</source>
+        <translation type="unfinished">在当前轨道之后添加轨道，如果没有当前轨道则添加到末尾。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6910"/>
+        <source>Choose the number, name, and insertion position of new tracks.</source>
+        <translation type="unfinished">选择新轨道的数量、名称和插入位置。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6911"/>
+        <source>Choose an open project window to switch to.</source>
+        <translation type="unfinished">选择已打开的工程窗口并切换到该窗口。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6912"/>
+        <source>View global notifications.</source>
+        <translation type="unfinished">查看全局通知。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6913"/>
+        <source>Find a command by name and run it.</source>
+        <translation type="unfinished">按名称查找命令并运行。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6914"/>
+        <source>Check a DSPX file for format and data errors.</source>
+        <translation type="unfinished">检查 DSPX 文件的格式和数据错误。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6915"/>
+        <source>Choose which page to display in the home window.</source>
+        <translation type="unfinished">选择主窗口中显示的页面。</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5825"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6689"/>
         <source>&amp;New</source>
         <translation>新建(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5826"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6690"/>
         <source>New from Template...</source>
         <translation>从模板新建...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5827"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6691"/>
         <source>&amp;Open...</source>
         <translation>打开(&amp;O)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5828"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6692"/>
         <source>Open &amp;Recent File</source>
         <translation>打开最近的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5829"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6693"/>
         <source>&amp;Save</source>
         <translation>保存(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5830"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6694"/>
         <source>Save &amp;As...</source>
         <translation>另存为(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5831"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6695"/>
         <source>Save Copy As...</source>
         <translation>保存副本为...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5832"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6696"/>
         <source>Se&amp;ttings...</source>
         <translation>设置(&amp;T)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5833"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6697"/>
         <source>Pl&amp;ugins...</source>
         <translation>插件(&amp;P)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5834"/>
         <source>Metadata...</source>
-        <translation>元数据...</translation>
+        <translation type="vanished">元数据...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5835"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6698"/>
         <source>Show &amp;Home Window</source>
         <translation>显示主窗口(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5836"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6699"/>
         <source>E&amp;xit</source>
         <translation>退出(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5837"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6700"/>
         <source>Recent Files</source>
         <translation>最近文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5838"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6701"/>
         <source>Recovery Files</source>
         <translation>恢复文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5839"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6702"/>
         <source>Grid View</source>
         <translation>网格视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5840"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6703"/>
         <source>List View</source>
         <translation>列表视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5841"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6704"/>
         <source>&amp;Undo</source>
         <translation>撤销(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5842"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6705"/>
         <source>&amp;Redo</source>
         <translation>重做(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5843"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6706"/>
         <source>Cu&amp;t</source>
         <translation>剪切(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5844"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6707"/>
         <source>&amp;Copy</source>
         <translation>复制(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5845"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6708"/>
         <source>&amp;Paste</source>
         <translation>粘贴(&amp;P)</translation>
     </message>
@@ -681,22 +788,22 @@
         <translation type="vanished">选择性粘贴...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5846"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6709"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5847"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6710"/>
         <source>Select &amp;All</source>
         <translation>全选(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5848"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6711"/>
         <source>Dese&amp;lect</source>
         <translation>取消全选(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5849"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6712"/>
         <source>Select Current</source>
         <translation>选择当前</translation>
     </message>
@@ -837,62 +944,62 @@
         <translation type="vanished">滚动到当前时间</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5868"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6732"/>
         <source>Show &amp;Music Time</source>
         <translation>显示音乐时间(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5869"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6733"/>
         <source>Show &amp;Absolute Time</source>
         <translation>显示绝对时间(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5870"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6734"/>
         <source>&amp;Go To...</source>
         <translation>跳转到(&amp;G)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5871"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6735"/>
         <source>&amp;Quick Jump...</source>
         <translation>快速跳转(&amp;Q)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5872"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6736"/>
         <source>Go to &amp;Start</source>
         <translation>转到开始(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5873"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6737"/>
         <source>Go to Previous Measure</source>
         <translation>转到上一小节</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5874"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6738"/>
         <source>Go to Previous Beat</source>
         <translation>转到上一拍</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5875"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6739"/>
         <source>Go to Previous Tick</source>
         <translation>转到上一刻</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5876"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6740"/>
         <source>Go to &amp;End</source>
         <translation>转到结束(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5877"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6741"/>
         <source>Go to Next Measure</source>
         <translation>转到下一小节</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5878"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6742"/>
         <source>Go to Next Beat</source>
         <translation>转到下一拍</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5879"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6743"/>
         <source>Go to Next Tick</source>
         <translation>转到下一刻</translation>
     </message>
@@ -901,322 +1008,334 @@
         <translation type="vanished">转到视图区域内</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5885"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6749"/>
         <source>Workspace Layout...</source>
         <translation>工作区布局...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5900"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6755"/>
         <source>Always Show &amp;Menu Bar</source>
         <translation>始终显示菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5933"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6796"/>
         <source>Selection Indicator</source>
         <translation>选区指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5934"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6797"/>
         <source>Notification Error Indicator</source>
         <translation>通知错误指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5951"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6819"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5952"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6820"/>
         <source>Select All Actions</source>
         <translation>全选操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5953"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6821"/>
         <source>Select Current Actions</source>
         <translation>选择当前操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5954"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6822"/>
         <source>Shift Cursor Actions</source>
         <translation>移动光标动作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5955"/>
         <source>Msr Actions</source>
-        <translation>MSR 操作</translation>
+        <translation type="vanished">MSR 操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5956"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6824"/>
         <source>Track Select Actions</source>
         <translation>轨道选择操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5957"/>
         <source>Note Shift Actions</source>
-        <translation>音符移动操作</translation>
+        <translation type="vanished">音符移动操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5959"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6827"/>
         <source>Bounce Actions</source>
         <translation>合并操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5960"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6828"/>
         <source>Edit Current Clip Actions</source>
         <translation>编辑当前剪辑操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5961"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6829"/>
         <source>&amp;Timeline</source>
         <translation>时间轴(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5966"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6834"/>
         <source>Timeline Edit Actions</source>
         <translation>时间轴编辑操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5967"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6835"/>
         <source>&amp;Insert</source>
         <translation>插入(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6846"/>
         <source>Home Menu</source>
         <translation>主窗口菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5981"/>
         <source>Window</source>
-        <translation>窗口</translation>
+        <translation type="vanished">窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5880"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6744"/>
         <source>&amp;Reset Project Time Range</source>
         <translation>重置工程时间范围(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5850"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6713"/>
         <source>Multiple Select Current</source>
         <translation>多选当前</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5851"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6714"/>
+        <source>Item Selector...</source>
+        <translation type="unfinished">条目选择器...</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6715"/>
         <source>Shift Cursor Up</source>
         <translation>上移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5852"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6716"/>
         <source>Shift Cursor Down</source>
         <translation>下移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5853"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6717"/>
         <source>Shift Cursor Left</source>
         <translation>左移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5854"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6718"/>
         <source>Shift Cursor Right</source>
         <translation>右移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5855"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6719"/>
         <source>Mute</source>
         <translation>静音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5856"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6720"/>
         <source>Solo</source>
         <translation>独奏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5857"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6721"/>
         <source>Record</source>
         <translation>录制</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5858"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6722"/>
         <source>Select All Clips on Current Track</source>
         <translation>选择当前轨道上的所有剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5859"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6723"/>
         <source>Shift up by a Semitone</source>
         <translation>升半音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5860"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6724"/>
         <source>Shift down by a Semitone</source>
         <translation>降半音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5861"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6725"/>
         <source>Shift up by an Octave</source>
         <translation>升八度</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5862"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6726"/>
         <source>Shift down by an Octave</source>
         <translation>降八度</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5863"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6727"/>
         <source>Fill &amp;Lyrics...</source>
         <translation type="unfinished">填充歌词(&amp;L)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5864"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6728"/>
         <source>Split</source>
         <translation>分割</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5865"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6729"/>
         <source>Bounce to Clip</source>
         <translation>合并到剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5866"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6730"/>
         <source>Edit Current Clip</source>
         <translation>编辑当前剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5867"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6731"/>
         <source>Edit Singers...</source>
         <translation type="unfinished">编辑歌手...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5881"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6745"/>
         <source>Edit Tempo...</source>
         <translation>编辑曲速...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5882"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6746"/>
         <source>Edit Time Signature...</source>
         <translation>编辑拍号...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5883"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6747"/>
         <source>Edit Loop...</source>
         <translation>编辑循环...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5884"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6748"/>
         <source>Enable Loop</source>
         <translation>启用循环</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5886"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6750"/>
         <source>Default &amp;Layout</source>
         <translation>默认布局(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5887"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6751"/>
         <source>&amp;Custom Layouts</source>
         <translation>自定义布局(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5888"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6752"/>
         <source>&amp;Save Current Layout As...</source>
         <translation>另存为当前布局(&amp;S)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5889"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6753"/>
         <source>&amp;All Panels</source>
         <translation>所有面板(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5916"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6767"/>
         <source>&amp;Notification List...</source>
         <translation type="unfinished">通知列表(&amp;N)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5937"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6802"/>
         <source>Singers</source>
         <translation type="unfinished">歌手</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5958"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6823"/>
+        <source>MSR</source>
+        <translation type="unfinished">MSR</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6825"/>
+        <source>Transpose</source>
+        <translation type="unfinished">移调</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6826"/>
         <source>Fill Lyrics Actions</source>
         <translation type="unfinished">填充歌词操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5976"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6842"/>
         <source>Notification Actions</source>
         <translation type="unfinished">通知操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6847"/>
         <source>Generic Item Context Menu Actions</source>
         <translation>通用项上下文菜单操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6848"/>
         <source>Generic Scene Context Menu Actions</source>
         <translation>通用场景上下文菜单操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5984"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6780"/>
         <source>Clip Item Context Menu</source>
         <translation>剪辑项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5985"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6849"/>
         <source>Clip Msr Actions</source>
         <translation>剪辑 MSR 操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6781"/>
         <source>Clip Scene Context Menu</source>
         <translation>剪辑场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6782"/>
         <source>Label Item Context Menu</source>
         <translation>标签项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6783"/>
         <source>Label Scene Context Menu</source>
         <translation>标签场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6786"/>
         <source>Tempo Item Context Menu</source>
         <translation>曲速项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5990"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6789"/>
         <source>Key Signature Scene Context Menu</source>
         <translation>调号场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5991"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6788"/>
         <source>Key Signature Item Context Menu</source>
         <translation>调号项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5992"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6787"/>
         <source>Tempo Scene Context Menu</source>
         <translation>曲速场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5993"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6790"/>
         <source>Track Item Context Menu</source>
         <translation>轨道项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5994"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6791"/>
         <source>Track Scene Context Menu</source>
         <translation>轨道场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5995"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6784"/>
         <source>Note Item Context Menu</source>
         <translation>音符项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5996"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6785"/>
         <source>Note Scene Context Menu</source>
         <translation>音符场景上下文菜单</translation>
     </message>
@@ -1225,127 +1344,127 @@
         <translation type="vanished">显示菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5901"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6756"/>
         <source>Show Too&amp;l Bar</source>
         <translation>显示工具栏(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5906"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6757"/>
         <source>Show &amp;Status Bar</source>
         <translation>显示状态栏(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5907"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6758"/>
         <source>Add Track</source>
         <translation>添加轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5908"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6759"/>
         <source>Insert Track...</source>
         <translation>插入轨道...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5909"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6760"/>
         <source>Insert Label...</source>
         <translation>插入标签...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5910"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6761"/>
         <source>Insert Singing Clip...</source>
         <translation>插入歌声剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5911"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6762"/>
         <source>Insert Note...</source>
         <translation>插入音符...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5912"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6763"/>
         <source>&amp;Next Project Window</source>
         <translation>下一个工程窗口(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5913"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6764"/>
         <source>&amp;Previous Project Window</source>
         <translation>上一个工程窗口(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5914"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6765"/>
         <source>Pro&amp;ject Windows</source>
         <translation>工程窗口(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5915"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6766"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5917"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6768"/>
         <source>&amp;Find Actions...</source>
         <translation>查找操作(&amp;F)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5918"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6769"/>
         <source>&amp;About DiffScope</source>
         <translation>关于 DiffScope(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5919"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6770"/>
         <source>About &amp;Qt</source>
         <translation>关于 &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5920"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6771"/>
         <source>Run DSPX Inspector</source>
         <translation>运行 DSPX 检查器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5921"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6772"/>
         <source>Main Menu</source>
         <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5922"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6773"/>
         <source>Main Tool Bar Left</source>
         <translation>主工具栏左</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5923"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6774"/>
         <source>Main Tool Bar Middle</source>
         <translation>主工具栏中</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5924"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6775"/>
         <source>Main Tool Bar Right</source>
         <translation>主工具栏右</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5925"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6776"/>
         <source>Main Status Bar</source>
         <translation>主状态栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5926"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6777"/>
         <source>Home Panels</source>
         <translation>主窗口面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5927"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6778"/>
         <source>Home Navigation</source>
         <translation>主窗口导航</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5928"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6779"/>
         <source>Home Tool</source>
         <translation>主窗口工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5929"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6792"/>
         <source>Navigation Panels</source>
         <translation>导航面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5930"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6793"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
@@ -1354,22 +1473,22 @@
         <translation type="vanished">帮助</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5931"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6794"/>
         <source>Workspace Panel Widgets</source>
         <translation>工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5932"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6795"/>
         <source>Status Text</source>
         <translation>状态文本</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5935"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6798"/>
         <source>Properties</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5936"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6800"/>
         <source>Plugins</source>
         <translation>插件</translation>
     </message>
@@ -1386,67 +1505,65 @@
         <translation type="vanished">钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5938"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6804"/>
         <source>Notifications</source>
         <translation>通知</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5939"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6806"/>
         <source>Tips</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5940"/>
         <source>Metadata</source>
-        <translation>元数据</translation>
+        <translation type="vanished">元数据</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5941"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6810"/>
         <source>Digital Clock</source>
         <translation>数字时钟</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5942"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6811"/>
         <source>Tempo Time Signature Indicator</source>
         <translation>曲速拍号指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5943"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6812"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5944"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6813"/>
         <source>File Open Actions</source>
         <translation>文件打开操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5945"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6814"/>
         <source>File Save Actions</source>
         <translation>文件保存操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5946"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6815"/>
         <source>Preference Actions</source>
         <translation>首选项操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5947"/>
         <source>File Metadata Actions</source>
-        <translation>文件元数据操作</translation>
+        <translation type="vanished">文件元数据操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5948"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6816"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5949"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6817"/>
         <source>Undo Actions</source>
         <translation>撤销操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5950"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6818"/>
         <source>Generic</source>
         <translation>通用的</translation>
     </message>
@@ -1479,32 +1596,32 @@
         <translation type="vanished">时间轴</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5962"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6830"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation>时间指示器时间码格式操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5963"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6831"/>
         <source>Timeline Go to Actions</source>
         <translation>时间轴跳转操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5964"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6832"/>
         <source>Timeline Back Navigation Actions</source>
         <translation>时间轴后退导航操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5965"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6833"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation>时间轴前进导航操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5968"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6836"/>
         <source>&amp;View</source>
         <translation>视图(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5969"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6837"/>
         <source>Workspace Actions</source>
         <translation>工作区操作</translation>
     </message>
@@ -1513,7 +1630,7 @@
         <translation type="vanished">工作区(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5970"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6838"/>
         <source>Workspace Layouts</source>
         <translation>工作区布局</translation>
     </message>
@@ -1534,74 +1651,74 @@
         <translation type="vanished">滚到到</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5973"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6839"/>
         <source>View Visibility Actions</source>
         <translation>视图可见性操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5974"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6840"/>
         <source>&amp;Window</source>
         <translation>窗口(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5975"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6841"/>
         <source>Project Window Actions</source>
         <translation>工程窗口操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5977"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6843"/>
         <source>About Actions</source>
         <translation>关于操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5978"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6844"/>
         <source>Dspx Inspector Actions</source>
         <translation>DSPX 检查器操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="5979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6845"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>工具栏时间轴导航操作</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6754"/>
         <source>Active &amp;Panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">活动面板(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6799"/>
         <source>Show Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示属性</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6801"/>
         <source>Show Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示插件</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6803"/>
         <source>Show Singer Picker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示歌手选择器</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6805"/>
         <source>Show Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示通知</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6807"/>
         <source>Show Tips</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示提示</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6808"/>
         <source>Show Recent Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示最近使用的文件</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.core_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6809"/>
         <source>Show Recovery Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示恢复文件</translation>
     </message>
 </context>
 <context>
@@ -2161,6 +2278,7 @@
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="16"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6688"/>
         <source>Color Scheme</source>
         <translation>配色方案</translation>
     </message>
@@ -2233,17 +2351,17 @@
         <translation>增益（dB）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="57"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="58"/>
         <source>Editing gain</source>
         <translation>编辑增益</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="69"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="64"/>
         <source>Pan (%)</source>
         <translation>声像（%）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="75"/>
+        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="71"/>
         <source>Editing pan</source>
         <translation>编辑声像</translation>
     </message>
@@ -2251,12 +2369,12 @@
 <context>
     <name>Core::ActionWindowInterfaceBase</name>
     <message>
-        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="83"/>
+        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="97"/>
         <source>Toggle &quot;%1&quot;</source>
         <translation>切换“%1”</translation>
     </message>
     <message>
-        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="90"/>
+        <location filename="../../windows/ActionWindowInterfaceBase.cpp" line="104"/>
         <source>Open Menu &quot;%1&quot;...</source>
         <translation>打开菜单“%1”...</translation>
     </message>
@@ -2264,24 +2382,24 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="276"/>
+        <location filename="../../core/CoreInterface.cpp" line="307"/>
         <source>About %1</source>
         <translation>关于 %1</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="337"/>
+        <location filename="../../core/CoreInterface.cpp" line="374"/>
         <source>Unnamed track</source>
         <translation>未命名轨道</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="340"/>
+        <location filename="../../core/CoreInterface.cpp" line="377"/>
         <source>Unnamed clip</source>
         <translation>未命名剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/ProjectDocumentContext.cpp" line="152"/>
-        <location filename="../../core/CoreInterface.cpp" line="369"/>
-        <location filename="../../core/CoreInterface.cpp" line="387"/>
+        <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
+        <location filename="../../core/CoreInterface.cpp" line="406"/>
+        <location filename="../../core/CoreInterface.cpp" line="424"/>
         <source>Untitled</source>
         <translation>无标题</translation>
     </message>
@@ -2289,117 +2407,117 @@
 <context>
     <name>Core::DspxDocument</name>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1997"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
         <source>Paste failed</source>
         <translation>粘贴失败</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1997"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
         <source>Cannot paste data from the clipboard.</source>
         <translation>无法从剪贴板粘贴数据。</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2006"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2008"/>
         <source>Pasting tempo</source>
         <translation>粘贴曲速</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2008"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2010"/>
         <source>Pasting label</source>
         <translation>粘贴标签</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2010"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2012"/>
         <source>Pasting key signature</source>
         <translation>粘贴调号</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2012"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2014"/>
         <source>Pasting track</source>
         <translation>粘贴轨道</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2014"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2016"/>
         <source>Pasting clip</source>
         <translation>粘贴剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2016"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2018"/>
         <source>Pasting note</source>
         <translation>粘贴音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2018"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2020"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished">粘贴声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2020"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2022"/>
         <source>Pasting selection</source>
         <translation>粘贴选区</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2056"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2058"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished">删除参数数据</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2059"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2061"/>
         <source>Deleting tempo</source>
         <translation>删除曲速</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2061"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2063"/>
         <source>Deleting label</source>
         <translation>删除标签</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2063"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2065"/>
         <source>Deleting key signature</source>
         <translation>删除调号</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2065"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2067"/>
         <source>Deleting track</source>
         <translation>删除轨道</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2067"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
         <source>Deleting clip</source>
         <translation>删除剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2071"/>
         <source>Deleting note</source>
         <translation>删除音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2071"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2073"/>
         <source>Deleting anchor node</source>
         <translation>删除锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2073"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2075"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">删除声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2076"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2078"/>
         <source>Deleting selection</source>
         <translation>删除选区</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2151"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
         <source>Splitting clip</source>
         <translation>分割剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2151"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
         <source>Splitting note</source>
         <translation>分割音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2306"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2308"/>
         <source>Bouncing to clip</source>
         <translation>合并到剪辑</translation>
     </message>
@@ -2774,18 +2892,18 @@
 <context>
     <name>Core::EditSourcesScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="225"/>
-        <source>Unsupported Note Languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="226"/>
-        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
-        <translation type="unfinished"></translation>
+        <source>Unsupported Note Languages</source>
+        <translation type="unfinished">不支持的音符语言</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="290"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="308"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
+        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
+        <translation type="unfinished">部分音符使用了所选歌手不支持的语言，可能导致合成失败。请将音符语言更改为歌手支持的语言。</translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="291"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="309"/>
         <source>Editing sources</source>
         <translation type="unfinished">编辑声源</translation>
     </message>
@@ -2837,14 +2955,58 @@
         <translation>插入歌声剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="364"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="363"/>
         <source>Inserting note</source>
         <translation>插入音符</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="431"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="429"/>
         <source>Inserting phoneme</source>
         <translation>插入音素</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ActionCatalogProxyModel</name>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
+        <source>Menu</source>
+        <translation type="unfinished">菜单</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
+        <source>Action group</source>
+        <translation type="unfinished">操作组</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
+        <source>Separator</source>
+        <translation type="unfinished">分隔线</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
+        <source>Stretch</source>
+        <translation type="unfinished">拉伸</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
+        <source>Action</source>
+        <translation type="unfinished">操作</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
+        <source>Widget</source>
+        <translation type="unfinished">小组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
+        <source>Custom component</source>
+        <translation type="unfinished">自定义组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
+        <source>Category</source>
+        <translation type="unfinished">类别</translation>
     </message>
 </context>
 <context>
@@ -2955,112 +3117,112 @@
         <translation>配置各组件的颜色和视觉效果</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="88"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="91"/>
         <source>Alpha: %L1</source>
         <translation>透明度：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="92"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="95"/>
         <source>Saturation (HSV): %L1</source>
         <translation>饱和度（HSV）：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="97"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="100"/>
         <source>Value: %L1</source>
         <translation>明度：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="101"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="104"/>
         <source>Saturation (HSL): %L1</source>
         <translation>饱和度（HSL）：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="105"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="108"/>
         <source>Lightness: %L1</source>
         <translation>亮度：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="109"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="112"/>
         <source>QColor::lighter(): %L1</source>
         <translation>QColor::lighter()：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="113"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="116"/>
         <source>Top Blend: %1</source>
         <translation>顶部混合：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="117"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="120"/>
         <source>Bottom Blend: %1</source>
         <translation>底部混合：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="121"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="124"/>
         <source>OkLab Lighter: %L1</source>
         <translation>OkLab 变亮：%L1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="229"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="232"/>
         <source>Syntax error at line %L1: Missing colon in declaration</source>
         <translation>第 %L1 行语法错误：声明缺少冒号</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="237"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="240"/>
         <source>Syntax error at line %L1: Empty property name</source>
         <translation>第 %L1 行语法错误：属性名为空</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="242"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="245"/>
         <source>Syntax error at line %L1: Empty property value</source>
         <translation>第 %L1 行语法错误：属性值为空</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="250"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="253"/>
         <source>Syntax error at line %L1: Invalid &apos;alpha&apos; value</source>
         <translation>第 %L1 行语法错误：“alpha”值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="258"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="261"/>
         <source>Syntax error at line %L1: Invalid &apos;saturation&apos; value</source>
         <translation>第 %L1 行语法错误：“saturation”值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="266"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="269"/>
         <source>Syntax error at line %L1: Invalid &apos;value&apos; value</source>
         <translation>第 %L1 行语法错误：“value”值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="274"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="277"/>
         <source>Syntax error at line %L1: Invalid &apos;hsl-saturation&apos; value</source>
         <translation>第 %L1 行语法错误：“hsl-saturation”值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="282"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="285"/>
         <source>Syntax error at line %L1: Invalid &apos;lightness&apos; value</source>
         <translation>第 %L1 行语法错误：“lightness”值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="290"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="293"/>
         <source>Syntax error at line %L1: Invalid &apos;lighter&apos; value (must be a positive integer)</source>
         <translation>第 %L1 行语法错误：“lighter”值无效（必须为正整数）</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="297"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="300"/>
         <source>Syntax error at line %L1: Invalid color value for &apos;top-blend&apos;</source>
         <translation>第 %L1 行语法错误：“top-blend”颜色值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="304"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="307"/>
         <source>Syntax error at line %L1: Invalid color value for &apos;bottom-blend&apos;</source>
         <translation>第 %L1 行语法错误：“bottom-blend”颜色值无效</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="312"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="315"/>
         <source>Syntax error at line %L1: Invalid &apos;oklab-lighter&apos; value (must be a positive number)</source>
         <translation>第 %L1 行语法错误：“oklab-lighter”值无效（必须为正数）</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ColorSchemePage.cpp" line="318"/>
+        <location filename="../../internal/settings/ColorSchemePage.cpp" line="321"/>
         <source>Syntax error at line %L1: Unknown property &apos;%2&apos;</source>
         <translation>第 %L1 行语法错误：未知属性“%2”</translation>
     </message>
@@ -3068,31 +3230,27 @@
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="184"/>
+        <location filename="../../internal/CorePlugin.cpp" line="187"/>
         <source>Initializing core plugin...</source>
         <translation>正在初始化核心插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="207"/>
+        <location filename="../../internal/CorePlugin.cpp" line="213"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
-        <translation>加载某些插件时发生错误：
-
-%1
-
-请前往“插件”查看详细信息。</translation>
+        <translation type="unfinished">插件加载完成，正在准备后续初始化...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="217"/>
+        <location filename="../../internal/CorePlugin.cpp" line="224"/>
         <source>Initializing GUI...</source>
         <translation>正在初始化图形界面...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="464"/>
+        <location filename="../../internal/CorePlugin.cpp" line="483"/>
         <source>Last run terminated abnormally</source>
         <translation>上次运行异常终止</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="464"/>
+        <location filename="../../internal/CorePlugin.cpp" line="483"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3101,7 +3259,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 要检查未保存的文件，请前往“恢复文件”。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="509"/>
+        <location filename="../../internal/CorePlugin.cpp" line="528"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3114,12 +3272,12 @@ Please go to Plugins to see more details.</source>
 请前往“插件”查看详细信息。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="512"/>
+        <location filename="../../internal/CorePlugin.cpp" line="531"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="514"/>
+        <location filename="../../internal/CorePlugin.cpp" line="533"/>
         <source>Plugin Error</source>
         <translation>插件错误</translation>
     </message>
@@ -3137,7 +3295,7 @@ Please go to Plugins to see more details.</source>
         <translation>音高超出范围</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="193"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="196"/>
         <source>Shifting note pitch</source>
         <translation>调整音符音高</translation>
     </message>
@@ -3158,12 +3316,12 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::FillLyricsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="177"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="180"/>
         <source>Invalid Regular Expression</source>
         <translation type="unfinished">无效的正则表达式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="178"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="181"/>
         <source>The regular expression is invalid:
 
 %1</source>
@@ -3172,7 +3330,7 @@ Please go to Plugins to see more details.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="209"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="212"/>
         <source>Filling lyrics</source>
         <translation type="unfinished">填充歌词</translation>
     </message>
@@ -3180,7 +3338,7 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::FindActionsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="64"/>
+        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="67"/>
         <source>Find actions</source>
         <translation>查找操作</translation>
     </message>
@@ -3188,22 +3346,22 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::FindActionsModel</name>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="136"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="112"/>
         <source>Toggle &quot;%1&quot;</source>
         <translation>切换“%1”</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="138"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="114"/>
         <source>Open Menu &quot;%1&quot;...</source>
         <translation>打开菜单“%1”...</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="143"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="119"/>
         <source>%1: %2</source>
         <translation>%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/actions/FindActionsModel.cpp" line="159"/>
+        <location filename="../../internal/actions/FindActionsModel.cpp" line="135"/>
         <source>recently used</source>
         <translation>最近使用</translation>
     </message>
@@ -3221,14 +3379,468 @@ Please go to Plugins to see more details.</source>
         <translation>配置 %1 的通用行为</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="185"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1</source>
         <translation>重新启动 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="185"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1 to apply language changes?</source>
         <translation>重新启动 %1 以应用语言更改？</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ItemSelectorDialog</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="102"/>
+        <source>%1 Transform</source>
+        <translation type="unfinished">%1 变换</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="232"/>
+        <source>Document Components</source>
+        <translation type="unfinished">文档组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="233"/>
+        <source>Document Components List</source>
+        <translation type="unfinished">文档组件列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="234"/>
+        <source>Select all document components</source>
+        <translation type="unfinished">选择全部文档组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="238"/>
+        <source>Tracks</source>
+        <translation type="unfinished">轨道</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="239"/>
+        <source>Tracks List</source>
+        <translation type="unfinished">轨道列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="240"/>
+        <source>Select all tracks</source>
+        <translation type="unfinished">选择全部轨道</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="244"/>
+        <source>Track Components</source>
+        <translation type="unfinished">轨道组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="245"/>
+        <source>Track Components List</source>
+        <translation type="unfinished">轨道组件列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="246"/>
+        <source>Select all track components</source>
+        <translation type="unfinished">选择全部轨道组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="250"/>
+        <source>Clips</source>
+        <translation type="unfinished">剪辑</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="251"/>
+        <source>Clips List</source>
+        <translation type="unfinished">剪辑列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="252"/>
+        <source>Select all clips</source>
+        <translation type="unfinished">选择全部剪辑</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="256"/>
+        <source>Clip Components</source>
+        <translation type="unfinished">剪辑组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="257"/>
+        <source>Clip Components List</source>
+        <translation type="unfinished">剪辑组件列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="258"/>
+        <source>Select all clip components</source>
+        <translation type="unfinished">选择全部剪辑组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="262"/>
+        <source>Notes</source>
+        <translation type="unfinished">音符</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="263"/>
+        <source>Notes List</source>
+        <translation type="unfinished">音符列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="264"/>
+        <source>Select all notes</source>
+        <translation type="unfinished">选择全部音符</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="268"/>
+        <source>Parameters</source>
+        <translation type="unfinished">参数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="269"/>
+        <source>Parameters List</source>
+        <translation type="unfinished">参数列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="270"/>
+        <source>Select all parameters</source>
+        <translation type="unfinished">选择全部参数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="274"/>
+        <source>Parameter Components</source>
+        <translation type="unfinished">参数组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="275"/>
+        <source>Parameter Components List</source>
+        <translation type="unfinished">参数组件列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="276"/>
+        <source>Select all parameter components</source>
+        <translation type="unfinished">选择全部参数组件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="282"/>
+        <source>Parameter Transform Anchors</source>
+        <translation type="unfinished">参数变换锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="283"/>
+        <source>Parameter Transform Anchors List</source>
+        <translation type="unfinished">参数变换锚点列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="284"/>
+        <source>Select all parameter transform anchors</source>
+        <translation type="unfinished">选择全部参数变换锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="288"/>
+        <source>Parameter Edited Anchors</source>
+        <translation type="unfinished">参数编辑锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="289"/>
+        <source>Parameter Edited Anchors List</source>
+        <translation type="unfinished">参数编辑锚点列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="290"/>
+        <source>Select all parameter edited anchors</source>
+        <translation type="unfinished">选择全部参数编辑锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="295"/>
+        <source>Voice Blending Anchors</source>
+        <translation type="unfinished">声线融合锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="296"/>
+        <source>Voice Blending Anchors List</source>
+        <translation type="unfinished">声线融合锚点列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="297"/>
+        <source>Select all voice blending anchors</source>
+        <translation type="unfinished">选择全部声线融合锚点</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="301"/>
+        <source>Labels</source>
+        <translation type="unfinished">标签</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="302"/>
+        <source>Labels List</source>
+        <translation type="unfinished">标签列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="303"/>
+        <source>Select all labels</source>
+        <translation type="unfinished">选择全部标签</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="307"/>
+        <source>Tempo Markings</source>
+        <translation type="unfinished">曲速标记</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="308"/>
+        <source>Tempo Markings List</source>
+        <translation type="unfinished">曲速标记列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="309"/>
+        <source>Select all tempo markings</source>
+        <translation type="unfinished">选择全部曲速标记</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="313"/>
+        <source>Key Signatures</source>
+        <translation type="unfinished">调号</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="314"/>
+        <source>Key Signatures List</source>
+        <translation type="unfinished">调号列表</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="315"/>
+        <source>Select all key signatures</source>
+        <translation type="unfinished">选择全部调号</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="536"/>
+        <source>Item Selector</source>
+        <translation type="unfinished">条目选择器</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="623"/>
+        <source>Select All</source>
+        <translation type="unfinished">全选</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="814"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="815"/>
+        <source>Range</source>
+        <translation type="unfinished">范围</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="826"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="829"/>
+        <source>Start</source>
+        <translation type="unfinished">起始</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="827"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="830"/>
+        <source>End</source>
+        <translation type="unfinished">结束</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::ItemSelectorListModel</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
+        <source>Tracks</source>
+        <translation type="unfinished">轨道</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
+        <source>Labels</source>
+        <translation type="unfinished">标签</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
+        <source>Tempos</source>
+        <translation type="unfinished">曲速</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
+        <source>Key Signatures</source>
+        <translation type="unfinished">调号</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
+        <source>Clips</source>
+        <translation type="unfinished">剪辑</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="561"/>
+        <source>Notes</source>
+        <translation type="unfinished">音符</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="563"/>
+        <source>Parameters</source>
+        <translation type="unfinished">参数</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="565"/>
+        <source>Voice Blending</source>
+        <translation type="unfinished">声线融合</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="567"/>
+        <source>Freeform Edited</source>
+        <translation type="unfinished">自由曲线编辑</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="569"/>
+        <source>Freeform Transform</source>
+        <translation type="unfinished">自由曲线变换</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="571"/>
+        <source>Anchor Edited</source>
+        <translation type="unfinished">锚点编辑</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="573"/>
+        <source>Anchor Transform</source>
+        <translation type="unfinished">锚点变换</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="576"/>
+        <source>%L1. %2</source>
+        <translation type="unfinished">%L1. %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <source>Audio</source>
+        <translation type="unfinished">音频</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <source>Singing</source>
+        <translation type="unfinished">歌声</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="581"/>
+        <source>%1: %2</source>
+        <translation type="unfinished">%1：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="593"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="613"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="617"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="602"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="606"/>
+        <source>Position %1</source>
+        <translation type="unfinished">位置 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="612"/>
+        <source>%L1 BPM</source>
+        <translation type="unfinished">%L1 BPM</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="628"/>
+        <source>Clip Count: %L1
+Color: %L2
+View Height: %L3
+Gain: %L4 dB
+Pan: %L5
+Mute: %6
+Solo: %7
+Record: %8</source>
+        <translation type="unfinished">剪辑数量：%L1
+颜色：%L2
+视图高度：%L3
+增益：%L4 dB
+声像：%L5
+静音：%6
+独奏：%7
+录音：%8</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="638"/>
+        <source>Position: %1
+Starting Offset: %2
+Clip Length: %3</source>
+        <translation type="unfinished">位置：%1
+起始偏移：%2
+剪辑长度：%3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <source>
+Virtual Singer: %1</source>
+        <translation type="unfinished">
+虚拟歌手：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <source>No singer</source>
+        <translation type="unfinished">无歌手</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="646"/>
+        <source>
+File: %1</source>
+        <translation type="unfinished">
+文件：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="656"/>
+        <source>Onset Position (Relative to Clip): %1
+Duration: %2
+Language: %3
+Pronunciation (Original): %4
+Pronunciation (Edited): %5</source>
+        <translation type="unfinished">起始位置（相对于剪辑）：%1
+时长：%2
+语言：%3
+发音（原始）：%4
+发音（编辑）：%5</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="662"/>
+        <source>Parameter ID: %1
+Edited Anchor Count: %L2
+Transform Anchor Count: %L3</source>
+        <translation type="unfinished">参数 ID：%1
+编辑锚点数量：%L2
+变换锚点数量：%L3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="673"/>
+        <source>Value: %1
+Interpolation: %2</source>
+        <translation type="unfinished">值：%1
+插值：%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="692"/>
+        <source>%1: %L2%</source>
+        <translation type="unfinished">%1：%L2%</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="698"/>
+        <source>Position: %1</source>
+        <translation type="unfinished">位置：%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="708"/>
+        <source>Flat</source>
+        <translation type="unfinished">降号</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="709"/>
+        <source>Sharp</source>
+        <translation type="unfinished">升号</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="710"/>
+        <source>Position: %1
+Tonality: %2
+Mode: %3
+Accidental Type: %4</source>
+        <translation type="unfinished">位置：%1
+调性：%2
+调式：%3
+变音记号类型：%4</translation>
     </message>
 </context>
 <context>
@@ -3246,64 +3858,65 @@ Please go to Plugins to see more details.</source>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="91"/>
         <source>The keyboard mapping settings could not be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法保存键盘映射设置。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="110"/>
         <location filename="../../internal/settings/KeymapPage.cpp" line="182"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="181"/>
         <source>Enter a preset name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请输入预设名称。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="186"/>
         <source>A preset with this name already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已存在同名预设。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="242"/>
         <source>Default (copy)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认（副本）</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="248"/>
         <source>%1 (%L2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1（%L2）</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="257"/>
         <source>Enter a shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请输入快捷键。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="262"/>
         <source>A shortcut must include a key other than a modifier.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">快捷键必须包含修饰键以外的按键。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="289"/>
         <source>%1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="292"/>
         <source>Already assigned to:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已分配给：
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
         <source>Find Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找快捷键</translation>
     </message>
     <message>
         <location filename="../../internal/settings/KeymapPage.cpp" line="297"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑快捷键</translation>
     </message>
 </context>
 <context>
@@ -3334,28 +3947,28 @@ Please go to Plugins to see more details.</source>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="140"/>
         <source>The menu and toolbar settings could not be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法保存菜单和工具栏设置。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="299"/>
         <source>This item cannot be added because it would create an invalid or recursive menu.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加此条目将创建无效或递归菜单，因此无法添加。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="340"/>
         <source>This item cannot be moved to the selected position.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法将此条目移动至所选位置。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="435"/>
         <source>Restoring this menu would create a recursive menu. Restore all layouts or remove the conflicting reference.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">恢复此菜单将创建递归菜单。请恢复全部布局或删除冲突的引用。</translation>
     </message>
 </context>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="74"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="83"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation>
             <numerusform>%1（+%Ln 个通知）</numerusform>
@@ -3383,128 +3996,128 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::QuickJumpParser</name>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="182"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="185"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation>键入“?”以查看提示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="199"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="202"/>
         <source>Invalid format</source>
         <translation>无效格式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="212"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="304"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="353"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="360"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="367"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="215"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>Go to %1</source>
         <translation>转到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="232"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move backward by %1 (to %2)</source>
         <translation>向后移动 %1（至 %2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="232"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move forward by %1 (to %2)</source>
         <translation>向前移动 %1（至 %2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="233"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move backward by music time...</source>
         <translation>向后移动音乐时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="233"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move forward by music time...</source>
         <translation>向前移动音乐时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="240"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="294"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation>
 时间偏移超出边界，已被调整到零</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>Go to absolute time...</source>
         <translation>跳转到绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="286"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move backward by absolute time...</source>
         <translation>向后移动绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="286"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move forward by absolute time...</source>
         <translation>向前移动绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="304"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
         <source>the end of project (%1)</source>
         <translation>工程结束（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="319"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
         <source>previous measure (%1)</source>
         <translation>上一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="331"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
         <source>previous beat (%1)</source>
         <translation>上一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="343"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>previous tick (%1)</source>
         <translation>上一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="353"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
         <source>next measure (%1)</source>
         <translation>下一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="360"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
         <source>next beat (%1)</source>
         <translation>下一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="367"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>next tick (%1)</source>
         <translation>下一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="396"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="399"/>
         <source>measure %L1, beat %L2</source>
         <translation>第 %L1 小节，第 %L2 拍</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="398"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation>第 %L1 小节，第 %L2 拍，第 %L3 刻</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="402"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3512,7 +4125,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="403"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="406"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3520,13 +4133,13 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="410"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
         <translation>%1 %2</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="414"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3534,7 +4147,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="415"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3542,7 +4155,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="416"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="419"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3550,26 +4163,26 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="424"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="433"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="432"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation>%1 %2 %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="436"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3577,7 +4190,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="437"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3585,7 +4198,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="438"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3593,20 +4206,20 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="446"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="455"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="454"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation>%1 %2 %3</translation>
@@ -3615,32 +4228,32 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
 <context>
     <name>Core::Internal::RecentFileAddOn</name>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="147"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="156"/>
         <source>&lt;i&gt;File moved or deleted&lt;/i&gt;</source>
         <translation>&lt;i&gt;文件被移动或删除&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="167"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
         <source>Failed to restore recovery file</source>
         <translation type="unfinished">还原恢复文件失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="168"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
         <source>Cannot restore the recovery file.</source>
         <translation type="unfinished">无法还原恢复文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="185"/>
         <source>Complete recovery failed</source>
         <translation type="unfinished">完整恢复失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="186"/>
         <source>Complete recovery failed. Partial recovery will be attempted.</source>
         <translation type="unfinished">完整恢复失败。将尝试部分恢复。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="276"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="285"/>
         <source>Unsaved project from last close</source>
         <translation type="unfinished">上次关闭时未保存的工程</translation>
     </message>
@@ -3648,9 +4261,37 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
 <context>
     <name>Core::Internal::SingerNameResolver</name>
     <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="169"/>
+        <source>No singer</source>
+        <translation type="unfinished">无歌手</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <source>Mixed singer (%1)</source>
+        <translation type="unfinished">混合歌手（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <source>, </source>
+        <translation type="unfinished">，</translation>
+    </message>
+    <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">不可用</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="196"/>
+        <source>Custom (%1)</source>
+        <translation type="unfinished">自定义（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="208"/>
+        <source>Mixed singer</source>
+        <translation type="unfinished">混合歌手</translation>
     </message>
 </context>
 <context>
@@ -3811,12 +4452,12 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation type="vanished">键入“?”以查看提示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="487"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="490"/>
         <source>Invalid format</source>
         <translation>无效格式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="475"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="478"/>
         <source>Jump to</source>
         <translation>跳转到</translation>
     </message>
@@ -3826,17 +4467,17 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation>自定义调式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="146"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
         <source>Enabling loop</source>
         <translation>启用循环</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="146"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
         <source>Disabling loop</source>
         <translation>禁用循环</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="485"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="488"/>
         <source>Input should not be empty</source>
         <translation>输入不应为空</translation>
     </message>
@@ -3859,44 +4500,100 @@ Continue?</source>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="224"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="163"/>
         <source>Save Current Layout As...</source>
         <translation>保存当前布局为...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="230"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="169"/>
         <source>Default Layout</source>
         <translation>默认布局</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="240"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="179"/>
         <source>custom layout</source>
         <translation>自定义布局</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="244"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="183"/>
         <source>Workspace layout actions</source>
         <translation>工作区布局操作</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="263"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="203"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="206"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="269"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="209"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="271"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>自定义布局“%1”操作</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspacePanelLoader</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="76"/>
+        <source>The panel request expired.</source>
+        <translation type="unfinished">面板请求已过期。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="80"/>
+        <source>The panel component was destroyed.</source>
+        <translation type="unfinished">面板组件已被销毁。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="96"/>
+        <source>The panel component is not registered.</source>
+        <translation type="unfinished">面板组件未注册。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="98"/>
+        <source>The panel component is not ready.</source>
+        <translation type="unfinished">面板组件尚未就绪。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="107"/>
+        <source>The panel component must provide a DockingPane.</source>
+        <translation type="unfinished">面板组件必须提供 DockingPane。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="151"/>
+        <source>The panel rejected the workspace state in %1.</source>
+        <translation type="unfinished">面板拒绝了 %1 中的工作区状态。</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::WorkspaceSession</name>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="58"/>
+        <source>The panel could not be placed in the selected location.</source>
+        <translation type="unfinished">无法将面板放置在所选位置。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="152"/>
+        <source>The workspace layout is invalid.</source>
+        <translation type="unfinished">工作区布局无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="260"/>
+        <source>The workspace layout could not be restored.</source>
+        <translation type="unfinished">无法恢复工作区布局。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="431"/>
+        <source>The panel could not be moved to a floating window.</source>
+        <translation type="unfinished">无法将面板移动至浮动窗口。</translation>
     </message>
 </context>
 <context>
@@ -3922,17 +4619,17 @@ Continue?</source>
         <translation>保存文件失败</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="121"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="130"/>
         <source>Open DSPX Inspector</source>
         <translation>打开 DSPX 检查器</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="124"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="136"/>
         <source>Failed to parse file content</source>
         <translation>解析文件内容失败</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="125"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="137"/>
         <source>%1
 
 You can check for problems in the file with DSPX Inspector.</source>
@@ -3941,32 +4638,32 @@ You can check for problems in the file with DSPX Inspector.</source>
 你可以使用 DSPX Inspector 检查文件中的问题。</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="148"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="166"/>
         <source>File created with another application</source>
         <translation>使用其他应用程序创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="150"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="168"/>
         <source>name unknown</source>
         <translation>名称未知</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="159"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
         <source>File created with incompatible %1 version</source>
         <translation>使用不兼容的 %1 版本创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="170"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="188"/>
         <source>Additional check failed</source>
         <translation>附加检查失败</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="180"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="198"/>
         <source>Potential document integrity issue</source>
         <translation>潜在的文档完整性问题</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="181"/>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="199"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -3994,12 +4691,12 @@ Do you want to continue?</source>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="118"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
         <source>File Modified Externally</source>
         <translation>文件在外部修改</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="119"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4008,12 +4705,12 @@ Do you want to save as a new file or overwrite it?</source>
 你想另存为新文件还是覆盖现有文件？</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="123"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="132"/>
         <source>Save As...</source>
         <translation>另存为...</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="136"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
@@ -4027,12 +4724,12 @@ Do you want to save as a new file or overwrite it?</source>
     <message>
         <location filename="../../singer/SingerInfoProvider.cpp" line="121"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">不可用</translation>
     </message>
     <message>
         <location filename="../../singer/SingerInfoProvider.cpp" line="135"/>
         <source>Default language (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认语言（%1）</translation>
     </message>
 </context>
 <context>
@@ -4201,7 +4898,7 @@ Do you want to save as a new file or overwrite it?</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="153"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="154"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
@@ -4209,86 +4906,106 @@ Do you want to save as a new file or overwrite it?</source>
 <context>
     <name>EditActionsAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="266"/>
         <source>%1 [%2, %3)</source>
-        <translation type="unfinished">%1 [%2, %3)</translation>
+        <translation type="obsolete">%1 [%2, %3)</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="273"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="195"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="197"/>
+        <source>Toggling mute</source>
+        <translation type="unfinished">切换静音</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
+        <source>Toggling solo</source>
+        <translation type="unfinished">切换独奏</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="220"/>
+        <source>Toggling record</source>
+        <translation type="unfinished">切换录制</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <source>%1 (%2 - %3)</source>
+        <translation type="unfinished">%1（%2 - %3）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="286"/>
         <source>No selection</source>
         <translation>未选择</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="275"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="288"/>
         <source>%Ln parameter anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln 个参数锚点</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="277"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="290"/>
         <source>%Ln clip(s)</source>
         <translation>
             <numerusform>%Ln 个剪辑</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="292"/>
         <source>%Ln label(s)</source>
         <translation>
             <numerusform>%Ln 个标签</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="281"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="294"/>
         <source>%Ln note(s)</source>
         <translation>
             <numerusform>%Ln 个音符</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="283"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="296"/>
         <source>%Ln tempo(s)</source>
         <translation>
             <numerusform>%Ln 个曲速</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="298"/>
         <source>%Ln track(s)</source>
         <translation>
             <numerusform>%Ln 个轨道</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="287"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="300"/>
         <source>%Ln key signature(s)</source>
         <translation>
             <numerusform>%Ln 个调号</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="289"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="302"/>
         <source>%Ln voice blending anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln 个声线融合锚点</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="299"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="312"/>
         <source> (%Ln selected)</source>
         <translation>
             <numerusform>（已选择 %Ln 个）</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
         <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
 
 Continue to bounce?</source>
@@ -4297,7 +5014,7 @@ Continue to bounce?</source>
 继续合并吗？</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
         <source>Some notes or curves cross clip boundaries, free parameters require resampling, or data points overlap after merging. Bouncing may trim, resample, or overwrite this data.
 
 Continue to bounce?</source>
@@ -4396,27 +5113,27 @@ Continue to bounce?</source>
         <translation>曲速</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="68"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="57"/>
         <source>Tap to Detect Tempo</source>
         <translation>敲击检测曲速</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="69"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="58"/>
         <source>Press the button to the rhythm to detect the tempo. Right-click to cancel.</source>
         <translation>随节奏按下按钮以检测曲速。右键单击以取消。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="122"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="111"/>
         <source>Position</source>
         <translation>位置</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="136"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="125"/>
         <source>Modify existing one</source>
         <translation>修改现有的</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="141"/>
+        <location filename="../../qml/dialogs/EditTempoDialog.qml" line="130"/>
         <source>Insert new one</source>
         <translation>添加新的</translation>
     </message>
@@ -4556,22 +5273,22 @@ Continue to bounce?</source>
 <context>
     <name>GeneralPage</name>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="70"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="68"/>
         <source>Startup</source>
         <translation>启动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="78"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="76"/>
         <source>When starting %1</source>
         <translation>启动 %1 时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="82"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="80"/>
         <source>Open the home window</source>
         <translation>打开主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="95"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="93"/>
         <source>Create a new project</source>
         <translation>创建新工程</translation>
     </message>
@@ -4580,148 +5297,148 @@ Continue to bounce?</source>
         <translation type="vanished">自动打开之前的工程</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="108"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="106"/>
         <source>Close the home window after opening a project</source>
         <translation>打开工程后关闭主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="121"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="119"/>
         <source>Reopen the home window when the last project window closes</source>
         <translation>关闭最后一个工程窗口时重新打开主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="136"/>
-        <location filename="../../qml/settings/GeneralPage.qml" line="156"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="134"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="154"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="142"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="140"/>
         <source>Use system language</source>
         <translation>使用系统语言</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="183"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="181"/>
         <source>(Restart required)</source>
         <translation>（需要重启）</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="200"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="189"/>
         <source>Fallback lyric text</source>
         <translation type="unfinished">后备歌词文本</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="212"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="201"/>
         <source>Notification</source>
         <translation>通知</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="218"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="207"/>
         <source>Play sound alert when a notification bubble is sent</source>
         <translation>发送通知气泡时播放提示音</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="225"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="214"/>
         <source>Timeout for auto hiding notification bubbles</source>
         <translation>通知气泡自动隐藏超时时间</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="235"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="224"/>
         <source>milliseconds</source>
         <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="239"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="228"/>
         <source>Reset All &quot;Do Not Show Again&quot;</source>
         <translation>重置所有“不再显示”</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="246"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="235"/>
         <source>Window</source>
         <translation>窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="252"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="241"/>
         <source>Memorize window position and size</source>
         <translation>记住窗口的位置和大小</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="260"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="249"/>
         <source>Find Actions</source>
         <translation>查找操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="267"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="256"/>
         <source>Number of &quot;recently used&quot; records</source>
         <translation>“最近使用”记录数量</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="279"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="268"/>
         <source>Clear History</source>
         <translation>清除历史</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="288"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="277"/>
         <source>History cleared</source>
         <translation>历史已清除</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="302"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="291"/>
         <source>Network Proxy</source>
         <translation>网络代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="308"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="297"/>
         <source>No proxy</source>
         <translation>无代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="314"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="303"/>
         <source>Use system proxy</source>
         <translation>使用系统代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="320"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="309"/>
         <source>Manually configure proxy</source>
         <translation>手动配置代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="333"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="322"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="341"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="330"/>
         <source>SOCK5</source>
         <translation>SOCK5</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="342"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="331"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="348"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="337"/>
         <source>Hostname</source>
         <translation>主机名</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="357"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="346"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="369"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="358"/>
         <source>Authentication</source>
         <translation>认证</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="380"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="369"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="389"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="378"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -4881,6 +5598,39 @@ Continue to bounce?</source>
     </message>
 </context>
 <context>
+    <name>ItemSelectorDialog</name>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="83"/>
+        <source>Yes</source>
+        <translation type="unfinished">是</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="83"/>
+        <source>No</source>
+        <translation type="unfinished">否</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="97"/>
+        <source>None</source>
+        <translation type="unfinished">无</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="99"/>
+        <source>Linear</source>
+        <translation type="unfinished">线性</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="101"/>
+        <source>Hermite</source>
+        <translation type="unfinished">埃尔米特</translation>
+    </message>
+    <message>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="116"/>
+        <source>Custom Mode</source>
+        <translation type="unfinished">自定义调式</translation>
+    </message>
+</context>
+<context>
     <name>KeySignaturePropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="19"/>
@@ -4944,6 +5694,130 @@ Continue to bounce?</source>
     </message>
 </context>
 <context>
+    <name>KeymapPage</name>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore Shortcuts</source>
+        <translation type="unfinished">恢复快捷键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
+        <source>Restore all shortcuts in this preset to their defaults?</source>
+        <translation type="unfinished">是否将此预设中的全部快捷键恢复为默认值？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="54"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="63"/>
+        <source>Preset</source>
+        <translation type="unfinished">预设</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="75"/>
+        <source>Save As...</source>
+        <translation type="unfinished">另存为...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="80"/>
+        <source>Rename...</source>
+        <translation type="unfinished">重命名...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="86"/>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete Preset</source>
+        <translation type="unfinished">删除预设</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
+        <source>Delete preset &quot;%1&quot;?</source>
+        <translation type="unfinished">是否删除预设“%1”？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="102"/>
+        <source>Expand All</source>
+        <translation type="unfinished">全部展开</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="103"/>
+        <source>Collapse All</source>
+        <translation type="unfinished">全部折叠</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="107"/>
+        <source>Search</source>
+        <translation type="unfinished">搜索</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="117"/>
+        <source>Find Shortcut...</source>
+        <translation type="unfinished">查找快捷键...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="128"/>
+        <source>Shortcut: %1</source>
+        <translation type="unfinished">快捷键：%1</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="131"/>
+        <source>Clear Filter</source>
+        <translation type="unfinished">清除筛选</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="36"/>
+        <source>Clear Shortcut</source>
+        <translation type="unfinished">清除快捷键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="42"/>
+        <source>Restore Shortcut</source>
+        <translation type="unfinished">恢复快捷键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="95"/>
+        <source>Restore All</source>
+        <translation type="unfinished">全部还原</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="30"/>
+        <source>Edit Shortcut...</source>
+        <translation type="unfinished">编辑快捷键...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Rename Preset</source>
+        <translation type="unfinished">重命名预设</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
+        <source>Save Preset As</source>
+        <translation type="unfinished">预设另存为</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="182"/>
+        <source>%1 (copy)</source>
+        <translation type="unfinished">%1（副本）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="199"/>
+        <source>Preset name</source>
+        <translation type="unfinished">预设名称</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+</context>
+<context>
     <name>LabelPropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/LabelPropertyEditor.qml" line="18"/>
@@ -4974,34 +5848,34 @@ Continue to bounce?</source>
 <context>
     <name>LoadingFailedFallbackPanel</name>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="44"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="43"/>
         <source>Failed to load component</source>
         <translation>组件加载失败</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="54"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="53"/>
         <source>This component cannot be loaded because it is not registered to the application. The plugin providing this component might be disabled or no longer available.</source>
         <translation>此组件无法加载，因为它未注册到应用程序中。提供此组件的插件可能已被禁用或不可用。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="60"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="59"/>
         <source>An error occurred while loading this component.</source>
         <translation>加载此组件时发生错误。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="66"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="65"/>
         <source>Component identifier</source>
         <translation>组件标识符</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="74"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="73"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
         <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="23"/>
         <source>%1 (Failed to Load)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1（加载失败）</translation>
     </message>
 </context>
 <context>
@@ -5174,17 +6048,17 @@ Continue to bounce?</source>
         <translation>增益（dB）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="48"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="49"/>
         <source>Editing gain</source>
         <translation>编辑增益</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="60"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="55"/>
         <source>Pan (%)</source>
         <translation>声像 (%)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="66"/>
+        <location filename="../../qml/propertyeditors/MasterControlPropertyEditor.qml" line="62"/>
         <source>Editing pan</source>
         <translation>编辑声像</translation>
     </message>
@@ -5198,9 +6072,8 @@ Continue to bounce?</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="73"/>
         <source>Add Action or Menu...</source>
-        <translation>添加操作或菜单...</translation>
+        <translation type="vanished">添加操作或菜单...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="56"/>
@@ -5239,9 +6112,8 @@ Continue to bounce?</source>
         <translation>还原</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="138"/>
         <source>Restore This Menu</source>
-        <translation>还原此菜单</translation>
+        <translation type="vanished">还原此菜单</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="144"/>
@@ -5257,52 +6129,52 @@ Continue to bounce?</source>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="28"/>
         <source>Restore all menu and toolbar layouts to their defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">是否将全部菜单和工具栏布局恢复为默认值？</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="29"/>
         <source>Restore the selected item to its defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">是否将所选条目恢复为默认值？</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="30"/>
         <source>Restore Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">恢复布局</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="283"/>
         <source>Add Action, Menu, or Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加操作、菜单或组</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="337"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">取消</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="50"/>
         <source>Add Action...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加操作...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="100"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">菜单</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="109"/>
         <source>Action Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">操作组</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="118"/>
         <source>Separator</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">分隔线</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="128"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">拉伸</translation>
     </message>
 </context>
 <context>
@@ -5412,132 +6284,144 @@ Continue to bounce?</source>
         <translation type="unfinished">保存预设</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="200"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="208"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="219"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="227"/>
         <source>Configure singer</source>
         <translation type="unfinished">配置歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="236"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="244"/>
         <source>Replace singer</source>
         <translation type="unfinished">替换歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="240"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="248"/>
         <source>An invalid mixed singer cannot replace entries.</source>
         <translation type="unfinished">无效的混合歌手无法替换条目。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="252"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="260"/>
         <source>Move singer up</source>
         <translation type="unfinished">上移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="266"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="274"/>
         <source>Move singer down</source>
         <translation type="unfinished">下移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="280"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="288"/>
         <source>Remove singer</source>
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="284"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="292"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished">混合歌手必须保留至少一个子歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="347"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="355"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="351"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="359"/>
         <source>An invalid mixed singer or empty mix group cannot accept another singer.</source>
         <translation type="unfinished">无效的混合歌手或空混合组无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="401"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="409"/>
         <source>Mixed singer name</source>
         <translation type="unfinished">混合歌手名称</translation>
     </message>
 </context>
 <context>
+    <name>NewPanelsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="15"/>
+        <source>New Panels</source>
+        <translation type="unfinished">新面板</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="28"/>
+        <source>Drag a panel to the workspace to place it.</source>
+        <translation type="unfinished">将面板拖入工作区以放置面板。</translation>
+    </message>
+</context>
+<context>
     <name>NoteLyricPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="23"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="22"/>
         <source>Lyric and Pronunciation</source>
         <translation>歌词与发音</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="57"/>
         <source>Lyric</source>
         <translation>歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
         <source>Editing lyric</source>
         <translation>编辑歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="66"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
         <source>Editing language</source>
         <translation>编辑语言</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="73"/>
         <source>Enter custom language code</source>
         <translation type="unfinished">输入自定义语言代码</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="81"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="80"/>
         <source>Custom language codes may not be supported by the singer.</source>
         <translation type="unfinished">歌手可能不支持自定义语言代码。</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="87"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="86"/>
         <source>Custom language code</source>
         <translation type="unfinished">自定义语言代码</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="97"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="96"/>
         <source>Language code should not be empty</source>
         <translation type="unfinished">语言代码不应为空</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="126"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="121"/>
         <source>Custom (%1)</source>
         <translation type="unfinished">自定义（%1）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="139"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
         <source>Pronunciation (original)</source>
         <translation>发音（原始）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="121"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="142"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="118"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="133"/>
         <source>Multiple values</source>
         <translation>多个值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="153"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="144"/>
         <source>Pronunciation (edited)</source>
         <translation>发音（已编辑）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="154"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="145"/>
         <source>Editing pronunciation (edited)</source>
         <translation>编辑发音（已编辑）</translation>
     </message>
@@ -5721,7 +6605,7 @@ Continue to bounce?</source>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="41"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="34"/>
         <source>Clear All</source>
         <translation>全部清除</translation>
     </message>
@@ -5779,7 +6663,7 @@ Continue to bounce?</source>
 <context>
     <name>PropertiesPanel</name>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="28"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="30"/>
         <source>Document</source>
         <translation>文档</translation>
     </message>
@@ -5788,120 +6672,128 @@ Continue to bounce?</source>
         <translation type="vanished">锚点</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="34"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="36"/>
         <source>Parameter</source>
         <translation type="unfinished">参数</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="40"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="42"/>
         <source>Clip</source>
         <translation>剪辑</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="46"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="48"/>
         <source>Label</source>
         <translation>标签</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="52"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="54"/>
         <source>Note</source>
         <translation>音符</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="58"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="60"/>
         <source>Tempo</source>
         <translation>曲速</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="64"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="66"/>
         <source>Track</source>
         <translation>轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="70"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="72"/>
         <source>Key Signature</source>
         <translation>调号</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/PropertiesPanel.qml" line="76"/>
+        <location filename="../../qml/panels/PropertiesPanel.qml" line="78"/>
         <source>Blending</source>
         <translation type="unfinished">融合</translation>
     </message>
 </context>
 <context>
+    <name>RecentFileAddOnActions</name>
+    <message>
+        <location filename="../../qml/actions/RecentFileAddOnActions.qml" line="48"/>
+        <source>Clear Recent Files</source>
+        <translation type="unfinished">清空最近文件</translation>
+    </message>
+</context>
+<context>
     <name>RecentFilesPanel</name>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="45"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="46"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="100"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="101"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="53"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="54"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="109"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="110"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="55"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="109"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="64"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="118"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="66"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="120"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="75"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="129"/>
         <source>Grid view</source>
-        <translation>表格视图</translation>
+        <translation type="unfinished">网格视图</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="76"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="130"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="85"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="139"/>
         <source>List view</source>
         <translation>列表视图</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="84"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
         <source>Clear Recovery Files</source>
         <translation>清空恢复文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="84"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
         <source>Clear Recent Files</source>
         <translation>清空最近文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="142"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
         <source>No recovery file
 If %1 exits abnormally, automatic recovery files will be displayed here.</source>
         <translation>没有恢复文件
 如果 %1 异常退出，此处将显示自动恢复文件。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="142"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
         <source>No recent files</source>
         <translation>无最近文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="163"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="172"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="174"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="183"/>
         <source>Reveal in %1</source>
         <translation>在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="182"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
         <source>Remove from &quot;Recovery Files&quot;</source>
         <translation>从“恢复文件”中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="182"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
         <source>Remove from &quot;Recent Files&quot;</source>
         <translation>从“最近文件”中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="33"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="34"/>
         <source>The recent files panel state is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最近使用的文件面板状态无效。</translation>
     </message>
 </context>
 <context>
@@ -5915,12 +6807,12 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>SingerPicker</name>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="48"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="49"/>
         <source>Search</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="227"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="228"/>
         <source>Drag to set singer</source>
         <translation type="unfinished">拖动以设置歌手</translation>
     </message>
@@ -5928,68 +6820,68 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>SourcesPickerDialog</name>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="55"/>
         <source>Select Sources</source>
         <translation type="unfinished">选择声源</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="93"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="466"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="472"/>
         <source>Source singer warnings</source>
         <translation type="unfinished">声源歌手警告</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="145"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="146"/>
         <source>Cannot update source singers</source>
         <translation type="unfinished">无法更新声源歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="245"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="249"/>
         <source>Remove singer</source>
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="321"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
         <source>Move up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="330"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="334"/>
         <source>Move down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="341"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="345"/>
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="353"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="357"/>
         <source>Create mixed singer</source>
         <translation type="unfinished">创建混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="368"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="372"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="396"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="400"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="401"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="405"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished">当前声源列表无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="478"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="484"/>
         <source>OK</source>
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="483"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="489"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -6030,7 +6922,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
         <translation>值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="38"/>
+        <location filename="../../qml/propertyeditors/TempoPropertyEditor.qml" line="39"/>
         <source>Editing tempo</source>
         <translation>编辑曲速</translation>
     </message>
@@ -6063,37 +6955,48 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
         <translation>显示背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="66"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="67"/>
         <source>Fine-tune character spacing</source>
         <translation>微调字符间距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="77"/>
         <source>Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes</source>
-        <translation>启用字符间距微调可防止时间码变化导致文本宽度变化</translation>
+        <translation type="vanished">启用字符间距微调可防止时间码变化导致文本宽度变化</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="92"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="104"/>
         <source>Show slider on hover</source>
         <translation>悬停时显示滑块</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="82"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="94"/>
         <source>Interaction Behavior</source>
         <translation>交互行为</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="100"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="78"/>
+        <source>Enabling fine-tuning of character spacing can prevent text width changes caused by timecode changes.
+By default, OpenType&apos;s Tabular Figures feature is used. If the widths of numeric characters are still inconsistent after enabling this, please try using text layout simulation.</source>
+        <translation type="unfinished">启用字符间距微调可防止时间码变化导致文本宽度变化。
+默认使用 OpenType 的等宽数字功能。如果启用后数字字符的宽度仍不一致，请尝试使用文本布局模拟。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="84"/>
+        <source>Use text layout simulation (advanced)</source>
+        <translation type="unfinished">使用文本布局模拟（高级）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="112"/>
         <source>Click action</source>
         <translation>单击操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="114"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="126"/>
         <source>Double-click action</source>
         <translation>双击操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="128"/>
+        <location filename="../../qml/settings/TimeIndicatorPage.qml" line="140"/>
         <source>Press-and-hold action</source>
         <translation>长按操作</translation>
     </message>
@@ -6101,12 +7004,12 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>TimelineAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="45"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="46"/>
         <source>Current project time</source>
         <translation>当前工程时间</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="87"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="88"/>
         <source>Slide to adjust current project time</source>
         <translation>滑动以调整当前工程时间</translation>
     </message>
@@ -6165,22 +7068,22 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>UndoAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="23"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="25"/>
         <source>Undo %1</source>
         <translation>撤销 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="23"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="25"/>
         <source>Undo</source>
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="37"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="39"/>
         <source>Redo %1</source>
         <translation>重做 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/UndoAddOnActions.qml" line="37"/>
+        <location filename="../../qml/actions/UndoAddOnActions.qml" line="39"/>
         <source>Redo</source>
         <translation>重做</translation>
     </message>
@@ -6263,322 +7166,77 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="84"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="85"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">应用</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="89"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="90"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重命名</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="95"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="141"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="142"/>
         <source>No Open Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">没有打开的面板</translation>
     </message>
 </context>
 <context>
     <name>WorkspaceAddOnHelper</name>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="29"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="31"/>
         <source>The current workspace does not contain any panels</source>
         <translation>当前工作区不包含任何面板</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="30"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
         <source>Workspace data might be erroneous. You can try restoring the default workspace.</source>
         <translation>工作区数据可能有错误。你可以尝试恢复到默认工作区。</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="34"/>
         <source>Restore Default Workspace</source>
         <translation>恢复到默认工作区</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="53"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="62"/>
         <source>Workspace Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">工作区错误</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="71"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="113"/>
         <source>Name should not be empty</source>
         <translation>名称不能为空</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="72"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="119"/>
         <source>New name should not be the same as old name</source>
         <translation>新名称不能与旧名称相同</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="74"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="125"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>同名自定义预设将被覆盖</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
         <source>Delete Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">删除布局</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="80"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>删除布局“%1”？</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="70"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="104"/>
         <source>Custom Layout Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::ActionCatalogProxyModel</name>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
-        <source>Menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
-        <source>Action group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
-        <source>Separator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
-        <source>Stretch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
-        <source>Action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
-        <source>Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
-        <source>Custom component</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
-        <source>Category</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>KeymapPage</name>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
-        <source>Restore Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="23"/>
-        <source>Restore all shortcuts in this preset to their defaults?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="54"/>
-        <location filename="../../qml/settings/KeymapPage.qml" line="63"/>
-        <source>Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="75"/>
-        <source>Save As...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="80"/>
-        <source>Rename...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="86"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
-        <source>Delete Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="89"/>
-        <source>Delete preset "%1"?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="102"/>
-        <source>Expand All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="103"/>
-        <source>Collapse All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="107"/>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="117"/>
-        <source>Find Shortcut...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="128"/>
-        <source>Shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="131"/>
-        <source>Clear Filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="36"/>
-        <source>Clear Shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="42"/>
-        <source>Restore Shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="95"/>
-        <source>Restore All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="30"/>
-        <source>Edit Shortcut...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
-        <source>Rename Preset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="179"/>
-        <source>Save Preset As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="182"/>
-        <source>%1 (copy)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="199"/>
-        <source>Preset name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ActionCatalogView</name>
-    <message>
-        <location filename="../../qml/settings/ActionCatalogView.qml" line="118"/>
-        <source>Custom</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::WorkspacePanelLoader</name>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="39"/>
-        <source>The panel request expired.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="41"/>
-        <source>The panel component was destroyed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="49"/>
-        <source>The panel component is not registered.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="50"/>
-        <source>The panel component is not ready.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="57"/>
-        <source>The panel component must provide a DockingPane.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="91"/>
-        <source>The panel rejected the workspace state in %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::WorkspaceSession</name>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="44"/>
-        <source>The panel could not be placed in the selected location.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="95"/>
-        <source>The workspace layout is invalid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="151"/>
-        <source>The workspace layout could not be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="235"/>
-        <source>The panel could not be moved to a floating window.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NewPanelsDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="15"/>
-        <source>New Panels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="26"/>
-        <source>Drag a panel to the workspace to place it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自定义布局名称</translation>
     </message>
 </context>
 </TS>

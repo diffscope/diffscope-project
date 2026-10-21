@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="631"/>
         <source>Main Menu</source>
-        <translation>主菜单</translation>
+        <translation type="vanished">主菜单</translation>
     </message>
 </context>
 <context>
@@ -14,128 +13,156 @@
     <message>
         <location filename="../../../../app/main.cpp" line="96"/>
         <source>Version %1</source>
-        <translation type="unfinished">Version %1</translation>
+        <translation type="unfinished">版本 %1</translation>
     </message>
     <message>
         <location filename="../../../../app/main.cpp" line="97"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
-        <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
+        <translation type="unfinished">版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="648"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="649"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="650"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="651"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="652"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="653"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="654"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="979"/>
         <source>Playback</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="655"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="980"/>
         <source>Insert</source>
         <translation type="unfinished">插入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="656"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="981"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="657"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="982"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="658"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="983"/>
         <source>Panel</source>
         <translation type="unfinished">面板</translation>
     </message>
 </context>
 <context>
-    <name>Application::ActionText</name>
+    <name>Application::ActionDescription</name>
     <message>
-        <source>Main Menu</source>
-        <translation type="vanished">主菜单</translation>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="986"/>
+        <source>Start playback, or pause or stop it according to playback settings.</source>
+        <translation type="unfinished">开始播放，或根据播放设置暂停或停止播放。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="632"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="987"/>
+        <source>Choose an audio file and its position in the project.</source>
+        <translation type="unfinished">选择音频文件及其在工程中的位置。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="988"/>
+        <source>Choose a different audio file for the current audio clip.</source>
+        <translation type="unfinished">为当前音频剪辑选择其他音频文件。</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="989"/>
+        <source>Render the project mix or separate tracks to audio files.</source>
+        <translation type="unfinished">将工程混音或各个轨道渲染为音频文件。</translation>
+    </message>
+</context>
+<context>
+    <name>Application::ActionText</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="956"/>
+        <source>Main Menu</source>
+        <translation>主菜单</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="958"/>
         <source>&amp;Play</source>
         <translation type="unfinished">播放(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="633"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="959"/>
         <source>P&amp;ause</source>
         <translation type="unfinished">暂停(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="634"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="960"/>
         <source>&amp;Stop</source>
         <translation type="unfinished">停止(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="635"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="961"/>
         <source>Toggle Playback</source>
         <translation type="unfinished">切换播放状态</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="636"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="962"/>
         <source>&amp;Metronome</source>
         <translation type="unfinished">节拍器(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="637"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="963"/>
         <source>Play Button</source>
         <translation type="unfinished">播放按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="638"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="964"/>
         <source>Pause Button</source>
         <translation type="unfinished">暂停按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="639"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="965"/>
         <source>Insert Audio Clip...</source>
         <translation type="unfinished">插入音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="640"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="966"/>
         <source>Replace Audio Clip...</source>
         <translation type="unfinished">替换音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="641"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="967"/>
         <source>Export Audio...</source>
         <translation type="unfinished">导出音频...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="642"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="968"/>
         <source>Effects (Experimental)</source>
         <translation type="unfinished">效果器（实验性）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="643"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="970"/>
         <source>Export Audio Actions</source>
         <translation type="unfinished">音频导出操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="644"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="971"/>
         <source>Playback Actions</source>
         <translation type="unfinished">播放操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="645"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="972"/>
         <source>Metronome Actions</source>
         <translation type="unfinished">节拍器操作</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="973"/>
+        <source>Audio Processing Actions</source>
+        <translation type="unfinished">音频处理操作</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="974"/>
+        <source>Workspace Panel Widgets</source>
+        <translation type="unfinished">工作区面板小部件</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="969"/>
         <source>Show Effects</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示效果器</translation>
     </message>
 </context>
 <context>
@@ -303,37 +330,37 @@
 <context>
     <name>Audio::Internal::AudioClipAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="152"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="155"/>
         <source>Open Audio File</source>
         <translation type="unfinished">打开音频文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="164"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="167"/>
         <source>Failed to open audio file</source>
         <translation type="unfinished">打开音频文件失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="165"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="168"/>
         <source>Unable to open &quot;%1&quot; as an audio file.</source>
         <translation type="unfinished">无法将“%1”作为音频文件打开。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="276"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="279"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished">插入音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="320"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="323"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">更新音频剪辑路径</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="347"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="350"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">更新音频剪辑摘要</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="376"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="379"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">替换音频剪辑</translation>
     </message>
@@ -437,17 +464,17 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="57"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="56"/>
         <source>Initializing audio plugin...</source>
         <translation>正在初始化音频插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="104"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="103"/>
         <source>Failed to initialize audio output system</source>
         <translation>初始化音频输出系统失败</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="105"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="104"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -461,7 +488,7 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="318"/>
         <source>Audio Output Troubleshooting Wizard</source>
-        <translation type="unfinished">Audio Output Troubleshooting Wizard</translation>
+        <translation type="unfinished">音频输出故障排查向导</translation>
     </message>
 </context>
 <context>
@@ -469,72 +496,72 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="139"/>
         <source>&lt;h3&gt;Configure Audio Device&lt;/h3&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;Configure Audio Device&lt;/h3&gt;</translation>
+        <translation type="unfinished">&lt;h3&gt;配置音频设备&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="140"/>
         <source>Please select a working audio driver and device.</source>
-        <translation type="unfinished">Please select a working audio driver and device.</translation>
+        <translation type="unfinished">请选择可正常工作的音频驱动程序和设备。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="142"/>
         <source>&lt;p&gt;Please test all audio drivers and devices one by one, and try different sample rates and buffer sizes.&lt;/p&gt;&lt;p&gt;Some devices listed on your computer may be virtual devices and may not output sound to physical hardware.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Please test all audio drivers and devices one by one, and try different sample rates and buffer sizes.&lt;/p&gt;&lt;p&gt;Some devices listed on your computer may be virtual devices and may not output sound to physical hardware.&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;请逐一测试所有音频驱动程序和设备，并尝试不同的采样率和缓冲区大小。&lt;/p&gt;&lt;p&gt;计算机中列出的某些设备可能是虚拟设备，无法向物理硬件输出声音。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="150"/>
         <source>Audio d&amp;river</source>
-        <translation type="unfinished">Audio d&amp;river</translation>
+        <translation type="unfinished">音频驱动程序(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="152"/>
         <source>Audio &amp;device</source>
-        <translation type="unfinished">Audio &amp;device</translation>
+        <translation type="unfinished">音频设备(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="154"/>
         <source>&amp;Sample rate</source>
-        <translation type="unfinished">&amp;Sample rate</translation>
+        <translation type="unfinished">采样率(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="156"/>
         <source>&amp;Buffer size</source>
-        <translation type="unfinished">&amp;Buffer size</translation>
+        <translation type="unfinished">缓冲区大小(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="159"/>
         <source>&amp;Test</source>
-        <translation type="unfinished">&amp;Test</translation>
+        <translation type="unfinished">测试(&amp;T)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="163"/>
         <source>&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;测试前，请确认正在监听的设备与所选设备一致，并且设备已连接至计算机。如果计算机有多个音频设备（例如扬声器和耳机），请特别注意设备选择。&lt;/p&gt;&lt;p&gt;另请检查设备是否静音或音量是否为零。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="175"/>
         <source>Have you selected a working audio device which plays sound after clicking the &quot;Test&quot; button?</source>
-        <translation type="unfinished">Have you selected a working audio device which plays sound after clicking the &quot;Test&quot; button?</translation>
+        <translation type="unfinished">是否已选中可正常工作的音频设备，并且单击“测试”按钮后可以听到声音？</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Yes</translation>
+        <translation type="unfinished">是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
         <source>I have selected a working audio device</source>
-        <translation type="unfinished">I have selected a working audio device</translation>
+        <translation type="unfinished">已选中可正常工作的音频设备</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;No</translation>
+        <translation type="unfinished">否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
         <source>The device is either not available or not able to play sound</source>
-        <translation type="unfinished">The device is either not available or not able to play sound</translation>
+        <translation type="unfinished">设备不可用或无法播放声音</translation>
     </message>
 </context>
 <context>
@@ -632,48 +659,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="obsolete">音频导出完成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="248"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="281"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="255"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="288"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished">WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="249"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="256"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished">FLAC (*.flac)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="250"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="257"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished">Ogg 容器（*.ogg *.opus）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="282"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="289"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished">Ogg Vorbis (*.ogg)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="419"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="428"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished">音频已导出到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="422"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="431"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished">音频导出已完成，未导出任何文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="425"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="434"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished">音频已导出到多个文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="446"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="251"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="258"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished">MP3 (*.mp3)</translation>
     </message>
@@ -696,67 +723,67 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
         <source>Please ensure that your audio devices are properly connected to your computer and configured in your system settings.</source>
-        <translation type="unfinished">Please ensure that your audio devices are properly connected to your computer and configured in your system settings.</translation>
+        <translation type="unfinished">请确保音频设备已正确连接至计算机，并已在系统设置中正确配置。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="220"/>
         <source>&amp;Open System Settings</source>
-        <translation type="unfinished">&amp;Open System Settings</translation>
+        <translation type="unfinished">打开系统设置(&amp;O)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="222"/>
         <source>&amp;Open Control Panel</source>
-        <translation type="unfinished">&amp;Open Control Panel</translation>
+        <translation type="unfinished">打开控制面板(&amp;O)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="228"/>
         <source>&lt;p&gt;Also please check whether other applications can play sound.&lt;/p&gt;&lt;p&gt;If another audio application (e.g., a DAW) can play sound normally, please review that application’s settings. It may be using &quot;exclusive mode&quot;, which allows only that program to access the audio device.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Also please check whether other applications can play sound.&lt;/p&gt;&lt;p&gt;If another audio application (e.g., a DAW) can play sound normally, please review that application’s settings. It may be using &quot;exclusive mode&quot;, which allows only that program to access the audio device.&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;另请检查其他应用程序是否能够播放声音。&lt;/p&gt;&lt;p&gt;如果其他音频应用程序（例如数字音频工作站）可以正常播放声音，请检查该应用程序的设置。它可能使用了“独占模式”，此模式仅允许该程序访问音频设备。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="240"/>
         <source>Are audio devices configured properly and able to be played by other applications?</source>
-        <translation type="unfinished">Are audio devices configured properly and able to be played by other applications?</translation>
+        <translation type="unfinished">音频设备是否已正确配置，并且可供其他应用程序播放声音？</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Yes</translation>
+        <translation type="unfinished">是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
         <source>The audio device work well on my system. I want to retry configuring it in %1</source>
-        <translation type="unfinished">The audio device work well on my system. I want to retry configuring it in %1</translation>
+        <translation type="unfinished">音频设备在系统中工作正常，需要在 %1 中重新尝试配置</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
         <source>Not &amp;exactly</source>
-        <translation type="unfinished">Not &amp;exactly</translation>
+        <translation type="unfinished">不完全是(&amp;E)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
         <source>Even though other applications can play sound, I fail to configure the audio device in %1</source>
-        <translation type="unfinished">Even though other applications can play sound, I fail to configure the audio device in %1</translation>
+        <translation type="unfinished">其他应用程序可以播放声音，但无法在 %1 中配置音频设备</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;No</translation>
+        <translation type="unfinished">否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
         <source>Other applications also cannot play sound</source>
-        <translation type="unfinished">Other applications also cannot play sound</translation>
+        <translation type="unfinished">其他应用程序也无法播放声音</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="255"/>
         <source>&amp;I&apos;m not sure</source>
-        <translation type="unfinished">&amp;I&apos;m not sure</translation>
+        <translation type="unfinished">不确定(&amp;I)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="267"/>
         <source>%1 cannot open the control panel on your system. Please open it manually</source>
-        <translation type="unfinished">%1 cannot open the control panel on your system. Please open it manually</translation>
+        <translation type="unfinished">%1 无法在当前系统中打开控制面板。请手动打开</translation>
     </message>
 </context>
 <context>
@@ -840,12 +867,12 @@ To: %3</source>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="300"/>
         <source>Please send us a feedback.</source>
-        <translation type="unfinished">Please send us a feedback.</translation>
+        <translation type="unfinished">请向我们提交反馈。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="302"/>
         <source>&lt;p&gt;When sending feedback, please include the following information (if possible): &lt;ul&gt;&lt;li&gt;A screenshot of the &quot;Audio Output&quot; settings page&lt;/li&gt;&lt;li&gt;A screenshot of your system audio settings&lt;/li&gt;&lt;li&gt;The audio output configurations you have tried and any error messages&lt;/li&gt;&lt;li&gt;The log of application&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;When sending feedback, please include the following information (if possible): &lt;ul&gt;&lt;li&gt;A screenshot of the &quot;Audio Output&quot; settings page&lt;/li&gt;&lt;li&gt;A screenshot of your system audio settings&lt;/li&gt;&lt;li&gt;The audio output configurations you have tried and any error messages&lt;/li&gt;&lt;li&gt;The log of application&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;提交反馈时，请尽可能包含以下信息：&lt;ul&gt;&lt;li&gt;“音频输出”设置页的屏幕截图&lt;/li&gt;&lt;li&gt;系统音频设置的屏幕截图&lt;/li&gt;&lt;li&gt;已尝试的音频输出配置及相关错误消息&lt;/li&gt;&lt;li&gt;应用程序日志&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -853,17 +880,17 @@ To: %3</source>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="121"/>
         <source>&lt;h3&gt;Everything Is OK&lt;/h3&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;Everything Is OK&lt;/h3&gt;</translation>
+        <translation type="unfinished">&lt;h3&gt;一切正常&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="122"/>
         <source>There are no problems with audio output at the moment.</source>
-        <translation type="unfinished">There are no problems with audio output at the moment.</translation>
+        <translation type="unfinished">目前音频输出没有问题。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="124"/>
         <source>&lt;p&gt;If you still cannot hear sound when playing back your project, please check for issues within the project itself (e.g., muted tracks or gain set to negative infinity).&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;If you still cannot hear sound when playing back your project, please check for issues within the project itself (e.g., muted tracks or gain set to negative infinity).&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;如果播放工程时仍然无法听到声音，请检查工程本身是否存在问题（例如轨道静音或增益为负无穷大）。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -871,80 +898,79 @@ To: %3</source>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="61"/>
         <source>&lt;h3&gt;Test Audio Device&lt;/h3&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;Test Audio Device&lt;/h3&gt;</translation>
+        <translation type="unfinished">&lt;h3&gt;测试音频设备&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="62"/>
         <source>The audio device appears to be working. Please click the &quot;Test&quot; button to check whether it can play sound.</source>
-        <translation type="unfinished">The audio device appears to be working. Please click the &quot;Test&quot; button to check whether it can play sound.</translation>
+        <translation type="unfinished">音频设备似乎工作正常。请单击“测试”按钮，检查设备是否能够播放声音。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="65"/>
         <source>&amp;Test</source>
-        <translation type="unfinished">&amp;Test</translation>
+        <translation type="unfinished">测试(&amp;T)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="69"/>
         <source>&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been properly connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been properly connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;测试前，请确认正在监听的设备与所选设备一致，并且设备已正确连接至计算机。如果计算机有多个音频设备（例如扬声器和耳机），请特别注意设备选择。&lt;/p&gt;&lt;p&gt;另请检查设备是否静音或音量是否为零。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="81"/>
         <source>Is any sound played after clicking the &quot;Test&quot; button?</source>
-        <translation type="unfinished">Is any sound played after clicking the &quot;Test&quot; button?</translation>
+        <translation type="unfinished">单击“测试”按钮后是否听到声音？</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="85"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Yes</translation>
+        <translation type="unfinished">是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="85"/>
         <source>I can hear the test sound played by the audio device</source>
-        <translation type="unfinished">I can hear the test sound played by the audio device</translation>
+        <translation type="unfinished">可以听到音频设备播放的测试音</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="89"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;No</translation>
+        <translation type="unfinished">否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="89"/>
         <source>I cannot hear any sound played by the audio device</source>
-        <translation type="unfinished">I cannot hear any sound played by the audio device</translation>
+        <translation type="unfinished">无法听到音频设备播放的任何声音</translation>
     </message>
 </context>
 <context>
     <name>Audio::Internal::WaveformSingerMetadata</name>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="23"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="27"/>
         <source>Waveform</source>
         <translation type="unfinished">波形</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="27"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="31"/>
         <source>Energy</source>
         <translation type="unfinished">能量</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="49"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="46"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="47"/>
         <source> dB</source>
         <translation type="unfinished"> dB</translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="53"/>
         <source>Tone shift</source>
-        <translation type="unfinished">音调偏移</translation>
+        <translation type="obsolete">音调偏移</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="63"/>
         <source>%Ln cent(s)</source>
-        <translation type="unfinished">
+        <translation type="obsolete">
             <numerusform>%Ln 音分</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="72"/>
+        <location filename="../../internal/waveformsinger/WaveformSingerMetadata.cpp" line="56"/>
         <source>Waveform Synthesizer</source>
         <translation type="unfinished">波形合成器</translation>
     </message>
@@ -972,54 +998,54 @@ To: %3</source>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="36"/>
         <source>&lt;h3&gt;Audio Output Troubleshooting Wizard&lt;/h3&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;Audio Output Troubleshooting Wizard&lt;/h3&gt;</translation>
+        <translation type="unfinished">&lt;h3&gt;音频输出故障排查向导&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="37"/>
         <source>This wizard will help you diagnose and resolve problems with audio output.</source>
-        <translation type="unfinished">This wizard will help you diagnose and resolve problems with audio output.</translation>
+        <translation type="unfinished">此向导将帮助诊断并解决音频输出问题。</translation>
     </message>
     <message>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="40"/>
         <source>&amp;Continue</source>
-        <translation type="unfinished">&amp;Continue</translation>
+        <translation type="unfinished">继续(&amp;C)</translation>
     </message>
 </context>
 <context>
     <name>AudioExportDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="32"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="34"/>
         <source>Export Audio</source>
         <translation type="unfinished">导出音频</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="107"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="109"/>
         <source>Save Preset As</source>
         <translation type="unfinished">预设另存为</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="115"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="117"/>
         <source>Preset name</source>
         <translation type="unfinished">预设名称</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="126"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="128"/>
         <source>The preset with the same name will be overwritten.</source>
         <translation type="unfinished">同名预设将被覆盖。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="135"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="137"/>
         <source>OK</source>
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="154"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="660"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="156"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="663"/>
         <source>Dry Run</source>
         <translation type="unfinished">试运行</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="166"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="168"/>
         <source>%Ln %1 file(s)
 Duration: %2
 Estimated size of each file: %3</source>
@@ -1030,303 +1056,303 @@ Estimated size of each file: %3</source>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="182"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="184"/>
         <source>File List</source>
         <translation type="unfinished">文件列表</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="257"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="416"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="260"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="419"/>
         <source>WAV</source>
         <translation type="unfinished">WAV</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="417"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="420"/>
         <source>FLAC</source>
         <translation type="unfinished">FLAC</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="258"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="261"/>
         <source>Ogg Vorbis</source>
         <translation type="unfinished">Ogg Vorbis</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="419"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="422"/>
         <source>MP3</source>
         <translation type="unfinished">MP3</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="193"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="418"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="195"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="421"/>
         <source>Ogg Container</source>
         <translation type="unfinished">Ogg 容器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="200"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="202"/>
         <source>N/A</source>
         <translation type="unfinished">不适用</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="234"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="237"/>
         <source>Path</source>
         <translation type="unfinished">路径</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="245"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="339"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="248"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="342"/>
         <source>&amp;Browse...</source>
         <translation type="unfinished">浏览(&amp;B)...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="251"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="404"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="254"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="407"/>
         <source>Format</source>
         <translation type="unfinished">格式</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="270"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="273"/>
         <source>Sample Rate</source>
         <translation type="unfinished">采样率</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="276"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="277"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="279"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="280"/>
         <source>%L1 Hz</source>
         <translation type="unfinished">%L1 Hz</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="291"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="294"/>
         <source>Export using mono</source>
         <translation type="unfinished">使用单声道导出</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="298"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="301"/>
         <source>Separate tracks</source>
         <translation type="unfinished">分离轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="309"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="312"/>
         <source>Preset</source>
         <translation type="unfinished">预设</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="322"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="325"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished">另存为(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="326"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="329"/>
         <source>&amp;Delete</source>
         <translation type="unfinished">删除(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="334"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="337"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="348"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="351"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="352"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="355"/>
         <source>Templates</source>
         <translation type="unfinished">模板</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="357"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="360"/>
         <source>Project name</source>
         <translation type="unfinished">工程名称</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="361"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="364"/>
         <source>Track name</source>
         <translation type="unfinished">轨道名称</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="366"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="369"/>
         <source>Track number</source>
         <translation type="unfinished">轨道编号</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="386"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="389"/>
         <source>Directory</source>
         <translation type="unfinished">目录</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="388"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="391"/>
         <source>(Project directory)</source>
         <translation type="unfinished">（工程目录）</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="412"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="415"/>
         <source>Type</source>
         <translation type="unfinished">类型</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="428"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="431"/>
         <source>Option</source>
         <translation type="unfinished">选项</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="442"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="445"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="445"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="448"/>
         <source>Stereo</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="446"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="449"/>
         <source>Mono</source>
         <translation type="unfinished">单声道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="454"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="457"/>
         <source>Sample rate (Hz)</source>
         <translation type="unfinished">采样率（Hz）</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="475"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="478"/>
         <source>Quality (%)</source>
         <translation type="unfinished">质量（%）</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="502"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="505"/>
         <source>Mixer</source>
         <translation type="unfinished">混音器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="511"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="514"/>
         <source>Mixing option</source>
         <translation type="unfinished">混合选项</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="514"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="517"/>
         <source>Mixed</source>
         <translation type="unfinished">混合</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="515"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="518"/>
         <source>Separated</source>
         <translation type="unfinished">分离</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="516"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="519"/>
         <source>Separated (through master track)</source>
         <translation type="unfinished">分离（经主轨道）</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="524"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="527"/>
         <source>Source</source>
-        <translation type="unfinished">声源</translation>
+        <translation type="unfinished">来源</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="527"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="530"/>
         <source>All tracks</source>
         <translation type="unfinished">所有轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="528"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="531"/>
         <source>Selected tracks</source>
         <translation type="unfinished">所选轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="529"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="613"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="532"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="616"/>
         <source>Custom</source>
         <translation type="unfinished">自定义</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="537"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="540"/>
         <source>Mute/Solo</source>
         <translation type="unfinished">静音/独奏</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="540"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="552"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="543"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="555"/>
         <source>Enable</source>
         <translation type="unfinished">启用</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="541"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="553"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="544"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="556"/>
         <source>Bypass</source>
         <translation type="unfinished">旁路</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="549"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="552"/>
         <source>Effects</source>
         <translation type="unfinished">效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="578"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="581"/>
         <source>%L1: %2</source>
         <translation type="unfinished">%L1：%2</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="598"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="601"/>
         <source>Time Range</source>
         <translation type="unfinished">时间范围</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="603"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="606"/>
         <source>Whole project</source>
         <translation type="unfinished">整个工程</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="608"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="611"/>
         <source>Loop section</source>
         <translation type="unfinished">循环区间</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="654"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="657"/>
         <source>Action</source>
         <translation type="unfinished">操作</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="665"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="668"/>
         <source>Keep this dialog open after successful export</source>
         <translation type="unfinished">导出成功后保持此对话框打开</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="689"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="693"/>
         <source>Simple Mode</source>
         <translation type="unfinished">简单模式</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="689"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="693"/>
         <source>Advanced Mode</source>
         <translation type="unfinished">高级模式</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="700"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="704"/>
         <source>Warnings</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="707"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="715"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="711"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="715"/>
         <source>Continue to export?</source>
         <translation type="unfinished">继续导出吗？</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="722"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="726"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1334,83 +1360,83 @@ Estimated size of each file: %3</source>
 <context>
     <name>AudioExportProgressDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="33"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="35"/>
         <source>Export Audio</source>
         <translation type="unfinished">导出音频</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="52"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="54"/>
         <source>Preparing...</source>
         <translation type="unfinished">正在准备...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="56"/>
         <source>Exporting...</source>
         <translation type="unfinished">正在导出...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="56"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="58"/>
         <source>Export finished with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>导出完成，有 %Ln 条警告</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="58"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="60"/>
         <source>Export aborted with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>导出已中止，有 %Ln 条警告</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="60"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="62"/>
         <source>Export failed with %Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>导出失败，有 %Ln 条警告</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="62"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="64"/>
         <source>Export aborted</source>
         <translation type="unfinished">导出已中止</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="64"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="66"/>
         <source>Export failed</source>
         <translation type="unfinished">导出失败</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="72"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="74"/>
         <source>Close</source>
         <translation type="unfinished">关闭</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="74"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="76"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="116"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="118"/>
         <source>Clipping is detected in track %L1 &quot;%2&quot;</source>
         <translation type="unfinished">在轨道 %L1“%2”中检测到削波</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="118"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="120"/>
         <source>Clipping is detected in track %L1</source>
         <translation type="unfinished">在轨道 %L1 中检测到削波</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="121"/>
         <source>Clipping is detected</source>
         <translation type="unfinished">检测到削波</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="121"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="123"/>
         <source>Unknown error.</source>
         <translation type="unfinished">未知错误。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="204"/>
+        <location filename="../../qml/dialogs/AudioExportProgressDialog.qml" line="208"/>
         <source>Keep partial files</source>
         <translation type="unfinished">保留部分文件</translation>
     </message>
@@ -1450,7 +1476,7 @@ Estimated size of each file: %3</source>
     <message>
         <location filename="../../qml/settings/AudioOutputPage.qml" line="98"/>
         <source>Troubleshoot...</source>
-        <translation type="unfinished">Troubleshoot...</translation>
+        <translation type="unfinished">故障排查...</translation>
     </message>
     <message>
         <location filename="../../qml/settings/AudioOutputPage.qml" line="109"/>
@@ -1473,7 +1499,7 @@ Estimated size of each file: %3</source>
         <translation type="unfinished">设备增益（dB）</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="173"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="150"/>
         <source>Device pan (%)</source>
         <translation type="unfinished">设备声像（%）</translation>
     </message>
@@ -1486,27 +1512,27 @@ Estimated size of each file: %3</source>
         <translation type="vanished">设备声像</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="196"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="174"/>
         <source>Hot Plug</source>
         <translation>热插拔</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="202"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="180"/>
         <source>When device change detected</source>
         <translation>当检测到设备变动时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="208"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="186"/>
         <source>Always show notification</source>
         <translation>总是显示通知</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="209"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="187"/>
         <source>Show notification only when the current device is removed</source>
         <translation>仅在当前设备移除时显示通知</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/AudioOutputPage.qml" line="210"/>
+        <location filename="../../qml/settings/AudioOutputPage.qml" line="188"/>
         <source>Do not show notification</source>
         <translation>不显示通知</translation>
     </message>
@@ -1515,6 +1541,7 @@ Estimated size of each file: %3</source>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="957"/>
         <source>Audio Output</source>
         <translation>音频输出</translation>
     </message>
@@ -1636,64 +1663,64 @@ Estimated size of each file: %3</source>
 <context>
     <name>EffectsPanel</name>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="27"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="47"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="28"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="48"/>
         <source>Add Effect</source>
         <translation type="unfinished">添加效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="54"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="163"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="55"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="164"/>
         <source>Effect Presets</source>
         <translation type="unfinished">效果器预设</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="86"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="87"/>
         <source>Track</source>
         <translation type="unfinished">轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="92"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="93"/>
         <source>Master</source>
         <translation type="unfinished">主音轨</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="199"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
         <source>Collapse Effect</source>
         <translation type="unfinished">折叠效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="199"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
         <source>Expand Effect</source>
         <translation type="unfinished">展开效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="208"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Disable Effect</source>
         <translation type="unfinished">禁用效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="208"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Enable Effect</source>
         <translation type="unfinished">启用效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="222"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="223"/>
         <source>Move Effect Up</source>
         <translation type="unfinished">上移效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="229"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="230"/>
         <source>Move Effect Down</source>
         <translation type="unfinished">下移效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="236"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="237"/>
         <source>Reset Effect</source>
         <translation type="unfinished">重置效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="243"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="244"/>
         <source>Delete Effect</source>
         <translation type="unfinished">删除效果器</translation>
     </message>
@@ -1891,7 +1918,7 @@ Estimated size of each file: %3</source>
         <translation type="unfinished">节拍器增益（dB）</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="154"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="132"/>
         <source>Metronome pan (%)</source>
         <translation type="unfinished">节拍器声像（%）</translation>
     </message>

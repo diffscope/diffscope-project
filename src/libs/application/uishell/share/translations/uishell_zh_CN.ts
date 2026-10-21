@@ -55,7 +55,7 @@
 <context>
     <name>DigitalClock</name>
     <message>
-        <location filename="../../src/qml/DigitalClock.qml" line="17"/>
+        <location filename="../../src/qml/DigitalClock.qml" line="18"/>
         <source>Digital clock</source>
         <translation>数字时钟</translation>
     </message>
@@ -68,7 +68,7 @@
         <translation>新建工程</translation>
     </message>
     <message>
-        <location filename="../../src/qml/FileView.qml" line="240"/>
+        <location filename="../../src/qml/FileView.qml" line="226"/>
         <source>No result found</source>
         <translation>未找到结果</translation>
     </message>
@@ -76,7 +76,7 @@
 <context>
     <name>HomeWindow</name>
     <message>
-        <location filename="../../src/qml/HomeWindow.qml" line="91"/>
+        <location filename="../../src/qml/HomeWindow.qml" line="105"/>
         <source>Empty</source>
         <translation>空</translation>
     </message>
@@ -232,175 +232,183 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
 <context>
     <name>PackageManagerView</name>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="146"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="153"/>
         <source>Back</source>
         <translation type="unfinished">返回</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="156"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="163"/>
         <source>Package name</source>
         <translation type="unfinished">包名称</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="167"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="174"/>
         <source>Uninstall</source>
         <translation type="unfinished">卸载</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="177"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="185"/>
         <source>Vendor</source>
         <translation type="unfinished">供应商</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="191"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="199"/>
         <source>Version</source>
         <translation type="unfinished">版本</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="207"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="215"/>
         <source>Visit package homepage</source>
         <translation type="unfinished">访问包主页</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="215"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="223"/>
         <source>Description</source>
         <translation type="unfinished">描述</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="241"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="249"/>
         <source>Singers (%L1)</source>
         <translation type="unfinished">歌手（%L1）</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="247"/>
-        <source>Inferences (%L1)</source>
-        <translation type="unfinished">推理模块（%L1）</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="253"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="261"/>
         <source>Details</source>
         <translation type="unfinished">详情</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="259"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="267"/>
         <source>Dependencies</source>
         <translation type="unfinished">依赖项</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="280"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="288"/>
         <source>This package does not contain any singers.</source>
         <translation type="unfinished">此包不包含任何歌手。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="414"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="421"/>
         <source>Singer name</source>
         <translation type="unfinished">歌手名称</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="431"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="430"/>
         <source>Preview</source>
         <translation type="unfinished">预览</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="440"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="605"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="437"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="593"/>
         <source>Identifier</source>
         <translation type="unfinished">标识符</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="444"/>
-        <source>Singer class</source>
-        <translation type="unfinished">歌手类别</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="465"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="478"/>
         <source>Advanced</source>
         <translation type="unfinished">高级</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="471"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="484"/>
         <source>Configuration file</source>
         <translation type="unfinished">配置文件</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="477"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="580"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="490"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="567"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="491"/>
-        <source>Imported inference model</source>
-        <translation type="unfinished">导入的推理模型</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="495"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="572"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="689"/>
-        <source>%1 (%2)</source>
-        <translation type="unfinished">%1（%2）</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="502"/>
-        <source>Jump to details</source>
-        <translation type="unfinished">跳转到详细信息</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="521"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="512"/>
         <source>Portrait</source>
         <translation type="unfinished">立绘</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="546"/>
-        <source>This package does not contain any inference modules.</source>
-        <translation type="unfinished">此包不包含任何推理模块。</translation>
-    </message>
-    <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="609"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="597"/>
         <source>Readme file</source>
         <translation type="unfinished">自述文件</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="616"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="631"/>
-        <location filename="../../src/qml/PackageManagerView.qml" line="649"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="604"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="619"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="637"/>
         <source>Open in %1</source>
         <translation type="unfinished">在 %1 中打开</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="624"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="612"/>
         <source>License file</source>
         <translation type="unfinished">许可证文件</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="639"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="627"/>
         <source>Installation time</source>
         <translation type="unfinished">安装时间</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="643"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="631"/>
         <source>Installation location</source>
         <translation type="unfinished">安装位置</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="673"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="661"/>
         <source>This package does not depend on any other packages.</source>
         <translation type="unfinished">此包不依赖任何其他包。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="715"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="699"/>
         <source>Search</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="721"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="716"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="747"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="743"/>
         <source>No package</source>
         <translation type="unfinished">无包</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="255"/>
+        <source>Other Contributions (%L1)</source>
+        <translation type="unfinished">其他贡献（%L1）</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="441"/>
+        <source>Interface</source>
+        <translation type="unfinished">接口</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="446"/>
+        <source>API level</source>
+        <translation type="unfinished">API 级别</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="451"/>
+        <source>Variant</source>
+        <translation type="unfinished">变体</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="456"/>
+        <source>Metadata error</source>
+        <translation type="unfinished">元数据错误</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="498"/>
+        <source>Demo audio</source>
+        <translation type="unfinished">演示音频</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="537"/>
+        <source>This package does not contain any other contributions.</source>
+        <translation type="unfinished">此包不包含其他贡献。</translation>
+    </message>
+    <message>
+        <location filename="../../src/qml/PackageManagerView.qml" line="704"/>
+        <source>Install Packages...</source>
+        <translation type="unfinished">安装包...</translation>
     </message>
 </context>
 <context>
@@ -619,12 +627,12 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
 <context>
     <name>ProjectWindow</name>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="114"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="110"/>
         <source>Empty</source>
         <translation>空</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="261"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="257"/>
         <source>&amp;Main Menu</source>
         <translation type="unfinished">主菜单(&amp;M)</translation>
     </message>
@@ -705,42 +713,41 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
     <name>WelcomeWizardDialog</name>
     <message>
         <location filename="../../src/qml/WelcomeWizardDialog.qml" line="24"/>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="95"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="218"/>
         <source>Welcome</source>
         <translation>欢迎</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="91"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="208"/>
         <source>Logo of %1</source>
         <translation>%1 的徽标</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="100"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="223"/>
         <source>This wizard will help you complete the initial configuration</source>
         <translation>此向导将会帮助你完成初始配置</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="118"/>
         <source>Skip</source>
-        <translation>跳过</translation>
+        <translation type="vanished">跳过</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="118"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="253"/>
         <source>Previous</source>
         <translation>上一步</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="132"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="132"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
         <source>Next</source>
         <translation>下一步</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="132"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
         <source>Finish</source>
         <translation>完成</translation>
     </message>

@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="124"/>
         <source>Main Menu</source>
-        <translation type="unfinished">主菜单</translation>
+        <translation type="obsolete">主菜单</translation>
     </message>
 </context>
 <context>
@@ -25,7 +24,7 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="128"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="153"/>
         <source>Preferences</source>
         <translation type="unfinished">首选项</translation>
     </message>
@@ -33,23 +32,98 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="131"/>
         <source>Open package manager</source>
-        <translation type="unfinished">打开包管理器</translation>
+        <translation type="obsolete">打开包管理器</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="125"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="147"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">主菜单</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/packagemanager/res/qak_org.diffscope.packagemanager_actions.cpp" line="148"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
     </message>
 </context>
 <context>
+    <name>PackageFileDialog</name>
+    <message>
+        <location filename="../../qml/PackageFileDialog.qml" line="7"/>
+        <source>Select Packages</source>
+        <translation type="unfinished">选择包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageFileDialog.qml" line="9"/>
+        <source>DSPK packages (*.dspk)</source>
+        <translation type="unfinished">DSPK 包 (*.dspk)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageFileDialog.qml" line="9"/>
+        <source>All files (*)</source>
+        <translation type="unfinished">所有文件 (*)</translation>
+    </message>
+</context>
+<context>
+    <name>PackageInstallDialog</name>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="31"/>
+        <source>Install Packages</source>
+        <translation type="unfinished">安装包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="102"/>
+        <source>Checking</source>
+        <translation type="unfinished">正在检查</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="103"/>
+        <source>Invalid package</source>
+        <translation type="unfinished">无效的包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="104"/>
+        <source>Batch conflict</source>
+        <translation type="unfinished">批次冲突</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="105"/>
+        <source>Overwrite required</source>
+        <translation type="unfinished">需要覆盖</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="106"/>
+        <source>Already installed</source>
+        <translation type="unfinished">已安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="169"/>
+        <source>No packages selected</source>
+        <translation type="unfinished">未选择包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="186"/>
+        <source>Add Packages...</source>
+        <translation type="unfinished">添加包...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="197"/>
+        <source>Remove from List</source>
+        <translation type="unfinished">从列表中移除</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="241"/>
+        <source>Install</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+</context>
+<context>
     <name>PackageManager::CommandLineTool</name>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="41"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="55"/>
         <source>The command line tool does not exist:
 
 %1
@@ -62,67 +136,120 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 请安装 dspm，并在“设置 &gt; 包管理器”中进行配置。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="95"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="124"/>
         <source>The command timed out.</source>
         <translation type="unfinished">命令超时。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="108"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="137"/>
         <source>The command exited with code %1.</source>
         <translation type="unfinished">命令以代码 %1 退出。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="50"/>
+        <source>No package manager installation is selected. Configure it in Settings &gt; Package Manager.</source>
+        <translation type="unfinished">未选择包管理器安装。请在“设置 &gt; 包管理器”中配置。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="153"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="171"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="178"/>
+        <source>The command did not return valid JSON.</source>
+        <translation type="unfinished">命令未返回有效的 JSON。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="155"/>
+        <source>The selected command is not dspm.</source>
+        <translation type="unfinished">所选命令不是 dspm。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="219"/>
+        <source>The command reported an error.</source>
+        <translation type="unfinished">命令报告了错误。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="226"/>
+        <source>The package manager returned an invalid operation result.</source>
+        <translation type="unfinished">包管理器返回了无效的操作结果。</translation>
+    </message>
+</context>
+<context>
+    <name>PackageManager::PackageInstallModel</name>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="74"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="74"/>
+        <source>Unknown package</source>
+        <translation type="unfinished">未知的包</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="214"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="225"/>
+        <source>Could not read installed packages.</source>
+        <translation type="unfinished">无法读取已安装的包。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="241"/>
+        <source>Required dependencies are missing or incompatible.</source>
+        <translation type="unfinished">必需的依赖项缺失或不兼容。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="241"/>
+        <source>The selected packages cannot be installed together.</source>
+        <translation type="unfinished">所选包无法一起安装。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="247"/>
+        <source>The package manager returned an invalid installation plan.</source>
+        <translation type="unfinished">包管理器返回了无效的安装计划。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="298"/>
+        <source>Overwrite Existing Packages</source>
+        <translation type="unfinished">覆盖现有包</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="299"/>
+        <source>Some selected packages have different contents from installed packages with the same identifier. Replace the installed packages?</source>
+        <translation type="unfinished">部分所选包与具有相同标识符的已安装包内容不同。是否替换已安装的包？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="309"/>
+        <source>Package installation failed.</source>
+        <translation type="unfinished">包安装失败。</translation>
     </message>
 </context>
 <context>
     <name>PackageManager::PackageManagerAddOn</name>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="50"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="58"/>
         <source>Dependencies</source>
         <translation type="unfinished">依赖项</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="51"/>
-        <source>Inferences</source>
-        <translation type="unfinished">推理模块</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="52"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="60"/>
         <source>Singers</source>
         <translation type="unfinished">歌手</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="56"/>
-        <source>Imports</source>
-        <translation type="unfinished">导入项</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="57"/>
-        <source>Demo Audio List</source>
-        <translation type="unfinished">演示音频列表</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="138"/>
-        <source>The command did not return valid JSON.</source>
-        <translation type="unfinished">命令未返回有效的 JSON。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="147"/>
-        <source>The command reported an error.</source>
-        <translation type="unfinished">命令报告了错误。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="360"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="455"/>
         <source>Failed to get package information for %1:
 %2</source>
         <translation type="unfinished">获取 %1 的包信息失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="380"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="499"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="381"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="269"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="371"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="398"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -130,111 +257,151 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 
 %1</translation>
     </message>
-</context>
-<context>
-    <name>PackageManager::PackageManagerPage</name>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="43"/>
-        <source>The command did not return valid JSON.</source>
-        <translation type="unfinished">命令未返回有效的 JSON。</translation>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="59"/>
+        <source>Other Contributions</source>
+        <translation type="unfinished">其他贡献</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="50"/>
-        <source>The selected command is not dspm.</source>
-        <translation type="unfinished">所选命令不是 dspm。</translation>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="434"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="443"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="466"/>
+        <source>The command returned invalid package data.</source>
+        <translation type="unfinished">命令返回的包数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="71"/>
-        <source>Package Manager</source>
-        <translation type="unfinished">包管理器</translation>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="105"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="321"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="361"/>
+        <source>The package manager returned an invalid uninstall result.</source>
+        <translation type="unfinished">包管理器返回了无效的卸载结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="72"/>
-        <source>Configure package manager settings</source>
-        <translation type="unfinished">配置包管理器设置</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="135"/>
-        <source>Invalid Package Manager</source>
-        <translation type="unfinished">无效的包管理器</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="136"/>
-        <source>Failed to validate the selected command:
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="322"/>
+        <source>Failed to prepare package uninstallation:
 
 %1</source>
-        <translation type="unfinished">验证所选命令失败：
+        <translation type="unfinished">无法准备包卸载：
 
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="146"/>
-        <source>Incompatible Package Manager</source>
-        <translation type="unfinished">不兼容的包管理器</translation>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="333"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/PackageManagerPage.cpp" line="147"/>
-        <source>The selected dspm version (%1) is not marked as compatible. It will still be used.</source>
-        <translation type="unfinished">所选 dspm 版本（%1）未被标记为兼容，但仍将继续使用。</translation>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="367"/>
+        <source>Failed to uninstall packages:
+
+%1</source>
+        <translation type="unfinished">无法卸载包：
+
+%1</translation>
+    </message>
+</context>
+<context>
+    <name>PackageManager::PackageManagerPage</name>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="34"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="35"/>
+        <source>Configure package manager settings</source>
+        <translation type="unfinished">配置包管理器设置</translation>
+    </message>
+</context>
+<context>
+    <name>PackageManager::PackageManagerSettings</name>
+    <message>
+        <location filename="../../internal/PackageManagerSettings.cpp" line="35"/>
+        <source>DiffScope Package Manager</source>
+        <translation type="unfinished">DiffScope 包管理器</translation>
     </message>
 </context>
 <context>
     <name>PackageManagerPage</name>
     <message>
         <location filename="../../qml/PackageManagerPage.qml" line="35"/>
-        <source>Select Package Manager</source>
-        <translation type="unfinished">选择包管理器</translation>
-    </message>
-    <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="37"/>
         <source>Executable files (*)</source>
         <translation type="unfinished">可执行文件 (*)</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="47"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="41"/>
         <source>Select Package Directory</source>
         <translation type="unfinished">选择包目录</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="60"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="63"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="69"/>
-        <source>Package manager tool</source>
-        <translation type="unfinished">包管理器工具</translation>
-    </message>
-    <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="76"/>
-        <source>Bundled dspm</source>
-        <translation type="unfinished">内置 dspm</translation>
-    </message>
-    <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="79"/>
-        <source>Reset to Bundled dspm</source>
-        <translation type="unfinished">重置为内置 dspm</translation>
-    </message>
-    <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="85"/>
-        <location filename="../../qml/PackageManagerPage.qml" line="102"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="185"/>
         <source>Browse</source>
         <translation type="unfinished">浏览</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="92"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="175"/>
         <source>Package directory</source>
         <translation type="unfinished">包目录</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="109"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="197"/>
         <source>Command timeout</source>
         <translation type="unfinished">命令超时</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="122"/>
+        <location filename="../../qml/PackageManagerPage.qml" line="211"/>
         <source>seconds</source>
         <translation type="unfinished">秒</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="33"/>
+        <source>Add Package Manager Installation</source>
+        <translation type="unfinished">添加包管理器安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="76"/>
+        <source>Installation</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="116"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished">添加本地安装...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="126"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished">从列表中移除本地安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="142"/>
+        <source>No package manager installation is selected</source>
+        <translation type="unfinished">未选择包管理器安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="143"/>
+        <source>Executable path</source>
+        <translation type="unfinished">可执行文件路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="150"/>
+        <source>Download Package Manager...</source>
+        <translation type="unfinished">下载包管理器...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="156"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished">卸载已下载的版本</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="167"/>
+        <source>Package Options</source>
+        <translation type="unfinished">包选项</translation>
     </message>
 </context>
 <context>
@@ -243,6 +410,42 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <location filename="../../qml/PackageManagerWindow.qml" line="22"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallDialog</name>
+    <message>
+        <location filename="../../qml/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished">卸载包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Package</source>
+        <translation type="unfinished">卸载包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallDialog.qml" line="21"/>
+        <source>Other packages depend on %1. Uninstall this package and all packages listed below?</source>
+        <translation type="unfinished">其他包依赖 %1。是否卸载此包及下方列出的所有包？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallDialog.qml" line="22"/>
+        <source>Uninstall %1?</source>
+        <translation type="unfinished">是否卸载 %1？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallDialog.qml" line="45"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished">要卸载的包</translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="250"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 </TS>

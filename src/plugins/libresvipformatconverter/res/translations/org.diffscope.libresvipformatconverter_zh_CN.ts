@@ -17,69 +17,56 @@
 <context>
     <name>LibreSVIPDownloadDialog</name>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="30"/>
         <source>B</source>
-        <translation type="unfinished">B</translation>
+        <translation type="obsolete">B</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="30"/>
         <source>KiB</source>
-        <translation type="unfinished">KiB</translation>
+        <translation type="obsolete">KiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="30"/>
         <source>MiB</source>
-        <translation type="unfinished">MiB</translation>
+        <translation type="obsolete">MiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="30"/>
         <source>GiB</source>
-        <translation type="unfinished">GiB</translation>
+        <translation type="obsolete">GiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="30"/>
         <source>TiB</source>
-        <translation type="unfinished">TiB</translation>
+        <translation type="obsolete">TiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="53"/>
         <source>LibreSVIP</source>
-        <translation type="unfinished">LibreSVIP</translation>
+        <translation type="obsolete">LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="108"/>
         <source>Retrieving available LibreSVIP versions...</source>
-        <translation type="unfinished">正在获取可用的 LibreSVIP 版本...</translation>
+        <translation type="obsolete">正在获取可用的 LibreSVIP 版本...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="110"/>
         <source>Select the LibreSVIP version to download:</source>
-        <translation type="unfinished">请选择要下载的 LibreSVIP 版本：</translation>
+        <translation type="obsolete">请选择要下载的 LibreSVIP 版本：</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="112"/>
         <source>Downloading LibreSVIP...</source>
-        <translation type="unfinished">正在下载 LibreSVIP...</translation>
+        <translation type="obsolete">正在下载 LibreSVIP...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="128"/>
         <source>Version</source>
-        <translation type="unfinished">版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="161"/>
         <source>%1% — %2</source>
-        <translation type="unfinished">%1% — %2</translation>
+        <translation type="obsolete">%1% — %2</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="182"/>
         <source>Update</source>
-        <translation type="unfinished">更新</translation>
+        <translation type="obsolete">更新</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="182"/>
         <source>Download</source>
-        <translation type="unfinished">下载</translation>
+        <translation type="obsolete">下载</translation>
     </message>
 </context>
 <context>
@@ -369,324 +356,303 @@
 <context>
     <name>LibreSVIPFormatConverter::Internal::LibreSVIPManager</name>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="636"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1179"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="274"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="465"/>
         <source>Validating LibreSVIP command-line tool...</source>
         <translation type="unfinished">正在验证 LibreSVIP 命令行工具...</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="643"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1370"/>
         <source>Failed to create the LibreSVIP progress dialog.</source>
-        <translation type="unfinished">创建 LibreSVIP 进度对话框失败。</translation>
+        <translation type="obsolete">创建 LibreSVIP 进度对话框失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="666"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="489"/>
         <source>The selected LibreSVIP executable does not exist.</source>
         <translation type="unfinished">所选的 LibreSVIP 可执行文件不存在。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="670"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="493"/>
         <source>The selected LibreSVIP path is not a file.</source>
         <translation type="unfinished">所选的 LibreSVIP 路径不是文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="674"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="497"/>
         <source>The selected LibreSVIP file is not executable.</source>
         <translation type="unfinished">所选的 LibreSVIP 文件不可执行。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="679"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="855"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1236"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1327"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="355"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="502"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="677"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="709"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="769"/>
         <source>Failed to resolve the canonical path of the LibreSVIP executable.</source>
         <translation type="unfinished">解析 LibreSVIP 可执行文件的规范路径失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="690"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="266"/>
+        <source>LibreSVIP</source>
+        <translation type="unfinished">LibreSVIP</translation>
+    </message>
+    <message>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="351"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="355"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="667"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="673"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="677"/>
+        <source>Invalid LibreSVIP Command-Line Tool</source>
+        <translation type="unfinished">无效的 LibreSVIP 命令行工具</translation>
+    </message>
+    <message>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="513"/>
         <source>Failed to calculate the SHA512 digest of the LibreSVIP executable.</source>
         <translation type="unfinished">计算 LibreSVIP 可执行文件的 SHA512 摘要失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="706"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1393"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="529"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="829"/>
         <source>Failed to start LibreSVIP: %1</source>
         <translation type="unfinished">启动 LibreSVIP 失败：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="713"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1401"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="536"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="837"/>
         <source>Failed to initialize the LibreSVIP gRPC client.</source>
         <translation type="unfinished">初始化 LibreSVIP gRPC 客户端失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="728"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="551"/>
         <source>LibreSVIP exited before its RPC server became ready: %1</source>
         <translation type="unfinished">LibreSVIP 在其 RPC 服务器就绪前退出：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="746"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1437"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="569"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="873"/>
         <source>LibreSVIP RPC server did not become ready: %1</source>
         <translation type="unfinished">LibreSVIP RPC 服务器未就绪：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="751"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1443"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="574"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="879"/>
         <source>LibreSVIP exited while starting its RPC server. Port 15150 may already be in use.</source>
         <translation type="unfinished">LibreSVIP 在启动其 RPC 服务器时退出。端口 15150 可能已被占用。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="757"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="784"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="580"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="607"/>
         <source>Timed out while querying LibreSVIP plugins.</source>
         <translation type="unfinished">查询 LibreSVIP 插件超时。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="769"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="785"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="592"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="608"/>
         <source>Failed to query LibreSVIP plugins: %1</source>
         <translation type="unfinished">查询 LibreSVIP 插件失败：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="790"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="613"/>
         <source>LibreSVIP exited while querying its plugins. Port 15150 may already be in use.</source>
         <translation type="unfinished">LibreSVIP 在查询其插件时退出。端口 15150 可能已被占用。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="797"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="620"/>
         <source>This LibreSVIP installation does not provide both DSPX input and output plugins.</source>
         <translation type="unfinished">此 LibreSVIP 安装未同时提供 DSPX 输入和输出插件。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="806"/>
         <source>Select LibreSVIP command-line tool</source>
-        <translation type="unfinished">选择 LibreSVIP 命令行工具</translation>
+        <translation type="obsolete">选择 LibreSVIP 命令行工具</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="810"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="633"/>
         <source>Executable files (*.exe)</source>
         <translation type="unfinished">可执行文件（*.exe）</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="810"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="812"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="633"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="635"/>
         <source>All files (*)</source>
         <translation type="unfinished">所有文件 (*)</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="833"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="964"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1252"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1264"/>
         <source>LibreSVIP is busy</source>
-        <translation type="unfinished">LibreSVIP 正忙</translation>
+        <translation type="obsolete">LibreSVIP 正忙</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="834"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="965"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1253"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1265"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1351"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="793"/>
         <source>Another LibreSVIP operation is already running.</source>
         <translation type="unfinished">另一个 LibreSVIP 操作已在进行中。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="849"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="854"/>
         <source>Invalid LibreSVIP command-line tool</source>
-        <translation type="unfinished">LibreSVIP 命令行工具无效</translation>
+        <translation type="obsolete">LibreSVIP 命令行工具无效</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="980"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1026"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1031"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1041"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1050"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1086"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1096"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1111"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1116"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1125"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1149"/>
         <source>Download failed</source>
-        <translation type="unfinished">下载失败</translation>
+        <translation type="obsolete">下载失败</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="980"/>
         <source>Failed to create the LibreSVIP download dialog.</source>
-        <translation type="unfinished">创建 LibreSVIP 下载对话框失败。</translation>
+        <translation type="obsolete">创建 LibreSVIP 下载对话框失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1002"/>
         <source>LibreSVIP error</source>
-        <translation type="unfinished">LibreSVIP 错误</translation>
+        <translation type="obsolete">LibreSVIP 错误</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1003"/>
         <source>The LibreSVIP operation failed.</source>
-        <translation type="unfinished">LibreSVIP 操作失败。</translation>
+        <translation type="obsolete">LibreSVIP 操作失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="69"/>
         <source>The LibreSVIP download catalog could not be retrieved.</source>
-        <translation type="unfinished">无法获取 LibreSVIP 下载目录。</translation>
+        <translation type="obsolete">无法获取 LibreSVIP 下载目录。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1059"/>
         <source>%1 (Downloaded)</source>
-        <translation type="unfinished">%1（已下载）</translation>
+        <translation type="obsolete">%1（已下载）</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1086"/>
         <source>The selected LibreSVIP version is not available.</source>
-        <translation type="unfinished">所选的 LibreSVIP 版本不可用。</translation>
+        <translation type="obsolete">所选的 LibreSVIP 版本不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1127"/>
         <source>LibreSVIP could not be downloaded.</source>
-        <translation type="unfinished">无法下载 LibreSVIP。</translation>
+        <translation type="obsolete">无法下载 LibreSVIP。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1160"/>
         <source>Installing LibreSVIP...</source>
-        <translation type="unfinished">正在安装 LibreSVIP...</translation>
+        <translation type="obsolete">正在安装 LibreSVIP...</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1170"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1188"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1199"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1216"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1224"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1234"/>
         <source>Installation failed</source>
+        <translation type="obsolete">安装失败</translation>
+    </message>
+    <message>
+        <source>Failed to record the downloaded LibreSVIP version: %1</source>
+        <translation type="obsolete">记录已下载的 LibreSVIP 版本失败：%1</translation>
+    </message>
+    <message>
+        <source>Failed to replace the existing LibreSVIP installation.</source>
+        <translation type="obsolete">替换现有 LibreSVIP 安装失败。</translation>
+    </message>
+    <message>
+        <source>Failed to move LibreSVIP into the application data directory.</source>
+        <translation type="obsolete">将 LibreSVIP 移动到应用数据目录失败。</translation>
+    </message>
+    <message>
+        <source>Failed to restore the previous LibreSVIP installation.</source>
+        <translation type="obsolete">恢复先前的 LibreSVIP 安装失败。</translation>
+    </message>
+    <message>
+        <source>Delete downloaded LibreSVIP</source>
+        <translation type="obsolete">删除已下载的 LibreSVIP</translation>
+    </message>
+    <message>
+        <source>Delete the downloaded LibreSVIP command-line tool and all files in its installation directory?</source>
+        <translation type="obsolete">要删除已下载的 LibreSVIP 命令行工具及其安装目录中的所有文件吗？</translation>
+    </message>
+    <message>
+        <source>Deletion failed</source>
+        <translation type="obsolete">删除失败</translation>
+    </message>
+    <message>
+        <source>Failed to delete the downloaded LibreSVIP installation.</source>
+        <translation type="obsolete">删除已下载的 LibreSVIP 安装失败。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="629"/>
+        <source>Select LibreSVIP Command-Line Tool</source>
+        <translation type="unfinished">选择 LibreSVIP 命令行工具</translation>
+    </message>
+    <message>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="709"/>
+        <source>Installation Failed</source>
         <translation type="unfinished">安装失败</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1200"/>
-        <source>Failed to record the downloaded LibreSVIP version: %1</source>
-        <translation type="unfinished">记录已下载的 LibreSVIP 版本失败：%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1216"/>
-        <source>Failed to replace the existing LibreSVIP installation.</source>
-        <translation type="unfinished">替换现有 LibreSVIP 安装失败。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1225"/>
-        <source>Failed to move LibreSVIP into the application data directory.</source>
-        <translation type="unfinished">将 LibreSVIP 移动到应用数据目录失败。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1237"/>
-        <source>Failed to restore the previous LibreSVIP installation.</source>
-        <translation type="unfinished">恢复先前的 LibreSVIP 安装失败。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1271"/>
-        <source>Delete downloaded LibreSVIP</source>
-        <translation type="unfinished">删除已下载的 LibreSVIP</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1272"/>
-        <source>Delete the downloaded LibreSVIP command-line tool and all files in its installation directory?</source>
-        <translation type="unfinished">要删除已下载的 LibreSVIP 命令行工具及其安装目录中的所有文件吗？</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1278"/>
-        <source>Deletion failed</source>
-        <translation type="unfinished">删除失败</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1278"/>
-        <source>Failed to delete the downloaded LibreSVIP installation.</source>
-        <translation type="unfinished">删除已下载的 LibreSVIP 安装失败。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1294"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="736"/>
         <source>Download LibreSVIP</source>
         <translation type="unfinished">下载 LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1295"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="737"/>
         <source>Browse...</source>
         <translation type="unfinished">浏览...</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1299"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="741"/>
         <source>LibreSVIP is not configured</source>
         <translation type="unfinished">未配置 LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1300"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="742"/>
         <source>Configure the LibreSVIP command-line tool before importing or exporting through LibreSVIP.</source>
         <translation type="unfinished">在通过 LibreSVIP 导入或导出之前，请先配置 LibreSVIP 命令行工具。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1326"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1335"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="768"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="777"/>
         <source>LibreSVIP command-line tool is unavailable</source>
         <translation type="unfinished">LibreSVIP 命令行工具不可用</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1355"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="797"/>
         <source>The input file is larger than the 512 MiB LibreSVIP conversion limit.</source>
         <translation type="unfinished">输入文件超过了 LibreSVIP 的 512 MiB 转换大小限制。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1359"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="801"/>
         <source>The configured LibreSVIP command-line tool is no longer valid.</source>
         <translation type="unfinished">已配置的 LibreSVIP 命令行工具不再有效。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1364"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="806"/>
         <source>Converting project with LibreSVIP...</source>
         <translation type="unfinished">正在使用 LibreSVIP 转换工程...</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1491"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1509"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="927"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="945"/>
         <source>LibreSVIP conversion failed.</source>
         <translation type="unfinished">LibreSVIP 转换失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1495"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="931"/>
         <source>Failed to decode the LibreSVIP conversion response.</source>
         <translation type="unfinished">解码 LibreSVIP 转换响应失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1500"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="936"/>
         <source>LibreSVIP did not return a result for this conversion.</source>
         <translation type="unfinished">LibreSVIP 未返回此次转换的结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1514"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="950"/>
         <source>LibreSVIP returned no output data.</source>
         <translation type="unfinished">LibreSVIP 未返回输出数据。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1570"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="999"/>
         <source>LibreSVIP update available</source>
         <translation type="unfinished">LibreSVIP 有可用更新</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1571"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="1000"/>
         <source>LibreSVIP %1 is available.</source>
         <translation type="unfinished">LibreSVIP %1 现已可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1572"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="1001"/>
         <source>Update</source>
         <translation type="unfinished">更新</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1600"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="1029"/>
         <source>LibreSVIP configured</source>
         <translation type="unfinished">LibreSVIP 已配置</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="1601"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="1030"/>
         <source>LibreSVIP is ready. Please retry the import or export operation.</source>
         <translation type="unfinished">LibreSVIP 已就绪。请重试导入或导出操作。</translation>
     </message>
@@ -750,159 +716,171 @@
 <context>
     <name>LibreSVIPManager</name>
     <message>
-        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="130"/>
         <source>The root value is not an object.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">根值不是对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="121"/>
         <source>The LibreSVIP download catalog is invalid: %1</source>
-        <translation type="unfinished">LibreSVIP 下载目录无效：%1</translation>
+        <translation type="obsolete">LibreSVIP 下载目录无效：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPDownloadCatalog.cpp" line="180"/>
         <source>No LibreSVIP downloads are available for this system architecture.</source>
-        <translation type="unfinished">没有适用于此系统架构的 LibreSVIP 下载。</translation>
+        <translation type="obsolete">没有适用于此系统架构的 LibreSVIP 下载。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="299"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="193"/>
         <source>Failed to decode the LibreSVIP RPC response.</source>
         <translation type="unfinished">解码 LibreSVIP RPC 响应失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="307"/>
+        <location filename="../../internal/LibreSVIPManager.cpp" line="201"/>
         <source>The LibreSVIP RPC request timed out.</source>
         <translation type="unfinished">LibreSVIP RPC 请求超时。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="373"/>
         <source>Failed to initialize the archive reader.</source>
-        <translation type="unfinished">初始化压缩包读取器失败。</translation>
+        <translation type="obsolete">初始化压缩包读取器失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="385"/>
         <source>Failed to create the installation directory.</source>
-        <translation type="unfinished">创建安装目录失败。</translation>
+        <translation type="obsolete">创建安装目录失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="407"/>
         <source>The archive contains an unsafe path: %1</source>
-        <translation type="unfinished">压缩包包含不安全的路径：%1</translation>
+        <translation type="obsolete">压缩包包含不安全的路径：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="413"/>
         <source>The archive attempts to write outside the installation directory.</source>
-        <translation type="unfinished">压缩包试图写入安装目录之外的位置。</translation>
+        <translation type="obsolete">压缩包试图写入安装目录之外的位置。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="420"/>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="430"/>
         <source>Failed to create directory: %1</source>
-        <translation type="unfinished">创建目录失败：%1</translation>
+        <translation type="obsolete">创建目录失败：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="426"/>
         <source>The archive contains an unsupported hard link.</source>
-        <translation type="unfinished">压缩包包含不受支持的硬链接。</translation>
+        <translation type="obsolete">压缩包包含不受支持的硬链接。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="479"/>
         <source>The archive contains an unsafe symbolic link.</source>
-        <translation type="unfinished">压缩包包含不安全的符号链接。</translation>
+        <translation type="obsolete">压缩包包含不安全的符号链接。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPManager.cpp" line="484"/>
         <source>Failed to create symbolic link: %1</source>
-        <translation type="unfinished">创建符号链接失败：%1</translation>
+        <translation type="obsolete">创建符号链接失败：%1</translation>
     </message>
 </context>
 <context>
     <name>LibreSVIPProgressDialog</name>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="27"/>
         <source>B</source>
-        <translation type="unfinished">B</translation>
+        <translation type="obsolete">B</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="27"/>
         <source>KiB</source>
-        <translation type="unfinished">KiB</translation>
+        <translation type="obsolete">KiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="27"/>
         <source>MiB</source>
-        <translation type="unfinished">MiB</translation>
+        <translation type="obsolete">MiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="27"/>
         <source>GiB</source>
-        <translation type="unfinished">GiB</translation>
+        <translation type="obsolete">GiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="27"/>
         <source>TiB</source>
-        <translation type="unfinished">TiB</translation>
+        <translation type="obsolete">TiB</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="46"/>
+        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="30"/>
         <source>LibreSVIP</source>
         <translation type="unfinished">LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="122"/>
         <source>%1% — %2</source>
-        <translation type="unfinished">%1% — %2</translation>
+        <translation type="obsolete">%1% — %2</translation>
     </message>
 </context>
 <context>
     <name>LibreSVIPSettingsPage</name>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="44"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="46"/>
         <source>LibreSVIP</source>
         <translation type="unfinished">LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="50"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="52"/>
         <source>A universal converter for singing-voice-synthesis projects</source>
         <translation type="unfinished">歌声合成工程的通用转换器</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="55"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="57"/>
         <source>Visit homepage</source>
         <translation type="unfinished">访问主页</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="63"/>
-        <source>LibreSVIP command-line tool</source>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="65"/>
+        <source>LibreSVIP Command-Line Tool</source>
         <translation type="unfinished">LibreSVIP 命令行工具</translation>
     </message>
     <message>
         <location filename="../../qml/LibreSVIPSettingsPage.qml" line="78"/>
+        <source>Installation</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="124"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished">添加本地安装...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="135"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished">从列表中移除本地安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="152"/>
+        <source>No LibreSVIP installation is selected</source>
+        <translation type="unfinished">未选择 LibreSVIP 安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
+        <source>Executable path</source>
+        <translation type="unfinished">可执行文件路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="168"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished">卸载已下载的版本</translation>
+    </message>
+    <message>
+        <source>LibreSVIP command-line tool</source>
+        <translation type="obsolete">LibreSVIP 命令行工具</translation>
+    </message>
+    <message>
         <source>No LibreSVIP executable is configured</source>
-        <translation type="unfinished">未配置 LibreSVIP 可执行文件</translation>
+        <translation type="obsolete">未配置 LibreSVIP 可执行文件</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="86"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
+        <translation type="obsolete">清除</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="95"/>
         <source>Browse...</source>
-        <translation type="unfinished">浏览...</translation>
+        <translation type="obsolete">浏览...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="104"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="161"/>
         <source>Download LibreSVIP...</source>
         <translation type="unfinished">下载 LibreSVIP...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="111"/>
         <source>Uninstall Downloaded LibreSVIP</source>
-        <translation type="unfinished">卸载已下载的 LibreSVIP</translation>
+        <translation type="obsolete">卸载已下载的 LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="122"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="177"/>
         <source>Automatically check for LibreSVIP updates</source>
         <translation type="unfinished">自动检查 LibreSVIP 更新</translation>
     </message>
@@ -910,8 +888,7 @@
 <context>
     <name>QPlatformTheme</name>
     <message>
-        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="141"/>
-        <location filename="../../qml/LibreSVIPDownloadDialog.qml" line="191"/>
+        <location filename="../../qml/LibreSVIPProgressDialog.qml" line="106"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2961"/>
         <source>Main Menu</source>
-        <translation type="unfinished">Main Menu</translation>
+        <translation type="obsolete">Main Menu</translation>
     </message>
 </context>
 <context>
@@ -43,87 +42,34 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3033"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3034"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3035"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3036"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3037"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3038"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3039"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3040"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3041"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3042"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3043"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3044"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3045"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3046"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3047"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3048"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3049"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3050"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3051"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3052"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4057"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3053"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3054"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3055"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3056"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3057"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3076"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3077"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3078"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3079"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3080"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4058"/>
         <source>Arrangement Panel</source>
         <translation type="unfinished">Arrangement Panel</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3058"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3059"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4059"/>
         <source>Mixer Panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3060"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3061"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3062"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3063"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3064"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3065"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3066"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3067"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3068"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3069"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3070"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3071"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3072"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3073"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3074"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3075"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3081"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3082"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3083"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3084"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3085"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3086"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3087"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4060"/>
         <source>Piano Roll Panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3088"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3089"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3090"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4061"/>
         <source>Panel</source>
         <translation type="unfinished">Panel</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3091"/>
-        <source>Insert</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4062"/>
+        <source>Additional Tracks</source>
+        <translation type="unfinished">Additional Tracks</translation>
     </message>
     <message>
         <source>File</source>
@@ -131,349 +77,507 @@
     </message>
 </context>
 <context>
+    <name>Application::ActionDescription</name>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4065"/>
+        <source>Select, move, or resize clips.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4066"/>
+        <source>Draw singing clips, or move and resize existing clips.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4067"/>
+        <source>Split selected clips at the pointer position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4068"/>
+        <source>Select clips by area or time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4069"/>
+        <source>Drag the arrangement view to scroll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4070"/>
+        <source>Select tracks and adjust volume and pan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4071"/>
+        <source>Drag the mixer view to scroll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4072"/>
+        <source>Select, move, or resize notes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4073"/>
+        <source>Draw notes, or move and resize existing notes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4074"/>
+        <source>Split selected notes at the pointer position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4075"/>
+        <source>Select notes by area or time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4076"/>
+        <source>Drag the piano roll view to scroll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4077"/>
+        <source>Draw pitch changes freehand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4078"/>
+        <source>Drag to draw a straight segment of the pitch curve.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4079"/>
+        <source>Freeze the original pitch over the dragged time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4080"/>
+        <source>Erase drawn pitch edits over the dragged time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4081"/>
+        <source>Select a time range of the drawn pitch curve.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4082"/>
+        <source>Select and move pitch anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4083"/>
+        <source>Add, move, or delete pitch anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4084"/>
+        <source>Change how the curve connects neighboring pitch anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4085"/>
+        <source>Select pitch anchors by area or time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4086"/>
+        <source>Choose which additional lanes to display in the piano roll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4087"/>
+        <source>Choose which editing panels to display below the piano roll.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4088"/>
+        <source>Choose the time grid used to align clip edits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4089"/>
+        <source>Choose a tuplet subdivision for the snap grid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4090"/>
+        <source>Scroll the arrangement by pages to follow the playhead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4091"/>
+        <source>Choose which additional lanes to display in the arrangement.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4092"/>
+        <source>Choose the time grid used to align note edits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4093"/>
+        <source>Scroll the piano roll by pages to follow the playhead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4094"/>
+        <source>Highlight scale tones according to the project&apos;s key signatures.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3996"/>
         <source>Pointer Tool</source>
         <translation type="unfinished">Pointer Tool</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3997"/>
         <source>Pencil Tool</source>
         <translation type="unfinished">Pencil Tool</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4000"/>
         <source>Hand Tool</source>
         <translation type="unfinished">Hand Tool</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2998"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4012"/>
         <source>Snap</source>
         <translation type="unfinished">Snap</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2999"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4013"/>
         <source>Snap Duration</source>
         <translation type="unfinished">Snap Duration</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3000"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4014"/>
         <source>Snap Tuplet</source>
         <translation type="unfinished">Snap Tuplet</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3001"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4015"/>
         <source>Auto Page Scrolling</source>
         <translation type="unfinished">Auto Page Scrolling</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2996"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4010"/>
         <source>Additional Tracks</source>
         <translation type="unfinished">Additional Tracks</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2962"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3974"/>
+        <source>Main Menu</source>
+        <translation type="unfinished">Main Menu</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3976"/>
         <source>Scroll Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2963"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3977"/>
         <source>Scroll Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2964"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3978"/>
         <source>Scroll Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2965"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3979"/>
         <source>Scroll Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2966"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3980"/>
         <source>Scroll up Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2967"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3981"/>
         <source>Scroll down Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2968"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3982"/>
         <source>Scroll Left Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2969"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3983"/>
         <source>Scroll Right Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2970"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3984"/>
         <source>Scroll to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2971"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3985"/>
         <source>Scroll to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2972"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3986"/>
         <source>Scroll to Leftmost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2973"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3987"/>
         <source>Scroll to Rightmost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2974"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3988"/>
         <source>Scroll to Playback Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2975"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3989"/>
         <source>Scroll to Current Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2976"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3990"/>
         <source>Vertical Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2977"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3991"/>
         <source>Vertical Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2978"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3992"/>
         <source>Horizontal Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3993"/>
         <source>Horizontal Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3994"/>
         <source>Reset Vertical Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2981"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3995"/>
         <source>Reset Horizontal Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2984"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3998"/>
         <source>Scissor Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2985"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3999"/>
         <source>Select Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4001"/>
         <source>Pitch Pencil Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4002"/>
         <source>Pitch Line Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4003"/>
         <source>Pitch Fixing Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2990"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4004"/>
         <source>Pitch Eraser Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2991"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4005"/>
         <source>Pitch Range Select Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2992"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4006"/>
         <source>Pitch Pointer Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2993"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4007"/>
         <source>Pitch Pen Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2994"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4008"/>
         <source>Pitch Convert Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2995"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4009"/>
         <source>Pitch Anchor Select Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="2997"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4011"/>
         <source>Bottom Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3002"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4016"/>
         <source>Editing Clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3003"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4017"/>
         <source>Highlight Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3004"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4018"/>
         <source>Show Track Selector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3005"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4023"/>
         <source>Arrangement</source>
         <translation type="unfinished">Arrangement</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3006"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4025"/>
         <source>Mixer</source>
         <translation type="unfinished">Mixer</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3007"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4027"/>
         <source>Piano Roll</source>
         <translation type="unfinished">Piano Roll</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3008"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4029"/>
         <source>Additional Track Widgets</source>
         <translation type="unfinished">Additional Track Widgets</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3009"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4030"/>
         <source>Bottom Additional Track Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4031"/>
         <source>Label</source>
         <translation type="unfinished">Label</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3011"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4032"/>
         <source>Tempo</source>
         <translation type="unfinished">Tempo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3012"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4033"/>
         <source>Key Signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3013"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4034"/>
         <source>Clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3014"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4035"/>
         <source>Phoneme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3015"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4036"/>
         <source>Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3016"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4037"/>
         <source>Voice blending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3017"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4039"/>
         <source>Scroll</source>
         <translation type="unfinished">Scroll</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3018"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4040"/>
         <source>Scroll Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3019"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4041"/>
         <source>Scroll Page Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3020"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4042"/>
         <source>Scroll to Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3021"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4043"/>
         <source>Zoom</source>
         <translation type="unfinished">Zoom</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3022"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4044"/>
         <source>Arrangement Panel Tool Bar</source>
         <translation type="unfinished">Arrangement Panel Tool Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3023"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4045"/>
         <source>Tool Actions</source>
         <translation type="unfinished">Tool Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3024"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4046"/>
         <source>Snap Actions</source>
         <translation type="unfinished">Snap Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3025"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4047"/>
         <source>Piano Roll Panel Tool Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3026"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4048"/>
         <source>Editing Clip Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3027"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4049"/>
         <source>Mixer Panel Tool Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3028"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4050"/>
         <source>Arrangement Panel Timeline Tool Bar</source>
         <translation type="unfinished">Arrangement Panel Timeline Tool Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3029"/>
-        <source>Add Track</source>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4052"/>
+        <source>Workspace Panel Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3030"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4051"/>
         <source>Piano Roll Panel Timeline Tool Bar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -482,42 +586,42 @@
         <translation type="obsolete">New</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4024"/>
         <source>Show Arrangement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4026"/>
         <source>Show Mixer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4028"/>
         <source>Show Piano Roll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4019"/>
         <source>Edit Previous Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4020"/>
         <source>Edit Next Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4021"/>
         <source>Edit Previous Clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4022"/>
         <source>Edit Next Clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4038"/>
         <source>Editing Target</source>
         <translation type="unfinished"></translation>
     </message>
@@ -525,65 +629,83 @@
 <context>
     <name>ArrangementAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="97"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="99"/>
         <source>Auto</source>
         <translation type="unfinished">Auto</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="98"/>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="136"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="100"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="138"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="99"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="101"/>
         <source>Whole note</source>
         <translation type="unfinished">Whole note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="100"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="102"/>
         <source>Half note</source>
         <translation type="unfinished">Half note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="101"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="103"/>
         <source>Quarter note</source>
         <translation type="unfinished">Quarter note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="102"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="104"/>
         <source>8th note</source>
         <translation type="unfinished">8th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="103"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="105"/>
         <source>16th note</source>
         <translation type="unfinished">16th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="104"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="106"/>
         <source>32nd note</source>
         <translation type="unfinished">32nd note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="105"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="107"/>
         <source>64th note</source>
         <translation type="unfinished">64th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="106"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="108"/>
         <source>128th note</source>
         <translation type="unfinished">128th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="137"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="139"/>
         <source>Triplet</source>
         <translation type="unfinished">Triplet</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="138"/>
+        <location filename="../../qml/actions/ArrangementAddOnActions.qml" line="140"/>
         <source>Quintuplet</source>
         <translation type="unfinished">Quintuplet</translation>
+    </message>
+</context>
+<context>
+    <name>ArrangementPanel</name>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="35"/>
+        <source>The arrangement panel state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="40"/>
+        <source>The arrangement panel tracks could not be prepared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/ArrangementPanel.qml" line="53"/>
+        <source>The arrangement panel tracks could not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -660,235 +782,277 @@
 <context>
     <name>EditorPage</name>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="78"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="94"/>
         <source>Move and Zoom</source>
         <translation type="unfinished">Move and Zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="87"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="103"/>
         <source>Horizontal scroll</source>
         <translation type="unfinished">Horizontal scroll</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="100"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="116"/>
         <source>Zoom</source>
         <translation type="unfinished">Zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="114"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="130"/>
         <source>Scroll by page</source>
         <translation type="unfinished">Scroll by page</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="120"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="136"/>
         <source>Horizontal zoom</source>
         <translation type="unfinished">Horizontal zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="135"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="151"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation type="unfinished">Middle button/hand tool scroll mode</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="142"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="158"/>
         <source>Dragging</source>
         <translation type="unfinished">Dragging</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="142"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="158"/>
         <source>Auto scrolling</source>
         <translation type="unfinished">Auto scrolling</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="150"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="166"/>
         <source>Snap</source>
         <translation type="unfinished">Snap</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="161"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="177"/>
         <source>Auto-snap length</source>
         <translation type="unfinished">Auto-snap length</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="170"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="186"/>
         <source>More compact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="183"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
         <source>More spacious</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="189"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="205"/>
         <source>Temporarily disable snap when pressing %1</source>
         <translation type="unfinished">Temporarily disable snap when pressing %1</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="215"/>
         <source>Arrangement</source>
         <translation type="unfinished">Arrangement</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="210"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="226"/>
         <source>Track list position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="217"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="233"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="217"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="233"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="223"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
         <source>Center piano roll when double-clicking a singing clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="233"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="249"/>
         <source>Piano Roll</source>
         <translation type="unfinished">Piano Roll</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="248"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="260"/>
         <source>Adjust vertical view during automatic page scrolling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="256"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="275"/>
         <source>If notes exceed the view height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
         <source>Align Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
         <source>Align Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
         <source>Zoom to Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="244"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="291"/>
         <source>Black key width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="258"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="305"/>
         <source>Display piano key label on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="265"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
         <source>All keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="265"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
         <source>C keys only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="265"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="271"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
         <source>Pronunciation display position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="278"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="325"/>
         <source>Above note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="278"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="325"/>
         <source>Below note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="284"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>Pitch curve display in note edit mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="291"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="291"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
         <source>Always show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="291"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
         <source>Always hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="303"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="350"/>
         <source>Automatic display zoom threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="319"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="366"/>
         <source>Short note threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="380"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="341"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="388"/>
         <source>Show singer background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="349"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="404"/>
         <source>Singer background opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="378"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="443"/>
+        <source>Background alignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="469"/>
+        <source>Horizontal margin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="504"/>
+        <source>Horizontal offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="537"/>
+        <source>Vertical margin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="564"/>
+        <source>Show all singer backgrounds when blending voices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
+        <source>Singer background spacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="609"/>
         <source>Bottom panel opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="406"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="638"/>
         <source>Miscellaneous</source>
         <translation type="unfinished">Miscellaneous</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="417"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="649"/>
         <source>Track cursor position</source>
         <translation type="unfinished">Track cursor position</translation>
+    </message>
+</context>
+<context>
+    <name>MixerPanel</name>
+    <message>
+        <location filename="../../qml/panels/MixerPanel.qml" line="28"/>
+        <source>The mixer panel state is invalid.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MoveAndZoomWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3975"/>
         <source>Move and Zoom</source>
         <translation type="unfinished">Move and Zoom</translation>
     </message>
@@ -948,88 +1112,88 @@
 <context>
     <name>ParameterTrack</name>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="271"/>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="272"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="273"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="274"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="358"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="362"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="363"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="367"/>
         <source>Editing parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="370"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="374"/>
         <source>Swap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="377"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="384"/>
         <source>Ref</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="382"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="389"/>
         <source>Reference parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="393"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="400"/>
         <source>Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="409"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
         <source>Pencil</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="410"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
         <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="411"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="418"/>
         <source>Fixing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="412"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="419"/>
         <source>Eraser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="413"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="420"/>
         <source>Range Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="414"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="421"/>
         <source>Pointer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="415"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
         <source>Pen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="423"/>
         <source>Convert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="424"/>
         <source>Anchors Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="439"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="446"/>
         <source>Unsupported parameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1037,101 +1201,124 @@
 <context>
     <name>PianoRollAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="194"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="193"/>
         <source>Auto</source>
         <translation type="unfinished">Auto</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="195"/>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="233"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="194"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="232"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="196"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="195"/>
         <source>Whole note</source>
         <translation type="unfinished">Whole note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="197"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="196"/>
         <source>Half note</source>
         <translation type="unfinished">Half note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="198"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="197"/>
         <source>Quarter note</source>
         <translation type="unfinished">Quarter note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="199"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="198"/>
         <source>8th note</source>
         <translation type="unfinished">8th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="200"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="199"/>
         <source>16th note</source>
         <translation type="unfinished">16th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="201"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="200"/>
         <source>32nd note</source>
         <translation type="unfinished">32nd note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="202"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="201"/>
         <source>64th note</source>
         <translation type="unfinished">64th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="203"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="202"/>
         <source>128th note</source>
         <translation type="unfinished">128th note</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="234"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="233"/>
         <source>Triplet</source>
         <translation type="unfinished">Triplet</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="235"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="234"/>
         <source>Quintuplet</source>
         <translation type="unfinished">Quintuplet</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="275"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="274"/>
         <source>Edit clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PianoRollPanel</name>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="39"/>
+        <source>The piano roll panel state is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="45"/>
+        <source>The piano roll panel tracks could not be prepared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="61"/>
+        <source>The piano roll panel tracks could not be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/PianoRollPanel.qml" line="75"/>
+        <source>The piano roll split view state is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="628"/>
+        <location filename="../../qml/PianoRollView.qml" line="625"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1016"/>
+        <location filename="../../qml/PianoRollView.qml" line="1019"/>
         <source>No clip selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1022"/>
+        <location filename="../../qml/PianoRollView.qml" line="1025"/>
         <source>Activate a clip to edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1055"/>
+        <location filename="../../qml/PianoRollView.qml" line="1058"/>
         <source>Move Up</source>
         <translation type="unfinished">Move Up</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1062"/>
+        <location filename="../../qml/PianoRollView.qml" line="1065"/>
         <source>Move Down</source>
         <translation type="unfinished">Move Down</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1068"/>
+        <location filename="../../qml/PianoRollView.qml" line="1071"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
@@ -1468,8 +1655,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1141"/>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1148"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1140"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1147"/>
         <source>Filling gap</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1477,8 +1664,8 @@
 <context>
     <name>VisualEditor::ParameterEditorContext</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1371"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1495"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1402"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1522"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
@@ -1486,7 +1673,7 @@
 <context>
     <name>VisualEditor::ParameterViewModelBinding</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1248"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1252"/>
         <source>%1 Transform</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1494,18 +1681,18 @@
 <context>
     <name>VisualEditor::ParameterViewModelBindingPrivate</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="580"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="590"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="591"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="600"/>
         <source>%1 Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="975"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="979"/>
         <source>Editing parameter transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="976"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="980"/>
         <source>Editing parameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1579,55 +1766,6 @@
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="940"/>
         <source>Resizing track</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ArrangementPanel</name>
-    <message>
-        <location filename="../../qml/panels/ArrangementPanel.qml" line="39"/>
-        <source>The arrangement panel state is invalid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/ArrangementPanel.qml" line="44"/>
-        <source>The arrangement panel tracks could not be prepared.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/ArrangementPanel.qml" line="52"/>
-        <source>The arrangement panel tracks could not be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PianoRollPanel</name>
-    <message>
-        <location filename="../../qml/panels/PianoRollPanel.qml" line="43"/>
-        <source>The piano roll panel state is invalid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/PianoRollPanel.qml" line="49"/>
-        <source>The piano roll panel tracks could not be prepared.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/PianoRollPanel.qml" line="64"/>
-        <source>The piano roll panel tracks could not be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/PianoRollPanel.qml" line="78"/>
-        <source>The piano roll split view state is invalid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MixerPanel</name>
-    <message>
-        <location filename="../../qml/panels/MixerPanel.qml" line="26"/>
-        <source>The mixer panel state is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
