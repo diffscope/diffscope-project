@@ -142,35 +142,35 @@ QtObject {
             id: propertyMappers
             readonly property QtObject nonePropertyMapper: null
             readonly property QtObject anchorNodePropertyMapper: AnchorNodePropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 1 || !selectionModel?.selectedCount
             }
             readonly property QtObject clipPropertyMapper: ClipPropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: ![1, 2, 4, 8].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 2 && !selectionModel?.selectedCount)
             }
             readonly property QtObject labelPropertyMapper: LabelPropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 3 || !selectionModel?.selectedCount
             }
             readonly property QtObject notePropertyMapper: NotePropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 4 || !selectionModel?.selectedCount
             }
             readonly property QtObject tempoPropertyMapper: TempoPropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 5 || !selectionModel?.selectedCount
             }
             readonly property QtObject trackPropertyMapper: TrackPropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: ![1, 2, 4, 6, 8].includes(selectionModel?.selectionType) || (selectionModel?.selectionType === 6 && !selectionModel?.selectedCount)
             }
             readonly property QtObject keySignaturePropertyMapper: KeySignaturePropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 7 || !selectionModel?.selectedCount
             }
             readonly property QtObject dynamicMixingAnchorPropertyMapper: DynamicMixingAnchorPropertyMapper {
-                selectionModel: d.addOn?.windowHandle.projectDocumentContext.document.selectionModel ?? null
+                selectionModel: d.addOn?.propertySelectionModel ?? null
                 readonly property bool inactive: selectionModel?.selectionType !== 8 || !selectionModel?.selectedCount
             }
         }
@@ -181,7 +181,7 @@ QtObject {
             anchors.right: parent.right
             anchors.margins: 12
             currentIndex: {
-                let selectionModel = d.addOn?.windowHandle.projectDocumentContext.document.selectionModel
+                let selectionModel = d.addOn?.propertySelectionModel
                 if (!selectionModel)
                     return 0
                 let t = selectionModel.selectionType

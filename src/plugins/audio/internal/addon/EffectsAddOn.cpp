@@ -43,6 +43,7 @@
 #include <transactional/TransactionController.h>
 
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -138,6 +139,11 @@ namespace Audio::Internal {
                 &EffectsAddOn::refreshSelection);
         connect(m_selectionModel->dynamicMixingAnchorSelectionModel(),
                 &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged,
+                this, &EffectsAddOn::refreshSelection);
+        auto freeSelection = document->freeParameterSelectionModel();
+        connect(freeSelection, &Core::FreeParameterSelectionModel::contextChanged,
+                this, &EffectsAddOn::refreshSelection);
+        connect(freeSelection, &Core::FreeParameterSelectionModel::activeChanged,
                 this, &EffectsAddOn::refreshSelection);
 
         auto collection = EffectsUnitCollection::instance();
@@ -452,6 +458,16 @@ namespace Audio::Internal {
         };
 
         switch (m_selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_None: {
+                auto document = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document();
+                auto freeSelection = document->freeParameterSelectionModel();
+                if (freeSelection->isActive()) {
+                    auto singingClip = freeSelection->singingClip();
+                    addTrack(trackFromSingingClip(singingClip));
+                    watch(singingClip, &dspx::Clip::clipSequenceChanged);
+                }
+                break;
+            }
             case dspx::SelectionModel::ST_Track:
                 for (auto track : m_selectionModel->trackSelectionModel()->selectedItems()) {
                     addTrack(track);

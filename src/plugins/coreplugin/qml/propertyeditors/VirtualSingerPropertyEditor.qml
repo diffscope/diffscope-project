@@ -23,7 +23,7 @@ PropertyEditorGroupBox {
     required property ProjectWindowInterface windowHandle
     required property QtObject propertyMapper
 
-    readonly property QtObject selectionModel: windowHandle?.projectDocumentContext.document.selectionModel ?? null
+    readonly property QtObject selectionModel: propertyMapper?.selectionModel ?? null
     readonly property bool multipleClips: selectionModel?.selectionType
                                           === DspxSelectionModel.SelectionModel.ST_Clip
                                           && (selectionModel?.selectedCount ?? 0) > 1
