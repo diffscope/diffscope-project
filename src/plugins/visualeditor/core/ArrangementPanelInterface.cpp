@@ -76,6 +76,7 @@ namespace VisualEditor {
                 selectionModel->select(singingClip, dspx::SelectionModel::Select);
                 auto pianoRollPanelInterface = PianoRollPanelInterface::of(windowHandle);
                 pianoRollPanelInterface->setEditingClip(singingClip);
+                windowHandle->triggerAction("org.diffscope.visualeditor.panel.pianoRoll.show");
 
                 if (!Internal::EditorPreference::centerPianoRollOnClipDoubleClick() || !clipPane || !clipPane->window())
                     return;

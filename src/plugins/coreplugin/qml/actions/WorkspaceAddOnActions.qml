@@ -172,14 +172,15 @@ ActionCollection {
     readonly property Instantiator showCommands: Instantiator {
         model: collection.addOn?.registeredPanelIds ?? []
         delegate: QtObject {
+            id: showCommand
             required property string modelData
 
             readonly property Component actionComponent: Action {
-                enabled: collection.usable && !collection.session.busy
-                onTriggered: collection.session.showPanel(modelData)
+                enabled: collection.usable
+                onTriggered: collection.session.showPanel(showCommand.modelData)
             }
             Component.onCompleted: if (collection.usable)
-                collection.addOn.windowHandle.actionContext.addAction(modelData + ".show", actionComponent)
+                collection.addOn.windowHandle.actionContext.addAction(showCommand.modelData + ".show", actionComponent)
         }
     }
 }

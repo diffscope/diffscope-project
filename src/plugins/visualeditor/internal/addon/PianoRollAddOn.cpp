@@ -104,7 +104,10 @@ namespace VisualEditor::Internal {
 
     void PianoRollAddOn::extensionsInitialized() {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
-        connect(pianoRollPanelInterface(), &PianoRollPanelInterface::editingClipChanged, this, [window] { window->triggerAction("org.diffscope.visualeditor.panel.pianoRoll.show"); });
+        connect(pianoRollPanelInterface(), &PianoRollPanelInterface::editingClipChanged, this, [this, window] {
+            if (pianoRollPanelInterface()->editingClip())
+                window->triggerAction("org.diffscope.visualeditor.panel.pianoRoll.show");
+        });
     }
 
     bool PianoRollAddOn::delayedInitialize() {

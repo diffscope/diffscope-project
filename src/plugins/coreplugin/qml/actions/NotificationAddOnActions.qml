@@ -8,6 +8,8 @@ import QtQuick.Controls
 
 import QActionKit
 
+import SVSCraft.UIComponents
+
 ActionCollection {
     id: d
 
