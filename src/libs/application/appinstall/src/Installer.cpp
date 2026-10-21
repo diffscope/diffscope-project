@@ -49,6 +49,49 @@ namespace AppInstall {
 
         using Cancelled = std::function<bool()>;
 
+        bool copyExecutable(const QString &sourcePath, const QString &destination, const Cancelled &cancelled, QString *error) {
+            QFile source(sourcePath);
+            if (!source.open(QIODevice::ReadOnly)) {
+                *error = source.errorString();
+                return false;
+            }
+            const auto directory = QFileInfo(destination).absolutePath();
+            if (!QDir().mkpath(directory)) {
+                *error = Installer::tr("Could not create the directory:\n%1").arg(QDir::toNativeSeparators(directory));
+                return false;
+            }
+            QSaveFile output(destination);
+            if (!output.open(QIODevice::WriteOnly)) {
+                *error = output.errorString();
+                return false;
+            }
+#ifndef Q_OS_WIN
+            if (!output.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadGroup | QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::ExeOther)) {
+                *error = output.errorString();
+                return false;
+            }
+#endif
+            while (!source.atEnd()) {
+                QCoreApplication::processEvents();
+                if (cancelled())
+                    return false;
+                const auto data = source.read(1024 * 1024);
+                if (source.error() != QFileDevice::NoError) {
+                    *error = source.errorString();
+                    return false;
+                }
+                if (output.write(data) != data.size()) {
+                    *error = output.errorString();
+                    return false;
+                }
+            }
+            if (!output.commit()) {
+                *error = output.errorString();
+                return false;
+            }
+            return true;
+        }
+
         bool extract(const QString &sourcePath, const QString &destination, const Cancelled &cancelled, QString *error) {
             const auto reject = [error](const QString &message) {
                 *error = message;
@@ -238,11 +281,11 @@ namespace AppInstall {
         const auto temporaryDirectory = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData);
         if (!QDir().mkpath(temporaryDirectory))
             return reportError(tr("Could not create the download directory:\n%1").arg(InstallationManager::normalizedPath(temporaryDirectory)));
-        QTemporaryFile archiveFile(QDir(temporaryDirectory).filePath(QStringLiteral("installation-download-XXXXXX")));
-        if (!archiveFile.open())
-            return reportError(archiveFile.errorString());
+        QTemporaryFile downloadedFile(QDir(temporaryDirectory).filePath(QStringLiteral("installation-download-XXXXXX")));
+        if (!downloadedFile.open())
+            return reportError(downloadedFile.errorString());
         dialog->setProperty("phase", QStringLiteral("download"));
-        SVS::DownloadSession session(artifact.url, &archiveFile);
+        SVS::DownloadSession session(artifact.url, &downloadedFile);
         session.setUserAgent(QStringLiteral("DiffScope/%1").arg(QCoreApplication::applicationVersion()));
         QString downloadError;
         QObject::connect(&session, &SVS::DownloadSession::networkErrorOccurred, dialog.get(), [&](QNetworkReply::NetworkError, const QString &message) { downloadError = message; });
@@ -267,45 +310,51 @@ namespace AppInstall {
         }
         if (result != QStringLiteral("downloaded"))
             return reportError(downloadError.isEmpty() ? tr("%1 could not be downloaded.").arg(product.displayName) : downloadError);
-        if (!archiveFile.flush() || archiveFile.size() != artifact.size)
+        if (!downloadedFile.flush() || downloadedFile.size() != artifact.size)
             return reportError(tr("The downloaded file size does not match the catalog."));
         dialog->setProperty("phase", QStringLiteral("verify"));
-        if (!archiveFile.seek(0))
-            return reportError(archiveFile.errorString());
+        if (!downloadedFile.seek(0))
+            return reportError(downloadedFile.errorString());
         QCryptographicHash hash(QCryptographicHash::Sha256);
-        while (!archiveFile.atEnd()) {
+        while (!downloadedFile.atEnd()) {
             QCoreApplication::processEvents();
             if (cancelled())
                 return {};
-            const auto data = archiveFile.read(1024 * 1024);
-            if (archiveFile.error() != QFileDevice::NoError)
-                return reportError(archiveFile.errorString());
+            const auto data = downloadedFile.read(1024 * 1024);
+            if (downloadedFile.error() != QFileDevice::NoError)
+                return reportError(downloadedFile.errorString());
             hash.addData(data);
         }
         if (hash.result() != artifact.sha256)
             return reportError(tr("The downloaded file checksum does not match the catalog."));
-        archiveFile.close();
+        downloadedFile.close();
         QTemporaryDir stage(QDir(versionsDirectory).filePath(QStringLiteral(".installation-stage-XXXXXX")));
         if (!stage.isValid())
             return reportError(tr("Could not create a temporary installation directory."));
         dialog->setProperty("phase", QStringLiteral("install"));
         QString error;
-        if (!extract(archiveFile.fileName(), stage.path(), cancelled, &error))
-            return cancelled() ? DownloadResult{} : reportError(error);
         QString installation;
-        if (QFileInfo(QDir(stage.path()).filePath(product.executableRelativePath)).isFile()) {
+        if (artifact.format == QStringLiteral("exe") || artifact.format == QStringLiteral("binary")) {
             installation = stage.path();
+            if (!copyExecutable(downloadedFile.fileName(), QDir(installation).filePath(product.executableRelativePath), cancelled, &error))
+                return cancelled() ? DownloadResult{} : reportError(error);
         } else {
-            for (const auto &entry : QDir(stage.path()).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-                if (entry.isSymLink() || !QFileInfo(QDir(entry.absoluteFilePath()).filePath(product.executableRelativePath)).isFile())
-                    continue;
-                if (!installation.isEmpty())
-                    return reportError(tr("The archive contains multiple %1 installations.").arg(product.displayName));
-                installation = entry.absoluteFilePath();
+            if (!extract(downloadedFile.fileName(), stage.path(), cancelled, &error))
+                return cancelled() ? DownloadResult{} : reportError(error);
+            if (QFileInfo(QDir(stage.path()).filePath(product.executableRelativePath)).isFile()) {
+                installation = stage.path();
+            } else {
+                for (const auto &entry : QDir(stage.path()).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+                    if (entry.isSymLink() || !QFileInfo(QDir(entry.absoluteFilePath()).filePath(product.executableRelativePath)).isFile())
+                        continue;
+                    if (!installation.isEmpty())
+                        return reportError(tr("The archive contains multiple %1 installations.").arg(product.displayName));
+                    installation = entry.absoluteFilePath();
+                }
             }
+            if (installation.isEmpty())
+                return reportError(tr("The archive does not contain the %1 executable.").arg(product.displayName));
         }
-        if (installation.isEmpty())
-            return reportError(tr("The archive does not contain the %1 executable.").arg(product.displayName));
         QDirIterator paths(installation, QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System, QDirIterator::Subdirectories);
         while (paths.hasNext()) {
             paths.next();

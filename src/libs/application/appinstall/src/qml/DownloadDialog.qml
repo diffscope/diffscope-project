@@ -87,7 +87,7 @@ Window {
                 text: {
                     switch (dialog.phase) {
                     case "download": return qsTr("Downloading %1...").arg(dialog.productName)
-                    case "verify": return qsTr("Verifying the downloaded archive...")
+                    case "verify": return qsTr("Verifying the download...")
                     case "install": return qsTr("Installing %1...").arg(dialog.productName)
                     case "validate": return dialog.statusText
                     default: return dialog.catalog.busy ? qsTr("Retrieving available versions...") : qsTr("Select a version to download.")

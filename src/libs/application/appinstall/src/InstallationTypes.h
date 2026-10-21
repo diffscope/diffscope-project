@@ -61,7 +61,7 @@ namespace AppInstall {
         // Returns a cleanup callback that releases installation files on completion, cancellation, or timeout.
         // An absent probe leaves the version unknown.
         VersionProbe probeVersion;
-        // Validates an extracted installation before publication. Releases installation files before returning.
+        // Validates a staged installation before publication. Releases installation files before returning.
         std::function<InstallationValidationResult(const InstallationCandidate &, const InstallationOperation &)> validateInstallation;
     };
 

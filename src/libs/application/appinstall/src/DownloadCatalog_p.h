@@ -22,6 +22,7 @@ namespace AppInstall {
     struct DownloadArtifact {
         QString channel;
         QString version;
+        QString format;
         QUrl url;
         qint64 size{};
         QByteArray sha256;

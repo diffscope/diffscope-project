@@ -267,13 +267,15 @@ namespace AppInstall {
             if (!matchesSystem(artifact, m_variant))
                 continue;
             const auto url = QUrl(artifact.value(QStringLiteral("url")).toString());
+            const auto format = artifact.value(QStringLiteral("format")).toString();
             const auto size = artifact.value(QStringLiteral("size")).toDouble(-1);
             const auto sha256 = artifact.value(QStringLiteral("sha256")).toString();
-            if (!isHttpUrl(url) || !std::isfinite(size) || size < 0 || size > 9007199254740991.0 || std::floor(size) != size || !QRegularExpression(QStringLiteral("^[a-fA-F0-9]{64}$")).match(sha256).hasMatch()) {
+            if (!isHttpUrl(url) || format.isEmpty() || !std::isfinite(size) || size < 0 || size > 9007199254740991.0 || std::floor(size) != size || !QRegularExpression(QStringLiteral("^[a-fA-F0-9]{64}$")).match(sha256).hasMatch()) {
                 fail(tr("The release manifest is invalid."));
                 return false;
             }
             selected.url = url;
+            selected.format = format;
             selected.size = static_cast<qint64>(size);
             selected.sha256 = QByteArray::fromHex(sha256.toLatin1());
             break;
