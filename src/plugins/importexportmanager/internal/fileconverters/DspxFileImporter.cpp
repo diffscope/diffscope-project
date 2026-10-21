@@ -3,27 +3,26 @@
 
 #include "DspxFileImporter.h"
 
+#include <memory>
 #include <sstream>
 
 #include <QCheckBox>
 #include <QDialog>
-#include <QDir>
 #include <QFile>
+#include <QHBoxLayout>
 #include <QLabel>
+#include <QLoggingCategory>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWindow>
-#include <QLoggingCategory>
-
-#include <CoreApi/runtimeinterface.h>
 
 #include <opendspx/model.h>
-
-#include <SVSCraftQuick/MessageBox.h>
+#include <opendspx/serializer/serializer.h>
+#include <opendspx/singingclip.h>
 
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 
-#include <opendspx/serializer/serializer.h>
+#include <importexportmanager/internal/DsEditorLiteParameterMapper.h>
 
 namespace ImportExportManager::Internal {
 
@@ -66,6 +65,9 @@ namespace ImportExportManager::Internal {
         auto workspaceInstruction = new QLabel(tr("Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues."));
         workspaceInstruction->setWordWrap(true);
         layout->addWidget(workspaceInstruction);
+        auto mapDsEditorLiteParametersCheckBox = new QCheckBox(tr("Map DS Editor Lite DiffSinger parameters"));
+        mapDsEditorLiteParametersCheckBox->setChecked(false);
+        layout->addWidget(mapDsEditorLiteParametersCheckBox);
         layout->addStretch();
         auto buttonLayout = new QHBoxLayout;
         buttonLayout->addStretch();
@@ -78,6 +80,10 @@ namespace ImportExportManager::Internal {
         dlg.setModal(true);
         if (dlg.exec() != QDialog::Accepted) {
             return false;
+        }
+        qCDebug(lcDspxFileImporter) << "Map DS Editor Lite DiffSinger parameters:" << mapDsEditorLiteParametersCheckBox->isChecked();
+        if (mapDsEditorLiteParametersCheckBox->isChecked()) {
+            DsEditorLiteParameterMapper::mapModel(model, DsEditorLiteParameterMapper::Direction::FromDsEditorLite);
         }
         qCDebug(lcDspxFileImporter) << "Keep Workspace data:" << keepWorkspaceDataCheckBox->isChecked();
         if (!keepWorkspaceDataCheckBox->isChecked()) {

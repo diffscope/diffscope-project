@@ -3,29 +3,29 @@
 
 #include "DspxFileExporter.h"
 
+#include <memory>
 #include <sstream>
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
-#include <QDir>
 #include <QFile>
-#include <QLabel>
-#include <QPushButton>
 #include <QFormLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLoggingCategory>
+#include <QPushButton>
 #include <QVBoxLayout>
 #include <QWindow>
-#include <QComboBox>
-#include <QLoggingCategory>
 
-#include <CoreApi/runtimeinterface.h>
-
+#include <opendspx/audioclip.h>
 #include <opendspx/model.h>
-
-#include <SVSCraftQuick/MessageBox.h>
+#include <opendspx/serializer/serializer.h>
+#include <opendspx/singingclip.h>
 
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 
-#include <opendspx/serializer/serializer.h>
+#include <importexportmanager/internal/DsEditorLiteParameterMapper.h>
 
 namespace ImportExportManager::Internal {
 
@@ -57,6 +57,9 @@ namespace ImportExportManager::Internal {
         auto workspaceInstruction = new QLabel(tr("Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues."));
         workspaceInstruction->setWordWrap(true);
         formLayout->addRow(workspaceInstruction);
+        auto mapDsEditorLiteParametersCheckBox = new QCheckBox(tr("Map DS Editor Lite DiffSinger parameters"));
+        mapDsEditorLiteParametersCheckBox->setChecked(false);
+        formLayout->addRow(mapDsEditorLiteParametersCheckBox);
         auto compressCheckbox = new QCheckBox(tr("Compress"));
         compressCheckbox->setChecked(true);
         formLayout->addRow(compressCheckbox);
@@ -76,12 +79,21 @@ namespace ImportExportManager::Internal {
         }
         auto model = model_;
         model.version = versionComboBox->currentData().value<opendspx::Model::Version>();
+        qCDebug(lcDspxFileExporter) << "Map DS Editor Lite DiffSinger parameters:" << mapDsEditorLiteParametersCheckBox->isChecked();
+        if (mapDsEditorLiteParametersCheckBox->isChecked()) {
+            DsEditorLiteParameterMapper::mapModel(model, DsEditorLiteParameterMapper::Direction::ToDsEditorLite);
+        }
         qCDebug(lcDspxFileExporter) << "Keep Workspace data:" << keepWorkspaceDataCheckBox->isChecked();
         if (!keepWorkspaceDataCheckBox->isChecked()) {
             model.content.workspace.clear();
             for (auto &track : model.content.tracks) {
                 track.workspace.clear();
                 for (auto &clip : track.clips) {
+                    if (clip->type == opendspx::Clip::Type::Singing) {
+                        clip = std::make_shared<opendspx::SingingClip>(*std::static_pointer_cast<opendspx::SingingClip>(clip));
+                    } else {
+                        clip = std::make_shared<opendspx::AudioClip>(*std::static_pointer_cast<opendspx::AudioClip>(clip));
+                    }
                     clip->workspace.clear();
                     if (clip->type != opendspx::Clip::Type::Singing) {
                         continue;
