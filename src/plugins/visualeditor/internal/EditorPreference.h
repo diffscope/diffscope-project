@@ -43,6 +43,12 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
         Q_PROPERTY(bool showSingerBackground READ showSingerBackground WRITE setShowSingerBackground NOTIFY showSingerBackgroundChanged)
         Q_PROPERTY(double singerBackgroundOpacity READ singerBackgroundOpacity WRITE setSingerBackgroundOpacity NOTIFY singerBackgroundOpacityChanged)
+        Q_PROPERTY(EditorPreference::SingerBackgroundAlignment singerBackgroundAlignment READ singerBackgroundAlignment WRITE setSingerBackgroundAlignment NOTIFY singerBackgroundAlignmentChanged)
+        Q_PROPERTY(int singerBackgroundHorizontalMargin READ singerBackgroundHorizontalMargin WRITE setSingerBackgroundHorizontalMargin NOTIFY singerBackgroundHorizontalMarginChanged)
+        Q_PROPERTY(int singerBackgroundHorizontalOffset READ singerBackgroundHorizontalOffset WRITE setSingerBackgroundHorizontalOffset NOTIFY singerBackgroundHorizontalOffsetChanged)
+        Q_PROPERTY(int singerBackgroundVerticalMargin READ singerBackgroundVerticalMargin WRITE setSingerBackgroundVerticalMargin NOTIFY singerBackgroundVerticalMarginChanged)
+        Q_PROPERTY(bool showAllSingerBackgrounds READ showAllSingerBackgrounds WRITE setShowAllSingerBackgrounds NOTIFY showAllSingerBackgroundsChanged)
+        Q_PROPERTY(int singerBackgroundSpacing READ singerBackgroundSpacing WRITE setSingerBackgroundSpacing NOTIFY singerBackgroundSpacingChanged)
         Q_PROPERTY(double bottomPanelOpacity READ bottomPanelOpacity WRITE setBottomPanelOpacity NOTIFY bottomPanelOpacityChanged)
 
     public:
@@ -85,6 +91,13 @@ namespace VisualEditor::Internal {
             APOB_ZoomToFit,
         };
         Q_ENUM(PianoRollAutoPageOverflowBehavior)
+
+        enum SingerBackgroundAlignment {
+            SBA_Left,
+            SBA_Center,
+            SBA_Right,
+        };
+        Q_ENUM(SingerBackgroundAlignment)
 
         static ScrollModifier alternateAxisModifier();
         static void setAlternateAxisModifier(ScrollModifier alternateAxisModifier);
@@ -149,6 +162,24 @@ namespace VisualEditor::Internal {
         static double singerBackgroundOpacity();
         static void setSingerBackgroundOpacity(double singerBackgroundOpacity);
 
+        static SingerBackgroundAlignment singerBackgroundAlignment();
+        static void setSingerBackgroundAlignment(SingerBackgroundAlignment singerBackgroundAlignment);
+
+        static int singerBackgroundHorizontalMargin();
+        static void setSingerBackgroundHorizontalMargin(int singerBackgroundHorizontalMargin);
+
+        static int singerBackgroundHorizontalOffset();
+        static void setSingerBackgroundHorizontalOffset(int singerBackgroundHorizontalOffset);
+
+        static int singerBackgroundVerticalMargin();
+        static void setSingerBackgroundVerticalMargin(int singerBackgroundVerticalMargin);
+
+        static bool showAllSingerBackgrounds();
+        static void setShowAllSingerBackgrounds(bool showAllSingerBackgrounds);
+
+        static int singerBackgroundSpacing();
+        static void setSingerBackgroundSpacing(int singerBackgroundSpacing);
+
         static double bottomPanelOpacity();
         static void setBottomPanelOpacity(double bottomPanelOpacity);
 
@@ -174,6 +205,12 @@ namespace VisualEditor::Internal {
         void trackCursorPositionChanged();
         void showSingerBackgroundChanged();
         void singerBackgroundOpacityChanged();
+        void singerBackgroundAlignmentChanged();
+        void singerBackgroundHorizontalMarginChanged();
+        void singerBackgroundHorizontalOffsetChanged();
+        void singerBackgroundVerticalMarginChanged();
+        void showAllSingerBackgroundsChanged();
+        void singerBackgroundSpacingChanged();
         void bottomPanelOpacityChanged();
 
     private:

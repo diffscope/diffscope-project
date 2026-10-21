@@ -833,15 +833,29 @@ Item {
                                 id: singerBackgroundRow
 
                                 anchors.top: parent.top
-                                anchors.right: parent.right
                                 anchors.bottom: parent.bottom
-                                anchors.margins: 32
-                                spacing: 16
+                                anchors.topMargin: EditorPreference.singerBackgroundVerticalMargin
+                                anchors.bottomMargin: EditorPreference.singerBackgroundVerticalMargin
+                                x: {
+                                    switch (EditorPreference.singerBackgroundAlignment) {
+                                    case EditorPreference.SBA_Left:
+                                        return EditorPreference.singerBackgroundHorizontalMargin
+                                    case EditorPreference.SBA_Center:
+                                        return (parent.width - width) / 2
+                                            + EditorPreference.singerBackgroundHorizontalOffset
+                                    default:
+                                        return parent.width - width
+                                            - EditorPreference.singerBackgroundHorizontalMargin
+                                    }
+                                }
+                                spacing: EditorPreference.singerBackgroundSpacing
                                 visible: EditorPreference.showSingerBackground
                                 opacity: EditorPreference.singerBackgroundOpacity
 
                                 Repeater {
-                                    model: view.singerBackgroundIds
+                                    model: EditorPreference.showAllSingerBackgrounds
+                                           ? view.singerBackgroundIds
+                                           : view.singerBackgroundIds.slice(0, 1)
 
                                     delegate: Image {
                                         id: singerBackgroundImage

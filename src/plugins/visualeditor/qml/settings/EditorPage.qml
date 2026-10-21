@@ -37,6 +37,12 @@ ScrollView {
     property bool trackCursorPosition: false
     property bool showSingerBackground: true
     property double singerBackgroundOpacity: 0.25
+    property int singerBackgroundAlignment: EditorPreference.SBA_Right
+    property int singerBackgroundHorizontalMargin: 32
+    property int singerBackgroundHorizontalOffset: 0
+    property int singerBackgroundVerticalMargin: 32
+    property bool showAllSingerBackgrounds: true
+    property int singerBackgroundSpacing: 16
     property double bottomPanelOpacity: 0.5
 
     onAlternateAxisModifierChanged: if (started) pageHandle.markDirty()
@@ -60,6 +66,12 @@ ScrollView {
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
     onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
     onSingerBackgroundOpacityChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundAlignmentChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundHorizontalMarginChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundHorizontalOffsetChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundVerticalMarginChanged: if (started) pageHandle.markDirty()
+    onShowAllSingerBackgroundsChanged: if (started) pageHandle.markDirty()
+    onSingerBackgroundSpacingChanged: if (started) pageHandle.markDirty()
     onBottomPanelOpacityChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -380,33 +392,216 @@ ScrollView {
                         onClicked: page.showSingerBackground = checked
                     }
 
-                    Label {
-                        text: qsTr("Singer background opacity")
-                        TextMatcherItem on text { matcher: page.matcher }
-                        enabled: page.showSingerBackground
-                    }
-                    Slider {
+                    RowLayout {
+                        Layout.columnSpan: 3
                         Layout.fillWidth: true
-                        from: 0
-                        to: 1
-                        value: page.singerBackgroundOpacity
+                        Layout.leftMargin: singerBackgroundOpacitySpinBox.mirrored ? 0 : 22
+                        Layout.rightMargin: singerBackgroundOpacitySpinBox.mirrored ? 22 : 0
                         enabled: page.showSingerBackground
-                        onMoved: page.singerBackgroundOpacity = value
-                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                        ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
-                    }
-                    DoubleSpinBox {
-                        decimals: 0
-                        from: 0
-                        to: 100
-                        value: Math.round(page.singerBackgroundOpacity * 100)
-                        enabled: page.showSingerBackground
-                        onValueModified: page.singerBackgroundOpacity = value / 100.0
-                        textFromValue: function(value, decimals, locale) {
-                            return value + "%"
+
+                        Label {
+                            id: singerBackgroundOpacityLabel
+                            text: qsTr("Singer background opacity")
+                            TextMatcherItem on text { matcher: page.matcher }
                         }
-                        valueFromText: function(text, locale) {
-                            return parseInt(text.replace("%", ""))
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 1
+                            value: page.singerBackgroundOpacity
+                            Accessible.name: singerBackgroundOpacityLabel.text
+                            onMoved: page.singerBackgroundOpacity = value
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
+                        }
+                        DoubleSpinBox {
+                            id: singerBackgroundOpacitySpinBox
+                            decimals: 0
+                            from: 0
+                            to: 100
+                            value: Math.round(page.singerBackgroundOpacity * 100)
+                            Accessible.name: singerBackgroundOpacityLabel.text
+                            onValueModified: page.singerBackgroundOpacity = value / 100.0
+                            textFromValue: function(value, decimals, locale) {
+                                return value + "%"
+                            }
+                            valueFromText: function(text, locale) {
+                                return parseInt(text.replace("%", ""))
+                            }
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: singerBackgroundAlignmentComboBox.mirrored ? 0 : 22
+                        Layout.rightMargin: singerBackgroundAlignmentComboBox.mirrored ? 22 : 0
+                        enabled: page.showSingerBackground
+
+                        Label {
+                            id: singerBackgroundAlignmentLabel
+                            text: qsTr("Background alignment")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
+                        ComboBox {
+                            id: singerBackgroundAlignmentComboBox
+                            model: [qsTr("Left"), qsTr("Center"), qsTr("Right")]
+                            currentIndex: page.singerBackgroundAlignment
+                            Accessible.name: singerBackgroundAlignmentLabel.text
+                            onActivated: (index) => page.singerBackgroundAlignment = index
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: singerBackgroundHorizontalMarginSpinBox.mirrored ? 0 : 22
+                        Layout.rightMargin: singerBackgroundHorizontalMarginSpinBox.mirrored ? 22 : 0
+                        enabled: page.showSingerBackground
+                                 && (page.singerBackgroundAlignment === EditorPreference.SBA_Left
+                                     || page.singerBackgroundAlignment === EditorPreference.SBA_Right)
+
+                        Label {
+                            id: singerBackgroundHorizontalMarginLabel
+                            text: qsTr("Horizontal margin")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 200
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: page.singerBackgroundHorizontalMargin
+                            Accessible.name: singerBackgroundHorizontalMarginLabel.text
+                            onMoved: page.singerBackgroundHorizontalMargin = Math.round(value)
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalMargin = 32
+                        }
+                        SpinBox {
+                            id: singerBackgroundHorizontalMarginSpinBox
+                            from: 0
+                            to: 200
+                            value: page.singerBackgroundHorizontalMargin
+                            Accessible.name: singerBackgroundHorizontalMarginLabel.text
+                            onValueModified: page.singerBackgroundHorizontalMargin = value
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: singerBackgroundHorizontalOffsetSpinBox.mirrored ? 0 : 22
+                        Layout.rightMargin: singerBackgroundHorizontalOffsetSpinBox.mirrored ? 22 : 0
+                        enabled: page.showSingerBackground
+                                 && page.singerBackgroundAlignment === EditorPreference.SBA_Center
+
+                        Label {
+                            id: singerBackgroundHorizontalOffsetLabel
+                            text: qsTr("Horizontal offset")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: -200
+                            to: 200
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: page.singerBackgroundHorizontalOffset
+                            Accessible.name: singerBackgroundHorizontalOffsetLabel.text
+                            onMoved: page.singerBackgroundHorizontalOffset = Math.round(value)
+                            ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalOffset = 0
+                        }
+                        SpinBox {
+                            id: singerBackgroundHorizontalOffsetSpinBox
+                            from: -200
+                            to: 200
+                            value: page.singerBackgroundHorizontalOffset
+                            Accessible.name: singerBackgroundHorizontalOffsetLabel.text
+                            onValueModified: page.singerBackgroundHorizontalOffset = value
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: singerBackgroundVerticalMarginSpinBox.mirrored ? 0 : 22
+                        Layout.rightMargin: singerBackgroundVerticalMarginSpinBox.mirrored ? 22 : 0
+                        enabled: page.showSingerBackground
+
+                        Label {
+                            id: singerBackgroundVerticalMarginLabel
+                            text: qsTr("Vertical margin")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 100
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: page.singerBackgroundVerticalMargin
+                            Accessible.name: singerBackgroundVerticalMarginLabel.text
+                            onMoved: page.singerBackgroundVerticalMargin = Math.round(value)
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            ThemedItem.onDoubleClickReset: page.singerBackgroundVerticalMargin = 32
+                        }
+                        SpinBox {
+                            id: singerBackgroundVerticalMarginSpinBox
+                            from: 0
+                            to: 100
+                            value: page.singerBackgroundVerticalMargin
+                            Accessible.name: singerBackgroundVerticalMarginLabel.text
+                            onValueModified: page.singerBackgroundVerticalMargin = value
+                        }
+                    }
+
+                    CheckBox {
+                        id: showAllSingerBackgroundsCheckBox
+                        text: qsTr("Show all singer backgrounds when blending voices")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        Layout.leftMargin: mirrored ? 0 : 22
+                        Layout.rightMargin: mirrored ? 22 : 0
+                        enabled: page.showSingerBackground
+                        checked: page.showAllSingerBackgrounds
+                        onClicked: page.showAllSingerBackgrounds = checked
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.fillWidth: true
+                        Layout.leftMargin: singerBackgroundSpacingSpinBox.mirrored ? 0 : 44
+                        Layout.rightMargin: singerBackgroundSpacingSpinBox.mirrored ? 44 : 0
+                        enabled: page.showSingerBackground && page.showAllSingerBackgrounds
+
+                        Label {
+                            id: singerBackgroundSpacingLabel
+                            text: qsTr("Singer background spacing")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        Slider {
+                            Layout.fillWidth: true
+                            from: 0
+                            to: 100
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: page.singerBackgroundSpacing
+                            Accessible.name: singerBackgroundSpacingLabel.text
+                            onMoved: page.singerBackgroundSpacing = Math.round(value)
+                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                            ThemedItem.onDoubleClickReset: page.singerBackgroundSpacing = 16
+                        }
+                        SpinBox {
+                            id: singerBackgroundSpacingSpinBox
+                            from: 0
+                            to: 100
+                            value: page.singerBackgroundSpacing
+                            Accessible.name: singerBackgroundSpacingLabel.text
+                            onValueModified: page.singerBackgroundSpacing = value
                         }
                     }
 

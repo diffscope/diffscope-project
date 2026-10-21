@@ -38,6 +38,12 @@ namespace VisualEditor::Internal {
         bool trackCursorPosition{true};
         bool showSingerBackground{true};
         double singerBackgroundOpacity{0.25};
+        EditorPreference::SingerBackgroundAlignment singerBackgroundAlignment{EditorPreference::SBA_Right};
+        int singerBackgroundHorizontalMargin{32};
+        int singerBackgroundHorizontalOffset{};
+        int singerBackgroundVerticalMargin{32};
+        bool showAllSingerBackgrounds{true};
+        int singerBackgroundSpacing{16};
         double bottomPanelOpacity{0.5};
     };
 
@@ -103,6 +109,18 @@ namespace VisualEditor::Internal {
         d->singerBackgroundOpacity = qBound(
             0.0, settings->value("singerBackgroundOpacity", 0.25).toDouble(), 1.0);
         emit singerBackgroundOpacityChanged();
+        d->singerBackgroundAlignment = settings->value("singerBackgroundAlignment", QVariant::fromValue(SBA_Right)).value<SingerBackgroundAlignment>();
+        Q_EMIT singerBackgroundAlignmentChanged();
+        d->singerBackgroundHorizontalMargin = settings->value("singerBackgroundHorizontalMargin", 32).toInt();
+        Q_EMIT singerBackgroundHorizontalMarginChanged();
+        d->singerBackgroundHorizontalOffset = settings->value("singerBackgroundHorizontalOffset", 0).toInt();
+        Q_EMIT singerBackgroundHorizontalOffsetChanged();
+        d->singerBackgroundVerticalMargin = settings->value("singerBackgroundVerticalMargin", 32).toInt();
+        Q_EMIT singerBackgroundVerticalMarginChanged();
+        d->showAllSingerBackgrounds = settings->value("showAllSingerBackgrounds", true).toBool();
+        Q_EMIT showAllSingerBackgroundsChanged();
+        d->singerBackgroundSpacing = settings->value("singerBackgroundSpacing", 16).toInt();
+        Q_EMIT singerBackgroundSpacingChanged();
         d->bottomPanelOpacity = qBound(
             0.0, settings->value("bottomPanelOpacity", 0.5).toDouble(), 1.0);
         emit bottomPanelOpacityChanged();
@@ -134,6 +152,12 @@ namespace VisualEditor::Internal {
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->setValue("showSingerBackground", d->showSingerBackground);
         settings->setValue("singerBackgroundOpacity", d->singerBackgroundOpacity);
+        settings->setValue("singerBackgroundAlignment", static_cast<int>(d->singerBackgroundAlignment));
+        settings->setValue("singerBackgroundHorizontalMargin", d->singerBackgroundHorizontalMargin);
+        settings->setValue("singerBackgroundHorizontalOffset", d->singerBackgroundHorizontalOffset);
+        settings->setValue("singerBackgroundVerticalMargin", d->singerBackgroundVerticalMargin);
+        settings->setValue("showAllSingerBackgrounds", d->showAllSingerBackgrounds);
+        settings->setValue("singerBackgroundSpacing", d->singerBackgroundSpacing);
         settings->setValue("bottomPanelOpacity", d->bottomPanelOpacity);
         settings->endGroup();
     }
@@ -413,6 +437,84 @@ namespace VisualEditor::Internal {
             return;
         d->singerBackgroundOpacity = singerBackgroundOpacity;
         emit m_instance->singerBackgroundOpacityChanged();
+    }
+
+    EditorPreference::SingerBackgroundAlignment EditorPreference::singerBackgroundAlignment() {
+        M_INSTANCE_D;
+        return d->singerBackgroundAlignment;
+    }
+
+    void EditorPreference::setSingerBackgroundAlignment(SingerBackgroundAlignment singerBackgroundAlignment) {
+        M_INSTANCE_D;
+        if (d->singerBackgroundAlignment == singerBackgroundAlignment)
+            return;
+        d->singerBackgroundAlignment = singerBackgroundAlignment;
+        Q_EMIT m_instance->singerBackgroundAlignmentChanged();
+    }
+
+    int EditorPreference::singerBackgroundHorizontalMargin() {
+        M_INSTANCE_D;
+        return d->singerBackgroundHorizontalMargin;
+    }
+
+    void EditorPreference::setSingerBackgroundHorizontalMargin(int singerBackgroundHorizontalMargin) {
+        M_INSTANCE_D;
+        if (d->singerBackgroundHorizontalMargin == singerBackgroundHorizontalMargin)
+            return;
+        d->singerBackgroundHorizontalMargin = singerBackgroundHorizontalMargin;
+        Q_EMIT m_instance->singerBackgroundHorizontalMarginChanged();
+    }
+
+    int EditorPreference::singerBackgroundHorizontalOffset() {
+        M_INSTANCE_D;
+        return d->singerBackgroundHorizontalOffset;
+    }
+
+    void EditorPreference::setSingerBackgroundHorizontalOffset(int singerBackgroundHorizontalOffset) {
+        M_INSTANCE_D;
+        if (d->singerBackgroundHorizontalOffset == singerBackgroundHorizontalOffset)
+            return;
+        d->singerBackgroundHorizontalOffset = singerBackgroundHorizontalOffset;
+        Q_EMIT m_instance->singerBackgroundHorizontalOffsetChanged();
+    }
+
+    int EditorPreference::singerBackgroundVerticalMargin() {
+        M_INSTANCE_D;
+        return d->singerBackgroundVerticalMargin;
+    }
+
+    void EditorPreference::setSingerBackgroundVerticalMargin(int singerBackgroundVerticalMargin) {
+        M_INSTANCE_D;
+        if (d->singerBackgroundVerticalMargin == singerBackgroundVerticalMargin)
+            return;
+        d->singerBackgroundVerticalMargin = singerBackgroundVerticalMargin;
+        Q_EMIT m_instance->singerBackgroundVerticalMarginChanged();
+    }
+
+    bool EditorPreference::showAllSingerBackgrounds() {
+        M_INSTANCE_D;
+        return d->showAllSingerBackgrounds;
+    }
+
+    void EditorPreference::setShowAllSingerBackgrounds(bool showAllSingerBackgrounds) {
+        M_INSTANCE_D;
+        if (d->showAllSingerBackgrounds == showAllSingerBackgrounds)
+            return;
+        d->showAllSingerBackgrounds = showAllSingerBackgrounds;
+        Q_EMIT m_instance->showAllSingerBackgroundsChanged();
+    }
+
+    int EditorPreference::singerBackgroundSpacing() {
+        M_INSTANCE_D;
+        return d->singerBackgroundSpacing;
+    }
+
+    void EditorPreference::setSingerBackgroundSpacing(int singerBackgroundSpacing) {
+        M_INSTANCE_D;
+        if (d->singerBackgroundSpacing == singerBackgroundSpacing)
+            return;
+        d->singerBackgroundSpacing = singerBackgroundSpacing;
+        Q_EMIT m_instance->singerBackgroundSpacingChanged();
     }
 
     double EditorPreference::bottomPanelOpacity() {
