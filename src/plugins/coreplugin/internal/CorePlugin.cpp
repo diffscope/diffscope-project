@@ -251,7 +251,16 @@ namespace Core::Internal {
     }
 
     bool CorePlugin::eventFilter(QObject *obj, QEvent *event) {
-        // TODO open file
+        if (obj == qApp && event->type() == QEvent::FileOpen) {
+            const auto filePath = static_cast<QFileOpenEvent *>(event)->file();
+            if (!filePath.isEmpty()) {
+                auto firstWindow = CoreInterface::windowSystem()->firstWindow();
+                if (auto windowInterface = CoreInterface::openFile(filePath, firstWindow ? firstWindow->window() : nullptr)) {
+                    ProjectWindowNavigatorAddOn::raiseWindow(windowInterface);
+                }
+            }
+            return true;
+        }
         return QObject::eventFilter(obj, event);
     }
 
