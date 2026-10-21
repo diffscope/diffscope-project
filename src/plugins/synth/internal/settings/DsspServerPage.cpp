@@ -263,6 +263,27 @@ namespace Synth::Internal {
         m_devices->refresh(m_manager->executablePath(m_configuration));
     }
 
+    void DsspServerPage::downloadInstallation() {
+        auto item = qobject_cast<QQuickItem *>(widget());
+        const auto id = m_manager->downloadInstallation(item ? item->window() : nullptr);
+        if (!id.isEmpty())
+            setValue(QStringLiteral("installationId"), id);
+    }
+
+    void DsspServerPage::uninstallInstallation() {
+        if (!m_configuration.installationId.startsWith(QStringLiteral("downloaded:")))
+            return;
+        const auto id = m_configuration.installationId;
+        if (!m_devices->cancelAndWait()) {
+            setErrorMessage(tr("Could not stop device discovery."));
+            return;
+        }
+        auto item = qobject_cast<QQuickItem *>(widget());
+        if (m_manager->uninstallInstallation(id, item ? item->window() : nullptr))
+            setValue(QStringLiteral("installationId"), m_manager->defaultConfiguration().installationId);
+        refreshDevices();
+    }
+
     void DsspServerPage::normalizePackageDirectory() {
         setValue(QStringLiteral("packageDirectory"), DsspServerManager::normalizedPath(m_configuration.packageDirectory));
     }

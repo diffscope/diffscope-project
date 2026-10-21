@@ -45,6 +45,8 @@ namespace Synth::Internal {
         Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
         Q_INVOKABLE void addLocalInstallation(const QUrl &url);
         Q_INVOKABLE void removeLocalInstallation();
+        Q_INVOKABLE void downloadInstallation();
+        Q_INVOKABLE void uninstallInstallation();
         Q_INVOKABLE void refreshDevices();
         Q_INVOKABLE void normalizePackageDirectory();
         Q_INVOKABLE QString localFilePath(const QUrl &url) const;

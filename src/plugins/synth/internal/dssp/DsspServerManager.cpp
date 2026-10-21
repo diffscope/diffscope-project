@@ -8,20 +8,26 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QLoggingCategory>
+#include <QPair>
 #include <QProcess>
+#include <QScopeGuard>
+#include <QScopedValueRollback>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QStringList>
+#include <QTemporaryDir>
 #include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftCore/Semver.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/NotificationMessage.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
+#include <synth/internal/DsspInstaller.h>
 
 namespace Synth::Internal {
 
@@ -218,9 +224,21 @@ namespace Synth::Internal {
             const auto path = QDir(directory.absoluteFilePath()).filePath(QStringLiteral("bin/") + executableName());
             if (!QFileInfo(path).isFile())
                 continue;
+            auto name = tr("Downloaded %1").arg(directory.fileName());
+            const QList<QPair<QString, QString>> channels{
+                {QStringLiteral("stable"), tr("Stable")},
+                {QStringLiteral("beta"), tr("Beta")},
+                {QStringLiteral("nightly"), tr("Nightly")},
+            };
+            for (const auto &[id, label] : channels) {
+                if (directory.fileName().startsWith(id + u'-')) {
+                    name = tr("DiffSinger Synthesis Program %1 (%2)").arg(directory.fileName().sliced(id.size() + 1), label);
+                    break;
+                }
+            }
             result.append(QVariantMap{
                 {QStringLiteral("id"), QStringLiteral("downloaded:") + directory.fileName()},
-                {QStringLiteral("name"), tr("Downloaded %1").arg(directory.fileName())},
+                {QStringLiteral("name"), name},
                 {QStringLiteral("path"), normalizedPath(path)},
             });
         }
@@ -286,6 +304,90 @@ namespace Synth::Internal {
         return normalizedPath(QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("dssp/versions")));
     }
 
+    QString DsspServerManager::downloadInstallation(QWindow *parent) {
+        if (m_shutdown || m_installationBusy)
+            return {};
+        const auto notifyState = qScopeGuard([this] { Q_EMIT stateChanged(); });
+        QScopedValueRollback guard(m_installationBusy, true);
+        Q_EMIT stateChanged();
+        const auto id = DsspInstaller::download(downloadedVersionsDirectory(), parent);
+        if (!id.isEmpty())
+            Q_EMIT installationNamesChanged();
+        return id;
+    }
+
+    bool DsspServerManager::uninstallInstallation(const QString &id, QWindow *parent) {
+        if (m_shutdown || m_installationBusy || !id.startsWith(QStringLiteral("downloaded:")))
+            return false;
+        auto selected = m_configuration;
+        selected.installationId = id;
+        const auto executable = executablePath(selected);
+        if (executable.isEmpty())
+            return false;
+        const auto directory = QDir(downloadedVersionsDirectory()).filePath(id.sliced(11));
+        const auto directoryInfo = QFileInfo(directory);
+        const auto withinInstallation = [&directory](const QString &path) {
+            if (path.isEmpty())
+                return false;
+            const auto relative = QDir(directory).relativeFilePath(path);
+            return !QDir::isAbsolutePath(relative) && relative != QStringLiteral("..") && !relative.startsWith(QStringLiteral("../"));
+        };
+        if (!directoryInfo.isDir() || directoryInfo.isSymLink() || !withinInstallation(executable))
+            return false;
+        const auto notifyState = qScopeGuard([this] { Q_EMIT stateChanged(); });
+        QScopedValueRollback guard(m_installationBusy, true);
+        Q_EMIT stateChanged();
+        const bool inUse = withinInstallation(m_startExecutable) && (m_startPending || m_process->state() != QProcess::NotRunning);
+        auto prompt = tr("Uninstall %1? All files in this installation directory will be deleted:\n%2").arg(id.sliced(11), normalizedPath(directory));
+        if (inUse)
+            prompt += u'\n' + tr("DiffSinger Synthesis Program will be stopped before this version is uninstalled.");
+        if (SVS::MessageBox::question(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstall DiffSinger Synthesis Program"), prompt,
+                SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No) != SVS::SVSCraft::Yes)
+            return false;
+        if (inUse) {
+            stop();
+            if (!m_devices->cancelAndWait()) {
+                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop device discovery."));
+                return false;
+            }
+            if (m_process->state() != QProcess::NotRunning && !m_process->waitForFinished(5000)) {
+                m_process->kill();
+                m_process->waitForFinished(1000);
+            }
+            if (m_process->state() != QProcess::NotRunning) {
+                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop DiffSinger Synthesis Program."));
+                return false;
+            }
+        }
+        m_pendingVersionPaths.removeIf(withinInstallation);
+        if (withinInstallation(m_versionPath)) {
+            m_versionPath.clear();
+            m_versionTimer->stop();
+            m_versionProcess->kill();
+            m_versionProcess->waitForFinished(1000);
+            if (m_versionProcess->state() != QProcess::NotRunning) {
+                SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not stop the version query."));
+                return false;
+            }
+        }
+        QTemporaryDir removal(QDir(downloadedVersionsDirectory()).filePath(QStringLiteral(".dssp-remove-XXXXXX")));
+        if (!removal.isValid() || !QDir().rename(directory, QDir(removal.path()).filePath(QStringLiteral("installation")))) {
+            SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Failed"), tr("Could not remove the installation:\n%1").arg(normalizedPath(directory)));
+            return false;
+        }
+        if (m_configuration.installationId == id || withinInstallation(executablePath())) {
+            auto configuration = m_configuration;
+            configuration.installationId = defaultConfiguration().installationId;
+            setConfiguration(configuration);
+        }
+        Q_EMIT installationNamesChanged();
+        if (!removal.remove()) {
+            removal.setAutoRemove(false);
+            SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), parent, tr("Uninstallation Cleanup Failed"), tr("The version was uninstalled, but some files could not be deleted:\n%1").arg(normalizedPath(removal.path())));
+        }
+        return true;
+    }
+
     QString DsspServerManager::executablePath() const {
         return executablePath(m_configuration);
     }
@@ -320,7 +422,7 @@ namespace Synth::Internal {
     }
 
     bool DsspServerManager::canStart() const {
-        return !m_shutdown && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
+        return !m_shutdown && !m_installationBusy && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
     }
 
     bool DsspServerManager::canStop() const {
@@ -328,7 +430,7 @@ namespace Synth::Internal {
     }
 
     bool DsspServerManager::canRestart() const {
-        return !m_shutdown && !m_stopping && !executablePath().isEmpty();
+        return !m_shutdown && !m_installationBusy && !m_stopping && !executablePath().isEmpty();
     }
 
     QString DsspServerManager::statusIcon() const {
@@ -462,6 +564,8 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::restart() {
+        if (m_installationBusy)
+            return;
         if (!m_shutdown && m_stopping && !executablePath().isEmpty()) {
             m_restartPending = true;
             return;

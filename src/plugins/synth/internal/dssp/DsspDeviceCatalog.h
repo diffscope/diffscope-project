@@ -34,6 +34,7 @@ namespace Synth::Internal {
 
         void refresh(const QString &executablePath);
         void cancel();
+        bool cancelAndWait();
 
     Q_SIGNALS:
         void changed();

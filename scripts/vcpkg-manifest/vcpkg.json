@@ -36,7 +36,10 @@
         "opendspx",
         {
             "name": "libarchive",
-            "default-features": false
+            "default-features": false,
+            "features": [
+                "lzma"
+            ]
         },
         "xxhash",
         "signalsmith-dsp",

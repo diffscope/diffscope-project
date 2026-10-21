@@ -22,13 +22,20 @@ namespace Synth::Internal {
     }
 
     DsspDeviceCatalog::~DsspDeviceCatalog() {
+        cancelAndWait();
+    }
+
+    bool DsspDeviceCatalog::cancelAndWait() {
         cancel();
+        bool stopped = true;
         for (auto process : findChildren<QProcess *>(QString{}, Qt::FindDirectChildrenOnly)) {
             if (process->state() != QProcess::NotRunning) {
                 process->kill();
                 process->waitForFinished(1000);
+                stopped &= process->state() == QProcess::NotRunning;
             }
         }
+        return stopped;
     }
 
     QVariantList DsspDeviceCatalog::providers() const {

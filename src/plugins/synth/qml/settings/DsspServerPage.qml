@@ -158,11 +158,14 @@ ScrollView {
                             text: qsTr("Download DiffSinger Synthesis Program...")
                             icon.source: "image://fluent-system-icons/arrow_download"
                             TextMatcherItem on text { matcher: page.matcher }
+                            onClicked: page.pageHandle.downloadInstallation()
                         }
                         Button {
                             text: qsTr("Uninstall Downloaded Version")
                             icon.source: "image://fluent-system-icons/delete"
+                            enabled: page.configuration.installationId.startsWith("downloaded:")
                             TextMatcherItem on text { matcher: page.matcher }
+                            onClicked: page.pageHandle.uninstallInstallation()
                         }
                     }
 

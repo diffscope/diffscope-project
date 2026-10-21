@@ -15,6 +15,7 @@
 
 class QProcess;
 class QTimer;
+class QWindow;
 
 namespace Synth::Internal {
 
@@ -64,6 +65,8 @@ namespace Synth::Internal {
         QString executablePath() const;
         QString executablePath(const DsspServerConfiguration &configuration) const;
         static QString normalizedPath(const QString &path);
+        QString downloadInstallation(QWindow *parent);
+        bool uninstallInstallation(const QString &id, QWindow *parent);
 
         bool running() const;
         bool canStart() const;
@@ -122,6 +125,7 @@ namespace Synth::Internal {
         bool m_lastRunFailed{};
         bool m_shutdown{};
         bool m_notificationsReady{};
+        bool m_installationBusy{};
         QString m_failureMessage;
         QList<LogNotification> m_pendingLogNotifications;
     };
