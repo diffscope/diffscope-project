@@ -53,7 +53,7 @@ PropertyEditorGroupBox {
                 Layout.fillWidth: true
                 label: qsTr("Maximum length")
                 rowItem: CheckBox {
-                    text: "Fix maximum length"
+                    text: qsTr("Fix maximum length")
                     tristate: true
                     checkState: lengthFixedField.propertyMapper?.inactive ? Qt.Unchecked : lengthFixedField.value === undefined ? Qt.PartiallyChecked : lengthFixedField.value ? Qt.Checked : Qt.Unchecked
                     nextCheckState: function() {
