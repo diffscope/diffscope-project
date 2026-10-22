@@ -63,7 +63,7 @@ namespace PackageManager {
 
         AppInstall::InstallationManager *m_installations{};
         QString m_packageDir;
-        int m_timeoutSeconds{5};
+        int m_timeoutSeconds{30};
     };
 
 }

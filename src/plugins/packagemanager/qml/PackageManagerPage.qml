@@ -18,7 +18,7 @@ ScrollView {
     required property QtObject pageHandle
     property bool started: false
     property string packageDir: ""
-    property int timeoutSeconds: 5
+    property int timeoutSeconds: 30
 
     onPackageDirChanged: if (started) pageHandle.markDirty()
     onTimeoutSecondsChanged: if (started) pageHandle.markDirty()

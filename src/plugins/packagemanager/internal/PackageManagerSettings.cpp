@@ -142,7 +142,7 @@ namespace PackageManager {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
         m_packageDir = settings->value("packageDir", defaultPackageDir()).toString();
-        m_timeoutSeconds = std::max(1, settings->value("timeoutSeconds", 5).toInt());
+        m_timeoutSeconds = std::max(1, settings->value("timeoutSeconds", 30).toInt());
         settings->endGroup();
 
         Q_EMIT packageDirChanged();
