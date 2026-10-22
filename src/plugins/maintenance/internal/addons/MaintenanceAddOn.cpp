@@ -63,7 +63,7 @@ namespace Maintenance {
     static const QUrl ISSUE_URL("https://github.com/diffscope/diffscope-project/issues");
     static const QUrl CONTRIBUTE_URL("https://diffscope.org/contribute");
     static const QUrl COMMUNITY_URL("https://diffscope.org/community");
-    static const QUrl RELEASE_LOG_URL("https://diffscope.org/releases/" APPLICATION_SEMVER);
+    static const QUrl RELEASE_LOG_URL("https://github.com/diffscope/diffscope-project/releases/tag/v" APPLICATION_SEMVER);
 
     void MaintenanceAddOn::reveal(RevealFlag flag) {
         qCInfo(lcMaintenanceAddOn) << "Reveal" << flag;
