@@ -18,9 +18,9 @@
 #include <QVariant>
 #include <QtGlobal>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerUtils, "diffscope.packagemanager.utils")
+    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerUtils, "diffscope.synth.utils")
 
     namespace {
 
@@ -75,12 +75,12 @@ namespace PackageManager {
             return result;
         }
         if (executablePath.isEmpty()) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "No package manager installation is selected. Configure it in Settings > Package Manager.");
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "No package manager installation is selected. Configure it in Settings > Synthesis > Package Manager.");
             return result;
         }
 
         if (!QFileInfo(executablePath).isFile()) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command line tool does not exist:\n\n%1\n\nPlease install dspm and configure it in Settings > Package Manager.").arg(executablePath);
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command line tool does not exist:\n\n%1\n\nPlease install dspm and configure it in Settings > Synthesis > Package Manager.").arg(executablePath);
             return result;
         }
 
@@ -168,7 +168,7 @@ namespace PackageManager {
         if (result.cancelled)
             return result;
         if (timedOut) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command produced no output for %L1 seconds.").arg(std::max(1, timeoutSeconds));
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command produced no output for %L1 seconds.").arg(std::max(1, timeoutSeconds));
             return result;
         }
         if (processError && !processFinished) {
@@ -181,7 +181,7 @@ namespace PackageManager {
                 result.errorMessage = QString::fromUtf8(result.stdOut).trimmed();
             }
             if (result.errorMessage.isEmpty()) {
-                result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command exited with code %1.").arg(process.exitCode());
+                result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command exited with code %1.").arg(process.exitCode());
             }
             return result;
         }
@@ -197,9 +197,9 @@ namespace PackageManager {
         const auto document = QJsonDocument::fromJson(result.stdOut);
         result.ok = false;
         if (!document.isObject()) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command did not return valid JSON.");
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command did not return valid JSON.");
         } else if (document.object().value(QStringLiteral("name")).toString() != QStringLiteral("dspm") || !document.object().value(QStringLiteral("version")).isString()) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The selected command is not dspm.");
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The selected command is not dspm.");
         } else {
             result.ok = true;
         }
@@ -214,14 +214,14 @@ namespace PackageManager {
             readDspmError(root, &result);
             appendCommandError(command, &result);
             if (result.errorMessage.isEmpty())
-                result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command did not return valid JSON.");
+                result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command did not return valid JSON.");
             return result;
         }
         result.data = root.value(QStringLiteral("data"));
         result.command = root.value(QStringLiteral("command")).toString();
         result.ok = !result.data.isUndefined();
         if (!result.ok)
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command did not return valid JSON.");
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command did not return valid JSON.");
         return result;
     }
 
@@ -238,11 +238,11 @@ namespace PackageManager {
             QJsonParseError parseError;
             const auto document = QJsonDocument::fromJson(line, &parseError);
             if (!document.isObject()) {
-                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Invalid JSON at output line %L1: %2\n%3").arg(lineNumber).arg(parseError.errorString(), QString::fromUtf8(line));
+                invalidOutput = QCoreApplication::translate("Synth::Internal::CommandLineTool", "Invalid JSON at output line %L1: %2\n%3").arg(lineNumber).arg(parseError.errorString(), QString::fromUtf8(line));
                 break;
             }
             if (summaryReceived || errorReceived) {
-                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Output followed the final operation record:\n%1").arg(QString::fromUtf8(line));
+                invalidOutput = QCoreApplication::translate("Synth::Internal::CommandLineTool", "Output followed the final operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
             const auto record = document.object();
@@ -253,7 +253,7 @@ namespace PackageManager {
                 continue;
             }
             if (record.value(QStringLiteral("command")).toString() != operation || !record.contains(QStringLiteral("data")) || record.contains(QStringLiteral("ok")) || record.contains(QStringLiteral("error"))) {
-                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
+                invalidOutput = QCoreApplication::translate("Synth::Internal::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
             if (event == QStringLiteral("summary")) {
@@ -261,14 +261,14 @@ namespace PackageManager {
                 result.data = record.value(QStringLiteral("data"));
             } else if (event != QStringLiteral("progress") && event != QStringLiteral("plan") && event != QStringLiteral("result") &&
                        !(operation == QStringLiteral("install") && (event == QStringLiteral("inspect_start") || event == QStringLiteral("inspect_ok") || event == QStringLiteral("staged")))) {
-                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
+                invalidOutput = QCoreApplication::translate("Synth::Internal::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
         }
         if (!command.ok || errorReceived) {
             appendCommandError(command, &result);
             if (result.errorMessage.isEmpty())
-                result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command reported an error.");
+                result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command reported an error.");
             return result;
         }
         const auto summary = result.data.toObject();
@@ -277,9 +277,9 @@ namespace PackageManager {
         if (!result.ok) {
             if (invalidOutput.isEmpty())
                 invalidOutput = summaryReceived
-                    ? QCoreApplication::translate("PackageManager::CommandLineTool", "Invalid operation summary:\n%1").arg(QString::fromUtf8(QJsonDocument(summary).toJson(QJsonDocument::Indented)))
-                    : QCoreApplication::translate("PackageManager::CommandLineTool", "The command completed without an operation summary.");
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The package manager returned an invalid operation result:\n%1").arg(invalidOutput);
+                    ? QCoreApplication::translate("Synth::Internal::CommandLineTool", "Invalid operation summary:\n%1").arg(QString::fromUtf8(QJsonDocument(summary).toJson(QJsonDocument::Indented)))
+                    : QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command completed without an operation summary.");
+            result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The package manager returned an invalid operation result:\n%1").arg(invalidOutput);
             appendCommandError(command, &result);
         }
         return result;

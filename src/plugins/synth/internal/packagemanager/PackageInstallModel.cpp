@@ -16,6 +16,7 @@
 #include <QLocale>
 #include <QLoggingCategory>
 #include <QMap>
+#include <QPointer>
 #include <QRegularExpression>
 #include <QScopeGuard>
 #include <QSet>
@@ -25,11 +26,12 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
-#include <packagemanager/internal/PackageManagerSettings.h>
+#include <synth/internal/DsspServerManager.h>
+#include <synth/internal/PackageManagerSettings.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcPackageInstall, "diffscope.packagemanager.install")
+    Q_STATIC_LOGGING_CATEGORY(lcPackageInstall, "diffscope.synth.install")
 
     namespace {
 
@@ -76,7 +78,10 @@ namespace PackageManager {
     PackageInstallModel::PackageInstallModel(QObject *parent)
         : QAbstractListModel(parent), m_executablePath(PackageManagerSettings::dspmPath()), m_timeoutSeconds(PackageManagerSettings::timeoutSeconds()) {
         const auto directory = PackageManagerSettings::packageDir();
-        m_arguments = {QStringLiteral("--json"), QStringLiteral("--packages-dir"), directory.isEmpty() ? PackageManagerSettings::defaultPackageDir() : directory};
+        m_arguments = {QStringLiteral("--json"), QStringLiteral("--packages-dir"), directory};
+        auto server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        Q_ASSERT(server);
+        connect(server, &DsspServerManager::stateChanged, this, &PackageInstallModel::stateChanged);
     }
 
     PackageInstallModel::~PackageInstallModel() = default;
@@ -110,7 +115,9 @@ namespace PackageManager {
     }
 
     bool PackageInstallModel::canInstall() const {
-        return !m_busy && m_planValid && !m_entries.isEmpty() && !hasErrors();
+        const auto server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        return !m_busy && !server->packageOperationActive() && m_planValid && !hasErrors()
+               && std::ranges::any_of(m_entries, [](const auto &entry) { return entry.status != AlreadyInstalled; });
     }
 
     QString PackageInstallModel::errorMessage() const {
@@ -187,7 +194,10 @@ namespace PackageManager {
     DspmResult PackageInstallModel::query(const QStringList &arguments) const {
         auto commandArguments = m_arguments;
         commandArguments.append(arguments);
-        return parseDspmQueryResult(runCommandLineTool(m_executablePath, commandArguments, m_timeoutSeconds));
+        const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        return parseDspmQueryResult(runCommandLineTool(m_executablePath, commandArguments, m_timeoutSeconds, [server] {
+            return !server || server->isShuttingDown();
+        }));
     }
 
     DspmResult PackageInstallModel::runInstallation(bool dryRun, bool overwrite) {
@@ -213,7 +223,10 @@ namespace PackageManager {
                     updateProgress(document.object());
             }
         };
-        const auto command = runCommandLineTool(m_executablePath, arguments, m_timeoutSeconds, {}, outputReceived);
+        const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        const auto command = runCommandLineTool(m_executablePath, arguments, m_timeoutSeconds, [server, dryRun] {
+            return !server || server->isShuttingDown() || (!dryRun && !server->packageOperationActive());
+        }, outputReceived);
         return parseDspmMutationResult(command, QStringLiteral("install"), dryRun);
     }
 
@@ -491,16 +504,41 @@ namespace PackageManager {
                 SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No
             ) != SVS::SVSCraft::Yes)
             return false;
+        if (m_arguments.at(2) != PackageManagerSettings::packageDir() || m_executablePath != PackageManagerSettings::dspmPath()) {
+            m_errorMessage = tr("The package manager settings have changed. Reopen the installation dialog.");
+            return false;
+        }
+        const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        setActivity(tr("Preparing package installation..."));
+        if (!server->beginPackageOperation(parent, &m_errorMessage))
+            return false;
+        const auto operationGuard = qScopeGuard([server] {
+            if (server)
+                server->endPackageOperation();
+        });
         m_attemptedInstallation = true;
         const auto result = runInstallation(false, overwrite);
         QString actionError;
-        if (result.ok && applyActions(result.data.toObject().value(QStringLiteral("actions")).toArray(), overwrite, &actionError))
+        const bool installed = result.ok && applyActions(result.data.toObject().value(QStringLiteral("actions")).toArray(), overwrite, &actionError);
+        const auto installationProgress = m_progressText;
+        const auto installationDetail = m_progressDetail;
+        setActivity(tr("Refreshing package information..."));
+        const auto current = query({QStringLiteral("list")});
+        const bool refreshed = current.ok && current.command == QStringLiteral("list") && current.data.isArray();
+        if (installed && refreshed)
             return true;
-        QStringList details{m_progressText};
-        if (!m_progressDetail.isEmpty())
-            details.append(m_progressDetail);
-        details.append(result.ok ? actionError : result.errorMessage);
-        m_errorMessage = tr("Package installation failed:\n\n%1").arg(details.join(QStringLiteral("\n\n")));
+        if (!installed) {
+            QStringList details{installationProgress};
+            if (!installationDetail.isEmpty())
+                details.append(installationDetail);
+            details.append(result.ok ? actionError : result.errorMessage);
+            m_errorMessage = tr("Package installation failed:\n\n%1").arg(details.join(QStringLiteral("\n\n")));
+        }
+        if (!refreshed) {
+            if (!m_errorMessage.isEmpty())
+                m_errorMessage.append(QStringLiteral("\n\n"));
+            m_errorMessage.append(tr("Could not read installed packages:\n%1").arg(current.ok ? tr("The package manager returned invalid package information.") : current.errorMessage));
+        }
         qCWarning(lcPackageInstall) << m_errorMessage;
         return false;
     }

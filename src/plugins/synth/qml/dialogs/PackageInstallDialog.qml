@@ -10,7 +10,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
-import DiffScope.PackageManager
+import DiffScope.Synth
 
 Window {
     id: dialog

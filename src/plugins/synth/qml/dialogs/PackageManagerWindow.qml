@@ -7,7 +7,7 @@ import QtQuick
 import ChorusKit.AppCore
 
 import DiffScope.Core
-import DiffScope.PackageManager
+import DiffScope.Synth
 import DiffScope.UIShell
 
 Window {
@@ -22,7 +22,7 @@ Window {
     title: qsTr("Package Manager")
 
     WindowSystem.windowSystem: CoreInterface.windowSystem
-    WindowSystem.id: "org.diffscope.packagemanager.packagemanagerwindow"
+    WindowSystem.id: "org.diffscope.synth.packagemanagerwindow"
 
     signal finished()
     onClosing: (event) => {
@@ -36,6 +36,7 @@ Window {
     PackageManagerView {
         id: packageManagerView
         anchors.fill: parent
+        enabled: !window.addOn.packageOperationActive
         model: window.addOn.packageModel
         refreshing: window.addOn.refreshing
         uninstalling: window.addOn.uninstalling

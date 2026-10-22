@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include <QDir>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QPointer>
@@ -18,9 +19,10 @@
 
 #include <appinstall/InstallationManager.h>
 
-#include <packagemanager/internal/PackageManagerUtils.h>
+#include <synth/internal/DsspServerManager.h>
+#include <synth/internal/PackageManagerUtils.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
     static PackageManagerSettings *m_instance = nullptr;
 
@@ -99,7 +101,10 @@ namespace PackageManager {
 
     void PackageManagerSettings::setPackageDir(const QString &packageDir) {
         Q_ASSERT(m_instance);
-        auto normalized = QDir::toNativeSeparators(packageDir.trimmed());
+        const auto server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        if (server && server->packageOperationActive())
+            return;
+        const auto normalized = AppInstall::InstallationManager::normalizedPath(packageDir.trimmed().isEmpty() ? defaultPackageDir() : packageDir);
         if (m_instance->m_packageDir == normalized)
             return;
         m_instance->m_packageDir = normalized;
@@ -141,7 +146,8 @@ namespace PackageManager {
     void PackageManagerSettings::load() {
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(staticMetaObject.className());
-        m_packageDir = settings->value("packageDir", defaultPackageDir()).toString();
+        const auto directory = settings->value("packageDir", defaultPackageDir()).toString();
+        m_packageDir = AppInstall::InstallationManager::normalizedPath(directory.trimmed().isEmpty() ? defaultPackageDir() : directory);
         m_timeoutSeconds = std::max(1, settings->value("timeoutSeconds", 30).toInt());
         settings->endGroup();
 
@@ -155,6 +161,15 @@ namespace PackageManager {
         settings->setValue("packageDir", m_packageDir);
         settings->setValue("timeoutSeconds", m_timeoutSeconds);
         settings->endGroup();
+    }
+
+    bool PackageManagerSettings::ensurePackageDir(QString *errorMessage) {
+        const auto directory = packageDir();
+        if (QDir().mkpath(directory) && QFileInfo(directory).isDir())
+            return true;
+        if (errorMessage)
+            *errorMessage = tr("Could not create the package directory:\n%1").arg(directory);
+        return false;
     }
 
 }

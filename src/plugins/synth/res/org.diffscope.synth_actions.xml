@@ -31,6 +31,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.synth.dssp.stop" category="Synth" text="Stop" icon="stop" />
         <action id="org.diffscope.synth.dssp.restart" category="Synth" text="Restart" icon="arrow_clockwise" />
         <action id="org.diffscope.synth.dssp.settings" category="Synth" text="Settings..." icon="settings" />
+        <action id="org.diffscope.synth.packageManager" text="Package Manager" category="Preferences" icon="box" />
         <action
                 id="org.diffscope.synth.dssp.status"
                 category="Synth"
@@ -101,6 +102,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         </insertion>
         <insertion target="org.diffscope.core.preferenceActions" anchor="last">
             <menu id="org.diffscope.synth.dssp" />
+            <action id="org.diffscope.synth.packageManager" />
         </insertion>
         <insertion target="org.diffscope.audio.audioProcessingActions" anchor="last">
             <menu id="org.diffscope.synth.extract" />

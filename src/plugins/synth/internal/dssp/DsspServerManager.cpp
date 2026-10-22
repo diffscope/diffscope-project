@@ -6,10 +6,12 @@
 #include <utility>
 
 #include <QDir>
+#include <QEventLoop>
 #include <QFileInfo>
 #include <QLoggingCategory>
 #include <QPointer>
 #include <QProcess>
+#include <QScopeGuard>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QStringList>
@@ -18,12 +20,14 @@
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftCore/Semver.h>
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <appinstall/InstallationManager.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/NotificationMessage.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
+#include <synth/internal/PackageManagerSettings.h>
 
 namespace Synth::Internal {
 
@@ -116,8 +120,12 @@ namespace Synth::Internal {
             if (!expected)
                 fail(tr("Could not start DiffSinger Synthesis Program:\n%1").arg(m_startExecutable));
             Q_EMIT stateChanged();
-            if (restart && !m_shutdown)
-                start();
+            if (restart && !m_shutdown) {
+                if (m_packageOperationActive)
+                    m_resumeAfterPackageOperation = true;
+                else
+                    start();
+            }
         });
         connect(m_process, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
             finishLogging();
@@ -129,8 +137,12 @@ namespace Synth::Internal {
             if (!expected && (exitStatus == QProcess::CrashExit || exitCode != 0))
                 fail(tr("DiffSinger Synthesis Program exited unexpectedly (exit code %L1).").arg(exitCode));
             Q_EMIT stateChanged();
-            if (restart && !m_shutdown)
-                start();
+            if (restart && !m_shutdown) {
+                if (m_packageOperationActive)
+                    m_resumeAfterPackageOperation = true;
+                else
+                    start();
+            }
         });
         connect(m_devices, &DsspDeviceCatalog::finished, this, [this](bool success) {
             if (!m_startPending)
@@ -192,9 +204,10 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::setConfiguration(const DsspServerConfiguration &configuration) {
+        if (m_packageOperationActive)
+            return;
         auto normalized = configuration;
         normalized.installation = AppInstall::InstallationManager::normalizedSelection(normalized.installation);
-        normalized.packageDirectory = normalizedPath(normalized.packageDirectory);
         if (m_configuration == normalized)
             return;
         m_configuration = normalized;
@@ -224,11 +237,11 @@ namespace Synth::Internal {
     }
 
     QString DsspServerManager::downloadInstallation(QWindow *parent) {
-        return m_shutdown ? QString{} : m_installations->download(parent).id;
+        return m_shutdown || m_packageOperationActive ? QString{} : m_installations->download(parent).id;
     }
 
     bool DsspServerManager::uninstallInstallation(const QString &id, QWindow *parent) {
-        if (m_shutdown)
+        if (m_shutdown || m_packageOperationActive)
             return false;
         auto selection = m_configuration.installation;
         selection.id = id;
@@ -272,15 +285,84 @@ namespace Synth::Internal {
     }
 
     bool DsspServerManager::canStart() const {
-        return !m_shutdown && !m_installations->busy() && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
+        return !m_shutdown && !m_packageOperationActive && !m_installations->busy() && !m_stopping && !m_startPending && m_process->state() == QProcess::NotRunning && !executablePath().isEmpty();
     }
 
     bool DsspServerManager::canStop() const {
-        return !m_shutdown && !m_stopping && (m_startPending || m_process->state() != QProcess::NotRunning);
+        return !m_shutdown && !m_packageOperationActive && !m_stopping && (m_startPending || m_process->state() != QProcess::NotRunning);
     }
 
     bool DsspServerManager::canRestart() const {
-        return !m_shutdown && !m_installations->busy() && !m_stopping && !executablePath().isEmpty();
+        return !m_shutdown && !m_packageOperationActive && !m_installations->busy() && !m_stopping && !executablePath().isEmpty();
+    }
+
+    bool DsspServerManager::packageOperationActive() const {
+        return m_packageOperationActive;
+    }
+
+    bool DsspServerManager::isShuttingDown() const {
+        return m_shutdown;
+    }
+
+    bool DsspServerManager::beginPackageOperation(QWindow *parent, QString *errorMessage) {
+        if (m_shutdown || m_packageOperationActive || m_installations->busy()) {
+            if (errorMessage)
+                *errorMessage = tr("Another operation is using DiffSinger Synthesis Program.");
+            return false;
+        }
+        m_packageOperationActive = true;
+        Q_EMIT stateChanged();
+        bool prepared = false;
+        const auto guard = qScopeGuard([this, &prepared] {
+            if (!prepared)
+                endPackageOperation();
+        });
+        const bool resume = m_restartPending || m_startPending || (!m_stopping && m_process->state() != QProcess::NotRunning);
+        if ((m_startPending || m_process->state() != QProcess::NotRunning)
+            && SVS::MessageBox::question(
+                   Core::RuntimeInterface::qmlEngine(), parent, tr("Stop DiffSinger Synthesis Program"),
+                   tr("Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?"),
+                   SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No
+               ) != SVS::SVSCraft::Yes)
+            return false;
+        if (m_shutdown)
+            return false;
+        m_resumeAfterPackageOperation = resume;
+        stopProcess(false);
+        if (!m_devices->cancelAndWait()) {
+            if (errorMessage)
+                *errorMessage = tr("Could not stop device discovery.");
+            return false;
+        }
+        if (m_process->state() != QProcess::NotRunning) {
+            QEventLoop loop;
+            QTimer timeout;
+            timeout.setSingleShot(true);
+            connect(m_process, &QProcess::finished, &loop, &QEventLoop::quit);
+            connect(m_process, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+            connect(&timeout, &QTimer::timeout, &loop, &QEventLoop::quit);
+            timeout.start(6000);
+            loop.exec();
+        }
+        if (m_shutdown)
+            return false;
+        if (m_process->state() != QProcess::NotRunning) {
+            if (errorMessage)
+                *errorMessage = tr("Could not stop DiffSinger Synthesis Program.");
+            return false;
+        }
+        prepared = true;
+        return true;
+    }
+
+    void DsspServerManager::endPackageOperation() {
+        if (!m_packageOperationActive)
+            return;
+        const bool resume = std::exchange(m_resumeAfterPackageOperation, false);
+        m_packageOperationActive = false;
+        Q_EMIT stateChanged();
+        if (resume && !m_shutdown)
+            restart();
     }
 
     QString DsspServerManager::statusIcon() const {
@@ -323,7 +405,6 @@ namespace Synth::Internal {
         m_configuration.autoStart = settings->value(QStringLiteral("autoStart"), true).toBool();
         m_configuration.host = settings->value(QStringLiteral("host"), m_configuration.host).toString();
         m_configuration.port = settings->value(QStringLiteral("port"), m_configuration.port).toInt();
-        m_configuration.packageDirectory = normalizedPath(settings->value(QStringLiteral("packageDirectory")).toString());
         m_configuration.logLevel = settings->value(QStringLiteral("logLevel"), m_configuration.logLevel).toString();
         m_configuration.useDefaultDevice = settings->value(QStringLiteral("useDefaultDevice"), true).toBool();
         m_configuration.executionProvider = settings->value(QStringLiteral("executionProvider")).toString();
@@ -344,7 +425,6 @@ namespace Synth::Internal {
         settings->setValue(QStringLiteral("autoStart"), m_configuration.autoStart);
         settings->setValue(QStringLiteral("host"), m_configuration.host);
         settings->setValue(QStringLiteral("port"), m_configuration.port);
-        settings->setValue(QStringLiteral("packageDirectory"), m_configuration.packageDirectory);
         settings->setValue(QStringLiteral("logLevel"), m_configuration.logLevel);
         settings->setValue(QStringLiteral("useDefaultDevice"), m_configuration.useDefaultDevice);
         settings->setValue(QStringLiteral("executionProvider"), m_configuration.executionProvider);
@@ -369,6 +449,19 @@ namespace Synth::Internal {
             fail(tr("DiffSinger Synthesis Program was not found:\n%1").arg(m_startExecutable));
             return;
         }
+        QString directoryError;
+        if (!PackageManagerSettings::ensurePackageDir(&directoryError)) {
+            fail(directoryError);
+            return;
+        }
+        const auto extraArguments = QProcess::splitCommand(m_startConfiguration.extraArguments);
+        for (const auto &argument : extraArguments) {
+            if (argument == QStringLiteral("--package-dir") || argument.startsWith(QStringLiteral("--package-dir="))) {
+                fail(tr("Configure the package directory in Settings > Synthesis > Package Manager instead of additional command-line arguments."));
+                return;
+            }
+        }
+        m_startPackageDirectory = PackageManagerSettings::packageDir();
         if (m_startConfiguration.useDefaultDevice) {
             launch();
         } else {
@@ -384,9 +477,8 @@ namespace Synth::Internal {
             QStringLiteral("--host"), m_startConfiguration.host,
             QStringLiteral("--port"), QString::number(m_startConfiguration.port),
             QStringLiteral("--log-level"), m_startConfiguration.logLevel,
+            QStringLiteral("--package-dir"), m_startPackageDirectory,
         };
-        if (!m_startConfiguration.packageDirectory.isEmpty())
-            arguments.append({QStringLiteral("--package-dir"), m_startConfiguration.packageDirectory});
         if (!m_startConfiguration.useDefaultDevice) {
             arguments.append({
                 QStringLiteral("--execution-provider"), device.value(QStringLiteral("executionProvider")).toString(),
@@ -402,11 +494,13 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::stop() {
+        if (m_packageOperationActive)
+            return;
         stopProcess(false);
     }
 
     void DsspServerManager::restart() {
-        if (m_installations->busy())
+        if (m_packageOperationActive || m_installations->busy())
             return;
         if (!m_shutdown && m_stopping && !executablePath().isEmpty()) {
             m_restartPending = true;

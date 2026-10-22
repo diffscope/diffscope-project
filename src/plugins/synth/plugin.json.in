@@ -12,7 +12,7 @@
     ],
     "Arguments": [],
     "Category": "Application",
-    "Description": "DSSP synthesis service integration for @APPLICATION_DISPLAY_NAME@.",
+    "Description": "DSSP synthesis integration and package management for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies": [
         { "Name": "org.diffscope.core", "Version": "@PLUGIN_METADATA_VERSION@" },

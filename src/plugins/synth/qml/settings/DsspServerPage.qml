@@ -26,6 +26,7 @@ ScrollView {
 
     anchors.fill: parent
     contentWidth: availableWidth
+    enabled: !page.pageHandle.busy
 
     FileDialog {
         id: executableDialog
@@ -33,12 +34,6 @@ ScrollView {
         fileMode: FileDialog.OpenFile
         nameFilters: [qsTr("Executable files (*)")]
         onAccepted: page.pageHandle.addLocalInstallation(selectedFile)
-    }
-
-    FolderDialog {
-        id: packageDialog
-        title: qsTr("Select Package Directory")
-        onAccepted: page.pageHandle.setValue("packageDirectory", page.pageHandle.localFilePath(selectedFolder))
     }
 
     ColumnLayout {
@@ -215,30 +210,6 @@ ScrollView {
                         value: page.configuration.port
                         Accessible.name: portLabel.text
                         onValueModified: page.pageHandle.setValue("port", value)
-                    }
-
-                    Label {
-                        id: packageLabel
-                        text: qsTr("Package directory")
-                        TextMatcherItem on text { matcher: page.matcher }
-                    }
-                    TextField {
-                        Layout.fillWidth: true
-                        text: page.configuration.packageDirectory
-                        placeholderText: qsTr("Default package directory")
-                        Accessible.name: packageLabel.text
-                        onTextEdited: page.pageHandle.setValue("packageDirectory", text)
-                        onEditingFinished: page.pageHandle.normalizePackageDirectory()
-                    }
-                    ToolButton {
-                        text: qsTr("Browse for Package Directory...")
-                        icon.source: "image://fluent-system-icons/folder_open"
-                        display: AbstractButton.IconOnly
-                        focusPolicy: Qt.StrongFocus
-                        Accessible.name: text
-                        ToolTip.visible: hovered
-                        ToolTip.text: text
-                        onClicked: packageDialog.open()
                     }
 
                     Label {

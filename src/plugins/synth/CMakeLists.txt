@@ -10,6 +10,8 @@ find_package(xxHash CONFIG REQUIRED)
 
 set(DIFFSCOPE_DSSP_CATALOG_URL "https://catalogs.diffscope.org/v1/dssp/" CACHE STRING
     "URL of the DiffSinger Synthesis Program release catalog")
+set(DIFFSCOPE_DSPM_CATALOG_URL "https://catalogs.diffscope.org/v1/dspm/" CACHE STRING
+    "URL of the DiffScope Package Manager release catalog")
 
 set(_dssp_zlib_link)
 if(NOT WIN32)
@@ -63,4 +65,5 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     DIFFSCOPE_DSSP_CATALOG_URL="${DIFFSCOPE_DSSP_CATALOG_URL}"
+    DIFFSCOPE_DSPM_CATALOG_URL="${DIFFSCOPE_DSPM_CATALOG_URL}"
 )

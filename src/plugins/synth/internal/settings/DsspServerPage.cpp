@@ -3,7 +3,6 @@
 
 #include "DsspServerPage.h"
 
-#include <QFileInfo>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
@@ -25,6 +24,7 @@ namespace Synth::Internal {
         setTitle(tr("DiffSinger"));
         setDescription(tr("Manager DiffSinger Synthesis Program and startup options"));
         connect(m_manager, &DsspServerManager::installationNamesChanged, this, &DsspServerPage::installationsChanged);
+        connect(m_manager, &DsspServerManager::stateChanged, this, &DsspServerPage::busyChanged);
         connect(m_devices, &DsspDeviceCatalog::changed, this, &DsspServerPage::configurationChanged);
         connect(m_devices, &DsspDeviceCatalog::finished, this, [this](bool success) {
             if (!success)
@@ -79,17 +79,14 @@ namespace Synth::Internal {
     }
 
     bool DsspServerPage::accept() {
-        normalizePackageDirectory();
+        if (busy())
+            return false;
         if (m_configuration.host.trimmed().isEmpty()) {
             setErrorMessage(tr("The host must not be empty."));
             return false;
         }
         if (m_configuration.port < 1 || m_configuration.port > 65535) {
             setErrorMessage(tr("The port must be between %L1 and %L2.").arg(1).arg(65535));
-            return false;
-        }
-        if (!m_configuration.packageDirectory.isEmpty() && !QFileInfo(m_configuration.packageDirectory).isDir()) {
-            setErrorMessage(tr("The package directory does not exist:\n%1").arg(m_configuration.packageDirectory));
             return false;
         }
         auto previous = m_manager->configuration();
@@ -138,7 +135,6 @@ namespace Synth::Internal {
             {QStringLiteral("autoStart"), m_configuration.autoStart},
             {QStringLiteral("host"), m_configuration.host},
             {QStringLiteral("port"), m_configuration.port},
-            {QStringLiteral("packageDirectory"), m_configuration.packageDirectory},
             {QStringLiteral("logLevel"), m_configuration.logLevel},
             {QStringLiteral("useDefaultDevice"), m_configuration.useDefaultDevice},
             {QStringLiteral("executionProvider"), m_configuration.executionProvider},
@@ -177,7 +173,13 @@ namespace Synth::Internal {
         return DsspServerLog::logsLocation();
     }
 
+    bool DsspServerPage::busy() const {
+        return m_manager->packageOperationActive();
+    }
+
     void DsspServerPage::setValue(const QString &key, const QVariant &value) {
+        if (busy())
+            return;
         const auto previous = m_configuration;
         if (key == QStringLiteral("installationId"))
             m_configuration.installation.id = value.toString();
@@ -187,8 +189,6 @@ namespace Synth::Internal {
             m_configuration.host = value.toString();
         else if (key == QStringLiteral("port"))
             m_configuration.port = value.toInt();
-        else if (key == QStringLiteral("packageDirectory"))
-            m_configuration.packageDirectory = value.toString();
         else if (key == QStringLiteral("logLevel"))
             m_configuration.logLevel = value.toString();
         else if (key == QStringLiteral("useDefaultDevice"))
@@ -222,6 +222,8 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::addLocalInstallation(const QUrl &url) {
+        if (busy())
+            return;
         QString error;
         if (!m_manager->installationManager()->addLocalInstallation(m_configuration.installation, localFilePath(url), &error)) {
             setErrorMessage(error);
@@ -236,6 +238,8 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::removeLocalInstallation() {
+        if (busy())
+            return;
         if (!m_manager->installationManager()->removeLocalInstallation(m_configuration.installation))
             return;
         Q_EMIT installationsChanged();
@@ -246,6 +250,8 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::refreshDevices() {
+        if (busy())
+            return;
         m_devices->refresh(m_manager->executablePath(m_configuration));
     }
 
@@ -257,7 +263,7 @@ namespace Synth::Internal {
     }
 
     void DsspServerPage::uninstallInstallation() {
-        if (!m_configuration.installation.id.startsWith(QStringLiteral("downloaded:")))
+        if (busy() || !m_configuration.installation.id.startsWith(QStringLiteral("downloaded:")))
             return;
         const auto id = m_configuration.installation.id;
         if (!m_devices->cancelAndWait()) {
@@ -268,10 +274,6 @@ namespace Synth::Internal {
         if (m_manager->uninstallInstallation(id, item ? item->window() : nullptr))
             setValue(QStringLiteral("installationId"), m_manager->defaultConfiguration().installation.id);
         refreshDevices();
-    }
-
-    void DsspServerPage::normalizePackageDirectory() {
-        setValue(QStringLiteral("packageDirectory"), DsspServerManager::normalizedPath(m_configuration.packageDirectory));
     }
 
     QString DsspServerPage::localFilePath(const QUrl &url) const {

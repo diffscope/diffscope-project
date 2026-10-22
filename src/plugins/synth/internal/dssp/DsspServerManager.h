@@ -30,7 +30,6 @@ namespace Synth::Internal {
         bool autoStart = true;
         QString host = QStringLiteral("127.0.0.1");
         int port = 13711;
-        QString packageDirectory;
         QString logLevel = QStringLiteral("info");
         bool useDefaultDevice = true;
         QString executionProvider;
@@ -48,6 +47,7 @@ namespace Synth::Internal {
         Q_PROPERTY(bool canStart READ canStart NOTIFY stateChanged)
         Q_PROPERTY(bool canStop READ canStop NOTIFY stateChanged)
         Q_PROPERTY(bool canRestart READ canRestart NOTIFY stateChanged)
+        Q_PROPERTY(bool packageOperationActive READ packageOperationActive NOTIFY stateChanged)
         Q_PROPERTY(QString statusIcon READ statusIcon NOTIFY stateChanged)
         Q_PROPERTY(QString statusMenuText READ statusMenuText NOTIFY stateChanged)
         Q_PROPERTY(QString statusText READ statusText NOTIFY stateChanged)
@@ -75,6 +75,10 @@ namespace Synth::Internal {
         bool canStart() const;
         bool canStop() const;
         bool canRestart() const;
+        bool packageOperationActive() const;
+        bool isShuttingDown() const;
+        bool beginPackageOperation(QWindow *parent, QString *errorMessage);
+        void endPackageOperation();
         QString statusIcon() const;
         QString statusMenuText() const;
         QString statusText() const;
@@ -109,6 +113,7 @@ namespace Synth::Internal {
         DsspServerConfiguration m_configuration;
         DsspServerConfiguration m_startConfiguration;
         QString m_startExecutable;
+        QString m_startPackageDirectory;
         QProcess *m_process{};
         DsspServerLog *m_log{};
         DsspDeviceCatalog *m_devices{};
@@ -116,6 +121,8 @@ namespace Synth::Internal {
         bool m_startPending{};
         bool m_stopping{};
         bool m_restartPending{};
+        bool m_packageOperationActive{};
+        bool m_resumeAfterPackageOperation{};
         bool m_lastRunFailed{};
         bool m_shutdown{};
         bool m_notificationsReady{};

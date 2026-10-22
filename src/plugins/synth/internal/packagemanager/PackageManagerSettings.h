@@ -1,12 +1,11 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERSETTINGS_H
-#define DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERSETTINGS_H
-
-#include <qqmlintegration.h>
+#ifndef DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERSETTINGS_H
+#define DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERSETTINGS_H
 
 #include <QObject>
+#include <qqmlintegration.h>
 
 namespace AppInstall {
     class InstallationManager;
@@ -15,9 +14,9 @@ namespace AppInstall {
 class QQmlEngine;
 class QJSEngine;
 
-namespace PackageManager {
+namespace Synth::Internal {
 
-    class PackageManagerPlugin;
+    class SynthPlugin;
 
     class PackageManagerSettings : public QObject {
         Q_OBJECT
@@ -48,6 +47,7 @@ namespace PackageManager {
         static void setTimeoutSeconds(int timeoutSeconds);
 
         static QString defaultPackageDir();
+        static bool ensurePackageDir(QString *errorMessage);
 
         void load();
         void save() const;
@@ -58,7 +58,7 @@ namespace PackageManager {
         void timeoutSecondsChanged();
 
     private:
-        friend class PackageManagerPlugin;
+        friend class SynthPlugin;
         explicit PackageManagerSettings(const QString &pluginLocation, QObject *parent = nullptr);
 
         AppInstall::InstallationManager *m_installations{};
@@ -68,4 +68,4 @@ namespace PackageManager {
 
 }
 
-#endif // DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERSETTINGS_H
+#endif // DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERSETTINGS_H

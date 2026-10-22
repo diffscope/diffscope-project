@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERPAGE_H
-#define DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERPAGE_H
+#ifndef DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERPAGE_H
+#define DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERPAGE_H
 
 #include <QObject>
 #include <QUrl>
@@ -11,7 +11,9 @@
 
 #include <appinstall/InstallationTypes.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
+
+    class DsspServerManager;
 
     class PackageManagerPage : public Core::ISettingPage {
         Q_OBJECT
@@ -21,7 +23,7 @@ namespace PackageManager {
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)
         Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     public:
-        explicit PackageManagerPage(QObject *parent = nullptr);
+        explicit PackageManagerPage(DsspServerManager *server, QObject *parent = nullptr);
         ~PackageManagerPage() override;
 
         bool matches(const QString &word) override;
@@ -55,6 +57,7 @@ namespace PackageManager {
         void setErrorMessage(const QString &message);
 
         AppInstall::InstallationSelection m_selection;
+        DsspServerManager *m_server{};
         bool m_validating{};
         QString m_errorMessage;
         QObject *m_widget{};
@@ -62,4 +65,4 @@ namespace PackageManager {
 
 }
 
-#endif // DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERPAGE_H
+#endif // DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERPAGE_H

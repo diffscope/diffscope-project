@@ -59,9 +59,6 @@ Maintenance (src/plugins/maintenance)
 MIDI Format Converter (src/plugins/midiformatconverter)
     SPDX-License-Identifier: Apache-2.0
 
-Package Manager (src/plugins/packagemanager)
-    SPDX-License-Identifier: LGPL-3.0-or-later
-
 Pitch Shifter (src/plugins/pitchshifter)
     SPDX-License-Identifier: GPL-3.0-or-later
 

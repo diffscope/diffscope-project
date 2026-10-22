@@ -38,6 +38,11 @@
         <source>Synth</source>
         <translation type="unfinished">Synth</translation>
     </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="153"/>
+        <source>Preferences</source>
+        <translation type="unfinished">Preferences</translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionDescription</name>
@@ -158,6 +163,11 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="916"/>
         <source>Synthesis Status Indicators</source>
         <translation type="unfinished">Synthesis Status Indicators</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="148"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">Package Manager</translation>
     </message>
 </context>
 <context>
@@ -365,16 +375,6 @@
         <translation type="unfinished">Automatically start DiffSinger Synthesis Program</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="234"/>
-        <source>Browse for Package Directory...</source>
-        <translation type="unfinished">Browse for Package Directory...</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="228"/>
-        <source>Default package directory</source>
-        <translation type="unfinished">Default package directory</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="307"/>
         <source>Device</source>
         <translation type="unfinished">Device</translation>
@@ -430,11 +430,6 @@
         <translation type="unfinished">No DiffSinger Synthesis Program installation is selected</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="222"/>
-        <source>Package directory</source>
-        <translation type="unfinished">Package directory</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="207"/>
         <source>Port</source>
         <translation type="unfinished">Port</translation>
@@ -448,11 +443,6 @@
         <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished">Remove Local Installation from List</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="40"/>
-        <source>Select Package Directory</source>
-        <translation type="unfinished">Select Package Directory</translation>
     </message>
     <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
@@ -1487,54 +1477,54 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">Built-in</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="117"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="121"/>
         <source>Could not start DiffSinger Synthesis Program:
 %1</source>
         <translation type="unfinished">Could not start DiffSinger Synthesis Program:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
         <source>DiffSinger Synthesis Program exited abnormally</source>
         <translation type="unfinished">DiffSinger Synthesis Program exited abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="130"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="138"/>
         <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
         <translation type="unfinished">DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="308"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
         <source>DiffSinger Synthesis Program is not configured</source>
         <translation type="unfinished">DiffSinger Synthesis Program is not configured</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="314"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
         <source>DiffSinger Synthesis Program is running</source>
         <translation type="unfinished">DiffSinger Synthesis Program is running</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="312"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
         <source>DiffSinger Synthesis Program is starting</source>
         <translation type="unfinished">DiffSinger Synthesis Program is starting</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
         <source>DiffSinger Synthesis Program is stopped</source>
         <translation type="unfinished">DiffSinger Synthesis Program is stopped</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="392"/>
         <source>DiffSinger Synthesis Program is stopping</source>
         <translation type="unfinished">DiffSinger Synthesis Program is stopping</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="452"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="546"/>
         <source>DiffSinger Synthesis Program Stopped</source>
         <translation type="unfinished">DiffSinger Synthesis Program Stopped</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="369"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="449"/>
         <source>DiffSinger Synthesis Program was not found:
 %1</source>
         <translation type="unfinished">DiffSinger Synthesis Program was not found:
@@ -1549,7 +1539,7 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">No installation selected</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="455"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="549"/>
         <source>Restart</source>
         <translation type="unfinished">Restart</translation>
     </message>
@@ -1566,76 +1556,98 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">DiffSinger Synthesis Program %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="296"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="378"/>
         <source>Not Configured</source>
         <translation type="unfinished">Not Configured</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="302"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
         <source>Running</source>
         <translation type="unfinished">Running</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="300"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
         <source>Starting</source>
         <translation type="unfinished">Starting</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
         <source>Stopped</source>
         <translation type="unfinished">Stopped</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="298"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="380"/>
         <source>Stopping</source>
         <translation type="unfinished">Stopping</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="49"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="53"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger Synthesis Program</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="477"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="571"/>
         <source>DiffSinger Synthesis Program Warning</source>
         <translation type="unfinished">DiffSinger Synthesis Program Warning</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="479"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="573"/>
         <source>DiffSinger Synthesis Program Critical</source>
         <translation type="unfinished">DiffSinger Synthesis Program Critical</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="481"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="575"/>
         <source>DiffSinger Synthesis Program Fatal</source>
         <translation type="unfinished">DiffSinger Synthesis Program Fatal</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="487"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="581"/>
         <source>Module: %1
 %2</source>
         <translation type="unfinished">Module: %1
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="255"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="268"/>
         <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
         <translation type="unfinished">DiffSinger Synthesis Program will be stopped before this version is uninstalled.</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="243"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="256"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="334"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished">Could not stop device discovery.</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="251"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="264"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
         <source>Could not stop DiffSinger Synthesis Program.</source>
         <translation type="unfinished">Could not stop DiffSinger Synthesis Program.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <source>Another operation is using DiffSinger Synthesis Program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="323"/>
+        <source>Stop DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="324"/>
+        <source>Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="460"/>
+        <source>Configure the package directory in Settings &gt; Synthesis &gt; Package Manager instead of additional command-line arguments.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1675,13 +1687,6 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/settings/DsspServerPage.cpp" line="84"/>
         <source>The host must not be empty.</source>
         <translation type="unfinished">The host must not be empty.</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="92"/>
-        <source>The package directory does not exist:
-%1</source>
-        <translation type="unfinished">The package directory does not exist:
-%1</translation>
     </message>
     <message>
         <location filename="../../internal/settings/DsspServerPage.cpp" line="88"/>
@@ -2775,6 +2780,653 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
         <source>Running (%1%)</source>
         <translation type="unfinished">Running (%1%)</translation>
+    </message>
+</context>
+<context>
+    <name>PackageFileDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="7"/>
+        <source>Select Packages</source>
+        <translation type="unfinished">Select Packages</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>DSPK packages (*.dspk)</source>
+        <translation type="unfinished">DSPK packages (*.dspk)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>All files (*)</source>
+        <translation type="unfinished">All files (*)</translation>
+    </message>
+</context>
+<context>
+    <name>PackageInstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="31"/>
+        <source>Install Packages</source>
+        <translation type="unfinished">Install Packages</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="102"/>
+        <source>Checking</source>
+        <translation type="unfinished">Checking</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="103"/>
+        <source>Invalid package</source>
+        <translation type="unfinished">Invalid package</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="104"/>
+        <source>Batch conflict</source>
+        <translation type="unfinished">Batch conflict</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="105"/>
+        <source>Overwrite required</source>
+        <translation type="unfinished">Overwrite required</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="106"/>
+        <source>Already installed</source>
+        <translation type="unfinished">Already installed</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="169"/>
+        <source>No packages selected</source>
+        <translation type="unfinished">No packages selected</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="186"/>
+        <source>Add Packages...</source>
+        <translation type="unfinished">Add Packages...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="197"/>
+        <source>Remove from List</source>
+        <translation type="unfinished">Remove from List</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="314"/>
+        <source>Install</source>
+        <translation type="unfinished">Install</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="258"/>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="292"/>
+        <source>Installation diagnostics</source>
+        <translation type="unfinished">Installation diagnostics</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="262"/>
+        <source>Copy Diagnostics</source>
+        <translation type="unfinished">Copy Diagnostics</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::CommandLineTool</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="184"/>
+        <source>The command exited with code %1.</source>
+        <translation type="unfinished">The command exited with code %1.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="200"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="217"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="224"/>
+        <source>The command did not return valid JSON.</source>
+        <translation type="unfinished">The command did not return valid JSON.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="202"/>
+        <source>The selected command is not dspm.</source>
+        <translation type="unfinished">The selected command is not dspm.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="271"/>
+        <source>The command reported an error.</source>
+        <translation type="unfinished">The command reported an error.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="171"/>
+        <source>The command produced no output for %L1 seconds.</source>
+        <translation type="unfinished">The command produced no output for %L1 seconds.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="241"/>
+        <source>Invalid JSON at output line %L1: %2
+%3</source>
+        <translation type="unfinished">Invalid JSON at output line %L1: %2
+%3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="245"/>
+        <source>Output followed the final operation record:
+%1</source>
+        <translation type="unfinished">Output followed the final operation record:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="256"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="264"/>
+        <source>Unexpected operation record:
+%1</source>
+        <translation type="unfinished">Unexpected operation record:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="280"/>
+        <source>Invalid operation summary:
+%1</source>
+        <translation type="unfinished">Invalid operation summary:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="281"/>
+        <source>The command completed without an operation summary.</source>
+        <translation type="unfinished">The command completed without an operation summary.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="282"/>
+        <source>The package manager returned an invalid operation result:
+%1</source>
+        <translation type="unfinished">The package manager returned an invalid operation result:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="78"/>
+        <source>No package manager installation is selected. Configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="83"/>
+        <source>The command line tool does not exist:
+
+%1
+
+Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageInstallModel</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="149"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="149"/>
+        <source>Unknown package</source>
+        <translation type="unfinished">Unknown package</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="502"/>
+        <source>Overwrite Existing Packages</source>
+        <translation type="unfinished">Overwrite Existing Packages</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="503"/>
+        <source>Some selected packages have different contents from installed packages with the same identifier. Replace the installed packages?</source>
+        <translation type="unfinished">Some selected packages have different contents from installed packages with the same identifier. Replace the installed packages?</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="213"/>
+        <source>Checking packages...</source>
+        <translation type="unfinished">Checking packages...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="213"/>
+        <source>Installing packages...</source>
+        <translation type="unfinished">Installing packages...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="259"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="329"/>
+        <source>Inspecting %1</source>
+        <translation type="unfinished">Inspecting %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="261"/>
+        <source>Extracting %1</source>
+        <translation type="unfinished">Extracting %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="263"/>
+        <source>Verifying %1</source>
+        <translation type="unfinished">Verifying %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="265"/>
+        <source>Checking dependencies...</source>
+        <translation type="unfinished">Checking dependencies...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="267"/>
+        <source>Saving installed packages...</source>
+        <translation type="unfinished">Saving installed packages...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="269"/>
+        <source>Waiting for another package operation...</source>
+        <translation type="unfinished">Waiting for another package operation...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="279"/>
+        <source>Package %L1 of %L2</source>
+        <translation type="unfinished">Package %L1 of %L2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="284"/>
+        <source>%1 of %2 (%L3%)</source>
+        <translation type="unfinished">%1 of %2 (%L3%)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="287"/>
+        <source>%L1 of %L2 files</source>
+        <translation type="unfinished">%L1 of %L2 files</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="342"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="366"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="379"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="540"/>
+        <source>The package manager returned invalid package information.</source>
+        <translation type="unfinished">The package manager returned invalid package information.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="350"/>
+        <source>Could not inspect %1:
+%2</source>
+        <translation type="unfinished">Could not inspect %1:
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="357"/>
+        <source>Multiple selected files identify %1.</source>
+        <translation type="unfinished">Multiple selected files identify %1.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="361"/>
+        <source>Reading installed packages...</source>
+        <translation type="unfinished">Reading installed packages...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="366"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="540"/>
+        <source>Could not read installed packages:
+%1</source>
+        <translation type="unfinished">Could not read installed packages:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="395"/>
+        <source>Could not prepare package installation:
+
+%1</source>
+        <translation type="unfinished">Could not prepare package installation:
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="399"/>
+        <source>Missing or incompatible dependencies:
+%1
+
+</source>
+        <translation type="unfinished">Missing or incompatible dependencies:
+%1
+
+</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="407"/>
+        <source>The package manager returned an invalid installation plan:
+%1</source>
+        <translation type="unfinished">The package manager returned an invalid installation plan:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="441"/>
+        <source>%1 requires %2.</source>
+        <translation type="unfinished">%1 requires %2.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="449"/>
+        <source>Expected %L1 package actions, but received %L2.</source>
+        <translation type="unfinished">Expected %L1 package actions, but received %L2.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="459"/>
+        <source>Unexpected installation action:
+%1</source>
+        <translation type="unfinished">Unexpected installation action:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="469"/>
+        <source>The installation action does not match %1:
+%2</source>
+        <translation type="unfinished">The installation action does not match %1:
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="535"/>
+        <source>Package installation failed:
+
+%1</source>
+        <translation type="unfinished">Package installation failed:
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="508"/>
+        <source>The package manager settings have changed. Reopen the installation dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="525"/>
+        <source>Refreshing package information...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="512"/>
+        <source>Preparing package installation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerAddOn</name>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="61"/>
+        <source>Dependencies</source>
+        <translation type="unfinished">Dependencies</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="63"/>
+        <source>Singers</source>
+        <translation type="unfinished">Singers</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="536"/>
+        <source>Failed to get package information for %1:
+%2</source>
+        <translation type="unfinished">Failed to get package information for %1:
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="584"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">Package Manager</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="275"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="448"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="475"/>
+        <source>Failed to refresh packages:
+
+%1</source>
+        <translation type="unfinished">Failed to refresh packages:
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="62"/>
+        <source>Other Contributions</source>
+        <translation type="unfinished">Other Contributions</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="515"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="524"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="547"/>
+        <source>The command returned invalid package data.</source>
+        <translation type="unfinished">The command returned invalid package data.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="108"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="386"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="434"/>
+        <source>The package manager returned an invalid uninstall result.</source>
+        <translation type="unfinished">The package manager returned an invalid uninstall result.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="387"/>
+        <source>Failed to prepare package uninstallation:
+
+%1</source>
+        <translation type="unfinished">Failed to prepare package uninstallation:
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="328"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="444"/>
+        <source>Failed to uninstall packages:
+
+%1</source>
+        <translation type="unfinished">Failed to uninstall packages:
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="370"/>
+        <source>Checking package dependencies...</source>
+        <translation type="unfinished">Checking package dependencies...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="372"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="427"/>
+        <source>Uninstalling packages...</source>
+        <translation type="unfinished">Uninstalling packages...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="437"/>
+        <source>Refreshing package information...</source>
+        <translation type="unfinished">Refreshing package information...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="290"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="311"/>
+        <source>The package directory has changed. Refresh the package list before uninstalling packages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="411"/>
+        <source>The package manager settings have changed. Retry the operation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerPage</name>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="38"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">Package Manager</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="39"/>
+        <source>Configure package manager settings</source>
+        <translation type="unfinished">Configure package manager settings</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="94"/>
+        <source>The package path is not a directory:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="106"/>
+        <source>Restart DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="107"/>
+        <source>The package directory has changed. Restart DiffSinger Synthesis Program now? Synthesis tasks in progress will be aborted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerSettings</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="37"/>
+        <source>DiffScope Package Manager</source>
+        <translation type="unfinished">DiffScope Package Manager</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="171"/>
+        <source>Could not create the package directory:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerPage</name>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="35"/>
+        <source>Executable files (*)</source>
+        <translation type="unfinished">Executable files (*)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="41"/>
+        <source>Select Package Directory</source>
+        <translation type="unfinished">Select Package Directory</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="63"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">Package Manager</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="185"/>
+        <source>Browse</source>
+        <translation type="unfinished">Browse</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="175"/>
+        <source>Package directory</source>
+        <translation type="unfinished">Package directory</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="211"/>
+        <source>seconds</source>
+        <translation type="unfinished">seconds</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="33"/>
+        <source>Add Package Manager Installation</source>
+        <translation type="unfinished">Add Package Manager Installation</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="76"/>
+        <source>Installation</source>
+        <translation type="unfinished">Installation</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="116"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished">Add Local Installation...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="126"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished">Remove Local Installation from List</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="142"/>
+        <source>No package manager installation is selected</source>
+        <translation type="unfinished">No package manager installation is selected</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="143"/>
+        <source>Executable path</source>
+        <translation type="unfinished">Executable path</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="150"/>
+        <source>Download Package Manager...</source>
+        <translation type="unfinished">Download Package Manager...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="156"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished">Uninstall Downloaded Version</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="167"/>
+        <source>Package Options</source>
+        <translation type="unfinished">Package Options</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="197"/>
+        <source>Output timeout</source>
+        <translation type="unfinished">Output timeout</translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerWindow</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageManagerWindow.qml" line="22"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">Package Manager</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished">Uninstall Packages</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Package</source>
+        <translation type="unfinished">Uninstall Package</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="21"/>
+        <source>Other packages depend on %1. Uninstall this package and all packages listed below?</source>
+        <translation type="unfinished">Other packages depend on %1. Uninstall this package and all packages listed below?</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="22"/>
+        <source>Uninstall %1?</source>
+        <translation type="unfinished">Uninstall %1?</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="45"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished">Packages to uninstall</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallProgressDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="15"/>
+        <source>Preparing package uninstallation...</source>
+        <translation type="unfinished">Preparing package uninstallation...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="17"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished">Uninstall Packages</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="70"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished">Packages to uninstall</translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="323"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancel</translation>
     </message>
 </context>
 </TS>

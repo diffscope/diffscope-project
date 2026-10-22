@@ -23,6 +23,7 @@ namespace Synth::Internal {
         Q_PROPERTY(QObject *deviceCatalog READ deviceCatalog CONSTANT)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)
         Q_PROPERTY(QString logsLocation READ logsLocation CONSTANT)
+        Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     public:
         explicit DsspServerPage(DsspServerManager *manager, QObject *parent = nullptr);
         ~DsspServerPage() override;
@@ -41,6 +42,7 @@ namespace Synth::Internal {
         QObject *deviceCatalog() const;
         QString errorMessage() const;
         QString logsLocation() const;
+        bool busy() const;
 
         Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
         Q_INVOKABLE void addLocalInstallation(const QUrl &url);
@@ -48,13 +50,13 @@ namespace Synth::Internal {
         Q_INVOKABLE void downloadInstallation();
         Q_INVOKABLE void uninstallInstallation();
         Q_INVOKABLE void refreshDevices();
-        Q_INVOKABLE void normalizePackageDirectory();
         Q_INVOKABLE QString localFilePath(const QUrl &url) const;
 
     Q_SIGNALS:
         void configurationChanged();
         void installationsChanged();
         void errorMessageChanged();
+        void busyChanged();
 
     private:
         void setErrorMessage(const QString &message);

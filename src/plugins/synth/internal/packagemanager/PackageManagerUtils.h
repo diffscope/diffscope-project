@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERUTILS_H
-#define DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERUTILS_H
+#ifndef DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERUTILS_H
+#define DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERUTILS_H
 
 #include <functional>
 
@@ -11,7 +11,7 @@
 #include <QString>
 #include <QStringList>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
     struct CommandResult {
         bool ok{};
@@ -39,4 +39,4 @@ namespace PackageManager {
 
 }
 
-#endif // DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERUTILS_H
+#endif // DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERUTILS_H

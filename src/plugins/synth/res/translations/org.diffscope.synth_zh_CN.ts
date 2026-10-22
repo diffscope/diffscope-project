@@ -38,6 +38,11 @@
         <source>Synth</source>
         <translation type="unfinished">合成</translation>
     </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="153"/>
+        <source>Preferences</source>
+        <translation type="unfinished">首选项</translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionDescription</name>
@@ -158,6 +163,11 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="916"/>
         <source>Synthesis Status Indicators</source>
         <translation type="unfinished">合成状态指示器</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="148"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
     </message>
 </context>
 <context>
@@ -365,16 +375,6 @@
         <translation type="unfinished">自动启动 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="234"/>
-        <source>Browse for Package Directory...</source>
-        <translation type="unfinished">浏览包目录...</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="228"/>
-        <source>Default package directory</source>
-        <translation type="unfinished">默认包目录</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="307"/>
         <source>Device</source>
         <translation type="unfinished">设备</translation>
@@ -430,11 +430,6 @@
         <translation type="unfinished">未选择 DiffSinger 合成程序 安装</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="222"/>
-        <source>Package directory</source>
-        <translation type="unfinished">包目录</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="207"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
@@ -448,11 +443,6 @@
         <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished">从列表中移除本地安装</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="40"/>
-        <source>Select Package Directory</source>
-        <translation type="unfinished">选择包目录</translation>
     </message>
     <message>
         <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
@@ -1486,54 +1476,54 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">内置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="117"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="121"/>
         <source>Could not start DiffSinger Synthesis Program:
 %1</source>
         <translation type="unfinished">无法启动 DiffSinger 合成程序：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
         <source>DiffSinger Synthesis Program exited abnormally</source>
         <translation type="unfinished">DiffSinger 合成程序 异常退出</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="130"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="138"/>
         <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
         <translation type="unfinished">DiffSinger 合成程序 意外退出（退出代码为 %L1）。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="308"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
         <source>DiffSinger Synthesis Program is not configured</source>
         <translation type="unfinished">未配置 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="314"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
         <source>DiffSinger Synthesis Program is running</source>
         <translation type="unfinished">DiffSinger 合成程序 正在运行</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="312"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
         <source>DiffSinger Synthesis Program is starting</source>
         <translation type="unfinished">DiffSinger 合成程序 正在启动</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="315"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
         <source>DiffSinger Synthesis Program is stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="392"/>
         <source>DiffSinger Synthesis Program is stopping</source>
         <translation type="unfinished">DiffSinger 合成程序 正在停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="452"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="546"/>
         <source>DiffSinger Synthesis Program Stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="369"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="449"/>
         <source>DiffSinger Synthesis Program was not found:
 %1</source>
         <translation type="unfinished">未找到 DiffSinger 合成程序：
@@ -1548,7 +1538,7 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">未选择安装</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="455"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="549"/>
         <source>Restart</source>
         <translation type="unfinished">重新启动</translation>
     </message>
@@ -1565,76 +1555,98 @@ Some files could not be restored. Backups are in %2.
         <translation type="obsolete">DiffSinger 合成程序 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="296"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="378"/>
         <source>Not Configured</source>
         <translation type="unfinished">未配置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="302"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
         <source>Running</source>
         <translation type="unfinished">运行中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="300"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
         <source>Starting</source>
         <translation type="unfinished">启动中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="303"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
         <source>Stopped</source>
         <translation type="unfinished">已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="298"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="380"/>
         <source>Stopping</source>
         <translation type="unfinished">停止中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="49"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="53"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="477"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="571"/>
         <source>DiffSinger Synthesis Program Warning</source>
         <translation type="unfinished">DiffSinger 合成程序 警告</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="479"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="573"/>
         <source>DiffSinger Synthesis Program Critical</source>
         <translation type="unfinished">DiffSinger 合成程序 关键性错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="481"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="575"/>
         <source>DiffSinger Synthesis Program Fatal</source>
         <translation type="unfinished">DiffSinger 合成程序 致命错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="487"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="581"/>
         <source>Module: %1
 %2</source>
         <translation type="unfinished">模块：%1
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="255"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="268"/>
         <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
         <translation type="unfinished">卸载此版本之前，将停止 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="243"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="256"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="334"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished">无法停止设备发现。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="251"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="264"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
         <source>Could not stop DiffSinger Synthesis Program.</source>
         <translation type="unfinished">无法停止 DiffSinger 合成程序。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <source>Another operation is using DiffSinger Synthesis Program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="323"/>
+        <source>Stop DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="324"/>
+        <source>Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="460"/>
+        <source>Configure the package directory in Settings &gt; Synthesis &gt; Package Manager instead of additional command-line arguments.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1674,13 +1686,6 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/settings/DsspServerPage.cpp" line="84"/>
         <source>The host must not be empty.</source>
         <translation type="unfinished">主机不能为空。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="92"/>
-        <source>The package directory does not exist:
-%1</source>
-        <translation type="unfinished">包目录不存在：
-%1</translation>
     </message>
     <message>
         <location filename="../../internal/settings/DsspServerPage.cpp" line="88"/>
@@ -2773,6 +2778,653 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
         <source>Running (%1%)</source>
         <translation type="unfinished">运行中（%1%）</translation>
+    </message>
+</context>
+<context>
+    <name>PackageFileDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="7"/>
+        <source>Select Packages</source>
+        <translation type="unfinished">选择包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>DSPK packages (*.dspk)</source>
+        <translation type="unfinished">DSPK 包 (*.dspk)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>All files (*)</source>
+        <translation type="unfinished">所有文件 (*)</translation>
+    </message>
+</context>
+<context>
+    <name>PackageInstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="31"/>
+        <source>Install Packages</source>
+        <translation type="unfinished">安装包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="102"/>
+        <source>Checking</source>
+        <translation type="unfinished">正在检查</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="103"/>
+        <source>Invalid package</source>
+        <translation type="unfinished">无效的包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="104"/>
+        <source>Batch conflict</source>
+        <translation type="unfinished">批次冲突</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="105"/>
+        <source>Overwrite required</source>
+        <translation type="unfinished">需要覆盖</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="106"/>
+        <source>Already installed</source>
+        <translation type="unfinished">已安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="169"/>
+        <source>No packages selected</source>
+        <translation type="unfinished">未选择包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="186"/>
+        <source>Add Packages...</source>
+        <translation type="unfinished">添加包...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="197"/>
+        <source>Remove from List</source>
+        <translation type="unfinished">从列表中移除</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="314"/>
+        <source>Install</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="258"/>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="292"/>
+        <source>Installation diagnostics</source>
+        <translation type="unfinished">安装诊断信息</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="262"/>
+        <source>Copy Diagnostics</source>
+        <translation type="unfinished">复制诊断信息</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::CommandLineTool</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="184"/>
+        <source>The command exited with code %1.</source>
+        <translation type="unfinished">命令以代码 %1 退出。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="200"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="217"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="224"/>
+        <source>The command did not return valid JSON.</source>
+        <translation type="unfinished">命令未返回有效的 JSON。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="202"/>
+        <source>The selected command is not dspm.</source>
+        <translation type="unfinished">所选命令不是 dspm。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="271"/>
+        <source>The command reported an error.</source>
+        <translation type="unfinished">命令报告了错误。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="171"/>
+        <source>The command produced no output for %L1 seconds.</source>
+        <translation type="unfinished">命令已持续 %L1 秒未产生输出。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="241"/>
+        <source>Invalid JSON at output line %L1: %2
+%3</source>
+        <translation type="unfinished">输出第 %L1 行的 JSON 无效：%2
+%3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="245"/>
+        <source>Output followed the final operation record:
+%1</source>
+        <translation type="unfinished">最终操作记录之后仍有输出：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="256"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="264"/>
+        <source>Unexpected operation record:
+%1</source>
+        <translation type="unfinished">意外的操作记录：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="280"/>
+        <source>Invalid operation summary:
+%1</source>
+        <translation type="unfinished">操作摘要无效：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="281"/>
+        <source>The command completed without an operation summary.</source>
+        <translation type="unfinished">命令已完成，但未提供操作摘要。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="282"/>
+        <source>The package manager returned an invalid operation result:
+%1</source>
+        <translation type="unfinished">包管理器返回了无效的操作结果：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="78"/>
+        <source>No package manager installation is selected. Configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="83"/>
+        <source>The command line tool does not exist:
+
+%1
+
+Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageInstallModel</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="149"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="149"/>
+        <source>Unknown package</source>
+        <translation type="unfinished">未知的包</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="502"/>
+        <source>Overwrite Existing Packages</source>
+        <translation type="unfinished">覆盖现有包</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="503"/>
+        <source>Some selected packages have different contents from installed packages with the same identifier. Replace the installed packages?</source>
+        <translation type="unfinished">部分所选包与具有相同标识符的已安装包内容不同。是否替换已安装的包？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="213"/>
+        <source>Checking packages...</source>
+        <translation type="unfinished">正在检查包...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="213"/>
+        <source>Installing packages...</source>
+        <translation type="unfinished">正在安装包...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="259"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="329"/>
+        <source>Inspecting %1</source>
+        <translation type="unfinished">正在检查 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="261"/>
+        <source>Extracting %1</source>
+        <translation type="unfinished">正在解压 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="263"/>
+        <source>Verifying %1</source>
+        <translation type="unfinished">正在验证 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="265"/>
+        <source>Checking dependencies...</source>
+        <translation type="unfinished">正在检查依赖项...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="267"/>
+        <source>Saving installed packages...</source>
+        <translation type="unfinished">正在保存已安装的包...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="269"/>
+        <source>Waiting for another package operation...</source>
+        <translation type="unfinished">正在等待其他包操作...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="279"/>
+        <source>Package %L1 of %L2</source>
+        <translation type="unfinished">第 %L1 个包，共 %L2 个</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="284"/>
+        <source>%1 of %2 (%L3%)</source>
+        <translation type="unfinished">%1 / %2（%L3%）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="287"/>
+        <source>%L1 of %L2 files</source>
+        <translation type="unfinished">%L1 / %L2 个文件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="342"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="366"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="379"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="540"/>
+        <source>The package manager returned invalid package information.</source>
+        <translation type="unfinished">包管理器返回的包信息无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="350"/>
+        <source>Could not inspect %1:
+%2</source>
+        <translation type="unfinished">无法检查 %1：
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="357"/>
+        <source>Multiple selected files identify %1.</source>
+        <translation type="unfinished">多个所选文件的标识均为 %1。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="361"/>
+        <source>Reading installed packages...</source>
+        <translation type="unfinished">正在读取已安装的包...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="366"/>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="540"/>
+        <source>Could not read installed packages:
+%1</source>
+        <translation type="unfinished">无法读取已安装的包：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="395"/>
+        <source>Could not prepare package installation:
+
+%1</source>
+        <translation type="unfinished">无法准备包安装：
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="399"/>
+        <source>Missing or incompatible dependencies:
+%1
+
+</source>
+        <translation type="unfinished">依赖项缺失或不兼容：
+%1
+
+</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="407"/>
+        <source>The package manager returned an invalid installation plan:
+%1</source>
+        <translation type="unfinished">包管理器返回了无效的安装计划：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="441"/>
+        <source>%1 requires %2.</source>
+        <translation type="unfinished">%1 需要 %2。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="449"/>
+        <source>Expected %L1 package actions, but received %L2.</source>
+        <translation type="unfinished">预期 %L1 个包操作，但收到了 %L2 个。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="459"/>
+        <source>Unexpected installation action:
+%1</source>
+        <translation type="unfinished">意外的安装操作：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="469"/>
+        <source>The installation action does not match %1:
+%2</source>
+        <translation type="unfinished">安装操作与 %1 不匹配：
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="535"/>
+        <source>Package installation failed:
+
+%1</source>
+        <translation type="unfinished">包安装失败：
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="508"/>
+        <source>The package manager settings have changed. Reopen the installation dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="525"/>
+        <source>Refreshing package information...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageInstallModel.cpp" line="512"/>
+        <source>Preparing package installation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerAddOn</name>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="61"/>
+        <source>Dependencies</source>
+        <translation type="unfinished">依赖项</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="63"/>
+        <source>Singers</source>
+        <translation type="unfinished">歌手</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="536"/>
+        <source>Failed to get package information for %1:
+%2</source>
+        <translation type="unfinished">获取 %1 的包信息失败：
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="584"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="275"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="448"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="475"/>
+        <source>Failed to refresh packages:
+
+%1</source>
+        <translation type="unfinished">刷新包失败：
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="62"/>
+        <source>Other Contributions</source>
+        <translation type="unfinished">其他贡献</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="515"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="524"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="547"/>
+        <source>The command returned invalid package data.</source>
+        <translation type="unfinished">命令返回的包数据无效。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="108"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="386"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="434"/>
+        <source>The package manager returned an invalid uninstall result.</source>
+        <translation type="unfinished">包管理器返回了无效的卸载结果。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="387"/>
+        <source>Failed to prepare package uninstallation:
+
+%1</source>
+        <translation type="unfinished">无法准备包卸载：
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="328"/>
+        <source>%1 (%2)</source>
+        <translation type="unfinished">%1（%2）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="444"/>
+        <source>Failed to uninstall packages:
+
+%1</source>
+        <translation type="unfinished">无法卸载包：
+
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="370"/>
+        <source>Checking package dependencies...</source>
+        <translation type="unfinished">正在检查包依赖项...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="372"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="427"/>
+        <source>Uninstalling packages...</source>
+        <translation type="unfinished">正在卸载包...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="437"/>
+        <source>Refreshing package information...</source>
+        <translation type="unfinished">正在刷新包信息...</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="290"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="311"/>
+        <source>The package directory has changed. Refresh the package list before uninstalling packages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="411"/>
+        <source>The package manager settings have changed. Retry the operation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerPage</name>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="38"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="39"/>
+        <source>Configure package manager settings</source>
+        <translation type="unfinished">配置包管理器设置</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="94"/>
+        <source>The package path is not a directory:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="106"/>
+        <source>Restart DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/PackageManagerPage.cpp" line="107"/>
+        <source>The package directory has changed. Restart DiffSinger Synthesis Program now? Synthesis tasks in progress will be aborted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::PackageManagerSettings</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="37"/>
+        <source>DiffScope Package Manager</source>
+        <translation type="unfinished">DiffScope 包管理器</translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="171"/>
+        <source>Could not create the package directory:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerPage</name>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="35"/>
+        <source>Executable files (*)</source>
+        <translation type="unfinished">可执行文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="41"/>
+        <source>Select Package Directory</source>
+        <translation type="unfinished">选择包目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="63"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="185"/>
+        <source>Browse</source>
+        <translation type="unfinished">浏览</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="175"/>
+        <source>Package directory</source>
+        <translation type="unfinished">包目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="211"/>
+        <source>seconds</source>
+        <translation type="unfinished">秒</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="33"/>
+        <source>Add Package Manager Installation</source>
+        <translation type="unfinished">添加包管理器安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="76"/>
+        <source>Installation</source>
+        <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="116"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished">添加本地安装...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="126"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished">从列表中移除本地安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="142"/>
+        <source>No package manager installation is selected</source>
+        <translation type="unfinished">未选择包管理器安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="143"/>
+        <source>Executable path</source>
+        <translation type="unfinished">可执行文件路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="150"/>
+        <source>Download Package Manager...</source>
+        <translation type="unfinished">下载包管理器...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="156"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished">卸载已下载的版本</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="167"/>
+        <source>Package Options</source>
+        <translation type="unfinished">包选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="197"/>
+        <source>Output timeout</source>
+        <translation type="unfinished">输出超时</translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerWindow</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageManagerWindow.qml" line="22"/>
+        <source>Package Manager</source>
+        <translation type="unfinished">包管理器</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished">卸载包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Package</source>
+        <translation type="unfinished">卸载包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="21"/>
+        <source>Other packages depend on %1. Uninstall this package and all packages listed below?</source>
+        <translation type="unfinished">其他包依赖 %1。是否卸载此包及下方列出的所有包？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="22"/>
+        <source>Uninstall %1?</source>
+        <translation type="unfinished">是否卸载 %1？</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="45"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished">要卸载的包</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallProgressDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="15"/>
+        <source>Preparing package uninstallation...</source>
+        <translation type="unfinished">正在准备包卸载...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="17"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished">卸载包</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="70"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished">要卸载的包</translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="323"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 </TS>

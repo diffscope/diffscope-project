@@ -197,16 +197,16 @@ if ($DsspDirectory) {
 }
 
 if ($DspmExecutable) {
-    $packageManagerPluginRelativePath = switch ($ArtifactPlatform) {
-        "Windows" { "lib/$applicationName/plugins/packagemanager" }
-        "macOS" { "$applicationName.app/Contents/Plugins/packagemanager" }
-        "Linux" { "lib/$applicationName/plugins/packagemanager" }
+    $synthPluginRelativePath = switch ($ArtifactPlatform) {
+        "Windows" { "lib/$applicationName/plugins/synth" }
+        "macOS" { "$applicationName.app/Contents/Plugins/synth" }
+        "Linux" { "lib/$applicationName/plugins/synth" }
     }
-    $packageManagerPluginDirectory = Join-Path $InstallDir $packageManagerPluginRelativePath
-    if (-not (Test-Path -LiteralPath $packageManagerPluginDirectory -PathType Container)) {
-        throw "Installed package manager plugin directory does not exist: $packageManagerPluginDirectory"
+    $synthPluginDirectory = Join-Path $InstallDir $synthPluginRelativePath
+    if (-not (Test-Path -LiteralPath $synthPluginDirectory -PathType Container)) {
+        throw "Installed synth plugin directory does not exist: $synthPluginDirectory"
     }
-    $dspmDestinationDirectory = Join-Path $packageManagerPluginDirectory "dspm"
+    $dspmDestinationDirectory = Join-Path $synthPluginDirectory "dspm"
     $dspmExecutableName = $ArtifactPlatform -eq "Windows" ? "dspm.exe" : "dspm"
     $dspmDestination = Join-Path $dspmDestinationDirectory $dspmExecutableName
     Write-Host "Bundling dspm: $DspmExecutable -> $dspmDestination"

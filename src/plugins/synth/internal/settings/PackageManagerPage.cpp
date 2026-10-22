@@ -3,6 +3,7 @@
 
 #include "PackageManagerPage.h"
 
+#include <QFileInfo>
 #include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QQuickItem>
@@ -12,14 +13,17 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <SVSCraftQuick/MessageBox.h>
+
 #include <appinstall/InstallationManager.h>
 
-#include <packagemanager/internal/PackageManagerSettings.h>
-#include <packagemanager/internal/PackageManagerUtils.h>
+#include <synth/internal/DsspServerManager.h>
+#include <synth/internal/PackageManagerSettings.h>
+#include <synth/internal/PackageManagerUtils.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerPage, "diffscope.packagemanager.packagemanagerpage")
+    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerPage, "diffscope.synth.packagemanagerpage")
 
     namespace {
 
@@ -29,12 +33,13 @@ namespace PackageManager {
 
     }
 
-    PackageManagerPage::PackageManagerPage(QObject *parent)
-        : Core::ISettingPage("org.diffscope.packagemanager.PackageManager", parent) {
+    PackageManagerPage::PackageManagerPage(DsspServerManager *server, QObject *parent)
+        : Core::ISettingPage("org.diffscope.synth.PackageManager", parent), m_server(server) {
         setTitle(tr("Package Manager"));
         setDescription(tr("Configure package manager settings"));
         connect(PackageManagerSettings::instance()->installationManager(), &AppInstall::InstallationManager::installationsChanged, this, &PackageManagerPage::installationsChanged);
         connect(PackageManagerSettings::instance()->installationManager(), &AppInstall::InstallationManager::busyChanged, this, &PackageManagerPage::busyChanged);
+        connect(m_server, &DsspServerManager::stateChanged, this, &PackageManagerPage::busyChanged);
     }
 
     PackageManagerPage::~PackageManagerPage() {
@@ -46,7 +51,7 @@ namespace PackageManager {
     }
 
     QString PackageManagerPage::sortKeyword() const {
-        return QStringLiteral("Package Manager");
+        return QStringLiteral("04PackageManager");
     }
 
     QObject *PackageManagerPage::widget() {
@@ -54,7 +59,7 @@ namespace PackageManager {
             return m_widget;
 
         qCDebug(lcPackageManagerPage) << "Creating widget";
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageManagerPage");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageManagerPage");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -84,10 +89,26 @@ namespace PackageManager {
         qCInfo(lcPackageManagerPage) << "Accepting";
         if (busy())
             return false;
+        const auto directory = m_widget->property("packageDir").toString();
+        if (QFileInfo::exists(directory) && !QFileInfo(directory).isDir()) {
+            setErrorMessage(tr("The package path is not a directory:\n%1").arg(directory));
+            return false;
+        }
+        const auto previousDirectory = PackageManagerSettings::packageDir();
         PackageManagerSettings::instance()->installationManager()->setSelection(m_selection);
         PackageManagerSettings::instance()->setProperty("packageDir", m_widget->property("packageDir"));
         PackageManagerSettings::instance()->setProperty("timeoutSeconds", m_widget->property("timeoutSeconds"));
         PackageManagerSettings::instance()->save();
+        setErrorMessage({});
+        if (previousDirectory != PackageManagerSettings::packageDir() && m_server->canStop()) {
+            auto item = qobject_cast<QQuickItem *>(m_widget);
+            if (SVS::MessageBox::question(
+                    Core::RuntimeInterface::qmlEngine(), item ? item->window() : nullptr, tr("Restart DiffSinger Synthesis Program"),
+                    tr("The package directory has changed. Restart DiffSinger Synthesis Program now? Synthesis tasks in progress will be aborted."),
+                    SVS::SVSCraft::Yes | SVS::SVSCraft::No, SVS::SVSCraft::No
+                ) == SVS::SVSCraft::Yes)
+                m_server->restart();
+        }
         return Core::ISettingPage::accept();
     }
 
@@ -123,7 +144,7 @@ namespace PackageManager {
     }
 
     bool PackageManagerPage::busy() const {
-        return m_validating || PackageManagerSettings::instance()->installationManager()->busy();
+        return m_validating || m_server->packageOperationActive() || PackageManagerSettings::instance()->installationManager()->busy();
     }
 
     void PackageManagerPage::addLocalInstallation(const QUrl &url) {

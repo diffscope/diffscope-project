@@ -32,13 +32,14 @@
 #include <uishell/USDef.h>
 #include <coreplugin/ActionWindowInterfaceBase.h>
 
-#include <packagemanager/internal/PackageInstallModel.h>
-#include <packagemanager/internal/PackageManagerSettings.h>
-#include <packagemanager/internal/PackageManagerUtils.h>
+#include <synth/internal/DsspServerManager.h>
+#include <synth/internal/PackageInstallModel.h>
+#include <synth/internal/PackageManagerSettings.h>
+#include <synth/internal/PackageManagerUtils.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
-    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerAddOn, "diffscope.packagemanager.packagemanageraddon")
+    Q_STATIC_LOGGING_CATEGORY(lcPackageManagerAddOn, "diffscope.synth.packagemanageraddon")
 
     namespace {
 
@@ -57,9 +58,9 @@ namespace PackageManager {
         }
 
         void addPackageSubtrees(QStandardItem *packageItem) {
-            packageItem->setChild(UIShell::USDef::PI_Dependencies, createSubtree(PackageManager::PackageManagerAddOn::tr("Dependencies")));
-            packageItem->setChild(UIShell::USDef::PI_OtherContributions, createSubtree(PackageManager::PackageManagerAddOn::tr("Other Contributions")));
-            packageItem->setChild(UIShell::USDef::PI_Singers, createSubtree(PackageManager::PackageManagerAddOn::tr("Singers")));
+            packageItem->setChild(UIShell::USDef::PI_Dependencies, createSubtree(Synth::Internal::PackageManagerAddOn::tr("Dependencies")));
+            packageItem->setChild(UIShell::USDef::PI_OtherContributions, createSubtree(Synth::Internal::PackageManagerAddOn::tr("Other Contributions")));
+            packageItem->setChild(UIShell::USDef::PI_Singers, createSubtree(Synth::Internal::PackageManagerAddOn::tr("Singers")));
         }
 
         QString resourcePath(const QJsonValue &value, const QString &directory) {
@@ -127,7 +128,10 @@ namespace PackageManager {
         }
 
         DspmResult runDspmJson(const QStringList &arguments) {
-            const auto result = parseDspmQueryResult(runCommandLineTool(PackageManagerSettings::dspmPath(), arguments, PackageManagerSettings::timeoutSeconds()));
+            const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+            const auto result = parseDspmQueryResult(runCommandLineTool(PackageManagerSettings::dspmPath(), arguments, PackageManagerSettings::timeoutSeconds(), [server] {
+                return !server || server->isShuttingDown();
+            }));
             if (!result.ok)
                 qCWarning(lcPackageManagerAddOn) << "dspm query failed" << arguments << result.errorMessage;
             return result;
@@ -137,14 +141,13 @@ namespace PackageManager {
             return {
                 QStringLiteral("--json"),
                 QStringLiteral("--packages-dir"),
-                PackageManagerSettings::packageDir().isEmpty() ? PackageManagerSettings::defaultPackageDir() : PackageManagerSettings::packageDir(),
+                PackageManagerSettings::packageDir(),
             };
         }
 
-        QStandardItem *createPackageItem(const QJsonObject &data) {
+        QStandardItem *createPackageItem(const QJsonObject &data, const QString &root) {
             const auto package = data.value(QStringLiteral("package")).toObject();
             const auto installation = data.value(QStringLiteral("installation")).toObject();
-            const auto root = PackageManagerSettings::packageDir().isEmpty() ? PackageManagerSettings::defaultPackageDir() : PackageManagerSettings::packageDir();
             const auto packagePath = QDir(root).absoluteFilePath(installation.value(QStringLiteral("directory")).toString());
             auto packageItem = createItem({
                 {UIShell::USDef::PR_IdRole, package.value(QStringLiteral("id")).toString()},
@@ -239,18 +242,19 @@ namespace PackageManager {
         }
 
         qCInfo(lcPackageManagerAddOn) << "Opening package manager";
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageManagerWindow");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageManagerWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        std::unique_ptr<QObject> object(component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}}));
+        auto object = component.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
         if (!object) {
             qFatal() << component.errorString();
         }
-        auto window = qobject_cast<QWindow *>(object.get());
+        auto window = qobject_cast<QWindow *>(object);
         if (!window) {
-            qFatal("PackageManagerWindow in DiffScope.PackageManager is not QWindow");
+            qFatal("PackageManagerWindow in DiffScope.Synth is not QWindow");
         }
+        std::unique_ptr<QObject> windowObject(object);
         m_window = window;
         window->setTransientParent(windowInterface->window());
         window->show();
@@ -262,7 +266,7 @@ namespace PackageManager {
     }
 
     void PackageManagerAddOn::refresh() {
-        if (m_refreshing || m_uninstalling || m_installing) {
+        if (m_refreshing || m_uninstalling || m_installing || packageOperationActive()) {
             return;
         }
 
@@ -279,8 +283,14 @@ namespace PackageManager {
             m_packageModel.clear();
 
         QStandardItemModel model;
-        const auto ok = populatePackageModel(&model, errorMessage);
+        const auto directory = PackageManagerSettings::packageDir();
+        auto ok = populatePackageModel(&model, errorMessage);
+        if (ok && directory != PackageManagerSettings::packageDir()) {
+            ok = false;
+            *errorMessage = tr("The package directory has changed. Refresh the package list before uninstalling packages.");
+        }
         if (ok) {
+            m_packageDirectory = directory;
             m_packageModel.clear();
             while (model.rowCount() > 0) {
                 m_packageModel.appendRow(model.takeRow(0));
@@ -295,8 +305,12 @@ namespace PackageManager {
     }
 
     void PackageManagerAddOn::uninstallPackage(int index) {
-        if (m_refreshing || m_uninstalling || m_installing || index < 0 || index >= m_packageModel.rowCount())
+        if (m_refreshing || m_uninstalling || m_installing || packageOperationActive() || index < 0 || index >= m_packageModel.rowCount())
             return;
+        if (m_packageDirectory != PackageManagerSettings::packageDir()) {
+            showError(tr("The package directory has changed. Refresh the package list before uninstalling packages."));
+            return;
+        }
         const auto item = m_packageModel.item(index);
         const auto target = dspmTarget(item->data(UIShell::USDef::PR_IdRole).toString(), item->data(UIShell::USDef::PR_VersionRole).toString());
         setUninstalling(true);
@@ -315,7 +329,7 @@ namespace PackageManager {
             }
             return selector;
         };
-        QQmlComponent progressComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageUninstallProgressDialog");
+        QQmlComponent progressComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageUninstallProgressDialog");
         if (progressComponent.isError())
             qFatal() << progressComponent.errorString();
         auto progressObject = progressComponent.createWithInitialProperties({
@@ -327,7 +341,7 @@ namespace PackageManager {
         std::unique_ptr<QObject> progressDialog(progressObject);
         auto progressWindow = qobject_cast<QWindow *>(progressObject);
         if (!progressWindow)
-            qFatal("PackageUninstallProgressDialog in DiffScope.PackageManager is not QWindow");
+            qFatal("PackageUninstallProgressDialog in DiffScope.Synth is not QWindow");
 
         const auto runRemoval = [&](const QStringList &targets, bool dryRun) {
             auto commandArguments = arguments;
@@ -358,7 +372,10 @@ namespace PackageManager {
                         progressDialog->setProperty("statusText", tr("Uninstalling packages..."));
                 }
             };
-            return parseRemovalResult(runCommandLineTool(executablePath, commandArguments, timeoutSeconds, {}, outputReceived), dryRun);
+            const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+            return parseRemovalResult(runCommandLineTool(executablePath, commandArguments, timeoutSeconds, [server, dryRun] {
+                return !server || server->isShuttingDown() || (!dryRun && !server->packageOperationActive());
+            }, outputReceived), dryRun);
         };
 
         qCInfo(lcPackageManagerAddOn) << "Preparing package removal" << target;
@@ -376,7 +393,7 @@ namespace PackageManager {
         for (const auto &selector : std::as_const(plan.targets))
             labels.append(packageLabel(selector));
 
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageUninstallDialog");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageUninstallDialog");
         if (component.isError())
             qFatal() << component.errorString();
         auto object = component.createWithInitialProperties({
@@ -390,6 +407,21 @@ namespace PackageManager {
         if (SVS::MessageBox::customExec(dialog.get()).toInt() != SVS::SVSCraft::Yes)
             return;
 
+        if (arguments.at(2) != PackageManagerSettings::packageDir() || executablePath != PackageManagerSettings::dspmPath()) {
+            showError(tr("The package manager settings have changed. Retry the operation."));
+            return;
+        }
+        const QPointer<DsspServerManager> server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        QString stopError;
+        if (!server->beginPackageOperation(m_window, &stopError)) {
+            if (!stopError.isEmpty())
+                showError(stopError);
+            return;
+        }
+        const auto operationGuard = qScopeGuard([server] {
+            if (server)
+                server->endPackageOperation();
+        });
         qCInfo(lcPackageManagerAddOn) << "Removing packages" << plan.targets;
         progressDialog->setProperty("packages", labels);
         progressDialog->setProperty("statusText", tr("Uninstalling packages..."));
@@ -405,6 +437,8 @@ namespace PackageManager {
         progressDialog->setProperty("statusText", tr("Refreshing package information..."));
         const auto refreshed = reloadPackageModel(&refreshError, true);
         progressWindow->hide();
+        if (server)
+            server->endPackageOperation();
         QString message;
         if (!result.ok)
             message = tr("Failed to uninstall packages:\n\n%1").arg(result.errorMessage);
@@ -418,12 +452,12 @@ namespace PackageManager {
     }
 
     void PackageManagerAddOn::installPackages(const QList<QUrl> &files) {
-        if (m_refreshing || m_uninstalling || m_installing || files.isEmpty())
+        if (m_refreshing || m_uninstalling || m_installing || packageOperationActive() || files.isEmpty())
             return;
         setInstalling(true);
         const auto guard = qScopeGuard([this] { setInstalling(false); });
         PackageInstallModel model;
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageInstallDialog");
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageInstallDialog");
         if (component.isError())
             qFatal() << component.errorString();
         auto object = component.createWithInitialProperties({
@@ -444,7 +478,10 @@ namespace PackageManager {
 
     void PackageManagerAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageManagerActions");
+        auto server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
+        Q_ASSERT(server);
+        connect(server, &DsspServerManager::stateChanged, this, &PackageManagerAddOn::packageOperationActiveChanged);
+        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "PackageManagerActions");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -464,7 +501,8 @@ namespace PackageManager {
     }
 
     bool PackageManagerAddOn::populatePackageModel(QStandardItemModel *model, QString *errorMessage) const {
-        auto listArguments = baseDspmArguments();
+        const auto arguments = baseDspmArguments();
+        auto listArguments = arguments;
         listArguments.append(QStringLiteral("list"));
 
         const auto listRoot = runDspmJson(listArguments);
@@ -487,7 +525,7 @@ namespace PackageManager {
                 return false;
             }
 
-            auto infoArguments = baseDspmArguments();
+            auto infoArguments = arguments;
             infoArguments.append(QStringLiteral("info"));
             infoArguments.append(QStringLiteral("--installed"));
             infoArguments.append(QStringLiteral("--"));
@@ -509,7 +547,7 @@ namespace PackageManager {
                 *errorMessage = tr("The command returned invalid package data.");
                 return false;
             }
-            model->appendRow(createPackageItem(data));
+            model->appendRow(createPackageItem(data, arguments.at(2)));
         }
         return true;
     }
@@ -519,6 +557,10 @@ namespace PackageManager {
             return;
         m_refreshing = refreshing;
         Q_EMIT refreshingChanged();
+    }
+
+    bool PackageManagerAddOn::packageOperationActive() const {
+        return Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>()->packageOperationActive();
     }
 
     void PackageManagerAddOn::setUninstalling(bool uninstalling) {

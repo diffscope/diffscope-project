@@ -1,10 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEINSTALLMODEL_H
-#define DIFFSCOPE_PACKAGEMANAGER_PACKAGEINSTALLMODEL_H
-
-#include <qqmlintegration.h>
+#ifndef DIFFSCOPE_SYNTH_INTERNAL_PACKAGEINSTALLMODEL_H
+#define DIFFSCOPE_SYNTH_INTERNAL_PACKAGEINSTALLMODEL_H
 
 #include <QAbstractListModel>
 #include <QJsonArray>
@@ -13,10 +11,11 @@
 #include <QStringList>
 #include <QUrl>
 #include <QWindow>
+#include <qqmlintegration.h>
 
-#include <packagemanager/internal/PackageManagerUtils.h>
+#include <synth/internal/PackageManagerUtils.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
     class PackageInstallModel : public QAbstractListModel {
         Q_OBJECT
@@ -114,4 +113,4 @@ namespace PackageManager {
 
 }
 
-#endif // DIFFSCOPE_PACKAGEMANAGER_PACKAGEINSTALLMODEL_H
+#endif // DIFFSCOPE_SYNTH_INTERNAL_PACKAGEINSTALLMODEL_H

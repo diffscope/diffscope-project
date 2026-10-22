@@ -7,8 +7,8 @@ import QtQuick.Controls
 
 import QActionKit
 
+import DiffScope.Synth
 import DiffScope.UIShell
-import DiffScope.PackageManager
 
 ActionCollection {
     id: d
@@ -16,7 +16,7 @@ ActionCollection {
     required property PackageManagerAddOn addOn
 
     ActionItem {
-        actionId: "org.diffscope.packagemanager.packageManager"
+        actionId: "org.diffscope.synth.packageManager"
         Action {
             onTriggered: () => {
                 Qt.callLater(() => d.addOn.openPackageManager())

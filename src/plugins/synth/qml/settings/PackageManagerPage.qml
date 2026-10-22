@@ -10,7 +10,7 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
-import DiffScope.PackageManager
+import DiffScope.Synth
 
 ScrollView {
     id: page
@@ -165,6 +165,7 @@ ScrollView {
 
             GroupBox {
                 title: qsTr("Package Options")
+                enabled: !page.pageHandle.busy
                 TextMatcherItem on title { matcher: page.matcher }
                 Layout.fillWidth: true
                 GridLayout {

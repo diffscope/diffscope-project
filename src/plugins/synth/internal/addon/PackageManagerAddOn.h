@@ -1,20 +1,20 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERADDON_H
-#define DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERADDON_H
-
-#include <qqmlintegration.h>
+#ifndef DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERADDON_H
+#define DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERADDON_H
 
 #include <QList>
 #include <QPointer>
 #include <QStandardItemModel>
+#include <QString>
 #include <QUrl>
 #include <QWindow>
+#include <qqmlintegration.h>
 
 #include <CoreApi/windowinterface.h>
 
-namespace PackageManager {
+namespace Synth::Internal {
 
     class PackageManagerAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
@@ -25,6 +25,7 @@ namespace PackageManager {
         Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
         Q_PROPERTY(bool uninstalling READ uninstalling NOTIFY uninstallingChanged)
         Q_PROPERTY(bool installing READ installing NOTIFY installingChanged)
+        Q_PROPERTY(bool packageOperationActive READ packageOperationActive NOTIFY packageOperationActiveChanged)
 
     public:
         explicit PackageManagerAddOn(QObject *parent = nullptr);
@@ -34,6 +35,7 @@ namespace PackageManager {
         bool refreshing() const;
         bool uninstalling() const;
         bool installing() const;
+        bool packageOperationActive() const;
 
         Q_INVOKABLE QModelIndex invalidIndex() const;
         Q_INVOKABLE void openPackageManager();
@@ -50,6 +52,7 @@ namespace PackageManager {
         void refreshingChanged();
         void uninstallingChanged();
         void installingChanged();
+        void packageOperationActiveChanged();
 
     private:
         bool populatePackageModel(QStandardItemModel *model, QString *errorMessage) const;
@@ -64,8 +67,9 @@ namespace PackageManager {
         bool m_uninstalling{};
         bool m_installing{};
         QPointer<QWindow> m_window;
+        QString m_packageDirectory;
     };
 
 }
 
-#endif // DIFFSCOPE_PACKAGEMANAGER_PACKAGEMANAGERADDON_H
+#endif // DIFFSCOPE_SYNTH_INTERNAL_PACKAGEMANAGERADDON_H

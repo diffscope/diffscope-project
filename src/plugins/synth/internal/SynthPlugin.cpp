@@ -26,6 +26,9 @@
 #include <synth/internal/DsspServerAddOn.h>
 #include <synth/internal/DsspServerManager.h>
 #include <synth/internal/DsspServerPage.h>
+#include <synth/internal/PackageManagerAddOn.h>
+#include <synth/internal/PackageManagerPage.h>
+#include <synth/internal/PackageManagerSettings.h>
 #include <synth/internal/ServicesPage.h>
 #include <synth/internal/SynthService.h>
 #include <synth/internal/SynthesisPage.h>
@@ -57,6 +60,7 @@ namespace Synth::Internal {
         }
         initializeControlPanels();
 
+        new PackageManagerSettings(pluginSpec()->location(), this);
         m_dsspServer = new DsspServerManager(pluginSpec()->location(), this);
         Core::RuntimeInterface::instance()->addObject(m_dsspServer);
         m_dsspServer->initialize();
@@ -65,6 +69,7 @@ namespace Synth::Internal {
         rootPage->addPage(new ArchitecturePage);
         rootPage->addPage(new ServicesPage(m_service));
         rootPage->addPage(new DsspServerPage(m_dsspServer));
+        rootPage->addPage(new PackageManagerPage(m_dsspServer));
         Core::CoreInterface::settingCatalog()->addPage(rootPage);
 
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisServicePanelAddOn>();
@@ -72,6 +77,8 @@ namespace Synth::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioExtractionAddOn>();
         Core::HomeWindowInterfaceRegistry::instance()->attach<DsspServerAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<DsspServerAddOn>();
+        Core::HomeWindowInterfaceRegistry::instance()->attach<PackageManagerAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<PackageManagerAddOn>();
         qCInfo(lcSynthPlugin) << "Initialized";
         return true;
     }
