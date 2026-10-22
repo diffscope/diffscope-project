@@ -30,7 +30,8 @@ namespace PackageManager {
         QString errorMessage;
     };
 
-    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds, const std::function<bool()> &isCancelled = {});
+    // Runs a command with a timeout measured from its most recent standard output or standard error.
+    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds, const std::function<bool()> &isCancelled = {}, const std::function<void(const QByteArray &)> &outputReceived = {});
     CommandResult validateDspmExecutable(const QString &path, int timeoutSeconds, const std::function<bool()> &isCancelled = {});
     DspmResult parseDspmQueryResult(const CommandResult &command);
     DspmResult parseDspmMutationResult(const CommandResult &command, const QString &operation, bool dryRun);

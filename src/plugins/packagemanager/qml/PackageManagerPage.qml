@@ -194,7 +194,7 @@ ScrollView {
 
                     Label {
                         id: timeoutLabel
-                        text: qsTr("Command timeout")
+                        text: qsTr("Output timeout")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
                     RowLayout {

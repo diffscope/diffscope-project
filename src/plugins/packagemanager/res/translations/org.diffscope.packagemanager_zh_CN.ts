@@ -115,15 +115,26 @@
         <translation type="unfinished">从列表中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageInstallDialog.qml" line="241"/>
+        <location filename="../../qml/PackageInstallDialog.qml" line="314"/>
         <source>Install</source>
         <translation type="unfinished">安装</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="258"/>
+        <location filename="../../qml/PackageInstallDialog.qml" line="292"/>
+        <source>Installation diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="262"/>
+        <source>Copy Diagnostics</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PackageManager::CommandLineTool</name>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="55"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="83"/>
         <source>The command line tool does not exist:
 
 %1
@@ -136,90 +147,230 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 请安装 dspm，并在“设置 &gt; 包管理器”中进行配置。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="124"/>
-        <source>The command timed out.</source>
-        <translation type="unfinished">命令超时。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="137"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="184"/>
         <source>The command exited with code %1.</source>
         <translation type="unfinished">命令以代码 %1 退出。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="50"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="78"/>
         <source>No package manager installation is selected. Configure it in Settings &gt; Package Manager.</source>
         <translation type="unfinished">未选择包管理器安装。请在“设置 &gt; 包管理器”中配置。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="153"/>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="171"/>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="178"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="200"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="217"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="224"/>
         <source>The command did not return valid JSON.</source>
         <translation type="unfinished">命令未返回有效的 JSON。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="155"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="202"/>
         <source>The selected command is not dspm.</source>
         <translation type="unfinished">所选命令不是 dspm。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="219"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="271"/>
         <source>The command reported an error.</source>
         <translation type="unfinished">命令报告了错误。</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageManagerUtils.cpp" line="226"/>
-        <source>The package manager returned an invalid operation result.</source>
-        <translation type="unfinished">包管理器返回了无效的操作结果。</translation>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="171"/>
+        <source>The command produced no output for %L1 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="241"/>
+        <source>Invalid JSON at output line %L1: %2
+%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="245"/>
+        <source>Output followed the final operation record:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="256"/>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="264"/>
+        <source>Unexpected operation record:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="280"/>
+        <source>Invalid operation summary:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="281"/>
+        <source>The command completed without an operation summary.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageManagerUtils.cpp" line="282"/>
+        <source>The package manager returned an invalid operation result:
+%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PackageManager::PackageInstallModel</name>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="74"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="142"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="74"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="142"/>
         <source>Unknown package</source>
         <translation type="unfinished">未知的包</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="214"/>
-        <location filename="../../internal/PackageInstallModel.cpp" line="225"/>
-        <source>Could not read installed packages.</source>
-        <translation type="unfinished">无法读取已安装的包。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="241"/>
-        <source>Required dependencies are missing or incompatible.</source>
-        <translation type="unfinished">必需的依赖项缺失或不兼容。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="241"/>
-        <source>The selected packages cannot be installed together.</source>
-        <translation type="unfinished">所选包无法一起安装。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="247"/>
-        <source>The package manager returned an invalid installation plan.</source>
-        <translation type="unfinished">包管理器返回了无效的安装计划。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="298"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="489"/>
         <source>Overwrite Existing Packages</source>
         <translation type="unfinished">覆盖现有包</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="299"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="490"/>
         <source>Some selected packages have different contents from installed packages with the same identifier. Replace the installed packages?</source>
         <translation type="unfinished">部分所选包与具有相同标识符的已安装包内容不同。是否替换已安装的包？</translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="309"/>
-        <source>Package installation failed.</source>
-        <translation type="unfinished">包安装失败。</translation>
+        <location filename="../../internal/PackageInstallModel.cpp" line="201"/>
+        <source>Checking packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="201"/>
+        <source>Installing packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="244"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="314"/>
+        <source>Inspecting %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="246"/>
+        <source>Extracting %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="248"/>
+        <source>Verifying %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="250"/>
+        <source>Checking dependencies...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="252"/>
+        <source>Saving installed packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="254"/>
+        <source>Waiting for another package operation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="264"/>
+        <source>Package %L1 of %L2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="269"/>
+        <source>%1 of %2 (%L3%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="272"/>
+        <source>%L1 of %L2 files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="327"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="351"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="364"/>
+        <source>The package manager returned invalid package information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="335"/>
+        <source>Could not inspect %1:
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="342"/>
+        <source>Multiple selected files identify %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="346"/>
+        <source>Reading installed packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="351"/>
+        <source>Could not read installed packages:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="380"/>
+        <source>Could not prepare package installation:
+
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="384"/>
+        <source>Missing or incompatible dependencies:
+%1
+
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="392"/>
+        <source>The package manager returned an invalid installation plan:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="426"/>
+        <source>%1 requires %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="434"/>
+        <source>Expected %L1 package actions, but received %L2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="444"/>
+        <source>Unexpected installation action:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="454"/>
+        <source>The installation action does not match %1:
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/PackageInstallModel.cpp" line="503"/>
+        <source>Package installation failed:
+
+%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -349,11 +500,6 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <translation type="unfinished">包目录</translation>
     </message>
     <message>
-        <location filename="../../qml/PackageManagerPage.qml" line="197"/>
-        <source>Command timeout</source>
-        <translation type="unfinished">命令超时</translation>
-    </message>
-    <message>
         <location filename="../../qml/PackageManagerPage.qml" line="211"/>
         <source>seconds</source>
         <translation type="unfinished">秒</translation>
@@ -402,6 +548,11 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <location filename="../../qml/PackageManagerPage.qml" line="167"/>
         <source>Package Options</source>
         <translation type="unfinished">包选项</translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageManagerPage.qml" line="197"/>
+        <source>Output timeout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

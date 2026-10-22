@@ -209,16 +209,89 @@ Window {
             }
         }
 
-        Label {
+        ColumnLayout {
             Layout.fillWidth: true
             Layout.leftMargin: 12
             Layout.rightMargin: 12
-            Layout.bottomMargin: visible ? 12 : 0
-            visible: text.length > 0
-            text: dialog.installModel.errorMessage
-            textFormat: Text.PlainText
-            color: Theme.errorColor
-            wrapMode: Text.Wrap
+            Layout.bottomMargin: 12
+            visible: dialog.installModel.busy
+            spacing: 4
+
+            Label {
+                Layout.fillWidth: true
+                text: dialog.installModel.progressText
+                textFormat: Text.PlainText
+                elide: Text.ElideMiddle
+            }
+            ProgressBar {
+                Layout.fillWidth: true
+                from: 0
+                to: 1
+                value: dialog.installModel.progress
+                indeterminate: dialog.installModel.progressIndeterminate
+                Accessible.name: dialog.installModel.progressText
+            }
+            Label {
+                Layout.fillWidth: true
+                text: dialog.installModel.progressDetail
+                textFormat: Text.PlainText
+                wrapMode: Text.WrapAnywhere
+                maximumLineCount: 4
+                elide: Text.ElideRight
+                visible: text.length > 0
+                ThemedItem.foregroundLevel: SVS.FL_Secondary
+            }
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: 12
+            Layout.rightMargin: 12
+            Layout.bottomMargin: 12
+            visible: dialog.installModel.errorMessage.length > 0
+            spacing: 4
+
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Installation diagnostics")
+                    color: Theme.errorColor
+                }
+                ToolButton {
+                    text: qsTr("Copy Diagnostics")
+                    icon.source: "image://fluent-system-icons/copy"
+                    display: AbstractButton.IconOnly
+                    focusPolicy: Qt.StrongFocus
+                    Accessible.name: text
+                    ToolTip.visible: hovered
+                    ToolTip.text: text
+                    onClicked: {
+                        diagnostics.selectAll()
+                        diagnostics.copy()
+                        diagnostics.deselect()
+                    }
+                }
+            }
+            ScrollView {
+                id: diagnosticsScroll
+                Layout.fillWidth: true
+                Layout.preferredHeight: Math.min(160, dialog.height / 3, diagnostics.implicitHeight)
+                contentWidth: availableWidth
+                clip: true
+
+                TextArea {
+                    id: diagnostics
+                    width: diagnosticsScroll.availableWidth
+                    text: dialog.installModel.errorMessage
+                    textFormat: TextEdit.PlainText
+                    wrapMode: TextEdit.Wrap
+                    readOnly: true
+                    selectByMouse: true
+                    activeFocusOnTab: true
+                    Accessible.name: qsTr("Installation diagnostics")
+                }
+            }
         }
 
         Rectangle {
@@ -251,6 +324,17 @@ Window {
                     enabled: !dialog.installModel.busy
                     onClicked: dialog.finish(false)
                 }
+            }
+        }
+    }
+
+    Connections {
+        target: dialog.installModel
+        function onProgressChanged() {
+            const row = dialog.installModel.activeRow
+            if (row >= 0 && packageList.currentIndex !== row) {
+                packageList.currentIndex = row
+                packageList.positionViewAtIndex(row, ListView.Contain)
             }
         }
     }

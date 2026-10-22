@@ -15,6 +15,7 @@
 #include <QLoggingCategory>
 #include <QProcess>
 #include <QTimer>
+#include <QVariant>
 #include <QtGlobal>
 
 namespace PackageManager {
@@ -34,11 +35,38 @@ namespace PackageManager {
             result->errorMessage = error.value(QStringLiteral("message")).toString();
             if (!result->errorCode.isEmpty() && !result->errorMessage.isEmpty())
                 result->errorMessage = QStringLiteral("%1: %2").arg(result->errorCode, result->errorMessage);
+            const auto details = error.value(QStringLiteral("details"));
+            if (details.isObject())
+                result->errorMessage.append(u'\n' + QString::fromUtf8(QJsonDocument(details.toObject()).toJson(QJsonDocument::Indented)));
+            else if (details.isArray())
+                result->errorMessage.append(u'\n' + QString::fromUtf8(QJsonDocument(details.toArray()).toJson(QJsonDocument::Indented)));
+            else if (details.isString())
+                result->errorMessage.append(u'\n' + details.toString());
+            else if (!details.isUndefined() && !details.isNull())
+                result->errorMessage.append(u'\n' + details.toVariant().toString());
+            for (const auto &diagnostic : record.value(QStringLiteral("diagnostics")).toArray())
+                if (diagnostic.isString() && !diagnostic.toString().isEmpty())
+                    result->errorMessage.append(u'\n' + diagnostic.toString());
+            const auto diagnosticDetails = record.value(QStringLiteral("diagnosticDetails")).toArray();
+            if (!diagnosticDetails.isEmpty())
+                result->errorMessage.append(u'\n' + QString::fromUtf8(QJsonDocument(diagnosticDetails).toJson(QJsonDocument::Indented)));
+        }
+
+        void appendCommandError(const CommandResult &command, DspmResult *result) {
+            if (result->errorMessage.isEmpty()) {
+                result->errorMessage = command.errorMessage;
+                return;
+            }
+            const auto standardError = QString::fromUtf8(command.stdErr).trimmed();
+            if (!standardError.isEmpty() && !result->errorMessage.contains(standardError))
+                result->errorMessage.append(QStringLiteral("\n\n") + standardError);
+            if (!command.ok && !command.errorMessage.isEmpty() && command.errorMessage != QString::fromUtf8(command.stdOut).trimmed() && !result->errorMessage.contains(command.errorMessage))
+                result->errorMessage.append(QStringLiteral("\n\n") + command.errorMessage);
         }
 
     }
 
-    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds, const std::function<bool()> &isCancelled) {
+    CommandResult runCommandLineTool(const QString &executablePath, const QStringList &arguments, int timeoutSeconds, const std::function<bool()> &isCancelled, const std::function<void(const QByteArray &)> &outputReceived) {
         CommandResult result;
         QProcess process;
 
@@ -66,10 +94,29 @@ namespace PackageManager {
         QTimer timer;
         QTimer cancellationTimer;
         timer.setSingleShot(true);
+        timer.setTimerType(Qt::PreciseTimer);
         bool timedOut = false;
         bool processError = false;
         bool processFinished = false;
+        const auto readOutput = [&] {
+            const auto output = process.readAllStandardOutput();
+            if (output.isEmpty())
+                return;
+            result.stdOut.append(output);
+            timer.start(timeoutMs);
+            if (outputReceived)
+                outputReceived(output);
+        };
+        const auto readError = [&] {
+            const auto output = process.readAllStandardError();
+            if (output.isEmpty())
+                return;
+            result.stdErr.append(output);
+            timer.start(timeoutMs);
+        };
 
+        QObject::connect(&process, &QProcess::readyReadStandardOutput, &eventLoop, readOutput);
+        QObject::connect(&process, &QProcess::readyReadStandardError, &eventLoop, readError);
         QObject::connect(&process, SIGNAL(finished(int,QProcess::ExitStatus)), &eventLoop, SLOT(quit()));
         QObject::connect(&process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), &process, [&processFinished](int, QProcess::ExitStatus) {
             processFinished = true;
@@ -100,7 +147,6 @@ namespace PackageManager {
         process.start();
         timer.start(timeoutMs);
         eventLoop.exec();
-        timer.stop();
         cancellationTimer.stop();
 
         if ((timedOut || result.cancelled) && process.state() != QProcess::NotRunning) {
@@ -113,15 +159,16 @@ namespace PackageManager {
             killLoop.exec();
         }
 
-        result.stdOut = process.readAllStandardOutput();
-        result.stdErr = process.readAllStandardError();
+        readOutput();
+        readError();
+        timer.stop();
         result.exitCode = process.exitCode();
         logRawOutput(result);
 
         if (result.cancelled)
             return result;
         if (timedOut) {
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command timed out.");
+            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command produced no output for %L1 seconds.").arg(std::max(1, timeoutSeconds));
             return result;
         }
         if (processError && !processFinished) {
@@ -129,9 +176,9 @@ namespace PackageManager {
             return result;
         }
         if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
-            result.errorMessage = QString::fromLocal8Bit(result.stdErr).trimmed();
+            result.errorMessage = QString::fromUtf8(result.stdErr).trimmed();
             if (result.errorMessage.isEmpty()) {
-                result.errorMessage = QString::fromLocal8Bit(result.stdOut).trimmed();
+                result.errorMessage = QString::fromUtf8(result.stdOut).trimmed();
             }
             if (result.errorMessage.isEmpty()) {
                 result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command exited with code %1.").arg(process.exitCode());
@@ -165,8 +212,7 @@ namespace PackageManager {
         const auto root = document.object();
         if (!command.ok || !root.value(QStringLiteral("ok")).toBool()) {
             readDspmError(root, &result);
-            if (result.errorMessage.isEmpty())
-                result.errorMessage = command.errorMessage;
+            appendCommandError(command, &result);
             if (result.errorMessage.isEmpty())
                 result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command did not return valid JSON.");
             return result;
@@ -183,13 +229,20 @@ namespace PackageManager {
         DspmResult result;
         bool summaryReceived = false;
         bool errorReceived = false;
-        bool invalidOutput = false;
+        QString invalidOutput;
+        int lineNumber = 0;
         for (const auto &line : command.stdOut.split('\n')) {
+            ++lineNumber;
             if (line.trimmed().isEmpty())
                 continue;
-            const auto document = QJsonDocument::fromJson(line);
-            if (!document.isObject() || summaryReceived || errorReceived) {
-                invalidOutput = true;
+            QJsonParseError parseError;
+            const auto document = QJsonDocument::fromJson(line, &parseError);
+            if (!document.isObject()) {
+                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Invalid JSON at output line %L1: %2\n%3").arg(lineNumber).arg(parseError.errorString(), QString::fromUtf8(line));
+                break;
+            }
+            if (summaryReceived || errorReceived) {
+                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Output followed the final operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
             const auto record = document.object();
@@ -200,7 +253,7 @@ namespace PackageManager {
                 continue;
             }
             if (record.value(QStringLiteral("command")).toString() != operation || !record.contains(QStringLiteral("data")) || record.contains(QStringLiteral("ok")) || record.contains(QStringLiteral("error"))) {
-                invalidOutput = true;
+                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
             if (event == QStringLiteral("summary")) {
@@ -208,22 +261,27 @@ namespace PackageManager {
                 result.data = record.value(QStringLiteral("data"));
             } else if (event != QStringLiteral("progress") && event != QStringLiteral("plan") && event != QStringLiteral("result") &&
                        !(operation == QStringLiteral("install") && (event == QStringLiteral("inspect_start") || event == QStringLiteral("inspect_ok") || event == QStringLiteral("staged")))) {
-                invalidOutput = true;
+                invalidOutput = QCoreApplication::translate("PackageManager::CommandLineTool", "Unexpected operation record:\n%1").arg(QString::fromUtf8(line));
                 break;
             }
         }
         if (!command.ok || errorReceived) {
-            if (result.errorMessage.isEmpty())
-                result.errorMessage = command.errorMessage;
+            appendCommandError(command, &result);
             if (result.errorMessage.isEmpty())
                 result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The command reported an error.");
             return result;
         }
         const auto summary = result.data.toObject();
         const auto dryRunValue = summary.value(QStringLiteral("dryRun"));
-        result.ok = !invalidOutput && summaryReceived && dryRunValue.isBool() && dryRunValue.toBool() == dryRun && summary.value(QStringLiteral("actions")).isArray() && !summary.contains(QStringLiteral("ignored"));
-        if (!result.ok)
-            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The package manager returned an invalid operation result.");
+        result.ok = invalidOutput.isEmpty() && summaryReceived && dryRunValue.isBool() && dryRunValue.toBool() == dryRun && summary.value(QStringLiteral("actions")).isArray() && !summary.contains(QStringLiteral("ignored"));
+        if (!result.ok) {
+            if (invalidOutput.isEmpty())
+                invalidOutput = summaryReceived
+                    ? QCoreApplication::translate("PackageManager::CommandLineTool", "Invalid operation summary:\n%1").arg(QString::fromUtf8(QJsonDocument(summary).toJson(QJsonDocument::Indented)))
+                    : QCoreApplication::translate("PackageManager::CommandLineTool", "The command completed without an operation summary.");
+            result.errorMessage = QCoreApplication::translate("PackageManager::CommandLineTool", "The package manager returned an invalid operation result:\n%1").arg(invalidOutput);
+            appendCommandError(command, &result);
+        }
         return result;
     }
 
