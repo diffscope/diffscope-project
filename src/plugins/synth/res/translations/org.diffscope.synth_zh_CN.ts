@@ -1088,7 +1088,7 @@ X-Custom-Header-2: bar</translation>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="1310"/>
         <source>Array item must be a positive integer</source>
-        <translation type="unfinished">数组条目必须为正整数</translation>
+        <translation type="unfinished">数组项必须为正整数</translation>
     </message>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="1474"/>
@@ -1099,7 +1099,7 @@ X-Custom-Header-2: bar</translation>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="1519"/>
         <source>Field &apos;%1&apos; must contain at least one item</source>
-        <translation type="unfinished">字段 &apos;%1&apos; 必须至少包含一个条目</translation>
+        <translation type="unfinished">字段 &apos;%1&apos; 必须至少包含一项</translation>
     </message>
     <message>
         <location filename="../../internal/api/Dtos.cpp" line="1522"/>

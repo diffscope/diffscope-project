@@ -583,14 +583,6 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
     </message>
 </context>
 <context>
-    <name>QPlatformTheme</name>
-    <message>
-        <location filename="../../qml/PackageInstallDialog.qml" line="250"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PackageUninstallProgressDialog</name>
     <message>
         <location filename="../../qml/PackageUninstallProgressDialog.qml" line="15"/>
@@ -605,6 +597,14 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
     <message>
         <location filename="../../qml/PackageUninstallProgressDialog.qml" line="70"/>
         <source>Packages to uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="323"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -567,44 +567,44 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::EffectsAddOn</name>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="249"/>
         <source>Track: %1</source>
         <translation type="unfinished">轨道：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="249"/>
         <source>Track</source>
         <translation type="unfinished">轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="267"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="273"/>
         <source>Another audio reading filter is already attached to this track. Effects cannot process audio on this track.</source>
         <translation type="unfinished">此轨道已附加另一个音频读取过滤器。效果器无法处理此轨道上的音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="268"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="274"/>
         <source>Another audio reading filter is already attached to the master track. Effects cannot process master audio.</source>
         <translation type="unfinished">主音轨已附加另一个音频读取过滤器。效果器无法处理主音轨音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="327"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="333"/>
         <source>Applying effect preset</source>
         <translation type="unfinished">应用效果器预设</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="388"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="400"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="394"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="406"/>
         <source>Effects are unavailable for the master track.</source>
         <translation type="unfinished">主音轨不可使用效果器。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="424"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="516"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="532"/>
         <source>Effects are unavailable for this track.</source>
         <translation type="unfinished">此轨道不可使用效果器。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="506"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="522"/>
         <source>Effects cannot be edited for multiple tracks.</source>
         <translation type="unfinished">无法编辑多个轨道的效果器。</translation>
     </message>

@@ -123,12 +123,12 @@
         <location filename="../../qml/PackageInstallDialog.qml" line="258"/>
         <location filename="../../qml/PackageInstallDialog.qml" line="292"/>
         <source>Installation diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Installation diagnostics</translation>
     </message>
     <message>
         <location filename="../../qml/PackageInstallDialog.qml" line="262"/>
         <source>Copy Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copy Diagnostics</translation>
     </message>
 </context>
 <context>
@@ -176,43 +176,48 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="171"/>
         <source>The command produced no output for %L1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The command produced no output for %L1 seconds.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="241"/>
         <source>Invalid JSON at output line %L1: %2
 %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invalid JSON at output line %L1: %2
+%3</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="245"/>
         <source>Output followed the final operation record:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output followed the final operation record:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="256"/>
         <location filename="../../internal/PackageManagerUtils.cpp" line="264"/>
         <source>Unexpected operation record:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unexpected operation record:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="280"/>
         <source>Invalid operation summary:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invalid operation summary:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="281"/>
         <source>The command completed without an operation summary.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The command completed without an operation summary.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageManagerUtils.cpp" line="282"/>
         <source>The package manager returned an invalid operation result:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The package manager returned an invalid operation result:
+%1</translation>
     </message>
 </context>
 <context>
@@ -240,94 +245,98 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="203"/>
         <source>Checking packages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Checking packages...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="203"/>
         <source>Installing packages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Installing packages...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="246"/>
         <location filename="../../internal/PackageInstallModel.cpp" line="316"/>
         <source>Inspecting %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inspecting %1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="248"/>
         <source>Extracting %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extracting %1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="250"/>
         <source>Verifying %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verifying %1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="252"/>
         <source>Checking dependencies...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Checking dependencies...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="254"/>
         <source>Saving installed packages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saving installed packages...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="256"/>
         <source>Waiting for another package operation...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Waiting for another package operation...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="266"/>
         <source>Package %L1 of %L2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Package %L1 of %L2</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="271"/>
         <source>%1 of %2 (%L3%)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 of %2 (%L3%)</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="274"/>
         <source>%L1 of %L2 files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%L1 of %L2 files</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="329"/>
         <location filename="../../internal/PackageInstallModel.cpp" line="353"/>
         <location filename="../../internal/PackageInstallModel.cpp" line="366"/>
         <source>The package manager returned invalid package information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The package manager returned invalid package information.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="337"/>
         <source>Could not inspect %1:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not inspect %1:
+%2</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="344"/>
         <source>Multiple selected files identify %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Multiple selected files identify %1.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="348"/>
         <source>Reading installed packages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reading installed packages...</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="353"/>
         <source>Could not read installed packages:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not read installed packages:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="382"/>
         <source>Could not prepare package installation:
 
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not prepare package installation:
+
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="386"/>
@@ -335,42 +344,50 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
 %1
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Missing or incompatible dependencies:
+%1
+
+</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="394"/>
         <source>The package manager returned an invalid installation plan:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The package manager returned an invalid installation plan:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="428"/>
         <source>%1 requires %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 requires %2.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="436"/>
         <source>Expected %L1 package actions, but received %L2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Expected %L1 package actions, but received %L2.</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="446"/>
         <source>Unexpected installation action:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unexpected installation action:
+%1</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="456"/>
         <source>The installation action does not match %1:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The installation action does not match %1:
+%2</translation>
     </message>
     <message>
         <location filename="../../internal/PackageInstallModel.cpp" line="503"/>
         <source>Package installation failed:
 
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Package installation failed:
+
+%1</translation>
     </message>
 </context>
 <context>
@@ -453,18 +470,18 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
     <message>
         <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="356"/>
         <source>Checking package dependencies...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Checking package dependencies...</translation>
     </message>
     <message>
         <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="358"/>
         <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="395"/>
         <source>Uninstalling packages...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uninstalling packages...</translation>
     </message>
     <message>
         <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="405"/>
         <source>Refreshing package information...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Refreshing package information...</translation>
     </message>
 </context>
 <context>
@@ -568,7 +585,7 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
     <message>
         <location filename="../../qml/PackageManagerPage.qml" line="197"/>
         <source>Output timeout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output timeout</translation>
     </message>
 </context>
 <context>
@@ -608,29 +625,29 @@ Please install dspm and configure it in Settings &gt; Package Manager.</translat
     </message>
 </context>
 <context>
-    <name>QPlatformTheme</name>
-    <message>
-        <location filename="../../qml/PackageInstallDialog.qml" line="250"/>
-        <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
-    </message>
-</context>
-<context>
     <name>PackageUninstallProgressDialog</name>
     <message>
         <location filename="../../qml/PackageUninstallProgressDialog.qml" line="15"/>
         <source>Preparing package uninstallation...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preparing package uninstallation...</translation>
     </message>
     <message>
         <location filename="../../qml/PackageUninstallProgressDialog.qml" line="17"/>
         <source>Uninstall Packages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uninstall Packages</translation>
     </message>
     <message>
         <location filename="../../qml/PackageUninstallProgressDialog.qml" line="70"/>
         <source>Packages to uninstall</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Packages to uninstall</translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/PackageInstallDialog.qml" line="323"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancel</translation>
     </message>
 </context>
 </TS>

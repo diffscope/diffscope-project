@@ -489,37 +489,37 @@
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6878"/>
         <source>Paste timed items at the playhead or tracks after the current track.</source>
-        <translation type="unfinished">在播放头处粘贴带时间信息的条目，或在当前轨道之后粘贴轨道。</translation>
+        <translation type="unfinished">在播放头处粘贴带时间信息的项目，或在当前轨道之后粘贴轨道。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6879"/>
         <source>Select all items in the current editing scope.</source>
-        <translation type="unfinished">选择当前编辑范围内的全部条目。</translation>
+        <translation type="unfinished">选择当前编辑范围内的全部项目。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6880"/>
         <source>Select only the item under the editing cursor.</source>
-        <translation type="unfinished">仅选择编辑光标所在的条目。</translation>
+        <translation type="unfinished">仅选择编辑光标所在的项目。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6881"/>
         <source>Toggle the current item&apos;s selection without clearing other selections.</source>
-        <translation type="unfinished">切换当前条目的选中状态，并保留其他选择。</translation>
+        <translation type="unfinished">切换当前项目的选中状态，并保留其他选择。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6882"/>
         <source>Browse project items in a tree and change the selection.</source>
-        <translation type="unfinished">以树形结构浏览工程条目并更改选择。</translation>
+        <translation type="unfinished">以树形结构浏览工程中的项目并更改选择。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6883"/>
         <source>Move the editing cursor to the previous item without changing selection.</source>
-        <translation type="unfinished">将编辑光标移至上一条目，不更改选择。</translation>
+        <translation type="unfinished">将编辑光标移至上一项，不更改选择。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6884"/>
         <source>Move the editing cursor to the next item without changing selection.</source>
-        <translation type="unfinished">将编辑光标移至下一条目，不更改选择。</translation>
+        <translation type="unfinished">将编辑光标移至下一项，不更改选择。</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6885"/>
@@ -1107,7 +1107,7 @@
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6714"/>
         <source>Item Selector...</source>
-        <translation type="unfinished">条目选择器...</translation>
+        <translation type="unfinished">项目选择器...</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6715"/>
@@ -3609,7 +3609,7 @@ Please go to Plugins to see more details.</source>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="536"/>
         <source>Item Selector</source>
-        <translation type="unfinished">条目选择器</translation>
+        <translation type="unfinished">项目选择器</translation>
     </message>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="623"/>
@@ -3952,12 +3952,12 @@ Accidental Type: %4</source>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="299"/>
         <source>This item cannot be added because it would create an invalid or recursive menu.</source>
-        <translation type="unfinished">添加此条目将创建无效或递归菜单，因此无法添加。</translation>
+        <translation type="unfinished">添加此项将创建无效或递归菜单，因此无法添加。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="340"/>
         <source>This item cannot be moved to the selected position.</source>
-        <translation type="unfinished">无法将此条目移动至所选位置。</translation>
+        <translation type="unfinished">无法将此项移动至所选位置。</translation>
     </message>
     <message>
         <location filename="../../internal/settings/MenuPage.cpp" line="435"/>
@@ -4591,7 +4591,7 @@ Continue?</source>
         <translation type="unfinished">无法恢复工作区布局。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="431"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="437"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">无法将面板移动至浮动窗口。</translation>
     </message>
@@ -6134,7 +6134,7 @@ Continue to bounce?</source>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="29"/>
         <source>Restore the selected item to its defaults?</source>
-        <translation type="unfinished">是否将所选条目恢复为默认值？</translation>
+        <translation type="unfinished">是否将所选项恢复为默认值？</translation>
     </message>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="30"/>
@@ -6567,14 +6567,14 @@ Continue to bounce?</source>
 <context>
     <name>NotificationAddOnActions</name>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln error(s)</source>
         <translation>
             <numerusform>%Ln 个错误</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln warning(s)</source>
         <translation>
             <numerusform>%Ln 个警告</numerusform>
@@ -6605,7 +6605,7 @@ Continue to bounce?</source>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="34"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
         <source>Clear All</source>
         <translation>全部清除</translation>
     </message>

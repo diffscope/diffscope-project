@@ -4583,7 +4583,7 @@ Continue?</translation>
         <translation type="unfinished">The workspace layout could not be restored.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="431"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="437"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">The panel could not be moved to a floating window.</translation>
     </message>
@@ -6541,7 +6541,7 @@ Continue to bounce?</translation>
 <context>
     <name>NotificationAddOnActions</name>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln error(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln error</numerusform>
@@ -6549,7 +6549,7 @@ Continue to bounce?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln warning</numerusform>
@@ -6581,7 +6581,7 @@ Continue to bounce?</translation>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="34"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
         <source>Clear All</source>
         <translation>Clear All</translation>
     </message>

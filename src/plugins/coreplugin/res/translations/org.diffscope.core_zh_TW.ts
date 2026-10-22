@@ -4514,7 +4514,7 @@ Continue?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="431"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="437"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6476,14 +6476,14 @@ Continue to bounce?</source>
 <context>
     <name>NotificationAddOnActions</name>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln error(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="24"/>
+        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
         <source>%Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -6514,7 +6514,7 @@ Continue to bounce?</source>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="34"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
         <source>Clear All</source>
         <translation type="unfinished">Clear All</translation>
     </message>
