@@ -324,7 +324,6 @@ Item {
                         ThemedItem.tabIndicator: SVS.TI_Bottom
                         width: implicitWidth
                         DescriptiveText.toolTip: qsTr("Plugins required by this plugin, including indirect dependencies")
-                        DescriptiveText.activated: hovered
                         Accessible.description: DescriptiveText.toolTip
                     }
                     TabButton {
@@ -332,7 +331,6 @@ Item {
                         ThemedItem.tabIndicator: SVS.TI_Bottom
                         width: implicitWidth
                         DescriptiveText.toolTip: qsTr("Plugins that require this plugin, including indirect dependants")
-                        DescriptiveText.activated: hovered
                         Accessible.description: DescriptiveText.toolTip
                     }
                     TabButton {

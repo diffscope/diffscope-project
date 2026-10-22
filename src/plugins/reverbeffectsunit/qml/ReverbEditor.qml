@@ -151,7 +151,6 @@ ColumnLayout {
         DoubleSpinBox {
             Layout.minimumWidth: 64
             Accessible.name: qsTr("Dry/Wet Mix")
-            editable: true
             decimals: 2
             from: 0
             to: 100

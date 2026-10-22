@@ -92,7 +92,6 @@ ScrollView {
                     from: 1
                     to: Number.MAX_SAFE_INTEGER
                     stepSize: 1
-                    editable: true
                     value: d.currentState.steps?.pitch ?? 20
                     Accessible.labelledBy: pitchStepsLabel
                     onValueModified: control.setSteps("pitch", value)
@@ -107,7 +106,6 @@ ScrollView {
                     from: 1
                     to: Number.MAX_SAFE_INTEGER
                     stepSize: 1
-                    editable: true
                     value: d.currentState.steps?.variance ?? 20
                     Accessible.labelledBy: varianceStepsLabel
                     onValueModified: control.setSteps("variance", value)
@@ -122,7 +120,6 @@ ScrollView {
                     from: 1
                     to: Number.MAX_SAFE_INTEGER
                     stepSize: 1
-                    editable: true
                     value: d.currentState.steps?.acoustic ?? 20
                     Accessible.labelledBy: acousticStepsLabel
                     onValueModified: control.setSteps("acoustic", value)
@@ -137,7 +134,6 @@ ScrollView {
                     from: 0
                     to: 1
                     stepSize: 0.01
-                    editable: true
                     value: d.currentState.depth ?? 1
                     Accessible.labelledBy: depthLabel
                     onValueModified: control.setDepth(value)

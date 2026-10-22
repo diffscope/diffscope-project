@@ -129,8 +129,6 @@ QtObject {
                     checked: control.currentTool === modelData.tool
                     enabled: control.dynamicMixingContext?.available ?? false
                     ButtonGroup.group: toolGroup
-                    ToolTip.visible: hovered
-                    ToolTip.text: text
                     onClicked: control.setTool(modelData.tool)
                 }
             }

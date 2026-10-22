@@ -66,8 +66,6 @@ ActionCollection {
             id: statusButton
             text: root.server.statusText
             icon.source: "image://fluent-system-icons/" + root.server.statusIcon
-            icon.width: 16
-            icon.height: 16
             icon.color: {
                 if (root.server.statusIcon === "dssp_error")
                     return Theme.errorColor
@@ -76,11 +74,7 @@ ActionCollection {
                 return Theme.foregroundSecondaryColor
             }
             display: AbstractButton.IconOnly
-            focusPolicy: Qt.StrongFocus
-            Accessible.name: text
             Accessible.description: qsTr("Show DiffSinger Synthesis Program controls")
-            ToolTip.visible: hovered
-            ToolTip.text: text
             onClicked: serverMenu.popup(statusButton, mirrored ? width - serverMenu.width : 0, -serverMenu.implicitHeight)
 
             Menu {

@@ -71,11 +71,8 @@ PropertyEditorGroupBox {
                 label: languageField.label
                 rowItem: ToolButton {
                     text: qsTr("Enter custom language code")
-                    flat: true
                     display: AbstractButton.IconOnly
                     icon.source: "image://fluent-system-icons/edit"
-                    ToolTip.visible: hovered
-                    ToolTip.text: text
                     onClicked: () => {
                         const warningText = qsTr("Custom language codes may not be supported by the singer.")
                         const currentLanguage = groupBox.propertyMapper?.language

@@ -266,8 +266,6 @@ ColumnLayout {
             icon.source: "image://fluent-system-icons/chevron_left"
             enabled: editor.effectsUnit?.bandCount > 0
             onClicked: editor.effectsUnit.selectPreviousBand()
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("Next")
@@ -275,8 +273,6 @@ ColumnLayout {
             icon.source: "image://fluent-system-icons/chevron_right"
             enabled: editor.effectsUnit?.bandCount > 0
             onClicked: editor.effectsUnit.selectNextBand()
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("Add")
@@ -284,8 +280,6 @@ ColumnLayout {
             icon.source: "image://fluent-system-icons/add"
             enabled: editor.effectsUnit?.canAddBand ?? false
             onClicked: editor.effectsUnit.addBand()
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("Delete")
@@ -293,8 +287,6 @@ ColumnLayout {
             icon.source: "image://fluent-system-icons/delete"
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
             onClicked: editor.effectsUnit.removeCurrentBand()
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
 
         ToolBarContainerSeparator {
@@ -311,8 +303,6 @@ ColumnLayout {
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
             ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
             onToggled: editor.effectsUnit.setCurrentEnabled(checked)
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("Solo")
@@ -323,8 +313,6 @@ ColumnLayout {
             enabled: editor.effectsUnit?.hasCurrentBand ?? false
             ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
             onToggled: editor.effectsUnit.setCurrentSolo(checked)
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
 
         Item {
@@ -345,8 +333,6 @@ ColumnLayout {
             ButtonGroup.group: typeButtonGroup
             ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
             onClicked: editor.effectsUnit.setCurrentType(EqualizerEffectsUnit.Bell)
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("Low Shelf")
@@ -359,8 +345,6 @@ ColumnLayout {
             ButtonGroup.group: typeButtonGroup
             ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
             onClicked: editor.effectsUnit.setCurrentType(EqualizerEffectsUnit.LowShelf)
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
         ToolButton {
             text: qsTr("High Shelf")
@@ -373,8 +357,6 @@ ColumnLayout {
             ButtonGroup.group: typeButtonGroup
             ThemedItem.controlType: checked ? SVS.CT_Accent : SVS.CT_Normal
             onClicked: editor.effectsUnit.setCurrentType(EqualizerEffectsUnit.HighShelf)
-            ToolTip.visible: hovered
-            ToolTip.text: text
         }
     }
 

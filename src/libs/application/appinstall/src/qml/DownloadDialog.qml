@@ -94,7 +94,6 @@ Window {
                     }
                 }
                 wrapMode: Text.Wrap
-                Accessible.role: Accessible.StaticText
             }
 
             TabBar {

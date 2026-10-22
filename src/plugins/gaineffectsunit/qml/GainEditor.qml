@@ -58,7 +58,6 @@ GridLayout {
         from: -96
         to: 6
         value: editor.effectsUnit?.leftGainDb ?? 0
-        editable: true
         Accessible.labelledBy: leftLabel
         onValueModified: editor.effectsUnit.setLeftGainDb(value)
     }
@@ -97,7 +96,6 @@ GridLayout {
         from: -96
         to: 6
         value: editor.effectsUnit?.rightGainDb ?? 0
-        editable: true
         Accessible.labelledBy: rightLabel
         onValueModified: editor.effectsUnit.setRightGainDb(value)
     }

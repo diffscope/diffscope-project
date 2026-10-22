@@ -26,8 +26,6 @@ ActionCollection {
         readonly property DockingPanel panel: entry?.panel ?? null
         text: entry.text
         icon.source: entry.iconSource
-        icon.width: 16
-        icon.height: 16
         checkable: true
         enabled: collection.usable && !collection.session.busy
 

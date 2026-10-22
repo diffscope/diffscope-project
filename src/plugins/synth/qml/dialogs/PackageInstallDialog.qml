@@ -151,8 +151,6 @@ Window {
                                     visible: packageDelegate.model.status !== PackageInstallModel.Checking
                                     icon.source: "image://fluent-system-icons/" + (packageDelegate.error ? "dismiss_circle" : packageDelegate.warning ? "warning" : "subtract_circle")
                                     icon.color: packageDelegate.error ? Theme.errorColor : packageDelegate.warning ? Theme.warningColor : Theme.foregroundSecondaryColor
-                                    icon.width: 16
-                                    icon.height: 16
                                 }
                                 Label {
                                     text: packageDelegate.statusText
@@ -186,10 +184,6 @@ Window {
                         text: qsTr("Add Packages...")
                         icon.source: "image://fluent-system-icons/add"
                         display: AbstractButton.IconOnly
-                        focusPolicy: Qt.StrongFocus
-                        Accessible.name: text
-                        ToolTip.visible: hovered
-                        ToolTip.text: text
                         enabled: !dialog.installModel.busy
                         onClicked: packageFileDialog.open()
                     }
@@ -197,10 +191,6 @@ Window {
                         text: qsTr("Remove from List")
                         icon.source: "image://fluent-system-icons/subtract"
                         display: AbstractButton.IconOnly
-                        focusPolicy: Qt.StrongFocus
-                        Accessible.name: text
-                        ToolTip.visible: hovered
-                        ToolTip.text: text
                         enabled: !dialog.installModel.busy && packageList.currentIndex >= 0
                         onClicked: dialog.installModel.removeFile(packageList.currentIndex)
                     }
@@ -262,10 +252,6 @@ Window {
                     text: qsTr("Copy Diagnostics")
                     icon.source: "image://fluent-system-icons/copy"
                     display: AbstractButton.IconOnly
-                    focusPolicy: Qt.StrongFocus
-                    Accessible.name: text
-                    ToolTip.visible: hovered
-                    ToolTip.text: text
                     onClicked: {
                         diagnostics.selectAll()
                         diagnostics.copy()

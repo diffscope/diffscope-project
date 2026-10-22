@@ -704,10 +704,6 @@ Item {
                         text: qsTr("Install Packages...")
                         icon.source: "image://fluent-system-icons/add"
                         display: AbstractButton.IconOnly
-                        focusPolicy: Qt.StrongFocus
-                        Accessible.name: text
-                        ToolTip.visible: hovered
-                        ToolTip.text: text
                         enabled: !view.refreshing && !view.uninstalling && !view.installing
                         onClicked: view.installRequested()
                     }

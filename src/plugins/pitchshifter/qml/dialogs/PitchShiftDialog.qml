@@ -46,7 +46,6 @@ Dialog {
                 from: 10
                 to: 1000
                 value: dialog.stretch * 100
-                editable: true
                 onValueModified: dialog.stretch = value / 100
             }
             Label {
@@ -70,7 +69,6 @@ Dialog {
                 from: -24
                 to: 24
                 value: dialog.pitch
-                editable: true
                 onValueModified: dialog.pitch = value
             }
             Label {
@@ -111,7 +109,6 @@ Dialog {
                 from: -24
                 to: 24
                 value: dialog.formantShift
-                editable: true
                 onValueModified: dialog.formantShift = value
             }
             Label {

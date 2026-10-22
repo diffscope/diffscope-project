@@ -61,8 +61,6 @@ QtObject {
                 text: qsTr("Clear Failed Tasks")
                 display: AbstractButton.IconOnly
                 icon.source: "image://fluent-system-icons/delete"
-                ToolTip.visible: hovered
-                ToolTip.text: text
                 onClicked: root.addOn.clearFailedTasks()
             }
             ToolButton {
@@ -152,8 +150,6 @@ QtObject {
                                         text: serviceDelegate.expanded ? qsTr("Hide Tasks") : qsTr("Show Tasks")
                                         display: AbstractButton.IconOnly
                                         icon.source: serviceDelegate.expanded ? "image://fluent-system-icons/chevron_up" : "image://fluent-system-icons/chevron_down"
-                                        ToolTip.visible: hovered
-                                        ToolTip.text: text
                                         onClicked: serviceDelegate.expanded = !serviceDelegate.expanded
                                     }
                                 }

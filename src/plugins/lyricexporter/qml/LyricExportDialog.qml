@@ -294,13 +294,11 @@ Window {
                                             Layout.preferredWidth: 20
                                             Layout.preferredHeight: 20
                                             Layout.alignment: Qt.AlignVCenter
-                                            flat: true
                                             text: accessibleText
                                             display: AbstractButton.IconOnly
                                             icon.source: "image://fluent-system-icons/dismiss"
                                             icon.width: 12
                                             icon.height: 12
-                                            Accessible.name: accessibleText
                                             ToolTip.visible: hovered || activeFocus
                                             ToolTip.text: accessibleText
                                             onClicked: dialog.session.removeFilter(filterTag.modelData)
@@ -322,7 +320,6 @@ Window {
                                 text: qsTr("Add Filter")
                                 display: AbstractButton.IconOnly
                                 icon.source: "image://fluent-system-icons/add"
-                                Accessible.name: text
                                 ToolTip.visible: hovered || activeFocus
                                 ToolTip.text: text
                                 onClicked: dialog.addFilterFromInput()
@@ -414,7 +411,6 @@ Window {
                                                     icon.height: 12
                                                     contentItem.opacity: hovered || activeFocus ? 1 : 0
                                                     ThemedItem.controlType: SVS.CT_Accent
-                                                    Accessible.name: text
                                                     ToolTip.visible: hovered || activeFocus
                                                     ToolTip.text: text
                                                     onClicked: dialog.session.insertBreak(
@@ -459,7 +455,6 @@ Window {
                                         icon.height: 12
                                         contentItem.opacity: hovered || activeFocus ? 1 : 0
                                         ThemedItem.controlType: SVS.CT_Accent
-                                        Accessible.name: text
                                         ToolTip.visible: hovered || activeFocus
                                         ToolTip.text: text
                                         onClicked: dialog.session.insertInterlude(lineDelegate.index)
@@ -492,7 +487,6 @@ Window {
                                         icon.width: 12
                                         icon.height: 12
                                         ThemedItem.controlType: SVS.CT_Error
-                                        Accessible.name: accessibleText
                                         ToolTip.visible: showRemoveIcon
                                         ToolTip.text: accessibleText
                                         onClicked: dialog.session.removeBreak(lineDelegate.index)

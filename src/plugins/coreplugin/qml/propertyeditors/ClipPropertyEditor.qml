@@ -56,7 +56,6 @@ PropertyEditorGroupBox {
             }
             rowItem: ToolButton {
                 text: qsTr("Select track")
-                flat: true
                 display: AbstractButton.IconOnly
                 icon.source: "image://fluent-system-icons/location_target_square"
                 onClicked: () => {

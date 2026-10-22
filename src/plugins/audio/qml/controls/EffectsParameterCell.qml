@@ -73,7 +73,6 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.minimumWidth: 52
             Accessible.labelledBy: parameterLabel
-            editable: true
             decimals: control.decimals
             from: control.minimum
             to: control.maximum

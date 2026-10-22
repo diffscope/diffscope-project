@@ -76,7 +76,6 @@ ColumnLayout {
                 from: 1
                 to: 65535
                 value: editor.currentService?.port ?? 80
-                editable: true
                 Accessible.name: portLabel.text
                 onValueModified: editor.currentService.port = value
             }
@@ -189,7 +188,6 @@ ColumnLayout {
                     from: 1
                     to: 86400
                     value: editor.currentService?.requestTimeoutSeconds ?? 30
-                    editable: true
                     onValueModified: editor.currentService.requestTimeoutSeconds = value
                     Accessible.name: requestTimeoutLabel.text
                     Accessible.description: requestTimeoutLabel.description
@@ -210,7 +208,6 @@ ColumnLayout {
                 from: 0
                 to: 100
                 value: editor.currentService?.retryCount ?? 5
-                editable: true
                 onValueModified: editor.currentService.retryCount = value
                 Accessible.name: maximumRetriesLabel.text
                 Accessible.description: maximumRetriesLabel.description
@@ -229,7 +226,6 @@ ColumnLayout {
                 from: 1
                 to: 65535
                 value: editor.currentService?.taskConcurrency ?? 4
-                editable: true
                 onValueModified: editor.currentService.taskConcurrency = value
                 Accessible.name: concurrentTasksPerTypeLabel.text
                 Accessible.description: concurrentTasksPerTypeLabel.description
@@ -248,7 +244,6 @@ ColumnLayout {
                 from: 1
                 to: 65535
                 value: editor.currentService?.globalConcurrency ?? 64
-                editable: true
                 onValueModified: editor.currentService.globalConcurrency = value
                 Accessible.name: totalConcurrentTasksLabel.text
                 Accessible.description: totalConcurrentTasksLabel.description
@@ -269,7 +264,6 @@ ColumnLayout {
                     from: 1
                     to: 86400
                     value: editor.currentService?.healthCheckIntervalSeconds ?? 60
-                    editable: true
                     onValueModified: editor.currentService.healthCheckIntervalSeconds = value
                     Accessible.name: healthCheckIntervalLabel.text
                     Accessible.description: healthCheckIntervalLabel.description
@@ -284,7 +278,6 @@ ColumnLayout {
                 enabled: editor.currentService?.useSsl ?? false
                 onClicked: editor.currentService.verifySslCertificate = checked
                 DescriptiveText.toolTip: description
-                DescriptiveText.activated: hovered
                 Accessible.description: description
                 TextMatcherItem on text { matcher: editor.matcher }
             }

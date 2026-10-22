@@ -248,8 +248,6 @@ Window {
                                     display: AbstractButton.IconOnly
                                     text: qsTr("Remove singer")
                                     icon.source: "image://fluent-system-icons/subtract_circle"
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: text
                                     onClicked: {
                                         const oldRow = sourceButton.index
                                         if (dialog.sourcesModel.removeSinger(sourceButton.modelIndex))
@@ -467,7 +465,6 @@ Window {
 
                 ToolButton {
                     visible: dialog.sourcesModel.validationIssues.length > 0
-                    flat: true
                     display: AbstractButton.TextBesideIcon
                     text: qsTr("Source singer warnings")
                     icon.source: "image://fluent-system-icons/warning"

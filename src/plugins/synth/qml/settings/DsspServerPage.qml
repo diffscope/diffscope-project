@@ -114,10 +114,6 @@ ScrollView {
                             text: qsTr("Add Local Installation...")
                             icon.source: "image://fluent-system-icons/add"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: executableDialog.open()
                         }
 
@@ -125,11 +121,7 @@ ScrollView {
                             text: qsTr("Remove Local Installation from List")
                             icon.source: "image://fluent-system-icons/subtract"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
                             enabled: page.configuration.installationId.startsWith("local:")
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: page.pageHandle.removeLocalInstallation()
                         }
                     }
@@ -206,7 +198,6 @@ ScrollView {
                         Layout.columnSpan: 2
                         from: 1
                         to: 65535
-                        editable: true
                         value: page.configuration.port
                         Accessible.name: portLabel.text
                         onValueModified: page.pageHandle.setValue("port", value)
@@ -363,7 +354,6 @@ ScrollView {
                             SpinBox {
                                 from: 1
                                 to: 2147483647
-                                editable: true
                                 value: Math.round(page.configuration.logMaxFileSize / 1024)
                                 Accessible.name: logFileSizeLabel.text
                                 onValueModified: page.pageHandle.setValue("logMaxFileSize", value * 1024)
@@ -380,7 +370,6 @@ ScrollView {
                             SpinBox {
                                 from: 1
                                 to: 2147483647
-                                editable: true
                                 value: Math.round(page.configuration.logMaxArchiveSize / 1024)
                                 Accessible.name: logArchiveSizeLabel.text
                                 onValueModified: page.pageHandle.setValue("logMaxArchiveSize", value * 1024)
@@ -396,7 +385,6 @@ ScrollView {
                         SpinBox {
                             from: 1
                             to: 3650
-                            editable: true
                             value: page.configuration.logMaxArchiveDays
                             Accessible.name: logArchiveDaysLabel.text
                             onValueModified: page.pageHandle.setValue("logMaxArchiveDays", value)
@@ -411,7 +399,6 @@ ScrollView {
                             SpinBox {
                                 from: 0
                                 to: 9
-                                editable: true
                                 value: page.configuration.logCompressLevel
                                 Accessible.name: logCompressionLabel.text
                                 onValueModified: page.pageHandle.setValue("logCompressLevel", value)

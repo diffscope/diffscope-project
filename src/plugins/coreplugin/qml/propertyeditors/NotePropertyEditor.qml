@@ -27,7 +27,6 @@ PropertyEditorGroupBox {
             label: qsTr("Associated singing clip")
             rowItem: ToolButton {
                 text: qsTr("Select singing clip")
-                flat: true
                 display: AbstractButton.IconOnly
                 icon.source: "image://fluent-system-icons/location_target_square"
                 onClicked: () => {

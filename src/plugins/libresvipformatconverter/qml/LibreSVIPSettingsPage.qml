@@ -124,10 +124,6 @@ ScrollView {
                             text: qsTr("Add Local Installation...")
                             icon.source: "image://fluent-system-icons/add"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: page.pageHandle.browse()
                         }
 
@@ -135,11 +131,7 @@ ScrollView {
                             text: qsTr("Remove Local Installation from List")
                             icon.source: "image://fluent-system-icons/subtract"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
                             enabled: page.pageHandle.installationId.startsWith("local:")
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: page.pageHandle.removeLocalInstallation()
                         }
                     }

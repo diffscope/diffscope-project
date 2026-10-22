@@ -116,21 +116,13 @@ ScrollView {
                             text: qsTr("Add Local Installation...")
                             icon.source: "image://fluent-system-icons/add"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: dspmFileDialog.open()
                         }
                         ToolButton {
                             text: qsTr("Remove Local Installation from List")
                             icon.source: "image://fluent-system-icons/subtract"
                             display: AbstractButton.IconOnly
-                            focusPolicy: Qt.StrongFocus
                             enabled: page.pageHandle.installationId.startsWith("local:")
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: page.pageHandle.removeLocalInstallation()
                         }
                     }
@@ -186,10 +178,6 @@ ScrollView {
                         text: qsTr("Browse")
                         icon.source: "image://fluent-system-icons/folder_open"
                         display: AbstractButton.IconOnly
-                        focusPolicy: Qt.StrongFocus
-                        Accessible.name: text
-                        ToolTip.visible: hovered
-                        ToolTip.text: text
                         onClicked: packageDirDialog.open()
                     }
 
@@ -204,7 +192,6 @@ ScrollView {
                             from: 1
                             to: 300
                             value: page.timeoutSeconds
-                            editable: true
                             Accessible.name: timeoutLabel.text
                             onValueModified: page.timeoutSeconds = value
                         }

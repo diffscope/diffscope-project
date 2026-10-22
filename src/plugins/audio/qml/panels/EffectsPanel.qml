@@ -200,8 +200,6 @@ QtObject {
                                     text: effectDelegate.model.expanded ? qsTr("Collapse Effect") : qsTr("Expand Effect")
                                     display: AbstractButton.IconOnly
                                     icon.source: "image://fluent-system-icons/chevron_right"
-                                    icon.width: 16
-                                    icon.height: 16
                                     contentItem.rotation: effectDelegate.model.expanded ? 90 : 0
                                     onClicked: root.addOn.setExpanded(effectDelegate.index, !effectDelegate.model.expanded)
                                 }

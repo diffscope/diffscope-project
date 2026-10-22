@@ -372,15 +372,12 @@ PropertyEditorGroupBox {
 
             toolBar: ToolButton {
                 visible: groupBox.hasSingerResolutionWarning
-                flat: true
                 display: AbstractButton.IconOnly
                 text: qsTr("Singer information warning")
                 icon.source: "image://fluent-system-icons/warning"
                 icon.color: Theme.warningColor
                 icon.width: 20
                 icon.height: 20
-                ToolTip.visible: hovered
-                ToolTip.text: text
                 onClicked: groupBox.showSingerResolutionWarning()
             }
         }

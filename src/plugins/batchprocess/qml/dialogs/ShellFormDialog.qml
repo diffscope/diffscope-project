@@ -273,7 +273,6 @@ Dialog {
                     stepSize: numberEditorRoot.field ? numberEditorRoot.field.step : 1
                     decimals: numberEditorRoot.field ? numberEditorRoot.field.decimals : 0
                     value: numberEditorRoot.currentValue
-                    editable: true
                     onValueModified: numberEditorRoot.currentValue = value
                 }
             }

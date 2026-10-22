@@ -186,7 +186,6 @@ ScrollView {
                         decimals: 1
                         from: 0
                         to: 1000
-                        editable: true
                         value: page.pageHandle.paddingBase
                         onValueModified: page.pageHandle.paddingBase = value
                         Accessible.description: basePiecePaddingLabel.description
@@ -206,7 +205,6 @@ ScrollView {
                         decimals: 1
                         from: 0
                         to: 1000
-                        editable: true
                         value: page.pageHandle.paddingAdditional
                         onValueModified: page.pageHandle.paddingAdditional = value
                         Accessible.description: additionalOnsetPaddingLabel.description
@@ -226,7 +224,6 @@ ScrollView {
                         decimals: 1
                         from: 0
                         to: 1000
-                        editable: true
                         value: page.pageHandle.paddingGap
                         onValueModified: page.pageHandle.paddingGap = value
                         Accessible.description: pieceGapThresholdLabel.description
@@ -263,7 +260,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 1000
-                        editable: true
                         value: page.pageHandle.parameterSampleRate
                         onValueModified: page.pageHandle.parameterSampleRate = value
                         Accessible.description: parameterSampleRateLabel.description
@@ -282,7 +278,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 1000
-                        editable: true
                         value: page.pageHandle.mixSampleRate
                         onValueModified: page.pageHandle.mixSampleRate = value
                         Accessible.description: singerMixSampleRateLabel.description
@@ -317,7 +312,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 1024
-                        editable: true
                         value: page.pageHandle.cacheMaximumGiB
                         onValueModified: page.pageHandle.cacheMaximumGiB = value
                         Accessible.description: maximumCacheSizeLabel.description
@@ -336,7 +330,6 @@ ScrollView {
                     SpinBox {
                         from: 0
                         to: 3650
-                        editable: true
                         value: page.pageHandle.cacheExpiryDays
                         onValueModified: page.pageHandle.cacheExpiryDays = value
                         Accessible.description: cacheExpiryLabel.description
@@ -355,7 +348,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 16384
-                        editable: true
                         value: page.pageHandle.audioDownloadMaximumMiB
                         onValueModified: page.pageHandle.audioDownloadMaximumMiB = value
                         Accessible.description: maximumAudioDownloadSizeLabel.description
@@ -374,7 +366,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 86400
-                        editable: true
                         value: page.pageHandle.environmentTagTtlSeconds
                         onValueModified: page.pageHandle.environmentTagTtlSeconds = value
                         Accessible.description: environmentTagLifetimeLabel.description
@@ -415,7 +406,6 @@ ScrollView {
                     SpinBox {
                         from: 1
                         to: 1048576
-                        editable: true
                         value: page.pageHandle.diagnosticsMaximumMiB
                         onValueModified: page.pageHandle.diagnosticsMaximumMiB = value
                         Accessible.description: maximumDiagnosticsSizeLabel.description
@@ -434,7 +424,6 @@ ScrollView {
                     SpinBox {
                         from: 0
                         to: 3650
-                        editable: true
                         value: page.pageHandle.diagnosticsExpiryDays
                         onValueModified: page.pageHandle.diagnosticsExpiryDays = value
                         Accessible.description: diagnosticsExpiryLabel.description

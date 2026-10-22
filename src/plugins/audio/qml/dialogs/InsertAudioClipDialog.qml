@@ -101,7 +101,6 @@ Dialog {
                 checked: dialog.player?.playing ?? false
                 onClicked: if (dialog.player) dialog.player.playing = checked
                 text: playButton.checked ? qsTr("Pause") : qsTr("Play")
-                Accessible.name: text
                 icon.source: playButton.checked ? "image://fluent-system-icons/pause" : "image://fluent-system-icons/play"
                 display: AbstractButton.IconOnly
             }

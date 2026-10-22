@@ -182,6 +182,16 @@ Prefer ChorusKit registries/object pools over adding a singleton. If lifecycle o
 
 Use four-space QML indentation. Name files/types `PascalCase.qml`, IDs and properties `lowerCamelCase`, and declare injected dependencies as `required property`. Group imports as Qt, QActionKit/other framework modules, SVSCraft, then DiffScope modules. Prefer layouts and anchors over fixed coordinates.
 
+Avoid redundant control property declarations. Determine the effective defaults from the Qt base type, the SVSCraft control, and any project component in the inheritance chain.
+
+- Omit properties that repeat effective defaults unless a specific interaction requires an explicit declaration. Examples include `ToolButton.flat: true`, `SpinBox.editable: true`, `DoubleSpinBox.editable: true`, and `DescriptiveText.activated: hovered` on controls that already provide that binding.
+- Layout settings, including padding, spacing, orientation, alignment, and font, may (but not must) explicitly repeat default values. Icon dimensions are an exception. Omit `icon.width` and `icon.height` if they match the effective defaults, including the SVSCraft default of 16.
+- Set `ToolButton.focusPolicy` only if a specific interaction requires an explicit focus policy. Differences between platform defaults alone do not justify a declaration.
+- Button types derived from `AbstractButton` obtain their accessible names from `text`. Do not repeat the same value in `Accessible.name`, including through an intermediate property or an equivalent expression. Provide an explicit name only if it adds distinct semantics or the control has no suitable text. Field labels and custom content require separate consideration.
+- SVSCraft `Button` and `ToolButton` provide automatic action tooltips for nonempty `text` in `AbstractButton.IconOnly` mode. Do not duplicate these tooltips with `ToolTip.visible: hovered`, `ToolTip.text: text`, or an equivalent `DescriptiveText` configuration.
+- Use `DescriptiveText` for additional tooltip, status, and context-help text. If the accessible description should use the tooltip and status text, explicitly enable `DescriptiveText.bindAccessibleDescription` instead of maintaining a duplicate `Accessible.description` binding. This binding is disabled by default. `DescriptiveText` does not supply the accessible name.
+- Preserve custom tooltip content and activation conditions, including keyboard focus, disabled-state explanations, and text truncation. Ensure that custom tooltips do not duplicate the control's automatic action tooltip.
+
 All user-visible C++ strings use `tr()` and QML strings use `qsTr()`. Action text belongs in the action XML so QActionKit can translate and reuse it. Commit source `.ts` updates under the owning module's `res/translations/`; `.qm` files are generated. After changing translatable text, run:
 
 ```sh
@@ -193,7 +203,7 @@ Write user-facing window, dialog, and page titles, button text, and menu text in
 
 Use `RuntimeInterface::settings()` for user preferences and `RuntimeInterface::globalSettings()` only for machine-wide state. Group C++ keys by `staticMetaObject.className()` (or an equally stable module name), use descriptive `lowerCamelCase` keys, supply defaults, and balance every `beginGroup()` with `endGroup()`. In QML, use `SVSCraft.Extras.Settings` with a stable module-qualified category.
 
-Every interactive control must be keyboard reachable. Give icon-only controls meaningful `text`, tooltips, and `Accessible` metadata; preserve logical focus order. Use `control.mirrored`, layouts, and left/right padding correctly for RTL interfaces. Test long translations and never encode meaning by color alone.
+Every interactive control must be keyboard reachable. Give icon-only controls meaningful `text` and use the control's tooltip and accessibility defaults unless additional semantics are required. Preserve logical focus order. Use `control.mirrored`, layouts, and left/right padding correctly for RTL interfaces. Test long translations and never encode meaning by color alone.
 
 Unless explicitly required, do not fill in any translated strings in TS files.
 

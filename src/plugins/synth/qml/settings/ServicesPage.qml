@@ -161,20 +161,12 @@ Item {
                             text: qsTr("Add Service")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/add"
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             onClicked: page.addService()
                         }
                         ToolButton {
                             text: qsTr("Delete")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/delete"
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             enabled: serviceList.currentIndex >= 0
                             onClicked: page.removeCurrentService()
                         }
@@ -182,10 +174,6 @@ Item {
                             text: qsTr("Move Up")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/arrow_up"
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             enabled: serviceList.currentIndex > 0
                             onClicked: page.moveCurrentService(-1)
                         }
@@ -193,10 +181,6 @@ Item {
                             text: qsTr("Move Down")
                             display: AbstractButton.IconOnly
                             icon.source: "image://fluent-system-icons/arrow_down"
-                            focusPolicy: Qt.StrongFocus
-                            Accessible.name: text
-                            ToolTip.visible: hovered
-                            ToolTip.text: text
                             enabled: serviceList.currentIndex >= 0
                                      && serviceList.currentIndex + 1 < serviceList.count
                             onClicked: page.moveCurrentService(1)

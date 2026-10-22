@@ -81,12 +81,9 @@ Item {
             }
 
             ToolButton {
-                flat: true
                 display: AbstractButton.IconOnly
                 text: qsTr("Rename mixed singer")
                 icon.source: "image://fluent-system-icons/edit"
-                ToolTip.visible: hovered
-                ToolTip.text: text
                 onClicked: nameEditorPopup.open()
             }
 
@@ -95,21 +92,15 @@ Item {
             }
 
             ToolButton {
-                flat: true
                 display: AbstractButton.IconOnly
                 text: qsTr("Load preset")
                 icon.source: "image://fluent-system-icons/folder_open"
-                ToolTip.visible: hovered
-                ToolTip.text: text
             }
 
             ToolButton {
-                flat: true
                 display: AbstractButton.IconOnly
                 text: qsTr("Save preset")
                 icon.source: "image://fluent-system-icons/save"
-                ToolTip.visible: hovered
-                ToolTip.text: text
             }
         }
 
@@ -222,7 +213,6 @@ Item {
                             ToolButton {
                                 Layout.preferredWidth: 28
                                 Layout.preferredHeight: 28
-                                flat: true
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Configure singer")
                                 icon.source: "image://fluent-system-icons/settings"
@@ -239,7 +229,6 @@ Item {
                             ToolButton {
                                 Layout.preferredWidth: 28
                                 Layout.preferredHeight: 28
-                                flat: true
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Replace singer")
                                 icon.source: "image://fluent-system-icons/arrow_swap"
@@ -255,13 +244,10 @@ Item {
                             ToolButton {
                                 Layout.preferredWidth: 28
                                 Layout.preferredHeight: 28
-                                flat: true
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Move singer up")
                                 icon.source: "image://fluent-system-icons/arrow_up"
                                 enabled: singerRow.index > 0
-                                ToolTip.visible: hovered
-                                ToolTip.text: text
                                 onClicked: control.sourcesModel.moveSinger(singerRow.modelIndex,
                                                                            singerRow.index - 1)
                             }
@@ -269,13 +255,10 @@ Item {
                             ToolButton {
                                 Layout.preferredWidth: 28
                                 Layout.preferredHeight: 28
-                                flat: true
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Move singer down")
                                 icon.source: "image://fluent-system-icons/arrow_down"
                                 enabled: singerRow.index + 1 < singerListView.count
-                                ToolTip.visible: hovered
-                                ToolTip.text: text
                                 onClicked: control.sourcesModel.moveSinger(singerRow.modelIndex,
                                                                            singerRow.index + 1)
                             }
@@ -283,7 +266,6 @@ Item {
                             ToolButton {
                                 Layout.preferredWidth: 28
                                 Layout.preferredHeight: 28
-                                flat: true
                                 display: AbstractButton.IconOnly
                                 text: qsTr("Remove singer")
                                 icon.source: "image://fluent-system-icons/delete"
