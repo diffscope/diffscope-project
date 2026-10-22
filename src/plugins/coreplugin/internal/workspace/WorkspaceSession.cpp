@@ -356,10 +356,16 @@ namespace Core::Internal {
             qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties({{"host", QVariant::fromValue(host)}});
+        if (!object) {
+            qFatal() << component.errorString();
+        }
         auto window = qobject_cast<QQuickWindow *>(object);
         if (!window) {
-            qFatal() << "DockingWindow could not be created as a QQuickWindow." << component.errorString();
+            qFatal("DockingWindow in SVSCraft.UIComponents is not QQuickWindow");
         }
+#ifdef Q_OS_MACOS
+        window->setFlags((window->flags() & ~Qt::WindowType_Mask) | Qt::Tool);
+#endif
         window->QObject::setParent(this);
         QQmlEngine::setObjectOwnership(window, QQmlEngine::CppOwnership);
         window->setProperty("interactionEnabled", !m_busy);
