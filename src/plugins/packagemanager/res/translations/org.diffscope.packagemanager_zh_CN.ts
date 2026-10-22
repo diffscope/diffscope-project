@@ -376,31 +376,31 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 <context>
     <name>PackageManager::PackageManagerAddOn</name>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="58"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="60"/>
         <source>Dependencies</source>
         <translation type="unfinished">依赖项</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="60"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="62"/>
         <source>Singers</source>
         <translation type="unfinished">歌手</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="455"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="498"/>
         <source>Failed to get package information for %1:
 %2</source>
         <translation type="unfinished">获取 %1 的包信息失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="499"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="542"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="269"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="371"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="398"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="271"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="414"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="441"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -409,26 +409,26 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="59"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="61"/>
         <source>Other Contributions</source>
         <translation type="unfinished">其他贡献</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="434"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="443"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="466"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="477"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="486"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="509"/>
         <source>The command returned invalid package data.</source>
         <translation type="unfinished">命令返回的包数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="105"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="321"/>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="361"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="107"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="369"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="402"/>
         <source>The package manager returned an invalid uninstall result.</source>
         <translation type="unfinished">包管理器返回了无效的卸载结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="322"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="370"/>
         <source>Failed to prepare package uninstallation:
 
 %1</source>
@@ -437,18 +437,34 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="333"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="314"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="367"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="410"/>
         <source>Failed to uninstall packages:
 
 %1</source>
         <translation type="unfinished">无法卸载包：
 
 %1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="356"/>
+        <source>Checking package dependencies...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="358"/>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="395"/>
+        <source>Uninstalling packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addons/PackageManagerAddOn.cpp" line="405"/>
+        <source>Refreshing package information...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -597,6 +613,24 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <location filename="../../qml/PackageInstallDialog.qml" line="250"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallProgressDialog</name>
+    <message>
+        <location filename="../../qml/PackageUninstallProgressDialog.qml" line="15"/>
+        <source>Preparing package uninstallation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallProgressDialog.qml" line="17"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/PackageUninstallProgressDialog.qml" line="70"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

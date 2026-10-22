@@ -7,10 +7,12 @@
 #include <memory>
 #include <utility>
 
+#include <QByteArray>
 #include <QDir>
 #include <QEventLoop>
 #include <QFileInfo>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QLocale>
@@ -303,27 +305,6 @@ namespace PackageManager {
         const auto executablePath = PackageManagerSettings::dspmPath();
         const auto arguments = baseDspmArguments();
         const auto timeoutSeconds = PackageManagerSettings::timeoutSeconds();
-        const auto runRemoval = [&](const QStringList &targets, bool dryRun) {
-            auto commandArguments = arguments;
-            commandArguments.append(QStringLiteral("remove"));
-            if (dryRun) {
-                commandArguments.append(QStringLiteral("--dry-run"));
-                commandArguments.append(QStringLiteral("--cascade"));
-            }
-            commandArguments.append(QStringLiteral("--"));
-            commandArguments.append(targets);
-            return parseRemovalResult(runCommandLineTool(executablePath, commandArguments, timeoutSeconds), dryRun);
-        };
-
-        qCInfo(lcPackageManagerAddOn) << "Preparing package removal" << target;
-        auto plan = runRemoval({target}, true);
-        if (!plan.ok || !plan.targets.contains(target)) {
-            const auto message = plan.ok ? tr("The package manager returned an invalid uninstall result.") : plan.errorMessage;
-            showError(tr("Failed to prepare package uninstallation:\n\n%1").arg(message));
-            return;
-        }
-        plan.targets.removeAll(target);
-        plan.targets.prepend(target);
         const auto packageLabel = [this](const QString &selector) {
             for (int row = 0; row < m_packageModel.rowCount(); ++row) {
                 const auto item = m_packageModel.item(row);
@@ -334,6 +315,63 @@ namespace PackageManager {
             }
             return selector;
         };
+        QQmlComponent progressComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.PackageManager", "PackageUninstallProgressDialog");
+        if (progressComponent.isError())
+            qFatal() << progressComponent.errorString();
+        auto progressObject = progressComponent.createWithInitialProperties({
+            {QStringLiteral("packages"), QStringList{packageLabel(target)}},
+            {QStringLiteral("transientParent"), QVariant::fromValue(m_window.data())},
+        });
+        if (!progressObject)
+            qFatal() << progressComponent.errorString();
+        std::unique_ptr<QObject> progressDialog(progressObject);
+        auto progressWindow = qobject_cast<QWindow *>(progressObject);
+        if (!progressWindow)
+            qFatal("PackageUninstallProgressDialog in DiffScope.PackageManager is not QWindow");
+
+        const auto runRemoval = [&](const QStringList &targets, bool dryRun) {
+            auto commandArguments = arguments;
+            commandArguments.append(QStringLiteral("remove"));
+            if (dryRun) {
+                commandArguments.append(QStringLiteral("--dry-run"));
+                commandArguments.append(QStringLiteral("--cascade"));
+            }
+            commandArguments.append(QStringLiteral("--"));
+            commandArguments.append(targets);
+            QByteArray pendingOutput;
+            const auto outputReceived = [&](const QByteArray &output) {
+                pendingOutput.append(output);
+                qsizetype lineEnd;
+                while ((lineEnd = pendingOutput.indexOf('\n')) >= 0) {
+                    const auto line = pendingOutput.first(lineEnd);
+                    pendingOutput.remove(0, lineEnd + 1);
+                    const auto document = QJsonDocument::fromJson(line);
+                    if (!document.isObject())
+                        continue;
+                    const auto record = document.object();
+                    if (record.value(QStringLiteral("command")).toString() != QStringLiteral("remove") || record.value(QStringLiteral("event")).toString() != QStringLiteral("progress"))
+                        continue;
+                    const auto phase = record.value(QStringLiteral("data")).toObject().value(QStringLiteral("phase")).toString();
+                    if (phase == QStringLiteral("resolve"))
+                        progressDialog->setProperty("statusText", tr("Checking package dependencies..."));
+                    else if (phase == QStringLiteral("commit"))
+                        progressDialog->setProperty("statusText", tr("Uninstalling packages..."));
+                }
+            };
+            return parseRemovalResult(runCommandLineTool(executablePath, commandArguments, timeoutSeconds, {}, outputReceived), dryRun);
+        };
+
+        qCInfo(lcPackageManagerAddOn) << "Preparing package removal" << target;
+        progressWindow->show();
+        auto plan = runRemoval({target}, true);
+        progressWindow->hide();
+        if (!plan.ok || !plan.targets.contains(target)) {
+            const auto message = plan.ok ? tr("The package manager returned an invalid uninstall result.") : plan.errorMessage;
+            showError(tr("Failed to prepare package uninstallation:\n\n%1").arg(message));
+            return;
+        }
+        plan.targets.removeAll(target);
+        plan.targets.prepend(target);
         QStringList labels;
         for (const auto &selector : std::as_const(plan.targets))
             labels.append(packageLabel(selector));
@@ -353,6 +391,9 @@ namespace PackageManager {
             return;
 
         qCInfo(lcPackageManagerAddOn) << "Removing packages" << plan.targets;
+        progressDialog->setProperty("packages", labels);
+        progressDialog->setProperty("statusText", tr("Uninstalling packages..."));
+        progressWindow->show();
         auto result = runRemoval(plan.targets, false);
         const QSet<QString> expected(plan.targets.cbegin(), plan.targets.cend());
         const QSet<QString> removed(result.targets.cbegin(), result.targets.cend());
@@ -361,7 +402,9 @@ namespace PackageManager {
             result.errorMessage = tr("The package manager returned an invalid uninstall result.");
         }
         QString refreshError;
+        progressDialog->setProperty("statusText", tr("Refreshing package information..."));
         const auto refreshed = reloadPackageModel(&refreshError, true);
+        progressWindow->hide();
         QString message;
         if (!result.ok)
             message = tr("Failed to uninstall packages:\n\n%1").arg(result.errorMessage);

@@ -718,15 +718,15 @@ Item {
                         display: AbstractButton.IconOnly
                         onClicked: view.refreshRequested()
                         enabled: !view.refreshing && !view.uninstalling && !view.installing
-                        highlighted: view.refreshing || view.uninstalling
+                        highlighted: view.refreshing
                         RotationAnimator {
                             target: refreshButton.contentItem
                             from: 0
                             to: 360
                             duration: 2000
                             loops: Animation.Infinite
-                            running: view.refreshing || view.uninstalling
-                            alwaysRunToEnd: true
+                            running: view.refreshing
+                            onStopped: refreshButton.contentItem.rotation = 0
                         }
                     }
                 }
