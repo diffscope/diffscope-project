@@ -6723,6 +6723,14 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
     </message>
 </context>
 <context>
+    <name>SingerPickerPanel</name>
+    <message>
+        <location filename="../../qml/panels/SingerPickerPanel.qml" line="27"/>
+        <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SourcesPickerDialog</name>
     <message>
         <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="55"/>

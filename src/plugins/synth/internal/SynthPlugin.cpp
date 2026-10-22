@@ -19,6 +19,7 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerRegistry.h>
 
 #include <synth/SynthInterface.h>
 #include <synth/internal/ArchitecturePage.h>
@@ -84,6 +85,7 @@ namespace Synth::Internal {
     }
 
     void SynthPlugin::extensionsInitialized() {
+        connect(Core::CoreInterface::singerRegistry(), &Core::SingerRegistry::refreshRequested, m_service, &SynthService::refreshAll);
         m_dsspServer->enableNotifications();
         auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("SynthesisEnvironmentWelcomeWizardPage"), this);
         if (component->isError())

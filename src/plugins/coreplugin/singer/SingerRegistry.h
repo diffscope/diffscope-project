@@ -39,6 +39,7 @@ namespace Core {
         QStringList singerIds(const QString &architectureId) const;
 
     Q_SIGNALS:
+        void refreshRequested();
         void architectureIdsChanged(const QStringList &architectureIds);
         void architectureRegistered(const QString &architectureId);
         void architectureUpdated(const QString &architectureId);
