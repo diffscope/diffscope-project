@@ -94,12 +94,12 @@ Window {
         messageBoxHost.MessageBox.warning(qsTr("Source singer warnings"), `<ul>${items}</ul>`)
     }
 
-    function handlePickedSinger(architectureId, singerId) {
+    function handlePickedSinger(sources) {
         let success = false
         if (needsInitialPicker)
-            success = sourcesModel.trySelectInitialSinger(architectureId, singerId)
+            success = sourcesModel.trySelectInitialSinger(sources)
         else if (addPickerSelected)
-            success = sourcesModel.tryAppendSinger(architectureId, singerId)
+            success = sourcesModel.tryAppendSinger(sources)
         if (success)
             currentRow = Math.max(0, sourcesModel.count - 1)
     }
@@ -430,7 +430,7 @@ Window {
                         mixGroup: !dialog.needsInitialPicker && dialog.addPickerSelected
                                   ? dialog.sourcesModel.mixGroup
                                   : ""
-                        onSingerSelected: (architectureId, singerId) => dialog.handlePickedSinger(architectureId, singerId)
+                        onSingerSelected: sources => dialog.handlePickedSinger(sources)
                     }
 
                     Loader {

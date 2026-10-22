@@ -473,16 +473,13 @@ namespace Core {
         return false;
     }
 
-    bool SourcesPickerModelPrivate::validateSelection(const QString &architecture, const QString &singerId,
-                                                       QString *mixGroup, QJsonValue *defaultExtra) const {
-        if (!registry || architecture.isEmpty() || !registry->containsArchitecture(architecture) || singerId.isEmpty()
-            || !registry->containsSinger(architecture, singerId))
+    bool SourcesPickerModelPrivate::validateSelection(const SourcesPickerModel *selection, QString *mixGroup, opendspx::SingerRef *singer) const {
+        if (!selection || !selection->valid() || selection->count() != 1)
             return false;
-        const SingerInfo info = registry->singerInfo(architecture, singerId);
         if (mixGroup)
-            *mixGroup = info.mixGroup();
-        if (defaultExtra)
-            *defaultExtra = info.defaultExtra();
+            *mixGroup = selection->mixGroup();
+        if (singer)
+            *singer = selection->singer(selection->modelIndex(0));
         return true;
     }
 
@@ -532,6 +529,12 @@ namespace Core {
         for (const auto &root : d->roots)
             result.append(root->singer);
         return result;
+    }
+
+    opendspx::SingerRef SourcesPickerModel::singer(const QModelIndex &index) const {
+        Q_D(const SourcesPickerModel);
+        const auto *node = d->nodeForIndex(index);
+        return node ? SourcesPickerModelPrivate::cloneSinger(node->singer) : opendspx::SingerRef{};
     }
 
     void SourcesPickerModel::setSingers(const QList<opendspx::SingerRef> &singers) {
@@ -851,22 +854,20 @@ namespace Core {
         return result;
     }
 
-    bool SourcesPickerModel::trySelectInitialSinger(const QString &architecture, const QString &singerId) {
+    bool SourcesPickerModel::trySelectInitialSinger(SourcesPickerModel *selection) {
         Q_D(SourcesPickerModel);
-        QString mixGroup;
-        QJsonValue defaultExtra;
-        if (!d->validateSelection(architecture, singerId, &mixGroup, &defaultExtra))
+        opendspx::SingerRef singer;
+        if (!d->validateSelection(selection, nullptr, &singer))
             return d->reject(tr("The selected singer is no longer available."));
         if (!d->architectureId.isEmpty() && !d->roots.empty())
             return d->reject(tr("An initial singer can only be selected for an empty source selection."));
 
+        const auto architecture = selection->architectureId();
         const bool architectureChanged = d->architectureId != architecture;
         const int oldCount = static_cast<int>(d->roots.size());
         beginResetModel();
         d->architectureId = architecture;
         d->roots.clear();
-        auto singer = std::make_shared<opendspx::SingleSinger>(
-            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         d->roots.push_back(d->buildNode(singer, nullptr));
         d->rebuildNodeLookup();
         endResetModel();
@@ -876,23 +877,21 @@ namespace Core {
         return true;
     }
 
-    bool SourcesPickerModel::tryAppendSinger(const QString &architecture, const QString &singerId) {
+    bool SourcesPickerModel::tryAppendSinger(SourcesPickerModel *selection) {
         Q_D(SourcesPickerModel);
         if (!d->valid || d->roots.empty() || d->rootMixGroup.isEmpty())
             return d->reject(tr("The current source list cannot accept another singer."));
-        if (architecture != d->architectureId)
-            return d->reject(tr("The selected singer belongs to a different architecture."));
         QString mixGroup;
-        QJsonValue defaultExtra;
-        if (!d->validateSelection(architecture, singerId, &mixGroup, &defaultExtra))
+        opendspx::SingerRef singer;
+        if (!d->validateSelection(selection, &mixGroup, &singer))
             return d->reject(tr("The selected singer is no longer available."));
+        if (selection->architectureId() != d->architectureId)
+            return d->reject(tr("The selected singer belongs to a different architecture."));
         if (mixGroup.isEmpty() || mixGroup != d->rootMixGroup)
             return d->reject(tr("The selected singer is not compatible with the current mix group."));
 
         const int row = static_cast<int>(d->roots.size());
         beginInsertRows({}, row, row);
-        auto singer = std::make_shared<opendspx::SingleSinger>(
-            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         d->roots.push_back(d->buildNode(singer, nullptr));
         d->rebuildNodeLookup();
         endInsertRows();
@@ -900,19 +899,17 @@ namespace Core {
         return true;
     }
 
-    bool SourcesPickerModel::tryAppendSingerToMixed(const QModelIndex &mixedSingerIndex, const QString &architecture,
-                                                     const QString &singerId) {
+    bool SourcesPickerModel::tryAppendSingerToMixed(const QModelIndex &mixedSingerIndex, SourcesPickerModel *selection) {
         Q_D(SourcesPickerModel);
         auto *mixedNode = d->nodeForIndex(mixedSingerIndex);
         if (!d->mixedSinger(mixedNode) || !d->validations.value(mixedNode).valid)
             return d->reject(tr("The current mixed singer cannot accept entries while it is invalid."));
-        if (architecture != d->architectureId)
-            return d->reject(tr("The selected singer belongs to a different architecture."));
-
         QString mixGroup;
-        QJsonValue defaultExtra;
-        if (!d->validateSelection(architecture, singerId, &mixGroup, &defaultExtra))
+        opendspx::SingerRef singer;
+        if (!d->validateSelection(selection, &mixGroup, &singer))
             return d->reject(tr("The selected singer is no longer available."));
+        if (selection->architectureId() != d->architectureId)
+            return d->reject(tr("The selected singer belongs to a different architecture."));
         const QString requiredGroup = d->validations.value(mixedNode).effectiveMixGroup;
         if (requiredGroup.isEmpty() || mixGroup != requiredGroup)
             return d->reject(tr("The selected singer is not compatible with the current mix group."));
@@ -925,8 +922,6 @@ namespace Core {
         shares.append(1.0 / static_cast<double>(oldCount + 1));
 
         beginInsertRows(mixedSingerIndex, oldCount, oldCount);
-        auto singer = std::make_shared<opendspx::SingleSinger>(
-            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         mixedNode->children.push_back(d->buildNode(singer, mixedNode));
         d->syncMixedChildren(mixedNode);
         d->writeRatios(mixedNode, shares);
@@ -936,35 +931,43 @@ namespace Core {
         return true;
     }
 
-    bool SourcesPickerModel::tryReplaceSinger(const QModelIndex &index, const QString &architecture, const QString &singerId) {
+    bool SourcesPickerModel::tryReplaceSinger(const QModelIndex &index, SourcesPickerModel *selection) {
         Q_D(SourcesPickerModel);
         auto *node = d->nodeForIndex(index);
         auto *parentNode = node ? node->parent : nullptr;
         if (!node || !parentNode || !d->mixedSinger(parentNode) || !d->validations.value(parentNode).valid)
             return d->reject(tr("The current mixed singer cannot replace entries while it is invalid."));
-        if (architecture != d->architectureId)
-            return d->reject(tr("The selected singer belongs to a different architecture."));
         QString mixGroup;
-        QJsonValue defaultExtra;
-        if (!d->validateSelection(architecture, singerId, &mixGroup, &defaultExtra))
+        opendspx::SingerRef singer;
+        if (!d->validateSelection(selection, &mixGroup, &singer))
             return d->reject(tr("The selected singer is no longer available."));
+        if (selection->architectureId() != d->architectureId)
+            return d->reject(tr("The selected singer belongs to a different architecture."));
         const QString requiredGroup = d->validations.value(node).effectiveMixGroup;
         if (requiredGroup.isEmpty() || mixGroup != requiredGroup)
             return d->reject(tr("The selected singer is not compatible with the current mix group."));
 
-        auto singer = std::make_shared<opendspx::SingleSinger>(
-            singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(defaultExtra));
         if (singerEquals(node->singer, singer))
             return true;
         const int childCount = static_cast<int>(node->children.size());
         if (childCount > 0)
             beginRemoveRows(d->indexForNode(node), 0, childCount - 1);
-        node->singer = std::move(singer);
         node->children.clear();
-        d->syncMixedChildren(parentNode);
         d->rebuildNodeLookup();
         if (childCount > 0)
             endRemoveRows();
+        auto replacement = d->buildNode(singer, parentNode);
+        const int newChildCount = static_cast<int>(replacement->children.size());
+        if (newChildCount > 0)
+            beginInsertRows(index, 0, newChildCount - 1);
+        node->singer = std::move(singer);
+        node->children = std::move(replacement->children);
+        for (const auto &child : node->children)
+            child->parent = node;
+        d->syncMixedChildren(parentNode);
+        d->rebuildNodeLookup();
+        if (newChildCount > 0)
+            endInsertRows();
         d->changed();
         return true;
     }

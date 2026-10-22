@@ -6269,74 +6269,103 @@ Continue to bounce?</source>
 <context>
     <name>MixedSingerEditor</name>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="86"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="85"/>
         <source>Rename mixed singer</source>
         <translation type="unfinished">重命名混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="100"/>
-        <source>Load preset</source>
-        <translation type="unfinished">加载预设</translation>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="96"/>
+        <source>Save Preset</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="109"/>
-        <source>Save preset</source>
-        <translation type="unfinished">保存预设</translation>
-    </message>
-    <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="208"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="198"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="227"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="216"/>
         <source>Configure singer</source>
         <translation type="unfinished">配置歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="244"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="232"/>
         <source>Replace singer</source>
         <translation type="unfinished">替换歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="248"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="236"/>
         <source>An invalid mixed singer cannot replace entries.</source>
         <translation type="unfinished">无效的混合歌手无法替换条目。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="260"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="247"/>
         <source>Move singer up</source>
         <translation type="unfinished">上移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="274"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="258"/>
         <source>Move singer down</source>
         <translation type="unfinished">下移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="288"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="269"/>
         <source>Remove singer</source>
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="292"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="273"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished">混合歌手必须保留至少一个子歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="355"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="336"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="359"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="340"/>
         <source>An invalid mixed singer or empty mix group cannot accept another singer.</source>
         <translation type="unfinished">无效的混合歌手或空混合组无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="409"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="397"/>
         <source>Mixed singer name</source>
         <translation type="unfinished">混合歌手名称</translation>
+    </message>
+</context>
+<context>
+    <name>MixedSingerPresetNameDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="23"/>
+        <source>Save Mixed Singer Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="23"/>
+        <source>Rename Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="50"/>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="56"/>
+        <source>Preset name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="67"/>
+        <source>The preset could not be saved. The singer may no longer be available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="73"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="80"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6807,14 +6836,40 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
 <context>
     <name>SingerPicker</name>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="49"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="47"/>
+        <source>Single Singers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerPicker.qml" line="52"/>
+        <source>Mixed Singers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerPicker.qml" line="61"/>
         <source>Search</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="228"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="173"/>
+        <source>Architecture &quot;%1&quot; is unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerPicker.qml" line="261"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="374"/>
         <source>Drag to set singer</source>
         <translation type="unfinished">拖动以设置歌手</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerPicker.qml" line="408"/>
+        <source>Rename Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerPicker.qml" line="419"/>
+        <source>Delete Preset</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6834,7 +6889,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     </message>
     <message>
         <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="472"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="469"/>
         <source>Source singer warnings</source>
         <translation type="unfinished">声源歌手警告</translation>
     </message>
@@ -6849,47 +6904,47 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="323"/>
         <source>Move up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="334"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="332"/>
         <source>Move down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="345"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="343"/>
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="357"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="355"/>
         <source>Create mixed singer</source>
         <translation type="unfinished">创建混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="372"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="370"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="400"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="398"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="405"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="403"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished">当前声源列表无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="484"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="481"/>
         <source>OK</source>
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="489"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="486"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

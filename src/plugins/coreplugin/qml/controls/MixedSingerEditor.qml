@@ -93,14 +93,13 @@ Item {
 
             ToolButton {
                 display: AbstractButton.IconOnly
-                text: qsTr("Load preset")
-                icon.source: "image://fluent-system-icons/folder_open"
-            }
-
-            ToolButton {
-                display: AbstractButton.IconOnly
-                text: qsTr("Save preset")
+                text: qsTr("Save Preset")
                 icon.source: "image://fluent-system-icons/save"
+                enabled: control.mixedValid
+                onClicked: {
+                    savePresetDialog.initialName = control.currentName
+                    savePresetDialog.open()
+                }
             }
         }
 
@@ -360,6 +359,13 @@ Item {
         }
     }
 
+    MixedSingerPresetNameDialog {
+        id: savePresetDialog
+        anchors.centerIn: Overlay.overlay
+        sourcesModel: control.sourcesModel
+        modelIndex: control.modelIndex
+    }
+
     Popup {
         id: nameEditorPopup
 
@@ -453,8 +459,8 @@ Item {
             architectureId: control.sourcesModel.architectureId
             mixGroup: control.mixedGroup
 
-            onSingerSelected: (architectureId, singerId) => {
-                if (control.sourcesModel.tryAppendSingerToMixed(control.modelIndex, architectureId, singerId))
+            onSingerSelected: sources => {
+                if (control.sourcesModel.tryAppendSingerToMixed(control.modelIndex, sources))
                     appendSingerPopup.close()
             }
         }
@@ -492,9 +498,9 @@ Item {
             architectureId: control.sourcesModel.architectureId
             mixGroup: replacementPopup.targetMixGroup
 
-            onSingerSelected: (architectureId, singerId) => {
+            onSingerSelected: sources => {
                 if (replacementPopup.targetIndexValid
-                        && control.sourcesModel.tryReplaceSinger(replacementPopup.targetIndex, architectureId, singerId)) {
+                        && control.sourcesModel.tryReplaceSinger(replacementPopup.targetIndex, sources)) {
                     replacementPopup.close()
                 }
             }

@@ -36,6 +36,7 @@ namespace Core {
     class TrackColorSchema;
     class DefaultLyricManager;
     class SingerRegistry;
+    class MixedSingerPresets;
 
     class CoreInterfacePrivate;
 
@@ -49,6 +50,7 @@ namespace Core {
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
         Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
         Q_PROPERTY(SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
+        Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -63,6 +65,8 @@ namespace Core {
         static DefaultLyricManager *defaultLyricManager();
 
         static SingerRegistry *singerRegistry();
+
+        static MixedSingerPresets *mixedSingerPresets();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";

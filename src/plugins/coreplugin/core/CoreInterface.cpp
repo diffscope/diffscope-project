@@ -48,6 +48,7 @@
 
 #include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/MixedSingerPresets.h>
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/NotificationCenter.h>
@@ -77,6 +78,7 @@ namespace Core {
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
         SingerRegistry *singerRegistry;
+        MixedSingerPresets *mixedSingerPresets;
         Internal::NotificationCenter *notificationCenter;
 
         void init() {
@@ -89,6 +91,7 @@ namespace Core {
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
             singerRegistry = new SingerRegistry(q);
+            mixedSingerPresets = new MixedSingerPresets(q);
             notificationCenter = new Internal::NotificationCenter(q);
             QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
                              notificationCenter, &Internal::NotificationCenter::clearHiddenMessageIdentifiers);
@@ -134,6 +137,11 @@ namespace Core {
     SingerRegistry *CoreInterface::singerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->singerRegistry;
+    }
+
+    MixedSingerPresets *CoreInterface::mixedSingerPresets() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->mixedSingerPresets;
     }
 
     static Internal::NotificationManager::NotificationBubbleMode toInternalNotificationBubbleMode(CoreInterface::NotificationBubbleMode mode) {

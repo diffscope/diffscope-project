@@ -86,7 +86,7 @@ namespace Core {
         void writeRatios(Node *mixedNode, QList<double> ratios);
 
         bool reject(const QString &message);
-        bool validateSelection(const QString &architectureId, const QString &singerId, QString *mixGroup, QJsonValue *defaultExtra) const;
+        bool validateSelection(const SourcesPickerModel *selection, QString *mixGroup, opendspx::SingerRef *singer) const;
         void changed(bool countChanged = false);
     };
 

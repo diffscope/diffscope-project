@@ -16,7 +16,7 @@ ActionDockingPane {
     id: pane
     preferredSize: Qt.size(400, 480)
 
-    signal singerSelected(string architectureId, string singerId)
+    signal singerSelected(SourcesPickerModel sources)
 
     header: Item {
         anchors.fill: parent
@@ -34,8 +34,8 @@ ActionDockingPane {
     SingerPicker {
         anchors.fill: parent
         draggable: true
-        onSingerSelected: (architectureId, singerId) => {
-            pane.singerSelected(architectureId, singerId)
+        onSingerSelected: sources => {
+            pane.singerSelected(sources)
         }
     }
 }

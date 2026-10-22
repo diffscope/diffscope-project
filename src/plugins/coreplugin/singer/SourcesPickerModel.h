@@ -69,6 +69,7 @@ namespace Core {
         void setArchitectureId(const QString &architectureId);
 
         QList<opendspx::SingerRef> singers() const;
+        opendspx::SingerRef singer(const QModelIndex &index) const;
         void setSingers(const QList<opendspx::SingerRef> &singers);
         Q_INVOKABLE void fromSources(dspx::Sources *sources);
         Q_INVOKABLE void fromDefaultSinger(const QString &singerId);
@@ -105,10 +106,10 @@ namespace Core {
         Q_INVOKABLE QString firstLeafSingerId(const QModelIndex &index = {}) const;
         Q_INVOKABLE QVariantList ratios(const QModelIndex &mixedSingerIndex) const;
 
-        Q_INVOKABLE bool trySelectInitialSinger(const QString &architectureId, const QString &singerId);
-        Q_INVOKABLE bool tryAppendSinger(const QString &architectureId, const QString &singerId);
-        Q_INVOKABLE bool tryAppendSingerToMixed(const QModelIndex &mixedSingerIndex, const QString &architectureId, const QString &singerId);
-        Q_INVOKABLE bool tryReplaceSinger(const QModelIndex &index, const QString &architectureId, const QString &singerId);
+        Q_INVOKABLE bool trySelectInitialSinger(SourcesPickerModel *selection);
+        Q_INVOKABLE bool tryAppendSinger(SourcesPickerModel *selection);
+        Q_INVOKABLE bool tryAppendSingerToMixed(const QModelIndex &mixedSingerIndex, SourcesPickerModel *selection);
+        Q_INVOKABLE bool tryReplaceSinger(const QModelIndex &index, SourcesPickerModel *selection);
         Q_INVOKABLE bool removeSinger(const QModelIndex &index);
         Q_INVOKABLE bool moveSinger(const QModelIndex &index, int destinationRow);
         Q_INVOKABLE bool wrapSingerInMixed(const QModelIndex &index);
