@@ -220,99 +220,99 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="201"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="203"/>
         <source>Checking packages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="201"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="203"/>
         <source>Installing packages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="244"/>
-        <location filename="../../internal/PackageInstallModel.cpp" line="314"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="246"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="316"/>
         <source>Inspecting %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="246"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="248"/>
         <source>Extracting %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="248"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="250"/>
         <source>Verifying %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="250"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="252"/>
         <source>Checking dependencies...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="252"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="254"/>
         <source>Saving installed packages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="254"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="256"/>
         <source>Waiting for another package operation...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="264"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="266"/>
         <source>Package %L1 of %L2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="269"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="271"/>
         <source>%1 of %2 (%L3%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="272"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="274"/>
         <source>%L1 of %L2 files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="327"/>
-        <location filename="../../internal/PackageInstallModel.cpp" line="351"/>
-        <location filename="../../internal/PackageInstallModel.cpp" line="364"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="329"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="353"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="366"/>
         <source>The package manager returned invalid package information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="335"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="337"/>
         <source>Could not inspect %1:
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="342"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="344"/>
         <source>Multiple selected files identify %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="346"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="348"/>
         <source>Reading installed packages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="351"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="353"/>
         <source>Could not read installed packages:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="380"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="382"/>
         <source>Could not prepare package installation:
 
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="384"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="386"/>
         <source>Missing or incompatible dependencies:
 %1
 
@@ -320,29 +320,29 @@ Please install dspm and configure it in Settings &gt; Package Manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="392"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="394"/>
         <source>The package manager returned an invalid installation plan:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="426"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="428"/>
         <source>%1 requires %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="434"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="436"/>
         <source>Expected %L1 package actions, but received %L2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="444"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="446"/>
         <source>Unexpected installation action:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/PackageInstallModel.cpp" line="454"/>
+        <location filename="../../internal/PackageInstallModel.cpp" line="456"/>
         <source>The installation action does not match %1:
 %2</source>
         <translation type="unfinished"></translation>

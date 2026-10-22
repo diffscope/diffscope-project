@@ -149,14 +149,14 @@ namespace PackageManager {
     void PackageInstallModel::addFiles(const QList<QUrl> &files) {
         if (m_busy)
             return;
+        bool added = false;
         for (const auto &url : files) {
             if (!url.isLocalFile())
                 continue;
             const auto path = normalizedPath(url.toLocalFile());
             bool found = false;
-            for (auto &entry : m_entries) {
+            for (const auto &entry : std::as_const(m_entries)) {
                 if (pathKey(entry.path) == pathKey(path)) {
-                    entry.inspected = false;
                     found = true;
                     break;
                 }
@@ -169,8 +169,10 @@ namespace PackageManager {
             entry.path = path;
             m_entries.append(entry);
             endInsertRows();
+            added = true;
         }
-        validate();
+        if (added)
+            validate();
     }
 
     void PackageInstallModel::removeFile(int row) {
@@ -286,7 +288,7 @@ namespace PackageManager {
             Q_EMIT dataChanged(index(0, 0), index(m_entries.size() - 1, 0));
     }
 
-    void PackageInstallModel::validate(bool reinspect) {
+    void PackageInstallModel::validate() {
         if (m_busy)
             return;
         m_busy = true;
@@ -298,10 +300,10 @@ namespace PackageManager {
             notifyEntries();
             Q_EMIT stateChanged();
         });
-        validateEntries(reinspect);
+        validateEntries();
     }
 
-    void PackageInstallModel::validateEntries(bool reinspect) {
+    void PackageInstallModel::validateEntries() {
         m_errorMessage.clear();
         m_planValid = false;
         if (m_entries.isEmpty())
@@ -310,7 +312,7 @@ namespace PackageManager {
         QHash<QString, QList<int>> identities;
         for (int row = 0; row < m_entries.size(); ++row) {
             auto &entry = m_entries[row];
-            if (reinspect || !entry.inspected) {
+            if (!entry.inspected) {
                 setActivity(tr("Inspecting %1").arg(entry.path), row);
                 const auto result = query({QStringLiteral("info"), QStringLiteral("--file"), QStringLiteral("--"), entry.path});
                 const auto info = result.data.toObject();
@@ -471,10 +473,8 @@ namespace PackageManager {
     bool PackageInstallModel::install(QWindow *parent) {
         if (!canInstall())
             return false;
-        validate(true);
-        if (!canInstall())
-            return false;
         m_busy = true;
+        m_errorMessage.clear();
         Q_EMIT stateChanged();
         const auto guard = qScopeGuard([this] {
             m_busy = false;

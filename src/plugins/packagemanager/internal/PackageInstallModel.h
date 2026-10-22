@@ -87,8 +87,8 @@ namespace PackageManager {
 
         DspmResult query(const QStringList &arguments) const;
         DspmResult runInstallation(bool dryRun, bool overwrite);
-        void validate(bool reinspect = false);
-        void validateEntries(bool reinspect);
+        void validate();
+        void validateEntries();
         bool applyActions(const QJsonArray &actions, bool overwrite, QString *errorMessage);
         QStringList missingDependencies(const QJsonArray &installed) const;
         QString packageLabel(int row) const;
