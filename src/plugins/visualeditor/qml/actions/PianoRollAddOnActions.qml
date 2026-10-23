@@ -20,158 +20,114 @@ ActionCollection {
 
     required property QtObject addOn
     readonly property PianoRollPanelInterface pianoRollPanelInterface: addOn?.pianoRollPanelInterface ?? null
-    readonly property ActionGroup toolActionGroup: ActionGroup {
-        exclusive: true
+
+    component ToolAction: Action {
+        required property int tool
+
+        checkable: true
+        checked: d.pianoRollPanelInterface?.tool === tool
+        onTriggered: () => {
+            d.pianoRollPanelInterface.tool = tool
+            Qt.callLater(() => GlobalHelper.setProperty(this, "checked", d.pianoRollPanelInterface?.tool === tool))
+        }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pointerTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PointerTool
-            onTriggered: () => {
-                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PointerTool
-            }
+        ToolAction {
+            tool: PianoRollPanelInterface.PointerTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pencilTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PencilTool
-            onTriggered: () => {
-                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PencilTool
-            }
+        ToolAction {
+            tool: PianoRollPanelInterface.PencilTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.scissorTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.ScissorTool
-            onTriggered: () => {
-                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.ScissorTool
-            }
+        ToolAction {
+            tool: PianoRollPanelInterface.ScissorTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.selectTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.SelectTool
+        ToolAction {
+            tool: PianoRollPanelInterface.SelectTool
             icon.source: d.addOn?.altPressed ? "image://fluent-system-icons/cursor_text_rectangle_landscape_dash" : "image://fluent-system-icons/rectangle_landscape_dash"
-            onTriggered: () => {
-                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.SelectTool
-            }
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.handTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.HandTool
-            onTriggered: () => {
-                d.pianoRollPanelInterface.tool = PianoRollPanelInterface.HandTool
-            }
+        ToolAction {
+            tool: PianoRollPanelInterface.HandTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchPencilTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchPencilTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchPencilTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchLineTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchLineTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchLineTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchLineTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchBrushTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchBrushTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchBrushTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchEraserTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchEraserTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchEraserTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchRangeSelectTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchRangeSelectTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchRangeSelectTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchPointerTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchPointerTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchPointerTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchPenTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchPenTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchPenTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchPenTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchConvertTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchConvertTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchConvertTool
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool"
-        Action {
-            checkable: true
-            ActionGroup.group: d.toolActionGroup
-            checked: d.pianoRollPanelInterface?.tool === PianoRollPanelInterface.PitchAnchorSelectTool
-            onTriggered: d.pianoRollPanelInterface.tool = PianoRollPanelInterface.PitchAnchorSelectTool
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchAnchorSelectTool
         }
     }
 
