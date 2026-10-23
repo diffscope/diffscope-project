@@ -353,37 +353,37 @@
         <translation type="unfinished">请选择要下载的版本。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="122"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="121"/>
         <source>Version</source>
         <translation type="unfinished">版本</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="137"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="136"/>
         <source>No versions have been released.</source>
         <translation type="unfinished">尚未发布任何版本。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="137"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="136"/>
         <source>This version is not available for this system.</source>
         <translation type="unfinished">此版本不适用于此系统。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="152"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="151"/>
         <source>Retry</source>
         <translation type="unfinished">重试</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="158"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="157"/>
         <source>Release Notes</source>
         <translation type="unfinished">发行说明</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="174"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="173"/>
         <source>%1 of %2 (%3%)</source>
         <translation type="unfinished">%1 / %2（%3%）</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="191"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="190"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>
@@ -392,7 +392,7 @@
     <name>QPlatformTheme</name>
     <message>
         <location filename="../../src/qml/UninstallDialog.qml" line="108"/>
-        <location filename="../../src/qml/DownloadDialog.qml" line="195"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="194"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

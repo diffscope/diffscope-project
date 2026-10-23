@@ -203,17 +203,17 @@
         <translation type="obsolete">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="255"/>
+        <location filename="../../core/CoreInterface.cpp" line="263"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="271"/>
+        <location filename="../../core/CoreInterface.cpp" line="279"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="285"/>
+        <location filename="../../core/CoreInterface.cpp" line="293"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</translation>
     </message>
@@ -1726,12 +1726,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="76"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="75"/>
         <source>Multiple tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="77"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="76"/>
         <source>%L1: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1777,6 +1777,11 @@
     <message>
         <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="54"/>
         <source>Maximum length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="56"/>
+        <source>Fix maximum length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2335,24 +2340,24 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="307"/>
+        <location filename="../../core/CoreInterface.cpp" line="315"/>
         <source>About %1</source>
         <translation type="unfinished">About %1</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="374"/>
+        <location filename="../../core/CoreInterface.cpp" line="382"/>
         <source>Unnamed track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="377"/>
+        <location filename="../../core/CoreInterface.cpp" line="385"/>
         <source>Unnamed clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
-        <location filename="../../core/CoreInterface.cpp" line="406"/>
-        <location filename="../../core/CoreInterface.cpp" line="424"/>
+        <location filename="../../core/CoreInterface.cpp" line="414"/>
+        <location filename="../../core/CoreInterface.cpp" line="432"/>
         <source>Untitled</source>
         <translation type="unfinished">Untitled</translation>
     </message>
@@ -2360,117 +2365,117 @@
 <context>
     <name>Core::DspxDocument</name>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1990"/>
         <source>Paste failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1990"/>
         <source>Cannot paste data from the clipboard.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2008"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
         <source>Pasting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2010"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2001"/>
         <source>Pasting label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2012"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2003"/>
         <source>Pasting key signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2014"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2005"/>
         <source>Pasting track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2016"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2007"/>
         <source>Pasting clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2018"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2009"/>
         <source>Pasting note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2020"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2011"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2022"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2013"/>
         <source>Pasting selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2058"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2049"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2061"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2052"/>
         <source>Deleting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2063"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2054"/>
         <source>Deleting label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2065"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2056"/>
         <source>Deleting key signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2067"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2058"/>
         <source>Deleting track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2060"/>
         <source>Deleting clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2071"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2062"/>
         <source>Deleting note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2073"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2064"/>
         <source>Deleting anchor node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2075"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2066"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2078"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
         <source>Deleting selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2144"/>
         <source>Splitting clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2153"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2144"/>
         <source>Splitting note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2308"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="2299"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4566,19 +4571,46 @@ You can check for problems in the file with DSPX Inspector.</translation>
         <translation type="unfinished">File created with another application</translation>
     </message>
     <message>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="167"/>
+        <source>This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="168"/>
         <source>name unknown</source>
         <translation type="unfinished">name unknown</translation>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
+        <source>File created with a potentially incompatible %1 version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
+        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>File created with incompatible %1 version</source>
-        <translation type="unfinished">File created with incompatible %1 version</translation>
+        <translation type="obsolete">File created with incompatible %1 version</translation>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="188"/>
         <source>Additional check failed</source>
         <translation type="unfinished">Additional check failed</translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="189"/>
+        <source>%1
+
+The file can still be opened, but it may cause potential problems.
+
+Do you want to continue opening it?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="198"/>
@@ -4727,54 +4759,54 @@ Do you want to save as a new file or overwrite it?</translation>
         <translation type="unfinished">, </translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="859"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="888"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="915"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="950"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="861"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="887"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="910"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="943"/>
         <source>The selected singer is no longer available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="861"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="863"/>
         <source>An initial singer can only be selected for an empty source selection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="882"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="883"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="884"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="910"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="946"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="889"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="912"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="945"/>
         <source>The selected singer belongs to a different architecture.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="890"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="918"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="953"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="891"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="915"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="948"/>
         <source>The selected singer is not compatible with the current mix group.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="908"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="906"/>
         <source>The current mixed singer cannot accept entries while it is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="944"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="939"/>
         <source>The current mixed singer cannot replace entries while it is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="979"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="982"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="1034"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="1037"/>
         <source>This singer cannot participate in a mixed singer.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6259,7 +6291,7 @@ Continue to bounce?</source>
         <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="50"/>
         <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="56"/>
         <source>Preset name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preset name</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="67"/>
@@ -6323,43 +6355,43 @@ Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="80"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
         <source>Custom language codes may not be supported by the singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="86"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="83"/>
         <source>Custom language code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="96"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="93"/>
         <source>Language code should not be empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="121"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="118"/>
         <source>Custom (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="127"/>
         <source>Pronunciation (original)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="118"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="133"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="115"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
         <source>Multiple values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="144"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="141"/>
         <source>Pronunciation (edited)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="145"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="142"/>
         <source>Editing pronunciation (edited)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6464,12 +6496,12 @@ Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="44"/>
+        <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="43"/>
         <source>Multiple clips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="45"/>
+        <location filename="../../qml/propertyeditors/NotePropertyEditor.qml" line="44"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
@@ -6761,18 +6793,18 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="261"/>
-        <location filename="../../qml/controls/SingerPicker.qml" line="374"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="238"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="354"/>
         <source>Drag to set singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="408"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="410"/>
         <source>Rename Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="419"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="421"/>
         <source>Delete Preset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7125,7 +7157,7 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="377"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="376"/>
         <source>Singer information warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7133,22 +7165,22 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="85"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="83"/>
         <source>Apply</source>
         <translation type="unfinished">Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="90"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="88"/>
         <source>Rename</source>
         <translation type="unfinished">Rename</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="95"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="93"/>
         <source>Delete</source>
         <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="142"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="140"/>
         <source>No Open Panels</source>
         <translation type="unfinished"></translation>
     </message>

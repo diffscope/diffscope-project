@@ -22,18 +22,18 @@
         <translation type="unfinished">左</translation>
     </message>
     <message>
-        <location filename="../../qml/GainEditor.qml" line="66"/>
-        <location filename="../../qml/GainEditor.qml" line="105"/>
+        <location filename="../../qml/GainEditor.qml" line="65"/>
+        <location filename="../../qml/GainEditor.qml" line="103"/>
         <source>dB</source>
         <translation type="unfinished">dB</translation>
     </message>
     <message>
-        <location filename="../../qml/GainEditor.qml" line="71"/>
+        <location filename="../../qml/GainEditor.qml" line="70"/>
         <source>Right</source>
         <translation type="unfinished">右</translation>
     </message>
     <message>
-        <location filename="../../qml/GainEditor.qml" line="110"/>
+        <location filename="../../qml/GainEditor.qml" line="108"/>
         <source>Link channels</source>
         <translation type="unfinished">关联声道</translation>
     </message>

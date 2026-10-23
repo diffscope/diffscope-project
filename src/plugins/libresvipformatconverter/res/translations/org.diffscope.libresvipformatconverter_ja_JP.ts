@@ -624,32 +624,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="135"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="131"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="152"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="144"/>
         <source>No LibreSVIP installation is selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="145"/>
         <source>Executable path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="168"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="160"/>
         <source>Uninstall Downloaded Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="161"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
         <source>Download LibreSVIP...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="177"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="169"/>
         <source>Automatically check for LibreSVIP updates</source>
         <translation type="unfinished"></translation>
     </message>

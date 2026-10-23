@@ -56,48 +56,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="53"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="52"/>
         <source>%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="59"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="58"/>
         <source>Pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="77"/>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="118"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="75"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="115"/>
         <source>semitones</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="84"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="82"/>
         <source>Formant Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="91"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="89"/>
         <source>Shift with pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="91"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="89"/>
         <source>Preserve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="91"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="89"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="99"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="97"/>
         <source>Formant Shift</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="124"/>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml" line="121"/>
         <source>Link Channels</source>
         <translation type="unfinished"></translation>
     </message>

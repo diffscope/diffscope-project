@@ -787,17 +787,17 @@
         <translation type="unfinished">框选</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="163"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="161"/>
         <source>Mixed singer</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="165"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="163"/>
         <source>Unnamed singer</source>
         <translation type="unfinished">未命名歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="237"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="235"/>
         <source>Voice blending is unavailable for this clip.</source>
         <translation type="unfinished">此剪辑无法使用声线融合。</translation>
     </message>
@@ -1151,88 +1151,88 @@
 <context>
     <name>ParameterTrack</name>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="273"/>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="274"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="267"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="268"/>
         <source>None</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="362"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="356"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="367"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="361"/>
         <source>Editing parameter</source>
         <translation type="unfinished">编辑参数</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="374"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="368"/>
         <source>Swap</source>
         <translation type="unfinished">交换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="384"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="378"/>
         <source>Ref</source>
         <translation type="unfinished">参考</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="389"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="383"/>
         <source>Reference parameter</source>
         <translation type="unfinished">参考参数</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="400"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="394"/>
         <source>Transform</source>
         <translation type="unfinished">变换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="410"/>
         <source>Pencil</source>
         <translation type="unfinished">铅笔</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="411"/>
         <source>Line</source>
         <translation type="unfinished">直线</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="418"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="412"/>
         <source>Fixing</source>
         <translation type="unfinished">固定</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="419"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="413"/>
         <source>Eraser</source>
         <translation type="unfinished">橡皮</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="420"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="414"/>
         <source>Range Select</source>
         <translation type="unfinished">范围选择</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="421"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="415"/>
         <source>Pointer</source>
         <translation type="unfinished">指针</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
         <source>Pen</source>
         <translation type="unfinished">钢笔</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="423"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
         <source>Convert</source>
         <translation type="unfinished">转换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="424"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="418"/>
         <source>Anchors Select</source>
         <translation type="unfinished">锚点选择</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="446"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="440"/>
         <source>Unsupported parameter</source>
         <translation type="unfinished">不支持的参数</translation>
     </message>
@@ -1262,68 +1262,68 @@
 <context>
     <name>PianoRollAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="193"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="149"/>
         <source>Auto</source>
         <translation>自动</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="194"/>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="232"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="150"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="188"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="195"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="151"/>
         <source>Whole note</source>
         <translation>全音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="196"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="152"/>
         <source>Half note</source>
         <translation>二分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="197"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="153"/>
         <source>Quarter note</source>
         <translation>四分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="198"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="154"/>
         <source>8th note</source>
         <translation>八分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="199"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="155"/>
         <source>16th note</source>
         <translation>16 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="200"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="156"/>
         <source>32nd note</source>
         <translation>32 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="201"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="157"/>
         <source>64th note</source>
         <translation>64 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="202"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="158"/>
         <source>128th note</source>
         <translation>128 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="233"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="189"/>
         <source>Triplet</source>
         <translation>三连音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="234"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="190"/>
         <source>Quintuplet</source>
         <translation>五连音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="274"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="230"/>
         <source>Edit clip</source>
         <translation>编辑剪辑</translation>
     </message>
@@ -1354,32 +1354,32 @@
 <context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="625"/>
+        <location filename="../../qml/PianoRollView.qml" line="658"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1019"/>
+        <location filename="../../qml/PianoRollView.qml" line="1052"/>
         <source>No clip selected</source>
         <translation>未选择剪辑</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1025"/>
+        <location filename="../../qml/PianoRollView.qml" line="1058"/>
         <source>Activate a clip to edit</source>
         <translation>激活剪辑以编辑</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1058"/>
+        <location filename="../../qml/PianoRollView.qml" line="1104"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1065"/>
+        <location filename="../../qml/PianoRollView.qml" line="1111"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1071"/>
+        <location filename="../../qml/PianoRollView.qml" line="1117"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>

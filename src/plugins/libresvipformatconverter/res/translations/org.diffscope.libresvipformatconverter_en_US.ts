@@ -836,22 +836,22 @@
         <translation type="unfinished">Add Local Installation...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="135"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="131"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished">Remove Local Installation from List</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="152"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="144"/>
         <source>No LibreSVIP installation is selected</source>
         <translation type="unfinished">No LibreSVIP installation is selected</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="145"/>
         <source>Executable path</source>
         <translation type="unfinished">Executable path</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="168"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="160"/>
         <source>Uninstall Downloaded Version</source>
         <translation type="unfinished">Uninstall Downloaded Version</translation>
     </message>
@@ -872,7 +872,7 @@
         <translation type="obsolete">Browse...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="161"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
         <source>Download LibreSVIP...</source>
         <translation type="unfinished">Download LibreSVIP...</translation>
     </message>
@@ -881,7 +881,7 @@
         <translation type="obsolete">Uninstall Downloaded LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="177"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="169"/>
         <source>Automatically check for LibreSVIP updates</source>
         <translation type="unfinished">Automatically check for LibreSVIP updates</translation>
     </message>

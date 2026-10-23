@@ -37,72 +37,72 @@
         <translation type="unfinished">Previous</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="273"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="271"/>
         <source>Next</source>
         <translation type="unfinished">Next</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="282"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="278"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="291"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="285"/>
         <source>Delete</source>
         <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="305"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="297"/>
         <source>Disable</source>
         <translation type="unfinished">Disable</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="306"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="298"/>
         <source>Enable</source>
         <translation type="unfinished">Enable</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="318"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="308"/>
         <source>Solo</source>
         <translation type="unfinished">Solo</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="338"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="326"/>
         <source>Bell</source>
         <translation type="unfinished">Bell</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="352"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="338"/>
         <source>Low Shelf</source>
         <translation type="unfinished">Low Shelf</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="366"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="350"/>
         <source>High Shelf</source>
         <translation type="unfinished">High Shelf</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="390"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="372"/>
         <source>Frequency</source>
         <translation type="unfinished">Frequency</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="391"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="373"/>
         <source>Hz</source>
         <translation type="unfinished">Hz</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="407"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="389"/>
         <source>Gain</source>
         <translation type="unfinished">Gain</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="408"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="390"/>
         <source>dB</source>
         <translation type="unfinished">dB</translation>
     </message>
     <message>
-        <location filename="../../qml/EqualizerEditor.qml" line="424"/>
+        <location filename="../../qml/EqualizerEditor.qml" line="406"/>
         <source>Q</source>
         <translation type="unfinished">Q</translation>
     </message>

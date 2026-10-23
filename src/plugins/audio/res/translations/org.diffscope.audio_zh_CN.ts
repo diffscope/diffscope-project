@@ -1695,32 +1695,32 @@ Estimated size of each file: %3</source>
         <translation type="unfinished">展开效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="207"/>
         <source>Disable Effect</source>
         <translation type="unfinished">禁用效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="207"/>
         <source>Enable Effect</source>
         <translation type="unfinished">启用效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="223"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="221"/>
         <source>Move Effect Up</source>
         <translation type="unfinished">上移效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="230"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="228"/>
         <source>Move Effect Down</source>
         <translation type="unfinished">下移效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="237"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="235"/>
         <source>Reset Effect</source>
         <translation type="unfinished">重置效果器</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="244"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="242"/>
         <source>Delete Effect</source>
         <translation type="unfinished">删除效果器</translation>
     </message>
@@ -1855,7 +1855,7 @@ Estimated size of each file: %3</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/InsertAudioClipDialog.qml" line="118"/>
+        <location filename="../../qml/dialogs/InsertAudioClipDialog.qml" line="117"/>
         <source>%1 / %2</source>
         <translation type="unfinished">%1 / %2</translation>
     </message>

@@ -63,7 +63,7 @@
     </message>
     <message>
         <location filename="../../qml/LyricExportDialog.qml" line="247"/>
-        <location filename="../../qml/LyricExportDialog.qml" line="317"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="315"/>
         <source>Filter lyrics</source>
         <translation type="unfinished">筛选歌词</translation>
     </message>
@@ -73,82 +73,82 @@
         <translation type="unfinished">移除筛选器 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="316"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="314"/>
         <source>Add a filter</source>
         <translation type="unfinished">添加筛选器</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="322"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="320"/>
         <source>Add Filter</source>
         <translation type="unfinished">添加筛选器</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="372"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="369"/>
         <source>Interlude</source>
         <translation type="unfinished">间奏</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="410"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="407"/>
         <source>Insert Line Break</source>
         <translation type="unfinished">插入换行</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="433"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="429"/>
         <source>Empty Lyric</source>
         <translation type="unfinished">空歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="455"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="451"/>
         <source>Insert Interlude</source>
         <translation type="unfinished">插入间奏</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="476"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="471"/>
         <source>Remove Line Break</source>
         <translation type="unfinished">移除换行</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="476"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="471"/>
         <source>End of Lyrics</source>
         <translation type="unfinished">歌词结束</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="564"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="558"/>
         <source>Lyrics</source>
         <translation type="unfinished">歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="566"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="560"/>
         <source>Start</source>
         <translation type="unfinished">起始</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="566"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="560"/>
         <source>End</source>
         <translation type="unfinished">结束</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="578"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="572"/>
         <source>No lyrics remain after filtering.</source>
         <translation type="unfinished">筛选后没有剩余歌词。</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="619"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="613"/>
         <source>Previous</source>
         <translation type="unfinished">上一步</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="636"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="630"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="636"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="630"/>
         <source>Next</source>
         <translation type="unfinished">下一步</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="642"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="636"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

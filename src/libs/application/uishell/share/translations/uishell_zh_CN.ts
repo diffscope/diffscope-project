@@ -361,12 +361,12 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="716"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="712"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PackageManagerView.qml" line="743"/>
+        <location filename="../../src/qml/PackageManagerView.qml" line="739"/>
         <source>No package</source>
         <translation type="unfinished">无包</translation>
     </message>
@@ -526,37 +526,37 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation>此插件需要的其他插件，包括间接依赖</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="331"/>
+        <location filename="../../src/qml/PluginView.qml" line="330"/>
         <source>Dependents</source>
         <translation>被依赖项</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="334"/>
+        <location filename="../../src/qml/PluginView.qml" line="333"/>
         <source>Plugins that require this plugin, including indirect dependants</source>
         <translation>需要此插件的其他插件，包括间接依赖</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="339"/>
+        <location filename="../../src/qml/PluginView.qml" line="337"/>
         <source>Additional Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="368"/>
+        <location filename="../../src/qml/PluginView.qml" line="366"/>
         <source>Identifier</source>
         <translation>标识符</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="372"/>
+        <location filename="../../src/qml/PluginView.qml" line="370"/>
         <source>Category</source>
         <translation>类别</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="391"/>
+        <location filename="../../src/qml/PluginView.qml" line="389"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="405"/>
+        <location filename="../../src/qml/PluginView.qml" line="403"/>
         <source>Reveal in %1</source>
         <translation>在 %1 中显示</translation>
     </message>
@@ -569,57 +569,57 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation type="vanished">文件资源管理器</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="414"/>
+        <location filename="../../src/qml/PluginView.qml" line="412"/>
         <source>Compat version</source>
         <translation>兼容版本</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="419"/>
+        <location filename="../../src/qml/PluginView.qml" line="417"/>
         <source>Copyright</source>
         <translation>版权</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="424"/>
+        <location filename="../../src/qml/PluginView.qml" line="422"/>
         <source>License</source>
         <translation>许可证</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="444"/>
+        <location filename="../../src/qml/PluginView.qml" line="442"/>
         <source>This plugin does not require other plugins.</source>
         <translation>此插件不需要其他插件。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="476"/>
+        <location filename="../../src/qml/PluginView.qml" line="474"/>
         <source>No plugins require this plugin.</source>
         <translation>没有插件需要此插件。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="507"/>
+        <location filename="../../src/qml/PluginView.qml" line="505"/>
         <source>Plugin is not available on this platform.</source>
         <translation>插件在当前平台上不可用。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="509"/>
+        <location filename="../../src/qml/PluginView.qml" line="507"/>
         <source>Plugin is enabled as dependency of an enabled plugin.</source>
         <translation>插件作为一个已启用的插件的依赖项而启用。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="511"/>
+        <location filename="../../src/qml/PluginView.qml" line="509"/>
         <source>Plugin is enabled by command line argument.</source>
         <translation>插件被命令行参数启用。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="513"/>
+        <location filename="../../src/qml/PluginView.qml" line="511"/>
         <source>Plugin is disabled by command line argument.</source>
         <translation>插件被命令行参数禁用。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="532"/>
+        <location filename="../../src/qml/PluginView.qml" line="530"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../src/qml/PluginView.qml" line="546"/>
+        <location filename="../../src/qml/PluginView.qml" line="544"/>
         <source>No result found</source>
         <translation>未找到结果</translation>
     </message>
@@ -627,12 +627,12 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
 <context>
     <name>ProjectWindow</name>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="110"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="117"/>
         <source>Empty</source>
         <translation>空</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="257"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="264"/>
         <source>&amp;Main Menu</source>
         <translation type="unfinished">主菜单(&amp;M)</translation>
     </message>

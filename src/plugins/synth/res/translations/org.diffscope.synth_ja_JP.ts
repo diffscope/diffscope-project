@@ -17,60 +17,55 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="924"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1005"/>
         <source>Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="925"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1006"/>
         <source>Panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="923"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1003"/>
         <source>Synth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="153"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1004"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../res/org.diffscope.synth_actions.xml"/>
-        <source>Extract Tempo...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../res/org.diffscope.synth_actions.xml"/>
-        <source>Apply the tempo of the current audio clip to the project.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="928"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1009"/>
         <source>Control the local DiffSinger Synthesis Program service.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="929"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1010"/>
         <source>Choose an extraction task for the current audio clip.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="930"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1011"/>
         <source>Create an editable singing clip from the current audio clip.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="931"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1012"/>
+        <source>Apply the tempo of the current audio clip to the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1013"/>
         <source>Split the current audio clip into separate audio tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="932"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1014"/>
         <source>Choose which synthesis stages to rerun for the selected clips or notes.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -78,97 +73,102 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="912"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="992"/>
         <source>Synthesis Services</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="914"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="994"/>
         <source>Synthesis Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="915"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="995"/>
         <source>&amp;Resynthesize...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="917"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="997"/>
         <source>Synthesis Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="909"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="988"/>
         <source>Audio Extraction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="900"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="978"/>
         <source>Main Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="910"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="989"/>
         <source>Extract Notes...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="911"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="990"/>
+        <source>Extract Tempo...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="991"/>
         <source>Separate Audio...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="913"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="993"/>
         <source>Show Synthesis Services</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="918"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="998"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="902"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="980"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="908"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="987"/>
         <source>DiffSinger Synthesis Program Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="906"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="984"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="904"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="982"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="905"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="983"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="903"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="981"/>
         <source>DiffSinger Synthesis Program Status Menu Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="907"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="985"/>
         <source>Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="916"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="996"/>
         <source>Synthesis Status Indicators</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="148"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="986"/>
         <source>Package Manager</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,17 +319,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="103"/>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="102"/>
         <source>Variance steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="118"/>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="116"/>
         <source>Acoustic steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="133"/>
+        <location filename="../../qml/controls/DiffSingerArchitectureControlPanel.qml" line="130"/>
         <source>Depth</source>
         <translation type="unfinished"></translation>
     </message>
@@ -350,7 +350,7 @@
 <context>
     <name>DsspServerActions</name>
     <message>
-        <location filename="../../qml/actions/DsspServerActions.qml" line="81"/>
+        <location filename="../../qml/actions/DsspServerActions.qml" line="77"/>
         <source>Show DiffSinger Synthesis Program controls</source>
         <translation type="unfinished"></translation>
     </message>
@@ -358,198 +358,198 @@
 <context>
     <name>DsspServerPage</name>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="32"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="33"/>
         <source>Add DiffSinger Synthesis Program Installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="119"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="114"/>
         <source>Add Local Installation...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="350"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="312"/>
         <source>Additional Command-Line Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="174"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="161"/>
         <source>Automatically start DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="307"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="269"/>
         <source>Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="63"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="58"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="158"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="145"/>
         <source>Download DiffSinger Synthesis Program...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="34"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="35"/>
         <source>Executable files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="149"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="136"/>
         <source>Executable path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="270"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="232"/>
         <source>Execution Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="290"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="252"/>
         <source>Execution provider</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="194"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="181"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="76"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="71"/>
         <source>Installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="246"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="208"/>
         <source>Log level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="148"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="135"/>
         <source>No DiffSinger Synthesis Program installation is selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="207"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="194"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="324"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="286"/>
         <source>Refresh Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="130"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="121"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="184"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="171"/>
         <source>Server Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="164"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="151"/>
         <source>Uninstall Downloaded Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="278"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="240"/>
         <source>Use the default execution provider and device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="257"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="219"/>
         <source>Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="253"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="215"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="258"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="220"/>
         <source>Fatal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="255"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="217"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="254"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="216"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="252"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="214"/>
         <source>Trace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="256"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="218"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="364"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="326"/>
         <source>Additional command-line arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="375"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="337"/>
         <source>Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="388"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="350"/>
         <source>Max file size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="400"/>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="417"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="361"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="377"/>
         <source>KiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="405"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="366"/>
         <source>Max archive size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="422"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="382"/>
         <source>Max archive days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="436"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="395"/>
         <source>Compression level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="449"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="407"/>
         <source>%L1 = no compression, %L2 = best compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="456"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="414"/>
         <source>Notify about warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="467"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="425"/>
         <source>Log directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DsspServerPage.qml" line="470"/>
+        <location filename="../../qml/settings/DsspServerPage.qml" line="428"/>
         <source>Open in %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -625,6 +625,233 @@
     </message>
     <message>
         <location filename="../../qml/controls/JsonExtraEditor.qml" line="141"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageFileDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="7"/>
+        <source>Select Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>DSPK packages (*.dspk)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
+        <source>All files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageInstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="31"/>
+        <source>Install Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="102"/>
+        <source>Checking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="103"/>
+        <source>Invalid package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="104"/>
+        <source>Batch conflict</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="105"/>
+        <source>Overwrite required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="106"/>
+        <source>Already installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="167"/>
+        <source>No packages selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="184"/>
+        <source>Add Packages...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="191"/>
+        <source>Remove from List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="300"/>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="248"/>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="278"/>
+        <source>Installation diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="252"/>
+        <source>Copy Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerPage</name>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="35"/>
+        <source>Executable files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="41"/>
+        <source>Select Package Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="63"/>
+        <source>Package Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="178"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="168"/>
+        <source>Package directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="199"/>
+        <source>seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="33"/>
+        <source>Add Package Manager Installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="76"/>
+        <source>Installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="116"/>
+        <source>Add Local Installation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="122"/>
+        <source>Remove Local Installation from List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="134"/>
+        <source>No package manager installation is selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="135"/>
+        <source>Executable path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="142"/>
+        <source>Download Package Manager...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="148"/>
+        <source>Uninstall Downloaded Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="159"/>
+        <source>Package Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PackageManagerPage.qml" line="186"/>
+        <source>Output timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageManagerWindow</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageManagerWindow.qml" line="22"/>
+        <source>Package Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
+        <source>Uninstall Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="21"/>
+        <source>Other packages depend on %1. Uninstall this package and all packages listed below?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="22"/>
+        <source>Uninstall %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="45"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageUninstallProgressDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="15"/>
+        <source>Preparing package uninstallation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="17"/>
+        <source>Uninstall Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="70"/>
+        <source>Packages to uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QPlatformTheme</name>
+    <message>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="309"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -710,133 +937,133 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="85"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="84"/>
         <source>Optional path prepended to every DSSP API endpoint.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="86"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="85"/>
         <source>Endpoint path prefix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="95"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="94"/>
         <source>Optional</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="102"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="101"/>
         <source>Use HTTPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="114"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="113"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="127"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="126"/>
         <source>Use authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="134"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="133"/>
         <source>API key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="151"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="150"/>
         <source>Hide Advanced Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="152"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="151"/>
         <source>Show Advanced Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="165"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="164"/>
         <source>Advanced Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="178"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="177"/>
         <source>Maximum time to wait for a service request.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="179"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="178"/>
         <source>Request timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="197"/>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="277"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="195"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="271"/>
         <source>seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="201"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="199"/>
         <source>Number of times to retry a failed request after the initial attempt.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="202"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="200"/>
         <source>Maximum retries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="220"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="217"/>
         <source>Maximum number of concurrent tasks of the same synthesis type for this service.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="221"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="218"/>
         <source>Concurrent tasks per type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="239"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="235"/>
         <source>Maximum number of concurrent synthesis tasks for this service.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="240"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="236"/>
         <source>Total concurrent tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="258"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="253"/>
         <source>How often to check whether this service is available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="259"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="254"/>
         <source>Health check interval</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="281"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="275"/>
         <source>Reject HTTPS connections with invalid or untrusted certificates.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="282"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="276"/>
         <source>Verify TLS certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="293"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="286"/>
         <source>Headers sent with every request to this service.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="295"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="288"/>
         <source>Custom request headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="307"/>
+        <location filename="../../qml/settings/ServiceConfigurationEditor.qml" line="300"/>
         <source>One header per line, for example:
 X-Custom-Header-1: foo
 X-Custom-Header-2: bar</source>
@@ -866,22 +1093,22 @@ X-Custom-Header-2: bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="171"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="167"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="182"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="174"/>
         <source>Move Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="193"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="181"/>
         <source>Move Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ServicesPage.qml" line="228"/>
+        <location filename="../../qml/settings/ServicesPage.qml" line="212"/>
         <source>Select a service to edit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1185,147 +1412,143 @@ X-Custom-Header-2: bar</source>
 <context>
     <name>Synth::Internal::AudioExtractionAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="139"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="152"/>
         <source>Choose Separated Audio Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="177"/>
-        <source>Audio Extraction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="204"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="244"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="273"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="218"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="258"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
         <source>The original audio clip is no longer available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="213"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="227"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="222"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="236"/>
         <source>Choose a writable directory for the separated audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="238"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="252"/>
         <source>Overwrite Separated Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="239"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="253"/>
         <source>The following files may be replaced by the separated tracks. Overwrite matching files?
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="283"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="386"/>
         <source>The original audio clip or project tempo changed during extraction. Try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="294"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="424"/>
         <source>The extracted tracks could not be inserted while another edit is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="312"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="442"/>
         <source>%1
 Some files could not be restored. Backups are in %2.
 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="325"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="455"/>
         <source>The separated track names produce duplicate file names.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="335"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="465"/>
         <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="340"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="470"/>
         <source>Could not back up an existing output file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="350"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="480"/>
         <source>Could not save the separated audio files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="506"/>
         <source>%1 (Extracted notes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="377"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="507"/>
         <source>%1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="383"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="513"/>
         <source>Could not insert the extracted tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="407"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="537"/>
         <source>Could not insert the extracted notes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="423"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="553"/>
         <source>Could not insert the extracted clips.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="429"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="559"/>
         <source>Extracting notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="429"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="559"/>
         <source>Separating audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="560"/>
         <source>Could not commit the extracted tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="281"/>
         <source>The audio region exceeds the supported time range.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="313"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="392"/>
         <source>The audio clip or project timeline changed. Extract the tempo again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="330"/>
         <source>The tempo could not be applied while another edit is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="337"/>
         <source>The extracted tempo could not be applied.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="366"/>
         <source>Extracting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="193"/>
         <source>Extract Tempo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1417,6 +1640,86 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="383"/>
         <source>Could not store separated audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::CommandLineTool</name>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="184"/>
+        <source>The command exited with code %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="200"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="217"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="224"/>
+        <source>The command did not return valid JSON.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="202"/>
+        <source>The selected command is not dspm.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="271"/>
+        <source>The command reported an error.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="171"/>
+        <source>The command produced no output for %L1 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="241"/>
+        <source>Invalid JSON at output line %L1: %2
+%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="245"/>
+        <source>Output followed the final operation record:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="256"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="264"/>
+        <source>Unexpected operation record:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="280"/>
+        <source>Invalid operation summary:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="281"/>
+        <source>The command completed without an operation summary.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="282"/>
+        <source>The package manager returned an invalid operation result:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="78"/>
+        <source>No package manager installation is selected. Configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="83"/>
+        <source>The command line tool does not exist:
+
+%1
+
+Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1645,47 +1948,47 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>Synth::Internal::DsspServerPage</name>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="25"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="24"/>
         <source>DiffSinger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="26"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="25"/>
         <source>Manager DiffSinger Synthesis Program and startup options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="116"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="113"/>
         <source>No installation is selected. Stop DiffSinger Synthesis Program now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="112"/>
         <source>Restart DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="115"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="112"/>
         <source>Stop DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="84"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="85"/>
         <source>The host must not be empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="88"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="89"/>
         <source>The port must be between %L1 and %L2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="117"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="114"/>
         <source>The startup options have changed. Restart DiffSinger Synthesis Program now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DsspServerPage.cpp" line="264"/>
+        <location filename="../../internal/settings/DsspServerPage.cpp" line="270"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1743,1188 +2046,50 @@ Some files could not be restored. Backups are in %2.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="336"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="357"/>
         <source>The health check was canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="340"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="361"/>
         <source>The service does not support DSSP API version 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="469"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="490"/>
         <source>The architecture request was canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="474"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="495"/>
         <source>The singer request was canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="573"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="594"/>
         <source>Could not refresh a singer avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="588"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="609"/>
         <source>Could not refresh a singer background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="603"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="624"/>
         <source>Could not refresh singer demo audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="446"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="467"/>
         <source>The group request was canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="452"/>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="521"/>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="538"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="473"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="542"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="559"/>
         <source>The synthesis service returned inconsistent group metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ParameterRuntimeRegistry</name>
-    <message>
-        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="178"/>
-        <source>Invalid parameter display expression</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServiceConfigurationModel</name>
-    <message>
-        <location filename="../../internal/settings/ServiceConfigurationModel.cpp" line="173"/>
-        <source>DSSP Service</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServiceStatusModel</name>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="126"/>
-        <source>Disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="128"/>
-        <source>Not checked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="130"/>
-        <source>Checking...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="132"/>
-        <source>Connected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="134"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::ServicesPage</name>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="24"/>
-        <source>Services</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="25"/>
-        <source>Configure DSSP service instances</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="72"/>
-        <source>Service %L1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/ServicesPage.cpp" line="81"/>
-        <source>Could not save service configurations</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthPlugin</name>
-    <message>
-        <location filename="../../internal/SynthPlugin.cpp" line="49"/>
-        <source>Initializing synthesis plugin...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthService</name>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="73"/>
-        <source>Synthesis service unavailable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="74"/>
-        <location filename="../../internal/SynthService.cpp" line="81"/>
-        <source>%1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="80"/>
-        <source>Could not refresh singer metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="104"/>
-        <source>The application settings service is not available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="157"/>
-        <source>Service %L1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/SynthService.cpp" line="162"/>
-        <source>Service identifiers must be unique</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthesisEnvironmentWelcomeWizardPageHelper</name>
-    <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="113"/>
-        <source>Service disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="114"/>
-        <source>Connected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="115"/>
-        <source>Connection failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="116"/>
-        <source>Connecting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="159"/>
-        <source>Service %L1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthesisPage</name>
-    <message>
-        <location filename="../../internal/settings/SynthesisPage.cpp" line="19"/>
-        <source>Synthesis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/SynthesisPage.cpp" line="20"/>
-        <source>Configure synthesis behavior and storage</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::SynthesisProjectAddOn</name>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="129"/>
-        <source>Synthesized audio could not be prepared for the export sample rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="172"/>
-        <source>Synthesized audio positions could not be updated before export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="194"/>
-        <source>The synthesis state could not be checked before audio export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="198"/>
-        <source>Audio synthesis did not complete successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="823"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="846"/>
-        <source>The synthesis piece is no longer available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="121"/>
-        <source>The project audio context is not available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="137"/>
-        <source>Synthesized audio for the synthesis piece could not be added to the track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="147"/>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="255"/>
-        <source>The synthesis piece is outside the visible range of its clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="176"/>
-        <source>The synthesis piece overlaps another synthesis piece in the same clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="199"/>
-        <source>The synthesis piece is no longer waiting for synthesized audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="206"/>
-        <source>The synthesized audio file could not be opened</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="217"/>
-        <source>Synthesized audio for the synthesis piece could not be prepared</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="266"/>
-        <source>Synthesized audio for the synthesis piece could not be repositioned</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="889"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="896"/>
-        <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="914"/>
-        <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="934"/>
-        <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="949"/>
-        <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="955"/>
-        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="967"/>
-        <source>Unknown synthesis error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="969"/>
-        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1007"/>
-        <source>Synthesis failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1162"/>
-        <source>The clip has no valid singer source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1255"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1359"/>
-        <source>The synthesis task could not be queued</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1333"/>
-        <source>No healthy service can synthesize this synthesis piece</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1559"/>
-        <source>Resynthesize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1560"/>
-        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1811"/>
-        <source>The pronunciation result does not match the requested score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1813"/>
-        <source>The phoneme result does not match the requested score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1815"/>
-        <source>The duration result does not match the score for the requested synthesis piece</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2010"/>
-        <source>Synthesis was canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1168"/>
-        <source>No healthy service supports the singers selected for this clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="437"/>
-        <source>A slur note must immediately follow another note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="425"/>
-        <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="393"/>
-        <source>The synthesis piece is no longer attached to a valid clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::ServiceTypes</name>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="33"/>
-        <location filename="../../service/ServiceTypes.cpp" line="617"/>
-        <source>Field &apos;%1&apos; must be a string</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="169"/>
-        <source>Service ID must not be null</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="171"/>
-        <source>Service name must not be empty or contain control characters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="174"/>
-        <source>Host is invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="178"/>
-        <source>Host does not form a valid service URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="180"/>
-        <source>Port must be between 1 and 65535</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="182"/>
-        <source>An API key is required when authentication is enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="185"/>
-        <source>API key must not contain whitespace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="188"/>
-        <source>API key must not contain control characters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="190"/>
-        <source>Request timeout must be positive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="192"/>
-        <source>Maximum retries must not be negative</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="194"/>
-        <source>Concurrency limits must be positive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="196"/>
-        <source>Concurrent tasks per type must not exceed total concurrent tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="198"/>
-        <source>Health check interval must be positive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="204"/>
-        <source>Endpoint path prefix must be an absolute URL path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="208"/>
-        <source>Endpoint path prefix must not contain dot segments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="231"/>
-        <source>Custom header on line %L1 is invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="265"/>
-        <location filename="../../service/ServiceTypes.cpp" line="568"/>
-        <source>Result pointer must not be null</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="271"/>
-        <source>Field &apos;id&apos; must be a string</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="279"/>
-        <source>Field &apos;%1&apos; must be a boolean</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="288"/>
-        <location filename="../../service/ServiceTypes.cpp" line="602"/>
-        <source>Field &apos;%1&apos; must be an integer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="310"/>
-        <source>Service configuration contains a value of the wrong type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="324"/>
-        <source>Local DSSP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="453"/>
-        <source>Invalid singer metadata</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="459"/>
-        <source>Singer language &apos;%1&apos; must be an object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="465"/>
-        <source>Singer language &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="572"/>
-        <source>Field &apos;configuration&apos; must be an object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="576"/>
-        <source>Field &apos;metadata&apos; must be an object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="586"/>
-        <source>Field &apos;configuration&apos; is invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="593"/>
-        <source>Field &apos;metadata&apos; is invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="608"/>
-        <location filename="../../service/ServiceTypes.cpp" line="640"/>
-        <source>Field &apos;%1&apos; is outside its valid range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="627"/>
-        <source>Field &apos;%1&apos; must be an ISO 8601 date and time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="650"/>
-        <source>Field &apos;selectedApiVersion&apos; must not exceed &apos;maximumApiVersion&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../service/ServiceTypes.cpp" line="664"/>
-        <source>Field &apos;metadataStale&apos; must be a boolean</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::SynthesisTaskManager</name>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="257"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="538"/>
-        <source>No healthy synthesis service supports the selected architecture and all required singers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="478"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="876"/>
-        <source>The synthesis service returned HTTP status %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="481"/>
-        <source>The synthesis service request failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="867"/>
-        <source>The synthesis service request failed: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
-        <source>The synthesis service returned HTTP status %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="899"/>
-        <source>The synthesized audio response is empty or exceeds the configured size limit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="904"/>
-        <source>Could not store synthesized audio locally</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="916"/>
-        <source>The synthesis service returned an invalid audio data URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="931"/>
-        <source>The synthesis service returned an unsupported audio URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="949"/>
-        <source>The synthesized audio URL redirected too many times</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="1002"/>
-        <source>The synthesized audio exceeds the configured download size limit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="611"/>
-        <source>Audio request contains an invalid parameter value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="731"/>
-        <source>Parameter request contains an invalid value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="738"/>
-        <source>The selected singer cannot predict parameter %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisEnvironmentWelcomeWizardPage</name>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="901"/>
-        <source>Synthesis Environment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="21"/>
-        <source>Configure a synthesis program or connect to a synthesis service</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
-        <source>Use the local DiffSinger Synthesis Program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
-        <source>Connect to a synthesis service</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
-        <source>More Options...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
-        <source>Connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
-        <source>Available singers: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisPage</name>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="24"/>
-        <source>%1 B</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="26"/>
-        <source>%1 KiB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="28"/>
-        <source>%1 MiB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="29"/>
-        <source>%1 GiB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="47"/>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="384"/>
-        <source>Clear Synthesis Cache</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="61"/>
-        <source>Clear Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="86"/>
-        <source>Select the synthesis task caches to delete.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="92"/>
-        <source>Pronunciation (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="98"/>
-        <source>Phoneme (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="104"/>
-        <source>Duration (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="110"/>
-        <source>Parameter (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="116"/>
-        <source>Audio (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="129"/>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="444"/>
-        <source>Clear Synthesis Diagnostics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="135"/>
-        <source>Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="147"/>
-        <source>Delete all saved synthesis diagnostics from the disk?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="163"/>
-        <source>Synthesis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="176"/>
-        <source>Padding added before and after each synthesis piece.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="177"/>
-        <source>Base piece padding (ms)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="196"/>
-        <source>Additional leading padding added for each phoneme before a note onset.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="197"/>
-        <source>Additional onset padding (ms)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="216"/>
-        <source>Minimum gap used to separate note groups into synthesis pieces and limit leading padding.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="217"/>
-        <source>Piece gap threshold (ms)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="236"/>
-        <source>Comma-separated lyrics treated as rests when dividing a clip into synthesis pieces.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="237"/>
-        <source>Rest lyrics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="248"/>
-        <source>Comma-separated, for example AP, SP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="254"/>
-        <source>Number of parameter samples generated per second.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="255"/>
-        <source>Parameter sample rate (Hz)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="273"/>
-        <source>Number of singer-mix samples generated per second.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="274"/>
-        <source>Singer mix sample rate (Hz)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="295"/>
-        <source>Cache</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="308"/>
-        <source>Maximum disk space used by synthesis task caches.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="309"/>
-        <source>Maximum cache size (GiB)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="327"/>
-        <source>Number of days before an unused cache entry expires. Use 0 to disable expiry.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="328"/>
-        <source>Cache expiry (days)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="346"/>
-        <source>Maximum size of a synthesized audio file downloaded from a service.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="347"/>
-        <source>Maximum audio download size (MiB)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="365"/>
-        <source>How long to reuse a service-provided synthesis environment tag before requesting a new one.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="366"/>
-        <source>Environment tag lifetime (seconds)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="393"/>
-        <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="406"/>
-        <source>Maximum disk space used by synthesis diagnostics.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="407"/>
-        <source>Maximum diagnostics size (MiB)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="425"/>
-        <source>Number of days before a diagnostics file expires. Use 0 to disable expiry.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/SynthesisPage.qml" line="426"/>
-        <source>Diagnostics expiry (days)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisProjectActions</name>
-    <message numerus="yes">
-        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
-        <source>%Ln synthesis task(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
-        <source>No synthesis tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisServicePanel</name>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Pronunciation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Phoneme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Parameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <source>Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <source>Queued</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <source>Succeeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <source>Failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
-        <source>Canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="61"/>
-        <source>Clear Failed Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="69"/>
-        <source>Refreshing...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="69"/>
-        <source>Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="99"/>
-        <source>Last checked: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="152"/>
-        <source>Hide Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="152"/>
-        <source>Show Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="188"/>
-        <source>%L1 running, %L2 queued</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="280"/>
-        <source>%L1 s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="287"/>
-        <source>Terminate Task</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="297"/>
-        <source>View Diagnostics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="306"/>
-        <source>Remove Task</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="325"/>
-        <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
-        <source>Running (%1%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PackageFileDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="7"/>
-        <source>Select Packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
-        <source>DSPK packages (*.dspk)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageFileDialog.qml" line="9"/>
-        <source>All files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PackageInstallDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="31"/>
-        <source>Install Packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="102"/>
-        <source>Checking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="103"/>
-        <source>Invalid package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="104"/>
-        <source>Batch conflict</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="105"/>
-        <source>Overwrite required</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="106"/>
-        <source>Already installed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="169"/>
-        <source>No packages selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="186"/>
-        <source>Add Packages...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="197"/>
-        <source>Remove from List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="314"/>
-        <source>Install</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="258"/>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="292"/>
-        <source>Installation diagnostics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="262"/>
-        <source>Copy Diagnostics</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Synth::Internal::CommandLineTool</name>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="184"/>
-        <source>The command exited with code %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="200"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="217"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="224"/>
-        <source>The command did not return valid JSON.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="202"/>
-        <source>The selected command is not dspm.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="271"/>
-        <source>The command reported an error.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="171"/>
-        <source>The command produced no output for %L1 seconds.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="241"/>
-        <source>Invalid JSON at output line %L1: %2
-%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="245"/>
-        <source>Output followed the final operation record:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="256"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="264"/>
-        <source>Unexpected operation record:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="280"/>
-        <source>Invalid operation summary:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="281"/>
-        <source>The command completed without an operation summary.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="282"/>
-        <source>The package manager returned an invalid operation result:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="78"/>
-        <source>No package manager installation is selected. Configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="83"/>
-        <source>The command line tool does not exist:
-
-%1
-
-Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3245,466 +2410,1306 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     </message>
 </context>
 <context>
-    <name>PackageManagerPage</name>
+    <name>Synth::Internal::ParameterRuntimeRegistry</name>
     <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="35"/>
-        <source>Executable files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="41"/>
-        <source>Select Package Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="63"/>
-        <source>Package Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="185"/>
-        <source>Browse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="175"/>
-        <source>Package directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="211"/>
-        <source>seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="33"/>
-        <source>Add Package Manager Installation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="76"/>
-        <source>Installation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="116"/>
-        <source>Add Local Installation...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="126"/>
-        <source>Remove Local Installation from List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="142"/>
-        <source>No package manager installation is selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="143"/>
-        <source>Executable path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="150"/>
-        <source>Download Package Manager...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="156"/>
-        <source>Uninstall Downloaded Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="167"/>
-        <source>Package Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/PackageManagerPage.qml" line="197"/>
-        <source>Output timeout</source>
+        <location filename="../../internal/parameters/ParameterRuntimeRegistry.cpp" line="178"/>
+        <source>Invalid parameter display expression</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PackageManagerWindow</name>
+    <name>Synth::Internal::ServiceConfigurationModel</name>
     <message>
-        <location filename="../../qml/dialogs/PackageManagerWindow.qml" line="22"/>
-        <source>Package Manager</source>
+        <location filename="../../internal/settings/ServiceConfigurationModel.cpp" line="173"/>
+        <source>DSSP Service</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PackageUninstallDialog</name>
+    <name>Synth::Internal::ServiceStatusModel</name>
     <message>
-        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
-        <source>Uninstall Packages</source>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="126"/>
+        <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="18"/>
-        <source>Uninstall Package</source>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="128"/>
+        <source>Not checked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="21"/>
-        <source>Other packages depend on %1. Uninstall this package and all packages listed below?</source>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="130"/>
+        <source>Checking...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="22"/>
-        <source>Uninstall %1?</source>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="132"/>
+        <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PackageUninstallDialog.qml" line="45"/>
-        <source>Packages to uninstall</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PackageUninstallProgressDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="15"/>
-        <source>Preparing package uninstallation...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="17"/>
-        <source>Uninstall Packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/PackageUninstallProgressDialog.qml" line="70"/>
-        <source>Packages to uninstall</source>
+        <location filename="../../internal/panel/ServiceStatusModel.cpp" line="134"/>
+        <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>QPlatformTheme</name>
+    <name>Synth::Internal::ServicesPage</name>
     <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="323"/>
-        <source>Cancel</source>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="24"/>
+        <source>Services</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="25"/>
+        <source>Configure DSSP service instances</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="72"/>
+        <source>Service %L1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/ServicesPage.cpp" line="81"/>
+        <source>Could not save service configurations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthPlugin</name>
+    <message>
+        <location filename="../../internal/SynthPlugin.cpp" line="53"/>
+        <source>Initializing synthesis plugin...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthService</name>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="77"/>
+        <source>Synthesis service unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="78"/>
+        <location filename="../../internal/SynthService.cpp" line="85"/>
+        <source>%1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="84"/>
+        <source>Could not refresh singer metadata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="108"/>
+        <source>The application settings service is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="161"/>
+        <source>Service %L1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/SynthService.cpp" line="166"/>
+        <source>Service identifiers must be unique</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisEnvironmentWelcomeWizardPageHelper</name>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="113"/>
+        <source>Service disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="114"/>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="115"/>
+        <source>Connection failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="116"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="159"/>
+        <source>Service %L1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisPage</name>
+    <message>
+        <location filename="../../internal/settings/SynthesisPage.cpp" line="19"/>
+        <source>Synthesis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/SynthesisPage.cpp" line="20"/>
+        <source>Configure synthesis behavior and storage</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::SynthesisProjectAddOn</name>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="129"/>
+        <source>Synthesized audio could not be prepared for the export sample rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="172"/>
+        <source>Synthesized audio positions could not be updated before export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="194"/>
+        <source>The synthesis state could not be checked before audio export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="198"/>
+        <source>Audio synthesis did not complete successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="831"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="854"/>
+        <source>The synthesis piece is no longer available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="121"/>
+        <source>The project audio context is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="137"/>
+        <source>Synthesized audio for the synthesis piece could not be added to the track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="147"/>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="255"/>
+        <source>The synthesis piece is outside the visible range of its clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="176"/>
+        <source>The synthesis piece overlaps another synthesis piece in the same clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="199"/>
+        <source>The synthesis piece is no longer waiting for synthesized audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="206"/>
+        <source>The synthesized audio file could not be opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="217"/>
+        <source>Synthesized audio for the synthesis piece could not be prepared</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="266"/>
+        <source>Synthesized audio for the synthesis piece could not be repositioned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="897"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="904"/>
+        <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="922"/>
+        <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="942"/>
+        <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="957"/>
+        <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
+        <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="975"/>
+        <source>Unknown synthesis error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="977"/>
+        <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1015"/>
+        <source>Synthesis failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1184"/>
+        <source>The clip has no valid singer source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1277"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1384"/>
+        <source>The synthesis task could not be queued</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1358"/>
+        <source>No healthy service can synthesize this synthesis piece</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1601"/>
+        <source>Resynthesize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1602"/>
+        <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1853"/>
+        <source>The pronunciation result does not match the requested score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1855"/>
+        <source>The phoneme result does not match the requested score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1857"/>
+        <source>The duration result does not match the score for the requested synthesis piece</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2058"/>
+        <source>Synthesis was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1190"/>
+        <source>No healthy service supports the singers selected for this clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="437"/>
+        <source>A slur note must immediately follow another note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="425"/>
+        <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="393"/>
+        <source>The synthesis piece is no longer attached to a valid clip</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Synth::Internal::TempoExtractionPreview</name>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="326"/>
         <source>The audio waveform could not be loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="378"/>
         <source>The audio output is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="385"/>
         <source>The audio file could not be opened for preview.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="396"/>
         <source>The audio preview could not be started.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="760"/>
         <source>At least two detected beats are required.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="763"/>
         <source>The audio region is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="766"/>
         <source>The beat assignment is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="770"/>
         <source>The extractor returned invalid beat data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="780"/>
         <source>At least two reliable beats are required.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="784"/>
         <source>The tempo must be between 10 and 1000 BPM.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="814"/>
         <source>The selected tempo cannot align this beat. Choose another reference beat.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="846"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="852"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="873"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="898"/>
         <source>Choose a later reference position.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="808"/>
         <source>No supported tempo map satisfies the minimum segment length.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="800"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="861"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="900"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="903"/>
         <source>The extracted tempo exceeds the project time range.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="923"/>
         <source>The audio region cannot be preserved with this tempo.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="179"/>
         <source>%L1. %2%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp" line="179"/>
         <source> (Downbeat)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="831"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="836"/>
         <source>The assigned beat cannot be aligned without moving the audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp" line="840"/>
         <source>Keeping the audio position would require an unsupported lead-in tempo.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TempoExtractionPreviewView</name>
+    <name>Synth::ServiceTypes</name>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Tempo</source>
+        <location filename="../../service/ServiceTypes.cpp" line="33"/>
+        <location filename="../../service/ServiceTypes.cpp" line="617"/>
+        <source>Field &apos;%1&apos; must be a string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Fixed</source>
+        <location filename="../../service/ServiceTypes.cpp" line="169"/>
+        <source>Service ID must not be null</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Variable</source>
+        <location filename="../../service/ServiceTypes.cpp" line="171"/>
+        <source>Service name must not be empty or contain control characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Tempo (BPM)</source>
+        <location filename="../../service/ServiceTypes.cpp" line="174"/>
+        <source>Host is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Automatic BPM</source>
+        <location filename="../../service/ServiceTypes.cpp" line="178"/>
+        <source>Host does not form a valid service URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>÷ 2</source>
+        <location filename="../../service/ServiceTypes.cpp" line="180"/>
+        <source>Port must be between 1 and 65535</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Halve Tempo</source>
+        <location filename="../../service/ServiceTypes.cpp" line="182"/>
+        <source>An API key is required when authentication is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>× 2</source>
+        <location filename="../../service/ServiceTypes.cpp" line="185"/>
+        <source>API key must not contain whitespace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Double Tempo</source>
+        <location filename="../../service/ServiceTypes.cpp" line="188"/>
+        <source>API key must not contain control characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Smoothing</source>
+        <location filename="../../service/ServiceTypes.cpp" line="190"/>
+        <source>Request timeout must be positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>More variation</source>
+        <location filename="../../service/ServiceTypes.cpp" line="192"/>
+        <source>Maximum retries must not be negative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Smoother</source>
+        <location filename="../../service/ServiceTypes.cpp" line="194"/>
+        <source>Concurrency limits must be positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Minimum segment (beats)</source>
+        <location filename="../../service/ServiceTypes.cpp" line="196"/>
+        <source>Concurrent tasks per type must not exceed total concurrent tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Alignment</source>
+        <location filename="../../service/ServiceTypes.cpp" line="198"/>
+        <source>Health check interval must be positive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Keep Audio Position</source>
+        <location filename="../../service/ServiceTypes.cpp" line="204"/>
+        <source>Endpoint path prefix must be an absolute URL path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Move Audio</source>
+        <location filename="../../service/ServiceTypes.cpp" line="208"/>
+        <source>Endpoint path prefix must not contain dot segments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Beat Assignment</source>
+        <location filename="../../service/ServiceTypes.cpp" line="231"/>
+        <source>Custom header on line %L1 is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Detected beat</source>
+        <location filename="../../service/ServiceTypes.cpp" line="265"/>
+        <location filename="../../service/ServiceTypes.cpp" line="568"/>
+        <source>Result pointer must not be null</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Assign to position</source>
+        <location filename="../../service/ServiceTypes.cpp" line="271"/>
+        <source>Field &apos;id&apos; must be a string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Waveform</source>
+        <location filename="../../service/ServiceTypes.cpp" line="279"/>
+        <source>Field &apos;%1&apos; must be a boolean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Audio Preview Position</source>
+        <location filename="../../service/ServiceTypes.cpp" line="288"/>
+        <location filename="../../service/ServiceTypes.cpp" line="602"/>
+        <source>Field &apos;%1&apos; must be an integer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Extracted Tempo</source>
+        <location filename="../../service/ServiceTypes.cpp" line="310"/>
+        <source>Service configuration contains a value of the wrong type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Beat offset (s)</source>
+        <location filename="../../service/ServiceTypes.cpp" line="324"/>
+        <source>Local DSSP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Beat offset (ms)</source>
+        <location filename="../../service/ServiceTypes.cpp" line="453"/>
+        <source>Invalid singer metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Beat Deviation</source>
+        <location filename="../../service/ServiceTypes.cpp" line="459"/>
+        <source>Singer language &apos;%1&apos; must be an object</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Zoom</source>
+        <location filename="../../service/ServiceTypes.cpp" line="465"/>
+        <source>Singer language &apos;%1&apos;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Visible Time Range</source>
+        <location filename="../../service/ServiceTypes.cpp" line="572"/>
+        <source>Field &apos;configuration&apos; must be an object</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>View start</source>
+        <location filename="../../service/ServiceTypes.cpp" line="576"/>
+        <source>Field &apos;metadata&apos; must be an object</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>View end</source>
+        <location filename="../../service/ServiceTypes.cpp" line="586"/>
+        <source>Field &apos;configuration&apos; is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Fit All</source>
+        <location filename="../../service/ServiceTypes.cpp" line="593"/>
+        <source>Field &apos;metadata&apos; is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Pause</source>
+        <location filename="../../service/ServiceTypes.cpp" line="608"/>
+        <location filename="../../service/ServiceTypes.cpp" line="640"/>
+        <source>Field &apos;%1&apos; is outside its valid range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Play</source>
+        <location filename="../../service/ServiceTypes.cpp" line="627"/>
+        <source>Field &apos;%1&apos; must be an ISO 8601 date and time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Metronome</source>
+        <location filename="../../service/ServiceTypes.cpp" line="650"/>
+        <source>Field &apos;selectedApiVersion&apos; must not exceed &apos;maximumApiVersion&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Loop</source>
+        <location filename="../../service/ServiceTypes.cpp" line="664"/>
+        <source>Field &apos;metadataStale&apos; must be a boolean</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Synth::SynthesisTaskManager</name>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="257"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="538"/>
+        <source>No healthy synthesis service supports the selected architecture and all required singers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Playback Position</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="478"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="876"/>
+        <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Mode</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="481"/>
+        <source>The synthesis service request failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Changes: %1</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="867"/>
+        <source>The synthesis service request failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Maximum: %1 ms</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
+        <source>The synthesis service returned HTTP status %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>Preview Beats</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="899"/>
+        <source>The synthesized audio response is empty or exceeds the configured size limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
-        <source>%1 BPM</source>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="904"/>
+        <source>Could not store synthesized audio locally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="916"/>
+        <source>The synthesis service returned an invalid audio data URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="931"/>
+        <source>The synthesis service returned an unsupported audio URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="949"/>
+        <source>The synthesized audio URL redirected too many times</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="1002"/>
+        <source>The synthesized audio exceeds the configured download size limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="611"/>
+        <source>Audio request contains an invalid parameter value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="731"/>
+        <source>Parameter request contains an invalid value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="738"/>
+        <source>The selected singer cannot predict parameter %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisEnvironmentWelcomeWizardPage</name>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="979"/>
+        <source>Synthesis Environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="21"/>
+        <source>Configure a synthesis program or connect to a synthesis service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
+        <source>Use the local DiffSinger Synthesis Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
+        <source>Connect to a synthesis service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
+        <source>More Options...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
+        <source>Available singers: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisPage</name>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="24"/>
+        <source>%1 B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="26"/>
+        <source>%1 KiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="28"/>
+        <source>%1 MiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="29"/>
+        <source>%1 GiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="47"/>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="375"/>
+        <source>Clear Synthesis Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="61"/>
+        <source>Clear Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="86"/>
+        <source>Select the synthesis task caches to delete.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="92"/>
+        <source>Pronunciation (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="98"/>
+        <source>Phoneme (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="104"/>
+        <source>Duration (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="110"/>
+        <source>Parameter (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="116"/>
+        <source>Audio (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="129"/>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="433"/>
+        <source>Clear Synthesis Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="135"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="147"/>
+        <source>Delete all saved synthesis diagnostics from the disk?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="163"/>
+        <source>Synthesis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="176"/>
+        <source>Padding added before and after each synthesis piece.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="177"/>
+        <source>Base piece padding (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="195"/>
+        <source>Additional leading padding added for each phoneme before a note onset.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="196"/>
+        <source>Additional onset padding (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="214"/>
+        <source>Minimum gap used to separate note groups into synthesis pieces and limit leading padding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="215"/>
+        <source>Piece gap threshold (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="233"/>
+        <source>Comma-separated lyrics treated as rests when dividing a clip into synthesis pieces.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="234"/>
+        <source>Rest lyrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="245"/>
+        <source>Comma-separated, for example AP, SP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="251"/>
+        <source>Number of parameter samples generated per second.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="252"/>
+        <source>Parameter sample rate (Hz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="269"/>
+        <source>Number of singer-mix samples generated per second.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="270"/>
+        <source>Singer mix sample rate (Hz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="290"/>
+        <source>Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="303"/>
+        <source>Maximum disk space used by synthesis task caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="304"/>
+        <source>Maximum cache size (GiB)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="321"/>
+        <source>Number of days before an unused cache entry expires. Use 0 to disable expiry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="322"/>
+        <source>Cache expiry (days)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="339"/>
+        <source>Maximum size of a synthesized audio file downloaded from a service.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="340"/>
+        <source>Maximum audio download size (MiB)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="357"/>
+        <source>How long to reuse a service-provided synthesis environment tag before requesting a new one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="358"/>
+        <source>Environment tag lifetime (seconds)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="384"/>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="397"/>
+        <source>Maximum disk space used by synthesis diagnostics.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="398"/>
+        <source>Maximum diagnostics size (MiB)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="415"/>
+        <source>Number of days before a diagnostics file expires. Use 0 to disable expiry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/SynthesisPage.qml" line="416"/>
+        <source>Diagnostics expiry (days)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisProjectActions</name>
+    <message numerus="yes">
+        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
+        <source>%Ln synthesis task(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/SynthesisProjectActions.qml" line="52"/>
+        <source>No synthesis tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisServicePanel</name>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Pronunciation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Phoneme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="19"/>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Queued</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Succeeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="25"/>
+        <source>Canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="61"/>
+        <source>Clear Failed Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="67"/>
+        <source>Refreshing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="67"/>
+        <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="97"/>
+        <source>Last checked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="150"/>
+        <source>Hide Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="150"/>
+        <source>Show Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="184"/>
+        <source>%L1 running, %L2 queued</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="276"/>
+        <source>%L1 s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="283"/>
+        <source>Terminate Task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="293"/>
+        <source>View Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="302"/>
+        <source>Remove Task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="321"/>
+        <source>No synthesis services configured. Add one in Settings &gt; Synthesis &gt; Services.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/panels/SynthesisServicePanel.qml" line="24"/>
+        <source>Running (%1%)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TempoExtractionPreviewDialog</name>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="23"/>
         <source>Extract Tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="31"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="38"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TempoExtractionPreviewView</name>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="87"/>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="142"/>
+        <source>Fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="148"/>
+        <source>Variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="181"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="495"/>
+        <source>Tempo (BPM)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="215"/>
+        <source>Automatic BPM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="225"/>
+        <source>÷ 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="228"/>
+        <source>Halve Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="231"/>
+        <source>× 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="234"/>
+        <source>Double Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="258"/>
+        <source>Smoothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="284"/>
+        <source>More variation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="289"/>
+        <source>Smoother</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="300"/>
+        <source>Minimum segment (beats)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="328"/>
+        <source>Alignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="335"/>
+        <source>Keep Audio Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="335"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="335"/>
+        <source>Move Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="356"/>
+        <source>Beat Assignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="365"/>
+        <source>Detected beat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="381"/>
+        <source>Assign to position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="419"/>
+        <source>Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="438"/>
+        <source>Audio Preview Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="537"/>
+        <source>Extracted Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="553"/>
+        <source>Beat offset (s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="553"/>
+        <source>Beat offset (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="589"/>
+        <source>Beat Deviation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="615"/>
+        <source>Zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="628"/>
+        <source>Visible Time Range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="639"/>
+        <source>View start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="655"/>
+        <source>View end</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="672"/>
+        <source>Fit All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="687"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="687"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="692"/>
+        <source>Metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="697"/>
+        <source>Loop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="715"/>
+        <source>Playback Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="125"/>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="499"/>
+        <source>Changes: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="557"/>
+        <source>Maximum: %1 ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="423"/>
+        <source>Preview Beats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml" line="508"/>
+        <source>%1 BPM</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

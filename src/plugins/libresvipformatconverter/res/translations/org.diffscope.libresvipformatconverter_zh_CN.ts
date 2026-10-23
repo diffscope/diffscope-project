@@ -835,22 +835,22 @@
         <translation type="unfinished">添加本地安装...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="135"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="131"/>
         <source>Remove Local Installation from List</source>
         <translation type="unfinished">从列表中移除本地安装</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="152"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="144"/>
         <source>No LibreSVIP installation is selected</source>
         <translation type="unfinished">未选择 LibreSVIP 安装</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="145"/>
         <source>Executable path</source>
         <translation type="unfinished">可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="168"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="160"/>
         <source>Uninstall Downloaded Version</source>
         <translation type="unfinished">卸载已下载的版本</translation>
     </message>
@@ -871,7 +871,7 @@
         <translation type="obsolete">浏览...</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="161"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="153"/>
         <source>Download LibreSVIP...</source>
         <translation type="unfinished">下载 LibreSVIP...</translation>
     </message>
@@ -880,7 +880,7 @@
         <translation type="obsolete">卸载已下载的 LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="177"/>
+        <location filename="../../qml/LibreSVIPSettingsPage.qml" line="169"/>
         <source>Automatically check for LibreSVIP updates</source>
         <translation type="unfinished">自动检查 LibreSVIP 更新</translation>
     </message>
