@@ -37,17 +37,25 @@ QtObject {
             parameterContext?.referenceDataBinding ?? null
         property int currentTool: ParameterEditorInteractionController.Pencil
         property ParameterAnchorViewModel anchorBeingEdited: null
+        property bool anchorMoving: false
+        property bool freeEditing: false
         property ParameterEditor hoveredParameterEditor: null
         property bool parameterHovered: false
         readonly property int hoveredParameterPosition:
             hoveredParameterEditor?.pointerTimePosition ?? 0
         readonly property double hoveredParameterValue:
             hoveredParameterEditor?.pointerTransformedValue ?? 0.0
-        property bool timeCursorOverrideActive: false
-        readonly property bool timeCursorOverrideRequested:
-            anchorCursorBinding.when || freeEditCursorBinding.when
+        readonly property bool timeCursorEditing: anchorMoving || freeEditing
+        readonly property bool timeCursorActive:
+            timeCursorEditing
             || (parameterHovered
                 && !(contextObject?.mouseTrackingDisabled ?? true))
+        readonly property int timeCursorPosition:
+            (anchorMoving ? (anchorBeingEdited?.position ?? 0)
+                : freeEditing ? activeParameterEditor.freeEditPointerPosition
+                : hoveredParameterPosition)
+            + (proxyTimeViewModel.clipViewModel?.position ?? 0)
+            - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
         readonly property bool transformEditing: parameterContext?.transformEditing ?? false
         readonly property ParameterEditor activeParameterEditor:
             transformEditing ? transformEditor : editingEditor
@@ -101,26 +109,26 @@ QtObject {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
             anchorBeingEdited = item
-            anchorCursorBinding.when = true
+            anchorMoving = true
         }
 
         function endAnchorMove(editor) {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
-            anchorCursorBinding.when = false
+            anchorMoving = false
             anchorBeingEdited = null
         }
 
         function beginFreeEdit(editor) {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
-            freeEditCursorBinding.when = true
+            freeEditing = true
         }
 
         function endFreeEdit(editor) {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
-            freeEditCursorBinding.when = false
+            freeEditing = false
         }
 
         function beginCursorPositionHidingSelection(editor) {
@@ -163,20 +171,6 @@ QtObject {
             parameterHovered = false
             hoveredParameterEditor = null
         }
-
-        function setTimeCursorOverrideActive(active: bool) {
-            if (timeCursorOverrideActive === active)
-                return
-            timeCursorOverrideActive = active
-            if (active) {
-                contextObject?.pianoRollView?.beginTimeCursorOverride(control)
-            } else {
-                contextObject?.pianoRollView?.endTimeCursorOverride(control)
-            }
-        }
-
-        onTimeCursorOverrideRequestedChanged:
-            setTimeCursorOverrideActive(timeCursorOverrideRequested)
 
         function alternateTool(tool: int): int {
             switch (tool) {
@@ -472,41 +466,6 @@ QtObject {
                 control.contextObject?.editingClip ?? null) ?? null
         }
 
-        Binding {
-            id: anchorCursorBinding
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            property: "cursorPosition"
-            value: (control.anchorBeingEdited?.position ?? 0)
-                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
-                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
-            when: false
-        }
-
-        Binding {
-            id: freeEditCursorBinding
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            property: "cursorPosition"
-            value: control.activeParameterEditor.freeEditPointerPosition
-                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
-                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
-            when: false
-        }
-
-        Binding {
-            id: hoverCursorBinding
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            property: "cursorPosition"
-            value: control.hoveredParameterPosition
-                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
-                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
-            when: control.parameterHovered
-                && !(control.contextObject?.mouseTrackingDisabled ?? true)
-                && !anchorCursorBinding.when
-                && !freeEditCursorBinding.when
-                && !(control.contextObject?.pianoRollView?.cursorPositionsHiddenBySelection
-                     ?? false)
-        }
-
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.rightButton
@@ -669,10 +628,10 @@ QtObject {
                 ? control.editingBinding?.transformParameterInfo
                 : control.editingBinding?.parameterInfo
             readonly property bool valueIndicatorEditing:
-                anchorCursorBinding.when || freeEditCursorBinding.when
-            readonly property double valueIndicatorSource: anchorCursorBinding.when
+                control.anchorMoving || control.freeEditing
+            readonly property double valueIndicatorSource: control.anchorMoving
                 ? (control.anchorBeingEdited?.value ?? 0.0)
-                : freeEditCursorBinding.when
+                : control.freeEditing
                     ? control.activeParameterEditor.freeEditPointerValue
                     : control.hoveredParameterValue
             readonly property double valueIndicatorPosition: {
@@ -737,11 +696,12 @@ QtObject {
 
         Component.onCompleted: {
             updateTool(currentTool)
-            contextObject?.pianoRollView?.registerUnalignedTimeCursorSurface(control)
+            contextObject?.pianoRollView?.registerTimeCursorSource(control)
         }
         Component.onDestruction: {
-            setTimeCursorOverrideActive(false)
-            contextObject?.pianoRollView?.unregisterUnalignedTimeCursorSurface(control)
+            endCursorPositionHidingSelection(editingEditor)
+            endCursorPositionHidingSelection(transformEditor)
+            contextObject?.pianoRollView?.unregisterTimeCursorSource(control)
         }
         Connections {
             target: control.editingBinding

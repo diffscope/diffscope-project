@@ -32,11 +32,13 @@ QtObject {
         property bool phonemeHovered: false
         readonly property int hoverCursorPosition:
             sequencePositionToTimeline(pointerTimePosition)
-        property bool timeCursorOverrideActive: false
-        readonly property bool timeCursorOverrideRequested:
-            itemBeingDragged !== null
+        readonly property bool timeCursorEditing: itemBeingDragged !== null
+        readonly property bool timeCursorActive:
+            timeCursorEditing
             || (phonemeHovered
                 && !(contextObject?.mouseTrackingDisabled ?? true))
+        readonly property int timeCursorPosition: timeCursorEditing
+            ? itemTimelinePosition(itemBeingDragged) : hoverCursorPosition
 
         implicitHeight: 40
         Layout.fillWidth: true
@@ -66,20 +68,6 @@ QtObject {
             if (phonemeSequence === control && !phonemeSequence.hasPointerHover())
                 control.phonemeHovered = false
         }
-
-        function setTimeCursorOverrideActive(active: bool) {
-            if (control.timeCursorOverrideActive === active)
-                return
-            control.timeCursorOverrideActive = active
-            if (active) {
-                control.contextObject?.pianoRollView?.beginTimeCursorOverride(control)
-            } else {
-                control.contextObject?.pianoRollView?.endTimeCursorOverride(control)
-            }
-        }
-
-        onTimeCursorOverrideRequestedChanged:
-            setTimeCursorOverrideActive(timeCursorOverrideRequested)
 
         phonemeSequenceViewModel:
             d.projectViewModelContext?.getPhonemeSequenceViewModel(
@@ -125,15 +113,6 @@ QtObject {
                 item.timeLayoutViewModel = Qt.binding(
                     () => control.timeLayoutViewModel)
             })
-        }
-
-        Binding {
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            property: "cursorPosition"
-            value: control.itemBeingDragged !== null
-                ? control.itemTimelinePosition(control.itemBeingDragged)
-                : control.hoverCursorPosition
-            when: control.timeCursorOverrideRequested
         }
 
         Connections {
@@ -185,11 +164,9 @@ QtObject {
         }
 
         Component.onCompleted:
-            contextObject?.pianoRollView?.registerUnalignedTimeCursorSurface(control)
+            contextObject?.pianoRollView?.registerTimeCursorSource(control)
 
-        Component.onDestruction: {
-            setTimeCursorOverrideActive(false)
-            contextObject?.pianoRollView?.unregisterUnalignedTimeCursorSurface(control)
-        }
+        Component.onDestruction:
+            contextObject?.pianoRollView?.unregisterTimeCursorSource(control)
     }
 }
