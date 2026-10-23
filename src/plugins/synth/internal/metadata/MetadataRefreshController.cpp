@@ -98,7 +98,24 @@ namespace Synth::Internal {
         QList<QUuid> order;
         bool started{};
         bool stopping{};
+        bool refreshAllPending{};
         int activeCount{};
+        int pendingRestartCount{};
+
+        void scheduleRefreshAllCompletion() {
+            if (!refreshAllPending || stopping || activeCount > 0 || pendingRestartCount > 0)
+                return;
+            QTimer::singleShot(0, q, [this] {
+                if (!refreshAllPending || stopping || activeCount > 0 || pendingRestartCount > 0 ||
+                    std::ranges::any_of(states, [](const std::shared_ptr<State> &state) {
+                        return state->pending;
+                    })) {
+                    return;
+                }
+                refreshAllPending = false;
+                Q_EMIT q->refreshAllFinished();
+            });
+        }
 
         template<typename T, typename Handler>
         void watch(const std::shared_ptr<State> &state, quint64 generation,
@@ -130,6 +147,7 @@ namespace Synth::Internal {
                     finish(state);
                 }
                 watcher->deleteLater();
+                scheduleRefreshAllCompletion();
             });
             watcher->setFuture(future);
         }
@@ -234,8 +252,11 @@ namespace Synth::Internal {
 
             scheduleTimer(state);
             if (restart) {
+                ++pendingRestartCount;
                 QTimer::singleShot(0, q, [this, state, restartIncludesMetadata] {
+                    --pendingRestartCount;
                     request(state, restartIncludesMetadata);
+                    scheduleRefreshAllCompletion();
                 });
             }
         }
@@ -767,6 +788,7 @@ namespace Synth::Internal {
         }
         d->order = newOrder;
         Q_EMIT metadataChanged();
+        d->scheduleRefreshAllCompletion();
     }
 
     QList<ServiceInstanceDetails> MetadataRefreshController::serviceDetails() const {
@@ -810,6 +832,7 @@ namespace Synth::Internal {
         qCInfo(lcMetadataRefreshController) << "Stopping DSSP refresh controller";
         d->stopping = true;
         d->started = false;
+        d->refreshAllPending = false;
         for (const auto &state : std::as_const(d->states)) {
             ++state->generation;
             state->pending = false;
@@ -830,11 +853,13 @@ namespace Synth::Internal {
         }
         qCInfo(lcMetadataRefreshController) << "Refresh-all requested for"
                                             << d->order.size() << "DSSP service(s)";
+        d->refreshAllPending = true;
         for (const auto &id : std::as_const(d->order)) {
             const auto state = d->states.value(id);
             if (state)
                 d->request(state, true);
         }
+        d->scheduleRefreshAllCompletion();
     }
 
 }

@@ -47,6 +47,7 @@ namespace Synth::Internal {
             bool failed{};
             bool canceled{};
             QString errorMessage;
+            SynthesisTaskType failedType{SynthesisTaskType::Pronunciation};
         };
 
         dspx::Handle clipHandle{};

@@ -104,6 +104,7 @@ namespace Synth {
             void processAudioWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const SynthesisTaskResult &result);
             void processManualRequest(ManualRequest *request);
             void processCommittedChanges();
+            void retryFailedPieces();
             void finalizeLanguageWave(ClipRuntime *runtime);
             void invalidate(ClipRuntime *runtime, SynthesisTaskType fromType, const QList<SynthesisPiece *> &pieces, const SynthesisTaskOptions &options, const std::optional<QStringList> &requestedParameters = std::nullopt);
             void schedulePieceLanguage(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTaskType fromType, const SynthesisTaskOptions &options);
@@ -141,6 +142,7 @@ namespace Synth {
             bool m_globalCentShiftPending{};
             bool m_pendingWorkScheduled{};
             bool m_processingPendingWork{};
+            bool m_retryFailedPiecesPending{};
             QHash<QString, QDateTime> m_lastNotifications;
         };
 

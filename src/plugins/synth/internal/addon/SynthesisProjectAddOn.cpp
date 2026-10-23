@@ -272,6 +272,10 @@ namespace Synth::Internal {
             });
         }
         if (auto service = SynthService::instance()) {
+            connect(service, &SynthService::retryFailedTasksRequested, this, [this] {
+                m_retryFailedPiecesPending = true;
+                schedulePendingWork();
+            });
             connect(service, &SynthService::managedArchitecturesChanged, this, [this] {
                 m_architectureSyncPending = true;
                 schedulePendingWork();
@@ -750,12 +754,16 @@ namespace Synth::Internal {
                 }
                 processed = true;
             }
+            if (!processed && std::exchange(m_retryFailedPiecesPending, false)) {
+                retryFailedPieces();
+                processed = true;
+            }
             if (!processed)
                 break;
         }
         m_processingPendingWork = false;
         if (!documentTransactionActive() &&
-            (m_commitPending || m_documentSyncPending || m_architectureSyncPending ||
+            (m_commitPending || m_documentSyncPending || m_architectureSyncPending || m_retryFailedPiecesPending ||
              !m_pendingManualRequests.isEmpty() || !m_pendingFinalizers.isEmpty() ||
              !m_pendingTaskWritebacks.isEmpty())) {
             schedulePendingWork();
@@ -1031,6 +1039,8 @@ namespace Synth::Internal {
                 removeAudio(piece);
                 QString audioError;
                 if (!prepareAudio(runtime, piece, &audioError)) {
+                    d->currentTaskType = fromType;
+                    d->taskOptions = options;
                     notifyFailure(piece, audioError);
                     continue;
                 }
@@ -1081,6 +1091,8 @@ namespace Synth::Internal {
                 ++d->revision;
                 m_pieceTasks.remove(piece);
                 if (!blockedLanguageCoverage->errorMessage.isEmpty()) {
+                    d->currentTaskType = blockedLanguageCoverage->failedType;
+                    d->taskOptions = blockedLanguageCoverage->options;
                     notifyFailure(piece, blockedLanguageCoverage->errorMessage);
                     continue;
                 }
@@ -1102,6 +1114,7 @@ namespace Synth::Internal {
                 d->currentTaskType = languageCoverage
                                          ? languageCoverage->type
                                          : nextStage(completedLanguageCoverage->pipeline, SynthesisTaskType::Phoneme);
+                d->taskOptions = languageCoverage ? languageCoverage->options : completedLanguageCoverage->options;
                 if (coverageTask) {
                     m_pieceTasks.insert(piece, coverageTask);
                 } else {
@@ -1156,6 +1169,11 @@ namespace Synth::Internal {
         );
         if (affectedPieces.isEmpty())
             return;
+        for (auto piece : affectedPieces) {
+            auto d = SynthesisPiecePrivate::get(piece);
+            d->currentTaskType = fromType;
+            d->taskOptions = options;
+        }
         const auto context = buildSynthesisContext(runtime->clip);
         if (!context) {
             for (auto piece : affectedPieces)
@@ -1322,6 +1340,9 @@ namespace Synth::Internal {
             deactivatePiece(piece);
             return;
         }
+        auto d = SynthesisPiecePrivate::get(piece);
+        d->currentTaskType = type;
+        d->taskOptions = options;
         QString audioError;
         if (!prepareAudio(runtime, piece, &audioError)) {
             notifyFailure(piece, audioError);
@@ -1384,10 +1405,11 @@ namespace Synth::Internal {
         updatePriorities();
     }
 
-    void SynthesisProjectAddOn::bindPieceTask(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTask *task, quint64 revision, const SynthesisTaskOptions &) {
+    void SynthesisProjectAddOn::bindPieceTask(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTask *task, quint64 revision, const SynthesisTaskOptions &options) {
         auto d = SynthesisPiecePrivate::get(piece);
         synchronizePieceTask(piece, task);
         d->currentTaskType = task->type();
+        d->taskOptions = options;
         d->errorMessage.clear();
         d->diagnosticFilePath.clear();
         publishPieceState(piece);
@@ -1408,6 +1430,22 @@ namespace Synth::Internal {
         connect(task, &SynthesisTask::stateChanged, this, updateTask);
         connect(task, &SynthesisTask::progressChanged, this, updateTask);
         updateCounts();
+    }
+
+    void SynthesisProjectAddOn::retryFailedPieces() {
+        QList<QPointer<SynthesisPiece>> failedPieces;
+        for (auto piece : pieces()) {
+            if (piece->state() == SynthesisPiece::Failed)
+                failedPieces.append(piece);
+        }
+        for (const auto &piece : failedPieces) {
+            if (!piece || piece->state() != SynthesisPiece::Failed)
+                continue;
+            const auto d = SynthesisPiecePrivate::get(piece);
+            const auto fromType = d->currentTaskType;
+            const auto options = d->taskOptions;
+            resynthesizePiece(piece, fromType, options);
+        }
     }
 
     void SynthesisProjectAddOn::resynthesizeProject(SynthesisTaskType fromType, const SynthesisTaskOptions &options) {
@@ -1945,6 +1983,7 @@ namespace Synth::Internal {
                     auto d = SynthesisPiecePrivate::get(piece);
                     synchronizePieceTask(piece, coverage->task);
                     d->currentTaskType = coverage->type;
+                    d->taskOptions = coverage->options;
                     d->errorMessage.clear();
                     d->diagnosticFilePath.clear();
                     m_pieceTasks.insert(piece, coverage->task);
@@ -1972,6 +2011,7 @@ namespace Synth::Internal {
                     true,
                     false,
                     message,
+                    writeback->type,
                 });
                 const auto affectedPieces = synthesisPiecesIn(runtime, piecesInRange(runtime->clip, writeback->piecePosition, writeback->pieceLength));
                 for (auto affected : affectedPieces) {
@@ -1994,12 +2034,16 @@ namespace Synth::Internal {
                                 true,
                                 false,
                                 message,
+                                candidate->type,
                             });
                         }
                         candidate->discarded = true;
                         if (candidate->task && candidate->task->isQueued())
                             m_taskManager->cancel(candidate->task);
                     }
+                    auto d = SynthesisPiecePrivate::get(affected);
+                    d->currentTaskType = writeback->type;
+                    d->taskOptions = writeback->options;
                     notifyFailure(affected, message, diagnosticFilePath);
                 }
                 return;
@@ -2351,6 +2395,9 @@ namespace Synth::Internal {
                     removeAudio(piece);
                     publishPieceState(piece);
                 } else {
+                    auto d = SynthesisPiecePrivate::get(piece);
+                    d->currentTaskType = failed->failedType;
+                    d->taskOptions = failed->options;
                     notifyFailure(piece, failed->errorMessage);
                 }
                 continue;

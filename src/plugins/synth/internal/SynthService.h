@@ -51,6 +51,7 @@ namespace Synth::Internal {
         void serviceDetailsChanged(const QUuid &serviceId);
         void managedArchitecturesChanged();
         void refreshingChanged();
+        void retryFailedTasksRequested();
 
     private:
         void loadSettings();
@@ -66,6 +67,7 @@ namespace Synth::Internal {
         QList<ServiceInstanceConfiguration> m_services;
         bool m_initialized{};
         bool m_shutdown{};
+        bool m_retryFailedTasksPending{};
     };
 
 }

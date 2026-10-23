@@ -39,6 +39,7 @@ namespace Synth::Internal {
         void serviceDetailsChanged(const QUuid &serviceId);
         void metadataChanged();
         void refreshingChanged();
+        void refreshAllFinished();
         void serviceBecameUnhealthy(const QString &serviceName, const QString &errorMessage);
         void metadataRefreshFailed(const QString &serviceName, const QString &errorMessage);
 

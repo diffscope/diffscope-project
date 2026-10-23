@@ -67,6 +67,10 @@ namespace Synth::Internal {
         });
         connect(m_metadataController, &MetadataRefreshController::metadataChanged, this, &SynthService::reconcileCoreMetadata);
         connect(m_metadataController, &MetadataRefreshController::refreshingChanged, this, &SynthService::refreshingChanged);
+        connect(m_metadataController, &MetadataRefreshController::refreshAllFinished, this, [this] {
+            if (std::exchange(m_retryFailedTasksPending, false) && !m_shutdown)
+                Q_EMIT retryFailedTasksRequested();
+        });
         connect(m_metadataController, &MetadataRefreshController::serviceBecameUnhealthy, this, [](const QString &serviceName, const QString &message) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
@@ -194,6 +198,7 @@ namespace Synth::Internal {
             return;
         }
         qCInfo(lcSynthService) << "Refreshing health and metadata for all DSSP services";
+        m_retryFailedTasksPending = true;
         m_metadataController->refreshAll();
     }
 
