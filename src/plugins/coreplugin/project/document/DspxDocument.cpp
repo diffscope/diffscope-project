@@ -452,15 +452,6 @@ namespace Core {
             return result;
         }
 
-        void clearOriginalParameters(const BounceInfo &info) {
-            for (auto *clip : info.clips) {
-                for (const auto &parameterId : clip->parameters()->keys()) {
-                    if (auto *parameter = clip->parameters()->item(parameterId))
-                        parameter->original()->splice(0, parameter->original()->size(), {});
-                }
-            }
-        }
-
         QMap<int, QList<double>> mergeDynamicMixingData(const BounceInfo &info) {
             QMap<int, QList<double>> result;
             for (auto *clip : info.clips) {
@@ -2308,7 +2299,6 @@ namespace Core {
         d->transactionController->beginScopedTransaction(tr("Bouncing to clip"), [&] {
             qCDebug(lcDspxDocument) << "Merging and rebounding clips";
             for (const auto &info : trackBounceInfoMap) {
-                clearOriginalParameters(info);
                 const auto mergedParameters = mergeParameterData(info);
                 const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
                 const auto mergedDynamicMixing = singerLayoutIdentical
