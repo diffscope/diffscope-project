@@ -27,19 +27,15 @@ ProjectWindow {
     useLeftSystemButton: Boolean(BehaviorPreference.uiBehavior & BehaviorPreference.UB_UseLeftSystemButton)
     documentName: [
         ((BehaviorPreference.uiBehavior & BehaviorPreference.UB_FullPath) ? windowHandle.projectDocumentContext.fileLocker?.path : windowHandle.projectDocumentContext.fileLocker?.entryName) || windowHandle.projectDocumentContext.defaultDocumentName,
-        windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
-        windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep ? qsTr("Unsaved") : "",
+        !isMacOS && windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave ? qsTr("Modified Externally") : "",
+        !isMacOS && windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep ? qsTr("Unsaved") : "",
     ].filter(x => x).join(" - ")
+    windowModified: windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep || windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave
 
     icon: "image://appicon/dspx"
 
     WindowSystem.windowSystem: CoreInterface.windowSystem
     WindowSystem.id: "org.diffscope.core.projectwindow"
-
-    PlatformWindowModifiedHelper {
-        window: projectWindow
-        windowModified: windowHandle.projectDocumentContext.document.transactionController.cleanStep !== windowHandle.projectDocumentContext.document.transactionController.currentStep || windowHandle.projectDocumentContext.fileLocker.fileModifiedSinceLastSave
-    }
 
     menusModel: ObjectModel {
         property ActionInstantiator instantiator: ActionInstantiator {

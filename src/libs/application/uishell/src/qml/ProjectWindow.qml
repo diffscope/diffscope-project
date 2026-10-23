@@ -18,13 +18,14 @@ Window {
     width: 1600
     height: 960
     minimumWidth: 360
-    title: `${documentName} - ${Application.displayName}`
+    title: documentName
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
     property bool frameless: true
     property url icon: ""
     property string documentName: ""
+    property bool windowModified: false
     property ObjectModel menusModel: null
     property ObjectModel menusModelForMainMenu: null
     property ObjectModel leftToolButtonsModel: null
@@ -92,6 +93,12 @@ Window {
     WindowAgent {
         id: windowAgent
         property bool framelessSetup: false
+    }
+
+    PlatformWindowHelper {
+        id: platformWindowHelper
+        window: window
+        windowModified: window.windowModified
     }
 
     Component {
@@ -224,7 +231,7 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     font.family: Theme.font.family
                     font.weight: window.titleBarStyle === ProjectWindow.Style_MacOS ? Font.ExtraBold : Font.Normal
-                    text: Window.window.title
+                    text: platformWindowHelper.windowTitle
                 }
                 x: {
                     if (window.titleBarStyle !== ProjectWindow.Style_Windows) {
