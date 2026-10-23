@@ -42,6 +42,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
 
         <menu id="org.diffscope.synth.extract" text="Audio Extraction" description="Choose an extraction task for the current audio clip." />
         <action id="org.diffscope.synth.extract.notes" category="Extract" text="Extract Notes..." description="Create an editable singing clip from the current audio clip." />
+        <action id="org.diffscope.synth.extract.tempo" category="Extract" text="Extract Tempo..." description="Apply the tempo of the current audio clip to the project." />
         <action id="org.diffscope.synth.extract.separation" category="Extract" text="Separate Audio..." description="Split the current audio clip into separate audio tracks." />
         <action
                 id="org.diffscope.synth.panel.services"
@@ -85,6 +86,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         </menu>
         <menu id="org.diffscope.synth.extract">
             <action id="org.diffscope.synth.extract.notes" />
+            <action id="org.diffscope.synth.extract.tempo" />
             <action id="org.diffscope.synth.extract.separation" />
         </menu>
         <group id="org.diffscope.synth.statusIndicators">

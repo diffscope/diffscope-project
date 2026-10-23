@@ -54,6 +54,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         talcs::Core
         talcs::Format
         svscraft::Core
+        svscraft::Gui
         svscraft::Quick
         svscraft::QmlExtras
         xxHash::xxhash

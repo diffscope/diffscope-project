@@ -43,6 +43,16 @@
         <source>Preferences</source>
         <translation type="unfinished">首选项</translation>
     </message>
+    <message>
+        <location filename="../../res/org.diffscope.synth_actions.xml"/>
+        <source>Extract Tempo...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../res/org.diffscope.synth_actions.xml"/>
+        <source>Apply the tempo of the current audio clip to the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionDescription</name>
@@ -1300,6 +1310,36 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="430"/>
         <source>Could not commit the extracted tracks.</source>
         <translation type="unfinished">无法提交提取的轨道。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>The audio region exceeds the supported time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>The audio clip or project timeline changed. Extract the tempo again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>The tempo could not be applied while another edit is in progress.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>The extracted tempo could not be applied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>Extracting tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>Extract Tempo</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3425,6 +3465,325 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="323"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
+    <name>Synth::Internal::TempoExtractionPreview</name>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source>The audio waveform could not be loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source>The audio output is unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source>The audio file could not be opened for preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source>The audio preview could not be started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>At least two detected beats are required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The audio region is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The beat assignment is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The extractor returned invalid beat data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>At least two reliable beats are required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The tempo must be between 10 and 1000 BPM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The selected tempo cannot align this beat. Choose another reference beat.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>Choose a later reference position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>No supported tempo map satisfies the minimum segment length.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The extracted tempo exceeds the project time range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The audio region cannot be preserved with this tempo.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source>%L1. %2%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPreview.cpp"/>
+        <source> (Downbeat)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>The assigned beat cannot be aligned without moving the audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/TempoExtractionPlanner.cpp"/>
+        <source>Keeping the audio position would require an unsupported lead-in tempo.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TempoExtractionPreviewView</name>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Fixed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Tempo (BPM)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Automatic BPM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>÷ 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Halve Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>× 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Double Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Smoothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>More variation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Smoother</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Minimum segment (beats)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Alignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Keep Audio Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Move Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Beat Assignment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Detected beat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Assign to position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Audio Preview Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Extracted Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Beat offset (s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Beat offset (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Beat Deviation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Visible Time Range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>View start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>View end</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Fit All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Loop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Playback Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Changes: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Maximum: %1 ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>Preview Beats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewView.qml"/>
+        <source>%1 BPM</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TempoExtractionPreviewDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <source>Extract Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

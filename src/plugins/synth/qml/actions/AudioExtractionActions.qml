@@ -29,6 +29,13 @@ ActionCollection {
         }
     }
     ActionItem {
+        actionId: "org.diffscope.synth.extract.tempo"
+        Action {
+            enabled: d.audioClipSelected
+            onTriggered: Qt.callLater(() => d.addOn.extractTempo(d.selection.currentItem))
+        }
+    }
+    ActionItem {
         actionId: "org.diffscope.synth.extract.separation"
         Action {
             enabled: d.audioClipSelected

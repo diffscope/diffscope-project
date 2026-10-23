@@ -16,6 +16,8 @@
 
 namespace Synth::Internal {
 
+    class TempoExtractionPreview;
+
     class AudioExtractionAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
@@ -28,11 +30,13 @@ namespace Synth::Internal {
         void extensionsInitialized() override;
 
         Q_INVOKABLE void extractNotes(dspx::AudioClip *clip);
+        Q_INVOKABLE void extractTempo(dspx::AudioClip *clip);
         Q_INVOKABLE void separateAudio(dspx::AudioClip *clip);
         Q_INVOKABLE QString chooseDirectory(const QString &directory);
         Q_INVOKABLE QString normalizedPath(const QString &path) const;
         Q_INVOKABLE void start(int extractorIndex, const QString &directory);
         Q_INVOKABLE void closeDialog();
+        Q_INVOKABLE void applyTempo();
 
     private:
         struct Operation;
@@ -40,10 +44,13 @@ namespace Synth::Internal {
         void finish();
         void showError(const QString &message);
         bool sourceAvailable() const;
+        bool sourceUnchanged() const;
 
         std::unique_ptr<Operation> m_operation;
         QPointer<QObject> m_dialog;
+        QPointer<QObject> m_pendingDialog;
         QPointer<AudioExtractionTask> m_task;
+        QPointer<TempoExtractionPreview> m_tempoPreview;
     };
 
 }

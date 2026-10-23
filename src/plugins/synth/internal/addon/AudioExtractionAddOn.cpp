@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 #include <QDateTime>
 #include <QDir>
@@ -29,6 +30,7 @@
 #include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftCore/MusicTime.h>
+#include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/MessageBox.h>
@@ -38,6 +40,8 @@
 #include <dspxmodelORM/Note.h>
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelORM/Tempo.h>
+#include <dspxmodelORM/TempoSequence.h>
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
@@ -50,6 +54,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/AudioClipAudioContext.h>
+#include <synth/internal/TempoExtractionPreview.h>
 #include <transactional/TransactionController.h>
 
 namespace Synth::Internal {
@@ -104,7 +109,11 @@ namespace Synth::Internal {
         int position{};
         int clipStart{};
         int clipLength{};
+        int length{};
         QMap<int, double> tempi;
+        QMap<int, SVS::MusicTimeSignature> timeSignatures;
+        qint64 fileSize{};
+        QDateTime fileModified;
         QMap<QString, QPair<qint64, QDateTime>> overwriteFiles;
     };
 
@@ -114,6 +123,7 @@ namespace Synth::Internal {
     AudioExtractionAddOn::~AudioExtractionAddOn() {
         if (m_task)
             m_task->cancel();
+        delete m_pendingDialog.data();
         delete m_dialog.data();
     }
 
@@ -121,6 +131,8 @@ namespace Synth::Internal {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->addObject(this);
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "AudioExtractionActions");
+        if (component.isError())
+            qFatal() << component.errorString();
         auto actions = component.createWithInitialProperties({{QStringLiteral("addOn"), QVariant::fromValue(this)}});
         if (!actions)
             qFatal() << component.errorString();
@@ -132,6 +144,7 @@ namespace Synth::Internal {
     }
 
     void AudioExtractionAddOn::extractNotes(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Notes); }
+    void AudioExtractionAddOn::extractTempo(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Tempo); }
     void AudioExtractionAddOn::separateAudio(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Separation); }
 
     QString AudioExtractionAddOn::chooseDirectory(const QString &directory) {
@@ -150,7 +163,7 @@ namespace Synth::Internal {
     void AudioExtractionAddOn::open(dspx::AudioClip *clip, AudioExtractionTask::Type type) {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto window = qobject_cast<QQuickWindow *>(windowInterface->window());
-        if (m_dialog || !window || !clip || !clip->clipSequence() || clip->clipLength() <= 0)
+        if (m_dialog || m_pendingDialog || !window || !clip || !clip->clipSequence() || clip->clipLength() <= 0)
             return;
         const QPointer<dspx::AudioClip> guardedClip(clip);
         QString directory;
@@ -165,6 +178,8 @@ namespace Synth::Internal {
         m_operation->type = type;
         m_task = new AudioExtractionTask(type, this);
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "AudioExtractionDialog");
+        if (component.isError())
+            qFatal() << component.errorString();
         m_dialog = component.createWithInitialProperties({
             {QStringLiteral("parent"), QVariant::fromValue(window->contentItem())},
             {QStringLiteral("addOn"), QVariant::fromValue(this)},
@@ -172,11 +187,10 @@ namespace Synth::Internal {
             {QStringLiteral("separation"), type == AudioExtractionTask::Separation},
             {QStringLiteral("directory"), directory},
         });
-        if (!m_dialog) {
-            closeDialog();
-            SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), window, tr("Audio Extraction"), component.errorString());
-            return;
-        }
+        if (!m_dialog)
+            qFatal() << component.errorString();
+        if (type == AudioExtractionTask::Tempo)
+            m_dialog->setProperty("title", tr("Extract Tempo"));
         m_task->setParent(m_dialog);
         m_dialog->setProperty("x", (window->width() - m_dialog->property("width").toDouble()) / 2);
         m_dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
@@ -253,12 +267,20 @@ namespace Synth::Internal {
         operation.position = clip->position();
         operation.clipStart = clip->clipStart();
         operation.clipLength = clip->clipLength();
+        operation.length = clip->length();
         operation.sourcePath = clip->path();
         operation.tempi = timeline->tempi();
+        operation.timeSignatures = timeline->timeSignatures();
+        operation.fileSize = QFileInfo(sourceFile).size();
+        operation.fileModified = QFileInfo(sourceFile).lastModified();
         const double start = timeline->create(0, 0, clip->position()).millisecond();
         const double contentStart = timeline->create(0, 0, clip->start()).millisecond();
         const double end = timeline->create(0, 0, clip->position() + clip->clipLength()).millisecond();
         operation.input = {sourceFile, clip->path().userData, clip->path().formatEntryClassName, (start - contentStart) / 1000, (end - start) / 1000};
+        if (operation.type == AudioExtractionTask::Tempo && (!std::isfinite(start) || !std::isfinite(end) || start < 0 || end > std::numeric_limits<int>::max() || end - start < 1)) {
+            showError(tr("The audio region exceeds the supported time range."));
+            return;
+        }
         qCDebug(lcAudioExtractionScenario) << "Entered progressing state";
         m_task->start(extractorIndex, operation.input);
     }
@@ -266,6 +288,87 @@ namespace Synth::Internal {
     void AudioExtractionAddOn::showError(const QString &message) {
         if (m_dialog)
             m_dialog->setProperty("scenarioError", message);
+    }
+
+    bool AudioExtractionAddOn::sourceUnchanged() const {
+        if (!sourceAvailable())
+            return false;
+        const auto &operation = *m_operation;
+        const auto source = operation.source.data();
+        const auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        const auto timeline = window->projectTimeline()->musicTimeline();
+        const QFileInfo file(operation.input.filePath);
+        return source->clipSequence()->track() == operation.track && source->position() == operation.position
+            && source->clipStart() == operation.clipStart && source->clipLength() == operation.clipLength
+            && source->length() == operation.length && source->path() == operation.sourcePath
+            && timeline->tempi() == operation.tempi && timeline->timeSignatures() == operation.timeSignatures
+            && file.isFile() && file.size() == operation.fileSize && file.lastModified() == operation.fileModified;
+    }
+
+    void AudioExtractionAddOn::applyTempo() {
+        if (!m_tempoPreview || !m_tempoPreview->valid())
+            return;
+        m_tempoPreview->pause();
+        if (!sourceUnchanged()) {
+            showError(tr("The audio clip or project timeline changed. Extract the tempo again."));
+            return;
+        }
+        const auto &plan = m_tempoPreview->plan();
+        auto &operation = *m_operation;
+        auto document = operation.document.data();
+        auto model = document->model();
+        auto sequence = model->tempos();
+        auto source = operation.source.data();
+        const bool clipChanged = source->position() != plan.position || source->clipStart() != plan.clipStart || source->clipLength() != plan.clipLength || source->length() != plan.length;
+        if (plan.tempi == operation.tempi && !clipChanged) {
+            QMetaObject::invokeMethod(m_dialog, "accept");
+            return;
+        }
+        auto controller = document->transactionController();
+        const auto transaction = controller->beginTransaction();
+        if (transaction == Core::TransactionController::TransactionId::Invalid) {
+            showError(tr("The tempo could not be applied while another edit is in progress."));
+            return;
+        }
+        qCDebug(lcAudioExtractionScenario) << "Entered committing state";
+        const auto abort = [&] {
+            qCDebug(lcAudioExtractionScenario) << "Entered aborting state";
+            controller->abortTransaction(transaction);
+            showError(tr("The extracted tempo could not be applied."));
+        };
+        const auto existing = sequence->slice(plan.begin, plan.end - plan.begin);
+        for (auto item : existing) {
+            if (!plan.tempi.contains(item->position())) {
+                if (!sequence->removeItem(item) || !model->destroyItem(item)) {
+                    abort();
+                    return;
+                }
+            }
+        }
+        for (auto it = plan.tempi.lowerBound(plan.begin); it != plan.tempi.cend() && it.key() <= plan.end; ++it) {
+            const auto items = sequence->slice(it.key(), 1);
+            if (!items.isEmpty()) {
+                items.first()->setValue(it.value());
+            } else {
+                auto item = model->createTempo();
+                item->setPosition(it.key());
+                item->setValue(it.value());
+                if (!sequence->insertItem(item)) {
+                    abort();
+                    return;
+                }
+            }
+        }
+        source->setPosition(plan.position);
+        source->setClipStart(plan.clipStart);
+        source->setClipLength(plan.clipLength);
+        source->setLength(plan.length);
+        if (!controller->commitTransaction(transaction, tr("Extracting tempo"))) {
+            abort();
+            return;
+        }
+        qCDebug(lcAudioExtractionScenario) << "Entered completed state";
+        QMetaObject::invokeMethod(m_dialog, "accept");
     }
 
     void AudioExtractionAddOn::finish() {
@@ -284,6 +387,33 @@ namespace Synth::Internal {
             return;
         }
         const auto &result = m_task->result();
+        if (operation.type == AudioExtractionTask::Tempo) {
+            if (!sourceUnchanged()) {
+                showError(tr("The audio clip or project timeline changed. Extract the tempo again."));
+                return;
+            }
+            TempoExtractionInput input{result.beats, operation.tempi, operation.timeSignatures, timeline->ticksPerQuarterNote(), operation.position, operation.clipStart, operation.clipLength, operation.length,
+                timeline->create(0, 0, operation.position).millisecond() / 1000, operation.input.durationSeconds};
+            m_tempoPreview = new TempoExtractionPreview(input, operation.input, windowInterface, this);
+            auto window = qobject_cast<QQuickWindow *>(windowInterface->window());
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "TempoExtractionPreviewDialog");
+            if (component.isError())
+                qFatal() << component.errorString();
+            auto dialog = component.createWithInitialProperties({
+                {QStringLiteral("parent"), QVariant::fromValue(window->contentItem())},
+                {QStringLiteral("addOn"), QVariant::fromValue(this)},
+                {QStringLiteral("preview"), QVariant::fromValue(m_tempoPreview.data())},
+            });
+            if (!dialog)
+                qFatal() << component.errorString();
+            m_pendingDialog = dialog;
+            m_tempoPreview->setParent(dialog);
+            dialog->setProperty("x", (window->width() - dialog->property("width").toDouble()) / 2);
+            dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
+                ? window->property("popupTopMarginHint") : QVariant((window->height() - dialog->property("height").toDouble()) / 2));
+            QMetaObject::invokeMethod(m_dialog, "accept");
+            return;
+        }
         qCDebug(lcAudioExtractionScenario) << "Entered committing state";
         auto document = operation.document.data();
         auto model = document->model();
@@ -437,6 +567,22 @@ namespace Synth::Internal {
     }
 
     void AudioExtractionAddOn::closeDialog() {
+        if (m_pendingDialog) {
+            if (m_task) {
+                m_task->cancel();
+                m_task = nullptr;
+            }
+            m_dialog->deleteLater();
+            m_dialog = m_pendingDialog;
+            m_pendingDialog = nullptr;
+            QMetaObject::invokeMethod(m_dialog, "open", Qt::QueuedConnection);
+            qCDebug(lcAudioExtractionScenario) << "Entered previewing state";
+            return;
+        }
+        if (m_tempoPreview) {
+            m_tempoPreview->pause();
+            m_tempoPreview = nullptr;
+        }
         if (m_task) {
             m_task->cancel();
             if (!m_dialog)
