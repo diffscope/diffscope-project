@@ -164,7 +164,7 @@ namespace Core {
             RuntimeInterface::qmlEngine(),
             d->window,
             tr("File created with another application"),
-            QStringLiteral("This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
+            tr("This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                 .arg(name.isEmpty() ? tr("name unknown") : name)
         ) == SVS::SVSCraft::Yes;
     }
@@ -174,8 +174,8 @@ namespace Core {
         return SVS::MessageBox::question(
             RuntimeInterface::qmlEngine(),
             d->window,
-            tr("File created with incompatible %1 version").arg(QApplication::applicationDisplayName()),
-            QStringLiteral("This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
+            tr("File created with a potentially incompatible %1 version").arg(QApplication::applicationDisplayName()),
+            tr("This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                 .arg(QApplication::applicationDisplayName(), version)
         ) == SVS::SVSCraft::Yes;
     }
@@ -186,7 +186,7 @@ namespace Core {
             RuntimeInterface::qmlEngine(),
             d->window,
             tr("Additional check failed"),
-            QStringLiteral("%1\n\nThe file can still be opened, but it may cause potential problems.\n\nDo you want to continue opening it?")
+            tr("%1\n\nThe file can still be opened, but it may cause potential problems.\n\nDo you want to continue opening it?").arg(message)
         ) == SVS::SVSCraft::Yes;
     }
 
