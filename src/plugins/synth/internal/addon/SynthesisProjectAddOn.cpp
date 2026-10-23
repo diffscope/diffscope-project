@@ -1027,6 +1027,11 @@ namespace Synth::Internal {
             updateCounts();
             return;
         }
+        if (fromType <= SynthesisTaskType::Audio) {
+            for (auto piece : synthesisAffected) {
+                removeAudio(piece);
+            }
+        }
         QList<SynthesisPiece *> toSchedule;
         for (auto piece : synthesisAffected) {
             if (!piece || !piece->singingClip()) {
@@ -1036,7 +1041,6 @@ namespace Synth::Internal {
             d->errorMessage.clear();
             d->diagnosticFilePath.clear();
             if (fromType <= SynthesisTaskType::Audio) {
-                removeAudio(piece);
                 QString audioError;
                 if (!prepareAudio(runtime, piece, &audioError)) {
                     d->currentTaskType = fromType;
@@ -2199,11 +2203,16 @@ namespace Synth::Internal {
             if (addedClipSet.contains(runtime->clip))
                 continue;
             const bool rebound = std::exchange(runtime->rebound, false);
+            const auto clipSequence = runtime->clip->clipSequence();
+            const auto track = clipSequence ? clipSequence->track() : nullptr;
+            const bool audioTrackChanged = runtime->audioSeries &&
+                                           runtime->audioTrackContext != (track ? Audio::TrackAudioContext::of(track) : nullptr);
             const auto currentContext = buildSynthesisContext(runtime->clip);
             const bool synthesisContextChanged = currentContext != runtime->synthesisContextSnapshot;
             runtime->synthesisContextSnapshot = currentContext;
             const auto change = runtime->watcher->takeChanges();
-            if (!rebound && !synthesisContextChanged && change.isEmpty() && !globalCentShiftChanged)
+            if (!rebound && !audioTrackChanged &&
+                !synthesisContextChanged && change.isEmpty() && !globalCentShiftChanged)
                 continue;
             SynthesisTaskType from = SynthesisTaskType::Audio;
             if (rebound || synthesisContextChanged || change.contains(dspx::ClipChange::Sources) || change.contains(dspx::ClipChange::Lyric) ||
@@ -2219,8 +2228,13 @@ namespace Synth::Internal {
             if (globalCentShiftChanged && from > SynthesisTaskType::Duration) {
                 from = SynthesisTaskType::Duration;
             }
-            const auto affectedPieces = [this, runtime, &change, globalCentShiftChanged, synthesisContextChanged] {
-                if (synthesisContextChanged || globalCentShiftChanged || change.ranges().isEmpty()) {
+            const bool wholeClipAffected = rebound || audioTrackChanged ||
+                                           synthesisContextChanged || globalCentShiftChanged ||
+                                           change.contains(dspx::ClipChange::ClipTiming) ||
+                                           change.contains(dspx::ClipChange::Sources);
+            const auto affectedPieces = [this, runtime, &change, wholeClipAffected] {
+                // Clip timing and source changes affect every piece even if the content length is zero.
+                if (wholeClipAffected || change.ranges().isEmpty()) {
                     return piecesForClip(runtime->clip);
                 }
                 QList<SynthesisPiece *> result;
@@ -2307,6 +2321,7 @@ namespace Synth::Internal {
             }
             if (!idlePieces.isEmpty())
                 invalidate(runtime, SynthesisTaskType::Pronunciation, idlePieces, {});
+            finalizeLanguageWave(runtime);
         }
         for (auto clip : addedClips)
             resynthesizeClip(clip, SynthesisTaskType::Pronunciation, {});
@@ -2319,10 +2334,13 @@ namespace Synth::Internal {
             return;
         }
         const bool hasActiveLanguageTask = std::ranges::any_of(
-            m_taskWritebacks, [runtime](const TaskWriteback *writeback) {
+            m_taskWritebacks, [this, runtime](const TaskWriteback *writeback) {
                 return writeback && !writeback->discarded && writeback->task &&
                        writeback->scope == TaskWriteback::Language &&
-                       writeback->clipHandle == runtime->clipHandle;
+                       writeback->clipHandle == runtime->clipHandle &&
+                       !synthesisPiecesIn(runtime, piecesInRange(
+                           runtime->clip, writeback->piecePosition, writeback->pieceLength
+                       )).isEmpty();
             }
         );
         if (hasActiveLanguageTask || runtime->languageContinuations.isEmpty()) {
