@@ -211,29 +211,6 @@ Rectangle {
                                                 architectureId: architectureGroupBox.architectureId
                                             }
 
-                                            DragHandler {
-                                                id: singerDragHandler
-
-                                                enabled: control.draggable
-                                                target: null
-                                                onActiveChanged: {
-                                                    singerButton.dragPayloadReady = false
-                                                    if (!active)
-                                                        return
-
-                                                    dragSourcesModel.fromDefaultSinger(
-                                                                singerButton.singerInfoProvider.singerId)
-                                                    if (dragSourcesModel.empty || !dragSourcesModel.valid)
-                                                        return
-
-                                                    const mimeData = {}
-                                                    mimeData[control.sourcesPickerModelMimeType]
-                                                            = dragSourcesModel.serialize()
-                                                    singerButton.Drag.mimeData = mimeData
-                                                    singerButton.dragPayloadReady = true
-                                                }
-                                            }
-
                                             Card {
                                                 anchors.fill: parent
                                                 atTop: singerButton.index === 0
@@ -263,6 +240,30 @@ Rectangle {
                                                 image: SingerAvatar {
                                                     architectureId: architectureGroupBox.architectureId
                                                     singerTree: [singerButton.singerInfoProvider.singerId]
+                                                }
+
+                                                // The Card parent prevents button move handling from restoring the pressed state after grab cancellation.
+                                                DragHandler {
+                                                    id: singerDragHandler
+
+                                                    enabled: control.draggable
+                                                    target: null
+                                                    onActiveChanged: {
+                                                        singerButton.dragPayloadReady = false
+                                                        if (!active)
+                                                            return
+
+                                                        dragSourcesModel.fromDefaultSinger(
+                                                                    singerButton.singerInfoProvider.singerId)
+                                                        if (dragSourcesModel.empty || !dragSourcesModel.valid)
+                                                            return
+
+                                                        const mimeData = {}
+                                                        mimeData[control.sourcesPickerModelMimeType]
+                                                                = dragSourcesModel.serialize()
+                                                        singerButton.Drag.mimeData = mimeData
+                                                        singerButton.dragPayloadReady = true
+                                                    }
                                                 }
                                             }
                                         }
@@ -303,27 +304,6 @@ Rectangle {
                                                 onClicked: {
                                                     if (singerCard.presetSources.valid)
                                                         control.singerSelected(singerCard.presetSources)
-                                                }
-
-                                                DragHandler {
-                                                    id: singerDragHandler
-                                                    enabled: singerButton.enabled && control.draggable
-                                                    target: null
-                                                    onActiveChanged: {
-                                                        singerCard.dragPayloadReady = false
-                                                        if (!active)
-                                                            return
-                                                        const sources = singerCard.presetSources
-                                                        if (!sources.valid)
-                                                            return
-                                                        const data = sources.serialize()
-                                                        if (data.length === 0)
-                                                            return
-                                                        const mimeData = {}
-                                                        mimeData[control.sourcesPickerModelMimeType] = data
-                                                        singerButton.Drag.mimeData = mimeData
-                                                        singerCard.dragPayloadReady = true
-                                                    }
                                                 }
 
                                                 Card {
@@ -389,6 +369,28 @@ Rectangle {
                                                     }
 
                                                     onColorChanged: background.color = color
+
+                                                    // The Card parent prevents button move handling from restoring the pressed state after grab cancellation.
+                                                    DragHandler {
+                                                        id: singerDragHandler
+                                                        enabled: singerButton.enabled && control.draggable
+                                                        target: null
+                                                        onActiveChanged: {
+                                                            singerCard.dragPayloadReady = false
+                                                            if (!active)
+                                                                return
+                                                            const sources = singerCard.presetSources
+                                                            if (!sources.valid)
+                                                                return
+                                                            const data = sources.serialize()
+                                                            if (data.length === 0)
+                                                                return
+                                                            const mimeData = {}
+                                                            mimeData[control.sourcesPickerModelMimeType] = data
+                                                            singerButton.Drag.mimeData = mimeData
+                                                            singerCard.dragPayloadReady = true
+                                                        }
+                                                    }
                                                 }
                                             }
 
