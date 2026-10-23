@@ -18,6 +18,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 
+#include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
@@ -232,7 +233,13 @@ namespace ImportExportManager::Internal {
         settings->beginGroup(staticMetaObject.className());
         auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
         settings->endGroup();
-        auto path = QFileDialog::getSaveFileName(nullptr, tr("Export File"), defaultDir, converter->fileDialogFilters().join(";;"));
+        auto fileLocker = projectDocumentContext->fileLocker();
+        auto defaultFileName = fileLocker ? fileLocker->path() : QString();
+        if (defaultFileName.isEmpty()) {
+            defaultFileName = projectDocumentContext->defaultDocumentName();
+        }
+        auto defaultPath = QDir(defaultDir).filePath(QFileInfo(defaultFileName).baseName());
+        auto path = QFileDialog::getSaveFileName(nullptr, tr("Export File"), defaultPath, converter->fileDialogFilters().join(";;"));
         if (path.isEmpty()) {
             qCInfo(lcFileImportExportAddOn) << "Export canceled: file not selected";
             return;
