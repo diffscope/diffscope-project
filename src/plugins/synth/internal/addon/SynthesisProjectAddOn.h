@@ -128,7 +128,7 @@ namespace Synth {
             SynthesisAudioController *m_audioController{};
             QPointer<Core::TransactionController> m_transactionController;
             QHash<dspx::Handle, ClipRuntime *> m_clips;
-            QHash<SynthesisPiece *, SynthesisTask *> m_pieceTasks;
+            QHash<SynthesisPiece *, QPointer<SynthesisTask>> m_pieceTasks;
             QList<ClipRuntime *> m_retiredClips;
             QSet<TaskWriteback *> m_taskWritebacks;
             QList<TaskWriteback *> m_pendingTaskWritebacks;

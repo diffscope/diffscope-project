@@ -1924,8 +1924,8 @@ namespace Synth::Internal {
         if (!writeback)
             return;
         if (!validateTaskWriteback(writeback)) {
-            if (writeback->discarded || !writeback->task ||
-                !writeback->task->isFinished() || documentTransactionActive()) {
+            if (writeback->discarded || !writeback->queued ||
+                (writeback->task && !writeback->task->isFinished()) || documentTransactionActive()) {
                 return;
             }
             auto runtime = m_clips.value(writeback->clipHandle);
