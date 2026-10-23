@@ -19,6 +19,7 @@
 
 #include <libresvipformatconverter/internal/LibreSVIPConversionWizard.h>
 #include <libresvipformatconverter/internal/LibreSVIPManager.h>
+#include <libresvipformatconverter/internal/LibreSVIPPitchMapper.h>
 #include <libresvipformatconverter/internal/prebuiltinformats.h>
 
 namespace LibreSVIPFormatConverter::Internal {
@@ -93,6 +94,7 @@ namespace LibreSVIPFormatConverter::Internal {
                                       tr("The DSPX data returned by LibreSVIP could not be opened."));
             return false;
         }
+        LibreSVIPPitchMapper::mapModel(convertedModel, LibreSVIPPitchMapper::Direction::FromLibreSVIP);
         model = std::move(convertedModel);
         return true;
     }

@@ -19,6 +19,7 @@
 
 #include <libresvipformatconverter/internal/LibreSVIPConversionWizard.h>
 #include <libresvipformatconverter/internal/LibreSVIPManager.h>
+#include <libresvipformatconverter/internal/LibreSVIPPitchMapper.h>
 #include <libresvipformatconverter/internal/prebuiltinformats.h>
 
 namespace LibreSVIPFormatConverter::Internal {
@@ -50,9 +51,11 @@ namespace LibreSVIPFormatConverter::Internal {
     }
 
     bool LibreSVIPFileExporter::execExport(const QString &path, const opendspx::Model &model, QWindow *window) {
+        auto convertedModel = model;
+        LibreSVIPPitchMapper::mapModel(convertedModel, LibreSVIPPitchMapper::Direction::ToLibreSVIP);
         opendspx::SerializationErrorList serializationErrors;
         std::stringstream stream(std::ios::out | std::ios::binary);
-        opendspx::Serializer::serialize(stream, model, serializationErrors, opendspx::Serializer::CheckError, opendspx::Serializer::Compress | opendspx::Serializer::WriteSchema);
+        opendspx::Serializer::serialize(stream, convertedModel, serializationErrors, opendspx::Serializer::CheckError, opendspx::Serializer::Compress | opendspx::Serializer::WriteSchema);
         if (serializationErrors.containsFatal() || serializationErrors.containsError()) {
             qCCritical(lcLibreSVIPFileExporter) << "Failed to serialize DSPX data for LibreSVIP";
             SVS::MessageBox::critical(Core::RuntimeInterface::qmlEngine(), window,
