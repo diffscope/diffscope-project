@@ -37,7 +37,6 @@ runs:
     - name: Install vcpkg dependencies
       env:
         USE_CACHE: ${{ inputs.use_cache }}
-        QT_DIR: ${{ env.QT_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_KEEP_ENV_VARS: "VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
         DEV_SCRIPTS_REF: ${{ env.DEV_SCRIPTS_REF || 'main' }}
       shell: pwsh
@@ -49,7 +48,7 @@ runs:
         # vcpkg-workspace.cmake is not part of the repository, see scripts/.gitignore
         Invoke-WebRequest -OutFile scripts/vcpkg-workspace.cmake `
           "https://raw.githubusercontent.com/stdware/dev-scripts/$env:DEV_SCRIPTS_REF/scripts/vcpkg-workspace.cmake"
-        $arguments = @('-P', 'scripts/vcpkg-workspace.cmake', 'install')
+        $arguments = @('-P', 'scripts/vcpkg-workspace.cmake', 'install', '--qt-dir', $env:QT_ROOT_DIR)
         if ($env:USE_CACHE -ne 'true') {
           $env:VCPKG_BINARY_SOURCES = 'clear'
           'VCPKG_BINARY_SOURCES=clear' >> $env:GITHUB_ENV
