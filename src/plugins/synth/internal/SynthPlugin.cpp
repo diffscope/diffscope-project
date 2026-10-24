@@ -91,6 +91,10 @@ namespace Synth::Internal {
         if (component->isError())
             qFatal() << component->errorString();
         Core::CoreInterface::actionContext()->addAction(QStringLiteral("org.diffscope.synth.welcomeWizard.synthesisEnvironment"), component);
+        auto packageManagerComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.Synth"), QStringLiteral("PackageManagerWelcomeWizardPage"), this);
+        if (packageManagerComponent->isError())
+            qFatal() << packageManagerComponent->errorString();
+        Core::CoreInterface::actionContext()->addAction(QStringLiteral("org.diffscope.synth.welcomeWizard.packageManager"), packageManagerComponent);
     }
 
     void SynthPlugin::initializeControlPanels() {

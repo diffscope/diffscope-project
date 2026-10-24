@@ -232,8 +232,7 @@ namespace Synth::Internal {
         return {};
     }
 
-    void PackageManagerAddOn::openPackageManager() {
-        auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
+    void PackageManagerAddOn::openPackageManager(QWindow *parent) {
         if (m_window) {
             m_window->show();
             m_window->raise();
@@ -256,7 +255,7 @@ namespace Synth::Internal {
         }
         std::unique_ptr<QObject> windowObject(object);
         m_window = window;
-        window->setTransientParent(windowInterface->window());
+        window->setTransientParent(parent ? parent : windowHandle()->window());
         window->show();
 
         QEventLoop eventLoop;
@@ -478,6 +477,7 @@ namespace Synth::Internal {
 
     void PackageManagerAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ActionWindowInterfaceBase>();
+        windowInterface->addObject(this);
         auto server = Core::RuntimeInterface::instance()->getFirstObject<DsspServerManager>();
         Q_ASSERT(server);
         connect(server, &DsspServerManager::stateChanged, this, &PackageManagerAddOn::packageOperationActiveChanged);

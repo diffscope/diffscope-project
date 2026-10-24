@@ -802,6 +802,34 @@
     </message>
 </context>
 <context>
+    <name>PackageManagerWelcomeWizardPage</name>
+    <message>
+        <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="18"/>
+        <source>Package Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="19"/>
+        <source>Install sound libraries and other resources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="40"/>
+        <source>DiffScope Package (.dspk) is a format for distributing sound libraries and other resources for DiffScope, including singer models and shared resources required for synthesis.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="47"/>
+        <source>Synthesis with the local DiffSinger Synthesis Program requires packages containing sound libraries and their dependencies. Install these packages with the Package Manager.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="54"/>
+        <source>Open Package Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PackageManagerWindow</name>
     <message>
         <location filename="../../qml/dialogs/PackageManagerWindow.qml" line="22"/>

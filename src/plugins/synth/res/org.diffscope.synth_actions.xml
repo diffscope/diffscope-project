@@ -18,6 +18,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <phony id="core.mainMenu" />
 
         <action id="org.diffscope.synth.welcomeWizard.synthesisEnvironment" text="Synthesis Environment" textTr="SynthesisEnvironmentWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
+        <action id="org.diffscope.synth.welcomeWizard.packageManager" text="Package Manager" textTr="PackageManagerWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
 
         <menu id="org.diffscope.synth.dssp" text="DiffSinger Synthesis Program" icon="dssp" description="Control the local DiffSinger Synthesis Program service." />
         <action
@@ -101,6 +102,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
     <insertions>
         <insertion target="org.diffscope.welcomewizard.pages" anchor="last">
             <action id="org.diffscope.synth.welcomeWizard.synthesisEnvironment" />
+            <action id="org.diffscope.synth.welcomeWizard.packageManager" />
         </insertion>
         <insertion target="org.diffscope.core.preferenceActions" anchor="last">
             <menu id="org.diffscope.synth.dssp" />

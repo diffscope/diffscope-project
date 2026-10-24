@@ -38,7 +38,7 @@ namespace Synth::Internal {
         bool packageOperationActive() const;
 
         Q_INVOKABLE QModelIndex invalidIndex() const;
-        Q_INVOKABLE void openPackageManager();
+        Q_INVOKABLE void openPackageManager(QWindow *parent = nullptr);
         Q_INVOKABLE void refresh();
         Q_INVOKABLE void uninstallPackage(int index);
         Q_INVOKABLE void installPackages(const QList<QUrl> &files);
