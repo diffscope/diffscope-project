@@ -44,13 +44,5 @@
         "xxhash",
         "signalsmith-dsp",
         "rubberband"
-    ],
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../vcpkg/ports"
-        ],
-        "overlay-triplets": [
-            "../vcpkg/triplets"
-        ]
-    }
+    ]
 }

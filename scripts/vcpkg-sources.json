@@ -1,0 +1,15 @@
+{
+    "vcpkg": {
+        "repository": "https://github.com/microsoft/vcpkg.git",
+        "ref": "master"
+    },
+    "overlays": [
+        {
+            "repository": "../../stdware/vcpkg-overlay.git",
+            "ref": "main"
+        }
+    ],
+    "tasks": {
+        "list": ["${VCPKG_EXECUTABLE}", "list", "--x-install-root=${VCPKG_INSTALLED_DIR}"]
+    }
+}
