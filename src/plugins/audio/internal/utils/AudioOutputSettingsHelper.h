@@ -34,7 +34,7 @@ namespace Audio::Internal {
         Q_OBJECT
         QML_ELEMENT
 
-        Q_PROPERTY(QStringList driverList READ driverList CONSTANT)
+        Q_PROPERTY(QStringList driverList READ driverList NOTIFY driverListChanged)
         Q_PROPERTY(int driverCurrentIndex READ driverCurrentIndex WRITE setDriverCurrentIndex NOTIFY driverCurrentIndexChanged)
         Q_PROPERTY(QStringList deviceList READ deviceList NOTIFY deviceListChanged)
         Q_PROPERTY(int deviceCurrentIndex READ deviceCurrentIndex WRITE setDeviceCurrentIndex NOTIFY deviceCurrentIndexChanged)
@@ -77,8 +77,10 @@ namespace Audio::Internal {
 
         Q_INVOKABLE void testDevice();
         Q_INVOKABLE static void openControlPanel();
+        Q_INVOKABLE void reload();
 
     Q_SIGNALS:
+        void driverListChanged();
         void driverCurrentIndexChanged();
         void deviceListChanged();
         void deviceCurrentIndexChanged();
@@ -112,8 +114,6 @@ namespace Audio::Internal {
         // Helper methods for structured lists
         int findDriverIndexByName(const QString &driverName, ItemStatus status = ItemStatus::Normal) const;
         int findDeviceIndexByName(const QString &deviceName, ItemStatus status = ItemStatus::Normal) const;
-        void removeNotWorkingDriverItems();
-        void removeNotWorkingDeviceItems();
 
         QList<DriverItem> m_driverItems;
         int m_driverCurrentIndex;

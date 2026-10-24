@@ -3,10 +3,8 @@
 
 #include "AudioOutputSettingsHelper.h"
 
-#include <algorithm>
 #include <QCoreApplication>
 #include <QLocale>
-#include <QSignalBlocker>
 
 #include <TalcsDevice/AbstractOutputContext.h>
 #include <TalcsDevice/AudioDevice.h>
@@ -62,9 +60,7 @@ namespace Audio::Internal {
         connect(GlobalAudioContext::instance(), &GlobalAudioContext::devicePanChanged,
                 this, [this] { Q_EMIT devicePanChanged(); });
 
-        // Initialize all lists and current indices
-        updateDriverList();
-        updateDeviceDependentLists();
+        reload();
     }
 
     AudioOutputSettingsHelper::~AudioOutputSettingsHelper() = default;
@@ -81,7 +77,8 @@ namespace Audio::Internal {
             item.status = ItemStatus::Normal;
             m_driverItems.append(item);
             m_driverCurrentIndex = 0;
-            emit driverCurrentIndexChanged();
+            Q_EMIT driverListChanged();
+            Q_EMIT driverCurrentIndexChanged();
             return;
         }
 
@@ -102,6 +99,7 @@ namespace Audio::Internal {
             m_driverItems.append(item);
         }
 
+        Q_EMIT driverListChanged();
         findDriverIndex();
     }
 
@@ -128,10 +126,8 @@ namespace Audio::Internal {
             }
         }
 
-        if (m_driverCurrentIndex != newIndex) {
-            m_driverCurrentIndex = newIndex;
-            emit driverCurrentIndexChanged();
-        }
+        m_driverCurrentIndex = newIndex;
+        Q_EMIT driverCurrentIndexChanged();
     }
 
     QStringList AudioOutputSettingsHelper::driverList() const {
@@ -151,51 +147,19 @@ namespace Audio::Internal {
             return;
         }
 
-        const auto &item = m_driverItems[index];
+        const auto item = m_driverItems[index];
 
         // Return directly if selecting an empty name item (not working)
         if (item.name.isEmpty()) {
+            Q_EMIT driverCurrentIndexChanged();
             return;
         }
 
-        // Try to set driver
-        if (!m_outputSystem->setDriver(item.name)) {
-            // Setting failed, emit error signal
-            emit deviceError(tr("Cannot initialize %1 driver").arg(item.name));
-
-            // Mark current driver as NotWorking and add if not exists
-            int existingIndex = findDriverIndexByName(item.name, ItemStatus::Normal);
-            if (existingIndex != -1) {
-                m_driverItems[existingIndex].status = ItemStatus::NotWorking;
-            } else {
-                DriverItem notWorkingItem;
-                notWorkingItem.name = item.name;
-                notWorkingItem.status = ItemStatus::NotWorking;
-                m_driverItems.append(notWorkingItem);
-            }
-
-            // Find first empty name item to set as current
-            for (int i = 0; i < m_driverItems.size(); ++i) {
-                if (m_driverItems[i].name.isEmpty()) {
-                    m_driverCurrentIndex = i;
-                    emit driverCurrentIndexChanged();
-                    break;
-                }
-            }
-            return;
+        const bool succeeded = m_outputSystem->setDriver(item.name);
+        reload();
+        if (!succeeded) {
+            Q_EMIT deviceError(tr("Cannot initialize %1 driver").arg(item.name));
         }
-
-        // Setting succeeded, remove NotWorking items
-        removeNotWorkingDriverItems();
-
-        // Adjust index after removal
-        int newIndex = findDriverIndexByName(item.name, ItemStatus::Normal);
-        if (newIndex != -1) {
-            m_driverCurrentIndex = newIndex;
-            emit driverCurrentIndexChanged();
-        }
-
-        // Driver change will automatically trigger deviceChanged signal, which updates device-related lists
     }
 
     // Update device list
@@ -303,10 +267,8 @@ namespace Audio::Internal {
             }
         }
 
-        if (m_deviceCurrentIndex != newIndex) {
-            m_deviceCurrentIndex = newIndex;
-            emit deviceCurrentIndexChanged();
-        }
+        m_deviceCurrentIndex = newIndex;
+        Q_EMIT deviceCurrentIndexChanged();
     }
 
     QStringList AudioOutputSettingsHelper::deviceList() const {
@@ -326,39 +288,22 @@ namespace Audio::Internal {
             return;
         }
 
-        const auto &item = m_deviceItems[index];
+        const auto item = m_deviceItems[index];
 
         // Return directly if selecting a NotWorking item
         if (item.status == ItemStatus::NotWorking) {
-            emit deviceCurrentIndexChanged();
+            Q_EMIT deviceCurrentIndexChanged();
             return;
         }
 
-        // Try to set device
-        if (!m_outputSystem->setDevice(item.name)) {
-            // Setting failed, emit error signal
+        const bool succeeded = m_outputSystem->setDevice(item.name);
+        reload();
+        if (!succeeded) {
             QString errorMessage = item.name.isEmpty() 
                 ? tr("Audio device %1 is not available").arg(tr("Default device"))
                 : tr("Audio device %1 is not available").arg(item.name);
-            emit deviceError(errorMessage);
-
-            // Keep current index unchanged
-            emit deviceCurrentIndexChanged();
-            return;
+            Q_EMIT deviceError(errorMessage);
         }
-
-        // Setting succeeded, remove any NotWorking items
-        removeNotWorkingDeviceItems();
-
-        // Adjust index after removal
-        int newIndex = findDeviceIndexByName(item.name, ItemStatus::Normal);
-        if (newIndex != -1) {
-            m_deviceCurrentIndex = newIndex;
-            emit deviceCurrentIndexChanged();
-            emit deviceListChanged();
-        }
-
-        // Device change will automatically trigger deviceChanged signal, which updates sample rate and buffer size lists
     }
 
     // Update sample rate list
@@ -404,10 +349,8 @@ namespace Audio::Internal {
             }
         }
 
-        if (m_sampleRateCurrentIndex != newIndex) {
-            m_sampleRateCurrentIndex = newIndex;
-            emit sampleRateCurrentIndexChanged();
-        }
+        m_sampleRateCurrentIndex = newIndex;
+        Q_EMIT sampleRateCurrentIndexChanged();
     }
 
     // Update buffer size list
@@ -452,10 +395,8 @@ namespace Audio::Internal {
             }
         }
 
-        if (m_bufferSizeCurrentIndex != newIndex) {
-            m_bufferSizeCurrentIndex = newIndex;
-            emit bufferSizeCurrentIndexChanged();
-        }
+        m_bufferSizeCurrentIndex = newIndex;
+        Q_EMIT bufferSizeCurrentIndexChanged();
     }
 
     // Update all lists dependent on device
@@ -554,10 +495,14 @@ namespace Audio::Internal {
         dev->openControlPanel();
     }
 
-    // Bidirectional binding slot: respond to outputContext's deviceChanged signal
-    void AudioOutputSettingsHelper::onDeviceChanged() {
-        // Re-update all device-dependent lists when device changes
+    void AudioOutputSettingsHelper::reload() {
+        // List replacement requires index notifications even if the selected indices are unchanged.
+        updateDriverList();
         updateDeviceDependentLists();
+    }
+
+    void AudioOutputSettingsHelper::onDeviceChanged() {
+        reload();
     }
 
     // Bidirectional binding slot: respond to outputContext's bufferSizeChanged signal
@@ -606,28 +551,6 @@ namespace Audio::Internal {
             }
         }
         return -1;
-    }
-
-    // Helper method: Remove NotWorking driver items
-    void AudioOutputSettingsHelper::removeNotWorkingDriverItems() {
-        m_driverItems.erase(
-            std::remove_if(m_driverItems.begin(), m_driverItems.end(),
-                [](const DriverItem &item) {
-                    return item.status == ItemStatus::NotWorking;
-                }),
-            m_driverItems.end()
-        );
-    }
-
-    // Helper method: Remove NotWorking device items
-    void AudioOutputSettingsHelper::removeNotWorkingDeviceItems() {
-        m_deviceItems.erase(
-            std::remove_if(m_deviceItems.begin(), m_deviceItems.end(),
-                [](const DeviceItem &item) {
-                    return item.status == ItemStatus::NotWorking;
-                }),
-            m_deviceItems.end()
-        );
     }
 
 }

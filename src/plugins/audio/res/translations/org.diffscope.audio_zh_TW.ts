@@ -1511,48 +1511,38 @@ Estimated size of each file: %3</source>
 <context>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="17"/>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="957"/>
         <source>Audio Output</source>
         <translation type="unfinished">Audio Output</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="21"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="18"/>
         <source>Configure audio output device parameters</source>
         <translation type="unfinished">Configure audio output device parameters</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="35"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="34"/>
         <source>Audio driver</source>
         <translation type="unfinished">Audio driver</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="44"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="43"/>
         <source>Audio device</source>
         <translation type="unfinished">Audio device</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="53"/>
-        <source>Sample rate</source>
-        <translation type="unfinished">Sample rate</translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="62"/>
-        <source>Buffer size</source>
-        <translation type="unfinished">Buffer size</translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="75"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="56"/>
         <source>Test</source>
         <translation type="unfinished">Test</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="79"/>
-        <source>Open Control Panel</source>
-        <translation type="unfinished">Open Control Panel</translation>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="60"/>
+        <source>More Options...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="86"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="71"/>
         <source>Click &quot;Test&quot; button to check whether audio output is configured correctly</source>
         <translation type="unfinished">Click &quot;Test&quot; button to check whether audio output is configured correctly</translation>
     </message>

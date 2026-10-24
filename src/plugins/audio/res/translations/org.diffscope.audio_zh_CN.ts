@@ -1540,48 +1540,38 @@ Estimated size of each file: %3</source>
 <context>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="20"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="17"/>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="957"/>
         <source>Audio Output</source>
         <translation>音频输出</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="21"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="18"/>
         <source>Configure audio output device parameters</source>
         <translation>配置音频输出设备参数</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="35"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="34"/>
         <source>Audio driver</source>
         <translation>音频驱动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="44"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="43"/>
         <source>Audio device</source>
         <translation>音频设备</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="53"/>
-        <source>Sample rate</source>
-        <translation>采样率</translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="62"/>
-        <source>Buffer size</source>
-        <translation>缓冲区大小</translation>
-    </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="75"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="56"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="79"/>
-        <source>Open Control Panel</source>
-        <translation>打开控制面板</translation>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="60"/>
+        <source>More Options...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="86"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="71"/>
         <source>Click &quot;Test&quot; button to check whether audio output is configured correctly</source>
         <translation>点击“测试”按钮以检查音频输出是否正确配置</translation>
     </message>

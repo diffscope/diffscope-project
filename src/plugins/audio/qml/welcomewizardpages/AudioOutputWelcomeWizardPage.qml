@@ -5,20 +5,20 @@ import QtQml
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.impl
 
 import SVSCraft
 import SVSCraft.UIComponents
-import SVSCraft.Extras
-
-import ChorusKit.AppCore
 
 import DiffScope.UIShell
+import DiffScope.Core
 
 WelcomeWizardPage {
     id: page
     title: qsTr("Audio Output")
     description: qsTr("Configure audio output device parameters")
+    iconSource: "image://fluent-system-icons/speaker_2?style=regular"
+
+    onAboutToEnter: helper.reload()
 
     AudioOutputSettingsHelper {
         id: helper
@@ -49,24 +49,6 @@ WelcomeWizardPage {
                 currentIndex: helper.deviceCurrentIndex
                 onActivated: (index) => helper.deviceCurrentIndex = index
             }
-            Label {
-                text: qsTr("Sample rate")
-            }
-            ComboBox {
-                Layout.fillWidth: true
-                model: helper.sampleRateList
-                currentIndex: helper.sampleRateCurrentIndex
-                onActivated: (index) => helper.sampleRateCurrentIndex = index
-            }
-            Label {
-                text: qsTr("Buffer size")
-            }
-            ComboBox {
-                Layout.fillWidth: true
-                model: helper.bufferSizeList
-                currentIndex: helper.bufferSizeCurrentIndex
-                onActivated: (index) => helper.bufferSizeCurrentIndex = index
-            }
         }
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
@@ -76,8 +58,12 @@ WelcomeWizardPage {
                 onClicked: helper.testDevice()
             }
             Button {
-                text: qsTr("Open Control Panel")
-                onClicked: helper.openControlPanel()
+                text: qsTr("More Options...")
+                onClicked: Qt.callLater(() => {
+                    page.forceActiveFocus()
+                    CoreInterface.execSettingsDialog("audio.AudioOutput", page.Window.window)
+                    helper.reload()
+                })
             }
         }
         Label {
