@@ -37,7 +37,7 @@ runs:
     - name: Install vcpkg dependencies
       env:
         USE_CACHE: ${{ inputs.use_cache }}
-        QT_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
+        QT_DIR: ${{ env.QT_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_KEEP_ENV_VARS: "VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
       shell: pwsh
       run: |
