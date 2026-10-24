@@ -11,7 +11,7 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QMessageBox>
-#include <QPlainTextEdit>
+#include <QSignalBlocker>
 #include <QVBoxLayout>
 
 #include <audio/internal/AudioOutputSettingsHelper.h>
@@ -154,6 +154,38 @@ namespace Audio::Internal {
             deviceLayout->addRow(tr("&Sample rate"), sampleRateComboBox);
             auto bufferSizeComboBox = new QComboBox;
             deviceLayout->addRow(tr("&Buffer size"), bufferSizeComboBox);
+            auto helper = parent->helper();
+            auto bindComboBox = [this, helper](QComboBox *comboBox, auto listGetter, auto indexGetter, auto indexSetter, auto listChanged, auto indexChanged) {
+                auto updateIndex = [helper, comboBox, indexGetter] {
+                    const QSignalBlocker blocker(comboBox);
+                    comboBox->setCurrentIndex((helper->*indexGetter)());
+                };
+                auto updateList = [helper, comboBox, listGetter, updateIndex] {
+                    const QSignalBlocker blocker(comboBox);
+                    comboBox->clear();
+                    comboBox->addItems((helper->*listGetter)());
+                    updateIndex();
+                };
+                connect(helper, listChanged, comboBox, updateList);
+                connect(helper, indexChanged, comboBox, updateIndex);
+                connect(comboBox, &QComboBox::activated, this, [helper, indexSetter, updateIndex](int index) {
+                    (helper->*indexSetter)(index);
+                    updateIndex();
+                });
+                updateList();
+            };
+            bindComboBox(driverComboBox, &AudioOutputSettingsHelper::driverList,
+                         &AudioOutputSettingsHelper::driverCurrentIndex, &AudioOutputSettingsHelper::setDriverCurrentIndex,
+                         &AudioOutputSettingsHelper::driverListChanged, &AudioOutputSettingsHelper::driverCurrentIndexChanged);
+            bindComboBox(deviceComboBox, &AudioOutputSettingsHelper::deviceList,
+                         &AudioOutputSettingsHelper::deviceCurrentIndex, &AudioOutputSettingsHelper::setDeviceCurrentIndex,
+                         &AudioOutputSettingsHelper::deviceListChanged, &AudioOutputSettingsHelper::deviceCurrentIndexChanged);
+            bindComboBox(sampleRateComboBox, &AudioOutputSettingsHelper::sampleRateList,
+                         &AudioOutputSettingsHelper::sampleRateCurrentIndex, &AudioOutputSettingsHelper::setSampleRateCurrentIndex,
+                         &AudioOutputSettingsHelper::sampleRateListChanged, &AudioOutputSettingsHelper::sampleRateCurrentIndexChanged);
+            bindComboBox(bufferSizeComboBox, &AudioOutputSettingsHelper::bufferSizeList,
+                         &AudioOutputSettingsHelper::bufferSizeCurrentIndex, &AudioOutputSettingsHelper::setBufferSizeCurrentIndex,
+                         &AudioOutputSettingsHelper::bufferSizeListChanged, &AudioOutputSettingsHelper::bufferSizeCurrentIndexChanged);
             layout->addLayout(deviceLayout);
             auto testButtonLayout = new QHBoxLayout;
             auto testButton = new QPushButton(tr("&Test"));
@@ -211,7 +243,7 @@ namespace Audio::Internal {
         Q_OBJECT
     public:
         explicit ExternalCheckPage(AudioTroubleshootingDialog *parent = nullptr) : QWizardPage(parent) {
-            setTitle("<h3>Check Your System Audio Settings</h3>");
+            setTitle(tr("<h3>Check Your System Audio Settings</h3>"));
             setSubTitle(tr("Please ensure that your audio devices are properly connected to your computer and configured in your system settings."));
             auto layout = new QVBoxLayout;
             auto goToSettingsButtonLayout = new QHBoxLayout;
@@ -296,7 +328,7 @@ namespace Audio::Internal {
         Q_OBJECT
     public:
         explicit ResultFailPage(AudioTroubleshootingDialog *parent = nullptr) : QWizardPage(parent) {
-            setTitle("<h3>Unable to Resolve Audio Output Problem</h3>");
+            setTitle(tr("<h3>Unable to Resolve Audio Output Problem</h3>"));
             setSubTitle(tr("Please send us a feedback."));
             auto layout = new QVBoxLayout;
             auto noteLabel = new QLabel(tr("<p>When sending feedback, please include the following information (if possible): <ul>"
@@ -318,6 +350,9 @@ namespace Audio::Internal {
         setWindowTitle(tr("Audio Output Troubleshooting Wizard"));
         setWindowFlag(Qt::WindowContextHelpButtonHint, false);
         setWizardStyle(QWizard::ModernStyle);
+        connect(m_helper, &AudioOutputSettingsHelper::deviceError, this, [this](const QString &message) {
+            QMessageBox::critical(this, tr("Audio Device Error"), message);
+        });
         setPage(Page_Welcome, new WelcomePage(this));
         setPage(Page_Test, new TestPage(this));
         setPage(Page_OK, new ResultOkPage(this));
