@@ -74,6 +74,17 @@ ActionCollection {
             id: layouts
 
             Instantiator {
+                model: layoutRepeater.count === 0 ? 1 : 0
+                delegate: MenuItem {
+                    text: qsTr("No Custom Layouts")
+                    enabled: false
+                }
+                onObjectAdded: (index, object) => layouts.insertItem(0, object)
+                onObjectRemoved: (index, object) => layouts.removeItem(object)
+            }
+
+            Instantiator {
+                id: layoutRepeater
                 model: collection.addOn?.workspaceManager?.customLayouts ?? []
                 delegate: Menu {
                     required property var modelData
@@ -107,6 +118,17 @@ ActionCollection {
             id: allPanels
 
             Instantiator {
+                model: allPanelRepeater.count === 0 ? 1 : 0
+                delegate: MenuItem {
+                    text: qsTr("No Panels")
+                    enabled: false
+                }
+                onObjectAdded: (index, object) => allPanels.insertItem(0, object)
+                onObjectRemoved: (index, object) => allPanels.removeItem(object)
+            }
+
+            Instantiator {
+                id: allPanelRepeater
                 model: collection.addOn?.panelEntries ?? []
                 delegate: PanelAction {
                     id: allPanelAction

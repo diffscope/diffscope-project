@@ -7170,22 +7170,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="83"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="79"/>
+        <source>No Custom Layouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
         <source>Apply</source>
         <translation type="unfinished">Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="88"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="99"/>
         <source>Rename</source>
         <translation type="unfinished">Rename</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="93"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="104"/>
         <source>Delete</source>
         <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="140"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="123"/>
+        <source>No Panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="162"/>
         <source>No Open Panels</source>
         <translation type="unfinished"></translation>
     </message>
