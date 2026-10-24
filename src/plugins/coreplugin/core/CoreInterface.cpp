@@ -295,14 +295,16 @@ namespace Core {
                                                                    "Branch: %1<br>"
                                                                    "Commit: %2<br>"
                                                                    "Build date: %3<br>"
-                                                                   "Toolchain: %4 %5 %6"
+                                                                   "Toolchain: %4 %5 %6<br>"
+                                                                   "Target platform: %7"
                                                                    "</p>")
                                 .arg(QStringLiteral(APPLICATION_GIT_BRANCH), //
                                      QStringLiteral(APPLICATION_GIT_LAST_COMMIT_HASH), //
                                      QLocale().toString(QDateTime::fromString(QStringLiteral(APPLICATION_BUILD_TIME), Qt::ISODate).toLocalTime()), //
                                      QStringLiteral(APPLICATION_COMPILER_ARCH), //
                                      QStringLiteral(APPLICATION_COMPILER_ID), //
-                                     QStringLiteral(APPLICATION_COMPILER_VERSION));
+                                     QStringLiteral(APPLICATION_COMPILER_VERSION), //
+                                     QStringLiteral(APPLICATION_TRIPLET));
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
         if (component.isError()) {
