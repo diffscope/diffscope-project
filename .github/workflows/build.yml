@@ -78,6 +78,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       QT_VERSION: 6.11.2
+      DEV_SCRIPTS_REF: main
       VCPKG_DISABLE_METRICS: '1'
       INNOSETUP_REF: is-6_5_4
       DSSP_CHANNEL: nightly

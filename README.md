@@ -41,13 +41,20 @@ If you are interested in contributing or collaborating, please feel free to reac
   git clone --recursive https://github.com/diffscope/diffscope-project.git
   ```
    
-3. Install dependencies via Vcpkg. The script checks out vcpkg and the overlays at the commits that `scripts/vcpkg-sources.json` specifies into `deps/`, and installs the dependencies there. It runs on Windows, macOS and Linux.
+3. Install dependencies via Vcpkg with [vcpkg-workspace.cmake](https://github.com/stdware/dev-scripts/blob/main/docs/about-scripts/vcpkg-workspace.md), downloaded into `scripts/`. The script checks out vcpkg and the overlays that `scripts/vcpkg-sources.json` specifies into `deps/`, and installs the dependencies there. It runs on Windows, macOS and Linux.
 
   ```bash
+  curl -fsSL -o scripts/vcpkg-workspace.cmake https://raw.githubusercontent.com/stdware/dev-scripts/main/scripts/vcpkg-workspace.cmake
   cmake -P scripts/vcpkg-workspace.cmake install --qt-dir /path/to/Qt/lib/cmake/Qt6
   ```
 
-  `cmake -P scripts/vcpkg-workspace.cmake help` lists the other commands. `--dry-run` prints the commands without running them.
+  On Windows, the script is downloaded in PowerShell or in cmd with
+
+  ```bat
+  powershell -Command "Invoke-WebRequest -OutFile scripts/vcpkg-workspace.cmake https://raw.githubusercontent.com/stdware/dev-scripts/main/scripts/vcpkg-workspace.cmake"
+  ```
+
+  `cmake -P scripts/vcpkg-workspace.cmake help` lists the other commands. `--dry-run` prints the commands without running them. `scripts/vcpkg-sources.local.json` takes precedence over `scripts/vcpkg-sources.json`, for example to use a local overlay.
    
 4. Build using CMake with the vcpkg toolchain in `deps/`.
 

@@ -215,12 +215,13 @@ View-model bindings maintain explicit document-to-view and view-to-document maps
 
 ## Configure, Build, and Run
 
-Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. `scripts/vcpkg-workspace.cmake` prepares vcpkg, the overlays, and the dependencies in `deps/`, and passes the Qt CMake directory to the ports that build against Qt. `cmake -P scripts/vcpkg-workspace.cmake help` lists its commands, and `--dry-run` prints the commands without running them. The configuration requires `CMAKE_TOOLCHAIN_FILE`, the toolchain of `deps/vcpkg`.
+Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. `scripts/vcpkg-workspace.cmake`, which is downloaded from https://github.com/stdware/dev-scripts and ignored by git, prepares vcpkg, the overlays, and the dependencies in `deps/`, and passes the Qt CMake directory to the ports that build against Qt. `cmake -P scripts/vcpkg-workspace.cmake help` lists its commands, and `--dry-run` prints the commands without running them. The configuration requires `CMAKE_TOOLCHAIN_FILE`, the toolchain of `deps/vcpkg`.
 
 Do not perform any test, build, run, or automatic formatting operations unless explicitly requested by the user. Also do not include any of these operations in the plan unless explicitly requested by the user.
 
 ```sh
 git submodule update --init --recursive
+curl -fsSL -o scripts/vcpkg-workspace.cmake https://raw.githubusercontent.com/stdware/dev-scripts/main/scripts/vcpkg-workspace.cmake
 cmake -P scripts/vcpkg-workspace.cmake install --qt-dir <qt>/lib/cmake/Qt6 --triplet <triplet>
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_TOOLCHAIN_FILE=deps/vcpkg/scripts/buildsystems/vcpkg.cmake \
