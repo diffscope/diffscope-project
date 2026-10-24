@@ -39,12 +39,16 @@ runs:
         USE_CACHE: ${{ inputs.use_cache }}
         QT_DIR: ${{ env.QT_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_KEEP_ENV_VARS: "VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
+        DEV_SCRIPTS_REF: ${{ env.DEV_SCRIPTS_REF || 'main' }}
       shell: pwsh
       run: |
         if ($env:USE_CACHE -eq 'true' -and !(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {
           New-Item $env:VCPKG_DEFAULT_BINARY_CACHE -ItemType directory
         }
         Set-Location ${{ github.workspace }}
+        # vcpkg-workspace.cmake is not part of the repository, see scripts/.gitignore
+        Invoke-WebRequest -OutFile scripts/vcpkg-workspace.cmake `
+          "https://raw.githubusercontent.com/stdware/dev-scripts/$env:DEV_SCRIPTS_REF/scripts/vcpkg-workspace.cmake"
         $arguments = @('-P', 'scripts/vcpkg-workspace.cmake', 'install')
         if ($env:USE_CACHE -ne 'true') {
           $env:VCPKG_BINARY_SOURCES = 'clear'
