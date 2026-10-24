@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
+# The local sources of scripts/vcpkg-workspace.cmake, which take precedence over vcpkg-sources.json
+/vcpkg-sources.local.json
