@@ -28,7 +28,6 @@ namespace Synth::Internal {
         Q_PROPERTY(QObject *localSettings READ localSettings CONSTANT)
         Q_PROPERTY(QAbstractItemModel *serviceModel READ serviceModel CONSTANT)
         Q_PROPERTY(QUuid currentServiceId READ currentServiceId WRITE setCurrentServiceId NOTIFY connectionStatusChanged)
-        Q_PROPERTY(int singerCount READ singerCount NOTIFY singerCountChanged)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY errorMessageChanged)
         Q_PROPERTY(QString connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
         Q_PROPERTY(bool connectionFailed READ connectionFailed NOTIFY connectionStatusChanged)
@@ -41,7 +40,6 @@ namespace Synth::Internal {
         QAbstractItemModel *serviceModel() const;
         QUuid currentServiceId() const;
         void setCurrentServiceId(const QUuid &id);
-        int singerCount() const;
         QString errorMessage() const;
         QString connectionStatus() const;
         bool connectionFailed() const;
@@ -53,7 +51,6 @@ namespace Synth::Internal {
 
     Q_SIGNALS:
         void useLocalChanged();
-        void singerCountChanged();
         void errorMessageChanged();
         void connectionStatusChanged();
 

@@ -101,9 +101,6 @@ WelcomeWizardPage {
                 wrapMode: Text.Wrap
             }
             Item { Layout.fillWidth: true }
-            Label {
-                text: qsTr("Available singers: %1").arg(helper.singerCount.toLocaleString(Qt.locale(), 'f', 0))
-            }
         }
     }
 }

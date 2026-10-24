@@ -11,9 +11,6 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <coreplugin/CoreInterface.h>
-#include <coreplugin/SingerRegistry.h>
-
 #include <synth/internal/DsspServerManager.h>
 #include <synth/internal/DsspServerPage.h>
 #include <synth/internal/ServiceConfigurationModel.h>
@@ -50,11 +47,6 @@ namespace Synth::Internal {
                 reloadServiceConfigurations();
             Q_EMIT connectionStatusChanged();
         });
-        connect(m_service, &SynthService::managedArchitecturesChanged, this, &SynthesisEnvironmentWelcomeWizardPageHelper::singerCountChanged);
-        auto registry = Core::CoreInterface::singerRegistry();
-        connect(registry, &Core::SingerRegistry::singerRegistered, this, &SynthesisEnvironmentWelcomeWizardPageHelper::singerCountChanged, Qt::QueuedConnection);
-        connect(registry, &Core::SingerRegistry::singerRemoved, this, &SynthesisEnvironmentWelcomeWizardPageHelper::singerCountChanged, Qt::QueuedConnection);
-        connect(registry, &Core::SingerRegistry::architectureRemoved, this, &SynthesisEnvironmentWelcomeWizardPageHelper::singerCountChanged, Qt::QueuedConnection);
     }
 
     bool SynthesisEnvironmentWelcomeWizardPageHelper::useLocal() const {
@@ -88,17 +80,6 @@ namespace Synth::Internal {
         Q_EMIT connectionStatusChanged();
     }
 
-    int SynthesisEnvironmentWelcomeWizardPageHelper::singerCount() const {
-        auto registry = Core::CoreInterface::singerRegistry();
-        int count{};
-        const auto architectures = registry->architectureIds();
-        for (const auto &architecture : architectures) {
-            if (m_service->managesArchitecture(architecture))
-                count += registry->singerIds(architecture).size();
-        }
-        return count;
-    }
-
     QString SynthesisEnvironmentWelcomeWizardPageHelper::errorMessage() const {
         return m_errorMessage;
     }
@@ -128,7 +109,6 @@ namespace Synth::Internal {
         reloadLocalSettings();
         if (!m_serviceEdited)
             reloadServiceConfigurations();
-        Q_EMIT singerCountChanged();
     }
 
     void SynthesisEnvironmentWelcomeWizardPageHelper::leave() {

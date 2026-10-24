@@ -3158,11 +3158,6 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="105"/>
-        <source>Available singers: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SynthesisPage</name>
