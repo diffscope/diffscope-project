@@ -16,7 +16,7 @@ DiffScope is a C++20/Qt 6 singing-voice editor. Keep `src/app` a thin launcher; 
 - `src/share/`: shared install/deployment rules used after ChorusKit finishes configuring the application.
 - `src/libs/3rdparty/`: Git submodules. Treat these as upstream projects; do not mix ordinary feature changes with submodule edits.
 - `src/libs/application/uishell/tests/`: standalone visual/smoke applications. `src/tests/` is reserved for application-wide tests.
-- `scripts/vcpkg-manifest/`: dependency manifest. `scripts/vcpkg-sources.json` specifies the commits of vcpkg and of the overlays, which `scripts/vcpkg-workspace.cmake` checks out into the ignored directory `deps/`. `scripts/ci/` is the packaging reference. `dist/` contains installers.
+- `scripts/vcpkg-manifest/`: dependency manifest. `scripts/vcpkg-sources.json` specifies the repositories and refs of vcpkg and of the overlays, which `scripts/vcpkg-workspace.cmake` checks out into the ignored directory `deps/`. The ignored file `scripts/vcpkg-sources.local.json` takes precedence over it, for example to use a local overlay through `"path"`. `scripts/ci/` is the packaging reference. `dist/` contains installers.
 
 Never commit generated files from `build/`, `cmake-build-*`, `out/`, `.qm`, MOC, QML cache, or synchronized include directories.
 
