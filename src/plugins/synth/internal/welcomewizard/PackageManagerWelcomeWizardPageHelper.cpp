@@ -3,25 +3,15 @@
 
 #include "PackageManagerWelcomeWizardPageHelper.h"
 
-#include <CoreApi/windowsystem.h>
-
-#include <coreplugin/ActionWindowInterfaceBase.h>
-#include <coreplugin/CoreInterface.h>
-
-#include <synth/internal/PackageManagerAddOn.h>
+#include <synth/internal/PackageManagerController.h>
 
 namespace Synth::Internal {
 
-    PackageManagerWelcomeWizardPageHelper::PackageManagerWelcomeWizardPageHelper(QObject *parent) : QObject(parent) {
+    PackageManagerWelcomeWizardPageHelper::PackageManagerWelcomeWizardPageHelper(QObject *parent) : QObject(parent), m_packageManager(new PackageManagerController(this)) {
     }
 
     void PackageManagerWelcomeWizardPageHelper::openPackageManager(QWindow *parent) {
-        auto windowInterface = Core::CoreInterface::windowSystem()->firstWindowOfType<Core::ActionWindowInterfaceBase>();
-        if (!windowInterface)
-            return;
-        auto addOn = windowInterface->getFirstObject<PackageManagerAddOn>();
-        if (addOn)
-            addOn->openPackageManager(parent);
+        m_packageManager->openPackageManager(parent);
     }
 
 }

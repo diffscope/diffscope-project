@@ -13,7 +13,7 @@ import DiffScope.UIShell
 Window {
     id: window
 
-    required property PackageManagerAddOn addOn
+    required property PackageManagerController packageManager
 
     width: 1080
     height: 640
@@ -26,36 +26,36 @@ Window {
 
     signal finished()
     onClosing: (event) => {
-        if (addOn.uninstalling || addOn.installing)
+        if (packageManager.uninstalling || packageManager.installing)
             event.accepted = false
         else
             finished()
     }
-    Component.onCompleted: Qt.callLater(() => addOn.refresh())
+    Component.onCompleted: Qt.callLater(() => packageManager.refresh())
 
     PackageManagerView {
         id: packageManagerView
         anchors.fill: parent
-        enabled: !window.addOn.packageOperationActive
-        model: window.addOn.packageModel
-        refreshing: window.addOn.refreshing
-        uninstalling: window.addOn.uninstalling
-        installing: window.addOn.installing
+        enabled: !window.packageManager.packageOperationActive
+        model: window.packageManager.packageModel
+        refreshing: window.packageManager.refreshing
+        uninstalling: window.packageManager.uninstalling
+        installing: window.packageManager.installing
 
-        onRefreshRequested: window.addOn.refresh()
-        onUninstallRequested: (index) => window.addOn.uninstallPackage(index)
+        onRefreshRequested: window.packageManager.refresh()
+        onUninstallRequested: (index) => window.packageManager.uninstallPackage(index)
         onInstallRequested: packageFileDialog.open()
     }
 
     PackageFileDialog {
         id: packageFileDialog
-        onAccepted: window.addOn.installPackages(selectedFiles)
+        onAccepted: window.packageManager.installPackages(selectedFiles)
     }
 
     Connections {
-        target: window.addOn
+        target: window.packageManager
         function onRefreshStarted() {
-            packageManagerView.currentIndex = window.addOn.invalidIndex()
+            packageManagerView.currentIndex = window.packageManager.invalidIndex()
         }
     }
 }

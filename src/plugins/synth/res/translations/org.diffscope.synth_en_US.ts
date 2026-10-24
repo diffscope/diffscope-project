@@ -2377,33 +2377,33 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     </message>
 </context>
 <context>
-    <name>Synth::Internal::PackageManagerAddOn</name>
+    <name>Synth::Internal::PackageManagerController</name>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="61"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="60"/>
         <source>Dependencies</source>
         <translation type="unfinished">Dependencies</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="63"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="62"/>
         <source>Singers</source>
         <translation type="unfinished">Singers</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="536"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="513"/>
         <source>Failed to get package information for %1:
 %2</source>
         <translation type="unfinished">Failed to get package information for %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="584"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="561"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="274"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="447"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="474"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="276"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="449"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="476"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -2412,26 +2412,26 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="62"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="61"/>
         <source>Other Contributions</source>
         <translation type="unfinished">Other Contributions</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="515"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="524"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="547"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="492"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="501"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="524"/>
         <source>The command returned invalid package data.</source>
         <translation type="unfinished">The command returned invalid package data.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="108"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="385"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="433"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="107"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="387"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="435"/>
         <source>The package manager returned an invalid uninstall result.</source>
         <translation type="unfinished">The package manager returned an invalid uninstall result.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="386"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="388"/>
         <source>Failed to prepare package uninstallation:
 
 %1</source>
@@ -2440,12 +2440,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="327"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="329"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="443"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="445"/>
         <source>Failed to uninstall packages:
 
 %1</source>
@@ -2454,29 +2454,29 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="369"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="371"/>
         <source>Checking package dependencies...</source>
         <translation type="unfinished">Checking package dependencies...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="371"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="426"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="373"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="428"/>
         <source>Uninstalling packages...</source>
         <translation type="unfinished">Uninstalling packages...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="436"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="438"/>
         <source>Refreshing package information...</source>
         <translation type="unfinished">Refreshing package information...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="289"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="310"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="291"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="312"/>
         <source>The package directory has changed. Refresh the package list before uninstalling packages.</source>
         <translation type="unfinished">The package directory has changed. Refresh the package list before uninstalling packages.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="410"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="412"/>
         <source>The package manager settings have changed. Retry the operation.</source>
         <translation type="unfinished">The package manager settings have changed. Retry the operation.</translation>
     </message>

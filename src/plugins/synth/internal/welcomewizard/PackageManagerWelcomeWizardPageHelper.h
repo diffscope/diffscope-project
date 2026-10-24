@@ -10,6 +10,8 @@
 
 namespace Synth::Internal {
 
+    class PackageManagerController;
+
     class PackageManagerWelcomeWizardPageHelper : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -18,6 +20,9 @@ namespace Synth::Internal {
         explicit PackageManagerWelcomeWizardPageHelper(QObject *parent = nullptr);
 
         Q_INVOKABLE void openPackageManager(QWindow *parent);
+
+    private:
+        PackageManagerController *m_packageManager;
     };
 
 }
