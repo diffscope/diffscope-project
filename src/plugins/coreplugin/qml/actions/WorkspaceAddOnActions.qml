@@ -74,6 +74,17 @@ ActionCollection {
             id: layouts
 
             Instantiator {
+                model: customLayoutRepeater.count === 0 ? 1 : 0
+                delegate: MenuItem {
+                    text: "..."
+                    enabled: false
+                }
+                onObjectAdded: (index, object) => layouts.insertItem(0, object)
+                onObjectRemoved: (index, object) => layouts.removeItem(object)
+            }
+
+            Instantiator {
+                id: customLayoutRepeater
                 model: collection.addOn?.workspaceManager?.customLayouts ?? []
                 delegate: Menu {
                     required property var modelData
