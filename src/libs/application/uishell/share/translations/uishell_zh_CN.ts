@@ -656,37 +656,37 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation>未找到结果</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="309"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="310"/>
         <source>This page is in compatibility mode</source>
         <translation>此页面处于兼容模式</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="329"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="330"/>
         <source>This settings page cannot be displayed because its type is not supported.</source>
         <translation>此设置页面无法被显示，因为其类型不受支持。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="445"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
         <source>Cannot Apply Settings</source>
         <translation>无法应用设置</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="447"/>
         <source>Failed to apply &quot;%1&quot;</source>
         <translation>应用“%1”失败</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="461"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="462"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="471"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="472"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="480"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="481"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
@@ -712,23 +712,23 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
 <context>
     <name>WelcomeWizardDialog</name>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="126"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="125"/>
         <source>Step %1 / %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">第 %1 / %2 步</translation>
     </message>
     <message>
         <location filename="../../src/qml/WelcomeWizardDialog.qml" line="24"/>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="218"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="287"/>
         <source>Welcome</source>
         <translation>欢迎</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="208"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="277"/>
         <source>Logo of %1</source>
         <translation>%1 的徽标</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="223"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="292"/>
         <source>This wizard will help you complete the initial configuration</source>
         <translation>此向导将会帮助你完成初始配置</translation>
     </message>
@@ -737,22 +737,22 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation type="vanished">跳过</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="253"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="327"/>
         <source>Previous</source>
         <translation>上一步</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Next</source>
         <translation>下一步</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Finish</source>
         <translation>完成</translation>
     </message>

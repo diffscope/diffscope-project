@@ -1062,42 +1062,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="52"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="53"/>
         <source>Horizontal scroll</source>
         <translation type="unfinished">Horizontal scroll</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="67"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="68"/>
         <source>Zoom</source>
         <translation type="unfinished">Zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="83"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="84"/>
         <source>Scroll by page</source>
         <translation type="unfinished">Scroll by page</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="91"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="92"/>
         <source>Horizontal zoom</source>
         <translation type="unfinished">Horizontal zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="112"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="113"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation type="unfinished">Middle button/hand tool scroll mode</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="118"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
         <source>Dragging</source>
         <translation type="unfinished">Dragging</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="118"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
         <source>Auto scrolling</source>
         <translation type="unfinished">Auto scrolling</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="128"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="129"/>
         <source>Playground</source>
         <translation type="unfinished"></translation>
     </message>

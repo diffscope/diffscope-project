@@ -175,7 +175,7 @@ namespace Core {
             RuntimeInterface::qmlEngine(),
             d->window,
             tr("File created with a potentially incompatible %1 version").arg(QApplication::applicationDisplayName()),
-            tr("This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
+            tr("This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                 .arg(QApplication::applicationDisplayName(), version)
         ) == SVS::SVSCraft::Yes;
     }

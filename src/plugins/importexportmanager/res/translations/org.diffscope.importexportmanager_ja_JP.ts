@@ -228,27 +228,27 @@
 <context>
     <name>ImportExportManager::Internal::FileImportExportAddOn</name>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="171"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="172"/>
         <source>Replace tempo and time signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="172"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="173"/>
         <source>Do you want to replace the current tempo and time signature with those from the imported file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="175"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="176"/>
         <source>Importing tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="207"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="208"/>
         <source>Import File</source>
         <translation type="unfinished">Import File</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="242"/>
         <source>Export File</source>
         <translation type="unfinished">Export File</translation>
     </message>

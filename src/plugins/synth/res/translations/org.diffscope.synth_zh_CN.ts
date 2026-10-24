@@ -24,22 +24,22 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1005"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1046"/>
         <source>Extract</source>
         <translation type="unfinished">提取</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1006"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1047"/>
         <source>Panel</source>
         <translation type="unfinished">面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1003"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1044"/>
         <source>Synth</source>
         <translation type="unfinished">合成</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1004"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1045"/>
         <source>Preferences</source>
         <translation type="unfinished">首选项</translation>
     </message>
@@ -47,32 +47,32 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1009"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1050"/>
         <source>Control the local DiffSinger Synthesis Program service.</source>
         <translation type="unfinished">控制本地 DiffSinger 合成程序 服务。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1051"/>
         <source>Choose an extraction task for the current audio clip.</source>
         <translation type="unfinished">为当前音频剪辑选择提取任务。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1011"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1052"/>
         <source>Create an editable singing clip from the current audio clip.</source>
         <translation type="unfinished">从当前音频剪辑创建可编辑的歌声剪辑。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1012"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1053"/>
         <source>Apply the tempo of the current audio clip to the project.</source>
         <translation type="unfinished">将当前音频剪辑的曲速应用于工程。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1013"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1054"/>
         <source>Split the current audio clip into separate audio tracks.</source>
         <translation type="unfinished">将当前音频剪辑分离为独立的音频轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1014"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1055"/>
         <source>Choose which synthesis stages to rerun for the selected clips or notes.</source>
         <translation type="unfinished">选择对选中剪辑或音符重新执行的合成阶段。</translation>
     </message>
@@ -80,102 +80,102 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="992"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1033"/>
         <source>Synthesis Services</source>
         <translation type="unfinished">合成服务</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="994"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1035"/>
         <source>Synthesis Status</source>
         <translation type="unfinished">合成状态</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="995"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1036"/>
         <source>&amp;Resynthesize...</source>
         <translation type="unfinished">重新合成(&amp;R)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="997"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1038"/>
         <source>Synthesis Actions</source>
         <translation type="unfinished">合成操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1029"/>
         <source>Audio Extraction</source>
         <translation type="unfinished">音频提取</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="978"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1018"/>
         <source>Main Menu</source>
         <translation type="unfinished">主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1030"/>
         <source>Extract Notes...</source>
         <translation type="unfinished">提取音符...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="990"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1031"/>
         <source>Extract Tempo...</source>
         <translation type="unfinished">提取曲速...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="991"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1032"/>
         <source>Separate Audio...</source>
         <translation type="unfinished">分离音频...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="993"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1034"/>
         <source>Show Synthesis Services</source>
         <translation type="unfinished">显示合成服务</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="998"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1039"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1021"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1028"/>
         <source>DiffSinger Synthesis Program Status</source>
         <translation type="unfinished">DiffSinger 合成程序 状态</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="984"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1025"/>
         <source>Restart</source>
         <translation type="unfinished">重新启动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1023"/>
         <source>Start</source>
         <translation type="unfinished">启动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1024"/>
         <source>Stop</source>
         <translation type="unfinished">停止</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="981"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1022"/>
         <source>DiffSinger Synthesis Program Status Menu Item</source>
         <translation type="unfinished">DiffSinger 合成程序 状态菜单项</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="985"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1026"/>
         <source>Settings...</source>
         <translation type="unfinished">设置...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="996"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1037"/>
         <source>Synthesis Status Indicators</source>
         <translation type="unfinished">合成状态指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1027"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
     </message>
@@ -805,28 +805,29 @@
     <name>PackageManagerWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="18"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1020"/>
         <source>Package Manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">包管理器</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="19"/>
         <source>Install sound libraries and other resources</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安装声库和其他资源</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="40"/>
-        <source>DiffScope Package (.dspk) is a format for distributing sound libraries and other resources for DiffScope, including singer models and shared resources required for synthesis.</source>
-        <translation type="unfinished"></translation>
+        <source>DiffScope Package (.dspk) is a format for distributing sound libraries and other resources for DiffScope, including model weights and shared resources required for synthesis.</source>
+        <translation type="unfinished">DiffScope 包（.dspk）是一种用于分发 DiffScope 声库和其他资源的格式，包括合成所需的模型权重和共享资源。</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="47"/>
         <source>Synthesis with the local DiffSinger Synthesis Program requires packages containing sound libraries and their dependencies. Install these packages with the Package Manager.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用本地 DiffSinger 合成程序进行合成需要包含声库及其依赖项的包。请使用包管理器安装这些包。</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="54"/>
         <source>Open Package Manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">打开包管理器</translation>
     </message>
 </context>
 <context>
@@ -2399,9 +2400,9 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">包管理器</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="275"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="448"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="475"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="274"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="447"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="474"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -2423,13 +2424,13 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     </message>
     <message>
         <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="108"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="386"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="434"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="385"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="433"/>
         <source>The package manager returned an invalid uninstall result.</source>
         <translation type="unfinished">包管理器返回了无效的卸载结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="387"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="386"/>
         <source>Failed to prepare package uninstallation:
 
 %1</source>
@@ -2438,12 +2439,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="328"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="327"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="444"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="443"/>
         <source>Failed to uninstall packages:
 
 %1</source>
@@ -2452,29 +2453,29 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="370"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="369"/>
         <source>Checking package dependencies...</source>
         <translation type="unfinished">正在检查包依赖项...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="372"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="371"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="426"/>
         <source>Uninstalling packages...</source>
         <translation type="unfinished">正在卸载包...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="437"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="436"/>
         <source>Refreshing package information...</source>
         <translation type="unfinished">正在刷新包信息...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="290"/>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="311"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="310"/>
         <source>The package directory has changed. Refresh the package list before uninstalling packages.</source>
         <translation type="unfinished">包目录已更改。请在卸载包之前刷新包列表。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="411"/>
+        <location filename="../../internal/addon/PackageManagerAddOn.cpp" line="410"/>
         <source>The package manager settings have changed. Retry the operation.</source>
         <translation type="unfinished">包管理器设置已更改。请重试此操作。</translation>
     </message>
@@ -3216,7 +3217,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <name>SynthesisEnvironmentWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1019"/>
         <source>Synthesis Environment</source>
         <translation type="unfinished">合成环境</translation>
     </message>
@@ -3226,27 +3227,27 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">配置合成程序或连接合成服务</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="43"/>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="44"/>
         <source>Use the local DiffSinger Synthesis Program</source>
         <translation type="unfinished">使用本地 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="49"/>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="50"/>
         <source>Connect to a synthesis service</source>
         <translation type="unfinished">连接合成服务</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="79"/>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="80"/>
         <source>More Options...</source>
         <translation type="unfinished">更多选项...</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="88"/>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="89"/>
         <source>Connect</source>
         <translation type="unfinished">连接</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="104"/>
+        <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="105"/>
         <source>Available singers: %1</source>
         <translation type="unfinished">可用歌手：%1</translation>
     </message>

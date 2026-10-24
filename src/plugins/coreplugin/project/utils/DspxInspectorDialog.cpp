@@ -439,7 +439,7 @@ namespace Core {
                     {
                         {tr("Version"), version},
                     },
-                    tr("This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.").arg(QApplication::applicationDisplayName())
+                    tr("This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.").arg(QApplication::applicationDisplayName())
                 );
             }
 

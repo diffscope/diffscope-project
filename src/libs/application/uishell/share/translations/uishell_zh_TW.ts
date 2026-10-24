@@ -656,37 +656,37 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
         <translation type="unfinished">No result found</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="309"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="310"/>
         <source>This page is in compatibility mode</source>
         <translation type="unfinished">This page is in compatibility mode</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="329"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="330"/>
         <source>This settings page cannot be displayed because its type is not supported.</source>
         <translation type="unfinished">This settings page cannot be displayed because its type is not supported.</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="445"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
         <source>Cannot Apply Settings</source>
         <translation type="unfinished">Cannot Apply Settings</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="447"/>
         <source>Failed to apply &quot;%1&quot;</source>
         <translation type="unfinished">Failed to apply &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="461"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="462"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="471"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="472"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="480"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="481"/>
         <source>Apply</source>
         <translation type="unfinished">Apply</translation>
     </message>
@@ -712,23 +712,23 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
 <context>
     <name>WelcomeWizardDialog</name>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="126"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="125"/>
         <source>Step %1 / %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/qml/WelcomeWizardDialog.qml" line="24"/>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="218"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="287"/>
         <source>Welcome</source>
         <translation type="unfinished">Welcome</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="208"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="277"/>
         <source>Logo of %1</source>
         <translation type="unfinished">Logo of %1</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="223"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="292"/>
         <source>This wizard will help you complete the initial configuration</source>
         <translation type="unfinished">This wizard will help you complete the initial configuration</translation>
     </message>
@@ -737,22 +737,22 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
         <translation type="obsolete">Skip</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="253"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="327"/>
         <source>Previous</source>
         <translation type="unfinished">Previous</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Continue</source>
         <translation type="unfinished">Continue</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Next</source>
         <translation type="unfinished">Next</translation>
     </message>
     <message>
-        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="268"/>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="342"/>
         <source>Finish</source>
         <translation type="unfinished">Finish</translation>
     </message>

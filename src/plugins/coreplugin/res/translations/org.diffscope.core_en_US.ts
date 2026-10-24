@@ -6,7 +6,30 @@
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
         <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;Enter operators and timecodes to adjust the playback position&lt;/p&gt;
+&lt;b&gt;Go To&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;&amp;lt;measure&amp;gt;:&amp;lt;beat&amp;gt;:&amp;lt;tick&amp;gt;&lt;/b&gt;: Go to music time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;+^&amp;lt;minute&amp;gt;:&amp;lt;second&amp;gt;.&amp;lt;millisecond&amp;gt;&lt;/b&gt;: Go to absolute time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;\&lt;/b&gt;: Go to the end of the project&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Move&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;+&amp;lt;quarter note&amp;gt;:&amp;lt;tick&amp;gt;&lt;/b&gt;: Move forward by music time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;-&amp;lt;quarter note&amp;gt;:&amp;lt;tick&amp;gt;&lt;/b&gt;: Move backward by music time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;+^&amp;lt;minute&amp;gt;:&amp;lt;second&amp;gt;.&amp;lt;millisecond&amp;gt;&lt;/b&gt;: Move forward by absolute time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;-^&amp;lt;minute&amp;gt;:&amp;lt;second&amp;gt;.&amp;lt;millisecond&amp;gt;&lt;/b&gt;: Move backward by absolute time&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]&lt;/b&gt;: Move forward by one measure&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]]&lt;/b&gt;: Move forward by one beat&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;]]]&lt;/b&gt;: Move forward by one tick&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[&lt;/b&gt;: Move backward by one measure&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[[&lt;/b&gt;: Move backward by one beat&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;[[[&lt;/b&gt;: Move backward by one tick&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Help&lt;/b&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;?&lt;/b&gt;: Show this help&lt;/li&gt;
+&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -2259,40 +2282,40 @@
 <context>
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="16"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6688"/>
         <source>Color Scheme</source>
         <translation>Color Scheme</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="18"/>
         <source>Choose a color scheme for %1</source>
         <translation>Choose a color scheme for %1</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="33"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="37"/>
         <source>Dark</source>
         <translation>Dark</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="39"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="43"/>
         <source>Light</source>
         <translation>Light</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="45"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="49"/>
         <source>High contrast</source>
         <translation>High contrast</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="100"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="142"/>
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
         <translation>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="112"/>
         <source>Accent Color %L1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Accent Color %L1</translation>
     </message>
 </context>
 <context>
@@ -2846,8 +2869,12 @@
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="442"/>
+        <source>This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
+        <translation type="unfinished">This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
+    </message>
+    <message>
         <source>This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
-        <translation type="unfinished">This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
+        <translation type="obsolete">This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
@@ -3045,48 +3072,48 @@
         <translation type="vanished">Scopic High Contrast</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="25"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="33"/>
         <source>DiffScope Dark</source>
         <translation type="unfinished">DiffScope Dark</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="99"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="107"/>
         <source>DiffScope Light</source>
         <translation type="unfinished">DiffScope Light</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="173"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="181"/>
         <source>DiffScope High Contrast</source>
         <translation type="unfinished">DiffScope High Contrast</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
         <source>Failed to Import Preset</source>
         <translation>Failed to Import Preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Unable to open file &quot;%1&quot;</source>
         <translation>Unable to open file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Failed to import preset</source>
         <translation>Failed to import preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Invalid format in file &quot;%1&quot;</source>
         <translation>Invalid format in file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Failed to export preset</source>
         <translation>Failed to export preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="426"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="434"/>
         <source>(Unsaved preset)</source>
         <translation>(Unsaved preset)</translation>
     </message>
@@ -4665,10 +4692,18 @@ Do you want to continue opening it?</translation>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
+        <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</source>
+        <translation type="unfinished">This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</translation>
+    </message>
+    <message>
         <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
-        <translation type="unfinished">This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+        <translation type="obsolete">This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</translation>
     </message>
@@ -7244,7 +7279,7 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="79"/>
         <source>No Custom Layouts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No Custom Layouts</translation>
     </message>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
@@ -7264,7 +7299,7 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="123"/>
         <source>No Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No Panels</translation>
     </message>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="162"/>

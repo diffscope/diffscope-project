@@ -276,34 +276,34 @@
 <context>
     <name>LibreSVIPFormatConverter::Internal::LibreSVIPFileExporter</name>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="37"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="38"/>
         <source>Multiple formats (export via LibreSVIP)</source>
         <translation>多种格式（通过 LibreSVIP 导出）</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="38"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="39"/>
         <source>Export as project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
         <translation>通过 LibreSVIP 导出为其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="59"/>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="71"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="62"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="74"/>
         <source>LibreSVIP conversion failed</source>
         <translation type="unfinished">LibreSVIP 转换失败</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="60"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="63"/>
         <source>The current project could not be serialized as DSPX.</source>
         <translation type="unfinished">无法将当前工程序列化为 DSPX。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="71"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="74"/>
         <source>LibreSVIP returned no output data.</source>
         <translation type="unfinished">LibreSVIP 未返回输出数据。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="84"/>
-        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="90"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="87"/>
+        <location filename="../../internal/LibreSVIPFileExporter.cpp" line="93"/>
         <source>Failed to save file</source>
         <translation type="unfinished">保存文件失败</translation>
     </message>
@@ -311,44 +311,44 @@
 <context>
     <name>LibreSVIPFormatConverter::Internal::LibreSVIPFileImporter</name>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="37"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="38"/>
         <source>Multiple formats (import via LibreSVIP)</source>
         <translation>多种格式（通过 LibreSVIP 导入）</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="38"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="39"/>
         <source>Import project files of other editors (such as VOCALOID, OpenUtau, etc.) via LibreSVIP</source>
         <translation>通过 LibreSVIP 导入其他编辑器（例如 VOCALOID、OpenUtau 等）的工程文件</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="56"/>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="70"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="57"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="71"/>
         <source>Failed to open file</source>
         <translation type="unfinished">打开文件失败</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="63"/>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="82"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="64"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="83"/>
         <source>LibreSVIP conversion failed</source>
         <translation type="unfinished">LibreSVIP 转换失败</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="64"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="65"/>
         <source>The input file is larger than the 512 MiB LibreSVIP conversion limit.</source>
         <translation type="unfinished">输入文件超过了 LibreSVIP 的 512 MiB 转换大小限制。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="82"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="83"/>
         <source>LibreSVIP returned no output data.</source>
         <translation type="unfinished">LibreSVIP 未返回输出数据。</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="92"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="93"/>
         <source>Invalid DSPX data</source>
         <translation type="unfinished">DSPX 数据无效</translation>
     </message>
     <message>
-        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="93"/>
+        <location filename="../../internal/LibreSVIPFileImporter.cpp" line="94"/>
         <source>The DSPX data returned by LibreSVIP could not be opened.</source>
         <translation type="unfinished">无法打开 LibreSVIP 返回的 DSPX 数据。</translation>
     </message>

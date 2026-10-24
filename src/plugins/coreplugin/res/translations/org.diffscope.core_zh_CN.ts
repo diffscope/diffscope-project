@@ -2282,40 +2282,40 @@
 <context>
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="16"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6688"/>
         <source>Color Scheme</source>
         <translation>配色方案</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="18"/>
         <source>Choose a color scheme for %1</source>
         <translation>为 %1 选择一个配色方案</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="33"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="37"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="39"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="43"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="45"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="49"/>
         <source>High contrast</source>
         <translation>高对比度</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="100"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="142"/>
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
         <translation>稍后你还可以在 设置 &gt; 外观 &gt; 配色方案 中创建自定义颜色主题</translation>
     </message>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="112"/>
         <source>Accent Color %L1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">强调色 %L1</translation>
     </message>
 </context>
 <context>
@@ -2869,8 +2869,12 @@
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="442"/>
+        <source>This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
+        <translation type="unfinished">此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
+    </message>
+    <message>
         <source>This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
-        <translation>此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
+        <translation type="vanished">此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
@@ -3068,48 +3072,48 @@
         <translation type="vanished">Scopic 高对比度</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="25"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="33"/>
         <source>DiffScope Dark</source>
         <translation>DiffScope 暗色</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="99"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="107"/>
         <source>DiffScope Light</source>
         <translation>DiffScope 亮色</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="173"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="181"/>
         <source>DiffScope High Contrast</source>
         <translation>DiffScope 高对比度</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
         <source>Failed to Import Preset</source>
         <translation>预设导入失败</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Unable to open file &quot;%1&quot;</source>
         <translation>无法打开文件“%1”</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Failed to import preset</source>
         <translation>预设导入失败</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Invalid format in file &quot;%1&quot;</source>
         <translation>文件“%1”格式无效</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Failed to export preset</source>
         <translation>预设导出失败</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="426"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="434"/>
         <source>(Unsaved preset)</source>
         <translation>（未保存的预设）</translation>
     </message>
@@ -4673,10 +4677,18 @@ Do you want to continue opening it?</source>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
-        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+        <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished">此工程文件由 %1 的较新版本或测试版本（%2）创建。某些功能可能不完全兼容或行为有所不同。
+
+是否继续打开？</translation>
+    </message>
+    <message>
+        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</source>
+        <translation type="obsolete">此工程文件由 %1 的较新版本或测试版本（%2）创建。某些功能可能不完全兼容或行为有所不同。
 
 是否继续打开？</translation>
     </message>
@@ -7276,7 +7288,7 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="79"/>
         <source>No Custom Layouts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">没有自定义布局</translation>
     </message>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
@@ -7296,7 +7308,7 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="123"/>
         <source>No Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">没有面板</translation>
     </message>
     <message>
         <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="162"/>

@@ -427,36 +427,36 @@
 <context>
     <name>Audio::Internal::AudioOutputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="27"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="30"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="42"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="25"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="28"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="40"/>
         <source>(Not working)</source>
         <translation>(Not working)</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="164"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="161"/>
         <source>Cannot initialize %1 driver</source>
         <translation>Cannot initialize %1 driver</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="38"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="341"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="36"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
         <source>Default device</source>
         <translation>Default device</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="341"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="342"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="304"/>
         <source>Audio device %1 is not available</source>
         <translation>Audio device %1 is not available</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="507"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="448"/>
         <source>Cannot set sample rate to %1</source>
         <translation>Cannot set sample rate to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="538"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="479"/>
         <source>Cannot set buffer size to %1</source>
         <translation>Cannot set buffer size to %1</translation>
     </message>
@@ -486,9 +486,14 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::AudioTroubleshootingDialog</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="318"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="350"/>
         <source>Audio Output Troubleshooting Wizard</source>
         <translation type="unfinished">Audio Output Troubleshooting Wizard</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="354"/>
+        <source>Audio Device Error</source>
+        <translation type="unfinished">Audio Device Error</translation>
     </message>
 </context>
 <context>
@@ -529,37 +534,37 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="unfinished">&amp;Buffer size</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="159"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="191"/>
         <source>&amp;Test</source>
         <translation type="unfinished">&amp;Test</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="163"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="195"/>
         <source>&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="175"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="207"/>
         <source>Have you selected a working audio device which plays sound after clicking the &quot;Test&quot; button?</source>
         <translation type="unfinished">Have you selected a working audio device which plays sound after clicking the &quot;Test&quot; button?</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="211"/>
         <source>&amp;Yes</source>
         <translation type="unfinished">&amp;Yes</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="211"/>
         <source>I have selected a working audio device</source>
         <translation type="unfinished">I have selected a working audio device</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
         <source>&amp;No</source>
         <translation type="unfinished">&amp;No</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
         <source>The device is either not available or not able to play sound</source>
         <translation type="unfinished">The device is either not available or not able to play sound</translation>
     </message>
@@ -721,67 +726,72 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ExternalCheckPage</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="246"/>
+        <source>&lt;h3&gt;Check Your System Audio Settings&lt;/h3&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;Check Your System Audio Settings&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="247"/>
         <source>Please ensure that your audio devices are properly connected to your computer and configured in your system settings.</source>
         <translation type="unfinished">Please ensure that your audio devices are properly connected to your computer and configured in your system settings.</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="220"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
         <source>&amp;Open System Settings</source>
         <translation type="unfinished">&amp;Open System Settings</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="222"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="254"/>
         <source>&amp;Open Control Panel</source>
         <translation type="unfinished">&amp;Open Control Panel</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="228"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="260"/>
         <source>&lt;p&gt;Also please check whether other applications can play sound.&lt;/p&gt;&lt;p&gt;If another audio application (e.g., a DAW) can play sound normally, please review that application’s settings. It may be using &quot;exclusive mode&quot;, which allows only that program to access the audio device.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;Also please check whether other applications can play sound.&lt;/p&gt;&lt;p&gt;If another audio application (e.g., a DAW) can play sound normally, please review that application’s settings. It may be using &quot;exclusive mode&quot;, which allows only that program to access the audio device.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="240"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="272"/>
         <source>Are audio devices configured properly and able to be played by other applications?</source>
         <translation type="unfinished">Are audio devices configured properly and able to be played by other applications?</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="276"/>
         <source>&amp;Yes</source>
         <translation type="unfinished">&amp;Yes</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="276"/>
         <source>The audio device work well on my system. I want to retry configuring it in %1</source>
         <translation type="unfinished">The audio device work well on my system. I want to retry configuring it in %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="280"/>
         <source>Not &amp;exactly</source>
         <translation type="unfinished">Not &amp;exactly</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="280"/>
         <source>Even though other applications can play sound, I fail to configure the audio device in %1</source>
         <translation type="unfinished">Even though other applications can play sound, I fail to configure the audio device in %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="284"/>
         <source>&amp;No</source>
         <translation type="unfinished">&amp;No</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="284"/>
         <source>Other applications also cannot play sound</source>
         <translation type="unfinished">Other applications also cannot play sound</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="255"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="287"/>
         <source>&amp;I&apos;m not sure</source>
         <translation type="unfinished">&amp;I&apos;m not sure</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="267"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="299"/>
         <source>%1 cannot open the control panel on your system. Please open it manually</source>
         <translation type="unfinished">%1 cannot open the control panel on your system. Please open it manually</translation>
     </message>
@@ -865,12 +875,17 @@ To: %3</translation>
 <context>
     <name>Audio::Internal::ResultFailPage</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="300"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="331"/>
+        <source>&lt;h3&gt;Unable to Resolve Audio Output Problem&lt;/h3&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;Unable to Resolve Audio Output Problem&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="332"/>
         <source>Please send us a feedback.</source>
         <translation type="unfinished">Please send us a feedback.</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="302"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="334"/>
         <source>&lt;p&gt;When sending feedback, please include the following information (if possible): &lt;ul&gt;&lt;li&gt;A screenshot of the &quot;Audio Output&quot; settings page&lt;/li&gt;&lt;li&gt;A screenshot of your system audio settings&lt;/li&gt;&lt;li&gt;The audio output configurations you have tried and any error messages&lt;/li&gt;&lt;li&gt;The log of application&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;When sending feedback, please include the following information (if possible): &lt;ul&gt;&lt;li&gt;A screenshot of the &quot;Audio Output&quot; settings page&lt;/li&gt;&lt;li&gt;A screenshot of your system audio settings&lt;/li&gt;&lt;li&gt;The audio output configurations you have tried and any error messages&lt;/li&gt;&lt;li&gt;The log of application&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
@@ -1558,27 +1573,27 @@ Estimated size of each file: %3</numerusform>
         <translation>Configure audio output device parameters</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="34"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="35"/>
         <source>Audio driver</source>
         <translation>Audio driver</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="43"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="44"/>
         <source>Audio device</source>
         <translation>Audio device</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="56"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="57"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="60"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="61"/>
         <source>More Options...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">More Options...</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="71"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="72"/>
         <source>Click &quot;Test&quot; button to check whether audio output is configured correctly</source>
         <translation>Click &quot;Test&quot; button to check whether audio output is configured correctly</translation>
     </message>

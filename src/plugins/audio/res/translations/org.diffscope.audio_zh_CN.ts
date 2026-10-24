@@ -427,36 +427,36 @@
 <context>
     <name>Audio::Internal::AudioOutputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="27"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="30"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="42"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="25"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="28"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="40"/>
         <source>(Not working)</source>
         <translation>（不工作）</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="164"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="161"/>
         <source>Cannot initialize %1 driver</source>
         <translation>无法初始化 %1 驱动</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="38"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="341"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="36"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
         <source>Default device</source>
         <translation>默认设备</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="341"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="342"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="304"/>
         <source>Audio device %1 is not available</source>
         <translation>音频设备 %1 不可用</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="507"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="448"/>
         <source>Cannot set sample rate to %1</source>
         <translation>无法设置采样率为 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="538"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="479"/>
         <source>Cannot set buffer size to %1</source>
         <translation>无法设置缓冲区大小为 %1</translation>
     </message>
@@ -486,9 +486,14 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::AudioTroubleshootingDialog</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="318"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="350"/>
         <source>Audio Output Troubleshooting Wizard</source>
         <translation type="unfinished">音频输出故障排查向导</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="354"/>
+        <source>Audio Device Error</source>
+        <translation type="unfinished">音频设备错误</translation>
     </message>
 </context>
 <context>
@@ -529,37 +534,37 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="unfinished">缓冲区大小(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="159"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="191"/>
         <source>&amp;Test</source>
         <translation type="unfinished">测试(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="163"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="195"/>
         <source>&lt;p&gt;Before testing, please make sure the device you are monitoring is the one you selected, especially if your computer has multiple audio devices (e.g., speakers and headphones), and the device has been connected to your computer.&lt;/p&gt;&lt;p&gt;Also please check whether the device is muted or the volume is set to zero.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;测试前，请确认正在监听的设备与所选设备一致，并且设备已连接至计算机。如果计算机有多个音频设备（例如扬声器和耳机），请特别注意设备选择。&lt;/p&gt;&lt;p&gt;另请检查设备是否静音或音量是否为零。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="175"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="207"/>
         <source>Have you selected a working audio device which plays sound after clicking the &quot;Test&quot; button?</source>
         <translation type="unfinished">是否已选中可正常工作的音频设备，并且单击“测试”按钮后可以听到声音？</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="211"/>
         <source>&amp;Yes</source>
         <translation type="unfinished">是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="179"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="211"/>
         <source>I have selected a working audio device</source>
         <translation type="unfinished">已选中可正常工作的音频设备</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
         <source>&amp;No</source>
         <translation type="unfinished">否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="183"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
         <source>The device is either not available or not able to play sound</source>
         <translation type="unfinished">设备不可用或无法播放声音</translation>
     </message>
@@ -721,67 +726,72 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ExternalCheckPage</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="215"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="246"/>
+        <source>&lt;h3&gt;Check Your System Audio Settings&lt;/h3&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;检查系统音频设置&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="247"/>
         <source>Please ensure that your audio devices are properly connected to your computer and configured in your system settings.</source>
         <translation type="unfinished">请确保音频设备已正确连接至计算机，并已在系统设置中正确配置。</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="220"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
         <source>&amp;Open System Settings</source>
         <translation type="unfinished">打开系统设置(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="222"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="254"/>
         <source>&amp;Open Control Panel</source>
         <translation type="unfinished">打开控制面板(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="228"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="260"/>
         <source>&lt;p&gt;Also please check whether other applications can play sound.&lt;/p&gt;&lt;p&gt;If another audio application (e.g., a DAW) can play sound normally, please review that application’s settings. It may be using &quot;exclusive mode&quot;, which allows only that program to access the audio device.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;另请检查其他应用程序是否能够播放声音。&lt;/p&gt;&lt;p&gt;如果其他音频应用程序（例如数字音频工作站）可以正常播放声音，请检查该应用程序的设置。它可能使用了“独占模式”，此模式仅允许该程序访问音频设备。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="240"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="272"/>
         <source>Are audio devices configured properly and able to be played by other applications?</source>
         <translation type="unfinished">音频设备是否已正确配置，并且可供其他应用程序播放声音？</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="276"/>
         <source>&amp;Yes</source>
         <translation type="unfinished">是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="244"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="276"/>
         <source>The audio device work well on my system. I want to retry configuring it in %1</source>
         <translation type="unfinished">音频设备在系统中工作正常，需要在 %1 中重新尝试配置</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="280"/>
         <source>Not &amp;exactly</source>
         <translation type="unfinished">不完全是(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="248"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="280"/>
         <source>Even though other applications can play sound, I fail to configure the audio device in %1</source>
         <translation type="unfinished">其他应用程序可以播放声音，但无法在 %1 中配置音频设备</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="284"/>
         <source>&amp;No</source>
         <translation type="unfinished">否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="252"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="284"/>
         <source>Other applications also cannot play sound</source>
         <translation type="unfinished">其他应用程序也无法播放声音</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="255"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="287"/>
         <source>&amp;I&apos;m not sure</source>
         <translation type="unfinished">不确定(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="267"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="299"/>
         <source>%1 cannot open the control panel on your system. Please open it manually</source>
         <translation type="unfinished">%1 无法在当前系统中打开控制面板。请手动打开</translation>
     </message>
@@ -865,12 +875,17 @@ To: %3</source>
 <context>
     <name>Audio::Internal::ResultFailPage</name>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="300"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="331"/>
+        <source>&lt;h3&gt;Unable to Resolve Audio Output Problem&lt;/h3&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;无法解决音频输出问题&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="332"/>
         <source>Please send us a feedback.</source>
         <translation type="unfinished">请向我们提交反馈。</translation>
     </message>
     <message>
-        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="302"/>
+        <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="334"/>
         <source>&lt;p&gt;When sending feedback, please include the following information (if possible): &lt;ul&gt;&lt;li&gt;A screenshot of the &quot;Audio Output&quot; settings page&lt;/li&gt;&lt;li&gt;A screenshot of your system audio settings&lt;/li&gt;&lt;li&gt;The audio output configurations you have tried and any error messages&lt;/li&gt;&lt;li&gt;The log of application&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;提交反馈时，请尽可能包含以下信息：&lt;ul&gt;&lt;li&gt;“音频输出”设置页的屏幕截图&lt;/li&gt;&lt;li&gt;系统音频设置的屏幕截图&lt;/li&gt;&lt;li&gt;已尝试的音频输出配置及相关错误消息&lt;/li&gt;&lt;li&gt;应用程序日志&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
@@ -1551,27 +1566,27 @@ Estimated size of each file: %3</source>
         <translation>配置音频输出设备参数</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="34"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="35"/>
         <source>Audio driver</source>
         <translation>音频驱动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="43"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="44"/>
         <source>Audio device</source>
         <translation>音频设备</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="56"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="57"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="60"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="61"/>
         <source>More Options...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更多选项...</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="71"/>
+        <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="72"/>
         <source>Click &quot;Test&quot; button to check whether audio output is configured correctly</source>
         <translation>点击“测试”按钮以检查音频输出是否正确配置</translation>
     </message>

@@ -2235,33 +2235,33 @@
 <context>
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="16"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6688"/>
         <source>Color Scheme</source>
         <translation type="unfinished">Color Scheme</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="18"/>
         <source>Choose a color scheme for %1</source>
         <translation type="unfinished">Choose a color scheme for %1</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="33"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="37"/>
         <source>Dark</source>
         <translation type="unfinished">Dark</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="39"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="43"/>
         <source>Light</source>
         <translation type="unfinished">Light</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="45"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="49"/>
         <source>High contrast</source>
         <translation type="unfinished">High contrast</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="100"/>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="142"/>
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
         <translation type="unfinished">You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</translation>
     </message>
@@ -2822,8 +2822,12 @@
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="442"/>
+        <source>This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
-        <translation type="unfinished">This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
+        <translation type="obsolete">This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
     </message>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
@@ -3021,48 +3025,48 @@
         <translation type="obsolete">Scopic High Contrast</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="25"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="33"/>
         <source>DiffScope Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="99"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="107"/>
         <source>DiffScope Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="173"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="181"/>
         <source>DiffScope High Contrast</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
         <source>Failed to Import Preset</source>
         <translation type="unfinished">Failed to Import Preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="360"/>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="368"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Unable to open file &quot;%1&quot;</source>
         <translation type="unfinished">Unable to open file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Failed to import preset</source>
         <translation type="unfinished">Failed to import preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="370"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="378"/>
         <source>Invalid format in file &quot;%1&quot;</source>
         <translation type="unfinished">Invalid format in file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="385"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="393"/>
         <source>Failed to export preset</source>
         <translation type="unfinished">Failed to export preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="426"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="434"/>
         <source>(Unsaved preset)</source>
         <translation type="unfinished">(Unsaved preset)</translation>
     </message>
@@ -4594,7 +4598,7 @@ Do you want to continue opening it?</source>
     </message>
     <message>
         <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
-        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+        <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>

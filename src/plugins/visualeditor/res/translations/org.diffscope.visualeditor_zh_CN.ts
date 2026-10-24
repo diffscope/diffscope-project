@@ -1101,42 +1101,42 @@
         <translation type="unfinished">配置编辑器视口的移动与缩放行为，并在演练场中实际试用</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="52"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="53"/>
         <source>Horizontal scroll</source>
         <translation type="unfinished">水平滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="67"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="68"/>
         <source>Zoom</source>
         <translation type="unfinished">缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="83"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="84"/>
         <source>Scroll by page</source>
         <translation type="unfinished">按页滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="91"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="92"/>
         <source>Horizontal zoom</source>
         <translation type="unfinished">水平缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="112"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="113"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation type="unfinished">中键/手型工具滚动模式</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="118"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
         <source>Dragging</source>
         <translation type="unfinished">拖动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="118"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
         <source>Auto scrolling</source>
         <translation type="unfinished">自动滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="128"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="129"/>
         <source>Playground</source>
         <translation type="unfinished">演练场</translation>
     </message>
