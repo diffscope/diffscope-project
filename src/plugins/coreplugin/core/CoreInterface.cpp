@@ -100,7 +100,7 @@ namespace Core {
 
     class OpenUrlHelper : public QObject {
         Q_OBJECT
-    public:
+    public Q_SLOTS:
         Q_INVOKABLE static inline void openUrl(const QString &url) {
             QDesktopServices::openUrl(QUrl(url));
         }
