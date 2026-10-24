@@ -63,6 +63,7 @@ Window {
         Item {
             id: pageWithHeader
             required property Item page
+            required property int pageIndex
             StackView.onActivating: {
                 if (page instanceof WelcomeWizardPage) {
                     page.aboutToEnter()
@@ -74,17 +75,84 @@ Window {
             }
             ColumnLayout {
                 anchors.fill: parent
-                spacing: 4
-                Label {
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.topMargin: 8
-                    text: pageWithHeader.page.title
-                    font.pixelSize: 20
+                spacing: 0
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: headerLayout.implicitHeight + 16
+                    color: Theme.backgroundSecondaryColor
+                    RowLayout {
+                        id: headerLayout
+                        anchors.fill: parent
+                        anchors.margins: 8
+                        spacing: 16
+                        LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+                        LayoutMirroring.childrenInherit: true
+                        Frame {
+                            implicitWidth: 64
+                            implicitHeight: 64
+                            IconImage {
+                                anchors.centerIn: parent
+                                source: pageWithHeader.page.iconSource
+                                sourceSize.width: 48
+                                sourceSize.height: 48
+                                color: Theme.foregroundPrimaryColor
+                            }
+                        }
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Label {
+                                Layout.fillWidth: true
+                                text: pageWithHeader.page.title
+                                font.pixelSize: 20
+                                font.bold: true
+                                wrapMode: Text.Wrap
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                text: pageWithHeader.page.description
+                                font.pixelSize: 16
+                                color: Theme.foregroundSecondaryColor
+                                wrapMode: Text.Wrap
+                            }
+                        }
+                        ColumnLayout {
+                            Layout.maximumWidth: 96
+                            Layout.minimumWidth: 96
+                            Layout.alignment: Qt.AlignVCenter
+                            spacing: 8
+                            Label {
+                                Layout.fillWidth: true
+                                text: qsTr("Step %1 / %2")
+                                    .arg((pageWithHeader.pageIndex + 1).toLocaleString(Qt.locale(), "f", 0))
+                                    .arg(dialog.pages.length.toLocaleString(Qt.locale(), "f", 0))
+                                font.pixelSize: 14
+                                color: Theme.foregroundSecondaryColor
+                                horizontalAlignment: Text.AlignRight
+                                wrapMode: Text.Wrap
+                            }
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+                                Repeater {
+                                    model: dialog.pages.length
+                                    Rectangle {
+                                        required property int index
+                                        Layout.fillWidth: true
+                                        Layout.minimumWidth: 0
+                                        implicitHeight: 4
+                                        radius: 2
+                                        color: index <= pageWithHeader.pageIndex ? Theme.accentColor : Theme.backgroundQuaternaryColor
+                                        Accessible.ignored: true
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                Label {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: pageWithHeader.page.description
-                    font.pixelSize: 16
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: Theme.paneSeparatorColor
                 }
                 StackLayout {
                     Layout.fillWidth: true
@@ -96,14 +164,15 @@ Window {
     }
 
     Component.onCompleted: () => {
-        for (let page of pages) {
-            let pageWithHeader = pageWithHeaderComponent.createObject(null, {page})
+        for (let pageIndex = 0; pageIndex < pages.length; ++pageIndex) {
+            let pageWithHeader = pageWithHeaderComponent.createObject(null, {page: pages[pageIndex], pageIndex})
             pagesWithHeader.push(pageWithHeader)
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
         StackLayout {
             id: mainStackLayout
             Layout.fillWidth: true
@@ -239,6 +308,11 @@ Window {
                     onFinished: dialog.transitioningToWizard = false
                 }
             }
+        }
+        Rectangle {
+            Layout.fillWidth: true
+            color: Theme.paneSeparatorColor
+            implicitHeight: 1
         }
         Rectangle {
             Layout.fillWidth: true

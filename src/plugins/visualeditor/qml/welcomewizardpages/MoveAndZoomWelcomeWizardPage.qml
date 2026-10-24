@@ -19,6 +19,7 @@ WelcomeWizardPage {
 
     title: qsTr("Move and Zoom")
     description: qsTr("Configure the moving and zooming behavior of editor's viewport, and try it out in the playground")
+    iconSource: "image://fluent-system-icons/arrow_move?style=regular"
 
     readonly property var hints: EditorInteractionHelper.scrollBehaviorHints(
         EditorPreference.alternateAxisModifier,

@@ -19,6 +19,7 @@ WelcomeWizardPage {
     id: page
     title: qsTr("Synthesis Environment")
     description: qsTr("Configure a synthesis program or connect to a synthesis service")
+    iconSource: "image://fluent-system-icons/music_note_2_pulse?style=regular"
 
     onAboutToEnter: helper.enter()
     onAboutToLeave: {

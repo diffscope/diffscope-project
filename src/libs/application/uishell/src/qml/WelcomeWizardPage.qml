@@ -19,6 +19,7 @@ Item {
     id: page
     property string title: ""
     property string description: ""
+    property url iconSource: ""
     signal aboutToEnter()
     signal aboutToLeave()
 }

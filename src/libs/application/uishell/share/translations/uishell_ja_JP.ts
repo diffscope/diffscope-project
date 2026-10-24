@@ -712,6 +712,11 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
 <context>
     <name>WelcomeWizardDialog</name>
     <message>
+        <location filename="../../src/qml/WelcomeWizardDialog.qml" line="126"/>
+        <source>Step %1 / %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/qml/WelcomeWizardDialog.qml" line="24"/>
         <location filename="../../src/qml/WelcomeWizardDialog.qml" line="218"/>
         <source>Welcome</source>
