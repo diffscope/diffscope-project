@@ -21,6 +21,14 @@
 
 namespace Core::Internal {
 
+    SVS::ColorChange ColorSchemeCollection::internalPresetHeaderColorChange(int index, const QColor &accentColor) {
+        static constexpr int alphaValues[] = {0x26, 0x3f, 0x40};
+        Q_ASSERT(index >= 0 && index < 3);
+        auto overlayColor = accentColor;
+        overlayColor.setAlpha(alphaValues[index]);
+        return {SVS::TopBlendColorFilter{overlayColor}};
+    }
+
     static QList<QPair<QString, QVariantHash>> m_internalPresets{
         {QT_TRANSLATE_NOOP("Core::Internal::ColorSchemeCollection", "DiffScope Dark"),
          {
@@ -53,7 +61,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1affffff)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x265566ff)}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(ColorSchemeCollection::internalPresetHeaderColorChange(0, QColor::fromRgb(0x5566ff)))},
             {"trackColorSchema0", QVariant::fromValue(QColor::fromRgb(0x5566ff))},
             {"trackColorSchema1", QVariant::fromValue(QColor::fromRgb(0x8f50ef))},
             {"trackColorSchema2", QVariant::fromValue(QColor::fromRgb(0xb641c3))},
@@ -127,7 +135,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x18000000)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0xeceef2}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0xeceef2}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x3f6b7aff)}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(ColorSchemeCollection::internalPresetHeaderColorChange(1, QColor::fromRgb(0x6b7aff)))},
             {"trackColorSchema0", QVariant::fromValue(QColor::fromRgb(0x6b7aff))},
             {"trackColorSchema1", QVariant::fromValue(QColor::fromRgb(0x9e66f2))},
             {"trackColorSchema2", QVariant::fromValue(QColor::fromRgb(0xc257ce))},
@@ -201,7 +209,7 @@ namespace Core::Internal {
             {"controlCheckedColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x1a00c4ff)}})},
             {"annotationPopupTitleColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.72}, SVS::BottomBlendColorFilter{0x212124}})},
             {"annotationPopupContentColorChange", QVariant::fromValue(SVS::ColorChange{SVS::AlphaColorFilter{0.16}, SVS::BottomBlendColorFilter{0x212124}})},
-            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(SVS::ColorChange{SVS::TopBlendColorFilter{QColor::fromRgba(0x400055ff)}})},
+            {"dockingPanelHeaderActiveColorChange", QVariant::fromValue(ColorSchemeCollection::internalPresetHeaderColorChange(2, QColor::fromRgb(0x0055ff)))},
             {"trackColorSchema0", QVariant::fromValue(QColor::fromRgb(0x0055ff))},
             {"trackColorSchema1", QVariant::fromValue(QColor::fromRgb(0x2a00ff))},
             {"trackColorSchema2", QVariant::fromValue(QColor::fromRgb(0x9700e3))},

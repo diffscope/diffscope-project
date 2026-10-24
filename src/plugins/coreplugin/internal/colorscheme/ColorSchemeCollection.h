@@ -11,6 +11,12 @@
 
 #include <coreplugin/coreglobal.h>
 
+class QColor;
+
+namespace SVS {
+    class ColorChange;
+}
+
 namespace Core::Internal {
 
     class CORE_EXPORT ColorSchemeCollection : public QObject {
@@ -44,6 +50,7 @@ namespace Core::Internal {
         void save() const;
 
         static QList<QPair<QString, QVariantHash>> internalPresets();
+        static SVS::ColorChange internalPresetHeaderColorChange(int index, const QColor &accentColor);
 
     Q_SIGNALS:
         void unsavedPresetUpdated();

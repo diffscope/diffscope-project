@@ -2312,6 +2312,11 @@
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
         <translation>稍后你还可以在 设置 &gt; 外观 &gt; 配色方案 中创建自定义颜色主题</translation>
     </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="112"/>
+        <source>Accent Color %L1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ControlPropertyEditor</name>

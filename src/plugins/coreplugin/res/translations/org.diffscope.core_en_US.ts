@@ -2289,6 +2289,11 @@
         <source>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</source>
         <translation>You can also create a custom color theme later in Settings &gt; Appearance &gt; Color Scheme</translation>
     </message>
+    <message>
+        <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="112"/>
+        <source>Accent Color %L1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ControlPropertyEditor</name>
