@@ -102,6 +102,14 @@ jobs:
           ref: ${{ inputs.source_sha }}
           submodules: recursive
 
+      # The checkout of a commit detaches HEAD, and the build information then records the branch
+      # as unknown. A local branch at the same commit, named after the branch that triggered the
+      # run, gives the build information its name.
+      - name: Name the branch of the checkout
+        env:
+          SOURCE_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: git checkout -B $env:SOURCE_BRANCH
+
       - name: Initialize building environment
         uses: ./.github/actions/initialize-build-environment
         with:
