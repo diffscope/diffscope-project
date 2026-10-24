@@ -259,6 +259,7 @@ Window {
                                 }
                             }
                             model: settingCatalogModel
+                            Component.onCompleted: expandRecursively(-1, 1)
                             delegate: SettingPageItem {
                                 onWidthChanged: width = settingPageTree.width
                             }
