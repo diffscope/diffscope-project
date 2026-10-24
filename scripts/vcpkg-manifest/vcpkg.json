@@ -43,7 +43,11 @@
         },
         "xxhash",
         "signalsmith-dsp",
-        "rubberband"
+        "rubberband",
+        {
+            "name": "qiconmaker",
+            "platform": "windows | osx"
+        }
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
