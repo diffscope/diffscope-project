@@ -36,6 +36,7 @@ namespace Audio::Internal {
         m_outputContext->preMixer()->addSource(m_deviceTester.get());
 
         if (m_outputContext->initialize(m_driverName, m_deviceName)) {
+            postSetDevice();
             qCInfo(audioOutputSystem) << "Audio device initialized";
             logOutputInfo();
             return true;

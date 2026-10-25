@@ -67,6 +67,7 @@ namespace Audio::Internal {
         return true;
     }
     void AudioPlugin::extensionsInitialized() {
+        initializeAudioOutput();
     }
     bool AudioPlugin::delayedInitialize() {
         return IPlugin::delayedInitialize();
@@ -95,6 +96,9 @@ namespace Audio::Internal {
     void AudioPlugin::initializeAudioSystem() {
         new AudioSystem(this);
         GlobalAudioContextPrivate::create(this);
+    }
+
+    void AudioPlugin::initializeAudioOutput() {
         auto outputSystemInitializationSuccess = AudioSystem::outputSystem()->initialize();
         if (!outputSystemInitializationSuccess) {
             SVS::MessageBox::warning(

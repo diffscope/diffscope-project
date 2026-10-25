@@ -439,12 +439,6 @@
         <translation>Cannot initialize %1 driver</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="36"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
-        <source>Default device</source>
-        <translation>Default device</translation>
-    </message>
-    <message>
         <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
         <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="304"/>
         <source>Audio device %1 is not available</source>

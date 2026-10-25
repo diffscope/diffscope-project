@@ -26,6 +26,7 @@ namespace Audio::Internal {
         void initializeAudioExporterPresets();
         void initializeEffects();
         void initializeAudioSystem();
+        void initializeAudioOutput();
         static void initializeSettings();
         void initializePropertyEditors();
         void initializeHelpContents();

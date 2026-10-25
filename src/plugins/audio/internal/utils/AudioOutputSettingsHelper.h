@@ -18,13 +18,14 @@ namespace Audio::Internal {
 
     struct DriverItem {
         QString name;        // 实际驱动名称（空字符串表示无可用驱动）
+        QString displayName;
         ItemStatus status;   // 条目状态
 
         QString generateDisplayName() const;
     };
 
     struct DeviceItem {
-        QString name;        // 实际设备名称（空字符串表示默认设备）
+        QString name;        // 实际设备名称。无当前设备时为空。
         ItemStatus status;   // 条目状态
 
         QString generateDisplayName() const;

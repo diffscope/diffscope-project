@@ -439,12 +439,6 @@
         <translation>无法初始化 %1 驱动</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="36"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
-        <source>Default device</source>
-        <translation>默认设备</translation>
-    </message>
-    <message>
         <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
         <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="304"/>
         <source>Audio device %1 is not available</source>
