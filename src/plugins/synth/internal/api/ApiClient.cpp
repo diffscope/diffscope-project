@@ -172,10 +172,7 @@ namespace {
     bool isRetryableHttpStatus(int status) {
         switch (status) {
         case 408:
-        case 425:
         case 429:
-        case 500:
-        case 502:
         case 503:
         case 504:
             return true;
@@ -198,13 +195,19 @@ namespace {
         case QNetworkReply::ProxyNotFoundError:
         case QNetworkReply::ProxyTimeoutError:
         case QNetworkReply::UnknownProxyError:
-        case QNetworkReply::InternalServerError:
-        case QNetworkReply::ServiceUnavailableError:
-        case QNetworkReply::UnknownServerError:
             return true;
         default:
             return false;
         }
+    }
+
+    bool isRetryableError(const ApiError &error) {
+        if (error.isResponseError()
+            && (error.httpStatusCode < 200 || error.httpStatusCode >= 300)) {
+            return isRetryableHttpStatus(error.httpStatusCode);
+        }
+        return isRetryableNetworkError(
+            static_cast<QNetworkReply::NetworkError>(error.networkErrorCode));
     }
 
     int retryAfterMilliseconds(const QByteArray &header, int attempt) {
@@ -632,6 +635,9 @@ namespace {
                 error.rawResponse = body;
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
+            } else if (active.streaming && active.streamError) {
+                response.error = active.streamError;
+                response.error->rawResponse = body;
             } else if (statusAttribute.isValid() && networkError != QNetworkReply::NoError) {
                 ApiError error;
                 error.kind = ApiError::ResponseError;
@@ -659,10 +665,7 @@ namespace {
                 error.rawJsonResponse = rawJson;
                 response.error = std::move(error);
             } else if (active.streaming) {
-                if (active.streamError) {
-                    response.error = active.streamError;
-                    response.error->rawResponse = body;
-                } else if (!active.terminal) {
+                if (!active.terminal) {
                     ApiError error;
                     error.kind = ApiError::ResponseError;
                     error.httpStatusCode = status;
@@ -706,16 +709,7 @@ namespace {
             task->exchanges.append(std::move(exchange));
             response.exchanges = task->exchanges;
 
-            const bool retryable = response.error
-                && ((response.error->isNetworkError()
-                     && isRetryableNetworkError(static_cast<QNetworkReply::NetworkError>(
-                         response.error->networkErrorCode)))
-                    || (response.error->isResponseError()
-                        && (isRetryableHttpStatus(response.error->httpStatusCode)
-                            || (response.error->networkErrorCode != 0
-                                && isRetryableNetworkError(
-                                    static_cast<QNetworkReply::NetworkError>(
-                                        response.error->networkErrorCode))))));
+            const bool retryable = response.error && isRetryableError(*response.error);
             if (retryable && task->attempt < task->service.retryCount) {
                 ++task->attempt;
                 const auto delay = retryAfterMilliseconds(retryAfter, task->attempt - 1);
