@@ -4,7 +4,9 @@
 #include "AudioOutputSettingsHelper.h"
 
 #include <QCoreApplication>
+#include <QDebug>
 #include <QLocale>
+#include <QLoggingCategory>
 
 #include <TalcsDevice/AbstractOutputContext.h>
 #include <TalcsDevice/AudioDevice.h>
@@ -16,6 +18,8 @@
 #include <audio/internal/OutputSystem.h>
 
 namespace Audio::Internal {
+
+    Q_LOGGING_CATEGORY(lcAudioOutputSettings, "diffscope.audio.outputSettings")
 
     static OutputSystem *m_outputSystem;
 
@@ -85,6 +89,7 @@ namespace Audio::Internal {
         }
 
         auto driverNames = outputContext->driverManager()->drivers();
+        qCDebug(lcAudioOutputSettings) << "Audio settings driver list refreshed." << "drivers:" << driverNames;
         for (const QString &driverName : driverNames) {
             DriverItem item;
             item.name = driverName;
@@ -172,6 +177,8 @@ namespace Audio::Internal {
         auto outputContext = m_outputSystem->outputContext();
         if (outputContext && outputContext->driver()) {
             const auto deviceNames = outputContext->driver()->devices();
+            qCDebug(lcAudioOutputSettings) << "Audio settings device list refreshed."
+                                         << "driver:" << outputContext->driver()->name() << "devices:" << deviceNames;
             for (const auto &deviceName : deviceNames) {
                 if (!deviceName.isEmpty()) {
                     m_deviceItems.append({deviceName, ItemStatus::Normal});
@@ -267,6 +274,7 @@ namespace Audio::Internal {
 
         auto device = outputContext->device();
         auto sampleRateList = device->availableSampleRates();
+        qCDebug(lcAudioOutputSettings) << "Audio settings sample rates refreshed." << "device:" << device->name() << "sample rates:" << sampleRateList;
 
         QLocale locale; // Use current system locale
         for (double rate : sampleRateList) {
@@ -314,6 +322,7 @@ namespace Audio::Internal {
 
         auto device = outputContext->device();
         auto bufferSizeList = device->availableBufferSizes();
+        qCDebug(lcAudioOutputSettings) << "Audio settings buffer sizes refreshed." << "device:" << device->name() << "buffer sizes:" << bufferSizeList;
 
         QLocale locale; // Use current system locale
         for (qint64 size : bufferSizeList) {
@@ -437,9 +446,14 @@ namespace Audio::Internal {
 
     void AudioOutputSettingsHelper::openControlPanel() {
         auto dev = m_outputSystem->outputContext()->device();
-        if (!dev)
+        if (!dev) {
+            qCWarning(lcAudioOutputSettings) << "Audio control panel cannot be opened because no device is selected.";
             return;
-        dev->openControlPanel();
+        }
+        qCInfo(lcAudioOutputSettings) << "Audio control panel requested." << "driver:" << (dev->driver() ? dev->driver()->name() : QString()) << "device:" << dev->name();
+        if (!dev->openControlPanel()) {
+            qCWarning(lcAudioOutputSettings) << "Audio control panel is unavailable or failed to open." << "device:" << dev->name();
+        }
     }
 
     void AudioOutputSettingsHelper::reload() {
