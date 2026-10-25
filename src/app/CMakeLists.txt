@@ -10,7 +10,7 @@ set(_icons)
 
 if(WIN32 OR APPLE)
     find_package(qiconmaker CONFIG REQUIRED)
-    include(AddIcon)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/AddIcon.cmake)
 
     if(WIN32)
         set(_suffix .ico)
