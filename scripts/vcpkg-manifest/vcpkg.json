@@ -13,7 +13,12 @@
         "rpclib",
         "rtmidi",
         {
+            "name": "asiosdk",
+            "platform": "windows"
+        },
+        {
             "name": "sdl2",
+            "platform": "!windows",
             "default-features": false
         },
         "interval-tree",
@@ -21,8 +26,6 @@
         "wavpack",
         "neargye-semver",
         "r8brain-free-src",
-        "portaudio",
-        "libsoundio",
         {
             "name": "glib",
             "platform": "linux"

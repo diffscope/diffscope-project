@@ -34,6 +34,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/qactionkit/src/QActionKitMacros.cmake")
 
 set(TALCS_DSPX ON)
 set(TALCS_WIDGETS ON)
+set(TALCS_ASIO ${WIN32})
 add_subdirectory(talcs)
 
 add_subdirectory(dspxmodel)
